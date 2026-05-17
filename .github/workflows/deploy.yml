@@ -1,0 +1,56 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: pulsify-dashboard
+          directory: .
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lock down with Cloudflare Access
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PAGES_URL: ${{ steps.deploy.outputs.url }}
+        run: |
+          # Check if Access app already exists
+          EXISTING=$(curl -s "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/access/apps" \
+            -H "Authorization: Bearer $CF_TOKEN" | \
+            python3 -c "import sys,json; apps=json.load(sys.stdin).get('result',[]); print(next((a['id'] for a in apps if 'pulsify' in a.get('name','').lower()), ''))")
+
+          if [ -z "$EXISTING" ]; then
+            echo "Creating Cloudflare Access application..."
+            curl -s -X POST "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT/access/apps" \
+              -H "Authorization: Bearer $CF_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d '{
+                "name": "Pulsify Dashboard",
+                "domain": "pulsify-dashboard.pages.dev",
+                "type": "self_hosted",
+                "session_duration": "24h",
+                "auto_redirect_to_identity": true
+              }' | python3 -c "import sys,json; r=json.load(sys.stdin); print('Access app:', 'created' if r.get('success') else r.get('errors'))"
+          else
+            echo "Access app already exists: $EXISTING"
+          fi
+
+      - name: Print live URL
+        run: echo "Live at https://pulsify-dashboard.pages.dev"
