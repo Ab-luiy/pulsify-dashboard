@@ -1,0 +1,3397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pulsify — HTA Dashboard</title>
+<style>
+  :root {
+    --bg: #0a0a0c;
+    --surface: #131318;
+    --surface-2: #1a1a21;
+    --border: #25252e;
+    --border-strong: #34343f;
+    --text: #f4f4f7;
+    --text-2: #bcbcc8;
+    --muted: #8b8b98;
+    --accent: #d4ff3a;
+    --accent-dim: #6f8b1f;
+    --cyan: #38e2d0;
+    --blue: #60a5fa;
+    --orange: #fb923c;
+    --violet: #a78bfa;
+    --pink: #fb7eb6;
+    --success: #4ade80;
+    --warn: #fbbf24;
+    --danger: #f87171;
+    --grid-gap: 16px;
+    --radius: 12px;
+    --radius-sm: 7px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: -0.005em;
+    min-height: 100vh;
+    padding: 28px 32px 48px;
+    max-width: 1480px;
+    margin: 0 auto;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(820px 620px at 10% 4%, rgba(167,139,250,0.20), transparent 60%),
+      radial-gradient(780px 620px at 92% 8%, rgba(56,226,208,0.16), transparent 58%),
+      radial-gradient(900px 760px at 78% 100%, rgba(251,126,182,0.14), transparent 60%),
+      radial-gradient(700px 600px at 20% 96%, rgba(212,255,58,0.10), transparent 60%),
+      linear-gradient(170deg, #0b0b13 0%, #090910 55%, #0a0a0f 100%);
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 78%);
+    -webkit-mask-image: radial-gradient(circle at 50% 30%, #000 0%, transparent 78%);
+  }
+  .mono { font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace; }
+
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; flex-direction: column; gap: 4px; }
+  .brand h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .brand h1 .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow: 0 0 0 4px rgba(212,255,58,0.12);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 4px rgba(212,255,58,0.12); }
+    50%      { box-shadow: 0 0 0 8px rgba(212,255,58,0.04); }
+  }
+  .brand .sub { color: var(--text-2); font-size: 13px; }
+  .header-meta { text-align: right; color: var(--text-2); font-size: 12px; line-height: 1.7; }
+  .header-meta .now { color: var(--text); font-weight: 500; letter-spacing: 0.02em; }
+  .header-meta .live-ok { color: var(--success); }
+  .header-meta .live-warn { color: var(--warn); }
+
+  /* Tabs */
+  nav.tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+    padding-bottom: 0;
+    overflow-x: auto;
+  }
+  nav.tabs button {
+    background: transparent;
+    border: 0;
+    color: var(--text-2);
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+  }
+  nav.tabs button:hover { color: var(--text); }
+  nav.tabs button.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  nav.tabs button .count {
+    color: var(--muted);
+    margin-left: 6px;
+    font-size: 11px;
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: var(--grid-gap);
+  }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 14px 34px -20px rgba(0,0,0,0.75);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    border-color: rgba(255,255,255,0.13);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 20px 44px -22px rgba(0,0,0,0.85);
+  }
+  .card.feature-card {
+    background:
+      linear-gradient(135deg, rgba(56,189,248,0.12), transparent 30%),
+      linear-gradient(315deg, rgba(251,146,60,0.10), transparent 46%),
+      linear-gradient(180deg, #16161c, var(--surface));
+    border-color: rgba(56,189,248,0.24);
+  }
+  .card h2 {
+    margin: 0 0 14px 0;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card h2 .meta {
+    color: var(--muted);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: none;
+    font-size: 11px;
+  }
+  .span-4 { grid-column: span 4; }
+  .span-6 { grid-column: span 6; }
+  .span-8 { grid-column: span 8; }
+  .span-12 { grid-column: span 12; }
+
+  .cockpit-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .ops-visual {
+    position: relative;
+    min-height: 236px;
+    border: 1px solid rgba(56,189,248,0.20);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background:
+      linear-gradient(145deg, rgba(13, 38, 74, 0.86), rgba(13,13,18,0.58)),
+      linear-gradient(35deg, rgba(212,255,58,0.08), rgba(251,146,60,0.10));
+  }
+  .ops-visual svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .ops-visual .ops-word {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 14px;
+    color: var(--text);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .ops-visual .ops-word span {
+    display: block;
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 5px;
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: 1.2fr repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .metric-tile {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    min-width: 0;
+  }
+  .metric-tile .k,
+  .insight-row .k,
+  .chart-note .k,
+  .lane .k {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 7px;
+  }
+  .metric-tile .v {
+    font-size: 25px;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+  .metric-tile .v.small {
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .metric-tile .v .soft {
+    color: var(--text-2);
+    font-size: 13px;
+    font-weight: 500;
+    margin-left: 4px;
+  }
+  .metric-tile .hint {
+    color: var(--text-2);
+    font-size: 12px;
+    margin-top: 6px;
+    min-height: 17px;
+  }
+  .meter {
+    height: 6px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 10px;
+  }
+  .meter > span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition: width 0.5s ease;
+  }
+  .ops-rail {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .rail-item {
+    min-width: 0;
+    padding: 10px 0 0;
+    border-top: 1px solid var(--border);
+  }
+  .rail-item .top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .rail-item .lab {
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .rail-item .num {
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 650;
+  }
+  .rail-item .detail {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 6px;
+    min-height: 16px;
+  }
+
+  .insight-list { display: flex; flex-direction: column; gap: 9px; }
+  .insight-row {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 11px 12px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+  }
+  .insight-row .title { font-weight: 650; font-size: 13px; }
+  .insight-row .body { color: var(--text-2); font-size: 12px; margin-top: 2px; }
+  .insight-row .tag {
+    color: #050506;
+    background: var(--accent);
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .insight-row.warn .tag { background: var(--warn); }
+  .insight-row.danger .tag { background: var(--danger); color: #100; }
+  .insight-row.info .tag { background: var(--cyan); color: #00131b; }
+
+  .chart-wrap {
+    position: relative;
+    min-height: 238px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+      rgba(255,255,255,0.018);
+    background-size: 34px 34px;
+    padding: 10px;
+    overflow: hidden;
+  }
+  .chart-wrap svg {
+    width: 100%;
+    height: 218px;
+    display: block;
+    overflow: visible;
+  }
+  .legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    color: var(--text-2);
+    font-size: 11px;
+    margin-top: 10px;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .chart-note {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .chart-note .note {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 11px;
+  }
+  .chart-note .v {
+    font-size: 17px;
+    font-weight: 650;
+  }
+
+  .conversion-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    align-items: stretch;
+  }
+  .bar-list { display: flex; flex-direction: column; gap: 9px; }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 126px 1fr 56px;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+  }
+  .bar-row .lab { color: var(--text-2); }
+  .bar-row .track {
+    height: 9px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .bar-row .track span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--blue), var(--accent));
+  }
+  .bar-row .num { text-align: right; font-weight: 650; }
+
+  .donut-panel {
+    display: grid;
+    grid-template-columns: 138px 1fr;
+    gap: 14px;
+    align-items: center;
+  }
+  .donut {
+    width: 138px;
+    height: 138px;
+  }
+  .donut text {
+    fill: var(--text);
+    font: 650 13px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+  }
+  .donut text.sub {
+    fill: var(--muted);
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: 12px;
+  }
+  .donut-legend .row {
+    display: grid;
+    grid-template-columns: 10px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    color: var(--text-2);
+  }
+  .donut-legend i { width: 8px; height: 8px; border-radius: 2px; }
+  .donut-legend .num { color: var(--text); font-weight: 650; }
+
+  .crm-intel {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr 1.2fr;
+    gap: 14px;
+    margin: 0 0 16px;
+  }
+  .intel-box {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    min-width: 0;
+  }
+  .intel-box h3 {
+    margin: 0 0 12px;
+    color: var(--text-2);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .lane-grid { display: flex; flex-direction: column; gap: 8px; }
+  .lane {
+    display: grid;
+    grid-template-columns: 96px 1fr 36px;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .lane .track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .lane .track span {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+  }
+  .priority-list { display: flex; flex-direction: column; gap: 8px; }
+  .priority-lead {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+    border-bottom: 1px dashed var(--border);
+    padding-bottom: 8px;
+  }
+  .priority-lead:last-child { border-bottom: 0; padding-bottom: 0; }
+  .priority-lead .name { font-weight: 650; font-size: 12.5px; }
+  .priority-lead .detail { color: var(--text-2); font-size: 11px; margin-top: 2px; }
+
+  .plan-hero {
+    min-height: 260px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+    gap: 22px;
+    overflow: hidden;
+    background:
+      linear-gradient(128deg, rgba(10, 30, 60, 0.94) 0%, rgba(13,13,18,0.92) 46%, rgba(54,35,19,0.74) 100%),
+      var(--surface);
+    border-color: rgba(96,165,250,0.24);
+  }
+  .plan-title {
+    font-size: 36px;
+    line-height: 1.02;
+    font-weight: 760;
+    letter-spacing: -0.02em;
+    margin: 8px 0 12px;
+    max-width: 640px;
+  }
+  .plan-copy {
+    color: var(--text-2);
+    max-width: 680px;
+    font-size: 13px;
+  }
+  .affirmation-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .affirmation {
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.045);
+    border-radius: var(--radius-sm);
+    padding: 11px 12px;
+    min-height: 78px;
+  }
+  .affirmation .k {
+    color: var(--accent);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    margin-bottom: 8px;
+  }
+  .affirmation .v {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.35;
+    font-weight: 560;
+  }
+  .plan-vector {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--radius-sm);
+    min-height: 220px;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, rgba(56,189,248,0.14), rgba(212,255,58,0.04)),
+      rgba(0,0,0,0.16);
+  }
+  .plan-vector svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .plan-vector .signal {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 650;
+  }
+  .plan-vector .signal::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 5px rgba(212,255,58,0.10);
+  }
+
+  .connector-grid,
+  .quick-input-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .connector-card,
+  .quick-input {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 13px;
+    min-width: 0;
+  }
+  .connector-card .name,
+  .quick-input label {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 650;
+    display: block;
+    margin-bottom: 7px;
+  }
+  .connector-card .detail {
+    color: var(--text-2);
+    font-size: 11.5px;
+    min-height: 50px;
+  }
+  .connector-card .status {
+    display: inline-block;
+    margin-top: 10px;
+    color: var(--warn);
+    border: 1px solid rgba(251,191,36,0.32);
+    border-radius: 999px;
+    padding: 3px 8px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .quick-input input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font: inherit;
+    padding: 8px 10px;
+  }
+  .metric-actions,
+  .batch-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .control-btn {
+    background: var(--surface-2);
+    color: var(--text-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .control-btn:hover {
+    color: var(--text);
+    border-color: var(--border-strong);
+  }
+  .control-btn.accent {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #050506;
+  }
+  .control-btn.danger {
+    color: var(--danger);
+    border-color: rgba(248,113,113,0.35);
+  }
+  .batch-chip {
+    color: var(--text-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 7px 10px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  .production-toolbar {
+    display: grid;
+    grid-template-columns: minmax(240px, 1fr) 170px 160px auto auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 18px;
+    padding: 16px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+  }
+  .prod-field label {
+    display: block;
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    margin-bottom: 7px;
+  }
+  .prod-field input,
+  .prod-field select,
+  .video-card select {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 9px;
+    color: var(--text);
+    font: inherit;
+    font-size: 14px;
+    padding: 11px 13px;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+  }
+  .prod-field input::placeholder { color: #8f8f9d; }
+  .prod-field input:focus,
+  .prod-field select:focus {
+    outline: none;
+    background: rgba(255,255,255,0.09);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(212,255,58,0.13);
+  }
+  .production-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .production-summary .summary-tile {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 11px 12px;
+  }
+  .production-summary .k {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .production-summary .v {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .production-board {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(170px, 1fr));
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .prod-stage {
+    min-width: 192px;
+    min-height: 340px;
+    background: rgba(255,255,255,0.028);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+  }
+  .prod-stage.drag-over {
+    background: rgba(212,255,58,0.06);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(212,255,58,0.10);
+  }
+  .prod-stage .stage-head {
+    padding: 13px 13px 11px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+  }
+  .prod-stage .stage-head::before {
+    content: "";
+    position: absolute;
+    left: 13px; right: 13px; top: 0;
+    height: 2px;
+    border-radius: 0 0 3px 3px;
+    background: var(--stage-accent, var(--accent));
+    opacity: 0.85;
+  }
+  .prod-stage .stage-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .prod-stage .stage-name {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .prod-stage .stage-count {
+    color: #07070a;
+    background: var(--stage-accent, var(--accent));
+    border-radius: 999px;
+    padding: 2px 9px;
+    font-size: 10px;
+    font-weight: 800;
+  }
+  .prod-stage .automation {
+    color: var(--text-2);
+    font-size: 10.5px;
+    line-height: 1.4;
+    margin-top: 8px;
+    min-height: 28px;
+  }
+  .stage-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    padding: 11px;
+    flex: 1;
+  }
+  .video-card {
+    background: linear-gradient(165deg, rgba(255,255,255,0.07), rgba(255,255,255,0.025));
+    border: 1px solid rgba(255,255,255,0.1);
+    border-left: 3px solid var(--stage-accent, var(--accent));
+    border-radius: 10px;
+    padding: 11px 11px 12px;
+    cursor: grab;
+    position: relative;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease, border-color 0.12s ease;
+  }
+  .video-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px -16px rgba(0,0,0,0.85);
+    border-color: rgba(255,255,255,0.18);
+  }
+  .video-card:active { cursor: grabbing; }
+  .video-card.dragging { opacity: 0.4; }
+  .video-card .title {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.32;
+    font-weight: 600;
+    margin-bottom: 7px;
+    padding-right: 20px;
+  }
+  .video-card .meta-line {
+    color: var(--text-2);
+    font-size: 11px;
+    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .video-card .fmt-chip {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .video-card .notes {
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.4;
+    margin: 8px 0;
+  }
+  .video-card select {
+    margin-top: 2px;
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+  .video-card .vid-del {
+    position: absolute;
+    top: 8px; right: 7px;
+    background: transparent;
+    border: 0;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 5px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .video-card .vid-del:hover { color: var(--danger); background: rgba(248,113,113,0.13); }
+  .video-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 9px;
+  }
+  .video-actions .control-btn {
+    padding: 7px 8px;
+    font-size: 11px;
+  }
+  .empty-stage {
+    color: var(--muted);
+    font-size: 11px;
+    border: 1px dashed rgba(255,255,255,0.12);
+    border-radius: 9px;
+    padding: 16px 10px;
+    text-align: center;
+    font-style: italic;
+  }
+  .automation-map {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .automation-node {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 11px 12px;
+  }
+  .automation-node .name {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+  .automation-node .detail {
+    color: var(--text-2);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  /* Hero progress */
+  .progress-card .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .progress-card .label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    color: var(--text-2);
+    font-weight: 500;
+  }
+  .progress-card .value {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .progress-card .value .frac {
+    color: var(--text-2);
+    font-weight: 400;
+    font-size: 16px;
+    margin-left: 4px;
+  }
+  .progress-card .phase-name {
+    color: var(--accent);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+  }
+  .bar {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar > span {
+    display: block;
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .kpi {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+  }
+  .kpi .k {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .kpi .v {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .kpi .v.small { font-size: 18px; }
+  .kpi .v.large { font-size: 28px; }
+  .kpi .delta { font-size: 11px; color: var(--text-2); margin-top: 4px; }
+  .kpi.accent .v { color: var(--accent); }
+
+  .stat-list { display: flex; flex-direction: column; gap: 10px; }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .stat-row:last-child { border-bottom: 0; }
+  .stat-row .name { color: var(--text-2); font-size: 13px; }
+  .stat-row .num { font-weight: 500; letter-spacing: -0.01em; }
+  .stat-row .num .vs {
+    color: var(--muted);
+    font-size: 12px;
+    margin-left: 6px;
+    font-weight: 400;
+  }
+
+  .funnel { display: flex; flex-direction: column; gap: 6px; }
+  .funnel .stage {
+    display: grid;
+    grid-template-columns: 130px 1fr 50px;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 0;
+  }
+  .funnel .stage .lab { color: var(--text-2); font-size: 12px; }
+  .funnel .stage .num {
+    text-align: right;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .funnel .stage .num.zero { color: var(--muted); font-weight: 400; }
+  .funnel .stage .track {
+    height: 8px;
+    background: var(--surface-2);
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .funnel .stage .track > span {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    border-radius: 4px;
+  }
+
+  .check-list { list-style: none; padding: 0; margin: 0; }
+  .check-list li {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border);
+    align-items: center;
+    font-size: 13px;
+  }
+  .check-list li:last-child { border-bottom: 0; }
+  .check-list .box {
+    width: 16px; height: 16px;
+    border-radius: 4px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--surface-2);
+    position: relative;
+  }
+  .check-list li.done .box {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .check-list li.done .box::after {
+    content: "";
+    position: absolute;
+    left: 4px; top: 1px;
+    width: 4px; height: 9px;
+    border: solid #000;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .check-list li.done .lab { color: var(--muted); text-decoration: line-through; }
+
+  .spark-row { display: grid; gap: 14px; }
+  .spark {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .spark .k {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--muted); margin-bottom: 4px;
+  }
+  .spark .v {
+    font-size: 18px; font-weight: 600; letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .spark svg { width: 100%; height: 36px; display: block; }
+
+  .client-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13px;
+    gap: 16px;
+  }
+  .client-row:last-child { border-bottom: 0; }
+  .client-row .lesson { color: var(--text-2); font-size: 12px; margin-top: 2px; }
+  .badge {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-2);
+    white-space: nowrap;
+  }
+  .badge.churned { color: var(--danger); border-color: rgba(248,113,113,0.4); }
+  .badge.active  { color: var(--success); border-color: rgba(74,222,128,0.4); }
+
+  .targets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .target-col {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+  }
+  .target-col h3 {
+    margin: 0 0 10px 0;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .target-col .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 12px;
+  }
+  .target-col .row:last-child { border-bottom: 0; }
+  .target-col .row .lab { color: var(--text-2); }
+  .target-col .row .num { font-weight: 500; }
+
+  .empty {
+    text-align: center;
+    padding: 28px 12px;
+    color: var(--muted);
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  .live-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .live-tile {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    min-height: 86px;
+  }
+  .live-tile .k {
+    color: var(--muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .live-tile .v {
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .live-tile .hint {
+    color: var(--text-2);
+    font-size: 11px;
+    margin-top: 6px;
+  }
+  .source-list { display: flex; flex-direction: column; gap: 8px; }
+  .source-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .source-row .name { font-weight: 600; }
+  .source-row .detail { color: var(--text-2); font-size: 12px; margin-top: 2px; }
+  .pill {
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    color: var(--text-2);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .pill.live { border-color: rgba(74,222,128,0.5); color: var(--success); }
+  .pill.next { border-color: rgba(251,191,36,0.5); color: var(--warn); }
+  .pill.later { color: var(--muted); }
+  .source-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  .source-table th {
+    text-align: left;
+    color: var(--text-2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 10px;
+    border-bottom: 1px solid var(--border-strong);
+    padding: 9px 10px;
+  }
+  .source-table td {
+    border-bottom: 1px solid var(--border);
+    padding: 9px 10px;
+    color: var(--text-2);
+  }
+  .source-table td:first-child { color: var(--text); font-weight: 600; }
+
+  footer {
+    margin-top: 28px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+    letter-spacing: 0.04em;
+  }
+
+  /* --- v2 refresh: tabs, kpis, search, kanban --- */
+  nav.tabs button.active {
+    color: #000;
+    background: linear-gradient(135deg, var(--accent), #b6e62f);
+    border-radius: 8px 8px 0 0;
+    border-bottom-color: var(--accent);
+    padding: 10px 18px;
+    box-shadow: 0 -1px 14px -4px rgba(212,255,58,0.5);
+  }
+  nav.tabs button.active .count { color: rgba(0,0,0,0.55); }
+
+  .kpi { transition: border-color 0.18s ease, transform 0.18s ease; }
+  .kpi:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.16); }
+  .kpi:nth-child(4n+1) .v { color: var(--accent); }
+  .kpi:nth-child(4n+2) .v { color: var(--cyan); }
+  .kpi:nth-child(4n+3) .v { color: var(--violet); }
+  .kpi:nth-child(4n+4) .v { color: var(--pink); }
+  .kpi.accent .v { color: var(--accent); }
+
+  .search-wrap { position: relative; flex: 1; min-width: 240px; }
+  .search-wrap svg {
+    position: absolute; left: 14px; top: 50%;
+    transform: translateY(-50%);
+    width: 18px; height: 18px;
+    stroke: var(--text-2); pointer-events: none;
+  }
+  input.search-big {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: var(--text);
+    font: inherit; font-size: 15px;
+    padding: 13px 16px 13px 44px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  input.search-big::placeholder { color: var(--muted); }
+  input.search-big:focus {
+    outline: none;
+    background: rgba(255,255,255,0.06);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(212,255,58,0.12);
+  }
+
+  .view-toggle { display: flex; gap: 6px; }
+  .view-toggle button {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-2);
+    font: inherit; font-size: 12px; font-weight: 600;
+    padding: 9px 16px; border-radius: 8px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .view-toggle button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .kanban { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 14px; }
+  .kan-col {
+    flex: 0 0 244px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 10px;
+    display: flex; flex-direction: column; gap: 8px;
+    min-height: 120px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .kan-col.drag-over { background: rgba(212,255,58,0.07); border-color: var(--accent); }
+  .kan-col h4 {
+    margin: 2px 2px 6px; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .kan-col h4 .cnt {
+    background: rgba(255,255,255,0.08); color: var(--text-2);
+    border-radius: 999px; padding: 1px 8px; font-size: 10px;
+  }
+  .kan-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+    border: 1px solid rgba(255,255,255,0.09);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 9px 10px;
+    cursor: grab; position: relative;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+  }
+  .kan-card:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -12px rgba(0,0,0,0.8); }
+  .kan-card:active { cursor: grabbing; }
+  .kan-card.dragging { opacity: 0.4; }
+  .kan-card .nm { font-size: 12.5px; font-weight: 500; padding-right: 18px; }
+  .kan-card .mt { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+  .kan-card .mt a { color: var(--cyan); text-decoration: none; }
+  .row-del, .kan-del {
+    background: transparent; border: 0; color: var(--muted);
+    cursor: pointer; font-size: 15px; line-height: 1;
+    padding: 2px 6px; border-radius: 5px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .row-del:hover, .kan-del:hover { color: var(--danger); background: rgba(248,113,113,0.12); }
+  .kan-del { position: absolute; top: 6px; right: 5px; }
+
+  @media (max-width: 1100px) {
+    .span-4, .span-6, .span-8 { grid-column: span 12; }
+    .live-strip { grid-template-columns: repeat(2, 1fr); }
+    .cockpit-grid, .plan-hero { grid-template-columns: 1fr; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .ops-rail { grid-template-columns: repeat(2, 1fr); }
+    .connector-grid, .quick-input-grid { grid-template-columns: repeat(2, 1fr); }
+    .production-toolbar { grid-template-columns: repeat(2, 1fr); }
+    .production-summary, .automation-map { grid-template-columns: repeat(2, 1fr); }
+    .conversion-grid, .crm-intel { grid-template-columns: 1fr; }
+    body { padding: 20px; }
+  }
+  @media (max-width: 700px) {
+    .live-strip { grid-template-columns: 1fr; }
+    .metric-grid, .chart-note, .affirmation-strip, .connector-grid, .quick-input-grid, .production-toolbar, .production-summary, .automation-map { grid-template-columns: 1fr; }
+    .plan-title { font-size: 28px; }
+    .donut-panel { grid-template-columns: 1fr; }
+    .bar-row { grid-template-columns: 94px 1fr 44px; }
+    .source-row { grid-template-columns: 1fr; }
+    header { align-items: flex-start; flex-direction: column; }
+    .header-meta { text-align: left; }
+  }
+  /* --- HTA v3 premium polish --- */
+  .brand h1 { font-size: 23px; display: flex; align-items: center; gap: 0; }
+  .brand-name {
+    background: linear-gradient(135deg, #ffffff 10%, var(--accent) 130%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+  .brand-sub-name {
+    color: var(--text-2);
+    font-weight: 500;
+    margin-left: 9px;
+    padding-left: 11px;
+    border-left: 1px solid rgba(255,255,255,0.16);
+    font-size: 15px;
+    letter-spacing: 0.01em;
+  }
+  .brand .sub { color: var(--text-2); }
+
+  nav.tabs {
+    gap: 4px;
+    padding: 5px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    display: inline-flex;
+    flex-wrap: wrap;
+  }
+
+  .tab-panel.active { animation: panelIn 0.34s cubic-bezier(0.22, 0.9, 0.26, 1); }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .grid > .card { animation: cardIn 0.4s ease both; }
+  .grid > .card:nth-child(2) { animation-delay: 0.04s; }
+  .grid > .card:nth-child(3) { animation-delay: 0.08s; }
+  .grid > .card:nth-child(4) { animation-delay: 0.12s; }
+  .grid > .card:nth-child(5) { animation-delay: 0.16s; }
+  .grid > .card:nth-child(n+6) { animation-delay: 0.2s; }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.995); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tab-panel.active, .grid > .card { animation: none; }
+  }
+
+  .card h2 {
+    font-size: 11px;
+    color: var(--text-2);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.055);
+  }
+
+  /* Legibility lift for relocated Setup cards */
+  .connector-card .detail { color: var(--text-2); }
+  .quick-input label { color: var(--text-2); font-weight: 600; }
+  .quick-input input {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.14);
+  }
+  .live-tile .hint, .source-list .detail { color: var(--text-2); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1><span class="dot"></span><span class="brand-name">Pulsify</span> <span class="brand-sub-name">HTA Dashboard</span></h1>
+    <div class="sub">Operator command center — overview, plan, content, sales, income, CRM.</div>
+  </div>
+  <div class="header-meta">
+    <div class="now mono" id="today"></div>
+    <div>Last updated <span id="lastUpdated" class="mono"></span></div>
+    <div>Data: <span id="dataStatus" class="mono live-warn">snapshot</span></div>
+    <div>Refresh: <span id="refreshStatus" class="mono">waiting</span></div>
+    <div>Operator: <span id="founder"></span></div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="live" class="active">Overview</button>
+  <button data-tab="plan">Plan</button>
+  <button data-tab="content">Content <span class="count" id="contentTabCount">0</span></button>
+  <button data-tab="sales">Sales <span class="count" id="salesTabCount">0</span></button>
+  <button data-tab="income">Income <span class="count" id="incomeTabCount">$0</span></button>
+  <button data-tab="crm">CRM <span class="count" id="crmTabCount">0</span></button>
+  <button data-tab="setup">Setup</button>
+</nav>
+
+<!-- LIVE -->
+<section class="tab-panel active" id="tab-live">
+  <div class="grid">
+    <div class="card span-12">
+      <h2>Live command center <span class="meta">v2 data layer</span></h2>
+      <div class="live-strip">
+        <div class="live-tile">
+          <div class="k">Source</div>
+          <div class="v mono" id="liveSource">embedded snapshot</div>
+          <div class="hint">Primary file: dashboard-data-v2.json</div>
+        </div>
+        <div class="live-tile">
+          <div class="k">Polling</div>
+          <div class="v mono" id="liveCadence">15 sec</div>
+          <div class="hint" id="liveProtocol">server required for auto-refresh</div>
+        </div>
+        <div class="live-tile">
+          <div class="k">Last pull</div>
+          <div class="v mono" id="livePulledAt">not pulled</div>
+          <div class="hint">The cards update after each clean pull.</div>
+        </div>
+        <div class="live-tile">
+          <div class="k">Connector coverage</div>
+          <div class="v mono" id="liveCoverage">3 / 9</div>
+          <div class="hint">Local JSON now. APIs next.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card feature-card span-12">
+      <h2>Operator cockpit <span class="meta">what moves the business next</span></h2>
+      <div class="cockpit-grid">
+        <div>
+          <div class="metric-grid">
+            <div class="metric-tile">
+              <div class="k">Operating score</div>
+              <div class="v mono"><span id="opsScore">0</span><span class="soft">/100</span></div>
+              <div class="meter"><span id="opsScoreBar"></span></div>
+              <div class="hint" id="opsScoreHint">Waiting for data.</div>
+            </div>
+            <div class="metric-tile">
+              <div class="k">Primary leak</div>
+              <div class="v small" id="primaryLeak">-</div>
+              <div class="hint" id="primaryLeakHint">-</div>
+            </div>
+            <div class="metric-tile">
+              <div class="k">Next asset</div>
+              <div class="v small" id="nextAsset">-</div>
+              <div class="hint" id="nextAssetHint">-</div>
+            </div>
+            <div class="metric-tile">
+              <div class="k">CRM pressure</div>
+              <div class="v mono"><span id="crmPressure">0</span><span class="soft">leads</span></div>
+              <div class="hint" id="crmPressureHint">-</div>
+            </div>
+          </div>
+          <div class="ops-rail" id="opsRail"></div>
+        </div>
+        <div class="ops-visual" aria-hidden="true">
+          <svg viewBox="0 0 320 240" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="opsPlaneA" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.58"/>
+                <stop offset="100%" stop-color="#d4ff3a" stop-opacity="0.12"/>
+              </linearGradient>
+              <linearGradient id="opsPlaneB" x1="0" x2="1" y1="1" y2="0">
+                <stop offset="0%" stop-color="#fb923c" stop-opacity="0.42"/>
+                <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.18"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 40 L320 0 L320 240 L0 240 Z" fill="rgba(255,255,255,0.025)"/>
+            <path d="M24 148 L142 92 L270 132 L152 192 Z" fill="url(#opsPlaneA)" stroke="rgba(255,255,255,0.18)"/>
+            <path d="M68 94 L176 44 L292 82 L184 136 Z" fill="url(#opsPlaneB)" stroke="rgba(255,255,255,0.14)"/>
+            <path d="M112 158 L214 108 L304 138 L204 190 Z" fill="rgba(212,255,58,0.13)" stroke="rgba(212,255,58,0.28)"/>
+            <path d="M42 176 C98 144 126 134 184 156 C232 174 272 166 310 140" fill="none" stroke="#d4ff3a" stroke-width="3"/>
+            <path d="M26 66 H118 M26 84 H158 M26 102 H98" stroke="rgba(255,255,255,0.20)" stroke-width="2"/>
+          </svg>
+          <div class="ops-word">Build the machine<span>content -> offer -> funnel</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-8">
+      <h2>Motion chart <span class="meta">outreach, calls, cash</span></h2>
+      <div class="chart-wrap">
+        <svg id="motionChart" viewBox="0 0 640 220" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="legend" id="motionLegend"></div>
+      <div class="chart-note" id="motionNotes"></div>
+    </div>
+
+    <div class="card span-4">
+      <h2>Next moves <span class="meta">ranked</span></h2>
+      <div class="insight-list" id="nextMoves"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PLAN -->
+<section class="tab-panel" id="tab-plan">
+  <div class="grid">
+    <div class="card plan-hero span-12">
+      <div>
+        <h2>Plan command <span class="meta">make the week feel alive</span></h2>
+        <div class="plan-title">Build the proof engine before the market forgets.</div>
+        <div class="plan-copy">
+          The plan is not a motivational wallpaper. It should make the next action obvious, keep the targets in your face, and remind you that the whole machine runs content -> offer -> funnel.
+        </div>
+        <div class="affirmation-strip" id="planAffirmations"></div>
+      </div>
+      <div class="plan-vector" aria-hidden="true">
+        <span class="signal">live plan</span>
+        <svg viewBox="0 0 420 260" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="planA" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#0f4c81" stop-opacity="0.72"/>
+              <stop offset="100%" stop-color="#d4ff3a" stop-opacity="0.16"/>
+            </linearGradient>
+            <linearGradient id="planB" x1="0" x2="1" y1="1" y2="0">
+              <stop offset="0%" stop-color="#fb923c" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.24"/>
+            </linearGradient>
+          </defs>
+          <path d="M0 0 H420 V260 H0 Z" fill="rgba(0,0,0,0.05)"/>
+          <path d="M38 186 L144 96 L242 124 L354 40" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+          <path d="M42 204 L150 142 L240 166 L370 84" fill="none" stroke="#d4ff3a" stroke-width="3"/>
+          <path d="M40 204 L150 142 L240 166 L370 84 L370 232 L40 232 Z" fill="url(#planA)" opacity="0.32"/>
+          <path d="M54 176 L146 120 L230 140 L318 76 L366 118 L246 188 L138 166 Z" fill="url(#planB)" stroke="rgba(255,255,255,0.15)"/>
+          <path d="M74 68 H172 M74 88 H222 M74 108 H156" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+          <path d="M304 162 h54 v14 h-54z M278 188 h80 v14 h-80z M240 214 h118 v14 h-118z" fill="rgba(255,255,255,0.12)"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Targets <span class="meta">30 / 90 / 12-mo</span></h2>
+      <div class="targets" id="targets"></div>
+    </div>
+
+    <div class="card progress-card span-6">
+      <div class="top">
+        <div>
+          <div class="label">90-day plan</div>
+          <div class="value mono"><span id="planDay">0</span><span class="frac">/<span id="planDaysTotal">90</span></span></div>
+        </div>
+        <div style="text-align:right">
+          <div class="phase-name" id="phaseName">Phase</div>
+          <div class="label mono" style="margin-top:6px"><span id="planPct">0</span>%</div>
+        </div>
+      </div>
+      <div class="bar"><span id="planBar" style="width:0%"></span></div>
+    </div>
+    <div class="card progress-card span-6">
+      <div class="top">
+        <div>
+          <div class="label">Phase 1 — funnel build</div>
+          <div class="value mono"><span id="phaseDay">0</span><span class="frac">/<span id="phaseDaysTotal">14</span></span></div>
+        </div>
+        <div style="text-align:right">
+          <div class="phase-name">Days remaining</div>
+          <div class="label mono" style="margin-top:6px"><span id="phaseRemaining">14</span> left</div>
+        </div>
+      </div>
+      <div class="bar"><span id="phaseBar" style="width:0%"></span></div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Phase 1 checklist <span class="meta">Days 1–14</span></h2>
+      <ul class="check-list" id="checklist"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section class="tab-panel" id="tab-content">
+  <div class="grid">
+    <div class="card span-12">
+      <h2>Headline metrics <span class="meta">YouTube + Instagram</span></h2>
+      <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
+        <div class="kpi"><div class="k">YT subs</div><div class="v mono large" id="ytSubs">0</div><div class="delta"><span id="ytSubsTarget">0</span> by Day 90</div></div>
+        <div class="kpi"><div class="k">Long-form shipped</div><div class="v mono large" id="longForm">0</div><div class="delta">12 by Day 90</div></div>
+        <div class="kpi"><div class="k">IG followers</div><div class="v mono large" id="igFollowers">0</div></div>
+        <div class="kpi"><div class="k">IG reach (30d)</div><div class="v mono large" id="igReach">0</div></div>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Content production pipeline <span class="meta">drag a video across stages — idea → script → filmed → posted → redistributed</span></h2>
+      <div class="production-toolbar">
+        <div class="prod-field">
+          <label for="contentTitle">Video idea / title</label>
+          <input id="contentTitle" placeholder="e.g. Why coaching content stopped converting" />
+        </div>
+        <div class="prod-field">
+          <label for="contentType">Format</label>
+          <select id="contentType">
+            <option value="YouTube long-form">YouTube long-form</option>
+            <option value="Short-form">Short-form</option>
+            <option value="Instagram reel">Instagram reel</option>
+            <option value="Story sequence">Story sequence</option>
+            <option value="Email">Email</option>
+          </select>
+        </div>
+        <div class="prod-field">
+          <label for="contentStartStage">Start stage</label>
+          <select id="contentStartStage"></select>
+        </div>
+        <button class="control-btn accent" id="contentAdd">Add video</button>
+        <button class="control-btn" id="contentExport">Export CSV</button>
+      </div>
+      <div class="production-summary" id="contentProductionSummary"></div>
+      <div class="production-board" id="contentProductionBoard"></div>
+      <div class="automation-map" id="contentAutomationMap"></div>
+    </div>
+
+    <div class="card span-8">
+      <h2>Content production pulse <span class="meta">target vs shipped</span></h2>
+      <div class="chart-wrap">
+        <svg id="contentChart" viewBox="0 0 640 220" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="legend" id="contentLegend"></div>
+    </div>
+
+    <div class="card span-4">
+      <h2>Content gaps <span class="meta">what keeps it alive</span></h2>
+      <div class="insight-list" id="contentGaps"></div>
+    </div>
+
+    <div class="card span-6">
+      <h2>YouTube <span class="meta">long-form first</span></h2>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">Subs</span><span class="num mono"><span id="ytSubsMirror">0</span><span class="vs">of <span id="ytSubsTargetMirror">100</span></span></span></div>
+        <div class="stat-row"><span class="name">Long-form shipped</span><span class="num mono" id="longFormMirror">0</span></div>
+        <div class="stat-row"><span class="name">Shorts shipped</span><span class="num mono" id="shorts">0</span></div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Instagram <span class="meta">stories + reels + profile</span></h2>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">Followers</span><span class="num mono" id="igFollowersMirror">0</span></div>
+        <div class="stat-row"><span class="name">Reels shipped</span><span class="num mono" id="igReels">0</span></div>
+        <div class="stat-row"><span class="name">Story frames (this week)</span><span class="num mono" id="igStories">0</span></div>
+        <div class="stat-row"><span class="name">Reach (30d)</span><span class="num mono" id="igReachMirror">0</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SALES -->
+<section class="tab-panel" id="tab-sales">
+  <div class="grid">
+    <div class="card span-6">
+      <h2>Outreach <span class="meta">DMs and Looms</span></h2>
+      <div class="kpi-row" style="margin-bottom:14px">
+        <div class="kpi"><div class="k">This week</div><div class="v mono" id="orWeekSent">0</div></div>
+        <div class="kpi"><div class="k">30 day</div><div class="v mono" id="or30Sent">0</div></div>
+        <div class="kpi"><div class="k">All time</div><div class="v mono" id="orAllSent">0</div></div>
+      </div>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">Replies (30d)</span><span class="num mono"><span id="or30Replies">0</span><span class="vs">of <span id="or30SentMirror">0</span> sent</span></span></div>
+        <div class="stat-row"><span class="name">Calls booked (30d)</span><span class="num mono" id="or30Booked">0</span></div>
+        <div class="stat-row"><span class="name">All-time replies</span><span class="num mono" id="orAllReplies">0</span></div>
+        <div class="stat-row"><span class="name">All-time calls booked</span><span class="num mono" id="orAllBooked">0</span></div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Sales pipeline <span class="meta">hit list → closed</span></h2>
+      <div class="funnel" id="funnel"></div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Funnel health <span class="meta">VSL → Typeform → Cal.com</span></h2>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">VSL views</span><span class="num mono" id="vslViews">0</span></div>
+        <div class="stat-row"><span class="name">VSL completion rate</span><span class="num mono" id="vslComp">0%</span></div>
+        <div class="stat-row"><span class="name">Typeform starts</span><span class="num mono" id="tfStarts">0</span></div>
+        <div class="stat-row"><span class="name">Typeform completes</span><span class="num mono" id="tfCompletes">0</span></div>
+        <div class="stat-row"><span class="name">Cal.com bookings</span><span class="num mono" id="calBookings">0</span></div>
+        <div class="stat-row"><span class="name">Call show rate</span><span class="num mono" id="showRate">0%</span></div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>30-day trend <span class="meta">weekly buckets</span></h2>
+      <div class="spark-row" style="grid-template-columns: repeat(2, 1fr)">
+        <div class="spark">
+          <div class="k">Outreach sent</div>
+          <div class="v mono" id="trendOutreachLast">0</div>
+          <svg id="sparkOutreach" viewBox="0 0 100 36" preserveAspectRatio="none"></svg>
+        </div>
+        <div class="spark">
+          <div class="k">Calls booked</div>
+          <div class="v mono" id="trendCallsLast">0</div>
+          <svg id="sparkCalls" viewBox="0 0 100 36" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Conversion board <span class="meta">where the machine leaks</span></h2>
+      <div class="conversion-grid">
+        <div>
+          <div class="bar-list" id="conversionBars"></div>
+        </div>
+        <div>
+          <div class="chart-wrap">
+            <svg id="pipelineChart" viewBox="0 0 640 220" preserveAspectRatio="none"></svg>
+          </div>
+          <div class="legend" id="pipelineLegend"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCOME -->
+<section class="tab-panel" id="tab-income">
+  <div class="grid">
+    <div class="card span-12">
+      <h2>Headline <span class="meta">USD</span></h2>
+      <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
+        <div class="kpi accent"><div class="k">Cash collected</div><div class="v mono large" id="cashCollected">$0</div></div>
+        <div class="kpi"><div class="k">MRR</div><div class="v mono large" id="mrr">$0</div></div>
+        <div class="kpi"><div class="k">Pipeline value</div><div class="v mono large" id="pipelineVal">$0</div></div>
+        <div class="kpi"><div class="k">Perf. fee accruing</div><div class="v mono large" id="perfFee">$0</div></div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Targets vs. actual <span class="meta">cash collected</span></h2>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">30-day target</span><span class="num mono"><span id="cashCollectedMirror">$0</span><span class="vs">of <span id="cashTarget30">$5,000</span></span></span></div>
+        <div class="stat-row"><span class="name">90-day target</span><span class="num mono"><span id="cashCollectedMirror2">$0</span><span class="vs">of <span id="cashTarget90">$15,000</span></span></span></div>
+        <div class="stat-row"><span class="name">12-month MRR target</span><span class="num mono"><span id="mrrMirror">$0</span><span class="vs">of <span id="mrrTarget12">$30,000</span></span></span></div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Cash trend <span class="meta">30-day weekly buckets</span></h2>
+      <div class="spark-row" style="grid-template-columns: 1fr">
+        <div class="spark">
+          <div class="k">Cash (USD)</div>
+          <div class="v mono" id="trendCashLast">$0</div>
+          <svg id="sparkCash" viewBox="0 0 100 36" preserveAspectRatio="none"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CRM -->
+<section class="tab-panel" id="tab-crm">
+  <div class="grid">
+    <div class="card span-12">
+      <h2>Clients <span class="meta">past + active</span></h2>
+      <div id="clients"></div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Outreach CRM <span class="meta">IG cold leads — value-led retarget</span></h2>
+      <div id="crmNote" style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 12px;color:var(--warn);font-size:12px;margin-bottom:14px;display:none"></div>
+      <div class="kpi-row" style="grid-template-columns:repeat(6,1fr);margin-bottom:16px">
+        <div class="kpi"><div class="k">Total leads</div><div class="v mono large" id="crmTotal">0</div></div>
+        <div class="kpi"><div class="k">DMs sent</div><div class="v mono large" id="crmDms">0</div></div>
+        <div class="kpi"><div class="k">Replies</div><div class="v mono large" id="crmReplies">0</div></div>
+        <div class="kpi accent"><div class="k">Reply rate</div><div class="v mono large" id="crmReplyRate">0%</div></div>
+        <div class="kpi"><div class="k">In active batch</div><div class="v mono large" id="crmInBatch">0</div></div>
+        <div class="kpi"><div class="k">Unworked</div><div class="v mono large" id="crmUnworked">0</div></div>
+      </div>
+      <div class="crm-intel">
+        <div class="intel-box">
+          <h3>Lead mix</h3>
+          <div class="donut-panel">
+            <svg class="donut" id="crmNicheDonut" viewBox="0 0 100 100"></svg>
+            <div class="donut-legend" id="crmNicheLegend"></div>
+          </div>
+        </div>
+        <div class="intel-box">
+          <h3>Status lanes</h3>
+          <div class="lane-grid" id="crmStatusLanes"></div>
+        </div>
+        <div class="intel-box">
+          <h3>Priority retargets</h3>
+          <div class="priority-list" id="crmPriorityList"></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
+          <input id="crmSearch" class="search-big" placeholder="Search a lead by name, handle, or niche…" />
+        </div>
+        <div class="view-toggle">
+          <button id="viewBoard" class="active">Board</button>
+          <button id="viewTable">Table</button>
+        </div>
+        <select id="crmStatusFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+          <option value="">All statuses</option>
+          <option value="new">new</option><option value="queued">queued</option>
+          <option value="researching">researching</option><option value="asset-built">asset-built</option>
+          <option value="contacted">contacted</option><option value="replied">replied</option>
+          <option value="won">won</option><option value="dead">dead</option>
+        </select>
+        <select id="crmBatchFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+          <option value="">All batches</option><option value="0">Unassigned</option>
+        </select>
+        <button id="crmBatchPrev" class="control-btn">Prev batch</button>
+        <button id="crmBatchNext" class="control-btn">Next batch</button>
+        <button id="crmBatchClear" class="control-btn">All</button>
+        <button id="crmPromote" class="control-btn accent">Pull next 15 → Batch <span id="crmNextBatch">1</span></button>
+        <button id="crmUndoBatch" class="control-btn danger">Undo latest batch</button>
+        <span class="batch-chip mono" id="crmBatchView">All batches</span>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px">
+        <span style="color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:0.1em">+ New lead</span>
+        <input id="qaName" placeholder="Name" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:7px 10px;width:170px" />
+        <input id="qaHandle" placeholder="handle (no @)" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:7px 10px;width:150px" />
+        <input id="qaNiche" placeholder="Niche" style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:7px 10px;width:120px" />
+        <button id="qaAdd" style="background:var(--surface);color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius-sm);font:inherit;font-size:12px;font-weight:600;padding:7px 14px;cursor:pointer">Add to queue</button>
+        <span style="color:var(--muted);font-size:11px">saved in this browser · export anytime</span>
+        <button id="crmRestore" style="margin-left:auto;background:transparent;color:var(--text-2);border:1px solid var(--border);border-radius:var(--radius-sm);font:inherit;font-size:12px;padding:7px 12px;cursor:pointer;display:none">Restore removed (<span id="crmRemovedCount">0</span>)</button>
+        <button id="crmExport" style="background:transparent;color:var(--text-2);border:1px solid var(--border);border-radius:var(--radius-sm);font:inherit;font-size:12px;padding:7px 12px;cursor:pointer">Export CSV</button>
+      </div>
+      <div id="crmBoard" class="kanban"></div>
+      <div id="crmTableWrap" style="display:none;overflow:auto;max-height:560px;border:1px solid var(--border);border-radius:var(--radius-sm)">
+        <table id="crmTable" style="width:100%;border-collapse:collapse;font-size:12.5px">
+          <thead>
+            <tr style="position:sticky;top:0;background:var(--surface-2);z-index:1">
+              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">#</th>
+              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Name</th>
+              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">@ Handle</th>
+              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Niche</th>
+              <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">DMs</th>
+              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Status</th>
+              <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Batch</th>
+              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Next action</th>
+              <th style="width:34px;border-bottom:1px solid var(--border-strong)"></th>
+            </tr>
+          </thead>
+          <tbody id="crmBody"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="crmEmpty" style="display:none">No leads match.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section class="tab-panel" id="tab-setup">
+  <div class="grid">
+    <div class="card span-12">
+      <h2>Manual live inputs <span class="meta">bridge until accounts are connected</span></h2>
+      <div class="quick-input-grid">
+        <div class="quick-input"><label for="metricYtSubs">YouTube subs</label><input id="metricYtSubs" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input"><label for="metricLongForm">Long-form shipped</label><input id="metricLongForm" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input"><label for="metricShorts">Shorts shipped</label><input id="metricShorts" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input"><label for="metricIgFollowers">IG followers</label><input id="metricIgFollowers" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input"><label for="metricIgReels">IG reels shipped</label><input id="metricIgReels" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input"><label for="metricIgStories">Story frames this week</label><input id="metricIgStories" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input"><label for="metricIgReach">IG reach 30d</label><input id="metricIgReach" type="number" min="0" placeholder="0" /></div>
+        <div class="quick-input">
+          <label>Metric controls</label>
+          <div class="metric-actions">
+            <button class="control-btn accent" id="metricSave">Save metrics</button>
+            <button class="control-btn" id="metricReset">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Metric wiring <span class="meta">what is real vs what still needs auth</span></h2>
+      <div class="connector-grid">
+        <div class="connector-card">
+          <div class="name">YouTube</div>
+          <div class="detail">Pull public channel stats with YouTube Data API. Owner-only analytics like watch time needs OAuth.</div>
+          <span class="status">API next</span>
+        </div>
+        <div class="connector-card">
+          <div class="name">Instagram</div>
+          <div class="detail">Needs IG Business/Creator connected through Meta. Follower count and insights are not live yet.</div>
+          <span class="status">OAuth next</span>
+        </div>
+        <div class="connector-card">
+          <div class="name">Cal.com</div>
+          <div class="detail">Bookings can feed the sales board through Cal.com API once a token is added to a small backend.</div>
+          <span class="status">Revenue signal</span>
+        </div>
+        <div class="connector-card">
+          <div class="name">Typeform</div>
+          <div class="detail">Applications can come through webhooks or the Responses API. Webhooks are the cleaner live path.</div>
+          <span class="status">Funnel signal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Live now <span class="meta">low friction</span></h2>
+      <div class="source-list" id="liveNowList"></div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Connector priority <span class="meta">order matters</span></h2>
+      <div class="source-list" id="priorityList"></div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Suggested live source map <span class="meta">what should feed the dashboard</span></h2>
+      <div style="overflow:auto">
+        <table class="source-table">
+          <thead>
+            <tr>
+              <th>Signal</th>
+              <th>Source</th>
+              <th>Cadence</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="sourceMap"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Pulsify-Brain · single source of truth</span>
+  <span class="mono" id="footDate"></span>
+</footer>
+
+<script id="data" type="application/json">
+{
+  "lastUpdated": "2026-05-16",
+  "founder": "AB",
+  "phase": "Phase 1 — funnel build",
+  "phaseDay": 2,
+  "phaseDaysTotal": 14,
+  "planDay": 2,
+  "planDaysTotal": 90,
+  "outreach": {
+    "thisWeek":  { "sent": 0, "replies": 0, "callsBooked": 0 },
+    "thirtyDay": { "sent": 0, "replies": 0, "callsBooked": 0 },
+    "allTime":   { "sent": 100, "replies": 4, "callsBooked": 0 }
+  },
+  "sales": { "callsBooked": 0, "callsHeld": 0, "proposalsSent": 0, "closed": 0 },
+  "pipeline": {
+    "hitList": 100, "dmd": 100, "replied": 4,
+    "callBooked": 0, "callHeld": 0, "proposalSent": 0, "closed": 0
+  },
+  "content": {
+    "ytSubs": 0, "ytSubsTarget": 100,
+    "longFormShipped": 0, "shortsShipped": 0,
+    "igFollowers": 0, "igReelsShipped": 0,
+    "igStoriesThisWeek": 0, "igReach30d": 0
+  },
+  "contentProduction": {
+    "stages": [
+      { "id": "ideated", "label": "Ideated", "automation": "Idea captured -> Discord #content-ideas" },
+      { "id": "scripted", "label": "Scripted", "automation": "Script ready -> editor/prep brief" },
+      { "id": "filmed", "label": "Filmed", "automation": "Raw recording uploaded -> editing queue" },
+      { "id": "editing", "label": "Editing", "automation": "Editor starts -> Slack/Discord update" },
+      { "id": "publishing", "label": "Publishing", "automation": "Upload, title, thumbnail, description" },
+      { "id": "posted", "label": "Posted", "automation": "Published link captured -> redistribution task" },
+      { "id": "redistributed", "label": "Redistributed", "automation": "Clips, stories, email, CRM proof bank" }
+    ],
+    "items": [
+      { "id": "first-youtube-long-form", "title": "First YouTube long-form", "type": "YouTube long-form", "stage": "ideated", "owner": "AB", "notes": "Main authority piece for the inbound engine." }
+    ]
+  },
+  "funnel": {
+    "vslViews": 0, "vslCompletionRate": 0,
+    "typeformStarts": 0, "typeformCompletes": 0,
+    "calBookings": 0, "showRate": 0
+  },
+  "revenue": { "mrr": 0, "cashCollected": 0, "performanceFeeAccruing": 0, "pipelineValue": 0 },
+  "phase1Checklist": [
+    { "item": "Hit list exported from IG inbox", "done": true },
+    { "item": "Instagram profile proof reviewed", "done": false },
+    { "item": "VSL recorded (script v3 ready)", "done": false },
+    { "item": "VSL hosted (Wistia or equivalent)", "done": false },
+    { "item": "Typeform built (7-question structure)", "done": false },
+    { "item": "Cal.com wired to Typeform", "done": false },
+    { "item": "Pre-call email sequence drafted", "done": false },
+    { "item": "First YouTube long-form shipped", "done": false }
+  ],
+  "trend30d": {
+    "labels": ["W-4", "W-3", "W-2", "W-1", "Now"],
+    "outreach": [0, 0, 0, 0, 0],
+    "calls":    [0, 0, 0, 0, 0],
+    "cash":     [0, 0, 0, 0, 0]
+  },
+  "clients": [
+    { "name": "Nicholas | Day Trader (@niicksfx)", "status": "active", "lesson": "Past/active client — helping w/ YouTube content. NOT a cold lead. Nurture, don't pitch." },
+    { "name": "Nick (Mamba FX)", "status": "churned", "lesson": "Expectation/timeline mismatch — drove the success-metric requirement" }
+  ],
+  "crmNote": "All leads below got the Apr 14–15 blast (1:11 voice note + same Loom, zero personalization). ~4% reply. Do NOT re-spam. Retarget = lead with a custom value asset per Pulse System playbook. Peers/friends/spam/ex-client stripped out. Handles only exist for threads opened (IG hides @ in list view).",
+  "crm": {
+    "prospects": [
+      { "n": "Scott Taylor | Day Trader", "h": "scotttaylorfx", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Philip | theanomalytrader", "h": "theanomalytrader", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Jordan Kilgour | TikTok Shop", "h": "jordankilgour", "niche": "TikTok Shop", "dms": 2, "stage": "dead-blast" },
+      { "n": "Javaughn Lovelace", "h": "javie_fx", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Joseph Pena", "h": "fibsdontlie", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Mini Tradez", "h": "mini_tradez", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "AB | 6-Figure Funded Trader", "h": "itsalexbaluyut", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Perry", "h": "_perryx_", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Tony Pawlak- Pro Trader", "h": "tony_pawlak", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "ATtrades", "h": "attrades_", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Henry Webber", "h": "henrytheninjaa", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "The Euro Trader", "h": "theeurotrader1", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Mohammed El Aibek", "h": "smartmoneymo", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "jahvonnw", "h": "jahvonnw", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Jeremy Lim", "h": "tradewithjem", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Sam", "h": "silviotrades", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Arger", "h": "argerfx", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Marco Accettone", "h": "marcotrades", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Ron Gilman | Stock Trader", "h": "rongtrades", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Bailey Hazon", "h": "hazontrades", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Hit Trades", "h": "hittrading", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "AM", "h": "_amtrades", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Tyler Sorensen", "h": "imtylertrades", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Eric | Day Trading", "h": "ericfengg", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Matt Owen", "h": "mattowentrades", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Spek", "h": "spektrades", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Eddie", "h": "eduardbeschea", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Ryan Engel", "h": "engeltradez", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "aleks rosme", "h": "aleksrosme", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "James Smeaton", "h": "nq_james", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "William Berry", "h": "poboy_trades", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Malonson Isaiah", "h": "isaiahmalonson504", "niche": "Ecom", "dms": 1, "stage": "dead-blast" },
+      { "n": "Jonathan Ma", "h": "jo_ecom", "niche": "Ecom", "dms": 1, "stage": "dead-blast" },
+      { "n": "Luca Valle", "h": "managedbyluca", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Kyle Russell", "h": "ecommerce_kyle", "niche": "Ecom", "dms": 1, "stage": "dead-blast" },
+      { "n": "DAMIAN | Ecom & Reselling", "h": "damosells", "niche": "Ecom", "dms": 1, "stage": "dead-blast" },
+      { "n": "Ezekiel", "h": "_ezyproperty", "niche": "Property", "dms": 1, "stage": "dead-blast" },
+      { "n": "JCR", "h": "itisjcr", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Elmer", "h": "elmer.biz", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Jared Fajardo", "h": "onlyjaredfajardo", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "dyl", "h": "dyl.a.nnn", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Bryce Turner", "h": "turnertradesnq", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Jeron McDonald", "h": "jeron", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Extra | Trading Mentor", "h": "extratrades_", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Danzel Wright | Brand & Business Mentor", "h": "", "niche": "Coaching", "dms": 1, "stage": "dead-blast" },
+      { "n": "Amasteine Maloum", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Zak Smith", "h": "officialzaksmith", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Alexis Castillo | E-commerce", "h": "soyalexbiz", "niche": "Ecom", "dms": 1, "stage": "dead-blast" },
+      { "n": "millz", "h": "nq.millz", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "A. Ahmad Anwary", "h": "titotrades", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Luke Dubois", "h": "ldubstradezzz", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Baron", "h": "barontrades", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "loztradez", "h": "loztradez", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Adriel Cash", "h": "theadrielcash", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Mangoe", "h": "mangoe.money", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Victor Gaudreau", "h": "xauvictor", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Alex Cottam", "h": "actradesfx", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Sebastian", "h": "sebxau", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Aidan", "h": "aidnntrades", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Derrick Ssenono", "h": "suavefx", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Simon Day", "h": "daylotrading", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "EsmerTrades", "h": "esmertrades", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Nav Sandhu", "h": "navstrades", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Elijah Delaire | Futures Day Trader", "h": "jah.trades", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Grippo", "h": "grippofutures", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "A K I", "h": "andrianirumbi", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Julian A | Amazon FBA", "h": "jcsgotdeals", "niche": "Amazon FBA", "dms": 2, "stage": "dead-blast" },
+      { "n": "Randy H", "h": "mrtophattrades", "niche": "Trading", "dms": 2, "stage": "replied" },
+      { "n": "Kyrien Idlebird | 7 Figure Trader", "h": "", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "R A", "h": "", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Patrick", "h": "", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Lanto", "h": "", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Ara", "h": "", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "JEREMY HOYOS", "h": "", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Brayden Cole", "h": "", "niche": "—", "dms": 2, "stage": "dead-blast" },
+      { "n": "Lawrence B. | Trader", "h": "", "niche": "Trading", "dms": 2, "stage": "dead-blast" },
+      { "n": "Alex Korn", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Han Jang", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Ben | Day Trader", "h": "", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Max", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "MORE THAN TRADING", "h": "", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Carlos Perez", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "RaphTrades", "h": "", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Baylor Brown", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Bruce Webb Jr.", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "lucas", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Riyadh | One fx", "h": "", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Jackson Blair", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Nick Ireland", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "jay", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Aiden Rao", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Brandan", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Omar", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Will", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Hudson Shaffer", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Michaelfx", "h": "", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Raffaello Ciotta", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Tyler Mcanuff | EVA", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "AYN", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Defo", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Todd Lewendon", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "jacobbecom", "h": "", "niche": "Ecom", "dms": 1, "stage": "dead-blast" },
+      { "n": "Justus", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Esteban Rosal", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "Spaghetti Trading", "h": "", "niche": "Trading", "dms": 1, "stage": "dead-blast" },
+      { "n": "Dhesi", "h": "", "niche": "—", "dms": 1, "stage": "dead-blast" },
+      { "n": "RNK (WARM — engaged, asked Qs)", "h": "officialrnktrading", "niche": "Trading", "dms": 1, "stage": "replied" },
+      { "n": "Arty", "h": "itszius", "niche": "—", "dms": 1, "stage": "replied" },
+      { "n": "Angelo Karsouny", "h": "", "niche": "—", "dms": 1, "stage": "replied" },
+      { "n": "IRT (declined)", "h": "irt_trades", "niche": "Trading", "dms": 1, "stage": "replied" }
+    ]
+  },
+  "hitListLegacy": [],
+  "targets": {
+    "thirtyDay":  { "outreachSent": 100, "callsBooked": 5, "callsHeld": 3, "clientsClosed": 1, "cashCollected": 5000 },
+    "ninetyDay":  { "outreachSent": 300, "callsBooked": 15, "callsHeld": 10, "clientsClosed": 3, "cashCollected": 15000, "ytSubs": 100, "videosShipped": 12 },
+    "twelveMonth": { "monthlyRevenue": 30000, "ytSubs": 3000, "activeClients": 6 }
+  }
+}
+</script>
+
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const parseEmbeddedData = () => JSON.parse(document.getElementById("data").textContent);
+  const fmt = (n) => (n == null ? "0" : Number(n).toLocaleString("en-US"));
+  const usd = (n) => "$" + fmt(n);
+  const pct = (n) => Math.round(n) + "%";
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const DATA_URL = "dashboard-data-v2.json";
+  const REFRESH_MS = 15000;
+  const METRIC_KEY = "pulsify_metric_overrides_v1";
+  const CONTENT_PIPELINE_KEY = "pulsify_content_pipeline_v1";
+  function loadJson(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || {}; } catch (e) { return {}; }
+  }
+  function saveJson(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+  let metricState = loadJson(METRIC_KEY);
+  let contentPipelineState = loadJson(CONTENT_PIPELINE_KEY);
+  contentPipelineState.overrides = contentPipelineState.overrides || {};
+  contentPipelineState.added = contentPipelineState.added || [];
+  contentPipelineState.removed = contentPipelineState.removed || [];
+  const STAGE_ACCENTS = ["#a78bfa", "#38e2d0", "#60a5fa", "#fb7eb6", "#d4ff3a", "#fb923c", "#4ade80", "#fbbf24"];
+  function applyMetricOverrides(data) {
+    if (!metricState || !metricState.content) return data;
+    data.content = Object.assign({}, data.content || {}, metricState.content);
+    return data;
+  }
+  let D = applyMetricOverrides(parseEmbeddedData());
+  let lastLiveRefresh = null;
+
+  const liveNow = [
+    ["Dashboard snapshot", "dashboard-data-v2.json polls every 15 seconds when served locally.", "live"],
+    ["CRM edits", "Lead status, batches, and new leads save instantly in this browser.", "live"],
+    ["Manual content metrics", "Follower, post, and reach overrides save in this browser until APIs are wired.", "live"],
+    ["CSV export", "Outreach CRM can be exported whenever you want a backup.", "live"]
+  ];
+  const priorityConnectors = [
+    ["Cal.com bookings", "Fastest revenue signal. Pull calls booked and held first.", "next"],
+    ["Typeform applications", "Shows offer/funnel intent before calls hit calendar.", "next"],
+    ["YouTube channel", "Subs, videos shipped, views, watch time, CTR.", "next"],
+    ["Instagram", "Useful, but Meta setup makes it slower than the other connectors.", "later"]
+  ];
+  const sourceMap = [
+    ["Plan and targets", "dashboard-data-v2.json", "15 sec", "live"],
+    ["Outreach CRM", "browser storage + export", "instant", "live"],
+    ["Content metrics", "manual browser input now, APIs later", "instant", "live"],
+    ["Calls booked", "Cal.com API", "5-15 min", "next"],
+    ["Applications", "Typeform API/webhook", "5-15 min", "next"],
+    ["VSL analytics", "Wistia or video host API", "hourly", "next"],
+    ["YouTube metrics", "YouTube Data API", "hourly/daily", "next"],
+    ["Instagram metrics", "Instagram Graph API", "hourly/daily", "later"],
+    ["Revenue", "Stripe/bank/manual private source", "daily", "later"]
+  ];
+  const chartColors = ["#d4ff3a", "#38bdf8", "#fb923c", "#a78bfa", "#60a5fa", "#4ade80", "#f87171"];
+  const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+  const ratio = (a, b) => b ? (Number(a || 0) / Number(b || 0)) * 100 : 0;
+  const cleanText = (v) => {
+    const s = String(v == null ? "" : v).trim();
+    return (!s || s === "â€”" || s === "—") ? "Unknown" : s;
+  };
+  const esc = (v) => String(v == null ? "" : v)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+  function deepMerge(base, patch) {
+    if (!patch || typeof patch !== "object" || Array.isArray(patch)) return patch ?? base;
+    const out = Array.isArray(base) ? base.slice() : Object.assign({}, base);
+    Object.keys(patch).forEach((key) => {
+      const bv = out[key];
+      const pv = patch[key];
+      out[key] = (bv && pv && typeof bv === "object" && typeof pv === "object" && !Array.isArray(bv) && !Array.isArray(pv))
+        ? deepMerge(bv, pv)
+        : pv;
+    });
+    return out;
+  }
+
+  function pill(status) {
+    return `<span class="pill ${status}">${status}</span>`;
+  }
+
+  function sourceRows(rows) {
+    return rows.map(([name, detail, status]) => `
+      <div class="source-row">
+        <div>
+          <div class="name">${name}</div>
+          <div class="detail">${detail}</div>
+        </div>
+        ${pill(status)}
+      </div>
+    `).join("");
+  }
+
+  function setLiveStatus(text, mode) {
+    const status = $("dataStatus");
+    if (status) {
+      status.textContent = text;
+      status.classList.toggle("live-ok", mode === "ok");
+      status.classList.toggle("live-warn", mode !== "ok");
+    }
+    if ($("liveSource")) $("liveSource").textContent = text;
+  }
+
+  function renderLivePanel() {
+    if ($("liveNowList")) $("liveNowList").innerHTML = sourceRows(liveNow);
+    if ($("priorityList")) $("priorityList").innerHTML = sourceRows(priorityConnectors);
+    if ($("sourceMap")) {
+      $("sourceMap").innerHTML = sourceMap.map(([signal, source, cadence, status]) => `
+        <tr>
+          <td>${signal}</td>
+          <td>${source}</td>
+          <td class="mono">${cadence}</td>
+          <td>${pill(status)}</td>
+        </tr>
+      `).join("");
+    }
+    if ($("liveCadence")) $("liveCadence").textContent = Math.round(REFRESH_MS / 1000) + " sec";
+    if ($("liveCoverage")) $("liveCoverage").textContent = "3 / 9";
+    if ($("liveProtocol")) {
+      $("liveProtocol").textContent = location.protocol === "file:"
+        ? "Open through localhost for auto-refresh."
+        : "Auto-refresh is active on this page.";
+    }
+    if ($("livePulledAt")) {
+      $("livePulledAt").textContent = lastLiveRefresh
+        ? lastLiveRefresh.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+      : "not pulled";
+    }
+  }
+
+  function setText(id, value) {
+    const el = $(id);
+    if (el) el.textContent = value;
+  }
+
+  function renderLegend(id, items) {
+    const el = $(id);
+    if (!el) return;
+    el.innerHTML = items.map((item) =>
+      `<span><i style="background:${item.color}"></i>${esc(item.label)}</span>`
+    ).join("");
+  }
+
+  function renderLineChart(svgId, labels, series) {
+    const svg = $(svgId);
+    if (!svg) return;
+    if (!labels.length || !series.some(s => (s.values || []).length)) {
+      svg.innerHTML = "";
+      return;
+    }
+    const W = 640, H = 220, L = 40, R = 16, T = 16, B = 30;
+    const values = series.flatMap(s => s.values || []);
+    const max = Math.max(1, ...values.map(v => Number(v || 0)));
+    const stepX = labels.length > 1 ? (W - L - R) / (labels.length - 1) : 0;
+    const y = (v) => T + (1 - (Number(v || 0) / max)) * (H - T - B);
+    const x = (i) => L + i * stepX;
+    const grid = [0, 0.25, 0.5, 0.75, 1].map((p) => {
+      const gy = T + p * (H - T - B);
+      const val = Math.round(max * (1 - p));
+      return `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="rgba(255,255,255,0.07)" />
+        <text x="6" y="${gy + 4}" fill="#5e5e68" font-size="10">${fmt(val)}</text>`;
+    }).join("");
+    const xLabels = labels.map((lab, i) =>
+      `<text x="${x(i)}" y="${H - 8}" fill="#5e5e68" font-size="10" text-anchor="middle">${esc(lab)}</text>`
+    ).join("");
+    const paths = series.map((s, si) => {
+      const pts = (s.values || []).map((v, i) => [x(i), y(v)]);
+      if (!pts.length) return "";
+      const path = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(" ");
+      const area = path + ` L ${x(pts.length - 1)},${H - B} L ${x(0)},${H - B} Z`;
+      return `${si === 0 ? `<path d="${area}" fill="${s.color}" opacity="0.10"></path>` : ""}
+        <path d="${path}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+        ${pts.map(p => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="3" fill="${s.color}" stroke="#0a0a0c" stroke-width="1.5"></circle>`).join("")}`;
+    }).join("");
+    svg.innerHTML = `${grid}${xLabels}${paths}`;
+  }
+
+  function renderVerticalBars(svgId, labels, values, color) {
+    const svg = $(svgId);
+    if (!svg) return;
+    const W = 640, H = 220, L = 34, R = 18, T = 18, B = 42;
+    const max = Math.max(1, ...values.map(v => Number(v || 0)));
+    const gap = 14;
+    const bw = (W - L - R - gap * (values.length - 1)) / values.length;
+    const grid = [0, 0.5, 1].map((p) => {
+      const gy = T + p * (H - T - B);
+      return `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="rgba(255,255,255,0.07)" />`;
+    }).join("");
+    const bars = values.map((v, i) => {
+      const h = (Number(v || 0) / max) * (H - T - B);
+      const x = L + i * (bw + gap);
+      const y = H - B - h;
+      return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="4" fill="${color}" opacity="${v ? 0.9 : 0.22}"></rect>
+        <text x="${x + bw / 2}" y="${Math.max(T + 12, y - 7)}" fill="#f3f3f5" font-size="11" text-anchor="middle">${fmt(v)}</text>
+        <text x="${x + bw / 2}" y="${H - 20}" fill="#5e5e68" font-size="10" text-anchor="middle">${esc(labels[i])}</text>`;
+    }).join("");
+    svg.innerHTML = `${grid}${bars}`;
+  }
+
+  function renderHorizontalBars(id, items) {
+    const el = $(id);
+    if (!el) return;
+    const max = Math.max(1, ...items.map(i => Number(i.value || 0)));
+    el.innerHTML = items.map((item) => {
+      const w = clamp((Number(item.value || 0) / max) * 100, 0, 100);
+      return `<div class="bar-row">
+        <div class="lab">${esc(item.label)}</div>
+        <div class="track"><span style="width:${w}%;background:${item.color || "linear-gradient(90deg,var(--blue),var(--accent))"}"></span></div>
+        <div class="num mono">${esc(item.display || pct(item.value || 0))}</div>
+      </div>`;
+    }).join("");
+  }
+
+  function renderDonut(svgId, legendId, items, center, sub) {
+    const svg = $(svgId);
+    const legend = $(legendId);
+    if (!svg || !legend) return;
+    const total = items.reduce((sum, item) => sum + Number(item.value || 0), 0);
+    let offset = 0;
+    const circles = items.filter(item => item.value > 0).map((item, i) => {
+      const p = total ? (item.value / total) * 100 : 0;
+      const c = item.color || chartColors[i % chartColors.length];
+      const out = `<circle cx="50" cy="50" r="34" fill="none" stroke="${c}" stroke-width="12" pathLength="100" stroke-dasharray="${p} ${100 - p}" stroke-dashoffset="${-offset}" transform="rotate(-90 50 50)" stroke-linecap="butt"></circle>`;
+      offset += p;
+      return out;
+    }).join("");
+    svg.innerHTML = `<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12"></circle>
+      ${circles}
+      <text x="50" y="48" text-anchor="middle">${esc(center)}</text>
+      <text class="sub" x="50" y="61" text-anchor="middle">${esc(sub)}</text>`;
+    legend.innerHTML = items.slice(0, 6).map((item, i) => `
+      <div class="row"><i style="background:${item.color || chartColors[i % chartColors.length]}"></i><span>${esc(item.label)}</span><span class="num mono">${fmt(item.value)}</span></div>
+    `).join("");
+  }
+
+  function renderInsightRows(id, rows) {
+    const el = $(id);
+    if (!el) return;
+    el.innerHTML = rows.map((r) => `
+      <div class="insight-row ${r.tone || ""}">
+        <div>
+          <div class="title">${esc(r.title)}</div>
+          <div class="body">${esc(r.body)}</div>
+        </div>
+        <span class="tag">${esc(r.tag)}</span>
+      </div>
+    `).join("");
+  }
+
+  function renderMotionPanel() {
+    const labels = (D.trend30d && D.trend30d.labels) || [];
+    renderLineChart("motionChart", labels, [
+      { label: "Outreach", color: chartColors[0], values: D.trend30d.outreach || [] },
+      { label: "Calls", color: chartColors[1], values: D.trend30d.calls || [] },
+      { label: "Cash", color: chartColors[2], values: D.trend30d.cash || [] }
+    ]);
+    renderLegend("motionLegend", [
+      { label: "Outreach sent", color: chartColors[0] },
+      { label: "Calls booked", color: chartColors[1] },
+      { label: "Cash collected", color: chartColors[2] }
+    ]);
+    const replyRate = ratio(D.outreach.allTime.replies, D.outreach.allTime.sent);
+    const callRate = ratio(D.pipeline.callBooked, D.pipeline.replied);
+    const cashPct = ratio(D.revenue.cashCollected, D.targets.thirtyDay.cashCollected);
+    const notes = $("motionNotes");
+    if (notes) {
+      notes.innerHTML = [
+        ["Reply rate", replyRate.toFixed(1) + "%"],
+        ["Reply to call", callRate.toFixed(1) + "%"],
+        ["30-day cash", Math.round(cashPct) + "%"]
+      ].map(([k, v]) => `<div class="note"><div class="k">${k}</div><div class="v mono">${v}</div></div>`).join("");
+    }
+  }
+
+  function renderPlanAffirmations() {
+    const left = Math.max(0, (D.phaseDaysTotal || 0) - (D.phaseDay || 0));
+    const rows = [
+      ["Pressure", `Day ${D.phaseDay} is for building assets, not waiting for certainty.`],
+      ["Direction", "Content creates the room. Offer earns the call. Funnel catches demand."],
+      ["Standard", `${left} days left in this phase. Do the next clean rep.`]
+    ];
+    const el = $("planAffirmations");
+    if (!el) return;
+    el.innerHTML = rows.map(([k, v]) => `
+      <div class="affirmation">
+        <div class="k">${esc(k)}</div>
+        <div class="v">${esc(v)}</div>
+      </div>
+    `).join("");
+  }
+
+  function renderOperatorCockpit() {
+    const P = typeof basePros === "function" ? basePros() : ((D.crm && D.crm.prospects) || []);
+    const checklist = D.phase1Checklist || [];
+    const done = checklist.filter(c => c.done).length;
+    const checklistPct = ratio(done, checklist.length);
+    const contentPct = clamp(ratio(D.content.longFormShipped, D.targets.ninetyDay.videosShipped), 0, 100);
+    const funnelTasks = checklist.filter(c => /vsl|typeform|cal|email/i.test(c.item));
+    const funnelPct = ratio(funnelTasks.filter(c => c.done).length, funnelTasks.length || 1);
+    const outreachPct = clamp(ratio(D.outreach.allTime.replies, D.outreach.allTime.sent), 0, 100);
+    const callsPct = clamp(ratio(D.pipeline.callBooked, Math.max(1, D.pipeline.replied)), 0, 100);
+    const cashPct = clamp(ratio(D.revenue.cashCollected, D.targets.thirtyDay.cashCollected), 0, 100);
+    const score = Math.round(checklistPct * 0.35 + contentPct * 0.2 + funnelPct * 0.2 + callsPct * 0.15 + cashPct * 0.1);
+    const replied = P.filter(p => p.stage === "replied" || p.status === "replied").length;
+    const unworked = P.filter(p => p.status === "new" || p.status === "queued").length;
+    const firstGap = checklist.find(c => !c.done);
+    const leak = replied > 0 && D.pipeline.callBooked === 0
+      ? ["Replies -> calls", `${replied} replies, no calls booked yet.`]
+      : D.pipeline.dmd > 0 && D.pipeline.replied === 0
+        ? ["DM -> reply", "Outreach moved, replies did not."]
+        : D.funnel.vslViews === 0
+          ? ["Funnel not live", "No VSL or application traffic yet."]
+          : ["Data capture", "Connect call/application sources next."];
+
+    setText("opsScore", score);
+    if ($("opsScoreBar")) $("opsScoreBar").style.width = score + "%";
+    setText("opsScoreHint", `${done}/${checklist.length} launch tasks done. This is readiness, not vanity.`);
+    setText("primaryLeak", leak[0]);
+    setText("primaryLeakHint", leak[1]);
+    setText("nextAsset", firstGap ? firstGap.item : "Value assets");
+    setText("nextAssetHint", firstGap ? "Finish this before chasing prettier metrics." : "Build custom assets for warm/replied leads.");
+    setText("crmPressure", fmt(unworked));
+    setText("crmPressureHint", `${replied} replied. Retarget with value, not another blast.`);
+
+    const rails = [
+      ["Content", contentPct, `${D.content.longFormShipped}/${D.targets.ninetyDay.videosShipped} long-form`],
+      ["Funnel", funnelPct, `${funnelTasks.filter(c => c.done).length}/${funnelTasks.length || 0} launch tasks`],
+      ["Outreach", outreachPct, `${D.outreach.allTime.replies}/${D.outreach.allTime.sent} replies`],
+      ["Calls", callsPct, `${D.pipeline.callBooked}/${Math.max(1, D.pipeline.replied)} from replies`],
+      ["Cash", cashPct, `${usd(D.revenue.cashCollected)} / ${usd(D.targets.thirtyDay.cashCollected)}`]
+    ];
+    if ($("opsRail")) {
+      $("opsRail").innerHTML = rails.map(([lab, val, detail]) => `
+        <div class="rail-item">
+          <div class="top"><span class="lab">${esc(lab)}</span><span class="num mono">${Math.round(val)}%</span></div>
+          <div class="meter"><span style="width:${clamp(val,0,100)}%"></span></div>
+          <div class="detail">${esc(detail)}</div>
+        </div>
+      `).join("");
+    }
+
+    const moves = [];
+    if (replied > 0 && D.pipeline.callBooked === 0) moves.push({ title: "Convert warm replies into calls", body: "Open the five replies, requalify, and send one custom value asset each.", tag: "Sales", tone: "danger" });
+    if (firstGap) moves.push({ title: "Finish the next funnel blocker", body: firstGap.item, tag: "Funnel", tone: "warn" });
+    if (D.content.longFormShipped === 0) moves.push({ title: "Ship the first YouTube long-form", body: "Inbound content is the compounding engine. The dashboard should measure it daily.", tag: "Content", tone: "info" });
+    if (unworked > 0) moves.push({ title: "Pull a focused retarget batch", body: `There are ${fmt(unworked)} unworked CRM leads. Work 15 at a time.`, tag: "CRM" });
+    renderInsightRows("nextMoves", moves.slice(0, 5));
+  }
+
+  function renderContentPanel() {
+    const shipped = D.content.longFormShipped || 0;
+    const target = D.targets.ninetyDay.videosShipped || 12;
+    renderLineChart("contentChart", ["Now", "Day 30", "Day 60", "Day 90"], [
+      { label: "Shipped", color: chartColors[0], values: [shipped, shipped, shipped, shipped] },
+      { label: "Target pace", color: chartColors[1], values: [0, Math.round(target / 3), Math.round(target * 2 / 3), target] }
+    ]);
+    renderLegend("contentLegend", [
+      { label: "Current shipped", color: chartColors[0] },
+      { label: "Target pace", color: chartColors[1] }
+    ]);
+    const gaps = [];
+    if (D.content.longFormShipped === 0) gaps.push({ title: "No long-form shipped", body: "The site should make this impossible to ignore. YouTube is the main revenue engine.", tag: "Core", tone: "danger" });
+    if (D.content.shortsShipped === 0) gaps.push({ title: "No repurposing layer", body: "Shorts should trail long-form, not replace it.", tag: "Repurpose", tone: "warn" });
+    if (D.content.igStoriesThisWeek === 0) gaps.push({ title: "Stories are quiet", body: "Use stories for proof, behind-the-scenes, objection handling, and call-to-action loops.", tag: "IG", tone: "info" });
+    if (D.content.igReach30d === 0) gaps.push({ title: "Reach source missing", body: "Connect Instagram or add a weekly manual input so the trend has a pulse.", tag: "Data" });
+    renderInsightRows("contentGaps", gaps.slice(0, 4));
+    setText("contentTabCount", fmt(D.content.longFormShipped || 0));
+  }
+
+  const metricInputs = [
+    ["metricYtSubs", "ytSubs"],
+    ["metricLongForm", "longFormShipped"],
+    ["metricShorts", "shortsShipped"],
+    ["metricIgFollowers", "igFollowers"],
+    ["metricIgReels", "igReelsShipped"],
+    ["metricIgStories", "igStoriesThisWeek"],
+    ["metricIgReach", "igReach30d"]
+  ];
+  function hydrateMetricInputs() {
+    metricInputs.forEach(([id, key]) => {
+      const el = $(id);
+      if (el && document.activeElement !== el) el.value = D.content && D.content[key] != null ? D.content[key] : "";
+    });
+  }
+  function saveMetricInputs() {
+    const next = {};
+    metricInputs.forEach(([id, key]) => {
+      const el = $(id);
+      if (!el) return;
+      const raw = String(el.value || "").trim();
+      if (raw !== "") next[key] = Math.max(0, Number(raw) || 0);
+    });
+    metricState.content = Object.assign({}, metricState.content || {}, next);
+    saveJson(METRIC_KEY, metricState);
+    D = applyMetricOverrides(D);
+    renderDashboard();
+    renderCrm();
+  }
+  function resetMetricInputs() {
+    metricState = {};
+    saveJson(METRIC_KEY, metricState);
+    D = parseEmbeddedData();
+    renderDashboard();
+    renderCrm();
+  }
+
+  const fallbackContentStages = [
+    { id: "ideated", label: "Ideated", automation: "Idea captured -> Discord #content-ideas" },
+    { id: "scripted", label: "Scripted", automation: "Script ready -> editor/prep brief" },
+    { id: "filmed", label: "Filmed", automation: "Raw recording uploaded -> editing queue" },
+    { id: "editing", label: "Editing", automation: "Editor starts -> Slack/Discord update" },
+    { id: "publishing", label: "Publishing", automation: "Upload, title, thumbnail, description" },
+    { id: "posted", label: "Posted", automation: "Published link captured -> redistribution task" },
+    { id: "redistributed", label: "Redistributed", automation: "Clips, stories, email, CRM proof bank" }
+  ];
+  function contentStages() {
+    return (D.contentProduction && D.contentProduction.stages && D.contentProduction.stages.length)
+      ? D.contentProduction.stages
+      : fallbackContentStages;
+  }
+  function contentItems() {
+    const base = (D.contentProduction && D.contentProduction.items) || [];
+    return base.concat(contentPipelineState.added || []).map((item) => {
+      const id = item.id || slugify(item.title || "video");
+      const patch = contentPipelineState.overrides[id] || {};
+      return Object.assign({
+        id,
+        title: "Untitled video",
+        type: "YouTube long-form",
+        stage: "ideated",
+        owner: "AB",
+        notes: ""
+      }, item, patch, { id });
+    }).filter(item => !contentPipelineState.removed.includes(item.id));
+  }
+  function slugify(text) {
+    return String(text || "video").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "video";
+  }
+  function saveContentPipeline() {
+    saveJson(CONTENT_PIPELINE_KEY, contentPipelineState);
+  }
+  function setContentOverride(id, patch) {
+    contentPipelineState.overrides[id] = Object.assign({}, contentPipelineState.overrides[id] || {}, patch);
+    saveContentPipeline();
+  }
+  function removeContentItem(id) {
+    if (!contentPipelineState.removed.includes(id)) contentPipelineState.removed.push(id);
+    contentPipelineState.added = (contentPipelineState.added || []).filter(a => (a.id || slugify(a.title || "video")) !== id);
+    saveContentPipeline();
+    renderContentProduction();
+  }
+  function moveContentItem(id, dir) {
+    const stages = contentStages();
+    const item = contentItems().find(v => v.id === id);
+    if (!item) return;
+    const at = Math.max(0, stages.findIndex(s => s.id === item.stage));
+    const next = stages[clamp(at + dir, 0, stages.length - 1)];
+    setContentOverride(id, { stage: next.id });
+    renderContentProduction();
+  }
+  function renderContentProduction() {
+    const stages = contentStages();
+    const items = contentItems();
+    const start = $("contentStartStage");
+    if (start) {
+      const cur = start.value || "ideated";
+      start.innerHTML = stages.map(s => `<option value="${s.id}">${esc(s.label)}</option>`).join("");
+      start.value = stages.some(s => s.id === cur) ? cur : stages[0].id;
+    }
+
+    const active = items.filter(v => !["posted", "redistributed"].includes(v.stage)).length;
+    const filmed = items.filter(v => ["filmed", "editing", "publishing", "posted", "redistributed"].includes(v.stage)).length;
+    const posted = items.filter(v => v.stage === "posted" || v.stage === "redistributed").length;
+    const repurposed = items.filter(v => v.stage === "redistributed").length;
+    if ($("contentProductionSummary")) {
+      $("contentProductionSummary").innerHTML = [
+        ["Total videos", items.length],
+        ["In production", active],
+        ["Filmed or later", filmed],
+        ["Redistributed", repurposed || posted]
+      ].map(([k, v]) => `
+        <div class="summary-tile">
+          <div class="k">${esc(k)}</div>
+          <div class="v mono">${fmt(v)}</div>
+        </div>
+      `).join("");
+    }
+
+    if ($("contentProductionBoard")) {
+      $("contentProductionBoard").innerHTML = stages.map((stage, si) => {
+        const stageItems = items.filter(v => v.stage === stage.id);
+        const accent = STAGE_ACCENTS[si % STAGE_ACCENTS.length];
+        return `<div class="prod-stage" data-stage="${esc(stage.id)}" style="--stage-accent:${accent}">
+          <div class="stage-head">
+            <div class="stage-top">
+              <div class="stage-name">${esc(stage.label)}</div>
+              <div class="stage-count mono">${fmt(stageItems.length)}</div>
+            </div>
+            <div class="automation">${esc(stage.automation || "")}</div>
+          </div>
+          <div class="stage-list">
+            ${stageItems.length ? stageItems.map(item => `
+              <div class="video-card" draggable="true" data-id="${esc(item.id)}" style="--stage-accent:${accent}">
+                <button class="vid-del" data-del="${esc(item.id)}" title="Remove video">×</button>
+                <div class="title">${esc(item.title)}</div>
+                <div class="meta-line"><span class="fmt-chip">${esc(item.type || "Video")}</span> ${esc(item.owner || "AB")}</div>
+                <select class="content-stage-select" data-id="${esc(item.id)}">
+                  ${stages.map(s => `<option value="${s.id}"${s.id === item.stage ? " selected" : ""}>${esc(s.label)}</option>`).join("")}
+                </select>
+                ${item.notes ? `<div class="notes">${esc(item.notes)}</div>` : ""}
+                <div class="video-actions">
+                  <button class="control-btn content-move" data-id="${esc(item.id)}" data-dir="-1"${si === 0 ? " disabled" : ""}>Back</button>
+                  <button class="control-btn content-move" data-id="${esc(item.id)}" data-dir="1"${si === stages.length - 1 ? " disabled" : ""}>Forward</button>
+                </div>
+              </div>
+            `).join("") : `<div class="empty-stage">Drop a video here</div>`}
+          </div>
+        </div>`;
+      }).join("");
+
+      let dragVid = null;
+      const board = $("contentProductionBoard");
+      board.querySelectorAll(".video-card").forEach(card => {
+        card.addEventListener("dragstart", e => {
+          dragVid = card.dataset.id;
+          card.classList.add("dragging");
+          e.dataTransfer.effectAllowed = "move";
+        });
+        card.addEventListener("dragend", () => card.classList.remove("dragging"));
+      });
+      board.querySelectorAll(".prod-stage").forEach(col => {
+        col.addEventListener("dragover", e => { e.preventDefault(); col.classList.add("drag-over"); });
+        col.addEventListener("dragleave", () => col.classList.remove("drag-over"));
+        col.addEventListener("drop", e => {
+          e.preventDefault();
+          col.classList.remove("drag-over");
+          if (dragVid) { setContentOverride(dragVid, { stage: col.dataset.stage }); renderContentProduction(); }
+        });
+      });
+      board.querySelectorAll(".vid-del").forEach(b => {
+        b.addEventListener("click", e => {
+          e.stopPropagation();
+          removeContentItem(b.dataset.del);
+        });
+      });
+    }
+
+    if ($("contentAutomationMap")) {
+      $("contentAutomationMap").innerHTML = [
+        ["Zapier trigger", "New or moved video card becomes a Zap trigger with stage, title, owner, and format."],
+        ["Discord", "Post status updates into channel-specific rooms like ideas, editing, publishing, and redistribution."],
+        ["Slack", "Editor handoff can ping the owner, deadline, raw file link, and publishing checklist."],
+        ["Proof bank", "Posted links and redistributed clips can feed CRM proof assets for future retargeting."]
+      ].map(([name, detail]) => `
+        <div class="automation-node">
+          <div class="name">${esc(name)}</div>
+          <div class="detail">${esc(detail)}</div>
+        </div>
+      `).join("");
+    }
+
+    document.querySelectorAll(".content-stage-select").forEach(sel => {
+      sel.addEventListener("change", () => {
+        setContentOverride(sel.dataset.id, { stage: sel.value });
+        renderContentProduction();
+      });
+    });
+    document.querySelectorAll(".content-move").forEach(btn => {
+      btn.addEventListener("click", () => moveContentItem(btn.dataset.id, Number(btn.dataset.dir)));
+    });
+    setText("contentTabCount", fmt(items.length));
+  }
+  function addContentItem() {
+    const title = ($("contentTitle").value || "").trim();
+    if (!title) return;
+    const id = slugify(title) + "-" + Date.now().toString(36);
+    contentPipelineState.added.push({
+      id,
+      title,
+      type: $("contentType").value || "YouTube long-form",
+      stage: $("contentStartStage").value || contentStages()[0].id,
+      owner: "AB",
+      notes: "Created from dashboard."
+    });
+    saveContentPipeline();
+    $("contentTitle").value = "";
+    renderContentProduction();
+  }
+  function exportContentCsv() {
+    const head = ["id","title","type","stage","owner","notes"];
+    const csv = [head.join(",")].concat(contentItems().map(item =>
+      head.map(k => `"${String(item[k] || "").replace(/"/g, '""')}"`).join(",")
+    )).join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.download = "pulsify-content-pipeline-" + todayStr + ".csv";
+    a.click();
+  }
+
+  function renderConversionBoard() {
+    const p = D.pipeline || {};
+    const items = [
+      ["Hit -> DM", ratio(p.dmd, p.hitList)],
+      ["DM -> reply", ratio(p.replied, p.dmd)],
+      ["Reply -> call", ratio(p.callBooked, p.replied)],
+      ["Call -> held", ratio(p.callHeld, p.callBooked)],
+      ["Held -> close", ratio(p.closed, p.callHeld)]
+    ].map(([label, value], i) => ({ label, value, display: value.toFixed(1) + "%", color: chartColors[i % chartColors.length] }));
+    renderHorizontalBars("conversionBars", items);
+    const labels = ["Hit", "DM", "Reply", "Book", "Held", "Prop", "Close"];
+    const values = [p.hitList, p.dmd, p.replied, p.callBooked, p.callHeld, p.proposalSent, p.closed].map(v => v || 0);
+    renderVerticalBars("pipelineChart", labels, values, chartColors[0]);
+    renderLegend("pipelineLegend", [{ label: "Stage volume", color: chartColors[0] }]);
+    setText("salesTabCount", fmt(D.pipeline.replied || 0));
+  }
+
+  /* Tabs */
+  const tabBtns = document.querySelectorAll("nav.tabs button");
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.dataset.tab;
+      tabBtns.forEach(b => b.classList.toggle("active", b === btn));
+      document.querySelectorAll(".tab-panel").forEach(p => {
+        p.classList.toggle("active", p.id === "tab-" + id);
+      });
+      try { history.replaceState(null, "", "#" + id); } catch (e) {}
+    });
+  });
+  const hash = (location.hash || "").replace("#", "");
+  if (hash) {
+    const btn = document.querySelector(`nav.tabs button[data-tab="${hash}"]`);
+    if (btn) btn.click();
+  }
+
+  function renderDashboard() {
+  renderLivePanel();
+  renderOperatorCockpit();
+  renderMotionPanel();
+  renderPlanAffirmations();
+
+  /* Header */
+  $("today").textContent = todayStr;
+  $("lastUpdated").textContent = D.lastUpdated;
+  $("founder").textContent = D.founder;
+  $("footDate").textContent = todayStr;
+
+  /* Plan */
+  $("planDay").textContent = D.planDay;
+  $("planDaysTotal").textContent = D.planDaysTotal;
+  const planPct = (D.planDay / D.planDaysTotal) * 100;
+  $("planPct").textContent = Math.round(planPct);
+  $("planBar").style.width = planPct + "%";
+  $("phaseName").textContent = D.phase;
+  $("phaseDay").textContent = D.phaseDay;
+  $("phaseDaysTotal").textContent = D.phaseDaysTotal;
+  $("phaseRemaining").textContent = D.phaseDaysTotal - D.phaseDay;
+  $("phaseBar").style.width = ((D.phaseDay / D.phaseDaysTotal) * 100) + "%";
+
+  $("checklist").innerHTML = D.phase1Checklist.map(
+    (c) => `<li class="${c.done ? "done" : ""}"><span class="box"></span><span class="lab">${c.item}</span></li>`
+  ).join("");
+
+  function targetRows(obj, map) {
+    return map.map(([k, lab, fn]) =>
+      `<div class="row"><span class="lab">${lab}</span><span class="num mono">${(fn || fmt)(obj[k])}</span></div>`
+    ).join("");
+  }
+  $("targets").innerHTML = `
+    <div class="target-col">
+      <h3>30 days</h3>
+      ${targetRows(D.targets.thirtyDay, [
+        ["outreachSent", "Outreach sent"],
+        ["callsBooked", "Calls booked"],
+        ["callsHeld", "Calls held"],
+        ["clientsClosed", "Clients closed"],
+        ["cashCollected", "Cash collected", usd]
+      ])}
+    </div>
+    <div class="target-col">
+      <h3>90 days</h3>
+      ${targetRows(D.targets.ninetyDay, [
+        ["outreachSent", "Outreach sent"],
+        ["callsBooked", "Calls booked"],
+        ["callsHeld", "Calls held"],
+        ["clientsClosed", "Clients closed"],
+        ["cashCollected", "Cash collected", usd],
+        ["ytSubs", "YT subs"],
+        ["videosShipped", "Videos shipped"]
+      ])}
+    </div>
+    <div class="target-col">
+      <h3>12 months</h3>
+      ${targetRows(D.targets.twelveMonth, [
+        ["monthlyRevenue", "Monthly revenue", usd],
+        ["ytSubs", "YT subs"],
+        ["activeClients", "Active clients"]
+      ])}
+    </div>
+  `;
+
+  /* Content */
+  $("ytSubs").textContent = fmt(D.content.ytSubs);
+  $("ytSubsMirror").textContent = fmt(D.content.ytSubs);
+  $("ytSubsTarget").textContent = fmt(D.content.ytSubsTarget);
+  $("ytSubsTargetMirror").textContent = fmt(D.content.ytSubsTarget);
+  $("longForm").textContent = fmt(D.content.longFormShipped);
+  $("longFormMirror").textContent = fmt(D.content.longFormShipped);
+  $("shorts").textContent = fmt(D.content.shortsShipped);
+  $("igFollowers").textContent = fmt(D.content.igFollowers);
+  $("igFollowersMirror").textContent = fmt(D.content.igFollowers);
+  $("igReach").textContent = fmt(D.content.igReach30d);
+  $("igReachMirror").textContent = fmt(D.content.igReach30d);
+  $("igReels").textContent = fmt(D.content.igReelsShipped);
+  $("igStories").textContent = fmt(D.content.igStoriesThisWeek);
+  renderContentPanel();
+  hydrateMetricInputs();
+  renderContentProduction();
+
+  /* Sales */
+  $("orWeekSent").textContent = fmt(D.outreach.thisWeek.sent);
+  $("or30Sent").textContent = fmt(D.outreach.thirtyDay.sent);
+  $("orAllSent").textContent = fmt(D.outreach.allTime.sent);
+  $("or30Replies").textContent = fmt(D.outreach.thirtyDay.replies);
+  $("or30SentMirror").textContent = fmt(D.outreach.thirtyDay.sent);
+  $("or30Booked").textContent = fmt(D.outreach.thirtyDay.callsBooked);
+  $("orAllReplies").textContent = fmt(D.outreach.allTime.replies);
+  $("orAllBooked").textContent = fmt(D.outreach.allTime.callsBooked);
+
+  const stages = [
+    ["Hit list",      D.pipeline.hitList],
+    ["DM'd",          D.pipeline.dmd],
+    ["Replied",       D.pipeline.replied],
+    ["Call booked",   D.pipeline.callBooked],
+    ["Call held",     D.pipeline.callHeld],
+    ["Proposal sent", D.pipeline.proposalSent],
+    ["Closed",        D.pipeline.closed]
+  ];
+  const maxStage = Math.max(1, ...stages.map(s => s[1]));
+  $("funnel").innerHTML = stages.map(([lab, n]) => {
+    const w = (n / maxStage) * 100;
+    return `<div class="stage">
+      <span class="lab">${lab}</span>
+      <span class="track"><span style="width:${w}%"></span></span>
+      <span class="num ${n === 0 ? "zero" : ""}">${fmt(n)}</span>
+    </div>`;
+  }).join("");
+
+  $("vslViews").textContent = fmt(D.funnel.vslViews);
+  $("vslComp").textContent = pct(D.funnel.vslCompletionRate);
+  $("tfStarts").textContent = fmt(D.funnel.typeformStarts);
+  $("tfCompletes").textContent = fmt(D.funnel.typeformCompletes);
+  $("calBookings").textContent = fmt(D.funnel.calBookings);
+  $("showRate").textContent = pct(D.funnel.showRate);
+  renderConversionBoard();
+
+  /* Income */
+  $("cashCollected").textContent = usd(D.revenue.cashCollected);
+  $("cashCollectedMirror").textContent = usd(D.revenue.cashCollected);
+  $("cashCollectedMirror2").textContent = usd(D.revenue.cashCollected);
+  $("mrr").textContent = usd(D.revenue.mrr);
+  $("mrrMirror").textContent = usd(D.revenue.mrr);
+  $("pipelineVal").textContent = usd(D.revenue.pipelineValue);
+  $("perfFee").textContent = usd(D.revenue.performanceFeeAccruing);
+  $("cashTarget30").textContent = usd(D.targets.thirtyDay.cashCollected);
+  $("cashTarget90").textContent = usd(D.targets.ninetyDay.cashCollected);
+  $("mrrTarget12").textContent = usd(D.targets.twelveMonth.monthlyRevenue);
+  setText("incomeTabCount", usd(D.revenue.cashCollected));
+
+  /* Sparklines */
+  function sparkline(svgId, values) {
+    const svg = $(svgId);
+    if (!svg) return;
+    const W = 100, H = 36, pad = 2;
+    const max = Math.max(1, ...values);
+    const stepX = (W - pad * 2) / (values.length - 1);
+    const pts = values.map((v, i) => {
+      const x = pad + i * stepX;
+      const y = H - pad - (v / max) * (H - pad * 2);
+      return [x, y];
+    });
+    const path = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
+    const fill = path + ` L ${W - pad},${H} L ${pad},${H} Z`;
+    svg.innerHTML = `
+      <path d="${fill}" fill="rgba(212,255,58,0.10)" stroke="none"/>
+      <path d="${path}" fill="none" stroke="#d4ff3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${pts.map(p => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4" fill="#d4ff3a"/>`).join("")}
+    `;
+  }
+  sparkline("sparkOutreach", D.trend30d.outreach);
+  sparkline("sparkCalls", D.trend30d.calls);
+  sparkline("sparkCash", D.trend30d.cash);
+  $("trendOutreachLast").textContent = fmt(D.trend30d.outreach[D.trend30d.outreach.length - 1]);
+  $("trendCallsLast").textContent = fmt(D.trend30d.calls[D.trend30d.calls.length - 1]);
+  $("trendCashLast").textContent = usd(D.trend30d.cash[D.trend30d.cash.length - 1]);
+
+  /* CRM */
+  $("clients").innerHTML = D.clients.map(c => `
+    <div class="client-row">
+      <div>
+        <div>${c.name}</div>
+        <div class="lesson">${c.lesson || ""}</div>
+      </div>
+      <span class="badge ${c.status}">${c.status}</span>
+    </div>
+  `).join("");
+
+  if (D.crmNote) {
+    const n = $("crmNote");
+    n.textContent = D.crmNote;
+    n.style.display = "block";
+  } else if ($("crmNote")) {
+    $("crmNote").style.display = "none";
+  }
+  }
+
+  const STATUSES = ["new","queued","researching","asset-built","contacted","replied","won","dead"];
+  const LS_KEY = "pulsify_crm_v1";
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) { return {}; }
+  }
+  function saveState(s) {
+    try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch (e) {}
+  }
+  let state = loadState();
+  state.overrides = state.overrides || {};   // name -> { status, batch, handle }
+  state.added = state.added || [];           // [{n,h,niche,dms,stage}]
+  state.removed = state.removed || [];       // [name]
+  let crmView = "board";
+
+  function basePros() {
+    const base = (D.crm && D.crm.prospects) || [];
+    return base.concat(state.added)
+      .filter(p => !state.removed.includes(p.n))
+      .map(p => {
+      const o = state.overrides[p.n] || {};
+      const stStatus = p.stage === "replied" ? "replied" : "new";
+      return {
+        n: p.n,
+        h: o.handle || p.h || "",
+        niche: p.niche || "—",
+        dms: p.dms || 0,
+        stage: p.stage,
+        status: o.status || stStatus,
+        batch: o.batch || 0
+      };
+    });
+  }
+  function setOverride(name, patch) {
+    state.overrides[name] = Object.assign({}, state.overrides[name], patch);
+    saveState(state);
+  }
+  function removeLead(name) {
+    if (!state.removed.includes(name)) state.removed.push(name);
+    state.added = state.added.filter(a => a.n !== name);
+    saveState(state);
+    renderCrm();
+  }
+  function restoreRemoved() {
+    state.removed = [];
+    saveState(state);
+    renderCrm();
+  }
+  function nextBatchNo() {
+    const max = Math.max(0, ...basePros().map(p => p.batch || 0));
+    // active batch = highest with any unworked; else new batch
+    return max + 1 > 0 ? max + 1 : 1;
+  }
+  function batchValues(P) {
+    const have = [...new Set(P.map(p => p.batch).filter(b => b > 0))].sort((a,b)=>a-b).map(String);
+    return ["", "0"].concat(have);
+  }
+  function batchLabel(value) {
+    if (value === "") return "All batches";
+    if (value === "0") return "Unassigned";
+    return "Batch " + value;
+  }
+  function setBatchFilter(value) {
+    const sel = $("crmBatchFilter");
+    if (!sel) return;
+    sel.value = value;
+    renderCrm();
+  }
+  function stepBatch(dir) {
+    const values = batchValues(basePros());
+    const sel = $("crmBatchFilter");
+    const cur = sel ? sel.value : "";
+    const at = Math.max(0, values.indexOf(cur));
+    const next = values[clamp(at + dir, 0, values.length - 1)];
+    setBatchFilter(next);
+  }
+  function undoLatestBatch() {
+    const P = basePros();
+    const latest = Math.max(0, ...P.map(p => p.batch || 0));
+    if (!latest) return;
+    P.filter(p => p.batch === latest).forEach(p => {
+      const nextStatus = p.status === "queued" ? (p.stage === "replied" ? "replied" : "new") : p.status;
+      setOverride(p.n, { batch: 0, status: nextStatus });
+    });
+    const sel = $("crmBatchFilter");
+    if (sel && sel.value === String(latest)) sel.value = "";
+    renderCrm();
+  }
+
+  function refreshKpis(P) {
+    const totalDms = P.reduce((s, p) => s + (p.dms || 0), 0);
+    const replied = P.filter(p => p.stage === "replied").length;
+    const activeMax = Math.max(0, ...P.map(p => p.batch || 0));
+    const inBatch = P.filter(p => p.batch === activeMax && activeMax > 0).length;
+    const unworked = P.filter(p => p.status === "new" || p.status === "queued").length;
+    $("crmTotal").textContent = fmt(P.length);
+    $("crmDms").textContent = fmt(totalDms);
+    $("crmReplies").textContent = fmt(replied);
+    $("crmReplyRate").textContent = P.length ? ((replied / P.length) * 100).toFixed(1) + "%" : "0%";
+    $("crmInBatch").textContent = fmt(inBatch);
+    $("crmUnworked").textContent = fmt(unworked);
+    $("crmNextBatch").textContent = nextBatchNo();
+    setText("crmBatchView", batchLabel(($("crmBatchFilter") && $("crmBatchFilter").value) || ""));
+  }
+  function statusColor(s) {
+    return ({ new:"var(--text-2)", queued:"var(--warn)", researching:"var(--warn)",
+      "asset-built":"var(--accent)", contacted:"var(--accent)", replied:"var(--success)",
+      won:"var(--success)", dead:"var(--danger)" })[s] || "var(--text-2)";
+  }
+  function renderCrmIntel(P) {
+    const nicheCounts = P.reduce((acc, p) => {
+      const k = cleanText(p.niche);
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    }, {});
+    const nicheItems = Object.entries(nicheCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([label, value], i) => ({ label, value, color: chartColors[i % chartColors.length] }));
+    renderDonut("crmNicheDonut", "crmNicheLegend", nicheItems, fmt(P.length), "leads");
+
+    const statusCounts = P.reduce((acc, p) => {
+      const k = p.status || "new";
+      acc[k] = (acc[k] || 0) + 1;
+      return acc;
+    }, {});
+    const statusOrder = ["new", "queued", "researching", "asset-built", "contacted", "replied", "won", "dead"];
+    const maxStatus = Math.max(1, ...Object.values(statusCounts));
+    if ($("crmStatusLanes")) {
+      $("crmStatusLanes").innerHTML = statusOrder
+        .filter(s => statusCounts[s])
+        .map((s, i) => {
+          const value = statusCounts[s] || 0;
+          const width = (value / maxStatus) * 100;
+          return `<div class="lane">
+            <div class="k">${esc(s)}</div>
+            <div class="track"><span style="width:${width}%;background:${chartColors[i % chartColors.length]}"></span></div>
+            <div class="num mono">${fmt(value)}</div>
+          </div>`;
+        }).join("");
+    }
+
+    const priority = P.slice().sort((a, b) => {
+      const score = (p) =>
+        (p.status === "replied" || p.stage === "replied" ? 100 : 0) +
+        (cleanText(p.niche) !== "Unknown" ? 12 : 0) +
+        (p.h ? 8 : 0) +
+        ((p.dms || 0) > 1 ? 4 : 0) -
+        (p.status === "dead" ? 80 : 0);
+      return score(b) - score(a);
+    }).slice(0, 5);
+    if ($("crmPriorityList")) {
+      $("crmPriorityList").innerHTML = priority.map(p => {
+        const action = (p.stage === "replied" || p.status === "replied")
+          ? "Reply with custom asset"
+          : "Research before retarget";
+        const handle = p.h ? `@${p.h}` : "open IG thread";
+        return `<div class="priority-lead">
+          <div>
+            <div class="name">${esc(p.n)}</div>
+            <div class="detail">${esc(handle)} - ${esc(cleanText(p.niche))} - ${esc(action)}</div>
+          </div>
+          <span class="badge ${p.status === "replied" ? "active" : ""}">${esc(p.status)}</span>
+        </div>`;
+      }).join("");
+    }
+    setText("crmTabCount", fmt(P.length));
+  }
+  function syncBatchFilter(P) {
+    const sel = $("crmBatchFilter");
+    if (!sel) return;
+    const have = batchValues(P).slice(2);
+    const cur = sel.value;
+    sel.innerHTML = `<option value="">All batches</option><option value="0">Unassigned</option>` +
+      have.map(b => `<option value="${b}">Batch ${b}</option>`).join("");
+    sel.value = batchValues(P).includes(cur) ? cur : "";
+    setText("crmBatchView", batchLabel(sel.value));
+  }
+  function crmFiltered() {
+    const P = basePros();
+    const q = ($("crmSearch").value || "").toLowerCase();
+    const stf = $("crmStatusFilter").value;
+    const bf = $("crmBatchFilter").value;
+    return P.filter(p =>
+      (!stf || p.status === stf) &&
+      (bf === "" || String(p.batch) === bf) &&
+      (!q || (p.n + " " + p.h + " " + p.niche).toLowerCase().includes(q)));
+  }
+
+  function renderCrmBoard(rows) {
+    const board = $("crmBoard");
+    if (!board) return;
+    board.innerHTML = STATUSES.map(s => {
+      const inCol = rows.filter(p => p.status === s);
+      const cards = inCol.map(p => {
+        const handle = p.h
+          ? `<a href="https://instagram.com/${p.h}" target="_blank">@${p.h}</a>`
+          : `<span style="color:var(--muted)">open thread</span>`;
+        return `<div class="kan-card" draggable="true" style="border-left-color:${statusColor(s)}" data-name="${encodeURIComponent(p.n)}">
+          <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
+          <div class="nm">${p.n}</div>
+          <div class="mt">${handle} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}</div>
+        </div>`;
+      }).join("");
+      return `<div class="kan-col" data-status="${s}">
+        <h4><span style="color:${statusColor(s)}">${s}</span><span class="cnt">${inCol.length}</span></h4>
+        ${cards || `<div style="color:var(--muted);font-size:11px;padding:6px 2px;font-style:italic">drop here</div>`}
+      </div>`;
+    }).join("");
+
+    let dragName = null;
+    board.querySelectorAll(".kan-card").forEach(card => {
+      card.addEventListener("dragstart", e => {
+        dragName = decodeURIComponent(card.dataset.name);
+        card.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+      });
+      card.addEventListener("dragend", () => card.classList.remove("dragging"));
+    });
+    board.querySelectorAll(".kan-col").forEach(col => {
+      col.addEventListener("dragover", e => { e.preventDefault(); col.classList.add("drag-over"); });
+      col.addEventListener("dragleave", () => col.classList.remove("drag-over"));
+      col.addEventListener("drop", e => {
+        e.preventDefault();
+        col.classList.remove("drag-over");
+        if (dragName) { setOverride(dragName, { status: col.dataset.status }); renderCrm(); }
+      });
+    });
+    board.querySelectorAll(".kan-del").forEach(b => {
+      b.addEventListener("click", e => {
+        e.stopPropagation();
+        removeLead(decodeURIComponent(b.dataset.del));
+      });
+    });
+  }
+
+  function renderCrmTable(rows) {
+    $("crmBody").innerHTML = rows.map((p, i) => {
+      const act = p.stage === "replied" ? "Reply w/ value asset · requalify" : "Research → build asset → re-DM";
+      const handle = p.h
+        ? `<a href="https://instagram.com/${p.h}" target="_blank" style="color:var(--cyan);text-decoration:none">@${p.h}</a>`
+        : `<span style="color:var(--muted)">— open thread</span>`;
+      const opts = STATUSES.map(s => `<option value="${s}"${s===p.status?" selected":""}>${s}</option>`).join("");
+      return `<tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:7px 10px;color:var(--muted)" class="mono">${i + 1}</td>
+        <td style="padding:7px 10px">${p.n}</td>
+        <td style="padding:7px 10px" class="mono">${handle}</td>
+        <td style="padding:7px 10px;color:var(--text-2)">${p.niche || "—"}</td>
+        <td style="padding:7px 10px;text-align:center" class="mono">${p.dms}</td>
+        <td style="padding:7px 10px">
+          <select data-name="${encodeURIComponent(p.n)}" class="crm-status mono" style="background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:${statusColor(p.status)};font:inherit;font-size:11px;padding:3px 6px">${opts}</select>
+        </td>
+        <td style="padding:7px 10px;text-align:center" class="mono">${p.batch || "—"}</td>
+        <td style="padding:7px 10px;color:var(--text-2)">${act}</td>
+        <td style="padding:7px 4px;text-align:center"><button class="row-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button></td>
+      </tr>`;
+    }).join("");
+    document.querySelectorAll(".crm-status").forEach(sel => {
+      sel.addEventListener("change", () => {
+        setOverride(decodeURIComponent(sel.dataset.name), { status: sel.value });
+        renderCrm();
+      });
+    });
+    document.querySelectorAll(".row-del").forEach(b => {
+      b.addEventListener("click", () => removeLead(decodeURIComponent(b.dataset.del)));
+    });
+  }
+
+  function renderCrm() {
+    const P = basePros();
+    refreshKpis(P);
+    renderCrmIntel(P);
+    syncBatchFilter(P);
+    const rows = crmFiltered();
+    $("crmEmpty").style.display = rows.length ? "none" : "block";
+    const onBoard = crmView === "board";
+    if ($("crmBoard")) $("crmBoard").style.display = onBoard ? "flex" : "none";
+    if ($("crmTableWrap")) $("crmTableWrap").style.display = onBoard ? "none" : "block";
+    if ($("viewBoard")) $("viewBoard").classList.toggle("active", onBoard);
+    if ($("viewTable")) $("viewTable").classList.toggle("active", !onBoard);
+    if (onBoard) renderCrmBoard(rows); else renderCrmTable(rows);
+    const rc = state.removed.length;
+    if ($("crmRemovedCount")) $("crmRemovedCount").textContent = rc;
+    if ($("crmRestore")) $("crmRestore").style.display = rc ? "inline-block" : "none";
+  }
+
+  async function refreshLiveData() {
+    if (location.protocol === "file:") {
+      setLiveStatus("snapshot only", "warn");
+      if ($("refreshStatus")) $("refreshStatus").textContent = "open localhost";
+      renderLivePanel();
+      return;
+    }
+
+    try {
+      if ($("refreshStatus")) $("refreshStatus").textContent = "pulling";
+      const res = await fetch(DATA_URL + "?t=" + Date.now(), { cache: "no-store" });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const next = await res.json();
+      D = applyMetricOverrides(deepMerge(parseEmbeddedData(), next));
+      lastLiveRefresh = new Date();
+      setLiveStatus("live JSON", "ok");
+      if ($("refreshStatus")) $("refreshStatus").textContent = Math.round(REFRESH_MS / 1000) + " sec";
+      renderDashboard();
+      renderCrm();
+    } catch (err) {
+      setLiveStatus("snapshot fallback", "warn");
+      if ($("refreshStatus")) $("refreshStatus").textContent = "JSON blocked";
+      renderLivePanel();
+      console.warn("Dashboard live refresh failed:", err);
+    }
+  }
+
+  if ($("viewBoard")) $("viewBoard").addEventListener("click", () => { crmView = "board"; renderCrm(); });
+  if ($("viewTable")) $("viewTable").addEventListener("click", () => { crmView = "table"; renderCrm(); });
+  if ($("crmRestore")) $("crmRestore").addEventListener("click", restoreRemoved);
+  $("crmSearch").addEventListener("input", renderCrm);
+  $("crmStatusFilter").addEventListener("change", renderCrm);
+  $("crmBatchFilter").addEventListener("change", renderCrm);
+  $("crmBatchPrev").addEventListener("click", () => stepBatch(-1));
+  $("crmBatchNext").addEventListener("click", () => stepBatch(1));
+  $("crmBatchClear").addEventListener("click", () => setBatchFilter(""));
+  $("crmUndoBatch").addEventListener("click", undoLatestBatch);
+  $("crmPromote").addEventListener("click", () => {
+    const P = basePros();
+    const bn = nextBatchNo();
+    P.filter(p => (p.status === "new" || p.status === "queued") && !p.batch)
+      .slice(0, 15)
+      .forEach(p => setOverride(p.n, { batch: bn, status: "queued" }));
+    if ($("crmBatchFilter")) $("crmBatchFilter").value = String(bn);
+    renderCrm();
+  });
+  $("metricSave").addEventListener("click", saveMetricInputs);
+  $("metricReset").addEventListener("click", resetMetricInputs);
+  $("contentAdd").addEventListener("click", addContentItem);
+  $("contentExport").addEventListener("click", exportContentCsv);
+  $("contentTitle").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") addContentItem();
+  });
+  $("qaAdd").addEventListener("click", () => {
+    const n = $("qaName").value.trim();
+    if (!n) return;
+    state.added.push({
+      n, h: $("qaHandle").value.trim().replace(/^@/, ""),
+      niche: $("qaNiche").value.trim() || "—", dms: 0, stage: "new-lead"
+    });
+    saveState(state);
+    $("qaName").value = $("qaHandle").value = $("qaNiche").value = "";
+    renderCrm();
+  });
+  $("crmExport").addEventListener("click", () => {
+    const P = basePros();
+    const head = ["name","handle","niche","dms","stage","status","batch"];
+    const csv = [head.join(",")].concat(P.map(p =>
+      [p.n, p.h, p.niche, p.dms, p.stage, p.status, p.batch]
+        .map(v => `"${String(v).replace(/"/g, '""')}"`).join(","))).join("\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+    a.download = "pulsify-crm-" + todayStr + ".csv";
+    a.click();
+  });
+  renderDashboard();
+  renderCrm();
+  refreshLiveData();
+  setInterval(refreshLiveData, REFRESH_MS);
+})();
+</script>
+
+</body>
+</html>
