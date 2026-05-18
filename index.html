@@ -2495,13 +2495,51 @@
       </div>
     </div>
     <div class="drawer-section">
-      <div class="sec-t">Connector status</div>
-      <div style="display:flex; flex-direction:column; gap:8px; color:var(--text-2); font-size:12.5px">
-        <div style="display:flex; justify-content:space-between"><span>YouTube Data API</span><span class="pill next">next</span></div>
-        <div style="display:flex; justify-content:space-between"><span>Instagram Graph API</span><span class="pill later">later</span></div>
-        <div style="display:flex; justify-content:space-between"><span>Cal.com bookings</span><span class="pill next">next</span></div>
-        <div style="display:flex; justify-content:space-between"><span>Typeform webhooks</span><span class="pill next">next</span></div>
-        <div style="display:flex; justify-content:space-between"><span>Stripe revenue</span><span class="pill later">later</span></div>
+      <div class="sec-t">API Connectors</div>
+      <div style="display:flex; flex-direction:column; gap:18px">
+
+        <!-- YouTube -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+            <span style="font-size:12px; font-weight:600; color:var(--text-2)">YouTube Data API</span>
+            <span class="pill next" id="pillYt">next</span>
+          </div>
+          <div class="drawer-field"><label for="apiYtKey">API Key</label><input id="apiYtKey" type="password" placeholder="AIzaSy…" autocomplete="off" /></div>
+          <div class="drawer-field" style="margin-top:8px"><label for="apiYtChannel">Channel ID</label><input id="apiYtChannel" type="text" placeholder="UCxxxxxxxxxxxxxxxxxx" autocomplete="off" /></div>
+        </div>
+
+        <!-- Instagram -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+            <span style="font-size:12px; font-weight:600; color:var(--text-2)">Instagram Graph API</span>
+            <span class="pill later" id="pillIg">later</span>
+          </div>
+          <div class="drawer-field"><label for="apiIgToken">Long-lived Access Token</label><input id="apiIgToken" type="password" placeholder="EAAxxxxxxxx…" autocomplete="off" /></div>
+        </div>
+
+        <!-- Cal.com -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+            <span style="font-size:12px; font-weight:600; color:var(--text-2)">Cal.com bookings</span>
+            <span class="pill next" id="pillCal">next</span>
+          </div>
+          <div class="drawer-field"><label for="apiCalKey">API Key</label><input id="apiCalKey" type="password" placeholder="cal_live_…" autocomplete="off" /></div>
+        </div>
+
+        <!-- Typeform -->
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px">
+            <span style="font-size:12px; font-weight:600; color:var(--text-2)">Typeform</span>
+            <span class="pill next" id="pillTf">next</span>
+          </div>
+          <div class="drawer-field"><label for="apiTfToken">Personal Token</label><input id="apiTfToken" type="password" placeholder="tfp_…" autocomplete="off" /></div>
+          <div class="drawer-field" style="margin-top:8px"><label for="apiTfFormId">Form ID</label><input id="apiTfFormId" type="text" placeholder="xxxxxxxx" autocomplete="off" /></div>
+        </div>
+
+      </div>
+      <div class="drawer-actions" style="margin-top:16px">
+        <button class="control-btn accent" id="apiSave">Save &amp; connect</button>
+        <button class="control-btn" id="apiRefreshBtn">Refresh now</button>
       </div>
     </div>
     <div class="drawer-section">
@@ -3862,6 +3900,134 @@
     if ($("crmBatchFilter")) $("crmBatchFilter").value = String(bn);
     renderCrm();
   });
+  // ── API Connectors ──────────────────────────────────────────────────────────
+  const API_KEYS_KEY = "pulsify_api_keys_v1";
+  function loadApiKeys() { try { return JSON.parse(localStorage.getItem(API_KEYS_KEY)) || {}; } catch(e) { return {}; } }
+  function saveApiKeys(k) { try { localStorage.setItem(API_KEYS_KEY, JSON.stringify(k)); } catch(e) {} }
+  let apiKeys = loadApiKeys();
+
+  function setConnPill(id, status) {
+    const el = $(id);
+    if (!el) return;
+    el.className = "pill " + status;
+    el.textContent = status;
+  }
+
+  function populateApiInputs() {
+    if ($("apiYtKey"))     $("apiYtKey").value     = apiKeys.ytApiKey    || "";
+    if ($("apiYtChannel")) $("apiYtChannel").value = apiKeys.ytChannelId || "";
+    if ($("apiIgToken"))   $("apiIgToken").value   = apiKeys.igToken     || "";
+    if ($("apiCalKey"))    $("apiCalKey").value     = apiKeys.calApiKey   || "";
+    if ($("apiTfToken"))   $("apiTfToken").value    = apiKeys.tfToken     || "";
+    if ($("apiTfFormId"))  $("apiTfFormId").value   = apiKeys.tfFormId    || "";
+  }
+
+  async function fetchYouTube() {
+    const { ytApiKey, ytChannelId } = apiKeys;
+    if (!ytApiKey || !ytChannelId) return;
+    try {
+      const res = await fetch(
+        `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${encodeURIComponent(ytChannelId)}&key=${encodeURIComponent(ytApiKey)}`
+      );
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      const s = json.items?.[0]?.statistics;
+      if (!s) throw new Error("no stats returned");
+      if (s.subscriberCount !== undefined) D.content.ytSubs = parseInt(s.subscriberCount);
+      if (s.videoCount !== undefined && !D.content.longFormShipped) D.content.longFormShipped = parseInt(s.videoCount);
+      setConnPill("pillYt", "live");
+    } catch(e) {
+      console.warn("[YT]", e.message);
+      setConnPill("pillYt", "next");
+    }
+  }
+
+  async function fetchInstagram() {
+    const { igToken } = apiKeys;
+    if (!igToken) return;
+    try {
+      const res = await fetch(
+        `https://graph.instagram.com/me?fields=followers_count,media_count&access_token=${encodeURIComponent(igToken)}`
+      );
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      if (json.error) throw new Error(json.error.message);
+      if (json.followers_count !== undefined) D.content.igFollowers    = json.followers_count;
+      if (json.media_count     !== undefined) D.content.igReelsShipped = json.media_count;
+      setConnPill("pillIg", "live");
+    } catch(e) {
+      console.warn("[IG]", e.message);
+      setConnPill("pillIg", "later");
+    }
+  }
+
+  async function fetchCalcom() {
+    const { calApiKey } = apiKeys;
+    if (!calApiKey) return;
+    try {
+      const from = new Date(Date.now() - 30 * 864e5).toISOString();
+      const res = await fetch(
+        `https://api.cal.com/v1/bookings?apiKey=${encodeURIComponent(calApiKey)}&status=accepted&dateFrom=${encodeURIComponent(from)}`
+      );
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      const bookings = json.bookings || [];
+      D.funnel.calBookings  = bookings.length;
+      D.pipeline.callBooked = bookings.length;
+      D.pipeline.callHeld   = bookings.filter(b => new Date(b.startTime) < new Date()).length;
+      setConnPill("pillCal", "live");
+    } catch(e) {
+      console.warn("[Cal]", e.message);
+      setConnPill("pillCal", "next");
+    }
+  }
+
+  async function fetchTypeform() {
+    const { tfToken, tfFormId } = apiKeys;
+    if (!tfToken || !tfFormId) return;
+    try {
+      const res = await fetch(
+        `https://api.typeform.com/forms/${encodeURIComponent(tfFormId)}/responses?page_size=1`,
+        { headers: { "Authorization": "Bearer " + tfToken } }
+      );
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      if (json.total_items !== undefined) {
+        D.funnel.typeformCompletes = json.total_items;
+        if (D.funnel.typeformStarts < json.total_items) D.funnel.typeformStarts = json.total_items;
+      }
+      setConnPill("pillTf", "live");
+    } catch(e) {
+      console.warn("[TF]", e.message);
+      setConnPill("pillTf", "next");
+    }
+  }
+
+  async function fetchAllApis() {
+    await Promise.allSettled([fetchYouTube(), fetchInstagram(), fetchCalcom(), fetchTypeform()]);
+    renderDashboard();
+  }
+
+  function saveApiInputs() {
+    apiKeys = {
+      ytApiKey:    ($("apiYtKey")?.value     || "").trim(),
+      ytChannelId: ($("apiYtChannel")?.value || "").trim(),
+      igToken:     ($("apiIgToken")?.value   || "").trim(),
+      calApiKey:   ($("apiCalKey")?.value    || "").trim(),
+      tfToken:     ($("apiTfToken")?.value   || "").trim(),
+      tfFormId:    ($("apiTfFormId")?.value  || "").trim(),
+    };
+    saveApiKeys(apiKeys);
+    fetchAllApis();
+  }
+
+  if ($("apiSave"))       $("apiSave").addEventListener("click", saveApiInputs);
+  if ($("apiRefreshBtn")) $("apiRefreshBtn").addEventListener("click", fetchAllApis);
+  populateApiInputs();
+  fetchAllApis();
+  setInterval(fetchAllApis, 5 * 60 * 1000);
+  // ── end API Connectors ───────────────────────────────────────────────────────
+
   $("metricSave").addEventListener("click", saveMetricInputs);
   $("metricReset").addEventListener("click", resetMetricInputs);
   $("contentAdd").addEventListener("click", addContentItem);
