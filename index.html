@@ -697,11 +697,15 @@
     font-family: "Instrument Serif", serif;
     font-style: italic;
   }
+  .span-2 { grid-column: span 2; }
+  .span-3 { grid-column: span 3; }
   .span-4 { grid-column: span 4; }
   .span-5 { grid-column: span 5; }
   .span-6 { grid-column: span 6; }
   .span-7 { grid-column: span 7; }
   .span-8 { grid-column: span 8; }
+  .span-9 { grid-column: span 9; }
+  .span-10 { grid-column: span 10; }
   .span-12 { grid-column: span 12; }
 
   .cockpit-grid {
@@ -1331,10 +1335,10 @@
   }
   .production-board {
     display: grid;
-    grid-template-columns: repeat(7, minmax(210px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(7, minmax(252px, 1fr));
+    gap: 16px;
     overflow-x: auto;
-    padding-bottom: 12px;
+    padding-bottom: 14px;
     scrollbar-width: thin;
     scrollbar-color: var(--accent) rgba(255,255,255,0.05);
   }
@@ -1342,8 +1346,8 @@
   .production-board::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 3px; }
   .production-board::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
   .prod-stage {
-    min-width: 210px;
-    min-height: 460px;
+    min-width: 252px;
+    min-height: 480px;
     background: rgba(255,255,255,0.028);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 12px;
@@ -1636,7 +1640,12 @@
     padding: 3px 9px;
   }
   .journey-strip .jarrow { color: var(--accent); font-weight: 700; }
-  .loop-list { display: flex; flex-direction: column; gap: 9px; counter-reset: loop; }
+  .fw-card { min-height: 340px; }
+  .fw-card .stat-list,
+  .fw-card .loop-list,
+  .fw-card .pillar-list { flex: 1; }
+  .fw-card .stat-row { padding: 12px 0; }
+  .loop-list { display: flex; flex-direction: column; gap: 9px; counter-reset: loop; justify-content: space-between; }
   .loop-row {
     display: flex;
     gap: 11px;
@@ -1998,7 +2007,7 @@
   .kan-del { position: absolute; top: 6px; right: 5px; }
 
   @media (max-width: 1100px) {
-    .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: span 12; }
+    .span-2, .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9, .span-10 { grid-column: span 12; }
     .live-strip { grid-template-columns: repeat(2, 1fr); }
     .cockpit-grid, .plan-hero { grid-template-columns: 1fr; }
     .metric-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2322,7 +2331,7 @@
       <div class="insight-list" id="contentGaps"></div>
     </div>
 
-    <div class="card span-5">
+    <div class="card fw-card span-4">
       <h2>Content funnel <span class="meta">TOF → MOF → BOF · Alexei</span></h2>
       <div class="stat-list">
         <div class="stat-row"><span class="name">TOF — Attract <span class="vs">wow not how, break a belief</span></span><span class="num mono" id="tofCount">0</span></div>
@@ -2332,12 +2341,12 @@
       <div class="journey-strip" id="journeyStrip"></div>
     </div>
 
-    <div class="card span-4">
+    <div class="card fw-card span-4">
       <h2>The loop <span class="meta">Alexei's 5-step system</span></h2>
       <div class="loop-list" id="loopList"></div>
     </div>
 
-    <div class="card span-3">
+    <div class="card fw-card span-4">
       <h2>Pillars <span class="meta">every video → one</span></h2>
       <div class="pillar-list" id="pillarList"></div>
     </div>
