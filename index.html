@@ -42,6 +42,8 @@
 
   * { box-sizing: border-box; }
   html, body { background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+  select { color-scheme: dark; }
+  select option { background: #0e0e14; color: #e8e8f0; }
   body {
     font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     font-size: 14px;
@@ -1289,6 +1291,12 @@
     font-size: 14px;
     padding: 11px 13px;
     transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+    color-scheme: dark;
+  }
+  .prod-field select option,
+  .video-card select option {
+    background: #0e0e14;
+    color: #e8e8f0;
   }
   .prod-field input::placeholder { color: #8f8f9d; }
   .prod-field input:focus,
@@ -1323,14 +1331,19 @@
   }
   .production-board {
     display: grid;
-    grid-template-columns: repeat(7, minmax(170px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(7, minmax(210px, 1fr));
+    gap: 14px;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) rgba(255,255,255,0.05);
   }
+  .production-board::-webkit-scrollbar { height: 6px; }
+  .production-board::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 3px; }
+  .production-board::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
   .prod-stage {
-    min-width: 192px;
-    min-height: 340px;
+    min-width: 210px;
+    min-height: 460px;
     background: rgba(255,255,255,0.028);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 12px;
