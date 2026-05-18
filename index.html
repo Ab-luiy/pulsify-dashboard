@@ -2505,7 +2505,7 @@
             <span class="pill next" id="pillYt">next</span>
           </div>
           <div class="drawer-field"><label for="apiYtKey">API Key</label><input id="apiYtKey" type="password" placeholder="AIzaSy…" autocomplete="off" /></div>
-          <div class="drawer-field" style="margin-top:8px"><label for="apiYtChannel">Channel ID</label><input id="apiYtChannel" type="text" placeholder="UCxxxxxxxxxxxxxxxxxx" autocomplete="off" /></div>
+          <div class="drawer-field" style="margin-top:8px"><label for="apiYtChannel">Channel ID or handle</label><input id="apiYtChannel" type="text" placeholder="UCxxx… or ABLuiy" autocomplete="off" /></div>
         </div>
 
         <!-- Instagram -->
@@ -3926,8 +3926,10 @@
     const { ytApiKey, ytChannelId } = apiKeys;
     if (!ytApiKey || !ytChannelId) return;
     try {
+      const val = ytChannelId.replace(/^@/, "");
+      const param = val.startsWith("UC") ? `id=${encodeURIComponent(val)}` : `forHandle=${encodeURIComponent(val)}`;
       const res = await fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${encodeURIComponent(ytChannelId)}&key=${encodeURIComponent(ytApiKey)}`
+        `https://www.googleapis.com/youtube/v3/channels?part=statistics&${param}&key=${encodeURIComponent(ytApiKey)}`
       );
       if (!res.ok) throw new Error("HTTP " + res.status);
       const json = await res.json();
