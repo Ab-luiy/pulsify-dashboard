@@ -1608,6 +1608,75 @@
     margin-left: 6px;
     font-weight: 400;
   }
+  .stat-row .name .vs {
+    display: block;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    margin-top: 2px;
+  }
+  .journey-strip {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+  .journey-strip .jstep {
+    color: var(--text-2);
+    font-weight: 600;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 3px 9px;
+  }
+  .journey-strip .jarrow { color: var(--accent); font-weight: 700; }
+  .loop-list { display: flex; flex-direction: column; gap: 9px; counter-reset: loop; }
+  .loop-row {
+    display: flex;
+    gap: 11px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .loop-row:last-child { border-bottom: 0; }
+  .loop-row::before {
+    counter-increment: loop;
+    content: counter(loop);
+    flex: 0 0 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--border-strong);
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loop-row.done::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .loop-row .lstep { font-size: 13px; font-weight: 600; color: var(--text); }
+  .loop-row .lnote { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .pillar-list { display: flex; flex-direction: column; gap: 10px; }
+  .pillar-row {
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .pillar-row:last-child { border-bottom: 0; }
+  .pillar-row .ptop { display: flex; justify-content: space-between; align-items: baseline; }
+  .pillar-row .pname { font-size: 12.5px; font-weight: 600; color: var(--text); }
+  .pillar-row .pcount { font-size: 13px; font-weight: 600; color: var(--accent); font-family: "JetBrains Mono", ui-monospace, monospace; }
+  .pillar-row .pnote { font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
 
   .funnel { display: flex; flex-direction: column; gap: 6px; }
   .funnel .stage {
@@ -2196,30 +2265,36 @@
 <section class="tab-panel" id="tab-content">
   <div class="grid">
     <div class="card span-12">
-      <h2>Headline metrics <span class="meta">YouTube + Instagram</span></h2>
+      <h2>What actually matters <span class="meta">calls per video &gt; views — Ayman + Alexei</span></h2>
       <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
-        <div class="kpi"><div class="k">YT subs</div><div class="v mono large" id="ytSubs">0</div><div class="delta"><span id="ytSubsTarget">0</span> by Day 90</div></div>
-        <div class="kpi"><div class="k">Long-form shipped</div><div class="v mono large" id="longForm">0</div><div class="delta">12 by Day 90</div></div>
-        <div class="kpi"><div class="k">IG followers</div><div class="v mono large" id="igFollowers">0</div></div>
-        <div class="kpi"><div class="k">IG reach (30d)</div><div class="v mono large" id="igReach">0</div></div>
+        <div class="kpi"><div class="k">Calls / video</div><div class="v mono large" id="callsPerVideo">0</div><div class="delta">the only honest metric</div></div>
+        <div class="kpi"><div class="k">Videos live</div><div class="v mono large" id="longForm">0</div><div class="delta"><span id="funnelSplit">0·0·0</span> TOF·MOF·BOF</div></div>
+        <div class="kpi"><div class="k">Rev / 100 views</div><div class="v mono large" id="revPer100">$0</div><div class="delta">target $800–$1,200</div></div>
+        <div class="kpi"><div class="k">YT subs</div><div class="v mono large" id="ytSubs">0</div><div class="delta">vanity — <span id="ytSubsTarget">0</span> by Day 90</div></div>
       </div>
     </div>
 
     <div class="card span-12">
-      <h2>Content production pipeline <span class="meta">drag a video across stages — idea → script → filmed → posted → redistributed</span></h2>
+      <h2>Content production pipeline <span class="meta">every video tagged TOF/MOF/BOF + pillar — idea → script → filmed → posted → redistributed</span></h2>
       <div class="production-toolbar">
         <div class="prod-field">
           <label for="contentTitle">Video idea / title</label>
           <input id="contentTitle" placeholder="e.g. Why coaching content stopped converting" />
         </div>
         <div class="prod-field">
-          <label for="contentType">Format</label>
+          <label for="contentType">Pillar</label>
           <select id="contentType">
-            <option value="YouTube long-form">YouTube long-form</option>
-            <option value="Short-form">Short-form</option>
-            <option value="Instagram reel">Instagram reel</option>
-            <option value="Story sequence">Story sequence</option>
-            <option value="Email">Email</option>
+            <option value="Concept breakdown">Concept breakdown</option>
+            <option value="Case study">Case study</option>
+            <option value="Belief breakdown">Belief breakdown</option>
+          </select>
+        </div>
+        <div class="prod-field">
+          <label for="contentLayer">Funnel layer</label>
+          <select id="contentLayer">
+            <option value="TOF">TOF — Attract</option>
+            <option value="MOF">MOF — Nurture</option>
+            <option value="BOF">BOF — Convert</option>
           </select>
         </div>
         <div class="prod-field">
@@ -2247,22 +2322,33 @@
       <div class="insight-list" id="contentGaps"></div>
     </div>
 
-    <div class="card span-6">
-      <h2>YouTube <span class="meta">long-form first</span></h2>
+    <div class="card span-5">
+      <h2>Content funnel <span class="meta">TOF → MOF → BOF · Alexei</span></h2>
       <div class="stat-list">
-        <div class="stat-row"><span class="name">Subs</span><span class="num mono"><span id="ytSubsMirror">0</span><span class="vs">of <span id="ytSubsTargetMirror">100</span></span></span></div>
-        <div class="stat-row"><span class="name">Long-form shipped</span><span class="num mono" id="longFormMirror">0</span></div>
-        <div class="stat-row"><span class="name">Shorts shipped</span><span class="num mono" id="shorts">0</span></div>
+        <div class="stat-row"><span class="name">TOF — Attract <span class="vs">wow not how, break a belief</span></span><span class="num mono" id="tofCount">0</span></div>
+        <div class="stat-row"><span class="name">MOF — Nurture <span class="vs">proof + depth, calls start here</span></span><span class="num mono" id="mofCount">0</span></div>
+        <div class="stat-row"><span class="name">BOF — Convert <span class="vs">every BOF = a VSL</span></span><span class="num mono" id="bofCount">0</span></div>
       </div>
+      <div class="journey-strip" id="journeyStrip"></div>
     </div>
 
-    <div class="card span-6">
-      <h2>Instagram <span class="meta">stories + reels + profile</span></h2>
-      <div class="stat-list">
-        <div class="stat-row"><span class="name">Followers</span><span class="num mono" id="igFollowersMirror">0</span></div>
-        <div class="stat-row"><span class="name">Reels shipped</span><span class="num mono" id="igReels">0</span></div>
-        <div class="stat-row"><span class="name">Story frames (this week)</span><span class="num mono" id="igStories">0</span></div>
-        <div class="stat-row"><span class="name">Reach (30d)</span><span class="num mono" id="igReachMirror">0</span></div>
+    <div class="card span-4">
+      <h2>The loop <span class="meta">Alexei's 5-step system</span></h2>
+      <div class="loop-list" id="loopList"></div>
+    </div>
+
+    <div class="card span-3">
+      <h2>Pillars <span class="meta">every video → one</span></h2>
+      <div class="pillar-list" id="pillarList"></div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Instagram <span class="meta">repurpose layer — trails YouTube, never replaces it</span></h2>
+      <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
+        <div class="kpi"><div class="k">Followers</div><div class="v mono" id="igFollowersMirror">0</div></div>
+        <div class="kpi"><div class="k">Reels shipped</div><div class="v mono" id="igReels">0</div></div>
+        <div class="kpi"><div class="k">Story frames (wk)</div><div class="v mono" id="igStories">0</div></div>
+        <div class="kpi"><div class="k">Reach (30d)</div><div class="v mono" id="igReachMirror">0</div></div>
       </div>
     </div>
   </div>
@@ -2577,7 +2663,21 @@
     "ytSubs": 0, "ytSubsTarget": 100,
     "longFormShipped": 0, "shortsShipped": 0,
     "igFollowers": 0, "igReelsShipped": 0,
-    "igStoriesThisWeek": 0, "igReach30d": 0
+    "igStoriesThisWeek": 0, "igReach30d": 0,
+    "callsFromContent": 0, "revPer100Views": 0,
+    "funnel": { "tof": 0, "mof": 0, "bof": 0 },
+    "pillars": [
+      { "name": "Concept breakdown", "note": "How a piece of the mechanism works — Miro-style", "videos": 0 },
+      { "name": "Case study", "note": "Documented proof someone hit X with the mechanism", "videos": 0 },
+      { "name": "Belief breakdown", "note": "Reframe the assumptions keeping coaches stuck", "videos": 0 }
+    ],
+    "loop": [
+      { "step": "Detect market outliers", "note": "Concept · packaging · hook · authority", "status": "next" },
+      { "step": "Create the exceptional video", "note": "Market angle · story · unique mechanism", "status": "next" },
+      { "step": "Content funnel + 3 CTAs", "note": "Indirect · soft · hard, every video", "status": "next" },
+      { "step": "Landing page", "note": "Headline + Cal link, pre-sold", "status": "next" },
+      { "step": "Data tracking", "note": "Calls per video — where every call came from", "status": "next" }
+    ]
   },
   "contentProduction": {
     "stages": [
@@ -2590,7 +2690,7 @@
       { "id": "redistributed", "label": "Redistributed", "automation": "Clips, stories, email, CRM proof bank" }
     ],
     "items": [
-      { "id": "first-youtube-long-form", "title": "First YouTube long-form", "type": "YouTube long-form", "stage": "ideated", "owner": "AB", "notes": "Main authority piece for the inbound engine." }
+      { "id": "first-youtube-long-form", "title": "First TOF — break the belief that YouTube doesn't work for coaches", "type": "TOF · Belief breakdown", "layer": "TOF", "pillar": "Belief breakdown", "stage": "ideated", "owner": "AB", "notes": "Wow not how. Open loop into the first MOF. Reference the unique mechanism." }
     ]
   },
   "funnel": {
@@ -3088,7 +3188,7 @@
     const moves = [];
     if (replied > 0 && D.pipeline.callBooked === 0) moves.push({ title: "Convert warm replies into calls", body: "Open the five replies, requalify, and send one custom value asset each.", tag: "Sales", tone: "danger" });
     if (firstGap) moves.push({ title: "Finish the next funnel blocker", body: firstGap.item, tag: "Funnel", tone: "warn" });
-    if (D.content.longFormShipped === 0) moves.push({ title: "Ship the first YouTube long-form", body: "Inbound content is the compounding engine. The dashboard should measure it daily.", tag: "Content", tone: "info" });
+    if ((D.content.longFormShipped || 0) === 0) moves.push({ title: "Ship the first TOF video", body: "Wow not how, break a belief, open a loop into MOF. It's an execution problem, not a knowledge one.", tag: "Content", tone: "info" });
     if (unworked > 0) moves.push({ title: "Pull a focused retarget batch", body: `There are ${fmt(unworked)} unworked CRM leads. Work 15 at a time.`, tag: "CRM" });
     renderInsightRows("nextMoves", moves.slice(0, 5));
   }
@@ -3104,13 +3204,16 @@
       { label: "Current shipped", color: chartColors[0] },
       { label: "Target pace", color: chartColors[1] }
     ]);
+    const cf = D.content.funnel || { tof: 0, mof: 0, bof: 0 };
+    const live = D.content.longFormShipped || (cf.tof + cf.mof + cf.bof) || 0;
     const gaps = [];
-    if (D.content.longFormShipped === 0) gaps.push({ title: "No long-form shipped", body: "The site should make this impossible to ignore. YouTube is the main revenue engine.", tag: "Core", tone: "danger" });
-    if (D.content.shortsShipped === 0) gaps.push({ title: "No repurposing layer", body: "Shorts should trail long-form, not replace it.", tag: "Repurpose", tone: "warn" });
-    if (D.content.igStoriesThisWeek === 0) gaps.push({ title: "Stories are quiet", body: "Use stories for proof, behind-the-scenes, objection handling, and call-to-action loops.", tag: "IG", tone: "info" });
-    if (D.content.igReach30d === 0) gaps.push({ title: "Reach source missing", body: "Connect Instagram or add a weekly manual input so the trend has a pulse.", tag: "Data" });
+    if (live === 0) gaps.push({ title: "No video live", body: "The execution problem, not the knowledge problem. Ship the first TOF.", tag: "Core", tone: "danger" });
+    if (cf.bof === 0 && live > 0) gaps.push({ title: "No BOF / proof", body: "Every BOF video is a VSL. Without it the journey has no convert layer.", tag: "Convert", tone: "danger" });
+    if (cf.tof > 0 && cf.mof === 0) gaps.push({ title: "TOF with no MOF", body: "1 TOF → 2–3 MOF → 1 BOF. TOF alone attracts but never nurtures to a call.", tag: "Journey", tone: "warn" });
+    if ((D.content.callsFromContent || 0) === 0 && live > 0) gaps.push({ title: "Flying blind", body: "No calls tracked to content. Without tracking, views are deceptive.", tag: "Tracking", tone: "warn" });
+    if (D.content.igStoriesThisWeek === 0) gaps.push({ title: "Repurpose layer quiet", body: "Stories trail YouTube — proof, BTS, objection handling. Never replace long-form.", tag: "IG", tone: "info" });
     renderInsightRows("contentGaps", gaps.slice(0, 4));
-    setText("contentTabCount", fmt(D.content.longFormShipped || 0));
+    setText("contentTabCount", fmt(live));
   }
 
   const metricInputs = [
@@ -3172,7 +3275,9 @@
       return Object.assign({
         id,
         title: "Untitled video",
-        type: "YouTube long-form",
+        type: "TOF · Concept breakdown",
+        layer: "TOF",
+        pillar: "Concept breakdown",
         stage: "ideated",
         owner: "AB",
         notes: ""
@@ -3320,10 +3425,14 @@
     const title = ($("contentTitle").value || "").trim();
     if (!title) return;
     const id = slugify(title) + "-" + Date.now().toString(36);
+    const pillar = $("contentType").value || "Concept breakdown";
+    const layer = ($("contentLayer") && $("contentLayer").value) || "TOF";
     contentPipelineState.added.push({
       id,
       title,
-      type: $("contentType").value || "YouTube long-form",
+      type: `${layer} · ${pillar}`,
+      layer,
+      pillar,
       stage: $("contentStartStage").value || contentStages()[0].id,
       owner: "AB",
       notes: "Created from dashboard."
@@ -3333,7 +3442,7 @@
     renderContentProduction();
   }
   function exportContentCsv() {
-    const head = ["id","title","type","stage","owner","notes"];
+    const head = ["id","title","layer","pillar","type","stage","owner","notes"];
     const csv = [head.join(",")].concat(contentItems().map(item =>
       head.map(k => `"${String(item[k] || "").replace(/"/g, '""')}"`).join(",")
     )).join("\n");
@@ -3454,20 +3563,46 @@
     </div>
   `;
 
-  /* Content */
-  $("ytSubs").textContent = fmt(D.content.ytSubs);
-  $("ytSubsMirror").textContent = fmt(D.content.ytSubs);
-  $("ytSubsTarget").textContent = fmt(D.content.ytSubsTarget);
-  $("ytSubsTargetMirror").textContent = fmt(D.content.ytSubsTarget);
-  $("longForm").textContent = fmt(D.content.longFormShipped);
-  $("longFormMirror").textContent = fmt(D.content.longFormShipped);
-  $("shorts").textContent = fmt(D.content.shortsShipped);
-  $("igFollowers").textContent = fmt(D.content.igFollowers);
-  $("igFollowersMirror").textContent = fmt(D.content.igFollowers);
-  $("igReach").textContent = fmt(D.content.igReach30d);
-  $("igReachMirror").textContent = fmt(D.content.igReach30d);
-  $("igReels").textContent = fmt(D.content.igReelsShipped);
-  $("igStories").textContent = fmt(D.content.igStoriesThisWeek);
+  /* Content — the YouTube system (Ayman + Alexei) */
+  const cf = D.content.funnel || { tof: 0, mof: 0, bof: 0 };
+  const videosLive = D.content.longFormShipped || (cf.tof + cf.mof + cf.bof) || 0;
+  const callsFromContent = D.content.callsFromContent || 0;
+  const cpv = videosLive ? (callsFromContent / videosLive) : 0;
+  setText("callsPerVideo", videosLive ? (Math.round(cpv * 100) / 100).toString() : "0");
+  setText("longForm", fmt(videosLive));
+  setText("funnelSplit", `${cf.tof}·${cf.mof}·${cf.bof}`);
+  setText("revPer100", usd(D.content.revPer100Views || 0));
+  setText("ytSubs", fmt(D.content.ytSubs));
+  setText("ytSubsTarget", fmt(D.content.ytSubsTarget));
+  setText("tofCount", fmt(cf.tof));
+  setText("mofCount", fmt(cf.mof));
+  setText("bofCount", fmt(cf.bof));
+  if ($("journeyStrip")) {
+    const j = ["1 TOF", "2–3 MOF", "1 BOF", "Landing page", "Booked call"];
+    $("journeyStrip").innerHTML = j.map((s, i) =>
+      `<span class="jstep">${s}</span>${i < j.length - 1 ? '<span class="jarrow">→</span>' : ''}`
+    ).join("");
+  }
+  if ($("loopList")) {
+    $("loopList").innerHTML = (D.content.loop || []).map(l => {
+      const done = l.status === "done" || l.status === "live";
+      return `<div class="loop-row ${done ? "done" : ""}">
+        <div><div class="lstep">${esc(l.step)}</div><div class="lnote">${esc(l.note)}</div></div>
+      </div>`;
+    }).join("");
+  }
+  if ($("pillarList")) {
+    $("pillarList").innerHTML = (D.content.pillars || []).map(p =>
+      `<div class="pillar-row">
+        <div class="ptop"><span class="pname">${esc(p.name)}</span><span class="pcount">${fmt(p.videos || 0)}</span></div>
+        <div class="pnote">${esc(p.note)}</div>
+      </div>`
+    ).join("");
+  }
+  setText("igFollowersMirror", fmt(D.content.igFollowers));
+  setText("igReachMirror", fmt(D.content.igReach30d));
+  setText("igReels", fmt(D.content.igReelsShipped));
+  setText("igStories", fmt(D.content.igStoriesThisWeek));
   renderContentPanel();
   hydrateMetricInputs();
   renderContentProduction();
