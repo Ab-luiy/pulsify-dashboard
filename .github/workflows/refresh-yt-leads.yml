@@ -1,0 +1,44 @@
+name: Refresh YT Leads (weekly)
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC (~02:00 EST / ~09:00 GMT)
+    - cron: "0 6 * * 1"
+  workflow_dispatch:  # also runnable manually from GitHub UI
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # to commit + push the refreshed JSON / HTML
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scrape YT leads
+        env:
+          YT_API_KEY: ${{ secrets.YT_API_KEY }}
+        run: |
+          python tools/scrape_yt_leads.py
+
+      - name: Inject leads into index.html
+        run: |
+          python tools/inject_yt_leads.py
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "pulsify-bot"
+          git config user.email "bot@pulsify.local"
+          if git diff --quiet -- yt_leads.json yt_leads_meta.json index.html; then
+            echo "No lead changes — skipping commit."
+            exit 0
+          fi
+          git add yt_leads.json yt_leads_meta.json index.html
+          COUNT=$(python -c "import json; print(len(json.load(open('yt_leads.json'))))")
+          git commit -m "Refresh YT leads: ${COUNT} entries ($(date -u +%Y-%m-%d))"
+          git push
