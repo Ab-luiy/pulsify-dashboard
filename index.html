@@ -2728,19 +2728,19 @@
           <div class="pv-body"><div class="pv-name">Perplexity Compression</div><div class="pv-meta">Voice + mechanism extract</div></div>
           <div class="pv-flash">Copied</div>
         </button>
-        <button class="pv-btn" data-prompt="outreach-dm">
+        <button class="pv-btn" data-prompt="outreach-asset">
           <div class="pv-ico">✉️</div>
-          <div class="pv-body"><div class="pv-name">Outreach DM</div><div class="pv-meta">Diagnosis-led cold open</div></div>
+          <div class="pv-body"><div class="pv-name">Outreach DM</div><div class="pv-meta">pick DM in asset slot</div></div>
           <div class="pv-flash">Copied</div>
         </button>
-        <button class="pv-btn" data-prompt="vsl">
+        <button class="pv-btn" data-prompt="outreach-asset">
           <div class="pv-ico">🎬</div>
-          <div class="pv-body"><div class="pv-name">VSL Script</div><div class="pv-meta">Personalized video sales letter</div></div>
+          <div class="pv-body"><div class="pv-name">VSL Script</div><div class="pv-meta">pick VSL in asset slot</div></div>
           <div class="pv-flash">Copied</div>
         </button>
-        <button class="pv-btn" data-prompt="email-sequence">
+        <button class="pv-btn" data-prompt="outreach-asset">
           <div class="pv-ico">📨</div>
-          <div class="pv-body"><div class="pv-name">Email Sequence</div><div class="pv-meta">1 / 3 / 5 email cold</div></div>
+          <div class="pv-body"><div class="pv-name">Email</div><div class="pv-meta">pick email in asset slot</div></div>
           <div class="pv-flash">Copied</div>
         </button>
         <button class="pv-btn" data-prompt="landing-design">
@@ -2748,14 +2748,14 @@
           <div class="pv-body"><div class="pv-name">Landing Page Design</div><div class="pv-meta">Claude structure + layout</div></div>
           <div class="pv-flash">Copied</div>
         </button>
-        <button class="pv-btn" data-prompt="loom-script">
+        <button class="pv-btn" data-prompt="outreach-asset">
           <div class="pv-ico">🎙️</div>
-          <div class="pv-body"><div class="pv-name">Loom Script</div><div class="pv-meta">90-second personalized</div></div>
+          <div class="pv-body"><div class="pv-name">Loom Script</div><div class="pv-meta">pick Loom in asset slot</div></div>
           <div class="pv-flash">Copied</div>
         </button>
-        <button class="pv-btn" data-prompt="landing-copy">
+        <button class="pv-btn" data-prompt="outreach-asset">
           <div class="pv-ico">📝</div>
-          <div class="pv-body"><div class="pv-name">Landing Copy</div><div class="pv-meta">Headline + body pass</div></div>
+          <div class="pv-body"><div class="pv-name">Landing Copy</div><div class="pv-meta">pick landing copy in asset slot</div></div>
           <div class="pv-flash">Copied</div>
         </button>
         <button class="pv-btn" data-prompt="prospect-profile">
@@ -2766,7 +2766,7 @@
       </div>
     </div>
 
-    <!-- Prompt content (kept out of JS to avoid escape hell) -->
+    <!-- Prompt content — verbatim from raw-sources/prompts/*.md -->
     <script type="text/plain" id="prompt-perplexity-compression">
 I need you to analyze the YouTube channel at [PASTE CHANNEL URL] and extract everything relevant for writing a high-converting Video Sales Letter for this creator's high-ticket 1-on-1 mentorship offer. Go through as many videos as you can access.
 
@@ -2799,96 +2799,80 @@ What topics get the most engagement based on view counts or comment volume? Whic
 Output everything in the exact categories above. Do not summarize their personality — give me their actual words. Do not paraphrase their mechanism — describe it in their terms. If something appears across multiple videos, note that it is recurring. Length does not matter. Thoroughness does.
     </script>
 
-    <script type="text/plain" id="prompt-outreach-dm">
-You are writing a personalized outreach DM for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The DM must feel written specifically for this person.
+    <script type="text/plain" id="prompt-outreach-asset">
+You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person — not a template, not generic, not spray and pray.
 
 **Lead:**
 - Name / handle: [name or @handle]
 - Platform: [YouTube / Instagram / both]
-- Niche: [their space]
+- Niche: [their space — trading, ecom, dropshipping, etc.]
 
 **The problem I identified:**
-[1-3 sentences — what's specifically wrong or underdeveloped in their business.]
+[Describe in 1-3 sentences exactly what you see wrong or underdeveloped in their business. This is the hook — be specific. "Their content is good but they have no funnel." "They have proof but no offer infrastructure." "They're getting views but not converting." Whatever you saw.]
 
 **Transcript data (Perplexity output):**
 [Paste the full Perplexity extraction here]
 
+**Asset to build:**
+[VSL / outreach DM / landing page copy / email / Loom script — pick one]
+
 ---
 
-Rules:
+Before writing anything, do the following silently:
+
+1. Read the transcript data and extract: their top 5-10 recurring phrases verbatim, how they talk about their audience's problem, their energy and sentence structure, and any proof or results mentioned
+2. Read the problem I identified and confirm it connects to something visible in the transcript — if it does not appear in their content at all, flag that before writing
+3. Identify the angle: what is the one specific thing Pulsify can say to this person that proves we actually watched their content and understand their situation — not a compliment, a diagnosis
+
+Then write the asset using the rules below.
+
+---
+
+## Asset-specific rules
+
+**If writing an outreach DM:**
 - Maximum 4 sentences in the opener
 - Lead with the diagnosis, not a compliment
-- Reference something specific from their content — a phrase they use, a result they mentioned, a visible gap
+- Reference something specific from their content — a phrase they use, a result they mentioned, a gap that is visible
 - Do not pitch in the first message
 - End with one question that opens a conversation about the problem
-- No lifestyle flexing. No generic openers ("I came across your content" is disqualifying).
-- Pulsify's value = operator expertise + AI-assisted infrastructure. Never tools or hacks.
-    </script>
 
-    <script type="text/plain" id="prompt-vsl">
-You are writing a personalized Video Sales Letter for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure.
+**If writing a VSL:**
+- Open with their pain — use language close to how they already describe it in their own content
+- Introduce Pulsify's mechanism (the Pulse System) as the solution only after the problem is fully established
+- Use their proof if available, bridge to what is possible with the right infrastructure behind it
+- Do not mention AI tools, automation stacks, or tech — frame everything as installed infrastructure and operator expertise
+- End with a clear call to action: apply, book a call, or DM — match it to where they are in the funnel
 
-**Lead:**
-- Name / handle: [name or @handle]
-- Platform: [YouTube / Instagram / both]
-- Niche: [their space]
+**If writing a landing page copy pass:**
+- This is copy only, not design
+- Headline must speak directly to the problem identified
+- Subhead frames the cost of inaction
+- Body frames Pulsify as the operator that handles what they cannot
+- Social proof block: pull Nick's result ($10-20K to $50K/month in 3 months) unless a more relevant case study is available
+- One CTA throughout: book a call
 
-**The problem I identified:**
-[1-3 sentences — specific diagnosis]
+**If writing a Loom script:**
+- 90 seconds maximum
+- First 10 seconds: state their name, reference one specific thing from their content that shows you actually watched it
+- Middle 60 seconds: diagnose the problem, show what it is costing them, introduce the fix
+- Last 20 seconds: tell them exactly what to do next
 
-**Transcript data (Perplexity output):**
-[Paste extraction here]
-
----
-
-Before writing, silently:
-1. Extract their top 5-10 recurring phrases verbatim, how they describe their audience's problem, their energy, any proof
-2. Confirm the problem connects to something visible in the transcript — if not, flag it
-3. Identify the one diagnosis Pulsify can lead with
-
-VSL rules:
-- Open with their pain in language close to how they describe it
-- Introduce Pulsify's mechanism (the Pulse System) only after the problem is fully established
-- Use their proof if available, bridge to what's possible with the right infrastructure
-- Never mention AI tools, automation stacks, or tech — frame as installed infrastructure + operator expertise
-- End with one clear CTA: apply / book / DM
-
-Non-negotiables: no lifestyle flexing, no generic openers, diagnosis is the center of gravity, one clear next step.
-    </script>
-
-    <script type="text/plain" id="prompt-email-sequence">
-You are writing personalized outreach emails for a specific lead on behalf of Pulsify.
-
-**Lead:**
-- Name / handle: [name or @handle]
-- Platform: [YouTube / Instagram / both]
-- Niche: [their space]
-
-**Problem identified:**
-[1-3 sentences]
-
-**Transcript data (Perplexity output):**
-[Paste extraction]
-
-**How many emails:**
-[1 cold / 3-email sequence / 5-email nurture]
-
----
-
-Per-email rules:
+**If writing an email:**
 - Subject line based on the problem, not Pulsify
 - First line references something specific from their content
-- Body = 3 short paragraphs: problem → what's possible → next step
+- Body is 3 short paragraphs: problem, what is possible, next step
 - No pitch decks, no attachments, no "let me know if you have questions"
-- One clear CTA per email
 
-Sequence rules:
-- Email 1: diagnosis-led cold open. CTA = reply.
-- Email 2: proof + cost of inaction. CTA = reply.
-- Email 3: the offer plainly. CTA = book a call.
-- Emails 4-5 (5-seq only): one-line breakup + one-line revival a week later.
+---
 
-Non-negotiables: no lifestyle flexing, no generic openers, the diagnosis is the center of gravity, one clear next step per email.
+## Non-negotiable rules for every asset
+
+- No lifestyle flexing anywhere — no cars, watches, income screenshots used as bait
+- No generic openers — "I came across your content" is disqualifying
+- The problem you identified must be the center of gravity of every asset
+- Pulsify's value is operator expertise and AI-assisted infrastructure — not tools, not hacks
+- Every asset ends with one clear next step, nothing ambiguous
     </script>
 
     <script type="text/plain" id="prompt-landing-design">
@@ -2921,43 +2905,60 @@ Build a high-converting landing page for a [niche] high-ticket mentorship target
 Build the full responsive page on the canvas with placeholder copy and placeholder proof tiles in place. After the first version, give me 2 or 3 specific layout or hierarchy tweaks you would test to lift conversions.
     </script>
 
-    <script type="text/plain" id="prompt-loom-script">
-Write a 90-second Loom script for a specific lead on behalf of Pulsify.
-
-**Lead:** [name / @handle]
-**Platform:** [YT / IG / both]
-**Niche:** [their space]
-**Problem identified:** [1-3 sentences]
-**Transcript data (Perplexity output):** [paste]
-
-Structure:
-- First 10 seconds: state their name, reference one specific thing from their content that proves you actually watched it
-- Middle 60 seconds: diagnose the problem, show what it is costing them, introduce the fix
-- Last 20 seconds: tell them exactly what to do next
-
-Rules: no lifestyle flexing, no generic openers, the diagnosis is the center of gravity. Pulsify = operator expertise + AI-assisted infrastructure, never tools/hacks. Speakable rhythm — short sentences, no jargon.
-    </script>
-
-    <script type="text/plain" id="prompt-landing-copy">
-Write landing-page copy for a specific lead on behalf of Pulsify. Copy only — design is separate.
-
-**Lead:** [name / @handle]
-**Platform:** [YT / IG / both]
-**Niche:** [their space]
-**Problem identified:** [1-3 sentences]
-**Transcript data (Perplexity output):** [paste]
-
-Rules:
-- Headline speaks directly to the problem identified
-- Subhead frames the cost of inaction
-- Body frames Pulsify as the operator that handles what they cannot
-- Social proof block: pull Nick's result ($10-20K → $50K/month in 3 months) unless a more relevant case study fits
-- One CTA throughout: book a call
-- No lifestyle flexing. No generic openers. Pulsify = operator expertise + AI-assisted infrastructure.
-    </script>
-
     <script type="text/plain" id="prompt-prospect-profile">
-[Open prospect-profile-synthesis-prompt.md in raw-sources/prompts/ — this is the 9-section Creator Profile builder used AFTER a client signs, not for cold outreach. Pasting the full prompt here would be ~150 lines; if you want it inline, ask Claude to embed it.]
+You are building a Creator Profile for a prospect Pulsify is about to create outreach and conversion assets for. Every asset — VSL, landing page, Typeform, email sequence, outreach DM — will be built from this profile. If the profile is incomplete, the assets will be generic. Do not guess or fill gaps with assumptions. Flag every gap explicitly.
+
+**Raw content block:**
+
+[PASTE ALL SCRAPED CONTENT HERE — YouTube transcripts, Instagram bio and captions, sales page copy, podcast notes, anything gathered about this person]
+
+---
+
+Once you have read everything above, output the Creator Profile in the exact structure below. Do not skip any section. Where data is missing, write "GAP — [describe what is missing and where to find it]" rather than inventing a plausible answer.
+
+---
+
+### 1. Who they are
+
+One paragraph. Who is this person, what do they do, what space are they in, what is the core promise they make to their audience. Write it in plain language as if briefing a copywriter who has never heard of them.
+
+### 2. Tone fingerprint
+
+List the top 20-30 words and phrases this person actually uses — pulled verbatim from the transcripts and content. Include: recurring openers, recurring closers, filler phrases, niche jargon, how they address their audience, how they talk about money, how they talk about failure, how they talk about success. This section should read like a vocabulary list a ghostwriter would keep open while writing.
+
+Also describe in 2-3 sentences: what is their energy level (calm and analytical, high energy, conversational, authoritative), what is their sentence structure (short and punchy, long and explanatory), and what do they never say (what language feels out of character for them).
+
+### 3. What they teach — the mechanism
+
+What is the core thing they teach? Give it the name they use. Describe the mechanism in their own words as best the transcripts allow. If they have a proprietary framework, name it and explain the steps as they describe them. If they do not have a named mechanism yet, describe what they do and flag it as unnamed.
+
+### 4. Their audience
+
+Who is watching and buying. Describe the avatar in terms of: where they are right now (situation, income level if mentioned, frustrations), what they want (the 3-month target, the dream outcome), and what has already failed them (what they've tried that did not work). Pull this from the pain points the creator repeatedly addresses and the comments or questions they reference.
+
+### 5. Proof stack
+
+Every result mentioned — student result, personal result, account milestone, income figure, percentage return, transformation story. Write each one in a single line: [Source] [Result] [Context]. If the creator references a result vaguely without numbers, note it as unverified. If no proof is visible, write GAP and flag it — proof gaps block VSL and landing page production.
+
+### 6. Their offer
+
+What are they selling, at what price, and how do they currently sell it (DMs, landing page, VSL, booking link). If the price is not public, note that. If there is no visible offer yet, flag it — this affects which assets to build first.
+
+### 7. Content patterns
+
+Which topics dominate their channel. Which videos get the most views or engagement. What does that tell you about what their audience responds to most. Any content formats they use that are worth noting (talking head, screen share, case study breakdowns, etc.).
+
+### 8. Competitive positioning
+
+How do they differentiate themselves from other educators in their niche. What do they say is wrong with how most people teach this. What do they claim to do differently. Note if this is explicit (they say it directly) or implied (observable from their content but not stated).
+
+### 9. Gaps and blockers
+
+List every piece of information that is missing and would block or weaken an asset. For each gap: name what is missing, explain which asset it blocks, and suggest where to find it (which video, which platform, what to ask them directly if they become a client).
+
+---
+
+After outputting the Creator Profile, give me one paragraph on which asset to build first based on what is available and what is missing. If proof is thin, the VSL needs a different structure. If the offer is invisible, the landing page cannot be built yet. Tell me the most logical starting point.
     </script>
 
     <div class="card span-12">
