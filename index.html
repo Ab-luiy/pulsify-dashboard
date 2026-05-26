@@ -1961,13 +1961,242 @@
     transition: all 0.15s ease;
   }
   .view-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .kanban {
+
+  /* Prompt vault — flashy one-click copy strip */
+  .prompt-vault-card {
+    background: linear-gradient(135deg, rgba(124,92,255,0.10), rgba(45,212,191,0.06), rgba(0,0,0,0));
+    border: 1px solid rgba(124,92,255,0.28);
+    box-shadow: 0 0 0 1px rgba(124,92,255,0.05), 0 10px 40px -20px rgba(124,92,255,0.5);
+  }
+  .prompt-vault-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .prompt-vault-head .title {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    background: linear-gradient(90deg, #a78bfa, #2dd4bf);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .prompt-vault-head .sub { color: var(--muted); font-size: 11.5px; }
+  .prompt-vault {
     display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 10px;
+  }
+  .pv-btn {
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; gap: 11px;
+    text-align: left;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    color: var(--text);
+    font: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pv-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(124,92,255,0.55);
+    background: rgba(124,92,255,0.08);
+    box-shadow: 0 8px 30px -15px rgba(124,92,255,0.7);
+  }
+  .pv-btn .pv-ico {
+    width: 32px; height: 32px; flex: 0 0 32px;
+    display: grid; place-items: center;
+    border-radius: 9px; font-size: 15px;
+    background: linear-gradient(135deg, rgba(124,92,255,0.25), rgba(45,212,191,0.18));
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .pv-btn .pv-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pv-btn .pv-name { font-size: 13px; font-weight: 700; letter-spacing: 0.01em; }
+  .pv-btn .pv-meta { font-size: 10.5px; font-weight: 500; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.1em; }
+  .pv-btn.copied {
+    border-color: #2dd4bf;
+    background: rgba(45,212,191,0.12);
+    box-shadow: 0 0 0 1px rgba(45,212,191,0.4);
+  }
+  .pv-btn.copied .pv-ico { background: linear-gradient(135deg, rgba(45,212,191,0.4), rgba(45,212,191,0.2)); }
+  .pv-btn .pv-flash {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    background: rgba(45,212,191,0.92); color: #052e29;
+    font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+    opacity: 0; pointer-events: none; transition: opacity 0.15s ease;
+  }
+  .pv-btn.copied .pv-flash { opacity: 1; }
+
+  /* ---- Build Asset button (on every CRM card) ---- */
+  .build-asset-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+    margin-top: 6px; width: 100%;
+    background: rgba(124,92,255,0.10);
+    border: 1px solid rgba(124,92,255,0.32);
+    color: #a78bfa;
+    font: inherit; font-size: 10px; font-weight: 700;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 4px 8px; border-radius: 5px; cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .build-asset-btn:hover { background: rgba(124,92,255,0.22); border-color: #a78bfa; color: #fff; }
+
+  /* ---- Asset Builder drawer ---- */
+  .asset-drawer {
+    position: fixed; top: 0; right: 0; bottom: 0;
+    width: min(660px, 100vw);
+    background: var(--surface, #131318);
+    border-left: 1px solid rgba(255,255,255,0.1);
+    box-shadow: -20px 0 60px rgba(0,0,0,0.7);
+    z-index: 9999;
+    display: flex; flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+  }
+  .asset-drawer.open { transform: translateX(0); }
+  .asset-backdrop {
+    position: fixed; inset: 0; z-index: 9998;
+    background: rgba(0,0,0,0.5);
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.28s ease;
+  }
+  .asset-backdrop.open { opacity: 1; pointer-events: all; }
+  .drawer-head {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-shrink: 0;
+  }
+  .drawer-head-left { display: flex; flex-direction: column; gap: 4px; }
+  .drawer-title {
+    font-size: 14px; font-weight: 700; letter-spacing: 0.02em;
+    background: linear-gradient(90deg, #a78bfa, #2dd4bf);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .drawer-badge {
+    font-size: 11px; color: #a78bfa;
+    background: rgba(124,92,255,0.10);
+    border: 1px solid rgba(124,92,255,0.28);
+    border-radius: 999px; padding: 2px 10px;
+    max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .drawer-close {
+    background: transparent; border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.5); font: inherit; font-size: 18px;
+    width: 30px; height: 30px; border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: color 0.15s, border-color 0.15s;
+  }
+  .drawer-close:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .drawer-scroll {
+    flex: 1; overflow-y: auto; padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .df { display: flex; flex-direction: column; gap: 4px; }
+  .dl {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: rgba(255,255,255,0.45);
+  }
+  .dl span { font-weight: 400; text-transform: none; letter-spacing: 0; margin-left: 6px; color: rgba(255,255,255,0.3); }
+  .di, .ds, .dt {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 6px; color: #f4f4f7;
+    font: inherit; font-size: 13px; padding: 8px 11px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .di:focus, .ds:focus, .dt:focus {
+    outline: none; border-color: #a78bfa;
+    box-shadow: 0 0 0 3px rgba(124,92,255,0.18);
+  }
+  .dt { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .dt.tall { min-height: 150px; }
+  .dr { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .drawer-foot {
+    padding: 12px 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; gap: 8px; flex-shrink: 0;
+  }
+  .btn-gen {
+    flex: 1;
+    background: linear-gradient(90deg, #7c5cff, #2dd4bf);
+    color: #050514;
+    border: 0; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 800;
+    padding: 11px; cursor: pointer; transition: opacity 0.15s, transform 0.12s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn-gen:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-gen:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-copy-p {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7); font: inherit; font-size: 12px;
+    padding: 11px 14px; border-radius: 6px; cursor: pointer; white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .btn-copy-p:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .drawer-out {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 6px; padding: 12px;
+    display: none; flex-direction: column; gap: 8px;
+  }
+  .drawer-out.show { display: flex; }
+  .out-head { display: flex; justify-content: space-between; align-items: center; }
+  .out-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #2dd4bf; }
+  .out-actions { display: flex; gap: 6px; }
+  .btn-xs {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.65); font: inherit; font-size: 11px;
+    padding: 4px 9px; border-radius: 4px; cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .btn-xs:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+  .btn-xs.acc { color: #2dd4bf; border-color: rgba(45,212,191,0.35); }
+  .out-text {
+    font-size: 12.5px; line-height: 1.7; color: #f4f4f7;
+    white-space: pre-wrap; word-break: break-word;
+    max-height: 380px; overflow-y: auto;
+  }
+  .drawer-spin {
+    display: none; align-items: center; gap: 8px;
+    color: rgba(255,255,255,0.55); font-size: 12px;
+  }
+  .drawer-spin.show { display: flex; }
+  .sdot {
+    width: 6px; height: 6px; border-radius: 50%; background: #a78bfa;
+    animation: sdotPulse 1s ease-in-out infinite;
+  }
+  .sdot:nth-child(2){animation-delay:.18s}.sdot:nth-child(3){animation-delay:.36s}
+  @keyframes sdotPulse{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+  .drawer-err {
+    display: none; background: rgba(248,113,113,0.10);
+    border: 1px solid rgba(248,113,113,0.30); border-radius: 6px;
+    padding: 9px 12px; color: #f87171; font-size: 12px; line-height: 1.5;
+  }
+  .drawer-err.show { display: block; }
+  .api-hint { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+  .api-hint a { color: #2dd4bf; }
+
+  /* ---- Source chip on CRM cards ---- */
+  .src-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 4px;
+    margin-right: 6px; vertical-align: 1px;
+  }
+  .src-chip.youtube { background: rgba(239,68,68,0.13); color: #f87171; border: 1px solid rgba(239,68,68,0.30); }
+  .src-chip.instagram { background: rgba(236,72,153,0.13); color: #f472b6; border: 1px solid rgba(236,72,153,0.30); }
+  .src-chip.manual { background: rgba(148,163,184,0.13); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.28); }
+  .src-chip .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .kanban {
+    display: flex;
     gap: 10px;
     padding: 4px 2px 14px;
-    overflow: visible;
+    overflow-x: auto;
+    scrollbar-width: thin;
   }
+  .kanban::-webkit-scrollbar { height: 8px; }
+  .kanban::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 4px; }
   .kan-col {
     background: rgba(255,255,255,0.025);
     border: 1px solid rgba(255,255,255,0.07);
@@ -1975,17 +2204,12 @@
     padding: 10px;
     display: flex; flex-direction: column; gap: 8px;
     min-height: 120px;
-    min-width: 0;
+    flex: 0 0 240px;
+    min-width: 240px;
     transition: background 0.15s ease, border-color 0.15s ease;
   }
-  @media (max-width: 1400px) {
-    .kanban { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  }
   @media (max-width: 900px) {
-    .kanban { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
-  @media (max-width: 600px) {
-    .kanban { grid-template-columns: 1fr; }
+    .kan-col { flex: 0 0 220px; min-width: 220px; }
   }
   .kan-col.drag-over { background: var(--accent-soft); border-color: var(--accent); }
   .kan-col h4 {
@@ -2129,10 +2353,7 @@
       <svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><circle cx="17" cy="7" r="3"/><path d="M22 18a5 5 0 0 0-5-5"/></svg>
       CRM <span class="count" id="crmTabCount">0</span>
     </button>
-    <button data-tab="ytleads">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
-      YT Leads <span class="count" id="ytTabCount">0</span>
-    </button>
+    <!-- YT Leads merged into CRM (source-tagged youtube / instagram / manual) -->
   </nav>
 
   <div class="sb-foot">
@@ -2493,6 +2714,252 @@
       <div id="clients"></div>
     </div>
 
+    <div class="card span-12 prompt-vault-card">
+      <div class="prompt-vault-head">
+        <div>
+          <div class="title">⚡ Prompt Vault</div>
+          <div class="sub">One click → prompt on your clipboard. Paste it where you need it (Perplexity, Claude, GPT).</div>
+        </div>
+        <span class="sub" id="pvHint">Click any button below</span>
+      </div>
+      <div class="prompt-vault" id="promptVault">
+        <button class="pv-btn" data-prompt="perplexity-compression">
+          <div class="pv-ico">🔎</div>
+          <div class="pv-body"><div class="pv-name">Perplexity Compression</div><div class="pv-meta">Voice + mechanism extract</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="outreach-dm">
+          <div class="pv-ico">✉️</div>
+          <div class="pv-body"><div class="pv-name">Outreach DM</div><div class="pv-meta">Diagnosis-led cold open</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="vsl">
+          <div class="pv-ico">🎬</div>
+          <div class="pv-body"><div class="pv-name">VSL Script</div><div class="pv-meta">Personalized video sales letter</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="email-sequence">
+          <div class="pv-ico">📨</div>
+          <div class="pv-body"><div class="pv-name">Email Sequence</div><div class="pv-meta">1 / 3 / 5 email cold</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="landing-design">
+          <div class="pv-ico">📄</div>
+          <div class="pv-body"><div class="pv-name">Landing Page Design</div><div class="pv-meta">Claude structure + layout</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="loom-script">
+          <div class="pv-ico">🎙️</div>
+          <div class="pv-body"><div class="pv-name">Loom Script</div><div class="pv-meta">90-second personalized</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="landing-copy">
+          <div class="pv-ico">📝</div>
+          <div class="pv-body"><div class="pv-name">Landing Copy</div><div class="pv-meta">Headline + body pass</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+        <button class="pv-btn" data-prompt="prospect-profile">
+          <div class="pv-ico">🧠</div>
+          <div class="pv-body"><div class="pv-name">Prospect Profile</div><div class="pv-meta">9-section post-sign synth</div></div>
+          <div class="pv-flash">Copied</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Prompt content (kept out of JS to avoid escape hell) -->
+    <script type="text/plain" id="prompt-perplexity-compression">
+I need you to analyze the YouTube channel at [PASTE CHANNEL URL] and extract everything relevant for writing a high-converting Video Sales Letter for this creator's high-ticket 1-on-1 mentorship offer. Go through as many videos as you can access.
+
+Extract and organize the following:
+
+**1. VOICE & LANGUAGE**
+Pull the exact words, phrases, and sentences this creator uses repeatedly. How do they open videos? How do they close? What is their natural sentence structure — short and punchy, or long and explanatory? Do they use slang, niche jargon, or plain language? Write down specific recurring phrases verbatim. The goal is to capture how they actually speak, not a description of it.
+
+**2. THE MECHANISM**
+What is the core trading strategy or framework this person teaches? Give me the name they use for it, how they describe it in their own words, the specific conditions or patterns they look for, and how they explain why it works. Include any proprietary terminology they use. If they explain it multiple times across videos, compile all versions.
+
+**3. AVATAR PAIN POINTS**
+What problems, frustrations, and failures does this creator repeatedly address? What does their audience struggle with? What questions do they keep getting asked in comments? What does the creator say their audience was doing wrong before finding them? Be exhaustive — list every pain point mentioned across all videos.
+
+**4. PROOF & RESULTS**
+Every time a result is mentioned — student result, their own trading result, account milestone, funded account pass, income figure, percentage return — write it down verbatim with context. Include any screenshots, case studies, or before/after stories referenced even if the numbers are not given.
+
+**5. OBJECTIONS THEY ADDRESS**
+Every time the creator pushes back on a skeptical belief — "most people think X but actually Y", "you don't need X to succeed", "the reason you're failing isn't what you think" — write it down. These are the objections their audience carries and the creator has already figured out how to handle them.
+
+**6. THEIR STORY**
+Compile everything shared about their personal journey. When did they start? What did failure look like for them? What was the turning point? What do they do differently now? Any specific numbers, timelines, or emotional beats.
+
+**7. WHAT MAKES THEM DIFFERENT**
+How do they position themselves against other trading educators, courses, and communities? What do they say is wrong with the industry? What do they claim to do that others don't?
+
+**8. CONTENT PATTERNS**
+What topics get the most engagement based on view counts or comment volume? Which videos perform best? What does that tell you about what their audience cares about most?
+
+Output everything in the exact categories above. Do not summarize their personality — give me their actual words. Do not paraphrase their mechanism — describe it in their terms. If something appears across multiple videos, note that it is recurring. Length does not matter. Thoroughness does.
+    </script>
+
+    <script type="text/plain" id="prompt-outreach-dm">
+You are writing a personalized outreach DM for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The DM must feel written specifically for this person.
+
+**Lead:**
+- Name / handle: [name or @handle]
+- Platform: [YouTube / Instagram / both]
+- Niche: [their space]
+
+**The problem I identified:**
+[1-3 sentences — what's specifically wrong or underdeveloped in their business.]
+
+**Transcript data (Perplexity output):**
+[Paste the full Perplexity extraction here]
+
+---
+
+Rules:
+- Maximum 4 sentences in the opener
+- Lead with the diagnosis, not a compliment
+- Reference something specific from their content — a phrase they use, a result they mentioned, a visible gap
+- Do not pitch in the first message
+- End with one question that opens a conversation about the problem
+- No lifestyle flexing. No generic openers ("I came across your content" is disqualifying).
+- Pulsify's value = operator expertise + AI-assisted infrastructure. Never tools or hacks.
+    </script>
+
+    <script type="text/plain" id="prompt-vsl">
+You are writing a personalized Video Sales Letter for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure.
+
+**Lead:**
+- Name / handle: [name or @handle]
+- Platform: [YouTube / Instagram / both]
+- Niche: [their space]
+
+**The problem I identified:**
+[1-3 sentences — specific diagnosis]
+
+**Transcript data (Perplexity output):**
+[Paste extraction here]
+
+---
+
+Before writing, silently:
+1. Extract their top 5-10 recurring phrases verbatim, how they describe their audience's problem, their energy, any proof
+2. Confirm the problem connects to something visible in the transcript — if not, flag it
+3. Identify the one diagnosis Pulsify can lead with
+
+VSL rules:
+- Open with their pain in language close to how they describe it
+- Introduce Pulsify's mechanism (the Pulse System) only after the problem is fully established
+- Use their proof if available, bridge to what's possible with the right infrastructure
+- Never mention AI tools, automation stacks, or tech — frame as installed infrastructure + operator expertise
+- End with one clear CTA: apply / book / DM
+
+Non-negotiables: no lifestyle flexing, no generic openers, diagnosis is the center of gravity, one clear next step.
+    </script>
+
+    <script type="text/plain" id="prompt-email-sequence">
+You are writing personalized outreach emails for a specific lead on behalf of Pulsify.
+
+**Lead:**
+- Name / handle: [name or @handle]
+- Platform: [YouTube / Instagram / both]
+- Niche: [their space]
+
+**Problem identified:**
+[1-3 sentences]
+
+**Transcript data (Perplexity output):**
+[Paste extraction]
+
+**How many emails:**
+[1 cold / 3-email sequence / 5-email nurture]
+
+---
+
+Per-email rules:
+- Subject line based on the problem, not Pulsify
+- First line references something specific from their content
+- Body = 3 short paragraphs: problem → what's possible → next step
+- No pitch decks, no attachments, no "let me know if you have questions"
+- One clear CTA per email
+
+Sequence rules:
+- Email 1: diagnosis-led cold open. CTA = reply.
+- Email 2: proof + cost of inaction. CTA = reply.
+- Email 3: the offer plainly. CTA = book a call.
+- Emails 4-5 (5-seq only): one-line breakup + one-line revival a week later.
+
+Non-negotiables: no lifestyle flexing, no generic openers, the diagnosis is the center of gravity, one clear next step per email.
+    </script>
+
+    <script type="text/plain" id="prompt-landing-design">
+Build a high-converting landing page for a [niche] high-ticket mentorship targeting [audience size and ICP]. Model the layout after [competitor or top-of-niche page URL] but make it unique, clean, and modern. This is the main conversion funnel: the viewer already knows the creator, lands here, watches a VSL, fills out a qualifier, books a call. This pass is structure and design only. Use placeholder copy throughout, real copy comes separately, so focus everything on layout, hierarchy, and feel.
+
+## Structure, top to bottom
+
+1. Hero: bold headline slot + subhead slot, with one primary CTA button above the fold. No clutter competing with it.
+2. VSL slot: a clean 16:9 video player with a play button, centered, no autoplay. This is the visual anchor of the page.
+3. Qualifying application form directly under the VSL. Fields: First Name, Email, Instagram (optional), Phone, Age, Current Situation, 3 Month Target, Why now. Style it like a serious application, not a newsletter signup, so unqualified leads self select out.
+4. A clear "Book Your Call" CTA that the form leads into.
+5. Testimonial wall: a grid of real proof presented as screenshot tiles and short video tiles, not retyped quote graphics that look fake.
+6. Short closing CTA section that restates the next step.
+
+## Length, match the page to the audience
+
+- Large audience: full long form, more social proof, more form fields.
+- Mid size (around 10k): leaner, shorter VSL slot, tighter sections.
+- Micro niche: strip it down to headline plus VSL plus booking link, the viewer is basically pre sold.
+
+## Design
+
+- Mobile first. Headline, video, and form all have to work on a narrow screen first.
+- Raw and authentic over flashy. Absolutely no lifestyle flexing anywhere: no cars, watches, money fans, private jets. Trust over decoration.
+- Clean and modern. Generous spacing, strong type hierarchy, one clear action per screen. Lean minimal for a serious or affluent buyer, slightly more visual structure for a broad audience, but never hype scam energy.
+- Make it look genuinely custom, not a template. Distinct layout, intentional sections.
+
+## Deliverable
+
+Build the full responsive page on the canvas with placeholder copy and placeholder proof tiles in place. After the first version, give me 2 or 3 specific layout or hierarchy tweaks you would test to lift conversions.
+    </script>
+
+    <script type="text/plain" id="prompt-loom-script">
+Write a 90-second Loom script for a specific lead on behalf of Pulsify.
+
+**Lead:** [name / @handle]
+**Platform:** [YT / IG / both]
+**Niche:** [their space]
+**Problem identified:** [1-3 sentences]
+**Transcript data (Perplexity output):** [paste]
+
+Structure:
+- First 10 seconds: state their name, reference one specific thing from their content that proves you actually watched it
+- Middle 60 seconds: diagnose the problem, show what it is costing them, introduce the fix
+- Last 20 seconds: tell them exactly what to do next
+
+Rules: no lifestyle flexing, no generic openers, the diagnosis is the center of gravity. Pulsify = operator expertise + AI-assisted infrastructure, never tools/hacks. Speakable rhythm — short sentences, no jargon.
+    </script>
+
+    <script type="text/plain" id="prompt-landing-copy">
+Write landing-page copy for a specific lead on behalf of Pulsify. Copy only — design is separate.
+
+**Lead:** [name / @handle]
+**Platform:** [YT / IG / both]
+**Niche:** [their space]
+**Problem identified:** [1-3 sentences]
+**Transcript data (Perplexity output):** [paste]
+
+Rules:
+- Headline speaks directly to the problem identified
+- Subhead frames the cost of inaction
+- Body frames Pulsify as the operator that handles what they cannot
+- Social proof block: pull Nick's result ($10-20K → $50K/month in 3 months) unless a more relevant case study fits
+- One CTA throughout: book a call
+- No lifestyle flexing. No generic openers. Pulsify = operator expertise + AI-assisted infrastructure.
+    </script>
+
+    <script type="text/plain" id="prompt-prospect-profile">
+[Open prospect-profile-synthesis-prompt.md in raw-sources/prompts/ — this is the 9-section Creator Profile builder used AFTER a client signs, not for cold outreach. Pasting the full prompt here would be ~150 lines; if you want it inline, ask Claude to embed it.]
+    </script>
+
     <div class="card span-12">
       <h2>Outreach CRM <span class="meta">IG cold leads — value-led retarget</span></h2>
       <div id="crmNote" style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 12px;color:var(--warn);font-size:12px;margin-bottom:14px;display:none"></div>
@@ -2536,6 +3003,12 @@
           <option value="researching">researching</option><option value="asset-built">asset-built</option>
           <option value="contacted">contacted</option><option value="replied">replied</option>
           <option value="won">won</option><option value="dead">dead</option>
+        </select>
+        <select id="crmSourceFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+          <option value="">All sources</option>
+          <option value="youtube">YouTube</option>
+          <option value="instagram">Instagram</option>
+          <option value="manual">Manual</option>
         </select>
         <select id="crmBatchFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
           <option value="">All batches</option><option value="0">Unassigned</option>
@@ -2581,142 +3054,7 @@
   </div>
 </section>
 
-<!-- YT LEADS -->
-<section class="tab-panel" id="tab-ytleads">
-  <div class="grid">
-    <div class="card span-12">
-      <h2>YouTube leads <span class="meta">scored creators with a "made $X / case study" hook video — funnel-hack &amp; reach out</span></h2>
-      <div style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text-2);font-size:12px;margin-bottom:14px">
-        Click the channel name to open the channel · click the video title to watch the hook · status &amp; notes save automatically in this browser · weekly re-scrape refreshes the list.
-      </div>
-      <div class="kpi-row" style="grid-template-columns:repeat(6,1fr);margin-bottom:16px">
-        <div class="kpi"><div class="k">Total leads</div><div class="v mono large" id="ytTotal">0</div></div>
-        <div class="kpi"><div class="k">With IG</div><div class="v mono large" id="ytWithIg">0</div></div>
-        <div class="kpi"><div class="k">Contacted</div><div class="v mono large" id="ytContacted">0</div></div>
-        <div class="kpi"><div class="k">Replied</div><div class="v mono large" id="ytReplied">0</div></div>
-        <div class="kpi accent"><div class="k">Reply rate</div><div class="v mono large" id="ytReplyRate">0%</div></div>
-        <div class="kpi"><div class="k">Unworked</div><div class="v mono large" id="ytUnworked">0</div></div>
-      </div>
-      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center">
-        <div class="search-wrap" style="flex:1;min-width:260px">
-          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
-          <input id="ytSearch" class="search-big" placeholder="Search channel, video title, IG handle, or query…" />
-        </div>
-        <select id="ytNicheFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
-          <option value="">All niches</option>
-        </select>
-        <select id="ytYtStatusFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
-          <option value="">All statuses</option>
-          <option value="new">new</option>
-          <option value="researching">researching</option>
-          <option value="asset-built">asset-built</option>
-          <option value="contacted">contacted</option>
-          <option value="replied">replied</option>
-          <option value="won">won</option>
-          <option value="dead">dead</option>
-        </select>
-        <select id="ytIgFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
-          <option value="">IG: any</option>
-          <option value="has">Has IG</option>
-          <option value="none">No IG</option>
-        </select>
-        <select id="ytSort" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
-          <option value="score">Sort: Score (high→low)</option>
-          <option value="reach">Sort: Channel reach</option>
-          <option value="views">Sort: Video views</option>
-          <option value="date">Sort: Newest video</option>
-        </select>
-        <label style="display:flex;gap:6px;align-items:center;color:var(--text-2);font-size:12px;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 11px;cursor:pointer;user-select:none">
-          <input type="checkbox" id="ytHideDead" style="margin:0;accent-color:var(--accent)" /> Hide dead
-        </label>
-        <button id="ytExport" style="background:transparent;color:var(--text-2);border:1px solid var(--border);border-radius:var(--radius-sm);font:inherit;font-size:12px;padding:7px 12px;cursor:pointer">Export CSV</button>
-      </div>
-      <div id="ytFeed" style="display:flex;flex-direction:column;gap:8px"></div>
-      <div class="empty" id="ytEmpty" style="display:none;color:var(--muted);text-align:center;padding:40px 0">No leads match.</div>
-      <div style="margin-top:12px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;align-items:center">
-        <span>Showing <span id="ytShown">0</span> of <span id="ytTotalFooter">0</span> · status &amp; notes saved per-channel locally.</span>
-        <span>Last scrape: <span id="ytScrapedAt" class="mono">—</span></span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<style>
-  .yt-row {
-    display:grid;
-    grid-template-columns: 64px 1fr 280px;
-    gap:14px;
-    align-items:center;
-    background:var(--surface-2);
-    border:1px solid var(--border);
-    border-radius:var(--radius-sm);
-    padding:12px 14px;
-    transition:border-color 0.15s, transform 0.15s;
-  }
-  .yt-row:hover { border-color:var(--border-strong); }
-  .yt-row.dead { opacity:0.45; }
-  .yt-score {
-    background:var(--surface);
-    border:1px solid var(--border-strong);
-    border-radius:var(--radius-sm);
-    color:var(--text);
-    font-family:var(--mono, ui-monospace, monospace);
-    font-size:14px;
-    font-weight:700;
-    text-align:center;
-    padding:10px 4px;
-    line-height:1.1;
-  }
-  .yt-score .lbl { display:block;font-size:9px;color:var(--muted);font-weight:500;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px }
-  .yt-body { min-width:0 }
-  .yt-headline { display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:4px }
-  .yt-channel { color:var(--text);font-weight:600;font-size:14.5px;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px }
-  .yt-channel:hover { color:var(--accent);text-decoration:underline }
-  .yt-niche {
-    font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;
-    padding:2px 8px;border-radius:999px;border:1px solid var(--border-strong);
-    color:var(--text-2);background:var(--surface);
-  }
-  .yt-niche.ecom { color:#38bdf8;border-color:rgba(56,189,248,0.35) }
-  .yt-niche.trading { color:#fbbf24;border-color:rgba(251,191,36,0.35) }
-  .yt-niche.ai { color:#a78bfa;border-color:rgba(167,139,250,0.35) }
-  .yt-niche.smma { color:#34d399;border-color:rgba(52,211,153,0.35) }
-  .yt-niche.other { color:var(--muted) }
-  .yt-video { color:var(--text-2);text-decoration:none;font-size:13px;display:block;margin-bottom:4px;line-height:1.35 }
-  .yt-video:hover { color:var(--text);text-decoration:underline }
-  .yt-video::before { content:"▶ ";color:var(--accent);font-size:9px;vertical-align:middle;margin-right:4px }
-  .yt-meta { color:var(--muted);font-size:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center }
-  .yt-meta .dot { opacity:0.4 }
-  .yt-meta .sq { font-style:italic;color:var(--text-2);background:var(--surface);padding:1px 6px;border-radius:3px;font-size:10.5px }
-  .yt-actions { display:flex;flex-direction:column;gap:6px;align-items:stretch }
-  .yt-actions-row { display:flex;gap:6px;align-items:center }
-  .yt-ig {
-    background:var(--surface);border:1px solid var(--border-strong);color:var(--text-2);
-    text-decoration:none;font-size:11px;font-weight:600;padding:6px 10px;border-radius:var(--radius-sm);
-    white-space:nowrap;
-  }
-  .yt-ig:hover { color:#e879f9;border-color:rgba(232,121,249,0.4) }
-  .yt-ig.empty { opacity:0.35;pointer-events:none }
-  .yt-status {
-    flex:1;background:var(--surface);border:1px solid var(--border-strong);color:var(--text);
-    font:inherit;font-size:11.5px;padding:6px 8px;border-radius:var(--radius-sm);cursor:pointer;
-  }
-  .yt-status[data-status="contacted"] { color:#fbbf24;border-color:rgba(251,191,36,0.4) }
-  .yt-status[data-status="replied"] { color:#34d399;border-color:rgba(52,211,153,0.4) }
-  .yt-status[data-status="won"] { color:#34d399;border-color:rgba(52,211,153,0.6);background:rgba(52,211,153,0.08) }
-  .yt-status[data-status="dead"] { color:var(--danger);border-color:rgba(248,113,113,0.35) }
-  .yt-status[data-status="researching"] { color:#38bdf8;border-color:rgba(56,189,248,0.4) }
-  .yt-status[data-status="asset-built"] { color:#a78bfa;border-color:rgba(167,139,250,0.4) }
-  .yt-note {
-    background:var(--surface);border:1px solid var(--border);color:var(--text);
-    font:inherit;font-size:11.5px;padding:6px 8px;border-radius:var(--radius-sm);width:100%;resize:none;
-  }
-  .yt-note:focus { border-color:var(--accent);outline:none }
-  @media (max-width: 900px) {
-    .yt-row { grid-template-columns: 56px 1fr;}
-    .yt-actions { grid-column:1 / -1 }
-  }
-</style>
 
 </main>
 </div><!-- /.app -->
@@ -3903,28 +4241,84 @@
   state.removed = state.removed || [];       // [name]
   let crmView = "board";
 
+  // YT leads → CRM ingestion (full merge — YT Leads tab is gone)
+  let _ytIngested = null;
+  function ytAsProspects() {
+    if (_ytIngested) return _ytIngested;
+    let raw = [];
+    try {
+      const el = document.getElementById("ytLeadsData");
+      const txt = el ? el.textContent.trim() : "";
+      if (txt && txt.charAt(0) === "[") raw = JSON.parse(txt);
+    } catch (e) { console.warn("YT→CRM parse fail:", e); raw = []; }
+
+    // One-time migration: copy legacy yt overrides keyed by channel-url → CRM overrides keyed by name
+    try {
+      if (!state._ytMigrated) {
+        const legacy = JSON.parse(localStorage.getItem("pulsify_yt_leads_v1") || "{}");
+        const ov = legacy.overrides || {};
+        raw.forEach(l => {
+          const k = l.cu || l.n;
+          const o = ov[k];
+          if (o && l.n && !state.overrides[l.n]) {
+            state.overrides[l.n] = { status: o.status, note: o.note };
+          }
+        });
+        state._ytMigrated = true;
+        saveState(state);
+      }
+    } catch (e) { /* migration is best-effort */ }
+
+    return _ytIngested = raw.map(l => ({
+      n: l.n || "Unknown",
+      h: (l.ig || "").replace(/^@/, ""),
+      niche: (function (sq) {
+        const q = (sq || "").toLowerCase();
+        if (/dropship|ecom|shopify|store|product/.test(q)) return "ecom";
+        if (/prop firm|trader|trading|forex|stock|payout/.test(q)) return "trading";
+        if (/\bai\b|gpt|automation|chatbot/.test(q)) return "ai";
+        if (/smma|agency|client|coach/.test(q)) return "smma";
+        return "other";
+      })(l.sq),
+      dms: 0,
+      stage: "new-lead",
+      _source: "youtube",
+      _ytUrl: l.cu || "",
+      _ytScore: l.s || 0
+    }));
+  }
+
   function basePros() {
     const base = (D.crm && D.crm.prospects) || [];
-    return base.concat(state.added)
+    // Tag each upstream prospect with a default source
+    const baseTagged = base.map(p => Object.assign({ _source: "instagram" }, p));
+    const addedTagged = state.added.map(p => Object.assign({ _source: "manual" }, p));
+    const ytTagged = ytAsProspects();
+    return baseTagged.concat(addedTagged).concat(ytTagged)
       .filter(p => !state.removed.includes(p.n))
       .map(p => {
-      const o = state.overrides[p.n] || {};
-      const stStatus = p.stage === "replied" ? "replied" : "new";
-      return {
-        n: p.n,
-        h: o.handle || p.h || "",
-        niche: p.niche || "—",
-        dms: p.dms || 0,
-        stage: p.stage,
-        status: o.status || stStatus,
-        batch: o.batch || 0
-      };
-    });
+        const o = state.overrides[p.n] || {};
+        const stStatus = p.stage === "replied" ? "replied" : "new";
+        return {
+          n: p.n,
+          h: o.handle || p.h || "",
+          niche: p.niche || "—",
+          dms: p.dms || 0,
+          stage: p.stage,
+          status: o.status || stStatus,
+          batch: o.batch || 0,
+          source: p._source || "instagram",
+          ytUrl: p._ytUrl || "",
+          ytScore: p._ytScore || 0
+        };
+      });
   }
   function setOverride(name, patch) {
     state.overrides[name] = Object.assign({}, state.overrides[name], patch);
     saveState(state);
   }
+  // Expose to Asset Builder drawer (defined outside this IIFE)
+  window.setOverride = setOverride;
   function removeLead(name) {
     if (!state.removed.includes(name)) state.removed.push(name);
     state.added = state.added.filter(a => a.n !== name);
@@ -4071,9 +4465,11 @@
     const q = ($("crmSearch").value || "").toLowerCase();
     const stf = $("crmStatusFilter").value;
     const bf = $("crmBatchFilter").value;
+    const sf = ($("crmSourceFilter") && $("crmSourceFilter").value) || "";
     return P.filter(p =>
       (!stf || p.status === stf) &&
       (bf === "" || String(p.batch) === bf) &&
+      (!sf || p.source === sf) &&
       (!q || (p.n + " " + p.h + " " + p.niche).toLowerCase().includes(q)));
   }
 
@@ -4083,13 +4479,24 @@
     board.innerHTML = STATUSES.map(s => {
       const inCol = rows.filter(p => p.status === s);
       const cards = inCol.map(p => {
-        const handle = p.h
-          ? `<a href="https://instagram.com/${p.h}" target="_blank">@${p.h}</a>`
-          : `<span style="color:var(--muted)">open thread</span>`;
+        let link;
+        if (p.h) {
+          link = `<a href="https://instagram.com/${p.h}" target="_blank" rel="noopener">@${p.h}</a>`;
+        } else if (p.source === "youtube" && p.ytUrl) {
+          link = `<a href="${p.ytUrl}" target="_blank" rel="noopener" style="color:#f87171">YT channel</a>`;
+        } else {
+          link = `<span style="color:var(--muted)">open thread</span>`;
+        }
+        const srcLabel = p.source === "youtube" ? "YT" : (p.source === "instagram" ? "IG" : "MAN");
+        const srcChip = `<span class="src-chip ${p.source}"><span class="dot"></span>${srcLabel}</span>`;
+        const safeN = (p.n||"").replace(/'/g,"\\'");
+        const safeH = (p.h||"").replace(/'/g,"\\'");
+        const safeNiche = (p.niche||"").replace(/'/g,"\\'");
         return `<div class="kan-card" draggable="true" style="border-left-color:${statusColor(s)}" data-name="${encodeURIComponent(p.n)}">
           <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
-          <div class="nm">${p.n}</div>
-          <div class="mt">${handle} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}</div>
+          <div class="nm">${srcChip}${p.n}</div>
+          <div class="mt">${link} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}${p.source==="youtube"&&p.ytScore?` · score ${p.ytScore}`:""}</div>
+          <button class="build-asset-btn" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')">&#9889; Build Asset</button>
         </div>`;
       }).join("");
       return `<div class="kan-col" data-status="${s}">
@@ -4156,6 +4563,8 @@
     });
   }
 
+  // Expose to Asset Builder drawer (defined outside this IIFE)
+  window.renderCrm = renderCrm;
   function renderCrm() {
     const P = basePros();
     refreshKpis(P);
@@ -4207,6 +4616,7 @@
   $("crmSearch").addEventListener("input", renderCrm);
   $("crmStatusFilter").addEventListener("change", renderCrm);
   $("crmBatchFilter").addEventListener("change", renderCrm);
+  if ($("crmSourceFilter")) $("crmSourceFilter").addEventListener("change", renderCrm);
   $("crmBatchPrev").addEventListener("click", () => stepBatch(-1));
   $("crmBatchNext").addEventListener("click", () => stepBatch(1));
   $("crmBatchClear").addEventListener("click", () => setBatchFilter(""));
@@ -4379,214 +4789,29 @@
     a.download = "pulsify-crm-" + todayStr + ".csv";
     a.click();
   });
-  /* ============ YT LEADS ============ */
-  const YT_LS_KEY = "pulsify_yt_leads_v1";
-  const YT_STATUSES = ["new","researching","asset-built","contacted","replied","won","dead"];
-  let ytRaw = [];
-  let ytMeta = { scrapedAt: "", count: 0 };
-  let ytState = (() => {
-    try { return JSON.parse(localStorage.getItem(YT_LS_KEY)) || {}; } catch (e) { return {}; }
-  })();
-  ytState.overrides = ytState.overrides || {}; // channelUrl -> { status, note }
-  function ytSave() {
-    try { localStorage.setItem(YT_LS_KEY, JSON.stringify(ytState)); } catch (e) {}
-  }
-  function ytSetOverride(key, patch) {
-    ytState.overrides[key] = Object.assign({}, ytState.overrides[key], patch);
-    ytSave();
-  }
-  function nicheFromQuery(sq) {
-    const q = (sq || "").toLowerCase();
-    if (/dropship|ecom|shopify|store|product/.test(q)) return "ecom";
-    if (/prop firm|trader|trading|forex|stock|payout/.test(q)) return "trading";
-    if (/\bai\b|gpt|automation|chatbot/.test(q)) return "ai";
-    if (/smma|agency|client|coach/.test(q)) return "smma";
-    return "other";
-  }
-  function nicheLabel(n) {
-    return { ecom:"E-com", trading:"Trading", ai:"AI", smma:"SMMA", other:"Other" }[n] || "Other";
-  }
-  function ytLoadData() {
-    try {
-      const el = document.getElementById("ytLeadsData");
-      const raw = el ? el.textContent.trim() : "";
-      if (!raw || raw.charAt(0) !== "[") {
-        ytRaw = [];
-      } else {
-        ytRaw = JSON.parse(raw);
+  /* ============ PROMPT VAULT (one-click copy) ============ */
+  document.querySelectorAll(".pv-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const key = btn.dataset.prompt;
+      const src = document.getElementById("prompt-" + key);
+      if (!src) return;
+      const text = src.textContent.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        // fallback for non-https contexts
+        const ta = document.createElement("textarea");
+        ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+        document.body.appendChild(ta); ta.select();
+        try { document.execCommand("copy"); } catch (_) {}
+        document.body.removeChild(ta);
       }
-    } catch (e) { ytRaw = []; console.warn("YT leads parse fail:", e); }
-    try {
-      const mEl = document.getElementById("ytLeadsMeta");
-      const mRaw = mEl ? mEl.textContent.trim() : "";
-      if (mRaw && !mRaw.includes("__YT_")) ytMeta = JSON.parse(mRaw);
-    } catch (e) { /* ignore */ }
-    ytRaw.forEach(l => { l._niche = nicheFromQuery(l.sq); l._key = l.cu || l.n; });
-  }
-  function compactNum(n) {
-    n = Number(n) || 0;
-    if (n >= 1e6) return (n/1e6).toFixed(n>=1e7?0:1) + "M";
-    if (n >= 1e3) return (n/1e3).toFixed(n>=1e4?0:1) + "K";
-    return String(n);
-  }
-  function fmtDate(d) {
-    if (!d) return "—";
-    const dt = new Date(d);
-    if (isNaN(dt)) return d;
-    return dt.toLocaleDateString("en-US", { month:"short", day:"numeric", year:"2-digit" });
-  }
-  function escapeHtml(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
-  }
-  function ytFiltered() {
-    const q = ($("ytSearch").value || "").toLowerCase().trim();
-    const niche = $("ytNicheFilter").value;
-    const st = $("ytYtStatusFilter").value;
-    const ig = $("ytIgFilter").value;
-    const hideDead = $("ytHideDead").checked;
-    const sort = $("ytSort").value;
-    let arr = ytRaw.filter(l => {
-      const o = ytState.overrides[l._key] || {};
-      const status = o.status || "new";
-      if (hideDead && status === "dead") return false;
-      if (st && status !== st) return false;
-      if (niche && l._niche !== niche) return false;
-      if (ig === "has" && !l.ig) return false;
-      if (ig === "none" && l.ig) return false;
-      if (q) {
-        const blob = ((l.n||"")+" "+(l.vt||"")+" "+(l.ig||"")+" "+(l.sq||"")).toLowerCase();
-        if (!blob.includes(q)) return false;
-      }
-      return true;
+      btn.classList.add("copied");
+      const hint = document.getElementById("pvHint");
+      if (hint) hint.textContent = "Copied → paste in Perplexity / Claude / GPT";
+      setTimeout(() => btn.classList.remove("copied"), 1100);
     });
-    arr.sort((a,b) => {
-      if (sort === "reach") return (b.tw||0) - (a.tw||0);
-      if (sort === "views") return (b.tv||0) - (a.tv||0);
-      if (sort === "date") return (b.pd||"").localeCompare(a.pd||"");
-      return (b.s||0) - (a.s||0);
-    });
-    return arr;
-  }
-  function ytRenderKpis() {
-    const total = ytRaw.length;
-    const withIg = ytRaw.filter(l => l.ig).length;
-    let contacted = 0, replied = 0, unworked = 0;
-    ytRaw.forEach(l => {
-      const s = (ytState.overrides[l._key]||{}).status || "new";
-      if (s === "contacted" || s === "replied" || s === "won") contacted++;
-      if (s === "replied" || s === "won") replied++;
-      if (s === "new") unworked++;
-    });
-    $("ytTotal").textContent = total;
-    $("ytWithIg").textContent = withIg;
-    $("ytContacted").textContent = contacted;
-    $("ytReplied").textContent = replied;
-    $("ytReplyRate").textContent = contacted ? Math.round((replied/contacted)*100) + "%" : "0%";
-    $("ytUnworked").textContent = unworked;
-    const tc = $("ytTabCount"); if (tc) tc.textContent = total;
-    $("ytScrapedAt").textContent = ytMeta.scrapedAt || "embedded";
-  }
-  function ytPopulateNiches() {
-    const sel = $("ytNicheFilter");
-    if (!sel || sel.options.length > 1) return;
-    const counts = {};
-    ytRaw.forEach(l => counts[l._niche] = (counts[l._niche]||0) + 1);
-    Object.entries(counts).sort((a,b)=>b[1]-a[1]).forEach(([n,c]) => {
-      const o = document.createElement("option");
-      o.value = n; o.textContent = nicheLabel(n) + " (" + c + ")";
-      sel.appendChild(o);
-    });
-  }
-  function ytRenderFeed() {
-    const arr = ytFiltered();
-    const feed = $("ytFeed");
-    if (!arr.length) {
-      feed.innerHTML = "";
-      $("ytEmpty").style.display = "block";
-    } else {
-      $("ytEmpty").style.display = "none";
-      feed.innerHTML = arr.map(l => {
-        const o = ytState.overrides[l._key] || {};
-        const status = o.status || "new";
-        const note = o.note || "";
-        const igHandle = (l.ig || "").replace(/^@/, "");
-        const igHref = igHandle ? "https://instagram.com/" + encodeURIComponent(igHandle) : "";
-        const statusOpts = YT_STATUSES.map(s =>
-          `<option value="${s}"${s===status?" selected":""}>${s}</option>`
-        ).join("");
-        return `
-          <div class="yt-row${status==="dead"?" dead":""}" data-key="${escapeHtml(l._key)}">
-            <div class="yt-score">${compactNum(l.s)}<span class="lbl">score</span></div>
-            <div class="yt-body">
-              <div class="yt-headline">
-                <a class="yt-channel" href="${escapeHtml(l.cu||"#")}" target="_blank" rel="noopener">${escapeHtml(l.n||"Unknown")}</a>
-                <span class="yt-niche ${l._niche}">${nicheLabel(l._niche)}</span>
-              </div>
-              <a class="yt-video" href="${escapeHtml(l.vu||"#")}" target="_blank" rel="noopener" title="${escapeHtml(l.vt||"")}">${escapeHtml(l.vt||"(no title)")}</a>
-              <div class="yt-meta">
-                <span>${compactNum(l.tv)} views</span><span class="dot">·</span>
-                <span>${compactNum(l.tw)} channel reach</span><span class="dot">·</span>
-                <span>${fmtDate(l.pd)}</span><span class="dot">·</span>
-                <span class="sq">${escapeHtml(l.sq||"")}</span>
-              </div>
-            </div>
-            <div class="yt-actions">
-              <div class="yt-actions-row">
-                ${igHandle
-                  ? `<a class="yt-ig" href="${escapeHtml(igHref)}" target="_blank" rel="noopener">IG @${escapeHtml(igHandle)}</a>`
-                  : `<span class="yt-ig empty">no IG</span>`
-                }
-                <select class="yt-status" data-status="${status}">${statusOpts}</select>
-              </div>
-              <input class="yt-note" type="text" placeholder="note…" value="${escapeHtml(note)}" />
-            </div>
-          </div>`;
-      }).join("");
-      feed.querySelectorAll(".yt-row").forEach(row => {
-        const key = row.dataset.key;
-        row.querySelector(".yt-status").addEventListener("change", (e) => {
-          const v = e.target.value;
-          ytSetOverride(key, { status: v });
-          e.target.setAttribute("data-status", v);
-          row.classList.toggle("dead", v === "dead");
-          ytRenderKpis();
-        });
-        row.querySelector(".yt-note").addEventListener("change", (e) => {
-          ytSetOverride(key, { note: e.target.value });
-        });
-      });
-    }
-    $("ytShown").textContent = arr.length;
-    $("ytTotalFooter").textContent = ytRaw.length;
-  }
-  function ytRender() { ytRenderKpis(); ytRenderFeed(); }
-  function ytInit() {
-    ytLoadData();
-    if (!$("ytFeed")) return;
-    ytPopulateNiches();
-    ["ytSearch","ytNicheFilter","ytYtStatusFilter","ytIgFilter","ytSort","ytHideDead"].forEach(id => {
-      const el = $(id); if (!el) return;
-      el.addEventListener(el.tagName === "INPUT" && el.type !== "checkbox" ? "input" : "change", ytRenderFeed);
-    });
-    $("ytExport").addEventListener("click", () => {
-      const arr = ytFiltered();
-      const head = ["score","channel","channel_url","niche","video_title","video_url","video_views","channel_reach","published","ig","search_query","status","note"];
-      const csv = [head.join(",")].concat(arr.map(l => {
-        const o = ytState.overrides[l._key] || {};
-        return [l.s, l.n, l.cu, nicheLabel(l._niche), l.vt, l.vu, l.tv, l.tw, l.pd, l.ig, l.sq, o.status||"new", o.note||""]
-          .map(v => `"${String(v==null?"":v).replace(/"/g,'""')}"`).join(",");
-      })).join("\n");
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([csv], { type:"text/csv" }));
-      a.download = "pulsify-yt-leads-" + todayStr + ".csv";
-      a.click();
-    });
-    ytRender();
-  }
-  try { ytInit(); } catch (e) { window.__ytErr = (e && e.stack) || String(e); const f = document.getElementById('ytFeed'); if (f) f.innerHTML = '<pre style="color:#f87171;font-size:11px;white-space:pre-wrap;padding:12px">YT init error: ' + ((e&&e.stack)||e) + '</pre>'; }
-  /* ============ /YT LEADS ============ */
+  });
 
   renderDashboard();
   renderCrm();
@@ -4727,6 +4952,123 @@
   }, 60);
 })();
 </script>
+
+
+<!-- ====== ASSET BUILDER ====== -->
+<div class="asset-backdrop" id="assetBackdrop"></div>
+<div class="asset-drawer" id="assetDrawer">
+  <div class="drawer-head">
+    <div class="drawer-head-left">
+      <div class="drawer-title">⚡ Asset Builder</div>
+      <div class="drawer-badge" id="drawerBadge">No lead selected</div>
+    </div>
+    <button class="drawer-close" id="drawerClose">&times;</button>
+  </div>
+  <div class="drawer-scroll">
+    <div class="df">
+      <label class="dl" for="drawerApiKey">Claude API Key <span>saved in this browser only</span></label>
+      <input class="di" type="password" id="drawerApiKey" placeholder="sk-ant-api03-..." autocomplete="off" />
+      <div class="api-hint">Get yours at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a></div>
+    </div>
+    <div class="dr">
+      <div class="df"><label class="dl" for="dName">Name</label><input class="di" id="dName" placeholder="e.g. JJ Simon" /></div>
+      <div class="df"><label class="dl" for="dHandle">Handle <span>no @</span></label><input class="di" id="dHandle" placeholder="e.g. itsjjsimon" /></div>
+    </div>
+    <div class="dr">
+      <div class="df"><label class="dl" for="dNiche">Niche</label><input class="di" id="dNiche" placeholder="e.g. trading" /></div>
+      <div class="df"><label class="dl" for="dPlatform">Platform</label>
+        <select class="ds" id="dPlatform"><option>Instagram</option><option>YouTube</option><option>both</option></select>
+      </div>
+    </div>
+    <div class="df">
+      <label class="dl" for="dProblem">Problem identified <span>1-3 sentences, be specific</span></label>
+      <textarea class="dt" id="dProblem" placeholder="e.g. Solid content but no funnel — no VSL, no application form, leads going cold."></textarea>
+    </div>
+    <div class="df">
+      <label class="dl" for="dTranscript">Perplexity output <span>from 3-5 transcripts</span></label>
+      <textarea class="dt tall" id="dTranscript" placeholder="Paste the Perplexity extraction here — voice, phrases, proof, mechanism..."></textarea>
+    </div>
+    <div class="df">
+      <label class="dl" for="dAsset">Asset to build</label>
+      <select class="ds" id="dAsset">
+        <option value="outreach DM">Outreach DM</option>
+        <option value="VSL">VSL script</option>
+        <option value="Loom script">Loom script</option>
+        <option value="landing page copy">Landing page copy</option>
+        <option value="email">Email</option>
+      </select>
+    </div>
+    <div class="drawer-spin" id="dSpin"><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div><span>Calling Claude...</span></div>
+    <div class="drawer-err" id="dErr"></div>
+    <div class="drawer-out" id="dOut">
+      <div class="out-head">
+        <span class="out-lbl" id="dOutLbl">Asset</span>
+        <div class="out-actions">
+          <button class="btn-xs acc" id="dCopyOut">Copy</button>
+          <button class="btn-xs" id="dMarkBuilt">Mark asset-built</button>
+        </div>
+      </div>
+      <div class="out-text" id="dOutText"></div>
+    </div>
+  </div>
+  <div class="drawer-foot">
+    <button class="btn-copy-p" id="dCopyPrompt">Copy prompt</button>
+    <button class="btn-gen" id="dGenerate">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Generate via Claude API
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  var LS="pulsify_api_key";
+  var drawer=document.getElementById("assetDrawer"),backdrop=document.getElementById("assetBackdrop"),badge=document.getElementById("drawerBadge"),closeBtn=document.getElementById("drawerClose"),apiIn=document.getElementById("drawerApiKey"),dName=document.getElementById("dName"),dHandle=document.getElementById("dHandle"),dNiche=document.getElementById("dNiche"),dPlatform=document.getElementById("dPlatform"),dProblem=document.getElementById("dProblem"),dTranscript=document.getElementById("dTranscript"),dAsset=document.getElementById("dAsset"),dSpin=document.getElementById("dSpin"),dErr=document.getElementById("dErr"),dOut=document.getElementById("dOut"),dOutText=document.getElementById("dOutText"),dOutLbl=document.getElementById("dOutLbl"),dGen=document.getElementById("dGenerate"),dCopyP=document.getElementById("dCopyPrompt"),dCopyOut=document.getElementById("dCopyOut"),dMark=document.getElementById("dMarkBuilt");
+  var curLead="";
+  var k=localStorage.getItem(LS); if(k&&apiIn)apiIn.value=k;
+  if(apiIn)apiIn.addEventListener("change",function(){if(apiIn.value.trim())localStorage.setItem(LS,apiIn.value.trim());});
+  window.openAssetBuilder=function(name,handle,niche){
+    curLead=name;
+    if(dName)dName.value=name||"";
+    if(dHandle)dHandle.value=handle||"";
+    if(dNiche)dNiche.value=niche||"";
+    if(badge)badge.textContent=name+(handle?" @"+handle:"")+(niche?" · "+niche:"");
+    resetOut();
+    drawer.classList.add("open");backdrop.classList.add("open");document.body.style.overflow="hidden";
+  };
+  function close_(){drawer.classList.remove("open");backdrop.classList.remove("open");document.body.style.overflow="";}
+  if(closeBtn)closeBtn.addEventListener("click",close_);
+  if(backdrop)backdrop.addEventListener("click",close_);
+  function resetOut(){if(dOut)dOut.classList.remove("show");if(dErr){dErr.classList.remove("show");dErr.textContent="";}if(dSpin)dSpin.classList.remove("show");}
+  function buildPrompt(){
+    var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),pl=(dPlatform&&dPlatform.value||"Instagram"),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),at=(dAsset&&dAsset.value||"outreach DM");
+    return "You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person, not a template, not generic.\n\n**Lead:**\n- Name: "+n+(h?" (@"+h+")":"")+"\n- Platform: "+pl+"\n- Niche: "+(ni||"unknown")+"\n\n**The problem I identified:**\n"+(pr||"[not specified]")+"\n\n**Transcript data (Perplexity output):**\n"+(tr||"[not provided]")+"\n\n**Asset to build:** "+at+"\n\n---\n\nBefore writing, silently: (1) Extract top 5-10 recurring phrases verbatim. (2) Confirm the problem connects to something in the transcript. (3) Identify the one angle that proves you watched their content.\n\nAsset rules:\n\nOutreach DM: 4-sentence max opener, lead with diagnosis not compliment, reference something specific from their content, no pitch in first message, end with one question.\n\nVSL: open with their pain in their own language, introduce the Pulse System only after problem is established, no mention of AI tools or tech, end with one CTA.\n\nLoom script: 90 seconds max. First 10s: name them and one specific content reference. Middle 60s: diagnose problem, cost, fix. Last 20s: exact next step.\n\nLanding page copy: headline = the problem, subhead = cost of inaction, body = Pulsify as operator, social proof = Nick ($10-20K to $50K/month in 3 months), CTA = book a call.\n\nEmail: subject = problem not Pulsify, first line = content reference, 3 short paragraphs: problem / possible / next step.\n\nNon-negotiables: no lifestyle flexing, no generic openers, problem is the center of gravity, Pulsify value = operator expertise not tools, one clear next step.";
+  }
+  if(dCopyP)dCopyP.addEventListener("click",function(){navigator.clipboard.writeText(buildPrompt()).then(function(){dCopyP.textContent="Copied!";setTimeout(function(){dCopyP.textContent="Copy prompt";},2200);});});
+  if(dGen)dGen.addEventListener("click",function(){
+    var key=(apiIn&&apiIn.value||"").trim();
+    if(!key){showErr("Enter your Claude API key first.");return;}
+    if(!(dProblem&&dProblem.value||"").trim()){showErr("Describe the problem first.");return;}
+    if(!(dTranscript&&dTranscript.value||"").trim()){showErr("Paste the Perplexity output first.");return;}
+    var at=dAsset&&dAsset.value||"outreach DM";
+    resetOut();dSpin.classList.add("show");dGen.disabled=true;
+    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:2048,messages:[{role:"user",content:buildPrompt()}]})})
+    .then(function(r){if(!r.ok)return r.json().then(function(e){throw new Error(e.error&&e.error.message||"API error "+r.status);});return r.json();})
+    .then(function(d){var t=d.content&&d.content[0]&&d.content[0].text||"";dSpin.classList.remove("show");if(dOutLbl)dOutLbl.textContent=at.toUpperCase();if(dOutText)dOutText.textContent=t;if(dOut)dOut.classList.add("show");localStorage.setItem(LS,key);})
+    .catch(function(e){dSpin.classList.remove("show");showErr("Error: "+e.message+". If CORS error, use 'Copy prompt' and paste into Claude.ai instead.");})
+    .finally(function(){dGen.disabled=false;});
+  });
+  function showErr(m){if(!dErr)return;dErr.textContent=m;dErr.classList.add("show");}
+  if(dCopyOut)dCopyOut.addEventListener("click",function(){navigator.clipboard.writeText(dOutText&&dOutText.textContent||"").then(function(){dCopyOut.textContent="Copied!";setTimeout(function(){dCopyOut.textContent="Copy";},2200);});});
+  if(dMark)dMark.addEventListener("click",function(){
+    if(!curLead)return;
+    if(typeof window.setOverride==="function"){window.setOverride(curLead,{status:"asset-built"});if(typeof window.renderCrm==="function")window.renderCrm();}
+    dMark.textContent="Marked!";dMark.style.color="#2dd4bf";
+    setTimeout(function(){dMark.textContent="Mark asset-built";dMark.style.color="";},2500);
+  });
+})();
+</script>
+<!-- ====== END ASSET BUILDER ====== -->
 
 </body>
 </html>
