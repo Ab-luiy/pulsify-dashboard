@@ -21,6 +21,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lead_scoring import enrich_leads
+
 
 SCRIPT_PATTERN = (
     r'(<script id="{id}" type="application/json">)(.*?)(</script>)'
@@ -67,10 +70,23 @@ def main():
         print(f"ERROR: leads JSON invalid — {e}", file=sys.stderr)
         sys.exit(1)
 
+    scrape_date = None
     if meta_path.exists():
         meta_text = meta_path.read_text(encoding="utf-8").strip()
+        try:
+            scrape_date = json.loads(meta_text).get("scrapedAt")
+        except Exception:
+            scrape_date = None
     else:
         meta_text = json.dumps({"scrapedAt": "unknown", "count": len(leads_data)})
+
+    # Enrich at build time so the dashboard bakes clean handles + real scores.
+    # Adds per lead: cleaned ig, email, niche, score (0-100), tier (A/B/C), wound.
+    # Without this the UI shows raw subscriber counts as "score" and email
+    # domains (e.g. @gmail.com) as IG handles. Fixed in the data layer so the
+    # 298KB single-file UI never has to change.
+    enrich_leads(leads_data, scrape_date)
+    leads_text = json.dumps(leads_data, ensure_ascii=False, separators=(",", ":"))
 
     html = html_path.read_text(encoding="utf-8")
     original_size = len(html)
