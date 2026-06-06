@@ -2310,6 +2310,286 @@
     border-color: rgba(255,255,255,0.14);
   }
   .live-tile .hint, .source-list .detail { color: var(--text-2); }
+
+  /* ===================== HEALTH ===================== */
+  .health-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
+    gap: 28px;
+    background:
+      radial-gradient(420px 280px at 0% 0%, rgba(200,30,30,0.10), transparent 60%),
+      radial-gradient(380px 280px at 100% 100%, rgba(212,162,76,0.06), transparent 60%),
+      var(--surface);
+    border: 1px solid var(--border-strong);
+    overflow: hidden;
+    position: relative;
+  }
+  .health-hero::after {
+    content:"";
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 38px 38px;
+    mask-image: radial-gradient(circle at 30% 40%, #000 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(circle at 30% 40%, #000 0%, transparent 75%);
+    pointer-events:none;
+  }
+  .health-hero > * { position: relative; z-index: 1; }
+  .hh-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--text-2); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.22em;
+    font-weight: 600;
+  }
+  .hh-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  .hh-title {
+    font-size: 44px; line-height: 1.05;
+    margin-top: 14px; color: var(--text);
+  }
+  .hh-title em { color: var(--accent); font-style: italic; }
+  .hh-copy { color: var(--text-2); font-size: 14.5px; max-width: 520px; margin-top: 12px; line-height: 1.55; }
+  .hh-stage {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr 1fr;
+    align-items: center;
+    gap: 18px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .hh-stage-col .hh-stage-k {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); font-weight: 600;
+  }
+  .hh-stage-col .hh-stage-v {
+    font-size: 28px; color: var(--text); margin-top: 6px; font-weight: 500; letter-spacing: -0.01em;
+  }
+  .hh-stage-col .hh-stage-v .hh-u { color: var(--muted); font-size: 14px; margin-left: 4px; }
+  .hh-stage-col .hh-stage-sub { color: var(--text-2); font-size: 12.5px; margin-top: 4px; }
+  .hh-stage-col.target .hh-stage-v { color: var(--accent); }
+  .hh-stage-arrow { color: var(--text-2); display: grid; place-items: center; opacity: 0.6; }
+  .hh-stage-arrow svg { width: 56px; height: 22px; }
+  .hh-right {
+    display: flex; flex-direction: column; justify-content: space-between; gap: 18px;
+    padding-left: 28px;
+    border-left: 1px dashed rgba(255,255,255,0.08);
+  }
+  .hh-pillars {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  }
+  .hh-pillar {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .hh-pillar .p-k { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); font-weight: 600; }
+  .hh-pillar .p-v { font-size: 13.5px; color: var(--text); font-weight: 500; }
+  .hh-quote { font-family: "Instrument Serif", serif; font-size: 19px; color: var(--text); line-height: 1.35; font-style: italic; }
+  .hh-quote::before { content: "“"; color: var(--accent); margin-right: 2px; }
+  .hh-quote::after { content: "”"; color: var(--accent); margin-left: 1px; }
+  .hh-attrib { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); font-weight: 600; }
+
+  /* Macro ring + bars */
+  .rh { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 14px; }
+  .rh .label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--text-2); font-weight: 600; }
+  .rh .sub { font-size: 11.5px; color: var(--muted); font-family: "JetBrains Mono", monospace; }
+  .macro-body {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr);
+    gap: 28px;
+    align-items: center;
+  }
+  .macro-ring-wrap {
+    position: relative;
+    width: 200px; height: 200px;
+    display: grid; place-items: center;
+  }
+  .macro-ring { width: 200px; height: 200px; transform: rotate(0); }
+  .macro-ring .ring-bg { stroke: rgba(255,255,255,0.06); }
+  .macro-ring .ring-fg {
+    stroke: url(#macroGrad);
+    transition: stroke-dasharray 0.6s cubic-bezier(0.22,0.9,0.26,1);
+  }
+  .ring-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .ring-center .rc-v { font-size: 36px; color: var(--text); font-weight: 500; letter-spacing: -0.02em; }
+  .ring-center .rc-k { font-size: 11px; color: var(--text-2); margin-top: 2px; font-family: "JetBrains Mono", monospace; }
+  .ring-center .rc-delta { font-size: 10.5px; color: var(--accent); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; }
+  .ring-center .rc-delta.over { color: var(--danger); }
+
+  .macro-bars { display: flex; flex-direction: column; gap: 14px; }
+  .mb-row .mb-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .mb-row .mb-k { font-size: 12px; color: var(--text); font-weight: 500; }
+  .mb-row .mb-v { font-size: 12px; color: var(--text); }
+  .mb-row .mb-t { color: var(--muted); }
+  .mb-row .mb-bar {
+    height: 6px; background: rgba(255,255,255,0.05); border-radius: 999px; overflow: hidden;
+  }
+  .mb-row .mb-bar > span {
+    display: block; height: 100%; width: 0%;
+    border-radius: 999px;
+    transition: width 0.6s cubic-bezier(0.22,0.9,0.26,1);
+  }
+  .mb-row[data-macro="protein"] .mb-bar > span { background: linear-gradient(90deg, var(--accent), #ef4444); }
+  .mb-row[data-macro="carbs"]   .mb-bar > span { background: linear-gradient(90deg, var(--orange), #f59e0b); }
+  .mb-row[data-macro="fat"]     .mb-bar > span { background: linear-gradient(90deg, var(--cyan), #d4a24c); }
+  .mb-row[data-macro="fiber"]   .mb-bar > span { background: linear-gradient(90deg, #4ade80, #22c55e); }
+
+  /* Log form */
+  .log-form { display: flex; flex-direction: column; gap: 10px; }
+  .log-form input, .log-form select {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    padding: 10px 12px;
+    outline: none;
+    transition: border-color 0.16s ease, background 0.16s ease;
+  }
+  .log-form input:focus, .log-form select:focus {
+    border-color: var(--accent);
+    background: rgba(200,30,30,0.04);
+  }
+  .log-form input::placeholder { color: var(--muted); }
+  .log-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .log-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .quick-presets {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 10px;
+    background: var(--surface-2);
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-sm);
+  }
+  .quick-presets button {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    color: var(--text-2);
+    font: inherit; font-size: 11.5px;
+    padding: 6px 10px; border-radius: 6px; cursor: pointer;
+    transition: all 0.16s ease;
+  }
+  .quick-presets button:hover { color: var(--text); border-color: var(--accent); background: rgba(200,30,30,0.06); }
+
+  /* Entries */
+  .entries-list { display: flex; flex-direction: column; gap: 6px; }
+  .entry {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.16s ease, transform 0.16s ease;
+  }
+  .entry:hover { border-color: rgba(255,255,255,0.14); transform: translateX(2px); }
+  .entry .e-meal {
+    font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.16em;
+    color: var(--text-2); font-weight: 600;
+    padding: 4px 6px; border-radius: 5px; background: rgba(255,255,255,0.05);
+    text-align: center;
+  }
+  .entry[data-meal="breakfast"] .e-meal { color: var(--orange); background: rgba(224,164,88,0.10); }
+  .entry[data-meal="lunch"] .e-meal { color: var(--cyan); background: rgba(184,153,104,0.10); }
+  .entry[data-meal="dinner"] .e-meal { color: var(--accent); background: var(--accent-soft); }
+  .entry[data-meal="snack"] .e-meal { color: var(--success); background: rgba(74,222,128,0.10); }
+  .entry .e-food { color: var(--text); font-size: 13px; font-weight: 500; }
+  .entry .e-macros { display: flex; gap: 10px; font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--text-2); }
+  .entry .e-macros .m-tag { white-space: nowrap; }
+  .entry .e-macros .m-tag b { color: var(--text); font-weight: 600; }
+  .entry .e-del {
+    background: transparent; border: 0;
+    color: var(--muted); cursor: pointer;
+    width: 26px; height: 26px; border-radius: 6px;
+    display: grid; place-items: center;
+    transition: all 0.16s ease;
+  }
+  .entry .e-del:hover { color: var(--danger); background: rgba(248,113,113,0.08); }
+  .empty {
+    color: var(--muted); font-size: 12.5px;
+    padding: 18px 14px; text-align: center;
+    background: var(--surface-2);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-sm);
+  }
+
+  /* Week strip */
+  .week-strip {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 6px; margin-top: 12px;
+  }
+  .week-strip .ws-day {
+    text-align: center;
+    padding: 6px 4px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .week-strip .ws-k { font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); }
+  .week-strip .ws-v { font-size: 12px; color: var(--text); font-family: "JetBrains Mono", monospace; margin-top: 2px; }
+  .week-strip .ws-day.today { border-color: var(--accent); background: var(--accent-soft); }
+
+  /* Targets grid */
+  .targets-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .targets-grid label {
+    display: flex; flex-direction: column; gap: 5px;
+    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em;
+    color: var(--text-2); font-weight: 600;
+  }
+  .targets-grid input {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font: inherit;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    padding: 8px 10px;
+    outline: none;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .targets-grid input:focus { border-color: var(--accent); }
+
+  /* Vision list */
+  .vision-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  .vision-list li {
+    display: grid; grid-template-columns: 88px minmax(0,1fr);
+    gap: 14px;
+    align-items: baseline;
+    padding: 12px 14px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    border-left: 2px solid var(--accent);
+  }
+  .vision-list .v-k {
+    font-family: "Instrument Serif", serif;
+    font-size: 18px; color: var(--accent); letter-spacing: -0.01em;
+  }
+  .vision-list .v-v { color: var(--text); font-size: 13px; line-height: 1.5; }
+
+  @media (max-width: 1100px) {
+    .health-hero { grid-template-columns: 1fr; }
+    .hh-right { border-left: 0; padding-left: 0; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 18px; }
+    .hh-stage { grid-template-columns: 1fr 1fr; }
+    .hh-stage-arrow { display: none; }
+    .macro-body { grid-template-columns: 1fr; }
+    .macro-ring-wrap { margin: 0 auto; }
+  }
 </style>
 </head>
 <body>
@@ -2354,6 +2634,10 @@
       CRM <span class="count" id="crmTabCount">0</span>
     </button>
     <!-- YT Leads merged into CRM (source-tagged youtube / instagram / manual) -->
+    <button data-tab="health">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+      Health <span class="count" id="healthTabCount">—</span>
+    </button>
   </nav>
 
   <div class="sb-foot">
@@ -3052,6 +3336,195 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       </div>
       <div class="empty" id="crmEmpty" style="display:none">No leads match.</div>
     </div>
+  </div>
+</section>
+
+<!-- HEALTH -->
+<section class="tab-panel" id="tab-health">
+  <div class="grid">
+
+    <!-- Vision band: where I'm taking my health -->
+    <div class="card span-12 health-hero">
+      <div class="hh-left">
+        <div class="hh-eyebrow"><span class="hh-dot"></span>Operator body · vision</div>
+        <div class="hh-title serif" id="hVisionTitle">Sharper, leaner, <em>quieter mind.</em></div>
+        <div class="hh-copy" id="hVisionCopy">Walking proof that the work doesn't have to cost the body. Train daily, eat clean, sleep deep, recover hard.</div>
+        <div class="hh-stage">
+          <div class="hh-stage-col">
+            <div class="hh-stage-k">Now</div>
+            <div class="hh-stage-v mono" id="hWeightNow">— <span class="hh-u">kg</span></div>
+            <div class="hh-stage-sub" id="hBodyFatNow">— % body fat</div>
+          </div>
+          <div class="hh-stage-arrow">
+            <svg viewBox="0 0 60 24" aria-hidden="true"><path d="M2 12h50M44 4l10 8-10 8" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="hh-stage-col target">
+            <div class="hh-stage-k">Target</div>
+            <div class="hh-stage-v mono" id="hWeightGoal">— <span class="hh-u">kg</span></div>
+            <div class="hh-stage-sub" id="hBodyFatGoal">— % body fat</div>
+          </div>
+          <div class="hh-stage-col">
+            <div class="hh-stage-k">By</div>
+            <div class="hh-stage-v mono" id="hGoalDate">—</div>
+            <div class="hh-stage-sub" id="hGoalCountdown">— weeks out</div>
+          </div>
+        </div>
+      </div>
+      <div class="hh-right">
+        <div class="hh-pillars">
+          <div class="hh-pillar" data-pillar="train"><span class="p-k">Train</span><span class="p-v" id="hPillarTrain">5×/wk</span></div>
+          <div class="hh-pillar" data-pillar="eat"><span class="p-k">Eat</span><span class="p-v" id="hPillarEat">whole, tracked</span></div>
+          <div class="hh-pillar" data-pillar="sleep"><span class="p-k">Sleep</span><span class="p-v" id="hPillarSleep">7.5h+</span></div>
+          <div class="hh-pillar" data-pillar="walk"><span class="p-k">Walk</span><span class="p-v" id="hPillarWalk">10k steps</span></div>
+        </div>
+        <div class="hh-quote">Discipline is the highest form of self-respect.</div>
+        <div class="hh-attrib">Operating standard · No. 3</div>
+      </div>
+    </div>
+
+    <!-- Today's macros ring + KPIs -->
+    <div class="card span-7 macro-card">
+      <div class="rh">
+        <span class="label">Today's intake</span>
+        <span class="sub" id="hTodayDate">—</span>
+      </div>
+      <div class="macro-body">
+        <div class="macro-ring-wrap">
+          <svg class="macro-ring" viewBox="0 0 120 120" aria-hidden="true">
+            <defs>
+              <linearGradient id="macroGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#dc2626"/>
+                <stop offset="100%" stop-color="#7a0f0f"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-bg" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
+            <circle class="ring-fg" id="hCalRing" cx="60" cy="60" r="52" fill="none" stroke-width="10" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="ring-center">
+            <div class="rc-v mono"><span id="hCalNow">0</span></div>
+            <div class="rc-k">of <span id="hCalTarget">0</span> kcal</div>
+            <div class="rc-delta" id="hCalDelta">— remaining</div>
+          </div>
+        </div>
+        <div class="macro-bars">
+          <div class="mb-row" data-macro="protein">
+            <div class="mb-head"><span class="mb-k">Protein</span><span class="mb-v mono"><span id="hPnow">0</span>g <span class="mb-t">/ <span id="hPtarget">0</span>g</span></span></div>
+            <div class="mb-bar"><span id="hPbar" style="width:0%"></span></div>
+          </div>
+          <div class="mb-row" data-macro="carbs">
+            <div class="mb-head"><span class="mb-k">Carbs</span><span class="mb-v mono"><span id="hCnow">0</span>g <span class="mb-t">/ <span id="hCtarget">0</span>g</span></span></div>
+            <div class="mb-bar"><span id="hCbar" style="width:0%"></span></div>
+          </div>
+          <div class="mb-row" data-macro="fat">
+            <div class="mb-head"><span class="mb-k">Fat</span><span class="mb-v mono"><span id="hFnow">0</span>g <span class="mb-t">/ <span id="hFtarget">0</span>g</span></span></div>
+            <div class="mb-bar"><span id="hFbar" style="width:0%"></span></div>
+          </div>
+          <div class="mb-row" data-macro="fiber">
+            <div class="mb-head"><span class="mb-k">Fiber</span><span class="mb-v mono"><span id="hFiNow">0</span>g <span class="mb-t">/ <span id="hFiTarget">30</span>g</span></span></div>
+            <div class="mb-bar"><span id="hFiBar" style="width:0%"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick log form -->
+    <div class="card span-5 log-card">
+      <div class="rh">
+        <span class="label">Log a meal</span>
+        <span class="sub">add to today</span>
+      </div>
+      <form id="hLogForm" class="log-form" autocomplete="off">
+        <input type="text" id="hFood" placeholder="What did you eat? (e.g. 200g chicken + rice)" required />
+        <div class="log-grid">
+          <input type="number" id="hKcal" placeholder="kcal" min="0" required />
+          <input type="number" id="hProt" placeholder="P (g)" min="0" step="0.1" />
+          <input type="number" id="hCarb" placeholder="C (g)" min="0" step="0.1" />
+          <input type="number" id="hFat" placeholder="F (g)" min="0" step="0.1" />
+          <input type="number" id="hFib" placeholder="Fiber (g)" min="0" step="0.1" />
+          <select id="hMeal">
+            <option value="breakfast">breakfast</option>
+            <option value="lunch">lunch</option>
+            <option value="dinner" selected>dinner</option>
+            <option value="snack">snack</option>
+          </select>
+        </div>
+        <div class="log-actions">
+          <button type="submit" class="control-btn accent">Log meal</button>
+          <button type="button" class="control-btn" id="hQuickPreset">Quick presets</button>
+        </div>
+        <div class="quick-presets" id="hPresetTray" style="display:none">
+          <button type="button" data-preset='{"food":"Greek yogurt + berries","kcal":280,"p":24,"c":32,"f":6,"fi":4,"meal":"breakfast"}'>Greek yogurt bowl</button>
+          <button type="button" data-preset='{"food":"Chicken + rice + greens","kcal":620,"p":48,"c":70,"f":14,"fi":6,"meal":"lunch"}'>Chicken + rice</button>
+          <button type="button" data-preset='{"food":"Steak + sweet potato","kcal":720,"p":52,"c":55,"f":28,"fi":8,"meal":"dinner"}'>Steak + sweet potato</button>
+          <button type="button" data-preset='{"food":"Whey shake + banana","kcal":260,"p":28,"c":30,"f":3,"fi":3,"meal":"snack"}'>Whey + banana</button>
+          <button type="button" data-preset='{"food":"3 whole eggs + oats","kcal":450,"p":28,"c":40,"f":18,"fi":5,"meal":"breakfast"}'>Eggs + oats</button>
+          <button type="button" data-preset='{"food":"Salmon + asparagus + quinoa","kcal":580,"p":42,"c":42,"f":22,"fi":7,"meal":"dinner"}'>Salmon + quinoa</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Today's entries -->
+    <div class="card span-7">
+      <div class="rh">
+        <span class="label">Today's entries</span>
+        <span class="sub"><span id="hEntryCount">0</span> meals logged</span>
+      </div>
+      <div class="entries-list" id="hEntries"></div>
+      <div class="empty" id="hEntriesEmpty">Nothing logged yet. Log your first meal to start the day clean.</div>
+    </div>
+
+    <!-- 7-day calorie chart -->
+    <div class="card span-5">
+      <div class="rh">
+        <span class="label">7-day calories</span>
+        <span class="sub" id="hWeekAvg">avg —</span>
+      </div>
+      <div class="chart-wrap">
+        <svg id="hCalChart" viewBox="0 0 320 160" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="week-strip" id="hWeekStrip"></div>
+    </div>
+
+    <!-- Targets editor + body comp log -->
+    <div class="card span-6">
+      <div class="rh">
+        <span class="label">Targets</span>
+        <span class="sub">edit anytime</span>
+      </div>
+      <div class="targets-grid">
+        <label>Calories<input type="number" id="tCal" min="0" /></label>
+        <label>Protein (g)<input type="number" id="tProt" min="0" /></label>
+        <label>Carbs (g)<input type="number" id="tCarb" min="0" /></label>
+        <label>Fat (g)<input type="number" id="tFat" min="0" /></label>
+        <label>Fiber (g)<input type="number" id="tFib" min="0" /></label>
+        <label>Current weight (kg)<input type="number" id="tWnow" step="0.1" min="0" /></label>
+        <label>Goal weight (kg)<input type="number" id="tWgoal" step="0.1" min="0" /></label>
+        <label>Current body fat (%)<input type="number" id="tBFnow" step="0.1" min="0" /></label>
+        <label>Goal body fat (%)<input type="number" id="tBFgoal" step="0.1" min="0" /></label>
+        <label>Goal date<input type="date" id="tGoalDate" /></label>
+      </div>
+      <div class="log-actions" style="margin-top:14px">
+        <button class="control-btn accent" id="hSaveTargets">Save targets</button>
+        <button class="control-btn" id="hResetAll">Reset all data</button>
+      </div>
+    </div>
+
+    <!-- Goals / vision detail -->
+    <div class="card span-6">
+      <div class="rh">
+        <span class="label">Where I'm taking it</span>
+        <span class="sub">non-negotiables</span>
+      </div>
+      <ul class="vision-list" id="hVisionList">
+        <li><span class="v-k">Lean</span><span class="v-v">Visible abs + vascular forearms, no bloat, year-round.</span></li>
+        <li><span class="v-k">Strong</span><span class="v-v">2x bodyweight deadlift, 1.5x bench, clean form before weight.</span></li>
+        <li><span class="v-k">Energy</span><span class="v-v">No 3pm crash. Same energy at 11am and 9pm.</span></li>
+        <li><span class="v-k">Sleep</span><span class="v-v">7.5h+ nightly, no phone after 10pm, dark + cold room.</span></li>
+        <li><span class="v-k">Mind</span><span class="v-v">Walk 60min daily, meditate 10min, no doomscroll.</span></li>
+        <li><span class="v-k">Food</span><span class="v-v">Whole foods 90% of the week. Honest tracking. No hiding bites.</span></li>
+      </ul>
+    </div>
+
   </div>
 </section>
 
@@ -4870,7 +5343,8 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     content: ["Content engine", "Make the room <em>before</em> the offer."],
     sales:   ["Sales motion", "From hit list to <em>closed</em>."],
     income:  ["Income", "Cash, MRR, and the <em>pipeline</em>."],
-    crm:     ["Lead intelligence", "Value-led <em>retarget</em>, not spray."]
+    crm:     ["Lead intelligence", "Value-led <em>retarget</em>, not spray."],
+    health:  ["Operator body", "Body is the <em>foundation</em>."]
   };
   function updatePageHead(tabId) {
     const eyebrow = $("pageEyebrow");
@@ -4956,6 +5430,329 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     updatePageHead("live");
     runTickers(document);
   }, 60);
+})();
+</script>
+
+<script>
+/* ===================== HEALTH SECTION ===================== */
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const STORAGE_KEY = "pulsifyHealth.v1";
+  const DEFAULTS = {
+    targets: { cal: 2800, p: 200, c: 320, f: 80, fi: 30 },
+    body: { wNow: 78, wGoal: 72, bfNow: 18, bfGoal: 11, goalDate: "" },
+    entries: []
+  };
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return JSON.parse(JSON.stringify(DEFAULTS));
+      const data = JSON.parse(raw);
+      return {
+        targets: Object.assign({}, DEFAULTS.targets, data.targets || {}),
+        body: Object.assign({}, DEFAULTS.body, data.body || {}),
+        entries: Array.isArray(data.entries) ? data.entries : []
+      };
+    } catch (e) { return JSON.parse(JSON.stringify(DEFAULTS)); }
+  }
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  let state = load();
+
+  const todayISO = () => new Date().toISOString().slice(0,10);
+  const fmt = (n) => Number(n || 0).toLocaleString("en-US");
+  const round = (n, d) => { const p = Math.pow(10, d || 0); return Math.round(n * p) / p; };
+
+  function entriesFor(dateISO) { return state.entries.filter(e => e.date === dateISO); }
+  function sumDay(dateISO) {
+    const t = { kcal: 0, p: 0, c: 0, f: 0, fi: 0 };
+    entriesFor(dateISO).forEach(e => {
+      t.kcal += +e.kcal || 0;
+      t.p += +e.p || 0;
+      t.c += +e.c || 0;
+      t.f += +e.f || 0;
+      t.fi += +e.fi || 0;
+    });
+    return t;
+  }
+
+  /* ---- HERO / VISION ---- */
+  function renderHero() {
+    const b = state.body;
+    if ($("hWeightNow")) $("hWeightNow").innerHTML = (b.wNow || "—") + ' <span class="hh-u">kg</span>';
+    if ($("hWeightGoal")) $("hWeightGoal").innerHTML = (b.wGoal || "—") + ' <span class="hh-u">kg</span>';
+    if ($("hBodyFatNow")) $("hBodyFatNow").textContent = (b.bfNow ? b.bfNow + "% body fat" : "— % body fat");
+    if ($("hBodyFatGoal")) $("hBodyFatGoal").textContent = (b.bfGoal ? b.bfGoal + "% body fat" : "— % body fat");
+    if ($("hGoalDate")) {
+      if (b.goalDate) {
+        const d = new Date(b.goalDate);
+        $("hGoalDate").textContent = d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        const weeks = Math.max(0, Math.ceil((d - new Date()) / (1000*60*60*24*7)));
+        if ($("hGoalCountdown")) $("hGoalCountdown").textContent = weeks + " weeks out";
+      } else {
+        $("hGoalDate").textContent = "—";
+        if ($("hGoalCountdown")) $("hGoalCountdown").textContent = "set a date";
+      }
+    }
+  }
+
+  /* ---- TODAY TOTALS + RING ---- */
+  function renderTodayTotals() {
+    const day = todayISO();
+    const tot = sumDay(day);
+    const T = state.targets;
+
+    if ($("hTodayDate")) {
+      const d = new Date();
+      $("hTodayDate").textContent = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+    }
+    if ($("hCalNow")) $("hCalNow").textContent = fmt(round(tot.kcal, 0));
+    if ($("hCalTarget")) $("hCalTarget").textContent = fmt(T.cal);
+    const remaining = T.cal - tot.kcal;
+    if ($("hCalDelta")) {
+      $("hCalDelta").textContent = (remaining >= 0 ? fmt(round(remaining, 0)) + " remaining" : fmt(round(-remaining, 0)) + " over");
+      $("hCalDelta").classList.toggle("over", remaining < 0);
+    }
+
+    const ring = $("hCalRing");
+    if (ring) {
+      const C = 2 * Math.PI * 52;
+      const pct = Math.min(1, T.cal ? tot.kcal / T.cal : 0);
+      ring.setAttribute("stroke-dasharray", (C * pct).toFixed(1) + " " + C.toFixed(1));
+    }
+
+    function setBar(macroKey, barId, nowId, tarId, tar) {
+      const now = round(tot[macroKey], 1);
+      const pct = tar ? Math.min(100, (now / tar) * 100) : 0;
+      if ($(nowId)) $(nowId).textContent = now;
+      if ($(tarId)) $(tarId).textContent = tar;
+      if ($(barId)) $(barId).style.width = pct + "%";
+    }
+    setBar("p",  "hPbar",  "hPnow",  "hPtarget",  T.p);
+    setBar("c",  "hCbar",  "hCnow",  "hCtarget",  T.c);
+    setBar("f",  "hFbar",  "hFnow",  "hFtarget",  T.f);
+    setBar("fi", "hFiBar", "hFiNow", "hFiTarget", T.fi);
+
+    /* Sidebar count: today's calories */
+    const tabCount = document.getElementById("healthTabCount");
+    if (tabCount) tabCount.textContent = fmt(round(tot.kcal, 0));
+  }
+
+  /* ---- ENTRIES LIST ---- */
+  function renderEntries() {
+    const day = todayISO();
+    const rows = entriesFor(day).slice().sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    const list = $("hEntries");
+    const empty = $("hEntriesEmpty");
+    const count = $("hEntryCount");
+    if (count) count.textContent = rows.length;
+    if (!list) return;
+    if (!rows.length) {
+      list.innerHTML = "";
+      if (empty) empty.style.display = "block";
+      return;
+    }
+    if (empty) empty.style.display = "none";
+    list.innerHTML = rows.map(r => `
+      <div class="entry" data-meal="${r.meal || "snack"}">
+        <div class="e-meal">${(r.meal || "snack").slice(0,4)}</div>
+        <div class="e-food">${escapeHtml(r.food || "—")}</div>
+        <div class="e-macros">
+          <span class="m-tag"><b>${round(r.kcal,0)}</b> kcal</span>
+          <span class="m-tag">P <b>${round(r.p,0)}</b></span>
+          <span class="m-tag">C <b>${round(r.c,0)}</b></span>
+          <span class="m-tag">F <b>${round(r.f,0)}</b></span>
+        </div>
+        <button class="e-del" data-id="${r.id}" title="Delete">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M6 6l1 14a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-14"/></svg>
+        </button>
+      </div>
+    `).join("");
+    list.querySelectorAll(".e-del").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = btn.getAttribute("data-id");
+        state.entries = state.entries.filter(e => e.id !== id);
+        save();
+        renderAll();
+      });
+    });
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+  }
+
+  /* ---- 7-DAY CHART ---- */
+  function last7Days() {
+    const out = [];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today); d.setDate(today.getDate() - i);
+      out.push(d.toISOString().slice(0,10));
+    }
+    return out;
+  }
+  function renderWeekChart() {
+    const days = last7Days();
+    const vals = days.map(d => sumDay(d).kcal);
+    const avg = vals.reduce((s, v) => s + v, 0) / (vals.filter(v => v > 0).length || 1);
+    if ($("hWeekAvg")) $("hWeekAvg").textContent = "avg " + fmt(round(avg, 0)) + " kcal";
+
+    const svg = $("hCalChart");
+    if (svg) {
+      const W = 320, H = 160, pad = 16;
+      const max = Math.max(state.targets.cal, ...vals, 1);
+      const step = (W - pad * 2) / (days.length - 1);
+      const pts = vals.map((v, i) => {
+        const x = pad + i * step;
+        const y = H - pad - (v / max) * (H - pad * 2);
+        return [x, y];
+      });
+      const linePath = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+      const areaPath = linePath + " L" + pts[pts.length-1][0].toFixed(1) + "," + (H-pad) + " L" + pts[0][0].toFixed(1) + "," + (H-pad) + " Z";
+      const tY = H - pad - (state.targets.cal / max) * (H - pad * 2);
+      svg.innerHTML = `
+        <defs>
+          <linearGradient id="hAreaGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.35"/>
+            <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <line x1="${pad}" y1="${tY}" x2="${W-pad}" y2="${tY}" stroke="rgba(212,162,76,0.45)" stroke-dasharray="3 4" stroke-width="1"/>
+        <text x="${W-pad}" y="${tY-4}" text-anchor="end" fill="rgba(212,162,76,0.7)" font-family="JetBrains Mono, monospace" font-size="9">target ${fmt(state.targets.cal)}</text>
+        <path d="${areaPath}" fill="url(#hAreaGrad)"/>
+        <path d="${linePath}" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        ${pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="${i === pts.length-1 ? 3.5 : 2.5}" fill="${i === pts.length-1 ? '#fff' : '#dc2626'}" stroke="#dc2626" stroke-width="1.5"/>`).join("")}
+      `;
+    }
+
+    const strip = $("hWeekStrip");
+    if (strip) {
+      const todayKey = todayISO();
+      strip.innerHTML = days.map((d, i) => {
+        const date = new Date(d);
+        const lab = date.toLocaleDateString("en-US", { weekday: "short" }).slice(0,2);
+        const isToday = d === todayKey;
+        return `<div class="ws-day ${isToday ? "today" : ""}"><div class="ws-k">${lab}</div><div class="ws-v">${vals[i] ? fmt(round(vals[i], 0)) : "—"}</div></div>`;
+      }).join("");
+    }
+  }
+
+  /* ---- TARGETS / BODY ---- */
+  function fillTargetsForm() {
+    const T = state.targets, B = state.body;
+    if ($("tCal")) $("tCal").value = T.cal;
+    if ($("tProt")) $("tProt").value = T.p;
+    if ($("tCarb")) $("tCarb").value = T.c;
+    if ($("tFat")) $("tFat").value = T.f;
+    if ($("tFib")) $("tFib").value = T.fi;
+    if ($("tWnow")) $("tWnow").value = B.wNow || "";
+    if ($("tWgoal")) $("tWgoal").value = B.wGoal || "";
+    if ($("tBFnow")) $("tBFnow").value = B.bfNow || "";
+    if ($("tBFgoal")) $("tBFgoal").value = B.bfGoal || "";
+    if ($("tGoalDate")) $("tGoalDate").value = B.goalDate || "";
+  }
+  function bindTargets() {
+    const btn = $("hSaveTargets");
+    if (btn) btn.addEventListener("click", () => {
+      state.targets = {
+        cal: +$("tCal").value || 0,
+        p: +$("tProt").value || 0,
+        c: +$("tCarb").value || 0,
+        f: +$("tFat").value || 0,
+        fi: +$("tFib").value || 0
+      };
+      state.body = {
+        wNow: +$("tWnow").value || 0,
+        wGoal: +$("tWgoal").value || 0,
+        bfNow: +$("tBFnow").value || 0,
+        bfGoal: +$("tBFgoal").value || 0,
+        goalDate: $("tGoalDate").value || ""
+      };
+      save();
+      renderAll();
+      btn.textContent = "Saved ✓";
+      setTimeout(() => { btn.textContent = "Save targets"; }, 1400);
+    });
+    const reset = $("hResetAll");
+    if (reset) reset.addEventListener("click", () => {
+      if (!confirm("Reset all health data? (clears logs, targets, and body comp)")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      state = load();
+      fillTargetsForm();
+      renderAll();
+    });
+  }
+
+  /* ---- LOG FORM ---- */
+  function bindLogForm() {
+    const form = $("hLogForm");
+    if (!form) return;
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const entry = {
+        id: "h_" + Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+        ts: Date.now(),
+        date: todayISO(),
+        food: ($("hFood").value || "").trim(),
+        kcal: +$("hKcal").value || 0,
+        p: +$("hProt").value || 0,
+        c: +$("hCarb").value || 0,
+        f: +$("hFat").value || 0,
+        fi: +$("hFib").value || 0,
+        meal: $("hMeal").value || "snack"
+      };
+      if (!entry.food || entry.kcal <= 0) return;
+      state.entries.push(entry);
+      save();
+      form.reset();
+      $("hMeal").value = "dinner";
+      renderAll();
+    });
+
+    const presetBtn = $("hQuickPreset");
+    const tray = $("hPresetTray");
+    if (presetBtn && tray) {
+      presetBtn.addEventListener("click", () => {
+        tray.style.display = tray.style.display === "none" ? "flex" : "none";
+      });
+      tray.querySelectorAll("button[data-preset]").forEach(b => {
+        b.addEventListener("click", () => {
+          try {
+            const p = JSON.parse(b.getAttribute("data-preset"));
+            $("hFood").value = p.food;
+            $("hKcal").value = p.kcal;
+            $("hProt").value = p.p;
+            $("hCarb").value = p.c;
+            $("hFat").value = p.f;
+            $("hFib").value = p.fi;
+            $("hMeal").value = p.meal;
+            $("hFood").focus();
+          } catch (e) {}
+        });
+      });
+    }
+  }
+
+  function renderAll() {
+    renderHero();
+    renderTodayTotals();
+    renderEntries();
+    renderWeekChart();
+  }
+
+  /* ---- INIT ---- */
+  function init() {
+    fillTargetsForm();
+    bindLogForm();
+    bindTargets();
+    renderAll();
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
 </script>
 
