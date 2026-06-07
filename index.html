@@ -5503,8 +5503,8 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         const weeks = Math.max(0, Math.ceil((d - new Date()) / (1000*60*60*24*7)));
         if ($("hGoalCountdown")) $("hGoalCountdown").textContent = weeks + " weeks out";
       } else {
-        $("hGoalDate").textContent = "—";
-        if ($("hGoalCountdown")) $("hGoalCountdown").textContent = "set a date";
+        $("hGoalDate").textContent = "No deadline";
+        if ($("hGoalCountdown")) $("hGoalCountdown").textContent = "steady, sustainable pace";
       }
     }
   }
