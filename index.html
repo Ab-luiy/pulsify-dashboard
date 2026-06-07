@@ -2524,6 +2524,19 @@
   }
 
   /* Week strip */
+  /* 7-day calorie chart: proportional, never stretched */
+  .hcal-wrap {
+    min-height: 0;
+    padding: 16px 14px 12px;
+    display: flex;
+    align-items: center;
+  }
+  #hCalChart {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
   .week-strip {
     display: grid; grid-template-columns: repeat(7, 1fr);
     gap: 6px; margin-top: 12px;
@@ -3479,8 +3492,8 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         <span class="label">7-day calories</span>
         <span class="sub" id="hWeekAvg">avg —</span>
       </div>
-      <div class="chart-wrap">
-        <svg id="hCalChart" viewBox="0 0 320 160" preserveAspectRatio="none"></svg>
+      <div class="chart-wrap hcal-wrap">
+        <svg id="hCalChart" viewBox="0 0 560 220"></svg>
       </div>
       <div class="week-strip" id="hWeekStrip"></div>
     </div>
@@ -5595,34 +5608,55 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   function renderWeekChart() {
     const days = last7Days();
     const vals = days.map(d => sumDay(d).kcal);
-    const avg = vals.reduce((s, v) => s + v, 0) / (vals.filter(v => v > 0).length || 1);
-    if ($("hWeekAvg")) $("hWeekAvg").textContent = "avg " + fmt(round(avg, 0)) + " kcal";
+    const logged = vals.filter(v => v > 0);
+    const avg = logged.length ? logged.reduce((s, v) => s + v, 0) / logged.length : 0;
+    const target = state.targets.cal || 0;
+    if ($("hWeekAvg")) {
+      $("hWeekAvg").textContent =
+        (logged.length ? "avg " + fmt(round(avg, 0)) + " kcal" : "no meals logged yet") +
+        (target ? " · target " + fmt(target) : "");
+    }
 
     const svg = $("hCalChart");
     if (svg) {
-      const W = 320, H = 160, pad = 16;
-      const max = Math.max(state.targets.cal, ...vals, 1);
-      const step = (W - pad * 2) / (days.length - 1);
-      const pts = vals.map((v, i) => {
-        const x = pad + i * step;
-        const y = H - pad - (v / max) * (H - pad * 2);
-        return [x, y];
-      });
-      const linePath = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
-      const areaPath = linePath + " L" + pts[pts.length-1][0].toFixed(1) + "," + (H-pad) + " L" + pts[0][0].toFixed(1) + "," + (H-pad) + " Z";
-      const tY = H - pad - (state.targets.cal / max) * (H - pad * 2);
+      const W = 560, H = 220, padL = 16, padR = 16, padTop = 24, padBottom = 14;
+      const baseY = H - padBottom;
+      const innerH = baseY - padTop;
+      const innerW = W - padL - padR;
+      const maxVal = Math.max(...vals, 0);
+      const scaleMax = Math.max(target, maxVal, 1) * 1.15;
+      const slot = innerW / 7;
+      const barW = Math.min(38, slot * 0.5);
+      const todayKey = todayISO();
+      const yFor = (v) => baseY - (v / scaleMax) * innerH;
+
+      const bars = days.map((d, i) => {
+        const cx = padL + i * slot + slot / 2;
+        const v = vals[i];
+        const isToday = d === todayKey;
+        if (v > 0) {
+          const bh = Math.max(4, (v / scaleMax) * innerH);
+          const y = baseY - bh;
+          return `<rect x="${(cx - barW / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="5" fill="${isToday ? 'url(#hBarGrad)' : 'rgba(255,255,255,0.16)'}"/>`;
+        }
+        return `<rect x="${(cx - barW / 2).toFixed(1)}" y="${(baseY - 3).toFixed(1)}" width="${barW.toFixed(1)}" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>`;
+      }).join("");
+
+      const yT = yFor(target);
+      const targetLine = target
+        ? `<line x1="${padL}" y1="${yT.toFixed(1)}" x2="${W - padR}" y2="${yT.toFixed(1)}" stroke="rgba(212,162,76,0.55)" stroke-width="1.2" stroke-dasharray="5 5"/>`
+        : "";
+
       svg.innerHTML = `
         <defs>
-          <linearGradient id="hAreaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#dc2626" stop-opacity="0.35"/>
-            <stop offset="100%" stop-color="#dc2626" stop-opacity="0"/>
+          <linearGradient id="hBarGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#ef4444"/>
+            <stop offset="100%" stop-color="#9b1c1c"/>
           </linearGradient>
         </defs>
-        <line x1="${pad}" y1="${tY}" x2="${W-pad}" y2="${tY}" stroke="rgba(212,162,76,0.45)" stroke-dasharray="3 4" stroke-width="1"/>
-        <text x="${W-pad}" y="${tY-4}" text-anchor="end" fill="rgba(212,162,76,0.7)" font-family="JetBrains Mono, monospace" font-size="9">target ${fmt(state.targets.cal)}</text>
-        <path d="${areaPath}" fill="url(#hAreaGrad)"/>
-        <path d="${linePath}" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        ${pts.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="${i === pts.length-1 ? 3.5 : 2.5}" fill="${i === pts.length-1 ? '#fff' : '#dc2626'}" stroke="#dc2626" stroke-width="1.5"/>`).join("")}
+        <line x1="${padL}" y1="${baseY}" x2="${W - padR}" y2="${baseY}" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+        ${targetLine}
+        ${bars}
       `;
     }
 
