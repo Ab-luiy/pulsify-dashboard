@@ -2188,6 +2188,15 @@
   .src-chip.instagram { background: rgba(236,72,153,0.13); color: #f472b6; border: 1px solid rgba(236,72,153,0.30); }
   .src-chip.manual { background: rgba(148,163,184,0.13); color: #cbd5e1; border: 1px solid rgba(148,163,184,0.28); }
   .src-chip .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+  .tier-badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.08em;
+    min-width: 16px; padding: 2px 5px; border-radius: 4px;
+    margin-right: 6px; vertical-align: 1px;
+  }
+  .tier-badge.A { background: rgba(52,211,153,0.14); color: #34d399; border: 1px solid rgba(52,211,153,0.35); }
+  .tier-badge.B { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.30); }
+  .tier-badge.C { background: rgba(148,163,184,0.10); color: #94a3b8; border: 1px solid rgba(148,163,184,0.25); }
   .kanban {
     display: flex;
     gap: 10px;
@@ -3308,6 +3317,12 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
           <option value="instagram">Instagram</option>
           <option value="manual">Manual</option>
         </select>
+        <select id="crmTierFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+          <option value="">All tiers</option>
+          <option value="A">Tier A</option>
+          <option value="B">Tier B</option>
+          <option value="C">Tier C</option>
+        </select>
         <select id="crmBatchFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
           <option value="">All batches</option><option value="0">Unassigned</option>
         </select>
@@ -3337,6 +3352,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
               <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Name</th>
               <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">@ Handle</th>
               <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Niche</th>
+              <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Tier</th>
               <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">DMs</th>
               <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Status</th>
               <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Batch</th>
@@ -4776,7 +4792,9 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       _ytUrl: l.cu || "",
       // Real 0-100 actionability score from lead_scoring.enrich_leads.
       // Falls back to raw subs only for un-enriched legacy data.
-      _ytScore: (l.score != null ? l.score : (l.s || 0))
+      _ytScore: (l.score != null ? l.score : (l.s || 0)),
+      _tier: l.tier || "",
+      _wound: l.wound || ""
     }));
   }
 
@@ -4801,7 +4819,9 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
           batch: o.batch || 0,
           source: p._source || "instagram",
           ytUrl: p._ytUrl || "",
-          ytScore: p._ytScore || 0
+          ytScore: p._ytScore || 0,
+          tier: p._tier || "",
+          wound: p._wound || ""
         };
       });
   }
@@ -4958,10 +4978,12 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const stf = $("crmStatusFilter").value;
     const bf = $("crmBatchFilter").value;
     const sf = ($("crmSourceFilter") && $("crmSourceFilter").value) || "";
+    const tf = ($("crmTierFilter") && $("crmTierFilter").value) || "";
     return P.filter(p =>
       (!stf || p.status === stf) &&
       (bf === "" || String(p.batch) === bf) &&
       (!sf || p.source === sf) &&
+      (!tf || p.tier === tf) &&
       (!q || (p.n + " " + p.h + " " + p.niche).toLowerCase().includes(q)));
   }
 
@@ -4981,13 +5003,14 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         }
         const srcLabel = p.source === "youtube" ? "YT" : (p.source === "instagram" ? "IG" : "MAN");
         const srcChip = `<span class="src-chip ${p.source}"><span class="dot"></span>${srcLabel}</span>`;
+        const tierChip = p.tier ? `<span class="tier-badge ${p.tier}" title="Lead tier (score ${p.ytScore || "—"})">${p.tier}</span>` : "";
         const safeN = (p.n||"").replace(/'/g,"\\'");
         const safeH = (p.h||"").replace(/'/g,"\\'");
         const safeNiche = (p.niche||"").replace(/'/g,"\\'");
         return `<div class="kan-card" draggable="true" style="border-left-color:${statusColor(s)}" data-name="${encodeURIComponent(p.n)}">
           <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
-          <div class="nm">${srcChip}${p.n}</div>
-          <div class="mt">${link} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}${p.source==="youtube"&&p.ytScore?` · score ${p.ytScore}`:""}</div>
+          <div class="nm">${srcChip}${tierChip}${p.n}</div>
+          <div class="mt">${link} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}${p.source==="youtube"&&p.ytScore?` · score ${p.ytScore}`:""}</div>${p.wound?`<div class="mt" style="color:var(--text-2);margin-top:3px" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${p.wound.length>72?p.wound.slice(0,72)+"…":p.wound}</div>`:""}
           <button class="build-asset-btn" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')">&#9889; Build Asset</button>
         </div>`;
       }).join("");
@@ -5025,7 +5048,13 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 
   function renderCrmTable(rows) {
     $("crmBody").innerHTML = rows.map((p, i) => {
-      const act = p.stage === "replied" ? "Reply w/ value asset · requalify" : "Research → build asset → re-DM";
+      const fallbackAct = p.stage === "replied" ? "Reply w/ value asset · requalify" : "Research → build asset → re-DM";
+      const act = p.wound
+        ? `<span title="${(p.wound||"").replace(/"/g,"&quot;")}">${p.wound.length>64?p.wound.slice(0,64)+"…":p.wound}</span>`
+        : fallbackAct;
+      const tierCell = p.tier
+        ? `<span class="tier-badge ${p.tier}" style="margin-right:0" title="score ${p.ytScore || "—"}">${p.tier}</span>`
+        : `<span style="color:var(--muted)">—</span>`;
       const handle = p.h
         ? `<a href="https://instagram.com/${p.h}" target="_blank" style="color:var(--cyan);text-decoration:none">@${p.h}</a>`
         : `<span style="color:var(--muted)">— open thread</span>`;
@@ -5035,6 +5064,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         <td style="padding:7px 10px">${p.n}</td>
         <td style="padding:7px 10px" class="mono">${handle}</td>
         <td style="padding:7px 10px;color:var(--text-2)">${p.niche || "—"}</td>
+        <td style="padding:7px 10px;text-align:center">${tierCell}</td>
         <td style="padding:7px 10px;text-align:center" class="mono">${p.dms}</td>
         <td style="padding:7px 10px">
           <select data-name="${encodeURIComponent(p.n)}" class="crm-status mono" style="background:var(--surface-2);border:1px solid var(--border);border-radius:4px;color:${statusColor(p.status)};font:inherit;font-size:11px;padding:3px 6px">${opts}</select>
@@ -5109,6 +5139,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   $("crmStatusFilter").addEventListener("change", renderCrm);
   $("crmBatchFilter").addEventListener("change", renderCrm);
   if ($("crmSourceFilter")) $("crmSourceFilter").addEventListener("change", renderCrm);
+  if ($("crmTierFilter")) $("crmTierFilter").addEventListener("change", renderCrm);
   $("crmBatchPrev").addEventListener("click", () => stepBatch(-1));
   $("crmBatchNext").addEventListener("click", () => stepBatch(1));
   $("crmBatchClear").addEventListener("click", () => setBatchFilter(""));
@@ -5116,7 +5147,9 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   $("crmPromote").addEventListener("click", () => {
     const P = basePros();
     const bn = nextBatchNo();
+    // Highest-score leads first so each batch works the best of the unworked pool
     P.filter(p => (p.status === "new" || p.status === "queued") && !p.batch)
+      .sort((a, b) => (b.ytScore || 0) - (a.ytScore || 0))
       .slice(0, 15)
       .forEach(p => setOverride(p.n, { batch: bn, status: "queued" }));
     if ($("crmBatchFilter")) $("crmBatchFilter").value = String(bn);
@@ -5272,9 +5305,9 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   });
   $("crmExport").addEventListener("click", () => {
     const P = basePros();
-    const head = ["name","handle","niche","dms","stage","status","batch"];
+    const head = ["name","handle","niche","tier","score","dms","stage","status","batch","wound"];
     const csv = [head.join(",")].concat(P.map(p =>
-      [p.n, p.h, p.niche, p.dms, p.stage, p.status, p.batch]
+      [p.n, p.h, p.niche, p.tier || "", p.ytScore || "", p.dms, p.stage, p.status, p.batch, p.wound || ""]
         .map(v => `"${String(v).replace(/"/g, '""')}"`).join(","))).join("\n");
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
