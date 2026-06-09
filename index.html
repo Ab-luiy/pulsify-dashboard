@@ -3349,13 +3349,13 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
           <thead>
             <tr style="position:sticky;top:0;background:var(--surface-2);z-index:1">
               <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">#</th>
-              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Name</th>
-              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">@ Handle</th>
-              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Niche</th>
-              <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Tier</th>
-              <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">DMs</th>
-              <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Status</th>
-              <th style="text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Batch</th>
+              <th data-sort="n" title="Click to sort" style="cursor:pointer;text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Name</th>
+              <th data-sort="h" title="Click to sort" style="cursor:pointer;text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">@ Handle</th>
+              <th data-sort="niche" title="Click to sort" style="cursor:pointer;text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Niche</th>
+              <th data-sort="tier" title="Click to sort by score" style="cursor:pointer;text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Tier</th>
+              <th data-sort="dms" title="Click to sort" style="cursor:pointer;text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">DMs</th>
+              <th data-sort="status" title="Click to sort" style="cursor:pointer;text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Status</th>
+              <th data-sort="batch" title="Click to sort" style="cursor:pointer;text-align:center;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Batch</th>
               <th style="text-align:left;padding:9px 10px;border-bottom:1px solid var(--border-strong);color:var(--text-2);font-weight:600;text-transform:uppercase;letter-spacing:0.08em;font-size:10px">Next action</th>
               <th style="width:34px;border-bottom:1px solid var(--border-strong)"></th>
             </tr>
@@ -4743,6 +4743,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   state.added = state.added || [];           // [{n,h,niche,dms,stage}]
   state.removed = state.removed || [];       // [name]
   let crmView = "board";
+  let crmSort = { key: "", dir: 1 };
 
   // YT leads → CRM ingestion (full merge — YT Leads tab is gone)
   let _ytIngested = null;
@@ -4979,12 +4980,23 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const bf = $("crmBatchFilter").value;
     const sf = ($("crmSourceFilter") && $("crmSourceFilter").value) || "";
     const tf = ($("crmTierFilter") && $("crmTierFilter").value) || "";
-    return P.filter(p =>
+    const rows = P.filter(p =>
       (!stf || p.status === stf) &&
       (bf === "" || String(p.batch) === bf) &&
       (!sf || p.source === sf) &&
       (!tf || p.tier === tf) &&
       (!q || (p.n + " " + p.h + " " + p.niche).toLowerCase().includes(q)));
+    if (crmSort.key) {
+      const k = crmSort.key, d = crmSort.dir;
+      rows.sort((a, b) => {
+        // tier column sorts by the underlying score so A-with-92 beats A-with-70
+        const av = k === "tier" ? (a.ytScore || 0) : a[k];
+        const bv = k === "tier" ? (b.ytScore || 0) : b[k];
+        if (typeof av === "number" || typeof bv === "number") return d * ((av || 0) - (bv || 0));
+        return d * String(av || "").localeCompare(String(bv || ""));
+      });
+    }
+    return rows;
   }
 
   function renderCrmBoard(rows) {
@@ -5010,7 +5022,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         return `<div class="kan-card" draggable="true" style="border-left-color:${statusColor(s)}" data-name="${encodeURIComponent(p.n)}">
           <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
           <div class="nm">${srcChip}${tierChip}${p.n}</div>
-          <div class="mt">${link} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}${p.source==="youtube"&&p.ytScore?` · score ${p.ytScore}`:""}</div>${p.wound?`<div class="mt" style="color:var(--text-2);margin-top:3px" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${p.wound.length>72?p.wound.slice(0,72)+"…":p.wound}</div>`:""}
+          <div class="mt">${link} · ${p.niche || "—"} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}</div>${p.wound?`<div class="mt" style="color:var(--text-2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${p.wound}</div>`:""}
           <button class="build-asset-btn" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')">&#9889; Build Asset</button>
         </div>`;
       }).join("");
@@ -5140,6 +5152,25 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   $("crmBatchFilter").addEventListener("change", renderCrm);
   if ($("crmSourceFilter")) $("crmSourceFilter").addEventListener("change", renderCrm);
   if ($("crmTierFilter")) $("crmTierFilter").addEventListener("change", renderCrm);
+  document.querySelectorAll("#crmTable thead th[data-sort]").forEach(th => {
+    th.addEventListener("click", () => {
+      const k = th.dataset.sort;
+      // numeric-ish columns open descending (biggest first), text opens ascending
+      const opens = (k === "tier" || k === "dms" || k === "batch") ? -1 : 1;
+      if (crmSort.key === k) {
+        // second click reverses, third click clears back to default order
+        if (crmSort.dir === opens) crmSort.dir = -opens;
+        else crmSort = { key: "", dir: 1 };
+      } else {
+        crmSort = { key: k, dir: opens };
+      }
+      document.querySelectorAll("#crmTable thead th[data-sort]").forEach(t => {
+        t.textContent = t.textContent.replace(/ [↑↓]$/, "");
+        if (t.dataset.sort === crmSort.key) t.textContent += crmSort.dir === 1 ? " ↑" : " ↓";
+      });
+      renderCrm();
+    });
+  });
   $("crmBatchPrev").addEventListener("click", () => stepBatch(-1));
   $("crmBatchNext").addEventListener("click", () => stepBatch(1));
   $("crmBatchClear").addEventListener("click", () => setBatchFilter(""));
