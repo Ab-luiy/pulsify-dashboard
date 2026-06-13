@@ -2929,6 +2929,8 @@
   #tab-instagram .ig-lb-diag { font-size:12px; color:var(--text); border-left:2px solid #d4ff3a; padding-left:8px; }
   #tab-instagram .ig-aud { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:center; }
   #tab-instagram .ig-funnelnote { margin-top:10px; color:var(--text-2); font-size:12px; }
+  #tab-instagram .ig-aud-insight { margin-top:14px; padding:10px 12px; background:var(--surface-2); border-left:3px solid #f6a609; border-radius:8px; font-size:12.5px; color:var(--text); line-height:1.5; }
+  #tab-instagram .ig-aud-insight:empty { display:none; }
   @media (max-width:900px) { #tab-instagram .ig-aud { grid-template-columns:1fr; } }
 </style>
 <section class="tab-panel" id="tab-instagram">
@@ -3000,6 +3002,7 @@
           <div class="donut-legend" id="igAgeLegend"></div>
         </div>
       </div>
+      <div class="ig-aud-insight" id="igAudInsight"></div>
     </div>
 
     <div class="card span-12">
@@ -4323,6 +4326,24 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       const ce = $("igCountries");
       if (ce) ce.innerHTML = cs.slice(0, 6).map((x) => `<div class="stat-row"><span class="name">${esc(igCountryName(x.name))}</span><span class="num mono">${((x.value / totC) * 100).toFixed(0)}%</span></div>`).join("");
       renderDonut("igAgeDonut", "igAgeLegend", (aud.age || []).map((x) => ({ label: x.name, value: x.value })), fmt(p.followers || 0), "by age");
+      // audience-fit read vs the coach/consultant ICP
+      const ageTot = (aud.age || []).reduce((s, x) => s + x.value, 0) || 1;
+      const under25 = (aud.age || []).filter((a) => a.name === "13-17" || a.name === "18-24").reduce((s, x) => s + x.value, 0);
+      const under25Pct = Math.round((under25 / ageTot) * 100);
+      const WEST = ["US", "GB", "CA", "AU", "DE", "FR", "IE", "NL", "NZ"];
+      const westPct = Math.round((cs.filter((c) => WEST.includes(c.name)).reduce((s, x) => s + x.value, 0) / totC) * 100);
+      const top = cs[0];
+      const mismatch = westPct < 35 || under25Pct > 45;
+      const ai = $("igAudInsight");
+      if (ai) {
+        ai.textContent = top
+          ? `${under25Pct}% of your followers are under 25, and only ~${westPct}% sit in Western markets (${igCountryName(top.name)} is #1 at ${Math.round((top.value / totC) * 100)}%). ` +
+            (mismatch
+              ? "That's a mismatch with a coach/consultant offer — older, Western, budget to buy. The content is winning reach but not the buyer; either tighten hooks to your ICP or rethink what this audience can convert into."
+              : "That lines up reasonably with a coaching ICP — keep feeding it.")
+          : "";
+        ai.style.borderLeftColor = mismatch ? "#f6a609" : "#16a34a";
+      }
     } else if (audCard) {
       audCard.style.display = "none";
     }
