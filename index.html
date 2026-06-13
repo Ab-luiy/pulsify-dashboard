@@ -2643,6 +2643,10 @@
       <svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
       Content <span class="count" id="contentTabCount">0</span>
     </button>
+    <button data-tab="instagram">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
+      Instagram
+    </button>
     <button data-tab="sales">
       <svg class="ico" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
       Sales <span class="count" id="salesTabCount">0</span>
@@ -2897,15 +2901,116 @@
       <div class="pillar-list" id="pillarList"></div>
     </div>
 
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<style>
+  #tab-instagram .ig-head { display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  #tab-instagram .ig-avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; background:var(--surface-2); border:1px solid var(--border); flex:none; }
+  #tab-instagram .ig-id { flex:1; min-width:220px; }
+  #tab-instagram .ig-handle { font-size:16px; font-weight:700; }
+  #tab-instagram .ig-acctype { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:#d4ff3a; border:1px solid rgba(212,255,58,.32); border-radius:999px; padding:2px 7px; margin-left:6px; vertical-align:middle; }
+  #tab-instagram .ig-bio { color:var(--text-2); font-size:12.5px; white-space:pre-line; margin-top:4px; max-width:540px; }
+  #tab-instagram .ig-link { color:#d4ff3a; font-size:12px; text-decoration:none; }
+  #tab-instagram .ig-headkpis { display:flex; gap:10px; }
+  #tab-instagram .ig-headkpis .kpi { min-width:84px; }
+  #tab-instagram .ig-updated { margin-top:12px; color:var(--text-2); font-size:11px; }
+  #tab-instagram .ig-updated code { background:var(--surface-2); padding:1px 5px; border-radius:4px; }
+  #tab-instagram .ig-leaderboard { display:flex; flex-direction:column; gap:10px; }
+  #tab-instagram .ig-lb-row { display:grid; grid-template-columns:30px 54px 1fr; gap:12px; align-items:center; padding:10px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); }
+  #tab-instagram .ig-lb-rank { font-weight:700; color:var(--text-2); font-size:12px; text-align:center; }
+  #tab-instagram .ig-lb-thumb img { width:54px; height:72px; object-fit:cover; border-radius:6px; background:var(--border); display:block; }
+  #tab-instagram .ig-lb-thumb { display:block; }
+  #tab-instagram .ig-lb-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+  #tab-instagram .ig-lb-cap { font-weight:600; font-size:13px; line-height:1.3; }
+  #tab-instagram .ig-lb-hook { font-weight:800; font-size:20px; line-height:1; flex:none; }
+  #tab-instagram .ig-lb-metrics { display:flex; flex-wrap:wrap; gap:10px; margin:5px 0; font-size:11px; color:var(--text-2); }
+  #tab-instagram .ig-lb-diag { font-size:12px; color:var(--text); border-left:2px solid #d4ff3a; padding-left:8px; }
+  #tab-instagram .ig-aud { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:center; }
+  #tab-instagram .ig-funnelnote { margin-top:10px; color:var(--text-2); font-size:12px; }
+  @media (max-width:900px) { #tab-instagram .ig-aud { grid-template-columns:1fr; } }
+</style>
+<section class="tab-panel" id="tab-instagram">
+  <div class="grid">
+
     <div class="card span-12">
-      <h2>Instagram <span class="meta">repurpose layer — trails YouTube, never replaces it</span></h2>
-      <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
-        <div class="kpi"><div class="k">Followers</div><div class="v mono" id="igFollowersMirror">0</div></div>
-        <div class="kpi"><div class="k">Reels shipped</div><div class="v mono" id="igReels">0</div></div>
-        <div class="kpi"><div class="k">Story frames (wk)</div><div class="v mono" id="igStories">0</div></div>
-        <div class="kpi"><div class="k">Reach (30d)</div><div class="v mono" id="igReachMirror">0</div></div>
+      <div class="ig-head">
+        <img id="igAvatar" class="ig-avatar" alt="" />
+        <div class="ig-id">
+          <div class="ig-handle">@<span id="igUsername">—</span><span class="ig-acctype" id="igAcctType"></span></div>
+          <div class="ig-bio" id="igBio"></div>
+          <a class="ig-link" id="igWebsite" href="#" target="_blank" rel="noopener"></a>
+        </div>
+        <div class="ig-headkpis">
+          <div class="kpi"><div class="k">Followers</div><div class="v mono large" id="igFollowers">0</div></div>
+          <div class="kpi"><div class="k">Following</div><div class="v mono" id="igFollowing">0</div></div>
+          <div class="kpi"><div class="k">Posts</div><div class="v mono" id="igPosts">0</div></div>
+        </div>
+      </div>
+      <div class="ig-updated">Last pull: <span id="igUpdated">—</span> · refresh with <code>npm start</code> in <code>ig-report/</code></div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Content performance <span class="meta">last 90 days · <span id="igReelCount">0</span> reels</span></h2>
+      <div class="kpi-row" style="grid-template-columns: repeat(6, 1fr)">
+        <div class="kpi accent"><div class="k">Avg Hook</div><div class="v mono large" id="igAvgHook">0</div></div>
+        <div class="kpi"><div class="k">Total reach</div><div class="v mono" id="igTotalReach">0</div></div>
+        <div class="kpi"><div class="k">Total views</div><div class="v mono" id="igTotalViews">0</div></div>
+        <div class="kpi"><div class="k">Avg watch</div><div class="v mono" id="igAvgWatch">0s</div></div>
+        <div class="kpi"><div class="k">Saves</div><div class="v mono" id="igTotalSaves">0</div></div>
+        <div class="kpi"><div class="k">Shares</div><div class="v mono" id="igTotalShares">0</div></div>
       </div>
     </div>
+
+    <div class="card span-8">
+      <h2>Hook Score leaderboard <span class="meta">which reels hooked + held attention</span></h2>
+      <div class="ig-leaderboard" id="igLeaderboard"></div>
+    </div>
+
+    <div class="card span-4">
+      <h2>Reach per post <span class="meta">oldest → newest</span></h2>
+      <div class="spark" style="margin-top:8px">
+        <div class="k">Latest reel reach</div>
+        <div class="v mono" id="igReachLast">0</div>
+        <svg id="igReachSpark" viewBox="0 0 100 36" preserveAspectRatio="none"></svg>
+      </div>
+      <div class="stat-list" style="margin-top:14px">
+        <div class="stat-row"><span class="name">Best reel reach</span><span class="num mono" id="igBestReach">0</span></div>
+        <div class="stat-row"><span class="name">Avg reach / reel</span><span class="num mono" id="igAvgReach">0</span></div>
+        <div class="stat-row"><span class="name">Save rate</span><span class="num mono" id="igSaveRate">0%</span></div>
+      </div>
+    </div>
+
+    <div class="card span-6">
+      <h2>Instagram funnel <span class="meta">content → revenue</span></h2>
+      <div class="funnel" id="igFunnel"></div>
+      <div class="ig-funnelnote" id="igFunnelNote"></div>
+    </div>
+
+    <div class="card span-6" id="igAudienceCard">
+      <h2>Audience <span class="meta">who actually follows you</span></h2>
+      <div class="ig-aud">
+        <div>
+          <div class="sec-t">Top countries</div>
+          <div class="stat-list" id="igCountries"></div>
+        </div>
+        <div class="donut-panel">
+          <svg class="donut" id="igAgeDonut" viewBox="0 0 100 100"></svg>
+          <div class="donut-legend" id="igAgeLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card span-12">
+      <h2>Repurpose layer <span class="meta">IG trails YouTube, never replaces it</span></h2>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">IG reach (recent reels)</span><span class="num mono" id="igRepurposeReach">0</span></div>
+        <div class="stat-row"><span class="name">IG followers</span><span class="num mono" id="igRepurposeFollowers">0</span></div>
+        <div class="stat-row"><span class="name">Where IG sends people</span><span class="num mono" id="igRepurposeSite">—</span></div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -3685,6 +3790,15 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     "hitList": 100, "dmd": 100, "replied": 4,
     "callBooked": 0, "callHeld": 0, "proposalSent": 0, "closed": 0
   },
+  "instagram": {
+    "updatedAt": null,
+    "profile": { "username": "", "name": "", "biography": "", "website": "", "accountType": "", "followers": 0, "following": 0, "mediaCount": 0, "profilePicture": "" },
+    "content": { "reelsCount": 0, "totalReach": 0, "totalViews": 0, "totalInteractions": 0, "totalSaves": 0, "totalShares": 0, "avgReach": 0, "avgViews": 0, "avgWatchMs": 0, "avgHook": 0, "reachByPost": [] },
+    "account": { "available": false, "reachSeries": [], "followerSeries": [], "viewsSeries": [] },
+    "audience": null,
+    "reels": [],
+    "reelsSummary": { "count": 0, "avgHook": 0, "topReelId": null }
+  },
   "content": {
     "ytSubs": 0, "ytSubsTarget": 100,
     "longFormShipped": 0, "shortsShipped": 0,
@@ -4104,6 +4218,121 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     legend.innerHTML = items.slice(0, 6).map((item, i) => `
       <div class="row"><i style="background:${item.color || chartColors[i % chartColors.length]}"></i><span>${esc(item.label)}</span><span class="num mono">${fmt(item.value)}</span></div>
     `).join("");
+  }
+
+  const IG_COUNTRY = { US:"United States", IN:"India", BR:"Brazil", ID:"Indonesia", GB:"United Kingdom", CA:"Canada", AU:"Australia", DE:"Germany", FR:"France", IT:"Italy", ES:"Spain", NG:"Nigeria", ZA:"South Africa", PK:"Pakistan", BD:"Bangladesh", PH:"Philippines", MX:"Mexico", AR:"Argentina", CO:"Colombia", EG:"Egypt", MA:"Morocco", TR:"Turkey", RU:"Russia", NP:"Nepal", AE:"UAE", SA:"Saudi Arabia", NL:"Netherlands", IE:"Ireland", VN:"Vietnam", TH:"Thailand", MY:"Malaysia", KE:"Kenya", GH:"Ghana", PE:"Peru", CL:"Chile", PL:"Poland", UA:"Ukraine", IR:"Iran", UZ:"Uzbekistan", QA:"Qatar", CZ:"Czechia", NZ:"New Zealand", TW:"Taiwan", CN:"China", RW:"Rwanda", PY:"Paraguay", UY:"Uruguay", GM:"Gambia", YE:"Yemen", LB:"Lebanon" };
+  const igCountryName = (code) => IG_COUNTRY[code] || code;
+
+  // self-contained sparkline (the shared sparkline() is scoped inside renderDashboard)
+  function igSpark(svgId, values) {
+    const svg = $(svgId);
+    if (!svg) return;
+    const W = 100, H = 36, pad = 2;
+    const max = Math.max(1, ...values);
+    const n = values.length;
+    const stepX = n > 1 ? (W - pad * 2) / (n - 1) : 0;
+    const pts = values.map((v, i) => [pad + i * stepX, H - pad - (v / max) * (H - pad * 2)]);
+    const line = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
+    const area = line + ` L ${W - pad},${H} L ${pad},${H} Z`;
+    svg.innerHTML = `<path d="${area}" fill="rgba(212,255,58,0.10)" stroke="none"/>` +
+      `<path d="${line}" fill="none" stroke="#d4ff3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>` +
+      pts.map((p) => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4" fill="#d4ff3a"/>`).join("");
+  }
+
+  function renderInstagram() {
+    const ig = D.instagram;
+    if (!ig) return;
+    const p = ig.profile || {};
+
+    const av = $("igAvatar");
+    if (av) { if (p.profilePicture) { av.src = p.profilePicture; av.style.display = ""; } else { av.style.display = "none"; } }
+    setText("igUsername", p.username || "—");
+    setText("igAcctType", p.accountType ? p.accountType.toLowerCase() : "");
+    setText("igBio", p.biography || "");
+    const site = $("igWebsite");
+    if (site) {
+      if (p.website) { site.href = p.website; site.textContent = "↗ " + p.website.replace(/^https?:\/\//, ""); site.style.display = ""; }
+      else site.style.display = "none";
+    }
+    setText("igFollowers", fmt(p.followers || 0));
+    setText("igFollowing", fmt(p.following || 0));
+    setText("igPosts", fmt(p.mediaCount || 0));
+    setText("igUpdated", ig.updatedAt ? new Date(ig.updatedAt).toLocaleString() : "no pull yet");
+
+    const c = ig.content || {};
+    setText("igReelCount", fmt(c.reelsCount || 0));
+    setText("igAvgHook", fmt(c.avgHook || 0));
+    setText("igTotalReach", fmt(c.totalReach || 0));
+    setText("igTotalViews", fmt(c.totalViews || 0));
+    setText("igAvgWatch", ((c.avgWatchMs || 0) / 1000).toFixed(1) + "s");
+    setText("igTotalSaves", fmt(c.totalSaves || 0));
+    setText("igTotalShares", fmt(c.totalShares || 0));
+
+    const reels = ig.reels || [];
+    const hookColor = (s) => (s >= 70 ? "#16a34a" : s >= 40 ? "#d4ff3a" : "#f6a609");
+    const lb = $("igLeaderboard");
+    if (lb) lb.innerHTML = reels.length ? reels.map((r) => {
+      const cap = (r.caption || "(no caption)").slice(0, 90);
+      const watch = ((r.insights.avgWatchTimeMs || 0) / 1000).toFixed(1) + "s";
+      const thumb = r.thumbnailDataUri ? `<img src="${r.thumbnailDataUri}" alt=""/>` : "";
+      return `<div class="ig-lb-row">
+        <div class="ig-lb-rank">#${r.rank}</div>
+        <a class="ig-lb-thumb" href="${r.permalink}" target="_blank" rel="noopener">${thumb}</a>
+        <div>
+          <div class="ig-lb-top"><span class="ig-lb-cap">${esc(cap)}</span><span class="ig-lb-hook" style="color:${hookColor(r.hookScore)}">${r.hookScore}</span></div>
+          <div class="ig-lb-metrics"><span>${fmt(r.insights.reach)} reach</span><span>${fmt(r.insights.views)} views</span><span>${watch} watch</span><span>${fmt(r.insights.saved)} saves</span><span>${fmt(r.insights.shares)} shares</span></div>
+          <div class="ig-lb-diag">${esc(r.diagnosis || "")}</div>
+        </div>
+      </div>`;
+    }).join("") : `<div class="empty">No reels in the window. Post a few and re-run the pull.</div>`;
+
+    const rbp = c.reachByPost || [];
+    igSpark("igReachSpark", rbp.length ? rbp.map((x) => x.reach) : [0, 0]);
+    setText("igReachLast", fmt(rbp.length ? rbp[rbp.length - 1].reach : 0));
+    setText("igBestReach", fmt(rbp.reduce((m, x) => Math.max(m, x.reach), 0)));
+    setText("igAvgReach", fmt(c.avgReach || 0));
+    setText("igSaveRate", c.totalReach ? ((c.totalSaves / c.totalReach) * 100).toFixed(1) + "%" : "0%");
+
+    let L = { leads: 0, dms: 0, replies: 0 };
+    try {
+      const P = basePros().filter((x) => x.source === "instagram");
+      L = { leads: P.length, dms: P.reduce((s, x) => s + (x.dms || 0), 0), replies: P.filter((x) => x.stage === "replied").length };
+    } catch (e) { /* CRM not ready */ }
+    const stages = [
+      ["Reach", c.totalReach || 0],
+      ["Interactions", c.totalInteractions || 0],
+      ["Saves + shares", (c.totalSaves || 0) + (c.totalShares || 0)],
+      ["Followers", p.followers || 0],
+      ["IG leads", L.leads],
+      ["DMs sent", L.dms],
+      ["Replies", L.replies],
+    ];
+    const maxS = Math.max(1, ...stages.map((s) => s[1]));
+    const fn = $("igFunnel");
+    if (fn) fn.innerHTML = stages.map(([lab, n]) => `<div class="stage"><span class="lab">${lab}</span><span class="track"><span style="width:${(n / maxS) * 100}%"></span></span><span class="num ${n === 0 ? "zero" : ""}">${fmt(n)}</span></div>`).join("");
+    setText("igFunnelNote", L.leads
+      ? `${fmt(L.leads)} IG-sourced lead${L.leads === 1 ? "" : "s"} in CRM · ${fmt(L.replies)} replied.`
+      : "Tag IG-sourced leads in the CRM to light up the bottom of this funnel.");
+
+    const aud = ig.audience;
+    const audCard = $("igAudienceCard");
+    if (aud && ((aud.countries && aud.countries.length) || (aud.age && aud.age.length))) {
+      if (audCard) audCard.style.display = "";
+      const cs = aud.countries || [];
+      const totC = cs.reduce((s, x) => s + x.value, 0) || 1;
+      const ce = $("igCountries");
+      if (ce) ce.innerHTML = cs.slice(0, 6).map((x) => `<div class="stat-row"><span class="name">${esc(igCountryName(x.name))}</span><span class="num mono">${((x.value / totC) * 100).toFixed(0)}%</span></div>`).join("");
+      renderDonut("igAgeDonut", "igAgeLegend", (aud.age || []).map((x) => ({ label: x.name, value: x.value })), fmt(p.followers || 0), "by age");
+    } else if (audCard) {
+      audCard.style.display = "none";
+    }
+
+    setText("igRepurposeReach", fmt(c.totalReach || 0));
+    setText("igRepurposeFollowers", fmt(p.followers || 0));
+    const rs = $("igRepurposeSite");
+    if (rs) rs.textContent = p.website ? p.website.replace(/^https?:\/\//, "") : "—";
+
+    if (typeof setConnPill === "function" && (p.followers || 0) > 0) setConnPill("pillIg", "live");
   }
 
   function renderInsightRows(id, rows) {
@@ -4632,6 +4861,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   renderContentPanel();
   hydrateMetricInputs();
   renderContentProduction();
+  try { renderInstagram(); } catch (e) { console.error("renderInstagram failed:", e, e && e.stack); }
 
   /* Sales */
   $("orWeekSent").textContent = fmt(D.outreach.thisWeek.sent);
