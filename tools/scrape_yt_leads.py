@@ -2,10 +2,10 @@
 """
 scrape_yt_leads.py — Pulsify YouTube lead scraper.
 
-Pulls scored creators with 'made $X / case study / how I make' hook videos in
-Pulsify's target niches (e-com, dropshipping, TikTok Shop, Amazon FBA, day
-trading, prop firms), filters by channel size + video length + activity, and
-writes a JSON the dashboard consumes.
+Pulls scored online coaches / creators — personal-brand educators, course
+sellers, consultants — who package their work in legit, educational videos.
+Filters by channel size + video length + activity, demotes get-rich-quick /
+income-bait / non-Western channels, and writes a JSON the dashboard consumes.
 
 Schema written matches dashboard expectations (yt_leads.json):
     [{s, n, cu, ig, vt, vu, pd, lt, ol, tv, tw, sq}, ...]
@@ -45,49 +45,44 @@ import urllib.error
 # CONFIG
 # ----------------------------------------------------------------------------
 
-# Niches × queries — designed against ICP brief from operator:
-#   IN: ecom / dropshipping / TikTok Shop / Amazon FBA / day trading / prop firms
-#   Sub-niche-with-a-twist creators (e.g. "Mo selling his ecom angle")
-#   Channel size: 1K-50K subs (sweet spot)
-#   Hook patterns: income proof, first-result, case study, behind-the-scenes
+# Niches × queries — ICP: online coaches / creators (personal-brand educators).
+#   IN: coaching businesses, course/info-product creators, consultants,
+#       personal-brand creators monetizing an audience.
+#   Channel size: 2K-50K subs (has an offer, no big team — sweet spot)
+#   Hook patterns: educational / process / client-results language, NOT
+#       income-bait. Scoring demotes "$X/day" hype and non-Western channels.
 QUERIES = {
-    "ecom": [
-        '"dropshipping" "0 to 10k"',
-        '"dropshipping" "i tried"',
-        '"dropshipping" "case study"',
-        '"dropshipping" "made $"',
-        '"shopify" "first sale"',
-        '"shopify" "case study"',
-        '"tiktok shop" "first $"',
-        '"tiktok shop" "made $"',
-        '"ecommerce" "0 to 10k"',
-        '"ecommerce" "case study"',
-        '"ecom" "behind the scenes"',
+    "coaching": [
+        '"online coaching business"',
+        '"how I got my first coaching client"',
+        '"signed my first client" coaching',
+        '"my coaching business"',
+        '"high ticket coaching"',
+        '"group coaching program"',
+        '"how I built my coaching business"',
+        '"coaching clients" "how I"',
     ],
-    "fba": [
-        '"amazon fba" "first sale"',
-        '"amazon fba" "case study"',
-        '"amazon fba" "made $"',
-        '"amazon fba" "0 to 10k"',
-        '"amazon fba" "my first"',
+    "course": [
+        '"how I built my course"',
+        '"launched my online course"',
+        '"my course launch"',
+        '"selling digital products"',
+        '"online course business"',
+        '"how I sell my course"',
     ],
-    "trading": [
-        '"prop firm" "my first" payout',
-        '"prop firm" "passed"',
-        '"day trader" "case study"',
-        '"day trading" "made $"',
-        '"forex" "first $"',
-        '"forex" "case study"',
-        '"funded trader" "payout"',
-        '"live trade" "profit"',
-        '"student results" trading',
-        '"day in the life" trader',
+    "consulting": [
+        '"how I get clients"',
+        '"client acquisition" coach',
+        '"first consulting client"',
+        '"my consulting business"',
+        '"how I land clients"',
     ],
-    "operator": [
-        '"building my agency"',
-        '"day in the life" entrepreneur',
-        '"behind the scenes" "agency"',
-        '"how I make $" "month"',
+    "creator": [
+        '"building my personal brand"',
+        '"how I grew my personal brand"',
+        '"audience to clients"',
+        '"content strategy" coach',
+        '"monetize my audience"',
     ],
 }
 
@@ -98,15 +93,34 @@ MIN_VIDEO_SECONDS = 60    # strip shorts
 LOOKBACK_DAYS = 14        # weekly run: focus on uploads since last Monday + buffer
 MAX_RESULTS_PER_QUERY = 50  # YT search max page size
 TARGET_LEADS_OUT = 1000   # effectively uncapped — let MIN_SCORE control quantity
-MIN_SCORE = 5000          # quality floor — better fewer good leads than padded junk
+MIN_SCORE = 7000          # quality floor — better fewer good leads than padded junk
 INTER_QUERY_SLEEP_S = 0.7 # avoid per-minute search-quota rate limit
 
-# Heuristics for sub-niche twist scoring (operator's "Mo selling his angle" pattern)
-TWIST_KEYWORDS = re.compile(
-    r"\b(my method|my way|the truth|my system|why I|how I|behind|secret|"
-    r"strategy|blueprint|playbook|formula|breakdown|walkthrough)\b",
+# Legit / educational packaging we WANT (coach-creator ICP).
+QUALITY_KEYWORDS = re.compile(
+    r"\b(how to|how i (?:built|grew|run|got|started)|framework|what i (?:learned|wish)|"
+    r"lessons|mistakes|my process|behind the|clients?|coaching|course|workflow|"
+    r"case study|breakdown|step[- ]?by[- ]?step|guide|tutorial|systemi[sz]e)\b",
     re.IGNORECASE,
 )
+# Get-rich-quick / income-bait markers we want to DEMOTE hard — the #1 reason
+# the old list was full of scam-adjacent channels.
+MONEY_CLAIM = re.compile(
+    r"(\$\s?\d|\b\d{1,3}(?:,\d{3})+\b|\b\d+\s?k\b|/\s?day|/\s?mo\b|/\s?month|"
+    r"per day|a day|a month|made \$|passive income|get rich|make money|"
+    r"millionaire|not clickbait|overnight|easy money|quit my 9)",
+    re.IGNORECASE,
+)
+# Non-English / non-Western-market hints (we want English-speaking creators).
+# Accent-tolerant: real titles may keep or drop accents.
+FOREIGN_HINT = re.compile(
+    r"\b(como|cómo|para|você|voce|ganhar|ganhe|dinheiro|negócio|negocio|dinero|"
+    r"gratis|gr[aá]tis|f[aá]cil|come[cç]ar|melhor|aprenda|hoje|fa[cç]a|"
+    r"resultados|comment|gagner|mois|argent|euros?|gana|"
+    r"wie|ich|und|geld|verdienen|machen)\b",
+    re.IGNORECASE,
+)
+WESTERN_COUNTRIES = {"US", "GB", "CA", "AU", "NZ", "IE"}
 
 # IG handle extraction from channel description
 IG_PATTERNS = [
@@ -259,34 +273,42 @@ def score_lead(video: dict, channel: dict, query: str, niche: str) -> int:
     views = int(video.get("statistics", {}).get("viewCount", 0) or 0)
     subs = int(channel.get("statistics", {}).get("subscriberCount", 0) or 0)
     pub = video.get("snippet", {}).get("publishedAt", "")
+    country = channel.get("snippet", {}).get("country", "") or ""
 
-    score = 0
-    # Recency bonus: 0-3000 (newer = higher)
+    score = 2000  # baseline so penalties can sink weak leads below MIN_SCORE
+    # Recency bonus: 0-2500 (newer = higher)
     try:
         pub_dt = datetime.fromisoformat(pub.replace("Z", "+00:00"))
         days_old = max(0, (datetime.now(timezone.utc) - pub_dt).days)
-        score += max(0, 3000 - days_old * 30)
+        score += max(0, 2500 - days_old * 25)
     except Exception:
         pass
-    # View-to-sub ratio (viral-ish content): up to 5000
+    # Sweet-spot subscriber count: a coach/creator with an offer, no big team
+    if 2_000 <= subs <= 50_000:
+        score += 3500
+    elif 500 <= subs <= 120_000:
+        score += 2000
+    elif subs > 200_000:
+        score -= 2000
+    # Mild engagement signal (not the point for coaches): 0-1500
     if subs > 0:
-        ratio = views / subs
-        score += int(min(5000, ratio * 1000))
-    # Sweet-spot subscriber count: 5K-30K is ideal
-    if 5_000 <= subs <= 30_000:
-        score += 4000
-    elif 1_000 <= subs <= 50_000:
-        score += 2500
-    elif subs > 100_000:
-        score -= 1500
-    # Twist-keyword bonus (operator angle)
-    if TWIST_KEYWORDS.search(title) or TWIST_KEYWORDS.search(desc[:500]):
-        score += 1500
-    # Income-proof bonus (number + $ in title)
-    if re.search(r"\$[\d,]+|\d+k|\d+ k", title, re.IGNORECASE):
-        score += 1500
-    # Niche-relevance bonus
-    score += {"trading": 600, "ecom": 600, "fba": 800, "operator": 200}.get(niche, 0)
+        score += int(min(1500, (views / subs) * 600))
+    # Reward legit / educational packaging
+    if QUALITY_KEYWORDS.search(title) or QUALITY_KEYWORDS.search(desc[:400]):
+        score += 1800
+    # Demote get-rich-quick / income-bait titles — decisive, this is the
+    # signal that wrecked the old list.
+    if MONEY_CLAIM.search(title):
+        score -= 6000
+    # Reward English-speaking / Western market, demote clearly non-Western
+    if country in WESTERN_COUNTRIES:
+        score += 1000
+    elif country:
+        score -= 2500
+    if FOREIGN_HINT.search(title):
+        score -= 3000
+    # Small niche-fit nudge
+    score += {"coaching": 500, "course": 400, "consulting": 400, "creator": 300}.get(niche, 0)
     return max(0, score)
 
 
@@ -424,8 +446,8 @@ def main():
     parser.add_argument("--lookback-days", type=int, default=LOOKBACK_DAYS)
     parser.add_argument(
         "--niches",
-        default="ecom,fba,trading,operator",
-        help="Comma-separated subset of: ecom,fba,trading,operator",
+        default="coaching,course,consulting,creator",
+        help="Comma-separated subset of: coaching,course,consulting,creator",
     )
     parser.add_argument("--out", default="yt_leads.json")
     parser.add_argument("--meta-out", default="yt_leads_meta.json")
