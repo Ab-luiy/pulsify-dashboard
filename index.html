@@ -2931,6 +2931,18 @@
   #tab-instagram .ig-funnelnote { margin-top:10px; color:var(--text-2); font-size:12px; }
   #tab-instagram .ig-aud-insight { margin-top:14px; padding:10px 12px; background:var(--surface-2); border-left:3px solid #f6a609; border-radius:8px; font-size:12.5px; color:var(--text); line-height:1.5; }
   #tab-instagram .ig-aud-insight:empty { display:none; }
+  #tab-instagram .ig-action { margin-top:14px; padding:11px 13px; background:var(--surface-2); border-left:3px solid #f6a609; border-radius:8px; font-size:12.5px; color:var(--text); line-height:1.55; }
+  #tab-instagram .ig-action:empty { display:none; }
+  #tab-instagram .ig-action b { color:#f6a609; }
+  #tab-instagram .ig-action.good { border-left-color:#16a34a; }
+  #tab-instagram .ig-action.good b { color:#16a34a; }
+  #tab-instagram .ig-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(116px,1fr)); gap:10px; margin-top:14px; }
+  #tab-instagram .ig-tile { background:var(--surface-2); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  #tab-instagram .ig-tile img { width:100%; height:150px; object-fit:cover; display:block; background:var(--border); }
+  #tab-instagram .ig-tile .m { padding:7px 9px; font-size:10.5px; color:var(--text-2); display:flex; flex-wrap:wrap; gap:7px; }
+  #tab-instagram .ig-tile .m b { color:var(--text); font-weight:650; }
+  #tab-instagram .ig-empty { margin-top:14px; padding:16px; border:1px dashed var(--border); border-radius:10px; color:var(--text-2); font-size:12.5px; line-height:1.55; }
+  #tab-instagram .ig-band { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-2); margin:6px 0 -4px; padding-left:2px; }
   @media (max-width:900px) { #tab-instagram .ig-aud { grid-template-columns:1fr; } }
 </style>
 <section class="tab-panel" id="tab-instagram">
@@ -2953,8 +2965,10 @@
       <div class="ig-updated">Last pull: <span id="igUpdated">—</span> · refresh with <code>npm start</code> in <code>ig-report/</code></div>
     </div>
 
+    <div class="ig-band span-12">📹 Reels</div>
+
     <div class="card span-12">
-      <h2>Content performance <span class="meta">last 90 days · <span id="igReelCount">0</span> reels</span></h2>
+      <h2>Reels — performance <span class="meta">last 90 days · <span id="igReelCount">0</span> reels</span></h2>
       <div class="kpi-row" style="grid-template-columns: repeat(6, 1fr)">
         <div class="kpi accent"><div class="k">Avg Hook</div><div class="v mono large" id="igAvgHook">0</div></div>
         <div class="kpi"><div class="k">Total reach</div><div class="v mono" id="igTotalReach">0</div></div>
@@ -2963,6 +2977,7 @@
         <div class="kpi"><div class="k">Saves</div><div class="v mono" id="igTotalSaves">0</div></div>
         <div class="kpi"><div class="k">Shares</div><div class="v mono" id="igTotalShares">0</div></div>
       </div>
+      <div class="ig-action" id="igReelsAction"></div>
     </div>
 
     <div class="card span-8">
@@ -2982,6 +2997,36 @@
         <div class="stat-row"><span class="name">Avg reach / reel</span><span class="num mono" id="igAvgReach">0</span></div>
         <div class="stat-row"><span class="name">Save rate</span><span class="num mono" id="igSaveRate">0%</span></div>
       </div>
+    </div>
+
+    <div class="ig-band span-12">🖼️ Posts</div>
+
+    <div class="card span-12">
+      <h2>Posts — performance <span class="meta">feed photos &amp; carousels · last 90 days</span></h2>
+      <div class="kpi-row" style="grid-template-columns: repeat(5, 1fr)">
+        <div class="kpi"><div class="k">Posts</div><div class="v mono large" id="igPostCount">0</div></div>
+        <div class="kpi"><div class="k">Total reach</div><div class="v mono" id="igPostReach">0</div></div>
+        <div class="kpi accent"><div class="k">Saves</div><div class="v mono" id="igPostSaves">0</div></div>
+        <div class="kpi"><div class="k">Save rate</div><div class="v mono" id="igPostSaveRate">0%</div></div>
+        <div class="kpi"><div class="k">Interactions</div><div class="v mono" id="igPostInteractions">0</div></div>
+      </div>
+      <div class="ig-grid" id="igPostsGrid"></div>
+      <div class="ig-action" id="igPostsAction"></div>
+    </div>
+
+    <div class="ig-band span-12">⭕ Stories</div>
+
+    <div class="card span-12">
+      <h2>Stories — performance <span class="meta">ephemeral · captured daily &amp; accumulated</span></h2>
+      <div class="kpi-row" style="grid-template-columns: repeat(5, 1fr)">
+        <div class="kpi"><div class="k">Captured</div><div class="v mono large" id="igStoryCount">0</div></div>
+        <div class="kpi"><div class="k">Total reach</div><div class="v mono" id="igStoryReach">0</div></div>
+        <div class="kpi"><div class="k">Replies</div><div class="v mono" id="igStoryReplies">0</div></div>
+        <div class="kpi accent"><div class="k">Profile visits</div><div class="v mono" id="igStoryVisits">0</div></div>
+        <div class="kpi"><div class="k">Posted (7d)</div><div class="v mono" id="igStory7d">0</div></div>
+      </div>
+      <div class="ig-grid" id="igStoriesGrid"></div>
+      <div class="ig-action" id="igStoriesAction"></div>
     </div>
 
     <div class="card span-6">
@@ -4313,9 +4358,11 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const maxS = Math.max(1, ...stages.map((s) => s[1]));
     const fn = $("igFunnel");
     if (fn) fn.innerHTML = stages.map(([lab, n]) => `<div class="stage"><span class="lab">${lab}</span><span class="track"><span style="width:${(n / maxS) * 100}%"></span></span><span class="num ${n === 0 ? "zero" : ""}">${fmt(n)}</span></div>`).join("");
-    setText("igFunnelNote", L.leads
+    const leadNote = L.leads
       ? `${fmt(L.leads)} IG-sourced lead${L.leads === 1 ? "" : "s"} in CRM · ${fmt(L.replies)} replied.`
-      : "Tag IG-sourced leads in the CRM to light up the bottom of this funnel.");
+      : "Tag IG-sourced leads in the CRM to light up the bottom of this funnel.";
+    const hasTrigger = /\bdm\b|message me/i.test(p.biography || "");
+    setText("igFunnelNote", leadNote + (hasTrigger ? "" : "  ⚠ No DM trigger word in your bio — the profile funnel can't fire. Add a keyword to DM (e.g. “DM me GROW”)."));
 
     const aud = ig.audience;
     const audCard = $("igAudienceCard");
@@ -4347,6 +4394,47 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     } else if (audCard) {
       audCard.style.display = "none";
     }
+
+    // ── Format sections: cadence-aware Action Engine (Pulsify standards) ──
+    const cad = ig.cadence || {};
+    const tile = (it, parts) => `<div class="ig-tile">${it.thumbnailDataUri ? `<a href="${it.permalink || "#"}" target="_blank" rel="noopener"><img src="${it.thumbnailDataUri}" alt=""/></a>` : ""}<div class="m">${parts.map((x) => `<span>${x}</span>`).join("")}</div></div>`;
+    const setAction = (id, html, good) => { const el = $(id); if (el) { el.innerHTML = html; el.classList.toggle("good", !!good); } };
+
+    const reels7 = cad.reels7d || 0;
+    let reelMsg, reelGood = false;
+    if (reels7 >= 7) { reelMsg = `On cadence — <b>${reels7} reels</b> this week (Pulsify standard: 1/day).`; reelGood = true; }
+    else reelMsg = `<b>Cadence gap:</b> ${reels7} reel${reels7 === 1 ? "" : "s"} in 7 days vs the 1-a-day standard. A quiet feed loses reach fast — the algorithm rewards consistency.`;
+    if (c.reelsCount) reelMsg += c.avgHook >= 55 ? ` Hooks are strong (avg ${c.avgHook}) — if reach is flat, it's distribution/cadence, not the content.` : ` Avg Hook ${c.avgHook} — tighten the first 3 seconds; that's where retention leaks.`;
+    setAction("igReelsAction", reelMsg, reelGood);
+
+    const posts = ig.posts || [], ps = ig.postsSummary || {};
+    setText("igPostCount", fmt(ps.count || 0));
+    setText("igPostReach", fmt(ps.totalReach || 0));
+    setText("igPostSaves", fmt(ps.totalSaves || 0));
+    setText("igPostSaveRate", ps.totalReach ? ((ps.totalSaves / ps.totalReach) * 100).toFixed(1) + "%" : "0%");
+    setText("igPostInteractions", fmt(ps.totalInteractions || 0));
+    const pg = $("igPostsGrid");
+    if (pg) pg.innerHTML = posts.length
+      ? posts.slice(0, 12).map((p2) => tile(p2, [`${fmt(p2.insights.reach)} reach`, `${fmt(p2.insights.saved)} saves`])).join("")
+      : `<div class="ig-empty">No feed posts in the last 90 days — this account is <b>reels-only</b>. Per the profile-funnel playbook your grid is the landing page: add 1–2 educational carousels/week to build authority + saves for new profile visitors.</div>`;
+    const postsGood = posts.length && ps.totalReach && ps.totalSaves / ps.totalReach >= 0.02;
+    setAction("igPostsAction", posts.length
+      ? (postsGood ? `Saves are landing — turn your top-saved carousels into series.` : `Saves are the signal for posts — lead carousels with a save-worthy framework, not just a hook.`)
+      : `<b>Add carousels.</b> Reels win reach; carousels win authority + saves and anchor the grid as your profile funnel's landing page.`, postsGood);
+
+    const stories = ig.stories || [], ss = ig.storiesSummary || {}, st7 = cad.stories7d || 0;
+    setText("igStoryCount", fmt(ss.count || 0));
+    setText("igStoryReach", fmt(ss.totalReach || 0));
+    setText("igStoryReplies", fmt(ss.totalReplies || 0));
+    setText("igStoryVisits", fmt(ss.totalProfileVisits || 0));
+    setText("igStory7d", fmt(st7));
+    const sg = $("igStoriesGrid");
+    if (sg) sg.innerHTML = stories.length
+      ? stories.slice(0, 12).map((s) => tile(s, [`${fmt(s.insights.reach)} reach`, `${fmt(s.insights.replies)} repl`, `${fmt(s.insights.profileVisits)} visits`])).join("")
+      : `<div class="ig-empty">No stories captured yet. Stories vanish in 24h, so the <b>daily auto-refresh</b> captures them as you post. Pulsify standard: daily story proof (testimonials, BTS) to keep the "red ring" active and drive profile visits → DMs.</div>`;
+    setAction("igStoriesAction", st7 >= 7
+      ? `Daily stories on track (<b>${st7}/7</b>). Lean into testimonials/BTS that push profile visits → trigger-word DMs.`
+      : `<b>Cadence gap:</b> ${st7} stor${st7 === 1 ? "y" : "ies"} in 7 days vs the daily standard. Stories keep the red ring active and feed the profile funnel — post daily proof.`, st7 >= 7);
 
     setText("igRepurposeReach", fmt(c.totalReach || 0));
     setText("igRepurposeFollowers", fmt(p.followers || 0));

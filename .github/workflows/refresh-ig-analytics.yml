@@ -1,0 +1,45 @@
+name: Refresh IG Analytics (daily)
+
+on:
+  schedule:
+    # Daily at 05:00 UTC. Stories are ephemeral (24h) — a daily run captures the
+    # prior day's stories + accumulates them into dashboard-data-v2.json so they
+    # are never lost. Bump to twice daily if you want fuller story capture.
+    - cron: "0 5 * * *"
+  workflow_dispatch: # also runnable manually from the GitHub Actions tab
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to commit + push the refreshed dashboard-data-v2.json
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install ig-report deps
+        working-directory: ig-report
+        run: npm ci || npm install
+
+      - name: Pull Instagram analytics (profile + reels/posts/stories + audience)
+        working-directory: ig-report
+        env:
+          COMPOSIO_API_KEY: ${{ secrets.COMPOSIO_API_KEY }}
+        run: npm start
+
+      - name: Commit & push if changed
+        run: |
+          git config user.name  "pulsify-bot"
+          git config user.email "bot@pulsify.local"
+          if git diff --quiet -- dashboard-data-v2.json; then
+            echo "No analytics changes — skipping commit."
+            exit 0
+          fi
+          git add dashboard-data-v2.json
+          git commit -m "Refresh IG analytics ($(date -u +%Y-%m-%d))"
+          git push
