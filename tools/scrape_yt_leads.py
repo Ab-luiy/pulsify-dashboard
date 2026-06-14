@@ -92,7 +92,7 @@ QUERIES = {
 }
 
 # ICP filters
-MIN_SUBS = 1_000          # below this = too tiny to have an offer
+MIN_SUBS = 300            # smaller channels that nail the ICP titles are still good leads
 MAX_SUBS = 500_000        # above this = mega channel, has a team
 MIN_VIDEO_SECONDS = 60    # strip shorts
 LOOKBACK_DAYS = 14        # weekly run: focus on uploads since last Monday + buffer
