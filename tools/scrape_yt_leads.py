@@ -45,47 +45,42 @@ import urllib.error
 # CONFIG
 # ----------------------------------------------------------------------------
 
-# Niches × queries — ICP: make-money-online COACHES (Iman Gadzhi archetype).
-#   IN: people who coach/sell programs on building online income — SMMA/agency,
-#       online business, digital products, side hustles, high-ticket coaching,
-#       make-money-with-AI. Income figures in titles are NORMAL for this niche.
-#   OUT (the scam pond we removed): dropshipping / prop firm / forex / day
-#       trading flex channels. Kept out by query selection, not by penalty.
+# Niches × queries — ICP: B2C make-money-online COACHES in money skills.
+#   IN: people who teach / sell courses+coaching to consumers in day trading,
+#       e-com (dropshipping / Shopify / TikTok Shop), and Amazon FBA. The
+#       coach/educator profile — "for beginners", "course", "how to start",
+#       "academy", "my students". Income figures in titles are NORMAL here.
+#   OUT (penalized in scoring): B2B operators / SMMA / agency owners, closers,
+#       appointment setters, YouTube/IG growth & content-creation coaches.
 #   Channel size: 2K-50K subs (has an offer, no big team — sweet spot).
-#   Title keywords lifted from the documented niche patterns (wiki/funnel-hacks).
 QUERIES = {
-    "mmo": [
-        '"make money online" 2026',
-        '"make money online" beginners',
-        '"how I make money online"',
-        '"best online business"',
-        '"laziest way to make money"',
-        '"make money with ai"',
-        '"make your first $1000 online"',
+    "trading": [
+        '"day trading" for beginners',
+        '"how to start day trading"',
+        '"day trading" course',
+        '"learn to trade" stocks',
+        '"forex" for beginners',
+        '"forex trading" course',
+        '"options trading" for beginners',
+        '"trading academy"',
+        '"my students" trading',
     ],
-    "smma": [
-        '"how to start smma"',
-        '"smma" beginners',
-        '"start an agency"',
-        '"grow your agency"',
-        '"social media marketing agency"',
-        '"sign clients" agency',
+    "ecom": [
+        '"dropshipping" for beginners',
+        '"how to start dropshipping"',
+        '"dropshipping" course',
+        '"shopify" for beginners',
+        '"how to start shopify"',
+        '"tiktok shop" for beginners',
+        '"ecommerce" for beginners',
+        '"learn ecommerce"',
     ],
-    "onlinebiz": [
-        '"one person business"',
-        '"digital products" "make money"',
-        '"side hustle" 2026',
-        '"high income skill"',
-        '"start an online business"',
-        '"online business" beginners',
-    ],
-    "coaching": [
-        '"high ticket coaching"',
-        '"online coaching business"',
-        '"get high ticket clients"',
-        '"how to get coaching clients"',
-        '"build a coaching business"',
-        '"first coaching client"',
+    "fba": [
+        '"amazon fba" for beginners',
+        '"how to start amazon fba"',
+        '"amazon fba" course',
+        '"amazon fba" step by step',
+        '"amazon fba" tutorial',
     ],
 }
 
@@ -99,28 +94,44 @@ TARGET_LEADS_OUT = 1000   # effectively uncapped — let MIN_SCORE control quant
 MIN_SCORE = 7000          # quality floor — better fewer good leads than padded junk
 INTER_QUERY_SLEEP_S = 0.7 # avoid per-minute search-quota rate limit
 
-# MMO-coach packaging we WANT — niche terms + educational structure.
+# Coach/educator packaging we WANT — teaching the money skill to consumers.
 QUALITY_KEYWORDS = re.compile(
-    r"\b(how to|how i (?:built|grew|made|started|got)|beginners?|step[- ]?by[- ]?step|"
-    r"smma|agency|online business|make money online|digital products?|side hustle|"
-    r"high[- ]?ticket|high[- ]?income skill|one[- ]person business|clients?|coaching|"
-    r"freelanc|copywriting|framework|lessons|mistakes|guide|tutorial)\b",
+    r"\b(for beginners|how to start|how i (?:started|learned)|step[- ]?by[- ]?step|"
+    r"course|academy|masterclass|mentorship|free (?:training|course)|my students|"
+    r"i teach|learn to|tutorial|full guide|complete guide|beginners? guide|"
+    r"day trading|forex|options trading|dropshipping|shopify|tiktok shop|"
+    r"amazon fba|ecommerce|e-commerce)\b",
     re.IGNORECASE,
 )
-# Only the egregious scam tells get demoted — income figures are NORMAL and
-# expected in this niche, so we do NOT penalize "$" or "$10k/month".
+# Egregious scam tells + junk. Income figures are NORMAL here, so we do NOT
+# penalize "$" / "$10k/month".
 SCAM_MARKERS = re.compile(
     r"(not clickbait|get rich quick|guaranteed|overnight|free money|easy money|"
-    r"no work|while you sleep|secret loophole|i.?ll pay you|100% free money)",
+    r"no work|while you sleep|secret loophole|i.?ll pay you|glitch|"
+    r"official music|music video|official video|lyrics)",
     re.IGNORECASE,
 )
-# Non-English / non-Western-market hints (we want English-speaking creators).
-# Accent-tolerant: real titles may keep or drop accents.
+# Off-ICP roles the operator explicitly excluded — B2B operators / agency /
+# SMMA, closers, appointment setters, YouTube/IG-growth & content coaches.
+OFF_ICP = re.compile(
+    r"\b(smma|agency|agencies|appointment setter|appt setter|closer|closing"
+    r"|high ticket sales|lead gen|grow (?:your|my|on) (?:youtube|instagram|ig)"
+    r"|go viral|content creator|content creation|personal brand|how to edit"
+    r"|video editing|thumbnail)\b",
+    re.IGNORECASE,
+)
+# Non-English / non-Western-market hints (we want English-speaking, Western
+# creators). Accent-tolerant; includes romanized Hindi/Urdu/Pashto/Bengali and
+# explicit market mentions (India/Pakistan/etc.) since those dodge the English
+# language filter and are off-ICP per the operator.
 FOREIGN_HINT = re.compile(
     r"\b(como|cómo|para|você|voce|ganhar|ganhe|dinheiro|negócio|negocio|dinero|"
     r"gratis|gr[aá]tis|f[aá]cil|come[cç]ar|melhor|aprenda|hoje|fa[cç]a|"
     r"resultados|comment|gagner|mois|argent|euros?|gana|"
-    r"wie|ich|und|geld|verdienen|machen)\b",
+    r"wie|ich|und|geld|verdienen|machen|"
+    r"kaise|kare|kamaye|kamai|paise|paisa|rupees|rupaye|lakh|crore|hindi|urdu|"
+    r"pashto|bangla|bengali|in india|in pakistan|in bangladesh|in nigeria|"
+    r"in the philippines|tagalog)\b",
     re.IGNORECASE,
 )
 WESTERN_COUNTRIES = {"US", "GB", "CA", "AU", "NZ", "IE"}
@@ -296,21 +307,24 @@ def score_lead(video: dict, channel: dict, query: str, niche: str) -> int:
     # Mild engagement signal (not the point for coaches): 0-1500
     if subs > 0:
         score += int(min(1500, (views / subs) * 600))
-    # Reward MMO-coach packaging (niche terms + educational structure)
+    # Reward coach/educator packaging (teaching the money skill)
     if QUALITY_KEYWORDS.search(title) or QUALITY_KEYWORDS.search(desc[:400]):
         score += 1800
-    # Demote only egregious scam tells (NOT income figures — those are normal here)
+    # Demote egregious scam tells / music+junk (NOT income figures — normal here)
     if SCAM_MARKERS.search(title):
         score -= 4000
+    # Hard-demote off-ICP roles (operators/agency/closers/appt-setters/content)
+    if OFF_ICP.search(title) or OFF_ICP.search(desc[:400]):
+        score -= 5000
     # Reward English-speaking / Western market, demote clearly non-Western
     if country in WESTERN_COUNTRIES:
         score += 1000
     elif country:
-        score -= 2500
+        score -= 4000
     if FOREIGN_HINT.search(title):
-        score -= 3000
+        score -= 4000
     # Small niche-fit nudge
-    score += {"mmo": 500, "smma": 500, "onlinebiz": 400, "coaching": 400}.get(niche, 0)
+    score += {"trading": 500, "ecom": 500, "fba": 500}.get(niche, 0)
     return max(0, score)
 
 
@@ -448,8 +462,8 @@ def main():
     parser.add_argument("--lookback-days", type=int, default=LOOKBACK_DAYS)
     parser.add_argument(
         "--niches",
-        default="mmo,smma,onlinebiz,coaching",
-        help="Comma-separated subset of: mmo,smma,onlinebiz,coaching",
+        default="trading,ecom,fba",
+        help="Comma-separated subset of: trading,ecom,fba",
     )
     parser.add_argument("--out", default="yt_leads.json")
     parser.add_argument("--meta-out", default="yt_leads_meta.json")

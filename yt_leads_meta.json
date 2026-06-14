@@ -1,14 +1,13 @@
 {
   "scrapedAt": "2026-06-14",
-  "scrapedAtFull": "2026-06-14T23:21:35+00:00",
-  "count": 211,
+  "scrapedAtFull": "2026-06-14T23:45:50+00:00",
+  "count": 162,
   "niches": [
-    "mmo",
-    "smma",
-    "onlinebiz",
-    "coaching"
+    "trading",
+    "ecom",
+    "fba"
   ],
-  "queriesRun": 25,
+  "queriesRun": 22,
   "filters": {
     "min_subs": 300,
     "max_subs": 500000,
