@@ -1,18 +1,18 @@
 {
   "scrapedAt": "2026-06-14",
-  "scrapedAtFull": "2026-06-14T23:08:23+00:00",
-  "count": 146,
+  "scrapedAtFull": "2026-06-14T23:21:35+00:00",
+  "count": 211,
   "niches": [
-    "coaching",
-    "course",
-    "consulting",
-    "creator"
+    "mmo",
+    "smma",
+    "onlinebiz",
+    "coaching"
   ],
-  "queriesRun": 24,
+  "queriesRun": 25,
   "filters": {
     "min_subs": 300,
     "max_subs": 500000,
     "min_video_seconds": 60,
-    "lookback_days": 14
+    "lookback_days": 90
   }
 }

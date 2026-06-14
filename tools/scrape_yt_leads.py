@@ -45,44 +45,47 @@ import urllib.error
 # CONFIG
 # ----------------------------------------------------------------------------
 
-# Niches × queries — ICP: online coaches / creators (personal-brand educators).
-#   IN: coaching businesses, course/info-product creators, consultants,
-#       personal-brand creators monetizing an audience.
-#   Channel size: 2K-50K subs (has an offer, no big team — sweet spot)
-#   Hook patterns: educational / process / client-results language, NOT
-#       income-bait. Scoring demotes "$X/day" hype and non-Western channels.
+# Niches × queries — ICP: make-money-online COACHES (Iman Gadzhi archetype).
+#   IN: people who coach/sell programs on building online income — SMMA/agency,
+#       online business, digital products, side hustles, high-ticket coaching,
+#       make-money-with-AI. Income figures in titles are NORMAL for this niche.
+#   OUT (the scam pond we removed): dropshipping / prop firm / forex / day
+#       trading flex channels. Kept out by query selection, not by penalty.
+#   Channel size: 2K-50K subs (has an offer, no big team — sweet spot).
+#   Title keywords lifted from the documented niche patterns (wiki/funnel-hacks).
 QUERIES = {
+    "mmo": [
+        '"make money online" 2026',
+        '"make money online" beginners',
+        '"how I make money online"',
+        '"best online business"',
+        '"laziest way to make money"',
+        '"make money with ai"',
+        '"make your first $1000 online"',
+    ],
+    "smma": [
+        '"how to start smma"',
+        '"smma" beginners',
+        '"start an agency"',
+        '"grow your agency"',
+        '"social media marketing agency"',
+        '"sign clients" agency',
+    ],
+    "onlinebiz": [
+        '"one person business"',
+        '"digital products" "make money"',
+        '"side hustle" 2026',
+        '"high income skill"',
+        '"start an online business"',
+        '"online business" beginners',
+    ],
     "coaching": [
-        '"online coaching business"',
-        '"how I got my first coaching client"',
-        '"signed my first client" coaching',
-        '"my coaching business"',
         '"high ticket coaching"',
-        '"group coaching program"',
-        '"how I built my coaching business"',
-        '"coaching clients" "how I"',
-    ],
-    "course": [
-        '"how I built my course"',
-        '"launched my online course"',
-        '"my course launch"',
-        '"selling digital products"',
-        '"online course business"',
-        '"how I sell my course"',
-    ],
-    "consulting": [
-        '"how I get clients"',
-        '"client acquisition" coach',
-        '"first consulting client"',
-        '"my consulting business"',
-        '"how I land clients"',
-    ],
-    "creator": [
-        '"building my personal brand"',
-        '"how I grew my personal brand"',
-        '"audience to clients"',
-        '"content strategy" coach',
-        '"monetize my audience"',
+        '"online coaching business"',
+        '"get high ticket clients"',
+        '"how to get coaching clients"',
+        '"build a coaching business"',
+        '"first coaching client"',
     ],
 }
 
@@ -90,25 +93,25 @@ QUERIES = {
 MIN_SUBS = 300            # smaller channels that nail the ICP titles are still good leads
 MAX_SUBS = 500_000        # above this = mega channel, has a team
 MIN_VIDEO_SECONDS = 60    # strip shorts
-LOOKBACK_DAYS = 14        # weekly run: focus on uploads since last Monday + buffer
+LOOKBACK_DAYS = 90        # wider net — established coaches post less often
 MAX_RESULTS_PER_QUERY = 50  # YT search max page size
 TARGET_LEADS_OUT = 1000   # effectively uncapped — let MIN_SCORE control quantity
 MIN_SCORE = 7000          # quality floor — better fewer good leads than padded junk
 INTER_QUERY_SLEEP_S = 0.7 # avoid per-minute search-quota rate limit
 
-# Legit / educational packaging we WANT (coach-creator ICP).
+# MMO-coach packaging we WANT — niche terms + educational structure.
 QUALITY_KEYWORDS = re.compile(
-    r"\b(how to|how i (?:built|grew|run|got|started)|framework|what i (?:learned|wish)|"
-    r"lessons|mistakes|my process|behind the|clients?|coaching|course|workflow|"
-    r"case study|breakdown|step[- ]?by[- ]?step|guide|tutorial|systemi[sz]e)\b",
+    r"\b(how to|how i (?:built|grew|made|started|got)|beginners?|step[- ]?by[- ]?step|"
+    r"smma|agency|online business|make money online|digital products?|side hustle|"
+    r"high[- ]?ticket|high[- ]?income skill|one[- ]person business|clients?|coaching|"
+    r"freelanc|copywriting|framework|lessons|mistakes|guide|tutorial)\b",
     re.IGNORECASE,
 )
-# Get-rich-quick / income-bait markers we want to DEMOTE hard — the #1 reason
-# the old list was full of scam-adjacent channels.
-MONEY_CLAIM = re.compile(
-    r"(\$\s?\d|\b\d{1,3}(?:,\d{3})+\b|\b\d+\s?k\b|/\s?day|/\s?mo\b|/\s?month|"
-    r"per day|a day|a month|made \$|passive income|get rich|make money|"
-    r"millionaire|not clickbait|overnight|easy money|quit my 9)",
+# Only the egregious scam tells get demoted — income figures are NORMAL and
+# expected in this niche, so we do NOT penalize "$" or "$10k/month".
+SCAM_MARKERS = re.compile(
+    r"(not clickbait|get rich quick|guaranteed|overnight|free money|easy money|"
+    r"no work|while you sleep|secret loophole|i.?ll pay you|100% free money)",
     re.IGNORECASE,
 )
 # Non-English / non-Western-market hints (we want English-speaking creators).
@@ -293,13 +296,12 @@ def score_lead(video: dict, channel: dict, query: str, niche: str) -> int:
     # Mild engagement signal (not the point for coaches): 0-1500
     if subs > 0:
         score += int(min(1500, (views / subs) * 600))
-    # Reward legit / educational packaging
+    # Reward MMO-coach packaging (niche terms + educational structure)
     if QUALITY_KEYWORDS.search(title) or QUALITY_KEYWORDS.search(desc[:400]):
         score += 1800
-    # Demote get-rich-quick / income-bait titles — decisive, this is the
-    # signal that wrecked the old list.
-    if MONEY_CLAIM.search(title):
-        score -= 6000
+    # Demote only egregious scam tells (NOT income figures — those are normal here)
+    if SCAM_MARKERS.search(title):
+        score -= 4000
     # Reward English-speaking / Western market, demote clearly non-Western
     if country in WESTERN_COUNTRIES:
         score += 1000
@@ -308,7 +310,7 @@ def score_lead(video: dict, channel: dict, query: str, niche: str) -> int:
     if FOREIGN_HINT.search(title):
         score -= 3000
     # Small niche-fit nudge
-    score += {"coaching": 500, "course": 400, "consulting": 400, "creator": 300}.get(niche, 0)
+    score += {"mmo": 500, "smma": 500, "onlinebiz": 400, "coaching": 400}.get(niche, 0)
     return max(0, score)
 
 
@@ -446,8 +448,8 @@ def main():
     parser.add_argument("--lookback-days", type=int, default=LOOKBACK_DAYS)
     parser.add_argument(
         "--niches",
-        default="coaching,course,consulting,creator",
-        help="Comma-separated subset of: coaching,course,consulting,creator",
+        default="mmo,smma,onlinebiz,coaching",
+        help="Comma-separated subset of: mmo,smma,onlinebiz,coaching",
     )
     parser.add_argument("--out", default="yt_leads.json")
     parser.add_argument("--meta-out", default="yt_leads_meta.json")
