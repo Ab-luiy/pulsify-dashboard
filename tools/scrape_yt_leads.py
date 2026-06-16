@@ -103,6 +103,17 @@ QUALITY_KEYWORDS = re.compile(
     r"amazon fba|ecommerce|e-commerce)\b",
     re.IGNORECASE,
 )
+# Raw "I'm doing the craft" packaging — the OBLIVIOUS creator who just posts
+# their strategy / results / income proof with no polished course-speak. These
+# are PRIME leads (max room to enhance), so we nudge them ON PAR with the
+# polished crowd instead of letting title polish decide ranking.
+CRAFT_PROOF = re.compile(
+    r"(\$[\d,]+|\b\d+\s?k\b|my (?:strategy|method|system|setup|results?|store|journey)"
+    r"|how i (?:made|make|built|grew|started|hit|passed)|live (?:trading|trade)"
+    r"|winning product|product research|first sale|funded account"
+    r"|passed (?:the )?(?:prop|challenge)|case study|day in the life)",
+    re.IGNORECASE,
+)
 # Egregious scam tells + junk. Income figures are NORMAL here, so we do NOT
 # penalize "$" / "$10k/month".
 SCAM_MARKERS = re.compile(
@@ -307,9 +318,14 @@ def score_lead(video: dict, channel: dict, query: str, niche: str) -> int:
     # Mild engagement signal (not the point for coaches): 0-1500
     if subs > 0:
         score += int(min(1500, (views / subs) * 600))
-    # Reward coach/educator packaging (teaching the money skill)
+    # Title packaging is a SOFT nudge, not a gate — durable signals (niche fit,
+    # size, recency, Western) drive ranking. Polished course-speak and raw
+    # craft/income-proof titles get an equal small lift, so the oblivious
+    # "just posting my strategy" creator isn't buried under the packaged one.
     if QUALITY_KEYWORDS.search(title) or QUALITY_KEYWORDS.search(desc[:400]):
-        score += 1800
+        score += 600
+    if CRAFT_PROOF.search(title):
+        score += 600
     # Demote egregious scam tells / music+junk (NOT income figures — normal here)
     if SCAM_MARKERS.search(title):
         score -= 4000
@@ -452,6 +468,34 @@ def collect_leads(api_key: str, max_per_query: int, lookback_days: int, niches: 
     return leads[:TARGET_LEADS_OUT]
 
 
+def load_existing(path: Path) -> list:
+    """Read prior yt_leads.json so re-runs accumulate instead of clobbering."""
+    if not path.exists():
+        return []
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, list) else []
+    except Exception:
+        return []
+
+
+def merge_leads(existing: list, fresh: list) -> list:
+    """Union existing + fresh, dedup by channel (cu|n), keep the higher score.
+
+    Never lose a previously-found (and possibly hand-vetted) creator just
+    because a later run's lookback window missed their latest upload.
+    """
+    by_key = {}
+    for l in existing + fresh:
+        key = l.get("cu") or l.get("n")
+        if not key:
+            continue
+        prev = by_key.get(key)
+        if not prev or (l.get("s", 0) or 0) > (prev.get("s", 0) or 0):
+            by_key[key] = l
+    return sorted(by_key.values(), key=lambda l: l.get("s", 0) or 0, reverse=True)
+
+
 # ----------------------------------------------------------------------------
 # ENTRYPOINT
 # ----------------------------------------------------------------------------
@@ -469,6 +513,8 @@ def main():
     parser.add_argument("--meta-out", default="yt_leads_meta.json")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print queries that would run, no API calls.")
+    parser.add_argument("--overwrite", action="store_true",
+                        help="Replace yt_leads.json instead of merging with existing.")
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent
@@ -499,15 +545,21 @@ def main():
         {k: v for k, v in l.items() if not k.startswith("_")} for l in leads
     ]
 
+    # Merge with prior run unless --overwrite, so curated leads accumulate.
     out_path = repo_root / args.out
+    if args.overwrite:
+        written = public_leads
+    else:
+        written = merge_leads(load_existing(out_path), public_leads)
     out_path.write_text(
-        json.dumps(public_leads, ensure_ascii=False, separators=(", ", ": ")),
+        json.dumps(written, ensure_ascii=False, separators=(", ", ": ")),
         encoding="utf-8",
     )
     meta = {
         "scrapedAt": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
         "scrapedAtFull": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "count": len(public_leads),
+        "count": len(written),
+        "newThisRun": len(public_leads),
         "niches": niches,
         "queriesRun": sum(len(QUERIES.get(n, [])) for n in niches),
         "filters": {
@@ -521,7 +573,8 @@ def main():
     )
 
     # Summary to stdout (so CI logs are readable)
-    print(f"\nWrote {len(public_leads)} leads -> {out_path}")
+    mode = "overwrote" if args.overwrite else "merged"
+    print(f"\n{mode}: {len(public_leads)} new this run -> {len(written)} total in {out_path}")
     by_niche = {}
     for l in leads:
         by_niche[l["_niche"]] = by_niche.get(l["_niche"], 0) + 1
