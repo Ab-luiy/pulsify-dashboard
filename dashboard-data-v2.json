@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-15T19:34:26.863Z",
+  "lastUpdated": "2026-06-16T18:59:41.901Z",
   "instagram": {
-    "updatedAt": "2026-06-15T19:34:26.801Z",
+    "updatedAt": "2026-06-16T18:59:41.839Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 504,
-      "following": 471,
+      "following": 474,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=jM6Ulzf6wywQ7kNvwGNIMYU&_nc_oc=Adq0zB--fE83Mn4y3bMwrlJ9ZIeNWHcqzPGSI5NCQtkiHVD1KsJ2JOJENC5lfToYGPU&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=BW4_Jdgh7aIOH1882EL2fg&_nc_tpa=Q5bMBQETsLIHhuF0kW5qjtHJMyJufY8WmTs01hdl4jbU2jDdmzTv778P3ohkAqjoWJqw3AyTiZHowbuQ&oh=00_Af80ccAbrv79czHUrGT1DPUoIyuSnpjSW9Yz8Tfa-6XK4A&oe=6A3614E8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzIifQ%3D%3D&_nc_ohc=jM6Ulzf6wywQ7kNvwGNIMYU&_nc_oc=Adq0zB--fE83Mn4y3bMwrlJ9ZIeNWHcqzPGSI5NCQtkiHVD1KsJ2JOJENC5lfToYGPU&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=3-cZXiYkBCYgsrTHCltgFQ&_nc_tpa=Q5bMBQH9SxxDjx1ACBG-fSAeQ8354nLJCrfqzgBPQL9tMvbS38Tj6yO-0xF7rYaW2OQnnLIi5HVmcXXb&oh=00_Af-ipyGzsQpEb5nTiHSEvIvf1H3sLY8ytU11Ehh43cKgrQ&oe=6A376668"
     },
     "content": {
       "reelsCount": 8,
@@ -85,15 +85,15 @@
       ]
     },
     "account": {
-      "reach30d": 17,
+      "reach30d": 4,
       "views30d": 0,
       "newFollowers30d": 0,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        13,
-        4
+        4,
+        0
       ],
       "followerSeries": [
         0,
@@ -122,7 +122,7 @@
         },
         {
           "name": "GB",
-          "value": 10
+          "value": 9
         },
         {
           "name": "AR",
@@ -165,11 +165,11 @@
           "value": 4
         },
         {
-          "name": "VN",
+          "name": "PH",
           "value": 4
         },
         {
-          "name": "PH",
+          "name": "VN",
           "value": 4
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "UA",
+          "name": "LT",
           "value": 1
         },
         {
-          "name": "IQ",
+          "name": "AF",
           "value": 1
         },
         {
-          "name": "AZ",
+          "name": "KZ",
           "value": 1
         }
       ],
@@ -307,19 +307,19 @@
           "value": 3
         },
         {
-          "name": "Casablanca, Grand Casablanca",
-          "value": 2
-        },
-        {
           "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
-          "name": "Rio de Janeiro, Rio de Janeiro (state)",
+          "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
           "name": "Birigui, São Paulo (state)",
+          "value": 2
+        },
+        {
+          "name": "Rio de Janeiro, Rio de Janeiro (state)",
           "value": 2
         },
         {
@@ -355,10 +355,6 @@
           "value": 2
         },
         {
-          "name": "Toronto, Ontario",
-          "value": 2
-        },
-        {
           "name": "Kigali, Kigali",
           "value": 2
         },
@@ -383,11 +379,7 @@
           "value": 2
         },
         {
-          "name": "Kathmandu, Bagmati Zone",
-          "value": 1
-        },
-        {
-          "name": "São Leopoldo, Rio Grande do Sul",
+          "name": "Sydney, New South Wales",
           "value": 1
         },
         {
@@ -395,31 +387,19 @@
           "value": 1
         },
         {
-          "name": "Hamirpur, Himachal Pradesh",
+          "name": "Shakhrikhan, Andijan Region",
           "value": 1
         },
         {
-          "name": "Playa del Carmen, Quintana Roo",
+          "name": "Bilari, Uttar Pradesh",
           "value": 1
         },
         {
-          "name": "Rotterdam, Zuid-Holland",
+          "name": "Berlin, Berlin",
           "value": 1
         },
         {
-          "name": "Chakia, Uttar Pradesh",
-          "value": 1
-        },
-        {
-          "name": "Elenga, Dhaka Division",
-          "value": 1
-        },
-        {
-          "name": "Mercedes, Soriano Department",
-          "value": 1
-        },
-        {
-          "name": "Rufisque, Dakar Region",
+          "name": "Dharwad, Karnataka",
           "value": 1
         },
         {
@@ -427,43 +407,63 @@
           "value": 1
         },
         {
-          "name": "Gaziantep, Gaziantep Province",
+          "name": "Sapúyes, Narino",
           "value": 1
         },
         {
-          "name": "Formosa, Formosa",
+          "name": "Arambagh, West Bengal",
           "value": 1
         },
         {
-          "name": "Sakti, Chhattisgarh",
+          "name": "Aparecida de Goiânia, Goiás",
           "value": 1
         },
         {
-          "name": "Raipur, Chhattisgarh",
+          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
           "value": 1
         },
         {
-          "name": "Addis Ababa, Addis Ababa",
+          "name": "Jamadoba, Jharkhand",
           "value": 1
         },
         {
-          "name": "Bangkok, Bangkok",
+          "name": "Itaituba, Pará",
           "value": 1
         },
         {
-          "name": "Arapara, Dhaka Division",
+          "name": "Darma, West Java",
           "value": 1
         },
         {
-          "name": "Ribeirão das Neves, Minas Gerais",
+          "name": "Dendermonde, Flemish Region",
           "value": 1
         },
         {
-          "name": "Vila Americana, São Paulo (state)",
+          "name": "Sawai Madhopur, Rajasthan",
           "value": 1
         },
         {
-          "name": "Viamão, Rio Grande do Sul",
+          "name": "Tiruchirappalli, Tamil Nadu",
+          "value": 1
+        },
+        {
+          "name": "Nuh, Haryana",
+          "value": 1
+        },
+        {
+          "name": "Tyngsboro, Massachusetts",
+          "value": 1
+        },
+        {
+          "name": "São José do Rio Prêto, São Paulo (state)",
+          "value": 1
+        },
+        {
+          "name": "Rosario, Santa Fe",
+          "value": 1
+        },
+        {
+          "name": "San Polo Matese, Molise",
           "value": 1
         }
       ],
@@ -474,7 +474,7 @@
         },
         {
           "name": "M",
-          "value": 81
+          "value": 80
         },
         {
           "name": "F",
@@ -488,7 +488,7 @@
         },
         {
           "name": "25-34",
-          "value": 98
+          "value": 97
         },
         {
           "name": "13-17",
