@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-16T18:59:41.901Z",
+  "lastUpdated": "2026-06-17T09:27:02.466Z",
   "instagram": {
-    "updatedAt": "2026-06-16T18:59:41.839Z",
+    "updatedAt": "2026-06-17T09:27:02.414Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -9,10 +9,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 504,
+      "followers": 505,
       "following": 474,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzIifQ%3D%3D&_nc_ohc=jM6Ulzf6wywQ7kNvwGNIMYU&_nc_oc=Adq0zB--fE83Mn4y3bMwrlJ9ZIeNWHcqzPGSI5NCQtkiHVD1KsJ2JOJENC5lfToYGPU&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=3-cZXiYkBCYgsrTHCltgFQ&_nc_tpa=Q5bMBQH9SxxDjx1ACBG-fSAeQ8354nLJCrfqzgBPQL9tMvbS38Tj6yO-0xF7rYaW2OQnnLIi5HVmcXXb&oh=00_Af-ipyGzsQpEb5nTiHSEvIvf1H3sLY8ytU11Ehh43cKgrQ&oe=6A376668"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=-AaT6q8LuZAQ7kNvwFkhRCr&_nc_oc=AdrlFzwBIPPormogmVeaTGdzF74NRAkU2b_aP9WEA0TZyU373Xi4CroNrDm7os9X824&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=tVQrbDnvfnzI3XOB80WMJQ&_nc_tpa=Q5bMBQEYDnIEjwHDuSWr9Q3t39J33lTyZmopHOKTHa-jm2iUTByo3ntYJJ1JWF8K0M1thV7LGn2QcGZK&oh=00_Af8r32Juqx2peNMfDlasHU69VUxFeFvSRVaOP1_bTsFAxg&oe=6A384768"
     },
     "content": {
       "reelsCount": 8,
@@ -85,14 +85,14 @@
       ]
     },
     "account": {
-      "reach30d": 4,
+      "reach30d": 0,
       "views30d": 0,
       "newFollowers30d": 0,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        4,
+        0,
         0
       ],
       "followerSeries": [
@@ -100,7 +100,7 @@
         0
       ],
       "viewsSeries": [],
-      "available": true
+      "available": false
     },
     "audience": {
       "countries": [
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "LT",
+          "name": "NZ",
           "value": 1
         },
         {
-          "name": "AF",
+          "name": "QA",
           "value": 1
         },
         {
-          "name": "KZ",
+          "name": "CG",
           "value": 1
         }
       ],
@@ -307,19 +307,19 @@
           "value": 3
         },
         {
-          "name": "Dhaka, Dhaka Division",
-          "value": 2
-        },
-        {
           "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
-          "name": "Birigui, São Paulo (state)",
+          "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
           "name": "Rio de Janeiro, Rio de Janeiro (state)",
+          "value": 2
+        },
+        {
+          "name": "Birigui, São Paulo (state)",
           "value": 2
         },
         {
@@ -339,11 +339,11 @@
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
@@ -379,11 +379,7 @@
           "value": 2
         },
         {
-          "name": "Sydney, New South Wales",
-          "value": 1
-        },
-        {
-          "name": "Dhamara, Odisha",
+          "name": "Kathmandu, Bagmati Zone",
           "value": 1
         },
         {
@@ -391,43 +387,63 @@
           "value": 1
         },
         {
+          "name": "São Félix de Minas, Minas Gerais",
+          "value": 1
+        },
+        {
           "name": "Bilari, Uttar Pradesh",
           "value": 1
         },
         {
-          "name": "Berlin, Berlin",
+          "name": "Lagos, Lagos State",
           "value": 1
         },
         {
-          "name": "Dharwad, Karnataka",
+          "name": "Puerto Princesa, Mimaropa",
           "value": 1
         },
         {
-          "name": "Gangnapur, West Bengal",
+          "name": "Meham, Haryana",
           "value": 1
         },
         {
-          "name": "Sapúyes, Narino",
+          "name": "Colts Neck, New Jersey",
           "value": 1
         },
         {
-          "name": "Arambagh, West Bengal",
+          "name": "Fuquay-Varina, North Carolina",
           "value": 1
         },
         {
-          "name": "Aparecida de Goiânia, Goiás",
+          "name": "Serrania, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
+          "name": "Margilan, Fergana Region",
           "value": 1
         },
         {
-          "name": "Jamadoba, Jharkhand",
+          "name": "Taman, East Java",
           "value": 1
         },
         {
-          "name": "Itaituba, Pará",
+          "name": "Rourkela, Odisha",
+          "value": 1
+        },
+        {
+          "name": "Moreno, Pernambuco",
+          "value": 1
+        },
+        {
+          "name": "Sokolec, Central Bohemian Region",
+          "value": 1
+        },
+        {
+          "name": "Palembang, South Sumatra",
+          "value": 1
+        },
+        {
+          "name": "Surat, Gujarat",
           "value": 1
         },
         {
@@ -435,23 +451,11 @@
           "value": 1
         },
         {
-          "name": "Dendermonde, Flemish Region",
+          "name": "Daska, Punjab",
           "value": 1
         },
         {
-          "name": "Sawai Madhopur, Rajasthan",
-          "value": 1
-        },
-        {
-          "name": "Tiruchirappalli, Tamil Nadu",
-          "value": 1
-        },
-        {
-          "name": "Nuh, Haryana",
-          "value": 1
-        },
-        {
-          "name": "Tyngsboro, Massachusetts",
+          "name": "Banyumas, Central Java",
           "value": 1
         },
         {
@@ -459,11 +463,7 @@
           "value": 1
         },
         {
-          "name": "Rosario, Santa Fe",
-          "value": 1
-        },
-        {
-          "name": "San Polo Matese, Molise",
+          "name": "Suzano, São Paulo (state)",
           "value": 1
         }
       ],
@@ -744,7 +744,7 @@
     }
   },
   "content": {
-    "igFollowers": 504,
+    "igFollowers": 505,
     "igReach30d": 1136,
     "igReelsShipped": 18
   }
