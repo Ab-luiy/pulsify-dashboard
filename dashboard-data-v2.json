@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-18T09:10:24.910Z",
+  "lastUpdated": "2026-06-19T09:25:51.076Z",
   "instagram": {
-    "updatedAt": "2026-06-18T09:10:24.846Z",
+    "updatedAt": "2026-06-19T09:25:51.016Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 504,
-      "following": 475,
+      "following": 476,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=-AaT6q8LuZAQ7kNvwFkhRCr&_nc_oc=AdrlFzwBIPPormogmVeaTGdzF74NRAkU2b_aP9WEA0TZyU373Xi4CroNrDm7os9X824&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=_oNSd-UwVV7J1a8d5jXW3A&_nc_tpa=Q5bMBQFUt6oC6cRYBHKAWbfbC0NlguTgdFCNeXUy5NQIA9c8DyNWsVG7r94rE0jTk14ErXIPlgy9yjKJ&oh=00_Af9Zpvp-YRqXQosAICGAO3VVZAAHgcmpQAW2jlkalcheTg&oe=6A3998E8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=-AaT6q8LuZAQ7kNvwFkhRCr&_nc_oc=AdrlFzwBIPPormogmVeaTGdzF74NRAkU2b_aP9WEA0TZyU373Xi4CroNrDm7os9X824&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=cO35b9JpAV4yryWYDs_3iQ&_nc_tpa=Q5bMBQFVlLwIZgsNZ8QEA_UXVH1Qlbywu-AqucDq9xCJMGTflPx2kPvj-elpjOsWL5bHaepqvAUahvB_&oh=00_Af9GDPviG9UlJmCHfbxFy-G1mVvefzWRKYzHf7YfFLsNWA&oe=6A3AEA68"
     },
     "content": {
       "reelsCount": 8,
@@ -110,7 +110,7 @@
         },
         {
           "name": "BR",
-          "value": 51
+          "value": 50
         },
         {
           "name": "US",
@@ -165,11 +165,11 @@
           "value": 4
         },
         {
-          "name": "VN",
+          "name": "PH",
           "value": 4
         },
         {
-          "name": "PH",
+          "name": "VN",
           "value": 4
         },
         {
@@ -245,11 +245,11 @@
           "value": 2
         },
         {
-          "name": "CN",
+          "name": "MX",
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "CN",
           "value": 2
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "HN",
+          "name": "BE",
           "value": 1
         },
         {
-          "name": "JP",
+          "name": "CG",
           "value": 1
         },
         {
-          "name": "BO",
+          "name": "AE",
           "value": 1
         }
       ],
@@ -339,11 +339,11 @@
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
@@ -379,23 +379,19 @@
           "value": 2
         },
         {
-          "name": "Andradas, Minas Gerais",
+          "name": "Larkhall, Scotland",
           "value": 1
         },
         {
-          "name": "Playa del Carmen, Quintana Roo",
+          "name": "Eldoradopark, Gauteng",
           "value": 1
         },
         {
-          "name": "Clonmel, County Tipperary",
+          "name": "Masterton, Wellington Region",
           "value": 1
         },
         {
-          "name": "Riga, Riga Planning Region",
-          "value": 1
-        },
-        {
-          "name": "Zaragoza, San Luis Potosi",
+          "name": "Rotterdam, Zuid-Holland",
           "value": 1
         },
         {
@@ -403,19 +399,27 @@
           "value": 1
         },
         {
-          "name": "Sanaa, Sana'a Governorate",
+          "name": "Dharwad, Karnataka",
           "value": 1
         },
         {
-          "name": "Cathedral City, California",
+          "name": "Terlizzi, Puglia",
           "value": 1
         },
         {
-          "name": "Ramna, Jharkhand",
+          "name": "Nabadwip, West Bengal",
           "value": 1
         },
         {
-          "name": "Davao City, Davao Region",
+          "name": "Gorgan, Golestan Province",
+          "value": 1
+        },
+        {
+          "name": "Ludhiana, Punjab region",
+          "value": 1
+        },
+        {
+          "name": "Gaziantep, Gaziantep Province",
           "value": 1
         },
         {
@@ -423,47 +427,43 @@
           "value": 1
         },
         {
-          "name": "Moradabad, Uttar Pradesh",
+          "name": "Tenggarong, East Kalimantan",
           "value": 1
         },
         {
-          "name": "Baku, Baku",
+          "name": "Iga-shi, Mie Prefecture",
           "value": 1
         },
         {
-          "name": "Kokrobite, Greater Accra Region",
+          "name": "Warsaw, Masovian Voivodeship",
           "value": 1
         },
         {
-          "name": "Pringgabaya, West Nusa Tenggara",
+          "name": "Britânia, Goiás",
           "value": 1
         },
         {
-          "name": "Bangkok, Bangkok",
+          "name": "Banskandi, Assam",
           "value": 1
         },
         {
-          "name": "Gitarama, Southern Province",
+          "name": "Jaipur, Rajasthan",
           "value": 1
         },
         {
-          "name": "Farmington, Arkansas",
+          "name": "Addis Ababa, Addis Ababa",
           "value": 1
         },
         {
-          "name": "Nairobi, Nairobi",
+          "name": "Indio, California",
           "value": 1
         },
         {
-          "name": "Tohana, Haryana",
+          "name": "Loyish, Samarqand Region",
           "value": 1
         },
         {
-          "name": "Boston, Massachusetts",
-          "value": 1
-        },
-        {
-          "name": "Croydon, England",
+          "name": "Taichung, Taichung",
           "value": 1
         }
       ],
@@ -478,7 +478,7 @@
         },
         {
           "name": "F",
-          "value": 18
+          "value": 17
         }
       ],
       "age": [
@@ -488,7 +488,7 @@
         },
         {
           "name": "25-34",
-          "value": 98
+          "value": 97
         },
         {
           "name": "13-17",
