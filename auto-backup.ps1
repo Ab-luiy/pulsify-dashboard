@@ -27,9 +27,15 @@ if ($LASTEXITCODE -ne 0) {
     git -C $repo commit -q -m "auto: checkpoint $ts"
 }
 
-# 4. Push the current branch to its upstream if it's ahead (covers a new commit OR a
-#    previously failed push). Silent no-op otherwise.
-$ahead = (git -C $repo rev-list --count "@{u}..HEAD" 2>$null)
-if ($ahead -and [int]$ahead -gt 0) {
-    git -C $repo push 2>$null
+# 4. Push current HEAD to its upstream remote+branch when ahead (covers a new commit OR
+#    a prior failed push). Uses explicit HEAD:<branch> so it works even when the local
+#    branch name differs from the upstream's (e.g. local 'backup' tracking remote 'main').
+$upstream = (git -C $repo rev-parse --abbrev-ref --symbolic-full-name "@{u}" 2>$null)
+if ($upstream) {
+    $ahead = (git -C $repo rev-list --count "@{u}..HEAD" 2>$null)
+    if ($ahead -and [int]$ahead -gt 0) {
+        $remote  = $upstream.Split('/')[0]
+        $rbranch = $upstream.Substring($remote.Length + 1)
+        git -C $repo push $remote "HEAD:$rbranch" 2>$null
+    }
 }
