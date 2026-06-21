@@ -1,9 +1,11 @@
-# auto-backup.ps1 — mirrors the Pulsify brain (files + Claude memory) to the private
-# GitHub repo. Safe to run from a Stop hook or the scheduler: it does nothing when
-# there's nothing to save, skips if git is busy, and retries a failed push next time.
+# auto-backup.ps1 — mirrors the Pulsify brain (files + Claude memory) to its GitHub
+# remote. Portable: works from any clone path on any machine (locates itself via
+# $PSScriptRoot and pushes whatever branch is checked out to its upstream).
+# Safe to run from a Stop hook or the scheduler: no-ops when nothing changed, skips
+# if git is busy, and retries a failed push on the next run.
 
 $ErrorActionPreference = "SilentlyContinue"
-$repo = "C:\Users\Abdullah\Desktop\Pulsify-Brain"
+$repo = $PSScriptRoot
 
 # 1. Fold the live Claude memory into the repo (it lives outside the repo by default).
 $encoded = ($repo -replace ':','') -replace '[\\/]','-'
@@ -14,7 +16,7 @@ if (Test-Path $live) {
     Copy-Item "$live\*" $mem -Recurse -Force
 }
 
-# 2. If another git operation is mid-flight, bail — the next run will catch up.
+# 2. If another git operation is mid-flight, bail — the next run catches up.
 if (Test-Path (Join-Path $repo ".git\index.lock")) { exit 0 }
 
 # 3. Stage everything; commit only if something actually changed.
@@ -25,10 +27,9 @@ if ($LASTEXITCODE -ne 0) {
     git -C $repo commit -q -m "auto: checkpoint $ts"
 }
 
-# 4. Push only when local is ahead of the mirror (covers a new commit OR a prior
-#    failed push). No-op and silent otherwise.
-$local  = (git -C $repo rev-parse backup 2>$null)
-$remote = (git -C $repo rev-parse brain/main 2>$null)
-if ($local -ne $remote) {
-    git -C $repo push brain backup:main 2>$null
+# 4. Push the current branch to its upstream if it's ahead (covers a new commit OR a
+#    previously failed push). Silent no-op otherwise.
+$ahead = (git -C $repo rev-list --count "@{u}..HEAD" 2>$null)
+if ($ahead -and [int]$ahead -gt 0) {
+    git -C $repo push 2>$null
 }
