@@ -8,7 +8,7 @@ $ErrorActionPreference = "SilentlyContinue"
 $repo = $PSScriptRoot
 
 # 1. Fold the live Claude memory into the repo (it lives outside the repo by default).
-$encoded = ($repo -replace ':','') -replace '[\\/]','-'
+$encoded = $repo -replace '[:\\/]','-'
 $live    = Join-Path $env:USERPROFILE ".claude\projects\$encoded\memory"
 $mem     = Join-Path $repo "claude-memory"
 if (Test-Path $live) {

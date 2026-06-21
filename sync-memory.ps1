@@ -11,7 +11,7 @@ param([Parameter(Mandatory=$true)][ValidateSet("push","pull")][string]$direction
 # Encoded path = this repo's absolute path with ':' dropped and '\' -> '-'. Derived
 # from where the script lives, so it auto-resolves to wherever you cloned.
 $projPath = $PSScriptRoot
-$encoded  = ($projPath -replace ':','') -replace '[\\/]','-'
+$encoded  = $projPath -replace '[:\\/]','-'
 $live     = Join-Path $env:USERPROFILE ".claude\projects\$encoded\memory"
 $repo     = Join-Path $projPath "claude-memory"
 
