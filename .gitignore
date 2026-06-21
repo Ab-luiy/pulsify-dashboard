@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.local
+tools/_cache/
+*.pyc
+__pycache__/
+
+# Claude Code local state — machine-specific, regenerated per machine.
+# Your actual brain memory is backed up separately in claude-memory/ (see sync-memory.ps1).
+.claude/
+
+# Codex scratch
+.codex-tmp/

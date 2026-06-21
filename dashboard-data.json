@@ -1,0 +1,109 @@
+{
+  "lastUpdated": "2026-05-11",
+  "founder": "AB",
+  "phase": "Phase 1 — funnel build",
+  "phaseDay": 2,
+  "phaseDaysTotal": 14,
+  "planDay": 2,
+  "planDaysTotal": 90,
+
+  "outreach": {
+    "thisWeek": { "sent": 0, "replies": 0, "callsBooked": 0 },
+    "thirtyDay": { "sent": 0, "replies": 0, "callsBooked": 0 },
+    "allTime": { "sent": 0, "replies": 0, "callsBooked": 0 }
+  },
+
+  "sales": {
+    "callsBooked": 0,
+    "callsHeld": 0,
+    "proposalsSent": 0,
+    "closed": 0
+  },
+
+  "pipeline": {
+    "hitList": 0,
+    "dmd": 0,
+    "replied": 0,
+    "callBooked": 0,
+    "callHeld": 0,
+    "proposalSent": 0,
+    "closed": 0
+  },
+
+  "content": {
+    "ytSubs": 0,
+    "ytSubsTarget": 100,
+    "longFormShipped": 0,
+    "shortsShipped": 0,
+    "igFollowers": 0,
+    "igReelsShipped": 0,
+    "igStoriesThisWeek": 0,
+    "igReach30d": 0
+  },
+
+  "funnel": {
+    "vslViews": 0,
+    "vslCompletionRate": 0,
+    "typeformStarts": 0,
+    "typeformCompletes": 0,
+    "calBookings": 0,
+    "showRate": 0
+  },
+
+  "revenue": {
+    "mrr": 0,
+    "cashCollected": 0,
+    "performanceFeeAccruing": 0,
+    "pipelineValue": 0
+  },
+
+  "phase1Checklist": [
+    { "item": "Hit list exported from IG inbox", "done": false },
+    { "item": "IG bot followers culled", "done": false },
+    { "item": "VSL recorded (script v3 ready)", "done": false },
+    { "item": "VSL hosted (Wistia or equivalent)", "done": false },
+    { "item": "Typeform built (7-question structure)", "done": false },
+    { "item": "Cal.com wired to Typeform", "done": false },
+    { "item": "Pre-call email sequence drafted", "done": false },
+    { "item": "First YouTube long-form shipped", "done": false }
+  ],
+
+  "trend30d": {
+    "labels": ["W-4", "W-3", "W-2", "W-1", "Now"],
+    "outreach": [0, 0, 0, 0, 0],
+    "calls": [0, 0, 0, 0, 0],
+    "cash": [0, 0, 0, 0, 0]
+  },
+
+  "clients": [
+    {
+      "name": "Nick (Mamba FX)",
+      "status": "churned",
+      "lesson": "Expectation/timeline mismatch — drove the success-metric requirement"
+    }
+  ],
+
+  "targets": {
+    "thirtyDay": {
+      "outreachSent": 100,
+      "callsBooked": 5,
+      "callsHeld": 3,
+      "clientsClosed": 1,
+      "cashCollected": 5000
+    },
+    "ninetyDay": {
+      "outreachSent": 300,
+      "callsBooked": 15,
+      "callsHeld": 10,
+      "clientsClosed": 3,
+      "cashCollected": 15000,
+      "ytSubs": 100,
+      "videosShipped": 12
+    },
+    "twelveMonth": {
+      "monthlyRevenue": 30000,
+      "ytSubs": 3000,
+      "activeClients": 6
+    }
+  }
+}

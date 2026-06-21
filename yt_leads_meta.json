@@ -1,0 +1,18 @@
+{
+  "scrapedAt": "2026-05-24",
+  "scrapedAtFull": "2026-05-24T13:29:26+00:00",
+  "count": 259,
+  "niches": [
+    "ecom",
+    "fba",
+    "trading",
+    "operator"
+  ],
+  "queriesRun": 30,
+  "filters": {
+    "min_subs": 1000,
+    "max_subs": 500000,
+    "min_video_seconds": 60,
+    "lookback_days": 14
+  }
+}

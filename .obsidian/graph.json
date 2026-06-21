@@ -1,0 +1,58 @@
+{
+  "collapse-filter": false,
+  "search": "",
+  "showTags": true,
+  "showAttachments": true,
+  "hideUnresolved": false,
+  "showOrphans": true,
+  "collapse-color-groups": false,
+  "colorGroups": [
+    {
+      "query": "tag:#unique-mechanism  ",
+      "color": {
+        "a": 1,
+        "rgb": 12458265
+      }
+    },
+    {
+      "query": "tag: #vsl  ",
+      "color": {
+        "a": 1,
+        "rgb": 0
+      }
+    },
+    {
+      "query": "tag:#funnel tag: #funnels  ",
+      "color": {
+        "a": 1,
+        "rgb": 8388608
+      }
+    },
+    {
+      "query": "file:index",
+      "color": {
+        "a": 1,
+        "rgb": 10946054
+      }
+    },
+    {
+      "query": "line:(index)",
+      "color": {
+        "a": 1,
+        "rgb": 13122662
+      }
+    }
+  ],
+  "collapse-display": false,
+  "showArrow": false,
+  "textFadeMultiplier": -0.2,
+  "nodeSizeMultiplier": 0.891145833333333,
+  "lineSizeMultiplier": 0.1,
+  "collapse-forces": false,
+  "centerStrength": 1,
+  "repelStrength": 20,
+  "linkStrength": 1,
+  "linkDistance": 500,
+  "scale": 0.13873223932665996,
+  "close": true
+}

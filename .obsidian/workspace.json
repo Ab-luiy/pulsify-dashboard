@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "a72024b21081587f",
+    "type": "split",
+    "children": [
+      {
+        "id": "7ac9d3c695eda2cc",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1bef72d5493f4d9e",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "42f2b60d3ef9db23",
+    "type": "split",
+    "children": [
+      {
+        "id": "b5659bc9bf94acff",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bfb6291c943dbd2a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": true
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "65135cc810b96eda",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "tag:#price",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "033ba75e7663586e",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3f1442cbfc052b72",
+    "type": "split",
+    "children": [
+      {
+        "id": "966a57b5e338db3a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8b399f5da0945d55",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "08056412b26d1686",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": true,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "57be1643eb3ef068",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ddb67002e532f916",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "ed58ad05607d5d8c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "65135cc810b96eda",
+  "lastOpenFiles": [
+    "wiki/content-engine/content-pillars.md",
+    "wiki/index.md",
+    "wiki/frameworks/webinar-framework.md",
+    "Untitled.md",
+    "output/thumbnails/miro-proof-board-v1-new-angle-facecam-grid-merge.png",
+    "raw-sources/prompts/email-sequence-prompt.md",
+    "raw-sources/prompts/vsl-prompt.md",
+    "push-dashboard.bat",
+    "push-dashboard.bat.tmp.5148.8112f0f92182",
+    "yt_leads_meta.json",
+    "tools/scrape_yt_leads.py",
+    "tools/inject_yt_leads.py",
+    "project/uploads/dashboard-v3.html",
+    "project/uploads/P U L S I F Y (1).png",
+    "project/assets/pulsify-logo.png",
+    "project/dashboard-v4.html",
+    "project/uploads",
+    "project/dashboard-v3.html",
+    "project/assets",
+    "chats/chat1.md",
+    "chats/chat2.md",
+    "assets/pulsify-logo.png",
+    "README.md",
+    "raw-sources/prompts/outreach-asset-prompt.md",
+    "raw-sources/prompts/lead-research-intake-command.md",
+    "raw-sources/prompts/prospect-profile-synthesis-prompt.md",
+    "wiki/playbooks/prospect-research-sop.md",
+    "raw-sources/prompts/landing-page-design-prompt-auto.md",
+    "raw-sources/prompts/landing-page-design-prompt.md",
+    "wiki/playbooks/pulse-system-outreach.md",
+    "wiki/people/abdullah-dagestani.md",
+    "AGENTS.md",
+    "wiki/frameworks/ai-launch-prompt-pack.md",
+    "Untitled.canvas",
+    "2026-05-10.md",
+    "wiki/playbooks/client-scaling.md",
+    "wiki/frameworks/vsl-framework.md",
+    "clients/nick/overview.md",
+    "CLAUDE.md",
+    "codex-handoff.md",
+    "wiki/synthesis/personalized-cold-outreach-vsl-architecture.md"
+  ]
+}

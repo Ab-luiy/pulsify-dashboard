@@ -1,0 +1,187 @@
+---
+updated: 2026-06-09
+aliases:
+---
+
+# Wiki index
+
+Every page in the Pulsify wiki, organized by category. Each entry: link, one-line summary, category, date created.
+
+---
+
+## People
+
+| Page | Summary | Created |
+|---|---|---|
+| [[people/marcus-avatar]] | Full 28-point ICP profile for "Ambitious Stalled Marcus" — Pulsify's primary prospect | 2026-05-02 |
+| [[people/alexei]] | CEO of Info Accelerator, $58K/month from 4,500 subs — the proof-of-concept for Pulsify's micro niche thesis | 2026-05-02 |
+| [[people/ayman-arab]] | $100K+/month YouTube operator — source of three content types, packaging rules, and tracking framework | 2026-05-02 |
+| [[people/jeremy-haynes]] | Call funnel architect — source of hammer them, VSL framework, webinar framework, and financial modeling | 2026-05-02 |
+| [[people/daniel-fazio]] | Client Ascension / Olympia operator source for agency offer packaging, VSL/call funnel assets, and staged scaling logic | 2026-05-09 |
+| [[people/serge-gatari]] | AI infrastructure positioning source: do not sell tools or agents, sell installed growth infrastructure | 2026-05-09 |
+| [[people/jordan-platten]] | Elite Agency / Affluent source for founder bottleneck framing, agency systems, and stage-specific scaling pages | 2026-05-09 |
+| [[people/abdullah-dagestani]] | Pulsify founder — origin, hard authority anchors, constraints (uni, solo, Istanbul), 12-month targets | 2026-05-10 |
+| [[people/competitor-watchlist]] | 12 operator handles supplied for tracking — pending ingest, no characterization until source material lands | 2026-05-10 |
+
+---
+
+## Concepts
+
+| Page | Summary | Created |
+|---|---|---|
+| [[concepts/profile-funnel]] | Pulsify's default conversion mechanism — turns an Instagram profile into a landing page for Marcus-stage clients | 2026-05-02 |
+| [[concepts/unique-mechanism]] | The named proprietary methodology that differentiates every coach's offer; must exist before anything else is built | 2026-05-02 |
+| [[concepts/hammer-them-strategy]] | 15–20 retargeting pieces + 6 emails/day pre-call → 60–70%+ show rates | 2026-05-02 |
+| [[concepts/content-funnel-tof-mof-bof]] | Three-layer content funnel: attract, nurture, convert — every video has a specific job | 2026-05-02 |
+| [[concepts/micro-niche-youtube]] | Go one level deeper than the obvious niche on YouTube; $800–$1,200 per 100 views | 2026-05-02 |
+| [[concepts/trust-recession]] | The 2025–2026 market condition where prospects have been burned enough that lifestyle proof no longer converts | 2026-05-02 |
+| [[concepts/pulsify-order-of-operations]] | The 16-step sequence governing every new client engagement from profile cleanup to paid ad scale | 2026-05-02 |
+| [[concepts/pulse-system-mechanism]] | Pulsify's named unique mechanism — operator + per-client AI agent across 5 components (Brand Brain, Content Engine, Funnel Stack, Sales Co-pilot, Ops Replacement) | 2026-05-10 |
+
+---
+
+## Frameworks
+
+| Page | Summary | Created |
+|---|---|---|
+| [[frameworks/call-funnel-framework]] | Jeremy Haynes' financial model and KPI system for building, running, and scaling a paid-traffic call funnel | 2026-05-02 |
+| [[frameworks/vsl-framework]] | 6-step VSL structure, confirmation page, Typeform+Calendly stack, CAPI rules, and email sequence | 2026-05-02 |
+| [[frameworks/webinar-framework]] | Live vs. evergreen webinar architecture; cold traffic is the key; $5–$12 CPL target | 2026-05-02 |
+| [[frameworks/ai-launch-prompt-pack]] | 9-prompt AI launch pack (offer → VSL → lander → Typeform → automations → pre-call → sales training → story → test); Sire $400K/5 days | 2026-05-06 |
+| [[frameworks/agency-scaling-vsl-architecture]] | Stage-specific VSL architecture for moving a stuck founder from tactics to installed revenue infrastructure | 2026-05-09 |
+
+---
+
+## Playbooks
+
+| Page | Summary | Created |
+|---|---|---|
+| [[playbooks/lead-sourcing-outreach]] | 50–100 DMs/day across 6 platforms, Day 1/3/5/7 follow-up, Loom approach, setter hiring | 2026-05-02 |
+| [[playbooks/client-scaling]] | Scale signal, price ladder ($2K→$5K→$10K+), DWY transition, organic vs. paid routes | 2026-05-02 |
+| [[playbooks/offer-creation]] | Six-component offer architecture, high-ticket vs. mid-ticket decision criteria, audit checklist | 2026-05-02 |
+| [[playbooks/ai-outreach-grant-method]] | Grant Garcia's 6-step build-before-you-DM AI outreach system | 2026-05-06 |
+| [[playbooks/pulse-system-outreach]] | Pulsify's voiced outreach playbook — five-wound diagnostic, asset-first DM, Pulse System as the demo | 2026-05-06 |
+| [[playbooks/claude-codex-collaboration]] | Operating protocol for keeping Claude and Codex aligned inside the vault | 2026-05-09 |
+| [[playbooks/pulsify-offer-v1]] | The first commercial offer — $5–12k high-ticket, 90 days + 60-hour cap, success-metric contract, week-by-week deliverables | 2026-05-10 |
+| [[playbooks/exam-mode-autonomous-ops]] | Three-lane autonomy protocol (green / queue / red) for when the founder is offline during exams | 2026-05-10 |
+| [[playbooks/pulsify-funnel-v1]] | Pulsify's own inbound funnel: YouTube → IG profile → VSL → Typeform → Cal.com → call | 2026-05-10 |
+| [[playbooks/pulsify-delivery-sop]] | Week-by-week SOP for delivering a paid Pulse System engagement, including off-boarding and exam-mode adjustments | 2026-05-10 |
+| [[playbooks/instagram-growth-workstream]] | IG workstream scope — story sequences, highlights kinds, reels, posting frequency, operator scraping; profile aesthetic parked until growth + cash | 2026-05-11 |
+| [[playbooks/pulsify-dashboard-workstream]] | Single-pane dashboard for YouTube, IG, outreach, sales, funnel, delivery, founder ops; now-live v4 CRM with build-time lead enrichment (clean handles + 0–100 score/tier/niche/wound) and a client-sellable UI roadmap | 2026-05-29 |
+| [[playbooks/pulsify-contract-template-v1]] | Canonical service agreement template — base + performance + $100k guarantee + Turkey payment rails + Pulse System scope; templatized from Nick Furr and Jacob Thomas MSAs | 2026-05-15 |
+| [[playbooks/vsl-transcript-extraction-prompt]] | Reusable Perplexity prompt for extracting voice, mechanism, proof, and avatar data from any creator's YouTube channel before VSL production | 2026-05-19 |
+| [[playbooks/prospect-research-sop]] | Full 7-step SOP for scraping a prospect across YouTube, Instagram, sales funnel, and podcasts — outputs a Creator Profile that feeds every asset downstream | 2026-05-24 |
+| [[playbooks/brand-brain-intake]] | Week 1 Brand Brain build spec — pre-collection list, 7-section 90-min interview, Claude project structure, acceptance test before any other component goes live | 2026-06-09 |
+| [[playbooks/pulse-system-stack]] | Technical stack per Pulse System component — proven / v1-manual / v2-automated tags, manual-first principle, build order for the first paid client | 2026-06-09 |
+
+---
+
+## Content engine
+
+| Page | Summary | Created |
+|---|---|---|
+| [[content-engine/content-pillars]] | How to define, document, and execute from 3–5 topic pillars that generate all content | 2026-05-02 |
+| [[content-engine/packaging-rules]] | Four-word title rule, face on camera, hook mechanics, open loops, editing by audience type | 2026-05-02 |
+| [[content-engine/copy-voice-guide]] | Default voice for all shipped copy — the AI tells to kill (negative parallelism, em-dash addiction, copula dodge, false suspense, bold-lead bullets) with a pre-send checklist; cross-checked against CLAUDE.md voice rules and packaging-rules | 2026-06-01 |
+| [[content-engine/pulsify-vsl-v1]] | First Pulsify VSL draft for affluent coaches stuck around $10K-$35K/month | 2026-05-08 |
+| [[content-engine/pulsify-vsl-v2]] | Second Pulsify VSL draft tightening the AI infrastructure mechanism and offer flow | 2026-05-08 |
+| [[content-engine/pulsify-vsl-v3]] | Third Pulsify VSL draft with stronger diagnosis, cleaner mechanism reveal, and Nick proof | 2026-05-08 |
+| [[content-engine/evan-vsl-rebuilt]] | Rebuilt VSL draft for Evan's trading offer | 2026-05-08 |
+| [[content-engine/evan-vsl-v2]] | Second Evan VSL draft focused on execution psychology and trading consistency | 2026-05-08 |
+| [[content-engine/next-video-sales-funnel-automation]] | Direction for the next YouTube video on AI-built sales and funnel automation | 2026-05-09 |
+| [[content-engine/ai-content-workflow-thumbnail-profile]] | Miro Proof Board v1: yellow headline, Miro grid, Claude UI proof, flat icons, real creator frame | 2026-05-10 |
+| [[content-engine/youtube-lead-sourcing-query-bank]] | Niche-by-niche YouTube search query bank for finding small monetized coaching channels — feeds Claude Code lead sourcer script | 2026-05-22 |
+| [[content-engine/pulsify-content-batch-2026-05]] | Nine ready-to-shoot title+thumbnail pairs for Pulsify's channel, 3 per pillar, built on validated formulas + the Nick proof | 2026-05-29 |
+
+---
+
+## Synthesis
+
+| Page | Summary | Created |
+|---|---|---|
+| [[synthesis/vsl-pattern-lab]] | Operating page for transcribing, segmenting, and extracting reusable patterns from downloaded VSLs | 2026-05-09 |
+| [[synthesis/vsl-patterns/README]] | Template and folder rules for one-page VSL transcript analyses | 2026-05-09 |
+| [[synthesis/operator-vsl-study-map]] | Filtered study map for Charlie Morgan, Daniel Fazio, Serge Gatari, Jordan Platten, Jeremy Haynes, and peripheral operators | 2026-05-09 |
+| [[synthesis/ai-infrastructure-positioning-patterns]] | How Pulsify should frame AI as implementation compression and installed infrastructure, not AI tool hype | 2026-05-09 |
+| [[synthesis/peripheral-operator-reference-map]] | Boundaries for using Cole Gordon, Ayman Arab, Grayson Loupas, Dan Bolton, Joel Kaplan, Abdoulaye Waly, and Sam Ovens | 2026-05-09 |
+| [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]] | Transcript-backed analysis of Charlie Morgan's Imperium Agency fractional CEO VSL | 2026-05-10 |
+| [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]] | Transcript-derived analysis of Daniel Fazio's five-day Get Clients Challenge VSL | 2026-05-10 |
+| [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]] | Transcript-derived analysis of Serge Gatari's AI infrastructure/process-selling VSL pattern | 2026-05-10 |
+| [[synthesis/jordan-platten-agency-systems-patterns]] | Transcript-derived strategic extraction from Jordan Platten's 2025 agency systems interview | 2026-05-10 |
+| [[synthesis/jeremy-haynes-inner-circle-page-analysis]] | Public page analysis of Jeremy Haynes' Inner Circle application page and Wistia VSL wrapper | 2026-05-10 |
+| [[synthesis/personalized-cold-outreach-vsl-architecture]] | Reusable Pulsify architecture for diagnostic personalized VSLs in cold outreach | 2026-05-10 |
+| [[synthesis/pulsify-90-day-plan]] | The May–August 2026 sequenced execution plan from $0 MRR to first paid v1 client | 2026-05-10 |
+| [[synthesis/offer-v2-risk-reversal]] | Proposal to swap the unbounded $100k-or-free guarantee for a credible, bounded, execution-gated risk-reversal that closes better and caps downside | 2026-05-29 |
+| [[synthesis/business-bottleneck-audit-2026-06]] | Day-30 audit vs the 90-day plan — zero touches sent on a 276-lead CRM, untracked-vault backup risk, delivery gaps closed 2026-06-09, one-week priority order | 2026-06-09 |
+
+---
+
+## Prompts
+
+| Page | Summary | Created |
+|---|---|---|
+| [[raw-sources/prompts/landing-page-design-prompt]] | Claude design prompt — structure and layout pass for high-ticket mentorship landing pages; copy written separately | 2026-05-24 |
+| [[raw-sources/prompts/landing-page-design-prompt-auto]] | Automated version of the landing page design prompt — paste client overview.md and all variables resolve automatically, no manual placeholder filling | 2026-05-24 |
+| [[raw-sources/prompts/prospect-profile-synthesis-prompt]] | Step 6 of prospect-research-sop — paste all scraped content, Claude outputs a full Creator Profile (tone, mechanism, proof, offer, gaps) ready to feed any asset | 2026-05-24 |
+| [[raw-sources/prompts/lead-research-intake-command]] | Deprecated — replaced by outreach-asset-prompt; was over-engineered for cold prospects | 2026-05-24 |
+| [[raw-sources/prompts/outreach-asset-prompt]] | Lean outreach asset prompt — lead + problem + Perplexity transcripts in, personalized VSL / DM / landing page / email / Loom script out; voice guard added 2026-06-09 | 2026-05-24 |
+| [[raw-sources/prompts/_voice-guard]] | Shared final-pass module — the copy-voice-guide compressed into 9 checks; pasted into every prompt so the guard travels outside this repo | 2026-06-09 |
+| [[raw-sources/prompts/client-diagnosis-prompt]] | Week 1 diagnosis doc generator (also runs pre-sale on scraped prospect data) — three evidence-backed bottlenecks + attack order, one page | 2026-06-09 |
+| [[raw-sources/prompts/client-vsl-writer-prompt]] | Client VSL script writer — 6-step Haynes structure in the client's voice off the Brand Brain, with hook variants and recording notes | 2026-06-09 |
+| [[raw-sources/prompts/precall-email-sequence-prompt]] | Hammer-them pre-call sequence builder — 12-18 emails over 48-72h from four-quadrant call data, plus confirmation-page breakout video list | 2026-06-09 |
+| [[raw-sources/prompts/youtube-script-prompt]] | Content Engine scripting subroutine — approved angle + voice data in, timestamped script with hook variants, Miro/B-roll cues, shoot sheet out | 2026-06-09 |
+| [[raw-sources/prompts/sales-precall-brief-prompt]] | Sales Co-pilot pre-call brief — 5-line WANT/NEED/LEAD WITH/AVOID/CLOSE ON format plus qualification read, money line, demo pick | 2026-06-09 |
+| [[raw-sources/prompts/weekly-client-report-prompt]] | Ops Replacement Monday report drafter — deltas table, $100k tracker, shipped/shipping, dated client-side asks | 2026-06-09 |
+
+---
+
+## Funnel hacks
+
+| Page | Summary | Created |
+|---|---|---|
+| [[funnel-hacks/README]] | Pulsify's funnel-hacking operation — attention-to-conversion teardowns of big-name biz-op coaches, end to end | 2026-05-15 |
+| [[funnel-hacks/capture-sop]] | Step-by-step protocol Claude follows when hacking a creator: attention layer, funnel layer, content breakdown, output | 2026-05-15 |
+| [[funnel-hacks/creator-template]] | Blank template each creator capture starts from — overview, attention-layer, funnel-layer, content-breakdown, miro-board, assets | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/overview]] | Iman Gadzhi capture — $28,800 Quantum Mastermind sold on $0 funnel ad spend; my read + proposed YouTube angles | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/attention-layer]] | Iman Gadzhi attention layer — YouTube (474 vids), no Shorts, IG topology, TikTok, fan clip economy, paid ads | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/funnel-layer]] | Iman Gadzhi funnel — landing page, application+call, no VSL/opt-in/webinar, no paid coaching ads | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/content-breakdown]] | Iman Gadzhi content — pillars, title formulas, authority signals, platform-role split | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/miro-board]] | Iman Gadzhi A-to-Z cold-to-closed map (mermaid) | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/screenshot-brief]] | Manual screenshot checklist for the Iman Gadzhi attention layer | 2026-05-15 |
+
+---
+
+## Glossary
+
+| Page | Summary | Created |
+|---|---|---|
+| [[glossary/core-terms]] | Definitions for every recurring term across the wiki: BOF, CAPI, disposition, hammer them, TOF, VSL, and more | 2026-05-02 |
+
+---
+
+## Raw sources (read-only)
+
+All source files live in `raw-sources/`. Wiki pages synthesize and link back to them — the raw files are never modified.
+
+| Source | Type | Wiki pages derived from it |
+|---|---|---|
+| `raw-sources/icp/PULSIFY ICP - FULL AVATAR + 28-POINT DEEP DIVE.pdf` | ICP | [[people/marcus-avatar]] |
+| `raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md` | Transcript | [[people/ayman-arab]], [[concepts/content-funnel-tof-mof-bof]], [[content-engine/content-pillars]], [[content-engine/packaging-rules]] |
+| `raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md` | Transcript | [[people/alexei]], [[concepts/micro-niche-youtube]], [[concepts/trust-recession]], [[concepts/unique-mechanism]], [[concepts/content-funnel-tof-mof-bof]], [[content-engine/packaging-rules]] |
+| `raw-sources/frameworks/Call-Funnel-Framework-Jeremy-Haynes.md` | Framework | [[people/jeremy-haynes]], [[frameworks/call-funnel-framework]], [[concepts/hammer-them-strategy]] |
+| `raw-sources/frameworks/VSL-Frameworks-Jeremy-Haynes.md` | Framework | [[people/jeremy-haynes]], [[frameworks/vsl-framework]], [[concepts/hammer-them-strategy]] |
+| `raw-sources/frameworks/Webinar_Frameworks_Compressed.pdf` | Framework | [[people/jeremy-haynes]], [[frameworks/webinar-framework]] |
+| `raw-sources/sops/Offer-Funnel-Content SOP.pdf` | SOP | [[concepts/profile-funnel]], [[concepts/unique-mechanism]], [[concepts/pulsify-order-of-operations]], [[playbooks/offer-creation]], [[content-engine/content-pillars]] |
+| `raw-sources/sops/Lead Sourcing & Outreach SOP.pdf` | SOP | [[playbooks/lead-sourcing-outreach]] |
+| `raw-sources/sops/PULSIFY CLIENT SCALING SOP.pdf` | SOP | [[playbooks/client-scaling]] |
+| `raw-sources/sops/Client Onboarding SOP.pdf` | SOP | No wiki page created — source contains only a Google Forms link, no extractable content |
+| `raw-sources/scripts/AI-Outreach-Framework-Grant-Garcia.md` | Outreach framework | [[playbooks/ai-outreach-grant-method]], [[playbooks/pulse-system-outreach]] |
+| `raw-sources/scripts/AI-Launch-Prompt-Pack-Grant-Garcia.md` | Prompt pack | [[frameworks/ai-launch-prompt-pack]], [[playbooks/pulse-system-outreach]] |
+| `raw-sources/scripts/Ben-Bader-Emails.md` | Email swipe file | Copywriting skill (ben-bader-style.md reference) |
+| `raw-sources/frameworks/VSL-Framework-Luke-Alexander.md` | VSL framework | Copywriting skill (vsl-framework.md reference) |
+| `raw-sources/vsls/imperium-agency-vsl-transcript.md` | VSL transcript | [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]] |
+| `raw-sources/inspiration/vsl-operator-study-source-list.md` | External research registry | [[people/daniel-fazio]], [[people/serge-gatari]], [[people/jordan-platten]], [[synthesis/operator-vsl-study-map]], [[synthesis/ai-infrastructure-positioning-patterns]], [[frameworks/agency-scaling-vsl-architecture]], [[synthesis/peripheral-operator-reference-map]] |
+| `raw-sources/inspiration/daniel-fazio-get-clients-challenge-transcript-notes.md` | Transcript-derived notes | [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]], [[people/daniel-fazio]] |
+| `raw-sources/inspiration/serge-gatari-ai-infrastructure-transcript-notes.md` | Transcript-derived notes | [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]], [[people/serge-gatari]], [[synthesis/ai-infrastructure-positioning-patterns]] |
+| `raw-sources/inspiration/jordan-platten-agencies-dying-interview-notes.md` | Transcript-derived notes | [[synthesis/jordan-platten-agency-systems-patterns]], [[people/jordan-platten]] |
+| `raw-sources/inspiration/jeremy-haynes-inner-circle-page-notes.md` | Sales page notes | [[synthesis/jeremy-haynes-inner-circle-page-analysis]], [[people/jeremy-haynes]], [[frameworks/vsl-framework]] |

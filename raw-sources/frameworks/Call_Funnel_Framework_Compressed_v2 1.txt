@@ -1,0 +1,291 @@
+Call Funnel Framework by Jeremy Haynes
+(Compressed — all information retained)
+
+---
+
+TRANSCRIPT 1: THE ONLY VIDEO ON SCALING A CALL FUNNEL YOU'LL EVER NEED
+
+STEP 1: FINANCIAL MODELING
+
+Financial modeling is mandatory. Build before scaling. Two model types: single call close and two call close.
+
+Model structure (rows):
+- Ad spend
+- Cost per call (CPL)
+- Booked calls = ad spend ÷ CPL
+- Show rate → showed calls
+- Two call close: second call booking rate → showed to second call
+- Close rate
+- Cash collected per deal
+- Gross cash collected
+- Expenses: agency/marketing fee + sales commissions (typically 20%)
+- Gross profit = gross collected − ad spend − fees − commissions
+
+Example — Two Call Close at $50K spend:
+- $200 CPL = 250 booked calls
+- 50% show rate = 125 showed
+- 50% booked second call = 62
+- 57% showed second call = 35
+- 40% close rate = 14 deals × $10K = $142,500 gross
+- After $15K agency fee + ~$28K commissions → ~$49K gross profit
+
+Example — Single Call Close at $50K spend:
+- Same $200 CPL, 50% show rate
+- 15% close rate (lower than two-call)
+- $10K cash collected = $187,500 gross
+- After same expenses → ~$85K gross profit
+
+Key rule: Two call close has higher close rate but more steps = more friction = more drop-off at each stage. Fewer steps = more net revenue in almost every instance.
+
+Scaling to $1M/month (Single Call Close):
+- $300K/month spend at $200 CPL, 50% show, 15% close, $10K AOV → $1.125M gross, ~$585K gross profit
+- Two Call Close at same spend → $855K gross, ~$369K gross profit
+
+Build scenario models: conservative, ambitious, worst-case. Stats WILL fluctuate at scale — CPL inflates, show rates drop, close rates fall. Know your floor on each KPI before you hit it.
+
+Always model NET profit, not just gross. "I flipped $100K into $400K" ignores 20% commissions (~$80K), COGS, ops expenses. Most advertisers operate on false gross numbers and reinvest incorrectly as a result.
+
+CLOSER MATH
+
+$300K/month at $200 CPL = 1,500 calls/month.
+Closer working 5 days/week, 8 calls/day, 20 working days = 160 calls/month per closer.
+1,500 ÷ 160 = ~9.4 closers needed.
+
+Hiring timeline: 3–4 weeks to recruit, vet, train, shadow, and activate a new closer.
+
+The ceiling trap: Most businesses reactively hire after filling the calendar → 3–4 week gap every cycle → only 6 scale events per year. Goal is 12.
+
+Fix: Hire when halfway to capacity. Always have more calendar availability than booked calls. Ad spend and closer volume must trend upward together — not in alternating spikes.
+
+Scale math: CPL × desired daily call volume = required daily ad spend.
+Example: $200 CPL × 100 calls/day = $20K/day = $600K/month.
+Know this in advance to prepare credit limits, card strategies, and banking relationships.
+
+STEP 2: HAMMER THEM STRATEGY
+
+Standard funnel without this: ad → VSSL → application → booking → call → close.
+Result without it: low show rate, unframed leads, tough closes.
+
+Insert between booking and call:
+- 15–20 pieces of retargeting content reaching the lead before their call
+- 6 emails/day (one every ~2 hours during waking hours) for the duration between booking and call
+- 48-hour window = 12 emails; 72-hour window = 18 emails
+- Open rates when relevant: 50–80% per email
+
+Four content quadrants:
+1. Common questions that come up on sales calls
+2. Common objections
+3. Expectations about how to succeed with the offer
+4. Follow-up questions that arise after the first set of questions gets answered
+
+Also include: research SOPs, FAQ documents, testimonials, trust assets, case studies.
+
+Dubai tax company example (used throughout): Jeremy saw an ad for a Dubai company promising to zero out US taxes by offshoring. Booked a call 9 days out. Received zero emails except a generic confirmation. Did own research, found the claim was false (US citizens still owe tax on offshored income). Didn't show up. A proper hammer them strategy would have countered this research, pre-handled the objection, and dramatically increased show probability.
+
+Result of proper execution: 60–70%+ show rates. Leads arrive informed, framed, and further along in the buying process. Salespeople become cashiers.
+
+STEP 3: AD FATIGUE (ADV)
+
+As spend scales, CPL trends up while result volume trends down. The point where these lines cross = ad fatigue.
+
+Fix: Duplicate campaign at ad level → swap all creative → approve new → cut old.
+
+Formula: If at $100K/month ads fatigue every 2 weeks, going to $1M/month (10x spend) = probable fatigue every ~1–2 days. At $500–800K/month (common ceiling for clients), relaunching creatives every 3–4 days is standard to maintain target CPL.
+
+Seasonal factor: Q4 has ~70% more competition in ad spend → ads fatigue ~70% faster than non-Q4 periods.
+
+Use historical data: Find the last ad launch that performed well, note how long it lasted at that spend level. Divide that duration by your spend multiplier to forecast fatigue timing at new scale levels.
+
+STEP 4: SCALE ONE AD CHANNEL FIRST, THEN DIVERSIFY
+
+One channel almost always outperforms all others — in most cases Facebook/Instagram. Occasionally Google AdWords, TikTok, or LinkedIn.
+
+Strategy: Ram into the ceiling on the primary channel first. Find out how big it can actually go before diverting attention. Chasing multiple channels simultaneously introduces:
+- Customer type variance
+- Model stat variance per channel
+- Operational complexity at scale
+
+After genuinely maxing out primary channel, then diversify.
+
+Stability tip: Having platform connections/plugs prevents shutdowns, ad disapprovals, and creative rejections. Without them, you're scaling with no risk protection ("raw dogging" it). Plugs allow ad accounts to get turned back on, disapprovals reversed, and creative workarounds applied.
+
+STEP 5: INCREASE AVERAGE ORDER VALUE (AOV)
+
+At $300K/month spend, you generate 86–113 customers/month at $10K. Even a 10% upsell or $1K price increase = $86K–$113K additional per month — roughly a third of the ad spend recovered.
+
+AOV levers:
+- What can be added to the offer to justify a higher price?
+- Upsell: What's the natural next product/service after the first?
+- Reduce payment plans; increase full pays
+- How fast can you sell them the next thing? What's the timeline?
+- Cash collection tracking: What's actually landing in the bank vs. on paper?
+
+---
+
+TRANSCRIPT 2: HOW TO LAUNCH A CALL FUNNEL
+
+STEP 1: HIGH LEVEL OF INVOLVEMENT (Take Sales Calls Yourself)
+
+When launching a call funnel, the single most valuable action is taking sales calls yourself. This is not optional for launch — do it for at least 1 month, sometimes 2–3 months.
+
+What you get from it:
+- Firsthand feedback on what messaging is wrong in the ads/funnel
+- You learn exactly who gets on the phone because of your messaging
+- You identify the specific breakout videos your confirmation page needs
+- You directly observe what questions/objections come up most — and in what order
+- You learn when people actually want to take calls (often outside business hours)
+- You see email open rate data from your pre-call sequences and can calibrate volume (e.g., going from 4 to 6 emails/day)
+- You build a call recording library that becomes your salespeople's training material
+- You develop real sales scripts and pre-call text scripts from personal experience
+- You can scale to 200–400K/month just from taking the calls yourself on a solid offer
+
+Devon example (inner circle member): Joined at $100K/month. Took calls himself. Used firsthand feedback to fix confirmation pages, email sequences, breakout videos, and sales scripts. Hit $400K/month within 3 months.
+
+The alternative — guessing and delegating everything from day one — produces longer burn periods, worse data, and slower growth. Salespeople relay filtered, vague information. The owner taking calls gets unfiltered trench-level data.
+
+STEP 2: GAMBLING BUDGET (BURN BUDGET)
+
+Every call funnel launch has a burn phase. Plan for it. The gambling budget is an amount you're willing to lose entirely without being financially ruined — and that is enough to acquire the data needed to optimize.
+
+Example: $50K gambling budget spent over 30–60 days.
+
+How the launch arc looks:
+- First portion: pure burn. You think something will work, it doesn't. You lose money.
+- Reflect, make changes, relaunch, repeat.
+- Signs of life phase: The right people start coming through. You're still in the hole overall, but things are working. Show rates improving, sales team saying leads are better.
+- Profitability threshold: You cross from losing to profitable. This is not the end of the hole — you still need to reaccumulate burn dollars.
+- True profitability: When cumulative revenue exceeds cumulative burn + ongoing spend.
+
+Most people fail at the burn phase. They expect immediate profitability, don't get it, and quit before reaching signs of life. The businesses that win endure this phase with a predetermined budget and a commitment to iterate quickly.
+
+New pixel scenario: One client had their existing pixel blocked (prior advertiser's fault). Had to build a new pixel from scratch. Went $22K into the hole before signs of life. Needed to condition the pixel: high unqualified-to-qualified ratio initially, then ratio flipped as the pixel learned. This conditioning window requires patience — you cannot skip it.
+
+STEP 3: DIAL IN MESSAGING BEFORE SCALING
+
+New offers often attract a completely different audience than expected. If wrong people are coming through but some are still buying, adjust your messaging toward who's actually converting rather than who you thought would.
+
+Stack the odds it works:
+1. Dial in messaging to match actual buyer → right people through → pixel conditions faster
+2. Use Typeform + Calendly (reduces 50% application-to-scheduler drop-off → halves CPL)
+3. Pixel only qualified confirmation page (never DQ page)
+4. Run hammer them strategy from day one
+5. Have confirmation page breakout videos live at launch
+6. Owner on the phones for firsthand data
+
+STEP 4: KPI BENCHMARKS AND HIDDEN METRICS
+
+CPL range: $50–$900 and still be profitable depending on AOV, show rate, and close rate. There's no universal good CPL — it only matters in context of the model.
+
+Show rate benchmarks:
+- Current low average: ~50%
+- Current high average: 70–80%
+- Higher show rate = can tolerate higher CPL and lower close rate
+
+Close rate: Varies by offer, demo, and how well the hammer them strategy is running.
+
+Cash collected vs. AOV: Track what's actually in the bank — not gross invoice value. Full pays vs. payment plans dramatically affect real cash flow and reinvestment capacity.
+
+Optimize the pixel toward "Schedule" and/or "Complete Registration" standard events. Only send these back from the qualified confirmation page.
+
+Never send unqualified people's confirmation page data to the pixel. They lie on qualification questions — majority of people in polls confirm they would lie about having the money. Setters can still call DQ'd people for recovery — just don't pixel that page.
+
+INTEREST LEVELS FRAMEWORK
+
+Leads arrive at different interest levels. Typical entry points are "curious" or "general interest." Sales teams hate curious leads, but the combined job of marketing + sales is to incrementally move leads up interest levels together — not to just pass them off and hope.
+
+There are typically 2–4 interest levels between cold and ready-to-buy. The hammer them strategy and pre-call content are the tools that do this work.
+
+---
+
+TRANSCRIPT 3: THE BLUEPRINT TO SCALING A VSL CALL FUNNEL (TOP BEST PRACTICES)
+
+CALL FUNNEL STRUCTURE
+
+Baseline setup: Headline → VSL or Mini Webinar (2–15 min) → Typeform + Calendly application (integrated, no separate scheduler page).
+
+Typeform + Calendly: The only tech combo that eliminates the 50% application-to-scheduler drop-off. Scheduler is embedded as the final step of the Typeform. ~100% of qualified applicants book. Every other tool (GoHighLevel, HubSpot, ScheduleOnce) creates a separate page → 50% don't schedule → artificially doubles CPL.
+
+Two destinations post-application:
+- Qualified → Confirmation page (pixel fires: Schedule + Complete Registration)
+- Unqualified → DQ/drop-sell page (pixel does NOT fire)
+
+Mini Webinar vs. VSL: Mini Webinar is a templated slide deck + screen recording + voiceover. Structured, 5–15 minutes, extremely direct. Mini Webinar 2.0 is the updated template. VSL is the same flow but as a talking head. Both work equally. Use whichever the presenter can execute most credibly.
+
+ADVERTISING BEST PRACTICES
+
+Bad messaging = single largest cause of bad lead quality. Avoid:
+- Income claims ("Get to $10K/month in 90 days")
+- Guarantees (attracts skeptics and financially weak buyers; rich buyers see guarantees as red flags)
+- Unbelievable revenue claims ("I've done $100M in sales" → creates the objection "why are you helping me make $10K/month then?")
+
+Correct approach: Describe conditions of your ideal buyer. Example: "If you're stuck at a couple thousand dollars a day in ad spend and every time you scale, costs spike and ROAS drops — pay attention." This calls out ~$200K/month earners targeting $1M/month without making an income claim.
+
+Broad targeting: Works but requires a seasoned pixel. Without data, you rely entirely on messaging to do the targeting work. Strong messaging + seasoned pixel = maximum efficiency.
+
+Environment and props (Tai Lopez lesson, 2017): Ad platform AI analyzes everything in the video — what you say, how you look, physical objects and environment in frame. Filming in environments your demographic has interests in lowers CPMs and increases conversion rate. "Play the character" — if you're selling people on becoming wealthy, you need to look and be in the environment they'd expect wealth to produce. Same principle for B2B: pitching lawyers → wear a suit. Pitching doctors → film in a clinic or wear a coat.
+
+HAMMER THEM STRATEGY (overview)
+
+Full detail in dedicated transcripts. Summary:
+- 15–20 pieces of short/long form content retargeting booked leads before their call
+- 6 emails/day in the pre-call window
+- Four quadrant content: questions, objections, expectations, follow-up questions
+- Done fully = 60–70%+ show rates and dramatically better-framed leads
+- Done halfass = no meaningful result
+
+SALES TEAM BEST PRACTICES
+
+Pre-call selfie video: Salesperson texts from a real iPhone (not green text, not automated, not blue-text software). Sends a selfie video within hours of call assignment. References something specific from the application. Offers to send a relevant video. Result: show rate spikes immediately. When reps stop doing it, show rate drops within 3 weeks.
+
+Hiring: Hire ahead of demand. 3–4 weeks to activate a new closer. Hire at 50% calendar capacity — not when full. Goal: 12 scale events/year vs. 6 for reactive hirers.
+
+Consistent training: Same core 2–3 week training cycle repeated indefinitely. Layering new training on top without repeating the core = reps abandon core behaviors. ~5–10% retention of anything new unless it replaces something being actively drilled.
+
+Sales management must cover three things: (1) Consistent training, (2) Consistent hiring, (3) Analytics reporting.
+
+Analytics: Show rate, close rate, rebooking rate, cancellation rate.
+
+Dispositions (mandatory): "Leads are bad" = useless. Useful dispositions: financially unqualified / uncertain about offer / objected on price / needed to talk to spouse / blamed macro event / had too many unanswered questions / sales cycle too long. These directly inform messaging, funnel changes, and hammer-them content creation.
+
+---
+
+TRANSCRIPT 4: THE ONLY GUIDE YOU NEED TO BUILD WILDLY PROFITABLE VSL CALL FUNNELS
+
+(Full content captured across VSL Frameworks compressed document — see that file for complete detail on confirmation page structure, email sequences, CAPI pixel setup, trust assets, and breakout video framework. Key call funnel-specific additions below.)
+
+FUNNEL & TECH (repeated for completeness)
+
+Headline + VSL + Typeform/Calendly. Qualified → confirmation page (pixel fires). Unqualified → DQ/drop-sell (no pixel). Setters can call DQ people for recovery — never pixel that page.
+
+CAPI setup (advanced): When salespeople flag that auto-qualified leads are actually unqualified, disable automatic pixel standard event. Link CRM to Conversion API. Rep manually moves deal to "qualified" stage in CRM → CRM pushes to ads manager via CAPI. Slight delay is fine — don't let results column stay empty for too long or algorithm rotates to different audience. Takes only 2–3 conversions to signal algorithm who to target next (not 50–100 as outdated guidance suggested).
+
+CONFIRMATION PAGE STRUCTURE
+
+- Confirmation headline
+- Main confirmation video (short, sets framing: "Our goal is for you to be fully in or out before the call — here's what we're sending you")
+- Breakout videos (4–12 videos, 30 sec–5 min each): Pull from sales call objections, questions, expectations, 4 quadrants of hammer-them content. Impact > testimonials.
+- Testimonials (below breakout videos): Must be from original source (video, social screenshot, email). Not retyped. Believability is the only metric that matters.
+
+EMAIL SEQUENCE
+
+6 emails/day. 48–72 hour pre-call window. Open rates hit 50–80%+ when content is relevant. Content = not reminders. Framing, education, objection handling, FAQ documents, breakout video links, research SOPs, case studies. Intentionally space calls 2–3 days out to allow full sequence to deliver.
+
+TRUST ASSETS
+
+Purpose-built content answering the specific high-level questions your buyers actually ask before committing. These get deployed on: confirmation page (as breakout videos), email sequences, hammer-them retargeting, and manual salesperson sends.
+
+Capital raise example: Accredited investors asked about deal history, returns, reinvestment rates, failed deals, team credentials, site walkthroughs. Company turned every recurring question into a trust asset — site walkthrough videos, municipality meeting recordings, GC/architect walkthroughs, materials and tariff sourcing breakdowns. Doesn't need high production — Looms work fine.
+
+OFFER QUALITY (foundational)
+
+A call funnel cannot save a bad offer. Before scaling any call funnel, the offer must be:
+- Solving a real, felt problem
+- Priced appropriately for the demographic
+- Deliverable — you can actually get results
+- Clear: the prospect understands what they're getting and why it's worth the price
+
+Minimum price for high-ticket call funnel economics to work: $3,500–$5,000. Generally $5K is the safe floor. Higher AOV = more tolerance for higher CPL, lower show rate, lower close rate.
+
+OPT-IN REMOVAL
+
+If your funnel has an opt-in step before the application, run the math. In nearly every case, the opt-in step creates unnecessary friction and inflates cost per qualified call. When you model it out, most businesses find the opt-in generates zero meaningful benefit and should be removed.
