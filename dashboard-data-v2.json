@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-21T08:54:54.176Z",
+  "lastUpdated": "2026-06-22T10:33:52.253Z",
   "instagram": {
-    "updatedAt": "2026-06-21T08:54:54.118Z",
+    "updatedAt": "2026-06-22T10:33:52.191Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 505,
-      "following": 475,
+      "following": 474,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=xJkLPkAYFEYQ7kNvwH6dKY7&_nc_oc=AdoEOGEFbels9BGxNXqsRpuZsZQGvqBJovqYcm0AwKSkcfwwk1JymiIH4-szj2t48AY&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=jF4qXzwhMivhqm5Sf-gL4A&_nc_tpa=Q5bMBQFHT_i773Ps_x5GSnMomopK1CJ7VR9wcREX4yxXUJtJ1esQp-XbyZjrJ8PUvQpw8ViShQTcJOzf&oh=00_Af_1lESHCiE6QUbrXVZTFrTuO4m7RMxJH7LGWuCDJpLcpw&oe=6A3D8D68"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=xJkLPkAYFEYQ7kNvwE0GNSY&_nc_oc=AdqTqnv0YvyrTII6przkeBGeCXmwbpGbMnQmxDd2VcTHsQvdA_kbPLsb1KgdwXyYdOo&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=-QTUg2azOA7V7DZzaViiVQ&_nc_tpa=Q5bMBQFIv6tWkEKhlJoX_xJfcbgBU258nXl4GwFM9A2zaSS3nAd448mXLC6Nl2nBqdH5_ZFrAcHHhRCW&oh=00_Af-ekYIiW8zvF_XgtS9tx6ZuIQ0eA1r5NmOKujQldEyn-A&oe=6A3EDEE8"
     },
     "content": {
       "reelsCount": 8,
@@ -85,14 +85,14 @@
       ]
     },
     "account": {
-      "reach30d": 1,
+      "reach30d": 0,
       "views30d": 0,
       "newFollowers30d": 0,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        1,
+        0,
         0
       ],
       "followerSeries": [
@@ -100,7 +100,7 @@
         0
       ],
       "viewsSeries": [],
-      "available": true
+      "available": false
     },
     "audience": {
       "countries": [
@@ -221,11 +221,11 @@
           "value": 2
         },
         {
-          "name": "FR",
+          "name": "YE",
           "value": 2
         },
         {
-          "name": "YE",
+          "name": "FR",
           "value": 2
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "KR",
+          "name": "LT",
+          "value": 1
+        },
+        {
+          "name": "SC",
           "value": 1
         },
         {
           "name": "ET",
-          "value": 1
-        },
-        {
-          "name": "AZ",
           "value": 1
         }
       ],
@@ -307,11 +307,11 @@
           "value": 3
         },
         {
-          "name": "Dhaka, Dhaka Division",
+          "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
-          "name": "Casablanca, Grand Casablanca",
+          "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
@@ -339,11 +339,11 @@
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
@@ -379,39 +379,51 @@
           "value": 2
         },
         {
-          "name": "Kaisarianí, Attica (region)",
+          "name": "Arroio Teixeira, Rio Grande do Sul",
           "value": 1
         },
         {
-          "name": "Berlin, Berlin",
+          "name": "San Antonio, Valparaíso Region",
           "value": 1
         },
         {
-          "name": "Marhaura, Bihar",
+          "name": "Soro, Odisha",
           "value": 1
         },
         {
-          "name": "Sapúyes, Narino",
+          "name": "Herat, Herat Province",
           "value": 1
         },
         {
-          "name": "Sohna, Haryana",
+          "name": "Eldoradopark, Gauteng",
           "value": 1
         },
         {
-          "name": "Bogotá, Distrito Especial",
+          "name": "Quezon City, Metro Manila",
           "value": 1
         },
         {
-          "name": "Hoover, Alabama",
+          "name": "Dharwad, Karnataka",
           "value": 1
         },
         {
-          "name": "Buenos Aires, Ciudad Autónoma de Buenos Aires",
+          "name": "Buxar, Bihar",
           "value": 1
         },
         {
-          "name": "Rio do Campo, Santa Catarina",
+          "name": "Pakaur, Jharkhand",
+          "value": 1
+        },
+        {
+          "name": "Franca, São Paulo (state)",
+          "value": 1
+        },
+        {
+          "name": "Madurai, Tamil Nadu",
+          "value": 1
+        },
+        {
+          "name": "Lake Helen, Florida",
           "value": 1
         },
         {
@@ -419,51 +431,39 @@
           "value": 1
         },
         {
-          "name": "Melbourne, Victoria",
+          "name": "Alappuzha, Kerala",
           "value": 1
         },
         {
-          "name": "Baku, Baku",
+          "name": "Canaã dos Carajas, Pará",
           "value": 1
         },
         {
-          "name": "Taman, East Java",
+          "name": "Banskandi, Assam",
           "value": 1
         },
         {
-          "name": "Lalitpur, Bagmati Zone",
+          "name": "Campina Grande do Sul, Paraná",
           "value": 1
         },
         {
-          "name": "Toronto, Ontario",
+          "name": "Glendale, Arizona",
           "value": 1
         },
         {
-          "name": "Gitarama, Southern Province",
+          "name": "Villa Fiorito, Buenos Aires",
           "value": 1
         },
         {
-          "name": "Katihar, Bihar",
+          "name": "Boston, Massachusetts",
           "value": 1
         },
         {
-          "name": "Duisburg, Nordrhein-Westfalen",
+          "name": "Hyderabad, Telangana",
           "value": 1
         },
         {
-          "name": "Mansoura, Dakahlia Governorate",
-          "value": 1
-        },
-        {
-          "name": "Tyngsboro, Massachusetts",
-          "value": 1
-        },
-        {
-          "name": "Mississauga, Ontario",
-          "value": 1
-        },
-        {
-          "name": "São Gonçalo, Rio de Janeiro (state)",
+          "name": "Gharghoda, Chhattisgarh",
           "value": 1
         }
       ],
@@ -484,11 +484,11 @@
       "age": [
         {
           "name": "18-24",
-          "value": 158
+          "value": 157
         },
         {
           "name": "25-34",
-          "value": 97
+          "value": 98
         },
         {
           "name": "13-17",
@@ -515,7 +515,7 @@
     "cadence": {
       "reels7d": 0,
       "posts7d": 0,
-      "stories7d": 1
+      "stories7d": 0
     },
     "reels": [
       {
