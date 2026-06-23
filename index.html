@@ -6,7 +6,8 @@
 <title>Pulsify — Operator Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
 <style>
   :root {
     /* ===== MIRAGE — sunset on glass (design direction 07) ===== */
@@ -41,12 +42,27 @@
     --sidebar-w: 232px;
   }
 
+  /* ===================== THEME SWITCHER (9 themes; default Mirage = :root) ===================== */
+  html.theme-light{--bg:#eceef2;--bg-2:#f5f6f9;--surface:#fff;--surface-2:#f3f4f8;--surface-3:#e8eaf0;--border:#dfe2ea;--border-strong:#c7ccd8;--text:#18181b;--text-2:#3f3f48;--muted:#71717a;--accent:#2563eb;--accent-2:#dbeafe;--accent-soft:rgba(37,99,235,.12);--accent-2-soft:rgba(37,99,235,.08);--accent-dim:#1d4ed8;--grad:linear-gradient(120deg,#2563eb,#60a5fa);--grad-soft:linear-gradient(135deg,rgba(37,99,235,.16),rgba(37,99,235,0));--cyan:#0891b2;--blue:#2563eb;--orange:#ea580c;--violet:#7c3aed;--pink:#db2777;--success:#059669;--warn:#d97706;--danger:#dc2626;}
+  html.theme-dark{--bg:#0e0e13;--bg-2:#15151c;--surface:#1a1a22;--surface-2:#21212b;--surface-3:#2a2a36;--border:#2b2b36;--border-strong:#3a3a48;--text:#f4f4f7;--text-2:#c4c4cf;--muted:#8a8a98;--accent:#3b82f6;--accent-2:#0f1e38;--accent-soft:rgba(59,130,246,.16);--accent-2-soft:rgba(59,130,246,.08);--accent-dim:#2563eb;--grad:linear-gradient(120deg,#3b82f6,#60a5fa);--grad-soft:linear-gradient(135deg,rgba(59,130,246,.22),rgba(59,130,246,0));--cyan:#22d3ee;--blue:#60a5fa;--orange:#fbbf24;--violet:#a78bfa;--pink:#f472b6;--success:#4ade80;--warn:#fbbf24;--danger:#f87171;}
+  html.theme-signal{--bg:#fff;--bg-2:#f7f7fb;--surface:#fff;--surface-2:#f4f4fb;--surface-3:#ecebf8;--border:#e5e4f2;--border-strong:#cdcae6;--text:#1b1b2e;--text-2:#46465f;--muted:#7a7a93;--accent:#4f46e5;--accent-2:#eef2ff;--accent-soft:rgba(79,70,229,.1);--accent-2-soft:rgba(79,70,229,.06);--accent-dim:#4338ca;--grad:linear-gradient(120deg,#4f46e5,#7c3aed);--grad-soft:linear-gradient(135deg,rgba(79,70,229,.14),rgba(79,70,229,0));--cyan:#0891b2;--blue:#2563eb;--orange:#ea580c;--violet:#7c3aed;--pink:#db2777;--success:#059669;--warn:#d97706;--danger:#dc2626;}
+  html.theme-obsidian{--bg:#0a0a0c;--bg-2:#0e0e11;--surface:#141417;--surface-2:#1b1b1f;--surface-3:#232328;--border:#26262c;--border-strong:#3a3a42;--text:#f2efe6;--text-2:#cfc8b6;--muted:#8c8472;--accent:#c9a55c;--accent-2:#2a2310;--accent-soft:rgba(201,165,92,.14);--accent-2-soft:rgba(201,165,92,.07);--accent-dim:#a98937;--grad:linear-gradient(160deg,#d9b66a,#9c7a30);--grad-soft:linear-gradient(135deg,rgba(201,165,92,.18),rgba(201,165,92,0));--cyan:#b89968;--blue:#8fa3b8;--orange:#e0a458;--violet:#b08968;--pink:#d17b5b;--success:#7bbf8f;--warn:#e0b050;--danger:#cf7a6a;}
+  html.theme-atelier{--bg:#f4efe4;--bg-2:#efe8d9;--surface:#fbf7ee;--surface-2:#f1ead9;--surface-3:#e7dcc6;--border:#e0d4be;--border-strong:#cbb99c;--text:#2a2118;--text-2:#5a4c3a;--muted:#8c7a62;--accent:#9a6a3a;--accent-2:#efe2cf;--accent-soft:rgba(154,106,58,.12);--accent-2-soft:rgba(154,106,58,.07);--accent-dim:#7d5429;--grad:linear-gradient(120deg,#b8824a,#9a6a3a);--grad-soft:linear-gradient(135deg,rgba(154,106,58,.16),rgba(154,106,58,0));--cyan:#6b7d52;--blue:#5a7a8a;--orange:#b87333;--violet:#8a6d8a;--pink:#b5755a;--success:#3f7d4f;--warn:#b5791f;--danger:#a3492f;}
+  html.theme-aurora{--bg:#0a0a14;--bg-2:#0d0d1c;--surface:#12122a;--surface-2:#171734;--surface-3:#1e1e42;--border:#242452;--border-strong:#33337a;--text:#eef0ff;--text-2:#b9bdf0;--muted:#7f83bf;--accent:#6366f1;--accent-2:#10102e;--accent-soft:rgba(99,102,241,.18);--accent-2-soft:rgba(99,102,241,.08);--accent-dim:#4f46e5;--grad:linear-gradient(120deg,#6366f1,#22d3ee);--grad-soft:linear-gradient(135deg,rgba(99,102,241,.22),rgba(34,211,238,0));--cyan:#22d3ee;--blue:#818cf8;--orange:#fbbf24;--violet:#a78bfa;--pink:#f472b6;--success:#34d399;--warn:#fbbf24;--danger:#fb7185;}
+  html.theme-prism{--bg:#fbfbfe;--bg-2:#f4f3fc;--surface:#fff;--surface-2:#f5f3fe;--surface-3:#ece8fb;--border:#e7e2f7;--border-strong:#cfc6ee;--text:#1c1830;--text-2:#48425f;--muted:#7d7593;--accent:#7c3aed;--accent-2:#f1ebfe;--accent-soft:rgba(124,58,237,.1);--accent-2-soft:rgba(124,58,237,.06);--accent-dim:#6d28d9;--grad:linear-gradient(120deg,#a855f7,#3b82f6);--grad-soft:linear-gradient(135deg,rgba(124,58,237,.14),rgba(59,130,246,0));--cyan:#0891b2;--blue:#2563eb;--orange:#ea580c;--violet:#7c3aed;--pink:#db2777;--success:#059669;--warn:#d97706;--danger:#e11d48;}
+  html.theme-voltage{--bg:#050507;--bg-2:#0a0a0e;--surface:#0f0f15;--surface-2:#15151d;--surface-3:#1d1d27;--border:#20202b;--border-strong:#33333f;--text:#f6f7f9;--text-2:#c0c2cc;--muted:#7e828e;--accent:#c6f24e;--accent-2:#1a2106;--accent-soft:rgba(198,242,78,.14);--accent-2-soft:rgba(198,242,78,.08);--accent-dim:#9fc92f;--grad:linear-gradient(120deg,#c6f24e,#84cc16);--grad-soft:linear-gradient(135deg,rgba(198,242,78,.2),rgba(198,242,78,0));--cyan:#38bdf8;--blue:#60a5fa;--orange:#fbbf24;--violet:#a78bfa;--pink:#fb7185;--success:#a3e635;--warn:#fbbf24;--danger:#fb7185;}
+  html[class*="theme-"] body::before{background:radial-gradient(900px 700px at 12% 0%, var(--accent-soft), transparent 60%),radial-gradient(820px 700px at 88% 6%, var(--accent-2-soft), transparent 55%),linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);}
+  html[class*="theme-"] .serif{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  html.theme-light, html.theme-signal, html.theme-prism, html.theme-atelier{color-scheme:light;}
+  .theme-select{background:var(--surface-2);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font:inherit;font-size:12px;cursor:pointer;}
+  .theme-select:hover{border-color:var(--border-strong);}
+
   * { box-sizing: border-box; }
   html, body { background: var(--bg); color: var(--text); margin: 0; padding: 0; }
   select { color-scheme: dark; }
   select option { background: #0e0e14; color: #e8e8f0; }
   body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-family: "Satoshi", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
     font-size: 14px;
     line-height: 1.5;
     letter-spacing: -0.005em;
@@ -68,7 +84,7 @@
     width: 100%;
   }
   .serif {
-    font-family: "Sora", "Inter", system-ui, sans-serif;
+    font-family: "Clash Display", "Satoshi", system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.02em;
     background: linear-gradient(100deg, #fecdd3, #f0abfc, #c4b5fd);
@@ -99,7 +115,7 @@
       radial-gradient(900px 700px at 12% 0%, rgba(251,113,133,0.20), transparent 60%),
       radial-gradient(820px 700px at 90% 6%, rgba(217,70,239,0.16), transparent 60%),
       radial-gradient(900px 760px at 78% 100%, rgba(99,102,241,0.18), transparent 60%),
-      linear-gradient(180deg, #110a16 0%, #0c0712 100%);
+      linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
     background-size: 160% 160%;
     animation: mirageDrift 22s ease-in-out infinite;
   }
@@ -161,14 +177,14 @@
     display: flex; flex-direction: column; gap: 2px; min-width: 0;
   }
   .sidebar .brand-text .name {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 22px;
     line-height: 1;
     color: var(--text);
     letter-spacing: -0.01em;
   }
   .sidebar .brand-text .media {
-    font-family: "Inter", sans-serif;
+    font-family: "Satoshi", sans-serif;
     font-size: 9px;
     letter-spacing: 0.32em;
     text-transform: uppercase;
@@ -188,61 +204,65 @@
   .sidebar nav.sb-nav {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
     flex: 1;
   }
+  .sidebar nav.sb-nav .nav-group {
+    font-size: 8.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    font-weight: 700;
+    padding: 0 11px;
+    margin: 13px 0 4px;
+  }
+  .sidebar nav.sb-nav .nav-group:first-child { margin-top: 2px; }
   .sidebar nav.sb-nav button {
     background: transparent;
     border: 0;
     color: var(--text-2);
     font: inherit;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: -0.005em;
     padding: 9px 11px;
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     gap: 11px;
     text-align: left;
-    transition: color 0.16s ease, background 0.16s ease;
+    transition: color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
     position: relative;
   }
-  .sidebar nav.sb-nav button:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+  .sidebar nav.sb-nav button:hover { color: var(--text); background: rgba(255,255,255,0.04); }
   .sidebar nav.sb-nav button.active {
-    color: var(--text);
-    background: rgba(255,255,255,0.05);
-  }
-  .sidebar nav.sb-nav button.active::before {
-    content: "";
-    position: absolute;
-    left: -16px;
-    top: 8px; bottom: 8px;
-    width: 3px;
-    border-radius: 0 3px 3px 0;
+    color: #190612;
     background: var(--grad);
+    font-weight: 600;
+    box-shadow: 0 5px 18px -5px var(--accent);
   }
   .sidebar nav.sb-nav .ico {
     width: 16px; height: 16px;
     flex-shrink: 0;
     stroke: currentColor;
     fill: none;
-    stroke-width: 1.6;
+    stroke-width: 1.7;
     stroke-linecap: round;
     stroke-linejoin: round;
-    opacity: 0.85;
+    opacity: 0.8;
   }
+  .sidebar nav.sb-nav button.active .ico { opacity: 1; }
   .sidebar nav.sb-nav button .count {
     margin-left: auto;
     color: var(--muted);
     font-size: 10.5px;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.05);
     padding: 1px 7px;
     border-radius: 999px;
   }
-  .sidebar nav.sb-nav button.active .count { color: var(--text); background: rgba(255,255,255,0.08); }
+  .sidebar nav.sb-nav button.active .count { color: #190612; background: rgba(25,6,18,0.20); font-weight: 700; }
 
   .sidebar .sb-foot {
     border-top: 1px solid var(--border);
@@ -300,17 +320,21 @@
   }
   .page-head h2.page-title {
     margin: 0;
-    font-family: "Sora", serif;
+    font-family: "Clash Display", system-ui, sans-serif;
     font-size: 42px;
-    line-height: 1.05;
+    line-height: 1.22;
     letter-spacing: -0.018em;
     color: var(--text);
-    font-weight: 400;
-    border: 0; padding: 0;
+    font-weight: 500;
+    border: 0; padding: 2px 0 5px;
     text-transform: none;
+    overflow: visible;
   }
   .page-head h2.page-title em {
+    display: inline-block;
     font-style: italic;
+    padding-right: 0.14em;
+    margin-right: -0.08em;
     background: var(--grad);
     -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent; color: transparent;
@@ -376,7 +400,7 @@
     border-bottom: 1px solid var(--border);
   }
   .drawer-head .t {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 24px;
     color: var(--text);
   }
@@ -457,7 +481,7 @@
     background:
       radial-gradient(circle at 100% 0%, rgba(212,162,76,0.08), transparent 55%),
       radial-gradient(circle at 0% 100%, rgba(244,114,182,0.14), transparent 55%),
-      linear-gradient(165deg, #14100f, #0a0708);
+      linear-gradient(165deg, var(--surface-2), var(--bg));
     border-color: rgba(255,255,255,0.08);
   }
 
@@ -469,7 +493,7 @@
     background:
       radial-gradient(circle at 100% 0%, rgba(212,162,76,0.09), transparent 55%),
       radial-gradient(circle at 0% 100%, rgba(244,114,182,0.16), transparent 55%),
-      linear-gradient(165deg, #14100f 0%, #0a0708 100%);
+      linear-gradient(165deg, var(--surface-2) 0%, var(--bg) 100%);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: var(--radius);
     padding: 36px 40px;
@@ -493,7 +517,7 @@
     display: inline-block;
   }
   .hero-band .hb-fraction {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 104px;
     line-height: 0.95;
     letter-spacing: -0.035em;
@@ -546,7 +570,7 @@
     border-left: 1px solid var(--border);
   }
   .hero-band .hb-quote {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-style: italic;
     font-size: 24px;
     line-height: 1.3;
@@ -604,7 +628,7 @@
     font-weight: 600;
   }
   .hero-kpi .hk-v {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 60px;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -616,11 +640,11 @@
     font-size: 24px;
     letter-spacing: -0.01em;
     line-height: 1.18;
-    font-family: "Inter", sans-serif;
+    font-family: "Satoshi", sans-serif;
     font-weight: 600;
   }
   .hero-kpi .hk-v .unit {
-    font-family: "Inter", sans-serif;
+    font-family: "Satoshi", sans-serif;
     font-size: 14px;
     color: var(--muted);
     margin-left: 6px;
@@ -687,6 +711,48 @@
     margin-top: 0;
   }
   .ops-rail .rail-item .meter > span { background: var(--grad); }
+
+  /* ===== Overview brief ===== */
+  .ov-brief {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 9%, var(--surface)) 0%, var(--surface) 58%);
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+  .ov-brief::before { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 3px; background: var(--grad); }
+  .ovb-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 11px; }
+  .ovb-eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-2); font-weight: 600; }
+  .ovb-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 9px var(--accent); }
+  .ovb-date { font-size: 12px; color: var(--muted); }
+  .ovb-summary { font-size: 16px; line-height: 1.55; color: var(--text); max-width: 72ch; }
+  .ovb-stats { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+  .ovb-stat { display: flex; flex-direction: column; gap: 3px; padding: 8px 15px; background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+  .ovb-stat .k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+  .ovb-stat .v { font-size: 15px; color: var(--text); font-weight: 600; }
+  .ovb-next { display: flex; align-items: center; gap: 13px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+  .ovb-next-k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .ovb-next-v { font-size: 14px; color: var(--text); font-weight: 500; }
+
+  /* ===== Operator rail — renovated ===== */
+  .ops-rail-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 18px; }
+  .ops-rail { gap: 14px; }
+  .ops-rail .rail-item {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 13px 14px;
+    transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .ops-rail .rail-item:hover { border-color: var(--border-strong); transform: translateY(-2px); box-shadow: 0 0 26px -16px var(--accent); }
+  .ops-rail .rail-item .top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; }
+  .ops-rail .rail-item .lab { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-2); font-weight: 600; }
+  .ops-rail .rail-item .num { font-size: 16px; font-weight: 700; color: var(--text); }
+  .ops-rail .rail-item .meter { height: 6px; border-radius: 999px; background: color-mix(in srgb, var(--text) 12%, transparent); overflow: hidden; }
+  .ops-rail .rail-item .meter > span { display: block; height: 100%; border-radius: 999px; background: var(--grad); box-shadow: 0 0 10px -1px var(--accent); }
+  .ops-rail .rail-item .detail { margin-top: 9px; font-size: 11px; color: var(--text-2); line-height: 1.4; }
   .card h2 {
     margin: 0 0 14px 0;
     font-size: 11px;
@@ -706,7 +772,7 @@
     letter-spacing: 0.04em;
     text-transform: none;
     font-size: 11.5px;
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-style: italic;
   }
   .span-2 { grid-column: span 2; }
@@ -735,7 +801,7 @@
     padding: 22px 22px 20px;
     background:
       radial-gradient(circle at 100% 0%, rgba(251,113,133,0.20), transparent 55%),
-      linear-gradient(165deg, #14100f 0%, #0a0708 100%);
+      linear-gradient(165deg, var(--surface-2) 0%, var(--bg) 100%);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -748,7 +814,7 @@
     font-weight: 600;
   }
   .ops-visual .ops-headline {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 34px;
     line-height: 1.05;
     color: var(--text);
@@ -928,10 +994,11 @@
   }
   .chart-wrap svg {
     width: 100%;
-    height: 218px;
+    height: auto;
     display: block;
     overflow: visible;
   }
+  .chart-wrap svg[viewBox="0 0 100 100"] { aspect-ratio: 1; max-width: 220px; margin: 0 auto; }
   .legend {
     display: flex;
     gap: 14px;
@@ -996,92 +1063,183 @@
 
   .donut-panel {
     display: grid;
-    grid-template-columns: 138px 1fr;
-    gap: 14px;
+    grid-template-columns: 196px 1fr;
+    gap: 22px;
     align-items: center;
   }
   .donut {
-    width: 138px;
-    height: 138px;
+    width: 196px;
+    height: 196px;
+    overflow: visible;
   }
-  .donut text {
+  .donut-ring { transform-origin: 50px 50px; animation: ringIn .8s cubic-bezier(.22,.9,.26,1) both; }
+  @keyframes ringIn { from { opacity: 0; transform: rotate(-115deg) scale(.78); } to { opacity: 1; transform: rotate(0) scale(1); } }
+  .donut-seg { transition: stroke-width .22s ease, opacity .22s ease; cursor: pointer; }
+  .donut.dim .donut-seg { opacity: .26; }
+  .donut.dim .donut-seg.active { opacity: 1; stroke-width: 15.5; filter: drop-shadow(0 0 6px currentColor); }
+  .donut text.donut-c {
     fill: var(--text);
-    font: 650 13px -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+    font: 600 16px "Clash Display", "Satoshi", system-ui, sans-serif;
+    letter-spacing: -0.01em;
   }
-  .donut text.sub {
+  .donut text.donut-s {
     fill: var(--muted);
-    font-size: 9px;
-    font-weight: 600;
+    font: 600 8px "JetBrains Mono", ui-monospace, monospace;
     text-transform: uppercase;
+    letter-spacing: 0.16em;
   }
   .donut-legend {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 3px;
     font-size: 12px;
   }
   .donut-legend .row {
     display: grid;
-    grid-template-columns: 10px 1fr auto;
-    gap: 8px;
+    grid-template-columns: 11px 1fr auto auto;
+    gap: 10px;
     align-items: center;
     color: var(--text-2);
+    padding: 5px 9px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
   }
-  .donut-legend i { width: 8px; height: 8px; border-radius: 2px; }
-  .donut-legend .num { color: var(--text); font-weight: 650; }
+  .donut-legend .row:hover, .donut-legend .row.active { background: rgba(255,255,255,0.05); color: var(--text); }
+  .donut-legend i { width: 10px; height: 10px; border-radius: 3px; box-shadow: 0 0 8px -1px currentColor; }
+  .donut-legend .pct { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10.5px; color: var(--muted); }
+  .donut-legend .num { color: var(--text); font-weight: 700; font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11.5px; }
 
   .crm-intel {
     display: grid;
-    grid-template-columns: 1.05fr 1fr 1.2fr;
+    grid-template-columns: 1fr;
     gap: 14px;
-    margin: 0 0 16px;
+    margin: 0 0 14px;
   }
+  .crm-intel .donut-panel { max-width: 620px; }
   .intel-box {
-    background: rgba(255,255,255,0.025);
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 13px 14px;
+    border-radius: var(--radius);
+    padding: 16px 18px;
     min-width: 0;
   }
   .intel-box h3 {
-    margin: 0 0 12px;
+    margin: 0 0 14px;
     color: var(--text-2);
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
+    display: flex; align-items: center; gap: 8px;
   }
-  .lane-grid { display: flex; flex-direction: column; gap: 8px; }
+  .intel-box h3 .ib-hint {
+    margin-left: auto; text-transform: none; letter-spacing: 0;
+    font-size: 10px; color: var(--muted); font-weight: 400;
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 999px;
+  }
+  .lane-grid { display: flex; flex-direction: column; gap: 11px; }
   .lane {
     display: grid;
-    grid-template-columns: 96px 1fr 36px;
+    grid-template-columns: 88px 1fr 42px;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    gap: 11px;
+    font-size: 11.5px;
   }
+  .lane .k { color: var(--text-2); text-transform: uppercase; letter-spacing: 0.07em; font-size: 10px; font-weight: 600; }
   .lane .track {
-    height: 8px;
+    height: 10px;
     border-radius: 999px;
-    background: var(--surface-2);
+    background: rgba(255,255,255,0.045);
     border: 1px solid var(--border);
     overflow: hidden;
   }
   .lane .track span {
-    display: block;
-    height: 100%;
-    width: 0%;
+    display: block; height: 100%; width: 0%;
+    border-radius: 999px;
     background: var(--accent);
+    transform-origin: left;
+    animation: laneGrow 0.7s cubic-bezier(.22,.9,.26,1) both;
   }
-  .priority-list { display: flex; flex-direction: column; gap: 8px; }
+  @keyframes laneGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  .lane .num { color: var(--text); font-weight: 700; font-family: "JetBrains Mono", ui-monospace, monospace; text-align: right; font-size: 12px; }
+
+  /* ===== Pipeline flow — glowing horizontal stage timeline ===== */
+  .pipeline-box { margin: 0 0 14px; }
+  .pipeline-flow { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 14px 6px 8px; gap: 4px; }
+  .pipeline-flow::before {
+    content: ""; position: absolute; left: 6%; right: 6%; top: 50%; transform: translateY(-50%);
+    height: 2px; border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), var(--violet), var(--cyan), var(--success));
+    opacity: 0.35;
+  }
+  .pf-node {
+    position: relative; z-index: 1; flex: 1; min-width: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 9px;
+    opacity: 0.42; transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .pf-node.on { opacity: 1; }
+  .pf-node:hover { transform: translateY(-3px); }
+  .pf-count {
+    font-family: "Clash Display", system-ui, sans-serif; font-size: 22px; font-weight: 600; line-height: 1;
+    color: var(--pf-c); text-shadow: 0 0 16px var(--pf-c);
+  }
+  .pf-node:not(.on) .pf-count { color: var(--muted); text-shadow: none; }
+  .pf-dot {
+    width: 13px; height: 13px; border-radius: 50%; background: var(--pf-c);
+    border: 3px solid var(--bg); box-shadow: 0 0 14px var(--pf-c), 0 0 0 1px var(--pf-c);
+  }
+  .pf-node.on .pf-dot { animation: pfPulse 2.6s ease-in-out infinite; }
+  .pf-node:not(.on) .pf-dot { background: var(--surface-3); box-shadow: none; }
+  @keyframes pfPulse {
+    0%, 100% { box-shadow: 0 0 10px var(--pf-c), 0 0 0 1px var(--pf-c); }
+    50% { box-shadow: 0 0 22px var(--pf-c), 0 0 0 2px var(--pf-c); }
+  }
+  .pf-label {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-2);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  }
+  .pf-node:not(.on) .pf-label { color: var(--muted); }
+  @media (max-width: 720px) { .pf-count { font-size: 16px; } .pf-label { font-size: 8px; } }
+
+  .intel-collapse {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin: 0 0 16px;
+    overflow: hidden;
+  }
+  .intel-collapse summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; gap: 10px;
+    padding: 13px 16px;
+    transition: background 0.15s ease;
+  }
+  .intel-collapse summary::-webkit-details-marker { display: none; }
+  .intel-collapse summary:hover { background: rgba(255,255,255,0.025); }
+  .intel-collapse .ic-caret { color: var(--accent); transition: transform 0.2s ease; flex: 0 0 auto; }
+  .intel-collapse[open] .ic-caret { transform: rotate(90deg); }
+  .intel-collapse .ic-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-2); }
+  .intel-collapse .ic-count {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px;
+    color: var(--accent); background: var(--accent-soft);
+    border: 1px solid rgba(244,114,182,0.3);
+    padding: 1px 8px; border-radius: 999px;
+  }
+  .intel-collapse .ic-sub { margin-left: auto; color: var(--muted); font-size: 11px; }
+  .intel-collapse .priority-list { padding: 2px 16px 14px; }
+
+  .priority-list { display: flex; flex-direction: column; gap: 0; }
   .priority-lead {
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 10px;
     align-items: center;
-    border-bottom: 1px dashed var(--border);
-    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+    padding: 11px 2px;
   }
-  .priority-lead:last-child { border-bottom: 0; padding-bottom: 0; }
-  .priority-lead .name { font-weight: 650; font-size: 12.5px; }
+  .priority-lead:last-child { border-bottom: 0; }
+  .priority-lead .name { font-weight: 600; font-size: 12.5px; color: var(--text); }
   .priority-lead .detail { color: var(--text-2); font-size: 11px; margin-top: 2px; }
 
   .plan-hero {
@@ -1093,11 +1251,11 @@
     background:
       radial-gradient(circle at 100% 100%, rgba(244,114,182,0.16), transparent 60%),
       radial-gradient(circle at 0% 0%, rgba(212,162,76,0.06), transparent 55%),
-      linear-gradient(165deg, #14100f 0%, #0a0708 100%);
+      linear-gradient(165deg, var(--surface-2) 0%, var(--bg) 100%);
     border-color: rgba(255,255,255,0.08);
   }
   .plan-title {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 44px;
     line-height: 1.05;
     font-weight: 400;
@@ -1169,7 +1327,7 @@
     box-shadow: 0 0 0 3px rgba(244,114,182,0.22);
   }
   .plan-vector .quote {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-style: italic;
     font-size: 24px;
     line-height: 1.25;
@@ -1585,26 +1743,40 @@
     gap: 12px;
   }
   .kpi {
-    background: var(--surface-2);
+    position: relative;
+    background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.012));
     border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 12px 14px;
+    border-radius: var(--radius);
+    padding: 15px 16px;
+    overflow: hidden;
   }
+  .kpi::before {
+    content: ""; position: absolute; left: 0; top: 0; right: 0; height: 2px;
+    background: var(--grad); opacity: 0.6;
+  }
+  .kpi::after {
+    content: ""; position: absolute; right: -30px; top: -30px; width: 80px; height: 80px;
+    background: radial-gradient(circle, var(--accent-soft), transparent 70%);
+    opacity: 0; transition: opacity 0.2s ease; pointer-events: none;
+  }
+  .kpi:hover::after { opacity: 1; }
   .kpi .k {
-    font-size: 10px;
+    font-size: 9.5px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     color: var(--muted);
-    margin-bottom: 6px;
+    margin-bottom: 9px;
   }
   .kpi .v {
-    font-size: 22px;
+    font-family: "Clash Display", system-ui, sans-serif;
+    font-size: 26px;
     font-weight: 600;
     letter-spacing: -0.02em;
+    line-height: 1;
   }
-  .kpi .v.small { font-size: 18px; }
-  .kpi .v.large { font-size: 28px; }
-  .kpi .delta { font-size: 11px; color: var(--text-2); margin-top: 4px; }
+  .kpi .v.small { font-size: 20px; }
+  .kpi .v.large { font-size: 30px; }
+  .kpi .delta { font-size: 11px; color: var(--text-2); margin-top: 6px; }
   .kpi.accent .v { color: var(--accent); }
 
   .stat-list { display: flex; flex-direction: column; gap: 10px; }
@@ -1686,8 +1858,8 @@
     border-color: var(--accent);
     color: #fff;
   }
-  .loop-row .lstep { font-size: 13px; font-weight: 600; color: var(--text); }
-  .loop-row .lnote { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+  .loop-row .lstep { font-size: 15px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+  .loop-row .lnote { font-size: 12.5px; color: var(--text-2); margin-top: 3px; }
   .pillar-list { display: flex; flex-direction: column; gap: 10px; }
   .pillar-row {
     padding: 9px 0;
@@ -1781,17 +1953,574 @@
   }
   .spark svg { width: 100%; height: 36px; display: block; }
 
+  /* ===== Neon charts (theme-reactive) ===== */
+  .chart-wrap { overflow: visible; box-shadow: 0 0 34px -10px var(--accent), 0 0 72px -30px var(--accent); }
+  .spark { box-shadow: 0 0 26px -14px var(--accent); }
+  .neon-line { stroke: var(--accent); color: var(--accent); filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 5px currentColor); }
+  .neon-dot { fill: var(--accent); color: var(--accent); filter: drop-shadow(0 0 3px currentColor); }
+  .neon-glow { filter: drop-shadow(0 0 3px currentColor) drop-shadow(0 0 5px currentColor); }
+
+  /* ===== Income tab — clean revenue ===== */
+  #tab-income .rev-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 2px 2px 4px; flex-wrap: wrap; }
+  #tab-income .rev-head .rev-title { font-family: "Clash Display", system-ui, sans-serif; font-size: 22px; font-weight: 600; letter-spacing: -0.02em; color: var(--text); margin: 0; }
+  #tab-income .rev-head .rev-sub { font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--muted); }
+  #tab-income .kpi-row { gap: 14px; }
+  #tab-income .kpi .v, #tab-income .kpi.accent .v, #tab-income .kpi:nth-child(4n+1) .v, #tab-income .kpi:nth-child(4n+2) .v, #tab-income .kpi:nth-child(4n+3) .v, #tab-income .kpi:nth-child(4n+4) .v { font-family: "Clash Display", system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 30px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: var(--text); text-shadow: none; }
+  #tab-income .kpi.accent .v { color: var(--accent); text-shadow: 0 0 22px var(--accent-soft); }
+  #tab-income .kpi .k { color: var(--text-2); }
+  #tab-income .grid { row-gap: 18px; }
+  #tab-income > .grid > .card { padding: 20px 22px; }
+  #tab-income .stat-row { padding: 11px 0; }
+  #tab-income .stat-row .name { color: var(--text-2); font-size: 12.5px; }
+  #tab-income .stat-row .num { font-variant-numeric: tabular-nums; }
+  #tab-income .spark { background: var(--surface-2); border: 1px solid var(--border-strong); border-radius: var(--radius-sm); padding: 16px 18px; }
+  #tab-income .spark .k { color: var(--muted); }
+  #tab-income .spark .v { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--text); font-size: 18px; }
+  #tab-income .spark svg { height: 56px; }
+
+  /* ===== Metrics tab ===== */
+/* ===== Metrics tab ===== */
+#tab-metrics .mx-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 18px; flex-wrap: wrap;
+}
+#tab-metrics .mx-headsub {
+  color: var(--muted); font-size: 12.5px; margin-top: 6px; max-width: 60ch;
+}
+#tab-metrics .mx-headcard { padding-bottom: 18px; }
+
+/* range segmented control — reuses var palette so it reskins per theme */
+#tab-metrics .mx-seg {
+  display: inline-flex; gap: 2px; padding: 3px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 999px;
+}
+#tab-metrics .mx-seg-btn {
+  border: 0; cursor: pointer; background: transparent; color: var(--text-2);
+  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px;
+  letter-spacing: 0.04em; padding: 6px 14px; border-radius: 999px;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+#tab-metrics .mx-seg-btn:hover { color: var(--text); }
+#tab-metrics .mx-seg-btn.active {
+  background: var(--accent); color: #fff;
+  box-shadow: 0 0 18px -6px var(--accent);
+}
+
+/* slide grid */
+#tab-metrics .mx-slides-card { padding: 0; background: transparent; border: 0; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+#tab-metrics .mx-slides {
+  display: grid; gap: var(--grid-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+@media (max-width: 1100px) { #tab-metrics .mx-slides { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+@media (max-width: 640px)  { #tab-metrics .mx-slides { grid-template-columns: 1fr; } }
+
+/* a slide card */
+#tab-metrics .mx-slide {
+  position: relative; cursor: pointer;
+  background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px 12px;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow: hidden;
+  transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+}
+#tab-metrics .mx-slide::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  box-shadow: 0 0 0 0 transparent; pointer-events: none; opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 0 40px -14px var(--accent) inset;
+}
+#tab-metrics .mx-slide:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+#tab-metrics .mx-slide:hover::after { opacity: 1; }
+#tab-metrics .mx-slide.open {
+  grid-column: 1 / -1; cursor: default; transform: none;
+  border-color: var(--border-strong);
+  box-shadow: 0 0 38px -16px var(--accent), 0 18px 40px -24px rgba(0,0,0,0.8);
+}
+
+#tab-metrics .mx-slide .mx-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+#tab-metrics .mx-slide .mx-cat {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted);
+}
+#tab-metrics .mx-slide .mx-label { color: var(--text-2); font-size: 13px; }
+#tab-metrics .mx-slide .mx-val {
+  font-family: "Clash Display", system-ui, sans-serif;
+  font-variant-numeric: tabular-nums; font-weight: 600;
+  font-size: 30px; line-height: 1; letter-spacing: -0.02em;
+  color: var(--text); margin-top: 2px;
+}
+#tab-metrics .mx-slide .mx-delta {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px; font-variant-numeric: tabular-nums;
+}
+#tab-metrics .mx-delta.up { color: var(--success); }
+#tab-metrics .mx-delta.down { color: var(--danger); }
+#tab-metrics .mx-delta.flat { color: var(--muted); }
+#tab-metrics .mx-delta .arr { font-size: 12px; line-height: 1; }
+
+/* compact sparkline lives in the card; hidden when expanded */
+#tab-metrics .mx-spark { margin-top: 10px; }
+#tab-metrics .mx-spark svg { width: 100%; height: 40px; display: block; overflow: visible; }
+#tab-metrics .mx-slide.open .mx-spark { display: none; }
+
+/* expanded chart region */
+#tab-metrics .mx-expand { display: none; margin-top: 14px; }
+#tab-metrics .mx-slide.open .mx-expand { display: block; }
+#tab-metrics .mx-expand .chart-wrap { min-height: 220px; }
+#tab-metrics .mx-expand .chart-wrap svg { height: 220px; }
+#tab-metrics .mx-xaxis {
+  display: flex; justify-content: space-between;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px; color: var(--muted); margin-top: 6px; padding: 0 2px;
+}
+#tab-metrics .mx-collapse {
+  position: absolute; top: 14px; right: 16px;
+  border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--text-2); border-radius: var(--radius-sm);
+  font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 10px;
+  letter-spacing: 0.06em; padding: 4px 9px; cursor: pointer; display: none;
+}
+#tab-metrics .mx-slide.open .mx-collapse { display: inline-block; }
+#tab-metrics .mx-collapse:hover { color: var(--text); border-color: var(--border-strong); }
+
+/* funnel drop-off bars */
+#tab-metrics .mx-funnelbars { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+#tab-metrics .mx-fb { display: grid; grid-template-columns: 130px 1fr auto; align-items: center; gap: 12px; }
+#tab-metrics .mx-fb .name { color: var(--text-2); font-size: 12.5px; }
+#tab-metrics .mx-fb .track { height: 8px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+#tab-metrics .mx-fb .fill { height: 100%; border-radius: 999px; background: var(--accent); box-shadow: 0 0 14px -3px var(--accent); transition: width 0.6s cubic-bezier(.4,0,.2,1); }
+#tab-metrics .mx-fb .v { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 12px; color: var(--text); font-variant-numeric: tabular-nums; }
+
+  /* ===== Payouts: setter/closer split + calculator ===== */
+/* ---- Closer split ---- */
+.closer-split {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+.closer-donut-wrap { display: flex; justify-content: center; }
+.closer-donut-wrap .donut { width: 168px; height: 168px; }
+.closer-detail {
+  margin-top: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+.closer-detail .cd-empty { color: var(--muted); font-size: 12.5px; }
+.closer-detail .cd-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.closer-detail .cd-name {
+  font: 600 16px "Clash Display", "Satoshi", system-ui, sans-serif;
+  color: var(--text);
+}
+.closer-detail .cd-name i {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 3px;
+  margin-right: 8px;
+  box-shadow: 0 0 8px -1px currentColor;
+  vertical-align: middle;
+}
+.closer-detail .cd-rate {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.closer-detail .cd-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.closer-detail .cd-metric {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 11px;
+}
+.closer-detail .cd-metric .k {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  margin-bottom: 5px;
+}
+.closer-detail .cd-metric .v {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.closer-detail .cd-setters-label {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+.closer-detail .cd-setter {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.closer-detail .cd-setter .sb-name {
+  font-size: 12.5px;
+  color: var(--text-2);
+  white-space: nowrap;
+}
+.closer-detail .cd-setter .sb-track {
+  position: relative;
+  height: 7px;
+  background: var(--surface-3);
+  border-radius: 4px;
+  overflow: hidden;
+  grid-column: 1 / -1;
+  margin-top: 2px;
+}
+.closer-detail .cd-setter .sb-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+}
+.closer-detail .cd-setter .sb-num {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11.5px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* ---- Payout calculator ---- */
+.payout-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  gap: 12px;
+}
+.payout-note {
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--text-2);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  line-height: 1.45;
+}
+.payout-note.warn { border-left-color: var(--warn); }
+
+/* ---- Basic calculator ---- */
+.calc-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 12px;
+  color: var(--muted);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.calc-divider::before, .calc-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.basic-calc { display: flex; flex-direction: column; gap: 10px; }
+.bc-display {
+  width: 100%;
+  text-align: right;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.bc-keys {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.bc-key {
+  font: 600 15px "Satoshi", system-ui, sans-serif;
+  padding: 13px 0;
+  border-radius: 9px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: background .14s ease, border-color .14s ease, transform .08s ease;
+}
+.bc-key:hover { background: var(--surface-3); border-color: var(--border-strong); }
+.bc-key:active { transform: translateY(1px); }
+.bc-key.op { color: var(--accent); font-family: "JetBrains Mono", ui-monospace, monospace; }
+.bc-key.eq { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.bc-key.eq:hover { background: var(--accent-2); }
+.bc-key.fn { color: var(--muted); }
+.bc-key.zero { grid-column: span 2; }
+
+@media (max-width: 720px) {
+  .closer-split { grid-template-columns: 1fr; }
+  .closer-detail .cd-metrics { grid-template-columns: repeat(3, 1fr); }
+  .payout-grid { grid-template-columns: 1fr; }
+}
+
+  /* ===== Cash & Calendar tab ===== */
+/* ===== Cash & Calendar (#tab-cashflow) ===== */
+
+/* monthly target progress */
+#tab-cashflow .cf-target { margin-top: 18px; }
+#tab-cashflow .cf-target-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+#tab-cashflow .cf-target-head .name { color: var(--text-2); font-size: 13px; }
+#tab-cashflow .cf-target-head .num { font-weight: 500; letter-spacing: -0.01em; }
+#tab-cashflow .cf-target-head .num .vs { color: var(--muted); font-size: 12px; margin-left: 6px; }
+#tab-cashflow .cf-target .hb-bar { margin-top: 0; height: 8px; background: var(--surface-2); border: 1px solid var(--border); }
+#tab-cashflow .cf-target .hb-bar > span { background: var(--grad); box-shadow: 0 0 18px -4px var(--accent); transition: width .5s ease; }
+#tab-cashflow .cf-target-foot { margin-top: 8px; font-size: 12px; color: var(--muted); }
+#tab-cashflow .cf-target-foot #cfTargetPct { color: var(--accent); font-weight: 600; }
+
+/* chart legend */
+#tab-cashflow .cf-legend-row { display: flex; gap: 18px; margin: 2px 0 6px; }
+#tab-cashflow .cf-leg { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-2); }
+#tab-cashflow .cf-swatch { width: 12px; height: 4px; border-radius: 999px; display: inline-block; }
+
+/* cash sources */
+#tab-cashflow .cf-source-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+#tab-cashflow .cf-src { }
+#tab-cashflow .cf-src-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+#tab-cashflow .cf-src-top .lab { font-size: 13px; color: var(--text-2); }
+#tab-cashflow .cf-src-top .val { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--text); }
+#tab-cashflow .cf-src-top .val .vs { color: var(--muted); margin-left: 6px; font-size: 11px; }
+#tab-cashflow .cf-src-track { height: 7px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); overflow: hidden; }
+#tab-cashflow .cf-src-track > span { display: block; height: 100%; border-radius: 999px; }
+
+/* calendar */
+#tab-cashflow .cf-cal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+#tab-cashflow .cf-cal-head h2 { margin: 0; }
+#tab-cashflow .cf-cal-nav { display: inline-flex; align-items: center; gap: 6px; }
+#tab-cashflow .cf-cal-month { font-size: 13px; color: var(--text-2); min-width: 108px; text-align: center; }
+#tab-cashflow .cf-navbtn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); font-size: 16px; line-height: 1; cursor: pointer; transition: .15s; }
+#tab-cashflow .cf-navbtn:hover { border-color: var(--border-strong); color: var(--text); background: var(--surface-3); }
+
+#tab-cashflow .cf-cal-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0 10px; }
+#tab-cashflow .cf-dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }
+#tab-cashflow .cf-dot.src-dm { background: var(--cyan); }
+#tab-cashflow .cf-dot.src-lp { background: var(--accent); }
+#tab-cashflow .cf-dot.src-ref { background: var(--orange); }
+
+#tab-cashflow .cf-cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 6px; }
+#tab-cashflow .cf-cal-dow span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: left; padding-left: 2px; }
+#tab-cashflow .cf-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+#tab-cashflow .cf-day { min-height: 78px; border: 1px solid var(--border); background: var(--surface-2); border-radius: var(--radius-sm); padding: 6px 6px 5px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+#tab-cashflow .cf-day.empty { background: transparent; border-color: transparent; }
+#tab-cashflow .cf-day.today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-soft) inset; }
+#tab-cashflow .cf-day-n { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); }
+#tab-cashflow .cf-day.today .cf-day-n { color: var(--accent); font-weight: 600; }
+#tab-cashflow .cf-evt { font-size: 10.5px; line-height: 1.25; padding: 3px 5px; border-radius: 6px; border-left: 2px solid var(--border-strong); background: var(--surface-3); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#tab-cashflow .cf-evt .cf-evt-t { color: var(--text); font-family: "JetBrains Mono", monospace; font-size: 9.5px; margin-right: 4px; }
+#tab-cashflow .cf-evt.src-dm { border-left-color: var(--cyan); }
+#tab-cashflow .cf-evt.src-lp { border-left-color: var(--accent); }
+#tab-cashflow .cf-evt.src-ref { border-left-color: var(--orange); }
+#tab-cashflow .cf-evt-more { font-size: 10px; color: var(--muted); padding-left: 5px; }
+
+/* upcoming list */
+#tab-cashflow .cf-upcoming { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+#tab-cashflow .cf-up { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+#tab-cashflow .cf-up-rail { width: 3px; align-self: stretch; border-radius: 999px; background: var(--border-strong); flex: 0 0 auto; }
+#tab-cashflow .cf-up-rail.src-dm { background: var(--cyan); }
+#tab-cashflow .cf-up-rail.src-lp { background: var(--accent); }
+#tab-cashflow .cf-up-rail.src-ref { background: var(--orange); }
+#tab-cashflow .cf-up-body { min-width: 0; flex: 1; }
+#tab-cashflow .cf-up-name { font-size: 13px; color: var(--text); font-weight: 500; }
+#tab-cashflow .cf-up-meta { font-size: 11px; color: var(--muted); font-family: "JetBrains Mono", monospace; margin-top: 2px; }
+#tab-cashflow .cf-up-src { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+#tab-cashflow .cf-empty { font-size: 12px; color: var(--muted); padding: 16px 4px; }
+
+/* routing flow */
+#tab-cashflow .cf-mock { color: var(--warn); border-color: rgba(0,0,0,0); background: var(--accent-soft); }
+#tab-cashflow .cf-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 10px; margin: 16px 0 20px; }
+#tab-cashflow .cf-flow-step { display: flex; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+#tab-cashflow .cf-step-n { width: 24px; height: 24px; flex: 0 0 auto; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: "JetBrains Mono", monospace; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+#tab-cashflow .cf-step-t { font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 3px; }
+#tab-cashflow .cf-step-d { font-size: 12px; color: var(--text-2); line-height: 1.4; }
+#tab-cashflow .cf-flow-arrow { align-self: center; color: var(--muted); font-size: 18px; }
+
+#tab-cashflow .cf-route-grid { display: grid; grid-template-columns: 320px 1fr; gap: 18px; }
+#tab-cashflow .cf-connectors { display: flex; flex-direction: column; gap: 12px; }
+#tab-cashflow .cf-conn { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+#tab-cashflow .cf-conn-l { display: flex; align-items: center; gap: 10px; }
+#tab-cashflow .cf-conn-ico { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: "JetBrains Mono", monospace; font-size: 14px; font-weight: 700; color: var(--text); background: var(--surface-3); border: 1px solid var(--border); }
+#tab-cashflow .cf-conn-name { font-size: 13px; color: var(--text); font-weight: 500; }
+#tab-cashflow .cf-conn-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+#tab-cashflow .cf-conn[data-state="on"] .cf-conn-sub { color: var(--success); }
+#tab-cashflow .cf-conn-btn { font-size: 12px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface-3); color: var(--text); cursor: pointer; white-space: nowrap; transition: .15s; }
+#tab-cashflow .cf-conn-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+#tab-cashflow .cf-conn[data-state="on"] .cf-conn-btn { background: transparent; color: var(--success); border-color: rgba(94,234,212,0.45); cursor: default; }
+#tab-cashflow .cf-conn[data-state="on"] .cf-conn-btn:hover { background: transparent; color: var(--success); }
+#tab-cashflow .cf-route-note { font-size: 12px; color: var(--muted); line-height: 1.5; padding: 2px; }
+
+/* slack-style example card */
+#tab-cashflow .cf-slackcard { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); padding: 14px; border-left: 3px solid var(--accent); }
+#tab-cashflow .cf-slack-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+#tab-cashflow .cf-slack-bot { font-size: 13px; font-weight: 600; color: var(--text); }
+#tab-cashflow .cf-slack-app { font-size: 9px; letter-spacing: 0.06em; background: var(--surface-3); color: var(--muted); padding: 1px 5px; border-radius: 4px; }
+#tab-cashflow .cf-slack-time { font-size: 11px; color: var(--muted); margin-left: auto; }
+#tab-cashflow .cf-slack-msg { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 10px; }
+#tab-cashflow .cf-slack-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin-bottom: 12px; }
+#tab-cashflow .cf-slack-fields .k { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1px; }
+#tab-cashflow .cf-slack-fields .v { font-size: 13px; color: var(--text-2); }
+#tab-cashflow .cf-slack-assign { display: flex; align-items: center; gap: 12px; }
+#tab-cashflow .cf-assign-btn { font-size: 13px; padding: 8px 16px; border-radius: 8px; border: 0; background: var(--grad); color: #fff; cursor: pointer; font-weight: 500; box-shadow: 0 0 18px -6px var(--accent); transition: .15s; }
+#tab-cashflow .cf-assign-btn:hover { filter: brightness(1.08); }
+#tab-cashflow .cf-assign-hint { font-size: 11px; color: var(--muted); }
+#tab-cashflow .cf-slack-assigned { display: flex; align-items: center; gap: 10px; padding-top: 2px; }
+#tab-cashflow .cf-avatar { width: 30px; height: 30px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: 0 0 auto; }
+#tab-cashflow .cf-assigned-name { font-size: 13px; color: var(--text); font-weight: 500; }
+#tab-cashflow .cf-assigned-meta { font-size: 11px; color: var(--text-2); margin-top: 1px; }
+#tab-cashflow .cf-assigned-tick { margin-left: auto; color: var(--success); font-size: 16px; }
+
+@media (max-width: 900px) {
+  #tab-cashflow .cf-flow { grid-template-columns: 1fr; }
+  #tab-cashflow .cf-flow-arrow { display: none; }
+  #tab-cashflow .cf-route-grid { grid-template-columns: 1fr; }
+  #tab-cashflow .cf-day { min-height: 60px; }
+}
+
+  /* ===== Payments tab ===== */
+/* ---- Payments tab ---- */
+#tab-sales .pay-kpis { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 860px) { #tab-sales .pay-kpis { grid-template-columns: repeat(2, 1fr); } }
+
+/* deal-type split: donut + per-type cards */
+.pay-split { display: grid; grid-template-columns: minmax(180px, 240px) 1fr; gap: 22px; align-items: center; }
+@media (max-width: 720px) { .pay-split { grid-template-columns: 1fr; } }
+.pay-donut .chart-wrap { max-width: 200px; margin: 0 auto; background: none; box-shadow: none; border: 0; min-height: 0; padding: 0; }
+/* donut legend rows (payType / igAge / crmNiche) — readable columns */
+.legend:has(.row) { display: flex; flex-direction: column; align-items: stretch; gap: 2px; }
+.legend .row { display: flex; align-items: center; gap: 9px; padding: 5px 2px; font-size: 12px; }
+.legend .row i { width: 9px; height: 9px; border-radius: 2px; flex: none; }
+.legend .row .lbl { flex: 1; color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.legend .row .pct { color: var(--muted); font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 11px; min-width: 34px; text-align: right; }
+.legend .row .num { color: var(--text); font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; min-width: 56px; text-align: right; }
+.pay-legend { margin-top: 12px; }
+
+.pay-types { display: flex; flex-direction: column; gap: 10px; }
+.pay-type {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 11px 13px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.pay-type:hover { border-color: var(--border-strong); box-shadow: 0 0 22px -14px var(--accent); }
+.pay-type .swatch { width: 10px; height: 10px; border-radius: 3px; align-self: start; margin-top: 4px; box-shadow: 0 0 8px -1px currentColor; }
+.pay-type .pt-name { font-weight: 600; color: var(--text); font-size: 13px; }
+.pay-type .pt-sub { color: var(--muted); font-size: 11px; margin-top: 3px; }
+.pay-type .pt-val { text-align: right; }
+.pay-type .pt-amt { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--text); font-size: 14px; font-weight: 600; }
+.pay-type .pt-count { color: var(--text-2); font-size: 11px; margin-top: 3px; }
+
+/* transactions table */
+.pay-tablewrap { overflow: auto; max-height: 420px; border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.pay-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.pay-table th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--surface-2);
+  text-align: left; padding: 9px 12px;
+  border-bottom: 1px solid var(--border-strong);
+  color: var(--text-2); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px;
+}
+.pay-table th.r, .pay-table td.r { text-align: right; }
+.pay-table td {
+  padding: 10px 12px;
+  border-bottom: 1px dashed var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+.pay-table tbody tr:last-child td { border-bottom: 0; }
+.pay-table tbody tr { transition: background 0.14s ease; }
+.pay-table tbody tr:hover { background: rgba(255,255,255,0.03); }
+.pay-table .cust { font-weight: 600; }
+.pay-table .cust .handle { display: block; color: var(--muted); font-size: 10.5px; font-weight: 400; margin-top: 2px; }
+.pay-table .amt { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; }
+.pay-table .amt.neg { color: var(--danger); }
+.pay-table .date { font-family: "JetBrains Mono", ui-monospace, monospace; color: var(--text-2); font-size: 11.5px; }
+.pay-table .ptype {
+  display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--text-2);
+}
+
+/* status pill — reuses theme vars only */
+.pay-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px; border: 1px solid var(--border-strong); white-space: nowrap;
+}
+.pay-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 7px currentColor; }
+.pay-status.paid { color: var(--success); border-color: color-mix(in srgb, var(--success) 45%, transparent); background: color-mix(in srgb, var(--success) 9%, transparent); }
+.pay-status.scheduled { color: var(--cyan); border-color: color-mix(in srgb, var(--cyan) 45%, transparent); background: color-mix(in srgb, var(--cyan) 9%, transparent); }
+.pay-status.failed { color: var(--danger); border-color: color-mix(in srgb, var(--danger) 45%, transparent); background: color-mix(in srgb, var(--danger) 9%, transparent); }
+.pay-status.refunded { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 45%, transparent); background: color-mix(in srgb, var(--warn) 9%, transparent); }
+
+/* upcoming scheduled list */
+.pay-upcoming { display: flex; flex-direction: column; gap: 9px; }
+.pay-up-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 6px 12px;
+  padding: 11px 13px; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  border-left: 2px solid var(--accent);
+}
+.pay-up-row .up-cust { font-weight: 600; color: var(--text); font-size: 13px; }
+.pay-up-row .up-meta { color: var(--muted); font-size: 11px; margin-top: 3px; }
+.pay-up-row .up-amt { font-family: "JetBrains Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; color: var(--text); font-weight: 600; font-size: 14px; text-align: right; }
+.pay-up-row .up-when { font-family: "JetBrains Mono", ui-monospace, monospace; color: var(--text-2); font-size: 11px; text-align: right; margin-top: 3px; }
+.pay-up-row.soon { border-left-color: var(--warn); }
+
+  #clients { display: flex; flex-direction: column; gap: 10px; }
   .client-row {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px dashed var(--border);
+    gap: 13px;
+    padding: 13px 15px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
+    border: 1px solid var(--border);
+    border-radius: 12px;
     font-size: 13px;
-    gap: 16px;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
   }
-  .client-row:last-child { border-bottom: 0; }
-  .client-row .lesson { color: var(--text-2); font-size: 12px; margin-top: 2px; }
+  .client-row:hover { transform: translateY(-2px); border-color: rgba(244,114,182,0.32); box-shadow: 0 10px 30px -16px rgba(217,70,239,0.45); }
+  .client-av {
+    flex: 0 0 auto; width: 38px; height: 38px; border-radius: 11px;
+    display: grid; place-items: center;
+    font: 700 15px "Clash Display", system-ui, sans-serif; color: #160611;
+    box-shadow: 0 2px 10px -2px rgba(0,0,0,0.55);
+  }
+  .client-main { flex: 1; min-width: 0; }
+  .client-name { font-weight: 600; color: var(--text); font-size: 13.5px; }
+  .client-row .lesson { color: var(--text-2); font-size: 11.5px; margin-top: 3px; line-height: 1.45; }
   .badge {
     display: inline-block;
     font-size: 10px;
@@ -1803,8 +2532,8 @@
     color: var(--text-2);
     white-space: nowrap;
   }
-  .badge.churned { color: var(--danger); border-color: rgba(248,113,113,0.4); }
-  .badge.active  { color: var(--success); border-color: rgba(74,222,128,0.4); }
+  .badge.churned { color: var(--danger); border-color: rgba(252,165,165,0.45); background: rgba(252,165,165,0.08); text-shadow: 0 0 10px rgba(252,165,165,0.5); }
+  .badge.active  { color: var(--success); border-color: rgba(94,234,212,0.45); background: rgba(94,234,212,0.08); text-shadow: 0 0 10px rgba(94,234,212,0.5); }
 
   .targets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .target-col {
@@ -1930,13 +2659,23 @@
 
   /* v4 nav.tabs override block (removed in v5 layout) */
 
-  .kpi { transition: border-color 0.18s ease, transform 0.18s ease; }
-  .kpi:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.16); }
-  .kpi:nth-child(4n+1) .v { color: var(--accent); }
-  .kpi:nth-child(4n+2) .v { color: var(--cyan); }
-  .kpi:nth-child(4n+3) .v { color: var(--violet); }
-  .kpi:nth-child(4n+4) .v { color: var(--pink); }
-  .kpi.accent .v { color: var(--accent); }
+  .kpi { transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
+  .kpi:hover { transform: translateY(-3px); border-color: rgba(244,114,182,0.45); box-shadow: 0 0 30px -8px rgba(217,70,239,0.45); }
+  .kpi:nth-child(4n+1) .v { color: var(--accent); text-shadow: 0 0 20px rgba(244,114,182,0.55); }
+  .kpi:nth-child(4n+2) .v { color: var(--cyan); text-shadow: 0 0 20px rgba(196,181,253,0.55); }
+  .kpi:nth-child(4n+3) .v { color: var(--violet); text-shadow: 0 0 20px rgba(217,70,239,0.55); }
+  .kpi:nth-child(4n+4) .v { color: var(--pink); text-shadow: 0 0 20px rgba(251,113,133,0.55); }
+  .kpi.accent .v { color: var(--accent); text-shadow: 0 0 22px rgba(244,114,182,0.65); }
+
+  /* ===== Neon / glow treatment on sections ===== */
+  .intel-box, .crm-toolbar, .intel-collapse {
+    box-shadow: 0 0 0 1px rgba(217,70,239,0.06), 0 10px 36px -16px rgba(217,70,239,0.3);
+  }
+  .intel-box:hover { box-shadow: 0 0 0 1px rgba(217,70,239,0.16), 0 12px 40px -12px rgba(217,70,239,0.45); }
+  .intel-box h3, .card > h2 { text-shadow: 0 0 18px rgba(244,114,182,0.45); }
+  .donut text.donut-c { filter: drop-shadow(0 0 7px rgba(244,114,182,0.5)); }
+  .kan-col h4 span:first-child { text-shadow: 0 0 14px currentColor; }
+  #crmTotal, #crmReplyRate { text-shadow: 0 0 22px rgba(244,114,182,0.6); }
 
   .search-wrap { position: relative; flex: 1; min-width: 240px; }
   .search-wrap svg {
@@ -1974,6 +2713,39 @@
   }
   .view-toggle button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
+  /* ===== CRM toolbar — chips, segmented toggle, premium selects ===== */
+  .crm-toolbar {
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 14px; padding: 12px 14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.012));
+    border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .vis-hidden { display: none !important; }
+  .crm-select {
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+    color: var(--text); font: inherit; font-size: 12.5px; padding: 8px 12px; cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .crm-select:hover { border-color: var(--border-strong); }
+  .seg.view-toggle { display: flex; gap: 0; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 3px; }
+  .seg.view-toggle button {
+    background: transparent; border: 0; color: var(--text-2); font: inherit; font-size: 12.5px; font-weight: 600;
+    padding: 6px 15px; border-radius: 8px; cursor: pointer; transition: background 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+  }
+  .seg.view-toggle button.active { background: var(--grad); color: #190612; border: 0; box-shadow: 0 2px 12px -3px var(--accent); }
+  .chip-group { display: flex; align-items: center; gap: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 11px; padding: 3px 5px 3px 10px; }
+  .chip-group .cg-label { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-right: 3px; }
+  .fchip {
+    background: transparent; border: 1px solid transparent; color: var(--text-2);
+    font: inherit; font-size: 12px; font-weight: 600; padding: 4px 11px; border-radius: 8px; cursor: pointer;
+    transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+  }
+  .fchip:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+  .fchip.active { background: var(--accent-soft); color: var(--accent); border-color: rgba(244,114,182,0.35); }
+  .fchip.t-a.active { background: linear-gradient(120deg,#fb7185,#d946ef); color: #190612; border-color: transparent; }
+  .fchip.t-b.active { background: rgba(196,181,253,0.18); color: var(--cyan); border-color: rgba(196,181,253,0.4); }
+  .batch-cluster { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-left: auto; padding-left: 12px; border-left: 1px solid var(--border); }
+
   /* Prompt vault — flashy one-click copy strip */
   .prompt-vault-card {
     background: linear-gradient(135deg, rgba(217,70,239,0.10), rgba(45,212,191,0.06), rgba(0,0,0,0));
@@ -1985,9 +2757,11 @@
     gap: 12px; margin-bottom: 14px; flex-wrap: wrap;
   }
   .prompt-vault-head .title {
-    font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+    font-family: "Clash Display", system-ui, sans-serif;
+    font-size: 18px; font-weight: 600; letter-spacing: 0.01em; text-transform: none;
     background: linear-gradient(90deg, #f0abfc, #5eead4);
     -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 14px rgba(217,70,239,0.4));
   }
   .prompt-vault-head .sub { color: var(--muted); font-size: 11.5px; }
   .prompt-vault {
@@ -2249,21 +3023,29 @@
     border-radius: 999px; padding: 1px 8px; font-size: 10px;
   }
   .kan-card {
-    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-    border: 1px solid rgba(255,255,255,0.09);
-    border-left: 3px solid var(--accent);
-    border-radius: 8px;
-    padding: 9px 10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid var(--tier-c, var(--border-strong));
+    border-radius: 12px;
+    padding: 11px 12px;
     cursor: grab; position: relative;
-    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+    transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease, opacity 0.12s ease;
   }
-  .kan-card:hover { transform: translateY(-1px); box-shadow: 0 8px 20px -12px rgba(0,0,0,0.8); }
+  .kan-card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -16px rgba(0,0,0,0.9), 0 0 0 1px var(--tier-c, rgba(255,255,255,0.12)); }
   .kan-card:active { cursor: grabbing; }
   .kan-card.dragging { opacity: 0.4; }
-  .kan-card .nm { font-size: 12.5px; font-weight: 500; padding-right: 30px; }
-  .kan-card .mt { font-size: 11px; color: var(--text-2); margin-top: 3px; }
-  .kan-card .mt a { color: var(--cyan); text-decoration: none; }
-  .kan-card .kan-wound { margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .kan-actions { position: absolute; top: 8px; right: 8px; display: flex; gap: 4px; z-index: 2; }
+  .kan-actions button { position: static; top: auto; right: auto; }
+  .kan-top { display: flex; align-items: center; gap: 9px; padding-right: 44px; }
+  .kan-av { flex: 0 0 auto; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; font: 700 13px "Clash Display", system-ui, sans-serif; color: #190612; box-shadow: 0 2px 8px -2px rgba(0,0,0,0.55); }
+  .kan-id { min-width: 0; flex: 1; }
+  .kan-nm { font-size: 12.5px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .kan-sub { font-size: 10.5px; color: var(--muted); display: flex; align-items: center; gap: 5px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .kan-meta { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 9px; }
+  .kan-pill { font-size: 9.5px; font-family: "JetBrains Mono", ui-monospace, monospace; color: var(--text-2); background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 999px; padding: 2px 7px; white-space: nowrap; }
+  .kan-pill.niche { color: var(--text); border-color: var(--border-strong); }
+  .kan-pill.assets { color: var(--success); border-color: rgba(94,234,212,0.32); background: rgba(94,234,212,0.08); }
+  .kan-card .kan-wound { margin-top: 8px; font-size: 10.5px; color: var(--warn); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.92; }
   .kan-caret {
     position: absolute; top: 7px; right: 24px; color: var(--muted);
     font-size: 10px; line-height: 1; transition: transform 0.2s ease, color 0.15s ease;
@@ -2471,7 +3253,7 @@
   }
   .hh-pillar .p-k { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); font-weight: 600; }
   .hh-pillar .p-v { font-size: 13.5px; color: var(--text); font-weight: 500; }
-  .hh-quote { font-family: "Sora", serif; font-size: 19px; color: var(--text); line-height: 1.35; font-style: italic; }
+  .hh-quote { font-family: "Clash Display", serif; font-size: 19px; color: var(--text); line-height: 1.35; font-style: italic; }
   .hh-quote::before { content: "“"; color: var(--accent); margin-right: 2px; }
   .hh-quote::after { content: "”"; color: var(--accent); margin-left: 1px; }
   .hh-attrib { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); font-weight: 600; }
@@ -2678,7 +3460,7 @@
     border-left: 2px solid var(--accent);
   }
   .vision-list .v-k {
-    font-family: "Sora", serif;
+    font-family: "Clash Display", serif;
     font-size: 18px; color: var(--accent); letter-spacing: -0.01em;
   }
   .vision-list .v-v { color: var(--text); font-size: 13px; line-height: 1.5; }
@@ -2708,37 +3490,53 @@
     </div>
   </div>
 
-  <div class="sb-label">Workspace</div>
   <nav class="sb-nav" id="tabs">
+    <div class="nav-group">Command</div>
     <button data-tab="live" class="active">
       <svg class="ico" viewBox="0 0 24 24"><path d="M3 13l2-2 4 4 8-8 4 4"/><path d="M3 21h18"/></svg>
       Overview
     </button>
-    <button data-tab="plan">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-      Plan
+    <div class="nav-group">Performance</div>
+    <button data-tab="metrics">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16l3-4 3 3 4-6"/></svg>
+      Metrics
     </button>
-    <button data-tab="content">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
-      Content <span class="count" id="contentTabCount">0</span>
+    <div class="nav-group">Lead engine</div>
+    <button data-tab="crm">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><circle cx="17" cy="7" r="3"/><path d="M22 18a5 5 0 0 0-5-5"/></svg>
+      CRM <span class="count" id="crmTabCount">0</span>
     </button>
     <button data-tab="instagram">
       <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2"/></svg>
       Instagram
     </button>
+    <div class="nav-group">Content &amp; growth</div>
+    <button data-tab="content">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
+      Content <span class="count" id="contentTabCount">0</span>
+    </button>
+    <button data-tab="plan">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Plan
+    </button>
+    <div class="nav-group">Revenue</div>
     <button data-tab="sales">
       <svg class="ico" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
-      Sales <span class="count" id="salesTabCount">0</span>
+      Payments <span class="count" id="salesTabCount">0</span>
     </button>
     <button data-tab="income">
       <svg class="ico" viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       Income <span class="count" id="incomeTabCount">$0</span>
     </button>
-    <button data-tab="crm">
-      <svg class="ico" viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><circle cx="17" cy="7" r="3"/><path d="M22 18a5 5 0 0 0-5-5"/></svg>
-      CRM <span class="count" id="crmTabCount">0</span>
+    <button data-tab="payouts">
+      <svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l7 4"/></svg>
+      Payouts
     </button>
-    <!-- YT Leads merged into CRM (source-tagged youtube / instagram / manual) -->
+    <button data-tab="cashflow">
+      <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 12"/></svg>
+      Cash &amp; Calendar
+    </button>
+    <div class="nav-group">Wellness</div>
     <button data-tab="health">
       <svg class="ico" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
       Health <span class="count" id="healthTabCount">—</span>
@@ -2765,12 +3563,37 @@
       <h2 class="page-title" id="pageTitle">Good morning.</h2>
     </div>
     <div class="head-actions">
+      <select id="themeSelect" class="theme-select" aria-label="Theme">
+        <option value="mirage">Mirage</option>
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="signal">Signal</option>
+        <option value="obsidian">Obsidian</option>
+        <option value="atelier">Atelier</option>
+        <option value="aurora">Aurora</option>
+        <option value="prism">Prism</option>
+        <option value="voltage">Voltage</option>
+      </select>
       <span class="chip"><span class="dot"></span><span id="livePulse">snapshot mode</span></span>
     </div>
   </div>
 
 <!-- LIVE -->
 <section class="tab-panel active" id="tab-live">
+
+  <!-- Where you left off: operator brief -->
+  <div class="ov-brief">
+    <div class="ovb-head">
+      <span class="ovb-eyebrow"><span class="ovb-dot"></span>Where you left off</span>
+      <span class="ovb-date mono" id="ovbDate">&mdash;</span>
+    </div>
+    <div class="ovb-summary" id="ovbSummary">Pulling your latest snapshot.</div>
+    <div class="ovb-stats" id="ovbStats"></div>
+    <div class="ovb-next">
+      <span class="ovb-next-k">Pick up here</span>
+      <span class="ovb-next-v" id="ovbNext">&mdash;</span>
+    </div>
+  </div>
 
   <!-- Phase hero -->
   <div class="hero-band">
@@ -2826,11 +3649,7 @@
 
   <!-- Today's hit list + Motion chart -->
   <div class="grid">
-    <div class="card span-7">
-      <h2>Today's hit list <span class="meta">ranked by impact</span></h2>
-      <div class="insight-list" id="nextMoves"></div>
-    </div>
-    <div class="card span-5">
+    <div class="card span-12">
       <h2>Motion <span class="meta">outreach · calls · cash</span></h2>
       <div class="chart-wrap">
         <svg id="motionChart" viewBox="0 0 640 220" preserveAspectRatio="none"></svg>
@@ -2849,7 +3668,7 @@
         <h2>Plan command <span class="meta">make the week feel alive</span></h2>
         <div class="plan-title">Build the <em>proof engine</em> before the market forgets.</div>
         <div class="plan-copy">
-          The plan is not a motivational wallpaper. It should make the next action obvious, keep the targets in your face, and remind you that the whole machine runs content → offer → funnel.
+          This page earns its place by making your next action obvious and keeping the targets in view. The machine runs content to offer to funnel, and nothing moves without the first step.
         </div>
         <div class="affirmation-strip" id="planAffirmations"></div>
       </div>
@@ -2989,9 +3808,9 @@
   #tab-instagram .ig-avatar { width:64px; height:64px; border-radius:50%; object-fit:cover; background:var(--surface-2); border:1px solid var(--border); flex:none; }
   #tab-instagram .ig-id { flex:1; min-width:220px; }
   #tab-instagram .ig-handle { font-size:16px; font-weight:700; }
-  #tab-instagram .ig-acctype { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:#d4ff3a; border:1px solid rgba(212,255,58,.32); border-radius:999px; padding:2px 7px; margin-left:6px; vertical-align:middle; }
+  #tab-instagram .ig-acctype { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--accent); border:1px solid var(--accent-soft); border-radius:999px; padding:2px 7px; margin-left:6px; vertical-align:middle; }
   #tab-instagram .ig-bio { color:var(--text-2); font-size:12.5px; white-space:pre-line; margin-top:4px; max-width:540px; }
-  #tab-instagram .ig-link { color:#d4ff3a; font-size:12px; text-decoration:none; }
+  #tab-instagram .ig-link { color:var(--accent); font-size:12px; text-decoration:none; }
   #tab-instagram .ig-headkpis { display:flex; gap:10px; }
   #tab-instagram .ig-headkpis .kpi { min-width:84px; }
   #tab-instagram .ig-updated { margin-top:12px; color:var(--text-2); font-size:11px; }
@@ -3005,23 +3824,30 @@
   #tab-instagram .ig-lb-cap { font-weight:600; font-size:13px; line-height:1.3; }
   #tab-instagram .ig-lb-hook { font-weight:800; font-size:20px; line-height:1; flex:none; }
   #tab-instagram .ig-lb-metrics { display:flex; flex-wrap:wrap; gap:10px; margin:5px 0; font-size:11px; color:var(--text-2); }
-  #tab-instagram .ig-lb-diag { font-size:12px; color:var(--text); border-left:2px solid #d4ff3a; padding-left:8px; }
+  #tab-instagram .ig-lb-diag { font-size:12px; color:var(--text); border-left:2px solid var(--accent); padding-left:8px; }
   #tab-instagram .ig-aud { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:center; }
   #tab-instagram .ig-funnelnote { margin-top:10px; color:var(--text-2); font-size:12px; }
   #tab-instagram .ig-aud-insight { margin-top:14px; padding:10px 12px; background:var(--surface-2); border-left:3px solid #f6a609; border-radius:8px; font-size:12.5px; color:var(--text); line-height:1.5; }
   #tab-instagram .ig-aud-insight:empty { display:none; }
-  #tab-instagram .ig-action { margin-top:14px; padding:11px 13px; background:var(--surface-2); border-left:3px solid #f6a609; border-radius:8px; font-size:12.5px; color:var(--text); line-height:1.55; }
+  #tab-instagram .ig-action { margin-top:16px; padding:14px 18px; background:var(--surface-2); border-left:3px solid var(--warn); border-radius:var(--radius-sm); font-size:13.5px; color:var(--text); line-height:1.6; }
   #tab-instagram .ig-action:empty { display:none; }
-  #tab-instagram .ig-action b { color:#f6a609; }
-  #tab-instagram .ig-action.good { border-left-color:#16a34a; }
-  #tab-instagram .ig-action.good b { color:#16a34a; }
+  #tab-instagram .ig-action b { color:var(--warn); }
+  #tab-instagram .ig-action.good { border-left-color:var(--success); }
+  #tab-instagram .ig-action.good b { color:var(--success); }
   #tab-instagram .ig-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(116px,1fr)); gap:10px; margin-top:14px; }
   #tab-instagram .ig-tile { background:var(--surface-2); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
   #tab-instagram .ig-tile img { width:100%; height:150px; object-fit:cover; display:block; background:var(--border); }
   #tab-instagram .ig-tile .m { padding:7px 9px; font-size:10.5px; color:var(--text-2); display:flex; flex-wrap:wrap; gap:7px; }
   #tab-instagram .ig-tile .m b { color:var(--text); font-weight:650; }
   #tab-instagram .ig-empty { margin-top:14px; padding:16px; border:1px dashed var(--border); border-radius:10px; color:var(--text-2); font-size:12.5px; line-height:1.55; }
-  #tab-instagram .ig-band { font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-2); margin:6px 0 -4px; padding-left:2px; }
+  #tab-instagram .ig-band {
+    display:flex; align-items:center; gap:11px;
+    font-size:12px; text-transform:uppercase; letter-spacing:.14em; font-weight:700;
+    color:var(--text); margin:20px 0 4px; padding:12px 16px;
+    border:1px solid var(--border); border-left:3px solid var(--accent); border-radius:var(--radius-sm);
+    background:linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, var(--surface)) 0%, var(--surface) 68%);
+  }
+  #tab-instagram .ig-band::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--accent); box-shadow:0 0 8px var(--accent); flex:none; }
   @media (max-width:900px) { #tab-instagram .ig-aud { grid-template-columns:1fr; } }
 </style>
 <section class="tab-panel" id="tab-instagram">
@@ -3044,7 +3870,7 @@
       <div class="ig-updated">Last pull: <span id="igUpdated">—</span> · refresh with <code>npm start</code> in <code>ig-report/</code></div>
     </div>
 
-    <div class="ig-band span-12">📹 Reels</div>
+    <div class="ig-band span-12">Reels</div>
 
     <div class="card span-12">
       <h2>Reels — performance <span class="meta">last 90 days · <span id="igReelCount">0</span> reels</span></h2>
@@ -3078,7 +3904,7 @@
       </div>
     </div>
 
-    <div class="ig-band span-12">🖼️ Posts</div>
+    <div class="ig-band span-12">Posts</div>
 
     <div class="card span-12">
       <h2>Posts — performance <span class="meta">feed photos &amp; carousels · last 90 days</span></h2>
@@ -3093,7 +3919,7 @@
       <div class="ig-action" id="igPostsAction"></div>
     </div>
 
-    <div class="ig-band span-12">⭕ Stories</div>
+    <div class="ig-band span-12">Stories</div>
 
     <div class="card span-12">
       <h2>Stories — performance <span class="meta">ephemeral · captured daily &amp; accumulated</span></h2>
@@ -3143,6 +3969,91 @@
 
 <!-- SALES -->
 <section class="tab-panel" id="tab-sales">
+<div class="grid">
+
+  <!-- Headline row -->
+  <div class="card span-12">
+    <h2>Payments <span class="meta">demo data · last sync 2m ago</span></h2>
+    <div class="kpi-row pay-kpis">
+      <div class="kpi accent">
+        <div class="k">Collected this month</div>
+        <div class="v mono large" id="payCollected">$0</div>
+        <div class="delta" id="payCollectedDelta">vs last month</div>
+      </div>
+      <div class="kpi">
+        <div class="k">MRR</div>
+        <div class="v mono large" id="payMrr">$0</div>
+        <div class="delta" id="payMrrDelta">recurring + active plans</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Active subscriptions</div>
+        <div class="v mono large" id="paySubs">0</div>
+        <div class="delta" id="paySubsDelta">paying right now</div>
+      </div>
+      <div class="kpi">
+        <div class="k">Refunds (30d)</div>
+        <div class="v mono large" id="payRefunds">$0</div>
+        <div class="delta" id="payRefundsDelta">0 requests</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deal-type breakdown -->
+  <div class="card span-7">
+    <h2>How deals get paid <span class="meta">this month</span></h2>
+    <div class="pay-split">
+      <div class="pay-donut">
+        <div class="chart-wrap">
+          <svg id="payTypeDonut" viewBox="0 0 100 100"></svg>
+        </div>
+        <div class="legend pay-legend" id="payTypeLegend"></div>
+      </div>
+      <div class="pay-types" id="payTypeList"></div>
+    </div>
+  </div>
+
+  <!-- Collection health -->
+  <div class="card span-5">
+    <h2>Collection health <span class="meta">where money sits</span></h2>
+    <div class="stat-list">
+      <div class="stat-row"><span class="name">Collected on schedule</span><span class="num mono" id="payOnTime">0%</span></div>
+      <div class="stat-row"><span class="name">Scheduled (next 30d)</span><span class="num mono" id="payScheduled">$0</span></div>
+      <div class="stat-row"><span class="name">Past due</span><span class="num mono" id="payPastDue">$0</span></div>
+      <div class="stat-row"><span class="name">Failed charges (30d)</span><span class="num mono" id="payFailed">0</span></div>
+      <div class="stat-row"><span class="name">Avg deal size</span><span class="num mono" id="payAvgDeal">$0</span></div>
+      <div class="stat-row"><span class="name">Outstanding on plans</span><span class="num mono" id="payOutstanding">$0</span></div>
+    </div>
+  </div>
+
+  <!-- Recent transactions -->
+  <div class="card span-8">
+    <h2>Recent transactions <span class="meta">latest first</span></h2>
+    <div class="pay-tablewrap">
+      <table class="pay-table" id="payTxnTable">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Type</th>
+            <th class="r">Amount</th>
+            <th>Status</th>
+            <th class="r">Date</th>
+          </tr>
+        </thead>
+        <tbody id="payTxnBody"></tbody>
+      </table>
+    </div>
+    <div class="empty" id="payTxnEmpty" style="display:none">No transactions yet. They show up here the moment a charge clears.</div>
+  </div>
+
+  <!-- Upcoming scheduled -->
+  <div class="card span-4">
+    <h2>Upcoming charges <span class="meta">scheduled</span></h2>
+    <div class="pay-upcoming" id="payUpcoming"></div>
+    <div class="empty" id="payUpcomingEmpty" style="display:none">Nothing scheduled. Payment-plan clients will queue up here.</div>
+  </div>
+
+</div>
+  <div style="display:none" aria-hidden="true">
   <div class="grid">
     <div class="card span-6">
       <h2>Outreach <span class="meta">DMs and Looms</span></h2>
@@ -3164,17 +4075,6 @@
       <div class="funnel" id="funnel"></div>
     </div>
 
-    <div class="card span-6">
-      <h2>Funnel health <span class="meta">VSL → Typeform → Cal.com</span></h2>
-      <div class="stat-list">
-        <div class="stat-row"><span class="name">VSL views</span><span class="num mono" id="vslViews">0</span></div>
-        <div class="stat-row"><span class="name">VSL completion rate</span><span class="num mono" id="vslComp">0%</span></div>
-        <div class="stat-row"><span class="name">Typeform starts</span><span class="num mono" id="tfStarts">0</span></div>
-        <div class="stat-row"><span class="name">Typeform completes</span><span class="num mono" id="tfCompletes">0</span></div>
-        <div class="stat-row"><span class="name">Cal.com bookings</span><span class="num mono" id="calBookings">0</span></div>
-        <div class="stat-row"><span class="name">Call show rate</span><span class="num mono" id="showRate">0%</span></div>
-      </div>
-    </div>
 
     <div class="card span-6">
       <h2>30-day trend <span class="meta">weekly buckets</span></h2>
@@ -3207,13 +4107,277 @@
       </div>
     </div>
   </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="tab-panel" id="tab-metrics">
+  <div class="grid">
+
+    <!-- Header strip -->
+    <div class="card span-12 mx-headcard">
+      <div class="mx-head">
+        <div>
+          <h2>Performance read <span class="meta">every area, last 30 days vs prior 30</span></h2>
+          <div class="mx-headsub">Click any card to open the full chart. Numbers are demo placeholders until live data lands.</div>
+        </div>
+        <div class="mx-seg" id="mxRangeSeg" role="tablist" aria-label="Range">
+          <button class="mx-seg-btn active" data-range="30">30d</button>
+          <button class="mx-seg-btn" data-range="90">90d</button>
+          <button class="mx-seg-btn" data-range="365">12mo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide stat cards: one grid, JS fills #mxSlides -->
+    <div class="card span-12 mx-slides-card">
+      <div class="mx-slides" id="mxSlides"></div>
+    </div>
+
+    <!-- Funnel health (MOVED here from Overview). Keep these ids intact. -->
+    <div class="card span-6">
+      <h2>Funnel health <span class="meta">VSL → Typeform → Cal.com</span></h2>
+      <div class="stat-list">
+        <div class="stat-row"><span class="name">VSL views</span><span class="num mono" id="vslViews">0</span></div>
+        <div class="stat-row"><span class="name">VSL completion rate</span><span class="num mono" id="vslComp">0%</span></div>
+        <div class="stat-row"><span class="name">Typeform starts</span><span class="num mono" id="tfStarts">0</span></div>
+        <div class="stat-row"><span class="name">Typeform completes</span><span class="num mono" id="tfCompletes">0</span></div>
+        <div class="stat-row"><span class="name">Cal.com bookings</span><span class="num mono" id="calBookings">0</span></div>
+        <div class="stat-row"><span class="name">Call show rate</span><span class="num mono" id="showRate">0%</span></div>
+      </div>
+    </div>
+
+    <!-- Funnel stage bars (derived from the same ids, drawn by JS) -->
+    <div class="card span-6">
+      <h2>Funnel drop-off <span class="meta">where people fall out</span></h2>
+      <div class="mx-funnelbars" id="mxFunnelBars"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PAYOUTS -->
+<section class="tab-panel" id="tab-payouts">
+  <div class="grid">
+<!-- ===== Closer split + payouts (Sales tab) ===== -->
+<div class="card span-7">
+  <h2>Who's closing <span class="meta">closed deals by closer · demo data</span></h2>
+  <div class="closer-split">
+    <div class="closer-donut-wrap">
+      <svg class="donut" id="closerDonut" viewBox="0 0 100 100"></svg>
+    </div>
+    <div class="donut-legend" id="closerLegend"></div>
+  </div>
+  <div class="closer-detail" id="closerDetail">
+    <div class="cd-empty">Hover a slice or a name to see the breakdown.</div>
+  </div>
+</div>
+
+<div class="card span-5">
+  <h2>Payout calculator <span class="meta">15% fee when a setter and closer both work the deal</span></h2>
+  <div class="payout-grid">
+    <div class="prod-field">
+      <label for="poDeal">Deal amount (USD)</label>
+      <input id="poDeal" type="number" min="0" step="100" inputmode="numeric" placeholder="5000" value="5000" />
+    </div>
+    <div class="prod-field">
+      <label for="poSetter">Setter involved</label>
+      <select id="poSetter">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+    <div class="prod-field">
+      <label for="poCloser">Closer involved</label>
+      <select id="poCloser">
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+      </select>
+    </div>
+  </div>
+  <div class="payout-note" id="poNote"></div>
+  <div class="kpi-row" style="grid-template-columns: repeat(2, 1fr); margin-top:14px">
+    <div class="kpi"><div class="k">Setter (5%)</div><div class="v mono large" id="poSetterPay">$0</div></div>
+    <div class="kpi"><div class="k">Closer (10%)</div><div class="v mono large" id="poCloserPay">$0</div></div>
+    <div class="kpi"><div class="k">Standard fee (15%)</div><div class="v mono large" id="poFee">$0</div></div>
+    <div class="kpi accent"><div class="k">Operator net</div><div class="v mono large" id="poNet">$0</div></div>
+  </div>
+
+  <div class="calc-divider"><span>Quick math</span></div>
+  <div class="basic-calc">
+    <input id="bcDisplay" class="bc-display mono" type="text" readonly value="0" />
+    <div class="bc-keys" id="bcKeys"></div>
+  </div>
+</div>
+  </div>
+</section>
+
+<!-- CASH & CALENDAR -->
+<section class="tab-panel" id="tab-cashflow">
+  <div class="grid">
+
+    <!-- Row 1: headline numbers -->
+    <div class="card span-12">
+      <div class="rev-head"><h2 class="rev-title">Cash this month</h2><span class="rev-sub" id="cfMonthLabel">June 2026</span></div>
+      <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
+        <div class="kpi accent"><div class="k">Cash collected</div><div class="v mono large" id="cfCashCollected">$0</div><div class="delta" id="cfCashDelta">vs last month —</div></div>
+        <div class="kpi"><div class="k">MRR</div><div class="v mono large" id="cfMrr">$0</div><div class="delta" id="cfMrrDelta">vs last month —</div></div>
+        <div class="kpi"><div class="k">New cash deals</div><div class="v mono large" id="cfNewDeals">0</div><div class="delta">closed this month</div></div>
+        <div class="kpi"><div class="k">Avg deal size</div><div class="v mono large" id="cfAvgDeal">$0</div><div class="delta">cash up front</div></div>
+      </div>
+      <div class="cf-target">
+        <div class="cf-target-head">
+          <span class="name">Monthly cash target</span>
+          <span class="num mono"><span id="cfTargetNow">$0</span><span class="vs">of <span id="cfTargetGoal">$20,000</span></span></span>
+        </div>
+        <div class="hb-bar"><span id="cfTargetBar" style="width:0%"></span></div>
+        <div class="cf-target-foot"><span id="cfTargetPct">0%</span> of goal · <span id="cfTargetGap">$20,000</span> to go</div>
+      </div>
+    </div>
+
+    <!-- Row 2: month-over-month chart -->
+    <div class="card span-8">
+      <h2>Revenue vs cash collected <span class="meta">last 6 months</span></h2>
+      <div class="cf-legend-row">
+        <span class="cf-leg"><i class="cf-swatch" style="background:var(--accent)"></i>Cash collected</span>
+        <span class="cf-leg"><i class="cf-swatch" style="background:var(--blue)"></i>Revenue booked</span>
+      </div>
+      <div class="chart-wrap">
+        <svg id="cfBarChart" viewBox="0 0 640 240" preserveAspectRatio="none"></svg>
+      </div>
+    </div>
+
+    <div class="card span-4">
+      <h2>Where cash came from <span class="meta">this month</span></h2>
+      <div class="cf-source-list" id="cfSourceList"></div>
+    </div>
+
+    <!-- Row 3: booked-calls calendar -->
+    <div class="card span-8">
+      <div class="cf-cal-head">
+        <h2>Booked calls <span class="meta">synced to both portals</span></h2>
+        <div class="cf-cal-nav">
+          <button class="cf-navbtn" id="cfCalPrev" aria-label="Previous month">‹</button>
+          <span class="cf-cal-month mono" id="cfCalMonth">June 2026</span>
+          <button class="cf-navbtn" id="cfCalNext" aria-label="Next month">›</button>
+        </div>
+      </div>
+      <div class="cf-cal-legend">
+        <span class="cf-leg"><i class="cf-dot src-dm"></i>Cold DM</span>
+        <span class="cf-leg"><i class="cf-dot src-lp"></i>Landing page → triage</span>
+        <span class="cf-leg"><i class="cf-dot src-ref"></i>Referral</span>
+      </div>
+      <div class="cf-cal-dow">
+        <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+      </div>
+      <div class="cf-cal-grid" id="cfCalGrid"></div>
+    </div>
+
+    <!-- upcoming list -->
+    <div class="card span-4">
+      <h2>Next up <span class="meta">confirmed calls</span></h2>
+      <div class="cf-upcoming" id="cfUpcoming"></div>
+    </div>
+
+    <!-- Row 4: assignment / routing flow (mock pending backend) -->
+    <div class="card span-12">
+      <div class="cf-cal-head">
+        <h2>Booking routing <span class="meta">new call → Slack → closer self-assign</span></h2>
+        <span class="badge cf-mock">Mock · backend pending</span>
+      </div>
+
+      <div class="cf-flow">
+        <div class="cf-flow-step">
+          <div class="cf-step-n">1</div>
+          <div class="cf-step-body">
+            <div class="cf-step-t">Booking lands</div>
+            <div class="cf-step-d">A new call from the calendar posts to the closers channel automatically.</div>
+          </div>
+        </div>
+        <div class="cf-flow-arrow">→</div>
+        <div class="cf-flow-step">
+          <div class="cf-step-n">2</div>
+          <div class="cf-step-body">
+            <div class="cf-step-t">Closer self-assigns</div>
+            <div class="cf-step-d">First closer to claim it owns the call. One click, no manager in the loop.</div>
+          </div>
+        </div>
+        <div class="cf-flow-arrow">→</div>
+        <div class="cf-flow-step">
+          <div class="cf-step-n">3</div>
+          <div class="cf-step-body">
+            <div class="cf-step-t">Lands in their calendar</div>
+            <div class="cf-step-d">Shows in the closer's own timezone, checked against their Google Calendar so there is no double-book.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cf-route-grid">
+        <!-- connectors -->
+        <div class="cf-connectors">
+          <div class="cf-conn" data-state="off" id="cfConnSlack">
+            <div class="cf-conn-l">
+              <div class="cf-conn-ico cf-ico-slack">#</div>
+              <div>
+                <div class="cf-conn-name">Slack</div>
+                <div class="cf-conn-sub" id="cfSlackSub">Not connected</div>
+              </div>
+            </div>
+            <button class="cf-conn-btn" data-conn="slack">Connect Slack</button>
+          </div>
+
+          <div class="cf-conn" data-state="off" id="cfConnGcal">
+            <div class="cf-conn-l">
+              <div class="cf-conn-ico cf-ico-gcal">31</div>
+              <div>
+                <div class="cf-conn-name">Google Calendar</div>
+                <div class="cf-conn-sub" id="cfGcalSub">Not connected</div>
+              </div>
+            </div>
+            <button class="cf-conn-btn" data-conn="gcal">Connect Calendar</button>
+          </div>
+
+          <div class="cf-route-note">Once both are live, every booking routes itself. Until then this panel is a preview.</div>
+        </div>
+
+        <!-- example slack-style card -->
+        <div class="cf-slackcard">
+          <div class="cf-slack-top">
+            <span class="cf-slack-bot">Pulsify Bot</span>
+            <span class="cf-slack-app">APP</span>
+            <span class="cf-slack-time mono">9:41 AM</span>
+          </div>
+          <div class="cf-slack-msg">New triage call booked</div>
+          <div class="cf-slack-fields">
+            <div><span class="k">Prospect</span><span class="v">Marcus Vail</span></div>
+            <div><span class="k">Source</span><span class="v">Landing page → triage</span></div>
+            <div><span class="k">When</span><span class="v mono">Thu Jun 26, 3:00 PM</span></div>
+            <div><span class="k">Deal band</span><span class="v">$6k–$10k</span></div>
+          </div>
+          <div class="cf-slack-assign" id="cfAssignRow">
+            <button class="cf-assign-btn" id="cfAssignBtn">Assign to me</button>
+            <span class="cf-assign-hint">First to claim owns the call</span>
+          </div>
+          <div class="cf-slack-assigned" id="cfAssignedRow" hidden>
+            <span class="cf-avatar">DK</span>
+            <div class="cf-assigned-body">
+              <div class="cf-assigned-name">Assigned to Dani K.</div>
+              <div class="cf-assigned-meta mono" id="cfAssignedTz">6:00 PM CET · free in Google Calendar</div>
+            </div>
+            <span class="cf-assigned-tick">✓</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </section>
 
 <!-- INCOME -->
 <section class="tab-panel" id="tab-income">
   <div class="grid">
     <div class="card span-12">
-      <h2>Headline <span class="meta">USD</span></h2>
+      <div class="rev-head"><h2 class="rev-title">Revenue</h2><span class="rev-sub">USD</span></div>
       <div class="kpi-row" style="grid-template-columns: repeat(4, 1fr)">
         <div class="kpi accent"><div class="k">Cash collected</div><div class="v mono large" id="cashCollected">$0</div></div>
         <div class="kpi"><div class="k">MRR</div><div class="v mono large" id="mrr">$0</div></div>
@@ -3248,14 +4412,14 @@
 <section class="tab-panel" id="tab-crm">
   <div class="grid">
     <div class="card span-12">
-      <h2>Clients <span class="meta">past + active</span></h2>
+      <h2>Partners <span class="meta">past + active</span></h2>
       <div id="clients"></div>
     </div>
 
     <div class="card span-12 prompt-vault-card">
       <div class="prompt-vault-head">
         <div>
-          <div class="title">⚡ Prompt Vault</div>
+          <div class="title">⚡ Prompt Lab</div>
           <div class="sub">One click → prompt on your clipboard. Paste it where you need it (Perplexity, Claude, GPT).</div>
         </div>
         <span class="sub" id="pvHint">Click any button below</span>
@@ -3512,58 +4676,79 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       </div>
       <div class="crm-intel">
         <div class="intel-box">
-          <h3>Lead mix</h3>
+          <h3>Lead mix <span class="ib-hint">hover a slice</span></h3>
           <div class="donut-panel">
             <svg class="donut" id="crmNicheDonut" viewBox="0 0 100 100"></svg>
             <div class="donut-legend" id="crmNicheLegend"></div>
           </div>
         </div>
-        <div class="intel-box">
-          <h3>Status lanes</h3>
-          <div class="lane-grid" id="crmStatusLanes"></div>
-        </div>
-        <div class="intel-box">
-          <h3>Priority retargets</h3>
-          <div class="priority-list" id="crmPriorityList"></div>
-        </div>
       </div>
-      <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center">
+      <div class="intel-box pipeline-box">
+        <h3>Pipeline flow <span class="ib-hint">new → won</span></h3>
+        <div class="pipeline-flow" id="crmStatusLanes"></div>
+      </div>
+      <details class="intel-collapse" id="crmPriorityWrap">
+        <summary>
+          <svg class="ic-caret" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+          <span class="ic-title">Priority retargets</span>
+          <span class="ic-count" id="crmPriorityCount">0</span>
+          <span class="ic-sub">replied + warm leads to action first</span>
+        </summary>
+        <div class="priority-list" id="crmPriorityList"></div>
+      </details>
+      <div class="crm-toolbar">
         <div class="search-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="16.5" y1="16.5" x2="21" y2="21"></line></svg>
           <input id="crmSearch" class="search-big" placeholder="Search a lead by name, handle, or niche…" />
         </div>
-        <div class="view-toggle">
+        <div class="seg view-toggle">
           <button id="viewBoard" class="active">Board</button>
           <button id="viewTable">Table</button>
         </div>
-        <select id="crmStatusFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+        <div class="chip-group" data-target="crmTierFilter">
+          <span class="cg-label">Tier</span>
+          <button class="fchip active" data-v="">All</button>
+          <button class="fchip t-a" data-v="A">A</button>
+          <button class="fchip t-b" data-v="B">B</button>
+          <button class="fchip t-c" data-v="C">C</button>
+        </div>
+        <div class="chip-group" data-target="crmSourceFilter">
+          <span class="cg-label">Src</span>
+          <button class="fchip active" data-v="">All</button>
+          <button class="fchip" data-v="youtube">YT</button>
+          <button class="fchip" data-v="instagram">IG</button>
+          <button class="fchip" data-v="manual">Man</button>
+        </div>
+        <select id="crmStatusFilter" class="crm-select">
           <option value="">All statuses</option>
           <option value="new">new</option><option value="queued">queued</option>
           <option value="researching">researching</option><option value="asset-built">asset-built</option>
           <option value="contacted">contacted</option><option value="replied">replied</option>
           <option value="won">won</option><option value="dead">dead</option>
         </select>
-        <select id="crmSourceFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+        <select id="crmSourceFilter" class="vis-hidden">
           <option value="">All sources</option>
           <option value="youtube">YouTube</option>
           <option value="instagram">Instagram</option>
           <option value="manual">Manual</option>
         </select>
-        <select id="crmTierFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
+        <select id="crmTierFilter" class="vis-hidden">
           <option value="">All tiers</option>
           <option value="A">Tier A</option>
           <option value="B">Tier B</option>
           <option value="C">Tier C</option>
         </select>
-        <select id="crmBatchFilter" style="background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font:inherit;font-size:13px;padding:8px 12px">
-          <option value="">All batches</option><option value="0">Unassigned</option>
-        </select>
-        <button id="crmBatchPrev" class="control-btn">Prev batch</button>
-        <button id="crmBatchNext" class="control-btn">Next batch</button>
-        <button id="crmBatchClear" class="control-btn">All</button>
-        <button id="crmPromote" class="control-btn accent">Pull next 15 → Batch <span id="crmNextBatch">1</span></button>
-        <button id="crmUndoBatch" class="control-btn danger">Undo latest batch</button>
-        <span class="batch-chip mono" id="crmBatchView">All batches</span>
+        <div class="batch-cluster">
+          <select id="crmBatchFilter" class="crm-select">
+            <option value="">All batches</option><option value="0">Unassigned</option>
+          </select>
+          <button id="crmBatchPrev" class="control-btn" title="Previous batch">‹</button>
+          <button id="crmBatchNext" class="control-btn" title="Next batch">›</button>
+          <button id="crmBatchClear" class="control-btn" title="Show all batches">All</button>
+          <button id="crmPromote" class="control-btn accent">⚡ Pull 15 → B<span id="crmNextBatch">1</span></button>
+          <button id="crmUndoBatch" class="control-btn danger" title="Undo latest batch">⤺ Undo</button>
+          <span class="batch-chip mono" id="crmBatchView">All batches</span>
+        </div>
       </div>
       <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center;background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px">
         <span style="color:var(--text-2);font-size:11px;text-transform:uppercase;letter-spacing:0.1em">+ New lead</span>
@@ -4133,7 +5318,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   contentPipelineState.overrides = contentPipelineState.overrides || {};
   contentPipelineState.added = contentPipelineState.added || [];
   contentPipelineState.removed = contentPipelineState.removed || [];
-  const STAGE_ACCENTS = ["#f0abfc", "#38e2d0", "#60a5fa", "#fb7eb6", "#d4ff3a", "#fb923c", "#4ade80", "#fbbf24"];
+  const STAGE_ACCENTS = ["#f0abfc", "#38e2d0", "#60a5fa", "#fb7eb6", "#a78bfa", "#fb923c", "#4ade80", "#fbbf24"];
   function applyMetricOverrides(data) {
     if (!metricState || !metricState.content) return data;
     data.content = Object.assign({}, data.content || {}, metricState.content);
@@ -4165,7 +5350,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     ["Instagram metrics", "Instagram Graph API", "hourly/daily", "later"],
     ["Revenue", "Stripe/bank/manual private source", "daily", "later"]
   ];
-  const chartColors = ["#d4ff3a", "#38bdf8", "#fb923c", "#f0abfc", "#60a5fa", "#4ade80", "#f87171"];
+  const chartColors = ["#fb7185", "#d946ef", "#c4b5fd", "#f0abfc", "#a5b4fc", "#5eead4", "#fcd34d"];
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const ratio = (a, b) => b ? (Number(a || 0) / Number(b || 0)) * 100 : 0;
   const cleanText = (v) => {
@@ -4282,9 +5467,10 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       if (!pts.length) return "";
       const path = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(2)},${p[1].toFixed(2)}`).join(" ");
       const area = path + ` L ${x(pts.length - 1)},${H - B} L ${x(0)},${H - B} Z`;
-      return `${si === 0 ? `<path d="${area}" fill="${s.color}" opacity="0.10"></path>` : ""}
-        <path d="${path}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
-        ${pts.map(p => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="3" fill="${s.color}" stroke="#0a0a0c" stroke-width="1.5"></circle>`).join("")}`;
+      const cv = ["--accent","--violet","--cyan","--pink","--blue","--success","--orange"][si % 7];
+      return `${si === 0 ? `<path style="fill:var(${cv})" stroke="none" d="${area}" opacity="0.12"></path>` : ""}
+        <path class="neon-glow" style="stroke:var(${cv});color:var(${cv})" d="${path}" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+        ${pts.map(p => `<circle class="neon-glow" style="fill:var(${cv});color:var(${cv})" cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="3" stroke="var(--bg)" stroke-width="1.5"></circle>`).join("")}`;
     }).join("");
     svg.innerHTML = `${grid}${xLabels}${paths}`;
   }
@@ -4304,7 +5490,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       const h = (Number(v || 0) / max) * (H - T - B);
       const x = L + i * (bw + gap);
       const y = H - B - h;
-      return `<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="4" fill="${color}" opacity="${v ? 0.9 : 0.22}"></rect>
+      return `<rect class="neon-glow" style="fill:var(--accent);color:var(--accent)" stroke="none" x="${x}" y="${y}" width="${bw}" height="${h}" rx="4" opacity="${v ? 0.9 : 0.22}"></rect>
         <text x="${x + bw / 2}" y="${Math.max(T + 12, y - 7)}" fill="#f3f3f5" font-size="11" text-anchor="middle">${fmt(v)}</text>
         <text x="${x + bw / 2}" y="${H - 20}" fill="#5e5e68" font-size="10" text-anchor="middle">${esc(labels[i])}</text>`;
     }).join("");
@@ -4329,22 +5515,47 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const svg = $(svgId);
     const legend = $(legendId);
     if (!svg || !legend) return;
-    const total = items.reduce((sum, item) => sum + Number(item.value || 0), 0);
+    const data = items.filter(item => item.value > 0);
+    const total = data.reduce((sum, item) => sum + Number(item.value || 0), 0);
     let offset = 0;
-    const circles = items.filter(item => item.value > 0).map((item, i) => {
+    const segs = data.map((item, i) => {
       const p = total ? (item.value / total) * 100 : 0;
       const c = item.color || chartColors[i % chartColors.length];
-      const out = `<circle cx="50" cy="50" r="34" fill="none" stroke="${c}" stroke-width="12" pathLength="100" stroke-dasharray="${p} ${100 - p}" stroke-dashoffset="${-offset}" transform="rotate(-90 50 50)" stroke-linecap="butt"></circle>`;
+      const out = `<circle class="donut-seg" data-i="${i}" cx="50" cy="50" r="34" fill="none" stroke="${c}" style="color:${c}" stroke-width="13" pathLength="100" stroke-dasharray="${p.toFixed(2)} ${(100 - p).toFixed(2)}" stroke-dashoffset="${(-offset).toFixed(2)}" transform="rotate(-90 50 50)" stroke-linecap="butt"></circle>`;
       offset += p;
       return out;
     }).join("");
-    svg.innerHTML = `<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12"></circle>
-      ${circles}
-      <text x="50" y="48" text-anchor="middle">${esc(center)}</text>
-      <text class="sub" x="50" y="61" text-anchor="middle">${esc(sub)}</text>`;
-    legend.innerHTML = items.slice(0, 6).map((item, i) => `
-      <div class="row"><i style="background:${item.color || chartColors[i % chartColors.length]}"></i><span>${esc(item.label)}</span><span class="num mono">${fmt(item.value)}</span></div>
-    `).join("");
+    svg.innerHTML = `<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="13"></circle>
+      <g class="donut-ring">${segs}</g>
+      <text class="donut-c" x="50" y="47" text-anchor="middle">${esc(center)}</text>
+      <text class="donut-s" x="50" y="60" text-anchor="middle">${esc(sub)}</text>`;
+    const cEl = svg.querySelector(".donut-c"), sEl = svg.querySelector(".donut-s");
+    legend.innerHTML = data.map((item, i) => {
+      const p = total ? Math.round((item.value / total) * 100) : 0;
+      const c = item.color || chartColors[i % chartColors.length];
+      return `<div class="row" data-i="${i}"><i style="background:${c};color:${c}"></i><span class="lbl">${esc(item.label)}</span><span class="pct">${p}%</span><span class="num mono">${fmt(item.value)}</span></div>`;
+    }).join("");
+    function focus(i) {
+      svg.classList.add("dim");
+      svg.querySelectorAll(".donut-seg").forEach(s => s.classList.toggle("active", +s.dataset.i === i));
+      legend.querySelectorAll(".row").forEach(r => r.classList.toggle("active", +r.dataset.i === i));
+      const it = data[i];
+      if (it && cEl) { cEl.textContent = fmt(it.value); sEl.textContent = String(it.label || "").slice(0, 14); }
+    }
+    function reset() {
+      svg.classList.remove("dim");
+      svg.querySelectorAll(".donut-seg.active").forEach(s => s.classList.remove("active"));
+      legend.querySelectorAll(".row.active").forEach(r => r.classList.remove("active"));
+      if (cEl) { cEl.textContent = center; sEl.textContent = sub; }
+    }
+    svg.querySelectorAll(".donut-seg").forEach(s => {
+      s.addEventListener("mouseenter", () => focus(+s.dataset.i));
+      s.addEventListener("mouseleave", reset);
+    });
+    legend.querySelectorAll(".row").forEach(r => {
+      r.addEventListener("mouseenter", () => focus(+r.dataset.i));
+      r.addEventListener("mouseleave", reset);
+    });
   }
 
   const IG_COUNTRY = { US:"United States", IN:"India", BR:"Brazil", ID:"Indonesia", GB:"United Kingdom", CA:"Canada", AU:"Australia", DE:"Germany", FR:"France", IT:"Italy", ES:"Spain", NG:"Nigeria", ZA:"South Africa", PK:"Pakistan", BD:"Bangladesh", PH:"Philippines", MX:"Mexico", AR:"Argentina", CO:"Colombia", EG:"Egypt", MA:"Morocco", TR:"Turkey", RU:"Russia", NP:"Nepal", AE:"UAE", SA:"Saudi Arabia", NL:"Netherlands", IE:"Ireland", VN:"Vietnam", TH:"Thailand", MY:"Malaysia", KE:"Kenya", GH:"Ghana", PE:"Peru", CL:"Chile", PL:"Poland", UA:"Ukraine", IR:"Iran", UZ:"Uzbekistan", QA:"Qatar", CZ:"Czechia", NZ:"New Zealand", TW:"Taiwan", CN:"China", RW:"Rwanda", PY:"Paraguay", UY:"Uruguay", GM:"Gambia", YE:"Yemen", LB:"Lebanon" };
@@ -4361,12 +5572,728 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const pts = values.map((v, i) => [pad + i * stepX, H - pad - (v / max) * (H - pad * 2)]);
     const line = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
     const area = line + ` L ${W - pad},${H} L ${pad},${H} Z`;
-    svg.innerHTML = `<path d="${area}" fill="rgba(212,255,58,0.10)" stroke="none"/>` +
-      `<path d="${line}" fill="none" stroke="#d4ff3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>` +
-      pts.map((p) => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4" fill="#d4ff3a"/>`).join("");
+    const gid = "ig_" + svgId;
+    svg.innerHTML = `<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" style="stop-color:var(--accent);stop-opacity:.35"/><stop offset="100%" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>` +
+      `<path d="${area}" fill="url(#${gid})" stroke="none"/>` +
+      `<path class="neon-line" d="${line}" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>` +
+      pts.map((p) => `<circle class="neon-dot" cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4"/>`).join("");
   }
 
-  function renderInstagram() {
+/* ===== Payments tab =====
+   Call once inside renderDashboard():  try { renderPayments(); } catch(e){ console.error("renderPayments failed:", e); }
+   Reuses in-scope helpers: $, fmt, esc, chartColors, renderDonut.
+   Reads D.payments if present; otherwise falls back to clearly-labeled demo data. */
+function renderPayments() {
+  if (!$("payCollected")) return;
+
+  // ---- demo fallback (swap for D.payments when a real feed lands) ----
+  const demo = {
+    collected: 18450, collectedDelta: 12,            // % vs last month
+    mrr: 9200, subs: 14, refunds: 600, refundCount: 1,
+    onTimePct: 94, scheduled30: 7350, pastDue: 1100, failed30: 2,
+    avgDeal: 3200, outstanding: 21400,
+    types: [
+      { key: "pif",   label: "Paid in full",  amount: 9600, count: 3, sub: "one charge, no plan" },
+      { key: "plan",  label: "Payment plan",  amount: 5850, count: 9, sub: "2 to 6 monthly splits" },
+      { key: "fin",   label: "Financing",     amount: 3000, count: 2, sub: "Klarna · Sezzle · Whop" }
+    ],
+    txns: [
+      { cust: "Marcus Reede",  handle: "@marcusreede",  type: "PIF",       amount: 3200, status: "paid",      date: "2026-06-22" },
+      { cust: "Tina Okafor",   handle: "@tinaokafor",   type: "Plan 3/6",  amount: 650,  status: "paid",      date: "2026-06-22" },
+      { cust: "Devon Hale",    handle: "@devbuilds",    type: "Klarna",    amount: 1500, status: "scheduled", date: "2026-06-25" },
+      { cust: "Priya Nair",    handle: "@priyatrades",  type: "Plan 2/4",  amount: 800,  status: "failed",    date: "2026-06-21" },
+      { cust: "Sam Whitlow",   handle: "@samwhitlow",   type: "PIF",       amount: 3200, status: "paid",      date: "2026-06-20" },
+      { cust: "Lena Brooks",   handle: "@lenabrooks",   type: "Refund",    amount: -600, status: "refunded",  date: "2026-06-19" },
+      { cust: "Omar Idris",    handle: "@omar.ecom",    type: "Sezzle",    amount: 750,  status: "paid",      date: "2026-06-18" }
+    ],
+    upcoming: [
+      { cust: "Devon Hale",  type: "Klarna 2/4",   amount: 1500, when: "Jun 25", soon: true },
+      { cust: "Tina Okafor", type: "Plan 4/6",     amount: 650,  when: "Jun 28", soon: true },
+      { cust: "Priya Nair",  type: "Plan retry",   amount: 800,  when: "Jun 24", soon: true },
+      { cust: "Hugo Mertz",  type: "Plan 2/3",     amount: 1066, when: "Jul 02", soon: false },
+      { cust: "Jade Lin",    type: "Sezzle 3/4",   amount: 375,  when: "Jul 05", soon: false }
+    ]
+  };
+  const p = (typeof D !== "undefined" && D && D.payments) ? D.payments : demo;
+  const money = (n) => (n < 0 ? "-$" : "$") + fmt(Math.abs(Math.round(Number(n) || 0)));
+
+  // ---- headline ----
+  $("payCollected").textContent = money(p.collected);
+  $("payCollectedDelta").textContent = (p.collectedDelta >= 0 ? "up " : "down ") + Math.abs(p.collectedDelta) + "% vs last month";
+  $("payMrr").textContent = money(p.mrr);
+  $("paySubs").textContent = fmt(p.subs);
+  $("payRefunds").textContent = money(p.refunds);
+  $("payRefundsDelta").textContent = fmt(p.refundCount) + (p.refundCount === 1 ? " request" : " requests");
+
+  // ---- collection health ----
+  $("payOnTime").textContent = (p.onTimePct || 0) + "%";
+  $("payScheduled").textContent = money(p.scheduled30);
+  $("payPastDue").textContent = money(p.pastDue);
+  $("payFailed").textContent = fmt(p.failed30);
+  $("payAvgDeal").textContent = money(p.avgDeal);
+  $("payOutstanding").textContent = money(p.outstanding);
+
+  // ---- deal-type breakdown (donut reuses categorical chartColors) ----
+  const typeColors = { pif: chartColors[5] || "#5eead4", plan: chartColors[2] || "#c4b5fd", fin: chartColors[6] || "#fcd34d" };
+  const types = (p.types || []).map((t, i) => Object.assign({ color: typeColors[t.key] || chartColors[i % chartColors.length] }, t));
+  const typeTotal = types.reduce((s, t) => s + (Number(t.amount) || 0), 0);
+
+  if (typeof renderDonut === "function") {
+    renderDonut(
+      "payTypeDonut", "payTypeLegend",
+      types.map(t => ({ label: t.label, value: t.amount, color: t.color })),
+      money(typeTotal), "collected"
+    );
+  }
+  const listEl = $("payTypeList");
+  if (listEl) {
+    listEl.innerHTML = types.length ? types.map(t => {
+      const share = typeTotal ? Math.round((t.amount / typeTotal) * 100) : 0;
+      return '<div class="pay-type">' +
+        '<span class="swatch" style="background:' + t.color + ';color:' + t.color + '"></span>' +
+        '<div><div class="pt-name">' + esc(t.label) + ' <span class="pt-sub">' + share + '%</span></div>' +
+        '<div class="pt-sub">' + esc(t.sub || "") + '</div></div>' +
+        '<div class="pt-val"><div class="pt-amt">' + money(t.amount) + '</div>' +
+        '<div class="pt-count">' + fmt(t.count) + (t.count === 1 ? ' deal' : ' deals') + '</div></div>' +
+        '</div>';
+    }).join("") : '<div class="empty">No deals closed this month yet.</div>';
+  }
+
+  // ---- recent transactions ----
+  const body = $("payTxnBody"), txEmpty = $("payTxnEmpty");
+  const txns = p.txns || [];
+  if (body) {
+    if (!txns.length) {
+      body.innerHTML = "";
+      if (txEmpty) txEmpty.style.display = "block";
+    } else {
+      if (txEmpty) txEmpty.style.display = "none";
+      body.innerHTML = txns.map(t => {
+        const st = String(t.status || "").toLowerCase();
+        const stLabel = st.charAt(0).toUpperCase() + st.slice(1);
+        const neg = Number(t.amount) < 0;
+        let d = t.date;
+        try { d = new Date(t.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }); } catch (e) {}
+        return '<tr>' +
+          '<td class="cust">' + esc(t.cust) + (t.handle ? '<span class="handle">' + esc(t.handle) + '</span>' : '') + '</td>' +
+          '<td><span class="ptype">' + esc(t.type) + '</span></td>' +
+          '<td class="r amt' + (neg ? ' neg' : '') + '">' + money(t.amount) + '</td>' +
+          '<td><span class="pay-status ' + esc(st) + '">' + esc(stLabel) + '</span></td>' +
+          '<td class="r date">' + esc(d) + '</td>' +
+        '</tr>';
+      }).join("");
+    }
+  }
+
+  // ---- upcoming scheduled ----
+  const up = $("payUpcoming"), upEmpty = $("payUpcomingEmpty");
+  const upcoming = p.upcoming || [];
+  if (up) {
+    if (!upcoming.length) {
+      up.innerHTML = "";
+      if (upEmpty) upEmpty.style.display = "block";
+    } else {
+      if (upEmpty) upEmpty.style.display = "none";
+      up.innerHTML = upcoming.map(u =>
+        '<div class="pay-up-row' + (u.soon ? ' soon' : '') + '">' +
+          '<div><div class="up-cust">' + esc(u.cust) + '</div><div class="up-meta">' + esc(u.type) + '</div></div>' +
+          '<div><div class="up-amt">' + money(u.amount) + '</div><div class="up-when">' + esc(u.when) + '</div></div>' +
+        '</div>'
+      ).join("");
+    }
+  }
+
+  // keep the sidebar counter meaningful: active subs
+  if ($("salesTabCount")) $("salesTabCount").textContent = fmt(p.subs);
+}
+
+/* ===== Metrics tab renderer =====
+   Drop this INSIDE renderDashboard() so it can read D, $, fmt, usd, pct.
+   It uses the same neon-line / neon-dot classes and var(--accent) styling
+   as the existing sparkline() so it reskins with every theme. */
+
+function renderMetrics() {
+  const slidesEl = $("mxSlides");
+  if (!slidesEl) return;
+
+  // helper: build a short pseudo-series from a base + the existing trend arrays,
+  // so demo data degrades gracefully when D fields are missing/zero.
+  const t = (D.trend30d) || {};
+  const arr = (a, fallback) => (Array.isArray(a) && a.length ? a : fallback);
+  const lastOf = (a) => (a && a.length ? a[a.length - 1] : 0);
+
+  // labels for x-axis (weekly buckets if present, else generic)
+  const xlabels = arr(t.labels, ["W1", "W2", "W3", "W4"]);
+
+  // metric definitions. value/delta are demo placeholders; series feed both
+  // the sparkline and the expanded chart. Replace `series`/`value` with live
+  // fields when wired (e.g. D.content.views, D.pipeline.replied, etc.).
+  const METRICS = [
+    { id: "mx-content", cat: "Content", label: "Long-form views",
+      series: arr(t.views, [820, 1140, 980, 1520]), unit: "n", fmt: "num" },
+    { id: "mx-social", cat: "Social", label: "Follower growth",
+      series: [120, 180, 160, 240], unit: "n", fmt: "num" },
+    { id: "mx-outreach", cat: "Outreach", label: "Outreach sent",
+      series: arr(t.outreach, [40, 55, 48, 70]), unit: "n", fmt: "num" },
+    { id: "mx-reply", cat: "Outreach", label: "Reply rate",
+      series: [9, 11, 10, 14], unit: "pct", fmt: "pct" },
+    { id: "mx-calls", cat: "Calls", label: "Calls booked",
+      series: arr(t.calls, [2, 3, 2, 4]), unit: "n", fmt: "num" },
+    { id: "mx-show", cat: "Calls", label: "Show rate",
+      series: [70, 65, 80, 75], unit: "pct", fmt: "pct" },
+    { id: "mx-cash", cat: "Revenue", label: "Cash collected",
+      series: arr(t.cash, [0, 1500, 1200, 2500]), unit: "usd", fmt: "usd" },
+    { id: "mx-pipe", cat: "Revenue", label: "Pipeline value",
+      series: [4000, 6000, 5500, 8000], unit: "usd", fmt: "usd" }
+  ];
+
+  const fmtVal = (v, kind) => kind === "usd" ? usd(Math.round(v))
+    : kind === "pct" ? pct(v) : fmt(Math.round(v));
+
+  // delta = last bucket vs first bucket of the series (period over period)
+  function deltaOf(series) {
+    const first = series[0] || 0, last = lastOf(series);
+    if (!first && !last) return { cls: "flat", txt: "no change", arr: "·" };
+    if (!first) return { cls: "up", txt: "new", arr: "▲" };
+    const p = ((last - first) / Math.abs(first)) * 100;
+    const r = Math.round(p);
+    if (r === 0) return { cls: "flat", txt: "0%", arr: "·" };
+    return { cls: r > 0 ? "up" : "down", txt: (r > 0 ? "+" : "") + r + "%", arr: r > 0 ? "▲" : "▼" };
+  }
+
+  slidesEl.innerHTML = METRICS.map(m => {
+    const val = fmtVal(lastOf(m.series), m.fmt);
+    const d = deltaOf(m.series);
+    return `
+      <div class="mx-slide" data-metric="${m.id}" tabindex="0" role="button" aria-expanded="false">
+        <button class="mx-collapse" type="button">close</button>
+        <div class="mx-top">
+          <span class="mx-cat">${m.cat}</span>
+          <span class="mx-delta ${d.cls}"><span class="arr">${d.arr}</span>${d.txt}</span>
+        </div>
+        <div class="mx-label">${m.label}</div>
+        <div class="mx-val">${val}</div>
+        <div class="mx-spark"><svg viewBox="0 0 100 40" preserveAspectRatio="none"></svg></div>
+        <div class="mx-expand">
+          <div class="chart-wrap"><svg viewBox="0 0 640 220" preserveAspectRatio="none"></svg></div>
+          <div class="mx-xaxis">${xlabels.map(l => `<span>${l}</span>`).join("")}</div>
+        </div>
+      </div>`;
+  }).join("");
+
+  // --- draw compact sparkline (matches existing sparkline look) ---
+  function drawSpark(svg, values, gid) {
+    const W = 100, H = 40, pad = 2;
+    const max = Math.max(1, ...values), min = Math.min(0, ...values);
+    const span = (max - min) || 1;
+    const stepX = (W - pad * 2) / Math.max(1, values.length - 1);
+    const pts = values.map((v, i) => [pad + i * stepX, H - pad - ((v - min) / span) * (H - pad * 2)]);
+    const path = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
+    const fill = path + ` L ${W - pad},${H} L ${pad},${H} Z`;
+    svg.innerHTML = `
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" style="stop-color:var(--accent);stop-opacity:.32"/>
+        <stop offset="100%" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>
+      <path d="${fill}" fill="url(#${gid})" stroke="none"/>
+      <path class="neon-line" d="${path}" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${pts.map(p => `<circle class="neon-dot" cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4"/>`).join("")}`;
+  }
+
+  // --- draw expanded line/area chart (bigger viewbox, same neon styling) ---
+  function drawExpanded(svg, values, gid, kind) {
+    const W = 640, H = 220, padX = 14, padY = 18;
+    const max = Math.max(1, ...values), min = Math.min(0, ...values);
+    const span = (max - min) || 1;
+    const stepX = (W - padX * 2) / Math.max(1, values.length - 1);
+    const pts = values.map((v, i) => [padX + i * stepX, H - padY - ((v - min) / span) * (H - padY * 2)]);
+    const line = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
+    const area = line + ` L ${W - padX},${H - padY} L ${padX},${H - padY} Z`;
+    // horizontal gridlines
+    let grid = "";
+    for (let g = 0; g <= 3; g++) {
+      const y = padY + (g / 3) * (H - padY * 2);
+      grid += `<line x1="${padX}" y1="${y.toFixed(1)}" x2="${W - padX}" y2="${y.toFixed(1)}" stroke="var(--border)" stroke-width="1"/>`;
+    }
+    svg.innerHTML = `
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" style="stop-color:var(--accent);stop-opacity:.30"/>
+        <stop offset="100%" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>
+      ${grid}
+      <path d="${area}" fill="url(#${gid})" stroke="none"/>
+      <path class="neon-line" d="${line}" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      ${pts.map((p, i) => `<circle class="neon-dot" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3"><title>${fmtVal(values[i], kind)}</title></circle>`).join("")}`;
+  }
+
+  // wire each slide
+  slidesEl.querySelectorAll(".mx-slide").forEach(card => {
+    const id = card.dataset.metric;
+    const m = METRICS.find(x => x.id === id);
+    const sparkSvg = card.querySelector(".mx-spark svg");
+    drawSpark(sparkSvg, m.series, "mxsg_" + id);
+
+    let drawn = false;
+    function toggle(open) {
+      const isOpen = open == null ? !card.classList.contains("open") : open;
+      if (isOpen) {
+        // collapse siblings (one open at a time keeps the grid clean)
+        slidesEl.querySelectorAll(".mx-slide.open").forEach(o => { if (o !== card) { o.classList.remove("open"); o.setAttribute("aria-expanded", "false"); } });
+        card.classList.add("open");
+        card.setAttribute("aria-expanded", "true");
+        if (!drawn) { drawExpanded(card.querySelector(".mx-expand svg"), m.series, "mxbg_" + id, m.fmt); drawn = true; }
+      } else {
+        card.classList.remove("open");
+        card.setAttribute("aria-expanded", "false");
+      }
+    }
+    card.addEventListener("click", (e) => {
+      if (e.target.closest(".mx-collapse")) { toggle(false); return; }
+      // don't re-toggle when already open and clicking inside the chart
+      if (card.classList.contains("open") && e.target.closest(".mx-expand")) return;
+      toggle();
+    });
+    card.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+  });
+
+  // --- funnel drop-off bars, derived from the moved Funnel-health ids ---
+  const fbEl = $("mxFunnelBars");
+  if (fbEl) {
+    const numFrom = (elId) => { const el = $(elId); if (!el) return 0; const n = parseInt(String(el.textContent).replace(/[^0-9]/g, ""), 10); return isNaN(n) ? 0 : n; };
+    const stages = [
+      { name: "VSL views", v: numFrom("vslViews") },
+      { name: "Typeform starts", v: numFrom("tfStarts") },
+      { name: "Typeform completes", v: numFrom("tfCompletes") },
+      { name: "Cal.com bookings", v: numFrom("calBookings") }
+    ];
+    const top = Math.max(1, ...stages.map(s => s.v));
+    fbEl.innerHTML = stages.map(s => `
+      <div class="mx-fb">
+        <span class="name">${s.name}</span>
+        <span class="track"><span class="fill" style="width:${Math.round((s.v / top) * 100)}%"></span></span>
+        <span class="v">${fmt(s.v)}</span>
+      </div>`).join("");
+  }
+
+  // range segmented control. Demo: scales the displayed values; swap for
+  // real per-range series when the data layer supports it.
+  const seg = $("mxRangeSeg");
+  if (seg && !seg.dataset.wired) {
+    seg.dataset.wired = "1";
+    seg.querySelectorAll(".mx-seg-btn").forEach(b => {
+      b.addEventListener("click", () => {
+        seg.querySelectorAll(".mx-seg-btn").forEach(x => x.classList.toggle("active", x === b));
+        // re-render keeps it honest; with real data, pass the range into the series builder.
+        renderMetrics();
+        // keep the just-clicked range marked active after re-render
+        const again = $("mxRangeSeg"); if (again) { again.querySelectorAll(".mx-seg-btn").forEach(x => x.classList.toggle("active", x.dataset.range === b.dataset.range)); }
+      });
+    });
+  }
+}
+
+// === Setter/Closer split + payout calculator ===
+// Self-contained: does not rely on renderDashboard scope. Call initPayoutSection() once on load.
+function initPayoutSection() {
+  var $$ = function (id) { return document.getElementById(id); };
+  var money = function (n) {
+    return "$" + Math.round(Number(n) || 0).toLocaleString("en-US");
+  };
+  // theme-reactive categorical colors (same set the dashboard uses for charts)
+  var CAT = ["var(--accent)", "var(--violet)", "var(--cyan)", "var(--pink)", "var(--blue)", "var(--success)", "var(--orange)"];
+
+  // ---- demo data: closed deals by closer, with the setter who sourced each ----
+  // Replace with live pipeline data when wired. close rate = won / (won + lost worked).
+  var CLOSERS = [
+    { name: "Maya R.",  deals: 9, cash: 41000, worked: 14, setters: [["Dani", 5], ["Theo", 3], ["Inbound", 1]] },
+    { name: "Theo K.",  deals: 6, cash: 28500, worked: 11, setters: [["Dani", 4], ["Sam", 2]] },
+    { name: "Sam P.",   deals: 4, cash: 17000, worked: 9,  setters: [["Theo", 2], ["Inbound", 2]] },
+    { name: "Inbound",  deals: 3, cash: 12000, worked: 5,  setters: [["Inbound", 3]] }
+  ];
+
+  var donut = $$("closerDonut");
+  var legend = $$("closerLegend");
+  var detail = $$("closerDetail");
+  var defaultDetail = detail ? detail.innerHTML : "";
+
+  if (donut && legend) {
+    var live = CLOSERS.filter(function (c) { return c.deals > 0; });
+    var total = live.reduce(function (s, c) { return s + c.deals; }, 0);
+    var offset = 0;
+    var segs = live.map(function (c, i) {
+      var pct = total ? (c.deals / total) * 100 : 0;
+      var col = CAT[i % CAT.length];
+      var out = '<circle class="donut-seg" data-i="' + i + '" cx="50" cy="50" r="34" fill="none" stroke="' + col +
+        '" style="color:' + col + '" stroke-width="13" pathLength="100" stroke-dasharray="' +
+        pct.toFixed(2) + " " + (100 - pct).toFixed(2) + '" stroke-dashoffset="' + (-offset).toFixed(2) +
+        '" transform="rotate(-90 50 50)" stroke-linecap="butt"></circle>';
+      offset += pct;
+      return out;
+    }).join("");
+    donut.innerHTML =
+      '<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="13"></circle>' +
+      '<g class="donut-ring">' + segs + '</g>' +
+      '<text class="donut-c" x="50" y="47" text-anchor="middle">' + total + '</text>' +
+      '<text class="donut-s" x="50" y="60" text-anchor="middle">deals won</text>';
+    var cEl = donut.querySelector(".donut-c"), sEl = donut.querySelector(".donut-s");
+
+    legend.innerHTML = live.map(function (c, i) {
+      var pct = total ? Math.round((c.deals / total) * 100) : 0;
+      var col = CAT[i % CAT.length];
+      return '<div class="row" data-i="' + i + '"><i style="background:' + col + ';color:' + col +
+        '"></i><span class="lbl">' + c.name + '</span><span class="pct">' + pct +
+        '%</span><span class="num mono">' + c.deals + '</span></div>';
+    }).join("");
+
+    var showDetail = function (i) {
+      var c = live[i];
+      if (!c || !detail) return;
+      var col = CAT[i % CAT.length];
+      var rate = c.worked ? Math.round((c.deals / c.worked) * 100) : 0;
+      var maxSet = Math.max.apply(null, c.setters.map(function (s) { return s[1]; }).concat([1]));
+      var setterRows = c.setters.map(function (s) {
+        var w = Math.round((s[1] / maxSet) * 100);
+        return '<div class="cd-setter"><span class="sb-name">' + s[0] +
+          '</span><span class="sb-num mono">' + s[1] + '</span>' +
+          '<span class="sb-track"><span class="sb-fill" style="width:' + w + '%"></span></span></div>';
+      }).join("");
+      detail.innerHTML =
+        '<div class="cd-head"><div class="cd-name"><i style="background:' + col + ';color:' + col + '"></i>' +
+        c.name + '</div><div class="cd-rate">' + rate + '% close rate</div></div>' +
+        '<div class="cd-metrics">' +
+        '<div class="cd-metric"><div class="k">Deals won</div><div class="v">' + c.deals + '</div></div>' +
+        '<div class="cd-metric"><div class="k">Cash closed</div><div class="v">' + money(c.cash) + '</div></div>' +
+        '<div class="cd-metric"><div class="k">Calls worked</div><div class="v">' + c.worked + '</div></div>' +
+        '</div>' +
+        '<div class="cd-setters-label">Sourced by setter</div>' + setterRows;
+    };
+    var resetDetail = function () {
+      donut.classList.remove("dim");
+      donut.querySelectorAll(".donut-seg.active").forEach(function (s) { s.classList.remove("active"); });
+      legend.querySelectorAll(".row.active").forEach(function (r) { r.classList.remove("active"); });
+      if (cEl) { cEl.textContent = total; sEl.textContent = "deals won"; }
+      if (detail) detail.innerHTML = defaultDetail;
+    };
+    var focus = function (i) {
+      donut.classList.add("dim");
+      donut.querySelectorAll(".donut-seg").forEach(function (s) { s.classList.toggle("active", +s.dataset.i === i); });
+      legend.querySelectorAll(".row").forEach(function (r) { r.classList.toggle("active", +r.dataset.i === i); });
+      var c = live[i];
+      if (c && cEl) { cEl.textContent = c.deals; sEl.textContent = String(c.name).slice(0, 12); }
+      showDetail(i);
+    };
+    donut.querySelectorAll(".donut-seg").forEach(function (s) {
+      s.addEventListener("mouseenter", function () { focus(+s.dataset.i); });
+      s.addEventListener("mouseleave", resetDetail);
+    });
+    legend.querySelectorAll(".row").forEach(function (r) {
+      r.addEventListener("mouseenter", function () { focus(+r.dataset.i); });
+      r.addEventListener("mouseleave", resetDetail);
+    });
+  }
+
+  // ---- payout calculator ----
+  // Rules: standard fee = 15% of deal ONLY if both setter AND closer involved.
+  // Setter takes 5% of the closed deal, closer takes 10%. Operator net = deal - whatever applies.
+  var dealEl = $$("poDeal"), setEl = $$("poSetter"), closeEl = $$("poCloser"), noteEl = $$("poNote");
+  function calcPayout() {
+    var deal = Math.max(0, Number(dealEl && dealEl.value) || 0);
+    var hasSetter = setEl && setEl.value === "yes";
+    var hasCloser = closeEl && closeEl.value === "yes";
+    var bothInvolved = hasSetter && hasCloser;
+    var setterPay = hasSetter ? deal * 0.05 : 0;
+    var closerPay = hasCloser ? deal * 0.10 : 0;
+    var fee = bothInvolved ? deal * 0.15 : 0;
+    // when both are in, the 15% fee is what leaves the operator; otherwise only the parties present are paid
+    var net = bothInvolved ? deal - fee : deal - setterPay - closerPay;
+    $$("poSetterPay").textContent = money(setterPay);
+    $$("poCloserPay").textContent = money(closerPay);
+    $$("poFee").textContent = money(fee);
+    $$("poNet").textContent = money(net);
+    if (noteEl) {
+      if (bothInvolved) {
+        noteEl.className = "payout-note";
+        noteEl.textContent = "Standard split. Setter gets 5%, closer gets 10%, the 15% fee leaves the operator.";
+      } else if (!hasSetter && !hasCloser) {
+        noteEl.className = "payout-note warn";
+        noteEl.textContent = "No setter and no closer on this one, so the operator keeps the full amount.";
+      } else {
+        noteEl.className = "payout-note warn";
+        noteEl.textContent = "Only one party worked the deal, so the 15% standard fee doesn't apply. Just the present party gets paid.";
+      }
+    }
+  }
+  [dealEl, setEl, closeEl].forEach(function (el) {
+    if (el) { el.addEventListener("input", calcPayout); el.addEventListener("change", calcPayout); }
+  });
+  calcPayout();
+
+  // ---- basic arithmetic calculator ----
+  var keys = ["C", "(", ")", "/", "7", "8", "9", "*", "4", "5", "6", "-", "1", "2", "3", "+", "0", ".", "=", ""];
+  var keyWrap = $$("bcKeys"), disp = $$("bcDisplay");
+  var expr = "";
+  function render() { if (disp) disp.value = expr === "" ? "0" : expr; }
+  function safeEval(s) {
+    if (!/^[\d+\-*/().\s]+$/.test(s)) return null;
+    try {
+      var v = Function('"use strict";return (' + s + ")")();
+      if (typeof v !== "number" || !isFinite(v)) return null;
+      return Math.round(v * 1e8) / 1e8;
+    } catch (e) { return null; }
+  }
+  if (keyWrap) {
+    keyWrap.innerHTML = keys.map(function (k) {
+      if (k === "") return "";
+      var cls = "bc-key";
+      if (k === "=") cls += " eq";
+      else if (k === "C") cls += " fn";
+      else if (k === "0") cls += " zero";
+      else if (/[+\-*/()]/.test(k)) cls += " op";
+      return '<button type="button" class="' + cls + '" data-k="' + k + '">' + (k === "*" ? "x" : k) + "</button>";
+    }).join("");
+    keyWrap.addEventListener("click", function (e) {
+      var b = e.target.closest(".bc-key");
+      if (!b) return;
+      var k = b.dataset.k;
+      if (k === "C") { expr = ""; }
+      else if (k === "=") {
+        var r = safeEval(expr);
+        expr = r == null ? "" : String(r);
+        if (r == null && disp) { disp.value = "error"; return; }
+      } else { expr += k; }
+      render();
+    });
+    render();
+  }
+}
+initPayoutSection();
+
+/* ===== Cash & Calendar (#tab-cashflow) =====
+   Reuses existing globals already defined in the file: $, fmt, setText, renderVerticalBars.
+   All values below are clearly-labelled DEMO data; swap CF_DATA for live feeds later.
+   Charts inherit theme via var(--accent)/var(--blue)/var(--cyan)/var(--orange). */
+(function () {
+  if (!document.getElementById("tab-cashflow")) return;
+
+  var usd = function (n) { return "$" + Number(n || 0).toLocaleString("en-US"); };
+  var srcClass = { "Cold DM": "src-dm", "Landing page → triage": "src-lp", "Referral": "src-ref" };
+
+  // ---- DEMO data ----
+  var CF_DATA = {
+    monthLabel: "June 2026",
+    cashCollected: 14200, cashPrev: 9800,
+    mrr: 6400, mrrPrev: 5200,
+    newDeals: 3, avgDeal: 4733,
+    targetGoal: 20000,
+    // last 6 months: [label, revenueBooked, cashCollected]
+    months: [
+      ["Jan", 6200, 4100], ["Feb", 7800, 6000], ["Mar", 9100, 7400],
+      ["Apr", 11500, 9100], ["May", 13200, 9800], ["Jun", 18600, 14200]
+    ],
+    sources: [
+      { lab: "Landing page → triage", val: 8200, key: "lp", color: "var(--accent)" },
+      { lab: "Cold DM", val: 4000, key: "dm", color: "var(--cyan)" },
+      { lab: "Referral", val: 2000, key: "ref", color: "var(--orange)" }
+    ],
+    // booked calls for the calendar (demo month = June 2026)
+    calYear: 2026, calMonth: 5, // month is 0-indexed (5 = June)
+    bookings: [
+      { day: 3,  time: "10:00", who: "Jenna R.",   src: "Cold DM" },
+      { day: 5,  time: "14:30", who: "Theo M.",    src: "Landing page → triage" },
+      { day: 9,  time: "11:00", who: "Priya S.",   src: "Referral" },
+      { day: 12, time: "16:00", who: "Owen B.",    src: "Cold DM" },
+      { day: 12, time: "17:30", who: "Lara V.",    src: "Landing page → triage" },
+      { day: 18, time: "09:30", who: "Dev K.",     src: "Cold DM" },
+      { day: 23, time: "13:00", who: "Mara T.",    src: "Referral" },
+      { day: 26, time: "15:00", who: "Marcus Vail",src: "Landing page → triage" },
+      { day: 26, time: "18:00", who: "Sam W.",     src: "Cold DM" },
+      { day: 30, time: "12:00", who: "Nadia F.",   src: "Referral" }
+    ],
+    todayDay: 23
+  };
+
+  // ---- headline KPIs ----
+  function deltaStr(now, prev) {
+    if (!prev) return "vs last month —";
+    var d = Math.round(((now - prev) / prev) * 100);
+    return (d >= 0 ? "+" : "") + d + "% vs last month";
+  }
+  function renderCfHeadline() {
+    setText("cfMonthLabel", CF_DATA.monthLabel);
+    setText("cfCashCollected", usd(CF_DATA.cashCollected));
+    setText("cfMrr", usd(CF_DATA.mrr));
+    setText("cfNewDeals", String(CF_DATA.newDeals));
+    setText("cfAvgDeal", usd(CF_DATA.avgDeal));
+    setText("cfCashDelta", deltaStr(CF_DATA.cashCollected, CF_DATA.cashPrev));
+    setText("cfMrrDelta", deltaStr(CF_DATA.mrr, CF_DATA.mrrPrev));
+
+    var goal = CF_DATA.targetGoal, now = CF_DATA.cashCollected;
+    var pct = goal ? Math.min(100, Math.round((now / goal) * 100)) : 0;
+    setText("cfTargetNow", usd(now));
+    setText("cfTargetGoal", usd(goal));
+    setText("cfTargetPct", pct + "%");
+    setText("cfTargetGap", usd(Math.max(0, goal - now)));
+    var bar = $("cfTargetBar"); if (bar) bar.style.width = pct + "%";
+  }
+
+  // ---- month-over-month bars (grouped: cash vs revenue) ----
+  function renderCfBars() {
+    var svg = $("cfBarChart"); if (!svg) return;
+    var M = CF_DATA.months;
+    var W = 640, H = 240, L = 40, R = 16, T = 16, B = 34;
+    var max = 1;
+    M.forEach(function (m) { max = Math.max(max, m[1], m[2]); });
+    var groupW = (W - L - R) / M.length;
+    var gap = 8, barW = (groupW - gap * 3) / 2;
+    var yBase = H - B;
+    var scale = function (v) { return (v / max) * (H - T - B); };
+
+    var grid = [0, 0.5, 1].map(function (p) {
+      var gy = T + p * (H - T - B);
+      var val = Math.round(max * (1 - p));
+      return '<line x1="' + L + '" y1="' + gy + '" x2="' + (W - R) + '" y2="' + gy +
+        '" stroke="var(--border)" stroke-opacity="0.6" />' +
+        '<text x="6" y="' + (gy + 4) + '" fill="var(--muted)" font-size="10">' + (val >= 1000 ? (Math.round(val / 100) / 10) + "k" : val) + '</text>';
+    }).join("");
+
+    var bars = M.map(function (m, i) {
+      var gx = L + i * groupW + gap;
+      var rev = m[1], cash = m[2];
+      var hRev = scale(rev), hCash = scale(cash);
+      var xCash = gx, xRev = gx + barW + gap;
+      return '<rect x="' + xCash.toFixed(1) + '" y="' + (yBase - hCash).toFixed(1) + '" width="' + barW.toFixed(1) +
+          '" height="' + hCash.toFixed(1) + '" rx="3" style="fill:var(--accent)" opacity="0.95"></rect>' +
+        '<rect x="' + xRev.toFixed(1) + '" y="' + (yBase - hRev).toFixed(1) + '" width="' + barW.toFixed(1) +
+          '" height="' + hRev.toFixed(1) + '" rx="3" style="fill:var(--blue)" opacity="0.55"></rect>' +
+        '<text x="' + (gx + groupW / 2 - gap).toFixed(1) + '" y="' + (H - 14) + '" fill="var(--muted)" font-size="10" text-anchor="middle">' + m[0] + '</text>';
+    }).join("");
+
+    svg.innerHTML = grid + bars;
+  }
+
+  // ---- cash sources ----
+  function renderCfSources() {
+    var el = $("cfSourceList"); if (!el) return;
+    var total = CF_DATA.sources.reduce(function (s, x) { return s + x.val; }, 0) || 1;
+    el.innerHTML = CF_DATA.sources.map(function (s) {
+      var p = Math.round((s.val / total) * 100);
+      return '<div class="cf-src">' +
+        '<div class="cf-src-top"><span class="lab">' + s.lab + '</span>' +
+        '<span class="val">' + usd(s.val) + '<span class="vs">' + p + '%</span></span></div>' +
+        '<div class="cf-src-track"><span style="width:' + p + '%;background:' + s.color + '"></span></div></div>';
+    }).join("");
+  }
+
+  // ---- calendar ----
+  var calY = CF_DATA.calYear, calM = CF_DATA.calMonth;
+  var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+  function bookingsFor(day) {
+    // only the demo month carries bookings; other months render empty (graceful)
+    if (calY !== CF_DATA.calYear || calM !== CF_DATA.calMonth) return [];
+    return CF_DATA.bookings.filter(function (b) { return b.day === day; })
+      .sort(function (a, b) { return a.time < b.time ? -1 : 1; });
+  }
+
+  function renderCfCalendar() {
+    var grid = $("cfCalGrid"); if (!grid) return;
+    setText("cfCalMonth", MONTHS[calM] + " " + calY);
+
+    var first = new Date(calY, calM, 1);
+    // Monday-first offset
+    var startDow = (first.getDay() + 6) % 7;
+    var daysInMonth = new Date(calY, calM + 1, 0).getDate();
+    var isDemoMonth = (calY === CF_DATA.calYear && calM === CF_DATA.calMonth);
+
+    var cells = "";
+    for (var i = 0; i < startDow; i++) cells += '<div class="cf-day empty"></div>';
+    for (var d = 1; d <= daysInMonth; d++) {
+      var evts = bookingsFor(d);
+      var isToday = isDemoMonth && d === CF_DATA.todayDay;
+      var evtHtml = "";
+      evts.slice(0, 2).forEach(function (e) {
+        evtHtml += '<div class="cf-evt ' + (srcClass[e.src] || "") + '" title="' + e.who + ' · ' + e.src + '">' +
+          '<span class="cf-evt-t">' + e.time + '</span>' + e.who + '</div>';
+      });
+      if (evts.length > 2) evtHtml += '<div class="cf-evt-more">+' + (evts.length - 2) + ' more</div>';
+      cells += '<div class="cf-day' + (isToday ? ' today' : '') + '">' +
+        '<span class="cf-day-n">' + d + '</span>' + evtHtml + '</div>';
+    }
+    grid.innerHTML = cells;
+  }
+
+  function renderCfUpcoming() {
+    var el = $("cfUpcoming"); if (!el) return;
+    var isDemoMonth = (calY === CF_DATA.calYear && calM === CF_DATA.calMonth);
+    var list = isDemoMonth
+      ? CF_DATA.bookings.filter(function (b) { return b.day >= CF_DATA.todayDay; })
+          .sort(function (a, b) { return a.day - b.day || (a.time < b.time ? -1 : 1); }).slice(0, 5)
+      : [];
+    if (!list.length) { el.innerHTML = '<div class="cf-empty">No calls booked in this month yet.</div>'; return; }
+    el.innerHTML = list.map(function (b) {
+      return '<div class="cf-up">' +
+        '<span class="cf-up-rail ' + (srcClass[b.src] || "") + '"></span>' +
+        '<div class="cf-up-body">' +
+        '<div class="cf-up-name">' + b.who + '</div>' +
+        '<div class="cf-up-meta">' + MONTHS[calM].slice(0,3) + ' ' + b.day + ' · ' + b.time + '</div>' +
+        '<div class="cf-up-src">' + b.src + '</div>' +
+        '</div></div>';
+    }).join("");
+  }
+
+  // ---- routing / connectors (mock) ----
+  function wireConnectors() {
+    document.querySelectorAll("#tab-cashflow .cf-conn-btn").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var which = btn.getAttribute("data-conn");
+        if (which === "slack") {
+          var c = $("cfConnSlack"); if (c && c.getAttribute("data-state") === "on") return;
+          if (c) c.setAttribute("data-state", "on");
+          setText("cfSlackSub", "Connected · #closers");
+          btn.textContent = "Connected";
+        } else if (which === "gcal") {
+          var g = $("cfConnGcal"); if (g && g.getAttribute("data-state") === "on") return;
+          if (g) g.setAttribute("data-state", "on");
+          setText("cfGcalSub", "Connected · 1 calendar");
+          btn.textContent = "Connected";
+        }
+      });
+    });
+    var assign = $("cfAssignBtn");
+    if (assign) assign.addEventListener("click", function () {
+      var row = $("cfAssignRow"), done = $("cfAssignedRow");
+      if (row) row.hidden = true;
+      if (done) done.hidden = false;
+    });
+  }
+
+  // ---- calendar nav ----
+  function step(delta) {
+    calM += delta;
+    if (calM < 0) { calM = 11; calY--; }
+    else if (calM > 11) { calM = 0; calY++; }
+    renderCfCalendar();
+    renderCfUpcoming();
+  }
+
+  function renderCashflow() {
+    renderCfHeadline();
+    renderCfBars();
+    renderCfSources();
+    renderCfCalendar();
+    renderCfUpcoming();
+  }
+
+  // init once
+  var prev = $("cfCalPrev"), next = $("cfCalNext");
+  if (prev) prev.addEventListener("click", function () { step(-1); });
+  if (next) next.addEventListener("click", function () { step(1); });
+  wireConnectors();
+  renderCashflow();
+
+  // expose for refresh hooks if the dashboard re-renders
+  window.renderCashflow = renderCashflow;
+})();
+
+    function renderInstagram() {
     const ig = D.instagram;
     if (!ig) return;
     const p = ig.profile || {};
@@ -4396,7 +6323,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     setText("igTotalShares", fmt(c.totalShares || 0));
 
     const reels = ig.reels || [];
-    const hookColor = (s) => (s >= 70 ? "#16a34a" : s >= 40 ? "#d4ff3a" : "#f6a609");
+    const hookColor = (s) => (s >= 70 ? "#16a34a" : s >= 40 ? "#fbbf24" : "#f6a609");
     const lb = $("igLeaderboard");
     if (lb) lb.innerHTML = reels.length ? reels.map((r) => {
       const cap = (r.caption || "(no caption)").slice(0, 90);
@@ -4631,9 +6558,26 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const moves = [];
     if (replied > 0 && D.pipeline.callBooked === 0) moves.push({ title: "Convert warm replies into calls", body: "Open the five replies, requalify, and send one custom value asset each.", tag: "Sales", tone: "danger" });
     if (firstGap) moves.push({ title: "Finish the next funnel blocker", body: firstGap.item, tag: "Funnel", tone: "warn" });
-    if ((D.content.longFormShipped || 0) === 0) moves.push({ title: "Ship the first TOF video", body: "Wow not how, break a belief, open a loop into MOF. It's an execution problem, not a knowledge one.", tag: "Content", tone: "info" });
+    if ((D.content.longFormShipped || 0) === 0) moves.push({ title: "Ship the first TOF video", body: "Open with the wow, break one belief, and leave a loop into your middle-of-funnel. You know how to do this, it is about shipping.", tag: "Content", tone: "info" });
     if (unworked > 0) moves.push({ title: "Pull a focused retarget batch", body: `There are ${fmt(unworked)} unworked CRM leads. Work 15 at a time.`, tag: "CRM" });
     renderInsightRows("nextMoves", moves.slice(0, 5));
+
+    // ---- Overview brief: where things stand + the one next move ----
+    if ($("ovbSummary")) {
+      const briefTarget = D.targets.ninetyDay.videosShipped || 12;
+      const briefShipped = D.content.longFormShipped || 0;
+      setText("ovbDate", new Date().toLocaleDateString("en-US", { weekday: "long", month: "short", day: "numeric" }));
+      setText("ovbSummary", `Operating score ${score}/100, ${done} of ${checklist.length} launch tasks done. ${leak[1]}`);
+      const briefStats = [
+        ["Cash", usd(D.revenue.cashCollected)],
+        ["CRM", `${fmt(unworked)} unworked`],
+        ["Content", `${briefShipped}/${briefTarget} long-form`],
+        ["Calls", `${fmt(D.pipeline.callBooked)} booked`]
+      ];
+      if ($("ovbStats")) $("ovbStats").innerHTML = briefStats.map(([k, v]) =>
+        `<span class="ovb-stat"><span class="k">${esc(k)}</span><span class="v mono">${esc(String(v))}</span></span>`).join("");
+      setText("ovbNext", moves.length ? moves[0].title : (firstGap ? "Finish " + firstGap.item : "Build value assets for your replied leads"));
+    }
   }
 
   function renderContentPanel() {
@@ -4650,11 +6594,11 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const cf = D.content.funnel || { tof: 0, mof: 0, bof: 0 };
     const live = D.content.longFormShipped || (cf.tof + cf.mof + cf.bof) || 0;
     const gaps = [];
-    if (live === 0) gaps.push({ title: "No video live", body: "The execution problem, not the knowledge problem. Ship the first TOF.", tag: "Core", tone: "danger" });
-    if (cf.bof === 0 && live > 0) gaps.push({ title: "No BOF / proof", body: "Every BOF video is a VSL. Without it the journey has no convert layer.", tag: "Convert", tone: "danger" });
-    if (cf.tof > 0 && cf.mof === 0) gaps.push({ title: "TOF with no MOF", body: "1 TOF → 2–3 MOF → 1 BOF. TOF alone attracts but never nurtures to a call.", tag: "Journey", tone: "warn" });
-    if ((D.content.callsFromContent || 0) === 0 && live > 0) gaps.push({ title: "Flying blind", body: "No calls tracked to content. Without tracking, views are deceptive.", tag: "Tracking", tone: "warn" });
-    if (D.content.igStoriesThisWeek === 0) gaps.push({ title: "Repurpose layer quiet", body: "Stories trail YouTube — proof, BTS, objection handling. Never replace long-form.", tag: "IG", tone: "info" });
+    if (live === 0) gaps.push({ title: "No video live", body: "You already know how. The gap is reps, so ship the first top-of-funnel video this week.", tag: "Core", tone: "danger" });
+    if (cf.bof === 0 && live > 0) gaps.push({ title: "No BOF / proof", body: "Every bottom-of-funnel video is a VSL. Without one, nothing in the journey converts.", tag: "Convert", tone: "danger" });
+    if (cf.tof > 0 && cf.mof === 0) gaps.push({ title: "TOF with no MOF", body: "Pace it one top-of-funnel, two or three middle, one bottom. Top-of-funnel alone pulls views but never warms anyone toward a call.", tag: "Journey", tone: "warn" });
+    if ((D.content.callsFromContent || 0) === 0 && live > 0) gaps.push({ title: "Flying blind", body: "No calls tracked back to content yet. Until you track what books calls, the view counts tell you almost nothing.", tag: "Tracking", tone: "warn" });
+    if (D.content.igStoriesThisWeek === 0) gaps.push({ title: "Repurpose layer quiet", body: "Stories should trail your YouTube with proof, behind the scenes, and objection handling. They support long-form, they don't replace it.", tag: "IG", tone: "info" });
     renderInsightRows("contentGaps", gaps.slice(0, 4));
     setText("contentTabCount", fmt(live));
   }
@@ -4930,6 +6874,24 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     if (btn) btn.click();
   }
 
+  /* Theme switcher — default Mirage (= :root, no class) */
+  (function(){
+    var sel = document.getElementById("themeSelect");
+    var THEMES = ["light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
+    function applyTheme(n){
+      if (n !== "mirage" && THEMES.indexOf(n) === -1) n = "mirage";
+      var c = document.documentElement.classList;
+      [].slice.call(c).forEach(function(cl){ if (cl.indexOf("theme-") === 0) c.remove(cl); });
+      if (n !== "mirage") c.add("theme-" + n);
+      try { localStorage.setItem("pulsify-theme", n); } catch(e){}
+      if (sel) sel.value = n;
+    }
+    var saved = "mirage";
+    try { saved = localStorage.getItem("pulsify-theme") || "mirage"; } catch(e){}
+    applyTheme(saved);
+    if (sel) sel.addEventListener("change", function(){ applyTheme(sel.value); });
+  })();
+
   function renderDashboard() {
   renderLivePanel();
   renderOperatorCockpit();
@@ -5050,6 +7012,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   hydrateMetricInputs();
   renderContentProduction();
   try { renderInstagram(); } catch (e) { console.error("renderInstagram failed:", e, e && e.stack); }
+  try { renderPayments(); } catch (e) { console.error("renderPayments failed:", e); }
 
   /* Sales */
   $("orWeekSent").textContent = fmt(D.outreach.thisWeek.sent);
@@ -5087,6 +7050,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   $("calBookings").textContent = fmt(D.funnel.calBookings);
   $("showRate").textContent = pct(D.funnel.showRate);
   renderConversionBoard();
+  try { renderMetrics(); } catch (e) { console.error("renderMetrics failed:", e); }
 
   /* Income */
   $("cashCollected").textContent = usd(D.revenue.cashCollected);
@@ -5115,10 +7079,12 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     });
     const path = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(2) + "," + p[1].toFixed(2)).join(" ");
     const fill = path + ` L ${W - pad},${H} L ${pad},${H} Z`;
+    const gid = "sg_" + svgId;
     svg.innerHTML = `
-      <path d="${fill}" fill="rgba(212,255,58,0.10)" stroke="none"/>
-      <path d="${path}" fill="none" stroke="#d4ff3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      ${pts.map(p => `<circle cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4" fill="#d4ff3a"/>`).join("")}
+      <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" style="stop-color:var(--accent);stop-opacity:.35"/><stop offset="100%" style="stop-color:var(--accent);stop-opacity:0"/></linearGradient></defs>
+      <path d="${fill}" fill="url(#${gid})" stroke="none"/>
+      <path class="neon-line" d="${path}" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${pts.map(p => `<circle class="neon-dot" cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="1.4"/>`).join("")}
     `;
   }
   sparkline("sparkOutreach", D.trend30d.outreach);
@@ -5129,15 +7095,21 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   $("trendCashLast").textContent = usd(D.trend30d.cash[D.trend30d.cash.length - 1]);
 
   /* CRM */
-  $("clients").innerHTML = D.clients.map(c => `
+  $("clients").innerHTML = D.clients.map(c => {
+    const initial = ((c.name || "?").trim().charAt(0) || "?").toUpperCase();
+    const grad = c.status === "active"
+      ? "linear-gradient(135deg,#5eead4,#34d399)"
+      : "linear-gradient(135deg,#fb7185,#fca5a5)";
+    return `
     <div class="client-row">
-      <div>
-        <div>${c.name}</div>
+      <div class="client-av" style="background:${grad}">${initial}</div>
+      <div class="client-main">
+        <div class="client-name">${c.name}</div>
         <div class="lesson">${c.lesson || ""}</div>
       </div>
       <span class="badge ${c.status}">${c.status}</span>
-    </div>
-  `).join("");
+    </div>`;
+  }).join("");
 
   if (D.crmNote) {
     const n = $("crmNote");
@@ -5351,9 +7323,9 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     setText("crmBatchView", batchLabel(($("crmBatchFilter") && $("crmBatchFilter").value) || ""));
   }
   function statusColor(s) {
-    return ({ new:"var(--text-2)", queued:"var(--warn)", researching:"var(--warn)",
-      "asset-built":"var(--accent)", contacted:"var(--accent)", replied:"var(--success)",
-      won:"var(--success)", dead:"var(--danger)" })[s] || "var(--text-2)";
+    return ({ new:"#fb7185", queued:"#fcd34d", researching:"#c4b5fd",
+      "asset-built":"#f0abfc", contacted:"#a5b4fc", replied:"#5eead4",
+      won:"#34d399", dead:"#fca5a5" })[s] || "#c4b5fd";
   }
   function renderCrmIntel(P) {
     const nicheCounts = P.reduce((acc, p) => {
@@ -5373,19 +7345,18 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       return acc;
     }, {});
     const statusOrder = ["new", "queued", "researching", "asset-built", "contacted", "replied", "won", "dead"];
-    const maxStatus = Math.max(1, ...Object.values(statusCounts));
+    const statusLabels = { "new":"New", "queued":"Queued", "researching":"Research", "asset-built":"Asset", "contacted":"Contacted", "replied":"Replied", "won":"Won", "dead":"Dead" };
     if ($("crmStatusLanes")) {
-      $("crmStatusLanes").innerHTML = statusOrder
-        .filter(s => statusCounts[s])
-        .map((s, i) => {
-          const value = statusCounts[s] || 0;
-          const width = (value / maxStatus) * 100;
-          return `<div class="lane">
-            <div class="k">${esc(s)}</div>
-            <div class="track"><span style="width:${width}%;background:${chartColors[i % chartColors.length]}"></span></div>
-            <div class="num mono">${fmt(value)}</div>
+      $("crmStatusLanes").innerHTML = statusOrder.map((s) => {
+        const value = statusCounts[s] || 0;
+        const on = value > 0;
+        const lbl = statusLabels[s] || s;
+        return `<div class="pf-node${on ? " on" : ""}" style="--pf-c:${statusColor(s)}" title="${esc(lbl)}: ${fmt(value)}">
+            <div class="pf-count">${fmt(value)}</div>
+            <div class="pf-dot"></div>
+            <div class="pf-label">${esc(lbl)}</div>
           </div>`;
-        }).join("");
+      }).join("");
     }
 
     const priority = P.slice().sort((a, b) => {
@@ -5412,6 +7383,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         </div>`;
       }).join("");
     }
+    setText("crmPriorityCount", fmt(P.filter(p => p.status === "replied" || p.stage === "replied").length));
     setText("crmTabCount", fmt(P.length));
   }
   function syncBatchFilter(P) {
@@ -5477,6 +7449,13 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         const safeN = (p.n||"").replace(/'/g,"\\'");
         const safeH = (p.h||"").replace(/'/g,"\\'");
         const safeNiche = (p.niche||"").replace(/'/g,"\\'");
+        const tierC = p.tier === "A" ? "var(--accent)" : (p.tier === "B" ? "var(--cyan)" : (p.tier === "C" ? "var(--muted)" : "var(--border-strong)"));
+        const avGrad = p.tier === "A" ? "linear-gradient(135deg,#fb7185,#d946ef)"
+          : p.tier === "B" ? "linear-gradient(135deg,#c4b5fd,#a5b4fc)"
+          : p.source === "instagram" ? "linear-gradient(135deg,#f0abfc,#c4b5fd)"
+          : p.source === "youtube" ? "linear-gradient(135deg,#fda4af,#fb7185)"
+          : "linear-gradient(135deg,#cbb6e6,#9a7d92)";
+        const initial = ((p.n||"?").trim().charAt(0) || "?").toUpperCase();
         // Socials, YouTube-first — the videos/channels are what we care about.
         const socials = [];
         if (p.source === "youtube" && p.ytUrl) {
@@ -5503,12 +7482,21 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         if (!socials.length) {
           socials.push(`<span class="kan-social kan-social-empty">${ICO_IG}<span>No socials on file — open thread</span></span>`);
         }
-        return `<div class="kan-card${isOpen?" expanded":""}" draggable="true" style="border-left-color:${statusColor(s)}" data-name="${encodeURIComponent(p.n)}">
-          <button class="kan-enlarge" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')" title="Enlarge lead — info · asset · tracking">⛶</button>
-          <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
-          <span class="kan-caret" aria-hidden="true">▾</span>
-          <div class="nm">${srcChip}${tierChip}${bigfishChip}${p.n}</div>
-          <div class="mt">${p.niche || "—"}${subsStr?` · ${subsStr} subs`:""} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}${p.assetCount?` · <span class="kan-assets">⚡ ${p.assetCount}</span>`:""}</div>${p.wound?`<div class="mt kan-wound" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${p.wound}</div>`:""}${vidPreview}
+        return `<div class="kan-card${isOpen?" expanded":""}" draggable="true" style="--tier-c:${tierC}" data-name="${encodeURIComponent(p.n)}">
+          <div class="kan-actions">
+            <button class="kan-enlarge" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')" title="Enlarge lead — info · asset · tracking">⛶</button>
+            <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
+          </div>
+          <div class="kan-top">
+            <div class="kan-av" style="background:${avGrad}">${esc(initial)}</div>
+            <div class="kan-id">
+              <div class="kan-nm">${esc(p.n)}</div>
+              <div class="kan-sub">${srcChip}${p.h?("@"+esc(p.h)):"<span style='opacity:.55'>no handle</span>"}</div>
+            </div>
+            ${tierChip}${bigfishChip}
+          </div>
+          <div class="kan-meta"><span class="kan-pill niche">${esc(p.niche||"—")}</span>${subsStr?`<span class="kan-pill">${subsStr} subs</span>`:""}<span class="kan-pill">${p.dms} DM${p.dms===1?"":"s"}</span>${p.batch?`<span class="kan-pill">B${p.batch}</span>`:""}${p.assetCount?`<span class="kan-pill assets">⚡ ${p.assetCount}</span>`:""}</div>
+          ${p.wound?`<div class="kan-wound" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${esc(p.wound)}</div>`:""}${vidPreview}
           <div class="kan-expand"><div class="kan-expand-inner">
             <div class="kan-socials">${socials.join("")}</div>
             <button class="build-asset-btn" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')">&#9889; Enlarge &amp; build asset</button>
@@ -5918,7 +7906,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     live:    ["Today", function (f) { const h = new Date().getHours(); const g = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening"; return `${g}, <em>${f || "operator"}</em>.`; }],
     plan:    ["The plan", "<em>90-day</em> proof engine sprint."],
     content: ["Content engine", "Make the room <em>before</em> the offer."],
-    sales:   ["Sales motion", "From hit list to <em>closed</em>."],
+    sales:   ["Payments", "What's collected, and what's still owed."],
     income:  ["Income", "Cash, MRR, and the <em>pipeline</em>."],
     crm:     ["Lead intelligence", "Value-led <em>retarget</em>, not spray."],
     health:  ["Operator body", "Body is the <em>foundation</em>."]
@@ -6550,6 +8538,23 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 })();
 </script>
 <!-- ====== END ASSET BUILDER ====== -->
+
+<script>
+/* CRM filter chips → drive the (hidden) select + re-render */
+(function(){
+  document.querySelectorAll(".chip-group").forEach(function(g){
+    var sel = document.getElementById(g.getAttribute("data-target"));
+    g.querySelectorAll(".fchip").forEach(function(b){
+      b.addEventListener("click", function(){
+        g.querySelectorAll(".fchip").forEach(function(x){ x.classList.remove("active"); });
+        b.classList.add("active");
+        if (sel) sel.value = b.getAttribute("data-v") || "";
+        if (typeof window.renderCrm === "function") window.renderCrm();
+      });
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
