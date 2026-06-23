@@ -6,37 +6,36 @@
 <title>Pulsify — Operator Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root {
-    /* ===== MIRAGE — sunset on glass (design direction 07) ===== */
-    --bg: #0c0712;
-    --bg-2: #110a16;
-    --surface: #170d1f;
-    --surface-2: #1f1329;
-    --surface-3: #281a34;
-    --border: #2e1b39;
-    --border-strong: #3d2549;
-    --text: #fdeef5;
-    --text-2: #d6b4c6;
-    --muted: #9a7d92;
-    --accent: #f472b6;
-    --accent-2: #2a0820;
-    --accent-soft: rgba(217,70,239,0.16);
-    --accent-2-soft: rgba(42,7,32,0.55);
-    --accent-dim: #9d2466;
-    --grad: linear-gradient(120deg, #fb7185 0%, #d946ef 100%);
-    --grad-soft: linear-gradient(135deg, rgba(251,113,133,0.22) 0%, rgba(217,70,239,0.30) 100%);
-    --cyan: #c4b5fd;
-    --blue: #a5b4fc;
-    --orange: #fcd34d;
-    --violet: #d946ef;
-    --pink: #fb7185;
-    --success: #5eead4;
-    --warn: #fcd34d;
-    --danger: #fca5a5;
+    --bg: #07070a;
+    --bg-2: #0c0c11;
+    --surface: #101015;
+    --surface-2: #16161c;
+    --surface-3: #1c1c24;
+    --border: #22222b;
+    --border-strong: #2f2f3a;
+    --text: #f5f5f7;
+    --text-2: #b4b4c0;
+    --muted: #82828f;
+    --accent: #c81e1e;
+    --accent-2: #2a0709;
+    --accent-soft: rgba(200,30,30,0.16);
+    --accent-2-soft: rgba(42,7,9,0.55);
+    --accent-dim: #7a0f0f;
+    --grad: linear-gradient(135deg, #dc2626 0%, #1a0606 100%);
+    --grad-soft: linear-gradient(135deg, rgba(220,38,38,0.22) 0%, rgba(26,6,6,0.40) 100%);
+    --cyan: #b89968;
+    --blue: #8fa3b8;
+    --orange: #e0a458;
+    --violet: #8e3d3f;
+    --pink: #d17b5b;
+    --success: #4ade80;
+    --warn: #fbbf24;
+    --danger: #f87171;
     --grid-gap: 16px;
-    --radius: 16px;
+    --radius: 14px;
     --radius-sm: 8px;
     --sidebar-w: 232px;
   }
@@ -68,13 +67,9 @@
     width: 100%;
   }
   .serif {
-    font-family: "Sora", "Inter", system-ui, sans-serif;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    background: linear-gradient(100deg, #fecdd3, #f0abfc, #c4b5fd);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    font-family: "Instrument Serif", "Cormorant Garamond", "Times New Roman", serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
   .scroll-progress {
     position: fixed;
@@ -96,18 +91,11 @@
     inset: 0;
     z-index: -2;
     background:
-      radial-gradient(900px 700px at 12% 0%, rgba(251,113,133,0.20), transparent 60%),
-      radial-gradient(820px 700px at 90% 6%, rgba(217,70,239,0.16), transparent 60%),
-      radial-gradient(900px 760px at 78% 100%, rgba(99,102,241,0.18), transparent 60%),
-      linear-gradient(180deg, #110a16 0%, #0c0712 100%);
-    background-size: 160% 160%;
-    animation: mirageDrift 22s ease-in-out infinite;
+      radial-gradient(900px 700px at 12% 0%, rgba(200,30,30,0.18), transparent 60%),
+      radial-gradient(820px 700px at 90% 6%, rgba(212,162,76,0.07), transparent 60%),
+      radial-gradient(900px 760px at 78% 100%, rgba(139,58,58,0.10), transparent 60%),
+      linear-gradient(180deg, #08060a 0%, #050306 100%);
   }
-  @keyframes mirageDrift {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  @media (prefers-reduced-motion: reduce) { body::before { animation: none; } }
   body::after {
     content: "";
     position: fixed;
@@ -161,7 +149,7 @@
     display: flex; flex-direction: column; gap: 2px; min-width: 0;
   }
   .sidebar .brand-text .name {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 22px;
     line-height: 1;
     color: var(--text);
@@ -300,7 +288,7 @@
   }
   .page-head h2.page-title {
     margin: 0;
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 42px;
     line-height: 1.05;
     letter-spacing: -0.018em;
@@ -376,7 +364,7 @@
     border-bottom: 1px solid var(--border);
   }
   .drawer-head .t {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 24px;
     color: var(--text);
   }
@@ -423,8 +411,8 @@
   .drawer-actions { display: flex; gap: 8px; }
 
   @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 3px rgba(244,114,182,0.22); }
-    50%      { box-shadow: 0 0 0 6px rgba(244,114,182,0.05); }
+    0%, 100% { box-shadow: 0 0 0 3px rgba(200,30,30,0.22); }
+    50%      { box-shadow: 0 0 0 6px rgba(200,30,30,0.05); }
   }
 
   .tab-panel { display: none; }
@@ -456,7 +444,7 @@
   .card.feature-card {
     background:
       radial-gradient(circle at 100% 0%, rgba(212,162,76,0.08), transparent 55%),
-      radial-gradient(circle at 0% 100%, rgba(244,114,182,0.14), transparent 55%),
+      radial-gradient(circle at 0% 100%, rgba(200,30,30,0.14), transparent 55%),
       linear-gradient(165deg, #14100f, #0a0708);
     border-color: rgba(255,255,255,0.08);
   }
@@ -468,7 +456,7 @@
     gap: 36px;
     background:
       radial-gradient(circle at 100% 0%, rgba(212,162,76,0.09), transparent 55%),
-      radial-gradient(circle at 0% 100%, rgba(244,114,182,0.16), transparent 55%),
+      radial-gradient(circle at 0% 100%, rgba(200,30,30,0.16), transparent 55%),
       linear-gradient(165deg, #14100f 0%, #0a0708 100%);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: var(--radius);
@@ -493,7 +481,7 @@
     display: inline-block;
   }
   .hero-band .hb-fraction {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 104px;
     line-height: 0.95;
     letter-spacing: -0.035em;
@@ -546,7 +534,7 @@
     border-left: 1px solid var(--border);
   }
   .hero-band .hb-quote {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-style: italic;
     font-size: 24px;
     line-height: 1.3;
@@ -604,7 +592,7 @@
     font-weight: 600;
   }
   .hero-kpi .hk-v {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 60px;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -706,7 +694,7 @@
     letter-spacing: 0.04em;
     text-transform: none;
     font-size: 11.5px;
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-style: italic;
   }
   .span-2 { grid-column: span 2; }
@@ -734,7 +722,7 @@
     overflow: hidden;
     padding: 22px 22px 20px;
     background:
-      radial-gradient(circle at 100% 0%, rgba(251,113,133,0.20), transparent 55%),
+      radial-gradient(circle at 100% 0%, rgba(220,38,38,0.20), transparent 55%),
       linear-gradient(165deg, #14100f 0%, #0a0708 100%);
     display: flex;
     flex-direction: column;
@@ -748,7 +736,7 @@
     font-weight: 600;
   }
   .ops-visual .ops-headline {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 34px;
     line-height: 1.05;
     color: var(--text);
@@ -1091,13 +1079,13 @@
     gap: 22px;
     overflow: hidden;
     background:
-      radial-gradient(circle at 100% 100%, rgba(244,114,182,0.16), transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(200,30,30,0.16), transparent 60%),
       radial-gradient(circle at 0% 0%, rgba(212,162,76,0.06), transparent 55%),
       linear-gradient(165deg, #14100f 0%, #0a0708 100%);
     border-color: rgba(255,255,255,0.08);
   }
   .plan-title {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 44px;
     line-height: 1.05;
     font-weight: 400;
@@ -1166,10 +1154,10 @@
     height: 6px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 0 3px rgba(244,114,182,0.22);
+    box-shadow: 0 0 0 3px rgba(200,30,30,0.22);
   }
   .plan-vector .quote {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-style: italic;
     font-size: 24px;
     line-height: 1.25;
@@ -1976,9 +1964,9 @@
 
   /* Prompt vault — flashy one-click copy strip */
   .prompt-vault-card {
-    background: linear-gradient(135deg, rgba(217,70,239,0.10), rgba(45,212,191,0.06), rgba(0,0,0,0));
-    border: 1px solid rgba(217,70,239,0.28);
-    box-shadow: 0 0 0 1px rgba(217,70,239,0.05), 0 10px 40px -20px rgba(217,70,239,0.5);
+    background: linear-gradient(135deg, rgba(124,92,255,0.10), rgba(45,212,191,0.06), rgba(0,0,0,0));
+    border: 1px solid rgba(124,92,255,0.28);
+    box-shadow: 0 0 0 1px rgba(124,92,255,0.05), 0 10px 40px -20px rgba(124,92,255,0.5);
   }
   .prompt-vault-head {
     display: flex; align-items: center; justify-content: space-between;
@@ -1986,7 +1974,7 @@
   }
   .prompt-vault-head .title {
     font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
-    background: linear-gradient(90deg, #f0abfc, #5eead4);
+    background: linear-gradient(90deg, #a78bfa, #2dd4bf);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .prompt-vault-head .sub { color: var(--muted); font-size: 11.5px; }
@@ -2010,22 +1998,22 @@
   }
   .pv-btn:hover {
     transform: translateY(-1px);
-    border-color: rgba(217,70,239,0.55);
-    background: rgba(217,70,239,0.08);
-    box-shadow: 0 8px 30px -15px rgba(217,70,239,0.7);
+    border-color: rgba(124,92,255,0.55);
+    background: rgba(124,92,255,0.08);
+    box-shadow: 0 8px 30px -15px rgba(124,92,255,0.7);
   }
   .pv-btn .pv-ico {
     width: 32px; height: 32px; flex: 0 0 32px;
     display: grid; place-items: center;
     border-radius: 9px; font-size: 15px;
-    background: linear-gradient(135deg, rgba(217,70,239,0.25), rgba(45,212,191,0.18));
+    background: linear-gradient(135deg, rgba(124,92,255,0.25), rgba(45,212,191,0.18));
     border: 1px solid rgba(255,255,255,0.06);
   }
   .pv-btn .pv-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .pv-btn .pv-name { font-size: 13px; font-weight: 700; letter-spacing: 0.01em; }
   .pv-btn .pv-meta { font-size: 10.5px; font-weight: 500; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.1em; }
   .pv-btn.copied {
-    border-color: #5eead4;
+    border-color: #2dd4bf;
     background: rgba(45,212,191,0.12);
     box-shadow: 0 0 0 1px rgba(45,212,191,0.4);
   }
@@ -2043,15 +2031,15 @@
   .build-asset-btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 4px;
     margin-top: 6px; width: 100%;
-    background: rgba(217,70,239,0.10);
-    border: 1px solid rgba(217,70,239,0.32);
-    color: #f0abfc;
+    background: rgba(124,92,255,0.10);
+    border: 1px solid rgba(124,92,255,0.32);
+    color: #a78bfa;
     font: inherit; font-size: 10px; font-weight: 700;
     letter-spacing: 0.06em; text-transform: uppercase;
     padding: 4px 8px; border-radius: 5px; cursor: pointer;
     transition: background 0.15s, border-color 0.15s, color 0.15s;
   }
-  .build-asset-btn:hover { background: rgba(217,70,239,0.22); border-color: #f0abfc; color: #fff; }
+  .build-asset-btn:hover { background: rgba(124,92,255,0.22); border-color: #a78bfa; color: #fff; }
 
   /* ---- Asset Builder drawer ---- */
   .asset-drawer {
@@ -2082,13 +2070,13 @@
   .drawer-head-left { display: flex; flex-direction: column; gap: 4px; }
   .drawer-title {
     font-size: 14px; font-weight: 700; letter-spacing: 0.02em;
-    background: linear-gradient(90deg, #f0abfc, #5eead4);
+    background: linear-gradient(90deg, #a78bfa, #2dd4bf);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .drawer-badge {
-    font-size: 11px; color: #f0abfc;
-    background: rgba(217,70,239,0.10);
-    border: 1px solid rgba(217,70,239,0.28);
+    font-size: 11px; color: #a78bfa;
+    background: rgba(124,92,255,0.10);
+    border: 1px solid rgba(124,92,255,0.28);
     border-radius: 999px; padding: 2px 10px;
     max-width: 360px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
@@ -2118,8 +2106,8 @@
     transition: border-color 0.15s, box-shadow 0.15s;
   }
   .di:focus, .ds:focus, .dt:focus {
-    outline: none; border-color: #f0abfc;
-    box-shadow: 0 0 0 3px rgba(217,70,239,0.18);
+    outline: none; border-color: #a78bfa;
+    box-shadow: 0 0 0 3px rgba(124,92,255,0.18);
   }
   .dt { resize: vertical; min-height: 80px; line-height: 1.5; }
   .dt.tall { min-height: 150px; }
@@ -2131,7 +2119,7 @@
   }
   .btn-gen {
     flex: 1;
-    background: linear-gradient(90deg, #d946ef, #5eead4);
+    background: linear-gradient(90deg, #7c5cff, #2dd4bf);
     color: #050514;
     border: 0; border-radius: 6px; font: inherit; font-size: 13px; font-weight: 800;
     padding: 11px; cursor: pointer; transition: opacity 0.15s, transform 0.12s;
@@ -2154,7 +2142,7 @@
   }
   .drawer-out.show { display: flex; }
   .out-head { display: flex; justify-content: space-between; align-items: center; }
-  .out-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #5eead4; }
+  .out-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #2dd4bf; }
   .out-actions { display: flex; gap: 6px; }
   .btn-xs {
     background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
@@ -2163,7 +2151,7 @@
     transition: color 0.15s, border-color 0.15s;
   }
   .btn-xs:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
-  .btn-xs.acc { color: #5eead4; border-color: rgba(45,212,191,0.35); }
+  .btn-xs.acc { color: #2dd4bf; border-color: rgba(45,212,191,0.35); }
   .out-text {
     font-size: 12.5px; line-height: 1.7; color: #f4f4f7;
     white-space: pre-wrap; word-break: break-word;
@@ -2175,7 +2163,7 @@
   }
   .drawer-spin.show { display: flex; }
   .sdot {
-    width: 6px; height: 6px; border-radius: 50%; background: #f0abfc;
+    width: 6px; height: 6px; border-radius: 50%; background: #a78bfa;
     animation: sdotPulse 1s ease-in-out infinite;
   }
   .sdot:nth-child(2){animation-delay:.18s}.sdot:nth-child(3){animation-delay:.36s}
@@ -2187,7 +2175,7 @@
   }
   .drawer-err.show { display: block; }
   .api-hint { font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.5; }
-  .api-hint a { color: #5eead4; }
+  .api-hint a { color: #2dd4bf; }
 
   /* ---- Source chip on CRM cards ---- */
   .src-chip {
@@ -2322,16 +2310,6 @@
   }
   .row-del:hover, .kan-del:hover { color: var(--danger); background: rgba(248,113,113,0.12); }
   .kan-del { position: absolute; top: 6px; right: 5px; }
-  .kan-enlarge {
-    position: absolute; top: 6px; right: 28px;
-    width: 20px; height: 20px; padding: 0;
-    display: flex; align-items: center; justify-content: center;
-    background: transparent; border: 1px solid var(--border);
-    color: var(--muted); border-radius: 5px; cursor: pointer;
-    font-size: 11px; line-height: 1; transition: color .15s, border-color .15s, background .15s;
-  }
-  .kan-enlarge:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
-  .kan-assets { color: var(--success); font-weight: 600; }
 
   @media (max-width: 1100px) {
     .span-2, .span-3, .span-4, .span-5, .span-6, .span-7, .span-8, .span-9, .span-10 { grid-column: span 12; }
@@ -2405,7 +2383,7 @@
     grid-template-columns: minmax(0, 1.55fr) minmax(280px, 1fr);
     gap: 28px;
     background:
-      radial-gradient(420px 280px at 0% 0%, rgba(244,114,182,0.10), transparent 60%),
+      radial-gradient(420px 280px at 0% 0%, rgba(200,30,30,0.10), transparent 60%),
       radial-gradient(380px 280px at 100% 100%, rgba(212,162,76,0.06), transparent 60%),
       var(--surface);
     border: 1px solid var(--border-strong);
@@ -2471,7 +2449,7 @@
   }
   .hh-pillar .p-k { font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted); font-weight: 600; }
   .hh-pillar .p-v { font-size: 13.5px; color: var(--text); font-weight: 500; }
-  .hh-quote { font-family: "Sora", serif; font-size: 19px; color: var(--text); line-height: 1.35; font-style: italic; }
+  .hh-quote { font-family: "Instrument Serif", serif; font-size: 19px; color: var(--text); line-height: 1.35; font-style: italic; }
   .hh-quote::before { content: "“"; color: var(--accent); margin-right: 2px; }
   .hh-quote::after { content: "”"; color: var(--accent); margin-left: 1px; }
   .hh-attrib { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); font-weight: 600; }
@@ -2523,7 +2501,7 @@
   }
   .mb-row[data-macro="protein"] .mb-bar > span { background: linear-gradient(90deg, var(--accent), #ef4444); }
   .mb-row[data-macro="carbs"]   .mb-bar > span { background: linear-gradient(90deg, var(--orange), #f59e0b); }
-  .mb-row[data-macro="fat"]     .mb-bar > span { background: linear-gradient(90deg, var(--cyan), #fcd34d); }
+  .mb-row[data-macro="fat"]     .mb-bar > span { background: linear-gradient(90deg, var(--cyan), #d4a24c); }
   .mb-row[data-macro="fiber"]   .mb-bar > span { background: linear-gradient(90deg, #4ade80, #22c55e); }
 
   /* Log form */
@@ -2541,7 +2519,7 @@
   }
   .log-form input:focus, .log-form select:focus {
     border-color: var(--accent);
-    background: rgba(244,114,182,0.04);
+    background: rgba(200,30,30,0.04);
   }
   .log-form input::placeholder { color: var(--muted); }
   .log-grid {
@@ -2565,7 +2543,7 @@
     padding: 6px 10px; border-radius: 6px; cursor: pointer;
     transition: all 0.16s ease;
   }
-  .quick-presets button:hover { color: var(--text); border-color: var(--accent); background: rgba(244,114,182,0.06); }
+  .quick-presets button:hover { color: var(--text); border-color: var(--accent); background: rgba(200,30,30,0.06); }
 
   /* Entries */
   .entries-list { display: flex; flex-direction: column; gap: 6px; }
@@ -2678,7 +2656,7 @@
     border-left: 2px solid var(--accent);
   }
   .vision-list .v-k {
-    font-family: "Sora", serif;
+    font-family: "Instrument Serif", serif;
     font-size: 18px; color: var(--accent); letter-spacing: -0.01em;
   }
   .vision-list .v-v { color: var(--text); font-size: 13px; line-height: 1.5; }
@@ -3654,8 +3632,8 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
           <svg class="macro-ring" viewBox="0 0 120 120" aria-hidden="true">
             <defs>
               <linearGradient id="macroGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0%" stop-color="#fb7185"/>
-                <stop offset="100%" stop-color="#9d2466"/>
+                <stop offset="0%" stop-color="#dc2626"/>
+                <stop offset="100%" stop-color="#7a0f0f"/>
               </linearGradient>
             </defs>
             <circle class="ring-bg" cx="60" cy="60" r="52" fill="none" stroke-width="10"/>
@@ -4133,7 +4111,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   contentPipelineState.overrides = contentPipelineState.overrides || {};
   contentPipelineState.added = contentPipelineState.added || [];
   contentPipelineState.removed = contentPipelineState.removed || [];
-  const STAGE_ACCENTS = ["#f0abfc", "#38e2d0", "#60a5fa", "#fb7eb6", "#d4ff3a", "#fb923c", "#4ade80", "#fbbf24"];
+  const STAGE_ACCENTS = ["#a78bfa", "#38e2d0", "#60a5fa", "#fb7eb6", "#d4ff3a", "#fb923c", "#4ade80", "#fbbf24"];
   function applyMetricOverrides(data) {
     if (!metricState || !metricState.content) return data;
     data.content = Object.assign({}, data.content || {}, metricState.content);
@@ -4165,7 +4143,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     ["Instagram metrics", "Instagram Graph API", "hourly/daily", "later"],
     ["Revenue", "Stripe/bank/manual private source", "daily", "later"]
   ];
-  const chartColors = ["#d4ff3a", "#38bdf8", "#fb923c", "#f0abfc", "#60a5fa", "#4ade80", "#f87171"];
+  const chartColors = ["#d4ff3a", "#38bdf8", "#fb923c", "#a78bfa", "#60a5fa", "#4ade80", "#f87171"];
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const ratio = (a, b) => b ? (Number(a || 0) / Number(b || 0)) * 100 : 0;
   const cleanText = (v) => {
@@ -5250,12 +5228,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
           tier: p._tier || "",
           wound: p._wound || "",
           subs: (p._subs != null ? p._subs : null),
-          bigfish: !!p._bigfish,
-          email: o.email || "",
-          notes: o.notes || "",
-          problem: o.problem || "",
-          offerAngle: o.offerAngle || "",
-          assetCount: (o.assets && o.assets.length) || 0
+          bigfish: !!p._bigfish
         };
       });
   }
@@ -5265,24 +5238,6 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   }
   // Expose to Asset Builder drawer (defined outside this IIFE)
   window.setOverride = setOverride;
-  // Lead Studio bridge: full lead lookup + saved extras + tracked asset history.
-  window.getLeadByName = function (name) { return basePros().find(p => p.n === name) || null; };
-  window.getLeadExtra = function (name) { return Object.assign({ assets: [] }, state.overrides[name]); };
-  window.pushLeadAsset = function (name, asset) {
-    const cur = state.overrides[name] || {};
-    const assets = (cur.assets || []).slice();
-    assets.unshift(asset);
-    setOverride(name, { assets: assets });
-    if (typeof renderCrm === "function") renderCrm();
-    return assets;
-  };
-  window.deleteLeadAsset = function (name, id) {
-    const cur = state.overrides[name] || {};
-    const assets = (cur.assets || []).filter(a => a.id !== id);
-    setOverride(name, { assets: assets });
-    if (typeof renderCrm === "function") renderCrm();
-    return assets;
-  };
   function removeLead(name) {
     if (!state.removed.includes(name)) state.removed.push(name);
     state.added = state.added.filter(a => a.n !== name);
@@ -5504,14 +5459,13 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
           socials.push(`<span class="kan-social kan-social-empty">${ICO_IG}<span>No socials on file — open thread</span></span>`);
         }
         return `<div class="kan-card${isOpen?" expanded":""}" draggable="true" style="border-left-color:${statusColor(s)}" data-name="${encodeURIComponent(p.n)}">
-          <button class="kan-enlarge" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')" title="Enlarge lead — info · asset · tracking">⛶</button>
           <button class="kan-del" data-del="${encodeURIComponent(p.n)}" title="Remove lead">×</button>
           <span class="kan-caret" aria-hidden="true">▾</span>
           <div class="nm">${srcChip}${tierChip}${bigfishChip}${p.n}</div>
-          <div class="mt">${p.niche || "—"}${subsStr?` · ${subsStr} subs`:""} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}${p.assetCount?` · <span class="kan-assets">⚡ ${p.assetCount}</span>`:""}</div>${p.wound?`<div class="mt kan-wound" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${p.wound}</div>`:""}${vidPreview}
+          <div class="mt">${p.niche || "—"}${subsStr?` · ${subsStr} subs`:""} · ${p.dms} DM${p.dms===1?"":"s"}${p.batch?` · B${p.batch}`:""}</div>${p.wound?`<div class="mt kan-wound" title="${(p.wound||"").replace(/"/g,"&quot;")}">↳ ${p.wound}</div>`:""}${vidPreview}
           <div class="kan-expand"><div class="kan-expand-inner">
             <div class="kan-socials">${socials.join("")}</div>
-            <button class="build-asset-btn" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')">&#9889; Enlarge &amp; build asset</button>
+            <button class="build-asset-btn" onclick="event.stopPropagation();window.openAssetBuilder('${safeN}','${safeH}','${safeNiche}')">&#9889; Build Asset</button>
           </div></div>
         </div>`;
       }).join("");
@@ -6355,35 +6309,13 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 </script>
 
 
-<style>
-  .ld-meta { display:flex; flex-wrap:wrap; gap:5px; margin-top:8px; }
-  .ld-chip { font-size:10px; font-family:"JetBrains Mono",ui-monospace,monospace; color:var(--text-2);
-    background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:2px 8px; white-space:nowrap; }
-  .ld-chip.link { color:var(--cyan); text-decoration:none; max-width:230px; overflow:hidden; text-overflow:ellipsis; }
-  .ld-chip.link:hover { border-color:var(--accent); color:var(--accent); }
-  .ld-chip.wound { color:var(--warn); }
-  .ld-chip.tier-A { color:#1a0612; background:linear-gradient(120deg,#fb7185,#d946ef); border-color:transparent; font-weight:700; }
-  .ld-chip.tier-B { color:var(--accent); border-color:var(--accent-dim); }
-  .ld-tracked { border-top:1px solid var(--border); padding-top:13px; margin-top:2px; }
-  .ld-tracked-h { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--success); margin-bottom:9px; display:flex; align-items:center; gap:7px; }
-  .ld-tcount { background:var(--surface-2); border:1px solid var(--border); border-radius:999px; padding:1px 8px; color:var(--text-2); font-family:"JetBrains Mono",monospace; }
-  .ld-asset { border:1px solid var(--border); border-radius:8px; margin-bottom:8px; overflow:hidden; background:var(--surface-2); }
-  .ld-asset-h { display:flex; align-items:center; gap:8px; padding:8px 10px; cursor:pointer; }
-  .ld-asset-h:hover { background:var(--surface-3); }
-  .ld-asset-type { font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.04em; }
-  .ld-asset-date { font-size:10px; color:var(--muted); font-family:"JetBrains Mono",monospace; }
-  .ld-asset-acts { margin-left:auto; display:flex; gap:5px; }
-  .ld-asset-body { display:none; padding:0 10px 10px; font-size:12.5px; line-height:1.65; color:var(--text); white-space:pre-wrap; word-break:break-word; max-height:300px; overflow-y:auto; }
-  .ld-asset-body.open { display:block; padding-top:9px; border-top:1px solid var(--border); }
-</style>
 <!-- ====== ASSET BUILDER ====== -->
 <div class="asset-backdrop" id="assetBackdrop"></div>
 <div class="asset-drawer" id="assetDrawer">
   <div class="drawer-head">
     <div class="drawer-head-left">
-      <div class="drawer-title">⚡ Lead Studio</div>
+      <div class="drawer-title">⚡ Asset Builder</div>
       <div class="drawer-badge" id="drawerBadge">No lead selected</div>
-      <div class="ld-meta" id="dLeadMeta"></div>
     </div>
     <button class="drawer-close" id="drawerClose">&times;</button>
   </div>
@@ -6403,17 +6335,9 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         <select class="ds" id="dPlatform"><option>Instagram</option><option>YouTube</option><option>both</option></select>
       </div>
     </div>
-    <div class="dr">
-      <div class="df"><label class="dl" for="dEmail">Email / contact <span>saved to lead</span></label><input class="di" id="dEmail" placeholder="name@domain.com or DM link" /></div>
-      <div class="df"><label class="dl" for="dOffer">Offer angle <span>saved to lead</span></label><input class="di" id="dOffer" placeholder="e.g. backend funnel install" /></div>
-    </div>
     <div class="df">
       <label class="dl" for="dProblem">Problem identified <span>1-3 sentences, be specific</span></label>
       <textarea class="dt" id="dProblem" placeholder="e.g. Solid content but no funnel — no VSL, no application form, leads going cold."></textarea>
-    </div>
-    <div class="df">
-      <label class="dl" for="dNotes">Private notes <span>saved to this lead</span></label>
-      <textarea class="dt" id="dNotes" placeholder="Research, context, links — anything you want tracked on this lead."></textarea>
     </div>
     <div class="df">
       <label class="dl" for="dTranscript">Perplexity output <span>from 3-5 transcripts</span></label>
@@ -6428,10 +6352,6 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         <option value="landing page copy">Landing page copy</option>
         <option value="email">Email</option>
       </select>
-    </div>
-    <div class="ld-tracked" id="dTrackedWrap" style="display:none">
-      <div class="ld-tracked-h">⚡ Tracked assets <span class="ld-tcount" id="dTrackedCount"></span></div>
-      <div id="dTracked"></div>
     </div>
     <div class="drawer-spin" id="dSpin"><div class="sdot"></div><div class="sdot"></div><div class="sdot"></div><span>Calling Claude...</span></div>
     <div class="drawer-err" id="dErr"></div>
@@ -6458,69 +6378,26 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 <script>
 (function(){
   var LS="pulsify_api_key";
-  var drawer=document.getElementById("assetDrawer"),backdrop=document.getElementById("assetBackdrop"),badge=document.getElementById("drawerBadge"),closeBtn=document.getElementById("drawerClose"),apiIn=document.getElementById("drawerApiKey"),dName=document.getElementById("dName"),dHandle=document.getElementById("dHandle"),dNiche=document.getElementById("dNiche"),dPlatform=document.getElementById("dPlatform"),dProblem=document.getElementById("dProblem"),dTranscript=document.getElementById("dTranscript"),dAsset=document.getElementById("dAsset"),dSpin=document.getElementById("dSpin"),dErr=document.getElementById("dErr"),dOut=document.getElementById("dOut"),dOutText=document.getElementById("dOutText"),dOutLbl=document.getElementById("dOutLbl"),dGen=document.getElementById("dGenerate"),dCopyP=document.getElementById("dCopyPrompt"),dCopyOut=document.getElementById("dCopyOut"),dMark=document.getElementById("dMarkBuilt"),dEmail=document.getElementById("dEmail"),dOffer=document.getElementById("dOffer"),dNotes=document.getElementById("dNotes"),meta=document.getElementById("dLeadMeta"),dTrackedWrap=document.getElementById("dTrackedWrap"),dTracked=document.getElementById("dTracked"),dTrackedCount=document.getElementById("dTrackedCount");
+  var drawer=document.getElementById("assetDrawer"),backdrop=document.getElementById("assetBackdrop"),badge=document.getElementById("drawerBadge"),closeBtn=document.getElementById("drawerClose"),apiIn=document.getElementById("drawerApiKey"),dName=document.getElementById("dName"),dHandle=document.getElementById("dHandle"),dNiche=document.getElementById("dNiche"),dPlatform=document.getElementById("dPlatform"),dProblem=document.getElementById("dProblem"),dTranscript=document.getElementById("dTranscript"),dAsset=document.getElementById("dAsset"),dSpin=document.getElementById("dSpin"),dErr=document.getElementById("dErr"),dOut=document.getElementById("dOut"),dOutText=document.getElementById("dOutText"),dOutLbl=document.getElementById("dOutLbl"),dGen=document.getElementById("dGenerate"),dCopyP=document.getElementById("dCopyPrompt"),dCopyOut=document.getElementById("dCopyOut"),dMark=document.getElementById("dMarkBuilt");
   var curLead="";
   var k=localStorage.getItem(LS); if(k&&apiIn)apiIn.value=k;
   if(apiIn)apiIn.addEventListener("change",function(){if(apiIn.value.trim())localStorage.setItem(LS,apiIn.value.trim());});
-  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
-  function leadMetaHtml(lead){
-    if(!lead)return"";
-    var b=[];
-    if(lead.tier)b.push('<span class="ld-chip tier-'+esc(lead.tier)+'">Tier '+esc(lead.tier)+'</span>');
-    if(lead.ytScore)b.push('<span class="ld-chip">Score '+esc(lead.ytScore)+'</span>');
-    if(lead.subs!=null)b.push('<span class="ld-chip">'+esc(lead.subs)+' subs</span>');
-    if(lead.status)b.push('<span class="ld-chip">'+esc(lead.status)+'</span>');
-    if(lead.wound)b.push('<span class="ld-chip wound">&#8627; '+esc(lead.wound)+'</span>');
-    if(lead.vu)b.push('<a class="ld-chip link" href="'+esc(lead.vu)+'" target="_blank" rel="noopener">&#9654; '+esc((lead.vt||"video").slice(0,42))+'</a>');
-    return b.join("");
-  }
-  function fmtDate(ts){try{var d=new Date(ts);return d.toLocaleDateString(undefined,{month:"short",day:"numeric"})+" "+d.toLocaleTimeString(undefined,{hour:"2-digit",minute:"2-digit"});}catch(e){return"";}}
-  function findAsset(id){var x=(typeof window.getLeadExtra==="function"&&window.getLeadExtra(curLead))||{};return(x.assets||[]).filter(function(a){return a.id===id;})[0];}
-  function renderTracked(assets){
-    assets=assets||[];
-    if(!dTrackedWrap||!dTracked)return;
-    if(!assets.length){dTrackedWrap.style.display="none";dTracked.innerHTML="";if(dTrackedCount)dTrackedCount.textContent="";return;}
-    dTrackedWrap.style.display="block";
-    if(dTrackedCount)dTrackedCount.textContent=assets.length;
-    dTracked.innerHTML=assets.map(function(a){
-      return '<div class="ld-asset" data-id="'+esc(a.id)+'"><div class="ld-asset-h"><span class="ld-asset-type">'+esc(a.type)+'</span><span class="ld-asset-date">'+esc(fmtDate(a.ts))+'</span><span class="ld-asset-acts"><button class="btn-xs ld-copy" data-id="'+esc(a.id)+'">Copy</button><button class="btn-xs ld-del-asset" data-id="'+esc(a.id)+'">Delete</button></span></div><div class="ld-asset-body">'+esc(a.text)+'</div></div>';
-    }).join("");
-    dTracked.querySelectorAll(".ld-copy").forEach(function(b){b.addEventListener("click",function(e){e.stopPropagation();var a=findAsset(b.getAttribute("data-id"));if(a)navigator.clipboard.writeText(a.text).then(function(){b.textContent="Copied!";setTimeout(function(){b.textContent="Copy";},1800);});});});
-    dTracked.querySelectorAll(".ld-del-asset").forEach(function(b){b.addEventListener("click",function(e){e.stopPropagation();if(typeof window.deleteLeadAsset==="function"){var left=window.deleteLeadAsset(curLead,b.getAttribute("data-id"));renderTracked(left);}});});
-    dTracked.querySelectorAll(".ld-asset-h").forEach(function(h){h.addEventListener("click",function(e){if(e.target.closest("button"))return;var body=h.parentNode.querySelector(".ld-asset-body");if(body)body.classList.toggle("open");});});
-  }
-  function saveField(){
-    if(!curLead||typeof window.setOverride!=="function")return;
-    window.setOverride(curLead,{email:(dEmail&&dEmail.value||"").trim(),offerAngle:(dOffer&&dOffer.value||"").trim(),problem:(dProblem&&dProblem.value||"").trim(),transcript:(dTranscript&&dTranscript.value||"").trim(),notes:(dNotes&&dNotes.value||"").trim(),handle:(dHandle&&dHandle.value||"").trim()});
-  }
   window.openAssetBuilder=function(name,handle,niche){
     curLead=name;
-    var lead=(typeof window.getLeadByName==="function"&&window.getLeadByName(name))||null;
-    var x=(typeof window.getLeadExtra==="function"&&window.getLeadExtra(name))||{};
-    var h=handle||(lead&&lead.h)||"";var ni=niche||(lead&&lead.niche)||"";
     if(dName)dName.value=name||"";
-    if(dHandle)dHandle.value=h;
-    if(dNiche)dNiche.value=ni;
-    if(dPlatform)dPlatform.value=(lead&&lead.source==="youtube")?"YouTube":((lead&&lead.source==="instagram")?"Instagram":(dPlatform.value||"Instagram"));
-    if(dEmail)dEmail.value=x.email||(lead&&lead.email)||"";
-    if(dOffer)dOffer.value=x.offerAngle||"";
-    if(dProblem)dProblem.value=x.problem||"";
-    if(dTranscript)dTranscript.value=x.transcript||"";
-    if(dNotes)dNotes.value=x.notes||"";
-    if(badge)badge.textContent=name+(h?" @"+h:"")+(ni?" · "+ni:"");
-    if(meta)meta.innerHTML=leadMetaHtml(lead);
-    renderTracked(x.assets||[]);
+    if(dHandle)dHandle.value=handle||"";
+    if(dNiche)dNiche.value=niche||"";
+    if(badge)badge.textContent=name+(handle?" @"+handle:"")+(niche?" · "+niche:"");
     resetOut();
     drawer.classList.add("open");backdrop.classList.add("open");document.body.style.overflow="hidden";
   };
-  [dEmail,dOffer,dProblem,dTranscript,dNotes,dHandle].forEach(function(el){if(el)el.addEventListener("change",saveField);});
   function close_(){drawer.classList.remove("open");backdrop.classList.remove("open");document.body.style.overflow="";}
   if(closeBtn)closeBtn.addEventListener("click",close_);
   if(backdrop)backdrop.addEventListener("click",close_);
   function resetOut(){if(dOut)dOut.classList.remove("show");if(dErr){dErr.classList.remove("show");dErr.textContent="";}if(dSpin)dSpin.classList.remove("show");}
   function buildPrompt(){
-    var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),pl=(dPlatform&&dPlatform.value||"Instagram"),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),of=(dOffer&&dOffer.value||"").trim(),no=(dNotes&&dNotes.value||"").trim(),at=(dAsset&&dAsset.value||"outreach DM");
-    return "You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person, not a template, not generic.\n\n**Lead:**\n- Name: "+n+(h?" (@"+h+")":"")+"\n- Platform: "+pl+"\n- Niche: "+(ni||"unknown")+(of?"\n- Offer angle: "+of:"")+"\n\n**The problem I identified:**\n"+(pr||"[not specified]")+"\n\n**Transcript data (Perplexity output):**\n"+(tr||"[not provided]")+(no?"\n\n**Private notes / context:**\n"+no:"")+"\n\n**Asset to build:** "+at+"\n\n---\n\nBefore writing, silently: (1) Extract top 5-10 recurring phrases verbatim. (2) Confirm the problem connects to something in the transcript. (3) Identify the one angle that proves you watched their content.\n\nAsset rules:\n\nOutreach DM: 4-sentence max opener, lead with diagnosis not compliment, reference something specific from their content, no pitch in first message, end with one question.\n\nVSL: open with their pain in their own language, introduce the Pulse System only after problem is established, no mention of AI tools or tech, end with one CTA.\n\nLoom script: 90 seconds max. First 10s: name them and one specific content reference. Middle 60s: diagnose problem, cost, fix. Last 20s: exact next step.\n\nLanding page copy: headline = the problem, subhead = cost of inaction, body = Pulsify as operator, social proof = Nick ($10-20K to $50K/month in 3 months), CTA = book a call.\n\nEmail: subject = problem not Pulsify, first line = content reference, 3 short paragraphs: problem / possible / next step.\n\nNon-negotiables: no lifestyle flexing, no generic openers, problem is the center of gravity, Pulsify value = operator expertise not tools, one clear next step.";
+    var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),pl=(dPlatform&&dPlatform.value||"Instagram"),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),at=(dAsset&&dAsset.value||"outreach DM");
+    return "You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person, not a template, not generic.\n\n**Lead:**\n- Name: "+n+(h?" (@"+h+")":"")+"\n- Platform: "+pl+"\n- Niche: "+(ni||"unknown")+"\n\n**The problem I identified:**\n"+(pr||"[not specified]")+"\n\n**Transcript data (Perplexity output):**\n"+(tr||"[not provided]")+"\n\n**Asset to build:** "+at+"\n\n---\n\nBefore writing, silently: (1) Extract top 5-10 recurring phrases verbatim. (2) Confirm the problem connects to something in the transcript. (3) Identify the one angle that proves you watched their content.\n\nAsset rules:\n\nOutreach DM: 4-sentence max opener, lead with diagnosis not compliment, reference something specific from their content, no pitch in first message, end with one question.\n\nVSL: open with their pain in their own language, introduce the Pulse System only after problem is established, no mention of AI tools or tech, end with one CTA.\n\nLoom script: 90 seconds max. First 10s: name them and one specific content reference. Middle 60s: diagnose problem, cost, fix. Last 20s: exact next step.\n\nLanding page copy: headline = the problem, subhead = cost of inaction, body = Pulsify as operator, social proof = Nick ($10-20K to $50K/month in 3 months), CTA = book a call.\n\nEmail: subject = problem not Pulsify, first line = content reference, 3 short paragraphs: problem / possible / next step.\n\nNon-negotiables: no lifestyle flexing, no generic openers, problem is the center of gravity, Pulsify value = operator expertise not tools, one clear next step.";
   }
   if(dCopyP)dCopyP.addEventListener("click",function(){navigator.clipboard.writeText(buildPrompt()).then(function(){dCopyP.textContent="Copied!";setTimeout(function(){dCopyP.textContent="Copy prompt";},2200);});});
   if(dGen)dGen.addEventListener("click",function(){
@@ -6529,13 +6406,10 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     if(!(dProblem&&dProblem.value||"").trim()){showErr("Describe the problem first.");return;}
     if(!(dTranscript&&dTranscript.value||"").trim()){showErr("Paste the Perplexity output first.");return;}
     var at=dAsset&&dAsset.value||"outreach DM";
-    saveField();
     resetOut();dSpin.classList.add("show");dGen.disabled=true;
     fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:2048,messages:[{role:"user",content:buildPrompt()}]})})
     .then(function(r){if(!r.ok)return r.json().then(function(e){throw new Error(e.error&&e.error.message||"API error "+r.status);});return r.json();})
-    .then(function(d){var t=d.content&&d.content[0]&&d.content[0].text||"";dSpin.classList.remove("show");if(dOutLbl)dOutLbl.textContent=at.toUpperCase();if(dOutText)dOutText.textContent=t;if(dOut)dOut.classList.add("show");localStorage.setItem(LS,key);
-      if(curLead&&t&&typeof window.pushLeadAsset==="function"){var asset={id:"a"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36),type:at,text:t,ts:Date.now()};window.pushLeadAsset(curLead,asset);renderTracked(((typeof window.getLeadExtra==="function"&&window.getLeadExtra(curLead))||{}).assets||[]);}
-    })
+    .then(function(d){var t=d.content&&d.content[0]&&d.content[0].text||"";dSpin.classList.remove("show");if(dOutLbl)dOutLbl.textContent=at.toUpperCase();if(dOutText)dOutText.textContent=t;if(dOut)dOut.classList.add("show");localStorage.setItem(LS,key);})
     .catch(function(e){dSpin.classList.remove("show");showErr("Error: "+e.message+". If CORS error, use 'Copy prompt' and paste into Claude.ai instead.");})
     .finally(function(){dGen.disabled=false;});
   });
@@ -6544,7 +6418,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   if(dMark)dMark.addEventListener("click",function(){
     if(!curLead)return;
     if(typeof window.setOverride==="function"){window.setOverride(curLead,{status:"asset-built"});if(typeof window.renderCrm==="function")window.renderCrm();}
-    dMark.textContent="Marked!";dMark.style.color="#5eead4";
+    dMark.textContent="Marked!";dMark.style.color="#2dd4bf";
     setTimeout(function(){dMark.textContent="Mark asset-built";dMark.style.color="";},2500);
   });
 })();
