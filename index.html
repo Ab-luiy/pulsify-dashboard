@@ -4200,14 +4200,8 @@
   <div class="kpi-row" style="grid-template-columns: repeat(2, 1fr); margin-top:14px">
     <div class="kpi"><div class="k">Setter (5%)</div><div class="v mono large" id="poSetterPay">$0</div></div>
     <div class="kpi"><div class="k">Closer (10%)</div><div class="v mono large" id="poCloserPay">$0</div></div>
-    <div class="kpi"><div class="k">Standard fee (15%)</div><div class="v mono large" id="poFee">$0</div></div>
-    <div class="kpi accent"><div class="k">Operator net</div><div class="v mono large" id="poNet">$0</div></div>
-  </div>
-
-  <div class="calc-divider"><span>Quick math</span></div>
-  <div class="basic-calc">
-    <input id="bcDisplay" class="bc-display mono" type="text" readonly value="0" />
-    <div class="bc-keys" id="bcKeys"></div>
+    <div class="kpi"><div class="k">Operator fee (15%)</div><div class="v mono large" id="poFee15">$0</div></div>
+    <div class="kpi accent"><div class="k">Operator fee (25%)</div><div class="v mono large" id="poFee25">$0</div></div>
   </div>
 </div>
   </div>
@@ -6007,27 +6001,15 @@ function initPayoutSection() {
     var deal = Math.max(0, Number(dealEl && dealEl.value) || 0);
     var hasSetter = setEl && setEl.value === "yes";
     var hasCloser = closeEl && closeEl.value === "yes";
-    var bothInvolved = hasSetter && hasCloser;
     var setterPay = hasSetter ? deal * 0.05 : 0;
     var closerPay = hasCloser ? deal * 0.10 : 0;
-    var fee = bothInvolved ? deal * 0.15 : 0;
-    // when both are in, the 15% fee is what leaves the operator; otherwise only the parties present are paid
-    var net = bothInvolved ? deal - fee : deal - setterPay - closerPay;
     $$("poSetterPay").textContent = money(setterPay);
     $$("poCloserPay").textContent = money(closerPay);
-    $$("poFee").textContent = money(fee);
-    $$("poNet").textContent = money(net);
+    if ($$("poFee15")) $$("poFee15").textContent = money(deal * 0.15);
+    if ($$("poFee25")) $$("poFee25").textContent = money(deal * 0.25);
     if (noteEl) {
-      if (bothInvolved) {
-        noteEl.className = "payout-note";
-        noteEl.textContent = "Standard split. Setter gets 5%, closer gets 10%, the 15% fee leaves the operator.";
-      } else if (!hasSetter && !hasCloser) {
-        noteEl.className = "payout-note warn";
-        noteEl.textContent = "No setter and no closer on this one, so the operator keeps the full amount.";
-      } else {
-        noteEl.className = "payout-note warn";
-        noteEl.textContent = "Only one party worked the deal, so the 15% standard fee doesn't apply. Just the present party gets paid.";
-      }
+      noteEl.className = "payout-note";
+      noteEl.textContent = "Operator net fee runs 15% to 25% of the deal (" + money(deal * 0.15) + " to " + money(deal * 0.25) + "). Setter takes 5% and closer takes 10% when they work it.";
     }
   }
   [dealEl, setEl, closeEl].forEach(function (el) {
@@ -7913,9 +7895,13 @@ initPayoutSection();
   /* ---- Page title swap on tab change ---- */
   const TAB_TITLES = {
     live:    ["Today", function (f) { const h = new Date().getHours(); const g = h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening"; return `${g}, <em>${f || "operator"}</em>.`; }],
-    plan:    ["The plan", "<em>90-day</em> proof engine sprint."],
+    plan:    ["Plan", "Parked and later work."],
     content: ["Content engine", "Make the room <em>before</em> the offer."],
-    sales:   ["Payments", "What's collected, and what's still owed."],
+    instagram: ["Instagram", "Reels, posts and stories."],
+    metrics: ["Metrics", "Performance by area."],
+    sales:   ["Payments", "Cash collected, scheduled and outstanding."],
+    payouts: ["Payouts", "Setter and closer splits."],
+    cashflow: ["Cash & Calendar", "Cash collected and booked calls."],
     income:  ["Income", "Cash, MRR, and the <em>pipeline</em>."],
     crm:     ["Lead intelligence", "Value-led <em>retarget</em>, not spray."],
     health:  ["Operator body", "Body is the <em>foundation</em>."]
