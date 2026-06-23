@@ -999,6 +999,7 @@
     overflow: visible;
   }
   .chart-wrap svg[viewBox="0 0 100 100"] { aspect-ratio: 1; max-width: 220px; margin: 0 auto; }
+  .chart-wrap.is-empty { min-height: 0; display: flex; align-items: center; justify-content: center; border-style: dashed; }
   .legend {
     display: flex;
     gap: 14px;
@@ -5443,13 +5444,22 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   function renderLineChart(svgId, labels, series) {
     const svg = $(svgId);
     if (!svg) return;
-    if (!labels.length || !series.some(s => (s.values || []).length)) {
-      svg.innerHTML = "";
+    const wrap = svg.closest(".chart-wrap");
+    const W = 640, H = 220, L = 40, R = 16, T = 16, B = 30;
+    const values = series.flatMap(s => (s.values || []).map(v => Number(v || 0)));
+    const rawMax = values.length ? Math.max(...values) : 0;
+    if (!labels.length || !series.some(s => (s.values || []).length) || rawMax <= 0) {
+      svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+      svg.style.height = "150px";
+      if (wrap) wrap.classList.add("is-empty");
+      svg.innerHTML = `<text x="${W / 2}" y="${H / 2 - 4}" text-anchor="middle" style="fill:var(--muted)" font-size="15">Nothing to plot yet</text>`
+        + `<text x="${W / 2}" y="${H / 2 + 20}" text-anchor="middle" style="fill:var(--muted)" font-size="11" opacity="0.7">this fills in as activity comes through</text>`;
       return;
     }
-    const W = 640, H = 220, L = 40, R = 16, T = 16, B = 30;
-    const values = series.flatMap(s => s.values || []);
-    const max = Math.max(1, ...values.map(v => Number(v || 0)));
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.style.height = "";
+    if (wrap) wrap.classList.remove("is-empty");
+    const max = Math.max(1, rawMax);
     const stepX = labels.length > 1 ? (W - L - R) / (labels.length - 1) : 0;
     const y = (v) => T + (1 - (Number(v || 0) / max)) * (H - T - B);
     const x = (i) => L + i * stepX;
@@ -5469,8 +5479,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       const area = path + ` L ${x(pts.length - 1)},${H - B} L ${x(0)},${H - B} Z`;
       const cv = ["--accent","--violet","--cyan","--pink","--blue","--success","--orange"][si % 7];
       return `${si === 0 ? `<path style="fill:var(${cv})" stroke="none" d="${area}" opacity="0.12"></path>` : ""}
-        <path class="neon-glow" style="stroke:var(${cv});color:var(${cv})" d="${path}" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
-        ${pts.map(p => `<circle class="neon-glow" style="fill:var(${cv});color:var(${cv})" cx="${p[0].toFixed(2)}" cy="${p[1].toFixed(2)}" r="3" stroke="var(--bg)" stroke-width="1.5"></circle>`).join("")}`;
+        <path class="neon-glow" style="stroke:var(${cv});color:var(${cv})" d="${path}" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>`;
     }).join("");
     svg.innerHTML = `${grid}${xLabels}${paths}`;
   }
