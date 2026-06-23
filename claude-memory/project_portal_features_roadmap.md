@@ -11,7 +11,7 @@ Feature roadmap the user spec'd on 2026-06-23 for the Pulsify portals (operator 
 
 **DONE — Live theme switcher** (`theme-switcher-demo.html`, on Desktop as `pulsify-theme-switcher.html`): one CSS-var-driven dashboard, click any of 9 themes to re-skin instantly (Light, Dark, Signal, Obsidian, Atelier, Aurora, Prism, Voltage, Mirage), persists via localStorage. Includes a **neon revenue chart** = SVG line+area, glowing stroke (`drop-shadow`) + gradient fill + a glaring colored card shadow (`--card-glare`), all theme-adaptive (full neon on dark/flashy themes, tasteful on light). User directive: charts must be neon/flashy with a glaring background shadow, NOT sloppy. Reusable theme system to wire into the real portals.
 
-**TO BUILD (mockup now / back-end later):**
+**BUILT AS MOCKUPS 2026-06-23** in one comprehensive theme-switchable portal — `pulsify-portal.html` (Desktop as same name): tabs Overview / Socials / Calendar / Team, all 9 themes switchable in-header, neon charts (revenue + YT retention/drop-off + per-sequence sparklines). Placeholder data; back-end still needed for the items below:
 - **Setters/closers login**: portal logs in available setters & closers; connect each one's **Google Calendar**. (Needs auth + Google Calendar OAuth.)
 - **Auto-assign** setters/closers to booked calls by **availability** — logic + integration TBD (user flagged "we'll have to figure out how").
 - **Monthly calendar** (for everyone): labels what the CREATOR should be doing + lets them set **weekly goals**. Monthly view.
