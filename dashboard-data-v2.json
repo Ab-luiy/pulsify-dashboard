@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-23T08:25:24.703Z",
+  "lastUpdated": "2026-06-24T08:18:56.156Z",
   "instagram": {
-    "updatedAt": "2026-06-23T08:25:24.644Z",
+    "updatedAt": "2026-06-24T08:18:56.099Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 507,
-      "following": 474,
+      "following": 472,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=R6sNnVmw4KIQ7kNvwEDlU5a&_nc_oc=Adqyln8fkXs19su1hIGLjU3bqnrggYs3bKwwScN7gSc_7ZgT4FKue5pVESQarB5y398&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=nl6JmvDr56QaRMtg9OHuiw&_nc_tpa=Q5bMBQGwrLdt4EQ81IKgp7WEYZAdBhBxAPXRA4WCdxCKK6XHFJ4PTbxtrA0eABF9v7NfVFi5t7Y-sQe8&oh=00_Af_AEWnjoFH0AhgRyK74RXUN275DffMnSkjealgnmsxm7Q&oe=6A403068"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=R6sNnVmw4KIQ7kNvwEDlU5a&_nc_oc=Adqyln8fkXs19su1hIGLjU3bqnrggYs3bKwwScN7gSc_7ZgT4FKue5pVESQarB5y398&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=2IblRqe2g6aBs3ck07zNsQ&_nc_tpa=Q5bMBQEDkDH1eOUOz9_Ri1Mam9S5AECsrBV8guF22VxoK0Ig5epUTAUzyxgu9bUEOeJp1_QW_9WIin6T&oh=00_Af98h0YmWgFhSS8t8i0OtdmcXfvnYRvj1STXY6iBA4H4Sg&oe=6A4149A8"
     },
     "content": {
       "reelsCount": 8,
@@ -106,7 +106,7 @@
       "countries": [
         {
           "name": "IN",
-          "value": 85
+          "value": 86
         },
         {
           "name": "BR",
@@ -145,6 +145,10 @@
           "value": 5
         },
         {
+          "name": "PH",
+          "value": 5
+        },
+        {
           "name": "TR",
           "value": 5
         },
@@ -166,10 +170,6 @@
         },
         {
           "name": "VN",
-          "value": 4
-        },
-        {
-          "name": "PH",
           "value": 4
         },
         {
@@ -221,11 +221,11 @@
           "value": 2
         },
         {
-          "name": "YE",
+          "name": "FR",
           "value": 2
         },
         {
-          "name": "FR",
+          "name": "YE",
           "value": 2
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
+          "name": "BE",
+          "value": 1
+        },
+        {
+          "name": "HN",
+          "value": 1
+        },
+        {
           "name": "LT",
-          "value": 1
-        },
-        {
-          "name": "NZ",
-          "value": 1
-        },
-        {
-          "name": "AE",
           "value": 1
         }
       ],
@@ -292,6 +292,10 @@
         },
         {
           "name": "São Paulo, São Paulo (state)",
+          "value": 3
+        },
+        {
+          "name": "Kolkata, West Bengal",
           "value": 3
         },
         {
@@ -315,15 +319,11 @@
           "value": 2
         },
         {
-          "name": "Birigui, São Paulo (state)",
-          "value": 2
-        },
-        {
           "name": "Rio de Janeiro, Rio de Janeiro (state)",
           "value": 2
         },
         {
-          "name": "Kolkata, West Bengal",
+          "name": "Birigui, São Paulo (state)",
           "value": 2
         },
         {
@@ -379,102 +379,102 @@
           "value": 2
         },
         {
-          "name": "Larkhall, Scotland",
+          "name": "São Félix de Minas, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Eldoradopark, Gauteng",
+          "name": "Berlin, Berlin",
           "value": 1
         },
         {
-          "name": "Ituiutaba, Minas Gerais",
+          "name": "Meham, Haryana",
           "value": 1
         },
         {
-          "name": "Boissy-Saint-Léger, Île-de-France",
+          "name": "Devgarh, Rajasthan",
           "value": 1
         },
         {
-          "name": "Kyiv, Kyiv",
+          "name": "Abu Dhabi, Abu Dhabi",
           "value": 1
         },
         {
-          "name": "Teresina, Piauí",
+          "name": "Taman, East Java",
           "value": 1
         },
         {
-          "name": "Tenggarong, East Kalimantan",
+          "name": "Rourkela, Odisha",
           "value": 1
         },
         {
-          "name": "Moradabad, Uttar Pradesh",
+          "name": "Emalahleni, Mpumalanga",
           "value": 1
         },
         {
-          "name": "Zenu, Greater Accra Region",
+          "name": "Arenys de Munt, Cataluña",
           "value": 1
         },
         {
-          "name": "Iga-shi, Mie Prefecture",
+          "name": "South Riding, Virginia",
           "value": 1
         },
         {
-          "name": "Majhwalia, Bihar",
+          "name": "Kokrobite, Greater Accra Region",
           "value": 1
         },
         {
-          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
+          "name": "Howrah, West Bengal",
           "value": 1
         },
         {
-          "name": "Lesedi, Gauteng",
+          "name": "Moreno, Pernambuco",
           "value": 1
         },
         {
-          "name": "Alexandria, Alexandria Governorate",
+          "name": "Tawau, Sabah",
           "value": 1
         },
         {
-          "name": "Indio, California",
+          "name": "Paragould, Arkansas",
           "value": 1
         },
         {
-          "name": "Yundum, West Coast Division ",
+          "name": "Abbottabad, Khyber Pakhtunkhwa",
           "value": 1
         },
         {
-          "name": "Calne, England",
+          "name": "Itapeva, São Paulo (state)",
           "value": 1
         },
         {
-          "name": "Rajauri, Jammu and Kashmir",
+          "name": "Loyish, Samarqand Region",
           "value": 1
         },
         {
-          "name": "Viamão, Rio Grande do Sul",
+          "name": "Dendermonde, Flemish Region",
           "value": 1
         },
         {
-          "name": "Concepción del Uruguay, Entre Rios",
+          "name": "Chouf, Mount Lebanon Governorate",
           "value": 1
         },
         {
-          "name": "Surabaya, East Java",
+          "name": "Daska, Punjab",
           "value": 1
         },
         {
-          "name": "São Gonçalo, Rio de Janeiro (state)",
+          "name": "Mississauga, Ontario",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 243
+          "value": 242
         },
         {
           "name": "M",
-          "value": 80
+          "value": 82
         },
         {
           "name": "F",
@@ -484,7 +484,7 @@
       "age": [
         {
           "name": "18-24",
-          "value": 157
+          "value": 158
         },
         {
           "name": "25-34",
