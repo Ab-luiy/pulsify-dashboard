@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-24T08:18:56.156Z",
+  "lastUpdated": "2026-06-25T08:18:27.972Z",
   "instagram": {
-    "updatedAt": "2026-06-24T08:18:56.099Z",
+    "updatedAt": "2026-06-25T08:18:27.911Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 507,
-      "following": 472,
+      "following": 473,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=R6sNnVmw4KIQ7kNvwEDlU5a&_nc_oc=Adqyln8fkXs19su1hIGLjU3bqnrggYs3bKwwScN7gSc_7ZgT4FKue5pVESQarB5y398&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=2IblRqe2g6aBs3ck07zNsQ&_nc_tpa=Q5bMBQEDkDH1eOUOz9_Ri1Mam9S5AECsrBV8guF22VxoK0Ig5epUTAUzyxgu9bUEOeJp1_QW_9WIin6T&oh=00_Af98h0YmWgFhSS8t8i0OtdmcXfvnYRvj1STXY6iBA4H4Sg&oe=6A4149A8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=R6sNnVmw4KIQ7kNvwEDlU5a&_nc_oc=Adqyln8fkXs19su1hIGLjU3bqnrggYs3bKwwScN7gSc_7ZgT4FKue5pVESQarB5y398&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=Ugc_U21NgvcIDOkdYr_dSA&_nc_tpa=Q5bMBQFzWLsWL_SZrhFm9iruDvqW6qXQs3g4pdknUN15taMUzhbeDrRveW_DJzf2181FxsUic__Yi-A8&oh=00_Af9WUOmSujBEQYoAZRbFR7-M9lfHFzk8jTMiKyIFfgrzSA&oe=6A429B28"
     },
     "content": {
       "reelsCount": 8,
@@ -149,6 +149,10 @@
           "value": 5
         },
         {
+          "name": "NG",
+          "value": 5
+        },
+        {
           "name": "TR",
           "value": 5
         },
@@ -170,10 +174,6 @@
         },
         {
           "name": "VN",
-          "value": 4
-        },
-        {
-          "name": "NG",
           "value": 4
         },
         {
@@ -221,11 +221,11 @@
           "value": 2
         },
         {
-          "name": "FR",
+          "name": "YE",
           "value": 2
         },
         {
-          "name": "YE",
+          "name": "FR",
           "value": 2
         },
         {
@@ -245,11 +245,11 @@
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "CN",
           "value": 2
         },
         {
-          "name": "CN",
+          "name": "MX",
           "value": 2
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "BE",
+          "name": "AE",
           "value": 1
         },
         {
-          "name": "HN",
+          "name": "AF",
           "value": 1
         },
         {
-          "name": "LT",
+          "name": "CL",
           "value": 1
         }
       ],
@@ -311,19 +311,19 @@
           "value": 3
         },
         {
-          "name": "Casablanca, Grand Casablanca",
-          "value": 2
-        },
-        {
           "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
-          "name": "Rio de Janeiro, Rio de Janeiro (state)",
+          "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
           "name": "Birigui, São Paulo (state)",
+          "value": 2
+        },
+        {
+          "name": "Rio de Janeiro, Rio de Janeiro (state)",
           "value": 2
         },
         {
@@ -355,6 +355,10 @@
           "value": 2
         },
         {
+          "name": "Toronto, Ontario",
+          "value": 2
+        },
+        {
           "name": "Kigali, Kigali",
           "value": 2
         },
@@ -379,7 +383,23 @@
           "value": 2
         },
         {
+          "name": "Philadelphia, Pennsylvania",
+          "value": 1
+        },
+        {
+          "name": "London, England",
+          "value": 1
+        },
+        {
+          "name": "Shakhrikhan, Andijan Region",
+          "value": 1
+        },
+        {
           "name": "São Félix de Minas, Minas Gerais",
+          "value": 1
+        },
+        {
+          "name": "Riga, Riga Planning Region",
           "value": 1
         },
         {
@@ -387,7 +407,15 @@
           "value": 1
         },
         {
-          "name": "Meham, Haryana",
+          "name": "Puerto Princesa, Mimaropa",
+          "value": 1
+        },
+        {
+          "name": "Aparecida de Goiânia, Goiás",
+          "value": 1
+        },
+        {
+          "name": "Honnali, Karnataka",
           "value": 1
         },
         {
@@ -395,23 +423,7 @@
           "value": 1
         },
         {
-          "name": "Abu Dhabi, Abu Dhabi",
-          "value": 1
-        },
-        {
-          "name": "Taman, East Java",
-          "value": 1
-        },
-        {
-          "name": "Rourkela, Odisha",
-          "value": 1
-        },
-        {
-          "name": "Emalahleni, Mpumalanga",
-          "value": 1
-        },
-        {
-          "name": "Arenys de Munt, Cataluña",
+          "name": "Majhwalia, Bihar",
           "value": 1
         },
         {
@@ -419,15 +431,11 @@
           "value": 1
         },
         {
+          "name": "Beirut, Beirut Governorate",
+          "value": 1
+        },
+        {
           "name": "Kokrobite, Greater Accra Region",
-          "value": 1
-        },
-        {
-          "name": "Howrah, West Bengal",
-          "value": 1
-        },
-        {
-          "name": "Moreno, Pernambuco",
           "value": 1
         },
         {
@@ -435,42 +443,34 @@
           "value": 1
         },
         {
-          "name": "Paragould, Arkansas",
+          "name": "Chitbara Gaon, Uttar Pradesh",
           "value": 1
         },
         {
-          "name": "Abbottabad, Khyber Pakhtunkhwa",
+          "name": "Sokolec, Central Bohemian Region",
           "value": 1
         },
         {
-          "name": "Itapeva, São Paulo (state)",
+          "name": "Palembang, South Sumatra",
           "value": 1
         },
         {
-          "name": "Loyish, Samarqand Region",
+          "name": "Pakyong, Sikkim",
           "value": 1
         },
         {
-          "name": "Dendermonde, Flemish Region",
+          "name": "Buccan, Queensland",
           "value": 1
         },
         {
-          "name": "Chouf, Mount Lebanon Governorate",
-          "value": 1
-        },
-        {
-          "name": "Daska, Punjab",
-          "value": 1
-        },
-        {
-          "name": "Mississauga, Ontario",
+          "name": "Concepción del Uruguay, Entre Rios",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 242
+          "value": 243
         },
         {
           "name": "M",
@@ -491,11 +491,11 @@
           "value": 98
         },
         {
-          "name": "13-17",
-          "value": 30
+          "name": "35-44",
+          "value": 31
         },
         {
-          "name": "35-44",
+          "name": "13-17",
           "value": 30
         },
         {
