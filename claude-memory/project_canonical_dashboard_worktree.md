@@ -1,16 +1,16 @@
 ---
 name: canonical-dashboard-worktree
-description: The single canonical dashboard worktree is awesome-bassi-d88340 — all other worktrees under .claude/worktrees/ are unusable and must not be edited
+description: Source of truth for the dashboard is origin/main of pulsify-dashboard, NOT the awesome-bassi worktree (which has fallen behind) — deploy by editing on top of origin/main
 metadata: 
   node_type: memory
   type: project
   originSessionId: 16a9dcb5-b1d1-4286-b857-a7f08285b123
 ---
 
-The canonical dashboard lives in `C:\Users\Abdullah\Desktop\Pulsify-Brain\.claude\worktrees\awesome-bassi-d88340\` on branch `claude/awesome-bassi-d88340`. This is the only worktree the user actively uses.
+The real source of truth for the dashboard is **`origin/main` of `github.com/Ab-luiy/pulsify-dashboard`** (remote `origin`), which is what Cloudflare Pages deploys to `pulsify-dashboard.pages.dev`.
 
-All other worktrees under `.claude/worktrees/` (sweet-liskov-2291de, angry-swanson-97a07a, friendly-engelbart-1b1e4d, silly-gates-9a31c3, …) are considered unusable — do not edit them, do not propose work in them, do not reference them as the source of truth.
+As of 2026-06-28 the `awesome-bassi-d88340` worktree is **20 commits BEHIND `origin/main`** and is no longer canonical. main has since shipped the Trakyo redesign, CRM pagination, the payouts pie, and daily IG analytics refreshes that awesome-bassi never received. Its `index.html` is ~2,600 lines smaller than main's. Earlier note (now wrong): "awesome-bassi is the only canonical worktree, all others unusable."
 
-**Why:** The other worktrees are stale/abandoned single-commit branches. awesome-bassi is the one with the real history — YouTube/Instagram/Cal.com/Typeform API integration, Content tab rework, layout fixes, README, assets/, chats/, project/ folders.
+**Why:** main moves on its own (data-only auto-commits + other sessions' work). Treating any local worktree as canonical and deploying its index.html would silently revert everything main gained. I almost reverted 20 commits of prod this way before checking `git rev-list --left-right --count origin/main...HEAD`.
 
-**How to apply:** Before editing any dashboard file under `Pulsify-Brain/`, confirm cwd is the awesome-bassi worktree. If invoked from a different worktree, switch over (cd, or open a fresh session there) before making changes. The deployed site `pulsify-dashboard.pages.dev` is built from `main` of `github.com/Ab-luiy/pulsify-dashboard`, so changes must land on main from this worktree's branch. See [[hta-dashboard]] for product context.
+**How to apply:** Do NOT assume awesome-bassi (or any worktree) holds the latest. Before any dashboard deploy, `git fetch origin` and diff against `origin/main`. To ship a change, create a detached worktree off `origin/main` (`git worktree add --detach <tmp> origin/main`), apply the edit there, verify `git diff` is only your hunks, commit, and `git push origin HEAD:main` (fast-forward). Note remotes: `origin` = pulsify-dashboard (deploy), `brain` = pulsify-brain (autosync backup, unrelated to deploy). See [[deploy-pipeline]] and [[hta-dashboard]].
