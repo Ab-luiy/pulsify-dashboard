@@ -4625,7 +4625,7 @@ You are writing a personalized outreach asset for a specific lead on behalf of P
 [Paste the full Perplexity extraction here]
 
 **Asset to build:**
-[VSL / outreach DM / landing page copy / email / Loom script — pick one]
+[VSL / Typeform / landing page copy / email / Loom script — pick one]
 
 ---
 
@@ -4641,12 +4641,13 @@ Then write the asset using the rules below.
 
 ## Asset-specific rules
 
-**If writing an outreach DM:**
-- Maximum 4 sentences in the opener
-- Lead with the diagnosis, not a compliment
-- Reference something specific from their content — a phrase they use, a result they mentioned, a gap that is visible
-- Do not pitch in the first message
-- End with one question that opens a conversation about the problem
+**If building a Typeform application form:**
+- This is the high-ticket application form that sits after the VSL to qualify leads and book calls
+- Open with a welcome screen: a headline plus one line of subtext in the audience's own language, framing the outcome and that spots are selective
+- 7 to 10 questions, each labelled with its field type [multiple choice / short text / long text / email / phone / number / yes-no], with answer options listed for multiple choice
+- Cover in order: where they are now, their single biggest struggle (their own words from the transcript), what they have tried and why it failed, capacity to invest (framed by outcome and seriousness, not a blunt budget ask), how soon they want it fixed, then name/email/phone last
+- End with a thank-you screen that sets the one next step: book a call
+- One idea per question, conversational not corporate, never exceed 10 questions — friction kills completion
 
 **If writing a VSL:**
 - Open with their pain — use language close to how they already describe it in their own content
@@ -4717,7 +4718,7 @@ Build the full responsive page on the canvas with placeholder copy and placehold
     </script>
 
     <script type="text/plain" id="prompt-prospect-profile">
-You are building a Creator Profile for a prospect Pulsify is about to create outreach and conversion assets for. Every asset — VSL, landing page, Typeform, email sequence, outreach DM — will be built from this profile. If the profile is incomplete, the assets will be generic. Do not guess or fill gaps with assumptions. Flag every gap explicitly.
+You are building a Creator Profile for a prospect Pulsify is about to create outreach and conversion assets for. Every asset — VSL, landing page, Typeform, email sequence — will be built from this profile. If the profile is incomplete, the assets will be generic. Do not guess or fill gaps with assumptions. Flag every gap explicitly.
 
 **Raw content block:**
 
@@ -8568,7 +8569,7 @@ initPayoutSection();
       <label class="dl" for="dAsset">Asset to build</label>
       <select class="ds" id="dAsset">
         <option value="short opener">Short opener (1-liner)</option>
-        <option value="outreach DM">Outreach DM</option>
+        <option value="Typeform">Typeform (application form)</option>
         <option value="VSL">VSL script</option>
         <option value="Loom script">Loom script</option>
         <option value="landing page copy">Landing page copy</option>
@@ -8665,14 +8666,14 @@ initPayoutSection();
   if(backdrop)backdrop.addEventListener("click",close_);
   function resetOut(){if(dOut)dOut.classList.remove("show");if(dErr){dErr.classList.remove("show");dErr.textContent="";}if(dSpin)dSpin.classList.remove("show");}
   function buildPrompt(){
-    var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),pl=(dPlatform&&dPlatform.value||"Instagram"),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),of=(dOffer&&dOffer.value||"").trim(),no=(dNotes&&dNotes.value||"").trim(),at=(dAsset&&dAsset.value||"outreach DM");
-    return "You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person, not a template, not generic.\n\n**Lead:**\n- Name: "+n+(h?" (@"+h+")":"")+"\n- Platform: "+pl+"\n- Niche: "+(ni||"unknown")+(of?"\n- Offer angle: "+of:"")+"\n\n**The problem I identified:**\n"+(pr||"[not specified]")+"\n\n**Transcript data (Perplexity output):**\n"+(tr||"[not provided]")+(no?"\n\n**Private notes / context:**\n"+no:"")+"\n\n**Asset to build:** "+at+"\n\n---\n\nBefore writing, silently: (1) Extract top 5-10 recurring phrases verbatim. (2) Confirm the problem connects to something in the transcript. (3) Identify the one angle that proves you watched their content.\n\nAsset rules:\n\nShort opener: a cold DM first-line, texted to this lead. First output a line `THEME:` naming the single thing this creator brings up again and again across their last few videos (their obsession, the hill they die on), in 3-8 words pulled from the transcript. Then give 3 options labelled A, B, C, each on its own line. Each opener: 1-2 short sentences, hard ceiling around 30 words, shorter is better. Open by referencing that recurring theme so it is obvious you watched several of their videos, specific not 'love your content'. Casual texting voice, lowercase is fine, sound like a normal human not a brand or LinkedIn. End with ONE low-friction question that only someone who studied them would ask"+(pr?", aimed at this gap: "+pr:"")+". BANNED, never do these: any reverse-pitch ('do you sell/offer a course/coaching/mentorship/program', 'are you selling X anywhere', 'do you have a program') — it is dead and reads as a script, never ask whether they have an offer; compliments as filler; 'I help X do Y'; 'I came across your content'; emojis; hype; pitching; links; naming your own credentials. The 3 options should each take a different angle on the same theme. No preamble and no explanation, just the THEME line then A, B, C.\n\nOutreach DM: 4-sentence max opener, lead with diagnosis not compliment, reference something specific from their content, no pitch in first message, end with one question.\n\nVSL: open with their pain in their own language, introduce the Pulse System only after problem is established, no mention of AI tools or tech, end with one CTA.\n\nLoom script: 90 seconds max. First 10s: name them and one specific content reference. Middle 60s: diagnose problem, cost, fix. Last 20s: exact next step.\n\nLanding page copy: headline = the problem, subhead = cost of inaction, body = Pulsify as operator, social proof = Nick ($10-20K to $50K/month in 3 months), CTA = book a call.\n\nEmail: subject = problem not Pulsify, first line = content reference, 3 short paragraphs: problem / possible / next step.\n\nNon-negotiables: no lifestyle flexing, no generic openers, problem is the center of gravity, Pulsify value = operator expertise not tools, one clear next step.";
+    var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),pl=(dPlatform&&dPlatform.value||"Instagram"),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),of=(dOffer&&dOffer.value||"").trim(),no=(dNotes&&dNotes.value||"").trim(),at=(dAsset&&dAsset.value||"short opener");
+    return "You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person, not a template, not generic.\n\n**Lead:**\n- Name: "+n+(h?" (@"+h+")":"")+"\n- Platform: "+pl+"\n- Niche: "+(ni||"unknown")+(of?"\n- Offer angle: "+of:"")+"\n\n**The problem I identified:**\n"+(pr||"[not specified]")+"\n\n**Transcript data (Perplexity output):**\n"+(tr||"[not provided]")+(no?"\n\n**Private notes / context:**\n"+no:"")+"\n\n**Asset to build:** "+at+"\n\n---\n\nBefore writing, silently: (1) Extract top 5-10 recurring phrases verbatim. (2) Confirm the problem connects to something in the transcript. (3) Identify the one angle that proves you watched their content.\n\nAsset rules:\n\nShort opener: a cold DM first-line, texted to this lead. First output a line `THEME:` naming the single thing this creator brings up again and again across their last few videos (their obsession, the hill they die on), in 3-8 words pulled from the transcript. Then give 3 options labelled A, B, C, each on its own line. Each opener: 1-2 short sentences, hard ceiling around 30 words, shorter is better. Open by referencing that recurring theme so it is obvious you watched several of their videos, specific not 'love your content'. Casual texting voice, lowercase is fine, sound like a normal human not a brand or LinkedIn. End with ONE low-friction question that only someone who studied them would ask"+(pr?", aimed at this gap: "+pr:"")+". BANNED, never do these: any reverse-pitch ('do you sell/offer a course/coaching/mentorship/program', 'are you selling X anywhere', 'do you have a program') — it is dead and reads as a script, never ask whether they have an offer; compliments as filler; 'I help X do Y'; 'I came across your content'; emojis; hype; pitching; links; naming your own credentials. The 3 options should each take a different angle on the same theme. No preamble and no explanation, just the THEME line then A, B, C.\n\nTypeform: build the high-ticket application form this creator would put after their VSL to qualify leads and book calls for their 1-on-1 mentorship. Output in this order: (1) WELCOME SCREEN — a headline plus one line of subtext in the audience's own language that frames the outcome and the fact that spots are limited/selective. (2) QUESTIONS — 7 to 10 of them, numbered, each labelled with its field type [multiple choice / short text / long text / email / phone / number / yes-no], and for multiple choice list the answer options. Cover, roughly in this order: where they are now, their single biggest struggle (use the audience's exact words from the transcript), what they have already tried and why it failed, their capacity to invest (framed by the outcome and their seriousness, not a blunt budget question), how soon they want this solved, and name/email/phone last. (3) ENDING SCREEN — a thank-you that sets the one next step (book a call). Rules: phrase every question in the creator's voice and the audience's language, one idea per question, conversational not corporate, and never exceed 10 questions because friction kills completion.\n\nVSL: open with their pain in their own language, introduce the Pulse System only after problem is established, no mention of AI tools or tech, end with one CTA.\n\nLoom script: 90 seconds max. First 10s: name them and one specific content reference. Middle 60s: diagnose problem, cost, fix. Last 20s: exact next step.\n\nLanding page copy: headline = the problem, subhead = cost of inaction, body = Pulsify as operator, social proof = Nick ($10-20K to $50K/month in 3 months), CTA = book a call.\n\nEmail: subject = problem not Pulsify, first line = content reference, 3 short paragraphs: problem / possible / next step.\n\nNon-negotiables: no lifestyle flexing, no generic openers, problem is the center of gravity, Pulsify value = operator expertise not tools, one clear next step.";
   }
   if(dCopyP)dCopyP.addEventListener("click",function(){navigator.clipboard.writeText(buildPrompt()).then(function(){dCopyP.textContent="Copied!";setTimeout(function(){dCopyP.textContent="Copy prompt";},2200);});});
   if(dGen)dGen.addEventListener("click",function(){
     var key=(apiIn&&apiIn.value||"").trim();
     if(!key){showErr("Enter your Claude API key first.");return;}
-    var at=dAsset&&dAsset.value||"outreach DM";
+    var at=dAsset&&dAsset.value||"short opener";
     if(!(dTranscript&&dTranscript.value||"").trim()){showErr("Paste the transcript / Perplexity output first.");return;}
     if(at!=="short opener"&&!(dProblem&&dProblem.value||"").trim()){showErr("Describe the problem first.");return;}
     saveField();
