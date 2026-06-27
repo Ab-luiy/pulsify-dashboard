@@ -3563,6 +3563,16 @@
   html.theme-trakyo .hb-quote,
   html.theme-trakyo .plan-vector .quote,
   html.theme-trakyo .hh-quote{ font-family:"Inter",system-ui,sans-serif !important; font-style:normal !important; }
+
+  /* CRM pagination control (all themes) */
+  .crm-pager{ display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-top:16px; }
+  .crm-pg{ min-width:34px; height:34px; padding:0 11px; border-radius:9px; border:1px solid var(--border); background:var(--surface-2); color:var(--text-2); font:inherit; font-size:13px; font-weight:600; cursor:pointer; transition:.15s; }
+  .crm-pg:hover:not(:disabled){ border-color:var(--border-strong); color:var(--text); }
+  .crm-pg.active{ background:var(--accent); border-color:transparent; color:#fff; }
+  .crm-pg:disabled{ opacity:.4; cursor:default; }
+  .crm-pg.nav{ font-weight:500; }
+  .crm-pg-gap{ color:var(--muted); padding:0 2px; }
+  .crm-pg-info{ margin-left:8px; font-size:12px; color:var(--muted); font-family:"JetBrains Mono",monospace; }
 </style>
 </head>
 <body>
@@ -4877,9 +4887,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         </table>
       </div>
       <div class="empty" id="crmEmpty" style="display:none">No leads match.</div>
-      <div id="crmMore" style="display:none;text-align:center;margin-top:14px">
-        <button id="crmMoreBtn" class="btn-xs" style="padding:8px 18px">Show more</button>
-      </div>
+      <div id="crmMore" class="crm-pager" style="display:none"></div>
     </div>
   </div>
 </section>
@@ -7229,8 +7237,8 @@ initPayoutSection();
   state.removed = state.removed || [];       // [name]
   let crmView = "board";
   let crmSort = { key: "", dir: 1 };
-  let crmShown = 60;            // windowed render cap — never mount ~400 leads at once (perf)
-  const CRM_PAGE = 60;
+  let crmPage = 0;             // current CRM page (0-indexed) — paginated so ~400 leads never all mount
+  const CRM_PAGE = 60;        // leads per page
   // Names of lead cards currently expanded (kept across re-renders).
   const expandedLeads = new Set();
 
@@ -7646,7 +7654,8 @@ initPayoutSection();
     });
   }
 
-  function renderCrmTable(rows) {
+  function renderCrmTable(rows, offset) {
+    offset = offset || 0;
     $("crmBody").innerHTML = rows.map((p, i) => {
       const fallbackAct = p.stage === "replied" ? "Reply w/ value asset · requalify" : "Research → build asset → re-DM";
       const act = p.wound
@@ -7660,7 +7669,7 @@ initPayoutSection();
         : `<span style="color:var(--muted)">— open thread</span>`;
       const opts = STATUSES.map(s => `<option value="${s}"${s===p.status?" selected":""}>${s}</option>`).join("");
       return `<tr style="border-bottom:1px solid var(--border)">
-        <td style="padding:7px 10px;color:var(--muted)" class="mono">${i + 1}</td>
+        <td style="padding:7px 10px;color:var(--muted)" class="mono">${offset + i + 1}</td>
         <td style="padding:7px 10px">${p.n}</td>
         <td style="padding:7px 10px" class="mono">${handle}</td>
         <td style="padding:7px 10px;color:var(--text-2)">${p.niche || "—"}</td>
@@ -7699,14 +7708,15 @@ initPayoutSection();
     if ($("crmTableWrap")) $("crmTableWrap").style.display = onBoard ? "none" : "block";
     if ($("viewBoard")) $("viewBoard").classList.toggle("active", onBoard);
     if ($("viewTable")) $("viewTable").classList.toggle("active", !onBoard);
-    // Mount only a capped window so ~400 leads never all hit the DOM at once.
-    const shown = rows.slice(0, crmShown);
-    if (onBoard) renderCrmBoard(shown, rows); else renderCrmTable(shown);
-    if ($("crmMore")) {
-      const rem = rows.length - shown.length;
-      $("crmMore").style.display = rem > 0 ? "block" : "none";
-      if ($("crmMoreBtn")) $("crmMoreBtn").textContent = rem > 0 ? ("Show more · " + rem + " left") : "Show more";
-    }
+    // Paginate: only the current page of leads is ever in the DOM (perf).
+    const total = rows.length;
+    const totalPages = Math.max(1, Math.ceil(total / CRM_PAGE));
+    if (crmPage > totalPages - 1) crmPage = totalPages - 1;
+    if (crmPage < 0) crmPage = 0;
+    const start = crmPage * CRM_PAGE;
+    const shown = rows.slice(start, start + CRM_PAGE);
+    if (onBoard) renderCrmBoard(shown, rows); else renderCrmTable(shown, start);
+    renderCrmPager(total, totalPages, start, shown.length);
     const rc = state.removed.length;
     if ($("crmRemovedCount")) $("crmRemovedCount").textContent = rc;
     if ($("crmRestore")) $("crmRestore").style.display = rc ? "inline-block" : "none";
@@ -7742,14 +7752,44 @@ initPayoutSection();
   if ($("viewBoard")) $("viewBoard").addEventListener("click", () => { crmView = "board"; renderCrm(); });
   if ($("viewTable")) $("viewTable").addEventListener("click", () => { crmView = "table"; renderCrm(); });
   if ($("crmRestore")) $("crmRestore").addEventListener("click", restoreRemoved);
-  function crmReset(){ crmShown = CRM_PAGE; renderCrm(); }   // new filter ⇒ fresh window
+  function crmReset(){ crmPage = 0; renderCrm(); }   // new filter ⇒ back to page 1
   let crmSearchT;
   $("crmSearch").addEventListener("input", () => { clearTimeout(crmSearchT); crmSearchT = setTimeout(crmReset, 180); });
   $("crmStatusFilter").addEventListener("change", crmReset);
   $("crmBatchFilter").addEventListener("change", crmReset);
   if ($("crmSourceFilter")) $("crmSourceFilter").addEventListener("change", crmReset);
   if ($("crmTierFilter")) $("crmTierFilter").addEventListener("change", crmReset);
-  if ($("crmMoreBtn")) $("crmMoreBtn").addEventListener("click", () => { crmShown += CRM_PAGE; renderCrm(); });
+  function renderCrmPager(total, totalPages, start, count){
+    const box = $("crmMore");
+    if (!box) return;
+    if (total <= CRM_PAGE) { box.style.display = "none"; box.innerHTML = ""; return; }
+    box.style.display = "flex";
+    const cur = crmPage, last = totalPages - 1;
+    const nums = [0];
+    const lo = Math.max(1, cur - 1), hi = Math.min(last - 1, cur + 1);
+    if (lo > 1) nums.push("g");
+    for (let i = lo; i <= hi; i++) nums.push(i);
+    if (hi < last - 1) nums.push("g");
+    if (last > 0) nums.push(last);
+    const chips = nums.map(n => n === "g"
+      ? '<span class="crm-pg-gap">…</span>'
+      : `<button class="crm-pg${n===cur?" active":""}" data-pg="${n}">${n+1}</button>`).join("");
+    box.innerHTML =
+      `<button class="crm-pg nav" data-pg="${cur-1}"${cur===0?" disabled":""}>‹ Prev</button>`
+      + chips
+      + `<button class="crm-pg nav" data-pg="${cur+1}"${cur>=last?" disabled":""}>Next ›</button>`
+      + `<span class="crm-pg-info">${start+1}–${start+count} of ${total}</span>`;
+    box.querySelectorAll("button[data-pg]").forEach(b => {
+      b.addEventListener("click", () => {
+        const n = +b.dataset.pg;
+        if (isNaN(n) || n < 0 || n > totalPages - 1 || n === crmPage) return;
+        crmPage = n; renderCrm();
+        const tw = document.getElementById("crmTableWrap");
+        const t = (tw && tw.style.display !== "none") ? tw : document.getElementById("crmBoard");
+        if (t) t.scrollIntoView({ block: "start" });
+      });
+    });
+  }
   document.querySelectorAll("#crmTable thead th[data-sort]").forEach(th => {
     th.addEventListener("click", () => {
       const k = th.dataset.sort;
