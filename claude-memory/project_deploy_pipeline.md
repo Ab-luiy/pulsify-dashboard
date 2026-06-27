@@ -15,6 +15,8 @@ Live dashboard = **Cloudflare Pages** at **https://pulsify-dashboard.pages.dev**
 
 **Mirage redesign + CRM Lead Studio deployed this way on 2026-06-23** (commit 24e0ae7, FF on top of 6e15f60). See [[project_portal_reskin]] and [[project_lead_studio]].
 
-**Swap-back backup:** `index-classic.html` (committed alongside `index.html` on main) = the pre-Mirage dashboard (same latest code, old crimson/brass theme). User explicitly wants to be able to **swap back to the old design on command**. To revert: in a worktree based on `origin/main`, `cp index-classic.html index.html`, commit, push to main (FF) — Cloudflare redeploys the old look. (Or to re-apply Mirage later, reverse it.)
+**TRAKYO redesign deployed 2026-06-27** (commit 09366bc, clean FF on top of c3f7718). Method confirmed working exactly as documented: `git worktree add -B <tmp> origin/main` → back up Mirage to `index-mirage.html` → `cp index-trakyo.html index.html` → commit (only index*.html) → `git push origin <tmp>:main`. The `awesome-bassi` branch was 17 data-only commits behind origin/main but origin/main's `index.html` was IDENTICAL to the branch's, so no data transplant was needed. See [[project_dashboard_v3_backlog]] for what shipped.
+
+**Swap-back backups (newest first):** `index-mirage.html` = the Mirage design (live before Trakyo); `index-classic.html` = the pre-Mirage crimson/brass design. Both committed alongside `index.html` on main. User wants to **swap back on command**. To revert: in a worktree based on `origin/main`, `cp index-mirage.html index.html` (or `index-classic.html`), commit, push to main (FF) — Cloudflare redeploys.
 
 Note: live site is behind Cloudflare Access auth; user also views the dashboard **locally** by serving the canonical worktree — see [[project_dashboard_verification]]. Related: [[project_canonical_dashboard_worktree]].
