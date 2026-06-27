@@ -8,7 +8,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>
   :root {
     /* ===== MIRAGE — sunset on glass (design direction 07) ===== */
@@ -2289,121 +2288,121 @@
 /* ===== Cash & Calendar (#tab-cashflow) ===== */
 
 /* monthly target progress */
-.cf-target { margin-top: 18px; }
-.cf-target-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-.cf-target-head .name { color: var(--text-2); font-size: 13px; }
-.cf-target-head .num { font-weight: 500; letter-spacing: -0.01em; }
-.cf-target-head .num .vs { color: var(--muted); font-size: 12px; margin-left: 6px; }
-.cf-target .hb-bar { margin-top: 0; height: 8px; background: var(--surface-2); border: 1px solid var(--border); }
-.cf-target .hb-bar > span { background: var(--grad); box-shadow: 0 0 18px -4px var(--accent); transition: width .5s ease; }
-.cf-target-foot { margin-top: 8px; font-size: 12px; color: var(--muted); }
-.cf-target-foot #cfTargetPct { color: var(--accent); font-weight: 600; }
+#tab-cashflow .cf-target { margin-top: 18px; }
+#tab-cashflow .cf-target-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+#tab-cashflow .cf-target-head .name { color: var(--text-2); font-size: 13px; }
+#tab-cashflow .cf-target-head .num { font-weight: 500; letter-spacing: -0.01em; }
+#tab-cashflow .cf-target-head .num .vs { color: var(--muted); font-size: 12px; margin-left: 6px; }
+#tab-cashflow .cf-target .hb-bar { margin-top: 0; height: 8px; background: var(--surface-2); border: 1px solid var(--border); }
+#tab-cashflow .cf-target .hb-bar > span { background: var(--grad); box-shadow: 0 0 18px -4px var(--accent); transition: width .5s ease; }
+#tab-cashflow .cf-target-foot { margin-top: 8px; font-size: 12px; color: var(--muted); }
+#tab-cashflow .cf-target-foot #cfTargetPct { color: var(--accent); font-weight: 600; }
 
 /* chart legend */
-.cf-legend-row { display: flex; gap: 18px; margin: 2px 0 6px; }
-.cf-leg { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-2); }
-.cf-swatch { width: 12px; height: 4px; border-radius: 999px; display: inline-block; }
+#tab-cashflow .cf-legend-row { display: flex; gap: 18px; margin: 2px 0 6px; }
+#tab-cashflow .cf-leg { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-2); }
+#tab-cashflow .cf-swatch { width: 12px; height: 4px; border-radius: 999px; display: inline-block; }
 
 /* cash sources */
-.cf-source-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
-.cf-src { }
-.cf-src-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
-.cf-src-top .lab { font-size: 13px; color: var(--text-2); }
-.cf-src-top .val { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--text); }
-.cf-src-top .val .vs { color: var(--muted); margin-left: 6px; font-size: 11px; }
-.cf-src-track { height: 7px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); overflow: hidden; }
-.cf-src-track > span { display: block; height: 100%; border-radius: 999px; }
+#tab-cashflow .cf-source-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+#tab-cashflow .cf-src { }
+#tab-cashflow .cf-src-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+#tab-cashflow .cf-src-top .lab { font-size: 13px; color: var(--text-2); }
+#tab-cashflow .cf-src-top .val { font-family: "JetBrains Mono", monospace; font-size: 13px; color: var(--text); }
+#tab-cashflow .cf-src-top .val .vs { color: var(--muted); margin-left: 6px; font-size: 11px; }
+#tab-cashflow .cf-src-track { height: 7px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); overflow: hidden; }
+#tab-cashflow .cf-src-track > span { display: block; height: 100%; border-radius: 999px; }
 
 /* calendar */
-.cf-cal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-.cf-cal-head h2 { margin: 0; }
-.cf-cal-nav { display: inline-flex; align-items: center; gap: 6px; }
-.cf-cal-month { font-size: 13px; color: var(--text-2); min-width: 108px; text-align: center; }
-.cf-navbtn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); font-size: 16px; line-height: 1; cursor: pointer; transition: .15s; }
-.cf-navbtn:hover { border-color: var(--border-strong); color: var(--text); background: var(--surface-3); }
+#tab-cashflow .cf-cal-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+#tab-cashflow .cf-cal-head h2 { margin: 0; }
+#tab-cashflow .cf-cal-nav { display: inline-flex; align-items: center; gap: 6px; }
+#tab-cashflow .cf-cal-month { font-size: 13px; color: var(--text-2); min-width: 108px; text-align: center; }
+#tab-cashflow .cf-navbtn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-2); font-size: 16px; line-height: 1; cursor: pointer; transition: .15s; }
+#tab-cashflow .cf-navbtn:hover { border-color: var(--border-strong); color: var(--text); background: var(--surface-3); }
 
-.cf-cal-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0 10px; }
-.cf-dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }
-.cf-dot.src-dm { background: var(--cyan); }
-.cf-dot.src-lp { background: var(--accent); }
-.cf-dot.src-ref { background: var(--orange); }
+#tab-cashflow .cf-cal-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0 10px; }
+#tab-cashflow .cf-dot { width: 9px; height: 9px; border-radius: 999px; display: inline-block; }
+#tab-cashflow .cf-dot.src-dm { background: var(--cyan); }
+#tab-cashflow .cf-dot.src-lp { background: var(--accent); }
+#tab-cashflow .cf-dot.src-ref { background: var(--orange); }
 
-.cf-cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 6px; }
-.cf-cal-dow span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: left; padding-left: 2px; }
-.cf-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-.cf-day { min-height: 78px; border: 1px solid var(--border); background: var(--surface-2); border-radius: var(--radius-sm); padding: 6px 6px 5px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
-.cf-day.empty { background: transparent; border-color: transparent; }
-.cf-day.today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-soft) inset; }
-.cf-day-n { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); }
-.cf-day.today .cf-day-n { color: var(--accent); font-weight: 600; }
-.cf-evt { font-size: 10.5px; line-height: 1.25; padding: 3px 5px; border-radius: 6px; border-left: 2px solid var(--border-strong); background: var(--surface-3); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.cf-evt .cf-evt-t { color: var(--text); font-family: "JetBrains Mono", monospace; font-size: 9.5px; margin-right: 4px; }
-.cf-evt.src-dm { border-left-color: var(--cyan); }
-.cf-evt.src-lp { border-left-color: var(--accent); }
-.cf-evt.src-ref { border-left-color: var(--orange); }
-.cf-evt-more { font-size: 10px; color: var(--muted); padding-left: 5px; }
+#tab-cashflow .cf-cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 6px; }
+#tab-cashflow .cf-cal-dow span { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); text-align: left; padding-left: 2px; }
+#tab-cashflow .cf-cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+#tab-cashflow .cf-day { min-height: 78px; border: 1px solid var(--border); background: var(--surface-2); border-radius: var(--radius-sm); padding: 6px 6px 5px; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+#tab-cashflow .cf-day.empty { background: transparent; border-color: transparent; }
+#tab-cashflow .cf-day.today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent-soft) inset; }
+#tab-cashflow .cf-day-n { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--muted); }
+#tab-cashflow .cf-day.today .cf-day-n { color: var(--accent); font-weight: 600; }
+#tab-cashflow .cf-evt { font-size: 10.5px; line-height: 1.25; padding: 3px 5px; border-radius: 6px; border-left: 2px solid var(--border-strong); background: var(--surface-3); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#tab-cashflow .cf-evt .cf-evt-t { color: var(--text); font-family: "JetBrains Mono", monospace; font-size: 9.5px; margin-right: 4px; }
+#tab-cashflow .cf-evt.src-dm { border-left-color: var(--cyan); }
+#tab-cashflow .cf-evt.src-lp { border-left-color: var(--accent); }
+#tab-cashflow .cf-evt.src-ref { border-left-color: var(--orange); }
+#tab-cashflow .cf-evt-more { font-size: 10px; color: var(--muted); padding-left: 5px; }
 
 /* upcoming list */
-.cf-upcoming { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-.cf-up { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
-.cf-up-rail { width: 3px; align-self: stretch; border-radius: 999px; background: var(--border-strong); flex: 0 0 auto; }
-.cf-up-rail.src-dm { background: var(--cyan); }
-.cf-up-rail.src-lp { background: var(--accent); }
-.cf-up-rail.src-ref { background: var(--orange); }
-.cf-up-body { min-width: 0; flex: 1; }
-.cf-up-name { font-size: 13px; color: var(--text); font-weight: 500; }
-.cf-up-meta { font-size: 11px; color: var(--muted); font-family: "JetBrains Mono", monospace; margin-top: 2px; }
-.cf-up-src { font-size: 11px; color: var(--text-2); margin-top: 3px; }
-.cf-empty { font-size: 12px; color: var(--muted); padding: 16px 4px; }
+#tab-cashflow .cf-upcoming { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+#tab-cashflow .cf-up { display: flex; gap: 10px; align-items: flex-start; padding: 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+#tab-cashflow .cf-up-rail { width: 3px; align-self: stretch; border-radius: 999px; background: var(--border-strong); flex: 0 0 auto; }
+#tab-cashflow .cf-up-rail.src-dm { background: var(--cyan); }
+#tab-cashflow .cf-up-rail.src-lp { background: var(--accent); }
+#tab-cashflow .cf-up-rail.src-ref { background: var(--orange); }
+#tab-cashflow .cf-up-body { min-width: 0; flex: 1; }
+#tab-cashflow .cf-up-name { font-size: 13px; color: var(--text); font-weight: 500; }
+#tab-cashflow .cf-up-meta { font-size: 11px; color: var(--muted); font-family: "JetBrains Mono", monospace; margin-top: 2px; }
+#tab-cashflow .cf-up-src { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+#tab-cashflow .cf-empty { font-size: 12px; color: var(--muted); padding: 16px 4px; }
 
 /* routing flow */
-.cf-mock { color: var(--warn); border-color: rgba(0,0,0,0); background: var(--accent-soft); }
-.cf-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 10px; margin: 16px 0 20px; }
-.cf-flow-step { display: flex; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
-.cf-step-n { width: 24px; height: 24px; flex: 0 0 auto; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: "JetBrains Mono", monospace; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-.cf-step-t { font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 3px; }
-.cf-step-d { font-size: 12px; color: var(--text-2); line-height: 1.4; }
-.cf-flow-arrow { align-self: center; color: var(--muted); font-size: 18px; }
+#tab-cashflow .cf-mock { color: var(--warn); border-color: rgba(0,0,0,0); background: var(--accent-soft); }
+#tab-cashflow .cf-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: stretch; gap: 10px; margin: 16px 0 20px; }
+#tab-cashflow .cf-flow-step { display: flex; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+#tab-cashflow .cf-step-n { width: 24px; height: 24px; flex: 0 0 auto; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-family: "JetBrains Mono", monospace; font-size: 12px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+#tab-cashflow .cf-step-t { font-size: 13px; color: var(--text); font-weight: 500; margin-bottom: 3px; }
+#tab-cashflow .cf-step-d { font-size: 12px; color: var(--text-2); line-height: 1.4; }
+#tab-cashflow .cf-flow-arrow { align-self: center; color: var(--muted); font-size: 18px; }
 
-.cf-route-grid { display: grid; grid-template-columns: 320px 1fr; gap: 18px; }
-.cf-connectors { display: flex; flex-direction: column; gap: 12px; }
-.cf-conn { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
-.cf-conn-l { display: flex; align-items: center; gap: 10px; }
-.cf-conn-ico { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: "JetBrains Mono", monospace; font-size: 14px; font-weight: 700; color: var(--text); background: var(--surface-3); border: 1px solid var(--border); }
-.cf-conn-name { font-size: 13px; color: var(--text); font-weight: 500; }
-.cf-conn-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
-.cf-conn[data-state="on"] .cf-conn-sub { color: var(--success); }
-.cf-conn-btn { font-size: 12px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface-3); color: var(--text); cursor: pointer; white-space: nowrap; transition: .15s; }
-.cf-conn-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-.cf-conn[data-state="on"] .cf-conn-btn { background: transparent; color: var(--success); border-color: rgba(94,234,212,0.45); cursor: default; }
-.cf-conn[data-state="on"] .cf-conn-btn:hover { background: transparent; color: var(--success); }
-.cf-route-note { font-size: 12px; color: var(--muted); line-height: 1.5; padding: 2px; }
+#tab-cashflow .cf-route-grid { display: grid; grid-template-columns: 320px 1fr; gap: 18px; }
+#tab-cashflow .cf-connectors { display: flex; flex-direction: column; gap: 12px; }
+#tab-cashflow .cf-conn { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface-2); }
+#tab-cashflow .cf-conn-l { display: flex; align-items: center; gap: 10px; }
+#tab-cashflow .cf-conn-ico { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-family: "JetBrains Mono", monospace; font-size: 14px; font-weight: 700; color: var(--text); background: var(--surface-3); border: 1px solid var(--border); }
+#tab-cashflow .cf-conn-name { font-size: 13px; color: var(--text); font-weight: 500; }
+#tab-cashflow .cf-conn-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+#tab-cashflow .cf-conn[data-state="on"] .cf-conn-sub { color: var(--success); }
+#tab-cashflow .cf-conn-btn { font-size: 12px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--surface-3); color: var(--text); cursor: pointer; white-space: nowrap; transition: .15s; }
+#tab-cashflow .cf-conn-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+#tab-cashflow .cf-conn[data-state="on"] .cf-conn-btn { background: transparent; color: var(--success); border-color: rgba(94,234,212,0.45); cursor: default; }
+#tab-cashflow .cf-conn[data-state="on"] .cf-conn-btn:hover { background: transparent; color: var(--success); }
+#tab-cashflow .cf-route-note { font-size: 12px; color: var(--muted); line-height: 1.5; padding: 2px; }
 
 /* slack-style example card */
-.cf-slackcard { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); padding: 14px; border-left: 3px solid var(--accent); }
-.cf-slack-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.cf-slack-bot { font-size: 13px; font-weight: 600; color: var(--text); }
-.cf-slack-app { font-size: 9px; letter-spacing: 0.06em; background: var(--surface-3); color: var(--muted); padding: 1px 5px; border-radius: 4px; }
-.cf-slack-time { font-size: 11px; color: var(--muted); margin-left: auto; }
-.cf-slack-msg { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 10px; }
-.cf-slack-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin-bottom: 12px; }
-.cf-slack-fields .k { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1px; }
-.cf-slack-fields .v { font-size: 13px; color: var(--text-2); }
-.cf-slack-assign { display: flex; align-items: center; gap: 12px; }
-.cf-assign-btn { font-size: 13px; padding: 8px 16px; border-radius: 8px; border: 0; background: var(--grad); color: #fff; cursor: pointer; font-weight: 500; box-shadow: 0 0 18px -6px var(--accent); transition: .15s; }
-.cf-assign-btn:hover { filter: brightness(1.08); }
-.cf-assign-hint { font-size: 11px; color: var(--muted); }
-.cf-slack-assigned { display: flex; align-items: center; gap: 10px; padding-top: 2px; }
-.cf-avatar { width: 30px; height: 30px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: 0 0 auto; }
-.cf-assigned-name { font-size: 13px; color: var(--text); font-weight: 500; }
-.cf-assigned-meta { font-size: 11px; color: var(--text-2); margin-top: 1px; }
-.cf-assigned-tick { margin-left: auto; color: var(--success); font-size: 16px; }
+#tab-cashflow .cf-slackcard { border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); padding: 14px; border-left: 3px solid var(--accent); }
+#tab-cashflow .cf-slack-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+#tab-cashflow .cf-slack-bot { font-size: 13px; font-weight: 600; color: var(--text); }
+#tab-cashflow .cf-slack-app { font-size: 9px; letter-spacing: 0.06em; background: var(--surface-3); color: var(--muted); padding: 1px 5px; border-radius: 4px; }
+#tab-cashflow .cf-slack-time { font-size: 11px; color: var(--muted); margin-left: auto; }
+#tab-cashflow .cf-slack-msg { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 10px; }
+#tab-cashflow .cf-slack-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; margin-bottom: 12px; }
+#tab-cashflow .cf-slack-fields .k { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 1px; }
+#tab-cashflow .cf-slack-fields .v { font-size: 13px; color: var(--text-2); }
+#tab-cashflow .cf-slack-assign { display: flex; align-items: center; gap: 12px; }
+#tab-cashflow .cf-assign-btn { font-size: 13px; padding: 8px 16px; border-radius: 8px; border: 0; background: var(--grad); color: #fff; cursor: pointer; font-weight: 500; box-shadow: 0 0 18px -6px var(--accent); transition: .15s; }
+#tab-cashflow .cf-assign-btn:hover { filter: brightness(1.08); }
+#tab-cashflow .cf-assign-hint { font-size: 11px; color: var(--muted); }
+#tab-cashflow .cf-slack-assigned { display: flex; align-items: center; gap: 10px; padding-top: 2px; }
+#tab-cashflow .cf-avatar { width: 30px; height: 30px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex: 0 0 auto; }
+#tab-cashflow .cf-assigned-name { font-size: 13px; color: var(--text); font-weight: 500; }
+#tab-cashflow .cf-assigned-meta { font-size: 11px; color: var(--text-2); margin-top: 1px; }
+#tab-cashflow .cf-assigned-tick { margin-left: auto; color: var(--success); font-size: 16px; }
 
 @media (max-width: 900px) {
-  .cf-flow { grid-template-columns: 1fr; }
-  .cf-flow-arrow { display: none; }
-  .cf-route-grid { grid-template-columns: 1fr; }
-  .cf-day { min-height: 60px; }
+  #tab-cashflow .cf-flow { grid-template-columns: 1fr; }
+  #tab-cashflow .cf-flow-arrow { display: none; }
+  #tab-cashflow .cf-route-grid { grid-template-columns: 1fr; }
+  #tab-cashflow .cf-day { min-height: 60px; }
 }
 
   /* ===== Payments tab ===== */
@@ -3475,94 +3474,6 @@
     .macro-body { grid-template-columns: 1fr; }
     .macro-ring-wrap { margin: 0 auto; }
   }
-
-  /* ============================================================
-     TRAKYO LAYER — "Track Every Dollar From YouTube" direction
-     Dark collapsible rail + light Linear/Vercel content.
-     Scoped to html.theme-trakyo so it overrides cleanly and the
-     other 9 themes are untouched. (Phase 1: shell + design system)
-     ============================================================ */
-  html.theme-trakyo{
-    --bg:#f5f6f8; --bg-2:#eef0f3; --surface:#ffffff; --surface-2:#fbfbfd; --surface-3:#f1f2f5;
-    --border:#e9ebef; --border-strong:#dfe2e7;
-    --text:#0d0f14; --text-2:#3d4350; --muted:#8b909c;
-    --accent:#0ea968; --accent-2:#e7f7ef; --accent-soft:rgba(14,169,104,.10); --accent-2-soft:rgba(14,169,104,.06); --accent-dim:#0c8f58;
-    --grad:linear-gradient(120deg,#0ea968,#34d399); --grad-soft:linear-gradient(135deg,rgba(14,169,104,.14),transparent);
-    --indigo:#5b6cff; --cyan:#0ea5e9; --blue:#5b6cff; --orange:#f59e0b; --violet:#5b6cff; --pink:#f43f5e;
-    --success:#0ea968; --warn:#f59e0b; --danger:#f43f5e;
-    --radius:16px; --radius-sm:11px; --sidebar-w:252px;
-    color-scheme:light;
-  }
-  /* kill the dark mirage background + grid overlay under the light theme */
-  html.theme-trakyo body{ font-family:"Inter",-apple-system,system-ui,sans-serif; letter-spacing:-0.011em; }
-  html.theme-trakyo body::before{ background:linear-gradient(180deg,var(--bg-2) 0%, var(--bg) 100%) !important; animation:none !important; }
-  html.theme-trakyo body::after{ display:none !important; }
-  html.theme-trakyo .serif{ font-family:"Inter",system-ui,sans-serif !important; font-weight:700 !important; background:none !important; -webkit-background-clip:initial !important; background-clip:initial !important; color:var(--text) !important; -webkit-text-fill-color:initial !important; }
-
-  /* ----- dark rail (independent of the light palette) ----- */
-  html.theme-trakyo aside.sidebar{
-    background:#0b0d12 !important; border-right:1px solid #181b22;
-    color:#e7e9ee; padding:18px 12px 14px;
-  }
-  html.theme-trakyo .sidebar .brand-mark{ background:linear-gradient(135deg,var(--accent),#34d399); box-shadow:0 6px 18px -6px var(--accent); }
-  html.theme-trakyo .sidebar .brand-text .name{ color:#fff; }
-  html.theme-trakyo .sidebar .brand-text .media{ color:#6b7280; letter-spacing:.18em; text-transform:uppercase; font-size:10px; }
-  html.theme-trakyo .sidebar nav.sb-nav .nav-group{ color:#565b66; font-size:10px; letter-spacing:.15em; text-transform:uppercase; }
-  html.theme-trakyo .sidebar nav.sb-nav button{ position:relative; color:#aab0bb; border-radius:10px; font-weight:500; }
-  html.theme-trakyo .sidebar nav.sb-nav button:hover{ background:#15181f; color:#fff; }
-  html.theme-trakyo .sidebar nav.sb-nav button.active{ background:#16191f; color:#fff; box-shadow:none !important; }
-  html.theme-trakyo .sidebar nav.sb-nav button.active::before{ content:""; position:absolute; left:-12px; top:50%; transform:translateY(-50%); width:3px; height:20px; border-radius:0 3px 3px 0; background:var(--accent); }
-  html.theme-trakyo .sidebar nav.sb-nav .ico{ stroke:currentColor; }
-  html.theme-trakyo .sidebar nav.sb-nav button.active .ico{ stroke:#fff; }
-  html.theme-trakyo .sidebar nav.sb-nav button .count{ color:#6b7280; background:transparent; }
-  html.theme-trakyo .sidebar nav.sb-nav button.active .count{ color:var(--accent); }
-  html.theme-trakyo .sidebar .sb-foot{ border-top:1px solid #181b22; }
-  html.theme-trakyo .sb-status .k{ color:#6b7280; }
-  html.theme-trakyo .sb-status .v{ color:#aab0bb; }
-  html.theme-trakyo .sb-settings{ color:#8b909c; }
-  html.theme-trakyo .sb-settings:hover{ background:#15181f; color:#fff; }
-
-  /* ----- light content: topbar + cards + kpis ----- */
-  html.theme-trakyo .page-head h2.page-title{ font-family:"Inter",system-ui,sans-serif !important; font-size:22px; font-weight:700; letter-spacing:-0.02em; color:var(--text); }
-  html.theme-trakyo .page-head .eyebrow{ color:var(--muted); }
-  html.theme-trakyo .page-head .head-actions .chip{ background:var(--surface); border:1px solid var(--border); color:var(--text-2); box-shadow:0 1px 2px rgba(13,15,20,.05); }
-  html.theme-trakyo .theme-select{ background:var(--surface); color:var(--text); border:1px solid var(--border); }
-
-  html.theme-trakyo .card{
-    background:var(--surface) !important; border:1px solid var(--border);
-    border-radius:var(--radius);
-    box-shadow:0 1px 2px rgba(13,15,20,.04),0 1px 3px rgba(13,15,20,.06);
-    backdrop-filter:none !important;
-  }
-  html.theme-trakyo .card:hover{ border-color:var(--border-strong); box-shadow:0 8px 30px -12px rgba(13,15,20,.18); }
-
-  html.theme-trakyo .kpi{
-    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
-    box-shadow:0 1px 2px rgba(13,15,20,.04),0 1px 3px rgba(13,15,20,.06);
-    transition:transform .2s cubic-bezier(.2,.7,.2,1), box-shadow .2s, border-color .2s;
-  }
-  html.theme-trakyo .kpi:hover{ transform:translateY(-3px); box-shadow:0 8px 30px -12px rgba(13,15,20,.18); border-color:var(--border-strong); }
-  html.theme-trakyo .kpi::before, html.theme-trakyo .kpi::after{ display:none !important; }
-  html.theme-trakyo .kpi .v{ color:var(--text); }
-  /* tame oversized KPI numbers + drop Clash-Display; later <style> blocks override
-     plain rules, so these need !important to win (v3 backlog #9) */
-  html.theme-trakyo .kpi .v.large{
-    font-family:"JetBrains Mono", ui-monospace, monospace !important;
-    font-size:24px !important; font-weight:600 !important; letter-spacing:-0.01em !important;
-    white-space:nowrap; max-width:100%; overflow:hidden; text-overflow:ellipsis;
-  }
-  html.theme-trakyo .kpi{ overflow:hidden; }
-  html.theme-trakyo .kpi .delta{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-
-  /* flatten leftover Mirage gradient washes on light */
-  html.theme-trakyo .card.feature-card,
-  html.theme-trakyo .hero-band,
-  html.theme-trakyo .ov-brief,
-  html.theme-trakyo .plan-vector{ background:var(--surface) !important; background-image:none !important; border-color:var(--border) !important; }
-  /* editorial serif quotes → Inter to match the Trakyo voice */
-  html.theme-trakyo .hb-quote,
-  html.theme-trakyo .plan-vector .quote,
-  html.theme-trakyo .hh-quote{ font-family:"Inter",system-ui,sans-serif !important; font-style:normal !important; }
 </style>
 </head>
 <body>
@@ -3623,12 +3534,8 @@
       Payouts
     </button>
     <button data-tab="cashflow">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-      Cash flow
-    </button>
-    <button data-tab="calendar">
       <svg class="ico" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M8 14l2.5 2.5L16 12"/></svg>
-      Calendar
+      Cash &amp; Calendar
     </button>
     <div class="nav-group">Wellness</div>
     <button data-tab="health">
@@ -3658,7 +3565,6 @@
     </div>
     <div class="head-actions">
       <select id="themeSelect" class="theme-select" aria-label="Theme">
-        <option value="trakyo">Trakyo</option>
         <option value="mirage">Mirage</option>
         <option value="dark">Dark</option>
         <option value="light">Light</option>
@@ -4341,13 +4247,6 @@
       <div class="cf-source-list" id="cfSourceList"></div>
     </div>
 
-  </div>
-</section>
-
-<!-- CALENDAR — split out of Cash flow into its own section -->
-<section class="tab-panel" id="tab-calendar">
-  <div class="grid">
-
     <!-- Row 3: booked-calls calendar -->
     <div class="card span-8">
       <div class="cf-cal-head">
@@ -4877,9 +4776,6 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         </table>
       </div>
       <div class="empty" id="crmEmpty" style="display:none">No leads match.</div>
-      <div id="crmMore" style="display:none;text-align:center;margin-top:14px">
-        <button id="crmMoreBtn" class="btn-xs" style="padding:8px 18px">Show more</button>
-      </div>
     </div>
   </div>
 </section>
@@ -5417,7 +5313,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   contentPipelineState.overrides = contentPipelineState.overrides || {};
   contentPipelineState.added = contentPipelineState.added || [];
   contentPipelineState.removed = contentPipelineState.removed || [];
-  const STAGE_ACCENTS = ["var(--accent)", "var(--cyan)", "var(--blue)", "var(--violet)", "var(--pink)", "var(--orange)", "var(--success)", "var(--warn)"];
+  const STAGE_ACCENTS = ["#f0abfc", "#38e2d0", "#60a5fa", "#fb7eb6", "#a78bfa", "#fb923c", "#4ade80", "#fbbf24"];
   function applyMetricOverrides(data) {
     if (!metricState || !metricState.content) return data;
     data.content = Object.assign({}, data.content || {}, metricState.content);
@@ -5449,7 +5345,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     ["Instagram metrics", "Instagram Graph API", "hourly/daily", "later"],
     ["Revenue", "Stripe/bank/manual private source", "daily", "later"]
   ];
-  const chartColors = ["#0ea968", "#5b6cff", "#0ea5e9", "#8b5cf6", "#f59e0b", "#14b8a6", "#f43f5e"];
+  const chartColors = ["#fb7185", "#d946ef", "#c4b5fd", "#f0abfc", "#a5b4fc", "#5eead4", "#fcd34d"];
   const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
   const ratio = (a, b) => b ? (Number(a || 0) / Number(b || 0)) * 100 : 0;
   const cleanText = (v) => {
@@ -5564,7 +5460,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const grid = [0, 0.25, 0.5, 0.75, 1].map((p) => {
       const gy = T + p * (H - T - B);
       const val = Math.round(max * (1 - p));
-      return `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="rgba(148,163,184,0.20)" />
+      return `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="rgba(255,255,255,0.07)" />
         <text x="6" y="${gy + 4}" fill="#5e5e68" font-size="10">${fmt(val)}</text>`;
     }).join("");
     const xLabels = labels.map((lab, i) =>
@@ -5591,7 +5487,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     const bw = (W - L - R - gap * (values.length - 1)) / values.length;
     const grid = [0, 0.5, 1].map((p) => {
       const gy = T + p * (H - T - B);
-      return `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="rgba(148,163,184,0.20)" />`;
+      return `<line x1="${L}" y1="${gy}" x2="${W - R}" y2="${gy}" stroke="rgba(255,255,255,0.07)" />`;
     }).join("");
     const bars = values.map((v, i) => {
       const h = (Number(v || 0) / max) * (H - T - B);
@@ -5632,7 +5528,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       offset += p;
       return out;
     }).join("");
-    svg.innerHTML = `<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(148,163,184,0.22)" stroke-width="13"></circle>
+    svg.innerHTML = `<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="13"></circle>
       <g class="donut-ring">${segs}</g>
       <text class="donut-c" x="50" y="47" text-anchor="middle">${esc(center)}</text>
       <text class="donut-s" x="50" y="60" text-anchor="middle">${esc(sub)}</text>`;
@@ -5741,7 +5637,7 @@ function renderPayments() {
   $("payOutstanding").textContent = money(p.outstanding);
 
   // ---- deal-type breakdown (donut reuses categorical chartColors) ----
-  const typeColors = { pif: "#0ea968", plan: "#5b6cff", fin: "#f59e0b" };
+  const typeColors = { pif: chartColors[5] || "#5eead4", plan: chartColors[2] || "#c4b5fd", fin: chartColors[6] || "#fcd34d" };
   const types = (p.types || []).map((t, i) => Object.assign({ color: typeColors[t.key] || chartColors[i % chartColors.length] }, t));
   const typeTotal = types.reduce((s, t) => s + (Number(t.amount) || 0), 0);
 
@@ -6036,7 +5932,7 @@ function initPayoutSection() {
       return out;
     }).join("");
     donut.innerHTML =
-      '<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(148,163,184,0.22)" stroke-width="13"></circle>' +
+      '<circle cx="50" cy="50" r="34" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="13"></circle>' +
       '<g class="donut-ring">' + segs + '</g>' +
       '<text class="donut-c" x="50" y="47" text-anchor="middle">' + total + '</text>' +
       '<text class="donut-s" x="50" y="60" text-anchor="middle">deals won</text>';
@@ -6336,7 +6232,7 @@ initPayoutSection();
 
   // ---- routing / connectors (mock) ----
   function wireConnectors() {
-    document.querySelectorAll(".cf-conn-btn").forEach(function (btn) {
+    document.querySelectorAll("#tab-cashflow .cf-conn-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var which = btn.getAttribute("data-conn");
         if (which === "slack") {
@@ -6972,17 +6868,17 @@ initPayoutSection();
   /* Theme switcher — default Mirage (= :root, no class) */
   (function(){
     var sel = document.getElementById("themeSelect");
-    var THEMES = ["trakyo","light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
+    var THEMES = ["light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
     function applyTheme(n){
       if (n !== "mirage" && THEMES.indexOf(n) === -1) n = "mirage";
       var c = document.documentElement.classList;
       [].slice.call(c).forEach(function(cl){ if (cl.indexOf("theme-") === 0) c.remove(cl); });
       if (n !== "mirage") c.add("theme-" + n);
-      try { localStorage.setItem("pulsify-theme-trakyobuild", n); } catch(e){}
+      try { localStorage.setItem("pulsify-theme", n); } catch(e){}
       if (sel) sel.value = n;
     }
-    var saved = "trakyo";
-    try { saved = localStorage.getItem("pulsify-theme-trakyobuild") || "trakyo"; } catch(e){}
+    var saved = "mirage";
+    try { saved = localStorage.getItem("pulsify-theme") || "mirage"; } catch(e){}
     applyTheme(saved);
     if (sel) sel.addEventListener("change", function(){ applyTheme(sel.value); });
   })();
@@ -7229,8 +7125,6 @@ initPayoutSection();
   state.removed = state.removed || [];       // [name]
   let crmView = "board";
   let crmSort = { key: "", dir: 1 };
-  let crmShown = 60;            // windowed render cap — never mount ~400 leads at once (perf)
-  const CRM_PAGE = 60;
   // Names of lead cards currently expanded (kept across re-renders).
   const expandedLeads = new Set();
 
@@ -7420,9 +7314,9 @@ initPayoutSection();
     setText("crmBatchView", batchLabel(($("crmBatchFilter") && $("crmBatchFilter").value) || ""));
   }
   function statusColor(s) {
-    return ({ new:"var(--blue)", queued:"var(--warn)", researching:"var(--cyan)",
-      "asset-built":"var(--violet)", contacted:"var(--accent)", replied:"var(--success)",
-      won:"var(--success)", dead:"var(--muted)" })[s] || "var(--muted)";
+    return ({ new:"#fb7185", queued:"#fcd34d", researching:"#c4b5fd",
+      "asset-built":"#f0abfc", contacted:"#a5b4fc", replied:"#5eead4",
+      won:"#34d399", dead:"#fca5a5" })[s] || "#c4b5fd";
   }
   function renderCrmIntel(P) {
     const nicheCounts = P.reduce((acc, p) => {
@@ -7527,13 +7421,11 @@ initPayoutSection();
     const id = ytVidId(vu);
     return id ? `https://i.ytimg.com/vi/${id}/mqdefault.jpg` : "";
   }
-  function renderCrmBoard(rows, allRows) {
+  function renderCrmBoard(rows) {
     const board = $("crmBoard");
     if (!board) return;
-    allRows = allRows || rows;
     board.innerHTML = STATUSES.map(s => {
       const inCol = rows.filter(p => p.status === s);
-      const totalCol = allRows.filter(p => p.status === s).length;
       const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
       const ICO_YT = `<svg class="kan-ico" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 5 12 5 12 5s-7 0-8.9.4A3 3 0 0 0 1 7.5 31 31 0 0 0 .6 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1C5 19 12 19 12 19s7 0 8.9-.4a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.4 12 31 31 0 0 0 23 7.5zM9.8 15.3V8.7l5.7 3.3z"/></svg>`;
       const ICO_VID = `<svg class="kan-ico" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l5 3.5-5 3.5z" fill="currentColor" stroke="none"/></svg>`;
@@ -7549,11 +7441,11 @@ initPayoutSection();
         const safeH = (p.h||"").replace(/'/g,"\\'");
         const safeNiche = (p.niche||"").replace(/'/g,"\\'");
         const tierC = p.tier === "A" ? "var(--accent)" : (p.tier === "B" ? "var(--cyan)" : (p.tier === "C" ? "var(--muted)" : "var(--border-strong)"));
-        const avGrad = p.tier === "A" ? "linear-gradient(135deg,var(--accent),var(--success))"
-          : p.tier === "B" ? "linear-gradient(135deg,var(--blue),var(--violet))"
-          : p.source === "instagram" ? "linear-gradient(135deg,var(--violet),var(--blue))"
-          : p.source === "youtube" ? "linear-gradient(135deg,var(--cyan),var(--blue))"
-          : "linear-gradient(135deg,var(--muted),var(--border-strong))";
+        const avGrad = p.tier === "A" ? "linear-gradient(135deg,#fb7185,#d946ef)"
+          : p.tier === "B" ? "linear-gradient(135deg,#c4b5fd,#a5b4fc)"
+          : p.source === "instagram" ? "linear-gradient(135deg,#f0abfc,#c4b5fd)"
+          : p.source === "youtube" ? "linear-gradient(135deg,#fda4af,#fb7185)"
+          : "linear-gradient(135deg,#cbb6e6,#9a7d92)";
         const initial = ((p.n||"?").trim().charAt(0) || "?").toUpperCase();
         // Socials, YouTube-first — the videos/channels are what we care about.
         const socials = [];
@@ -7603,9 +7495,8 @@ initPayoutSection();
         </div>`;
       }).join("");
       return `<div class="kan-col" data-status="${s}">
-        <h4><span style="color:${statusColor(s)}">${s}</span><span class="cnt">${totalCol}</span></h4>
+        <h4><span style="color:${statusColor(s)}">${s}</span><span class="cnt">${inCol.length}</span></h4>
         ${cards || `<div style="color:var(--muted);font-size:11px;padding:6px 2px;font-style:italic">drop here</div>`}
-        ${inCol.length < totalCol ? `<div style="color:var(--muted);font-size:10.5px;padding:6px 2px;font-style:italic">+${totalCol - inCol.length} more below</div>` : ""}
       </div>`;
     }).join("");
 
@@ -7699,14 +7590,7 @@ initPayoutSection();
     if ($("crmTableWrap")) $("crmTableWrap").style.display = onBoard ? "none" : "block";
     if ($("viewBoard")) $("viewBoard").classList.toggle("active", onBoard);
     if ($("viewTable")) $("viewTable").classList.toggle("active", !onBoard);
-    // Mount only a capped window so ~400 leads never all hit the DOM at once.
-    const shown = rows.slice(0, crmShown);
-    if (onBoard) renderCrmBoard(shown, rows); else renderCrmTable(shown);
-    if ($("crmMore")) {
-      const rem = rows.length - shown.length;
-      $("crmMore").style.display = rem > 0 ? "block" : "none";
-      if ($("crmMoreBtn")) $("crmMoreBtn").textContent = rem > 0 ? ("Show more · " + rem + " left") : "Show more";
-    }
+    if (onBoard) renderCrmBoard(rows); else renderCrmTable(rows);
     const rc = state.removed.length;
     if ($("crmRemovedCount")) $("crmRemovedCount").textContent = rc;
     if ($("crmRestore")) $("crmRestore").style.display = rc ? "inline-block" : "none";
@@ -7742,14 +7626,11 @@ initPayoutSection();
   if ($("viewBoard")) $("viewBoard").addEventListener("click", () => { crmView = "board"; renderCrm(); });
   if ($("viewTable")) $("viewTable").addEventListener("click", () => { crmView = "table"; renderCrm(); });
   if ($("crmRestore")) $("crmRestore").addEventListener("click", restoreRemoved);
-  function crmReset(){ crmShown = CRM_PAGE; renderCrm(); }   // new filter ⇒ fresh window
-  let crmSearchT;
-  $("crmSearch").addEventListener("input", () => { clearTimeout(crmSearchT); crmSearchT = setTimeout(crmReset, 180); });
-  $("crmStatusFilter").addEventListener("change", crmReset);
-  $("crmBatchFilter").addEventListener("change", crmReset);
-  if ($("crmSourceFilter")) $("crmSourceFilter").addEventListener("change", crmReset);
-  if ($("crmTierFilter")) $("crmTierFilter").addEventListener("change", crmReset);
-  if ($("crmMoreBtn")) $("crmMoreBtn").addEventListener("click", () => { crmShown += CRM_PAGE; renderCrm(); });
+  $("crmSearch").addEventListener("input", renderCrm);
+  $("crmStatusFilter").addEventListener("change", renderCrm);
+  $("crmBatchFilter").addEventListener("change", renderCrm);
+  if ($("crmSourceFilter")) $("crmSourceFilter").addEventListener("change", renderCrm);
+  if ($("crmTierFilter")) $("crmTierFilter").addEventListener("change", renderCrm);
   document.querySelectorAll("#crmTable thead th[data-sort]").forEach(th => {
     th.addEventListener("click", () => {
       const k = th.dataset.sort;
@@ -8305,7 +8186,7 @@ initPayoutSection();
           const y = baseY - bh;
           return `<rect x="${(cx - barW / 2).toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="5" fill="${isToday ? 'url(#hBarGrad)' : 'rgba(255,255,255,0.16)'}"/>`;
         }
-        return `<rect x="${(cx - barW / 2).toFixed(1)}" y="${(baseY - 3).toFixed(1)}" width="${barW.toFixed(1)}" height="3" rx="1.5" fill="rgba(148,163,184,0.22)"/>`;
+        return `<rect x="${(cx - barW / 2).toFixed(1)}" y="${(baseY - 3).toFixed(1)}" width="${barW.toFixed(1)}" height="3" rx="1.5" fill="rgba(255,255,255,0.06)"/>`;
       }).join("");
 
       const yT = yFor(target);
@@ -8320,7 +8201,7 @@ initPayoutSection();
             <stop offset="100%" stop-color="#9b1c1c"/>
           </linearGradient>
         </defs>
-        <line x1="${padL}" y1="${baseY}" x2="${W - padR}" y2="${baseY}" stroke="rgba(148,163,184,0.28)" stroke-width="1"/>
+        <line x1="${padL}" y1="${baseY}" x2="${W - padR}" y2="${baseY}" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
         ${targetLine}
         ${bars}
       `;
