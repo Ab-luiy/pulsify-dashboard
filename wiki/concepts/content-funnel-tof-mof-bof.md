@@ -100,7 +100,7 @@ In practice, Pulsify's weekly content system defaults to:
 
 ## Tracking which layer is bottlenecked
 
-Per Ayman: use Trackio (or equivalent) to track calls booked per video and the full customer journey before each booking. Common patterns:
+Per Ayman: use Trakyo (trakyo.io; transcribed as "Trackio") to track calls booked per video and the full customer journey before each booking. Common patterns:
 
 - **Offer clicks dropping** → post more MOF/BOF content
 - **Clicks high but calls not booking** → BOF content is missing or weak

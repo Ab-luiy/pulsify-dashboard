@@ -65,7 +65,7 @@ When someone calls having watched 3–4 videos, it is the easiest close in the w
 - Promote on every platform after posting (Instagram stories, email, Twitter) — external traffic actively helps
 
 ### Tracking
-- Use Trackio for organic content attribution
+- Use Trakyo (trakyo.io; transcribed as "Trackio") for organic content attribution
 - Key metrics: CTR on CTA link, booked calls per video, booked calls vs. clicks ratio
 - Without tracking, you are flying blind — views are deceptive
 - A 400-view video can outperform a 2,000-view video on calls booked
@@ -93,7 +93,7 @@ When someone calls having watched 3–4 videos, it is the easiest close in the w
 ## Open questions / gaps
 
 - Ayman's examples are primarily B2C (dropshipping, ecom, AI agency). Adaptation for Pulsify's B2B-adjacent biz-op niche (coaches coaching coaches) needs explicit documentation.
-- Trackio hasn't been confirmed as the tool Pulsify uses — needs operational verification.
+- Trakyo (trakyo.io) hasn't been confirmed as the tool Pulsify uses — needs operational verification.
 
 ## Source trail
 

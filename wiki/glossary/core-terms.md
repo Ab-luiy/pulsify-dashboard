@@ -132,7 +132,7 @@ The attract layer of the content funnel. TOF content reaches new audiences, spar
 
 ---
 
-**Trackio**
+**Trakyo** (transcribed as "Trackio" in the Ayman transcript — same product, trakyo.io)
 The attribution tool Ayman Arab uses (or equivalent) to track which specific video drove each booked call and map the full customer journey before every booking. The non-optional tracking layer for any content-driven funnel. See [[ayman-arab]].
 
 ---
