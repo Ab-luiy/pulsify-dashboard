@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-26T08:26:35.254Z",
+  "lastUpdated": "2026-06-27T07:44:29.307Z",
   "instagram": {
-    "updatedAt": "2026-06-26T08:26:35.191Z",
+    "updatedAt": "2026-06-27T07:44:29.246Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -9,10 +9,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 507,
-      "following": 472,
+      "followers": 508,
+      "following": 468,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=kUW-ykukHekQ7kNvwGjyizq&_nc_oc=Adr1f7prHQj4_kR5Gk9pZ3kGjOU2NPHO44pHoe_v4gH72f4NF4-iqPRsovt3odMoDos&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=irjHR9Vu_gfTccf2KhDCGg&_nc_tpa=Q5bMBQH83b_89mOyZxad5C_TfvK2mtzIA-TFIvpQfokHoRNzaGUdQTegc-2ZwcxXK9da9AwtFRyEXsdY&oh=00_Af8cyQT8Wy8jYnwSz4xsm5X2SUxdX7_4AnVzBvnaz-EPDw&oe=6A4424E8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=kUW-ykukHekQ7kNvwGjKo6H&_nc_oc=AdogULBmR3VpObDoQIjDyjfblk9lgZP1FSW6JJBx0-bBTP0nfHiSufQ9G5YjcSMRBg4&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=Fih7j4jkWoNSjFsCy6NrXw&_nc_tpa=Q5bMBQEujhnAsh0VAUoGy865ddy4Pbz6AyRuTlQNlD0goo1KvWhW0BfDrBOfGKOkQNO-2ZoIJJ6FsTLq&oh=00_Af8RgxYNEtSl_lBoweCpYe6C3F9SB17fekM0dFSi1IsTEg&oe=6A453E28"
     },
     "content": {
       "reelsCount": 8,
@@ -85,14 +85,14 @@
       ]
     },
     "account": {
-      "reach30d": 1,
+      "reach30d": 0,
       "views30d": 0,
       "newFollowers30d": 0,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        1,
+        0,
         0
       ],
       "followerSeries": [
@@ -100,7 +100,7 @@
         0
       ],
       "viewsSeries": [],
-      "available": true
+      "available": false
     },
     "audience": {
       "countries": [
@@ -110,7 +110,7 @@
         },
         {
           "name": "BR",
-          "value": 50
+          "value": 51
         },
         {
           "name": "US",
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "AE",
+          "name": "TW",
+          "value": 1
+        },
+        {
+          "name": "UA",
           "value": 1
         },
         {
           "name": "AF",
-          "value": 1
-        },
-        {
-          "name": "CL",
           "value": 1
         }
       ],
@@ -339,11 +339,11 @@
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
@@ -352,10 +352,6 @@
         },
         {
           "name": "Lima, Lima Region",
-          "value": 2
-        },
-        {
-          "name": "Toronto, Ontario",
           "value": 2
         },
         {
@@ -383,43 +379,43 @@
           "value": 2
         },
         {
-          "name": "Philadelphia, Pennsylvania",
+          "name": "São Gonçalo, Rio de Janeiro (state)",
+          "value": 2
+        },
+        {
+          "name": "Masterton, Wellington Region",
           "value": 1
         },
         {
-          "name": "London, England",
+          "name": "Iguidi, Souss-Massa-Drâa",
           "value": 1
         },
         {
-          "name": "Shakhrikhan, Andijan Region",
+          "name": "Osasco, São Paulo (state)",
           "value": 1
         },
         {
-          "name": "São Félix de Minas, Minas Gerais",
+          "name": "Sanaa, Sana'a Governorate",
           "value": 1
         },
         {
-          "name": "Riga, Riga Planning Region",
+          "name": "Nabadwip, West Bengal",
           "value": 1
         },
         {
-          "name": "Berlin, Berlin",
+          "name": "Ogden, Iowa",
           "value": 1
         },
         {
-          "name": "Puerto Princesa, Mimaropa",
+          "name": "Centurion, Gauteng",
           "value": 1
         },
         {
-          "name": "Aparecida de Goiânia, Goiás",
+          "name": "Pangkah, Central Java",
           "value": 1
         },
         {
-          "name": "Honnali, Karnataka",
-          "value": 1
-        },
-        {
-          "name": "Devgarh, Rajasthan",
+          "name": "Tenggarong, East Kalimantan",
           "value": 1
         },
         {
@@ -427,50 +423,54 @@
           "value": 1
         },
         {
-          "name": "South Riding, Virginia",
+          "name": "Raipur, Chhattisgarh",
           "value": 1
         },
         {
-          "name": "Beirut, Beirut Governorate",
+          "name": "Zeraïa, Mila Province",
           "value": 1
         },
         {
-          "name": "Kokrobite, Greater Accra Region",
+          "name": "Bac Me, Hà Giang Province",
           "value": 1
         },
         {
-          "name": "Tawau, Sabah",
+          "name": "Davangere, Karnataka",
           "value": 1
         },
         {
-          "name": "Chitbara Gaon, Uttar Pradesh",
+          "name": "Patilar, Bihar",
           "value": 1
         },
         {
-          "name": "Sokolec, Central Bohemian Region",
+          "name": "Billingham, England",
           "value": 1
         },
         {
-          "name": "Palembang, South Sumatra",
+          "name": "Patna, Bihar",
           "value": 1
         },
         {
-          "name": "Pakyong, Sikkim",
+          "name": "Rajauri, Jammu and Kashmir",
           "value": 1
         },
         {
-          "name": "Buccan, Queensland",
+          "name": "Mahates, Bolivar",
           "value": 1
         },
         {
           "name": "Concepción del Uruguay, Entre Rios",
+          "value": 1
+        },
+        {
+          "name": "Ughelli, Delta State",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 243
+          "value": 244
         },
         {
           "name": "M",
@@ -492,7 +492,7 @@
         },
         {
           "name": "35-44",
-          "value": 31
+          "value": 32
         },
         {
           "name": "13-17",
@@ -744,7 +744,7 @@
     }
   },
   "content": {
-    "igFollowers": 507,
+    "igFollowers": 508,
     "igReach30d": 1141,
     "igReelsShipped": 18
   }
