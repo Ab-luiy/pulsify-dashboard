@@ -32,7 +32,9 @@ async function fetchOne(rawUrl, apiKey) {
   const videoId = extractVideoId(rawUrl);
   if (!videoId) return { url: rawUrl, error: "could not parse a YouTube video id" };
   const watch = "https://www.youtube.com/watch?v=" + videoId;
-  const api = SUPADATA_ENDPOINT + "?url=" + encodeURIComponent(watch) + "&text=true";
+  // lang=en: without it Supadata may return a translated track (e.g. Arabic) instead of the
+  // creator's original words. Our ICP is English-speaking, so prefer the English/original track.
+  const api = SUPADATA_ENDPOINT + "?url=" + encodeURIComponent(watch) + "&text=true&lang=en";
 
   let r;
   try {
