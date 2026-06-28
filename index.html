@@ -8562,8 +8562,16 @@ initPayoutSection();
       <textarea class="dt" id="dNotes" placeholder="Research, context, links — anything you want tracked on this lead."></textarea>
     </div>
     <div class="df">
-      <label class="dl" for="dTranscript">Perplexity output <span>from 3-5 transcripts</span></label>
-      <textarea class="dt tall" id="dTranscript" placeholder="Paste the Perplexity extraction here — voice, phrases, proof, mechanism..."></textarea>
+      <label class="dl" for="dVideos">Auto-ingest transcripts <span>paste up to 3 video URLs</span></label>
+      <textarea class="dt" id="dVideos" placeholder="One YouTube URL per line (max 3)"></textarea>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+        <button class="btn-xs acc" id="dIngest" type="button">Pull transcripts</button>
+        <span id="dIngestStatus" style="font-size:12px;opacity:.85"></span>
+      </div>
+    </div>
+    <div class="df">
+      <label class="dl" for="dTranscript">Transcript / Perplexity output <span>pulled above, or paste your own</span></label>
+      <textarea class="dt tall" id="dTranscript" placeholder="Pull transcripts above, or paste a Perplexity extraction here — voice, phrases, proof, mechanism..."></textarea>
     </div>
     <div class="df">
       <label class="dl" for="dAsset">Asset to build</label>
@@ -8693,6 +8701,33 @@ initPayoutSection();
     if(typeof window.setOverride==="function"){window.setOverride(curLead,{status:"asset-built"});if(typeof window.renderCrm==="function")window.renderCrm();}
     dMark.textContent="Marked!";dMark.style.color="#5eead4";
     setTimeout(function(){dMark.textContent="Mark asset-built";dMark.style.color="";},2500);
+  });
+  // Auto-ingest: pull real YouTube transcripts via the /transcript Cloudflare Function (Supadata), fill the transcript field
+  var dVideos=document.getElementById("dVideos"),dIngest=document.getElementById("dIngest"),dIngestStatus=document.getElementById("dIngestStatus");
+  function ingestStatus(m){if(dIngestStatus)dIngestStatus.textContent=m;}
+  function parseVideoUrls(s){return (s||"").split(/[\s,]+/).map(function(x){return x.trim();}).filter(Boolean).slice(0,3);}
+  if(dIngest)dIngest.addEventListener("click",function(){
+    var urls=parseVideoUrls(dVideos&&dVideos.value);
+    if(!urls.length){ingestStatus("Paste at least one YouTube URL.");return;}
+    dIngest.disabled=true;ingestStatus("Pulling "+urls.length+" transcript(s)...");
+    fetch("/transcript",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({urls:urls})})
+      .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j};});})
+      .then(function(res){
+        if(res.j&&res.j.error&&!res.j.transcripts){throw new Error(res.j.error);}
+        var list=(res.j&&res.j.transcripts)||[];
+        var blocks=list.map(function(t,i){
+          if(t&&t.text){return "### Transcript "+(i+1)+" ("+(t.url||t.videoId||"")+")\n"+t.text;}
+          return "### Transcript "+(i+1)+" ("+((t&&(t.url||t.videoId))||"")+") — could not pull: "+((t&&t.error)||"unknown");
+        });
+        var combined=blocks.join("\n\n");
+        if(dTranscript){dTranscript.value=(dTranscript.value.trim()?dTranscript.value.trim()+"\n\n":"")+combined;}
+        saveField();
+        var okCount=list.filter(function(t){return t&&t.text;}).length;
+        if(okCount){ingestStatus("Added "+okCount+"/"+urls.length+" below — pick an asset and Generate.");}
+        else{ingestStatus("No transcripts pulled"+(list[0]&&list[0].error?" ("+list[0].error+")":"")+". Paste manually instead.");}
+      })
+      .catch(function(e){ingestStatus("Error: "+e.message+". Paste manually instead.");})
+      .finally(function(){dIngest.disabled=false;});
   });
 })();
 </script>
