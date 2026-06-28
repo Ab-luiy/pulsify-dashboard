@@ -8535,7 +8535,7 @@ initPayoutSection();
   </div>
   <div class="drawer-scroll">
     <div class="df">
-      <label class="dl" for="drawerApiKey">Claude API Key <span>saved in this browser only</span></label>
+      <label class="dl" for="drawerApiKey">Claude API Key <span>optional — leave blank once set in Cloudflare</span></label>
       <input class="di" type="password" id="drawerApiKey" placeholder="sk-ant-api03-..." autocomplete="off" />
       <div class="api-hint">Get yours at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a></div>
     </div>
@@ -8687,17 +8687,16 @@ initPayoutSection();
   if(dCopyP)dCopyP.addEventListener("click",function(){navigator.clipboard.writeText(buildPrompt()).then(function(){dCopyP.textContent="Copied!";setTimeout(function(){dCopyP.textContent="Copy prompt";},2200);});});
   if(dGen)dGen.addEventListener("click",function(){
     var key=(apiIn&&apiIn.value||"").trim();
-    if(!key){showErr("Enter your Claude API key first.");return;}
     var at=dAsset&&dAsset.value||"short opener";
     if(!(dTranscript&&dTranscript.value||"").trim()){showErr("Pull or paste a transcript first.");return;}
     saveField();
     resetOut();dSpin.classList.add("show");dGen.disabled=true;
-    fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:2048,messages:[{role:"user",content:buildPrompt()}]})})
+    fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:buildPrompt(),key:key})})
     .then(function(r){if(!r.ok)return r.json().then(function(e){throw new Error(e.error&&e.error.message||"API error "+r.status);});return r.json();})
-    .then(function(d){var t=d.content&&d.content[0]&&d.content[0].text||"";dSpin.classList.remove("show");if(dOutLbl)dOutLbl.textContent=at.toUpperCase();if(dOutText)dOutText.textContent=t;if(dOut)dOut.classList.add("show");localStorage.setItem(LS,key);
+    .then(function(d){var t=d.content&&d.content[0]&&d.content[0].text||"";dSpin.classList.remove("show");if(dOutLbl)dOutLbl.textContent=at.toUpperCase();if(dOutText)dOutText.textContent=t;if(dOut)dOut.classList.add("show");if(key)localStorage.setItem(LS,key);
       if(curLead&&t&&typeof window.pushLeadAsset==="function"){var asset={id:"a"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36),type:at,text:t,ts:Date.now()};window.pushLeadAsset(curLead,asset);renderTracked(((typeof window.getLeadExtra==="function"&&window.getLeadExtra(curLead))||{}).assets||[]);}
     })
-    .catch(function(e){dSpin.classList.remove("show");showErr("Error: "+e.message+". If CORS error, use 'Copy prompt' and paste into Claude.ai instead.");})
+    .catch(function(e){dSpin.classList.remove("show");showErr("Error: "+e.message);})
     .finally(function(){dGen.disabled=false;});
   });
   function showErr(m){if(!dErr)return;dErr.textContent=m;dErr.classList.add("show");}
