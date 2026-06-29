@@ -1,5 +1,6 @@
 # Memory index
 
+- [CRM lead-loss fix](project_crm_lead_loss_fix.md) — 2026-06-29 YT scrape silently dropped 250/320 leads (overwrite mode); 2026-06-30 recovered to 489 + switched inject_yt_leads.py to MERGE-by-default (never drops; `--replace` to force overwrite); "Franz"=Frank Wieler restored
 - [Outreach extraction workflow (WIP)](project_outreach_extraction_workflow.md) — STANDARD as of 2026-06-29: cheap LLM compresses transcripts into a quote-rich CREATOR BRIEF (verbatim quotes mandatory), paste into Claude, Claude asks which asset + builds it; fire anytime. Refined extraction prompt is now LIVE on the dashboard (commit 61ad094): it's `buildAnalyzePrompt()` + a new "Copy extraction prompt" button for manual Perplexity runs. Reference md files: lead-studio-extraction-prompt.md + lead-studio-context-block.md
 - [IG profile aesthetic is parked](feedback_ig_profile_parked.md) — don't propose bio/highlight/grid/photo overhauls; active IG work is content + growth, not aesthetic
 - [VSL distinction](feedback_vsl_distinction.md) — founder funnel ≠ client deliverable Funnel Stack; VSL removed only from founder's personal funnel, still installed for clients
