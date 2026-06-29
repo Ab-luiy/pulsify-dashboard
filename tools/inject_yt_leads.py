@@ -3,8 +3,11 @@
 inject_yt_leads.py — bake yt_leads.json + yt_leads_meta.json into index.html.
 
 The dashboard reads its lead list from inline <script id="ytLeadsData"> and
-<script id="ytLeadsMeta"> tags (single-file deployment, no fetch). This script
-overwrites those tags' contents with the latest scraped JSON.
+<script id="ytLeadsMeta"> tags (single-file deployment, no fetch). By default
+this script MERGES the latest scraped JSON into whatever is already baked in
+(keyed by channel URL, fresh records win on conflict) so a weekly scrape that
+returns a different batch never silently drops leads the operator is actively
+working. Pass --replace for a deliberate clean rebuild that overwrites.
 
 Usage:
     python tools/inject_yt_leads.py
@@ -43,11 +46,30 @@ def replace_script_content(html: str, script_id: str, new_content: str) -> tuple
     return new_html, matched[0]
 
 
+def extract_existing_leads(html: str, script_id: str) -> list:
+    """Parse the leads currently baked into the HTML; [] if absent/invalid."""
+    pat = re.compile(SCRIPT_PATTERN.format(id=re.escape(script_id)), re.DOTALL)
+    m = pat.search(html)
+    if not m:
+        return []
+    try:
+        data = json.loads(m.group(2))
+        return data if isinstance(data, list) else []
+    except Exception:
+        return []
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--leads", default="yt_leads.json")
     parser.add_argument("--meta", default="yt_leads_meta.json")
     parser.add_argument("--html", default="index.html")
+    parser.add_argument(
+        "--replace",
+        action="store_true",
+        help="clean rebuild: overwrite the lead list instead of merging "
+        "(this DROPS any lead not present in the new scrape)",
+    )
     args = parser.parse_args()
 
     repo_root = Path(__file__).resolve().parent.parent
@@ -86,10 +108,31 @@ def main():
     # domains (e.g. @gmail.com) as IG handles. Fixed in the data layer so the
     # 298KB single-file UI never has to change.
     enrich_leads(leads_data, scrape_date)
-    leads_text = json.dumps(leads_data, ensure_ascii=False, separators=(",", ":"))
 
     html = html_path.read_text(encoding="utf-8")
     original_size = len(html)
+
+    # MERGE (default): never silently drop leads that fell out of the latest
+    # scrape. A weekly scrape returns a fresh batch; leads it doesn't re-surface
+    # would otherwise vanish from the CRM — and with them anything the operator
+    # was actively building. So union the fresh scrape with whatever is already
+    # baked in, keyed by channel URL, fresh records winning on conflict. Prior
+    # leads keep the enrichment they were baked with. Use --replace to override.
+    if not args.replace:
+        existing = extract_existing_leads(html, "ytLeadsData")
+        if existing:
+            scraped_cus = {l.get("cu", "") for l in leads_data if l.get("cu")}
+            kept = [l for l in existing if l.get("cu") and l.get("cu") not in scraped_cus]
+            leads_data = leads_data + kept
+            leads_data.sort(key=lambda d: -d.get("s", 0))
+            print(
+                "merge: {s} scraped + {k} prior-only kept -> {t} total".format(
+                    s=len(scraped_cus), k=len(kept), t=len(leads_data)
+                ),
+                file=sys.stderr,
+            )
+
+    leads_text = json.dumps(leads_data, ensure_ascii=False, separators=(",", ":"))
 
     html, m1 = replace_script_content(html, "ytLeadsData", leads_text)
     if not m1:
