@@ -1,5 +1,6 @@
 # Memory index
 
+- [Outreach extraction workflow (WIP)](project_outreach_extraction_workflow.md) — STANDARD as of 2026-06-29: cheap LLM compresses transcripts into a quote-rich CREATOR BRIEF (verbatim quotes mandatory), paste into Claude, Claude asks which asset + builds it; fire anytime; prompt files = lead-studio-extraction-prompt.md + lead-studio-context-block.md (in worktree, move to canonical)
 - [IG profile aesthetic is parked](feedback_ig_profile_parked.md) — don't propose bio/highlight/grid/photo overhauls; active IG work is content + growth, not aesthetic
 - [VSL distinction](feedback_vsl_distinction.md) — founder funnel ≠ client deliverable Funnel Stack; VSL removed only from founder's personal funnel, still installed for clients
 - [Speed is the motto](feedback_speed_is_the_motto.md) — default to fastest shippable move; don't ask permission when path is obvious; markdown over apps, drafts over discussions, ship now refine later
