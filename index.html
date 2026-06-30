@@ -4850,10 +4850,10 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         </div>
         <select id="crmStatusFilter" class="crm-select">
           <option value="">All statuses</option>
-          <option value="new">new</option><option value="queued">queued</option>
-          <option value="researching">researching</option><option value="asset-built">asset-built</option>
-          <option value="contacted">contacted</option><option value="replied">replied</option>
-          <option value="won">won</option><option value="dead">dead</option>
+          <option value="new">New</option><option value="building">Freebies</option>
+          <option value="sent">Sent</option><option value="follow-up">Followed up</option>
+          <option value="replied">Replied</option><option value="call-booked">Call booked</option>
+          <option value="won">Won</option><option value="dead">Dead</option>
         </select>
         <select id="crmSourceFilter" class="vis-hidden">
           <option value="">All sources</option>
@@ -6644,7 +6644,7 @@ initPayoutSection();
     const cashPct = clamp(ratio(D.revenue.cashCollected, D.targets.thirtyDay.cashCollected), 0, 100);
     const score = Math.round(checklistPct * 0.35 + contentPct * 0.2 + funnelPct * 0.2 + callsPct * 0.15 + cashPct * 0.1);
     const replied = P.filter(p => p.stage === "replied" || p.status === "replied").length;
-    const unworked = P.filter(p => p.status === "new" || p.status === "queued").length;
+    const unworked = P.filter(p => p.status === "new").length;
     const firstGap = checklist.find(c => !c.done);
     const leak = replied > 0 && D.pipeline.callBooked === 0
       ? ["Replies -> calls", `${replied} replies, no calls booked yet.`]
@@ -7246,7 +7246,13 @@ initPayoutSection();
   }
   }
 
-  const STATUSES = ["new","queued","researching","asset-built","contacted","replied","won","dead"];
+  const STATUSES = ["new","building","sent","follow-up","replied","call-booked","won","dead"];
+  // Pipeline aligned to the freebie-first outreach play: source a lead, build
+  // their landing page + freebies, send, follow up, reply, book the call, close.
+  const STATUS_LABELS = { "new":"New", "building":"Freebies", "sent":"Sent", "follow-up":"Followed up", "replied":"Replied", "call-booked":"Call booked", "won":"Won", "dead":"Dead" };
+  // Map legacy stage keys onto the new pipeline so no lead is ever orphaned.
+  const STATUS_MIGRATE = { "queued":"building", "researching":"building", "asset-built":"building", "contacted":"sent" };
+  function normStatus(s){ if(!s) return "new"; if(STATUSES.indexOf(s) > -1) return s; return STATUS_MIGRATE[s] || "new"; }
   const LS_KEY = "pulsify_crm_v1";
   function loadState() {
     try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; } catch (e) { return {}; }
@@ -7258,6 +7264,15 @@ initPayoutSection();
   state.overrides = state.overrides || {};   // name -> { status, batch, handle }
   state.added = state.added || [];           // [{n,h,niche,dms,stage}]
   state.removed = state.removed || [];       // [name]
+  // One-time: rewrite any legacy stage key onto the new pipeline.
+  if (!state._stagesV2) {
+    Object.keys(state.overrides).forEach(k => {
+      const o = state.overrides[k];
+      if (o && o.status && STATUS_MIGRATE[o.status]) o.status = STATUS_MIGRATE[o.status];
+    });
+    state._stagesV2 = true;
+    saveState(state);
+  }
   let crmView = "board";
   let crmSort = { key: "", dir: 1 };
   let crmPage = 0;             // current CRM page (0-indexed) — paginated so ~400 leads never all mount
@@ -7340,7 +7355,7 @@ initPayoutSection();
           niche: p.niche || "—",
           dms: p.dms || 0,
           stage: p.stage,
-          status: o.status || stStatus,
+          status: normStatus(o.status || stStatus),
           batch: o.batch || 0,
           source: p._source || "instagram",
           ytUrl: p._ytUrl || "",
@@ -7427,7 +7442,7 @@ initPayoutSection();
     const latest = Math.max(0, ...P.map(p => p.batch || 0));
     if (!latest) return;
     P.filter(p => p.batch === latest).forEach(p => {
-      const nextStatus = p.status === "queued" ? (p.stage === "replied" ? "replied" : "new") : p.status;
+      const nextStatus = p.status === "building" ? (p.stage === "replied" ? "replied" : "new") : p.status;
       setOverride(p.n, { batch: 0, status: nextStatus });
     });
     const sel = $("crmBatchFilter");
@@ -7440,7 +7455,7 @@ initPayoutSection();
     const replied = P.filter(p => p.stage === "replied").length;
     const activeMax = Math.max(0, ...P.map(p => p.batch || 0));
     const inBatch = P.filter(p => p.batch === activeMax && activeMax > 0).length;
-    const unworked = P.filter(p => p.status === "new" || p.status === "queued").length;
+    const unworked = P.filter(p => p.status === "new").length;
     $("crmTotal").textContent = fmt(P.length);
     $("crmDms").textContent = fmt(totalDms);
     $("crmReplies").textContent = fmt(replied);
@@ -7451,8 +7466,8 @@ initPayoutSection();
     setText("crmBatchView", batchLabel(($("crmBatchFilter") && $("crmBatchFilter").value) || ""));
   }
   function statusColor(s) {
-    return ({ new:"var(--blue)", queued:"var(--warn)", researching:"var(--cyan)",
-      "asset-built":"var(--violet)", contacted:"var(--accent)", replied:"var(--success)",
+    return ({ new:"var(--blue)", building:"var(--violet)", sent:"var(--accent)",
+      "follow-up":"var(--warn)", replied:"var(--success)", "call-booked":"var(--cyan)",
       won:"var(--success)", dead:"var(--muted)" })[s] || "var(--muted)";
   }
   function renderCrmIntel(P) {
@@ -7472,8 +7487,8 @@ initPayoutSection();
       acc[k] = (acc[k] || 0) + 1;
       return acc;
     }, {});
-    const statusOrder = ["new", "queued", "researching", "asset-built", "contacted", "replied", "won", "dead"];
-    const statusLabels = { "new":"New", "queued":"Queued", "researching":"Research", "asset-built":"Asset", "contacted":"Contacted", "replied":"Replied", "won":"Won", "dead":"Dead" };
+    const statusOrder = ["new", "building", "sent", "follow-up", "replied", "call-booked", "won", "dead"];
+    const statusLabels = { "new":"New", "building":"Freebies", "sent":"Sent", "follow-up":"Followed up", "replied":"Replied", "call-booked":"Call booked", "won":"Won", "dead":"Dead" };
     if ($("crmStatusLanes")) {
       $("crmStatusLanes").innerHTML = statusOrder.map((s) => {
         const value = statusCounts[s] || 0;
@@ -7634,7 +7649,7 @@ initPayoutSection();
         </div>`;
       }).join("");
       return `<div class="kan-col" data-status="${s}">
-        <h4><span style="color:${statusColor(s)}">${s}</span><span class="cnt">${totalCol}</span></h4>
+        <h4><span style="color:${statusColor(s)}">${STATUS_LABELS[s]||s}</span><span class="cnt">${totalCol}</span></h4>
         ${cards || `<div style="color:var(--muted);font-size:11px;padding:6px 2px;font-style:italic">drop here</div>`}
         ${inCol.length < totalCol ? `<div style="color:var(--muted);font-size:10.5px;padding:6px 2px;font-style:italic">+${totalCol - inCol.length} more below</div>` : ""}
       </div>`;
@@ -7840,10 +7855,10 @@ initPayoutSection();
     const P = basePros();
     const bn = nextBatchNo();
     // Highest-score leads first so each batch works the best of the unworked pool
-    P.filter(p => (p.status === "new" || p.status === "queued") && !p.batch)
+    P.filter(p => (p.status === "new") && !p.batch)
       .sort((a, b) => (b.ytScore || 0) - (a.ytScore || 0))
       .slice(0, 15)
-      .forEach(p => setOverride(p.n, { batch: bn, status: "queued" }));
+      .forEach(p => setOverride(p.n, { batch: bn, status: "building" }));
     if ($("crmBatchFilter")) $("crmBatchFilter").value = String(bn);
     renderCrm();
   });
@@ -8732,7 +8747,7 @@ initPayoutSection();
   if(dCopyOut)dCopyOut.addEventListener("click",function(){navigator.clipboard.writeText(dOutText&&dOutText.textContent||"").then(function(){dCopyOut.textContent="Copied!";setTimeout(function(){dCopyOut.textContent="Copy";},2200);});});
   if(dMark)dMark.addEventListener("click",function(){
     if(!curLead)return;
-    if(typeof window.setOverride==="function"){window.setOverride(curLead,{status:"asset-built"});if(typeof window.renderCrm==="function")window.renderCrm();}
+    if(typeof window.setOverride==="function"){window.setOverride(curLead,{status:"building"});if(typeof window.renderCrm==="function")window.renderCrm();}
     dMark.textContent="Marked!";dMark.style.color="#5eead4";
     setTimeout(function(){dMark.textContent="Mark asset-built";dMark.style.color="";},2500);
   });
