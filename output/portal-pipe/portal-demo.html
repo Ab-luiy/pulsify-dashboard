@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frank Wieler — Client Portal (demo)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#131720; --muted:#626a78; --blue:#6871f4; --blue-soft:#eef0ff; --lavender:#f5f3ff;
+    --line:#e9e8ef; --white:#fff; --green:#1f9d6b; --green-soft:#e6f7ef; --amber:#b9821f; --amber-soft:#fbf2dd; }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{ background:#f3f3f8; color:var(--ink); font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif; padding:28px 16px; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:920px; margin:0 auto; }
+  .topbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; }
+  .title{ font-size:22px; font-weight:800; letter-spacing:-.02em; }
+  .demo-badge{ font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--blue);
+    background:var(--blue-soft); padding:6px 12px; border-radius:999px; }
+  .sub{ color:var(--muted); font-size:13.5px; margin-bottom:22px; }
+  .sub b{ color:var(--ink); font-weight:600; }
+
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:22px; }
+  .stat{ background:var(--white); border:1px solid var(--line); border-radius:14px; padding:16px 18px; box-shadow:0 14px 40px rgba(68,58,139,.05); }
+  .stat .k{ font-size:12px; color:var(--muted); font-weight:500; }
+  .stat .v{ font-size:26px; font-weight:800; letter-spacing:-.02em; margin-top:4px; }
+  .stat .v small{ font-size:14px; color:var(--muted); font-weight:600; }
+
+  .card{ background:var(--white); border:1px solid var(--line); border-radius:16px; box-shadow:0 18px 50px rgba(68,58,139,.06); overflow:hidden; }
+  .card-head{ display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--line); }
+  .card-head h2{ font-size:16px; font-weight:700; }
+  .actions{ display:flex; gap:8px; }
+  .btn{ border:1px solid var(--line); background:var(--white); color:var(--ink); font:inherit; font-size:12.5px; font-weight:600;
+    padding:9px 14px; border-radius:9px; cursor:pointer; transition:.12s; }
+  .btn:hover{ border-color:var(--blue); color:var(--blue); }
+  .btn.primary{ background:var(--blue); color:#fff; border-color:var(--blue); }
+  .btn.primary:hover{ filter:brightness(1.05); color:#fff; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th{ text-align:left; font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; padding:12px 22px; background:#fafafd; }
+  td{ padding:14px 22px; border-top:1px solid var(--line); font-size:14px; vertical-align:middle; }
+  .lead-name{ font-weight:600; } .lead-email{ color:var(--muted); font-size:12.5px; }
+  .rev{ font-size:12.5px; color:var(--ink); background:var(--lavender); padding:3px 9px; border-radius:7px; display:inline-block; }
+  .watch{ display:flex; align-items:center; gap:9px; min-width:120px; }
+  .bar{ flex:1; height:7px; border-radius:5px; background:#eceaf6; overflow:hidden; }
+  .bar i{ display:block; height:100%; background:var(--blue); border-radius:5px; transition:width .5s ease; }
+  .watch span{ font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums; min-width:34px; text-align:right; }
+  .pill{ font-size:11.5px; font-weight:600; padding:4px 10px; border-radius:999px; }
+  .pill.new{ background:var(--blue-soft); color:var(--blue); }
+  .pill.hot{ background:var(--green-soft); color:var(--green); }
+  .pill.warm{ background:var(--amber-soft); color:var(--amber); }
+  .flash{ animation:flash 1.2s ease; }
+  @keyframes flash{ from{ background:var(--blue-soft);} to{ background:transparent;} }
+  .foot{ font-size:12px; color:var(--muted); padding:14px 22px; border-top:1px solid var(--line); background:#fafafd; }
+  @media (max-width:680px){ .stats{grid-template-columns:repeat(2,1fr);} .hide-sm{display:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="title">Frank Wieler &mdash; Client portal</div>
+    <span class="demo-badge">Demo · sample data</span>
+  </div>
+  <p class="sub">One screen: every application from the landing page, and <b>how far each person watched the VSL</b> &mdash; fed automatically by the pipe (Typeform + Wistia). No logging into two tools.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="k">Page visitors</div><div class="v" id="s-visitors">214</div></div>
+    <div class="stat"><div class="k">Watched the VSL</div><div class="v" id="s-plays">138 <small id="s-playrate">· 64%</small></div></div>
+    <div class="stat"><div class="k">Applications</div><div class="v" id="s-apps">9</div></div>
+    <div class="stat"><div class="k">Booked calls</div><div class="v" id="s-booked">3</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h2>Applications</h2>
+      <div class="actions">
+        <button class="btn" onclick="simWatch()">Simulate VSL watch</button>
+        <button class="btn primary" onclick="simApply()">Simulate new application</button>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Name</th><th class="hide-sm">Revenue</th><th>VSL watched</th><th class="hide-sm">Applied</th><th>Status</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="foot">This is sample data showing the layout. Once Frank's Typeform + Wistia are connected, real applications and watch stats land here automatically.</div>
+  </div>
+</div>
+
+<script>
+  const REVS = ["Under $10K/mo","$10K–$50K/mo","$50K–$100K/mo","$100K+/mo","Pre-revenue"];
+  const NAMES = ["Marcus Reed","Dylan Cho","Priya Nair","Sam Whitfield","Owen Drake","Lena Vasquez","Theo Bright","Aisha Karim"];
+  let leads = [
+    { name:"Jordan Mills", email:"jordan@mailbox.com", rev:"$10K–$50K/mo", watched:92, applied:"2h ago", status:"hot" },
+    { name:"Casey Lin", email:"casey.lin@gmail.com", rev:"$50K–$100K/mo", watched:78, applied:"5h ago", status:"hot" },
+    { name:"Riley Dawson", email:"riley.d@outlook.com", rev:"Under $10K/mo", watched:41, applied:"yesterday", status:"warm" },
+    { name:"Noah Pereira", email:"noah.p@gmail.com", rev:"$100K+/mo", watched:64, applied:"yesterday", status:"new" },
+    { name:"Emma Schultz", email:"emma.s@mailbox.com", rev:"$10K–$50K/mo", watched:23, applied:"2 days ago", status:"warm" },
+  ];
+
+  function statusFor(w){ return w>=75 ? "hot" : w>=40 ? "warm" : "new"; }
+  function render(flashFirst){
+    const tb = document.getElementById("rows");
+    tb.innerHTML = leads.map((l,i)=>`
+      <tr class="${flashFirst&&i===0?'flash':''}">
+        <td><div class="lead-name">${l.name}</div><div class="lead-email">${l.email}</div></td>
+        <td class="hide-sm"><span class="rev">${l.rev}</span></td>
+        <td><div class="watch"><div class="bar"><i style="width:${l.watched}%"></i></div><span>${l.watched}%</span></div></td>
+        <td class="hide-sm">${l.applied}</td>
+        <td><span class="pill ${l.status}">${l.status==='hot'?'Hot lead':l.status==='warm'?'Warm':'New'}</span></td>
+      </tr>`).join("");
+    document.getElementById("s-apps").textContent = leads.length;
+  }
+  function simApply(){
+    const name = NAMES[Math.floor(Math.random()*NAMES.length)];
+    const watched = Math.floor(Math.random()*100);
+    leads.unshift({
+      name, email: name.toLowerCase().split(" ")[0]+"@gmail.com",
+      rev: REVS[Math.floor(Math.random()*REVS.length)],
+      watched, applied:"just now", status: statusFor(watched)
+    });
+    render(true);
+  }
+  function simWatch(){
+    const i = Math.floor(Math.random()*leads.length);
+    leads[i].watched = Math.min(100, leads[i].watched + Math.floor(10+Math.random()*30));
+    leads[i].status = statusFor(leads[i].watched);
+    render(false);
+    const plays = document.getElementById("s-plays");
+    plays.firstChild.textContent = (138 + Math.floor(Math.random()*3)) + " ";
+  }
+  render(false);
+</script>
+</body>
+</html>

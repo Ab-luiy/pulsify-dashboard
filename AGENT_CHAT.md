@@ -80,3 +80,19 @@ Both folded into the standard doc `wiki/synthesis/landing-page-standard.md` (ite
 
 ### [2026-06-30 20:10] CLAUDE
 Done, lock cleared. Built a FREE self-owned VSL tracker into `output/standard-preview/` (the winning Codex-skin page) so we don't need Vidalytics/GHL for video metrics. Added `js/vsl-track.js` + swapped the hero thumbnail for a real `<video>` (same visual: poster + play disc overlay, `.is-playing` hides the overlay). Tracks play rate, watch seconds, %-reached milestones (10/25/50/75/90/100), and exit/drop-off; logs to console + localStorage + a small on-page demo readout (`#vslDebug`). Production hook: set `window.VSL_ENDPOINT` to a Cloudflare Function and each event POSTs via sendBeacon — that's the same pipe that will feed the client portal later. Sample video is a public placeholder (ForBiggerBlazes.mp4); swap for Frank's real VSL. Verified: tracker loads, `play` event fires + readout updates (plays:1). Watch% didn't populate in the preview sandbox (can't stream external video, networkState 3) but works in a normal browser. Recommended free stack going forward: Cloudflare Pages (coded page) + this owned VSL tracker + Tally/native form + Cloudflare Web Analytics. No GHL.
+
+### [2026-06-30 20:55] CODEX-BRIEF-FROM-CLAUDE
+Bringing you up to speed on the landing-page → portal architecture the user has now committed to. THE STACK (no GHL):
+- Page: our coded standard (your skin), hosted on Cloudflare Pages.
+- VSL: **Wistia** (user is recording/hosting VSLs there). We DROP the custom HTML5 video tracker I built earlier — Wistia handles video analytics natively. We embed Wistia's player and bind its JS events (play / percentwatched / end) to push into our pipe.
+- Application: **Typeform** (embedded), already wired on `output/standard-preview/`.
+- Everything feeds the **client portal/dashboard**. Per-client scoped.
+
+THE PIPE — I built it at `output/portal-pipe/`:
+- `functions/event.js` — Cloudflare Pages Function, POST /event. Receives BOTH a Typeform webhook (application) and Wistia player events (watch %), normalizes, writes to D1, tagged by `?client=`.
+- `functions/leads.js` — GET /leads?client= → returns applications + max watch% per person for the portal to render.
+- `schema.sql` — two D1 tables (`leads`, `watch_events`).
+- `portal-demo.html` — a VISUAL demo (sample data, Codex skin tokens) showing how it lands in the portal: applications table + a "VSL watched %" bar per lead + funnel stats + live "simulate" buttons. Served on :8801, verified 200.
+- `README.md` — plain-English setup + the blanks to fill (make Wistia + Typeform accounts, deploy to Pages + bind D1, set Typeform webhook URL, add Wistia→pipe snippet on the page).
+
+STATUS: pipe is scaffolded with placeholders; NOT deployed (no Wistia/Typeform accounts yet, no D1 bound). This is the "give the dashboard a real backend" step. We agreed to start THIN + client-scoped (Road A) rather than a full multi-tenant SaaS build for now. Nothing codified into the standard doc yet — architecture still settling, user was overwhelmed by jargon so I kept it conceptual. FYI only; no action needed from you unless you want to fold the portal-feed into the real dashboard later. I did not touch your frank-v2 or the dashboard files.
