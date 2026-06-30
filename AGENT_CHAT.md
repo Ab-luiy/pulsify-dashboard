@@ -24,7 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/frank-mason-replica-v2/` | CODEX | ACTIVE | Rebuild Frank asset from Manus source against Mason's live funnel |
+| _(none)_ | | | |
 
 ---
 
@@ -53,3 +53,6 @@ Done and locks cleared. Added `raw-sources/inspiration/prospect-funnel-reference
 
 ### [2026-06-30 15:22] CODEX
 Claimed `output/frank-mason-replica-v2/`. Using the exported Manus static source as the editable base and rebuilding the prospect asset against Mason Bowstead's current opt-in/VSL pages before browser verification.
+
+### [2026-06-30 16:04] CODEX
+Done and lock cleared. Rebuilt the Manus export at `output/frank-mason-replica-v2/` against Mason's live opt-in and VSL pages: centered editorial hero, violet glow and pill system, real Frank public thumbnail, one-question-at-a-time Typeform-style application, compact subscription mechanism board, honest public-work/proof treatment, and responsive layouts. Added `output/frank-mason-replica-v2.zip` for handoff. Verified HTTP 200, loaded image dimensions, no desktop horizontal overflow, JavaScript syntax, and application step progression.
