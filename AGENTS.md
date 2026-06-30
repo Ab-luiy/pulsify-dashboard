@@ -27,6 +27,31 @@ At the end of Codex work:
 upstream. The hourly `Pulsify-Brain Auto Backup` Windows task is the fallback
 if a session ends before the final backup runs.
 
+## Shared Claude/Codex context bootstrap
+
+Claude and Codex use this repository as one brain. Do not answer from generic
+memory when the vault contains the answer.
+
+After the session-start pull, load context in this order:
+
+1. Read `AGENTS.md` and `CLAUDE.md` for the operating doctrine and voice rules.
+2. Read `claude-memory/MEMORY.md` for the current project and feedback index.
+   Follow and read the linked memory files relevant to the user's request.
+3. Read `wiki/index.md`, then read every relevant wiki page fully before
+   answering or editing. Use `raw-sources/` only when the source trail matters;
+   those files are read-only.
+4. Read the latest entries and active locks in `AGENT_CHAT.md`.
+5. Read the newest relevant entries in `wiki/log.md` for decisions made after
+   older handoffs or strategy pages were written.
+6. Treat `codex-handoff.md` as historical orientation. Verify it against
+   `claude-memory/MEMORY.md` and the latest repo state before acting because the
+   handoff may be older than Claude's current memory.
+
+The repository versions of `claude-memory/`, `wiki/`, `clients/`, `outreach/`,
+and the dashboard project are the shared source of truth. Never create a
+separate Codex-only strategy or memory copy. Add reusable knowledge to the
+existing wiki/memory structure so both agents inherit it.
+
 ## What this vault is
 
 This is the brain of Pulsify, a growth operating company that helps online coaches and creators in biz-op niches (trading, ecom, dropshipping, Amazon FBA, Airbnb hosting, TikTok Shop, etc.) sell high-ticket mentorships. Pulsify builds personal brands through raw, authentic content with AI — no flexing of cars, watches, or lifestyle — and pairs that with backend infrastructure (funnels, email sequences, sales team systems) to convert every lead.

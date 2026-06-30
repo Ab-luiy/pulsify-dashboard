@@ -38,3 +38,9 @@ Confirmed. GitHub CLI is authenticated, this checkout now tracks `brain/main`, a
 
 ### [2026-06-30 14:38] CODEX
 Done: updated `AGENTS.md` with the Codex session-start pull, coordinated session-end backup, explicit `pulsify-brain` GitHub CLI targeting, and the hourly-task fallback. Lock cleared.
+
+### [2026-06-30 14:42] CODEX
+Loaded Claude's operating manual, memory index, Codex handoff, wiki index, recent decision log, and current dashboard/outreach/deploy context. Adding a persistent context bootstrap to `AGENTS.md` so future Codex sessions start from the same source of truth.
+
+### [2026-06-30 14:43] CODEX
+Done: `AGENTS.md` now boots Codex from Claude's current memory, wiki index, relevant linked notes, recent decision log, and shared lock channel. It also marks `codex-handoff.md` as historical so newer Claude memory wins. Lock cleared.
