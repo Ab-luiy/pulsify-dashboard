@@ -6,132 +6,197 @@
 <title>Frank Wieler — Subscription Brand Mentorship</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{ --ink:#15171c; --muted:#6b7280; --line:#e7e7ee; --blue:#5b63f0; --blue2:#4a52e6; --paper:#fff; --soft:#f6f6fb; }
-  *{box-sizing:border-box;}
-  body{ margin:0; background:#eef0f6; color:var(--ink); font-family:"Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif; display:flex; justify-content:center; padding:30px 16px; }
-  .lp{ max-width:720px; width:100%; background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 18px 60px rgba(40,36,90,.10); }
-  .pad{ padding:30px 40px; } .center{ text-align:center; }
-  .wm{ font-weight:800; letter-spacing:.16em; font-size:13px; text-transform:uppercase; }
-  .eyebrow{ display:inline-flex; align-items:center; gap:7px; margin-top:22px; padding:6px 13px; border-radius:999px; background:var(--soft); border:1px solid var(--line); font-size:12.5px; font-weight:600; color:#4b4f5e; }
-  .dot{ width:7px; height:7px; border-radius:50%; background:var(--blue); display:inline-block; }
-  h1{ font-size:39px; line-height:1.06; font-weight:800; letter-spacing:-.02em; margin:18px auto 0; max-width:600px; }
+  :root{
+    --ink:#101114; --body:#3f434d; --muted:#8a8f9a; --faint:#b9bcc4;
+    --line:#ececf1; --line2:#e2e2ea; --paper:#ffffff; --soft:#f7f7fa; --soft2:#f1f1f6;
+    --blue:#4f46e5; --blue2:#4338ca; --bluefaint:#eef0fe;
+    --ok:#0f3d2c;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:#e9eaf0; color:var(--body); font-family:"Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased; display:flex; justify-content:center; padding:34px 16px; line-height:1.5; }
+  .page{ max-width:680px; width:100%; background:var(--paper); border-radius:18px; overflow:hidden;
+    box-shadow:0 30px 80px -20px rgba(28,24,70,.28), 0 2px 8px rgba(0,0,0,.04); }
+  .sec{ padding:54px 52px; }
+  .c{ text-align:center; }
+  .ink{ color:var(--ink); }
+
+  /* hero */
+  .brand{ font-family:"Inter Tight"; font-weight:800; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink); }
+  .pill{ display:inline-flex; align-items:center; gap:8px; margin:30px auto 0; padding:7px 15px; border-radius:999px;
+    background:var(--bluefaint); font-size:12.5px; font-weight:600; color:var(--blue2); }
+  .pill .d{ width:6px; height:6px; border-radius:50%; background:var(--blue); }
+  h1{ font-family:"Inter Tight"; font-weight:800; font-size:46px; line-height:1.04; letter-spacing:-.025em; color:var(--ink);
+    max-width:560px; margin:20px auto 0; }
   h1 em{ font-style:normal; color:var(--blue); }
-  .sub{ font-size:17px; line-height:1.5; color:#454a57; max-width:520px; margin:14px auto 0; }
-  .vsl{ position:relative; margin:26px auto 0; max-width:600px; aspect-ratio:16/9; border-radius:12px; background:linear-gradient(160deg,#1b1d27,#2a2d3c); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 14px 40px rgba(20,18,50,.28); }
-  .play{ width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.94); display:flex; align-items:center; justify-content:center; }
-  .play::after{ content:""; border-left:20px solid var(--blue2); border-top:12px solid transparent; border-bottom:12px solid transparent; margin-left:5px; }
-  .vsl .tag{ position:absolute; top:13px; left:14px; font-size:11px; letter-spacing:.12em; font-weight:700; color:#cfd2ff; text-transform:uppercase; }
-  .vsl .dur{ position:absolute; bottom:13px; right:15px; font-size:12px; color:#aeb2c9; }
-  .cta{ display:inline-block; margin-top:24px; background:var(--blue); color:#fff; text-decoration:none; font-weight:700; font-size:15px; letter-spacing:.04em; padding:16px 34px; border-radius:11px; text-transform:uppercase; box-shadow:0 10px 26px rgba(91,99,240,.34); }
-  .auth{ display:flex; gap:26px; justify-content:center; flex-wrap:wrap; margin-top:20px; font-size:13px; color:var(--muted); }
-  .auth b{ color:var(--ink); }
+  .lede{ font-size:18px; line-height:1.55; color:var(--body); max-width:480px; margin:18px auto 0; }
+
+  /* video */
+  .video{ position:relative; margin:32px auto 0; max-width:580px; aspect-ratio:16/9; border-radius:14px; overflow:hidden;
+    background:radial-gradient(120% 140% at 50% 0%, #2c2e3d 0%, #16171f 70%); cursor:pointer;
+    box-shadow:0 24px 60px -16px rgba(15,12,40,.5); border:1px solid rgba(255,255,255,.06); }
+  .video::before{ content:""; position:absolute; inset:0;
+    background:repeating-linear-gradient(115deg, rgba(255,255,255,.018) 0 2px, transparent 2px 22px); }
+  .play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:74px; height:74px; border-radius:50%;
+    background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 12px 30px rgba(0,0,0,.35); transition:transform .15s; }
+  .video:hover .play{ transform:translate(-50%,-50%) scale(1.05); }
+  .play::after{ content:""; border-left:22px solid var(--blue2); border-top:13px solid transparent; border-bottom:13px solid transparent; margin-left:6px; }
+  .v-tag{ position:absolute; top:16px; left:18px; font-size:10.5px; letter-spacing:.16em; font-weight:700; color:#c7c9ff; text-transform:uppercase; }
+  .v-dur{ position:absolute; bottom:15px; right:18px; font-size:12px; color:#9a9eb6; font-variant-numeric:tabular-nums; }
+  .v-cap{ font-size:13px; color:var(--muted); margin-top:14px; }
+
+  /* cta */
+  .cta{ display:inline-block; margin-top:26px; background:var(--blue); color:#fff; text-decoration:none;
+    font-family:"Inter Tight"; font-weight:700; font-size:15px; letter-spacing:.02em; padding:17px 38px; border-radius:12px;
+    box-shadow:0 14px 30px -8px rgba(79,70,229,.55); transition:transform .12s, box-shadow .12s; }
+  .cta:hover{ transform:translateY(-1px); box-shadow:0 18px 36px -8px rgba(79,70,229,.6); }
+
+  .auth{ display:flex; gap:0; justify-content:center; margin-top:30px; }
+  .auth span{ padding:0 22px; font-size:13px; color:var(--muted); border-left:1px solid var(--line2); }
+  .auth span:first-child{ border-left:0; }
+  .auth b{ display:block; font-family:"Inter Tight"; font-weight:700; font-size:17px; color:var(--ink); }
+
+  /* eyebrow labels */
+  .kicker{ font-size:11.5px; font-weight:700; letter-spacing:.16em; color:var(--blue); text-transform:uppercase; }
+  h2{ font-family:"Inter Tight"; font-weight:800; font-size:28px; letter-spacing:-.02em; color:var(--ink); margin-top:10px; }
+  h2 em{ font-style:normal; color:var(--blue); }
+
+  /* application */
   .apply{ background:var(--soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-  .sechead{ font-size:12px; font-weight:700; letter-spacing:.13em; color:var(--blue); text-transform:uppercase; }
-  .apply h2{ font-size:24px; font-weight:800; margin:8px 0 4px; }
-  .apply p.note{ color:var(--muted); font-size:14px; margin:0 0 20px; }
-  .qcard{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px; max-width:520px; margin:0 auto; box-shadow:0 8px 26px rgba(40,36,90,.06); text-align:left; }
-  .qnum{ font-size:12px; font-weight:700; color:var(--blue); }
-  .qlabel{ font-size:18px; font-weight:700; margin:6px 0 12px; }
-  .qinput{ width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:9px; font-size:15px; background:#fcfcfe; }
-  .qbtn{ margin-top:14px; background:var(--ink); color:#fff; border:none; cursor:pointer; font-weight:700; font-size:13px; padding:11px 20px; border-radius:9px; letter-spacing:.04em; }
-  .qsteps{ display:flex; gap:5px; margin-bottom:16px; }
-  .qsteps i{ height:4px; flex:1; border-radius:2px; background:var(--line); }
-  .qsteps i.on{ background:var(--blue); }
-  .mech{ border-bottom:1px solid var(--line); }
-  .mechrow{ display:flex; gap:14px; max-width:600px; margin:18px auto 0; }
-  .mechrow .step{ flex:1; border:1px solid var(--line); border-radius:11px; padding:15px; text-align:left; background:var(--soft); }
-  .mechrow .step small{ font-size:11px; font-weight:700; color:var(--blue); letter-spacing:.06em; }
-  .mechrow .step h4{ font-size:15px; margin:6px 0 4px; font-weight:700; }
-  .mechrow .step p{ font-size:12.5px; color:var(--muted); margin:0; line-height:1.45; }
-  .optnote{ font-size:11.5px; color:var(--muted); margin-top:14px; font-style:italic; }
-  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:620px; margin:20px auto 0; }
-  .tile{ aspect-ratio:4/5; border-radius:9px; border:1px solid var(--line); background:var(--soft); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:#aab; font-size:11px; text-align:center; padding:8px; }
-  .tile .scr{ font-size:20px; }
-  .tile.real{ background:#0e1f17; color:#9be4b9; border-color:#1f5138; }
-  .wallcap{ font-size:12px; color:var(--muted); margin-top:14px; }
-  .close{ background:linear-gradient(180deg,#fbfbff,#f3f2fb); border-top:1px solid var(--line); }
-  .close h2{ font-size:27px; font-weight:800; letter-spacing:-.01em; margin:8px auto 0; max-width:480px; }
-  .close h2 em{ font-style:normal; color:var(--blue); }
-  .foot{ padding:18px 40px 26px; font-size:11.5px; color:#9aa0ad; text-align:center; line-height:1.5; }
-  @media (max-width:560px){ .pad{padding:24px 22px;} h1{font-size:30px;} .mechrow{flex-direction:column;} .grid{grid-template-columns:repeat(2,1fr);} }
+  .apply .note{ font-size:14.5px; color:var(--muted); margin:8px auto 0; max-width:380px; }
+  .qcard{ background:var(--paper); border:1px solid var(--line2); border-radius:14px; padding:26px; max-width:480px;
+    margin:24px auto 0; text-align:left; box-shadow:0 10px 30px -12px rgba(28,24,70,.14); }
+  .steps{ display:flex; gap:6px; margin-bottom:22px; }
+  .steps i{ height:3px; flex:1; border-radius:2px; background:var(--line2); }
+  .steps i.on{ background:var(--blue); }
+  .qn{ font-size:12px; font-weight:700; color:var(--blue); font-variant-numeric:tabular-nums; }
+  .ql{ font-family:"Inter Tight"; font-size:19px; font-weight:700; color:var(--ink); margin:7px 0 14px; }
+  .qi{ width:100%; padding:14px 15px; border:1px solid var(--line2); border-radius:10px; font-size:15px; color:var(--ink); background:var(--soft); font-family:inherit; }
+  .qi::placeholder{ color:var(--faint); }
+  .qb{ margin-top:16px; background:var(--ink); color:#fff; border:0; cursor:pointer; font-family:"Inter Tight"; font-weight:700;
+    font-size:13.5px; padding:12px 22px; border-radius:10px; }
+
+  /* mechanism */
+  .mrow{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:580px; margin:24px auto 0; }
+  .step{ border:1px solid var(--line2); border-radius:13px; padding:18px; text-align:left; background:var(--paper); }
+  .step .si{ font-family:"Inter Tight"; font-weight:800; font-size:13px; color:var(--blue); letter-spacing:.04em; }
+  .step h4{ font-family:"Inter Tight"; font-size:15.5px; font-weight:700; color:var(--ink); margin:8px 0 5px; }
+  .step p{ font-size:12.5px; color:var(--muted); line-height:1.5; }
+  .opt{ font-size:11.5px; color:var(--faint); margin-top:16px; }
+
+  /* proof wall */
+  .wall{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; max-width:600px; margin:26px auto 0; }
+  .tile{ aspect-ratio:4/5; border-radius:11px; border:1px solid var(--line2); background:var(--soft);
+    position:relative; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; padding:13px; }
+  .tile::before{ content:""; position:absolute; inset:0; background:
+    linear-gradient(transparent 55%, rgba(0,0,0,.04)),
+    repeating-linear-gradient(0deg, var(--soft2) 0 12px, var(--soft) 12px 24px); opacity:.7; }
+  .tile .lbl{ position:relative; font-size:11px; font-weight:600; color:var(--muted); line-height:1.35; }
+  .tile .typ{ position:relative; font-size:9.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); margin-bottom:4px; }
+  .tile.real{ background:#0d1f17; border-color:#1c4a35; }
+  .tile.real::before{ background:radial-gradient(120% 100% at 50% 30%, #143527, #0a1812); opacity:1; }
+  .tile.real .play{ position:absolute; top:42%; width:42px; height:42px; box-shadow:none; }
+  .tile.real .play::after{ border-left-width:13px; border-top-width:8px; border-bottom-width:8px; margin-left:3px; }
+  .tile.real .lbl{ color:#9fe8c0; } .tile.real .typ{ color:#5ba883; }
+  .tile.more{ background:var(--paper); border-style:dashed; align-items:center; justify-content:center; text-align:center; }
+  .tile.more::before{ display:none; }
+  .tile.more .lbl{ color:var(--faint); font-weight:700; }
+  .wallcap{ font-size:12.5px; color:var(--muted); margin-top:18px; max-width:440px; margin-left:auto; margin-right:auto; }
+
+  /* closing */
+  .close{ background:linear-gradient(180deg,#f7f7fc,#efeff8); border-top:1px solid var(--line); }
+  .close h2{ font-size:30px; max-width:440px; margin:10px auto 0; }
+  .foot{ padding:22px 52px 30px; font-size:11.5px; color:var(--faint); text-align:center; line-height:1.6; }
+  .foot b{ color:var(--muted); font-weight:600; }
+
+  @media (max-width:560px){
+    .sec{ padding:40px 24px; } h1{ font-size:33px; } .lede{ font-size:16px; }
+    .mrow{ grid-template-columns:1fr; } .wall{ grid-template-columns:repeat(2,1fr); }
+    .auth span{ padding:0 14px; } .foot{ padding:22px 24px 28px; }
+  }
 </style>
 </head>
 <body>
-<div class="lp">
+<div class="page">
 
-  <!-- GRANT: logo, headline, then video. nothing competes above the fold. -->
-  <div class="pad center" style="padding-bottom:8px;">
-    <div class="wm">Frank Wieler</div>
-    <div class="eyebrow"><span class="dot"></span> For intermediate dropshippers ready to build a real brand</div>
+  <!-- GRANT: brand, headline, video. nothing competes above the fold. -->
+  <div class="sec c" style="padding-bottom:6px;">
+    <div class="brand">Frank Wieler</div>
+    <div class="pill"><span class="d"></span> For intermediate dropshippers ready to build a real brand</div>
     <h1>Turn one-time sales into a <em>subscription brand</em> that pays every month</h1>
-    <p class="sub">Watch the private breakdown of the subscription-first model Frank uses, then apply to build it with him 1-on-1.</p>
-    <div class="vsl">
-      <span class="tag">Private training</span>
+    <p class="lede">Watch the private breakdown of the subscription-first model Frank uses, then apply to build it with him 1-on-1.</p>
+
+    <div class="video">
+      <span class="v-tag">Private training</span>
       <span class="play"></span>
-      <span class="dur">12:04</span>
+      <span class="v-dur">12:04</span>
     </div>
+    <p class="v-cap">12-minute private breakdown · no opt-in, just press play</p>
+
     <a class="cta" href="#apply">Apply to work with Frank</a>
+
     <div class="auth">
-      <span><b>7 years</b> in dropshipping</span>
-      <span><b>Multiple 7 figures</b> in revenue</span>
-      <span><b>1-on-1</b> operator support</span>
+      <span><b>7 yrs</b>in dropshipping</span>
+      <span><b>7 figures</b>in revenue</span>
+      <span><b>1-on-1</b>operator support</span>
     </div>
   </div>
 
   <!-- SHARED SPINE: application directly under the video -->
-  <div class="apply pad center" id="apply">
-    <div class="sechead">Private application</div>
+  <div class="sec c apply" id="apply">
+    <div class="kicker">Private application</div>
     <h2>Apply below</h2>
-    <p class="note">For operators who know the basics and are ready to build.</p>
+    <p class="note">For operators who know the basics and are ready to build, test, and execute.</p>
     <div class="qcard">
-      <div class="qsteps"><i class="on"></i><i></i><i></i><i></i></div>
-      <div class="qnum">1 &rarr;</div>
-      <div class="qlabel">First, what should Frank call you?</div>
-      <input class="qinput" placeholder="Type your first name&hellip;">
-      <button class="qbtn">OK &nbsp;&crarr;</button>
+      <div class="steps"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="qn">01 / 04</div>
+      <div class="ql">First, what should Frank call you?</div>
+      <input class="qi" placeholder="Type your first name&hellip;">
+      <button class="qb">OK &nbsp;&crarr;</button>
     </div>
   </div>
 
-  <!-- MASON (demoted): one mechanism beat, AFTER the ask, one row, optional. never above the video. -->
-  <div class="mech pad center">
-    <div class="sechead">The model</div>
-    <div class="mechrow">
-      <div class="step"><small>01 &middot; PRODUCT</small><h4>Reason to rebuy</h4><p>A non-supplement product with a natural repeat purchase.</p></div>
-      <div class="step"><small>02 &middot; OFFER</small><h4>Subscription first</h4><p>Offer structure that makes recurring the obvious choice.</p></div>
-      <div class="step"><small>03 &middot; CREATIVE</small><h4>More real tests</h4><p>AI-assisted research, operator judgment on what scales.</p></div>
+  <!-- MASON (demoted): one mechanism row, after the ask, optional. never above the video. -->
+  <div class="sec c" style="border-bottom:1px solid var(--line);">
+    <div class="kicker">The model</div>
+    <h2>Three moving parts</h2>
+    <div class="mrow">
+      <div class="step"><div class="si">01</div><h4>Reason to rebuy</h4><p>A non-supplement product with a natural repeat purchase built in.</p></div>
+      <div class="step"><div class="si">02</div><h4>Subscription first</h4><p>An offer structure that makes recurring the obvious choice.</p></div>
+      <div class="step"><div class="si">03</div><h4>More real tests</h4><p>AI-assisted research, operator judgment on what actually scales.</p></div>
     </div>
-    <p class="optnote">Optional &mdash; include only when the research earns it. Never above the video.</p>
+    <p class="opt">Optional section — include only when the research earns it. Never above the video.</p>
   </div>
 
   <!-- SHARED SPINE + MASON bombardment + GRANT volume: the proof wall is the crescendo -->
-  <div class="pad center">
-    <div class="sechead">Public work + student proof</div>
-    <h2 style="font-size:24px;font-weight:800;margin:8px 0 0;">The proof does the selling</h2>
-    <div class="grid">
-      <div class="tile real"><span class="scr">&#9654;</span>Frank's public product breakdown</div>
-      <div class="tile"><span class="scr">&#128247;</span>Student payment screenshot</div>
-      <div class="tile"><span class="scr">&#128247;</span>Subscription MRR dashboard</div>
-      <div class="tile"><span class="scr">&#127916;</span>Raw student clip</div>
-      <div class="tile"><span class="scr">&#128247;</span>Before / after store</div>
-      <div class="tile"><span class="scr">&#128247;</span>Creative testing win</div>
-      <div class="tile"><span class="scr">&#128247;</span>Student DM result</div>
-      <div class="tile"><span class="scr">&#128247;</span>Ad account result</div>
-      <div class="tile"><span class="scr">&#65291;</span>&hellip;and the rest of the wall</div>
+  <div class="sec c">
+    <div class="kicker">Public work + student proof</div>
+    <h2>The proof does the selling</h2>
+    <div class="wall">
+      <div class="tile real"><span class="play"></span><div class="typ">Public breakdown</div><div class="lbl">Frank's product research method</div></div>
+      <div class="tile"><div class="typ">Payment</div><div class="lbl">Student revenue screenshot</div></div>
+      <div class="tile"><div class="typ">Dashboard</div><div class="lbl">Subscription MRR proof</div></div>
+      <div class="tile"><div class="typ">Raw clip</div><div class="lbl">Unedited student video</div></div>
+      <div class="tile"><div class="typ">Before / after</div><div class="lbl">Store transformation</div></div>
+      <div class="tile"><div class="typ">Ad account</div><div class="lbl">Creative testing win</div></div>
+      <div class="tile"><div class="typ">Message</div><div class="lbl">Student DM result</div></div>
+      <div class="tile"><div class="typ">Order volume</div><div class="lbl">Daily orders screenshot</div></div>
+      <div class="tile more"><div class="lbl">+ the rest<br>of the wall</div></div>
     </div>
-    <p class="wallcap">Volume is the argument &mdash; real screenshots, never retyped quote cards. This section lives or dies on Frank supplying the actual proof.</p>
+    <p class="wallcap">Volume is the argument — real screenshots, never retyped quote cards. This section lives or dies on Frank supplying the actual proof.</p>
   </div>
 
   <!-- single repeated CTA -->
-  <div class="close pad center">
-    <div class="sechead">Applications open</div>
+  <div class="sec c close">
+    <div class="kicker">Applications open</div>
     <h2>Build the store into an asset, <em>not another daily reset</em></h2>
-    <a class="cta" href="#apply">Click here to apply now</a>
+    <a class="cta" href="#apply" style="margin-top:22px;">Click here to apply now</a>
   </div>
 
   <div class="foot">
-    Frank Wieler &middot; Subscription Brand Mentorship<br>
+    <b>Frank Wieler · Subscription Brand Mentorship</b><br>
     Results vary. Nothing on this page guarantees income. Proof claims and media must be verified before publication.
   </div>
 
