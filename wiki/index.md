@@ -1,5 +1,5 @@
 ---
-updated: 2026-06-09
+updated: 2026-06-30
 aliases:
 ---
 
@@ -60,7 +60,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[playbooks/client-scaling]] | Scale signal, price ladder ($2K→$5K→$10K+), DWY transition, organic vs. paid routes | 2026-05-02 |
 | [[playbooks/offer-creation]] | Six-component offer architecture, high-ticket vs. mid-ticket decision criteria, audit checklist | 2026-05-02 |
 | [[playbooks/ai-outreach-grant-method]] | Grant Garcia's 6-step build-before-you-DM AI outreach system | 2026-05-06 |
-| [[playbooks/pulse-system-outreach]] | Pulsify's voiced outreach playbook — five-wound diagnostic, asset-first DM, Pulse System as the demo | 2026-05-06 |
+| [[playbooks/pulse-system-outreach]] | Pulsify's outreach playbook — landing page first, then voice-matched VSL, Typeform, and further value assets as consecutive follow-ups | 2026-05-06 |
 | [[playbooks/claude-codex-collaboration]] | Operating protocol for keeping Claude and Codex aligned inside the vault | 2026-05-09 |
 | [[playbooks/pulsify-offer-v1]] | The first commercial offer — $5–12k high-ticket, 90 days + 60-hour cap, success-metric contract, week-by-week deliverables | 2026-05-10 |
 | [[playbooks/exam-mode-autonomous-ops]] | Three-lane autonomy protocol (green / queue / red) for when the founder is offline during exams | 2026-05-10 |
@@ -113,6 +113,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/pulsify-90-day-plan]] | The May–August 2026 sequenced execution plan from $0 MRR to first paid v1 client | 2026-05-10 |
 | [[synthesis/offer-v2-risk-reversal]] | Proposal to swap the unbounded $100k-or-free guarantee for a credible, bounded, execution-gated risk-reversal that closes better and caps downside | 2026-05-29 |
 | [[synthesis/business-bottleneck-audit-2026-06]] | Day-30 audit vs the 90-day plan — zero touches sent on a 276-lead CRM, untracked-vault backup risk, delivery gaps closed 2026-06-09, one-week priority order | 2026-06-09 |
+| [[synthesis/prospect-funnel-reference-library]] | Mason-first, Luke-second design hierarchy plus Charlie, Grant, and Ayman structural patterns for prospect landing pages | 2026-06-30 |
 
 ---
 
@@ -185,3 +186,4 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 | `raw-sources/inspiration/serge-gatari-ai-infrastructure-transcript-notes.md` | Transcript-derived notes | [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]], [[people/serge-gatari]], [[synthesis/ai-infrastructure-positioning-patterns]] |
 | `raw-sources/inspiration/jordan-platten-agencies-dying-interview-notes.md` | Transcript-derived notes | [[synthesis/jordan-platten-agency-systems-patterns]], [[people/jordan-platten]] |
 | `raw-sources/inspiration/jeremy-haynes-inner-circle-page-notes.md` | Sales page notes | [[synthesis/jeremy-haynes-inner-circle-page-analysis]], [[people/jeremy-haynes]], [[frameworks/vsl-framework]] |
+| `raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` | Approved live funnel capture | [[synthesis/prospect-funnel-reference-library]], [[synthesis/vsl-pattern-lab]], [[playbooks/pulse-system-outreach]] |

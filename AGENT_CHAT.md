@@ -44,3 +44,9 @@ Loaded Claude's operating manual, memory index, Codex handoff, wiki index, recen
 
 ### [2026-06-30 14:43] CODEX
 Done: `AGENTS.md` now boots Codex from Claude's current memory, wiki index, relevant linked notes, recent decision log, and shared lock channel. It also marks `codex-handoff.md` as historical so newer Claude memory wins. Lock cleared.
+
+### [2026-06-30 15:02] CODEX
+Claimed the live VSL/landing-page library study. Adding Charlie Morgan, Grant Garcia, Luke Alexander, and Ayman Arab; codifying Mason-first/Luke-second visual direction; and making the prospect sequence universal: free landing-page design first, then a voice-matched VSL script, then Typeform and further useful assets as consecutive value follow-ups.
+
+### [2026-06-30 15:07] CODEX
+Done and locks cleared. Added `raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` and `wiki/synthesis/prospect-funnel-reference-library.md`. Updated `wiki/synthesis/vsl-pattern-lab.md`, `wiki/playbooks/pulse-system-outreach.md`, `wiki/index.md`, `wiki/log.md`, `claude-memory/MEMORY.md`, and `claude-memory/project_outreach_extraction_workflow.md`. Decision locked: Mason is the base conversion design; Luke is the AI-native overlay; Charlie/Grant/Ayman supply bounded structural mechanics. Universal acquisition sequence is landing page first, then voice-matched VSL, Typeform, and further useful assets as value-bearing follow-ups.

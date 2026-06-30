@@ -1,9 +1,9 @@
 ---
 type: synthesis
 tags: [vsl, copywriting, offer, funnel, content, pattern-analysis]
-sources: [[frameworks/vsl-framework]], [[frameworks/ai-launch-prompt-pack]], [[content-engine/pulsify-vsl-v1]], [[content-engine/pulsify-vsl-v2]], [[content-engine/pulsify-vsl-v3]], [[content-engine/evan-vsl-rebuilt]], [[content-engine/evan-vsl-v2]], [[raw-sources/inspiration/vsl-operator-study-source-list]], [[synthesis/operator-vsl-study-map]], [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]], [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]], [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]], [[synthesis/personalized-cold-outreach-vsl-architecture]]
+sources: [[frameworks/vsl-framework]], [[frameworks/ai-launch-prompt-pack]], [[content-engine/pulsify-vsl-v1]], [[content-engine/pulsify-vsl-v2]], [[content-engine/pulsify-vsl-v3]], [[content-engine/evan-vsl-rebuilt]], [[content-engine/evan-vsl-v2]], [[raw-sources/inspiration/vsl-operator-study-source-list]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]], [[synthesis/operator-vsl-study-map]], [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]], [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]], [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]], [[synthesis/personalized-cold-outreach-vsl-architecture]], [[synthesis/prospect-funnel-reference-library]]
 created: 2026-05-09
-updated: 2026-05-09
+updated: 2026-06-30
 ---
 
 # VSL pattern lab
@@ -153,6 +153,7 @@ The library now has three tracks:
 - Raw transcript track: `raw-sources/vsls/imperium-agency-vsl-transcript.md` is the first stored VSL transcript and has been analyzed in [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]].
 - Transcript-derived notes track: Daniel's Get Clients Challenge, Serge's AI infrastructure video, and Jordan's 2025 agency interview are stored as paraphrased source notes in `raw-sources/inspiration/`, with analyses in [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]], [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]], and [[synthesis/jordan-platten-agency-systems-patterns]].
 - External source registry: [[raw-sources/inspiration/vsl-operator-study-source-list]] stores approved public VSL pages, webinar pages, opt-ins, and closest public equivalents for the operator study pack.
+- Live funnel design track: [[synthesis/prospect-funnel-reference-library]] compares Mason Bowstead, Charlie Morgan, Grant Garcia, Luke Alexander, and Ayman Arab as landing-page/VSL wrappers for prospect builds. Mason is the default conversion skeleton. Luke is the AI-native visual overlay. Charlie, Grant, and Ayman contribute bounded structural mechanics.
 
 Do not treat the source registry as a substitute for transcripts. It is enough for source mapping and high-level pattern extraction. It is not enough for line-level VSL analysis. Also do not store full third-party transcripts unless Abdul provides them directly. Use transcript-derived notes and analysis to keep the vault useful without reproducing copyrighted source material.
 
@@ -164,6 +165,7 @@ Do not treat the source registry as a substitute for transcripts. It is enough f
 - Jordan Platten's public interview has transcript-derived notes, but the Elite Agency embedded VSL still needs transcript capture.
 - The dedicated [[concepts/pulse-system]] page still needs to be created so the mechanism has a canonical home.
 - The VSL drafts have not been graded against the new personalized cold outreach VSL architecture yet.
+- The standard time cadence for the new landing page -> VSL -> Typeform value sequence is not locked.
 
 ## Source trail
 
@@ -180,3 +182,5 @@ Do not treat the source registry as a substitute for transcripts. It is enough f
 - [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]]
 - [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]]
 - [[synthesis/personalized-cold-outreach-vsl-architecture]]
+- [[synthesis/prospect-funnel-reference-library]]
+- [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]

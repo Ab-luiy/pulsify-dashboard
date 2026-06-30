@@ -1,9 +1,9 @@
 ---
 type: playbook
 tags: [outreach, ai, pulse-system, dms, looms, assets, marcus, rev-share]
-sources: [[raw-sources/scripts/AI-Outreach-Framework-Grant-Garcia.md]], [[raw-sources/scripts/AI-Launch-Prompt-Pack-Grant-Garcia.md]], [[raw-sources/sops/Lead Sourcing & Outreach SOP.pdf]]
+sources: [[raw-sources/scripts/AI-Outreach-Framework-Grant-Garcia.md]], [[raw-sources/scripts/AI-Launch-Prompt-Pack-Grant-Garcia.md]], [[raw-sources/sops/Lead Sourcing & Outreach SOP.pdf]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
 created: 2026-05-06
-updated: 2026-05-06
+updated: 2026-06-30
 ---
 
 # Pulse System outreach (Pulsify's voiced playbook)
@@ -28,7 +28,35 @@ Marcus arrives with one or more of five wounds (per [[people/marcus-avatar]]). T
 | **Backend stall** | No VSL, weak lander, no email sequence, manual everything | Rebuilt landing page (Lovable AI) + 6-email pre-call sequence | Prompts 3 + 6 from [[frameworks/ai-launch-prompt-pack]] |
 | **Sales-infrastructure stall** | Slow speed-to-lead, no Typeform or weak one, no pre-call asset | Optimized Typeform + pre-call asset page (45-sec objection videos) | Prompts 4 + 6 from [[frameworks/ai-launch-prompt-pack]] |
 
-Pick one wound per prospect. Build one asset. Don't ship a "full audit" — that signals consultant, not operator.
+Pick one dominant wound before the first touch. Build one asset per message. Do
+not ship a "full audit" — that signals consultant, not operator.
+
+> Contradiction resolved: the earlier rule said "pick one wound per prospect,
+> build one asset." The 2026-06-30 founder decision expands this into consecutive
+> value follow-ups. The operative rule is now one diagnosed wound to open and one
+> finished asset per touch. The prospect may receive a connected sequence of
+> assets as the conversation continues.
+
+## Default prospect value sequence
+
+For qualified prospects with a weak or missing website/funnel, the default
+sequence is now:
+
+1. **Landing page first.** Send a working, prospect-branded conversion page built
+   from [[synthesis/prospect-funnel-reference-library]]. Mason Bowstead is the
+   default design skeleton. Luke Alexander's AI-native layer is added for AI,
+   automation, software, or technology-led creators.
+2. **VSL script second.** Follow up with a finished VSL written from the creator's
+   transcripts, voice, unique mechanism, proof, and offer.
+3. **Typeform third.** Follow up with the application questions, qualification
+   logic, and booking handoff the VSL needs.
+4. **Keep adding the next useful asset.** Pre-call emails, confirmation page,
+   content angles, ad scripts, or tracking plan are chosen from the next diagnosed
+   leak.
+
+No message exists only to remind them that Pulsify exists. Every follow-up ships
+new value. The sequence demonstrates the Funnel Stack being assembled around
+their business.
 
 ## The 6-step Pulsify outreach loop
 
@@ -58,6 +86,10 @@ The asset must:
 - Be a real, usable artifact — not a "we could build this" mockup
 - Take under 30 minutes once you've done it 3 times
 
+When the website is the diagnosed leak, the landing page is always the first
+asset. Build it as a real handoff, not a design moodboard: VSL slot, application
+preview, proof placeholders, and one CTA must already exist.
+
 ### Step 4 — The DM (the asset is the message)
 
 No permission asked. No "want me to send it over?" The opener is the asset link. Two formats — pick by prospect temperature.
@@ -77,9 +109,17 @@ Voice rules — non-negotiable, per Pulsify CLAUDE.md:
 
 Never send the same opener to two prospects. The asset is the personalization — but the DM around it should also feel one-to-one.
 
-### Step 5 — Follow-up (relentlessly, per the doc)
+### Step 5 — Follow-up by shipping the next asset
 
-If a prospect replies once, they are interested. Do not stop until you've booked the call or exhausted every angle. Three tactics, run in rotation:
+If a prospect replies once, they are interested. Do not stop until you've booked
+the call or exhausted every angle. The primary follow-up is the next finished
+asset in the sequence: landing page -> voice-matched VSL -> Typeform -> next
+diagnosed conversion asset.
+
+The rule: never send "just following up." Send, "I kept working on this and built
+the next piece."
+
+Supporting tactics can still be used between asset drops:
 
 **Story slide-up:** Turn on post-notifications for the prospect on IG. The second they post a story, react and follow up. They're online, they'll see it.
 
@@ -146,6 +186,7 @@ When Pulsify hires a setter (per [[playbooks/lead-sourcing-outreach]]), the sett
 - [[concepts/hammer-them-strategy]] — what Step 6's pre-call asset prompt operationalizes
 - [[frameworks/vsl-framework]] — invoked inside the VSL asset prompt
 - [[content-engine/packaging-rules]] — used when the asset built is a content/packaging deliverable
+- [[synthesis/prospect-funnel-reference-library]] — Mason-first/Luke-second design hierarchy and the consecutive value sequence
 
 ## Open questions / gaps
 
@@ -154,9 +195,11 @@ When Pulsify hires a setter (per [[playbooks/lead-sourcing-outreach]]), the sett
 - Tracking: no pipeline template exists yet for the Pulsify outreach run. Build a Sheets template tracking: prospect, niche, wound, asset built, DM sent date, replies, follow-up cadence, call booked, call outcome.
 - Story slide-up tactic requires post-notifications on 30+ prospects. IG may rate-limit. Test and adjust the per-day target if it triggers.
 - AI setter (per the Pulse Brain backend roadmap) is not yet built. When it ships, Steps 1, 2, and 5 of this playbook get progressively automated.
+- Follow-up cadence between the landing page, VSL, Typeform, and later assets is not yet locked. Do not invent one until Abdul sets it or response data establishes it.
 
 ## Source trail
 
 - [[raw-sources/scripts/AI-Outreach-Framework-Grant-Garcia.md]]
 - [[raw-sources/scripts/AI-Launch-Prompt-Pack-Grant-Garcia.md]]
 - [[raw-sources/sops/Lead Sourcing & Outreach SOP.pdf]]
+- [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]

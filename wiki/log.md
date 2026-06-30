@@ -4,6 +4,29 @@ Append-only chronological record of all vault operations. Format: `## [YYYY-MM-D
 
 ---
 
+## [2026-06-30] decision | Landing-page-first value sequence and live funnel library
+
+Abdul set the client-acquisition motion: for qualified prospects with a weak
+website or funnel, Pulsify sends a finished free landing-page design first, then
+follows with a voice-matched VSL script, then a Typeform, then further useful
+assets based on the next diagnosed leak. Follow-ups carry new work instead of
+"just checking in." The sequence demonstrates the Funnel Stack before a sales
+call.
+
+Captured and studied four approved live references: Charlie Morgan's Imperium /
+High Ticket Heaven page, Grant Garcia's The Reserve page, Luke Alexander's AI
+Insiders page, and Ayman Arab's TikScale application page. Locked the design
+hierarchy: Mason Bowstead remains the primary conversion and visual skeleton;
+Luke supplies the AI-native layer for AI/technology prospects; Charlie, Grant,
+and Ayman supply bounded structural mechanics. Created
+`raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` and
+`wiki/synthesis/prospect-funnel-reference-library.md`; updated the VSL pattern
+lab, Pulse System outreach playbook, wiki index, and shared Claude/Codex memory.
+
+**Decision owner:** Abdul
+
+---
+
 ## [2026-06-09] build | Dashboard CRM UI pass — tier badges, tier filter, wound-aware actions shipped
 
 Shipped roadmap items 1-3 from `playbooks/pulsify-dashboard-workstream.md` in the canonical worktree `index.html` (commit `4bf9a4b` on `claude/awesome-bassi-d88340`). Tier/wound enrichment now threads through `ytAsProspects() -> basePros()`; A/B/C badges render on board cards and as a table column, a tier filter select sits next to the source filter, the next-action column shows each lead's real wound, "Pull next 15" sorts the unworked pool by score descending, and the CSV export carries tier/score/wound. Verified against the live page via DOM assertions (290/290 enriched leads badged, Tier A filter = 17, 10/10 table columns, zero console errors); full-page screenshot capture times out on the 400-card DOM. Item 4 (contact-coverage count) still open. Not yet deployed — `push-dashboard.bat` when ready. Updated the workstream page roadmap.
