@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frank Wieler — Subscription Brand Mentorship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#15171c; --muted:#6b7280; --line:#e7e7ee; --blue:#5b63f0; --blue2:#4a52e6; --paper:#fff; --soft:#f6f6fb; }
+  *{box-sizing:border-box;}
+  body{ margin:0; background:#eef0f6; color:var(--ink); font-family:"Inter Tight",Inter,system-ui,-apple-system,"Segoe UI",sans-serif; display:flex; justify-content:center; padding:30px 16px; }
+  .lp{ max-width:720px; width:100%; background:var(--paper); border:1px solid var(--line); border-radius:14px; overflow:hidden; box-shadow:0 18px 60px rgba(40,36,90,.10); }
+  .pad{ padding:30px 40px; } .center{ text-align:center; }
+  .wm{ font-weight:800; letter-spacing:.16em; font-size:13px; text-transform:uppercase; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:7px; margin-top:22px; padding:6px 13px; border-radius:999px; background:var(--soft); border:1px solid var(--line); font-size:12.5px; font-weight:600; color:#4b4f5e; }
+  .dot{ width:7px; height:7px; border-radius:50%; background:var(--blue); display:inline-block; }
+  h1{ font-size:39px; line-height:1.06; font-weight:800; letter-spacing:-.02em; margin:18px auto 0; max-width:600px; }
+  h1 em{ font-style:normal; color:var(--blue); }
+  .sub{ font-size:17px; line-height:1.5; color:#454a57; max-width:520px; margin:14px auto 0; }
+  .vsl{ position:relative; margin:26px auto 0; max-width:600px; aspect-ratio:16/9; border-radius:12px; background:linear-gradient(160deg,#1b1d27,#2a2d3c); display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 14px 40px rgba(20,18,50,.28); }
+  .play{ width:64px; height:64px; border-radius:50%; background:rgba(255,255,255,.94); display:flex; align-items:center; justify-content:center; }
+  .play::after{ content:""; border-left:20px solid var(--blue2); border-top:12px solid transparent; border-bottom:12px solid transparent; margin-left:5px; }
+  .vsl .tag{ position:absolute; top:13px; left:14px; font-size:11px; letter-spacing:.12em; font-weight:700; color:#cfd2ff; text-transform:uppercase; }
+  .vsl .dur{ position:absolute; bottom:13px; right:15px; font-size:12px; color:#aeb2c9; }
+  .cta{ display:inline-block; margin-top:24px; background:var(--blue); color:#fff; text-decoration:none; font-weight:700; font-size:15px; letter-spacing:.04em; padding:16px 34px; border-radius:11px; text-transform:uppercase; box-shadow:0 10px 26px rgba(91,99,240,.34); }
+  .auth{ display:flex; gap:26px; justify-content:center; flex-wrap:wrap; margin-top:20px; font-size:13px; color:var(--muted); }
+  .auth b{ color:var(--ink); }
+  .apply{ background:var(--soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .sechead{ font-size:12px; font-weight:700; letter-spacing:.13em; color:var(--blue); text-transform:uppercase; }
+  .apply h2{ font-size:24px; font-weight:800; margin:8px 0 4px; }
+  .apply p.note{ color:var(--muted); font-size:14px; margin:0 0 20px; }
+  .qcard{ background:var(--paper); border:1px solid var(--line); border-radius:12px; padding:22px; max-width:520px; margin:0 auto; box-shadow:0 8px 26px rgba(40,36,90,.06); text-align:left; }
+  .qnum{ font-size:12px; font-weight:700; color:var(--blue); }
+  .qlabel{ font-size:18px; font-weight:700; margin:6px 0 12px; }
+  .qinput{ width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:9px; font-size:15px; background:#fcfcfe; }
+  .qbtn{ margin-top:14px; background:var(--ink); color:#fff; border:none; cursor:pointer; font-weight:700; font-size:13px; padding:11px 20px; border-radius:9px; letter-spacing:.04em; }
+  .qsteps{ display:flex; gap:5px; margin-bottom:16px; }
+  .qsteps i{ height:4px; flex:1; border-radius:2px; background:var(--line); }
+  .qsteps i.on{ background:var(--blue); }
+  .mech{ border-bottom:1px solid var(--line); }
+  .mechrow{ display:flex; gap:14px; max-width:600px; margin:18px auto 0; }
+  .mechrow .step{ flex:1; border:1px solid var(--line); border-radius:11px; padding:15px; text-align:left; background:var(--soft); }
+  .mechrow .step small{ font-size:11px; font-weight:700; color:var(--blue); letter-spacing:.06em; }
+  .mechrow .step h4{ font-size:15px; margin:6px 0 4px; font-weight:700; }
+  .mechrow .step p{ font-size:12.5px; color:var(--muted); margin:0; line-height:1.45; }
+  .optnote{ font-size:11.5px; color:var(--muted); margin-top:14px; font-style:italic; }
+  .grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; max-width:620px; margin:20px auto 0; }
+  .tile{ aspect-ratio:4/5; border-radius:9px; border:1px solid var(--line); background:var(--soft); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; color:#aab; font-size:11px; text-align:center; padding:8px; }
+  .tile .scr{ font-size:20px; }
+  .tile.real{ background:#0e1f17; color:#9be4b9; border-color:#1f5138; }
+  .wallcap{ font-size:12px; color:var(--muted); margin-top:14px; }
+  .close{ background:linear-gradient(180deg,#fbfbff,#f3f2fb); border-top:1px solid var(--line); }
+  .close h2{ font-size:27px; font-weight:800; letter-spacing:-.01em; margin:8px auto 0; max-width:480px; }
+  .close h2 em{ font-style:normal; color:var(--blue); }
+  .foot{ padding:18px 40px 26px; font-size:11.5px; color:#9aa0ad; text-align:center; line-height:1.5; }
+  @media (max-width:560px){ .pad{padding:24px 22px;} h1{font-size:30px;} .mechrow{flex-direction:column;} .grid{grid-template-columns:repeat(2,1fr);} }
+</style>
+</head>
+<body>
+<div class="lp">
+
+  <!-- GRANT: logo, headline, then video. nothing competes above the fold. -->
+  <div class="pad center" style="padding-bottom:8px;">
+    <div class="wm">Frank Wieler</div>
+    <div class="eyebrow"><span class="dot"></span> For intermediate dropshippers ready to build a real brand</div>
+    <h1>Turn one-time sales into a <em>subscription brand</em> that pays every month</h1>
+    <p class="sub">Watch the private breakdown of the subscription-first model Frank uses, then apply to build it with him 1-on-1.</p>
+    <div class="vsl">
+      <span class="tag">Private training</span>
+      <span class="play"></span>
+      <span class="dur">12:04</span>
+    </div>
+    <a class="cta" href="#apply">Apply to work with Frank</a>
+    <div class="auth">
+      <span><b>7 years</b> in dropshipping</span>
+      <span><b>Multiple 7 figures</b> in revenue</span>
+      <span><b>1-on-1</b> operator support</span>
+    </div>
+  </div>
+
+  <!-- SHARED SPINE: application directly under the video -->
+  <div class="apply pad center" id="apply">
+    <div class="sechead">Private application</div>
+    <h2>Apply below</h2>
+    <p class="note">For operators who know the basics and are ready to build.</p>
+    <div class="qcard">
+      <div class="qsteps"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="qnum">1 &rarr;</div>
+      <div class="qlabel">First, what should Frank call you?</div>
+      <input class="qinput" placeholder="Type your first name&hellip;">
+      <button class="qbtn">OK &nbsp;&crarr;</button>
+    </div>
+  </div>
+
+  <!-- MASON (demoted): one mechanism beat, AFTER the ask, one row, optional. never above the video. -->
+  <div class="mech pad center">
+    <div class="sechead">The model</div>
+    <div class="mechrow">
+      <div class="step"><small>01 &middot; PRODUCT</small><h4>Reason to rebuy</h4><p>A non-supplement product with a natural repeat purchase.</p></div>
+      <div class="step"><small>02 &middot; OFFER</small><h4>Subscription first</h4><p>Offer structure that makes recurring the obvious choice.</p></div>
+      <div class="step"><small>03 &middot; CREATIVE</small><h4>More real tests</h4><p>AI-assisted research, operator judgment on what scales.</p></div>
+    </div>
+    <p class="optnote">Optional &mdash; include only when the research earns it. Never above the video.</p>
+  </div>
+
+  <!-- SHARED SPINE + MASON bombardment + GRANT volume: the proof wall is the crescendo -->
+  <div class="pad center">
+    <div class="sechead">Public work + student proof</div>
+    <h2 style="font-size:24px;font-weight:800;margin:8px 0 0;">The proof does the selling</h2>
+    <div class="grid">
+      <div class="tile real"><span class="scr">&#9654;</span>Frank's public product breakdown</div>
+      <div class="tile"><span class="scr">&#128247;</span>Student payment screenshot</div>
+      <div class="tile"><span class="scr">&#128247;</span>Subscription MRR dashboard</div>
+      <div class="tile"><span class="scr">&#127916;</span>Raw student clip</div>
+      <div class="tile"><span class="scr">&#128247;</span>Before / after store</div>
+      <div class="tile"><span class="scr">&#128247;</span>Creative testing win</div>
+      <div class="tile"><span class="scr">&#128247;</span>Student DM result</div>
+      <div class="tile"><span class="scr">&#128247;</span>Ad account result</div>
+      <div class="tile"><span class="scr">&#65291;</span>&hellip;and the rest of the wall</div>
+    </div>
+    <p class="wallcap">Volume is the argument &mdash; real screenshots, never retyped quote cards. This section lives or dies on Frank supplying the actual proof.</p>
+  </div>
+
+  <!-- single repeated CTA -->
+  <div class="close pad center">
+    <div class="sechead">Applications open</div>
+    <h2>Build the store into an asset, <em>not another daily reset</em></h2>
+    <a class="cta" href="#apply">Click here to apply now</a>
+  </div>
+
+  <div class="foot">
+    Frank Wieler &middot; Subscription Brand Mentorship<br>
+    Results vary. Nothing on this page guarantees income. Proof claims and media must be verified before publication.
+  </div>
+
+</div>
+</body>
+</html>
