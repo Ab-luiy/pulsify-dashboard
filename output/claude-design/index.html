@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Frank Wieler — Subscription Brand Mentorship</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1712; --body:#544f45; --muted:#8c867a; --faint:#b4ad9f;
+    --paper:#f6f3ec; --paper2:#efeadf; --card:#fffdf8; --line:#ddd6c6; --line2:#cfc7b4;
+    --accent:#2440ff; --ok:#16352a;
+    --serif:"Fraunces",Georgia,"Times New Roman",serif;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{ background:var(--paper); color:var(--body); font-family:var(--sans); line-height:1.55; -webkit-font-smoothing:antialiased; }
+  .col{ width:min(660px, calc(100% - 44px)); margin:0 auto; }
+  .ink{color:var(--ink);}
+
+  /* masthead */
+  .masthead{ border-bottom:1px solid var(--line2); }
+  .masthead .col{ display:flex; align-items:center; justify-content:space-between; padding:16px 0; }
+  .brand{ font-family:var(--serif); font-weight:600; font-size:18px; letter-spacing:.01em; color:var(--ink); }
+  .masthead .tag{ font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+
+  /* hero */
+  .hero{ text-align:center; padding:64px 0 18px; }
+  .eyebrow{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .eyebrow .dot{ display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent); margin-right:7px; vertical-align:middle; }
+  h1{ font-family:var(--serif); font-weight:600; font-size:54px; line-height:1.02; letter-spacing:-.015em; color:var(--ink); margin:20px auto 0; max-width:9.2ch; }
+  h1 .it{ font-style:italic; font-weight:500; }
+  .lede{ font-size:18px; line-height:1.6; color:var(--body); max-width:460px; margin:20px auto 0; }
+
+  /* video */
+  .video{ position:relative; margin:34px auto 0; aspect-ratio:16/9; border-radius:6px; overflow:hidden;
+    background:#14110c; border:1px solid var(--ink); box-shadow:0 30px 60px -28px rgba(26,23,18,.55); cursor:pointer; }
+  .video::after{ content:""; position:absolute; inset:0; background:radial-gradient(120% 90% at 50% 18%, rgba(255,255,255,.06), transparent 60%); }
+  .play{ position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:72px; height:72px; border-radius:50%;
+    border:1px solid rgba(255,255,255,.5); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(2px); transition:transform .15s; z-index:2; }
+  .video:hover .play{ transform:translate(-50%,-50%) scale(1.06); }
+  .play::after{ content:""; border-left:18px solid #fff; border-top:11px solid transparent; border-bottom:11px solid transparent; margin-left:5px; }
+  .v-label{ position:absolute; top:15px; left:17px; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.72); z-index:2; }
+  .v-dur{ position:absolute; bottom:15px; right:17px; font-size:12px; color:rgba(255,255,255,.6); font-variant-numeric:tabular-nums; z-index:2; }
+
+  /* cta */
+  .cta{ display:inline-block; margin-top:30px; background:var(--ink); color:var(--paper); text-decoration:none;
+    font-weight:500; font-size:13.5px; letter-spacing:.14em; text-transform:uppercase; padding:18px 40px; border-radius:3px; transition:opacity .15s; }
+  .cta:hover{ opacity:.88; }
+
+  .auth{ display:flex; justify-content:center; gap:0; margin-top:40px; padding-bottom:6px; }
+  .auth div{ padding:0 26px; border-left:1px solid var(--line2); text-align:center; }
+  .auth div:first-child{ border-left:0; }
+  .auth b{ display:block; font-family:var(--serif); font-weight:600; font-size:24px; color:var(--ink); line-height:1.1; }
+  .auth span{ font-size:11.5px; letter-spacing:.04em; color:var(--muted); }
+
+  /* section frame */
+  .rule{ border-top:1px solid var(--line2); }
+  .sec{ padding:58px 0; text-align:center; }
+  .kick{ font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--muted); }
+  h2{ font-family:var(--serif); font-weight:600; font-size:34px; letter-spacing:-.01em; color:var(--ink); margin-top:12px; }
+  h2 .it{ font-style:italic; font-weight:500; }
+
+  /* application */
+  .apply{ background:var(--paper2); }
+  .note{ font-size:14.5px; color:var(--muted); max-width:380px; margin:10px auto 0; }
+  .qcard{ background:var(--card); border:1px solid var(--line); border-radius:8px; padding:30px; max-width:460px; margin:26px auto 0; text-align:left;
+    box-shadow:0 24px 50px -34px rgba(26,23,18,.4); }
+  .steps{ display:flex; gap:6px; margin-bottom:24px; }
+  .steps i{ height:2px; flex:1; background:var(--line2); }
+  .steps i.on{ background:var(--ink); }
+  .qn{ font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+  .ql{ font-family:var(--serif); font-size:22px; font-weight:600; color:var(--ink); margin:8px 0 16px; line-height:1.2; }
+  .qi{ width:100%; padding:14px 0; border:0; border-bottom:1px solid var(--line2); background:transparent; font-size:16px; color:var(--ink); font-family:inherit; }
+  .qi:focus{ outline:0; border-color:var(--ink); }
+  .qi::placeholder{ color:var(--faint); }
+  .qb{ margin-top:22px; background:var(--ink); color:var(--paper); border:0; cursor:pointer; font-family:var(--sans); font-weight:500;
+    font-size:12px; letter-spacing:.12em; text-transform:uppercase; padding:13px 26px; border-radius:3px; }
+
+  /* proof wall */
+  .wall{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:30px auto 0; }
+  .tile{ aspect-ratio:4/5; border:1px solid var(--line); background:var(--card); border-radius:6px; overflow:hidden;
+    position:relative; display:flex; flex-direction:column; justify-content:flex-end; padding:14px; text-align:left; }
+  .tile::before{ content:""; position:absolute; inset:0; opacity:.5;
+    background:repeating-linear-gradient(0deg, var(--paper2) 0 11px, var(--card) 11px 22px); }
+  .tile .typ{ position:relative; font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); margin-bottom:5px; }
+  .tile .lbl{ position:relative; font-size:11.5px; color:var(--muted); line-height:1.35; }
+  .tile.real{ background:var(--ink); border-color:var(--ink); }
+  .tile.real::before{ background:radial-gradient(120% 90% at 50% 30%, #2a2620, var(--ink)); opacity:1; }
+  .tile.real .typ{ color:rgba(255,255,255,.45); } .tile.real .lbl{ color:rgba(255,255,255,.8); }
+  .tile.real .pin{ position:absolute; top:42%; left:50%; transform:translate(-50%,-50%); width:38px; height:38px; border-radius:50%; border:1px solid rgba(255,255,255,.55); display:flex; align-items:center; justify-content:center; }
+  .tile.real .pin::after{ content:""; border-left:11px solid #fff; border-top:7px solid transparent; border-bottom:7px solid transparent; margin-left:3px; }
+  .tile.more{ border-style:dashed; align-items:center; justify-content:center; text-align:center; }
+  .tile.more::before{ display:none; }
+  .tile.more .lbl{ color:var(--faint); }
+  .wallcap{ font-size:12.5px; color:var(--muted); max-width:420px; margin:20px auto 0; }
+
+  /* closing */
+  .close{ background:var(--ink); color:var(--paper2); text-align:center; padding:66px 0; }
+  .close .kick{ color:rgba(255,255,255,.5); }
+  .close h2{ color:#fbf8f1; max-width:480px; margin:12px auto 0; }
+  .close .cta{ background:var(--paper); color:var(--ink); margin-top:28px; }
+  .foot{ text-align:center; padding:26px 0; font-size:11.5px; color:var(--faint); line-height:1.6; }
+  .foot b{ color:var(--muted); font-weight:500; }
+
+  @media (max-width:560px){
+    .hero{padding:46px 0 12px;} h1{font-size:38px; max-width:none;} .lede{font-size:16px;}
+    h2{font-size:27px;} .wall{grid-template-columns:repeat(2,1fr);} .auth div{padding:0 16px;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="masthead">
+    <div class="col">
+      <span class="brand">Frank Wieler</span>
+      <span class="tag">Applications open</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- GRANT: brand, headline, video. nothing competes above the video. -->
+    <section class="hero">
+      <div class="col">
+        <div class="eyebrow"><span class="dot"></span>For intermediate dropshippers building a real brand</div>
+        <h1>Sales that come back <span class="it">every month</span></h1>
+        <p class="lede">Watch the private breakdown of the subscription-first model Frank uses, then apply to build it with him 1-on-1.</p>
+
+        <div class="video">
+          <span class="v-label">Private training</span>
+          <span class="play"></span>
+          <span class="v-dur">12:04</span>
+        </div>
+
+        <a class="cta" href="#apply">Apply to work with Frank</a>
+
+        <div class="auth">
+          <div><b>7</b><span>years in</span></div>
+          <div><b>7-fig</b><span>in revenue</span></div>
+          <div><b>1:1</b><span>operator support</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SHARED SPINE: application directly under the video -->
+    <section class="sec apply rule" id="apply">
+      <div class="col">
+        <div class="kick">Private application</div>
+        <h2>Apply below</h2>
+        <p class="note">For operators who know the basics and are ready to build, test, and execute.</p>
+        <div class="qcard">
+          <div class="steps"><i class="on"></i><i></i><i></i><i></i></div>
+          <div class="qn">Question 01 / 04</div>
+          <div class="ql">First, what should Frank call you?</div>
+          <input class="qi" placeholder="Type your first name">
+          <button class="qb">Continue</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROOF WALL: the crescendo. Luke-style header. -->
+    <section class="sec rule">
+      <div class="col">
+        <div class="kick">Receipts, not promises</div>
+        <h2>People we've <span class="it">helped</span></h2>
+        <div class="wall">
+          <div class="tile real"><span class="pin"></span><div class="typ">Public breakdown</div><div class="lbl">Frank's product research method</div></div>
+          <div class="tile"><div class="typ">Payment</div><div class="lbl">Student revenue screenshot</div></div>
+          <div class="tile"><div class="typ">Dashboard</div><div class="lbl">Subscription MRR proof</div></div>
+          <div class="tile"><div class="typ">Raw clip</div><div class="lbl">Unedited student video</div></div>
+          <div class="tile"><div class="typ">Before / after</div><div class="lbl">Store transformation</div></div>
+          <div class="tile"><div class="typ">Ad account</div><div class="lbl">Creative testing win</div></div>
+          <div class="tile"><div class="typ">Message</div><div class="lbl">Student DM result</div></div>
+          <div class="tile"><div class="typ">Orders</div><div class="lbl">Daily order volume</div></div>
+          <div class="tile more"><div class="lbl">+ the rest<br>of the wall</div></div>
+        </div>
+        <p class="wallcap">Volume is the argument — real screenshots and raw clips, never retyped quote cards. This wall must be filled with Frank's own proof before launch.</p>
+      </div>
+    </section>
+
+    <!-- single repeated CTA -->
+    <section class="close">
+      <div class="col">
+        <div class="kick">Applications open</div>
+        <h2>Build the store into an asset, <span class="it">not another daily reset</span></h2>
+        <a class="cta" href="#apply">Apply to work with Frank</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="col">
+      <b>Frank Wieler · Subscription Brand Mentorship</b><br>
+      Results vary. Nothing on this page guarantees income. Proof claims and media verified before publication.
+    </div>
+  </footer>
+
+</body>
+</html>
