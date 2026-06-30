@@ -9,6 +9,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    .application-embed{ position:relative; min-height:540px; }
+    .typeform-live{ position:relative; z-index:2; width:100%; min-height:540px; }
+    .typeform-live:empty{ display:none; }
+    .typeform-placeholder{ position:absolute; inset:0; z-index:1; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:10px; text-align:center; padding:32px;
+      border:1px dashed rgba(93,95,146,.32); border-radius:22px; background:rgba(255,255,255,.55); }
+    .typeform-placeholder .tf-mark{ font-size:12px; font-weight:700; letter-spacing:.06em; color:#262627;
+      background:#fff; border:1px solid var(--line); border-radius:999px; padding:6px 14px; box-shadow:0 6px 18px rgba(84,73,156,.1); }
+    .typeform-placeholder strong{ font-size:20px; color:var(--ink); }
+    .typeform-placeholder .tf-note{ max-width:380px; font-size:13.5px; color:var(--muted); line-height:1.5; }
+    .typeform-placeholder code{ background:rgba(104,113,244,.1); color:#4d56d8; padding:1px 6px; border-radius:5px; font-size:12.5px; }
+  </style>
 </head>
 <body>
   <div class="announcement">
@@ -75,60 +88,12 @@
         </p>
 
         <div class="application-embed">
-          <div class="form-progress" aria-hidden="true">
-            <span id="progressFill"></span>
-          </div>
-
-          <form id="applicationForm" novalidate>
-            <div class="form-step active" data-step="1">
-              <span class="question-number">1 →</span>
-              <label for="firstName">First, what should Frank call you?</label>
-              <input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Type your first name..." required>
-              <p class="form-error" role="alert">Enter your first name to continue.</p>
-              <button class="form-next" type="button">OK <span>↵</span></button>
-            </div>
-
-            <div class="form-step" data-step="2">
-              <span class="question-number">2 →</span>
-              <label for="revenue">Where is your store right now?</label>
-              <select id="revenue" name="revenue" required>
-                <option value="" selected disabled>Select your current monthly revenue</option>
-                <option value="pre-revenue">Pre-revenue</option>
-                <option value="under-10k">Under $10K/month</option>
-                <option value="10k-50k">$10K–$50K/month</option>
-                <option value="50k-100k">$50K–$100K/month</option>
-                <option value="100k-plus">$100K+/month</option>
-              </select>
-              <p class="form-error" role="alert">Choose the range that fits.</p>
-              <button class="form-next" type="button">OK <span>↵</span></button>
-            </div>
-
-            <div class="form-step" data-step="3">
-              <span class="question-number">3 →</span>
-              <label for="situation">What is the biggest thing stopping the store from scaling?</label>
-              <textarea id="situation" name="situation" rows="3" placeholder="Tell Frank what is working, what is not, and what you have already tried..." required></textarea>
-              <p class="form-error" role="alert">Give Frank enough context to diagnose the gap.</p>
-              <button class="form-next" type="button">OK <span>↵</span></button>
-            </div>
-
-            <div class="form-step" data-step="4">
-              <span class="question-number">4 →</span>
-              <label for="email">Where should Frank send the next step?</label>
-              <input id="email" name="email" type="email" autocomplete="email" placeholder="name@email.com" required>
-              <p class="form-error" role="alert">Enter a valid email address.</p>
-              <button class="form-submit" type="submit">SUBMIT APPLICATION</button>
-            </div>
-          </form>
-
-          <div class="form-success" id="formSuccess" role="status" aria-live="polite">
-            <div class="success-check">✓</div>
-            <h3>Application received.</h3>
-            <p>This prototype is ready to connect to Frank's Typeform and calendar.</p>
-          </div>
-
-          <div class="embed-footer">
-            <span>Frank Wieler · Private application</span>
-            <span>Press Enter ↵</span>
+          <!-- TYPEFORM EMBED — replace REPLACE_WITH_TYPEFORM_ID with Frank's real form ID (or send the Typeform link). -->
+          <div data-tf-live="REPLACE_WITH_TYPEFORM_ID" class="typeform-live"></div>
+          <div class="typeform-placeholder" aria-hidden="true">
+            <span class="tf-mark">Typeform</span>
+            <strong>Application form embeds here</strong>
+            <span class="tf-note">Paste Frank's form ID into <code>data-tf-live</code>, or send the Typeform link and it goes live.</span>
           </div>
         </div>
       </div>
@@ -145,19 +110,6 @@
           The layout is ready for Frank's original dashboards, payment screenshots,
           student messages, and short raw clips. Nothing below invents a testimonial.
         </p>
-
-        <div class="proof-feature">
-          <a href="https://www.youtube.com/watch?v=Ty5zem5uCkk" target="_blank" rel="noreferrer" class="public-breakdown">
-            <img src="assets/frank-product-video.jpg" alt="Frank Wieler's public product research breakdown">
-            <span class="proof-play" aria-hidden="true">▶</span>
-          </a>
-          <div class="proof-feature-copy">
-            <span class="proof-label">PUBLIC BREAKDOWN</span>
-            <h3>Frank's exact method for finding winning products</h3>
-            <p>One real piece of public authority is stronger than a page full of invented quote cards.</p>
-            <a href="https://www.youtube.com/watch?v=Ty5zem5uCkk" target="_blank" rel="noreferrer">Watch the source video →</a>
-          </div>
-        </div>
 
         <div class="proof-grid" aria-label="Proof media slots">
           <article class="proof-slot">
@@ -219,5 +171,6 @@
   </footer>
 
   <script src="js/script.js"></script>
+  <script src="//embed.typeform.com/next/embed.js"></script>
 </body>
 </html>

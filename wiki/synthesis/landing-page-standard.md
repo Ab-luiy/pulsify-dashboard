@@ -33,9 +33,11 @@ Top to bottom, one idea per screen:
 4. **Subhead** — one line, names the result, points at the video.
 5. **VSL** — large, immediate. Nothing educational sits above it.
 6. **One CTA** — solid accent button.
-7. **Application** — Typeform-style, directly under the video. This is the shared spine.
-8. **Proof wall** — the crescendo. Volume is the argument: real screenshots and raw
-   clips, never retyped quote cards. Header in Luke Alexander's style: `People we've helped`.
+7. **Application** — an **embedded Typeform** (the real form via Typeform's embed
+   script, not a mock form), directly under the video. This is the shared spine.
+8. **Proof wall** — the crescendo. Testimonials only: real screenshots and raw clips,
+   never retyped quote cards. **No featured/explainer video in this section** — the only
+   video on the page is the hero VSL. Header in Luke Alexander's style: `People we've helped`.
 9. **Closing CTA** — the same CTA, repeated. Same destination every time.
 10. **Footer** — brand line + a short results-vary disclaimer.
 

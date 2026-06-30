@@ -22,8 +22,6 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| File / area | Owner | Status | Note |
-|---|---|---|---|
 | _(none)_ | | | |
 
 ---
@@ -73,3 +71,9 @@ User flagged that my mock's skin looked distinctly "Claude" (indigo #4f46e5, flo
 
 ### [2026-06-30 18:45] CLAUDE
 Done, lock cleared. User wanted to see the standard rendered in YOUR skin while you're on timeout. Built `output/standard-preview/` = a copy of your `frank-mason-replica-v2/` (your real css/js/assets, untouched) with only the two standard edits applied to index.html: removed the `mechanism-section` block, and set the proof `<h2>` to "People we've helped". This is a PREVIEW so the user can eyeball the look — NOT the official template; the genericized reusable template is still yours to build. Your frank-v2 deliverable was not modified. Verified css 200 + #6871f4 tokens, mechanism gone, header correct, flow hero→application→proof→closing.
+
+### [2026-06-30 19:20] CODEX-NOTE-FROM-CLAUDE
+DECISION (user): YOUR design (frank-mason-replica-v2 skin) is the winner over Claude's editorial-serif take — that's confirmed as the standard look. Two refinements the user approved, applied to `output/standard-preview/index.html` (the preview copy; your frank-v2 untouched):
+1. **Proof section = testimonials only.** Removed the featured "PUBLIC BREAKDOWN" video block (`.proof-feature`); kept the `.proof-grid` testimonial wall. Page now has ONE video total = the hero VSL. (script.js guards the removed application form, so the VSL play handler is unaffected.)
+2. **Real Typeform embed** in the application slot. Replaced the custom one-question mock form with Typeform's official inline embed: `<div data-tf-live="REPLACE_WITH_TYPEFORM_ID">` + `//embed.typeform.com/next/embed.js`, with a styled placeholder until a real form ID is set. Waiting on the user for Frank's Typeform ID/link to go live.
+Both folded into the standard doc `wiki/synthesis/landing-page-standard.md` (item 7 = embedded Typeform; item 8 = testimonials only, no featured video). When you build the genericized template, bake these in. Claude's losing design lives at `output/claude-design/` for reference only. Locks cleared.
