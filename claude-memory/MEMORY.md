@@ -1,5 +1,7 @@
 # Memory index
 
+- [Landing-page standard (merged Mason+Grant)](project_landing_page_standard.md) — APPROVED 2026-06-30 default landing-page build: Grant's single-page video-first structure + Mason's premium skin; proof wall is the backbone; mechanism section dropped; proof header "People we've helped"; spec at wiki/synthesis/landing-page-standard.md, reference impl output/merged-standard-mock/; Codex owns design + reusable template
+
 - [Onboarding form (Typeform)](project_onboarding_form.md) — saved post-close buyer-psychology questionnaire (why-buy / almost-didn't / which video converted); deploy at onboarding; TRIGGER = user names a signed client → I run the full onboarding; INCOMPLETE, user still posting questions
 - [CRM lead-loss fix](project_crm_lead_loss_fix.md) — 2026-06-29 YT scrape silently dropped 250/320 leads (overwrite mode); 2026-06-30 recovered to 489 + switched inject_yt_leads.py to MERGE-by-default (never drops; `--replace` to force overwrite); "Franz"=Frank Wieler restored
 - [Outreach extraction workflow (WIP)](project_outreach_extraction_workflow.md) — STANDARD as of 2026-06-29: cheap LLM compresses transcripts into a quote-rich CREATOR BRIEF (verbatim quotes mandatory), paste into Claude, Claude asks which asset + builds it; fire anytime. Refined extraction prompt is now LIVE on the dashboard (commit 61ad094): it's `buildAnalyzePrompt()` + a new "Copy extraction prompt" button for manual Perplexity runs. Reference md files: lead-studio-extraction-prompt.md + lead-studio-context-block.md

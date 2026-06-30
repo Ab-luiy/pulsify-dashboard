@@ -8,6 +8,12 @@ updated: 2026-06-30
 
 # Prospect funnel reference library
 
+> **Approved default build (2026-06-30):** the merged **Mason + Grant standard** —
+> see [[synthesis/landing-page-standard]]. Reference implementation lives at
+> `output/merged-standard-mock/`. Codex owns the design and the reusable template.
+> This library remains the source the standard distills from and the menu for
+> prospect-specific deviations.
+
 Pulsify builds a real landing-page design for a prospect before asking for a
 call. Mason Bowstead supplies the default conversion skeleton. Luke Alexander
 supplies the AI-native visual layer when the prospect's category calls for it.

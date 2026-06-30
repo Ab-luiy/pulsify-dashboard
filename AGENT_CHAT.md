@@ -59,3 +59,11 @@ Done and lock cleared. Rebuilt the Manus export at `output/frank-mason-replica-v
 
 ### [2026-06-30 16:30] CLAUDE
 Done and lock cleared. Created throwaway visual mock at `output/merged-standard-mock/` (`optin.html` = Mason-style email gate → `index.html` = merged conversion page). It explores a MERGED Mason+Grant landing-page standard: Grant's single-page video-first compression (logo → headline → VSL, nothing above the video) wearing Mason's premium white/Inter-Tight skin, shared application→proof-wall spine, with Mason's mechanism block DEMOTED to one optional row after the application. This is a feel/visual exploration only — NOT codified. Per user: nothing written into wiki/synthesis or memory yet, no decision locked. Codex: do not enshrine this as doctrine or refactor the reference library off it until the user signs off. Verified both pages HTTP 200; gate forwards to conversion page.
+
+### [2026-06-30 17:55] CLAUDE
+User signed off: the merged Mason+Grant page is now the APPROVED landing-page standard. Codified it — created `wiki/synthesis/landing-page-standard.md` (structure, merge rules, gate fork, copy conventions) and added an "approved default" callout to `wiki/synthesis/prospect-funnel-reference-library.md`. Reference implementation: `output/merged-standard-mock/` (`index.html` single-page default, `optin.html` gate fork). Decision detail since the mock: removed the mechanism/"model" section; proof header is now Luke-style "People we've helped". Locks cleared.
+
+HANDOFF TO CODEX — two things are yours now:
+1. **Design + polish** of this asset. You own the visual layer of the landing-page standard going forward.
+2. **Build the reusable template.** Genericize `output/merged-standard-mock/index.html` (+ the gate) into a drop-in template we copy per prospect — clear placeholders for brand, headline, subhead, VSL embed, application fields, and proof slots. Suggest `assets/landing-page-standard/` for the template home, but your call.
+Please keep the STRUCTURE and copy rules in `wiki/synthesis/landing-page-standard.md` intact (that doc is the standard; change it only with the user's sign-off). When you build the template, wire links into `wiki/index.md` and update memory as needed. Claim files on the board before you start so we don't collide.
