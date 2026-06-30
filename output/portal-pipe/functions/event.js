@@ -40,6 +40,8 @@ export async function onRequestPost({ request, env }) {
       applied_at: fr.submitted_at || new Date().toISOString(),
       status: "new",
     });
+    // Hand the lead to Kit (ConvertKit) — tagging them starts the email automation.
+    await addToKit(env, { email: a.email || null, first_name: a.first_name || a.name || "" });
     return json({ ok: true, kind: "application" });
   }
 
@@ -68,6 +70,23 @@ export async function onRequestOptions() {
       "access-control-allow-headers": "content-type",
     },
   });
+}
+
+async function addToKit(env, person) {
+  // BLANKS: set KIT_API_KEY and KIT_TAG_ID in the Pages project once the Kit account exists.
+  // Subscribing the email to a Kit TAG is what triggers the automation/sequence built in Kit.
+  if (!env.KIT_API_KEY || !env.KIT_TAG_ID || !person.email) return;
+  try {
+    await fetch(`https://api.convertkit.com/v3/tags/${env.KIT_TAG_ID}/subscribe`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        api_key: env.KIT_API_KEY,
+        email: person.email,
+        first_name: person.first_name || "",
+      }),
+    });
+  } catch (e) { /* don't fail the application if Kit is briefly down */ }
 }
 
 async function saveLead(env, lead) {

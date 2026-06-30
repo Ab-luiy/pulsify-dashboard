@@ -27,6 +27,14 @@ You don't need to understand the code. The setup, once the accounts exist:
    the Wistia player and posts play/progress/end to the same URL.
 5. The dashboard reads `leads.js` and shows it all. Done.
 
+### Email automation (Kit / ConvertKit)
+
+When an application lands, the pipe also hands the email to **Kit** and tags it — and that
+tag starts the email sequence you build inside Kit. Blanks to fill: set `KIT_API_KEY` and
+`KIT_TAG_ID` in the Pages project. You build the actual emails (welcome, nurture, booking
+nudges) once inside Kit as an automation triggered by that tag; after that it runs itself.
+Optional upgrade: tag hot vs warm by VSL watch % so different watchers get different sequences.
+
 Everything is scoped by a `client` tag (e.g. `frank`), so each client only ever sees their
 own leads — which is what makes this work for more than one client later.
 

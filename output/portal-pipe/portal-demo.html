@@ -49,6 +49,8 @@
   .pill.new{ background:var(--blue-soft); color:var(--blue); }
   .pill.hot{ background:var(--green-soft); color:var(--green); }
   .pill.warm{ background:var(--amber-soft); color:var(--amber); }
+  .kit{ display:inline-flex; align-items:center; gap:5px; margin-top:5px; font-size:11px; color:var(--green); font-weight:600; }
+  .kit .dot{ width:6px; height:6px; border-radius:50%; background:var(--green); }
   .flash{ animation:flash 1.2s ease; }
   @keyframes flash{ from{ background:var(--blue-soft);} to{ background:transparent;} }
   .foot{ font-size:12px; color:var(--muted); padding:14px 22px; border-top:1px solid var(--line); background:#fafafd; }
@@ -104,7 +106,7 @@
     const tb = document.getElementById("rows");
     tb.innerHTML = leads.map((l,i)=>`
       <tr class="${flashFirst&&i===0?'flash':''}">
-        <td><div class="lead-name">${l.name}</div><div class="lead-email">${l.email}</div></td>
+        <td><div class="lead-name">${l.name}</div><div class="lead-email">${l.email}</div><div class="kit"><span class="dot"></span>In Kit · email sequence started</div></td>
         <td class="hide-sm"><span class="rev">${l.rev}</span></td>
         <td><div class="watch"><div class="bar"><i style="width:${l.watched}%"></i></div><span>${l.watched}%</span></div></td>
         <td class="hide-sm">${l.applied}</td>
