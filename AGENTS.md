@@ -4,6 +4,29 @@ This file is the operating manual for the AI maintaining this vault. Read it fir
 
 > **Multi-agent coordination:** Claude and Codex both work this repo. Before editing any file, read and post to the shared channel `AGENT_CHAT.md` (repo root) — claim files on its Lock Board and log your changes so the two agents never overlap.
 
+## Codex GitHub sync
+
+This checkout tracks `brain/main`. The separate `origin` remote is the public
+`pulsify-dashboard` repository, so never infer the brain repository from the
+remote named `origin`. For GitHub CLI commands, pass
+`-R Ab-luiy/pulsify-brain` explicitly.
+
+At the start of every Codex session in the primary checkout, before editing:
+
+1. Run `powershell -ExecutionPolicy Bypass -File .\auto-pull.ps1`.
+2. Read `AGENT_CHAT.md` and claim the files being changed.
+
+At the end of Codex work:
+
+1. Log the changed files in `AGENT_CHAT.md` and clear Codex's locks.
+2. Verify `git status` contains only expected, coordinated changes.
+3. Run `powershell -ExecutionPolicy Bypass -File .\auto-backup.ps1`.
+
+`auto-pull.ps1` only fast-forwards; it never auto-merges a divergence.
+`auto-backup.ps1` commits and pushes to the checked-out branch's configured
+upstream. The hourly `Pulsify-Brain Auto Backup` Windows task is the fallback
+if a session ends before the final backup runs.
+
 ## What this vault is
 
 This is the brain of Pulsify, a growth operating company that helps online coaches and creators in biz-op niches (trading, ecom, dropshipping, Amazon FBA, Airbnb hosting, TikTok Shop, etc.) sell high-ticket mentorships. Pulsify builds personal brands through raw, authentic content with AI — no flexing of cars, watches, or lifestyle — and pairs that with backend infrastructure (funnels, email sequences, sales team systems) to convert every lead.
