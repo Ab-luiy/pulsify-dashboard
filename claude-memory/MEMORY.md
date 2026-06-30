@@ -1,5 +1,6 @@
 # Memory index
 
+- [Funnel→portal pipeline](project_funnel_portal_pipeline.md) — committed 2026-06-30 (NO GHL): landing page (Wistia VSL + Typeform) → Cloudflare pipe (`output/portal-pipe/`) → client dashboard + Kit email automation; fully scaffolded, NOT deployed; blockers = user must `npx wrangler login` + make Wistia/Typeform/Kit accounts; Kit API key set as Cloudflare secret not pasted in chat; Typeform webhooks need paid plan (Tally = free alt)
 - [Landing-page standard (merged Mason+Grant)](project_landing_page_standard.md) — APPROVED 2026-06-30 default landing-page build: Grant's single-page video-first structure + Mason's premium skin; proof wall is the backbone; mechanism section dropped; proof header "People we've helped"; spec at wiki/synthesis/landing-page-standard.md, reference impl output/merged-standard-mock/; Codex owns design + reusable template
 
 - [Onboarding form (Typeform)](project_onboarding_form.md) — saved post-close buyer-psychology questionnaire (why-buy / almost-didn't / which video converted); deploy at onboarding; TRIGGER = user names a signed client → I run the full onboarding; INCOMPLETE, user still posting questions
