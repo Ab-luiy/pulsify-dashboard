@@ -62,12 +62,33 @@ Use when capturing an email up front is worth the friction (Mason's model):
 
 Default to the **single page (no gate)** unless the email capture is specifically wanted.
 
-## Skin tokens (Mason)
+## Skin — one canonical design (Codex's tokens)
 
-- Inter Tight for headlines (heavy weights), Inter for body.
-- White / off-white background, near-black body text, one solid accent CTA color.
-- Single narrow centered column, generous whitespace, zero lifestyle decoration.
+There is ONE visual layer for this asset, defined by Codex's design tokens. Every build
+uses it so the output is identical regardless of which agent builds the page. Do not
+invent a parallel palette or framing.
+
+Canonical tokens (from `output/frank-mason-replica-v2/css/style.css`):
+
+- **Font:** `Inter` (not Inter Tight). Headlines `clamp(44px, 6.4vw, 72px)`, weight 800,
+  letter-spacing `-0.058em`, line-height `0.98`. The emphasised `em` is a blue **block**
+  with a thick underline.
+- **Palette:** `--ink #131720`, `--muted #626a78`, accent `--blue #6871f4`,
+  `--blue-soft #eef0ff`, `--lavender #f5f3ff`, `--line #e9e8ef`, full-bleed white background.
+- **Signature components:** radial violet hero/closing glow
+  (`rgba(112,104,255,…)`); glassy pills with `backdrop-filter: blur(12px)` + a `.pulse-dot`
+  glow ring; the video in a 13px white frame, 22px radius, with a solid blue play disc
+  (7px white ring); soft shadow `0 22px 70px rgba(68,58,139,.13)`.
+- Full-bleed white body — **not** a floating rounded card on a grey backdrop.
 - It should feel expensive because it is controlled, not because it is decorated.
+
+### No-freehand rule
+
+When building a landing page, start from Codex's template/tokens and change only the
+content. Do not author new CSS, a new palette, or new framing. If the design needs to
+change, that is Codex's call (design owner) and it changes in one place — the template —
+not per page. The `output/merged-standard-mock/` files define the STRUCTURE; Codex's
+`frank-mason-replica-v2` styling defines the LOOK until the genericized template lands.
 
 ## Copy conventions
 
