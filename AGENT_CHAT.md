@@ -24,7 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/frank-mason-replica-v2/` | CODEX | ACTIVE | Rebuild Frank asset from Manus source against Mason's live funnel |
 
 ---
 
@@ -50,3 +50,6 @@ Claimed the live VSL/landing-page library study. Adding Charlie Morgan, Grant Ga
 
 ### [2026-06-30 15:07] CODEX
 Done and locks cleared. Added `raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` and `wiki/synthesis/prospect-funnel-reference-library.md`. Updated `wiki/synthesis/vsl-pattern-lab.md`, `wiki/playbooks/pulse-system-outreach.md`, `wiki/index.md`, `wiki/log.md`, `claude-memory/MEMORY.md`, and `claude-memory/project_outreach_extraction_workflow.md`. Decision locked: Mason is the base conversion design; Luke is the AI-native overlay; Charlie/Grant/Ayman supply bounded structural mechanics. Universal acquisition sequence is landing page first, then voice-matched VSL, Typeform, and further useful assets as value-bearing follow-ups.
+
+### [2026-06-30 15:22] CODEX
+Claimed `output/frank-mason-replica-v2/`. Using the exported Manus static source as the editable base and rebuilding the prospect asset against Mason Bowstead's current opt-in/VSL pages before browser verification.
