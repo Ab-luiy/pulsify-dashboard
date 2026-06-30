@@ -1,0 +1,1159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Apply to work with Frank Wieler 1-on-1 to build a subscription-first branded dropshipping business and scale ad creative with AI.">
+  <title>Subscription Brand Mentorship | Frank Wieler</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #111318;
+      --muted: #626772;
+      --line: #dfe2e7;
+      --paper: #f5f6f3;
+      --white: #ffffff;
+      --blue: #2457f5;
+      --blue-dark: #1642d7;
+      --blue-soft: #edf2ff;
+      --green: #1c8b5c;
+      --shadow: 0 22px 65px rgba(17, 19, 24, 0.09);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(100% - 32px, 1080px);
+      margin-inline: auto;
+    }
+
+    .reading-column {
+      width: min(100%, 780px);
+      margin-inline: auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 0;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 1px solid var(--ink);
+      border-radius: 50%;
+      font-family: "Inter Tight", Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: -0.03em;
+    }
+
+    .availability {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .availability::before {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(28, 139, 92, 0.11);
+      content: "";
+    }
+
+    .hero {
+      padding: 68px 0 82px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      border: 1px solid #d5dae3;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      padding: 8px 13px;
+      color: #505662;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      content: "";
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-family: "Inter Tight", "Arial Narrow", Arial, sans-serif;
+      letter-spacing: -0.04em;
+      line-height: 1.04;
+    }
+
+    h1 {
+      max-width: 940px;
+      margin-inline: auto;
+      font-size: clamp(44px, 7.3vw, 78px);
+      font-weight: 800;
+    }
+
+    .hero-subhead {
+      max-width: 750px;
+      margin: 28px auto 0;
+      color: #535965;
+      font-size: clamp(17px, 2.3vw, 20px);
+      line-height: 1.65;
+    }
+
+    .primary-cta {
+      display: inline-flex;
+      min-height: 58px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 34px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--blue);
+      box-shadow: 0 10px 30px rgba(36, 87, 245, 0.2);
+      color: var(--white);
+      cursor: pointer;
+      padding: 16px 24px;
+      font-weight: 700;
+      line-height: 1.2;
+      text-decoration: none;
+      transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .primary-cta::after {
+      content: "→";
+      font-size: 19px;
+    }
+
+    .primary-cta:hover {
+      background: var(--blue-dark);
+      box-shadow: 0 14px 34px rgba(36, 87, 245, 0.27);
+      transform: translateY(-2px);
+    }
+
+    .trust-line {
+      max-width: 680px;
+      margin: 19px auto 0;
+      color: #737984;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.025em;
+      line-height: 1.55;
+      text-transform: uppercase;
+    }
+
+    .video-section {
+      padding-bottom: 32px;
+    }
+
+    .video-frame {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      border: 8px solid var(--white);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+        #15171b;
+      background-size: 32px 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .video-frame::before {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(36, 87, 245, 0.15), transparent 45%);
+      content: "";
+    }
+
+    .video-label {
+      position: absolute;
+      top: 22px;
+      left: 22px;
+      z-index: 1;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      color: rgba(255, 255, 255, 0.64);
+      padding: 7px 11px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 1;
+      display: grid;
+      width: clamp(68px, 9vw, 88px);
+      height: clamp(68px, 9vw, 88px);
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 50%;
+      background: var(--white);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+      color: var(--ink);
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      transition: transform 160ms ease;
+    }
+
+    .play-button:hover {
+      transform: translate(-50%, -50%) scale(1.04);
+    }
+
+    .play-icon {
+      width: 0;
+      height: 0;
+      margin-left: 5px;
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      border-left: 15px solid var(--blue);
+    }
+
+    .video-caption {
+      position: absolute;
+      right: 22px;
+      bottom: 20px;
+      left: 22px;
+      z-index: 1;
+      color: rgba(255, 255, 255, 0.58);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .application-wrap {
+      padding: 18px 0 110px;
+    }
+
+    .application-card {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background: var(--white);
+      box-shadow: 0 20px 60px rgba(17, 19, 24, 0.06);
+      padding: clamp(24px, 5vw, 54px);
+    }
+
+    .step-label {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .application-card h2 {
+      max-width: 580px;
+      margin-top: 12px;
+      font-size: clamp(34px, 5vw, 50px);
+      font-weight: 800;
+    }
+
+    .form-intro {
+      max-width: 620px;
+      margin: 18px 0 32px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 19px;
+    }
+
+    .field {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field-full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      color: #3a3f49;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .optional {
+      color: #9297a1;
+      font-weight: 500;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 52px;
+      border: 1px solid #d8dce3;
+      border-radius: 10px;
+      outline: none;
+      background: #fbfbfa;
+      color: var(--ink);
+      padding: 13px 14px;
+      transition: border 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a0a5ae;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--blue);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(36, 87, 245, 0.1);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .qualification-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 28px 0 0;
+      border-radius: 11px;
+      background: #f1f3f7;
+      color: #606672;
+      padding: 13px 15px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .qualification-note::before {
+      flex: 0 0 auto;
+      color: var(--blue);
+      content: "●";
+      font-size: 8px;
+      line-height: 2.2;
+    }
+
+    .submit-button {
+      width: 100%;
+      min-height: 60px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 11px;
+      background: var(--blue);
+      color: var(--white);
+      cursor: pointer;
+      padding: 17px 24px;
+      font-weight: 700;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .submit-button:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    .form-response {
+      display: none;
+      margin: 16px 0 0;
+      border: 1px solid #b9ddcd;
+      border-radius: 10px;
+      background: #eff9f4;
+      color: #176c49;
+      padding: 13px 15px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .form-response.visible {
+      display: block;
+    }
+
+    .body-section {
+      padding: 110px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 110px minmax(0, 1fr);
+      gap: 34px;
+    }
+
+    .section-number {
+      color: #a9aeb7;
+      font-family: "Inter Tight", Arial, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+
+    .section-copy h2 {
+      max-width: 670px;
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: 800;
+    }
+
+    .section-copy p {
+      max-width: 670px;
+      margin: 25px 0 0;
+      color: #555b66;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .plainspoken-callout {
+      max-width: 670px;
+      margin-top: 30px;
+      border-left: 4px solid var(--blue);
+      background: var(--blue-soft);
+      color: #1a327a;
+      padding: 18px 20px;
+      font-family: "Inter Tight", Arial, sans-serif;
+      font-size: clamp(20px, 3vw, 25px);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1.35;
+    }
+
+    .mechanism {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      max-width: 670px;
+      margin-top: 34px;
+    }
+
+    .mechanism-step {
+      min-height: 128px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: var(--white);
+      padding: 18px;
+    }
+
+    .mechanism-step small {
+      display: block;
+      margin-bottom: 22px;
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .mechanism-step strong {
+      display: block;
+      font-family: "Inter Tight", Arial, sans-serif;
+      font-size: 17px;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .fit-list {
+      display: grid;
+      max-width: 670px;
+      gap: 10px;
+      margin-top: 30px;
+    }
+
+    .fit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      border-bottom: 1px solid var(--line);
+      padding: 0 0 14px;
+      color: #484e58;
+      font-size: 15px;
+    }
+
+    .fit-item::before {
+      display: grid;
+      width: 23px;
+      height: 23px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--blue-soft);
+      color: var(--blue);
+      content: "✓";
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .proof-section {
+      padding: 115px 0;
+      border-top: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .proof-header {
+      max-width: 720px;
+      margin: 0 auto 48px;
+      text-align: center;
+    }
+
+    .proof-header h2 {
+      margin-top: 12px;
+      font-size: clamp(38px, 5.5vw, 58px);
+      font-weight: 800;
+    }
+
+    .proof-header p {
+      margin: 18px 0 0;
+      color: var(--muted);
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .proof-tile {
+      position: relative;
+      display: flex;
+      min-height: 270px;
+      overflow: hidden;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid #dfe2e7;
+      border-radius: 16px;
+      background:
+        linear-gradient(#e8ebef 1px, transparent 1px),
+        linear-gradient(90deg, #e8ebef 1px, transparent 1px),
+        #f7f8f8;
+      background-size: 22px 22px;
+      padding: 20px;
+    }
+
+    .proof-tile:nth-child(2),
+    .proof-tile:nth-child(5) {
+      transform: translateY(20px);
+    }
+
+    .proof-type {
+      align-self: flex-start;
+      border: 1px solid #d5d9df;
+      border-radius: 999px;
+      background: var(--white);
+      color: #717782;
+      padding: 6px 9px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .proof-content {
+      text-align: center;
+    }
+
+    .proof-content strong {
+      display: block;
+      font-family: "Inter Tight", Arial, sans-serif;
+      font-size: 25px;
+      letter-spacing: -0.035em;
+      line-height: 1.1;
+    }
+
+    .proof-content span {
+      display: block;
+      margin-top: 8px;
+      color: #8a9099;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .video-proof {
+      background: #17191e;
+      color: var(--white);
+    }
+
+    .video-proof .proof-type {
+      border-color: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .mini-play {
+      display: grid;
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 50%;
+      background: var(--white);
+    }
+
+    .mini-play::before {
+      width: 0;
+      height: 0;
+      margin-left: 3px;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      border-left: 11px solid var(--blue);
+      content: "";
+    }
+
+    .video-proof .proof-content span {
+      color: rgba(255, 255, 255, 0.46);
+    }
+
+    .proof-note {
+      margin: 50px auto 0;
+      color: #8a9099;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .closing {
+      padding: 120px 0;
+      text-align: center;
+    }
+
+    .closing-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 26px;
+      background: var(--ink);
+      color: var(--white);
+      padding: clamp(44px, 8vw, 82px) clamp(24px, 7vw, 74px);
+    }
+
+    .closing-card::before {
+      position: absolute;
+      top: -180px;
+      left: 50%;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: rgba(36, 87, 245, 0.26);
+      filter: blur(100px);
+      content: "";
+      transform: translateX(-50%);
+    }
+
+    .closing-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .closing-card h2 {
+      max-width: 770px;
+      margin-inline: auto;
+      font-size: clamp(39px, 6vw, 64px);
+      font-weight: 800;
+    }
+
+    .closing-card p {
+      max-width: 650px;
+      margin: 24px auto 0;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 17px;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0 38px;
+      border-top: 1px solid var(--line);
+      color: #8b9099;
+      font-size: 10px;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+
+    .prototype-badge {
+      position: fixed;
+      right: 12px;
+      bottom: 12px;
+      z-index: 10;
+      border: 1px solid #cfd3da;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 8px 22px rgba(17, 19, 24, 0.08);
+      color: #6c727c;
+      padding: 7px 10px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      backdrop-filter: blur(10px);
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 24px, 1080px);
+      }
+
+      .topbar {
+        padding: 15px 0;
+      }
+
+      .brand-name {
+        display: none;
+      }
+
+      .availability {
+        font-size: 10px;
+      }
+
+      .hero {
+        padding: 48px 0 62px;
+      }
+
+      h1 {
+        font-size: clamp(40px, 12vw, 58px);
+      }
+
+      .hero-subhead {
+        margin-top: 22px;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+
+      .primary-cta {
+        width: 100%;
+        margin-top: 27px;
+      }
+
+      .trust-line {
+        font-size: 10px;
+      }
+
+      .video-frame {
+        border-width: 5px;
+        border-radius: 15px;
+      }
+
+      .video-label {
+        top: 12px;
+        left: 12px;
+      }
+
+      .video-caption {
+        right: 12px;
+        bottom: 10px;
+        left: 12px;
+        font-size: 8px;
+      }
+
+      .application-wrap {
+        padding-bottom: 82px;
+      }
+
+      .application-card {
+        border-radius: 18px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .field-full {
+        grid-column: auto;
+      }
+
+      .body-section {
+        padding: 82px 0;
+      }
+
+      .section-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .section-copy p {
+        font-size: 16px;
+        line-height: 1.72;
+      }
+
+      .mechanism {
+        grid-template-columns: 1fr;
+      }
+
+      .mechanism-step {
+        min-height: 0;
+      }
+
+      .mechanism-step small {
+        margin-bottom: 10px;
+      }
+
+      .proof-section {
+        padding: 84px 0;
+      }
+
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-tile,
+      .proof-tile:nth-child(2),
+      .proof-tile:nth-child(5) {
+        min-height: 235px;
+        transform: none;
+      }
+
+      .closing {
+        padding: 82px 0;
+      }
+
+      .closing-card {
+        border-radius: 20px;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      * {
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="shell">
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">FW</span>
+        <span class="brand-name">Frank Wieler · 1-on-1 mentorship</span>
+      </div>
+      <div class="availability">Applications open</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="eyebrow">Subscription-first branded dropshipping</div>
+      <h1 id="hero-title">Turn a store that looks like dropshipping into a subscription brand that pays you every month</h1>
+      <p class="hero-subhead">Single-purchase products keep you fighting for the best ROAS every single day. Put the right product on subscription, build it like an actual brand, and you still get paid next month no matter what your ad account does today.</p>
+      <a class="primary-cta" href="#apply">Apply to work with me 1-on-1</a>
+      <p class="trust-line">7 years in dropshipping. Multiple 7 figures in revenue. Students at their first 6 and 7 figures, including one who hit $1M at 15.</p>
+    </section>
+
+    <section class="video-section shell" aria-label="Video sales letter">
+      <div class="reading-column">
+        <div class="video-frame">
+          <span class="video-label">VSL placeholder</span>
+          <button class="play-button" type="button" aria-label="Play video placeholder">
+            <span class="play-icon" aria-hidden="true"></span>
+          </button>
+          <div class="video-caption">Frank's video will be embedded here · No autoplay</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="application-wrap shell" id="apply" aria-labelledby="application-title">
+      <div class="reading-column">
+        <form class="application-card" id="application-form">
+          <div class="step-label">Step 1 of 2 · Apply</div>
+          <h2 id="application-title">See if the 1-on-1 is a fit</h2>
+          <p class="form-intro">This is for operators ready to build, test, and execute. Answer honestly. If the gap is one I can help you close, the next step is a call.</p>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="first-name">First Name</label>
+              <input id="first-name" name="firstName" type="text" autocomplete="given-name" placeholder="Your first name" required>
+            </div>
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" autocomplete="email" placeholder="you@email.com" required>
+            </div>
+            <div class="field">
+              <label for="instagram">Instagram <span class="optional">(optional)</span></label>
+              <input id="instagram" name="instagram" type="text" autocomplete="off" placeholder="@yourhandle">
+            </div>
+            <div class="field">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+1 555 000 0000" required>
+            </div>
+            <div class="field">
+              <label for="age">Age</label>
+              <input id="age" name="age" type="number" inputmode="numeric" min="15" max="100" placeholder="Your age" required>
+            </div>
+            <div class="field">
+              <label for="revenue">Current monthly revenue</label>
+              <select id="revenue" name="revenue" required>
+                <option value="" selected disabled>Select a range</option>
+                <option>Pre-revenue</option>
+                <option>Under $10K/month</option>
+                <option>$10K–$50K/month</option>
+                <option>$50K–$100K/month</option>
+                <option>$100K+/month</option>
+              </select>
+            </div>
+            <div class="field field-full">
+              <label for="current-situation">Current Situation</label>
+              <textarea id="current-situation" name="currentSituation" placeholder="What are you selling, what have you tried, and where are you stuck?" required></textarea>
+            </div>
+            <div class="field field-full">
+              <label for="target">3 Month Target</label>
+              <textarea id="target" name="target" placeholder="What specific result are you trying to reach in the next 90 days?" required></textarea>
+            </div>
+            <div class="field field-full">
+              <label for="why-now">Why now</label>
+              <textarea id="why-now" name="whyNow" placeholder="Why are you looking for 1-on-1 help now instead of figuring it out alone?" required></textarea>
+            </div>
+          </div>
+
+          <p class="qualification-note">This is not a done-for-you lottery ticket or a beginner course. The strongest fits already understand the basics of dropshipping and can invest time, effort, and capital into execution.</p>
+          <button class="submit-button" type="submit">Book Your Call</button>
+          <p class="form-response" id="form-response" role="status">Prototype complete. Connect this button to Frank's application and calendar flow before launch.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="body-section shell" aria-labelledby="problem-title">
+      <div class="reading-column section-grid">
+        <div class="section-number">01 / THE TRAP</div>
+        <div class="section-copy">
+          <h2 id="problem-title">The problem isn't your product. It's that you only get paid once.</h2>
+          <p>Every morning, your store wakes up at zero. Yesterday's customers already bought. To make money again, you need another winning ad, another pocket of traffic, and another day where your margins hold. One bad week in the ad account can wipe out the momentum you spent months building.</p>
+          <p>Then there is the store itself. A generic theme, the same product photos, the same offer structure, and no reason for a buyer to remember you. Even when it converts, you built a transaction. You did not build an asset that compounds.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="body-section shell" aria-labelledby="shift-title">
+      <div class="reading-column section-grid">
+        <div class="section-number">02 / THE SHIFT</div>
+        <div class="section-copy">
+          <h2 id="shift-title">The shift: a product people rebuy every month</h2>
+          <p>Find a non-supplement product with a real reason to come back, package it like a brand, and make the subscription the obvious choice. The right free gift improves the first order. The rebill builds monthly recurring revenue behind it. New acquisition still matters, but you stop asking every new customer to carry the business alone.</p>
+          <div class="plainspoken-callout">Products don't die, you got lazy on creative.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="body-section shell" aria-labelledby="creative-title">
+      <div class="reading-column section-grid">
+        <div class="section-number">03 / THE ENGINE</div>
+        <div class="section-copy">
+          <h2 id="creative-title">Scale the creative with AI instead of 20 open tabs</h2>
+          <p>AI should make the testing loop faster, not add another pile of tools to manage. Build one research-to-creative system that turns customer language, competitor angles, hooks, scripts, and winning ad patterns into a steady volume of usable concepts. You keep the judgment. AI removes the blank page and the repetitive work between an idea and the next test.</p>
+          <div class="mechanism" aria-label="The operating mechanism">
+            <div class="mechanism-step">
+              <small>Input</small>
+              <strong>Customer language and market patterns</strong>
+            </div>
+            <div class="mechanism-step">
+              <small>System</small>
+              <strong>AI-assisted angles, hooks, and briefs</strong>
+            </div>
+            <div class="mechanism-step">
+              <small>Output</small>
+              <strong>More real creative tests every week</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="body-section shell" aria-labelledby="mentorship-title">
+      <div class="reading-column section-grid">
+        <div class="section-number">04 / 1-ON-1</div>
+        <div class="section-copy">
+          <h2 id="mentorship-title">What you get, 1-on-1</h2>
+          <p>We work through your business together: product and subscription fit, brand positioning, offer structure, store conversion, free-gift strategy, creative research, AI production, testing, and the numbers that decide what scales. You get direct feedback on the decisions in front of you, not another library of videos to watch alone.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="body-section shell" aria-labelledby="fit-title">
+      <div class="reading-column section-grid">
+        <div class="section-number">05 / THE FIT</div>
+        <div class="section-copy">
+          <h2 id="fit-title">Who this is for</h2>
+          <p>This is for intermediate dropshippers who understand the basics but are stuck below roughly $5K a day, cannot hold profit, or keep rebuilding single-purchase stores from zero. You have tried organic, paid ads, or both. You want an operator who has done it to help install a subscription-MRR model and a creative system you can keep running.</p>
+          <div class="fit-list">
+            <div class="fit-item">You have enough experience to execute without being taught what Shopify is.</div>
+            <div class="fit-item">You are willing to build a real brand around a repeatable product.</div>
+            <div class="fit-item">You want direct feedback and will act on it quickly.</div>
+            <div class="fit-item">You are not looking for guaranteed revenue or a passive shortcut.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-section" aria-labelledby="proof-title">
+      <div class="shell">
+        <div class="proof-header">
+          <div class="step-label">Student proof</div>
+          <h2 id="proof-title">Real outcomes. Original screenshots.</h2>
+          <p>These tiles reserve the final layout. Frank's unedited screenshots and short clips replace them before launch.</p>
+        </div>
+
+        <div class="proof-grid">
+          <article class="proof-tile">
+            <span class="proof-type">Screenshot placeholder</span>
+            <div class="proof-content">
+              <strong>$1M at 15 student</strong>
+              <span>Insert original result screenshot</span>
+            </div>
+          </article>
+          <article class="proof-tile video-proof">
+            <span class="proof-type">Video placeholder</span>
+            <div class="proof-content">
+              <div class="mini-play" aria-hidden="true"></div>
+              <strong>Student story</strong>
+              <span>Insert short raw clip</span>
+            </div>
+          </article>
+          <article class="proof-tile">
+            <span class="proof-type">Screenshot placeholder</span>
+            <div class="proof-content">
+              <strong>100K MRR combined</strong>
+              <span>Insert original dashboard screenshot</span>
+            </div>
+          </article>
+          <article class="proof-tile video-proof">
+            <span class="proof-type">Video placeholder</span>
+            <div class="proof-content">
+              <div class="mini-play" aria-hidden="true"></div>
+              <strong>Student breakdown</strong>
+              <span>Insert short raw clip</span>
+            </div>
+          </article>
+          <article class="proof-tile">
+            <span class="proof-type">Screenshot placeholder</span>
+            <div class="proof-content">
+              <strong>3K → 10K/day</strong>
+              <span>Insert original result screenshot</span>
+            </div>
+          </article>
+          <article class="proof-tile">
+            <span class="proof-type">Screenshot placeholder</span>
+            <div class="proof-content">
+              <strong>Next student result</strong>
+              <span>Insert original message screenshot</span>
+            </div>
+          </article>
+        </div>
+        <p class="proof-note">Placeholders only · Do not publish without source media and claim verification</p>
+      </div>
+    </section>
+
+    <section class="closing shell" aria-labelledby="closing-title">
+      <div class="closing-card">
+        <h2 id="closing-title">Apply to work with me 1-on-1.</h2>
+        <p>Spots are limited because it's 1-on-1. Apply below, and if it's a fit we'll talk.</p>
+        <a class="primary-cta" href="#apply">Start your application</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <span>Frank Wieler · Subscription brand mentorship</span>
+    <span>Results vary. No income or business outcome is guaranteed.</span>
+  </footer>
+
+  <div class="prototype-badge">V1 prototype</div>
+
+  <script>
+    const form = document.getElementById("application-form");
+    const response = document.getElementById("form-response");
+    const videoButton = document.querySelector(".play-button");
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      response.classList.add("visible");
+      response.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
+
+    videoButton.addEventListener("click", () => {
+      const caption = document.querySelector(".video-caption");
+      caption.textContent = "Video placeholder · Replace with Frank's VSL embed";
+    });
+  </script>
+</body>
+</html>

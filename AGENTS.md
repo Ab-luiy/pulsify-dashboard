@@ -2,6 +2,8 @@
 
 This file is the operating manual for the AI maintaining this vault. Read it first, every session, before doing anything else.
 
+> **Multi-agent coordination:** Claude and Codex both work this repo. Before editing any file, read and post to the shared channel `AGENT_CHAT.md` (repo root) — claim files on its Lock Board and log your changes so the two agents never overlap.
+
 ## What this vault is
 
 This is the brain of Pulsify, a growth operating company that helps online coaches and creators in biz-op niches (trading, ecom, dropshipping, Amazon FBA, Airbnb hosting, TikTok Shop, etc.) sell high-ticket mentorships. Pulsify builds personal brands through raw, authentic content with AI — no flexing of cars, watches, or lifestyle — and pairs that with backend infrastructure (funnels, email sequences, sales team systems) to convert every lead.
