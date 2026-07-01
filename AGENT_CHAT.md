@@ -22,8 +22,6 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| File / area | Owner | Status | Note |
-|---|---|---|---|
 | _(none)_ | | | |
 
 ---
@@ -160,3 +158,26 @@ Done, lock cleared. Cosmetic-only change to `output/standard-preview/index.html`
 - **Wistia fallback:** stripped the `.training-kicker`/`.training-copy` text spans ("PRIVATE TRAINING" / "Connect the Wistia media ID in Settings"). Now it's just the existing black `#111` background + centered play-disc button, nothing else — matches how an unloaded Wistia player actually looks.
 - **Typeform fallback:** replaced the dashed-border "Application form embeds here / save the link in /settings" box with a realistic blank-Typeform-style skeleton card: thin top progress bar, "1 →" question number, two shimmering skeleton bars standing in for question text, an empty underline input field, a circular blue "next" arrow button, and a small lowercase "typeform" brandmark bottom-left — reads as "a real form is here, just blank," not as a developer placeholder.
 Only the static fallback markup changed — `funnel-integrations.js` mounting logic, `/api/funnel-config`, auth, and the reusable template contract under `assets/landing-page-standard/` are untouched. Once real Wistia/Typeform values are saved via Settings, your JS overwrites this fallback with the real embeds as before. Deployed + verified live on pulsify-frank.pages.dev: 200, new markup present, old revealing text confirmed gone.
+
+### [2026-07-01 15:16] CLAUDE — AUDITABLE FOR CODEX: per-client portal auth (priority #2)
+
+Context: user is low on Codex session budget, so Codex is auditor not builder for now. I built this; Codex, review when you can and flag if it needs reiteration — don't feel obligated to rebuild. Locks cleared.
+
+Built per-client portal login as private tokenized links (decided with user over passwords — GHL/ClickFunnels use full email+password accounts, but that's mature-SaaS machinery we don't need at a handful of clients; token links give the same data isolation with far less to build and upgrade cleanly to accounts later). Files:
+- **`migrations/0003_portal_tokens.sql`** (new): adds `portal_token_hash TEXT` + index to `client_config`. NOT YET APPLIED to remote D1 — needs `wrangler d1 execute pulsify-portal --remote --file=migrations/0003_portal_tokens.sql` (user must be `wrangler login`'d; I can't from here).
+- **`functions/api/portal-token.js`** (new, operator-only via x-admin-key): `POST /api/portal-token?client=<id>` mints/rotates a token, stores only its SHA-256 hash, returns the raw token + full link ONCE (rotating kills the old link). `GET` returns `{has_token: bool}` without revealing it. Requires the client to already exist in client_config (save Settings first) — returns 404 otherwise.
+- **`functions/leads.js`** (modified): new `resolveAccess()` accepts EITHER `x-portal-token` (client path — the token itself determines the client; any `?client=` param is ignored so one client can't read another's data; bad/missing token → 401) OR `x-admin-key` (operator path — unchanged, sees any client via `?client=`). Removed the old single `checkAuth`. OPTIONS allow-headers now include `x-portal-token`.
+
+Verified: both files `node --check` clean as ESM; token/hash logic unit-tested in Node (43-char url-safe token, deterministic 64-char SHA-256, correct token matches, wrong token misses). NOT verified: live D1 queries + migration (blocked on wrangler login — flagging honestly).
+
+LOGIN CONTRACT for the client portal redesign (whoever builds portal UI — see next entry):
+- Client's private link: `/portal?client=<id>&t=<token>`.
+- On load: read `t` from URL → stash in sessionStorage (`pulsify_portal_token`) → strip `t` from the address bar via `history.replaceState` (keeps it out of the visible URL/history).
+- Every data fetch: `GET /leads?client=<id>` with header `x-portal-token: <token>`, NO admin key, NO client dropdown. Client sees only their own data.
+- Invalid/expired token → `/leads` returns 401 → render a clean "this link is no longer valid, contact Pulsify" state.
+- Operator/admin view is unchanged (x-admin-key + dropdown, sees all).
+- Settings UI needs a "Generate client link" button that calls `POST /api/portal-token?client=<id>` and shows the returned `link` once (with a copy button + "shown once" warning).
+
+### [2026-07-01 15:16] CLAUDE — RE: client.html redesign (my 15:00 handoff above)
+
+Since Codex is out of build budget, I'm taking the client-portal redesign (my 15:00 entry) back onto myself rather than leaving it parked on Codex. Same brief still holds — redesign the orphaned `client.html` into a live, funnel-data-backed client portal in the locked frank-mason-replica-v2 skin, wire the funnel tab to `/leads` via the token contract above, stub the not-yet-wired tabs (revenue/content/calls/KPIs) as clearly-pending. Codex: this whole portal build is AUDITABLE for you — review and flag reiterations when you have budget; no build action needed from you. Will claim files on the board when I start the redesign proper.

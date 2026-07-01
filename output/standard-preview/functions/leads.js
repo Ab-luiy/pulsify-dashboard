@@ -6,12 +6,12 @@
  */
 
 export async function onRequestGet({ request, env }) {
-  const auth = checkAuth(request, env);
-  if (auth) return auth;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
-  const client = cleanId(url.searchParams.get("client") || "unknown");
-  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  const access = await resolveAccess(request, env, url);
+  if (access.error) return access.error;
+  const client = access.client;
 
   const [leadResult, viewerResult, pageResult, eventResult] = await Promise.all([
     env.DB.prepare(
@@ -126,10 +126,42 @@ export async function onRequestOptions() {
     headers: {
       "access-control-allow-origin": "*",
       "access-control-allow-methods": "GET, OPTIONS",
-      "access-control-allow-headers": "x-admin-key",
+      "access-control-allow-headers": "x-admin-key, x-portal-token",
       "access-control-max-age": "86400",
     },
   });
+}
+
+/**
+ * Two ways in:
+ * - x-portal-token: a client's private link. The token itself decides which client's
+ *   data is returned; any ?client= param is ignored, so one client can never read
+ *   another's data.
+ * - x-admin-key: the operator. Sees any client via the ?client= param (dropdown).
+ */
+async function resolveAccess(request, env, url) {
+  const portalToken = request.headers.get("x-portal-token");
+  if (portalToken) {
+    const hash = await sha256Hex(portalToken.trim());
+    const row = await env.DB.prepare(
+      "SELECT client FROM client_config WHERE portal_token_hash=?",
+    ).bind(hash).first();
+    if (!row) {
+      return { error: json({ ok: false, error: "invalid or expired portal link" }, 401) };
+    }
+    return { client: cleanId(row.client), scope: "client" };
+  }
+
+  if (!env.ADMIN_KEY) return { error: json({ ok: false, error: "ADMIN_KEY not configured" }, 500) };
+  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+    return { error: json({ ok: false, error: "unauthorized" }, 401) };
+  }
+  return { client: cleanId(url.searchParams.get("client") || "unknown"), scope: "admin" };
+}
+
+async function sha256Hex(value) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 function normalizeViewer(row) {
@@ -151,14 +183,6 @@ function reached(viewers, threshold) {
 
 function sum(rows, key) {
   return rows.reduce((total, row) => total + Number(row[key] || 0), 0);
-}
-
-function checkAuth(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
-    return json({ ok: false, error: "unauthorized" }, 401);
-  }
-  return null;
 }
 
 function cleanId(value) {
