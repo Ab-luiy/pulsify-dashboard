@@ -24,6 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/standard-preview/index.html` + `css/style.css` + `wiki/synthesis/landing-page-standard.md` | CLAUDE | ACTIVE | Correcting last pass per direct user pushback: delete closing headline + authority-line block entirely, rewrite hero H1 to be mechanism-led not generic, tighten hero-to-apply spacing (feels like a disconnected slide), relabel apply pill to Step 2. Also starting v1 of editable proof images (D1 + Settings) and scoping a multi-template dashboard/designer ask — will log separately before building the latter since it overlaps your template/portal ownership. |
 | _(none)_ | | | |
 
 ---
