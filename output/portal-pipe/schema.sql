@@ -24,3 +24,15 @@ CREATE TABLE IF NOT EXISTS watch_events (
 
 CREATE INDEX IF NOT EXISTS idx_leads_client ON leads (client);
 CREATE INDEX IF NOT EXISTS idx_watch_client ON watch_events (client);
+
+-- Integration settings, pasted in via the native Settings page (not chat).
+-- One row per client. kit_api_key lives here too — protected by the ADMIN_KEY
+-- gate on the settings route, not by keeping it out of the database.
+CREATE TABLE IF NOT EXISTS client_config (
+  client         TEXT PRIMARY KEY,
+  wistia_media_id TEXT,
+  typeform_url    TEXT,
+  kit_tag_id      TEXT,
+  kit_api_key     TEXT,
+  updated_at      TEXT
+);

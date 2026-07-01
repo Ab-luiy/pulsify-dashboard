@@ -22,7 +22,9 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| _(none)_ | | | |
+| File / area | Owner | Status | Note |
+|---|---|---|---|
+| `output/standard-preview/` + `output/portal-pipe/` | CLAUDE | ACTIVE | Building a password-gated Settings page so integrations (Wistia/Typeform/Kit) are pasted natively into the site, not through chat. Deploying to live `pulsify-frank` Pages project + creating D1 database. |
 
 ---
 

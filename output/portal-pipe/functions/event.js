@@ -41,7 +41,8 @@ export async function onRequestPost({ request, env }) {
       status: "new",
     });
     // Hand the lead to Kit (ConvertKit) — tagging them starts the email automation.
-    await addToKit(env, { email: a.email || null, first_name: a.first_name || a.name || "" });
+    const cfg = await getConfig(env, clientId);
+    await addToKit(cfg, { email: a.email || null, first_name: a.first_name || a.name || "" });
     return json({ ok: true, kind: "application" });
   }
 
@@ -72,16 +73,29 @@ export async function onRequestOptions() {
   });
 }
 
-async function addToKit(env, person) {
-  // BLANKS: set KIT_API_KEY and KIT_TAG_ID in the Pages project once the Kit account exists.
-  // Subscribing the email to a Kit TAG is what triggers the automation/sequence built in Kit.
-  if (!env.KIT_API_KEY || !env.KIT_TAG_ID || !person.email) return;
+async function getConfig(env, client) {
+  // Config pasted in via the native Settings page lives in D1. Falls back to
+  // Cloudflare env vars/secrets if no row exists yet, so either path works.
+  if (!env.DB) return { KIT_API_KEY: env.KIT_API_KEY, KIT_TAG_ID: env.KIT_TAG_ID };
+  const row = await env.DB.prepare(
+    "SELECT kit_api_key, kit_tag_id FROM client_config WHERE client=?"
+  ).bind(client).first();
+  return {
+    KIT_API_KEY: (row && row.kit_api_key) || env.KIT_API_KEY,
+    KIT_TAG_ID: (row && row.kit_tag_id) || env.KIT_TAG_ID,
+  };
+}
+
+async function addToKit(cfg, person) {
+  // Filled in via the Settings page (or, as a fallback, Cloudflare env vars).
+  // Subscribing the email to a Kit TAG is what triggers the automation built in Kit.
+  if (!cfg.KIT_API_KEY || !cfg.KIT_TAG_ID || !person.email) return;
   try {
-    await fetch(`https://api.convertkit.com/v3/tags/${env.KIT_TAG_ID}/subscribe`, {
+    await fetch(`https://api.convertkit.com/v3/tags/${cfg.KIT_TAG_ID}/subscribe`, {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        api_key: env.KIT_API_KEY,
+        api_key: cfg.KIT_API_KEY,
         email: person.email,
         first_name: person.first_name || "",
       }),

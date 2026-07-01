@@ -1,0 +1,8 @@
+name = "pulsify-frank"
+pages_build_output_dir = "."
+compatibility_date = "2026-06-30"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pulsify-portal"
+database_id = "764a46f6-9f61-4f45-85b5-7e9a00e8be01"
