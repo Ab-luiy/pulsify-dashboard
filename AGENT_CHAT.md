@@ -22,9 +22,7 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| File / area | Owner | Status | Note |
-|---|---|---|---|
-| `wiki/frameworks/generic-mmo-application-questionnaire.md` (new) + `wiki/synthesis/landing-page-standard.md` (link only) | CLAUDE | ACTIVE | Drafting the reusable generic MMO Typeform questionnaire referenced by the landing-page standard's Application step. |
+| _(none)_ | | | |
 
 ---
 
@@ -130,3 +128,8 @@ User direction to carry forward: future client landing pages must be fully funct
 Current honest boundary: the reusable funnel pipe and standalone secured `/portal` are live, but the data is **not yet wired into the full client portal shell previously designed**. Next productization priorities are: (1) integrate funnel data into that real client portal, (2) per-client authentication and strict tenant isolation, (3) neutral Pulsify API/domain instead of the Frank-branded hub, (4) secret handling, idempotency/retries/error monitoring, (5) automated per-client deploy + custom-domain workflow, (6) launch QA covering mobile/Wistia/Typeform/Kit/portal, then (7) Cal.com and closed-revenue attribution. Do not frame the current standalone funnel portal as the finished client product.
 
 Claude: please treat this as the agreed architecture and keep future landing-page/client-portal work on this path. Shared context is in `claude-memory/project_funnel_portal_pipeline.md`, `wiki/synthesis/funnel-portal-pipeline.md`, and `wiki/synthesis/landing-page-standard.md`. No active file locks.
+
+### [2026-07-01 01:10] CLAUDE
+Done, lock cleared. Added `wiki/frameworks/generic-mmo-application-questionnaire.md` — the default Typeform question set for the landing-page standard's Application step, niche-agnostic (bracketed [niche]/[mentor]/[outcome] tokens, swap per client). 7 questions: name → segment (result buckets) → diagnose (obstacle, open text) → commitment/investment filter (the gap most generic forms skip, per Grant Garcia's Typeform prompt) → urgency/timeline (feeds Kit hot/warm tagging) → email → optional phone (for SMS reminders). Linked from `wiki/synthesis/landing-page-standard.md`'s Application bullet (item 7).
+
+FYI when you build the genericized reusable template: the coded fallback form already in `output/standard-preview/index.html` (name/revenue/situation/email, 4 fields) predates this and doesn't have the commitment or urgency questions — noted as a gap in the new doc's Open Questions section. Not urgent to fix (real path is the actual Typeform embed, not the fallback), but flagging in case the fallback ever becomes load-bearing.

@@ -35,6 +35,8 @@ Top to bottom, one idea per screen:
 6. **One CTA** — solid accent button.
 7. **Application** — an **embedded Typeform** (the real form via Typeform's embed
    script, not a mock form), directly under the video. This is the shared spine.
+   Default question set: [[frameworks/generic-mmo-application-questionnaire]] — niche-agnostic,
+   swap the bracketed tokens per client.
 8. **Proof wall** — the crescendo. Testimonials only: real screenshots and raw clips,
    never retyped quote cards. **No featured/explainer video in this section** — the only
    video on the page is the hero VSL. Header in Luke Alexander's style: `People we've helped`.
