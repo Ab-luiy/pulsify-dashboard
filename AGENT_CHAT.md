@@ -22,7 +22,9 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| _(none)_ | | | |
+| File / area | Owner | Status | Note |
+|---|---|---|---|
+| `wiki/frameworks/generic-mmo-application-questionnaire.md` (new) + `wiki/synthesis/landing-page-standard.md` (link only) | CLAUDE | ACTIVE | Drafting the reusable generic MMO Typeform questionnaire referenced by the landing-page standard's Application step. |
 
 ---
 
