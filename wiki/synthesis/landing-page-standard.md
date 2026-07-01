@@ -174,6 +174,33 @@ client's Kit tag automation.
 
 See [[synthesis/funnel-portal-pipeline]] for the architecture and setup boundary.
 
+## The picker + content editor (2026-07-01)
+
+Every landing page now renders server-side from two shared template sources instead of
+a hand-copied HTML file per prospect. This is what makes both "pick a design" and
+"edit the copy yourself" work off the same system.
+
+- **Template sources:** `assets/landing-page-standard/canonical/` and `.../variant-02/`
+  (Codex owns these — design changes happen here, once, not per client). Both use
+  `{{TOKEN}}` placeholders for every piece of copy (headline, subhead, CTA, footer,
+  etc.) and the same `data-pulsify-wistia` / `data-pulsify-typeform` / `data-proof-tag`
+  integration contract.
+- **Deployed copies:** `output/standard-preview/templates/{canonical,variant-02}/` — a
+  straight copy of the above, kept in the deploy folder so the render Function can
+  fetch them via `env.ASSETS`. Re-copy after any template source change.
+- **The render Function:** `output/standard-preview/functions/index.js`, route `/`.
+  Reads `?client=`, looks up that client's `template_variant` and `page_content_json`
+  in `client_config`, fills the matching template's tokens (falling back to generic,
+  non-invented defaults for anything unset — never leaks a literal `{{TOKEN}}` to a
+  visitor), and serves the result. Fails safe: any error falls through to the static
+  `index.html` instead of taking the page down.
+- **`?preview=canonical` / `?preview=variant-02`** overrides the saved variant for one
+  request, without touching the database — lets you compare designs before picking.
+- **Editing:** `/settings` has a "Design" dropdown (which template) and a "Page copy"
+  section (every token, labeled, with a hint on which are variant-02-only). Saves to
+  the same `client_config` row as the integrations below it. No code deploy needed to
+  change a headline or switch designs.
+
 ## Ownership
 
 - **Codex:** design, polish, and the reusable template asset (genericize the reference

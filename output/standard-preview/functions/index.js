@@ -66,6 +66,11 @@ export async function onRequestGet(context) {
       }
     }
 
+    // ?preview=variant-02 lets an operator compare a design before switching the
+    // client's saved template_variant — does not touch the database.
+    const previewParam = url.searchParams.get("preview");
+    if (previewParam && VALID_VARIANTS.has(previewParam)) variant = previewParam;
+
     const templateUrl = new URL(`/templates/${variant}/index.html`, url.origin);
     const templateResponse = await env.ASSETS.fetch(new Request(templateUrl));
     if (!templateResponse.ok) return next();

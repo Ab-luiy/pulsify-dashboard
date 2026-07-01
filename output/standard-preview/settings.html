@@ -21,8 +21,15 @@
   label{ display:block; font-size:12.5px; font-weight:600; color:var(--ink); margin:16px 0 6px; }
   label:first-of-type{ margin-top:0; }
   label .hint{ font-weight:400; color:var(--muted); font-size:12px; display:block; margin-top:1px; }
-  input{ width:100%; padding:12px 13px; border:1px solid var(--line); border-radius:9px; font-size:14px; font-family:inherit; color:var(--ink); background:#fafafd; }
-  input:focus{ outline:2px solid var(--blue); outline-offset:1px; border-color:var(--blue); }
+  input,select,textarea{ width:100%; padding:12px 13px; border:1px solid var(--line); border-radius:9px; font-size:14px; font-family:inherit; color:var(--ink); background:#fafafd; }
+  input:focus,select:focus,textarea:focus{ outline:2px solid var(--blue); outline-offset:1px; border-color:var(--blue); }
+  textarea{ resize:vertical; min-height:60px; line-height:1.4; }
+  select{ cursor:pointer; }
+  .field-group{ margin-top:26px; padding-top:18px; border-top:1px solid var(--line); }
+  .field-group-title{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--blue); }
+  .field-group-note{ font-size:12px; color:var(--muted); margin-top:2px; }
+  .preview-row{ display:flex; gap:8px; margin-top:10px; }
+  .preview-row a{ flex:1; text-align:center; font-size:12.5px; font-weight:600; color:var(--blue); background:var(--blue-soft); border-radius:8px; padding:9px; text-decoration:none; }
   .btn{ width:100%; margin-top:22px; background:var(--blue); color:#fff; border:0; cursor:pointer; font-family:inherit;
     font-weight:700; font-size:14px; padding:13px; border-radius:10px; }
   .btn:hover{ filter:brightness(1.05); }
@@ -57,6 +64,20 @@
     <label>Client name<span class="hint">the display name used in the portal</span></label>
     <input id="client_name" placeholder="Frank Wieler">
 
+    <div class="field-group">
+      <div class="field-group-title">Design</div>
+      <div class="field-group-note">Pick which landing page design this client uses. Both read the same content and integrations below.</div>
+      <label style="margin-top:14px;">Landing page design</label>
+      <select id="template_variant">
+        <option value="canonical">Canonical (the approved default)</option>
+        <option value="variant-02">Variant 02 (alternate direction)</option>
+      </select>
+      <div class="preview-row">
+        <a href="#" id="previewCanonical" target="_blank">Preview canonical &rarr;</a>
+        <a href="#" id="previewVariant02" target="_blank">Preview variant 02 &rarr;</a>
+      </div>
+    </div>
+
     <label>Wistia media ID<span class="hint">from Wistia &rarr; Share &rarr; Embed (the code after wvideo=)</span></label>
     <input id="wistia_media_id" placeholder="e.g. ab12cd34ef">
 
@@ -80,6 +101,12 @@
     <label style="margin-top:24px;">Proof-wall images<span class="hint">paste a hosted image URL per tile &mdash; leave blank to keep the shimmer placeholder. Updates go live immediately, no code change.</span></label>
     <div id="proofImageFields"></div>
 
+    <div class="field-group">
+      <div class="field-group-title">Page copy</div>
+      <div class="field-group-note">Edit the actual words on the landing page. Leave a field blank to use a generic default &mdash; nothing shows a literal placeholder to a visitor.</div>
+      <div id="contentFields"></div>
+    </div>
+
     <button class="btn" id="saveBtn" onclick="save()">Save settings</button>
     <div class="msg" id="saveMsg"></div>
 
@@ -95,6 +122,7 @@
   let ADMIN_KEY = sessionStorage.getItem("pulsify_admin_key") || "";
   const requestedClient = new URLSearchParams(location.search).get("client");
   if (requestedClient) document.getElementById("client").value = requestedClient;
+  document.getElementById("client").addEventListener("input", updatePreviewLinks);
 
   const PROOF_TAGS = [
     "Payment proof", "Store dashboard", "Student DM", "Before / after",
@@ -106,6 +134,41 @@
     wrap.innerHTML = PROOF_TAGS.map((tag, i) => `
       <label style="margin-top:${i === 0 ? 10 : 14}px; font-weight:500; font-size:12px; color:var(--muted);">${tag}</label>
       <input class="proof-image-input" data-tag="${tag}" placeholder="https://...">
+    `).join("");
+  })();
+
+  const CONTENT_FIELDS = [
+    { key: "BRAND_MARK", label: "Brand mark", hint: "name shown at the top of the page" },
+    { key: "AUDIENCE_PILL", label: "Audience line", hint: "the qualifier pill above the headline" },
+    { key: "HEADLINE_LINE_ONE", label: "Headline (first line)" },
+    { key: "HEADLINE_EMPHASIS", label: "Headline (highlighted line)", hint: "shown in the accent color" },
+    { key: "HERO_SUBHEAD", label: "Subheadline", area: true },
+    { key: "HERO_CTA", label: "Hero button text" },
+    { key: "VIDEO_NOTE_PRIMARY", label: "Video caption (left)" },
+    { key: "VIDEO_NOTE_SECONDARY", label: "Video caption (right)" },
+    { key: "APPLY_STEP_LABEL", label: "Application step label", hint: "e.g. “Step 2”" },
+    { key: "APPLY_HEADING", label: "Application heading" },
+    { key: "APPLY_INTRO", label: "Application intro", area: true },
+    { key: "CLOSING_CTA", label: "Closing button text" },
+    { key: "PAGE_TITLE", label: "Browser tab title" },
+    { key: "META_DESCRIPTION", label: "Search / share description", area: true },
+    { key: "FOOTER_LABEL", label: "Footer name" },
+    { key: "FOOTER_DISCLAIMER", label: "Footer disclaimer", area: true },
+    { key: "BRAND_NOTE", label: "Brand note", hint: "variant 02 only — small tag next to the brand mark" },
+    { key: "MICRO_NOTE", label: "Hero micro-note", hint: "variant 02 only — small line under the CTA" },
+    { key: "FORM_FRAME_LABEL", label: "Form frame label", hint: "variant 02 only" },
+    { key: "FORM_FRAME_NOTE", label: "Form frame note", hint: "variant 02 only" },
+    { key: "PROOF_KICKER", label: "Proof section kicker", hint: "variant 02 only" },
+    { key: "PROOF_INTRO", label: "Proof section intro", hint: "variant 02 only", area: true },
+  ];
+
+  (function renderContentFields(){
+    const wrap = document.getElementById("contentFields");
+    wrap.innerHTML = CONTENT_FIELDS.map((f, i) => `
+      <label style="margin-top:${i === 0 ? 10 : 14}px;">${f.label}${f.hint ? `<span class="hint">${f.hint}</span>` : ""}</label>
+      ${f.area
+        ? `<textarea class="content-field" data-key="${f.key}" placeholder="Leave blank for the generic default"></textarea>`
+        : `<input class="content-field" data-key="${f.key}" placeholder="Leave blank for the generic default">`}
     `).join("");
   })();
 
@@ -142,13 +205,27 @@
         document.querySelectorAll(".proof-image-input").forEach((input) => {
           input.value = images[input.dataset.tag] || "";
         });
+        document.getElementById("template_variant").value = data.config.template_variant || "canonical";
+        const pageContent = data.config.page_content || {};
+        document.querySelectorAll(".content-field").forEach((field) => {
+          field.value = pageContent[field.dataset.key] || "";
+        });
       } else {
         setKitStatus(false);
         setTypeformStatus(false);
         document.querySelectorAll(".proof-image-input").forEach((input) => { input.value = ""; });
+        document.getElementById("template_variant").value = "canonical";
+        document.querySelectorAll(".content-field").forEach((field) => { field.value = ""; });
       }
+      updatePreviewLinks();
       return true;
     } catch (e) { return false; }
+  }
+
+  function updatePreviewLinks(){
+    const client = encodeURIComponent(document.getElementById("client").value || "frank");
+    document.getElementById("previewCanonical").href = `/?client=${client}&preview=canonical`;
+    document.getElementById("previewVariant02").href = `/?client=${client}&preview=variant-02`;
   }
 
   function setKitStatus(isSet){
@@ -176,6 +253,11 @@
       proof_images: Object.fromEntries(
         Array.from(document.querySelectorAll(".proof-image-input"))
           .map((input) => [input.dataset.tag, input.value.trim()]),
+      ),
+      template_variant: document.getElementById("template_variant").value,
+      page_content: Object.fromEntries(
+        Array.from(document.querySelectorAll(".content-field"))
+          .map((field) => [field.dataset.key, field.value.trim()]),
       ),
     };
     try {

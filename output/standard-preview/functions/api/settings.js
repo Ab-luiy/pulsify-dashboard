@@ -14,7 +14,8 @@ export async function onRequestGet({ request, env }) {
   const client = cleanId(url.searchParams.get("client") || "unknown");
   const row = await env.DB.prepare(
     `SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
-            kit_tag_id,kit_api_key,allowed_origin,proof_images_json,updated_at
+            kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
+            template_variant,page_content_json,updated_at
        FROM client_config WHERE client=?`,
   ).bind(client).first();
 
@@ -22,9 +23,12 @@ export async function onRequestGet({ request, env }) {
   row.kit_api_key_set = Boolean(row.kit_api_key);
   row.typeform_webhook_secret_set = Boolean(row.typeform_webhook_secret);
   row.proof_images = parseJson(row.proof_images_json);
+  row.page_content = parseJson(row.page_content_json);
+  row.template_variant = row.template_variant || "canonical";
   delete row.kit_api_key;
   delete row.typeform_webhook_secret;
   delete row.proof_images_json;
+  delete row.page_content_json;
   return json({ ok: true, client, config: row });
 }
 
@@ -52,11 +56,22 @@ export async function onRequestPost({ request, env }) {
       )
     : null;
 
+  const pageContent = body.page_content && typeof body.page_content === "object"
+    ? JSON.stringify(
+        Object.fromEntries(
+          Object.entries(body.page_content).filter(([, val]) => val != null && String(val).trim()),
+        ),
+      )
+    : null;
+
+  const templateVariant = body.template_variant === "variant-02" ? "variant-02" : "canonical";
+
   await env.DB.prepare(
     `INSERT INTO client_config (
       client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
-      kit_tag_id,kit_api_key,allowed_origin,proof_images_json,updated_at
-    ) VALUES (?,?,?,?,?,?,?,?,?,?)
+      kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
+      template_variant,page_content_json,updated_at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
     ON CONFLICT(client) DO UPDATE SET
       client_name=excluded.client_name,
       wistia_media_id=excluded.wistia_media_id,
@@ -66,6 +81,8 @@ export async function onRequestPost({ request, env }) {
       kit_api_key=excluded.kit_api_key,
       allowed_origin=excluded.allowed_origin,
       proof_images_json=excluded.proof_images_json,
+      template_variant=excluded.template_variant,
+      page_content_json=excluded.page_content_json,
       updated_at=excluded.updated_at`,
   ).bind(
     client,
@@ -77,6 +94,8 @@ export async function onRequestPost({ request, env }) {
     kitKey,
     body.allowed_origin || null,
     proofImages,
+    templateVariant,
+    pageContent,
     new Date().toISOString(),
   ).run();
 

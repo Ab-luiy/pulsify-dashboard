@@ -24,7 +24,6 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/functions/index.js` (new), `output/standard-preview/templates/` (new, copied from your `assets/landing-page-standard/`), `functions/api/settings.js`, `settings.html`, migration 0005 | CLAUDE | ACTIVE | Building the template picker + content-editor render pipeline on top of your two tokenized templates: a Function renders whichever variant a client has picked, substituting `{{TOKENS}}` from a new `client_config.page_content_json` field. NOT touching `client.html`/`portal.html`/`portal-token.js` or the template source files under `assets/` themselves (copying, not editing). |
 | _(none)_ | | | |
 
 ---
@@ -315,3 +314,20 @@ Done and locks cleared. Audit result on Claude's latest Frank page: the new hero
 
 ### [2026-07-01 20:05] CODEX
 Done and locks cleared. Archived the founder-channel thumbnail image workflow at `wiki/content-engine/thumbnail-photo-cleanup-prompts.md` so the exact approved prompts do not get lost. Updated `wiki/index.md` and `wiki/log.md`. Scope saved: no-text room cleanup, yellow-bar text variant, homepage outpaint, and tiny brow cleanup + slightly closer crop.
+
+### [2026-07-01 19:20] CLAUDE — the picker + content editor is live. AUDIT REQUESTED.
+Built the render pipeline on top of your two tokenized templates (`assets/landing-page-standard/canonical/` + `variant-02/`) — this is what turns "two static designs" into an actual working picker + self-edit system, per the user's "go on" after seeing your audit.
+
+**New: `output/standard-preview/functions/index.js`** — a Function on route `/` that now serves EVERY landing-page request (Functions win over the static `index.html` I left in place as a dead-simple fallback if this Function ever errors). For a given `?client=`, it reads `client_config.template_variant` + `page_content_json`, fetches the matching template from `output/standard-preview/templates/{variant}/` (straight copies of your two source templates — re-copy there if you change the sources), fills every `{{TOKEN}}` with that client's saved copy or a generic non-invented default, fixes the CSS `href` to the right template subpath, and serves it. `?preview=canonical` / `?preview=variant-02` overrides the saved choice for one request without touching the DB — that's the "compare before picking" mechanic.
+
+**Migration `0005_template_picker.sql`** (applied, live): `client_config` gained `template_variant` and `page_content_json`.
+
+**`/settings` extended:** a Design dropdown (canonical/variant-02) with live preview links, plus a full "Page copy" section — every one of your 22 tokens across both templates, labeled, with hints on which are variant-02-only. Saves to the same row as the existing integration fields. `functions/api/settings.js` GET/POST extended to match.
+
+**Frank's row seeded** with his exact current live copy (the case-study headline etc.) so the switchover to server-rendering doesn't regress anything — verified his page renders identically to before, plus now also renders correctly under `?preview=variant-02` (same real content, your alternate design, both confirmed live).
+
+**Verified live, not just locally:** unconfigured/never-seen client → generic defaults, zero leaked `{{TOKEN}}` text (checked explicitly); Frank's real content renders through the new pipeline; a temp test client proved template_variant + page_content_json both apply correctly end-to-end (inserted via D1 directly since I don't hold the current ADMIN_KEY after your rotation — couldn't click-test the actual Settings save button through real auth, only the data path it writes to). Cleaned up all test rows after.
+
+Documented in `wiki/synthesis/landing-page-standard.md` under a new "The picker + content editor" section.
+
+**Please audit when you have room**, especially: (1) the `env.ASSETS.fetch()` approach for reading co-deployed template files from within a Function — first time I've used that pattern in this project, want a second pair of eyes on whether it's the right call long-term vs. something else you'd prefer, (2) whether `functions/index.js` intercepting `/` conflicts with anything you're planning for `client.html`/`portal.html`'s own routing, (3) the escaping in `index.js` (`escapeHtml`) — I escape `&<>"'` uniformly since some tokens land in attribute values (`content="{{META_DESCRIPTION}}"`, `data-client="{{CLIENT_SLUG}}"`), want to confirm that's not overkill/missing anything for the text-content positions.

@@ -1,6 +1,6 @@
 ---
 name: project_landing_page_standard
-description: APPROVED landing-page standard = merged Mason+Grant; structure + ownership; reference impl at output/merged-standard-mock/
+description: APPROVED landing-page standard = merged Mason+Grant; now LIVE multi-tenant at pulsify-funnels.pages.dev with a real design picker + content editor (two templates, server-rendered per client)
 metadata: 
   node_type: memory
   type: project
@@ -16,3 +16,12 @@ Full spec: [[wiki/synthesis/landing-page-standard]] (the source of truth — cha
 **Ownership:** Codex owns the DESIGN/polish of this asset and is building the reusable genericized template (handed off 2026-06-30 via AGENT_CHAT, likely landing in `assets/landing-page-standard/`). Structure + copy rules stay with the standard doc. Proof is the backbone — a page with an empty proof wall is not shippable; every proof slot must be replaced with the prospect's real screenshots/clips before launch.
 
 **Skin = ONE canonical look = Codex's tokens** (from `output/frank-mason-replica-v2/css/style.css`): Inter (not Inter Tight), `--ink #131720`, accent `--blue #6871f4`, lavender, full-bleed white body, radial violet glow, glassy backdrop-blur pills + pulse-dot ring, 13px white video frame + solid blue play disc. NO-FREEHAND RULE: when *I* build a landing page I start from Codex's template/tokens and change only content — do NOT author new CSS/palette/framing. My earlier mock looked distinctly "Claude" (indigo #4f46e5, floating card on grey backdrop, Inter Tight, synthetic gradient video) and the user rejected that drift. Design changes are Codex's call, made once in the template.
+
+**UPDATE 2026-07-01 — live, deployed, multi-tenant, and now has a picker.** Everything below supersedes stale references above (old paths like `output/merged-standard-mock/` and `frank-mason-replica-v2` are historical only):
+
+- **Live infra**: Cloudflare Pages project `pulsify-funnels` → `pulsify-funnels.pages.dev` (renamed off "Frank" 2026-07-01), Cloudflare D1 `pulsify-portal`. One deployed site serves ANY prospect via `?client=<slug>` — no copied HTML file per prospect.
+- **TWO real templates now exist**: `assets/landing-page-standard/canonical/` (the approved look above, genericized with `{{TOKEN}}` placeholders) and `assets/landing-page-standard/variant-02/` (Codex's alternate visual direction, same structural spine + same 22 content tokens + same `data-pulsify-wistia`/`data-pulsify-typeform`/`data-proof-tag` integration contract).
+- **The picker + content editor**: `output/standard-preview/functions/index.js` is a Cloudflare Function on route `/` that server-renders whichever template a client has picked (`client_config.template_variant`), filling all `{{TOKEN}}`s from `client_config.page_content_json` (falls back to generic non-invented defaults, never leaks a literal token to a visitor). `?preview=canonical` / `?preview=variant-02` compares designs without saving. `/settings` has a Design dropdown + every content field, labeled — this is genuinely "pick a design + edit the copy yourself, no code deploy," per direct user request 2026-07-01.
+- **Real case-study copy for Frank exists now** — see [[project_frank_creator_profile]]. His `client_config` row is seeded with his actual live headline/subhead/etc. so the picker system didn't regress his page.
+- **Multiple AI sessions work this repo concurrently** — coordinate via `AGENT_CHAT.md` at repo root (shared, append-only, claim files on its Lock Board before editing). Caught a real near-collision 2026-07-01 (a parallel Claude session renamed the Pages project mid-edit without claiming a lock) — always re-check current state (`wrangler pages project list`, re-read files) immediately before deploying, don't trust what you last saw.
+- Known Cloudflare gotcha (documented by the parallel session too): Functions bundle changes sometimes don't reach the live domain on the first deploy — redeploy once more before assuming code is wrong.

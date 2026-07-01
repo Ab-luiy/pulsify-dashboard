@@ -1,5 +1,6 @@
 # Memory index
 
+- [Landing-page standard (merged Mason+Grant)](project_landing_page_standard.md) — 2026-07-01: now includes the picker + content-editor render pipeline (functions/index.js serves either template per client from client_config.template_variant + page_content_json, /settings edits both); see full note for details
 - [Frank Wieler creator profile (real proof)](project_frank_creator_profile.md) — 2026-07-01 user supplied a real student-interview transcript for Frank ("Franz"): he runs an active paid mentorship, a 15-year-old student hit ~$1M revenue / ~$100K MRR via subscription dropshipping. First real case-study data for Frank's outreach page; saved full profile at raw-sources/client-raw/frank-wieler/profile.md; merged into the live hero headline/subhead/pill on pulsify-funnels.pages.dev
 
 - [Funnel→portal pipeline](project_funnel_portal_pipeline.md) — committed 2026-06-30 (NO GHL): landing page (Wistia VSL + Typeform) → Cloudflare pipe (`output/portal-pipe/`) → client dashboard + Kit email automation; fully scaffolded, NOT deployed; blockers = user must `npx wrangler login` + make Wistia/Typeform/Kit accounts; Kit API key set as Cloudflare secret not pasted in chat; Typeform webhooks need paid plan (Tally = free alt)
