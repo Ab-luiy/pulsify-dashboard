@@ -36,12 +36,12 @@ The page needs:
 <body
   data-client="client-slug"
   data-page-id="main"
-  data-api-origin="https://pulsify-frank.pages.dev">
+  data-api-origin="https://pulsify-funnels.pages.dev">
 
   <div data-pulsify-wistia></div>
   <div data-pulsify-typeform></div>
 
-  <script src="https://pulsify-frank.pages.dev/js/funnel-integrations.js"></script>
+  <script src="https://pulsify-funnels.pages.dev/js/funnel-integrations.js"></script>
 </body>
 ```
 
@@ -74,7 +74,7 @@ Create these URL parameters in the Typeform so the embed can pass identity and a
 
 Set the Typeform webhook to:
 
-`https://pulsify-frank.pages.dev/event?client=<client-id>`
+`https://pulsify-funnels.pages.dev/event?client=<client-id>`
 
 Set a webhook secret in Typeform and save the same value in `/settings`. The backend rejects an invalid signature.
 

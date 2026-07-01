@@ -151,11 +151,11 @@ The page declares a permanent client ID and page ID, then loads the shared scrip
 <body
   data-client="client-slug"
   data-page-id="main"
-  data-api-origin="https://pulsify-frank.pages.dev">
+  data-api-origin="https://pulsify-funnels.pages.dev">
 
 <div data-pulsify-wistia></div>
 <div data-pulsify-typeform></div>
-<script src="https://pulsify-frank.pages.dev/js/funnel-integrations.js"></script>
+<script src="https://pulsify-funnels.pages.dev/js/funnel-integrations.js"></script>
 ```
 
 The pipe records page visits, CTA clicks, Wistia engagement, Typeform submissions,
