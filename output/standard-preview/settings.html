@@ -39,7 +39,7 @@
 <body>
 <div class="wrap">
   <h1>Integration settings</h1>
-  <p class="sub">Paste the Wistia, Typeform, and Kit details for this client's funnel directly here &mdash; they're saved straight to the pipe, nothing goes through chat.</p>
+  <p class="sub">Connect any client's landing page to Wistia, Typeform, Kit, and the portal. Secrets save straight to the backend and never need to pass through chat.</p>
 
   <div class="card" id="gateCard">
     <div class="gate">
@@ -51,31 +51,43 @@
   </div>
 
   <div class="card" id="formCard" style="display:none;">
-    <label>Client ID<span class="hint">a short id, e.g. "frank" &mdash; must match the page's ?client= tag</span></label>
+    <label>Client ID<span class="hint">a short permanent id, e.g. "frank" &mdash; used by the page and portal</span></label>
     <input id="client" value="frank">
+
+    <label>Client name<span class="hint">the display name used in the portal</span></label>
+    <input id="client_name" placeholder="Frank Wieler">
 
     <label>Wistia media ID<span class="hint">from Wistia &rarr; Share &rarr; Embed (the code after wvideo=)</span></label>
     <input id="wistia_media_id" placeholder="e.g. ab12cd34ef">
 
-    <label>Typeform (or Tally) link<span class="hint">the full share URL of the application form</span></label>
+    <label>Typeform link<span class="hint">the full share URL of the embedded application form</span></label>
     <input id="typeform_url" placeholder="https://form.typeform.com/to/XXXXXXXX">
+
+    <label>Typeform webhook secret<span class="hint">set the same secret on the Typeform webhook so fake submissions are rejected</span></label>
+    <input id="typeform_webhook_secret" type="password" placeholder="Leave blank to keep the saved secret">
+    <div class="status-row"><span class="dot" id="typeformDot"></span><span id="typeformStatus">checking&hellip;</span></div>
 
     <label>Kit tag ID<span class="hint">Settings &rarr; Advanced &rarr; API in Kit</span></label>
     <input id="kit_tag_id" placeholder="e.g. 4915823">
 
-    <label>Kit API key<span class="hint" id="kitKeyHint">Settings &rarr; Advanced &rarr; API in Kit</span></label>
+    <label>Kit v4 API key<span class="hint" id="kitKeyHint">Kit &rarr; Settings &rarr; Developer &rarr; create a v4 API key</span></label>
     <input id="kit_api_key" type="password" placeholder="Leave blank to keep the saved key">
     <div class="status-row"><span class="dot" id="kitDot"></span><span id="kitStatus">checking&hellip;</span></div>
+
+    <label>Landing-page origin<span class="hint">optional production domain, e.g. https://go.client.com</span></label>
+    <input id="allowed_origin" placeholder="https://go.example.com">
 
     <button class="btn" id="saveBtn" onclick="save()">Save settings</button>
     <div class="msg" id="saveMsg"></div>
   </div>
 
-  <p class="foot">Frank Wieler &middot; Pulsify integration pipe</p>
+  <p class="foot"><a href="/portal" style="color:inherit;">Open funnel portal</a> &middot; Pulsify integration pipe</p>
 </div>
 
 <script>
   let ADMIN_KEY = sessionStorage.getItem("pulsify_admin_key") || "";
+  const requestedClient = new URLSearchParams(location.search).get("client");
+  if (requestedClient) document.getElementById("client").value = requestedClient;
 
   async function unlock(){
     const key = document.getElementById("adminKey").value.trim();
@@ -99,12 +111,16 @@
       if (!r.ok) return false;
       const data = await r.json();
       if (data.config) {
+        document.getElementById("client_name").value = data.config.client_name || "";
         document.getElementById("wistia_media_id").value = data.config.wistia_media_id || "";
         document.getElementById("typeform_url").value = data.config.typeform_url || "";
         document.getElementById("kit_tag_id").value = data.config.kit_tag_id || "";
+        document.getElementById("allowed_origin").value = data.config.allowed_origin || "";
         setKitStatus(!!data.config.kit_api_key_set);
+        setTypeformStatus(!!data.config.typeform_webhook_secret_set);
       } else {
         setKitStatus(false);
+        setTypeformStatus(false);
       }
       return true;
     } catch (e) { return false; }
@@ -115,15 +131,23 @@
     document.getElementById("kitStatus").textContent = isSet ? "API key saved" : "no API key saved yet";
   }
 
+  function setTypeformStatus(isSet){
+    document.getElementById("typeformDot").classList.toggle("set", isSet);
+    document.getElementById("typeformStatus").textContent = isSet ? "webhook secret saved" : "no webhook secret saved yet";
+  }
+
   async function save(){
     const btn = document.getElementById("saveBtn");
     btn.disabled = true;
     const payload = {
       client: document.getElementById("client").value || "frank",
+      client_name: document.getElementById("client_name").value,
       wistia_media_id: document.getElementById("wistia_media_id").value,
       typeform_url: document.getElementById("typeform_url").value,
+      typeform_webhook_secret: document.getElementById("typeform_webhook_secret").value,
       kit_tag_id: document.getElementById("kit_tag_id").value,
       kit_api_key: document.getElementById("kit_api_key").value,
+      allowed_origin: document.getElementById("allowed_origin").value,
     };
     try {
       const r = await fetch("/api/settings", {
@@ -134,9 +158,10 @@
       const data = await r.json();
       const msg = document.getElementById("saveMsg");
       if (data.ok) {
-        msg.textContent = "Saved. The live page now uses these values.";
+        msg.textContent = `Saved. Typeform webhook: ${data.webhook_url}`;
         msg.className = "msg ok";
         document.getElementById("kit_api_key").value = "";
+        document.getElementById("typeform_webhook_secret").value = "";
         await loadConfig();
       } else {
         msg.textContent = data.error || "Something went wrong.";

@@ -115,3 +115,6 @@ ONE BUG I hit and fixed: Cloudflare Pages auto-redirects `/settings.html` → `/
 Reference copies of these functions also still live in `output/portal-pipe/` (that folder is now just documentation/demo — the real deployed copies are under `output/standard-preview/functions/`, which is the actual source of truth going forward). `output/portal-pipe/portal-demo.html` (sample-data mock) is unaffected.
 
 STILL NEEDED before it does anything real: user needs to actually go paste real Wistia/Typeform/Kit values into the Settings page (no accounts made yet). No dashboard change yet — `leads.js` (GET /leads?client=frank) is live and ready for the real dashboard/portal to read from, whenever that gets wired up.
+
+### [2026-07-01 12:10] CODEX
+Claimed `output/standard-preview/`, `output/portal-pipe/`, `claude-memory/project_funnel_portal_pipeline.md`, `claude-memory/MEMORY.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/playbooks/pulsify-dashboard-workstream.md`, `wiki/index.md`, and `wiki/log.md`. Turning the Frank thin slice into the reusable all-landing-pages funnel pipe: visitor/session identity, full Wistia engagement data, Typeform and opt-in capture, current Kit v4 delivery, secure portal reads, and a live data-backed portal surface.

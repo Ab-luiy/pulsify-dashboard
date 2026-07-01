@@ -1,56 +1,78 @@
 /**
- * THE SETTINGS API — Cloudflare Pages Function.
- * Route when deployed: GET/POST /settings?client=frank
+ * Per-client integration settings.
  *
- * Lets the Settings page (settings.html) save Wistia/Typeform/Kit details
- * straight into the database from the browser — nothing gets pasted into chat.
- * Gated by a single ADMIN_KEY (a Cloudflare secret you set once) sent as the
- * `x-admin-key` header, so the page holding the Kit API key isn't wide open.
+ * GET/POST /api/settings?client=<client-id>
+ * Header: x-admin-key: <ADMIN_KEY>
  */
 
 export async function onRequestGet({ request, env }) {
   const auth = checkAuth(request, env);
   if (auth) return auth;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
-  const client = url.searchParams.get("client") || "unknown";
-  if (!env.DB) return json({ ok: false, error: "no database bound yet" });
-
+  const client = cleanId(url.searchParams.get("client") || "unknown");
   const row = await env.DB.prepare(
-    "SELECT client,wistia_media_id,typeform_url,kit_tag_id,kit_api_key,updated_at FROM client_config WHERE client=?"
+    `SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
+            kit_tag_id,kit_api_key,allowed_origin,updated_at
+       FROM client_config WHERE client=?`,
   ).bind(client).first();
 
   if (!row) return json({ ok: true, client, config: null });
-
-  // Mask the API key on the way out — the form shows "saved" not the raw value.
-  row.kit_api_key_set = !!row.kit_api_key;
+  row.kit_api_key_set = Boolean(row.kit_api_key);
+  row.typeform_webhook_secret_set = Boolean(row.typeform_webhook_secret);
   delete row.kit_api_key;
+  delete row.typeform_webhook_secret;
   return json({ ok: true, client, config: row });
 }
 
 export async function onRequestPost({ request, env }) {
   const auth = checkAuth(request, env);
   if (auth) return auth;
-  if (!env.DB) return json({ ok: false, error: "no database bound yet" });
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const body = await request.json().catch(() => ({}));
-  const client = body.client || "unknown";
+  const client = cleanId(body.client || "unknown");
+  if (client === "unknown") return json({ ok: false, error: "valid client id required" }, 422);
 
-  const existing = await env.DB.prepare("SELECT kit_api_key FROM client_config WHERE client=?").bind(client).first();
-  const keepKey = body.kit_api_key && body.kit_api_key.length ? body.kit_api_key : (existing ? existing.kit_api_key : null);
+  const existing = await env.DB.prepare(
+    "SELECT kit_api_key,typeform_webhook_secret FROM client_config WHERE client=?",
+  ).bind(client).first();
+  const kitKey = body.kit_api_key || existing?.kit_api_key || null;
+  const webhookSecret =
+    body.typeform_webhook_secret || existing?.typeform_webhook_secret || null;
 
   await env.DB.prepare(
-    `INSERT INTO client_config (client, wistia_media_id, typeform_url, kit_tag_id, kit_api_key, updated_at)
-     VALUES (?,?,?,?,?,?)
-     ON CONFLICT(client) DO UPDATE SET
-       wistia_media_id=excluded.wistia_media_id,
-       typeform_url=excluded.typeform_url,
-       kit_tag_id=excluded.kit_tag_id,
-       kit_api_key=excluded.kit_api_key,
-       updated_at=excluded.updated_at`
-  ).bind(client, body.wistia_media_id || null, body.typeform_url || null, body.kit_tag_id || null, keepKey, new Date().toISOString()).run();
+    `INSERT INTO client_config (
+      client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
+      kit_tag_id,kit_api_key,allowed_origin,updated_at
+    ) VALUES (?,?,?,?,?,?,?,?,?)
+    ON CONFLICT(client) DO UPDATE SET
+      client_name=excluded.client_name,
+      wistia_media_id=excluded.wistia_media_id,
+      typeform_url=excluded.typeform_url,
+      typeform_webhook_secret=excluded.typeform_webhook_secret,
+      kit_tag_id=excluded.kit_tag_id,
+      kit_api_key=excluded.kit_api_key,
+      allowed_origin=excluded.allowed_origin,
+      updated_at=excluded.updated_at`,
+  ).bind(
+    client,
+    body.client_name || client,
+    body.wistia_media_id || null,
+    body.typeform_url || null,
+    webhookSecret,
+    body.kit_tag_id || null,
+    kitKey,
+    body.allowed_origin || null,
+    new Date().toISOString(),
+  ).run();
 
-  return json({ ok: true, saved: true });
+  return json({
+    ok: true,
+    saved: true,
+    webhook_url: `${new URL(request.url).origin}/event?client=${encodeURIComponent(client)}`,
+  });
 }
 
 export async function onRequestOptions() {
@@ -59,20 +81,30 @@ export async function onRequestOptions() {
       "access-control-allow-origin": "*",
       "access-control-allow-methods": "GET, POST, OPTIONS",
       "access-control-allow-headers": "content-type, x-admin-key",
+      "access-control-max-age": "86400",
     },
   });
 }
 
 function checkAuth(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not set yet — ask Claude to configure it" }, 500);
-  const given = request.headers.get("x-admin-key");
-  if (given !== env.ADMIN_KEY) return json({ ok: false, error: "unauthorized" }, 401);
+  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
+  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+    return json({ ok: false, error: "unauthorized" }, 401);
+  }
   return null;
 }
 
-function json(obj, status = 200) {
-  return new Response(JSON.stringify(obj), {
+function cleanId(value) {
+  return String(value || "unknown").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "unknown";
+}
+
+function json(object, status = 200) {
+  return new Response(JSON.stringify(object), {
     status,
-    headers: { "content-type": "application/json", "access-control-allow-origin": "*" },
+    headers: {
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+      "cache-control": "no-store",
+    },
   });
 }

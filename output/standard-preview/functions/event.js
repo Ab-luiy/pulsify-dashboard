@@ -1,125 +1,408 @@
 /**
- * THE PIPE — Cloudflare Pages Function.
- * Route when deployed: POST /event   (file lives at functions/event.js in the Pages project)
+ * Shared funnel event receiver.
  *
- * It receives two kinds of messages from the landing page and saves both to one
- * place (a Cloudflare D1 database), tagged by which client they belong to:
- *   1) Typeform webhook      — fires when someone submits the application form
- *   2) Wistia player event   — fires as someone watches the VSL (play / progress / end)
+ * POST /event?client=<client-id>
  *
- * The client portal/dashboard then reads from D1 (see leads.js) to show, in one screen,
- * who applied and who watched the video and how far.
+ * Accepts:
+ * - Typeform webhooks
+ * - native opt-in submissions
+ * - Wistia Aurora player events
+ * - page/funnel events
  *
- * BLANKS TO FILL once the accounts exist:
- *   - In the Cloudflare Pages project: bind a D1 database as `DB`.
- *   - In Typeform: set this URL as the form's webhook (Connect → Webhooks).
- *   - On the landing page: send Wistia player events here (small snippet, see README).
+ * Every browser gets a persistent visitor_id and a per-tab session_id. Typeform
+ * receives both as URL parameters, so a submission can attach the email to all
+ * video activity that happened before the form was submitted.
  */
 
 export async function onRequestPost({ request, env }) {
+  const raw = await request.text();
   let body;
-  try { body = await request.json(); } catch { return json({ ok: false, error: "bad json" }, 400); }
-
-  const url = new URL(request.url);
-  const clientId = url.searchParams.get("client") || body.client || "unknown";
-
-  // ---- Typeform application ----
-  if (body.event_type === "form_response" || body.form_response) {
-    const fr = body.form_response || {};
-    const a = {};
-    (fr.answers || []).forEach((ans) => {
-      const key = (ans.field && (ans.field.ref || ans.field.id)) || ans.type;
-      a[key] = ans.text ?? ans.email ?? ans.choice?.label ?? ans.boolean ?? ans.number ?? null;
-    });
-    await saveLead(env, {
-      client: clientId,
-      email: a.email || (fr.hidden && fr.hidden.email) || null,
-      name: a.first_name || a.name || null,
-      revenue: a.revenue || null,
-      situation: a.situation || null,
-      applied_at: fr.submitted_at || new Date().toISOString(),
-      status: "new",
-    });
-    // Hand the lead to Kit (ConvertKit) — tagging them starts the email automation.
-    const cfg = await getConfig(env, clientId);
-    await addToKit(cfg, { email: a.email || null, first_name: a.first_name || a.name || "" });
-    return json({ ok: true, kind: "application" });
+  try {
+    body = JSON.parse(raw);
+  } catch {
+    return json({ ok: false, error: "bad json" }, 400);
   }
 
-  // ---- Wistia watch event ----
-  if (body.source === "wistia" || body.media_id) {
+  const url = new URL(request.url);
+  const formResponse = body.form_response || {};
+  const hidden = formResponse.hidden || {};
+  const client = cleanId(url.searchParams.get("client") || body.client || hidden.client || "unknown");
+  const cfg = await getConfig(env, client);
+
+  if (!cfg && env.DB) return json({ ok: false, error: "unknown client" }, 404);
+
+  if (body.event_type === "form_response" || body.form_response) {
+    if (cfg?.typeform_webhook_secret) {
+      const valid = await verifyTypeformSignature(
+        request.headers.get("Typeform-Signature"),
+        raw,
+        cfg.typeform_webhook_secret,
+      );
+      if (!valid) return json({ ok: false, error: "invalid Typeform signature" }, 401);
+    }
+
+    const answers = parseTypeformAnswers(formResponse.answers || []);
+    const email = firstValue(answers, ["email", "email_address"]) || hidden.email || null;
+    const name = firstValue(answers, ["first_name", "name", "full_name"]) || null;
+    const phone = firstValue(answers, ["phone", "phone_number"]) || null;
+    const visitorId = hidden.visitor_id || body.visitor_id || null;
+    const sessionId = hidden.session_id || body.session_id || null;
+    const pageId = hidden.page_id || body.page_id || "main";
+
+    if (!email) return json({ ok: false, error: "Typeform response has no email field" }, 422);
+
+    const lead = {
+      client,
+      email,
+      name,
+      phone,
+      revenue: firstValue(answers, ["revenue", "current_revenue"]) || null,
+      situation: firstValue(answers, ["situation", "current_situation"]) || null,
+      status: "new",
+      source: "typeform",
+      visitor_id: visitorId,
+      session_id: sessionId,
+      page_id: pageId,
+      response_id: formResponse.response_id || formResponse.token || null,
+      answers_json: JSON.stringify(answers),
+      utm_json: JSON.stringify(extractUtm(hidden)),
+      applied_at: formResponse.submitted_at || new Date().toISOString(),
+    };
+
+    const leadId = await saveLead(env, lead);
+    await attachIdentityToEvents(env, client, visitorId, email);
+    const kit = await addToKit(cfg, { email, first_name: name || "" });
+    await setKitStatus(env, leadId, kit.status);
+    await savePageEvent(env, {
+      client,
+      visitor_id: visitorId,
+      session_id: sessionId,
+      page_id: pageId,
+      event: "form_submit",
+      email,
+      path: null,
+      referrer: hidden.referrer || null,
+      utm_json: JSON.stringify(extractUtm(hidden)),
+      metadata_json: JSON.stringify({ source: "typeform", response_id: lead.response_id }),
+    });
+    return json({ ok: true, kind: "application", kit: kit.status });
+  }
+
+  if (body.kind === "optin" || body.event_type === "optin") {
+    const email = normalizeEmail(body.email);
+    if (!email) return json({ ok: false, error: "valid email required" }, 422);
+
+    const lead = {
+      client,
+      email,
+      name: body.name || body.first_name || null,
+      phone: body.phone || null,
+      revenue: null,
+      situation: null,
+      status: "opted_in",
+      source: "optin",
+      visitor_id: body.visitor_id || null,
+      session_id: body.session_id || null,
+      page_id: body.page_id || "optin",
+      response_id: null,
+      answers_json: null,
+      utm_json: JSON.stringify(body.utm || {}),
+      applied_at: new Date().toISOString(),
+    };
+
+    const leadId = await saveLead(env, lead);
+    await attachIdentityToEvents(env, client, lead.visitor_id, email);
+    const kit = await addToKit(cfg, { email, first_name: lead.name || "" });
+    await setKitStatus(env, leadId, kit.status);
+    await savePageEvent(env, {
+      client,
+      visitor_id: lead.visitor_id,
+      session_id: lead.session_id,
+      page_id: lead.page_id,
+      event: "optin",
+      email,
+      path: body.path || null,
+      referrer: body.referrer || null,
+      utm_json: lead.utm_json,
+      metadata_json: null,
+    });
+    return json({ ok: true, kind: "optin", kit: kit.status });
+  }
+
+  if (body.source === "wistia" || body.kind === "wistia") {
     await saveWatch(env, {
-      client: clientId,
-      email: body.email || null,     // the page passes the Typeform email so watch ties to a person
-      media_id: body.media_id || null,
-      event: body.event || "play",   // play | progress | end
-      percent: body.percent ?? null, // how far they watched
-      at: new Date().toISOString(),
+      client,
+      email: normalizeEmail(body.email),
+      visitor_id: body.visitor_id || null,
+      session_id: body.session_id || null,
+      page_id: body.page_id || "main",
+      media_id: body.media_id || cfg?.wistia_media_id || null,
+      wistia_visitor_key: body.wistia_visitor_key || null,
+      event: body.event || "snapshot",
+      percent: finite(body.percent),
+      position_seconds: finite(body.position_seconds),
+      duration_seconds: finite(body.duration_seconds),
+      watch_seconds: Math.max(0, finite(body.watch_seconds) || 0),
+      unique_seconds: finite(body.unique_seconds),
+      playback_rate: finite(body.playback_rate),
+      muted: body.muted == null ? null : (body.muted ? 1 : 0),
+      metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
     });
     return json({ ok: true, kind: "watch" });
+  }
+
+  if (body.kind === "page" || body.event_type === "page_event") {
+    await savePageEvent(env, {
+      client,
+      visitor_id: body.visitor_id || null,
+      session_id: body.session_id || null,
+      page_id: body.page_id || "main",
+      event: body.event || "page_view",
+      email: normalizeEmail(body.email),
+      path: body.path || null,
+      referrer: body.referrer || null,
+      utm_json: JSON.stringify(body.utm || {}),
+      metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
+    });
+    return json({ ok: true, kind: "page" });
   }
 
   return json({ ok: false, error: "unknown event" }, 400);
 }
 
-// Let Typeform/Wistia preflight succeed.
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
       "access-control-allow-methods": "POST, OPTIONS",
-      "access-control-allow-headers": "content-type",
+      "access-control-allow-headers": "content-type, typeform-signature",
+      "access-control-max-age": "86400",
     },
   });
 }
 
 async function getConfig(env, client) {
-  // Config pasted in via the native Settings page lives in D1. Falls back to
-  // Cloudflare env vars/secrets if no row exists yet, so either path works.
-  if (!env.DB) return { KIT_API_KEY: env.KIT_API_KEY, KIT_TAG_ID: env.KIT_TAG_ID };
-  const row = await env.DB.prepare(
-    "SELECT kit_api_key, kit_tag_id FROM client_config WHERE client=?"
+  if (!env.DB) {
+    return {
+      kit_api_key: env.KIT_API_KEY,
+      kit_tag_id: env.KIT_TAG_ID,
+      typeform_webhook_secret: env.TYPEFORM_WEBHOOK_SECRET,
+    };
+  }
+  return env.DB.prepare(
+    `SELECT client, wistia_media_id, typeform_url, typeform_webhook_secret,
+            kit_api_key, kit_tag_id, allowed_origin
+       FROM client_config WHERE client=?`,
   ).bind(client).first();
-  return {
-    KIT_API_KEY: (row && row.kit_api_key) || env.KIT_API_KEY,
-    KIT_TAG_ID: (row && row.kit_tag_id) || env.KIT_TAG_ID,
-  };
 }
 
 async function addToKit(cfg, person) {
-  // Filled in via the Settings page (or, as a fallback, Cloudflare env vars).
-  // Subscribing the email to a Kit TAG is what triggers the automation built in Kit.
-  if (!cfg.KIT_API_KEY || !cfg.KIT_TAG_ID || !person.email) return;
+  if (!cfg?.kit_api_key || !cfg?.kit_tag_id) return { status: "not_configured" };
+  if (!person.email) return { status: "no_email" };
+
+  const headers = {
+    "content-type": "application/json",
+    "X-Kit-Api-Key": cfg.kit_api_key,
+  };
+
   try {
-    await fetch(`https://api.convertkit.com/v3/tags/${cfg.KIT_TAG_ID}/subscribe`, {
+    const subscriberResponse = await fetch("https://api.kit.com/v4/subscribers", {
       method: "POST",
-      headers: { "content-type": "application/json" },
+      headers,
       body: JSON.stringify({
-        api_key: cfg.KIT_API_KEY,
-        email: person.email,
-        first_name: person.first_name || "",
+        email_address: person.email,
+        first_name: person.first_name || null,
       }),
     });
-  } catch (e) { /* don't fail the application if Kit is briefly down */ }
+    if (!subscriberResponse.ok) return { status: `subscriber_error_${subscriberResponse.status}` };
+
+    const tagResponse = await fetch(`https://api.kit.com/v4/tags/${cfg.kit_tag_id}/subscribers`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ email_address: person.email }),
+    });
+    if (!tagResponse.ok) return { status: `tag_error_${tagResponse.status}` };
+    return { status: "synced" };
+  } catch {
+    return { status: "network_error" };
+  }
 }
 
 async function saveLead(env, lead) {
-  if (!env.DB) return; // DB = the D1 binding; configure it in the Pages project
-  await env.DB.prepare(
-    "INSERT INTO leads (client,email,name,revenue,situation,applied_at,status) VALUES (?,?,?,?,?,?,?)"
-  ).bind(lead.client, lead.email, lead.name, lead.revenue, lead.situation, lead.applied_at, lead.status).run();
+  if (!env.DB) return null;
+  const now = new Date().toISOString();
+  const existing = await env.DB.prepare(
+    `SELECT id FROM leads
+      WHERE client=? AND (
+        (? IS NOT NULL AND response_id=?) OR
+        (? IS NOT NULL AND lower(email)=lower(?))
+      )
+      ORDER BY id DESC LIMIT 1`,
+  ).bind(lead.client, lead.response_id, lead.response_id, lead.email, lead.email).first();
+
+  if (existing?.id) {
+    await env.DB.prepare(
+      `UPDATE leads SET
+        email=COALESCE(?,email), name=COALESCE(?,name), phone=COALESCE(?,phone),
+        revenue=COALESCE(?,revenue), situation=COALESCE(?,situation), status=?,
+        source=?, visitor_id=COALESCE(?,visitor_id), session_id=COALESCE(?,session_id),
+        page_id=COALESCE(?,page_id), response_id=COALESCE(?,response_id),
+        answers_json=COALESCE(?,answers_json), utm_json=COALESCE(?,utm_json),
+        applied_at=COALESCE(applied_at,?), updated_at=?
+       WHERE id=?`,
+    ).bind(
+      lead.email, lead.name, lead.phone, lead.revenue, lead.situation, lead.status,
+      lead.source, lead.visitor_id, lead.session_id, lead.page_id, lead.response_id,
+      lead.answers_json, lead.utm_json, lead.applied_at, now, existing.id,
+    ).run();
+    return existing.id;
+  }
+
+  const result = await env.DB.prepare(
+    `INSERT INTO leads (
+      client,email,name,phone,revenue,situation,status,source,visitor_id,session_id,
+      page_id,response_id,answers_json,utm_json,applied_at,updated_at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(
+    lead.client, lead.email, lead.name, lead.phone, lead.revenue, lead.situation,
+    lead.status, lead.source, lead.visitor_id, lead.session_id, lead.page_id,
+    lead.response_id, lead.answers_json, lead.utm_json, lead.applied_at, now,
+  ).run();
+  return result.meta?.last_row_id || null;
+}
+
+async function setKitStatus(env, leadId, status) {
+  if (!env.DB || !leadId) return;
+  await env.DB.prepare("UPDATE leads SET kit_status=?, updated_at=? WHERE id=?")
+    .bind(status, new Date().toISOString(), leadId).run();
+}
+
+async function attachIdentityToEvents(env, client, visitorId, email) {
+  if (!env.DB || !visitorId || !email) return;
+  await env.DB.batch([
+    env.DB.prepare(
+      "UPDATE watch_events SET email=? WHERE client=? AND visitor_id=? AND (email IS NULL OR email='')",
+    ).bind(email, client, visitorId),
+    env.DB.prepare(
+      "UPDATE page_events SET email=? WHERE client=? AND visitor_id=? AND (email IS NULL OR email='')",
+    ).bind(email, client, visitorId),
+  ]);
 }
 
 async function saveWatch(env, w) {
   if (!env.DB) return;
   await env.DB.prepare(
-    "INSERT INTO watch_events (client,email,media_id,event,percent,at) VALUES (?,?,?,?,?,?)"
-  ).bind(w.client, w.email, w.media_id, w.event, w.percent, w.at).run();
+    `INSERT INTO watch_events (
+      client,email,visitor_id,session_id,page_id,media_id,wistia_visitor_key,event,
+      percent,position_seconds,duration_seconds,watch_seconds,unique_seconds,
+      playback_rate,muted,metadata_json,at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(
+    w.client, w.email, w.visitor_id, w.session_id, w.page_id, w.media_id,
+    w.wistia_visitor_key, w.event, w.percent, w.position_seconds, w.duration_seconds,
+    w.watch_seconds, w.unique_seconds, w.playback_rate, w.muted, w.metadata_json,
+    new Date().toISOString(),
+  ).run();
 }
 
-function json(obj, status = 200) {
-  return new Response(JSON.stringify(obj), {
+async function savePageEvent(env, e) {
+  if (!env.DB) return;
+  await env.DB.prepare(
+    `INSERT INTO page_events (
+      client,visitor_id,session_id,page_id,event,email,path,referrer,utm_json,metadata_json,at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+  ).bind(
+    e.client, e.visitor_id, e.session_id, e.page_id, e.event, e.email, e.path,
+    e.referrer, e.utm_json, e.metadata_json, new Date().toISOString(),
+  ).run();
+}
+
+function parseTypeformAnswers(items) {
+  const result = {};
+  for (const answer of items) {
+    const key = answer.field?.ref || answer.field?.id || answer.type || "answer";
+    result[key] =
+      answer.text ??
+      answer.email ??
+      answer.phone_number ??
+      answer.url ??
+      answer.date ??
+      answer.boolean ??
+      answer.number ??
+      answer.choice?.label ??
+      answer.choices?.labels ??
+      answer.file_url ??
+      null;
+  }
+  return result;
+}
+
+function firstValue(object, names) {
+  const keys = Object.keys(object);
+  for (const name of names) {
+    if (object[name] != null && object[name] !== "") return object[name];
+    const fuzzy = keys.find((key) => key.toLowerCase().includes(name));
+    if (fuzzy && object[fuzzy] != null && object[fuzzy] !== "") return object[fuzzy];
+  }
+  return null;
+}
+
+function extractUtm(source) {
+  const out = {};
+  for (const key of ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]) {
+    if (source?.[key]) out[key] = source[key];
+  }
+  return out;
+}
+
+async function verifyTypeformSignature(received, payload, secret) {
+  if (!received || !secret) return false;
+  const key = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload));
+  const expected = `sha256=${bytesToBase64(new Uint8Array(signature))}`;
+  return constantTimeEqual(expected, received);
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary);
+}
+
+function constantTimeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < a.length; i += 1) mismatch |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return mismatch === 0;
+}
+
+function normalizeEmail(value) {
+  const email = String(value || "").trim().toLowerCase();
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null;
+}
+
+function cleanId(value) {
+  return String(value || "unknown").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "unknown";
+}
+
+function finite(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
+function json(object, status = 200) {
+  return new Response(JSON.stringify(object), {
     status,
-    headers: { "content-type": "application/json", "access-control-allow-origin": "*" },
+    headers: {
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+      "cache-control": "no-store",
+    },
   });
 }
