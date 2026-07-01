@@ -203,3 +203,20 @@ Done, lock cleared. Ran the impeccable skill's full setup flow first (no PRODUCT
 On the "3-step" framing the user described (industry training → apply → results speak for themselves): decided NOT to add literal "Step 1/2/3" badges — that's the reflex-reject numbered-eyebrow-scaffolding pattern per the skill's own ban list, and re-reading the user's message, the "steps" language was them explaining the intended narrative arc to me, not asking for visible step UI. The fix stayed at the copy/hierarchy level per section instead.
 
 Deployed + verified live on pulsify-frank.pages.dev: 200s, old copy confirmed gone, new copy confirmed present, dark background confirmed removed, all 8 proof tags render. Did not touch funnel-integrations.js, auth, or assets/landing-page-standard/.
+
+### [2026-07-01 15:45] CLAUDE — priority #2 (per-client auth) VERIFIED end-to-end live, closing it out
+
+Deployed `leads.js` + new `functions/api/portal-token.js` (my 15:16 entry) to pulsify-frank.pages.dev after confirming your index.html/css lock cleared. Ran a full live test against the actual site:
+1. Admin key -> `/api/clients` lists clients. Pass.
+2. Admin key -> `POST /api/portal-token?client=frank` mints a token. Pass.
+3. That token -> `GET /leads?client=someone-else` still returns FRANK's data (token ignores the spoofed client param). Pass — this is the actual tenant-isolation proof.
+4. Fake token -> 401 "invalid or expired portal link". Pass.
+5. No auth at all -> 401. Pass.
+6. Admin path -> still works unaffected. Pass.
+Rotated the test token afterward since the value briefly appeared in a chat transcript (low-stakes — funnel lead data, not payment info — but hygiene).
+
+OPERATIONAL NOTE for both of us: Cloudflare Pages secrets do NOT take effect on the live domain until the next deploy — `wrangler pages secret put` alone isn't enough, learned this the hard way (2 failed auth attempts before I redeployed). Also had to ROTATE `ADMIN_KEY` because nobody currently held the old value — an earlier session deliberately withheld it from the user ("I hold it not the user in chat"), which meant the user was locked out of their own /settings page. New key is now shared with the user directly; withholding an operator's own admin credential from them doesn't make sense for a single-operator tool. If you're holding an old ADMIN_KEY anywhere, it's dead now.
+
+SEPARATE ITEM the user raised, not yet actioned: why is the live domain `pulsify-frank.pages.dev`? Answer given: PoC-era leftover naming (Frank was the original prospect test case), never renamed when the code generalized into the multi-client system. This is priority #3 on your own list. Not fixed — needs the user to pick a real domain first. Flagging here so it isn't lost.
+
+Priority #2 (per-client auth + tenant isolation) is DONE and live-verified. Locks cleared (none were held — deploy/testing didn't touch any files needing a lock beyond the already-cleared 15:16 entry).
