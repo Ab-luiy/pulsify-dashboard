@@ -77,6 +77,9 @@
     <label>Landing-page origin<span class="hint">optional production domain, e.g. https://go.client.com</span></label>
     <input id="allowed_origin" placeholder="https://go.example.com">
 
+    <label style="margin-top:24px;">Proof-wall images<span class="hint">paste a hosted image URL per tile &mdash; leave blank to keep the shimmer placeholder. Updates go live immediately, no code change.</span></label>
+    <div id="proofImageFields"></div>
+
     <button class="btn" id="saveBtn" onclick="save()">Save settings</button>
     <div class="msg" id="saveMsg"></div>
   </div>
@@ -88,6 +91,19 @@
   let ADMIN_KEY = sessionStorage.getItem("pulsify_admin_key") || "";
   const requestedClient = new URLSearchParams(location.search).get("client");
   if (requestedClient) document.getElementById("client").value = requestedClient;
+
+  const PROOF_TAGS = [
+    "Payment proof", "Store dashboard", "Student DM", "Before / after",
+    "Ad results", "Raw clip", "Payout screenshot", "Order volume",
+  ];
+
+  (function renderProofImageFields(){
+    const wrap = document.getElementById("proofImageFields");
+    wrap.innerHTML = PROOF_TAGS.map((tag, i) => `
+      <label style="margin-top:${i === 0 ? 10 : 14}px; font-weight:500; font-size:12px; color:var(--muted);">${tag}</label>
+      <input class="proof-image-input" data-tag="${tag}" placeholder="https://...">
+    `).join("");
+  })();
 
   async function unlock(){
     const key = document.getElementById("adminKey").value.trim();
@@ -118,9 +134,14 @@
         document.getElementById("allowed_origin").value = data.config.allowed_origin || "";
         setKitStatus(!!data.config.kit_api_key_set);
         setTypeformStatus(!!data.config.typeform_webhook_secret_set);
+        const images = data.config.proof_images || {};
+        document.querySelectorAll(".proof-image-input").forEach((input) => {
+          input.value = images[input.dataset.tag] || "";
+        });
       } else {
         setKitStatus(false);
         setTypeformStatus(false);
+        document.querySelectorAll(".proof-image-input").forEach((input) => { input.value = ""; });
       }
       return true;
     } catch (e) { return false; }
@@ -148,6 +169,10 @@
       kit_tag_id: document.getElementById("kit_tag_id").value,
       kit_api_key: document.getElementById("kit_api_key").value,
       allowed_origin: document.getElementById("allowed_origin").value,
+      proof_images: Object.fromEntries(
+        Array.from(document.querySelectorAll(".proof-image-input"))
+          .map((input) => [input.dataset.tag, input.value.trim()]),
+      ),
     };
     try {
       const r = await fetch("/api/settings", {

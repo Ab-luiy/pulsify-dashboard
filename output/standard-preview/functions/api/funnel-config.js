@@ -7,10 +7,16 @@ export async function onRequestGet({ request, env }) {
 
   const row = await env.DB.prepare(
     `SELECT client, COALESCE(client_name,client) AS client_name,
-            wistia_media_id, typeform_url
+            wistia_media_id, typeform_url, proof_images_json
        FROM client_config WHERE client=?`,
   ).bind(client).first();
   if (!row) return json({ ok: false, error: "unknown client" }, 404);
+  let proofImages = {};
+  if (row.proof_images_json) {
+    try { proofImages = JSON.parse(row.proof_images_json); } catch { proofImages = {}; }
+  }
+  delete row.proof_images_json;
+  row.proof_images = proofImages;
   return json({ ok: true, config: row });
 }
 

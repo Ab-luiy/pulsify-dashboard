@@ -24,7 +24,6 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/index.html` + `css/style.css` + `wiki/synthesis/landing-page-standard.md` | CLAUDE | ACTIVE | Correcting last pass per direct user pushback: delete closing headline + authority-line block entirely, rewrite hero H1 to be mechanism-led not generic, tighten hero-to-apply spacing (feels like a disconnected slide), relabel apply pill to Step 2. Also starting v1 of editable proof images (D1 + Settings) and scoping a multi-template dashboard/designer ask — will log separately before building the latter since it overlaps your template/portal ownership. |
 | _(none)_ | | | |
 
 ---
@@ -221,3 +220,22 @@ OPERATIONAL NOTE for both of us: Cloudflare Pages secrets do NOT take effect on 
 SEPARATE ITEM the user raised, not yet actioned: why is the live domain `pulsify-frank.pages.dev`? Answer given: PoC-era leftover naming (Frank was the original prospect test case), never renamed when the code generalized into the multi-client system. This is priority #3 on your own list. Not fixed — needs the user to pick a real domain first. Flagging here so it isn't lost.
 
 Priority #2 (per-client auth + tenant isolation) is DONE and live-verified. Locks cleared (none were held — deploy/testing didn't touch any files needing a lock beyond the already-cleared 15:16 entry).
+
+### [2026-07-01 17:30] CLAUDE
+Done, locks cleared. Direct user pushback on the previous pass — corrected all of it, deployed, verified live on pulsify-frank.pages.dev:
+
+1. Deleted the closing-section headline entirely ("Every winning product should keep paying you" — rejected outright). Closing section is now just the "Applications open" pill + CTA button, nothing else. Changed `aria-labelledby="closing-title"` → `aria-label="Apply now"` since the heading it pointed at no longer exists (a11y fix).
+2. **Deleted the authority-line block entirely** (the "Subscription-first model / Real proof not promises / 1-on-1 operator support" strip I added last turn) — user: "we don't need that shit generally." Also reconfirmed this in the standard doc as a documented anti-pattern (see below) so it doesn't get re-added.
+3. **Rewrote the hero H1** — "Build a Subscription Brand that pays you every month" (generic outcome) → "Stop chasing the next winning product. Turn the one you have into recurring revenue." (mechanism-led). User taught a real principle here — codified into `wiki/synthesis/landing-page-standard.md` under a new "Headline rule" section with this exact before/after as the worked example. Also added an "Anti-invention rule" (never assert unverified specifics about a prospect) and documented the trust-strip rejection, both under Copy conventions — worth reading if you're building the genericized template, since these are now standing rules, not one-off Frank fixes.
+4. **Fixed the hero→apply spacing** — user: sections felt like "a different slider," too much scroll between the CTA and the application. Removed `.application-section`'s `border-top` + off-white background (was creating a visible seam), reduced `.hero` bottom padding 78px→40px and `.application-section` top padding 90px→32px (kept bottom padding at 90px, unchanged). Combined with removing the authority-line, hero and apply now read as one continuous scroll.
+5. **Apply section pill**: "Private application" → "Step 2" (user confirmed they do want step framing after all, at least here — I'd earlier decided against literal step badges, was wrong, corrected).
+
+NEW FEATURE — v1 of editable proof images, since user asked "we need a way to update pictures... editable pictures" without a code deploy each time:
+- Migration `migrations/0004_proof_images.sql`: added `proof_images_json TEXT` to `client_config` (applied to the live pulsify-portal DB).
+- `functions/api/settings.js` (admin, auth'd) and `functions/api/funnel-config.js` (public) both read/write `proof_images` as a `{tag: url}` object.
+- `settings.html` now has 8 image-URL inputs matching the current proof tags (Payment proof, Store dashboard, Student DM, Before/after, Ad results, Raw clip, Payout screenshot, Order volume).
+- `index.html` proof tiles now carry `data-proof-tag="..."` attributes; `funnel-integrations.js` has a new `mountProofImages()` that swaps a tile's shimmer placeholder for a real `<img>` when a URL is saved for that tag. New CSS `.proof-slot-filled` in `style.css`.
+- **Verified the read path end-to-end** (direct D1 write → public funnel-config endpoint → confirmed correct JSON → confirmed `data-proof-tag` + updated JS deployed live), then cleaned the test data back out.
+- **Could NOT verify the write path (Settings POST) through the real authenticated API** — the `ADMIN_KEY` I set originally (`EV0...`) now returns 401, so it's been rotated, presumably by you during the rework. I did not reset it myself (didn't want to break whatever's currently configured on your end without asking). If you know the current key, worth a quick manual test of the new proof-image fields in `/settings`; the code path mirrors the existing kit_api_key/typeform_webhook_secret pattern exactly so it should just work, but hasn't been click-tested by a human yet.
+
+STILL OPEN, explicitly NOT built yet — user separately asked for (a) multiple landing-page DESIGNS to pick between before launch, and (b) a dashboard/designer that deploys automatically. This is real scope, overlaps your design + reusable-template ownership directly (per the 2026-06-30 17:55 handoff), so I did not start building it blind. Wrote up a phased proposal for the user (see chat) — Phase 1 (self-edit ALL page copy, not just images, extending today's exact pattern) is mine to build if greenlit; Phase 2 (actual multiple visual template variants to choose from) needs your design ownership since the no-freehand rule means I don't invent new visual designs solo; Phase 3 (a real deploy-button dashboard driving the Cloudflare API) is new infra, mine to build once 1+2 exist. Flagging now so we don't build in conflicting directions — shout if you're already planning something here.

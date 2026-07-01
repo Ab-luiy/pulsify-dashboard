@@ -72,7 +72,7 @@ img {
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 48px 0 78px;
+  padding: 48px 0 40px;
   text-align: center;
 }
 
@@ -326,8 +326,8 @@ p {
 }
 
 .application-section {
-  background: #fbfbfd;
-  border-top: 1px solid var(--line);
+  padding-top: 32px;
+  background: var(--white);
   border-bottom: 1px solid var(--line);
 }
 
@@ -738,11 +738,25 @@ p {
   display: flex;
   align-items: flex-end;
   padding: 14px;
+  overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: linear-gradient(100deg, #f4f4f8 25%, #fafafc 37%, #f4f4f8 63%);
   background-size: 400% 100%;
   animation: proofShimmer 3.2s ease-in-out infinite;
+}
+
+.proof-slot-filled {
+  padding: 0;
+  background: var(--line);
+  animation: none;
+}
+
+.proof-slot-filled img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .proof-tag {

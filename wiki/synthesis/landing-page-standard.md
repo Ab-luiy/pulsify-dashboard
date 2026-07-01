@@ -7,6 +7,7 @@ created: 2026-06-30
 updated: 2026-07-01
 ---
 
+
 # Landing-page standard — merged Mason + Grant
 
 Approved 2026-06-30. This is the default structure for every prospect/client landing
@@ -30,6 +31,8 @@ Top to bottom, one idea per screen:
 1. **Brand mark** — small, centered. That is the whole header. No nav.
 2. **Qualifier eyebrow** — one line naming who the page is for.
 3. **Headline** — Inter Tight, heavy, one mechanism-led promise in the prospect's language.
+   See the Headline rule under Copy conventions — this is the single most common way a
+   build ends up generic.
 4. **Subhead** — one line, names the result, points at the video.
 5. **VSL** — large, immediate. Nothing educational sits above it.
 6. **One CTA** — solid accent button.
@@ -100,6 +103,42 @@ not per page. The `output/merged-standard-mock/` files define the STRUCTURE; Cod
   `Don't just take my word for it` is the accepted alternate.
 - All copy follows the Humanizer standard. No invented testimonials, figures, or claims —
   every proof slot must be replaced with the prospect's real material before launch.
+
+### Headline rule (2026-07-01, direct user correction)
+
+The hero headline must lead with a **unique mechanism, a specific case study, or a
+specific result** — never a generic outcome statement. This is the single highest-value
+line on the page and the most common way a build goes flat.
+
+- **Bad (generic outcome, rejected):** "Build a Subscription Brand that pays you every
+  month." Restates the promise everyone in the niche already claims. Says nothing
+  specific.
+- **Fixed (mechanism-led):** "Stop chasing the next winning product. Turn the one you
+  have into recurring revenue." Names the actual behavior being replaced (constant
+  product-hunting) and the specific mechanism that replaces it (recurring revenue from
+  an existing product), not just the outcome.
+
+If a real case study or a specific verified number exists, lead with that instead of the
+mechanism — it's stronger. Only fall back to a mechanism-led headline when no verified
+result is available yet (see the anti-invention rule below — never fabricate the number
+to get a case-study headline).
+
+### Don't add a trust strip under the hero CTA
+
+A row of 2-3 credibility claims directly under the primary CTA (e.g. "7 years in
+dropshipping / Multiple 7 figures / 1-on-1 support") is not part of this standard and
+was tried and rejected on the Frank build. Two problems: it reopens the disconnected-
+slide spacing problem between the hero and the application section (extra margin/padding
++ a visual divider), and it tends to smuggle in unverified specifics about the prospect
+that nothing in the research actually confirms. Proof lives in the proof wall, not in a
+claims strip. Leave it out.
+
+### Anti-invention rule
+
+Never assert a specific fact about the prospect (tenure, revenue figures, student count)
+that isn't confirmed by their public material or CRM record. If the research doesn't
+support a specific number, write the mechanism/offer instead — do not invent a
+plausible-sounding stat to fill the space.
 
 ## Data and integration standard
 

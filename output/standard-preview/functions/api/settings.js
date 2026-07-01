@@ -14,15 +14,17 @@ export async function onRequestGet({ request, env }) {
   const client = cleanId(url.searchParams.get("client") || "unknown");
   const row = await env.DB.prepare(
     `SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
-            kit_tag_id,kit_api_key,allowed_origin,updated_at
+            kit_tag_id,kit_api_key,allowed_origin,proof_images_json,updated_at
        FROM client_config WHERE client=?`,
   ).bind(client).first();
 
   if (!row) return json({ ok: true, client, config: null });
   row.kit_api_key_set = Boolean(row.kit_api_key);
   row.typeform_webhook_secret_set = Boolean(row.typeform_webhook_secret);
+  row.proof_images = parseJson(row.proof_images_json);
   delete row.kit_api_key;
   delete row.typeform_webhook_secret;
+  delete row.proof_images_json;
   return json({ ok: true, client, config: row });
 }
 
@@ -42,11 +44,19 @@ export async function onRequestPost({ request, env }) {
   const webhookSecret =
     body.typeform_webhook_secret || existing?.typeform_webhook_secret || null;
 
+  const proofImages = body.proof_images && typeof body.proof_images === "object"
+    ? JSON.stringify(
+        Object.fromEntries(
+          Object.entries(body.proof_images).filter(([, url]) => url && String(url).trim()),
+        ),
+      )
+    : null;
+
   await env.DB.prepare(
     `INSERT INTO client_config (
       client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
-      kit_tag_id,kit_api_key,allowed_origin,updated_at
-    ) VALUES (?,?,?,?,?,?,?,?,?)
+      kit_tag_id,kit_api_key,allowed_origin,proof_images_json,updated_at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?)
     ON CONFLICT(client) DO UPDATE SET
       client_name=excluded.client_name,
       wistia_media_id=excluded.wistia_media_id,
@@ -55,6 +65,7 @@ export async function onRequestPost({ request, env }) {
       kit_tag_id=excluded.kit_tag_id,
       kit_api_key=excluded.kit_api_key,
       allowed_origin=excluded.allowed_origin,
+      proof_images_json=excluded.proof_images_json,
       updated_at=excluded.updated_at`,
   ).bind(
     client,
@@ -65,6 +76,7 @@ export async function onRequestPost({ request, env }) {
     body.kit_tag_id || null,
     kitKey,
     body.allowed_origin || null,
+    proofImages,
     new Date().toISOString(),
   ).run();
 
@@ -92,6 +104,11 @@ function checkAuth(request, env) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
   return null;
+}
+
+function parseJson(value) {
+  if (!value) return {};
+  try { return JSON.parse(value); } catch { return {}; }
 }
 
 function cleanId(value) {

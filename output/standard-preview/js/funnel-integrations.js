@@ -68,9 +68,24 @@
       config = data.config;
       if (config.wistia_media_id) mountWistia(config.wistia_media_id);
       if (config.typeform_url) mountTypeform(config.typeform_url);
+      if (config.proof_images) mountProofImages(config.proof_images);
     } catch (error) {
       console.warn("Pulsify funnel config:", error.message);
     }
+  }
+
+  function mountProofImages(images) {
+    document.querySelectorAll("[data-proof-tag]").forEach((slot) => {
+      const url = images[slot.dataset.proofTag];
+      if (!url) return;
+      slot.classList.add("proof-slot-filled");
+      slot.innerHTML = "";
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = slot.dataset.proofTag;
+      img.loading = "lazy";
+      slot.appendChild(img);
+    });
   }
 
   function mountWistia(mediaId) {
