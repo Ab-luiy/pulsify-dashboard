@@ -724,3 +724,16 @@ staging directory, added `.assetsignore` and repository ignore rules, and added 
 middleware that returns 404 for Wrangler, Git, local-secret, and migration paths.
 Verified the previously exposed tooling paths now return 404 while the landing page,
 portal, and APIs remain live.
+
+## [2026-07-01] decision | Reusable landing-page templates + Frank copy audit correction
+
+Moved the landing-page standard out of one-off preview mode and into reusable asset
+homes under `assets/landing-page-standard/`: `canonical/` now holds the approved Codex
+skin with explicit placeholders, and `variant-02/` adds a second visual direction on
+the same Wistia/Typeform/proof-tag contract for Claude's future picker/editor work.
+Also audited the current Frank page against `raw-sources/client-raw/frank-wieler/profile.md`
+and the landing-page standard, then corrected two trust leaks in
+`output/standard-preview/index.html`: removed the announcement strip above the hero
+because it violated the "nothing competes above the video" rule, and removed unsourced
+`1-on-1` claims from the meta/title/footer copy. The live case-study headline stayed
+because it is source-backed.

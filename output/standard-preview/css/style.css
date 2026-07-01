@@ -69,6 +69,15 @@ img {
   font-size: 12px;
 }
 
+.brand-mark {
+  display: inline-block;
+  color: #2f3542;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
 .hero {
   position: relative;
   overflow: hidden;

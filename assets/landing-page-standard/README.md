@@ -1,8 +1,20 @@
 # Pulsify landing-page standard
 
-Use `output/standard-preview/` as the current reference implementation.
+This folder now holds the reusable landing-page assets instead of leaving the
+standard trapped inside `output/`.
 
-Every new page keeps the approved landing-page structure and skin, changes the client copy/media, and sets three integration attributes:
+## Variants
+
+- `canonical/` — the approved Codex skin, genericized with placeholders. This is
+  the default production template and mirrors the live standard at
+  `output/standard-preview/`.
+- `variant-02/` — alternate design direction for the future picker. Same page
+  spine and integration contract, distinct visual system.
+
+## Shared contract
+
+Every new page keeps the approved landing-page structure, swaps in the client
+copy/media, and sets three integration attributes:
 
 ```html
 <body
@@ -25,5 +37,13 @@ Required shared script:
 ```
 
 That gives every page the same Wistia, Typeform, opt-in, Kit, and portal pipeline without rewriting integration code per client.
+
+## Placeholder conventions
+
+Both templates use explicit placeholders such as `{{CLIENT_SLUG}}`,
+`{{HEADLINE_LINE_ONE}}`, `{{HEADLINE_EMPHASIS}}`, `{{HERO_SUBHEAD}}`,
+`{{HERO_CTA}}`, and `{{FOOTER_DISCLAIMER}}`. Proof stays mounted through the
+fixed `data-proof-tag` slots so Claude's editor/picker can fill content without
+rewiring the runtime.
 
 Full setup and event coverage: `output/portal-pipe/README.md`.

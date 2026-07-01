@@ -17,7 +17,10 @@ a reason.
 
 Reference implementation: `output/standard-preview/` (`index.html` = single-page
 default, `optin.html` = the gate fork, `portal.html` = funnel reporting).
-Reusable setup starts at `assets/landing-page-standard/README.md`.
+Reusable setup starts at `assets/landing-page-standard/README.md`. Reusable assets now
+live in `assets/landing-page-standard/canonical/` (approved Codex skin, placeholderized)
+and `assets/landing-page-standard/variant-02/` (alternate visual direction, same
+runtime contract).
 
 ## The merge in one line
 
