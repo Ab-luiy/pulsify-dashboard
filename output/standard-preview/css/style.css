@@ -641,23 +641,9 @@ p {
   letter-spacing: -0.035em;
 }
 
-.proof-section {
-  color: #fff;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(106, 112, 244, 0.26), transparent 34%),
-    #0f1219;
-}
-
-.light-pill {
-  color: #c9cce3;
-  border-color: rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: none;
-}
-
 .proof-section h2 {
   max-width: 850px;
-  color: #fff;
+  color: var(--ink);
   font-size: clamp(42px, 6vw, 66px);
 }
 
@@ -741,52 +727,41 @@ p {
 
 .proof-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
   width: min(980px, 100%);
   margin: 0 auto;
-  text-align: left;
 }
 
 .proof-slot {
-  min-height: 210px;
-  padding: 26px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  border-radius: 15px;
-  color: #1a1e28;
-  background: #fff;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: flex-end;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(100deg, #f4f4f8 25%, #fafafc 37%, #f4f4f8 63%);
+  background-size: 400% 100%;
+  animation: proofShimmer 3.2s ease-in-out infinite;
 }
 
-.proof-slot span {
-  color: var(--blue);
+.proof-tag {
+  color: var(--muted);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
+  letter-spacing: 0.01em;
 }
 
-.proof-slot strong {
-  display: block;
-  margin: 42px 0 8px;
-  font-size: 17px;
+@keyframes proofShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.proof-slot p {
-  margin: 0;
-  color: #777e8c;
-  font-size: 12px;
-  line-height: 1.55;
-}
-
-.dark-slot {
-  color: #fff;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    #181c25;
-  background-size: 28px 28px;
-}
-
-.dark-slot p {
-  color: #9aa0b1;
+@media (prefers-reduced-motion: reduce) {
+  .proof-slot {
+    animation: none;
+    background: #f4f4f8;
+  }
 }
 
 .closing-section {
