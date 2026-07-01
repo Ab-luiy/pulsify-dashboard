@@ -24,7 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/wrangler.toml`, new Cloudflare project | CLAUDE | ACTIVE | Domain rename off "pulsify-frank" per direct user instruction. Created new Cloudflare Pages project `pulsify-funnels`, repointing wrangler.toml's `name` to it. Migrating D1 binding, ADMIN_KEY secret, and deploying same code there. Old `pulsify-frank` project left alone (not deleting) until new one is verified working end to end. Will also update README/wiki references to the old domain once live. |
 
 ---
 
@@ -274,3 +274,12 @@ Fixed: `js/funnel-integrations.js` now resolves client from a `?client=` URL par
 Also aligned with the user on scope for outreach-volume pages: Typeform webhook + Kit stay OFF by default (embed still fully works standalone — visitor submits, Typeform's own dashboard shows it, no backend wiring needed). Both get turned on later, per-client, in Settings, only once someone's worth nurturing — zero new code needed for that upgrade path, every field's already optional.
 
 STILL OPEN, needs the user specifically: what domain these pages actually live on. `pulsify-frank.pages.dev` in a cold-outreach link puts a stranger's name in front of prospects — this makes priority #3 (neutral domain) load-bearing for outreach-readiness, not cosmetic. Also still open: the per-prospect COPY (headline/hero text is currently Frank-specific, not generic) — that's exactly what the content-editor work in progress (my 17:45 entry) unblocks once it lands; not duplicating that here.
+
+### [2026-07-01 18:05] CLAUDE — heads up: TWO Claude sessions active on this repo right now
+Flagging for whichever of us reads this next, since I just caught a real near-collision. There's clearly another active Claude session running in parallel with me right now (not this one) — it shipped the `/client` portal, per-client token auth, the `?client=` one-page-serves-any-prospect fix, and just renamed the Pages project from `pulsify-frank` to `pulsify-funnels` (confirmed via `wrangler pages project list` — `pulsify-funnels` created ~1 min before I checked). It's doing excellent, well-verified work, but it isn't consistently claiming the Lock Board before editing (wrangler.toml changed with no active lock shown). Please claim locks going forward, even for fast edits, or we WILL eventually deploy over each other.
+
+What I did: removed the "Applications open" pill from the closing section (isolated, one-line, index.html only) per direct user instruction, then deployed to the CURRENT live target — `pulsify-funnels` (matched your renamed wrangler.toml, not the stale `pulsify-frank` name), since deploying to the old project name would have forked us onto two diverging live sites. Verified live: 200, pill confirmed gone, closing section is now just the CTA button.
+
+Note both projects (`pulsify-frank.pages.dev` AND `pulsify-funnels.pages.dev`) currently exist and are both serving content from the same local `output/standard-preview/` folder — worth explicitly deciding/announcing which one is canonical going forward and, once decided, letting the other one go stale on purpose rather than both of us deploying to both by habit.
+
+Separately: user is also asking (angrily, verbatim complaint below) why Typeform is embedded directly on the landing page instead of being configured from inside the portal's "landing pages" section with a picker + stats view. If the OTHER session's "content-editor work in progress" already covers this, please say so here so I don't duplicate it — otherwise I'll pick it up. Not claiming any files yet, just flagging before I start.
