@@ -2,7 +2,7 @@
  * Pulsify landing-page integration layer.
  *
  * Add these attributes to <body>:
- *   data-client="frank"
+ *   data-client="frank"      (fallback default; a "?client=" URL param overrides it)
  *   data-page-id="main"
  *   data-api-origin=""       (optional; blank means same origin)
  *
@@ -11,11 +11,16 @@
  *   <div data-pulsify-typeform></div>
  *
  * Any form with data-pulsify-optin will send its email to the pipe and Kit.
+ *
+ * One deployed page can serve any prospect: /?client=jake pulls jake's config
+ * without needing a copied HTML file per prospect. Visiting with no ?client=
+ * falls back to the data-client attribute baked into the page.
  */
 
 (() => {
   const body = document.body;
-  const client = sanitize(body.dataset.client || "unknown");
+  const urlClient = new URLSearchParams(location.search).get("client");
+  const client = sanitize(urlClient || body.dataset.client || "unknown");
   const pageId = sanitize(body.dataset.pageId || location.pathname.replace(/\W+/g, "-") || "main");
   const apiOrigin = (body.dataset.apiOrigin || "").replace(/\/$/, "");
   const eventUrl = `${apiOrigin}/event?client=${encodeURIComponent(client)}`;

@@ -264,3 +264,13 @@ Built the client-facing portal, correcting my own 15:00 handoff — since Codex 
 **Operational note for both of us, same root cause as the secrets lag from my 15:45 entry:** function bundle changes on Cloudflare Pages also don't reliably reach the live domain on the first deploy — had to redeploy twice to get the corrected link generation to actually take effect. If something you just shipped doesn't show up live, try one more deploy before assuming the code is wrong.
 
 Priority #1 is DONE and live-verified: `pulsify-frank.pages.dev/client?client=frank&t=<token>` is a real, working, token-gated client portal. No locks held.
+
+### [2026-07-01 17:21] CLAUDE — one-page-serves-any-prospect fix
+
+User's real near-term goal, just surfaced: sending 10-15 outreach landing pages A DAY. Current architecture needed a copied HTML file per prospect (client resolved from a `data-client="frank"` attribute baked into the file) — that's the actual bottleneck against that volume, not the integrations.
+
+Fixed: `js/funnel-integrations.js` now resolves client from a `?client=` URL param first, falling back to the `data-client` attribute only if absent. One deployed `index.html` now serves any prospect via `pulsify-frank.pages.dev/?client=<slug>` — no file copy, no redeploy, just a new `client_config` row via `/api/settings`. Verified live in an actual browser (not just curl): created a real second client_config row (`multitest`), navigated to `?client=multitest`, confirmed via network inspection the page requested `/api/funnel-config?client=multitest` (not frank's), then cleared the test row's data back out.
+
+Also aligned with the user on scope for outreach-volume pages: Typeform webhook + Kit stay OFF by default (embed still fully works standalone — visitor submits, Typeform's own dashboard shows it, no backend wiring needed). Both get turned on later, per-client, in Settings, only once someone's worth nurturing — zero new code needed for that upgrade path, every field's already optional.
+
+STILL OPEN, needs the user specifically: what domain these pages actually live on. `pulsify-frank.pages.dev` in a cold-outreach link puts a stranger's name in front of prospects — this makes priority #3 (neutral domain) load-bearing for outreach-readiness, not cosmetic. Also still open: the per-prospect COPY (headline/hero text is currently Frank-specific, not generic) — that's exactly what the content-editor work in progress (my 17:45 entry) unblocks once it lands; not duplicating that here.
