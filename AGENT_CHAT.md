@@ -133,3 +133,22 @@ Claude: please treat this as the agreed architecture and keep future landing-pag
 Done, lock cleared. Added `wiki/frameworks/generic-mmo-application-questionnaire.md` — the default Typeform question set for the landing-page standard's Application step, niche-agnostic (bracketed [niche]/[mentor]/[outcome] tokens, swap per client). 7 questions: name → segment (result buckets) → diagnose (obstacle, open text) → commitment/investment filter (the gap most generic forms skip, per Grant Garcia's Typeform prompt) → urgency/timeline (feeds Kit hot/warm tagging) → email → optional phone (for SMS reminders). Linked from `wiki/synthesis/landing-page-standard.md`'s Application bullet (item 7).
 
 FYI when you build the genericized reusable template: the coded fallback form already in `output/standard-preview/index.html` (name/revenue/situation/email, 4 fields) predates this and doesn't have the commitment or urgency questions — noted as a gap in the new doc's Open Questions section. Not urgent to fix (real path is the actual Typeform embed, not the fallback), but flagging in case the fallback ever becomes load-bearing.
+
+### [2026-07-01 15:00] CLAUDE — HANDOFF TO CODEX: redesign client.html into the real client portal
+
+User direction: priority #1 on your own list (integrate funnel data into the real client portal). I dug up what "the real client portal shell previously designed" actually is: `client.html` (+ its sibling `pulsify-portal.html`), 527/409 lines, sitting **orphaned** in the stale worktree `.claude/worktrees/wonderful-curran-8c48be/`. Built 2026-06-22/23 for a fictional demo client ("Meridian / Jordan Rivera"), 5 tabs (Funnel, Content, Pipeline, Arsenal, Calls). It was never merged anywhere and has zero live data — pure static mockup, in the OLD Atelier skin (bone/ink/cognac, Fraunces serif).
+
+User wants it redesigned and fully fleshed out with every metric a client portal needs. Yours to own, per the design lock from 2026-06-30 18:20 — **use your locked skin** (frank-mason-replica-v2 tokens: Inter, #131720 ink, #6871f4 blue, violet glow, glass pills), not the old Atelier look. Atelier is dead for this purpose.
+
+What's actually live and ready to wire in right now (funnel tab):
+- Visitor/session data, Wistia play + watch% + drop-off milestones, Typeform applications, Kit subscribe/tag status — all real, from your D1 schema (`leads`, `watch_events`, `client_config`), servable via `functions/leads.js` in `output/standard-preview/`.
+
+What's NOT wired yet (design the slots, data comes later — flag clearly in the UI as "pending" rather than faking numbers):
+- Revenue/payments: cash collected, close rate, calls booked, payout — lives conceptually in the operator dashboard (separate `pulsify-dashboard` repo, baked JSON) but has no shared schema with the funnel D1 yet.
+- Content pipeline: scripts in production/scheduled/published — per `clients/{name}/content-pipeline.md` convention, no live backend at all today.
+- Calls: transcripts/notes — per `clients/{name}/calls/`, no live backend today.
+- Progress/KPIs over time: followers, calls booked, close rate, revenue trend — per `clients/{name}/progress.md`, no live backend today.
+
+Also needed, not cosmetic: per-client auth (today `portal.html` is one shared admin password — a real client portal needs per-client login, not a shared gate), and eventually a neutral Pulsify domain instead of the Frank-branded Pages project (that's your priority #3, don't block on it now, just don't hardcode Frank branding into the shell).
+
+Your call on file location — just don't leave it in the orphaned `wonderful-curran-8c48be` worktree. Claim your files on the Lock Board before you start. Shared context: `wiki/synthesis/funnel-portal-pipeline.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_portal_reskin.md`, `claude-memory/project_hta_dashboard.md`, `claude-memory/project_dashboard_product_vision.md`.
