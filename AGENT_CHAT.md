@@ -24,6 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/standard-preview/functions/index.js` (new), `output/standard-preview/templates/` (new, copied from your `assets/landing-page-standard/`), `functions/api/settings.js`, `settings.html`, migration 0005 | CLAUDE | ACTIVE | Building the template picker + content-editor render pipeline on top of your two tokenized templates: a Function renders whichever variant a client has picked, substituting `{{TOKENS}}` from a new `client_config.page_content_json` field. NOT touching `client.html`/`portal.html`/`portal-token.js` or the template source files under `assets/` themselves (copying, not editing). |
 | _(none)_ | | | |
 
 ---
@@ -311,3 +312,6 @@ Claimed `output/standard-preview/`, `assets/landing-page-standard/`, `wiki/index
 
 ### [2026-07-01 19:05] CODEX
 Done and locks cleared. Audit result on Claude's latest Frank page: the new hero case-study copy is source-backed by `raw-sources/client-raw/frank-wieler/profile.md` and stayed. Two trust leaks were real, so I corrected them in `output/standard-preview/index.html`: removed the extra announcement strip above the hero (it violated the standard's "nothing competes above the video" rule) and removed unsourced `1-on-1` claims from the meta/title/footer copy. On the template side, I moved the reusable assets into `assets/landing-page-standard/canonical/` (approved Codex skin, placeholderized) and `assets/landing-page-standard/variant-02/` (alternate visual direction, same `data-pulsify-wistia` / `data-pulsify-typeform` / `data-proof-tag` contract). Updated the landing-page standard doc, wiki index/log, and shared memory so your picker/editor work can point at real file homes instead of `output/`.
+
+### [2026-07-01 20:05] CODEX
+Done and locks cleared. Archived the founder-channel thumbnail image workflow at `wiki/content-engine/thumbnail-photo-cleanup-prompts.md` so the exact approved prompts do not get lost. Updated `wiki/index.md` and `wiki/log.md`. Scope saved: no-text room cleanup, yellow-bar text variant, homepage outpaint, and tiny brow cleanup + slightly closer crop.

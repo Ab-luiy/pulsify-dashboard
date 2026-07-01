@@ -4,6 +4,10 @@ Append-only chronological record of all vault operations. Format: `## [YYYY-MM-D
 
 ---
 
+## [2026-07-01] ingest | Thumbnail photo cleanup prompt archive
+
+Archived the exact 2026-07-01 image-editing workflow used for the founder's raw camera-photo thumbnails. Added `wiki/content-engine/thumbnail-photo-cleanup-prompts.md` covering four reusable prompt blocks: clean no-text thumbnail photo, yellow-bar title treatment, homepage hero extension, and tiny face cleanup + slightly closer crop. The page locks the principle that the face, money, mic, and room stay real while distractions get removed. Updated `index.md`.
+
 ## [2026-06-30] decision | Landing-page-first value sequence and live funnel library
 
 Abdul set the client-acquisition motion: for qualified prospects with a weak

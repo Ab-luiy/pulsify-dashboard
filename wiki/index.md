@@ -90,6 +90,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[content-engine/evan-vsl-v2]] | Second Evan VSL draft focused on execution psychology and trading consistency | 2026-05-08 |
 | [[content-engine/next-video-sales-funnel-automation]] | Direction for the next YouTube video on AI-built sales and funnel automation | 2026-05-09 |
 | [[content-engine/ai-content-workflow-thumbnail-profile]] | Miro Proof Board v1: yellow headline, Miro grid, Claude UI proof, flat icons, real creator frame | 2026-05-10 |
+| [[content-engine/thumbnail-photo-cleanup-prompts]] | Reusable prompt archive for raw camera-photo thumbnail cleanup, homepage extension, and minimal face/crop touch-ups | 2026-07-01 |
 | [[content-engine/youtube-lead-sourcing-query-bank]] | Niche-by-niche YouTube search query bank for finding small monetized coaching channels — feeds Claude Code lead sourcer script | 2026-05-22 |
 | [[content-engine/pulsify-content-batch-2026-05]] | Nine ready-to-shoot title+thumbnail pairs for Pulsify's channel, 3 per pillar, built on validated formulas + the Nick proof | 2026-05-29 |
 
