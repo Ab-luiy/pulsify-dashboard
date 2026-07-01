@@ -8555,6 +8555,14 @@ initPayoutSection();
   .ld-asset-acts { margin-left:auto; display:flex; gap:5px; }
   .ld-asset-body { display:none; padding:0 10px 10px; font-size:12.5px; line-height:1.65; color:var(--text); white-space:pre-wrap; word-break:break-word; max-height:300px; overflow-y:auto; }
   .ld-asset-body.open { display:block; padding-top:9px; border-top:1px solid var(--border); }
+  .lp-panel { display:none; border:1px solid rgba(217,70,239,0.28); border-radius:8px; padding:12px; background:rgba(217,70,239,0.05); flex-direction:column; gap:10px; }
+  .lp-panel.show { display:flex; }
+  .lp-panel-h { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:#f0abfc; }
+  .lp-panel-err { display:none; background:rgba(248,113,113,0.10); border:1px solid rgba(248,113,113,0.30); border-radius:6px; padding:8px 10px; color:#f87171; font-size:12px; line-height:1.5; }
+  .lp-panel-err.show { display:block; }
+  .lp-result { display:flex; flex-direction:column; gap:7px; border-top:1px solid rgba(255,255,255,0.08); padding-top:9px; }
+  .lp-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .lp-row-lbl { font-size:11px; color:rgba(255,255,255,0.45); min-width:130px; }
 </style>
 <!-- ====== ASSET BUILDER ====== -->
 <div class="asset-backdrop" id="assetBackdrop"></div>
@@ -8572,6 +8580,11 @@ initPayoutSection();
       <label class="dl" for="drawerApiKey">API key <span>optional — Gemini or Claude; leave blank once set in Cloudflare</span></label>
       <input class="di" type="password" id="drawerApiKey" placeholder="AIza… (Gemini) or sk-ant… (Claude)" autocomplete="off" />
       <div class="api-hint">Get yours at <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a></div>
+    </div>
+    <div class="df">
+      <label class="dl" for="drawerFunnelsKey">Funnels admin key <span>optional — only needed for "Create live page"</span></label>
+      <input class="di" type="password" id="drawerFunnelsKey" placeholder="x-admin-key for pulsify-funnels.pages.dev" autocomplete="off" />
+      <div class="api-hint">Set in the funnels project's Cloudflare env as ADMIN_KEY. Ask whoever provisioned pulsify-funnels for the value.</div>
     </div>
     <div class="dr">
       <div class="df"><label class="dl" for="dName">Name</label><input class="di" id="dName" placeholder="e.g. JJ Simon" /></div>
@@ -8631,6 +8644,7 @@ initPayoutSection();
         <option value="email">Email</option>
         <option value="email sequence">Full email sequence</option>
         <option value="ad scripts">Ad scripts</option>
+        <option value="landing page">Landing page (live page JSON)</option>
       </select>
     </div>
     <div class="ld-tracked" id="dTrackedWrap" style="display:none">
@@ -8649,6 +8663,23 @@ initPayoutSection();
       </div>
       <div class="out-text" id="dOutText"></div>
     </div>
+    <div class="lp-panel" id="lpPanel">
+      <div class="lp-panel-h">Create live page</div>
+      <div class="lp-panel-err" id="lpErr"></div>
+      <div class="df">
+        <label class="dl" for="lpSlug">Slug <span>used in the live URL — lowercase letters, numbers, hyphens</span></label>
+        <input class="di" id="lpSlug" placeholder="e.g. jane-doe" autocomplete="off" />
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+        <button class="btn-xs acc" id="lpCreate" type="button">Create live page</button>
+        <span id="lpStatus" style="font-size:12px;opacity:.85"></span>
+      </div>
+      <div class="lp-result" id="lpResult" style="display:none">
+        <div class="lp-row"><span class="lp-row-lbl">Sendable link</span><a class="ld-chip link" id="lpLinkLive" href="#" target="_blank" rel="noopener"></a><button class="btn-xs" id="lpCopyLive" type="button">Copy</button></div>
+        <div class="lp-row"><span class="lp-row-lbl">Preview, canonical</span><a class="ld-chip link" id="lpLinkCanonical" href="#" target="_blank" rel="noopener"></a><button class="btn-xs" id="lpCopyCanonical" type="button">Copy</button></div>
+        <div class="lp-row"><span class="lp-row-lbl">Preview, variant-02</span><a class="ld-chip link" id="lpLinkVariant" href="#" target="_blank" rel="noopener"></a><button class="btn-xs" id="lpCopyVariant" type="button">Copy</button></div>
+      </div>
+    </div>
   </div>
   <div class="drawer-foot">
     <button class="btn-copy-p" id="dCopyPrompt">Copy prompt</button>
@@ -8662,8 +8693,13 @@ initPayoutSection();
 <script>
 (function(){
   var LS="pulsify_api_key";
+  var LS_FUNNELS="pulsify_funnels_admin_key";
   var drawer=document.getElementById("assetDrawer"),backdrop=document.getElementById("assetBackdrop"),badge=document.getElementById("drawerBadge"),closeBtn=document.getElementById("drawerClose"),apiIn=document.getElementById("drawerApiKey"),dName=document.getElementById("dName"),dHandle=document.getElementById("dHandle"),dNiche=document.getElementById("dNiche"),dPlatform=document.getElementById("dPlatform"),dProblem=document.getElementById("dProblem"),dTranscript=document.getElementById("dTranscript"),dAsset=document.getElementById("dAsset"),dSpin=document.getElementById("dSpin"),dErr=document.getElementById("dErr"),dOut=document.getElementById("dOut"),dOutText=document.getElementById("dOutText"),dOutLbl=document.getElementById("dOutLbl"),dGen=document.getElementById("dGenerate"),dCopyP=document.getElementById("dCopyPrompt"),dCopyOut=document.getElementById("dCopyOut"),dMark=document.getElementById("dMarkBuilt"),dEmail=document.getElementById("dEmail"),dOffer=document.getElementById("dOffer"),dNotes=document.getElementById("dNotes"),dExtra=document.getElementById("dExtra"),dProfile=document.getElementById("dProfile"),dAnalyze=document.getElementById("dAnalyze"),dAnalyzeStatus=document.getElementById("dAnalyzeStatus"),meta=document.getElementById("dLeadMeta"),dTrackedWrap=document.getElementById("dTrackedWrap"),dTracked=document.getElementById("dTracked"),dTrackedCount=document.getElementById("dTrackedCount");
+  var funnelsKeyIn=document.getElementById("drawerFunnelsKey"),lpPanel=document.getElementById("lpPanel"),lpSlug=document.getElementById("lpSlug"),lpCreate=document.getElementById("lpCreate"),lpStatus=document.getElementById("lpStatus"),lpErr=document.getElementById("lpErr"),lpResult=document.getElementById("lpResult"),lpLinkLive=document.getElementById("lpLinkLive"),lpLinkCanonical=document.getElementById("lpLinkCanonical"),lpLinkVariant=document.getElementById("lpLinkVariant"),lpCopyLive=document.getElementById("lpCopyLive"),lpCopyCanonical=document.getElementById("lpCopyCanonical"),lpCopyVariant=document.getElementById("lpCopyVariant");
+  var FUNNELS_BASE="https://pulsify-funnels.pages.dev";
   var curLead="";
+  var fk=localStorage.getItem(LS_FUNNELS); if(fk&&funnelsKeyIn)funnelsKeyIn.value=fk;
+  if(funnelsKeyIn)funnelsKeyIn.addEventListener("change",function(){if(funnelsKeyIn.value.trim())localStorage.setItem(LS_FUNNELS,funnelsKeyIn.value.trim());});
   var k=localStorage.getItem(LS); if(k&&apiIn)apiIn.value=k;
   if(apiIn)apiIn.addEventListener("change",function(){if(apiIn.value.trim())localStorage.setItem(LS,apiIn.value.trim());});
   function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];});}
@@ -8691,7 +8727,13 @@ initPayoutSection();
     }).join("");
     dTracked.querySelectorAll(".ld-copy").forEach(function(b){b.addEventListener("click",function(e){e.stopPropagation();var a=findAsset(b.getAttribute("data-id"));if(a)navigator.clipboard.writeText(a.text).then(function(){b.textContent="Copied!";setTimeout(function(){b.textContent="Copy";},1800);});});});
     dTracked.querySelectorAll(".ld-del-asset").forEach(function(b){b.addEventListener("click",function(e){e.stopPropagation();if(typeof window.deleteLeadAsset==="function"){var left=window.deleteLeadAsset(curLead,b.getAttribute("data-id"));renderTracked(left);}});});
-    dTracked.querySelectorAll(".ld-asset-h").forEach(function(h){h.addEventListener("click",function(e){if(e.target.closest("button"))return;var body=h.parentNode.querySelector(".ld-asset-body");if(body)body.classList.toggle("open");});});
+    dTracked.querySelectorAll(".ld-asset-h").forEach(function(h){h.addEventListener("click",function(e){
+      if(e.target.closest("button"))return;
+      var body=h.parentNode.querySelector(".ld-asset-body");
+      if(body)body.classList.toggle("open");
+      var id=h.parentNode.getAttribute("data-id"),a=findAsset(id);
+      if(a&&isLandingPageType(a.type)&&body&&body.classList.contains("open"))showLpPanel(a.text);
+    });});
   }
   function saveField(){
     if(!curLead||typeof window.setOverride!=="function")return;
@@ -8723,22 +8765,114 @@ initPayoutSection();
   function close_(){drawer.classList.remove("open");backdrop.classList.remove("open");document.body.style.overflow="";}
   if(closeBtn)closeBtn.addEventListener("click",close_);
   if(backdrop)backdrop.addEventListener("click",close_);
-  function resetOut(){if(dOut)dOut.classList.remove("show");if(dErr){dErr.classList.remove("show");dErr.textContent="";}if(dSpin)dSpin.classList.remove("show");}
+  function resetOut(){if(dOut)dOut.classList.remove("show");if(dErr){dErr.classList.remove("show");dErr.textContent="";}if(dSpin)dSpin.classList.remove("show");hideLpPanel();}
+  // ---- Landing-page asset type: ports the token spec + copy rules from
+  // output/standard-preview/js/provision-prompt.js (the canonical landing-page prompt
+  // builder used by the pulsify-funnels settings page) into Lead Studio's own
+  // prompt-building style. Keep the token list and copy rules in sync with that file
+  // by hand if either changes.
+  var LP_TOKEN_SPEC=[
+    {key:"PAGE_TITLE",where:"browser tab title",length:"under 60 characters",variant:"both"},
+    {key:"META_DESCRIPTION",where:"search/share preview description",length:"one sentence, under 155 characters",variant:"both"},
+    {key:"BRAND_MARK",where:"small brand name at the very top of the page, the entire header",length:"1-3 words",variant:"both"},
+    {key:"BRAND_NOTE",where:"small tag shown next to the brand mark",length:"a few words",variant:"variant-02 only"},
+    {key:"AUDIENCE_PILL",where:"the qualifier pill above the headline, names who the page is for",length:"one short line",variant:"both"},
+    {key:"HEADLINE_LINE_ONE",where:"hero headline, first line",length:"short, punchy",variant:"both"},
+    {key:"HEADLINE_EMPHASIS",where:"hero headline, second line shown in the accent color",length:"short, punchy",variant:"both"},
+    {key:"HERO_SUBHEAD",where:"one line under the headline, names the result and points at the video",length:"one sentence",variant:"both"},
+    {key:"HERO_CTA",where:"the primary button text under the video",length:"2-4 words, usually uppercase",variant:"both"},
+    {key:"MICRO_NOTE",where:"small line directly under the hero CTA button",length:"a few words",variant:"variant-02 only"},
+    {key:"VIDEO_NOTE_PRIMARY",where:"left caption under the video frame",length:"a few words",variant:"both"},
+    {key:"VIDEO_NOTE_SECONDARY",where:"right caption under the video frame",length:"a few words",variant:"both"},
+    {key:"APPLY_STEP_LABEL",where:"small step label above the application heading, e.g. \"Step 2\"",length:"2-3 words",variant:"both"},
+    {key:"APPLY_HEADING",where:"heading directly above the embedded application form",length:"one short line",variant:"both"},
+    {key:"APPLY_INTRO",where:"one line under the application heading",length:"one sentence",variant:"both"},
+    {key:"FORM_FRAME_LABEL",where:"small label on the frame around the embedded form",length:"a few words",variant:"variant-02 only"},
+    {key:"FORM_FRAME_NOTE",where:"small note on the frame around the embedded form",length:"a few words",variant:"variant-02 only"},
+    {key:"PROOF_KICKER",where:"small kicker above the proof-wall heading",length:"1-3 words",variant:"variant-02 only"},
+    {key:"PROOF_INTRO",where:"one line under the proof-wall heading (the heading itself, \"People we've helped\", is fixed and not a token)",length:"one sentence",variant:"variant-02 only"},
+    {key:"CLOSING_CTA",where:"the final button text at the bottom of the page, repeats the hero CTA's destination",length:"2-4 words, usually uppercase",variant:"both"},
+    {key:"FOOTER_LABEL",where:"brand name in the footer",length:"1-3 words",variant:"both"},
+    {key:"FOOTER_DISCLAIMER",where:"small results-vary disclaimer in the footer",length:"one sentence",variant:"both"}
+  ];
+  var LP_STRUCTURE="The landing page is a single scrolling page in this order: a hero headline over an embedded VSL (video sales letter, no page above it competes for attention), then an application step (an embedded Typeform directly under the video), then a proof wall (\"People we've helped\", real screenshots and clips only), then a closing call-to-action that repeats the same button and destination as the hero, then a footer with a brand line and a results-vary disclaimer.";
+  var LP_COPY_RULES=[
+    "Headline rule: the headline (HEADLINE_LINE_ONE + HEADLINE_EMPHASIS) must lead with a unique mechanism, a specific case study, or a specific result. Never a generic outcome statement everyone in the niche already claims. If the brief has a real, verified case study or number, lead with that. If not, lead with the mechanism (the specific behavior being replaced and what replaces it), never a vague promise.",
+    "Anti-invention rule, non-negotiable: never invent facts, numbers, revenue figures, student counts, tenure, or biography that are not present in the brief. If the brief has no real proof or specific numbers, write honest, generic copy that leans on the mechanism instead of fabricating a stat to fill the space.",
+    "No emojis. No exclamation marks. Sentence case for headings (not Title Case).",
+    "Banned AI tells, apply on every field: no \"It's not X, it's Y\" negative parallelism; no em-dash overuse (at most one or two, prefer commas and periods); no \"here's the thing\" / \"here's the kicker\" / false-suspense transitions; no rule-of-three padding stacked more than once; no curly quotes or arrow glyphs (use straight quotes and \"->\"); no corporate filler (\"it's worth noting\", \"importantly\", \"leverage\", \"seamless\", \"robust\").",
+    "Write in the creator's own voice. Use the brief's verbatim quotes as the voice reference for word choice and tone, but do not lift a quote verbatim into the page copy unless it is being used as an explicit, attributed quote.",
+    "Direct, no hedging. If the brief doesn't support a claim, don't make it, write the mechanism or offer instead."
+  ];
+  function lpTokenSpecText(){
+    return LP_TOKEN_SPEC.map(function(t){
+      var suffix=t.variant==="variant-02 only"?" [variant-02 only]":"";
+      return "- "+t.key+": "+t.where+". Length guidance: "+t.length+"."+suffix;
+    }).join("\n");
+  }
+  // Builds the same brief a landing-page copywriter would use elsewhere in the app:
+  // Creator profile first (it is the richest source), falling back to the raw
+  // transcript, private notes, and "more on them" extra context.
+  function buildLandingPageBrief(){
+    var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),of=(dOffer&&dOffer.value||"").trim(),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),pf=(dProfile&&dProfile.value||"").trim(),no=(dNotes&&dNotes.value||"").trim(),ex=(dExtra&&dExtra.value||"").trim();
+    var parts=[];
+    parts.push("Creator: "+(n||"unknown")+(h?" (@"+h+")":"")+(ni?", niche: "+ni:""));
+    if(of)parts.push("Offer angle: "+of);
+    if(pf)parts.push("CREATOR PROFILE (primary source, use this for voice, mechanism, pain, proof, hooks):\n"+pf);
+    if(tr)parts.push("TRANSCRIPT / raw research:\n"+tr);
+    if(pr)parts.push("Problem identified: "+pr);
+    if(no)parts.push("Private notes / context: "+no);
+    if(ex)parts.push("More on them: "+ex);
+    return parts.join("\n\n");
+  }
+  function buildLandingPagePrompt(){
+    var brief=buildLandingPageBrief();
+    return [
+      "You are writing landing-page copy for Pulsify, a growth company that builds outreach landing pages for online coaches and creators in biz-op niches (trading, ecom, dropshipping, Amazon FBA, Airbnb hosting, TikTok Shop, etc).",
+      "",
+      "PAGE STRUCTURE",
+      LP_STRUCTURE,
+      "",
+      "TOKEN SPEC, fill every token below. Six are marked variant-02 only; still fill them (they simply won't render on the canonical design if template_variant is \"canonical\").",
+      lpTokenSpecText(),
+      "",
+      "COPY RULES",
+      LP_COPY_RULES.map(function(rule,i){return (i+1)+". "+rule;}).join("\n"),
+      "",
+      "CREATOR BRIEF (the only source of facts you may use, do not add anything not in here)",
+      "---",
+      brief||"(no brief provided)",
+      "---",
+      "",
+      "OUTPUT INSTRUCTIONS",
+      "Return STRICT JSON only. No markdown code fences, no commentary before or after, just the JSON object. Shape exactly:",
+      "{",
+      "  \"client_slug\": \"<lowercase a-z0-9 and hyphens only, derived from the creator's name, e.g. \\\"jane-doe\\\">\",",
+      "  \"client_name\": \"<display name>\",",
+      "  \"template_variant\": \"canonical\",",
+      "  \"page_content\": { \"<TOKEN_NAME>\": \"<value>\", ... only the tokens listed above, all of them ... }",
+      "}"
+    ].join("\n");
+  }
   function buildPrompt(){
     var n=(dName&&dName.value||"").trim(),h=(dHandle&&dHandle.value||"").trim(),ni=(dNiche&&dNiche.value||"").trim(),pl=(dPlatform&&dPlatform.value||"Instagram"),pr=(dProblem&&dProblem.value||"").trim(),tr=(dTranscript&&dTranscript.value||"").trim(),pf=(dProfile&&dProfile.value||"").trim(),of=(dOffer&&dOffer.value||"").trim(),no=(dNotes&&dNotes.value||"").trim(),ex=(dExtra&&dExtra.value||"").trim(),at=(dAsset&&dAsset.value||"short opener");
+    if(at==="landing page")return buildLandingPagePrompt();
     return "You are writing a personalized outreach asset for a specific lead on behalf of Pulsify. Pulsify helps online coaches and creators in biz-op niches sell high-ticket mentorships through content and backend infrastructure. The asset must feel like it was written specifically for this person, not a template, not generic.\n\n**Lead:**\n- Name: "+n+(h?" (@"+h+")":"")+"\n- Platform: "+pl+"\n- Niche: "+(ni||"unknown")+(of?"\n- Offer angle: "+of:"")+"\n\n**The problem I identified:**\n"+(pr||"[not specified]")+"\n\n**Transcript data (Perplexity output):**\n"+(tr||"[not provided]")+(pf?"\n\n**Creator profile (primary source — use this for voice, mechanism, pain, proof, hooks):**\n"+pf:"")+(no?"\n\n**Private notes / context:**\n"+no:"")+(ex?"\n\n**More on them (extra context):**\n"+ex:"")+"\n\n**Asset to build:** "+at+"\n\n---\n\nBefore writing, silently: (1) Extract their VOICE — the recurring phrases, sentence rhythm, slang, and how they address their audience, verbatim from the transcript. (2) Extract their UNIQUE MECHANISM — the specific named method or framework they teach and how they describe it in their own words. (3) Identify the one angle that proves you actually watched their content, a diagnosis not a compliment. Use their real voice and their mechanism in everything below.\n\nHUMANIZER (apply to ALL written copy below): write like a sharp human, not AI. Banned: \"it's not X, it's Y\" constructions; overusing em-dashes (use periods instead); starting bullets with a bolded label; rule-of-three padding; filler like 'Here's the thing', 'Let's unpack', 'game-changer', 'unlock', 'elevate', 'dive in', 'supercharge'; curly quotes and arrow characters; vague hype. Vary sentence length, stay specific, use their actual words.\n\nAsset rules:\n\nShort opener: a cold DM first-line, texted to this lead. First output a line `THEME:` naming the single thing this creator brings up again and again across their last few videos (their obsession, the hill they die on), in 3-8 words pulled from the transcript. Then give 3 options labelled A, B, C, each on its own line. Each opener: 1-2 short sentences, hard ceiling around 30 words, shorter is better. Open by referencing that recurring theme so it is obvious you watched several of their videos, specific not 'love your content'. Casual texting voice, lowercase is fine, sound like a normal human not a brand or LinkedIn. End with ONE low-friction question that only someone who studied them would ask"+(pr?", aimed at this gap: "+pr:"")+". BANNED, never do these: any reverse-pitch ('do you sell/offer a course/coaching/mentorship/program', 'are you selling X anywhere', 'do you have a program') — it is dead and reads as a script, never ask whether they have an offer; compliments as filler; 'I help X do Y'; 'I came across your content'; emojis; hype; pitching; links; naming your own credentials. The 3 options should each take a different angle on the same theme. No preamble and no explanation, just the THEME line then A, B, C.\n\nTypeform: build the high-ticket application form this creator would put after their VSL to qualify leads and book calls for their 1-on-1 mentorship. Output in this order: (1) WELCOME SCREEN — a headline plus one line of subtext in the audience's own language that frames the outcome and the fact that spots are limited/selective. (2) QUESTIONS — 7 to 10 of them, numbered, each labelled with its field type [multiple choice / short text / long text / email / phone / number / yes-no], and for multiple choice list the answer options. Cover, roughly in this order: where they are now, their single biggest struggle (use the audience's exact words from the transcript), what they have already tried and why it failed, their capacity to invest (framed by the outcome and their seriousness, not a blunt budget question), how soon they want this solved, and name/email/phone last. (3) ENDING SCREEN — a thank-you that sets the one next step (book a call). Rules: phrase every question in the creator's voice and the audience's language, one idea per question, conversational not corporate, and never exceed 10 questions because friction kills completion.\n\nVSL: open with their pain in their own language, introduce the Pulse System only after problem is established, no mention of AI tools or tech, end with one CTA.\n\nLoom script: 90 seconds max. First 10s: name them and one specific content reference. Middle 60s: diagnose problem, cost, fix. Last 20s: exact next step.\n\nLanding page copy: headline = the problem, subhead = cost of inaction, body = Pulsify as operator, social proof = Nick ($10-20K to $50K/month in 3 months), CTA = book a call.\n\nEmail: subject = problem not Pulsify, first line = content reference, 3 short paragraphs: problem / possible / next step.\n\nFull email sequence: write a 5-email sales/nurture sequence for THIS creator's own audience, in the creator's voice (their words from the transcript), to move a subscriber toward their high-ticket offer. Output 5 emails, each with a SUBJECT line, a one-line PREVIEW, and a BODY. Arc across the five: (1) hook/story that names the audience's pain in their own words, (2) the false solutions and why they stay stuck, (3) the creator's unique mechanism as the turning point, (4) proof / case study / handle the main objection, (5) the offer with one clear CTA (apply or book). Keep each email tight and skimmable, one CTA per email, and follow the HUMANIZER rules above. Do not invent results or numbers — only use proof present in the transcript or extra context.\n\nAd scripts: write 3 direct-response video ad scripts for paid traffic (Meta / YouTube) selling this creator's offer, using info-product DR frameworks in the style of Jeremy Haynes / Megalodon (awareness-matched, Hook-Body-CTA, Problem-Agitate-Solution). Give 3 distinct angles: (A) PROBLEM/AGITATE — a 3-second scroll-stop hook calling out the avatar, agitate the painful problem and the false solutions they have tried, introduce the creator's unique mechanism, one proof point, CTA. (B) CONTRARIAN / US-VS-THEM — challenge the common advice in their niche, reframe the real reason the audience is stuck, position the mechanism as the answer, CTA. (C) CASE STUDY / PROOF — lead with a specific real result, reverse-engineer how it happened (the mechanism), CTA. For each script: put the HOOK (first 3 seconds) on its own line, then the body, then the CTA; keep it spoken and about 150-220 words (45-60 seconds); end with one clear next step (book a call / apply / watch the free training). Use the creator's voice and only real proof from the transcript, never invent figures. Follow the HUMANIZER rules above.\n\nNon-negotiables: no lifestyle flexing, no generic openers, problem is the center of gravity, Pulsify value = operator expertise not tools, one clear next step.";
   }
   if(dCopyP)dCopyP.addEventListener("click",function(){navigator.clipboard.writeText(buildPrompt()).then(function(){dCopyP.textContent="Copied!";setTimeout(function(){dCopyP.textContent="Copy prompt";},2200);});});
+  function isLandingPageType(at){return at==="landing page";}
   if(dGen)dGen.addEventListener("click",function(){
     var key=(apiIn&&apiIn.value||"").trim();
     var at=dAsset&&dAsset.value||"short opener";
-    if(!(dTranscript&&dTranscript.value||"").trim()){showErr("Pull or paste a transcript first.");return;}
+    var hasBrief=(dTranscript&&dTranscript.value||"").trim()||(dProfile&&dProfile.value||"").trim();
+    if(!hasBrief){showErr(isLandingPageType(at)?"Pull a transcript or build a Creator profile first.":"Pull or paste a transcript first.");return;}
     saveField();
     resetOut();dSpin.classList.add("show");dGen.disabled=true;
     fetch("/generate",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prompt:buildPrompt(),key:key})})
     .then(function(r){if(!r.ok)return r.json().then(function(e){throw new Error(e.error&&e.error.message||"API error "+r.status);});return r.json();})
     .then(function(d){var t=d.content&&d.content[0]&&d.content[0].text||"";dSpin.classList.remove("show");if(dOutLbl)dOutLbl.textContent=at.toUpperCase();if(dOutText)dOutText.textContent=t;if(dOut)dOut.classList.add("show");if(key)localStorage.setItem(LS,key);
       if(curLead&&t&&typeof window.pushLeadAsset==="function"){var asset={id:"a"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36),type:at,text:t,ts:Date.now()};window.pushLeadAsset(curLead,asset);renderTracked(((typeof window.getLeadExtra==="function"&&window.getLeadExtra(curLead))||{}).assets||[]);}
+      if(isLandingPageType(at)&&t){showLpPanel(t);}else{hideLpPanel();}
     })
     .catch(function(e){dSpin.classList.remove("show");showErr("Error: "+e.message);})
     .finally(function(){dGen.disabled=false;});
@@ -8809,6 +8943,135 @@ initPayoutSection();
       setTimeout(function(){dCopyAnalyze.textContent=o;},2400);
     });
   });
+
+  // ---- Create live page: takes a "Landing page" asset's strict-JSON result and provisions
+  // it on the pulsify-funnels outreach site via its /api/settings Cloudflare Function.
+  // That API is owned by a different repo and is not modified here.
+  var lpParsed=null;
+  function slugify(s){
+    return String(s||"").toLowerCase().trim()
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-+|-+$/g,"")
+      .replace(/-{2,}/g,"-");
+  }
+  function stripCodeFences(s){
+    var t=String(s||"").trim();
+    var m=t.match(/^```[a-zA-Z]*\s*([\s\S]*?)\s*```$/);
+    if(m)return m[1].trim();
+    return t;
+  }
+  function lpShowErr(m){if(!lpErr)return;lpErr.textContent=m;lpErr.classList.add("show");}
+  function lpClearErr(){if(!lpErr)return;lpErr.textContent="";lpErr.classList.remove("show");}
+  function hideLpPanel(){
+    if(lpPanel)lpPanel.classList.remove("show");
+    if(lpResult)lpResult.style.display="none";
+    if(lpStatus)lpStatus.textContent="";
+    lpClearErr();
+    lpParsed=null;
+  }
+  // Parses the model's strict-JSON output (stripping any code fences) and validates the
+  // {client_slug, client_name, template_variant, page_content} shape before letting the
+  // operator create the live page. Exposed on window for the node --check smoke test.
+  function parseLandingPageJson(raw){
+    var cleaned=stripCodeFences(raw);
+    var data;
+    try{ data=JSON.parse(cleaned); }
+    catch(e){ throw new Error("Could not parse JSON from the model output. "+e.message); }
+    if(!data||typeof data!=="object")throw new Error("Parsed result is not a JSON object.");
+    if(!data.client_slug||typeof data.client_slug!=="string")throw new Error("Missing client_slug in the JSON.");
+    if(!data.page_content||typeof data.page_content!=="object")throw new Error("Missing page_content in the JSON.");
+    return data;
+  }
+  function showLpPanel(text){
+    lpClearErr();
+    if(lpResult)lpResult.style.display="none";
+    if(lpStatus)lpStatus.textContent="";
+    try{
+      lpParsed=parseLandingPageJson(text);
+      if(lpSlug)lpSlug.value=slugify(lpParsed.client_slug);
+    }catch(e){
+      lpParsed=null;
+      if(lpSlug)lpSlug.value="";
+      lpShowErr(e.message);
+    }
+    if(lpPanel)lpPanel.classList.add("show");
+  }
+  function funnelsHeaders(){
+    var key=(funnelsKeyIn&&funnelsKeyIn.value||"").trim();
+    return {"Content-Type":"application/json","x-admin-key":key};
+  }
+  function funnelsUrl(client){return FUNNELS_BASE+"/?client="+encodeURIComponent(client);}
+  function funnelsPreviewUrl(client,variant){return FUNNELS_BASE+"/?client="+encodeURIComponent(client)+"&preview="+variant;}
+  if(lpCreate)lpCreate.addEventListener("click",function(){
+    lpClearErr();
+    if(lpResult)lpResult.style.display="none";
+    if(!lpParsed){lpShowErr("No valid landing-page JSON to create from. Generate the Landing page asset first.");return;}
+    var key=(funnelsKeyIn&&funnelsKeyIn.value||"").trim();
+    if(!key){lpShowErr("Set the Funnels admin key above first (the x-admin-key for pulsify-funnels.pages.dev, from whoever provisioned that Cloudflare project).");return;}
+    var slug=slugify(lpSlug&&lpSlug.value);
+    if(!slug){lpShowErr("Enter a valid slug (lowercase letters, numbers, hyphens).");return;}
+    if(lpSlug)lpSlug.value=slug;
+    lpCreate.disabled=true;
+    if(lpStatus)lpStatus.textContent="Checking for an existing page...";
+    fetch(FUNNELS_BASE+"/api/settings?client="+encodeURIComponent(slug),{method:"GET",headers:funnelsHeaders()})
+      .then(function(r){
+        if(!r.ok)return r.text().then(function(t){throw new Error("Lookup failed, HTTP "+r.status+(t?": "+t:""));});
+        return r.json();
+      })
+      .then(function(existing){
+        // GET /api/settings always returns 200; config is null when no page exists yet
+        // for this slug (see functions/api/settings.js in the pulsify-funnels repo).
+        var cfg=existing&&existing.config;
+        if(cfg){
+          var proceed=window.confirm("A page for \""+slug+"\" already exists ("+(cfg.client_name||slug)+"). Overwrite it?");
+          if(!proceed){if(lpStatus)lpStatus.textContent="Cancelled, no changes made.";throw {handled:true};}
+        }
+        if(lpStatus)lpStatus.textContent="Creating live page...";
+        var body={
+          client:slug,
+          client_name:lpParsed.client_name||slug,
+          template_variant:lpParsed.template_variant||"canonical",
+          page_content:lpParsed.page_content
+        };
+        return fetch(FUNNELS_BASE+"/api/settings",{method:"POST",headers:funnelsHeaders(),body:JSON.stringify(body)});
+      })
+      .then(function(r){
+        if(!r)return;
+        if(!r.ok)return r.text().then(function(t){throw new Error("Create failed, HTTP "+r.status+(t?": "+t:""));});
+        if(key)localStorage.setItem(LS_FUNNELS,key);
+        var liveUrl=funnelsUrl(slug),canonicalUrl=funnelsPreviewUrl(slug,"canonical"),variantUrl=funnelsPreviewUrl(slug,"variant-02");
+        if(lpLinkLive){lpLinkLive.href=liveUrl;lpLinkLive.textContent=liveUrl;}
+        if(lpLinkCanonical){lpLinkCanonical.href=canonicalUrl;lpLinkCanonical.textContent=canonicalUrl;}
+        if(lpLinkVariant){lpLinkVariant.href=variantUrl;lpLinkVariant.textContent=variantUrl;}
+        if(lpResult)lpResult.style.display="flex";
+        if(lpStatus)lpStatus.textContent="Live.";
+        if(curLead&&typeof window.pushLeadAsset==="function"){
+          var asset={id:"a"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36),type:"landing page link",text:liveUrl,ts:Date.now()};
+          window.pushLeadAsset(curLead,asset);
+          renderTracked(((typeof window.getLeadExtra==="function"&&window.getLeadExtra(curLead))||{}).assets||[]);
+        }
+      })
+      .catch(function(e){
+        if(e&&e.handled)return;
+        lpShowErr("Error: "+(e&&e.message?e.message:String(e)));
+      })
+      .finally(function(){lpCreate.disabled=false;});
+  });
+  function lpCopyLink(btn,link){
+    if(!btn||!link)return;
+    btn.addEventListener("click",function(){
+      var href=link.getAttribute("href")||"";
+      if(!href||href==="#")return;
+      navigator.clipboard.writeText(href).then(function(){
+        var o=btn.textContent;btn.textContent="Copied!";setTimeout(function(){btn.textContent=o;},1800);
+      });
+    });
+  }
+  lpCopyLink(lpCopyLive,lpLinkLive);
+  lpCopyLink(lpCopyCanonical,lpLinkCanonical);
+  lpCopyLink(lpCopyVariant,lpLinkVariant);
+  // Exposed for the node --check / unit-test smoke test only.
+  window.__leadStudioLandingPage={slugify:slugify,stripCodeFences:stripCodeFences,parseLandingPageJson:parseLandingPageJson};
 })();
 </script>
 <!-- ====== END ASSET BUILDER ====== -->
