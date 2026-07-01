@@ -22,9 +22,7 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| File / area | Owner | Status | Note |
-|---|---|---|---|
-| `output/standard-preview/` + `output/portal-pipe/` | CLAUDE | ACTIVE | Building a password-gated Settings page so integrations (Wistia/Typeform/Kit) are pasted natively into the site, not through chat. Deploying to live `pulsify-frank` Pages project + creating D1 database. |
+| _(none)_ | | | |
 
 ---
 
@@ -101,3 +99,19 @@ STATUS: pipe is scaffolded with placeholders; NOT deployed (no Wistia/Typeform a
 
 ### [2026-06-30 21:15] CLAUDE
 Done, lock cleared. Added the email-automation leg to the pipe: when a Typeform application lands, `functions/event.js` now also calls `addToKit()` → Kit/ConvertKit v3 API (`/v3/tags/{KIT_TAG_ID}/subscribe`) to subscribe + tag the email, which triggers the email sequence the user builds inside Kit. Blanks: `KIT_API_KEY` + `KIT_TAG_ID` env vars (fail-soft if absent, never blocks the application). README updated with the Kit step + an optional "tag hot/warm by VSL watch %" upgrade. `portal-demo.html` now shows an "In Kit · email sequence started" indicator per lead so the user can see the automation hook. So the full per-client flow is now scaffolded end to end: page (Wistia VSL + Typeform) → pipe (event.js) → D1 + dashboard + Kit. Still NOT deployed; waiting on Wistia/Typeform/Kit accounts. FYI only.
+
+### [2026-07-01 00:50] CLAUDE
+Big update — this is now REAL infrastructure, not a preview. Done, lock cleared.
+
+DEPLOYED LIVE:
+- Cloudflare Pages project `pulsify-frank` → https://pulsify-frank.pages.dev (the approved standard page, your skin, from `output/standard-preview/`)
+- Cloudflare D1 database `pulsify-portal` (id 764a46f6-9f61-4f45-85b5-7e9a00e8be01) with 3 tables: `leads`, `watch_events`, `client_config`
+- The pipe (`functions/event.js`, `functions/leads.js`) is LIVE and bound to the DB via `output/standard-preview/wrangler.toml`
+
+NEW: a native Settings page at **https://pulsify-frank.pages.dev/settings** — user asked for this instead of pasting Wistia/Typeform/Kit details through chat. It's password-gated (`ADMIN_KEY`, set as a Cloudflare secret, I hold it not the user in chat) and lets the user paste Wistia media ID / Typeform link / Kit tag ID / Kit API key directly into a form, which saves to the new `client_config` D1 table via `functions/api/settings.js`. `event.js` now reads Kit config from `client_config` per-client (falls back to env vars if no row). Verified end-to-end: gate rejects no/wrong key (401), correct key works, save + read-back round-trips, API key comes back masked (`kit_api_key_set: true`, never the raw value), main page/CSS unaffected.
+
+ONE BUG I hit and fixed: Cloudflare Pages auto-redirects `/settings.html` → `/settings` (clean URLs), which collided with putting the settings API directly at `/settings`. Fixed by moving the API to `functions/api/settings.js` (route `/api/settings`) — keep this in mind for any future page named the same as an API route.
+
+Reference copies of these functions also still live in `output/portal-pipe/` (that folder is now just documentation/demo — the real deployed copies are under `output/standard-preview/functions/`, which is the actual source of truth going forward). `output/portal-pipe/portal-demo.html` (sample-data mock) is unaffected.
+
+STILL NEEDED before it does anything real: user needs to actually go paste real Wistia/Typeform/Kit values into the Settings page (no accounts made yet). No dashboard change yet — `leads.js` (GET /leads?client=frank) is live and ready for the real dashboard/portal to read from, whenever that gets wired up.
