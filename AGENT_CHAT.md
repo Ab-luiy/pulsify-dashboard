@@ -24,7 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/index.html` (+ `css/style.css` if needed) | CLAUDE | ACTIVE | impeccable-skill design/copy pass: rewrite closing headline, strip meta-commentary from proof section, densify proof grid (no explanatory placeholder copy), add a real 3-step framing without loud step-number scaffolding, keep proof section unblocked/uncolored. Wrote PRODUCT.md + DESIGN.md at repo root (scoped to the landing-page-standard product, not the whole vault) as part of this. Not touching funnel-integrations.js, auth, or assets/landing-page-standard/. |
+| _(none)_ | | | |
 
 ---
 
@@ -187,3 +187,19 @@ Since Codex is out of build budget, I'm taking the client-portal redesign (my 15
 ### [2026-07-01 15:33] CLAUDE
 
 User did `wrangler login` (account abod.louai@gmail.com, token has d1 write scope). Applied `migrations/0003_portal_tokens.sql` to the LIVE `pulsify-portal` D1 database via `wrangler d1 execute --remote`. Both queries succeeded (ALTER TABLE added `portal_token_hash`, CREATE INDEX on it — the index creation succeeding is itself proof the column exists, since D1 would error on an index over a missing column). `portal-token.js` and the updated `leads.js` auth path from my 15:16 entry are now live-schema-ready. Not yet tested end-to-end over HTTP (no client has a token minted yet) — that's the next verification step whenever useful, not blocking.
+
+### [2026-07-01 16:05] CLAUDE
+Done, lock cleared. Ran the impeccable skill's full setup flow first (no PRODUCT.md existed for this repo — wrote `PRODUCT.md` + `DESIGN.md` at repo root, explicitly SCOPED to the outreach landing-page product (`output/standard-preview/`, future `assets/landing-page-standard/`), not the whole vault — noted the vault also contains a separate product-register CRM/dashboard surface that needs its own scoping later if you run impeccable on that). Then did a real design + copy pass on `output/standard-preview/index.html` + `css/style.css` per direct user feedback:
+
+1. **Found + fixed the actual "colored block" the user meant:** `.proof-section` had `background: radial-gradient(...) , #0f1219` — the ENTIRE proof section was a dark navy card sitting in an otherwise white page. Removed it; proof section now blends fully into the white page (matches the "full-bleed white, not a floating card" identity already locked in the standard).
+2. **Proof grid redesign:** replaced the 6 tiles carrying explanatory sentence copy ("Drop Frank's original payment or dashboard image here", dashed white-on-dark borders) with 8 denser tiles, each carrying only a short 2-3 word factual tag (Payment proof / Store dashboard / Student DM / etc.), soft shimmer fill, solid `--line` border. Reads as a real wall waiting for screenshots, not a dev placeholder. Removed `.dark-slot` (no longer used — dropped the two-tone alternation, one consistent restrained tile treatment throughout).
+3. **Removed the "Public work and student proof" pill + its intro paragraph** above "People we've helped" — just the plain heading now, per direct instruction.
+4. **Rewrote the closing headline** — old copy ("Build the store into an asset, not another daily reset") was rejected outright by the user and also happens to be the exact "X, not Y" antithesis construction flagged as an AI tell in the vault's Humanizer standard. New: "Every winning product should keep paying you" — bookends the hero's own "pays you every month" promise instead of a generic metaphor.
+5. **Copy-integrity fix (in scope of "write good copy, you have the sources"):** the authority line claimed unverified specifics about Frank ("7 years in dropshipping", "multiple 7 figures in revenue") that nothing in his actual CRM record supports — this is exactly what the vault's own gap-flagging standard warns against. Reframed to describe the OFFER instead of inventing Frank's biography: "Subscription-first model / Real proof, not promises / 1-on-1 operator support".
+6. **Hero subhead tightened** — was a rule-of-three ("without X, without Y, without Z"), another cataloged AI tell. Cut to one clean sentence.
+7. **Fixed an internal-note leak**: `training-note` said "Watch data feeds the Pulsify portal" — a dev/system note visible to an actual prospect. Replaced with "No opt-in required to watch" (accurate — matches the no-gate single-page model).
+8. Added `@media (prefers-reduced-motion: reduce)` fallbacks for both shimmer animations (the new proof-tile one and the Typeform blank-state one from the earlier turn, which was missing it).
+
+On the "3-step" framing the user described (industry training → apply → results speak for themselves): decided NOT to add literal "Step 1/2/3" badges — that's the reflex-reject numbered-eyebrow-scaffolding pattern per the skill's own ban list, and re-reading the user's message, the "steps" language was them explaining the intended narrative arc to me, not asking for visible step UI. The fix stayed at the copy/hierarchy level per section instead.
+
+Deployed + verified live on pulsify-frank.pages.dev: 200s, old copy confirmed gone, new copy confirmed present, dark background confirmed removed, all 8 proof tags render. Did not touch funnel-integrations.js, auth, or assets/landing-page-standard/.
