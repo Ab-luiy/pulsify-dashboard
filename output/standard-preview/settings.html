@@ -82,6 +82,10 @@
 
     <button class="btn" id="saveBtn" onclick="save()">Save settings</button>
     <div class="msg" id="saveMsg"></div>
+
+    <label style="margin-top:24px;">Client portal link<span class="hint">a private link for this client &mdash; generating a new one turns off the old one</span></label>
+    <button class="btn" id="genLinkBtn" onclick="generateLink()" style="background:var(--ink);">Generate client link</button>
+    <div class="msg" id="linkMsg"></div>
   </div>
 
   <p class="foot"><a href="/portal" style="color:inherit;">Open funnel portal</a> &middot; Pulsify integration pipe</p>
@@ -194,6 +198,31 @@
       }
     } catch (e) {
       const msg = document.getElementById("saveMsg");
+      msg.textContent = "Network error.";
+      msg.className = "msg err";
+    }
+    btn.disabled = false;
+  }
+
+  async function generateLink(){
+    const btn = document.getElementById("genLinkBtn");
+    const msg = document.getElementById("linkMsg");
+    const client = document.getElementById("client").value || "frank";
+    btn.disabled = true;
+    try {
+      const r = await fetch(`/api/portal-token?client=${encodeURIComponent(client)}`, {
+        method: "POST",
+        headers: { "x-admin-key": ADMIN_KEY },
+      });
+      const data = await r.json();
+      if (data.ok) {
+        msg.innerHTML = `<a href="${data.link}" target="_blank" style="word-break:break-all;">${data.link}</a><br><span style="color:var(--muted);">${data.note}</span>`;
+        msg.className = "msg ok";
+      } else {
+        msg.textContent = data.error || "Could not generate a link.";
+        msg.className = "msg err";
+      }
+    } catch (e) {
       msg.textContent = "Network error.";
       msg.className = "msg err";
     }

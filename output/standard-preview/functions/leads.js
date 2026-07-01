@@ -13,7 +13,7 @@ export async function onRequestGet({ request, env }) {
   if (access.error) return access.error;
   const client = access.client;
 
-  const [leadResult, viewerResult, pageResult, eventResult] = await Promise.all([
+  const [leadResult, viewerResult, pageResult, eventResult, configResult] = await Promise.all([
     env.DB.prepare(
       `SELECT id,email,name,phone,revenue,situation,applied_at,updated_at,status,source,
               visitor_id,session_id,page_id,response_id,kit_status,answers_json,utm_json
@@ -48,6 +48,7 @@ export async function onRequestGet({ request, env }) {
       `SELECT event, COUNT(*) AS total
          FROM watch_events WHERE client=? GROUP BY event ORDER BY total DESC`,
     ).bind(client).all(),
+    env.DB.prepare(`SELECT client_name FROM client_config WHERE client=?`).bind(client).first(),
   ]);
 
   const leads = leadResult.results || [];
@@ -93,6 +94,7 @@ export async function onRequestGet({ request, env }) {
   return json({
     ok: true,
     client,
+    client_name: configResult?.client_name || client,
     summary: {
       visitors,
       page_views: Number(page.page_views || 0),

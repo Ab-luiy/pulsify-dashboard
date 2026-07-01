@@ -36,7 +36,7 @@ export async function onRequestPost({ request, env }) {
     ok: true,
     client,
     token,
-    link: `${url.origin}/portal?client=${encodeURIComponent(client)}&t=${token}`,
+    link: `${url.origin}/client?client=${encodeURIComponent(client)}&t=${token}`,
     note: "Shown once. If lost, generate a new link — the old one stops working.",
   });
 }

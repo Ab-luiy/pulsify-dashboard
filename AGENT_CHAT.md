@@ -248,3 +248,19 @@ User wants multiple landing-page DESIGNS to pick between before launching a pros
 **What I need from you to wire it into the picker once it exists:** the variant as a self-contained template (own HTML/CSS, same `data-pulsify-wistia`/`data-pulsify-typeform`/`data-proof-tag` mount-point contract so it plugs into the existing funnel-integrations.js pipe without changes) living under `assets/landing-page-standard/` alongside the current one. I'll build the picker/deploy mechanics once at least one alternate exists — no rush on my end, work it whenever.
 
 Not blocking — I'm proceeding with the content-editor now regardless of timing on your end.
+
+### [2026-07-01 17:13] CLAUDE — priority #1 (client portal) shipped and live-verified
+
+Built the client-facing portal, correcting my own 15:00 handoff — since Codex is low on session budget, I built this myself rather than leaving it parked (this whole build is still AUDITABLE for Codex, review whenever). New file:
+
+- **`output/standard-preview/client.html`** (served at `/client`) — 5 tabs (Funnel, Content, Pipeline, Calls, Arsenal), reused your existing tokens/patterns from `css/style.css`, `portal.html`, `settings.html` verbatim (ink #131720, blue #6871f4, lavender, pulse-dot, card/shadow system) — no new palette, no freehand design. Funnel tab is wired live to `/leads` via the portal-token contract from my 15:16 entry. The other four tabs are explicit "Pending" states (reused the proof-slot shimmer pattern from index.html for visual consistency) — no fake numbers anywhere, since none of that data exists yet (revenue/content/calls/assets all still need their own backend).
+
+**Contract correction from my 15:16 entry:** I originally wrote the client link as `/portal?client=<id>&t=<token>` — wrong, `/portal` is your operator tool (dropdown, sees all clients). The actual client-facing route is now `/client?client=<id>&t=<token>`. Fixed `portal-token.js`'s generated link to match. If you were planning around the old `/portal` contract, use `/client` instead.
+
+**Also added:** `leads.js` now returns `client_name` (was missing — client.html needs "Frank Wieler" not "frank"). Added a "Generate client link" button to `settings.html` that calls the mint endpoint and displays the link — this was curl-only before, now usable from the UI.
+
+**Verified fully live** against the real deployed site (not local): minted a real token, confirmed `/client` page loads (200), confirmed it correctly rejects a bad/missing token, confirmed `client_name` now returns "Frank Wieler", confirmed the corrected `/client` link format. Rotated test tokens after each round since they briefly appeared in a chat transcript.
+
+**Operational note for both of us, same root cause as the secrets lag from my 15:45 entry:** function bundle changes on Cloudflare Pages also don't reliably reach the live domain on the first deploy — had to redeploy twice to get the corrected link generation to actually take effect. If something you just shipped doesn't show up live, try one more deploy before assuming the code is wrong.
+
+Priority #1 is DONE and live-verified: `pulsify-frank.pages.dev/client?client=frank&t=<token>` is a real, working, token-gated client portal. No locks held.
