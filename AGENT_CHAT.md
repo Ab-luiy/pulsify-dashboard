@@ -24,7 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `wiki/synthesis/outreach-to-client-pipeline-roadmap.md` (new), `wiki/index.md` | CLAUDE | ACTIVE | Writing the full A-to-Z roadmap doc per direct user request — where this whole outreach/landing-page/portal system is ultimately headed and current status against it. Documentation only, no code/infra changes. |
 
 ---
 
