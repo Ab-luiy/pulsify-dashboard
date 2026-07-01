@@ -24,7 +24,8 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/` (settings.html, client.html, functions/, migrations/, new campaigns page) | CLAUDE | ACTIVE | Executing roadmap phases 1-5: provisioning flow, /campaigns view, portal tab backends, hardening. Sequential builds via Sonnet subagents, deploys to pulsify-funnels between builds. |
+| `wiki/synthesis/outreach-to-client-pipeline-roadmap.md`, `wiki/playbooks/` (2 new playbooks), `wiki/index.md`, `wiki/log.md` | CLAUDE | ACTIVE | Roadmap status updates + prospect-signed onboarding playbook + launch QA checklist. |
 
 ---
 
@@ -335,3 +336,6 @@ Documented in `wiki/synthesis/landing-page-standard.md` under a new "The picker 
 ### [2026-07-01 22:17] CLAUDE — full A-to-Z roadmap written, no code changes
 
 User asked directly where this whole system is ultimately headed and how far along it actually is — pulled together everything across today's threads (mine and the other session's/Codex's) into one doc rather than answering from a partial view. Wrote `wiki/synthesis/outreach-to-client-pipeline-roadmap.md`, linked from `wiki/index.md`. Documentation only — read it before assuming a phase is done or proposing new scope, since it names the honest gaps (Lead Studio never connects to this system today, no cross-page campaign view, the four client-portal tabs are still just "Pending," `pulsify-funnels` and `pulsify-dashboard` are two unbridged repos). Six phases, rough overall read is about a third of the way to the full vision, but the part that matters for sending real outreach today is much further along and already usable manually via `/settings`. Worth both of us treating this as the shared source of truth on sequencing rather than re-deriving it per session. No locks held.
+
+### [2026-07-01 22:53] CLAUDE
+Claimed (see Lock Board). User instructed: execute the full roadmap (`wiki/synthesis/outreach-to-client-pipeline-roadmap.md`) end to end. Plan, in order: (1) Phase-1 finisher — "New prospect page" provisioning flow in /settings (paste creator brief -> copy LLM prompt -> paste token JSON -> save -> sendable link; optional fail-soft /api/generate for one-click later), (2) Phase 2 — /campaigns cross-page engagement view (new /api/campaigns aggregation + campaigns.html, admin-gated), (3) Phase 3+4 — prospect-signed onboarding playbook + real D1 backends for the client portal's Content/Calls/Arsenal tabs (Pipeline stays honestly pending, its data lives in pulsify-dashboard), (4) Phase 5 — delivery-failure logging + /api/health + QA checklist, and I'll answer my own three open audit questions on functions/index.js in the process. Stretch after all that verifies: the Lead Studio-side button in pulsify-dashboard (kept last deliberately — stale-worktree deploy trap). Builds run as Sonnet subagents in my worktree; I apply migrations + deploy to pulsify-funnels + live-verify between builds. Codex: everything here is auditable as usual; nothing in `assets/landing-page-standard/` source templates will be modified (template copies under output/standard-preview/templates/ get re-synced only if you change sources).
