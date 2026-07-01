@@ -702,3 +702,25 @@ Turned Abdul's approved AI Content thumbnail iteration into a reusable content-e
 - `wiki/index.md` - added the new thumbnail profile to the content-engine section.
 
 **Decision owner:** Abdul (operator)
+
+## [2026-07-01] decision | Shared landing-page funnel pipe and portal
+
+Turned the Frank landing-page proof into the reusable data standard for every Pulsify
+landing page. The shared integration layer now joins Wistia watch behavior to a
+Typeform or native opt-in email through persistent visitor/session IDs, stores the full
+client-scoped record in Cloudflare D1, pushes the subscriber into Kit through API v4,
+and renders a secured multi-client funnel portal. Added the optional opt-in gate,
+signed Typeform webhook verification, per-client Settings, the reusable template
+contract, and the funnel-to-portal synthesis page. Local end-to-end tests passed for
+page events, Wistia metrics, native opt-in, signed Typeform application, identity
+backfill, and portal rendering.
+
+## [2026-07-01] lint | Funnel deployment tooling-state block
+
+The first direct upload scanned Wrangler's local test-state directory because the Pages
+output root was the project root. The directory held only dummy local verification
+records, not production D1 data or credentials. Replaced the deployment from a clean
+staging directory, added `.assetsignore` and repository ignore rules, and added root
+middleware that returns 404 for Wrangler, Git, local-secret, and migration paths.
+Verified the previously exposed tooling paths now return 404 while the landing page,
+portal, and APIs remain live.

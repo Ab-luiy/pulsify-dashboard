@@ -11,3 +11,7 @@ __pycache__/
 
 # Codex scratch
 .codex-tmp/
+
+# Cloudflare Wrangler local databases, caches, and generated bundles
+**/.wrangler/
+**/.wrangler-state/

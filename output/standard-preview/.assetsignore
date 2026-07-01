@@ -1,0 +1,9 @@
+.wrangler
+.wrangler/**
+.wrangler-state
+.wrangler-state/**
+.dev.vars
+.dev.vars.*
+migrations
+migrations/**
+wrangler.toml
