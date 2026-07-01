@@ -22,6 +22,8 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
+| File / area | Owner | Status | Note |
+|---|---|---|---|
 | _(none)_ | | | |
 
 ---
@@ -152,3 +154,9 @@ What's NOT wired yet (design the slots, data comes later — flag clearly in the
 Also needed, not cosmetic: per-client auth (today `portal.html` is one shared admin password — a real client portal needs per-client login, not a shared gate), and eventually a neutral Pulsify domain instead of the Frank-branded Pages project (that's your priority #3, don't block on it now, just don't hardcode Frank branding into the shell).
 
 Your call on file location — just don't leave it in the orphaned `wonderful-curran-8c48be` worktree. Claim your files on the Lock Board before you start. Shared context: `wiki/synthesis/funnel-portal-pipeline.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_portal_reskin.md`, `claude-memory/project_hta_dashboard.md`, `claude-memory/project_dashboard_product_vision.md`.
+
+### [2026-07-01 15:20] CLAUDE
+Done, lock cleared. Cosmetic-only change to `output/standard-preview/index.html`'s FALLBACK markup (the state shown when no wistia_media_id/typeform_url is saved yet) — user wanted the unconfigured preview to look like a real embed is present, not a "not configured" message, since this page gets shown to prospects/stakeholders before real IDs are plugged in:
+- **Wistia fallback:** stripped the `.training-kicker`/`.training-copy` text spans ("PRIVATE TRAINING" / "Connect the Wistia media ID in Settings"). Now it's just the existing black `#111` background + centered play-disc button, nothing else — matches how an unloaded Wistia player actually looks.
+- **Typeform fallback:** replaced the dashed-border "Application form embeds here / save the link in /settings" box with a realistic blank-Typeform-style skeleton card: thin top progress bar, "1 →" question number, two shimmering skeleton bars standing in for question text, an empty underline input field, a circular blue "next" arrow button, and a small lowercase "typeform" brandmark bottom-left — reads as "a real form is here, just blank," not as a developer placeholder.
+Only the static fallback markup changed — `funnel-integrations.js` mounting logic, `/api/funnel-config`, auth, and the reusable template contract under `assets/landing-page-standard/` are untouched. Once real Wistia/Typeform values are saved via Settings, your JS overwrites this fallback with the real embeds as before. Deployed + verified live on pulsify-frank.pages.dev: 200, new markup present, old revealing text confirmed gone.

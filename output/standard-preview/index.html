@@ -13,14 +13,24 @@
     .application-embed{ position:relative; min-height:540px; }
     .typeform-live{ position:relative; z-index:2; width:100%; min-height:540px; }
     .typeform-live:empty{ display:none; }
-    .typeform-placeholder{ position:absolute; inset:0; z-index:1; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; gap:10px; text-align:center; padding:32px;
-      border:1px dashed rgba(93,95,146,.32); border-radius:22px; background:rgba(255,255,255,.55); }
-    .typeform-placeholder .tf-mark{ font-size:12px; font-weight:700; letter-spacing:.06em; color:#262627;
-      background:#fff; border:1px solid var(--line); border-radius:999px; padding:6px 14px; box-shadow:0 6px 18px rgba(84,73,156,.1); }
-    .typeform-placeholder strong{ font-size:20px; color:var(--ink); }
-    .typeform-placeholder .tf-note{ max-width:380px; font-size:13.5px; color:var(--muted); line-height:1.5; }
-    .typeform-placeholder code{ background:rgba(104,113,244,.1); color:#4d56d8; padding:1px 6px; border-radius:5px; font-size:12.5px; }
+    .typeform-blank{ position:absolute; inset:0; z-index:1; display:flex; flex-direction:column;
+      background:var(--white); border-radius:22px; overflow:hidden; box-shadow:var(--shadow); }
+    .tf-progress{ height:4px; background:var(--line); flex:none; }
+    .tf-progress span{ display:block; height:100%; width:14%; background:var(--blue); }
+    .tf-body{ position:relative; flex:1; display:flex; flex-direction:column; justify-content:center;
+      gap:16px; padding:56px 64px 72px; }
+    .tf-qnum{ font-size:14px; font-weight:800; color:var(--blue); letter-spacing:.02em; }
+    .tf-skel{ height:22px; max-width:520px; border-radius:6px; background:linear-gradient(90deg,#eef0f6,#f6f7fb,#eef0f6);
+      background-size:200% 100%; animation:tfShimmer 1.8s ease-in-out infinite; }
+    .tf-skel-title{ width:70%; height:30px; }
+    .tf-skel-sub{ width:42%; }
+    .tf-field{ margin-top:10px; height:44px; max-width:420px; border-bottom:2px solid var(--line); }
+    .tf-next{ position:absolute; right:32px; bottom:28px; width:52px; height:52px; border-radius:50%; border:0;
+      background:var(--blue); color:#fff; font-size:20px; line-height:1; cursor:default;
+      box-shadow:0 12px 28px rgba(38,33,103,.28); }
+    .tf-brandmark{ position:absolute; left:28px; bottom:26px; font-size:11px; font-weight:700;
+      letter-spacing:.04em; color:#c7c9d6; text-transform:lowercase; }
+    @keyframes tfShimmer{ 0%{ background-position:200% 0; } 100%{ background-position:-200% 0; } }
     .training-frame{ position:relative; min-height:1px; }
     [data-pulsify-wistia]{ width:100%; overflow:hidden; border-radius:14px; background:#111; }
   </style>
@@ -58,8 +68,6 @@
               <span class="play-disc">
                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
               </span>
-              <span class="training-kicker">PRIVATE TRAINING</span>
-              <span class="training-copy">Connect the Wistia media ID in Settings</span>
             </div>
           </div>
           <div class="training-note">
@@ -91,10 +99,16 @@
 
         <div class="application-embed">
           <div data-pulsify-typeform class="typeform-live"></div>
-          <div class="typeform-placeholder" aria-hidden="true">
-            <span class="tf-mark">Typeform</span>
-            <strong>Application form embeds here</strong>
-            <span class="tf-note">Save the Typeform link in <code>/settings</code> and it goes live automatically.</span>
+          <div class="typeform-blank" aria-hidden="true">
+            <div class="tf-progress"><span></span></div>
+            <div class="tf-body">
+              <div class="tf-qnum">1 &rarr;</div>
+              <div class="tf-skel tf-skel-title"></div>
+              <div class="tf-skel tf-skel-sub"></div>
+              <div class="tf-field"></div>
+              <button class="tf-next" type="button" tabindex="-1">&rarr;</button>
+              <span class="tf-brandmark">typeform</span>
+            </div>
           </div>
         </div>
       </div>
