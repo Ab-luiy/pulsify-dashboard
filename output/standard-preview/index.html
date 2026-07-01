@@ -21,16 +21,11 @@
     .typeform-placeholder strong{ font-size:20px; color:var(--ink); }
     .typeform-placeholder .tf-note{ max-width:380px; font-size:13.5px; color:var(--muted); line-height:1.5; }
     .typeform-placeholder code{ background:rgba(104,113,244,.1); color:#4d56d8; padding:1px 6px; border-radius:5px; font-size:12.5px; }
-    .training-frame{ position:relative; }
-    .training-video{ display:block; width:100%; aspect-ratio:16/9; background:#000; object-fit:cover; }
-    .training-frame .training-button{ position:absolute; inset:0; aspect-ratio:auto; }
-    .training-frame.is-playing .training-button{ display:none; }
-    .vsl-debug{ display:inline-block; margin:14px auto 0; padding:7px 14px; border:1px solid var(--line); border-radius:999px;
-      background:rgba(255,255,255,.8); color:var(--muted); font-size:12px; font-variant-numeric:tabular-nums; }
-    .vsl-debug b{ color:var(--ink); }
+    .training-frame{ position:relative; min-height:1px; }
+    [data-pulsify-wistia]{ width:100%; overflow:hidden; border-radius:14px; background:#111; }
   </style>
 </head>
-<body>
+<body data-client="frank" data-page-id="main">
   <div class="announcement">
     <span aria-hidden="true">▲</span>
     Applications are open for Frank's private 1-on-1 mentorship
@@ -57,25 +52,21 @@
         </p>
 
         <div class="training-frame" id="training">
-          <!-- Real tracked player. Swap the sample src for Frank's recorded VSL before launch. -->
-          <video id="vsl" class="training-video" poster="assets/frank-product-video.jpg" preload="metadata" playsinline>
-            <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
-          </video>
-          <button class="training-button" id="trainingButton" type="button" aria-label="Play Frank's private training">
-            <span class="training-shade" aria-hidden="true"></span>
-            <span class="play-disc" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
-            </span>
-            <span class="training-kicker">PRIVATE TRAINING</span>
-            <span class="training-copy">The subscription-first brand model</span>
-          </button>
+          <div data-pulsify-wistia>
+            <div class="training-button" aria-hidden="true">
+              <span class="training-shade"></span>
+              <span class="play-disc">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+              </span>
+              <span class="training-kicker">PRIVATE TRAINING</span>
+              <span class="training-copy">Connect the Wistia media ID in Settings</span>
+            </div>
+          </div>
           <div class="training-note">
             <span>12-minute private breakdown</span>
-            <span>Sample clip — replace with Frank's recorded VSL before launch</span>
+            <span>Watch data feeds the Pulsify portal</span>
           </div>
         </div>
-        <div id="vslDebug" class="vsl-debug" aria-hidden="true">&#9654; plays: <b>0</b> &middot; watched: <b>0s</b> &middot; max reached: <b>0%</b></div>
-
         <a class="primary-cta" href="#apply">APPLY TO WORK WITH FRANK</a>
 
         <div class="authority-line" aria-label="Frank's public authority claims">
@@ -100,11 +91,11 @@
 
         <div class="application-embed">
           <!-- TYPEFORM EMBED — replace REPLACE_WITH_TYPEFORM_ID with Frank's real form ID (or send the Typeform link). -->
-          <div data-tf-live="REPLACE_WITH_TYPEFORM_ID" class="typeform-live"></div>
+          <div data-pulsify-typeform class="typeform-live"></div>
           <div class="typeform-placeholder" aria-hidden="true">
             <span class="tf-mark">Typeform</span>
             <strong>Application form embeds here</strong>
-            <span class="tf-note">Paste Frank's form ID into <code>data-tf-live</code>, or send the Typeform link and it goes live.</span>
+            <span class="tf-note">Save the Typeform link in <code>/settings</code> and it goes live automatically.</span>
           </div>
         </div>
       </div>
@@ -182,7 +173,6 @@
   </footer>
 
   <script src="js/script.js"></script>
-  <script src="js/vsl-track.js"></script>
-  <script src="//embed.typeform.com/next/embed.js"></script>
+  <script src="js/funnel-integrations.js"></script>
 </body>
 </html>

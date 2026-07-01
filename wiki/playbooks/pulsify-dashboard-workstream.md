@@ -3,7 +3,7 @@ type: playbook
 tags: [dashboard, analytics, kpis, hosting, infrastructure, crm, lead-scoring]
 sources: [[wiki/synthesis/pulsify-90-day-plan]], [[wiki/playbooks/exam-mode-autonomous-ops]]
 created: 2026-05-11
-updated: 2026-05-29
+updated: 2026-07-01
 ---
 
 # Pulsify dashboard workstream — scope and parking notes
@@ -11,6 +11,27 @@ updated: 2026-05-29
 The single-pane-of-glass dashboard for the entire Pulsify operation. Parked from active build per the 2026-05-10 ingest, but tracked as a critical workstream so it doesn't get forgotten. Scope expanded 2026-05-11 from "outreach and sales KPIs" to "every signal Pulsify produces, in one place."
 
 > **Contradiction flag (2026-05-29):** the "parked" framing below is stale. The dashboard is no longer parked — a v4 single-file build (`.claude/worktrees/awesome-bassi-d88340/index.html`, ~309KB) is the live client-facing CRM pillar, deployed to `pulsify-dashboard.pages.dev` via `push-dashboard.bat`. Treat the parking notes as historical context; the active state is the dated build sections below.
+
+## 2026-07-01 — Funnel portal data layer live
+
+The funnel-health backend is no longer hypothetical. The first implementation uses
+Cloudflare Pages Functions plus D1 and is client-scoped from the start.
+
+Every landing page can now feed:
+
+- page visits, CTA clicks, page ID, referrer, and UTM attribution;
+- Wistia play behavior, time spent, unique seconds watched, percentage watched,
+  retention milestones, pauses, seeks, completion, playback rate, mute state, and exit;
+- signed Typeform applications with the full answer payload;
+- native opt-in gate submissions;
+- Kit v4 subscriber and tag delivery status.
+
+The page assigns a persistent visitor ID before the email is known. Typeform carries
+that ID into the webhook so the backend can attach pre-form VSL activity to the
+submitted email. The secured funnel portal reads the combined record and switches by
+client.
+
+See [[synthesis/funnel-portal-pipeline]].
 
 ## Why this matters for Pulsify
 
@@ -159,10 +180,13 @@ Founder opens one URL once a day. Sees: where the 90-day plan stands, what shipp
 ## Open questions / gaps
 
 - Stack decision is partially made for v2: static HTML + live JSON first, API connectors second.
-- Hosting and auth approach undecided.
-- No real API integrations exist yet. Current v2 source is `dashboard-data-v2.json`.
+- The funnel portal is hosted and password-gated. Per-client portal credentials are
+  still required before clients log in directly.
+- Funnel integrations are real. YouTube, Instagram, sales, payments, and calendar data
+  still use their separate adapters or placeholders.
 - Instagram Graph API requires a Meta app + creator/business IG conversion; this is a multi-day task in itself.
-- Hosted/private access is unresolved. Localhost is fine for now; public hosting without auth is unacceptable.
+- The shared funnel API currently sits on the Frank Pages project. Move it to a neutral
+  Pulsify domain before the second public client launch.
 
 ## Source trail
 

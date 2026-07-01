@@ -4,7 +4,7 @@ tags: [funnel, landing-page, vsl, standard, asset, outreach]
 sources: [[synthesis/prospect-funnel-reference-library]], [[raw-sources/vsls/mason-bowstead-funnel-design]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
 status: approved
 created: 2026-06-30
-updated: 2026-06-30
+updated: 2026-07-01
 ---
 
 # Landing-page standard — merged Mason + Grant
@@ -14,9 +14,9 @@ page Pulsify builds. It merges Grant Garcia's compression with Mason Bowstead's 
 skin. Use it as the starting asset whenever a landing page is needed; deviate only with
 a reason.
 
-Reference implementation: `output/merged-standard-mock/` (`index.html` = single-page
-default, `optin.html` = the gate fork). **Codex owns the design and the reusable
-template build for this asset.**
+Reference implementation: `output/standard-preview/` (`index.html` = single-page
+default, `optin.html` = the gate fork, `portal.html` = funnel reporting).
+Reusable setup starts at `assets/landing-page-standard/README.md`.
 
 ## The merge in one line
 
@@ -99,6 +99,37 @@ not per page. The `output/merged-standard-mock/` files define the STRUCTURE; Cod
 - All copy follows the Humanizer standard. No invented testimonials, figures, or claims —
   every proof slot must be replaced with the prospect's real material before launch.
 
+## Data and integration standard
+
+Every landing page uses the shared integration layer. Do not build a separate tracking
+stack per client.
+
+The page declares a permanent client ID and page ID, then loads the shared script:
+
+```html
+<body
+  data-client="client-slug"
+  data-page-id="main"
+  data-api-origin="https://pulsify-frank.pages.dev">
+
+<div data-pulsify-wistia></div>
+<div data-pulsify-typeform></div>
+<script src="https://pulsify-frank.pages.dev/js/funnel-integrations.js"></script>
+```
+
+The pipe records page visits, CTA clicks, Wistia engagement, Typeform submissions,
+native opt-ins, and Kit delivery. A persistent visitor ID joins video activity that
+happens before the form to the email submitted afterward. The client-scoped portal
+shows the combined record.
+
+The Wistia record includes actual time spent watching, unique seconds watched,
+percentage watched, plays, pauses, seeks, completion, playback rate, mute state,
+fullscreen/caption events, and exit position. Typeform stores the full answer payload.
+Either Typeform or the optional opt-in gate can create the email lead and trigger the
+client's Kit tag automation.
+
+See [[synthesis/funnel-portal-pipeline]] for the architecture and setup boundary.
+
 ## Ownership
 
 - **Codex:** design, polish, and the reusable template asset (genericize the reference
@@ -114,7 +145,9 @@ not per page. The `output/merged-standard-mock/` files define the STRUCTURE; Cod
 
 ## Open questions / gaps
 
-- Reusable template (genericized, design-finished) not built yet — Codex to own.
-- Hosting/handoff method for live shareable links not locked (currently local preview only).
+- The shared template and integration layer exist. Client copy, proof, Wistia media,
+  Typeform, webhook secret, and Kit credentials still need to be supplied per launch.
+- The shared hub currently lives on the Frank Pages project. Rename it to a neutral
+  Pulsify funnel domain before the second public client launch.
 - Luke's AI-native visual overlay is not folded into this standard yet; apply it on top
   for AI/automation/software prospects per the reference library.

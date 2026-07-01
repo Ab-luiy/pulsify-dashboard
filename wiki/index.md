@@ -1,5 +1,5 @@
 ---
-updated: 2026-06-30
+updated: 2026-07-01
 aliases:
 ---
 
@@ -114,6 +114,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/offer-v2-risk-reversal]] | Proposal to swap the unbounded $100k-or-free guarantee for a credible, bounded, execution-gated risk-reversal that closes better and caps downside | 2026-05-29 |
 | [[synthesis/business-bottleneck-audit-2026-06]] | Day-30 audit vs the 90-day plan — zero touches sent on a 276-lead CRM, untracked-vault backup risk, delivery gaps closed 2026-06-09, one-week priority order | 2026-06-09 |
 | [[synthesis/prospect-funnel-reference-library]] | Mason-first, Luke-second design hierarchy plus Charlie, Grant, and Ayman structural patterns for prospect landing pages | 2026-06-30 |
+| [[synthesis/landing-page-standard]] | Approved landing-page structure, canonical design skin, and shared Wistia/Typeform/Kit integration contract | 2026-06-30 |
+| [[synthesis/funnel-portal-pipeline]] | Shared client-scoped pipe joining landing-page behavior, Wistia viewing, Typeform/opt-ins, Kit delivery, and portal reporting | 2026-07-01 |
 
 ---
 

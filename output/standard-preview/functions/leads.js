@@ -81,7 +81,10 @@ export async function onRequestGet({ request, env }) {
   const watchers = viewers.filter((viewer) => viewer.plays > 0 || viewer.watch_seconds > 0);
   const visitors = Number(page.visitors || 0);
   const applications = rows.filter((lead) => lead.source === "typeform").length;
-  const optins = rows.filter((lead) => lead.source === "optin").length;
+  const optins = Number(page.optins || 0);
+  const capturedLeadKeys = new Set(
+    rows.map((lead) => lead.visitor_id || lead.email).filter(Boolean),
+  );
   const totalWatchSeconds = sum(watchers, "watch_seconds");
   const averagePercent = watchers.length
     ? watchers.reduce((total, viewer) => total + (viewer.watched_percent || 0), 0) / watchers.length
@@ -107,7 +110,9 @@ export async function onRequestGet({ request, env }) {
       form_starts: Number(page.form_starts || 0),
       applications,
       optins,
-      lead_conversion_rate: visitors ? (applications + optins) / visitors : 0,
+      lead_conversion_rate: visitors
+        ? Math.min(capturedLeadKeys.size / visitors, 1)
+        : 0,
       kit_synced: rows.filter((lead) => lead.kit_status === "synced").length,
     },
     watch_event_counts: eventResult.results || [],
