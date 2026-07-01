@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-06-30T08:25:24.929Z",
+  "lastUpdated": "2026-07-01T08:45:44.655Z",
   "instagram": {
-    "updatedAt": "2026-06-30T08:25:24.871Z",
+    "updatedAt": "2026-07-01T08:45:44.596Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 505,
-      "following": 466,
+      "following": 468,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=EAE9xR-p-owQ7kNvwH1EahB&_nc_oc=Adovn5FdntSrJgYTKjJ8mOl-IhznLgNpXm32r-5U7e_TzYC0JCYnVU92FXMswg5K9F0&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=1wHOkuq35g9T8RKIcqZMlA&_nc_tpa=Q5bMBQGqmSWXwr1ThN3iCbn1SilPlBH_3xbvTForZOwRcVYhn8nfau5QOCSVxJjCKvuquU-clfim0WM7&oh=00_AQBiIUGLZhwfCU-doF16SiBEqZPBPZsZwBcopTbxXxX84A&oe=6A496AE8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=EAE9xR-p-owQ7kNvwH1EahB&_nc_oc=Adovn5FdntSrJgYTKjJ8mOl-IhznLgNpXm32r-5U7e_TzYC0JCYnVU92FXMswg5K9F0&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=t6SDQG6VCLbbSnzGSY4cbA&_nc_tpa=Q5bMBQFvzoQ9LYIMeg_tzFfHtjrJyHXHrHECFq0nIic22j0KLOF5mF0laTZsIxigNWq80k38e6wxMs8W&oh=00_AQCMz5FL0D4Yqn9yPu0J3HjpMrSh73Bq2tqksjhhdbEVjw&oe=6A4ABC68"
     },
     "content": {
       "reelsCount": 8,
@@ -85,14 +85,14 @@
       ]
     },
     "account": {
-      "reach30d": 1,
+      "reach30d": 0,
       "views30d": 0,
       "newFollowers30d": 0,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        1,
+        0,
         0
       ],
       "followerSeries": [
@@ -100,7 +100,7 @@
         0
       ],
       "viewsSeries": [],
-      "available": true
+      "available": false
     },
     "audience": {
       "countries": [
@@ -149,12 +149,12 @@
           "value": 5
         },
         {
-          "name": "NG",
+          "name": "TR",
           "value": 5
         },
         {
-          "name": "TR",
-          "value": 5
+          "name": "CA",
+          "value": 4
         },
         {
           "name": "UZ",
@@ -173,6 +173,10 @@
           "value": 4
         },
         {
+          "name": "NG",
+          "value": 4
+        },
+        {
           "name": "DE",
           "value": 3
         },
@@ -186,10 +190,6 @@
         },
         {
           "name": "PY",
-          "value": 3
-        },
-        {
-          "name": "CA",
           "value": 3
         },
         {
@@ -245,11 +245,11 @@
           "value": 2
         },
         {
-          "name": "CN",
+          "name": "MX",
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "CN",
           "value": 2
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
+          "name": "LV",
+          "value": 1
+        },
+        {
+          "name": "CG",
+          "value": 1
+        },
+        {
           "name": "KR",
-          "value": 1
-        },
-        {
-          "name": "IQ",
-          "value": 1
-        },
-        {
-          "name": "AZ",
           "value": 1
         }
       ],
@@ -291,11 +291,11 @@
           "value": 6
         },
         {
-          "name": "Kolkata, West Bengal",
-          "value": 4
+          "name": "São Paulo, São Paulo (state)",
+          "value": 3
         },
         {
-          "name": "São Paulo, São Paulo (state)",
+          "name": "Kolkata, West Bengal",
           "value": 3
         },
         {
@@ -335,11 +335,11 @@
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
@@ -355,11 +355,11 @@
           "value": 2
         },
         {
-          "name": "Columbus, Ohio",
+          "name": "Ipatinga, Minas Gerais",
           "value": 2
         },
         {
-          "name": "Ipatinga, Minas Gerais",
+          "name": "Columbus, Ohio",
           "value": 2
         },
         {
@@ -379,23 +379,31 @@
           "value": 2
         },
         {
-          "name": "Soro, Odisha",
+          "name": "Kaisarianí, Attica (region)",
           "value": 1
         },
         {
-          "name": "Luc Nam, Bắc Giang Province",
+          "name": "Larkhall, Scotland",
           "value": 1
         },
         {
-          "name": "Chakia, Uttar Pradesh",
+          "name": "Thimi, Bagmati Zone",
           "value": 1
         },
         {
-          "name": "Elenga, Dhaka Division",
+          "name": "Rotterdam, Zuid-Holland",
           "value": 1
         },
         {
-          "name": "Chomu, Rajasthan",
+          "name": "Antrim, Northern Ireland",
+          "value": 1
+        },
+        {
+          "name": "Terlizzi, Puglia",
+          "value": 1
+        },
+        {
+          "name": "Sohna, Haryana",
           "value": 1
         },
         {
@@ -407,23 +415,31 @@
           "value": 1
         },
         {
-          "name": "La Misere, Grand'Anse Mahé",
+          "name": "Buenos Aires, Ciudad Autónoma de Buenos Aires",
           "value": 1
         },
         {
-          "name": "Tenggarong, East Kalimantan",
+          "name": "Lapu-Lapu City, Central Visayas",
           "value": 1
         },
         {
-          "name": "Ourilândia do Norte, Pará",
+          "name": "La Rioja, La Rioja",
           "value": 1
         },
         {
-          "name": "Inzago, Lombardia",
+          "name": "Iga-shi, Mie Prefecture",
           "value": 1
         },
         {
-          "name": "Smara, Guelmim-Es Semara",
+          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
+          "value": 1
+        },
+        {
+          "name": "Puerto Villarroel, Cochabamba Department",
+          "value": 1
+        },
+        {
+          "name": "Jamadoba, Jharkhand",
           "value": 1
         },
         {
@@ -431,39 +447,23 @@
           "value": 1
         },
         {
+          "name": "Toronto, Ontario",
+          "value": 1
+        },
+        {
           "name": "Bangkok, Bangkok",
           "value": 1
         },
         {
-          "name": "Sokolec, Central Bohemian Region",
+          "name": "Arapara, Dhaka Division",
           "value": 1
         },
         {
-          "name": "Alexandria, Alexandria Governorate",
+          "name": "Mansoura, Dakahlia Governorate",
           "value": 1
         },
         {
-          "name": "Prigen, East Java",
-          "value": 1
-        },
-        {
-          "name": "Coachella, California",
-          "value": 1
-        },
-        {
-          "name": "Patilar, Bihar",
-          "value": 1
-        },
-        {
-          "name": "Salempur, Uttar Pradesh",
-          "value": 1
-        },
-        {
-          "name": "Glendale, Arizona",
-          "value": 1
-        },
-        {
-          "name": "Tehran, Tehran Province",
+          "name": "Urgench, Xorazm Region",
           "value": 1
         }
       ],
@@ -488,11 +488,11 @@
         },
         {
           "name": "25-34",
-          "value": 96
+          "value": 97
         },
         {
           "name": "35-44",
-          "value": 32
+          "value": 31
         },
         {
           "name": "13-17",
