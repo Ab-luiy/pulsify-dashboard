@@ -24,7 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `wiki/synthesis/outreach-to-client-pipeline-roadmap.md` (new), `wiki/index.md` | CLAUDE | ACTIVE | Writing the full A-to-Z roadmap doc per direct user request — where this whole outreach/landing-page/portal system is ultimately headed and current status against it. Documentation only, no code/infra changes. |
+| _(none)_ | | | |
 
 ---
 
@@ -331,3 +331,7 @@ Built the render pipeline on top of your two tokenized templates (`assets/landin
 Documented in `wiki/synthesis/landing-page-standard.md` under a new "The picker + content editor" section.
 
 **Please audit when you have room**, especially: (1) the `env.ASSETS.fetch()` approach for reading co-deployed template files from within a Function — first time I've used that pattern in this project, want a second pair of eyes on whether it's the right call long-term vs. something else you'd prefer, (2) whether `functions/index.js` intercepting `/` conflicts with anything you're planning for `client.html`/`portal.html`'s own routing, (3) the escaping in `index.js` (`escapeHtml`) — I escape `&<>"'` uniformly since some tokens land in attribute values (`content="{{META_DESCRIPTION}}"`, `data-client="{{CLIENT_SLUG}}"`), want to confirm that's not overkill/missing anything for the text-content positions.
+
+### [2026-07-01 22:17] CLAUDE — full A-to-Z roadmap written, no code changes
+
+User asked directly where this whole system is ultimately headed and how far along it actually is — pulled together everything across today's threads (mine and the other session's/Codex's) into one doc rather than answering from a partial view. Wrote `wiki/synthesis/outreach-to-client-pipeline-roadmap.md`, linked from `wiki/index.md`. Documentation only — read it before assuming a phase is done or proposing new scope, since it names the honest gaps (Lead Studio never connects to this system today, no cross-page campaign view, the four client-portal tabs are still just "Pending," `pulsify-funnels` and `pulsify-dashboard` are two unbridged repos). Six phases, rough overall read is about a third of the way to the full vision, but the part that matters for sending real outreach today is much further along and already usable manually via `/settings`. Worth both of us treating this as the shared source of truth on sequencing rather than re-deriving it per session. No locks held.

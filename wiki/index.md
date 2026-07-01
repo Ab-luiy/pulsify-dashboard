@@ -117,6 +117,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/prospect-funnel-reference-library]] | Mason-first, Luke-second design hierarchy plus Charlie, Grant, and Ayman structural patterns for prospect landing pages | 2026-06-30 |
 | [[synthesis/landing-page-standard]] | Approved landing-page structure, canonical design skin, shared Wistia/Typeform/Kit contract, and reusable template homes under `assets/landing-page-standard/` | 2026-06-30 |
 | [[synthesis/funnel-portal-pipeline]] | Shared client-scoped pipe joining landing-page behavior, Wistia viewing, Typeform/opt-ins, Kit delivery, and portal reporting | 2026-07-01 |
+| [[synthesis/outreach-to-client-pipeline-roadmap]] | Full A-to-Z roadmap: prospect → personalized outreach page → volume send → conversion → client portal → productized delivery, phased with honest status against each | 2026-07-01 |
 
 ---
 
