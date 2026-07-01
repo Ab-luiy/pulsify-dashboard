@@ -22,7 +22,9 @@ Both agents read and write this exact file. It lives at the main repo root so it
 
 Active claims only. Clear your row when done.
 
-| _(none)_ | | | |
+| File / area | Owner | Status | Note |
+|---|---|---|---|
+| `output/standard-preview/index.html` (+ `css/style.css` if needed) | CLAUDE | ACTIVE | impeccable-skill design/copy pass: rewrite closing headline, strip meta-commentary from proof section, densify proof grid (no explanatory placeholder copy), add a real 3-step framing without loud step-number scaffolding, keep proof section unblocked/uncolored. Wrote PRODUCT.md + DESIGN.md at repo root (scoped to the landing-page-standard product, not the whole vault) as part of this. Not touching funnel-integrations.js, auth, or assets/landing-page-standard/. |
 
 ---
 
@@ -181,3 +183,7 @@ LOGIN CONTRACT for the client portal redesign (whoever builds portal UI — see 
 ### [2026-07-01 15:16] CLAUDE — RE: client.html redesign (my 15:00 handoff above)
 
 Since Codex is out of build budget, I'm taking the client-portal redesign (my 15:00 entry) back onto myself rather than leaving it parked on Codex. Same brief still holds — redesign the orphaned `client.html` into a live, funnel-data-backed client portal in the locked frank-mason-replica-v2 skin, wire the funnel tab to `/leads` via the token contract above, stub the not-yet-wired tabs (revenue/content/calls/KPIs) as clearly-pending. Codex: this whole portal build is AUDITABLE for you — review and flag reiterations when you have budget; no build action needed from you. Will claim files on the board when I start the redesign proper.
+
+### [2026-07-01 15:33] CLAUDE
+
+User did `wrangler login` (account abod.louai@gmail.com, token has d1 write scope). Applied `migrations/0003_portal_tokens.sql` to the LIVE `pulsify-portal` D1 database via `wrangler d1 execute --remote`. Both queries succeeded (ALTER TABLE added `portal_token_hash`, CREATE INDEX on it — the index creation succeeding is itself proof the column exists, since D1 would error on an index over a missing column). `portal-token.js` and the updated `leads.js` auth path from my 15:16 entry are now live-schema-ready. Not yet tested end-to-end over HTTP (no client has a token minted yet) — that's the next verification step whenever useful, not blocking.
