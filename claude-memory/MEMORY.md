@@ -1,5 +1,6 @@
 ﻿# Memory index
 
+- [Agent cross-call protocol](project_agent_cross_call_protocol.md) - 2026-07-02: Claude can drive Codex headlessly (codex exec, gpt-5.5 default, stdin gotcha); Codex->Claude blocked until user does one plain-terminal claude login; full protocol in AGENT_CHAT.md
 - [Outreach pipeline executed](project_outreach_pipeline_execution.md) - 2026-07-02: full roadmap shipped LIVE (provisioning flow, Lead Studio bridge, /campaigns, portal tab backends, failure logging); deploy gotcha = always --branch main; blockers now user-side only
 
 - [Landing-page standard (merged Mason+Grant)](project_landing_page_standard.md) â€” 2026-07-01: now includes the picker + content-editor render pipeline (functions/index.js serves either template per client from client_config.template_variant + page_content_json, /settings edits both); see full note for details
