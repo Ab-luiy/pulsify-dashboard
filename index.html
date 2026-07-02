@@ -3573,6 +3573,690 @@
   .crm-pg.nav{ font-weight:500; }
   .crm-pg-gap{ color:var(--muted); padding:0 2px; }
   .crm-pg-info{ margin-left:8px; font-size:12px; color:var(--muted); font-family:"JetBrains Mono",monospace; }
+
+  /* ============================================================
+     PULSE — operator command system
+     A full visual reskin. Data contracts and business language stay intact.
+     ============================================================ */
+  html.theme-pulse {
+    --bg:#06070b;
+    --bg-2:#090b12;
+    --surface:rgba(16,18,28,.84);
+    --surface-2:#11141e;
+    --surface-3:#181c29;
+    --border:rgba(255,255,255,.075);
+    --border-strong:rgba(255,255,255,.15);
+    --text:#f7f7fb;
+    --text-2:#b8bccb;
+    --muted:#74798a;
+    --accent:#a78bfa;
+    --accent-2:#fb7185;
+    --accent-soft:rgba(167,139,250,.16);
+    --accent-2-soft:rgba(251,113,133,.12);
+    --accent-dim:#7c5ce0;
+    --grad:linear-gradient(110deg,#fb7185 0%,#c084fc 48%,#818cf8 100%);
+    --grad-soft:linear-gradient(135deg,rgba(251,113,133,.18),rgba(167,139,250,.16) 48%,rgba(129,140,248,.06));
+    --cyan:#67e8f9;
+    --blue:#818cf8;
+    --orange:#fbbf24;
+    --violet:#c084fc;
+    --pink:#fb7185;
+    --success:#5eead4;
+    --warn:#fbbf24;
+    --danger:#fb7185;
+    --radius:18px;
+    --radius-sm:11px;
+    --sidebar-w:270px;
+    color-scheme:dark;
+  }
+  html.theme-pulse body {
+    font-family:"Satoshi",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    letter-spacing:-.008em;
+    background:#06070b;
+  }
+  html.theme-pulse body::before {
+    background:
+      radial-gradient(900px 650px at 8% -10%,rgba(251,113,133,.15),transparent 65%),
+      radial-gradient(850px 720px at 82% 0%,rgba(124,92,224,.18),transparent 62%),
+      radial-gradient(760px 620px at 72% 100%,rgba(34,211,238,.07),transparent 65%),
+      linear-gradient(180deg,#080a10 0%,#06070b 62%,#07080c 100%) !important;
+    animation:none !important;
+  }
+  html.theme-pulse body::after {
+    display:block !important;
+    opacity:.38;
+    background-image:
+      linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask-image:linear-gradient(to bottom,black,transparent 82%);
+    mask-image:linear-gradient(to bottom,black,transparent 82%);
+  }
+  html.theme-pulse .app {
+    grid-template-columns:var(--sidebar-w) minmax(0,1fr);
+    gap:16px;
+  }
+  html.theme-pulse aside.sidebar {
+    width:auto;
+    height:calc(100vh - 24px);
+    min-height:620px;
+    margin:12px 0 12px 12px;
+    padding:16px 12px 14px;
+    position:sticky;
+    top:12px;
+    align-self:start;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:22px;
+    background:
+      linear-gradient(180deg,rgba(20,22,33,.97),rgba(9,11,17,.96)) !important;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.38),
+      inset 0 1px rgba(255,255,255,.045);
+    overflow:hidden;
+  }
+  html.theme-pulse aside.sidebar::before {
+    content:"";
+    position:absolute;
+    inset:0 0 auto;
+    height:180px;
+    pointer-events:none;
+    background:radial-gradient(280px 150px at 50% -30%,rgba(192,132,252,.22),transparent 72%);
+  }
+  html.theme-pulse .sidebar .brand {
+    position:relative;
+    padding:5px 8px 18px;
+    margin-bottom:4px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+  }
+  html.theme-pulse .sidebar .brand-mark {
+    width:38px;
+    height:38px;
+    border:1px solid rgba(255,255,255,.14);
+    background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(255,255,255,.035));
+    box-shadow:0 0 30px rgba(167,139,250,.22);
+  }
+  html.theme-pulse .sidebar .brand-text .name {
+    color:#fff;
+    font-family:"Clash Display","Satoshi",sans-serif;
+    font-size:17px;
+    font-weight:600;
+    letter-spacing:-.02em;
+  }
+  html.theme-pulse .sidebar .brand-text .media {
+    color:#858b9e;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse nav.sb-nav {
+    padding:8px 0 12px;
+  }
+  html.theme-pulse nav.sb-nav .nav-group {
+    margin:14px 10px 5px;
+    color:#5f6475;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    font-weight:600;
+    letter-spacing:.17em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse nav.sb-nav button {
+    min-height:38px;
+    margin:2px 0;
+    padding:9px 11px;
+    border:1px solid transparent;
+    border-radius:11px;
+    color:#9297a8;
+    font-size:12.5px;
+    font-weight:600;
+    transition:color .18s,background .18s,border-color .18s,transform .18s;
+  }
+  html.theme-pulse nav.sb-nav button:hover {
+    color:#f7f7fb;
+    background:rgba(255,255,255,.045);
+    transform:translateX(2px);
+  }
+  html.theme-pulse nav.sb-nav button.active {
+    color:#fff;
+    border-color:rgba(192,132,252,.2);
+    background:
+      linear-gradient(90deg,rgba(251,113,133,.13),rgba(167,139,250,.13) 52%,rgba(129,140,248,.07));
+    box-shadow:inset 3px 0 #c084fc,0 8px 28px rgba(0,0,0,.16);
+  }
+  html.theme-pulse nav.sb-nav button.active::before { display:none; }
+  html.theme-pulse nav.sb-nav .ico {
+    width:16px;
+    height:16px;
+    stroke:#777d90;
+    transition:stroke .18s,filter .18s;
+  }
+  html.theme-pulse nav.sb-nav button.active .ico {
+    stroke:#d8b4fe;
+    filter:drop-shadow(0 0 5px rgba(192,132,252,.6));
+  }
+  html.theme-pulse nav.sb-nav button .count {
+    min-width:23px;
+    margin-left:auto;
+    padding:1px 6px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.035);
+    color:#858b9e;
+    font-family:"JetBrains Mono",monospace;
+    font-size:9px;
+  }
+  html.theme-pulse nav.sb-nav button.active .count {
+    color:#e9d5ff;
+    border-color:rgba(192,132,252,.2);
+    background:rgba(192,132,252,.09);
+  }
+  html.theme-pulse .sidebar .sb-foot {
+    border-top:1px solid rgba(255,255,255,.07);
+    background:linear-gradient(180deg,transparent,rgba(0,0,0,.16));
+  }
+  html.theme-pulse .sb-status {
+    border:1px solid rgba(255,255,255,.055);
+    border-radius:12px;
+    background:rgba(255,255,255,.025);
+  }
+  html.theme-pulse .sb-status .k {
+    color:#5f6475;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .sb-status .v { color:#adb2c2; }
+  html.theme-pulse .sb-settings {
+    color:#858b9e;
+    border:1px solid transparent;
+    border-radius:10px;
+  }
+  html.theme-pulse .sb-settings:hover {
+    color:#fff;
+    border-color:rgba(255,255,255,.08);
+    background:rgba(255,255,255,.035);
+  }
+  html.theme-pulse main.content {
+    max-width:1660px;
+    padding:24px 34px 72px 18px;
+  }
+  html.theme-pulse .page-head {
+    min-height:72px;
+    margin:0 0 18px;
+    padding:8px 3px 16px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+  }
+  html.theme-pulse .page-head .eyebrow {
+    color:#6f7485;
+    font-family:"JetBrains Mono",monospace;
+    font-size:9px;
+    font-weight:600;
+    letter-spacing:.13em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .page-head h2.page-title {
+    margin-top:5px;
+    color:#f8f8fc;
+    font-family:"Clash Display","Satoshi",sans-serif !important;
+    font-size:29px;
+    font-weight:600;
+    letter-spacing:-.035em;
+  }
+  html.theme-pulse .page-head h2.page-title em {
+    color:#d8b4fe;
+    font-style:normal;
+  }
+  html.theme-pulse .head-actions {
+    gap:9px;
+  }
+  html.theme-pulse .theme-select,
+  html.theme-pulse .head-actions .chip {
+    min-height:34px;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:999px;
+    background:rgba(15,17,25,.82);
+    color:#aeb3c3;
+    box-shadow:inset 0 1px rgba(255,255,255,.035);
+  }
+  html.theme-pulse .theme-select {
+    padding:6px 30px 6px 13px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:9px;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .head-actions .chip .dot {
+    background:#5eead4;
+    box-shadow:0 0 0 4px rgba(94,234,212,.07),0 0 12px rgba(94,234,212,.7);
+  }
+  html.theme-pulse .grid { gap:15px; }
+  html.theme-pulse .card {
+    position:relative;
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    background:
+      linear-gradient(145deg,rgba(255,255,255,.032),rgba(255,255,255,.012)),
+      rgba(13,15,23,.82) !important;
+    box-shadow:
+      0 18px 55px rgba(0,0,0,.17),
+      inset 0 1px rgba(255,255,255,.035);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    transition:transform .22s,border-color .22s,box-shadow .22s;
+  }
+  html.theme-pulse .card:hover {
+    transform:translateY(-2px);
+    border-color:rgba(192,132,252,.17);
+    box-shadow:
+      0 24px 70px rgba(0,0,0,.22),
+      0 0 36px rgba(124,92,224,.035),
+      inset 0 1px rgba(255,255,255,.05);
+  }
+  html.theme-pulse .card > h2,
+  html.theme-pulse .rh .label {
+    color:#f3f3f8;
+    font-family:"Clash Display","Satoshi",sans-serif;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:-.018em;
+  }
+  html.theme-pulse .card > h2 .meta,
+  html.theme-pulse .rh .sub {
+    color:#666c7e;
+    font-family:"Satoshi",sans-serif;
+    font-size:10px;
+    font-weight:500;
+    letter-spacing:.015em;
+  }
+  html.theme-pulse .kpi {
+    min-height:112px;
+    padding:16px 17px;
+    border:1px solid rgba(255,255,255,.065);
+    border-radius:14px;
+    background:
+      linear-gradient(145deg,rgba(255,255,255,.035),rgba(255,255,255,.01)),
+      rgba(11,13,20,.76);
+    box-shadow:inset 0 1px rgba(255,255,255,.025);
+    overflow:hidden;
+  }
+  html.theme-pulse .kpi::before {
+    display:block !important;
+    content:"";
+    position:absolute;
+    inset:0 auto 0 0;
+    width:2px;
+    background:linear-gradient(180deg,transparent,var(--accent),transparent);
+    opacity:.7;
+  }
+  html.theme-pulse .kpi::after {
+    display:block !important;
+    content:"";
+    position:absolute;
+    width:90px;
+    height:90px;
+    right:-44px;
+    top:-50px;
+    border-radius:50%;
+    background:var(--accent);
+    filter:blur(40px);
+    opacity:.06;
+  }
+  html.theme-pulse .kpi.accent {
+    border-color:rgba(192,132,252,.19);
+    background:
+      linear-gradient(135deg,rgba(251,113,133,.07),rgba(167,139,250,.075),rgba(255,255,255,.012)),
+      rgba(11,13,20,.82);
+  }
+  html.theme-pulse .kpi .k {
+    color:#767c8e;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    font-weight:600;
+    letter-spacing:.105em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .kpi .v,
+  html.theme-pulse .kpi .v.large {
+    margin-top:11px;
+    color:#f7f7fb;
+    font-family:"Clash Display","Satoshi",sans-serif !important;
+    font-size:28px !important;
+    font-weight:600 !important;
+    line-height:1 !important;
+    letter-spacing:-.035em !important;
+    text-shadow:none;
+  }
+  html.theme-pulse .kpi.accent .v {
+    color:#e9d5ff;
+    text-shadow:0 0 22px rgba(192,132,252,.22);
+  }
+  html.theme-pulse .kpi .delta {
+    margin-top:8px;
+    color:#686e80;
+    font-size:10px;
+  }
+  html.theme-pulse .ov-brief {
+    position:relative;
+    margin-bottom:15px;
+    padding:22px 24px;
+    border:1px solid rgba(192,132,252,.16) !important;
+    border-radius:20px;
+    background:
+      radial-gradient(460px 180px at 86% 0%,rgba(129,140,248,.13),transparent 70%),
+      linear-gradient(120deg,rgba(251,113,133,.065),rgba(167,139,250,.075) 46%,rgba(14,16,24,.86)) !important;
+    box-shadow:0 24px 80px rgba(0,0,0,.2),inset 0 1px rgba(255,255,255,.045);
+    overflow:hidden;
+  }
+  html.theme-pulse .ov-brief::after {
+    content:"";
+    position:absolute;
+    right:22px;
+    top:22px;
+    width:54px;
+    height:54px;
+    border:1px solid rgba(192,132,252,.16);
+    border-radius:50%;
+    background:
+      radial-gradient(circle at center,#c084fc 0 2px,transparent 3px),
+      conic-gradient(from 45deg,transparent 0 25%,rgba(192,132,252,.4) 25% 27%,transparent 27% 52%,rgba(251,113,133,.34) 52% 54%,transparent 54%);
+    box-shadow:0 0 40px rgba(167,139,250,.12);
+    animation:pulseOrbit 8s linear infinite;
+  }
+  @keyframes pulseOrbit { to { transform:rotate(360deg); } }
+  html.theme-pulse .ovb-eyebrow,
+  html.theme-pulse .hb-eyebrow {
+    color:#c6cad6;
+    font-family:"JetBrains Mono",monospace;
+    font-size:9px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .ovb-dot,
+  html.theme-pulse .phase-dot {
+    background:#fb7185;
+    box-shadow:0 0 0 5px rgba(251,113,133,.08),0 0 14px rgba(251,113,133,.65);
+  }
+  html.theme-pulse .ovb-summary {
+    max-width:900px;
+    margin-top:13px;
+    color:#f7f7fb;
+    font-family:"Clash Display","Satoshi",sans-serif;
+    font-size:23px;
+    font-weight:500;
+    line-height:1.25;
+    letter-spacing:-.025em;
+  }
+  html.theme-pulse .ovb-next {
+    border-top:1px solid rgba(255,255,255,.06);
+  }
+  html.theme-pulse .ovb-next-k { color:#73798b; }
+  html.theme-pulse .ovb-next-v { color:#ddd6fe; }
+  html.theme-pulse .hero-band {
+    border:1px solid rgba(255,255,255,.07) !important;
+    border-radius:20px;
+    background:
+      radial-gradient(420px 190px at 85% 45%,rgba(251,113,133,.09),transparent 70%),
+      rgba(13,15,23,.78) !important;
+  }
+  html.theme-pulse .hb-fraction {
+    color:#fff;
+    font-family:"Clash Display","Satoshi",sans-serif;
+    letter-spacing:-.055em;
+  }
+  html.theme-pulse .hb-bar,
+  html.theme-pulse .bar,
+  html.theme-pulse .cf-src-track,
+  html.theme-pulse .mx-fb .track {
+    background:rgba(255,255,255,.055);
+  }
+  html.theme-pulse .hb-bar > span,
+  html.theme-pulse .bar > span {
+    background:var(--grad);
+    box-shadow:0 0 18px rgba(192,132,252,.35);
+  }
+  html.theme-pulse .hb-quote {
+    color:#d9dbe5;
+    font-family:"Clash Display","Satoshi",sans-serif !important;
+    font-size:21px;
+    font-style:normal;
+    letter-spacing:-.025em;
+  }
+  html.theme-pulse .hero-kpi {
+    min-height:132px;
+    border:1px solid rgba(255,255,255,.065);
+    border-radius:16px;
+    background:rgba(14,16,24,.72);
+    box-shadow:inset 0 1px rgba(255,255,255,.025);
+  }
+  html.theme-pulse .hero-kpi:hover {
+    border-color:rgba(192,132,252,.18);
+    background:rgba(18,20,30,.82);
+  }
+  html.theme-pulse .hk-k {
+    color:#72788a;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .hk-v {
+    color:#f6f6fa;
+    font-family:"Clash Display","Satoshi",sans-serif;
+    letter-spacing:-.03em;
+  }
+  html.theme-pulse .ops-rail-card,
+  html.theme-pulse .intel-box,
+  html.theme-pulse .crm-toolbar,
+  html.theme-pulse details.collapse {
+    border:1px solid rgba(255,255,255,.07);
+    border-radius:18px;
+    background:rgba(12,14,21,.74);
+    box-shadow:none;
+  }
+  html.theme-pulse .stat-row {
+    border-bottom:1px solid rgba(255,255,255,.055);
+  }
+  html.theme-pulse .stat-row .name { color:#8c92a4; }
+  html.theme-pulse .stat-row .num { color:#f3f3f8; }
+  html.theme-pulse .empty,
+  html.theme-pulse .cf-empty,
+  html.theme-pulse .ig-empty,
+  html.theme-pulse .cd-empty {
+    position:relative;
+    min-height:112px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 24px;
+    border:1px dashed rgba(192,132,252,.2);
+    border-radius:14px;
+    background:
+      radial-gradient(180px 80px at 50% 0%,rgba(167,139,250,.08),transparent 80%),
+      rgba(255,255,255,.014);
+    color:#7e8496;
+    font-size:12px;
+    line-height:1.55;
+    text-align:center;
+  }
+  html.theme-pulse .pay-tablewrap {
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:13px;
+    overflow:hidden;
+    background:rgba(5,7,11,.28);
+  }
+  html.theme-pulse .pay-table thead {
+    background:rgba(255,255,255,.025);
+  }
+  html.theme-pulse .pay-table th {
+    color:#676d7f;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  html.theme-pulse .pay-table td { border-top-color:rgba(255,255,255,.045); }
+  html.theme-pulse .mx-slide {
+    border:1px solid rgba(255,255,255,.065);
+    border-radius:16px;
+    background:
+      linear-gradient(145deg,rgba(255,255,255,.028),rgba(255,255,255,.008)),
+      rgba(12,14,21,.76);
+    box-shadow:none;
+  }
+  html.theme-pulse .mx-slide::after {
+    background:linear-gradient(90deg,#fb7185,#c084fc,#818cf8);
+  }
+  html.theme-pulse .mx-slide:hover {
+    transform:translateY(-4px);
+    border-color:rgba(192,132,252,.2);
+    box-shadow:0 18px 50px rgba(0,0,0,.2);
+  }
+  html.theme-pulse .mx-slide .mx-cat {
+    color:#777d90;
+    font-family:"JetBrains Mono",monospace;
+    font-size:8px;
+    letter-spacing:.1em;
+  }
+  html.theme-pulse .mx-slide .mx-val {
+    color:#f6f6fa;
+    font-family:"Clash Display","Satoshi",sans-serif;
+    letter-spacing:-.035em;
+  }
+  html.theme-pulse .chart-wrap {
+    border-radius:13px;
+    background:
+      linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+    background-size:36px 36px;
+  }
+  html.theme-pulse .neon-line {
+    stroke:#c084fc;
+    filter:drop-shadow(0 0 5px rgba(192,132,252,.35));
+  }
+  html.theme-pulse .donut {
+    filter:drop-shadow(0 14px 28px rgba(0,0,0,.3));
+  }
+  html.theme-pulse .donut-c { fill:#f7f7fb; }
+  html.theme-pulse .donut-s { fill:#74798a; }
+  html.theme-pulse .prod-field input,
+  html.theme-pulse .prod-field select,
+  html.theme-pulse input,
+  html.theme-pulse textarea,
+  html.theme-pulse select {
+    border-color:rgba(255,255,255,.09);
+    background:#0b0d14;
+    color:#ececf2;
+  }
+  html.theme-pulse .prod-field input:focus,
+  html.theme-pulse .prod-field select:focus,
+  html.theme-pulse input:focus,
+  html.theme-pulse textarea:focus,
+  html.theme-pulse select:focus {
+    border-color:rgba(192,132,252,.55);
+    box-shadow:0 0 0 3px rgba(167,139,250,.1);
+    outline:none;
+  }
+  html.theme-pulse .payout-note {
+    border:1px solid rgba(192,132,252,.14);
+    background:rgba(167,139,250,.055);
+    color:#aaaec0;
+  }
+  html.theme-pulse .cf-day {
+    border-color:rgba(255,255,255,.055);
+    background:rgba(255,255,255,.015);
+  }
+  html.theme-pulse .cf-day.today {
+    border-color:rgba(192,132,252,.36);
+    background:rgba(167,139,250,.07);
+    box-shadow:inset 0 0 24px rgba(167,139,250,.035);
+  }
+  html.theme-pulse .ig-tile,
+  html.theme-pulse .ig-lb-row {
+    border-color:rgba(255,255,255,.07);
+    background:rgba(255,255,255,.02);
+  }
+  html.theme-pulse .ig-tile {
+    transition:transform .2s,border-color .2s,box-shadow .2s;
+  }
+  html.theme-pulse .ig-tile:hover {
+    transform:translateY(-5px) scale(1.01);
+    border-color:rgba(251,113,133,.22);
+    box-shadow:0 18px 45px rgba(0,0,0,.28);
+  }
+  html.theme-pulse .crm-board .lead-card,
+  html.theme-pulse .lead-card {
+    border-color:rgba(255,255,255,.07);
+    background:linear-gradient(145deg,rgba(255,255,255,.026),rgba(255,255,255,.008));
+  }
+  html.theme-pulse .crm-board .lead-card:hover,
+  html.theme-pulse .lead-card:hover {
+    border-color:rgba(192,132,252,.22);
+    box-shadow:0 16px 45px rgba(0,0,0,.22);
+  }
+  html.theme-pulse .scroll-progress > span {
+    height:2px;
+    background:var(--grad);
+    box-shadow:0 0 12px rgba(192,132,252,.5);
+  }
+  html.theme-pulse .drawer {
+    border-left:1px solid rgba(255,255,255,.09);
+    background:#0b0d14;
+    box-shadow:-24px 0 80px rgba(0,0,0,.42);
+  }
+  html.theme-pulse .serif {
+    font-family:"Clash Display","Satoshi",sans-serif !important;
+    font-weight:600;
+    background:var(--grad);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  @media (max-width:1100px) {
+    html.theme-pulse { --sidebar-w:228px; }
+    html.theme-pulse main.content { padding-right:22px; }
+  }
+  @media (max-width:760px) {
+    html.theme-pulse .app { display:block; }
+    html.theme-pulse aside.sidebar {
+      width:calc(100% - 20px);
+      height:auto;
+      min-height:0;
+      margin:10px;
+      padding:10px;
+      position:relative;
+      top:0;
+      border-radius:18px;
+      overflow:visible;
+    }
+    html.theme-pulse .sidebar .brand { padding-bottom:10px; }
+    html.theme-pulse nav.sb-nav {
+      display:flex;
+      flex-direction:row !important;
+      flex-wrap:nowrap !important;
+      gap:5px;
+      padding:8px 0 2px;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+    html.theme-pulse nav.sb-nav::-webkit-scrollbar { display:none; }
+    html.theme-pulse nav.sb-nav .nav-group,
+    html.theme-pulse .sidebar .sb-foot { display:none; }
+    html.theme-pulse nav.sb-nav button {
+      flex:0 0 auto;
+      width:auto !important;
+      min-height:36px;
+      padding:8px 11px;
+    }
+    html.theme-pulse nav.sb-nav button.active { box-shadow:inset 0 -2px #c084fc; }
+    html.theme-pulse main.content { padding:10px 14px 52px; }
+    html.theme-pulse .page-head { min-height:64px; }
+    html.theme-pulse .page-head h2.page-title { font-size:23px; }
+    html.theme-pulse .ovb-summary { padding-right:55px; font-size:19px; }
+    html.theme-pulse .ov-brief::after { right:14px; top:14px; width:44px; height:44px; }
+    html.theme-pulse .kpi .v,
+    html.theme-pulse .kpi .v.large { font-size:24px !important; }
+  }
 </style>
 </head>
 <body>
@@ -3668,6 +4352,7 @@
     </div>
     <div class="head-actions">
       <select id="themeSelect" class="theme-select" aria-label="Theme">
+        <option value="pulse">Pulse</option>
         <option value="trakyo">Trakyo</option>
         <option value="mirage">Mirage</option>
         <option value="dark">Dark</option>
@@ -4078,7 +4763,7 @@
 
   <!-- Headline row -->
   <div class="card span-12">
-    <h2>Payments <span class="meta">demo data · last sync 2m ago</span></h2>
+    <h2>Payments <span class="meta">live ledger · no transactions yet</span></h2>
     <div class="kpi-row pay-kpis">
       <div class="kpi accent">
         <div class="k">Collected this month</div>
@@ -4224,7 +4909,7 @@
       <div class="mx-head">
         <div>
           <h2>Performance read <span class="meta">every area, last 30 days vs prior 30</span></h2>
-          <div class="mx-headsub">Click any card to open the full chart. Numbers are demo placeholders until live data lands.</div>
+          <div class="mx-headsub">Click any card to open the full chart. Empty signals stay at zero until a connected source reports activity.</div>
         </div>
         <div class="mx-seg" id="mxRangeSeg" role="tablist" aria-label="Range">
           <button class="mx-seg-btn active" data-range="30">30d</button>
@@ -4266,7 +4951,7 @@
   <div class="grid">
 <!-- ===== Closer split + payouts (Sales tab) ===== -->
 <div class="card span-7">
-  <h2>Who's closing <span class="meta">closed deals by closer · demo data</span></h2>
+  <h2>Who's closing <span class="meta">closed deals by closer · live ledger</span></h2>
   <div class="closer-split">
     <div class="closer-donut-wrap">
       <svg class="donut" id="closerDonut" viewBox="0 0 100 100"></svg>
@@ -4283,7 +4968,7 @@
   <div class="payout-grid">
     <div class="prod-field">
       <label for="poDeal">Deal amount (USD)</label>
-      <input id="poDeal" type="number" min="0" step="100" inputmode="numeric" placeholder="5000" value="5000" />
+      <input id="poDeal" type="number" min="0" step="100" inputmode="numeric" placeholder="Enter a closed deal" value="0" />
     </div>
     <div class="prod-field">
       <label for="poSetter">Setter involved</label>
@@ -4327,10 +5012,10 @@
       <div class="cf-target">
         <div class="cf-target-head">
           <span class="name">Monthly cash target</span>
-          <span class="num mono"><span id="cfTargetNow">$0</span><span class="vs">of <span id="cfTargetGoal">$20,000</span></span></span>
+          <span class="num mono"><span id="cfTargetNow">$0</span><span class="vs">of <span id="cfTargetGoal">$0</span></span></span>
         </div>
         <div class="hb-bar"><span id="cfTargetBar" style="width:0%"></span></div>
-        <div class="cf-target-foot"><span id="cfTargetPct">0%</span> of goal · <span id="cfTargetGap">$20,000</span> to go</div>
+        <div class="cf-target-foot"><span id="cfTargetPct">0%</span> of goal · set a target in Settings when the revenue engine is active</div>
       </div>
     </div>
 
@@ -4385,11 +5070,11 @@
       <div class="cf-upcoming" id="cfUpcoming"></div>
     </div>
 
-    <!-- Row 4: assignment / routing flow (mock pending backend) -->
+    <!-- Row 4: assignment / routing status -->
     <div class="card span-12">
       <div class="cf-cal-head">
         <h2>Booking routing <span class="meta">new call → Slack → closer self-assign</span></h2>
-        <span class="badge cf-mock">Mock · backend pending</span>
+        <span class="badge cf-mock">Not connected</span>
       </div>
 
       <div class="cf-flow">
@@ -4419,7 +5104,6 @@
       </div>
 
       <div class="cf-route-grid">
-        <!-- connectors -->
         <div class="cf-connectors">
           <div class="cf-conn" data-state="off" id="cfConnSlack">
             <div class="cf-conn-l">
@@ -4429,7 +5113,7 @@
                 <div class="cf-conn-sub" id="cfSlackSub">Not connected</div>
               </div>
             </div>
-            <button class="cf-conn-btn" data-conn="slack">Connect Slack</button>
+            <button class="cf-conn-btn" data-conn="slack" disabled>Backend required</button>
           </div>
 
           <div class="cf-conn" data-state="off" id="cfConnGcal">
@@ -4440,38 +5124,13 @@
                 <div class="cf-conn-sub" id="cfGcalSub">Not connected</div>
               </div>
             </div>
-            <button class="cf-conn-btn" data-conn="gcal">Connect Calendar</button>
+            <button class="cf-conn-btn" data-conn="gcal" disabled>Backend required</button>
           </div>
 
-          <div class="cf-route-note">Once both are live, every booking routes itself. Until then this panel is a preview.</div>
+          <div class="cf-route-note">This section activates after Slack and Google Calendar are connected. No assignments or availability checks are being simulated.</div>
         </div>
-
-        <!-- example slack-style card -->
-        <div class="cf-slackcard">
-          <div class="cf-slack-top">
-            <span class="cf-slack-bot">Pulsify Bot</span>
-            <span class="cf-slack-app">APP</span>
-            <span class="cf-slack-time mono">9:41 AM</span>
-          </div>
-          <div class="cf-slack-msg">New triage call booked</div>
-          <div class="cf-slack-fields">
-            <div><span class="k">Prospect</span><span class="v">Marcus Vail</span></div>
-            <div><span class="k">Source</span><span class="v">Landing page → triage</span></div>
-            <div><span class="k">When</span><span class="v mono">Thu Jun 26, 3:00 PM</span></div>
-            <div><span class="k">Deal band</span><span class="v">$6k–$10k</span></div>
-          </div>
-          <div class="cf-slack-assign" id="cfAssignRow">
-            <button class="cf-assign-btn" id="cfAssignBtn">Assign to me</button>
-            <span class="cf-assign-hint">First to claim owns the call</span>
-          </div>
-          <div class="cf-slack-assigned" id="cfAssignedRow" hidden>
-            <span class="cf-avatar">DK</span>
-            <div class="cf-assigned-body">
-              <div class="cf-assigned-name">Assigned to Dani K.</div>
-              <div class="cf-assigned-meta mono" id="cfAssignedTz">6:00 PM CET · free in Google Calendar</div>
-            </div>
-            <span class="cf-assigned-tick">✓</span>
-          </div>
+        <div class="cf-empty">
+          Routing will turn on here when the integrations are real. Until then, the calendar remains a read-only record of actual bookings.
         </div>
       </div>
     </div>
@@ -5720,44 +6379,26 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 /* ===== Payments tab =====
    Call once inside renderDashboard():  try { renderPayments(); } catch(e){ console.error("renderPayments failed:", e); }
    Reuses in-scope helpers: $, fmt, esc, chartColors, renderDonut.
-   Reads D.payments if present; otherwise falls back to clearly-labeled demo data. */
+   Reads D.payments if present; otherwise renders an honest empty ledger. */
 function renderPayments() {
   if (!$("payCollected")) return;
 
-  // ---- demo fallback (swap for D.payments when a real feed lands) ----
-  const demo = {
-    collected: 18450, collectedDelta: 12,            // % vs last month
-    mrr: 9200, subs: 14, refunds: 600, refundCount: 1,
-    onTimePct: 94, scheduled30: 7350, pastDue: 1100, failed30: 2,
-    avgDeal: 3200, outstanding: 21400,
-    types: [
-      { key: "pif",   label: "Paid in full",  amount: 9600, count: 3, sub: "one charge, no plan" },
-      { key: "plan",  label: "Payment plan",  amount: 5850, count: 9, sub: "2 to 6 monthly splits" },
-      { key: "fin",   label: "Financing",     amount: 3000, count: 2, sub: "Klarna · Sezzle · Whop" }
-    ],
-    txns: [
-      { cust: "Marcus Reede",  handle: "@marcusreede",  type: "PIF",       amount: 3200, status: "paid",      date: "2026-06-22" },
-      { cust: "Tina Okafor",   handle: "@tinaokafor",   type: "Plan 3/6",  amount: 650,  status: "paid",      date: "2026-06-22" },
-      { cust: "Devon Hale",    handle: "@devbuilds",    type: "Klarna",    amount: 1500, status: "scheduled", date: "2026-06-25" },
-      { cust: "Priya Nair",    handle: "@priyatrades",  type: "Plan 2/4",  amount: 800,  status: "failed",    date: "2026-06-21" },
-      { cust: "Sam Whitlow",   handle: "@samwhitlow",   type: "PIF",       amount: 3200, status: "paid",      date: "2026-06-20" },
-      { cust: "Lena Brooks",   handle: "@lenabrooks",   type: "Refund",    amount: -600, status: "refunded",  date: "2026-06-19" },
-      { cust: "Omar Idris",    handle: "@omar.ecom",    type: "Sezzle",    amount: 750,  status: "paid",      date: "2026-06-18" }
-    ],
-    upcoming: [
-      { cust: "Devon Hale",  type: "Klarna 2/4",   amount: 1500, when: "Jun 25", soon: true },
-      { cust: "Tina Okafor", type: "Plan 4/6",     amount: 650,  when: "Jun 28", soon: true },
-      { cust: "Priya Nair",  type: "Plan retry",   amount: 800,  when: "Jun 24", soon: true },
-      { cust: "Hugo Mertz",  type: "Plan 2/3",     amount: 1066, when: "Jul 02", soon: false },
-      { cust: "Jade Lin",    type: "Sezzle 3/4",   amount: 375,  when: "Jul 05", soon: false }
-    ]
+  // No fabricated fallback. Revenue only appears when a real feed reports it.
+  const emptyLedger = {
+    collected: 0, collectedDelta: 0, mrr: 0, subs: 0,
+    refunds: 0, refundCount: 0, onTimePct: 0, scheduled30: 0,
+    pastDue: 0, failed30: 0, avgDeal: 0, outstanding: 0,
+    types: [], txns: [], upcoming: []
   };
-  const p = (typeof D !== "undefined" && D && D.payments) ? D.payments : demo;
+  const hasVerifiedPaymentFeed = typeof D !== "undefined" && D && D.payments && D.payments.live === true;
+  const p = hasVerifiedPaymentFeed ? Object.assign({}, emptyLedger, D.payments) : emptyLedger;
   const money = (n) => (n < 0 ? "-$" : "$") + fmt(Math.abs(Math.round(Number(n) || 0)));
 
   // ---- headline ----
   $("payCollected").textContent = money(p.collected);
-  $("payCollectedDelta").textContent = (p.collectedDelta >= 0 ? "up " : "down ") + Math.abs(p.collectedDelta) + "% vs last month";
+  $("payCollectedDelta").textContent = p.collected
+    ? (p.collectedDelta >= 0 ? "up " : "down ") + Math.abs(p.collectedDelta) + "% vs last month"
+    : "waiting for the first payment";
   $("payMrr").textContent = money(p.mrr);
   $("paySubs").textContent = fmt(p.subs);
   $("payRefunds").textContent = money(p.refunds);
@@ -5854,35 +6495,33 @@ function renderMetrics() {
   const slidesEl = $("mxSlides");
   if (!slidesEl) return;
 
-  // helper: build a short pseudo-series from a base + the existing trend arrays,
-  // so demo data degrades gracefully when D fields are missing/zero.
+  // Use only connected trend arrays. Missing data stays at zero.
   const t = (D.trend30d) || {};
   const arr = (a, fallback) => (Array.isArray(a) && a.length ? a : fallback);
   const lastOf = (a) => (a && a.length ? a[a.length - 1] : 0);
 
-  // labels for x-axis (weekly buckets if present, else generic)
+  // Labels remain useful while the series is empty.
   const xlabels = arr(t.labels, ["W1", "W2", "W3", "W4"]);
 
-  // metric definitions. value/delta are demo placeholders; series feed both
-  // the sparkline and the expanded chart. Replace `series`/`value` with live
-  // fields when wired (e.g. D.content.views, D.pipeline.replied, etc.).
+  // Metric definitions feed both the sparkline and expanded chart.
+  // No synthetic movement is generated for unconnected sources.
   const METRICS = [
     { id: "mx-content", cat: "Content", label: "Long-form views",
-      series: arr(t.views, [820, 1140, 980, 1520]), unit: "n", fmt: "num" },
+      series: arr(t.views, [0, 0, 0, 0]), unit: "n", fmt: "num" },
     { id: "mx-social", cat: "Social", label: "Follower growth",
-      series: [120, 180, 160, 240], unit: "n", fmt: "num" },
+      series: arr(t.followers, [0, 0, 0, 0]), unit: "n", fmt: "num" },
     { id: "mx-outreach", cat: "Outreach", label: "Outreach sent",
-      series: arr(t.outreach, [40, 55, 48, 70]), unit: "n", fmt: "num" },
+      series: arr(t.outreach, [0, 0, 0, 0]), unit: "n", fmt: "num" },
     { id: "mx-reply", cat: "Outreach", label: "Reply rate",
-      series: [9, 11, 10, 14], unit: "pct", fmt: "pct" },
+      series: arr(t.replyRate, [0, 0, 0, 0]), unit: "pct", fmt: "pct" },
     { id: "mx-calls", cat: "Calls", label: "Calls booked",
-      series: arr(t.calls, [2, 3, 2, 4]), unit: "n", fmt: "num" },
+      series: arr(t.calls, [0, 0, 0, 0]), unit: "n", fmt: "num" },
     { id: "mx-show", cat: "Calls", label: "Show rate",
-      series: [70, 65, 80, 75], unit: "pct", fmt: "pct" },
+      series: arr(t.showRate, [0, 0, 0, 0]), unit: "pct", fmt: "pct" },
     { id: "mx-cash", cat: "Revenue", label: "Cash collected",
-      series: arr(t.cash, [0, 1500, 1200, 2500]), unit: "usd", fmt: "usd" },
+      series: arr(t.cash, [0, 0, 0, 0]), unit: "usd", fmt: "usd" },
     { id: "mx-pipe", cat: "Revenue", label: "Pipeline value",
-      series: [4000, 6000, 5500, 8000], unit: "usd", fmt: "usd" }
+      series: arr(t.pipelineValue, [0, 0, 0, 0]), unit: "usd", fmt: "usd" }
   ];
 
   const fmtVal = (v, kind) => kind === "usd" ? usd(Math.round(v))
@@ -6011,8 +6650,8 @@ function renderMetrics() {
       </div>`).join("");
   }
 
-  // range segmented control. Demo: scales the displayed values; swap for
-  // real per-range series when the data layer supports it.
+  // Range segmented control. Each range remains honest until the data layer
+  // supplies its own per-range series.
   const seg = $("mxRangeSeg");
   if (seg && !seg.dataset.wired) {
     seg.dataset.wired = "1";
@@ -6038,14 +6677,8 @@ function initPayoutSection() {
   // theme-reactive categorical colors (same set the dashboard uses for charts)
   var CAT = ["var(--accent)", "var(--violet)", "var(--cyan)", "var(--pink)", "var(--blue)", "var(--success)", "var(--orange)"];
 
-  // ---- demo data: closed deals by closer, with the setter who sourced each ----
-  // Replace with live pipeline data when wired. close rate = won / (won + lost worked).
-  var CLOSERS = [
-    { name: "Maya R.",  deals: 9, cash: 41000, worked: 14, setters: [["Dani", 5], ["Theo", 3], ["Inbound", 1]] },
-    { name: "Theo K.",  deals: 6, cash: 28500, worked: 11, setters: [["Dani", 4], ["Sam", 2]] },
-    { name: "Sam P.",   deals: 4, cash: 17000, worked: 9,  setters: [["Theo", 2], ["Inbound", 2]] },
-    { name: "Inbound",  deals: 3, cash: 12000, worked: 5,  setters: [["Inbound", 3]] }
-  ];
+  // Closed-deal attribution stays empty until the sales ledger is connected.
+  var CLOSERS = [];
 
   var donut = $$("closerDonut");
   var legend = $$("closerLegend");
@@ -6073,13 +6706,16 @@ function initPayoutSection() {
       '<text class="donut-s" x="50" y="60" text-anchor="middle">deals won</text>';
     var cEl = donut.querySelector(".donut-c"), sEl = donut.querySelector(".donut-s");
 
-    legend.innerHTML = live.map(function (c, i) {
+    legend.innerHTML = live.length ? live.map(function (c, i) {
       var pct = total ? Math.round((c.deals / total) * 100) : 0;
       var col = CAT[i % CAT.length];
       return '<div class="row" data-i="' + i + '"><i style="background:' + col + ';color:' + col +
         '"></i><span class="lbl">' + c.name + '</span><span class="pct">' + pct +
         '%</span><span class="num mono">' + c.deals + '</span></div>';
-    }).join("");
+    }).join("") : '<div class="empty">No deals won yet. Closer attribution will appear after the first closed deal.</div>';
+    if (!total && detail) {
+      detail.innerHTML = '<div class="cd-empty">Nothing to split yet. The payout calculator is ready when a real deal closes.</div>';
+    }
 
     var showDetail = function (i) {
       var c = live[i];
@@ -6194,7 +6830,7 @@ initPayoutSection();
 
 /* ===== Cash & Calendar (#tab-cashflow) =====
    Reuses existing globals already defined in the file: $, fmt, setText, renderVerticalBars.
-   All values below are clearly-labelled DEMO data; swap CF_DATA for live feeds later.
+   Revenue uses the live dashboard snapshot; calendar stays empty until Cal.com returns bookings.
    Charts inherit theme via var(--accent)/var(--blue)/var(--cyan)/var(--orange). */
 (function () {
   if (!document.getElementById("tab-cashflow")) return;
@@ -6202,38 +6838,31 @@ initPayoutSection();
   var usd = function (n) { return "$" + Number(n || 0).toLocaleString("en-US"); };
   var srcClass = { "Cold DM": "src-dm", "Landing page → triage": "src-lp", "Referral": "src-ref" };
 
-  // ---- DEMO data ----
+  var currentDate = new Date();
+  var liveRevenue = (typeof D !== "undefined" && D && D.revenue) ? D.revenue : {};
+  var liveTarget = (typeof D !== "undefined" && D && D.targets && D.targets.thirtyDay)
+    ? D.targets.thirtyDay.cashCollected : 0;
+  var emptyMonths = Array.from({ length: 6 }, function (_, i) {
+    var d = new Date(currentDate.getFullYear(), currentDate.getMonth() - 5 + i, 1);
+    return [d.toLocaleDateString("en-US", { month: "short" }), 0, 0];
+  });
+  emptyMonths[emptyMonths.length - 1][1] = Number(liveRevenue.monthlyRevenue) || 0;
+  emptyMonths[emptyMonths.length - 1][2] = Number(liveRevenue.cashCollected) || 0;
   var CF_DATA = {
-    monthLabel: "June 2026",
-    cashCollected: 14200, cashPrev: 9800,
-    mrr: 6400, mrrPrev: 5200,
-    newDeals: 3, avgDeal: 4733,
-    targetGoal: 20000,
-    // last 6 months: [label, revenueBooked, cashCollected]
-    months: [
-      ["Jan", 6200, 4100], ["Feb", 7800, 6000], ["Mar", 9100, 7400],
-      ["Apr", 11500, 9100], ["May", 13200, 9800], ["Jun", 18600, 14200]
-    ],
-    sources: [
-      { lab: "Landing page → triage", val: 8200, key: "lp", color: "var(--accent)" },
-      { lab: "Cold DM", val: 4000, key: "dm", color: "var(--cyan)" },
-      { lab: "Referral", val: 2000, key: "ref", color: "var(--orange)" }
-    ],
-    // booked calls for the calendar (demo month = June 2026)
-    calYear: 2026, calMonth: 5, // month is 0-indexed (5 = June)
-    bookings: [
-      { day: 3,  time: "10:00", who: "Jenna R.",   src: "Cold DM" },
-      { day: 5,  time: "14:30", who: "Theo M.",    src: "Landing page → triage" },
-      { day: 9,  time: "11:00", who: "Priya S.",   src: "Referral" },
-      { day: 12, time: "16:00", who: "Owen B.",    src: "Cold DM" },
-      { day: 12, time: "17:30", who: "Lara V.",    src: "Landing page → triage" },
-      { day: 18, time: "09:30", who: "Dev K.",     src: "Cold DM" },
-      { day: 23, time: "13:00", who: "Mara T.",    src: "Referral" },
-      { day: 26, time: "15:00", who: "Marcus Vail",src: "Landing page → triage" },
-      { day: 26, time: "18:00", who: "Sam W.",     src: "Cold DM" },
-      { day: 30, time: "12:00", who: "Nadia F.",   src: "Referral" }
-    ],
-    todayDay: 23
+    monthLabel: currentDate.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
+    cashCollected: Number(liveRevenue.cashCollected) || 0,
+    cashPrev: 0,
+    mrr: Number(liveRevenue.mrr) || 0,
+    mrrPrev: 0,
+    newDeals: 0,
+    avgDeal: 0,
+    targetGoal: Number(liveTarget) || 0,
+    months: emptyMonths,
+    sources: [],
+    calYear: currentDate.getFullYear(),
+    calMonth: currentDate.getMonth(),
+    bookings: [],
+    todayDay: currentDate.getDate()
   };
 
   // ---- headline KPIs ----
@@ -6298,6 +6927,10 @@ initPayoutSection();
   // ---- cash sources ----
   function renderCfSources() {
     var el = $("cfSourceList"); if (!el) return;
+    if (!CF_DATA.sources.length) {
+      el.innerHTML = '<div class="cf-empty">No collected cash to attribute yet. Source splits appear after the first real payment.</div>';
+      return;
+    }
     var total = CF_DATA.sources.reduce(function (s, x) { return s + x.val; }, 0) || 1;
     el.innerHTML = CF_DATA.sources.map(function (s) {
       var p = Math.round((s.val / total) * 100);
@@ -6313,7 +6946,7 @@ initPayoutSection();
   var MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
   function bookingsFor(day) {
-    // only the demo month carries bookings; other months render empty (graceful)
+    // The connected month carries bookings; other months remain empty.
     if (calY !== CF_DATA.calYear || calM !== CF_DATA.calMonth) return [];
     return CF_DATA.bookings.filter(function (b) { return b.day === day; })
       .sort(function (a, b) { return a.time < b.time ? -1 : 1; });
@@ -6327,13 +6960,13 @@ initPayoutSection();
     // Monday-first offset
     var startDow = (first.getDay() + 6) % 7;
     var daysInMonth = new Date(calY, calM + 1, 0).getDate();
-    var isDemoMonth = (calY === CF_DATA.calYear && calM === CF_DATA.calMonth);
+    var isCurrentDataMonth = (calY === CF_DATA.calYear && calM === CF_DATA.calMonth);
 
     var cells = "";
     for (var i = 0; i < startDow; i++) cells += '<div class="cf-day empty"></div>';
     for (var d = 1; d <= daysInMonth; d++) {
       var evts = bookingsFor(d);
-      var isToday = isDemoMonth && d === CF_DATA.todayDay;
+      var isToday = isCurrentDataMonth && d === CF_DATA.todayDay;
       var evtHtml = "";
       evts.slice(0, 2).forEach(function (e) {
         evtHtml += '<div class="cf-evt ' + (srcClass[e.src] || "") + '" title="' + e.who + ' · ' + e.src + '">' +
@@ -6348,8 +6981,8 @@ initPayoutSection();
 
   function renderCfUpcoming() {
     var el = $("cfUpcoming"); if (!el) return;
-    var isDemoMonth = (calY === CF_DATA.calYear && calM === CF_DATA.calMonth);
-    var list = isDemoMonth
+    var isCurrentDataMonth = (calY === CF_DATA.calYear && calM === CF_DATA.calMonth);
+    var list = isCurrentDataMonth
       ? CF_DATA.bookings.filter(function (b) { return b.day >= CF_DATA.todayDay; })
           .sort(function (a, b) { return a.day - b.day || (a.time < b.time ? -1 : 1); }).slice(0, 5)
       : [];
@@ -6365,7 +6998,7 @@ initPayoutSection();
     }).join("");
   }
 
-  // ---- routing / connectors (mock) ----
+  // ---- routing / connectors (inactive until real backend wiring exists) ----
   function wireConnectors() {
     document.querySelectorAll(".cf-conn-btn").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -6979,7 +7612,7 @@ initPayoutSection();
     const values = [p.hitList, p.dmd, p.replied, p.callBooked, p.callHeld, p.proposalSent, p.closed].map(v => v || 0);
     renderVerticalBars("pipelineChart", labels, values, chartColors[0]);
     renderLegend("pipelineLegend", [{ label: "Stage volume", color: chartColors[0] }]);
-    setText("salesTabCount", fmt(D.pipeline.replied || 0));
+    // Payments owns its own counter. Pipeline replies do not belong in the revenue ledger.
   }
 
   /* Tabs */
@@ -7003,17 +7636,17 @@ initPayoutSection();
   /* Theme switcher — default Mirage (= :root, no class) */
   (function(){
     var sel = document.getElementById("themeSelect");
-    var THEMES = ["trakyo","light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
+    var THEMES = ["pulse","trakyo","light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
     function applyTheme(n){
       if (n !== "mirage" && THEMES.indexOf(n) === -1) n = "mirage";
       var c = document.documentElement.classList;
       [].slice.call(c).forEach(function(cl){ if (cl.indexOf("theme-") === 0) c.remove(cl); });
       if (n !== "mirage") c.add("theme-" + n);
-      try { localStorage.setItem("pulsify-theme-trakyobuild", n); } catch(e){}
+      try { localStorage.setItem("pulsify-theme-pulsebuild", n); } catch(e){}
       if (sel) sel.value = n;
     }
-    var saved = "trakyo";
-    try { saved = localStorage.getItem("pulsify-theme-trakyobuild") || "trakyo"; } catch(e){}
+    var saved = "pulse";
+    try { saved = localStorage.getItem("pulsify-theme-pulsebuild") || "pulse"; } catch(e){}
     applyTheme(saved);
     if (sel) sel.addEventListener("change", function(){ applyTheme(sel.value); });
   })();
