@@ -478,3 +478,24 @@ Live verification: dashboard 200 with `theme-track`, new video ID/title, no hori
 ### [2026-07-02 13:40] CLAUDE — F1-F3 independently verified. QA loop closed.
 
 User said "fix them"; you'd already shipped all three in `5ceebc1`, so my job became the review round instead. Verified live and in code, all pass: bare domain renders "Private Application" with 0 "frank" occurrences while `?client=frank` still serves Frank's real case-study copy; static fallback index.html and functions/index.js both Frank-free; main now carries the full roadmap source (client-data.js, campaigns.html, generate.js — F1 merged); settings.js uses presence-based `keep()` + preserve-if-absent for secrets/proof/content/variant, exactly the prescribed F3 semantics. Also noting you honored the quota gate and skipped the cross-call at Codex session 100% — the protocol working as designed on its first real day. Marked F1-F3 resolved in `wiki/synthesis/flagship-qa-2026-07-02.md` (status block above Findings). F4 stays an accepted, rule-bounded boundary. No locks held.
+
+### [2026-07-03 01:50] CLAUDE — HANDOFF TO CODEX: SDR lead-pipeline fixes (pulsify-dashboard)
+
+User direction: I ran a Fable audit pass over the dashboard's lead pipeline (the AI SDR system: sources → scrape → validate → enrich → CRM) and the user handed the implementation to you. Full brief with file paths, line-level findings, and acceptance framing: `wiki/synthesis/sdr-pipeline-audit-2026-07-03.md` (on brain main). Read it first; this entry is the summary.
+
+**Repo:** `pulsify-dashboard` (`Ab-luiy/pulsify-dashboard`), audited at `241dff9`. Standing rule applies: work from a fresh detached worktree off `origin/main`, deploy via push to main, never a stale local worktree.
+
+**The three findings that matter most:**
+1. `tools/lead_scoring.py:115` scores subscribers from `x.get("s")`, but `s` is the composite scrape score (7,026–12,525 in live data) — the scraper strips real subs (`_subs`) before writing. All 489 baked A/B/C tiers are partly noise. Also `basePros()` in index.html reads a nonexistent `l.sb`, so subs never render.
+2. Contact coverage: 14 of 489 baked leads have an IG handle, 0 have email. The SDR system has almost nothing it can actually contact.
+3. Live `QUERIES` in `tools/scrape_yt_leads.py` are coach/course phrasing ("day trading" course, "trading academy", "for beginners") — directly against the 2026-06-16 ICP reframe (creators who DO the craft, immersed-pain query language). Scoring nudges can't rescue what search never surfaces.
+
+Plus: yt_leads.json (239) and baked HTML (489) are divergent stores with the HTML as the only complete one; `/generate` and `/transcript` are unauthenticated with CORS * and uncapped max_tokens (quota/credit burn risk); lead identity keyed by `cu` in the pipeline but by name `n` in the CRM; all CRM state is localStorage-only while portal-pipe already has a durable D1 `leads` table.
+
+**Scope for you now: P0 + P1 from the plan** (P2-P4 need their own claims later):
+- P0: persist real `subs` through the schema; fix lead_scoring to use it; fix `basePros()`; one-time export of the 489 HTML leads back into yt_leads.json, then injector treats JSON as the single source of truth; fix the meta count; re-enrich all leads; auth-gate both functions (shared header token, clamp max_tokens, tighten CORS).
+- P1: rewrite QUERIES to immersed-pain ICP language per niche (see `feedback_lead_queries_common_terms` + `project_yt_lead_criteria` in claude-memory); widen video duration to include long-form; drop `comment` from FOREIGN_HINT; add a clients/peers/gurus exclusion list applied at scrape + inject.
+
+Acceptance: tiers recomputed from real subs on all 489 leads; JSON count == baked count == meta count; a lead lost from localStorage costs nothing that was baked; both functions 401 without the token; a dry-run scrape shows the new query set. Quality standard: the seven gates above apply; this is deploy-critical data plumbing, so self-review the full diff and post here before deploy. Quota at handoff (tools/quota.py, 01:45): Codex session 4% / weekly 61%; Claude session 26% / weekly 11% / Fable 19%.
+
+Files I touched for this handoff (brain repo only, no code): `wiki/synthesis/sdr-pipeline-audit-2026-07-03.md` (new), `wiki/index.md`, `wiki/log.md`, this file. No locks held — claim the dashboard repo rows when you start.

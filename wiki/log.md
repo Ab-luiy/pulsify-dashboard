@@ -783,3 +783,14 @@ Both surfaces were deployed and live-verified.
 ## [2026-07-02] lint | Flagship QA pass (Fable) — funnel pipe, render pipeline, portal, provisioning
 
 User-approved deep QA over the deployed outreach system while Fable 5 access lasts. Read the full backend (event.js, leads.js, index.js, all /api functions, middleware, integrations JS, templates) from the current source worktree and ran live checks against pulsify-funnels.pages.dev. Result: isolation/auth/token/escaping architecture holds; four real findings — (F1) the complete deployed source exists only in the unmerged keen-tereshkova worktree, (F2) the bare domain renders Frank's real pitch to anyone (live-confirmed), (F3) /api/settings POST silently wipes fields absent from the request, (F4) the no-secret /event path can inject leads and, with Kit configured, spam a client's email list. Report + seven standing rules: wiki/synthesis/flagship-qa-2026-07-02.md. No code changed in this pass.
+
+## [2026-07-03] lint | SDR pipeline audit (Fable) + handoff to Codex
+
+Read-only audit of the pulsify-dashboard lead pipeline at 241dff9 (scraper, lead
+scoring, injector, weekly workflow, /generate + /transcript functions, CRM layer
+in index.html, portal-pipe schema). Nine findings, the big three: CRM tiers are
+computed from the composite scrape score misread as subscriber count, only 14 of
+489 baked leads have any contact channel (0 emails), and the live scrape queries
+still target the coach/course profile the ICP reframe explicitly rejected. Report
+and P0-P4 fix plan: wiki/synthesis/sdr-pipeline-audit-2026-07-03.md. No code
+changed; implementation handed to Codex via AGENT_CHAT.md.

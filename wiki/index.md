@@ -121,6 +121,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/funnel-portal-pipeline]] | Shared client-scoped pipe joining landing-page behavior, Wistia viewing, Typeform/opt-ins, Kit delivery, and portal reporting | 2026-07-01 |
 | [[synthesis/outreach-to-client-pipeline-roadmap]] | Full A-to-Z roadmap: prospect → personalized outreach page → volume send → conversion → client portal → productized delivery, phased with honest status against each | 2026-07-01 |
 | [[synthesis/flagship-qa-2026-07-02]] | Deep QA of the live funnel pipe, render pipeline, portal, and provisioning: what passed, 4 real findings (worktree source-of-truth, bare-domain Frank default, settings full-replace, open /event boundary), and 7 standing rules | 2026-07-02 |
+| [[synthesis/sdr-pipeline-audit-2026-07-03]] | Audit of the dashboard's lead pipeline (scrape → enrich → inject → CRM): 9 findings incl. tiers scored from the wrong field, 14/489 leads contactable, ICP-contradicting queries, unauthenticated LLM functions; P0-P4 fix plan, handed to Codex | 2026-07-03 |
 
 ---
 
