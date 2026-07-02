@@ -24,8 +24,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/` (settings.html, client.html, functions/, migrations/, new campaigns page) | CLAUDE | ACTIVE | Executing roadmap phases 1-5: provisioning flow, /campaigns view, portal tab backends, hardening. Sequential builds via Sonnet subagents, deploys to pulsify-funnels between builds. |
-| `wiki/synthesis/outreach-to-client-pipeline-roadmap.md`, `wiki/playbooks/` (2 new playbooks), `wiki/index.md`, `wiki/log.md` | CLAUDE | ACTIVE | Roadmap status updates + prospect-signed onboarding playbook + launch QA checklist. |
+| _(none)_ | | | |
 
 ---
 
@@ -339,3 +338,21 @@ User asked directly where this whole system is ultimately headed and how far alo
 
 ### [2026-07-01 22:53] CLAUDE
 Claimed (see Lock Board). User instructed: execute the full roadmap (`wiki/synthesis/outreach-to-client-pipeline-roadmap.md`) end to end. Plan, in order: (1) Phase-1 finisher — "New prospect page" provisioning flow in /settings (paste creator brief -> copy LLM prompt -> paste token JSON -> save -> sendable link; optional fail-soft /api/generate for one-click later), (2) Phase 2 — /campaigns cross-page engagement view (new /api/campaigns aggregation + campaigns.html, admin-gated), (3) Phase 3+4 — prospect-signed onboarding playbook + real D1 backends for the client portal's Content/Calls/Arsenal tabs (Pipeline stays honestly pending, its data lives in pulsify-dashboard), (4) Phase 5 — delivery-failure logging + /api/health + QA checklist, and I'll answer my own three open audit questions on functions/index.js in the process. Stretch after all that verifies: the Lead Studio-side button in pulsify-dashboard (kept last deliberately — stale-worktree deploy trap). Builds run as Sonnet subagents in my worktree; I apply migrations + deploy to pulsify-funnels + live-verify between builds. Codex: everything here is auditable as usual; nothing in `assets/landing-page-standard/` source templates will be modified (template copies under output/standard-preview/templates/ get re-synced only if you change sources).
+
+### [2026-07-02 11:45] CLAUDE - roadmap executed end to end, all live. Locks cleared. AUDIT WELCOME on all of it.
+
+Everything from my 22:53 claim shipped, verified, and deployed. Five builds (Sonnet subagents, each verified locally against isolated D1 state before I deployed):
+
+1. **Provisioning flow** (settings.html + js/provision-prompt.js + functions/_shared/provision-prompt.js + functions/api/generate.js): "New prospect page" section - paste creator brief -> copy a rules-encoded LLM prompt (headline rule, anti-invention, banned tells, strict-JSON contract) OR one-click POST /api/generate (Gemini-preferred, Anthropic fallback, 501 until a key exists) -> paste JSON -> creates the client_config row -> sendable + preview links. Overwrite-guarded.
+2. **/campaigns** (campaigns.html + functions/api/campaigns.js, admin-gated): every sent page with visits, max watch %, applications, failures_7d, last activity, computed signal (applied > hot > visited > no activity). Four grouped queries, fail-soft.
+3. **Client portal tabs live** (migration 0006 + functions/api/client-data.js + client.html + portal.html): content_items / call_notes / client_assets tables; /api/client-data mirrors leads.js resolveAccess (tenant isolation verified: token beats spoofed ?client=); operator "Delivery" editor in /portal; Content/Calls/Arsenal render live in /client with honest empty states. Pipeline stays pending on purpose.
+4. **Hardening** (migration 0007 + functions/api/health.js + additive event.js changes): Kit failures + rejected/unparseable Typeform webhooks now write delivery_failures (recordFailure never throws, response shapes unchanged - verified incl. a REAL Kit 401 logged correctly); /api/health = 24h activity, 7d failures by kind, recent 20; failures surfaced on /campaigns.
+5. **Lead Studio bridge** (pulsify-dashboard repo, commit 0402667 pushed to main, LIVE on pulsify-dashboard.pages.dev): new "Landing page" asset type in the per-lead drawer builds the same token JSON from the lead's Creator profile through both existing generate paths; "Create live page" POSTs to our /api/settings cross-origin (funnels ADMIN_KEY entered once, localStorage). Two-repo bridge decision: direct API, no shared D1.
+
+Migrations 0006 + 0007 applied to remote pulsify-portal D1. Deployed to pulsify-funnels PRODUCTION and live-verified: all pages 200, Frank's copy intact, /api/campaigns + /api/client-data + /api/health + /api/generate all gate with 401 unauthed, /event unchanged for unknown clients.
+
+**OPERATIONAL FINDING that likely explains our repeated "deploy twice" mystery:** wrangler pages deploy from a worktree WITHOUT `--branch main` creates a PREVIEW deployment (branch-aliased URL, no production secrets) and the live domain never updates. Always deploy with `--branch main`. My first deploy today did exactly this and production silently stayed stale.
+
+**Closing my own three audit questions from 2026-07-01 19:20** (Codex: overrule if you see it differently): (1) env.ASSETS.fetch() is the right Pages pattern for co-deployed assets - keeping it; (2) the "/" Function intercepts only the exact root path, so /client /portal /settings /campaigns are untouched - no conflict; (3) uniform escaping of & < > " ' is correct for tokens landing in both attribute and text positions - not overkill, no gaps for our positions.
+
+Docs/memory: roadmap doc updated with per-phase status blocks, wiki/log.md + wiki/index.md updated, new playbooks wiki/playbooks/prospect-signed-onboarding.md + wiki/playbooks/landing-page-launch-qa.md, memory note project_outreach_pipeline_execution.md. STILL USER-SIDE: Wistia/Typeform/Kit accounts; click-test of authed UIs with the real ADMIN_KEY (I still do not hold it - all authed-path verification was local with a dev key); optional GEMINI_API_KEY on pulsify-funnels for one-click generation. Codex: the whole run is auditable - highest-value audit targets are event.js (additive failure logging on the live pipe), the escaping/auth in client-data.js, and the Lead Studio drawer changes in pulsify-dashboard index.html.
