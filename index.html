@@ -4257,6 +4257,119 @@
     html.theme-pulse .kpi .v,
     html.theme-pulse .kpi .v.large { font-size:24px !important; }
   }
+
+  /* ============================================================
+     TRACK OS — rebuilt operator workspace (light + dark)
+     ============================================================ */
+  html.theme-track,
+  html.theme-night {
+    --sidebar-w:224px; --radius:14px; --radius-sm:10px;
+    --accent:#5b5cf0; --accent-dim:#4547d8; --violet:#7c5cff; --blue:#3276ee;
+    --cyan:#0ea5a8; --pink:#e85d8c; --orange:#e48b28;
+    --success:#139b72; --warn:#d88414; --danger:#dc4b5f;
+    --grad:linear-gradient(120deg,#5b5cf0,#7c5cff);
+    --grad-soft:linear-gradient(135deg,rgba(91,92,240,.12),rgba(124,92,255,.03));
+  }
+  html.theme-track {
+    --bg:#eef0f5; --bg-2:#f7f8fb; --surface:#fff; --surface-2:#f6f7fa; --surface-3:#eceef4;
+    --border:#e2e5ec; --border-strong:#cfd4df; --text:#161922; --text-2:#4d5362; --muted:#858c9c;
+    --accent-soft:rgba(91,92,240,.11); --accent-2-soft:rgba(14,165,168,.08); color-scheme:light;
+  }
+  html.theme-night {
+    --bg:#090b10; --bg-2:#0e1118; --surface:#141821; --surface-2:#191e29; --surface-3:#222836;
+    --border:#242b38; --border-strong:#363f50; --text:#f5f7fb; --text-2:#b6bdcb; --muted:#737c8e;
+    --accent-soft:rgba(124,92,255,.18); --accent-2-soft:rgba(14,165,168,.11); color-scheme:dark;
+  }
+  html.theme-track body,html.theme-night body{font-family:"Satoshi",system-ui,sans-serif;background:var(--bg);letter-spacing:-.008em}
+  html.theme-track body::before,html.theme-night body::before{background:var(--bg)!important;animation:none!important}
+  html.theme-track body::after,html.theme-night body::after{display:none!important}
+  html.theme-track .app,html.theme-night .app{grid-template-columns:var(--sidebar-w) minmax(0,1fr);gap:0}
+  html.theme-track aside.sidebar,html.theme-night aside.sidebar{
+    width:auto;height:100vh;min-height:0;margin:0;padding:20px 12px 14px;position:sticky;top:0;border:0;border-radius:0;
+    background:#10131b!important;color:#e8ebf3;box-shadow:1px 0 0 rgba(255,255,255,.04);overflow:hidden
+  }
+  html.theme-track .sidebar .brand,html.theme-night .sidebar .brand{padding:0 9px 20px;margin-bottom:12px;border-bottom:1px solid #262b36}
+  html.theme-track .sidebar .brand-mark,html.theme-night .sidebar .brand-mark{width:36px;height:36px;background:#fff;border-radius:10px;box-shadow:none}
+  html.theme-track .sidebar .brand-text .name,html.theme-night .sidebar .brand-text .name{font-family:"Clash Display";font-size:17px;color:#fff}
+  html.theme-track .sidebar .brand-text .media,html.theme-night .sidebar .brand-text .media{color:#626a7b;font:8px "JetBrains Mono";letter-spacing:.18em}
+  html.theme-track nav.sb-nav .nav-group,html.theme-night nav.sb-nav .nav-group{margin:15px 10px 5px;color:#4f5768;font:8px "JetBrains Mono";letter-spacing:.13em;text-transform:uppercase}
+  html.theme-track nav.sb-nav button,html.theme-night nav.sb-nav button{min-height:38px;margin:2px 0;padding:9px 11px;border-radius:9px;color:#9299a9;font-size:12px;font-weight:600}
+  html.theme-track nav.sb-nav button:hover,html.theme-night nav.sb-nav button:hover{background:#191e28;color:#fff}
+  html.theme-track nav.sb-nav button.active,html.theme-night nav.sb-nav button.active{background:#fff;color:#141720;box-shadow:0 7px 22px rgba(0,0,0,.24)}
+  html.theme-track nav.sb-nav button.active .ico,html.theme-night nav.sb-nav button.active .ico{stroke:#5b5cf0}
+  html.theme-track nav.sb-nav button .count,html.theme-night nav.sb-nav button .count{margin-left:auto;background:#1c222d;color:#7e8798;border:0;font:9px "JetBrains Mono"}
+  html.theme-track nav.sb-nav button.active .count,html.theme-night nav.sb-nav button.active .count{background:#eef0ff;color:#5b5cf0}
+  html.theme-track .sidebar .sb-foot,html.theme-night .sidebar .sb-foot{border-top-color:#252b37}
+  html.theme-track .sb-status,html.theme-night .sb-status{border:1px solid #252b37;background:#151922;border-radius:10px}
+  html.theme-track .sb-status .k,html.theme-night .sb-status .k{color:#50596a}
+  html.theme-track .sb-status .v,html.theme-night .sb-status .v{color:#aab1c0}
+  html.theme-track main.content,html.theme-night main.content{max-width:none;padding:0 34px 70px}
+  html.theme-track .page-head,html.theme-night .page-head{
+    min-height:86px;margin:0 -34px 24px;padding:20px 34px 18px;position:sticky;top:0;z-index:20;
+    background:color-mix(in srgb,var(--bg) 88%,transparent);border-bottom:1px solid var(--border);backdrop-filter:blur(18px)
+  }
+  html.theme-track .page-head h2.page-title,html.theme-night .page-head h2.page-title{font:600 26px/1 "Clash Display";letter-spacing:-.035em;color:var(--text)}
+  html.theme-track .page-head .eyebrow,html.theme-night .page-head .eyebrow{color:var(--muted);font:8px "JetBrains Mono";letter-spacing:.13em;text-transform:uppercase}
+  html.theme-track .theme-select,html.theme-night .theme-select,html.theme-track .head-actions .chip,html.theme-night .head-actions .chip{
+    min-height:34px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--text-2);box-shadow:none
+  }
+  html.theme-track .grid,html.theme-night .grid{gap:14px}
+  html.theme-track .card,html.theme-night .card{
+    border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)!important;
+    box-shadow:0 1px 2px rgba(19,25,39,.03),0 8px 24px rgba(19,25,39,.035);backdrop-filter:none;transition:.18s
+  }
+  html.theme-track .card:hover,html.theme-night .card:hover{transform:none;border-color:var(--border-strong);box-shadow:0 10px 30px rgba(19,25,39,.07)}
+  html.theme-track .card>h2,html.theme-night .card>h2,html.theme-track .rh .label,html.theme-night .rh .label{font:600 14px "Clash Display";color:var(--text)}
+  html.theme-track .card>h2 .meta,html.theme-night .card>h2 .meta{font:10px "Satoshi";color:var(--muted)}
+  html.theme-track .kpi,html.theme-night .kpi{min-height:104px;padding:15px;border:1px solid var(--border);border-radius:12px;background:var(--surface-2);box-shadow:none}
+  html.theme-track .kpi::before,html.theme-night .kpi::before,html.theme-track .kpi::after,html.theme-night .kpi::after{display:none!important}
+  html.theme-track .kpi .k,html.theme-night .kpi .k{font:8px "JetBrains Mono";letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  html.theme-track .kpi .v,html.theme-night .kpi .v,html.theme-track .kpi .v.large,html.theme-night .kpi .v.large{margin-top:10px;font:600 27px/1 "Clash Display"!important;letter-spacing:-.035em!important;color:var(--text);text-shadow:none}
+  html.theme-track .kpi.accent,html.theme-night .kpi.accent{background:var(--accent)!important;border-color:var(--accent)}
+  html.theme-track .kpi.accent .k,html.theme-night .kpi.accent .k,html.theme-track .kpi.accent .delta,html.theme-night .kpi.accent .delta{color:rgba(255,255,255,.68)}
+  html.theme-track .kpi.accent .v,html.theme-night .kpi.accent .v{color:#fff;text-shadow:none}
+  html.theme-track .ov-brief,html.theme-night .ov-brief{border:1px solid var(--border)!important;border-radius:14px;background:var(--surface)!important;box-shadow:none}
+  html.theme-track .ov-brief::after,html.theme-night .ov-brief::after{display:none}
+  html.theme-track .hero-band,html.theme-night .hero-band{border:1px solid var(--border)!important;background:var(--surface)!important;border-radius:14px}
+  html.theme-track .hero-kpi,html.theme-night .hero-kpi{border:1px solid var(--border);border-radius:12px;background:var(--surface)}
+  html.theme-track .chart-wrap,html.theme-night .chart-wrap{background:var(--surface-2);border:1px solid var(--border);border-radius:11px;box-shadow:none}
+  html.theme-track .empty,html.theme-night .empty,html.theme-track .cf-empty,html.theme-night .cf-empty{border-color:var(--border-strong);background:var(--surface-2);color:var(--muted)}
+  .track-command{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(330px,.8fr);gap:14px;margin-bottom:14px}
+  .track-video,.track-launchpad{min-height:260px;border:1px solid var(--border);border-radius:16px;background:var(--surface);box-shadow:0 10px 30px rgba(19,25,39,.055);overflow:hidden}
+  .track-video{display:grid;grid-template-columns:minmax(300px,.95fr) minmax(280px,1.05fr);color:inherit;text-decoration:none}
+  .track-thumb{position:relative;min-height:260px;background:#111;overflow:hidden}
+  .track-thumb img{width:100%;height:100%;display:block;object-fit:cover;transition:transform .35s}
+  .track-video:hover .track-thumb img{transform:scale(1.025)}
+  .track-play{position:absolute;left:22px;bottom:22px;width:48px;height:48px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#111;font-size:14px;box-shadow:0 10px 28px rgba(0,0,0,.3)}
+  .track-duration{position:absolute;right:12px;bottom:12px;padding:4px 7px;border-radius:6px;background:rgba(0,0,0,.82);color:#fff;font:10px "JetBrains Mono"}
+  .track-video-copy{display:flex;flex-direction:column;justify-content:center;padding:28px}
+  .track-kicker{display:flex;align-items:center;gap:8px;color:var(--muted);font:8px "JetBrains Mono";letter-spacing:.13em;text-transform:uppercase}
+  .track-live-dot{width:7px;height:7px;border-radius:50%;background:#f04444;box-shadow:0 0 0 4px rgba(240,68,68,.1)}
+  .track-video h3{margin:18px 0 22px;font:600 clamp(24px,2.2vw,38px)/1.03 "Clash Display";letter-spacing:-.045em;color:var(--text)}
+  .track-video-meta{display:flex;flex-wrap:wrap;gap:8px 14px;color:var(--muted);font-size:11px}
+  .track-launchpad{padding:22px}
+  .track-launch-head{display:flex;align-items:flex-end;justify-content:space-between;padding-bottom:15px;border-bottom:1px solid var(--border)}
+  .track-launch-head span{font:600 20px "Clash Display";color:var(--text)}.track-launch-head small{color:var(--muted)}
+  .track-launch-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}
+  .track-launch-grid a,.track-launch-grid button{display:flex;flex-direction:column;gap:2px;padding:13px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);text-align:left;text-decoration:none;font:inherit;cursor:pointer;transition:.18s}
+  .track-launch-grid a:hover,.track-launch-grid button:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .track-launch-grid b{font-size:12px}.track-launch-grid span{color:var(--muted);font-size:10px}
+  .track-connect-row{display:flex;flex-wrap:wrap;gap:6px}
+  .track-connect-row span{padding:5px 8px;border-radius:999px;font:8px "JetBrains Mono";letter-spacing:.04em;border:1px solid var(--border)}
+  .track-connect-row .connected{color:var(--success);background:color-mix(in srgb,var(--success) 8%,transparent)}
+  .track-connect-row .partial{color:var(--warn);background:color-mix(in srgb,var(--warn) 8%,transparent)}
+  .track-connect-row .offline{color:var(--muted);background:var(--surface-2)}
+  @media(max-width:1100px){.track-command{grid-template-columns:1fr}.track-launchpad{min-height:auto}}
+  @media(max-width:760px){
+    html.theme-track .app,html.theme-night .app{display:block}
+    html.theme-track aside.sidebar,html.theme-night aside.sidebar{width:100%;height:auto;padding:9px 12px;position:sticky;top:0;z-index:50;overflow:visible}
+    html.theme-track .sidebar .brand,html.theme-night .sidebar .brand,html.theme-track .sidebar .sb-foot,html.theme-night .sidebar .sb-foot,html.theme-track nav.sb-nav .nav-group,html.theme-night nav.sb-nav .nav-group{display:none}
+    html.theme-track nav.sb-nav,html.theme-night nav.sb-nav{display:flex;flex-direction:row!important;gap:5px;overflow-x:auto}
+    html.theme-track nav.sb-nav button,html.theme-night nav.sb-nav button{width:auto!important;flex:0 0 auto}
+    html.theme-track main.content,html.theme-night main.content{padding:0 14px 50px}
+    html.theme-track .page-head,html.theme-night .page-head{margin:0 -14px 15px;padding:14px;top:55px}
+    .track-video{grid-template-columns:1fr}.track-thumb{min-height:210px}.track-video-copy{padding:20px}.track-video h3{font-size:27px}.track-launch-grid{grid-template-columns:1fr 1fr}
+  }
 </style>
 </head>
 <body>
@@ -4352,6 +4465,8 @@
     </div>
     <div class="head-actions">
       <select id="themeSelect" class="theme-select" aria-label="Theme">
+        <option value="track">Track · Light</option>
+        <option value="night">Track · Dark</option>
         <option value="pulse">Pulse</option>
         <option value="trakyo">Trakyo</option>
         <option value="mirage">Mirage</option>
@@ -4370,6 +4485,36 @@
 
 <!-- LIVE -->
 <section class="tab-panel active" id="tab-live">
+
+  <div class="track-command">
+    <a class="track-video" id="latestVideoLink" href="https://www.youtube.com/watch?v=9VKPb37ma5k" target="_blank" rel="noopener">
+      <div class="track-thumb">
+        <img id="latestVideoThumb" src="https://i.ytimg.com/vi/9VKPb37ma5k/maxresdefault.jpg" alt="Latest AB Luiy YouTube video" />
+        <span class="track-play">▶</span>
+        <span class="track-duration" id="latestVideoDuration">36:18</span>
+      </div>
+      <div class="track-video-copy">
+        <div class="track-kicker"><span class="track-live-dot"></span>Latest YouTube upload</div>
+        <h3 id="latestVideoTitle">if i had 7 days to make $50k as a coach I'd do this.</h3>
+        <div class="track-video-meta"><span id="latestVideoViews">4 views</span><span id="latestVideoPublished">14 hours ago</span><span id="latestChannelState">17 subscribers · 10 videos</span></div>
+      </div>
+    </a>
+    <div class="track-launchpad">
+      <div class="track-launch-head"><span>Launchpad</span><small>everything one click away</small></div>
+      <div class="track-launch-grid">
+        <button type="button" data-jump-tab="crm"><b>Lead Studio</b><span>prompts + assets</span></button>
+        <a href="https://pulsify-funnels.pages.dev/campaigns" target="_blank" rel="noopener"><b>Campaigns</b><span>page signals</span></a>
+        <a href="https://pulsify-funnels.pages.dev/portal" target="_blank" rel="noopener"><b>Delivery</b><span>client assets</span></a>
+        <a href="https://pulsify-funnels.pages.dev/settings" target="_blank" rel="noopener"><b>Landing pages</b><span>create + edit</span></a>
+      </div>
+      <div class="track-connect-row">
+        <span class="connected">Instagram live</span>
+        <span class="connected">CRM live</span>
+        <span class="partial">YouTube public</span>
+        <span class="offline">YouTube Analytics connect</span>
+      </div>
+    </div>
+  </div>
 
   <!-- Where you left off: operator brief -->
   <div class="ov-brief">
@@ -5876,6 +6021,11 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 {
   "lastUpdated": "2026-05-16",
   "founder": "AB",
+  "youtube": {
+    "channel": { "name": "AB Luiy", "handle": "@ABLuiy", "url": "https://www.youtube.com/@abluiy", "subscribers": 17, "videos": 10, "source": "public-channel" },
+    "latestVideo": { "id": "9VKPb37ma5k", "title": "if i had 7 days to make $50k as a coach I'd do this.", "url": "https://www.youtube.com/watch?v=9VKPb37ma5k", "thumbnail": "https://i.ytimg.com/vi/9VKPb37ma5k/maxresdefault.jpg", "duration": "36:18", "views": 4, "publishedLabel": "14 hours ago", "source": "public-channel" },
+    "analytics": { "connected": false, "retentionAvailable": false, "watchTimeAvailable": false, "ctrAvailable": false }
+  },
   "phase": "Phase 1 — funnel build",
   "phaseDay": 2,
   "phaseDaysTotal": 14,
@@ -7636,17 +7786,17 @@ initPayoutSection();
   /* Theme switcher — default Mirage (= :root, no class) */
   (function(){
     var sel = document.getElementById("themeSelect");
-    var THEMES = ["pulse","trakyo","light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
+    var THEMES = ["track","night","pulse","trakyo","light","dark","signal","obsidian","atelier","aurora","prism","voltage"];
     function applyTheme(n){
       if (n !== "mirage" && THEMES.indexOf(n) === -1) n = "mirage";
       var c = document.documentElement.classList;
       [].slice.call(c).forEach(function(cl){ if (cl.indexOf("theme-") === 0) c.remove(cl); });
       if (n !== "mirage") c.add("theme-" + n);
-      try { localStorage.setItem("pulsify-theme-pulsebuild", n); } catch(e){}
+      try { localStorage.setItem("pulsify-theme-trackos", n); } catch(e){}
       if (sel) sel.value = n;
     }
-    var saved = "pulse";
-    try { saved = localStorage.getItem("pulsify-theme-pulsebuild") || "pulse"; } catch(e){}
+    var saved = "track";
+    try { saved = localStorage.getItem("pulsify-theme-trackos") || "track"; } catch(e){}
     applyTheme(saved);
     if (sel) sel.addEventListener("change", function(){ applyTheme(sel.value); });
   })();
@@ -9723,6 +9873,35 @@ initPayoutSection();
       });
     });
   });
+})();
+</script>
+
+<script>
+/* Track OS command surface: latest public YouTube state + one-click module jumps. */
+(function(){
+  function text(id,value){var el=document.getElementById(id);if(el&&value!=null)el.textContent=value;}
+  function renderLatestVideo(){
+    var embedded={};
+    try{embedded=JSON.parse(document.getElementById("data").textContent||"{}");}catch(e){}
+    var y=((typeof D!=="undefined"&&D.youtube)||embedded.youtube)||{};
+    var c=y.channel||{},v=y.latestVideo||{};
+    var link=document.getElementById("latestVideoLink"),img=document.getElementById("latestVideoThumb");
+    if(link&&v.url)link.href=v.url;
+    if(img&&v.thumbnail)img.src=v.thumbnail;
+    text("latestVideoTitle",v.title||"Latest YouTube upload");
+    text("latestVideoDuration",v.duration||"");
+    text("latestVideoViews",(Number(v.views)||0).toLocaleString("en-US")+" views");
+    text("latestVideoPublished",v.publishedLabel||"Published");
+    text("latestChannelState",(Number(c.subscribers)||0).toLocaleString("en-US")+" subscribers · "+(Number(c.videos)||0)+" videos");
+  }
+  document.querySelectorAll("[data-jump-tab]").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var target=document.querySelector('nav.sb-nav button[data-tab="'+btn.dataset.jumpTab+'"]');
+      if(target)target.click();
+    });
+  });
+  renderLatestVideo();
+  setTimeout(renderLatestVideo,1200);
 })();
 </script>
 

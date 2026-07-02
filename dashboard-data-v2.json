@@ -1,5 +1,32 @@
 {
   "lastUpdated": "2026-07-02T08:09:13.082Z",
+  "youtube": {
+    "channel": {
+      "name": "AB Luiy",
+      "handle": "@ABLuiy",
+      "url": "https://www.youtube.com/@abluiy",
+      "subscribers": 17,
+      "videos": 10,
+      "source": "public-channel"
+    },
+    "latestVideo": {
+      "id": "9VKPb37ma5k",
+      "title": "if i had 7 days to make $50k as a coach I'd do this.",
+      "url": "https://www.youtube.com/watch?v=9VKPb37ma5k",
+      "thumbnail": "https://i.ytimg.com/vi/9VKPb37ma5k/maxresdefault.jpg",
+      "duration": "36:18",
+      "views": 4,
+      "publishedLabel": "14 hours ago",
+      "discoveredAt": "2026-07-02T12:39:00+03:00",
+      "source": "public-channel"
+    },
+    "analytics": {
+      "connected": false,
+      "retentionAvailable": false,
+      "watchTimeAvailable": false,
+      "ctrAvailable": false
+    }
+  },
   "instagram": {
     "updatedAt": "2026-07-02T08:09:13.019Z",
     "profile": {
