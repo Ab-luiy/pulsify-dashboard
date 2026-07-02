@@ -1,7 +1,7 @@
 {
-  "lastUpdated": "2026-07-01T08:45:44.655Z",
+  "lastUpdated": "2026-07-02T08:09:13.082Z",
   "instagram": {
-    "updatedAt": "2026-07-01T08:45:44.596Z",
+    "updatedAt": "2026-07-02T08:09:13.019Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -10,9 +10,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 505,
-      "following": 468,
+      "following": 469,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=EAE9xR-p-owQ7kNvwH1EahB&_nc_oc=Adovn5FdntSrJgYTKjJ8mOl-IhznLgNpXm32r-5U7e_TzYC0JCYnVU92FXMswg5K9F0&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=t6SDQG6VCLbbSnzGSY4cbA&_nc_tpa=Q5bMBQFvzoQ9LYIMeg_tzFfHtjrJyHXHrHECFq0nIic22j0KLOF5mF0laTZsIxigNWq80k38e6wxMs8W&oh=00_AQCMz5FL0D4Yqn9yPu0J3HjpMrSh73Bq2tqksjhhdbEVjw&oe=6A4ABC68"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=vGGKh3r_828Q7kNvwGM1q90&_nc_oc=AdpGVsMgPvMccLXeyKf0cHKcrbLbOW_2S1vwpsB5nqynjJbwMZ1K9F8WaU5sBYK22Cw&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=4W3TeGbf6kHXiNSZSKPQ2A&_nc_tpa=Q5bMBQGve_vmXik2i7v--rnOywtEhIbvsol6vddUsKDwHEhWsDhnxUXKusgZVbyprBGPDA2tyAIb0Sqr&oh=00_AQD9FtRZF0z6iZYLEPWojb7TxUfGnje4A24ZhSIDk-1GRg&oe=6A4BD5A8"
     },
     "content": {
       "reelsCount": 8,
@@ -217,11 +217,11 @@
           "value": 2
         },
         {
-          "name": "YE",
+          "name": "FR",
           "value": 2
         },
         {
-          "name": "FR",
+          "name": "YE",
           "value": 2
         },
         {
@@ -245,11 +245,11 @@
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "CN",
           "value": 2
         },
         {
-          "name": "CN",
+          "name": "MX",
           "value": 2
         },
         {
@@ -273,15 +273,15 @@
           "value": 2
         },
         {
-          "name": "LV",
+          "name": "AF",
           "value": 1
         },
         {
-          "name": "CG",
+          "name": "IQ",
           "value": 1
         },
         {
-          "name": "KR",
+          "name": "GR",
           "value": 1
         }
       ],
@@ -311,19 +311,19 @@
           "value": 3
         },
         {
-          "name": "Dhaka, Dhaka Division",
-          "value": 2
-        },
-        {
           "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
-          "name": "Birigui, São Paulo (state)",
+          "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
           "name": "Rio de Janeiro, Rio de Janeiro (state)",
+          "value": 2
+        },
+        {
+          "name": "Birigui, São Paulo (state)",
           "value": 2
         },
         {
@@ -335,11 +335,11 @@
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
@@ -355,11 +355,11 @@
           "value": 2
         },
         {
-          "name": "Ipatinga, Minas Gerais",
+          "name": "Columbus, Ohio",
           "value": 2
         },
         {
-          "name": "Columbus, Ohio",
+          "name": "Ipatinga, Minas Gerais",
           "value": 2
         },
         {
@@ -379,15 +379,27 @@
           "value": 2
         },
         {
+          "name": "Três Coroas, Rio Grande do Sul",
+          "value": 1
+        },
+        {
           "name": "Kaisarianí, Attica (region)",
           "value": 1
         },
         {
-          "name": "Larkhall, Scotland",
+          "name": "Andradas, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Thimi, Bagmati Zone",
+          "name": "Dhamara, Odisha",
+          "value": 1
+        },
+        {
+          "name": "Masterton, Wellington Region",
+          "value": 1
+        },
+        {
+          "name": "São Pedro do Sul, Rio Grande do Sul",
           "value": 1
         },
         {
@@ -395,31 +407,11 @@
           "value": 1
         },
         {
-          "name": "Antrim, Northern Ireland",
+          "name": "Zaragoza, San Luis Potosi",
           "value": 1
         },
         {
-          "name": "Terlizzi, Puglia",
-          "value": 1
-        },
-        {
-          "name": "Sohna, Haryana",
-          "value": 1
-        },
-        {
-          "name": "Rupnagar, Punjab region",
-          "value": 1
-        },
-        {
-          "name": "Bogotá, Distrito Especial",
-          "value": 1
-        },
-        {
-          "name": "Buenos Aires, Ciudad Autónoma de Buenos Aires",
-          "value": 1
-        },
-        {
-          "name": "Lapu-Lapu City, Central Visayas",
+          "name": "Chomu, Rajasthan",
           "value": 1
         },
         {
@@ -427,43 +419,51 @@
           "value": 1
         },
         {
-          "name": "Iga-shi, Mie Prefecture",
+          "name": "Warsaw, Masovian Voivodeship",
           "value": 1
         },
         {
-          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
+          "name": "South Riding, Virginia",
           "value": 1
         },
         {
-          "name": "Puerto Villarroel, Cochabamba Department",
+          "name": "Inzago, Lombardia",
           "value": 1
         },
         {
-          "name": "Jamadoba, Jharkhand",
+          "name": "Sant Pere de Ribes, Cataluña",
           "value": 1
         },
         {
-          "name": "Pringgabaya, West Nusa Tenggara",
+          "name": "Coachella, California",
           "value": 1
         },
         {
-          "name": "Toronto, Ontario",
+          "name": "Ngwo, Enugu State",
           "value": 1
         },
         {
-          "name": "Bangkok, Bangkok",
+          "name": "Narsinghpur, Madhya Pradesh",
           "value": 1
         },
         {
-          "name": "Arapara, Dhaka Division",
+          "name": "Patna, Bihar",
           "value": 1
         },
         {
-          "name": "Mansoura, Dakahlia Governorate",
+          "name": "Tiruchirappalli, Tamil Nadu",
           "value": 1
         },
         {
-          "name": "Urgench, Xorazm Region",
+          "name": "Srinagar, Jammu and Kashmir",
+          "value": 1
+        },
+        {
+          "name": "Terdal, Karnataka",
+          "value": 1
+        },
+        {
+          "name": "Croydon, England",
           "value": 1
         }
       ],
