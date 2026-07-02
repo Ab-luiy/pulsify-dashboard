@@ -46,6 +46,14 @@ claude -p "task" --model haiku|sonnet|opus|opusplan
 4. Prompts must be self-contained: the callee has no chat context, only what the prompt and the repo give it. Include file paths and the acceptance criteria.
 5. Log every cross-call in the Log below (who called whom, model, task, outcome).
 
+**Effort and quota policy** (user directive 2026-07-02: do not burn either plan's session limits)
+- Neither agent can see the other plan's remaining quota, so the guard is spend discipline, not a fuel gauge. Observed floor: even a trivial `codex exec` run costs ~9-10k tokens of overhead, so no micro-calls — batch questions into one scoped call instead of several small ones.
+- Default is NO cross-call. Most tasks need zero. Cross-call only when a second model genuinely changes the outcome: pre-deploy review of a meaningful diff, a bug one side is stuck on, or an explicit user ask.
+- Match effort to stakes when calling Codex: small or mechanical diff = skip the review or gpt-5.4 medium; normal feature diff = gpt-5.5 medium; live-pipe, auth, payment, or deploy-critical code = gpt-5.5 high (xhigh only for genuinely hard problems, it is the most expensive setting).
+- Same ladder when calling Claude: haiku for mechanical checks, sonnet as the workhorse, opus/opusplan only for architecture or hard debugging.
+- One review round per change. The builder fixes findings and ships; no review-of-the-review unless the fix itself was high-risk.
+- If the user says either side is low on budget, that side stops being callable until they say otherwise (precedent: Codex build-budget pause on 2026-07-01).
+
 ---
 
 ## Lock Board
