@@ -7,7 +7,7 @@ metadata:
   originSessionId: f4365cfb-5a05-4c17-a2b4-fe27b929db76
 ---
 
-2026-07-02, user-approved Fable 5 deep QA of the deployed outreach system (code read + live production checks). Full report: `wiki/synthesis/flagship-qa-2026-07-02.md`. Architecture passed (tenant isolation, tokens, secret masking, middleware, templates). Open fixes, none yet applied:
+2026-07-02, user-approved Fable 5 deep QA of the deployed outreach system (code read + live production checks). Full report: `wiki/synthesis/flagship-qa-2026-07-02.md`. Architecture passed (tenant isolation, tokens, secret masking, middleware, templates). RESOLVED same day: F1-F3 fixed by Codex (commit 5ceebc1, merged to brain main, deployed) and independently live-verified by Claude - bare domain now generic, settings POST merge-semantics, source on main. F4 stays an accepted rule-bounded boundary. The 7 standing rules remain permanently in force. Original findings for reference:
 
 - **F1 (do first):** complete deployed source exists ONLY in unmerged worktree `.claude/worktrees/keen-tereshkova-bc3897/` - merge to vault main before it's cleaned. Standing rule: deployed code lives on main.
 - **F2:** bare `pulsify-funnels.pages.dev/` renders Frank's real pitch (functions/index.js defaults client to "frank"; static fallback index.html also Frank-coded). Default must be generic.

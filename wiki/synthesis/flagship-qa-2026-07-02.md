@@ -27,6 +27,8 @@ Stated plainly so nobody re-audits what already holds:
 
 ## Findings
 
+> Status update, 2026-07-02 afternoon: F1, F2, and F3 were fixed by Codex in commit `5ceebc1` (merged to brain main, deployed to production) and independently verified by Claude the same day: bare domain renders "Private Application" with zero Frank references while `?client=frank` still serves his real copy; the static fallback and render Function contain no Frank remnants; `/api/settings` POST now preserves every omitted field (presence-based `keep()` helper). F4 remains an accepted, rule-bounded boundary, not a bug. The standing rules below are unchanged and permanent.
+
 ### F1 — the deployed source of truth lives in a disposable worktree (structural, fix first)
 
 The complete production source (including `client-data.js`, `campaigns.html`, `api/generate.js`, the provisioning flow, migrations 0006–0007) exists only in the session worktree `.claude/worktrees/keen-tereshkova-bc3897/`, on an unmerged branch. The main vault checkout is missing all of the 2026-07-02 roadmap files. If that worktree is cleaned, the live site's source survives only as a Cloudflare deployment artifact. This is the same failure mode that already bit the dashboard repo (stale `awesome-bassi`) and the client portal (orphaned `wonderful-curran`).
