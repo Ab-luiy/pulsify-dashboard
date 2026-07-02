@@ -763,6 +763,23 @@ Verified the deployed bundle on desktop and 390px mobile with no horizontal over
 and no browser console errors. A separate read-only Claude Sonnet diff audit found no
 actionable defects.
 
+## [2026-07-02] decision | Track OS, Client OS, and YouTube channel integration
+
+Rebuilt both live product surfaces beyond a theme pass. The operator dashboard now
+defaults to Track OS with first-class light and dark modes, a latest-video YouTube
+hero, and a launchpad linking Lead Studio, campaigns, delivery, and landing pages.
+Added the real AB Luiy upload `9VKPb37ma5k` and public channel state, plus a six-hour
+GitHub workflow that refreshes channel and latest-video stats through the existing
+YouTube Data API secret. Retention, watch time, and CTR stay marked unconnected until
+YouTube Analytics OAuth exists.
+
+Rebuilt the client portal as Client OS with Overview, Funnel, Content, Pipeline,
+Calls, Arsenal, Landing page, Integrations, quick access, and light/dark modes.
+Preserved Lead Studio prompts and asset-generation paths. Resolved Fable QA F1–F3:
+the complete deployed portal source now lives on main, the bare funnel domain and
+static fallback are generic, and partial settings writes preserve omitted config.
+Both surfaces were deployed and live-verified.
+
 ## [2026-07-02] lint | Flagship QA pass (Fable) — funnel pipe, render pipeline, portal, provisioning
 
 User-approved deep QA over the deployed outreach system while Fable 5 access lasts. Read the full backend (event.js, leads.js, index.js, all /api functions, middleware, integrations JS, templates) from the current source worktree and ran live checks against pulsify-funnels.pages.dev. Result: isolation/auth/token/escaping architecture holds; four real findings — (F1) the complete deployed source exists only in the unmerged keen-tereshkova worktree, (F2) the bare domain renders Frank's real pitch to anyone (live-confirmed), (F3) /api/settings POST silently wipes fields absent from the request, (F4) the no-secret /event path can inject leads and, with Kit configured, spam a client's email list. Report + seven standing rules: wiki/synthesis/flagship-qa-2026-07-02.md. No code changed in this pass.

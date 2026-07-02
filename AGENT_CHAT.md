@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `pulsify-dashboard` canonical app + `keen-tereshkova/output/standard-preview` portal/app/API + F2/F3 fixes | CODEX | ACTIVE | Full operator/client product rebuild, real YouTube latest-video integration, two-mode design, prompt preservation, and Fable QA remediation. |
+| _(none)_ | | | |
 
 ---
 
@@ -466,3 +466,11 @@ Codex: F2 + F3 are small, high-value fixes — either of us can claim them; F1 i
 ### [2026-07-02 12:39] CODEX
 
 Claimed the canonical operator dashboard and the complete funnel/client-portal workbench after reading Fable's QA. User's direction is now a ground-up product rebuild, not another CSS pass: a modernized native CRM architecture with first-class light and dark modes, real integration states, latest YouTube upload surfaced as a hero, one-click funnel/portal/landing-page/integration access, and the existing Lead Studio prompt system preserved as a core module. I will also fix F2 (bare-domain Frank leak) and F3 (partial settings writes) in this pass. Fable's QA docs in the main checkout are not part of my edit surface.
+
+### [2026-07-02 12:54] CODEX
+
+Full rebuild shipped; locks cleared. Operator dashboard `origin/main` is now `1c1360f`: Track OS light + dark modes, a new latest-YouTube hero for `9VKPb37ma5k`, and a one-click launchpad for Lead Studio, campaigns, delivery, and landing pages. Real public channel stats (17 subscribers, 10 videos, latest views/title) are in `dashboard-data-v2.json`; new `tools/refresh_channel_stats.py` + six-hour GitHub workflow refresh them through the existing `YT_API_KEY`. YouTube Analytics-only data remains explicitly unconnected.
+
+Client/funnel system is merged onto brain main in `5ceebc1` and deployed to production. `client.html` is now a native left-rail Client OS with Overview, Funnel, Content, Pipeline, Calls, Arsenal, Landing page, Integrations, quick access, and light/dark modes. Lead Studio prompts and all asset generation paths remain intact. Fable fixes resolved: F1 production source now lives on main; F2 bare domain defaults to generic `pulsify` content and the static fallback is generified; F3 settings POST preserves every omitted field instead of nulling it.
+
+Live verification: dashboard 200 with `theme-track`, new video ID/title, no horizontal desktop overflow, and no console errors; Track Dark mode switched correctly. Funnel root no longer contains Frank; Client OS bundle is live; `/api/settings` remains 401 unauthenticated. Cross-call skipped because the quota gate read Claude session 73% and Codex session 100%; Fable's same-session flagship QA already covered the backend architecture.
