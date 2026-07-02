@@ -38,7 +38,10 @@ export async function onRequestPost({ request, env }) {
         raw,
         cfg.typeform_webhook_secret,
       );
-      if (!valid) return json({ ok: false, error: "invalid Typeform signature" }, 401);
+      if (!valid) {
+        await recordFailure(env, client, "typeform_signature", "invalid Typeform signature");
+        return json({ ok: false, error: "invalid Typeform signature" }, 401);
+      }
     }
 
     const answers = parseTypeformAnswers(formResponse.answers || []);
@@ -49,7 +52,10 @@ export async function onRequestPost({ request, env }) {
     const sessionId = hidden.session_id || body.session_id || null;
     const pageId = hidden.page_id || body.page_id || "main";
 
-    if (!email) return json({ ok: false, error: "Typeform response has no email field" }, 422);
+    if (!email) {
+      await recordFailure(env, client, "typeform_parse", "Typeform response has no email field");
+      return json({ ok: false, error: "Typeform response has no email field" }, 422);
+    }
 
     const lead = {
       client,
@@ -71,7 +77,7 @@ export async function onRequestPost({ request, env }) {
 
     const leadId = await saveLead(env, lead);
     await attachIdentityToEvents(env, client, visitorId, email);
-    const kit = await addToKit(cfg, { email, first_name: name || "" });
+    const kit = await addToKit(env, client, cfg, { email, first_name: name || "" });
     await setKitStatus(env, leadId, kit.status);
     await savePageEvent(env, {
       client,
@@ -112,7 +118,7 @@ export async function onRequestPost({ request, env }) {
 
     const leadId = await saveLead(env, lead);
     await attachIdentityToEvents(env, client, lead.visitor_id, email);
-    const kit = await addToKit(cfg, { email, first_name: lead.name || "" });
+    const kit = await addToKit(env, client, cfg, { email, first_name: lead.name || "" });
     await setKitStatus(env, leadId, kit.status);
     await savePageEvent(env, {
       client,
@@ -196,7 +202,7 @@ async function getConfig(env, client) {
   ).bind(client).first();
 }
 
-async function addToKit(cfg, person) {
+async function addToKit(env, client, cfg, person) {
   if (!cfg?.kit_api_key || !cfg?.kit_tag_id) return { status: "not_configured" };
   if (!person.email) return { status: "no_email" };
 
@@ -214,17 +220,60 @@ async function addToKit(cfg, person) {
         first_name: person.first_name || null,
       }),
     });
-    if (!subscriberResponse.ok) return { status: `subscriber_error_${subscriberResponse.status}` };
+    if (!subscriberResponse.ok) {
+      await recordFailure(
+        env,
+        client,
+        "kit",
+        `subscriber_error_${subscriberResponse.status}: ${await safeText(subscriberResponse)}`,
+      );
+      return { status: `subscriber_error_${subscriberResponse.status}` };
+    }
 
     const tagResponse = await fetch(`https://api.kit.com/v4/tags/${cfg.kit_tag_id}/subscribers`, {
       method: "POST",
       headers,
       body: JSON.stringify({ email_address: person.email }),
     });
-    if (!tagResponse.ok) return { status: `tag_error_${tagResponse.status}` };
+    if (!tagResponse.ok) {
+      await recordFailure(
+        env,
+        client,
+        "kit",
+        `tag_error_${tagResponse.status}: ${await safeText(tagResponse)}`,
+      );
+      return { status: `tag_error_${tagResponse.status}` };
+    }
     return { status: "synced" };
-  } catch {
+  } catch (err) {
+    await recordFailure(env, client, "kit", `network_error: ${err?.message || err}`);
     return { status: "network_error" };
+  }
+}
+
+async function safeText(response) {
+  try {
+    return (await response.text()).slice(0, 300);
+  } catch {
+    return "";
+  }
+}
+
+/**
+ * Records a delivery failure (Kit API or Typeform rejection) so it's visible
+ * on /api/health and the campaign board. Never throws, never blocks the
+ * original event path — if the table doesn't exist yet (migration not run)
+ * or D1 isn't bound, this silently no-ops.
+ */
+async function recordFailure(env, client, kind, detail) {
+  try {
+    if (!env.DB) return;
+    const safeDetail = detail == null ? null : String(detail).slice(0, 500);
+    await env.DB.prepare(
+      "INSERT INTO delivery_failures (client,kind,detail,at) VALUES (?,?,?,?)",
+    ).bind(client, kind, safeDetail, new Date().toISOString()).run();
+  } catch {
+    // swallow — telemetry must never break the funnel pipe
   }
 }
 

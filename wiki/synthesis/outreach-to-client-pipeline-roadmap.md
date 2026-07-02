@@ -3,8 +3,10 @@ type: synthesis
 tags: [funnel, outreach, sales, scaling]
 sources: [[wiki/synthesis/funnel-portal-pipeline]], [[wiki/synthesis/landing-page-standard]], [[wiki/playbooks/pulsify-dashboard-workstream]], [[claude-memory/project_funnel_portal_pipeline]], [[claude-memory/project_dashboard_product_vision]], [[claude-memory/project_lead_studio]]
 created: 2026-07-01
-updated: 2026-07-01
+updated: 2026-07-02
 ---
+
+> **Status update 2026-07-02:** the buildable remainder of this roadmap was executed and deployed in one run — provisioning flow, Lead Studio bridge, /campaigns board, portal tab backends (Content/Calls/Arsenal), failure logging + /api/health, and both playbooks ([[playbooks/prospect-signed-onboarding]], [[playbooks/landing-page-launch-qa]]). Per-phase updates are inline below. What remains is user-side (Wistia/Typeform/Kit accounts, ADMIN_KEY click-test, optional GEMINI_API_KEY) plus the deliberately-deferred items called out in Phases 4 and 5.
 
 # Outreach-to-client pipeline: the A-to-Z roadmap
 
@@ -42,6 +44,8 @@ A repeatable loop, most of it running without a Claude session babysitting each 
 
 **Status: ~70% done.** This is the phase the user is asking about right now (10-15 pages/day).
 
+> **Update 2026-07-02: done, except user-side accounts.** The Lead Studio connection now exists in both directions: (a) `/settings` has a "New prospect page" flow — paste a creator brief, copy a rules-encoded LLM prompt (or one-click `/api/generate`, Gemini-preferred, 501 until a key is set), paste the token JSON back, get the sendable link; (b) Lead Studio itself (pulsify-dashboard, deployed) gained a "Landing page" asset type that builds the same token JSON from a lead's stored creator profile and a "Create live page" action that provisions the page on pulsify-funnels via `/api/settings` (operator pastes the funnels ADMIN_KEY once, stored locally). Wistia/Typeform/Kit accounts remain the only open item, and they're user-side.
+
 Done:
 - One deployed page serves any prospect via `?client=<slug>` — no copied file per prospect (2026-07-01).
 - Two design variants exist and are pickable (`assets/landing-page-standard/canonical/` and `variant-02/`, both on the same integration contract) — Codex-built, audited.
@@ -60,6 +64,8 @@ The gap: `/portal` today shows funnel data one client at a time (pick from a dro
 
 **Not started.** Proposed scope once greenlit: extend `/portal` (or a new `/campaigns` view) to list every `client_config` row with its latest engagement summary in one table, sortable by "needs a follow-up" signals (opened, didn't apply; applied, no reply yet). This is squarely mine or Codex's to build — no new data model needed, it's a read/aggregation layer over what already exists.
 
+> **Update 2026-07-02: done and live.** `/campaigns` (admin-gated, same key as `/settings`) lists every sent page with visits, max watch %, applications, delivery failures (7d), last activity, and a computed signal (applied > hot > visited > no activity), sortable, with per-row links to the page, the alternate-design preview, settings, and portal. Backed by `/api/campaigns` (four grouped queries, fail-soft).
+
 ## Phase 3 — Prospect-to-client conversion workflow
 
 **Status: ~15% done.** The pieces exist in isolation; nothing formally connects them for landing pages specifically.
@@ -67,6 +73,8 @@ The gap: `/portal` today shows funnel data one client at a time (pick from a dro
 - CLAUDE.md already has a general onboarding trigger ("user names a signed client → run the full onboarding") and a fixed client folder convention (`clients/{name}/overview.md`, `content-pipeline.md`, `calls/`, `progress.md`, `decisions.md`).
 - Every integration field in `client_config` is already optional and upgradable with zero code changes — turning on Kit/webhook for a newly-signed client is already just filling in two Settings fields.
 - **Not yet written down anywhere:** the actual checklist for "prospect X just signed" as it applies to THIS system specifically — flip Kit/webhook on, decide if they keep the outreach page as-is or get a rebrand pass, create their `clients/{name}/` folder, generate their real client-portal link and hand it over. Small to write once someone actually signs through this pipeline; nobody has yet, so it's untested end to end.
+
+> **Update 2026-07-02: written.** [[playbooks/prospect-signed-onboarding]] is the checklist. Still untested against a real signing — run the first one against it and correct it.
 
 ## Phase 4 — Full client portal buildout
 
@@ -79,6 +87,8 @@ The gap: `/portal` today shows funnel data one client at a time (pick from a dro
 
 None of these are hard individually — each mirrors a pattern already proven elsewhere in the vault (Lead Studio's asset generation, the CRM's KPI tracking) — but wiring each into THIS portal, per client, is real, unstarted scope. This phase is the actual "$10K productized system" from [[claude-memory/project_dashboard_product_vision]], not a quick add-on.
 
+> **Update 2026-07-02: three of four tabs are live.** Content, Calls, and Arsenal now run on real D1 tables (`content_items`, `call_notes`, `client_assets`, migration 0006), read through `/api/client-data` on the same dual-auth pattern as `/leads` (tenant isolation verified), edited by the operator in a new Delivery section in `/portal`, rendered live in `/client` with honest empty states. Pipeline stays pending on purpose — its revenue/deal data lives in the operator dashboard with no shared schema yet; that bridge is the remaining Phase 4 scope.
+
 ## Phase 5 — Scale and operational hardening
 
 **Status: ~10% done.**
@@ -87,9 +97,13 @@ None of these are hard individually — each mirrors a pattern already proven el
 - Missing: monitoring/alerting on pipe failures (a silently-failing Kit call or webhook today just logs a status string nobody's watching), automated per-client deploy if this ever needs to move beyond query-param multi-tenancy to real custom subdomains, and real launch QA — which itself is blocked on the same missing Wistia/Typeform/Kit accounts from Phase 1.
 - Cal.com booking integration and closed-revenue attribution (tying a booked call and closed deal back to which outreach page originated it) — not started, lowest priority, depends on Phase 2's campaign visibility existing first to have something to attribute revenue back to.
 
+> **Update 2026-07-02: monitoring and QA are in.** Kit failures and rejected/unparseable Typeform webhooks now write to a `delivery_failures` table (migration 0007, fail-soft, never blocks the lead), surfaced per client on `/campaigns` and in a new admin `/api/health` endpoint (24h activity counts, 7d failures by kind, 20 most recent). Launch QA is codified in [[playbooks/landing-page-launch-qa]]. Still open in this phase: Cal.com + revenue attribution (unchanged), and real QA of the Wistia/Typeform/Kit legs once those accounts exist.
+
 ## Two repos, one system — the gap nobody's named yet
 
 `pulsify-funnels` (this system) and `pulsify-dashboard` (the operator CRM, Lead Studio, YouTube/IG lead sourcing) are two entirely separate Cloudflare projects with no API bridge between them today. Long-term, Phase 1's Lead Studio connection and Phase 2's campaign visibility both effectively require these to talk to each other — either a direct API call from one to the other, or a shared D1 database. Worth deciding deliberately rather than discovering by accident later; not urgent to solve today, but every phase above eventually bumps into it.
+
+> **Update 2026-07-02: decided and built — direct API, no shared D1.** Lead Studio calls `pulsify-funnels`'s `/api/settings` cross-origin with the operator's admin key (entered once, stored in the browser). The repos stay separate; the contract between them is the settings API plus the token JSON shape. Revenue-data sharing for the portal's Pipeline tab is still an open question and stays one.
 
 ## Overall: how close are we
 
@@ -106,7 +120,7 @@ Rough weighted read, not a precise number: **roughly a third of the way to Z**, 
 
 - Whether Lead Studio and this system should share one D1/one Cloudflare account, or stay separate with an API bridge — not decided.
 - Whether custom per-client domains are ever needed, or query-param multi-tenancy is the permanent answer — not decided, lower priority than everything above.
-- Codex's three open audit questions on the content-editor render pipeline (see Phase 1) are unresolved as of this writing.
+- Codex's three open audit questions on the content-editor render pipeline (see Phase 1) are unresolved as of this writing. *(Update 2026-07-02: self-answered in the AGENT_CHAT log — `env.ASSETS.fetch()` is the right Pages pattern for co-deployed assets; the `/` Function only intercepts the exact root path so `/client`, `/portal`, `/settings`, `/campaigns` are unaffected; uniform `&<>"'` escaping is correct for both attribute and text positions. Codex can still overrule with a second look.)*
 
 ## Source trail
 

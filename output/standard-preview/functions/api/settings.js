@@ -42,29 +42,35 @@ export async function onRequestPost({ request, env }) {
   if (client === "unknown") return json({ ok: false, error: "valid client id required" }, 422);
 
   const existing = await env.DB.prepare(
-    "SELECT kit_api_key,typeform_webhook_secret FROM client_config WHERE client=?",
+    `SELECT client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
+            kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
+            template_variant,page_content_json
+       FROM client_config WHERE client=?`,
   ).bind(client).first();
   const kitKey = body.kit_api_key || existing?.kit_api_key || null;
   const webhookSecret =
     body.typeform_webhook_secret || existing?.typeform_webhook_secret || null;
 
-  const proofImages = body.proof_images && typeof body.proof_images === "object"
+  const proofImages = hasOwn(body, "proof_images") && body.proof_images && typeof body.proof_images === "object"
     ? JSON.stringify(
         Object.fromEntries(
           Object.entries(body.proof_images).filter(([, url]) => url && String(url).trim()),
         ),
       )
-    : null;
+    : existing?.proof_images_json || null;
 
-  const pageContent = body.page_content && typeof body.page_content === "object"
+  const pageContent = hasOwn(body, "page_content") && body.page_content && typeof body.page_content === "object"
     ? JSON.stringify(
         Object.fromEntries(
           Object.entries(body.page_content).filter(([, val]) => val != null && String(val).trim()),
         ),
       )
-    : null;
+    : existing?.page_content_json || null;
 
-  const templateVariant = body.template_variant === "variant-02" ? "variant-02" : "canonical";
+  const templateVariant = hasOwn(body, "template_variant")
+    ? (body.template_variant === "variant-02" ? "variant-02" : "canonical")
+    : existing?.template_variant || "canonical";
+  const keep = (key, fallback = null) => hasOwn(body, key) ? (body[key] || null) : (existing?.[key] ?? fallback);
 
   await env.DB.prepare(
     `INSERT INTO client_config (
@@ -86,13 +92,13 @@ export async function onRequestPost({ request, env }) {
       updated_at=excluded.updated_at`,
   ).bind(
     client,
-    body.client_name || client,
-    body.wistia_media_id || null,
-    body.typeform_url || null,
+    keep("client_name", client) || client,
+    keep("wistia_media_id"),
+    keep("typeform_url"),
     webhookSecret,
-    body.kit_tag_id || null,
+    keep("kit_tag_id"),
     kitKey,
-    body.allowed_origin || null,
+    keep("allowed_origin"),
     proofImages,
     templateVariant,
     pageContent,
@@ -128,6 +134,10 @@ function checkAuth(request, env) {
 function parseJson(value) {
   if (!value) return {};
   try { return JSON.parse(value); } catch { return {}; }
+}
+
+function hasOwn(object, key) {
+  return Object.prototype.hasOwnProperty.call(object || {}, key);
 }
 
 function cleanId(value) {

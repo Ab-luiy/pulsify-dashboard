@@ -48,7 +48,7 @@ export async function onRequestGet(context) {
   const { request, env, next } = context;
   try {
     const url = new URL(request.url);
-    const client = cleanId(url.searchParams.get("client") || "frank");
+    const client = cleanId(url.searchParams.get("client") || "pulsify");
 
     let variant = "canonical";
     let content = {};
@@ -118,11 +118,11 @@ function titleCase(slug) {
     .split(/[-_]+/)
     .filter(Boolean)
     .map((part) => part[0].toUpperCase() + part.slice(1))
-    .join(" ") || "Frank Wieler";
+    .join(" ") || "Pulsify";
 }
 
 function cleanId(value) {
-  return String(value).toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "frank";
+  return String(value).toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "pulsify";
 }
 
 function escapeHtml(value) {

@@ -73,6 +73,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[playbooks/prospect-research-sop]] | Full 7-step SOP for scraping a prospect across YouTube, Instagram, sales funnel, and podcasts — outputs a Creator Profile that feeds every asset downstream | 2026-05-24 |
 | [[playbooks/brand-brain-intake]] | Week 1 Brand Brain build spec — pre-collection list, 7-section 90-min interview, Claude project structure, acceptance test before any other component goes live | 2026-06-09 |
 | [[playbooks/pulse-system-stack]] | Technical stack per Pulse System component — proven / v1-manual / v2-automated tags, manual-first principle, build order for the first paid client | 2026-06-09 |
+| [[playbooks/prospect-signed-onboarding]] | The checklist for when an outreach-page prospect signs — client folder, integrations on, portal link minted, delivery data seeded | 2026-07-01 |
+| [[playbooks/landing-page-launch-qa]] | Three-minute pre-send QA per outreach page plus per-batch pipe checks — render, copy rules, mobile, events, failure log | 2026-07-01 |
 
 ---
 

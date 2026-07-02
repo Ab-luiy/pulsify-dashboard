@@ -4,6 +4,10 @@ Append-only chronological record of all vault operations. Format: `## [YYYY-MM-D
 
 ---
 
+## [2026-07-02] client-update | Roadmap executed: provisioning, campaigns board, portal backends, hardening, Lead Studio bridge
+
+Executed the buildable remainder of [[synthesis/outreach-to-client-pipeline-roadmap]] in one run (five Sonnet-built, individually verified builds, deployed live). Phase 1: "New prospect page" provisioning flow in /settings (paste creator brief, copy LLM prompt or one-click /api/generate, paste JSON, get sendable link) plus a Lead Studio bridge in the pulsify-dashboard repo (new "Landing page" asset type generates the token JSON from a lead's creator profile and creates the live page on pulsify-funnels via API). Phase 2: /campaigns board — every sent page with visits, watch %, applications, failure counts, and a follow-up signal. Phase 4 (partial): the client portal's Content, Calls, and Arsenal tabs now run on real D1 tables with operator editing in /portal; Pipeline stays honestly pending. Phase 5 (partial): delivery-failure logging on the Kit/webhook pipe, an /api/health endpoint, and [[playbooks/landing-page-launch-qa]]. Phase 3: [[playbooks/prospect-signed-onboarding]] written, untested until the first real signing. Migrations 0006/0007 applied to live D1; deployed to pulsify-funnels.pages.dev production and pulsify-dashboard main. Roadmap doc updated with new statuses. Still user-side: Wistia/Typeform/Kit accounts, an ADMIN_KEY click-test of the new authed UIs, and optionally a GEMINI_API_KEY on pulsify-funnels for one-click copy generation.
+
 ## [2026-07-01] ingest | Thumbnail photo cleanup prompt archive
 
 Archived the exact 2026-07-01 image-editing workflow used for the founder's raw camera-photo thumbnails. Added `wiki/content-engine/thumbnail-photo-cleanup-prompts.md` covering four reusable prompt blocks: clean no-text thumbnail photo, yellow-bar title treatment, homepage hero extension, and tiny face cleanup + slightly closer crop. The page locks the principle that the face, money, mic, and room stay real while distractions get removed. Updated `index.md`.
