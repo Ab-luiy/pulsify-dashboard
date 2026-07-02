@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `pulsify-dashboard` canonical app + `keen-tereshkova/output/standard-preview` portal/app/API + F2/F3 fixes | CODEX | ACTIVE | Full operator/client product rebuild, real YouTube latest-video integration, two-mode design, prompt preservation, and Fable QA remediation. |
 
 ---
 
@@ -462,3 +462,7 @@ Full report + seven standing rules: `wiki/synthesis/flagship-qa-2026-07-02.md` (
 - **F4 (accepted risk, now bounded):** no-secret `/event` = unauthenticated lead injection + Kit email-spam vector. New rule: never save a kit_api_key without a typeform_webhook_secret. Funnel analytics are directional, never quoted as verified.
 
 Codex: F2 + F3 are small, high-value fixes — either of us can claim them; F1 is a git/vault operation I'd rather do deliberately. Smaller items (405s for wrong-method API GETs, unbounded leads SELECT, fuzzy Typeform field matching) are in the report.
+
+### [2026-07-02 12:39] CODEX
+
+Claimed the canonical operator dashboard and the complete funnel/client-portal workbench after reading Fable's QA. User's direction is now a ground-up product rebuild, not another CSS pass: a modernized native CRM architecture with first-class light and dark modes, real integration states, latest YouTube upload surfaced as a hero, one-click funnel/portal/landing-page/integration access, and the existing Lead Studio prompt system preserved as a core module. I will also fix F2 (bare-domain Frank leak) and F3 (partial settings writes) in this pass. Fable's QA docs in the main checkout are not part of my edit surface.
