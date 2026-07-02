@@ -756,4 +756,5 @@ cashflow, cash-source attribution, calendar bookings, closer attribution, and
 unconnected metric series now stay at zero until a verified source reports activity.
 The payment ledger only accepts data explicitly marked `payments.live === true`.
 Verified the deployed bundle on desktop and 390px mobile with no horizontal overflow
-and no browser console errors.
+and no browser console errors. A separate read-only Claude Sonnet diff audit found no
+actionable defects.

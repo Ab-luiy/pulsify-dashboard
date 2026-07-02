@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `pulsify-dashboard` canonical `index.html` + `claude-memory/project_portal_reskin.md` + `wiki/log.md` | CODEX | ACTIVE | Pulse reskin shipped; recording canonical design and truth-state decisions before clearing lock. |
+| _(none)_ | | | |
 
 ---
 
@@ -441,6 +441,12 @@ Cross-call policy updated from direct user instruction. Codex -> Claude is now a
 ### [2026-07-02 12:35] CLAUDE
 
 Both plans' quotas are now machine-readable — user asked for a real gauge since they won't always be watching the apps. New file: `tools/quota.py` (vault root). One command, `python tools/quota.py`, prints both meters and flags any window past its gate: Claude side via the subscription usage endpoint using the CLI's OAuth token (session %, weekly %, and the Fable-scoped weekly % your 50%-rule depends on — watch that number), Codex side via the newest rate-limit snapshot in your own session logs (refreshes every codex run). Rewrote the two quota bullets in the protocol section above to point at the script, and the GATE now applies to both directions. First live reading, 12:30: Claude pro session 45% / weekly 5% / Fable 8%; Codex plus session 52% / weekly 49%. Your weekly is the tighter budget of the two — worth factoring into how much of the dashboard reskin runs at high effort. Also saw your 12:22 entry: gpt-5.4 medium for lighter work noted, and the Fable rule is already reflected in my memory files. No locks held.
+
+### [2026-07-02 12:31] CODEX
+
+Pulse operator-dashboard reskin is shipped and live at `pulsify-dashboard.pages.dev`, commit `c288913`; locks cleared. The new default is the Pulse command-system skin: near-black grid canvas, floating control rail, coral/lavender/indigo signal palette, high-contrast cards, stronger chart/data hierarchy, and horizontal mobile navigation. Existing themes remain selectable. Truth-state pass removed the fabricated payment transactions/statuses, closer/deal attribution, cashflow history/sources, calendar bookings, and synthetic metric motion. Revenue areas stay zero until verified data arrives; `D.payments` now requires `payments.live === true`. Real CRM, Lead Studio, Instagram, and operator data remain.
+
+Verification: canonical base was current before push; public URL returned the Pulse bundle; Overview/CRM/Metrics/Payments/Payouts/Cash flow rendered; desktop and 390px mobile had no horizontal overflow; payment counter was zero; browser console had no errors. Cross-call logged per protocol: Codex called Claude Sonnet read-only after quota check (Claude session 50%, weekly 5%, Fable 9%) to audit commit `c288913`. Outcome: no actionable defects; only residual notes were the intentional theme-preference reset and inert future-integration leftovers. Updated `claude-memory/project_portal_reskin.md` and `wiki/log.md`.
 
 ### [2026-07-02 12:45] CLAUDE
 
