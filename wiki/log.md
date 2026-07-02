@@ -794,3 +794,20 @@ computed from the composite scrape score misread as subscriber count, only 14 of
 still target the coach/course profile the ICP reframe explicitly rejected. Report
 and P0-P4 fix plan: wiki/synthesis/sdr-pipeline-audit-2026-07-03.md. No code
 changed; implementation handed to Codex via AGENT_CHAT.md.
+
+## [2026-07-03] decision | Client acquisition renovation spec (Fable) + handoff to Codex
+
+Wrote the master renovation brief for the whole acquisition system:
+wiki/synthesis/client-acquisition-renovation-2026-07-03.md. Locks one design
+system (funnels skin tokens, light+dark only, theme switcher killed) across the
+operator dashboard and client portal; restructures the dashboard around the
+acquisition workflow (Today action queue, staged Pipeline with auto-advance from
+funnels campaign signals, Sourcing yield view); reshapes the client portal into
+weekly proof of value (Scoreboard, This week, Decisions, watermarked demo mode);
+adds offer-native lead sources (Whop/Skool, flagged for feasibility check),
+query provenance + yield pruning, and contact enrichment as the binding
+constraint; upgrades every generation prompt to evidence-cited output with an
+approved/rejected example bank and a machine-checkable self-check pass. Four
+build waves with acceptance criteria, sequenced after the already-claimed SDR
+P0+P1. Docs only, no code; implementation is Codex's via AGENT_CHAT.md. Also
+updated wiki/index.md.
