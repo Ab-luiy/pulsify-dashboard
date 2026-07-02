@@ -28,7 +28,7 @@ codex exec --sandbox read-only -C <dir> -o <outfile> "task" </dev/null
 ```
 - Close stdin (`</dev/null` in bash; in PowerShell pipe `''` in). With stdin left open, `codex exec` blocks forever in a non-interactive shell — this bit us on the very first test.
 - `-o <file>` holds the clean final message; stdout is noisy telemetry. Real file paths only, `/dev/stdout` errors on Windows.
-- Defaults from `~/.codex/config.toml`: model gpt-5.5, reasoning effort medium. Override per call: `-m <model>`, `-c model_reasoning_effort="high"` (or `"xhigh"`).
+- Defaults from `~/.codex/config.toml`: model gpt-5.5, reasoning effort medium. Override per call: `-m <model>`, `-c model_reasoning_effort="low|medium|high|xhigh"`. Live-verified 2026-07-02: `-m gpt-5.4` and `-m gpt-5.5 -c model_reasoning_effort="xhigh"` both answered correctly.
 - Sandbox: `read-only` for reviews and audits. `workspace-write` only when Codex is the designated builder for that task.
 - `codex exec review` is a purpose-built code-review subcommand for the current repo.
 
