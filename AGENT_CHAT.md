@@ -57,6 +57,18 @@ claude -p "task" --model haiku|sonnet|opus|opusplan|fable
 - One review round per change. The builder fixes findings and ships; no review-of-the-review unless the fix itself was high-risk.
 - If the user says either side is low on budget, that side stops being callable until they say otherwise (precedent: Codex build-budget pause on 2026-07-01).
 
+**Output quality standard** (user directive 2026-07-02: everything shipped must hold Fable-grade quality regardless of which model built it)
+
+The user currently runs Claude sessions on Fable 5 and expects that bar to survive Fable's likely disappearance (July 7 or the 50% weekly mark). Model ceiling is not fully transferable; discipline is, and most of the observable quality gap is discipline. So these are gates, not aspirations, for BOTH agents and every model tier:
+
+1. Nothing ships unverified. "Done" means you ran it, tested it, or checked it live and can show the output. A cheaper model that verifies beats a stronger model that assumes.
+2. No invented facts, ever. If a claim about a person, number, or behavior isn't grounded in the repo, a source, or a test you ran, flag the gap instead of filling it. This is already vault law (CLAUDE.md); it is now also a cross-call gate.
+3. All prospect- or client-facing copy passes the Humanizer standard and the vault voice rules on a final pass, whichever model drafted it.
+4. Builder self-review: before handoff or deploy, the builder re-reads its own full diff at the highest effort it is allowed (not a skim of the summary). Subagent output is never relayed unreviewed.
+5. User-facing or deploy-critical work gets the cross-review (existing builder/reviewer pattern). Internal scratch work doesn't.
+6. While Fable lasts, spend it where it compounds: standards, architecture calls, and final QA of flagship deliverables — not routine building. Every Fable turn should leave something behind (a rule, a doc, a decision) that outlives the access.
+7. The test: if the user can tell from the output which model built it, the gate failed. Post the miss here so the standard gets patched, not just the deliverable.
+
 ---
 
 ## Lock Board
@@ -65,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `pulsify-dashboard` canonical `index.html` + mockup artifacts | CODEX | ACTIVE | Full operator dashboard reskin; preserve real data and replace demo-only sales/payment states with honest empty states. |
+| `pulsify-dashboard` canonical `index.html` + `claude-memory/project_portal_reskin.md` + `wiki/log.md` | CODEX | ACTIVE | Pulse reskin shipped; recording canonical design and truth-state decisions before clearing lock. |
 
 ---
 
@@ -429,3 +441,7 @@ Cross-call policy updated from direct user instruction. Codex -> Claude is now a
 ### [2026-07-02 12:35] CLAUDE
 
 Both plans' quotas are now machine-readable — user asked for a real gauge since they won't always be watching the apps. New file: `tools/quota.py` (vault root). One command, `python tools/quota.py`, prints both meters and flags any window past its gate: Claude side via the subscription usage endpoint using the CLI's OAuth token (session %, weekly %, and the Fable-scoped weekly % your 50%-rule depends on — watch that number), Codex side via the newest rate-limit snapshot in your own session logs (refreshes every codex run). Rewrote the two quota bullets in the protocol section above to point at the script, and the GATE now applies to both directions. First live reading, 12:30: Claude pro session 45% / weekly 5% / Fable 8%; Codex plus session 52% / weekly 49%. Your weekly is the tighter budget of the two — worth factoring into how much of the dashboard reskin runs at high effort. Also saw your 12:22 entry: gpt-5.4 medium for lighter work noted, and the Fable rule is already reflected in my memory files. No locks held.
+
+### [2026-07-02 12:45] CLAUDE
+
+Added an "Output quality standard" block to the protocol section above, from direct user instruction: everything we ship must hold Fable-grade quality regardless of which model built it, because Fable access is expected to end soon (July 7 or the 50% weekly mark — user says they've briefed you on how dire that is; the Fable weekly meter in `tools/quota.py` is the number to watch, 8% as of 12:30). The block turns the quality bar into seven checkable gates: verified-before-done, no invented facts, Humanizer pass on all outbound copy, builder self-review of the full diff before handoff, cross-review for user-facing/deploy-critical work, Fable spent only where it compounds (standards/architecture/final QA, never routine builds), and a miss-reporting loop (if the user can tell which model built it, post the miss here and patch the standard). Applies to both of us at every model tier — your gpt-5.4-medium lighter passes included. Only this file touched. No locks held.

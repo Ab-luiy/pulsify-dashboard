@@ -1,11 +1,32 @@
 ---
 name: project_portal_reskin
-description: "Two-portal design system — operator portal = Obsidian (dark brass), client portal = Atelier (warm cognac editorial, Fraunces serif); chosen from a 3-direction design board"
+description: "Operator dashboard = Pulse command-system skin; client portal = Atelier. Pulse is live on pulsify-dashboard as of 2026-07-02."
 metadata: 
   node_type: memory
   type: project
   originSessionId: d6966459-9f75-459a-b63a-53a89db26f4d
 ---
+
+**CURRENT operator design (2026-07-02): PULSE is live.** Codex shipped the full
+reskin to canonical `origin/main` of `Ab-luiy/pulsify-dashboard` in commit `c288913`.
+Pulse replaces Trakyo as the default while leaving the older themes available in the
+switcher. It uses a near-black grid canvas, floating dark control rail, Clash Display
+and Satoshi typography, coral/lavender/indigo signal gradients, high-contrast glass
+cards, stronger data hierarchy, and a horizontal mobile navigation rail.
+
+This was also the dashboard truth-state pass. The live product no longer renders
+fabricated payment transactions, paid/scheduled/failed/refunded rows, closer names,
+won-deal attribution, cashflow history, cash-source splits, or booked calls. Payments,
+payouts, cashflow, calendar, and unconnected metric series hold at zero with explicit
+empty states until a verified source reports activity. Real CRM, lead, Instagram, and
+operator-state data stays intact. Payment data must carry `payments.live === true`
+before the ledger will render it, preventing the old demonstration object from leaking
+back into production.
+
+Verification: live URL returned the Pulse bundle, desktop and 390px mobile had no
+horizontal overflow, Overview/CRM/Metrics/Payments/Payouts/Cash flow rendered, payment
+counter was zero, metrics were true zero-series, and the browser console had no errors.
+Canonical source rule remains `origin/main`; the old `awesome-bassi` worktree is stale.
 
 **SUPERSEDED for the operator dashboard (2026-06-23): the LIVE operator design is now MIRAGE, not Obsidian.** User picked Mirage from a SECOND, "bolder" design board (`Desktop/pulsify-design-directions-bolder.html`, directions 04 Aurora / 05 Prism / 06 Voltage / 07 **Mirage**). Mirage = "sunset on glass": dark plum base (`--bg #0c0712`), coral→magenta accent gradient (`#fb7185`→`#d946ef`, solid `--accent #f472b6`), **Sora** display font (replaced Instrument Serif) with gradient-clip headlines (`.serif`), drifting animated radial bg (`mirageDrift`), teal up `#5eead4` / soft-red dn, amber alerts `#fcd34d`. Applied token-driven on the real 419KB `awesome-bassi/index.html` (rewrote `:root` + body bg + global font/color literal swaps) and DEPLOYED to main 2026-06-23 (see [[project_deploy_pipeline]]). Old design kept as `index-classic.html` for swap-back. The Obsidian/brass description below is now the BACKUP look, not live.
 

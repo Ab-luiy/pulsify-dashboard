@@ -741,3 +741,19 @@ and the landing-page standard, then corrected two trust leaks in
 because it violated the "nothing competes above the video" rule, and removed unsourced
 `1-on-1` claims from the meta/title/footer copy. The live case-study headline stayed
 because it is source-backed.
+
+## [2026-07-02] decision | Pulse operator dashboard reskin and honest empty states
+
+Shipped the Pulse visual system to the live operator dashboard in
+`Ab-luiy/pulsify-dashboard` commit `c288913`. The default dashboard now uses a
+near-black grid canvas, floating control rail, coral/lavender/indigo signals,
+high-contrast metric cards, stronger chart and empty-state treatment, and a compact
+horizontal mobile navigation rail. Existing terminology, tabs, integrations, CRM
+records, Instagram analytics, and operator signals remain intact.
+
+Removed the demonstration revenue story from the live UI. Payments, payouts,
+cashflow, cash-source attribution, calendar bookings, closer attribution, and
+unconnected metric series now stay at zero until a verified source reports activity.
+The payment ledger only accepts data explicitly marked `payments.live === true`.
+Verified the deployed bundle on desktop and 390px mobile with no horizontal overflow
+and no browser console errors.
