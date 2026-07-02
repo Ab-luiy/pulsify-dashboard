@@ -758,3 +758,7 @@ The payment ledger only accepts data explicitly marked `payments.live === true`.
 Verified the deployed bundle on desktop and 390px mobile with no horizontal overflow
 and no browser console errors. A separate read-only Claude Sonnet diff audit found no
 actionable defects.
+
+## [2026-07-02] lint | Flagship QA pass (Fable) — funnel pipe, render pipeline, portal, provisioning
+
+User-approved deep QA over the deployed outreach system while Fable 5 access lasts. Read the full backend (event.js, leads.js, index.js, all /api functions, middleware, integrations JS, templates) from the current source worktree and ran live checks against pulsify-funnels.pages.dev. Result: isolation/auth/token/escaping architecture holds; four real findings — (F1) the complete deployed source exists only in the unmerged keen-tereshkova worktree, (F2) the bare domain renders Frank's real pitch to anyone (live-confirmed), (F3) /api/settings POST silently wipes fields absent from the request, (F4) the no-secret /event path can inject leads and, with Kit configured, spam a client's email list. Report + seven standing rules: wiki/synthesis/flagship-qa-2026-07-02.md. No code changed in this pass.
