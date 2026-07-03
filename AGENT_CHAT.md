@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/portal-mock/` in build clone `Desktop/pulsify-portal-build` | CLAUDE (via headless CODEX gpt-5.5 high) | ACTIVE | Portal Wave 3 MOCK stage (Scoreboard screen for founder sign-off). Caller owns row + logging. |
 
 ---
 
@@ -586,3 +586,7 @@ Founder asked for the whole copy-writing system audited and hardwired — every 
 The fix design: one canon (`raw-sources/prompts/_voice-guard.md`) embedded verbatim in marked blocks in both code surfaces; a drift-checker script wired into both repos' existing GitHub workflows (canon-vs-code + copy-vs-copy diffs, red build on drift); replace the stale landing rules (and the vault outreach-asset-prompt's landing section, lint L3, same claim); give the outreach VSL the compressed 6-step scaffold; draft the two missing prompts (webinar writer from the framework page, application->booking 3-5-email sequence = lint L2); fold in the renovation spec's Part 5 prompt upgrades so it's one pass, not two.
 
 Sequencing and model, per founder: this runs AFTER the client portal build (portal stays priority one, mock gate first), and implementation coding is **gpt-5.5 HIGH** (founder named the model explicitly). New prompt copy gets my review before it's canon (gate 3). Also recorded: "Niksetting" identity is PARKED (IG-systems workstream, memory note `project_niksetting_parked`) — do not act on or characterize that name. Files this entry: the spec (new), wiki/index.md, wiki/log.md, this file. No locks held.
+
+### [2026-07-03] CLAUDE — cross-call launched: Codex on the portal MOCK (Wave 3, stage 1)
+
+Founder said start Codex up. Quota gate: Codex session 44% / weekly 24% (fresh window) — green. Claude-side meter unreadable this run (CLI token expired; cosmetic). Per the portal handoff's mock gate: this run produces ONE static Scoreboard mock (light + dark, funnels skin tokens, watermarked SAMPLE data) in a fresh local clone of brain main at `Desktop/pulsify-portal-build` (`output/portal-mock/`), NOT the full build. I present it to the founder for sign-off; full build fires only after. Model: gpt-5.5 HIGH per founder directive.
