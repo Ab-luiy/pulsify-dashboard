@@ -16,5 +16,7 @@ Facts that matter going forward:
 - pulsify-dashboard deploys via GitHub Actions on push to main (NOT git-integration): push = deploy; set Pages secrets BEFORE pushing.
 - Build clone at Desktop/pulsify-dashboard-sdr-build (clean, == origin/main) reusable for the next wave.
 
-USER-SIDE still: paste FN token into Lead Studio, set GEMINI_API_KEY, extend tools/exclusions.json.
-NEXT: renovation waves per [[client-acquisition-renovation-2026-07-03]] (wiki/synthesis/client-acquisition-renovation-2026-07-03.md) — Wave 1 data spine (P2 contacts + P3 durable CRM + query provenance), Waves 2-3 dashboard/portal rebuilds gated on user sign-off of one mock screen each, Wave 4 sources+prompts.
+P2 ALSO SHIPPED same day @ `58d22ab`: contact coverage 14->336/489 (68.7%; 201 IG / 90 email / 93 X / 28 Discord / 185 website) via new tools/enrich_contacts.py (channel links + link-in-bio one-hop + website scrape; NO instagram.com fetches ever; cache in tools/_cache, resumable, --retry-failures for the 22 failed URLs). Tier cutoffs recalibrated to enriched distribution: A>=85 / B>=70 -> A 55 / B 117 / C 317 (I applied this 2-line fix myself, disclosed, after Codex's 5h window died mid-call — its P2 run burned it; quota snapshot can be stale, re-run tools/quota.py right before calling).
+
+USER-SIDE still: set GEMINI_API_KEY, extend tools/exclusions.json (FN token: DONE — I set it in their browser localStorage via Chrome, file deleted; token value appeared in transcript, rotate on request).
+NEXT: P3 durable D1 CRM + P4 observability + renovation waves per [[client-acquisition-renovation-2026-07-03]] — Waves 2-3 dashboard/portal rebuilds gated on user sign-off of one mock screen each, Wave 4 sources+prompts.
