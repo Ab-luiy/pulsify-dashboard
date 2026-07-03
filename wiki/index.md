@@ -94,7 +94,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[content-engine/ai-content-workflow-thumbnail-profile]] | Miro Proof Board v1: yellow headline, Miro grid, Claude UI proof, flat icons, real creator frame | 2026-05-10 |
 | [[content-engine/thumbnail-photo-cleanup-prompts]] | Reusable prompt archive for raw camera-photo thumbnail cleanup, homepage extension, and minimal face/crop touch-ups | 2026-07-01 |
 | [[content-engine/youtube-lead-sourcing-query-bank]] | Niche-by-niche YouTube search query bank for finding small monetized coaching channels — feeds Claude Code lead sourcer script | 2026-05-22 |
-| [[content-engine/pulsify-content-batch-2026-05]] | Nine ready-to-shoot title+thumbnail pairs for Pulsify's channel, 3 per pillar, built on validated formulas + the Nick proof | 2026-05-29 |
+| [[content-engine/pulsify-content-batch-b2b]] | PARKED — nine operator-facing title+thumbnail pairs; positioning warning: operator/B2B language attracts the OUT list, use the niche batches for client acquisition | 2026-05-29 |
+| [[content-engine/pulsify-content-niche-batches-2026-06]] | Craft-content title+thumbnail templates per money niche (trading/FBA/ecom/TikTok Shop), broad + specific tiers, figures illustrative except Nick | 2026-06-15 |
 
 ---
 
@@ -123,6 +124,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/flagship-qa-2026-07-02]] | Deep QA of the live funnel pipe, render pipeline, portal, and provisioning: what passed, 4 real findings (worktree source-of-truth, bare-domain Frank default, settings full-replace, open /event boundary), and 7 standing rules | 2026-07-02 |
 | [[synthesis/sdr-pipeline-audit-2026-07-03]] | Audit of the dashboard's lead pipeline (scrape → enrich → inject → CRM): 9 findings incl. tiers scored from the wrong field, 14/489 leads contactable, ICP-contradicting queries, unauthenticated LLM functions; P0-P4 fix plan, handed to Codex | 2026-07-03 |
 | [[synthesis/client-acquisition-renovation-2026-07-03]] | Master renovation spec: one design system across dashboard + portal, SDR-cockpit CRM restructure, client portal as weekly proof-of-value, offer-native lead sources + query yield loop, evidence-cited prompts; 4 build waves handed to Codex | 2026-07-03 |
+| [[wiki/lint-report]] | Business-layer audit: VSL chain sound, live copy passes, 8 findings — content-doctrine contradiction (L1, needs founder call), application->booking email gap, stale outreach prompt, conflicting payment rails, index rot | 2026-07-03 |
+| [[synthesis/payment-onboarding-automation-spec]] | Payment-triggered onboarding design: /api/payment (webhook + Mark-paid fallback), D1 payments table, auto Kit email + form + portal link, Revenue goes live; gated on the payment-rail decision + missing form questions | 2026-07-03 |
 
 ---
 

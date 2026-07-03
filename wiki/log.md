@@ -811,3 +811,20 @@ approved/rejected example bank and a machine-checkable self-check pass. Four
 build waves with acceptance criteria, sequenced after the already-claimed SDR
 P0+P1. Docs only, no code; implementation is Codex's via AGENT_CHAT.md. Also
 updated wiki/index.md.
+
+## [2026-07-03] lint | Business-layer audit (Fable) + payment-onboarding spec
+
+Founder-requested full scan of the operating layer: the Jeremy Haynes VSL chain
+(extraction -> VSL writer -> landing page -> pre-call emails), service delivery,
+live copy, and titles. Verdicts: chain is sound and internally consistent; live
+Frank copy passes every rule; the real problem is a three-way content-doctrine
+contradiction (CLAUDE.md categories vs craft-only niche batches vs the live
+"as a coach" video title) that mirrors the ICP query reframe and needs a founder
+decision. Eight findings in wiki/lint-report.md (application->booking email gap,
+stale outreach-asset landing section, three conflicting payment-rail records,
+stale SOP pointers, index rot — the index rot fixed in this pass). Also wrote
+wiki/synthesis/payment-onboarding-automation-spec.md: payment event -> D1 ->
+auto Kit email + onboarding form + portal link + operator notify, with a
+"Mark paid" fallback so SWIFT/crypto reality works day one; gated on the rail
+decision and the missing Q1/Q3 of the buyer-psychology questionnaire. Updated
+wiki/index.md (new rows + fixed the dead content-batch link).
