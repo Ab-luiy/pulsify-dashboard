@@ -72,6 +72,10 @@ def _monetization(text):
 
 
 def _subs_score(s):
+    # Historical leads whose subscriber count was stripped must stay usable
+    # without pretending that the composite scrape score is a subscriber count.
+    # 20 is the neutral midpoint of this component's practical 8-30 range.
+    if s is None:  return 20
     if s < 2000:  return 8
     if s < 5000:  return 16
     if s < 10000: return 22
@@ -94,6 +98,8 @@ def _wound(sig, subs):
     if sig == "strong":
         return "backend"
     if sig == "medium":
+        if subs is None:
+            return "needs-research"
         return "sales-infra" if subs >= 5000 else "lead-flow"
     return "content"
 
@@ -112,7 +118,11 @@ def enrich_leads(leads, scrape_date=None):
             scrape_date = datetime.date.today()
 
     for x in leads:
-        subs = x.get("s", 0) or 0
+        raw_subs = x.get("subs")
+        try:
+            subs = int(raw_subs) if raw_subs is not None else None
+        except (TypeError, ValueError):
+            subs = None
         ig, email = clean_contact(x.get("ig"))
         niche, niche_pts = niche_of(x.get("sq", ""))
         mon_pts, mon_sig = _monetization(f"{x.get('vt','')} {x.get('sq','')}")
@@ -125,4 +135,5 @@ def enrich_leads(leads, scrape_date=None):
         x["score"] = total
         x["tier"] = _tier(total)
         x["wound"] = _wound(mon_sig, subs)
+        x["bigfish"] = subs is not None and subs >= 40_000
     return leads

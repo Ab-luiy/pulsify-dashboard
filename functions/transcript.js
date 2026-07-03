@@ -8,6 +8,11 @@
 // environment variables (Settings -> Environment variables).
 
 const SUPADATA_ENDPOINT = "https://api.supadata.ai/v1/youtube/transcript";
+const ACCESS_HEADER = "x-fn-access-token";
+const ALLOWED_ORIGINS = new Set([
+  "https://pulsify-dashboard.pages.dev",
+  "https://pulsify-funnels.pages.dev"
+]);
 
 function extractVideoId(input) {
   if (!input) return null;
@@ -67,41 +72,61 @@ async function fetchOne(rawUrl, apiKey) {
   return { url: rawUrl, videoId, lang, text };
 }
 
-function jsonResponse(obj, status) {
+function responseHeaders(request) {
+  const headers = { "Content-Type": "application/json", "Vary": "Origin" };
+  const origin = request && request.headers.get("Origin");
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    headers["Access-Control-Allow-Origin"] = origin;
+  }
+  return headers;
+}
+
+function jsonResponse(obj, status, request) {
   return new Response(JSON.stringify(obj), {
     status: status || 200,
-    headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+    headers: responseHeaders(request)
   });
 }
 
 export async function onRequestPost(context) {
   const { request, env } = context;
+  const expectedToken = String((env && env.FN_ACCESS_TOKEN) || "");
+  const suppliedToken = request.headers.get(ACCESS_HEADER) || "";
+  if (!suppliedToken) {
+    return jsonResponse({ error: "Unauthorized." }, 401, request);
+  }
+  if (!expectedToken) {
+    return jsonResponse({ error: "FN_ACCESS_TOKEN is not configured." }, 500, request);
+  }
+  if (suppliedToken !== expectedToken) {
+    return jsonResponse({ error: "Unauthorized." }, 401, request);
+  }
   const apiKey = env && env.SUPADATA_API_KEY;
   if (!apiKey) {
-    return jsonResponse({ error: "SUPADATA_API_KEY is not set on this Cloudflare Pages project (Settings -> Environment variables)." }, 500);
+    return jsonResponse({ error: "SUPADATA_API_KEY is not set on this Cloudflare Pages project (Settings -> Environment variables)." }, 500, request);
   }
 
   let parsed;
-  try { parsed = await request.json(); } catch (e) { return jsonResponse({ error: "invalid JSON body" }, 400); }
+  try { parsed = await request.json(); } catch (e) { return jsonResponse({ error: "invalid JSON body" }, 400, request); }
 
   let urls = parsed && parsed.urls;
   if (typeof urls === "string") urls = [urls];
-  if (!Array.isArray(urls) || !urls.length) return jsonResponse({ error: "provide { urls: [...] }" }, 400);
+  if (!Array.isArray(urls) || !urls.length) return jsonResponse({ error: "provide { urls: [...] }" }, 400, request);
   urls = urls.slice(0, 3);
 
   const transcripts = [];
   for (let i = 0; i < urls.length; i++) {
     transcripts.push(await fetchOne(urls[i], apiKey)); // sequential — gentler on rate limits
   }
-  return jsonResponse({ transcripts });
+  return jsonResponse({ transcripts }, 200, request);
 }
 
-export async function onRequestOptions() {
+export async function onRequestOptions(context) {
+  const headers = responseHeaders(context.request);
+  headers["Access-Control-Allow-Methods"] = "POST, OPTIONS";
+  headers["Access-Control-Allow-Headers"] = "Content-Type, X-FN-Access-Token";
   return new Response(null, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type"
-    }
+    status: 204,
+    headers
   });
 }

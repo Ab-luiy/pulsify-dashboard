@@ -2,13 +2,13 @@
 """
 scrape_yt_leads.py — Pulsify YouTube lead scraper.
 
-Pulls scored online coaches / creators — personal-brand educators, course
-sellers, consultants — who package their work in legit, educational videos.
+Pulls scored money-skill practitioners/creators who visibly do the craft and
+publish legitimate educational videos about the problems they solve.
 Filters by channel size + video length + activity, demotes get-rich-quick /
 income-bait / non-Western channels, and writes a JSON the dashboard consumes.
 
 Schema written matches dashboard expectations (yt_leads.json):
-    [{s, n, cu, ig, vt, vu, pd, lt, ol, tv, tw, sq}, ...]
+    [{s, n, cu, ig, vt, vu, pd, lt, ol, tv, tw, sq, subs}, ...]
 where:
     s  = score (int)        n  = channel name
     cu = channel url        ig = instagram handle (or "")
@@ -16,6 +16,7 @@ where:
     pd = video publish date tv = video view count
     tw = channel total view count (proxy for reach)
     sq = search query that surfaced this lead
+    subs = real channel subscriber count
 
 Usage:
     python tools/scrape_yt_leads.py                 # full run, default queries
@@ -41,45 +42,104 @@ import urllib.request
 import urllib.parse
 import urllib.error
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from lead_exclusions import is_excluded, load_exclusions
+
 # ----------------------------------------------------------------------------
 # CONFIG
 # ----------------------------------------------------------------------------
 
-# Niches × queries — ICP: B2C make-money-online COACHES in money skills.
-#   IN: people who teach / sell courses+coaching to consumers in day trading,
-#       e-com (dropshipping / Shopify / TikTok Shop), and Amazon FBA. The
-#       coach/educator profile — "for beginners", "course", "how to start",
-#       "academy", "my students". Income figures in titles are NORMAL here.
+# Niches × queries — ICP: immersed creators who visibly do the money skill.
+# Pain language leads, followed by milestone/craft/strategy, with one
+# offer-intent catch-all per niche. Search breadth finds the practitioner;
+# scoring and human review qualify the lead.
 #   OUT (penalized in scoring): B2B operators / SMMA / agency owners, closers,
 #       appointment setters, YouTube/IG growth & content-creation coaches.
-#   Channel size: 2K-50K subs (has an offer, no big team — sweet spot).
+#   Channel size: 500-50K is the practical sweet spot; 300 is the hard floor.
 QUERIES = {
     "trading": [
-        '"day trading" for beginners',
-        '"how to start day trading"',
-        '"day trading" course',
-        '"learn to trade" stocks',
-        '"forex" for beginners',
-        '"forex trading" course',
-        '"options trading" for beginners',
-        '"trading academy"',
+        # PAIN
+        "trading psychology",
+        "how to stop revenge trading",
+        "how to stop overtrading",
+        "trading discipline",
+        "how to be a consistent trader",
+        "why you keep losing money trading",
+        "why 90% of traders fail",
+        "how to find your trading edge",
+        "taking profit too early trading",
+        "stop loss hunting explained",
+        "smart money concepts trading",
+        "how to pass a prop firm challenge",
+        "why i keep failing prop firm challenge",
+        # milestone / craft / strategy / offer-intent
+        "making 10k a month trading",
+        "how to read trend lines",
+        "my day trading strategy",
+        "forex mentorship",
+    ],
+    "ecom": [
+        # PAIN
+        "why my dropshipping store isnt selling",
+        "getting traffic but no sales shopify",
+        "low conversion rate shopify",
+        "facebook ads not converting dropshipping",
+        "tiktok ads not profitable dropshipping",
+        "why my dropshipping ads not working",
+        "how to scale dropshipping ads",
+        "dropshipping ads stopped working",
+        "cant find a winning product",
+        "how to find winning products that sell",
+        "dropshipping product testing not working",
+        "tiktok shop views but no sales",
+        "tiktok shop no orders",
+        "how to get affiliates tiktok shop",
+        "how to increase tiktok shop sales",
+        # milestone / strategy / offer-intent
+        "making 10k a month dropshipping",
+        "my dropshipping strategy",
+        "tiktok shop affiliate strategy",
+        "dropshipping mentorship",
+    ],
+    "fba": [
+        # PAIN
+        "why my amazon product isnt selling",
+        "amazon product not ranking",
+        "how to rank amazon products",
+        "amazon ppc not converting",
+        "how to lower acos amazon",
+        "amazon fba margins too low",
+        "amazon fba too competitive",
+        "amazon product launch failed",
+        "amazon listing suppressed",
+        "how to get reviews on amazon fba",
+        # milestone / craft / strategy / offer-intent
+        "making 10k a month amazon fba",
+        "amazon fba product research",
+        "my amazon fba strategy",
+        "amazon fba mentorship",
+    ],
+}
+
+# COMPARISON ONLY - superseded coach/course rotation. Never used by the live
+# scraper; retained so query-quality changes can be reviewed against baseline.
+LEGACY_COACH_QUERIES = {
+    "trading": [
+        '"day trading" for beginners', '"how to start day trading"',
+        '"day trading" course', '"learn to trade" stocks',
+        '"forex" for beginners', '"forex trading" course',
+        '"options trading" for beginners', '"trading academy"',
         '"my students" trading',
     ],
     "ecom": [
-        '"dropshipping" for beginners',
-        '"how to start dropshipping"',
-        '"dropshipping" course',
-        '"shopify" for beginners',
-        '"how to start shopify"',
-        '"tiktok shop" for beginners',
-        '"ecommerce" for beginners',
-        '"learn ecommerce"',
+        '"dropshipping" for beginners', '"how to start dropshipping"',
+        '"dropshipping" course', '"shopify" for beginners',
+        '"how to start shopify"', '"tiktok shop" for beginners',
+        '"ecommerce" for beginners', '"learn ecommerce"',
     ],
     "fba": [
-        '"amazon fba" for beginners',
-        '"how to start amazon fba"',
-        '"amazon fba" course',
-        '"amazon fba" step by step',
+        '"amazon fba" for beginners', '"how to start amazon fba"',
+        '"amazon fba" course', '"amazon fba" step by step',
         '"amazon fba" tutorial',
     ],
 }
@@ -138,7 +198,7 @@ OFF_ICP = re.compile(
 FOREIGN_HINT = re.compile(
     r"\b(como|cómo|para|você|voce|ganhar|ganhe|dinheiro|negócio|negocio|dinero|"
     r"gratis|gr[aá]tis|f[aá]cil|come[cç]ar|melhor|aprenda|hoje|fa[cç]a|"
-    r"resultados|comment|gagner|mois|argent|euros?|gana|"
+    r"resultados|gagner|mois|argent|euros?|gana|"
     r"wie|ich|und|geld|verdienen|machen|"
     r"kaise|kare|kamaye|kamai|paise|paisa|rupees|rupaye|lakh|crore|hindi|urdu|"
     r"pashto|bangla|bengali|in india|in pakistan|in bangladesh|in nigeria|"
@@ -238,11 +298,12 @@ def search_videos(query: str, api_key: str, max_results: int, lookback_days: int
     fetched = 0
     while fetched < max_results:
         page_size = min(50, max_results - fetched)
+        # Do not set videoDuration="medium": that caps search at 20 minutes.
+        # Shorts are removed after contentDetails enrichment.
         params = {
             "part": "snippet",
             "q": query,
             "type": "video",
-            "videoDuration": "medium",  # 4-20 min — long-form, excludes shorts
             "order": "relevance",
             "relevanceLanguage": "en",
             "publishedAfter": published_after,
@@ -344,7 +405,13 @@ def score_lead(video: dict, channel: dict, query: str, niche: str) -> int:
     return max(0, score)
 
 
-def collect_leads(api_key: str, max_per_query: int, lookback_days: int, niches: list) -> list:
+def collect_leads(
+    api_key: str,
+    max_per_query: int,
+    lookback_days: int,
+    niches: list,
+    exclusions: dict,
+) -> list:
     """Main pipeline. Returns deduped, scored, filtered list of lead dicts."""
     all_videos = []  # (query, niche, video_snippet)
     print(f"[1/4] Searching {sum(len(v) for k,v in QUERIES.items() if k in niches)} queries…", file=sys.stderr)
@@ -390,7 +457,7 @@ def collect_leads(api_key: str, max_per_query: int, lookback_days: int, niches: 
     print("[4/4] Filtering + scoring…", file=sys.stderr)
     leads_by_channel = {}  # channelId -> best lead
     dropped = {"no_video_data": 0, "shorts": 0, "no_channel_data": 0,
-               "subs_too_low": 0, "subs_too_high": 0}
+               "subs_too_low": 0, "subs_too_high": 0, "excluded": 0}
 
     for query, niche, vid, _ in unique:
         v = vmap.get(vid)
@@ -423,6 +490,9 @@ def collect_leads(api_key: str, max_per_query: int, lookback_days: int, niches: 
             if ch_custom.startswith("@")
             else f"https://www.youtube.com/channel/{ch_id}"
         )
+        if is_excluded(ch_url, exclusions):
+            dropped["excluded"] += 1
+            continue
         # IG from channel description / branding
         ig = extract_ig(ch_snip.get("description", "")) or extract_ig(
             c.get("brandingSettings", {}).get("channel", {}).get("description", "")
@@ -440,7 +510,7 @@ def collect_leads(api_key: str, max_per_query: int, lookback_days: int, niches: 
             "tv": int(v.get("statistics", {}).get("viewCount", 0) or 0),
             "tw": int(c.get("statistics", {}).get("viewCount", 0) or 0),
             "sq": query,
-            "_subs": subs,        # internal — stripped before write
+            "subs": subs,
             "_niche": niche,      # internal — stripped before write
         }
         # Keep the highest-scoring video per channel
@@ -459,7 +529,8 @@ def collect_leads(api_key: str, max_per_query: int, lookback_days: int, niches: 
         f"subs>{MAX_SUBS}={dropped['subs_too_high']}  "
         f"score<{MIN_SCORE}={dropped_low_score}  "
         f"no-video-data={dropped['no_video_data']}  "
-        f"no-channel-data={dropped['no_channel_data']}",
+        f"no-channel-data={dropped['no_channel_data']}  "
+        f"excluded={dropped['excluded']}",
         file=sys.stderr,
     )
 
@@ -480,19 +551,32 @@ def load_existing(path: Path) -> list:
 
 
 def merge_leads(existing: list, fresh: list) -> list:
-    """Union existing + fresh, dedup by channel (cu|n), keep the higher score.
+    """Union existing + fresh, dedup by channel (cu|n).
 
     Never lose a previously-found (and possibly hand-vetted) creator just
-    because a later run's lookback window missed their latest upload.
+    because a later run's lookback window missed their latest upload. Keep the
+    higher-scoring video, but always refresh its real subscriber count from the
+    current scrape.
     """
     by_key = {}
-    for l in existing + fresh:
+    for l in existing:
         key = l.get("cu") or l.get("n")
         if not key:
             continue
-        prev = by_key.get(key)
-        if not prev or (l.get("s", 0) or 0) > (prev.get("s", 0) or 0):
-            by_key[key] = l
+        by_key[key] = l
+    for lead in fresh:
+        key = lead.get("cu") or lead.get("n")
+        if not key:
+            continue
+        previous = by_key.get(key)
+        if not previous or (
+            (lead.get("s", 0) or 0) > (previous.get("s", 0) or 0)
+        ):
+            by_key[key] = lead
+        elif lead.get("subs") is not None:
+            merged = dict(previous)
+            merged["subs"] = lead["subs"]
+            by_key[key] = merged
     return sorted(by_key.values(), key=lambda l: l.get("s", 0) or 0, reverse=True)
 
 
@@ -511,6 +595,7 @@ def main():
     )
     parser.add_argument("--out", default="yt_leads.json")
     parser.add_argument("--meta-out", default="yt_leads_meta.json")
+    parser.add_argument("--exclusions", default="tools/exclusions.json")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print queries that would run, no API calls.")
     parser.add_argument("--overwrite", action="store_true",
@@ -522,6 +607,7 @@ def main():
     api_key = os.environ.get("YT_API_KEY")
 
     niches = [n.strip() for n in args.niches.split(",") if n.strip()]
+    exclusions = load_exclusions(repo_root / args.exclusions)
 
     if args.dry_run:
         print("DRY RUN — queries that would execute:")
@@ -531,6 +617,14 @@ def main():
                 print(f"    · {q}")
         total_q = sum(len(QUERIES.get(n, [])) for n in niches)
         print(f"\nTotal queries: {total_q}")
+        print("Video duration: 60s+ after enrichment (long-form included)")
+        print(
+            "Exclusions active: "
+            + ", ".join(
+                item.get("label", "unnamed")
+                for item in exclusions["channels"]
+            )
+        )
         print(f"Est. quota: ~{total_q * 100 + 30} units (search=100 ea, batched enrich ~30)")
         return
 
@@ -538,7 +632,9 @@ def main():
         print("ERROR: YT_API_KEY not set (.env or shell)", file=sys.stderr)
         sys.exit(1)
 
-    leads = collect_leads(api_key, args.max_per_query, args.lookback_days, niches)
+    leads = collect_leads(
+        api_key, args.max_per_query, args.lookback_days, niches, exclusions
+    )
 
     # Strip internal fields before writing
     public_leads = [
@@ -582,7 +678,7 @@ def main():
     if leads:
         print(f"Top 3:")
         for l in leads[:3]:
-            print(f"  · [{l['s']}] {l['n']} ({l['_subs']} subs) — {l['vt'][:70]}")
+            print(f"  · [{l['s']}] {l['n']} ({l['subs']} subs) — {l['vt'][:70]}")
 
 
 if __name__ == "__main__":

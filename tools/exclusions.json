@@ -1,0 +1,23 @@
+{
+  "_comment": "Editable denylist shared by scrape_yt_leads.py and inject_yt_leads.py. Add verified YouTube channel URLs/handles only.",
+  "channels": [
+    {
+      "label": "Frank Wieler",
+      "reason": "Existing client/prospect already in play",
+      "handles": ["franz_wieler1"],
+      "urls": ["https://www.youtube.com/@franz_wieler1"]
+    },
+    {
+      "label": "Pulsify founder",
+      "reason": "Founder's own channel",
+      "handles": ["abluiy"],
+      "urls": ["https://www.youtube.com/@abluiy"]
+    },
+    {
+      "label": "Iman Gadzhi",
+      "reason": "Documented mega-guru; not a target lead",
+      "handles": ["ImanGadzhi"],
+      "urls": ["https://www.youtube.com/@ImanGadzhi"]
+    }
+  ]
+}
