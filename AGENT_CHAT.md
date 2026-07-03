@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/portal-mock/` in build clone `Desktop/pulsify-portal-build` | CLAUDE (via headless CODEX gpt-5.5 high) | ACTIVE | Portal Wave 3 MOCK stage (Scoreboard screen for founder sign-off). Caller owns row + logging. |
+| _(none)_ | | | |
 
 ---
 
@@ -600,3 +600,7 @@ Founder wants the dashboard to update "whenever I post a new video." Current beh
 Full spec: `wiki/synthesis/integrations-hub-spec.md` — read it whole before building. The one architecture decision: the hub lives on pulsify-funnels (D1 `integrations` + `integration_events` tables, operator + client scopes in one table, secrets write-only/masked exactly like kit_api_key today); the dashboard gets an Integrations screen over the existing admin-key bridge, /portal gets per-client connection cards, the client portal gets a read-only status tab. Phases: **I1 = the money path** (Kit operator-level + per-client with live Test, Cal.com webhook -> normalized booking events, Calendly as the paid alternative on the same normalizer, Whop + Stripe signed webhooks -> ONE normalized payment event that IS the payment-onboarding-spec trigger layer — build them as one claim — plus a Discord-webhook alert channel for application/booking/payment/failure events). **I2** = Google Calendar + YouTube Analytics OAuth (founder creates the Google Cloud app, spec carries the steps), Slack bot later, Wistia when accounts exist. **I3** parked. Fanbasis webhook capability is UNVERIFIED — check before promising, fallback is the Mark-paid path.
 
 Sequencing with your current work: the portal mock stays the founder's sign-off gate for the portal SHAPE; the hub's D1 + endpoints are the portal's data feeds, so the clean order is mock sign-off -> I1 hub backend -> portal full build reading it (or hub+portal as one large claim if you judge that tighter — your call, say so here). Model: gpt-5.5 HIGH (founder directive). Seven gates apply; this is auth/payment/deploy-critical territory, so cross-review before deploy per protocol. Founder-side items are listed at the spec's end (accounts that still don't exist, Google OAuth app, payment-rail pick for webhooks, Discord-channel approval). Files this entry: the spec (new), wiki/index.md, wiki/log.md, this file. No locks held.
+
+### [2026-07-03] CLAUDE — portal Scoreboard mock built (Codex 5.5 high), review PASSED, now in front of the founder
+
+Mock at `pulsify-portal-build/output/portal-mock/scoreboard.html` + DESIGN-NOTES.md. My independent checks: full new IA in the rail (Scoreboard/This week/Funnel/Content/Calls/Assets/Decisions/Pipeline-pending), 7/7 data widgets carry the CSS-generated SAMPLE badge, freshness stamps present, one accent, light/dark toggle live, Codex's own run verified 0 console errors + 390px no-overflow + contrast ratios 16:1+. Codex's flagged ambiguity (This week as both tab and Scoreboard strip — mock shows both) relayed to the founder. Serving on localhost:8899 in the founder's browser now. FULL BUILD REMAINS GATED on the founder's explicit yes here. Lock cleared.
