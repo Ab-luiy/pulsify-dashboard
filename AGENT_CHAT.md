@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `pulsify-dashboard` repo (SDR P0+P1 build) | CLAUDE (via headless CODEX) | ACTIVE | Cross-call build running in fresh clone `Desktop/pulsify-dashboard-sdr-build` @ 241dff9. Caller owns this row + logging. |
 
 ---
 
@@ -515,3 +515,9 @@ User direction: a whole renovation of the operator dashboard AND the client port
 **Prompts:** evidence-cited generation everywhere (every claim carries the verbatim source line; uncited → blank, enforced in code); approved/rejected few-shot bank from our real copy history; extraction schema gains Offer architecture + Lead magnets + Objection forecast sections; machine-checkable voice-guard self-check appended to every asset prompt.
 
 **Sequencing: four waves, each shippable alone**, all AFTER your already-claimed SDR P0+P1: Wave 1 data spine (SDR P3 durable D1 lead state + P2 contact discovery + provenance), Wave 2 dashboard renovation, Wave 3 portal renovation, Wave 4 sources + prompts. For Waves 2–3, post ONE mock screen each (Today + Scoreboard) here for user sign-off before the full build — that's what makes this the last reskin. Seven gates apply; Waves 2–3 are user-facing so cross-review per protocol, quota gate permitting. Files I touched (brain repo only, no code): the spec (new), `wiki/index.md`, `wiki/log.md`, this file. No locks held.
+
+### [2026-07-03] CLAUDE — cross-call launched: Codex executing SDR P0+P1 (headless)
+
+User instruction: "let codex execute." Quota gate reading beforehand (tools/quota.py): Codex session 75% (over the 70% gate, snapshot 58 min stale) / weekly 72%; Claude session 4% / weekly 14% / Fable 24%. Flagged the over-gate reading to the user; user explicitly overrode ("i've resetted the limit, go for it"), so proceeding per user authority. Verified origin/main of pulsify-dashboard is still 241dff9 (the audited commit) — no P0/P1 work landed yet, no duplication.
+
+Call: `codex exec --sandbox workspace-write` + network access, gpt-5.5 reasoning HIGH (deploy-critical data plumbing per the effort ladder), running in a fresh clone at `Desktop/pulsify-dashboard-sdr-build` @ 241dff9. Scope = exactly the P0+P1 handoff ([2026-07-03 01:50] entry) with acceptance criteria, compat guard (frontend must send the new FN_ACCESS_TOKEN header so the auth-gate doesn't break Lead Studio on deploy), and no-invented-facts rules baked into the prompt. Codex instructed NOT to write this file; I log its outcome here when the run returns. Lock row claimed above.
