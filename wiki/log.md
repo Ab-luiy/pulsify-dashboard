@@ -845,3 +845,19 @@ prompts + Part 5 fold-in): wiki/synthesis/copy-system-hardening-spec.md, handed
 to Codex at gpt-5.5 high, sequenced after the client portal build. Also parked
 the "Niksetting" identity question per founder (IG-systems workstream, memory
 note written, no characterization).
+
+## [2026-07-03] decision | Integrations hub spec (founder: integrations are most important)
+
+Founder asked for app integrations (Google Calendar, Slack, Kit, everything
+relevant) connectable from the dashboard and portal. Wrote the full design:
+wiki/synthesis/integrations-hub-spec.md. Core decision: the hub lives on
+pulsify-funnels (D1 + secrets + auth already there), dashboard and portal are
+its two faces over the existing bridge/token patterns. Inventoried the whole
+stack into three phases: I1 money path (Kit operator+client, Cal.com webhooks,
+Calendly paid option, Whop/Stripe payment normalizer feeding the payment-
+onboarding trigger, Discord webhook alerts), I2 visibility (Google Calendar +
+YouTube Analytics OAuth, Slack bot, Wistia, Composio status), I3 parked
+(Typeform API, Drive/Notion, WhatsApp). Security inherits the masked-secret /
+resolveAccess / delivery_failures patterns; OAuth tokens encrypted at rest.
+Fanbasis webhook capability explicitly flagged unverified. Handed to Codex
+(gpt-5.5 high); I1 rides with or right after the portal build.
