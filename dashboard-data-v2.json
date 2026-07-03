@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-03T04:09:20.586411+00:00",
+  "lastUpdated": "2026-07-03T07:56:58.360Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-03T04:09:20.586411+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-02T08:09:13.019Z",
+    "updatedAt": "2026-07-03T07:56:58.311Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 505,
-      "following": 469,
+      "followers": 502,
+      "following": 468,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=vGGKh3r_828Q7kNvwGM1q90&_nc_oc=AdpGVsMgPvMccLXeyKf0cHKcrbLbOW_2S1vwpsB5nqynjJbwMZ1K9F8WaU5sBYK22Cw&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=4W3TeGbf6kHXiNSZSKPQ2A&_nc_tpa=Q5bMBQGve_vmXik2i7v--rnOywtEhIbvsol6vddUsKDwHEhWsDhnxUXKusgZVbyprBGPDA2tyAIb0Sqr&oh=00_AQD9FtRZF0z6iZYLEPWojb7TxUfGnje4A24ZhSIDk-1GRg&oe=6A4BD5A8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=vGGKh3r_828Q7kNvwGM1q90&_nc_oc=AdpGVsMgPvMccLXeyKf0cHKcrbLbOW_2S1vwpsB5nqynjJbwMZ1K9F8WaU5sBYK22Cw&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=V368HVP-tURYAnHzWZI_6w&_nc_tpa=Q5bMBQFc-Rk02C_Kr3U_3Q-NQFOGugdclMawET14fwn0PeT1TKe8Fbkp-LZyoXupB9zh7rjURB9gDtW9&oh=00_AQAibbAtNe4HPy7hhXBrwKWCCOrxmjb8FTnscD-KBpRNlQ&oe=6A4D2728"
     },
     "content": {
       "reelsCount": 8,
@@ -177,10 +177,6 @@
           "value": 5
         },
         {
-          "name": "PH",
-          "value": 5
-        },
-        {
           "name": "TR",
           "value": 5
         },
@@ -198,6 +194,10 @@
         },
         {
           "name": "IT",
+          "value": 4
+        },
+        {
+          "name": "PH",
           "value": 4
         },
         {
@@ -230,10 +230,6 @@
         },
         {
           "name": "MY",
-          "value": 3
-        },
-        {
-          "name": "ES",
           "value": 3
         },
         {
@@ -277,11 +273,15 @@
           "value": 2
         },
         {
+          "name": "MX",
+          "value": 2
+        },
+        {
           "name": "CN",
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "ES",
           "value": 2
         },
         {
@@ -305,7 +305,7 @@
           "value": 2
         },
         {
-          "name": "AF",
+          "name": "TW",
           "value": 1
         },
         {
@@ -313,7 +313,7 @@
           "value": 1
         },
         {
-          "name": "GR",
+          "name": "AZ",
           "value": 1
         }
       ],
@@ -351,11 +351,11 @@
           "value": 2
         },
         {
-          "name": "Rio de Janeiro, Rio de Janeiro (state)",
+          "name": "Birigui, São Paulo (state)",
           "value": 2
         },
         {
-          "name": "Birigui, São Paulo (state)",
+          "name": "Rio de Janeiro, Rio de Janeiro (state)",
           "value": 2
         },
         {
@@ -367,11 +367,11 @@
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
@@ -411,51 +411,55 @@
           "value": 2
         },
         {
-          "name": "Três Coroas, Rio Grande do Sul",
+          "name": "Arroio Teixeira, Rio Grande do Sul",
           "value": 1
         },
         {
-          "name": "Kaisarianí, Attica (region)",
+          "name": "San Antonio, Valparaíso Region",
           "value": 1
         },
         {
-          "name": "Andradas, Minas Gerais",
+          "name": "Soro, Odisha",
           "value": 1
         },
         {
-          "name": "Dhamara, Odisha",
+          "name": "Zlín, Zlín Region",
           "value": 1
         },
         {
-          "name": "Masterton, Wellington Region",
+          "name": "Bilari, Uttar Pradesh",
           "value": 1
         },
         {
-          "name": "São Pedro do Sul, Rio Grande do Sul",
+          "name": "Trichardt, Mpumalanga",
           "value": 1
         },
         {
-          "name": "Rotterdam, Zuid-Holland",
+          "name": "Vila Velha, Espírito Santo",
           "value": 1
         },
         {
-          "name": "Zaragoza, San Luis Potosi",
+          "name": "Franca, São Paulo (state)",
           "value": 1
         },
         {
-          "name": "Chomu, Rajasthan",
+          "name": "Buenos Aires, Ciudad Autónoma de Buenos Aires",
           "value": 1
         },
         {
-          "name": "La Rioja, La Rioja",
+          "name": "Colts Neck, New Jersey",
           "value": 1
         },
         {
-          "name": "Warsaw, Masovian Voivodeship",
+          "name": "Ourilândia do Norte, Pará",
           "value": 1
         },
         {
-          "name": "South Riding, Virginia",
+          "name": "Margilan, Fergana Region",
+          "value": 1
+        },
+        {
+          "name": "Reading, Pennsylvania",
           "value": 1
         },
         {
@@ -463,50 +467,46 @@
           "value": 1
         },
         {
-          "name": "Sant Pere de Ribes, Cataluña",
+          "name": "Coquitlam, British Columbia",
           "value": 1
         },
         {
-          "name": "Coachella, California",
+          "name": "Puerto Villarroel, Cochabamba Department",
           "value": 1
         },
         {
-          "name": "Ngwo, Enugu State",
+          "name": "Racibórz, Silesian Voivodeship",
           "value": 1
         },
         {
-          "name": "Narsinghpur, Madhya Pradesh",
+          "name": "Addis Ababa, Addis Ababa",
           "value": 1
         },
         {
-          "name": "Patna, Bihar",
+          "name": "Arapara, Dhaka Division",
           "value": 1
         },
         {
-          "name": "Tiruchirappalli, Tamil Nadu",
+          "name": "Paragould, Arkansas",
           "value": 1
         },
         {
-          "name": "Srinagar, Jammu and Kashmir",
+          "name": "Dendermonde, Flemish Region",
           "value": 1
         },
         {
-          "name": "Terdal, Karnataka",
-          "value": 1
-        },
-        {
-          "name": "Croydon, England",
+          "name": "Mansoura, Dakahlia Governorate",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 243
+          "value": 242
         },
         {
           "name": "M",
-          "value": 82
+          "value": 81
         },
         {
           "name": "F",
@@ -516,7 +516,7 @@
       "age": [
         {
           "name": "18-24",
-          "value": 158
+          "value": 156
         },
         {
           "name": "25-34",
@@ -776,7 +776,7 @@
     }
   },
   "content": {
-    "igFollowers": 505,
+    "igFollowers": 502,
     "igReach30d": 1142,
     "igReelsShipped": 18
   }
