@@ -828,3 +828,20 @@ auto Kit email + onboarding form + portal link + operator notify, with a
 "Mark paid" fallback so SWIFT/crypto reality works day one; gated on the rail
 decision and the missing Q1/Q3 of the buyer-psychology questionnaire. Updated
 wiki/index.md (new rows + fixed the dead content-batch link).
+
+## [2026-07-03] lint | Copy-system audit + hardening spec
+
+Founder asked how every piece of copy gets written (VSL, webinar, emails, all of
+it) and for the system to be hardwired against bugs and drift. Inventoried all
+four writing surfaces (vault prompts, Lead Studio buildPrompt, the triple-copied
+provisioning prompt, the titles skill) across 17 asset types. Six bugs verified
+in code: Lead Studio's "landing page copy" asset still teaches the dead
+pre-standard pattern two menu slots away from the correct one; three divergent
+voice-guard variants across surfaces with no drift detection; the outreach VSL
+rule has no 6-step structure; no webinar writer exists; the application->booking
+email window has no copy; the provisioning prompt is hand-synced across three
+copies in two repos. Fix design (canon voice guard + CI drift checker + missing
+prompts + Part 5 fold-in): wiki/synthesis/copy-system-hardening-spec.md, handed
+to Codex at gpt-5.5 high, sequenced after the client portal build. Also parked
+the "Niksetting" identity question per founder (IG-systems workstream, memory
+note written, no characterization).
