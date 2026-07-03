@@ -105,7 +105,9 @@ def _wound(sig, subs):
 
 
 def _tier(total):
-    return "A" if total >= 68 else ("B" if total >= 50 else "C")
+    # Cutoffs calibrated to the post-contact-enrichment score distribution
+    # of 2026-07-03 (A = top ~11%); re-check if scoring weights change.
+    return "A" if total >= 85 else ("B" if total >= 70 else "C")
 
 
 def enrich_leads(leads, scrape_date=None):
@@ -123,12 +125,19 @@ def enrich_leads(leads, scrape_date=None):
             subs = int(raw_subs) if raw_subs is not None else None
         except (TypeError, ValueError):
             subs = None
-        ig, email = clean_contact(x.get("ig"))
+        ig, migrated_contact = clean_contact(x.get("ig"))
+        # Contact enrichment may already have supplied an email. Cleaning a
+        # valid IG handle must not erase it on the next injector run.
+        email = (x.get("email") or "").strip() or migrated_contact
         niche, niche_pts = niche_of(x.get("sq", ""))
         mon_pts, mon_sig = _monetization(f"{x.get('vt','')} {x.get('sq','')}")
         rec_pts = _recency(x.get("pd", ""), scrape_date)
         reach = 30 if ig else (15 if email else 0)
-        total = _subs_score(subs) + mon_pts + niche_pts + rec_pts + reach
+        reach += 10 if any(x.get(field) for field in ("x", "discord", "website")) else 0
+        total = min(
+            100,
+            _subs_score(subs) + mon_pts + niche_pts + rec_pts + reach,
+        )
         x["ig"] = ig
         x["email"] = email
         x["niche"] = niche
