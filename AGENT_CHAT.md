@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `pulsify-dashboard` repo (SDR P0+P1 build) | CLAUDE (via headless CODEX) | ACTIVE | Cross-call build running in fresh clone `Desktop/pulsify-dashboard-sdr-build` @ 241dff9. Caller owns this row + logging. |
+| _(none)_ | | | |
 
 ---
 
@@ -521,3 +521,17 @@ User direction: a whole renovation of the operator dashboard AND the client port
 User instruction: "let codex execute." Quota gate reading beforehand (tools/quota.py): Codex session 75% (over the 70% gate, snapshot 58 min stale) / weekly 72%; Claude session 4% / weekly 14% / Fable 24%. Flagged the over-gate reading to the user; user explicitly overrode ("i've resetted the limit, go for it"), so proceeding per user authority. Verified origin/main of pulsify-dashboard is still 241dff9 (the audited commit) — no P0/P1 work landed yet, no duplication.
 
 Call: `codex exec --sandbox workspace-write` + network access, gpt-5.5 reasoning HIGH (deploy-critical data plumbing per the effort ladder), running in a fresh clone at `Desktop/pulsify-dashboard-sdr-build` @ 241dff9. Scope = exactly the P0+P1 handoff ([2026-07-03 01:50] entry) with acceptance criteria, compat guard (frontend must send the new FN_ACCESS_TOKEN header so the auth-gate doesn't break Lead Studio on deploy), and no-invented-facts rules baked into the prompt. Codex instructed NOT to write this file; I log its outcome here when the run returns. Lock row claimed above.
+
+### [2026-07-03] CLAUDE — SDR P0+P1 SHIPPED and live-verified. Cross-call loop closed, locks cleared.
+
+The headless Codex build (gpt-5.5 high) came back complete; I ran the review round per protocol, found ONE real defect, sent it back for a scoped fix (gpt-5.5 medium), re-verified everything independently, and shipped. Live on pulsify-dashboard.pages.dev at commit `40b52ce` (deploy workflow run succeeded).
+
+**The review finding, for the record (Codex: good work overall, this one matters as a pattern):** the first pass applied the exclusion list destructively at inject — it DELETED Frank Wieler's record from canonical yt_leads.json (489→488). Frank is the most active prospect (Lead Studio profile, generated assets, landing-page bridge all hang off his row) and this exact lead was already lost and deliberately restored once (commit `5ea144f`). Standing rule worth both of us keeping: **exclusion/denylist mechanisms gate NEW ingestion; they never remove existing canonical records** — tag, don't delete. The fix restored Frank (subs 805, tier C, `excluded: true` tag) and made the injector tag/untag instead of filter.
+
+**Independently verified before ship (not trusting the builder report):** all four stores agree at 489 (JSON == baked HTML == both meta counts, byte-identical); tiers recomputed from REAL subs — new distribution A 13 / B 120 / C 355 vs the old A 67 / B 279 / C 143, so ~80% of the old A-tier was scoring noise; zero subs values inherited from the composite `s` field (checked value ranges, 300–494K, median 7.6K); 239/489 leads have historically-stripped subs carried as null with neutral scoring, never fabricated; injector idempotent (I re-ran it, byte-identical); all three frontend call sites send `X-FN-Access-Token` with graceful missing-token states; py_compile + node --check clean; dry-run prints the pain-first query set (mirrors the query bank doc 1:1) with exclusions active.
+
+**Live checks on production:** page 200 with count 489 baked and exactly one `excluded:true` record; `/generate` and `/transcript` both 401 with no/wrong token; correct token passes auth (500 "No LLM key set", expected until GEMINI_API_KEY exists); CORS preflight returns ACAO for pulsify-dashboard.pages.dev and NOTHING for a foreign origin.
+
+**Operator-side, told to the user:** FN_ACCESS_TOKEN is set as a Pages secret (I generated it; value saved to `Desktop/FN_ACCESS_TOKEN.txt` for pasting into Lead Studio's new "Function access token" field, then delete the file); GEMINI_API_KEY still user-side; `tools/exclusions.json` seeded with 3 entries, user should extend.
+
+Deploy note for both of us: pulsify-dashboard deploys via the GitHub Actions workflow on push to main (not git-integration) — push IS the deploy; the Pages secret was set BEFORE pushing so the new deployment picked it up. Build clone `Desktop/pulsify-dashboard-sdr-build` left in place (clean, == origin/main) for the next wave; `.wrangler/` cache kept out of the commit. P2-P4 from the audit and the four renovation waves remain open — renovation Waves 2-3 still need the mock-screen sign-off step first.

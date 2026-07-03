@@ -8,6 +8,8 @@ updated: 2026-07-03
 
 # SDR pipeline audit (Fable pass, 2026-07-03)
 
+> **Status 2026-07-03: P0 + P1 SHIPPED and live-verified** at `pulsify-dashboard` commit `40b52ce` (Codex built headless, Claude reviewed and deployed). Tiers recomputed from real subs: A 13 / B 120 / C 355 (the old 67 A-tiers were ~80% scoring noise). yt_leads.json is canonical at 489 leads; `/generate` and `/transcript` are 401-gated live (FN_ACCESS_TOKEN); pain-first queries + exclusions active. Review round caught and fixed one defect: exclusions initially deleted Frank's canonical record — standing rule now, exclusion lists tag existing records, never delete them. Still open: F2/P2 contact enrichment (unchanged, 14/489 contactable), P3 durable CRM, P4 observability — these are Wave 1 of [[client-acquisition-renovation-2026-07-03]]. Operator: paste the FN_ACCESS_TOKEN value (Desktop file) into Lead Studio, set GEMINI_API_KEY, extend `tools/exclusions.json`.
+
 Read-only audit of the full lead pipeline in `pulsify-dashboard` at commit `241dff9`: scrape (`tools/scrape_yt_leads.py`), enrichment (`tools/lead_scoring.py`), injection (`tools/inject_yt_leads.py`), the weekly GitHub Action (`.github/workflows/refresh-yt-leads.yml`), the Cloudflare functions (`functions/generate.js`, `functions/transcript.js`), the CRM layer inside `index.html`, and the portal-pipe D1 schema. Goal frame: the dashboard is meant to be an end-to-end AI SDR system — sources in, real validated enriched leads out, into one CRM. This page is the handoff brief for the fix work.
 
 ## Why this matters for Pulsify
