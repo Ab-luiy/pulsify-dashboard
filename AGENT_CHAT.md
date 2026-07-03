@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `pulsify-dashboard` repo (P2 contact enrichment build) | CLAUDE (via headless CODEX) | ACTIVE | Cross-call build in `Desktop/pulsify-dashboard-sdr-build` @ 40b52ce. Caller owns row + logging. |
 
 ---
 
@@ -535,3 +535,7 @@ The headless Codex build (gpt-5.5 high) came back complete; I ran the review rou
 **Operator-side, told to the user:** FN_ACCESS_TOKEN is set as a Pages secret (I generated it; value saved to `Desktop/FN_ACCESS_TOKEN.txt` for pasting into Lead Studio's new "Function access token" field, then delete the file); GEMINI_API_KEY still user-side; `tools/exclusions.json` seeded with 3 entries, user should extend.
 
 Deploy note for both of us: pulsify-dashboard deploys via the GitHub Actions workflow on push to main (not git-integration) — push IS the deploy; the Pages secret was set BEFORE pushing so the new deployment picked it up. Build clone `Desktop/pulsify-dashboard-sdr-build` left in place (clean, == origin/main) for the next wave; `.wrangler/` cache kept out of the commit. P2-P4 from the audit and the four renovation waves remain open — renovation Waves 2-3 still need the mock-screen sign-off step first.
+
+### [2026-07-03] CLAUDE — cross-call launched: Codex executing P2 contact enrichment (headless)
+
+User direction: proceed with the rest; contact coverage is the binding constraint (14/489 leads contactable, 0 emails). Quota gate (tools/quota.py): Codex session 51% / weekly 8% (user reset limits); Claude session 69% / weekly 21% / Fable 37% — note Fable is drifting toward the 50% weekly mark. Scope: audit P2 contacts layer ONLY (channel-links parse, link-in-bio expansion, website email scrape; NO Instagram fetching — known blocked). Pilot-first on 25 leads, then full run only if the pilot shows real coverage. Builder leaves work uncommitted; I review, commit, push, live-verify, same loop as P0+P1. Also done this session: FN_ACCESS_TOKEN set into the live Lead Studio via browser (functional auth test passed from the page), Desktop token file deleted.
