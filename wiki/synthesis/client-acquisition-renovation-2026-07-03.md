@@ -161,9 +161,16 @@ Known-good leads and signed clients are seeds. From each seed channel: featured 
 
 489 leads, 14 IG handles, 0 emails (audit F2). Better queries multiply a number that gets multiplied by ~3% contactability — fix the multiplier first. P2 of the SDR audit already scopes this (parse all channel links, expand Linktree/Beacons, scrape lead sites for email, verify IG handles resolve); this spec adds priority: **P2 contact discovery outranks any new source module.** A directory source helps here too — Whop/Skool listings usually carry a Discord or direct contact path that YouTube descriptions hide.
 
-### 4.5 Liveness and velocity
+### 4.5 Proof-content targeting (founder direction, 2026-07-03)
 
-Prefer channels with an upload in the last 30 days and a rising short-window view trend ("small but growing" beats "small and stalled"). Cheap to compute from data already returned by the API at scrape time; feeds scoring as a modifier, not a gate.
+The founder's read, and it's right: beyond pain queries, the highest-signal creators are the ones **already publishing their results, unique mechanism, and case studies** — a "how I made $X with Y" library is simultaneously proof they do the craft, proof they have an audience, and proof they think in offers. Two cheap layers:
+
+1. **A proof-content query tier per niche**, alongside the pain tier: result-reveal and mechanism-reveal language (`how i made 10k a month trading`, `i turned $1k into`, `my exact strategy that made`, `[niche] case study`, `how i flipped my account`, `the product that did $X in 30 days`). These directly surface the creators the founder described instead of inferring them from pain-answer content.
+2. **Proof-density enrichment via channel RSS** — YouTube's per-channel RSS feed returns the last ~15 uploads with zero API quota. Count result-reveal/case-study/mechanism patterns across those titles per lead; store as `proof_density`; feed scoring as a strong positive. A channel whose recent library is one-third result-reveals is the ICP regardless of which query found them. The same RSS scan doubles as the liveness check below for free.
+
+### 4.6 Liveness and velocity
+
+Prefer channels with an upload in the last 30 days and a rising short-window view trend ("small but growing" beats "small and stalled"). Computable from the same RSS scan as 4.5 (upload dates) plus data already returned at scrape time; feeds scoring as a modifier, not a gate.
 
 ---
 
@@ -200,7 +207,9 @@ Bulk/low-stakes (profile extraction, drafts): Gemini free tier as configured. Pr
 
 Waves are separable; each is shippable alone. Codex weekly quota was 61% at the last reading — sequence accordingly, and cross-review per protocol only on deploy-critical waves.
 
-**Wave 0 (already claimed, unchanged):** SDR P0+P1 from [[synthesis/sdr-pipeline-audit-2026-07-03]]. Everything below assumes real subs, honest tiers, single JSON source of truth, authed functions, ICP-true queries.
+> **Re-sequenced 2026-07-03 (founder):** the client portal is the founder's top priority — "fully built and vetted out." Wave 3 (portal) runs FIRST, still mock-gated (one Scoreboard mock posted for sign-off before the full build). Waves 1 and 2 follow. The proof-content targeting layer (4.5) is pulled forward to ride with the first sourcing work after the portal ships.
+
+**Wave 0 (SHIPPED 2026-07-03):** SDR P0+P1 from [[synthesis/sdr-pipeline-audit-2026-07-03]], plus P2 contact enrichment (336/489 contactable, recalibrated tiers A 55 / B 117 / C 355). Everything below assumes real subs, honest tiers, single JSON source of truth, authed functions, ICP-true queries — all live at `pulsify-dashboard` commit `58d22ab`.
 
 **Wave 1 — data spine.** SDR P3 (durable D1 lead state, identity by channel URL) + P2 contact discovery + query provenance fields (4.1). Acceptance: a lead survives a cleared browser; one row spans scrape→application; every new lead records its source query; contact coverage measured per batch and visible.
 

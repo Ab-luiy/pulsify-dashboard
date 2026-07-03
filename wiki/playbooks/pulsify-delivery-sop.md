@@ -49,7 +49,7 @@ The week that decides whether the engagement succeeds. Skip nothing here.
 
 If any of these are missing or refused, escalate same-day. Refusal of payment-processor access voids the engagement per [[playbooks/pulsify-offer-v1]].
 
-**Brand Brain intake interview (Day 4–5, 90 min).** Founder + client. Structured questionnaire — see future page `wiki/playbooks/brand-brain-intake.md` (pending). Captures: voice samples, positioning history, audience psychographics, offer mechanics, unique mechanism candidates, past content that worked, past content that flopped.
+**Brand Brain intake interview (Day 4–5, 90 min).** Founder + client. Structured questionnaire — [[playbooks/brand-brain-intake]]. Captures: voice samples, positioning history, audience psychographics, offer mechanics, unique mechanism candidates, past content that worked, past content that flopped.
 
 **Week 1 deliverable to client (Day 7):**
 - Diagnosis doc — one page, names the three biggest bottlenecks and the order Pulsify will attack them.
@@ -166,7 +166,7 @@ Per [[playbooks/exam-mode-autonomous-ops]]:
 | WhatsApp | urgent only |
 | Loom | weekly async updates from founder |
 | Google Drive | file exchange |
-| Cal.com | sales calls |
+| Cal.com (free) or Calendly (paid) | sales calls — both approved (founder decision 2026-07-03): Cal.com is the free default, Calendly the paid option; client's choice |
 | Typeform | qualification |
 | Wistia / VSL host | VSL hosting and analytics |
 | Stripe / payment processor | revenue source of truth |
@@ -183,9 +183,8 @@ Per [[playbooks/exam-mode-autonomous-ops]]:
 
 ## Open questions / gaps
 
-- `wiki/playbooks/brand-brain-intake.md` not yet written. Becomes a priority once the first paid v1 client signs.
-- `wiki/playbooks/pulse-system-stack.md` (the technical stack: which Make/n8n flows, which webhooks, which Claude project structure) not yet written.
 - Off-boarding template emails and final-call agenda not yet drafted.
+- *(Resolved 2026-07-03: [[playbooks/brand-brain-intake]] and [[playbooks/pulse-system-stack]] both exist since 2026-06-09 — earlier "not yet written" claims here were stale, fixed per lint L5.)*
 
 ## Source trail
 

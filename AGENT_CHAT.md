@@ -557,3 +557,24 @@ Codex, when your window resets, two small claims are yours if you want quick win
 ### [2026-07-03] CLAUDE — audit addendum: real onboarding assets reviewed (L9). No lock conflicts (single edits, Codex window closed).
 
 Founder supplied the actual onboarding assets: a live 30-question Google Form (intake) + the CO1 Full Onboarding Doc (phased client checklist incl. Fanbasis PIF + Whop BNPL setup). Reviewed both; findings appended to `wiki/lint-report.md` as L9 (empty video/link placeholders, Zapier step vs the no-Zapier runtime decision, Calendly-vs-Cal.com inconsistency, missing Wistia/YouTube/IG/portal steps, raw-password collection in form Q28, buyer-psych questions absent). `wiki/synthesis/payment-onboarding-automation-spec.md` updated: the payment email sends Google Form + CO1 + portal link; Google Forms has no webhooks so v1 is link-send only, v2 optional Apps Script -> /event. Payment-rail decision (L4) withdrawn as a blocker for the operator "Mark paid" path — founder is handling rails himself; path B remains buildable now. Memory note `project_onboarding_form` rewritten to match reality.
+
+### [2026-07-03] CLAUDE — HANDOFF TO CODEX: client portal build is now PRIORITY ONE (founder re-sequenced the waves)
+
+Direct founder instruction this session: "I care so much about the client portal and I want that to be fully built and vetted out." No coding from me — this is your build when your window resets (~8:26). The renovation spec (`wiki/synthesis/client-acquisition-renovation-2026-07-03.md`) is updated: **Wave 3 (portal) runs FIRST**, then Wave 1 (data spine), then Wave 2 (dashboard). Wave 0 is done (SDR P0+P1+P2 all live at `pulsify-dashboard` 58d22ab — 336/489 leads contactable, tiers A 55 / B 117 / C 355).
+
+**Portal build brief (spec Part 3 is the source of truth, read it in full):**
+- Repo: the funnels system on brain main (`output/standard-preview/`), existing `client.html` Client OS shell + `/api/client-data` + token auth all stay the base. This is a rebuild of the SHAPE, not the plumbing.
+- New shape: Scoreboard default screen (KPIs + milestone tracker vs contracted outcome), "This week" delivery heartbeat (off content_items/call_notes/client_assets), Decisions view, upgraded Content pipeline view, Funnel/Calls/Arsenal upgraded in place, Pipeline stays honestly pending, watermarked demo mode for sales calls (labeled SAMPLE data on every widget — unlabeled fake data stays banned).
+- Design: your funnels skin tokens, light+dark, portal must read as one product with the landing page.
+- **Mock gate first:** post ONE Scoreboard mock screen here for founder sign-off BEFORE the full build. That's the standing gate from the spec and the founder confirmed the portal is where his attention is.
+- "Fully vetted" = the full loop: your self-review, my cross-review post-build (quota gates permitting), live verification with a real token, tenant-isolation re-check.
+
+**Also queued for you (smaller, after or alongside):**
+1. **Proof-content targeting** (spec 4.5, NEW, founder direction): a result-reveal/mechanism/case-study query tier per niche + `proof_density` enrichment via per-channel RSS (last ~15 upload titles, zero API quota; doubles as the liveness check). Founder's exact steer: better ways to target "make money online creators talking about their results/unique mechanism/case studies."
+2. L3 from `wiki/lint-report.md` (outreach-asset-prompt landing-page section -> point at the standard). L5 is already fixed by me (doc edits only).
+
+**Decisions recorded this session:** Cal.com (free default) AND Calendly (paid option) are both approved for client booking — delivery SOP updated, CO1 doc reconciliation is founder-side. Payment-rail decision is the founder's own thread; the Mark-paid path of `wiki/synthesis/payment-onboarding-automation-spec.md` is buildable without it, but do NOT start that build until the portal ships.
+
+**Blocked on founder (do not build around it):** Typeform application-form upgrade — founder wants question patterns from screenshots ("Niksetting" reference) that never reached us; waiting on the actual images before anything Typeform-related changes.
+
+Quota at handoff: Codex session/5h exhausted until ~8:26 AM (your P2 run burned it — good burn, it shipped); weekly 8%. My side: Fable weekly 37%, watch the 50% mark. No cross-call fired for this handoff on purpose — pick it up when your window opens. Files touched this entry: renovation spec (re-sequence + 4.5), delivery SOP (Cal/Calendly + stale pointers), lint-report L9 earlier, this file. No locks held.
