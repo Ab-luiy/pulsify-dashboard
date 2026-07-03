@@ -1,20 +1,16 @@
 ---
 name: project_onboarding_form
-description: Saved Typeform onboarding/post-close questionnaire to deploy when a new client signs — user triggers it by naming the signed client
+description: Client onboarding = live 30-question Google Form + CO1 Full Onboarding Doc (Google Doc); buyer-psychology questions still missing from the form; trigger = user names a signed client
 metadata: 
   node_type: memory
   type: project
-  originSessionId: af902ccf-17f3-4fd0-aaae-f6cb9fbaf378
+  originSessionId: f907bb42-8ad7-4bdb-a78c-800116c0a17e
 ---
 
-A great Typeform onboarding questionnaire the user wants kept in the arsenal and deployed at onboarding time. These are post-close BUYER-PSYCHOLOGY questions (win-reason / win-loss intelligence), not generic intake — they double as funnel + content intelligence (which video converted, what almost killed the sale, where to improve the funnel).
+UPDATED 2026-07-03 (supersedes the Typeform plan): the onboarding form is LIVE as a **Google Form**, 30 questions (contact, niche, offer + pricing, last-3-months revenue, income goal, platforms/audience sizes, story views, lead sources, buying path, funnel links, content winners/losers, bottlenecks, weekly hours, offline dates, launch plans, access needs, optional login paste, confirmation). Form id `1zXVRhwBgX3WF1ie194m-FvG7Vd4-OFpwNA9wtKu_gTE`. Second asset: **CO1 Full Onboarding Doc** (Google Doc id `1b3DyzRQ0h9u91l80kl_iqyrhKd6FiGe2xQe1rqN-FdE`) — phased client checklist (expectations video, surveys, voice-memo research, Drive/Stripe access, Discord, Kit, Zapier, Typeform, Calendly, Fanbasis PIF + Whop BNPL). "Pulsify Media LLC" appears as the entity name on CO1.
 
-**Trigger:** when the user signs a client and tells me the client's name, that's the cue to onboard them — I should lay out the full onboarding (this form + whatever else onboarding entails) without being asked again.
+STILL MISSING from the form: the buyer-psychology win-reason questions (what made you believe us / the ONE thing that almost stopped the buy / what would have made you buy earlier / which video converted you + link). User should add them as a final form section — they're the funnel-attribution + content-intelligence payload.
 
-Questions captured so far (numbering from the screenshots, partial — user is still posting):
-2. What made you believe we could actually solve your problem?
-4. What was the ONE thing that almost made you not buy?
-5. What could we have improved to make you pull the trigger on an earlier point?
-6. What was the one video that made you interested to book a call, please link:
+KNOWN ISSUES filed in wiki/lint-report.md (L9, 2026-07-03): CO1 has empty video/link placeholders throughout; tells clients to set up Zapier (contradicts the no-Zapier core-runtime decision); Calendly vs the delivery SOP's Cal.com; missing Wistia/YouTube-access/IG-access/portal-expectation steps; the form's Q28 invites pasting raw logins (security — delegated access instead).
 
-STATUS: incomplete — Q1 and Q3 (and possibly more) not yet posted. Update this file as the user sends the rest, then assemble the full ordered list.
+**Trigger unchanged:** when the user names a signed client, run the full onboarding (send form + CO1 + portal link, create clients/{name}/, per [[playbooks/prospect-signed-onboarding]]). Automation design: wiki/synthesis/payment-onboarding-automation-spec.md (Google Form has no webhooks — v1 sends links, v2 optional Apps Script -> /event).

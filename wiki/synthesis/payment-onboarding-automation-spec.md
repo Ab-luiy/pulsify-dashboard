@@ -50,15 +50,15 @@ Sent on the payment event, in the client's-coach voice = Pulsify's voice rules:
 
 Blocker: Kit account still doesn't exist (standing user-side item). Until it does, the function falls back to a mailto-able draft surfaced to the operator rather than silently failing — same fail-soft doctrine as the rest of the pipe.
 
-## The onboarding form
+## The onboarding packet (updated 2026-07-03 — founder supplied the real assets)
 
-The buyer-psychology questionnaire from the onboarding-form memory note (win-reason intelligence, doubles as funnel + content data):
-- Q2: What made you believe we could actually solve your problem?
-- Q4: What was the ONE thing that almost made you not buy?
-- Q5: What could we have improved to make you pull the trigger earlier?
-- Q6: Which one video made you interested enough to book a call? (link)
+The form is NOT a Typeform to be built — it already exists as a live **Google Form** (30 questions: contact/timezone, niche, offer + pricing, last-3-months revenue, income goal, platforms + audience sizes, story views, lead sources, buying path, current funnel + links, content winners/losers, inspirations, bottlenecks, weekly hours, offline dates, launch plans, account links, access needs, optional login paste, confirmation). Alongside it: the **CO1 Full Onboarding Doc** (Google Doc, phased client checklist: expectations video -> surveys -> voice-memo research -> Drive/Stripe access -> Discord, Kit, Zapier, Typeform, Calendly, Fanbasis PIF + Whop BNPL setup).
 
-**Incomplete — Q1 and Q3 were never posted (lint L8).** Founder supplies the missing questions before the Typeform is built. Suggested completion, pending approval: Q1 = "What was going on in your business that made you start looking for help?" (situation baseline), Q3 = "Where did you first find us?" (attribution). Form responses ride the existing Typeform-webhook -> `/event` -> D1 path with a `kind: onboarding` tag; answers render in `/portal` and get filed into `clients/{name}/overview.md`.
+So the payment-event email sends THREE links: the Google Form, the CO1 doc, and the auto-minted portal link.
+
+**Google Forms has no native webhooks.** V1: the automation sends the link and the operator reads responses in the linked Sheet (zero build). V2 (optional later): a small Apps Script on-submit trigger POSTs responses to the existing `/event` pipe with `kind: onboarding` so they land in D1/portal. Do not block v1 on v2.
+
+**Gap the form still has (lint L8, revised):** the buyer-psychology win-reason questions from the memory note (what made you believe us / what almost stopped you / what we could have improved / which video converted you) are NOT among the 30 — the form is logistics intake. Add those 4 as a final section of the same form (5 minutes in the Forms editor, founder-side) — they are the only questions that feed funnel attribution and content angles.
 
 ## What it unlocks downstream
 

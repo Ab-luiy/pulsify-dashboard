@@ -60,6 +60,16 @@ Jeremy's hammer-them sequence is post-BOOKING (6/day between booking and call). 
 - The buyer-psychology onboarding questionnaire is incomplete — Q1, Q3 (and possibly more) were never supplied. The onboarding automation needs the full form; founder to post the rest.
 - Kit email accounts still don't exist (standing blocker) — every email finding above lands in Kit when it does.
 
+### L9 — the CO1 onboarding packet (medium, founder supplied it 2026-07-03 after the first pass)
+
+Reviewed the live 30-question onboarding Google Form and the CO1 Full Onboarding Doc. Findings:
+1. **Empty placeholders throughout CO1**: the Phase 1 expectations video, every "watch the video below" step (Zapier, Typeform, Calendly, Fanbasis), the contract explanation, and the Phase 2 Drive/Stripe survey link are blank. A client working through it today hits dead ends.
+2. **Zapier step contradicts the architecture decision** (2026-07-01: core runtime is direct Cloudflare/D1/Kit, no Zapier required). Demote to optional / client-specific tools only.
+3. **Calendly vs Cal.com**: CO1 says Calendly, [[playbooks/pulsify-delivery-sop]] says Cal.com. Pick one, reconcile both docs.
+4. **Missing integration steps**: Wistia (VSL hosting — core to the Funnel Stack), YouTube Studio access, IG access via Meta Business Suite (all three are in the delivery SOP's credentials list), Kit API key handover for the funnels pipe, and a "you'll receive your private portal link" expectation step (CO1 predates the portal entirely).
+5. **Security**: form Q28 invites pasting raw login details into a Google Form (responses sit in a plaintext Sheet). Every tool in the stack supports delegated access (Meta partner access, YouTube channel permissions, Kit team, Typeform partner, Calendly team — CO1 already does this for two of them). Rule: never collect raw passwords; replace Q28 with per-tool delegated-access instructions.
+6. **The buyer-psychology questions are missing from the form** (revises L8): the 30 questions are logistics intake; the win-reason set (believed-us / almost-stopped / buy-earlier / which-video-converted) should be a final form section — it is the attribution + content-intelligence payload.
+
 ## What was checked and passed
 
 - Prompt-suite consistency: all five delivery prompts carry the identical 9-point voice guard and no-invention hard rules; the provisioning prompt (browser + server twins) carries the headline rule, anti-invention rule, and banned-tells list. No drift between the twins found at header level.
