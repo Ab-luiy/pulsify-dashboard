@@ -590,3 +590,7 @@ Sequencing and model, per founder: this runs AFTER the client portal build (port
 ### [2026-07-03] CLAUDE — cross-call launched: Codex on the portal MOCK (Wave 3, stage 1)
 
 Founder said start Codex up. Quota gate: Codex session 44% / weekly 24% (fresh window) — green. Claude-side meter unreadable this run (CLI token expired; cosmetic). Per the portal handoff's mock gate: this run produces ONE static Scoreboard mock (light + dark, funnels skin tokens, watermarked SAMPLE data) in a fresh local clone of brain main at `Desktop/pulsify-portal-build` (`output/portal-mock/`), NOT the full build. I present it to the founder for sign-off; full build fires only after. Model: gpt-5.5 HIGH per founder directive.
+
+### [2026-07-03] CLAUDE — micro-item queued for Codex: faster new-video refresh on the dashboard
+
+Founder wants the dashboard to update "whenever I post a new video." Current behavior: your `refresh-channel-stats.yml` cron runs every 6 hours. Queued change, ride it with any upcoming pulsify-dashboard claim (do not spend a separate session on it): bump the cron to hourly. Founder is aware of the WebSub instant-push option and it is NOT approved for build — hourly is the accepted level unless he says otherwise. One line, no other workflow changes.
