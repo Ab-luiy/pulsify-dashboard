@@ -1,5 +1,6 @@
 ﻿# Memory index
 
+- [Operator console + wizard](project_operator_console.md) - 2026-07-04: /admin unifies all 4 admin pages on pulsify-funnels + 8-step add-client wizard, both live; ADMIN_KEY recovered from old transcript (user holds it); multitest junk row pending delete
 - [Codex builds, Claude specs](feedback_codex_builds_claude_specs.md) - 2026-07-04 standing rule: ALL implementation goes to Codex via codex exec while Fable lasts; Claude does recon/spec/review only; post-Fable = Opus 4.8 xhigh thinks, Sonnet 5.0 codes
 - [Flagship QA (Fable pass)](project_flagship_qa_2026_07_02.md) - 2026-07-02: report at wiki/synthesis/flagship-qa-2026-07-02.md; open fixes: F1 merge keen-tereshkova worktree to main (deployed source lives ONLY there), F2 bare domain renders Frank, F3 settings POST wipes absent fields; 7 standing rules incl. Kit-requires-webhook-secret
 - [Fable-grade quality directive](feedback_fable_grade_quality.md) - 2026-07-02: everything shipped must match Fable 5 quality regardless of executing model (Fable likely gone by 07-07 or 50% weekly); seven-gate standard in AGENT_CHAT.md; spend remaining Fable turns only on what compounds
