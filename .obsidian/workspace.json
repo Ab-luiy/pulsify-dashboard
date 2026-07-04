@@ -180,6 +180,7 @@
   },
   "active": "65135cc810b96eda",
   "lastOpenFiles": [
+    "wiki/synthesis/proof-wall-redesign-spec.md",
     "claude-memory/project_operator_console.md",
     "claude-memory/feedback_claude_writes_copy.md",
     "wiki/synthesis/operator-console-spec.md",
@@ -219,7 +220,6 @@
     "wiki/frameworks/ai-launch-prompt-pack.md",
     "Untitled.canvas",
     "2026-05-10.md",
-    "wiki/playbooks/client-scaling.md",
-    "wiki/frameworks/vsl-framework.md"
+    "wiki/playbooks/client-scaling.md"
   ]
 }
