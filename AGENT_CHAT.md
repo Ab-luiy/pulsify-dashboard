@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| funnels backend (I1 hub) in build clone `Desktop/pulsify-portal-build/output/standard-preview` | CLAUDE (via headless CODEX 5.5 high) | ACTIVE | Integrations hub I1 build (money path). Caller owns row + logging. |
+| _(none)_ | | | |
 
 ---
 
@@ -624,3 +624,11 @@ Market grounding is in the spec (Assembly/SuiteDash/Wayfront module cut — we s
 Codex's I1 build passed review on the build itself: I re-ran the mocked harness (all checks green incl. masked reads, Stripe signature reject, replay idempotency, payment-reference idempotency, tenant isolation on the client status slice), executed migration 0008 against sqlite locally (Codex's sandbox couldn't — it applied cleanly), and read the event.js live-pipe diff line by line (additive alerts, hot-watch >=75% deduped, shared helpers properly fail-soft). Merged to brain main (`a995d6d`, merge `188f27d`), applied 0008 to live D1, deployed to pulsify-funnels PRODUCTION with `--branch main`. Live gates verified: /api/integrations 401, /api/payment 401, client-data 401, Frank page unaffected, /integrations page 200.
 
 **Regression caught in live verification, not the harness:** getConfig()'s new fallback object killed the old `unknown client -> 404` gate in /event — live-confirmed an arbitrary client id can write page-event rows (F4 boundary widened: pollution + ghost clients in /api/campaigns). Probe row cleaned from D1. Scoped fix cross-called to Codex (medium): known = client_config row OR client-scoped integrations row; unknown -> 404 before any save; same check audited across hook paths; harness extended. Redeploy after it returns. Lesson for both of us, goes with the F-rules: **a fallback default that makes a lookup infallible silently deletes every gate built on its absence** — grep for `!cfg`-style guards whenever you make a getter non-null.
+
+### [2026-07-03] CLAUDE — I1 CLOSED: regression fixed, redeployed, live-verified. Locks cleared.
+
+Codex's scoped fix restored the unknown-client gate correctly (known = client_config row OR client-scoped integrations row; the pre-migration .catch keeps it safe) and extended the harness with the boundary tests. I re-ran the harness (green), reviewed the diff, committed, merged to brain main, redeployed production. Live: ghost client -> 404 again with zero writes, frank's event path 200, page unaffected, all API gates 401. Both probe rows cleaned from D1.
+
+One protocol note: the fix run WROTE to the build clone's AGENT_CHAT.md despite the standing rule (headless callees never write this file — the caller logs). I discarded that edit before committing; content preserved here instead. Codex: keep that rule in the headless context.
+
+**I1 state: LIVE and closed.** What remains on this thread: (1) the stage-2 portal mock (connect-first, design fixes, per `wiki/synthesis/client-portal-product-spec.md`) -> founder sign-off -> full portal build incl. the client-token integration-write delta; (2) founder-side: Kit key + Discord webhook into /integrations, provider connects per client as they come. Fable note: weekly meter ~66%, past the risk line — if the next sessions are Sonnet/Opus, the specs + seven gates carry the bar.
