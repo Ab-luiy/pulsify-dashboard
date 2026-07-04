@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsify Portal Mock - Scoreboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #131720;
+      --muted: #626a78;
+      --blue: #6871f4;
+      --blue-soft: #eef0ff;
+      --lavender: #f5f3ff;
+      --line: #e9e8ef;
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-solid: #ffffff;
+      --bg: #f6f7fb;
+      --bg-soft: #fbfbfe;
+      --rail: #131720;
+      --rail-text: #9aa2b3;
+      --rail-active: #ffffff;
+      --shadow: 0 22px 70px rgba(68, 58, 139, 0.13);
+      --shadow-soft: 0 10px 30px rgba(24, 31, 48, 0.05);
+      --success: #2d8f66;
+      --success-soft: rgba(45, 143, 102, 0.11);
+      --warning: #a66c10;
+      --warning-soft: rgba(166, 108, 16, 0.12);
+      --danger: #ba4b3a;
+      --danger-soft: rgba(186, 75, 58, 0.11);
+    }
+
+    body[data-theme="dark"] {
+      color-scheme: dark;
+      --ink: #f4f6fb;
+      --muted: #96a0b3;
+      --blue-soft: rgba(104, 113, 244, 0.16);
+      --lavender: #171b26;
+      --line: #2a3140;
+      --panel: rgba(21, 25, 34, 0.94);
+      --panel-solid: #151922;
+      --bg: #0d1118;
+      --bg-soft: #111622;
+      --rail: #0f131b;
+      --rail-text: #95a0b3;
+      --rail-active: #ffffff;
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.28);
+      --shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.22);
+      --success: #63c192;
+      --success-soft: rgba(99, 193, 146, 0.15);
+      --warning: #e0b25a;
+      --warning-soft: rgba(224, 178, 90, 0.15);
+      --danger: #ef8f81;
+      --danger-soft: rgba(239, 143, 129, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(104, 113, 244, 0.12), transparent 28%),
+        radial-gradient(circle at 88% 14%, rgba(104, 113, 244, 0.08), transparent 24%),
+        var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .rail {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      height: 100vh;
+      padding: 24px 16px 18px;
+      background: rgba(19, 23, 32, 0.97);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .brand-stack {
+      padding: 6px 10px 0;
+    }
+
+    .brand-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--blue);
+      box-shadow: 0 0 0 5px rgba(104, 113, 244, 0.13);
+      flex: 0 0 auto;
+    }
+
+    .eyebrow {
+      color: #98a1b3;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .client-name {
+      color: #ffffff;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+    }
+
+    .contract-line {
+      margin-top: 8px;
+      color: #9099ab;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .theme-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #eef1f8;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .theme-button:hover,
+    .theme-button:focus-visible {
+      background: rgba(255, 255, 255, 0.11);
+      border-color: rgba(255, 255, 255, 0.16);
+      outline: none;
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 46px;
+      padding: 0 12px;
+      border-radius: 12px;
+      color: var(--rail-text);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .nav-item::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: transparent;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+      flex: 0 0 auto;
+    }
+
+    .nav-item.active {
+      color: #121722;
+      background: var(--rail-active);
+    }
+
+    .nav-item.active::before {
+      background: var(--blue);
+      box-shadow: 0 0 0 5px rgba(104, 113, 244, 0.13);
+    }
+
+    .nav-item.pending {
+      opacity: 0.84;
+    }
+
+    .nav-item.pending::after {
+      content: "pending";
+      margin-left: auto;
+      color: #8f98aa;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .rail-footer {
+      margin-top: auto;
+      padding: 14px 10px 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      color: #9099ab;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 32px 36px 52px;
+    }
+
+    .shell {
+      width: min(1160px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(104, 113, 244, 0.12), transparent 32%),
+        radial-gradient(circle at 88% 16%, rgba(104, 113, 244, 0.09), transparent 22%),
+        var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 16px;
+      border: 1px solid rgba(104, 113, 244, 0.14);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--muted);
+      box-shadow: 0 8px 28px rgba(84, 73, 156, 0.11);
+      backdrop-filter: blur(12px);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    body[data-theme="dark"] .hero-kicker {
+      background: rgba(21, 25, 34, 0.88);
+    }
+
+    .hero h1 {
+      margin: 20px 0 12px;
+      font-size: clamp(34px, 4vw, 54px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+    }
+
+    .hero h1 span {
+      color: var(--blue);
+      text-decoration: underline;
+      text-decoration-color: rgba(104, 113, 244, 0.45);
+      text-decoration-thickness: 3px;
+      text-underline-offset: 8px;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .hero-note {
+      text-align: right;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: nowrap;
+    }
+
+    .hero-note strong {
+      display: block;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .kpi-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 14px;
+    }
+
+    .widget {
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .widget::after {
+      content: "SAMPLE";
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      padding: 4px 8px;
+      border: 1px solid rgba(104, 113, 244, 0.16);
+      border-radius: 999px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .widget-body {
+      padding: 18px 18px 16px;
+    }
+
+    .widget-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      padding-right: 64px;
+    }
+
+    .widget-title {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .freshness {
+      color: var(--muted);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .metric-value {
+      margin-top: 16px;
+      font-variant-numeric: tabular-nums;
+      font-size: clamp(30px, 4vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 0.98;
+    }
+
+    .metric-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-size: 12px;
+    }
+
+    .trend {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .trend::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .trend.up {
+      color: var(--success);
+    }
+
+    .trend.up::before {
+      background: var(--success);
+      box-shadow: 0 0 0 5px var(--success-soft);
+    }
+
+    .trend.flat {
+      color: var(--warning);
+    }
+
+    .trend.flat::before {
+      background: var(--warning);
+      box-shadow: 0 0 0 5px var(--warning-soft);
+    }
+
+    .trend.down {
+      color: var(--danger);
+    }
+
+    .trend.down::before {
+      background: var(--danger);
+      box-shadow: 0 0 0 5px var(--danger-soft);
+    }
+
+    .metric-context {
+      color: var(--muted);
+    }
+
+    .lower-grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 20px 22px 0;
+    }
+
+    .section-head h2,
+    .section-head h3 {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .milestone-wrap {
+      padding: 18px 22px 22px;
+    }
+
+    .milestone-topline {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .milestone-current {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .milestone-target {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .arc {
+      position: relative;
+      height: 184px;
+      margin-bottom: 18px;
+    }
+
+    .arc svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .arc-track {
+      fill: none;
+      stroke: rgba(104, 113, 244, 0.12);
+      stroke-width: 16;
+      stroke-linecap: round;
+    }
+
+    .arc-progress {
+      fill: none;
+      stroke: var(--blue);
+      stroke-width: 16;
+      stroke-linecap: round;
+      stroke-dasharray: 282.75 999;
+      filter: drop-shadow(0 8px 18px rgba(104, 113, 244, 0.28));
+    }
+
+    .arc-center {
+      position: absolute;
+      inset: 58px 0 auto;
+      text-align: center;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .arc-center strong {
+      display: block;
+      font-size: 44px;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      line-height: 0.92;
+    }
+
+    .arc-center span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .milestone-points {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--panel-solid);
+    }
+
+    .point {
+      padding: 16px 18px;
+      min-width: 0;
+    }
+
+    .point + .point {
+      border-left: 1px solid var(--line);
+    }
+
+    .point-label {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .point strong {
+      display: block;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .point span:last-child {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .week-widget .section-head {
+      padding-bottom: 14px;
+    }
+
+    .week-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .week-column {
+      min-width: 0;
+    }
+
+    .week-column + .week-column {
+      border-left: 1px solid var(--line);
+    }
+
+    .week-body {
+      padding: 18px 20px 20px;
+    }
+
+    .week-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .week-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .week-column.shipped .week-dot {
+      background: var(--success);
+      box-shadow: 0 0 0 5px var(--success-soft);
+    }
+
+    .week-column.production .week-dot {
+      background: var(--blue);
+      box-shadow: 0 0 0 5px rgba(104, 113, 244, 0.12);
+    }
+
+    .week-column.need .week-dot {
+      background: var(--warning);
+      box-shadow: 0 0 0 5px var(--warning-soft);
+    }
+
+    .week-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .week-item {
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+
+    .week-item:first-child {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    .week-item strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .week-item span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.58;
+    }
+
+    .legend-widget .widget-body {
+      padding-top: 20px;
+    }
+
+    .legend-stack {
+      display: grid;
+      gap: 14px;
+    }
+
+    .legend-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .legend-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .legend-row strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .legend-row span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .legend-value {
+      text-align: right;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .legend-value small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .footnote {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(104, 113, 244, 0.45);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 1120px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lower-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .rail {
+        position: sticky;
+        height: auto;
+        gap: 16px;
+        padding: 14px 14px 12px;
+        z-index: 20;
+      }
+
+      .brand-stack {
+        display: grid;
+        gap: 12px;
+        padding: 0;
+      }
+
+      .brand-line {
+        margin-bottom: 0;
+      }
+
+      .nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .nav-item {
+        min-height: 42px;
+        flex: 1 1 calc(50% - 8px);
+        padding: 0 14px;
+      }
+
+      .rail-footer {
+        display: none;
+      }
+
+      .main {
+        padding: 18px 14px 28px;
+      }
+
+      .hero {
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+
+      .hero-head {
+        flex-direction: column;
+      }
+
+      .hero-note {
+        text-align: left;
+        white-space: normal;
+      }
+
+      .week-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .week-column + .week-column {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .kpi-grid,
+      .milestone-points {
+        grid-template-columns: 1fr;
+      }
+
+      .point + .point {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .widget-head {
+        padding-right: 54px;
+      }
+
+      .metric-foot,
+      .milestone-topline,
+      .legend-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .legend-value {
+        text-align: left;
+      }
+
+      .arc {
+        height: 160px;
+      }
+
+      .arc-center {
+        inset: 50px 0 auto;
+      }
+
+      .arc-center strong {
+        font-size: 36px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body data-theme="light">
+  <div class="app">
+    <aside class="rail" aria-label="Primary">
+      <div class="brand-stack">
+        <div class="brand-line">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <div class="eyebrow">Pulsify client portal</div>
+        </div>
+        <div>
+          <div class="client-name">Demo Client</div>
+          <div class="contract-line">Scoreboard mock for founder sign-off. Default screen only. All numbers are clearly labeled sample.</div>
+        </div>
+        <button class="theme-button" id="themeToggle" type="button" aria-pressed="false">Switch to dark mode</button>
+      </div>
+
+      <nav class="nav">
+        <div class="nav-item active" aria-current="page">Scoreboard</div>
+        <div class="nav-item">This week</div>
+        <div class="nav-item">Funnel</div>
+        <div class="nav-item">Content</div>
+        <div class="nav-item">Calls</div>
+        <div class="nav-item">Assets</div>
+        <div class="nav-item">Decisions</div>
+        <div class="nav-item pending">Pipeline</div>
+      </nav>
+
+      <div class="rail-footer">
+        Light and dark are the only themes. Pipeline stays pending until the revenue bridge is real.
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="shell">
+        <section class="hero">
+          <div class="hero-head">
+            <div class="hero-copy">
+              <div class="hero-kicker">
+                <span class="pulse-dot" aria-hidden="true"></span>
+                Weekly proof of movement
+              </div>
+              <h1>What Pulsify moved for you, <span>without making you hunt through tabs</span>.</h1>
+              <p>The default screen stays on proof, pace, and the next bottleneck. That makes the retainer legible in 30 seconds and keeps the portal aligned with the landing-page product feel.</p>
+            </div>
+            <div class="hero-note">
+              <strong>Demo mode active</strong>
+              Sample data is labeled on every widget.
+            </div>
+          </div>
+        </section>
+
+        <section class="grid kpi-grid" aria-label="Key performance indicators">
+          <article class="widget">
+            <div class="widget-body">
+              <div class="widget-head">
+                <div class="widget-title">Cash collected</div>
+                <div class="freshness">as of 2h ago</div>
+              </div>
+              <div class="metric-value">$41.8K</div>
+              <div class="metric-foot">
+                <div class="trend up">+12.4% vs last week</div>
+                <div class="metric-context">4 closes this month</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="widget">
+            <div class="widget-body">
+              <div class="widget-head">
+                <div class="widget-title">Calls booked</div>
+                <div class="freshness">as of 1h ago</div>
+              </div>
+              <div class="metric-value">18</div>
+              <div class="metric-foot">
+                <div class="trend up">+5 vs last week</div>
+                <div class="metric-context">6 pending show-ups</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="widget">
+            <div class="widget-body">
+              <div class="widget-head">
+                <div class="widget-title">Close rate</div>
+                <div class="freshness">as of 5h ago</div>
+              </div>
+              <div class="metric-value">31%</div>
+              <div class="metric-foot">
+                <div class="trend flat">flat week over week</div>
+                <div class="metric-context">5 of 16 calls closed</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="widget">
+            <div class="widget-body">
+              <div class="widget-head">
+                <div class="widget-title">Subs / followers</div>
+                <div class="freshness">as of 3h ago</div>
+              </div>
+              <div class="metric-value">14.2K</div>
+              <div class="metric-foot">
+                <div class="trend up">+8.7% this month</div>
+                <div class="metric-context">long-form engine compounding</div>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="grid lower-grid">
+          <article class="widget">
+            <div class="section-head">
+              <div>
+                <h2>$100K guarantee arc</h2>
+                <p>One visual tied to the contracted outcome. It answers whether the engagement is moving toward the number that matters.</p>
+              </div>
+              <div class="freshness">as of 2h ago</div>
+            </div>
+            <div class="milestone-wrap">
+              <div class="milestone-topline">
+                <div class="milestone-current">$41.8K collected</div>
+                <div class="milestone-target">$100K target<br>58.2K remaining</div>
+              </div>
+
+              <div class="arc" aria-hidden="true">
+                <svg viewBox="0 0 240 160" role="img">
+                  <path class="arc-track" d="M 30 130 A 90 90 0 0 1 210 130"></path>
+                  <path class="arc-progress" d="M 30 130 A 90 90 0 0 1 210 130"></path>
+                </svg>
+                <div class="arc-center">
+                  <strong>42%</strong>
+                  <span>to guarantee</span>
+                </div>
+              </div>
+
+              <div class="milestone-points">
+                <div class="point">
+                  <span class="point-label">Current pace</span>
+                  <strong>$10.5K / week</strong>
+                  <span>At this pace, the arc clears in 5.5 weeks.</span>
+                </div>
+                <div class="point">
+                  <span class="point-label">Nearest milestone</span>
+                  <strong>$50K</strong>
+                  <span>Need $8.2K more to clear the halfway mark.</span>
+                </div>
+                <div class="point">
+                  <span class="point-label">Pressure point</span>
+                  <strong>Show-up rate</strong>
+                  <span>The next lift comes from getting more booked calls to attend, not from more top-of-funnel volume.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="widget legend-widget">
+            <div class="widget-body">
+              <div class="widget-head">
+                <div class="widget-title">Read on one screen</div>
+                <div class="freshness">as of now</div>
+              </div>
+              <div class="legend-stack">
+                <div class="legend-row">
+                  <div>
+                    <strong>Contract state</strong>
+                    <span>Retainer is justified when movement ties back to the signed outcome, not when the client browses raw tables.</span>
+                  </div>
+                  <div class="legend-value">
+                    On pace
+                    <small>sample status</small>
+                  </div>
+                </div>
+                <div class="legend-row">
+                  <div>
+                    <strong>Freshness standard</strong>
+                    <span>Every metric carries a timestamp so the UI never implies live data when the feed is stale.</span>
+                  </div>
+                  <div class="legend-value">
+                    1h - 5h
+                    <small>sample ranges</small>
+                  </div>
+                </div>
+                <div class="legend-row">
+                  <div>
+                    <strong>Pending honesty</strong>
+                    <span>Pipeline stays named in the IA but marked pending until the revenue bridge exists. No fake numbers.</span>
+                  </div>
+                  <div class="legend-value">
+                    Pending
+                    <small>bridge not built</small>
+                  </div>
+                </div>
+              </div>
+              <div class="footnote">The rail shows the full new IA even though this mock only builds the Scoreboard screen.</div>
+            </div>
+          </article>
+        </section>
+
+        <section class="widget week-widget" style="margin-top: 14px;">
+          <div class="section-head">
+            <div>
+              <h3>This week</h3>
+              <p>A compact preview strip of what shipped, what is moving through production, and what Pulsify still needs from the client.</p>
+            </div>
+            <div class="freshness">as of 45m ago</div>
+          </div>
+
+          <div class="week-strip">
+            <div class="week-column shipped">
+              <div class="week-body">
+                <div class="week-title">
+                  <span class="week-dot" aria-hidden="true"></span>
+                  What shipped
+                </div>
+                <div class="week-list">
+                  <div class="week-item">
+                    <strong>Long-form VSL cut delivered</strong>
+                    <span>Packaging and CTA splice uploaded for review.</span>
+                  </div>
+                  <div class="week-item">
+                    <strong>Profile funnel copy revised</strong>
+                    <span>Hero and testimonial ordering tightened to match the winning landing standard.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="week-column production">
+              <div class="week-body">
+                <div class="week-title">
+                  <span class="week-dot" aria-hidden="true"></span>
+                  In production
+                </div>
+                <div class="week-list">
+                  <div class="week-item">
+                    <strong>2 short-form cuts in edit</strong>
+                    <span>Case-study angle and objection breakdown scheduled next.</span>
+                  </div>
+                  <div class="week-item">
+                    <strong>Email follow-up sequence refresh</strong>
+                    <span>Proof-heavy rewrites staged for approval before send.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="week-column need">
+              <div class="week-body">
+                <div class="week-title">
+                  <span class="week-dot" aria-hidden="true"></span>
+                  What we need from you
+                </div>
+                <div class="week-list">
+                  <div class="week-item">
+                    <strong>Approve the VSL thumbnail pair</strong>
+                    <span>Needed today so the next upload does not slip.</span>
+                  </div>
+                  <div class="week-item">
+                    <strong>Send the April sales-call recordings</strong>
+                    <span>Needed to tighten the objection handling doc and update call summaries.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      var body = document.body;
+      var button = document.getElementById("themeToggle");
+
+      function syncButton() {
+        var dark = body.getAttribute("data-theme") === "dark";
+        button.textContent = dark ? "Switch to light mode" : "Switch to dark mode";
+        button.setAttribute("aria-pressed", String(dark));
+      }
+
+      button.addEventListener("click", function () {
+        var next = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", next);
+        syncButton();
+      });
+
+      syncButton();
+    }());
+  </script>
+</body>
+</html>
