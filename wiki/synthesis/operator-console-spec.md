@@ -91,6 +91,16 @@ Every step reuses the exact field hints and glossary language already in the con
 
 **Out of scope for the wizard:** integration provider cards (Discord, Stripe, booking providers — they stay in #integrations), the creator-brief provisioning flow itself (step 2 routes to it), and anything requiring new API parameters.
 
+## Client deletion (v3 addendum, founder ask 2026-07-04)
+
+Founder wants to delete clients himself from the console (test clients today, churned clients eventually). No deletion path exists anywhere — cleanup so far has been manual wrangler d1 commands.
+
+**Backend (the one permitted `functions/` change):** `DELETE /api/settings?client={id}`, admin-key gated exactly like the POST. Deletes the client's rows from all nine tables: `client_config`, `content_items`, `call_notes`, `client_assets`, `payments`, `integrations` (column is `client_id`, not `client`), `integration_events`, `delivery_failures`, `page_events`. Returns per-table deleted counts. 404 for a client with no `client_config` row. Extend `tests/i1-checks.mjs`: create a throwaway, add one row to a couple of tables, delete, assert counts and that a re-GET returns config null, and assert the endpoint 401s without the key.
+
+**Console UI:** a "Danger zone" card at the bottom of #clients for the active client. One red button (this is a genuine destructive action — red is correct here). Clicking it opens a confirm step that spells out what goes: the landing page config, delivery items, call notes, assets, integrations, **and payment history**, permanently. The operator must type the exact client ID to arm the delete button. On success: toast with the counts, client removed from the selector, selector falls back to the first remaining client.
+
+**Not in scope:** soft-delete/archive, bulk delete, deleting from the wizard.
+
 ## Open questions / gaps
 
 - Whether /admin eventually absorbs a dashboard-style overview (payments feed, event log) — out of scope for this build; the hub's `integration_events` table makes it possible later.

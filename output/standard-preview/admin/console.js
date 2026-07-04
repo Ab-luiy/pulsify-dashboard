@@ -53,6 +53,25 @@
     busy: false,
   };
 
+  const deleteState = {
+    client: "",
+    clientName: "",
+    returnFocus: null,
+    busy: false,
+  };
+
+  const DELETE_TABLES = [
+    "client_config",
+    "content_items",
+    "call_notes",
+    "client_assets",
+    "payments",
+    "integrations",
+    "integration_events",
+    "delivery_failures",
+    "page_events",
+  ];
+
   const GLOSSARY = {
     client_id: ["Client ID", "Short slug that identifies the client everywhere in the system (URLs, database). Set once when creating them; never change it afterwards."],
     client_name: ["Client name", "The display name that shows on their landing page."],
@@ -305,6 +324,13 @@
     $("wizardOpenFullFormButton").addEventListener("click", openWizardFullForm);
     $("clientWizard").addEventListener("keydown", handleWizardKeydown);
 
+    $("openDeleteButton").addEventListener("click", openDeleteDialog);
+    $("closeDeleteButton").addEventListener("click", () => closeDeleteDialog());
+    $("cancelDeleteButton").addEventListener("click", () => closeDeleteDialog());
+    $("deleteConfirmInput").addEventListener("input", updateDeleteConfirmation);
+    $("confirmDeleteButton").addEventListener("click", deleteActiveClient);
+    $("deleteDialog").addEventListener("keydown", handleDeleteKeydown);
+
     $$(".tab", $("deliveryTabs")).forEach((button) => {
       button.addEventListener("click", () => setDeliveryType(button.dataset.deliveryType));
     });
@@ -402,6 +428,7 @@
       $("shell").inert = false;
       document.body.classList.remove("wizard-open");
     }
+    if (!$("deleteDialog").hidden) closeDeleteDialog(false, true);
     $("shell").hidden = true;
     $("authScreen").hidden = false;
     $("adminKey").value = "";
@@ -452,6 +479,143 @@
     $("integrationNoClient").hidden = !noClient;
     $("clientCards").hidden = noClient;
     $("markPaidPanel").hidden = noClient;
+    renderDangerZone();
+  }
+
+  function renderDangerZone() {
+    const active = state.clients.find((client) => client.client === state.client);
+    $("dangerZone").hidden = !active;
+    if (!active) return;
+    const name = active.client_name || active.client;
+    $("dangerZoneHint").textContent =
+      `Permanently remove ${name} (${active.client}) and every record tied to them. This cannot be undone.`;
+  }
+
+  function openDeleteDialog() {
+    const active = state.clients.find((client) => client.client === state.client);
+    if (!active) return;
+
+    deleteState.client = active.client;
+    deleteState.clientName = active.client_name || active.client;
+    deleteState.returnFocus = document.activeElement;
+    deleteState.busy = false;
+    $("deleteClientName").textContent = deleteState.clientName;
+    $("deleteClientId").textContent = deleteState.client;
+    $("deleteConfirmInput").value = "";
+    $("confirmDeleteButton").textContent = "Delete client permanently";
+    hideMessage($("deleteMessage"));
+    updateDeleteConfirmation();
+    $("deleteDialog").hidden = false;
+    $("shell").inert = true;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(() => $("deleteConfirmInput").focus());
+  }
+
+  function closeDeleteDialog(restoreFocus = true, force = false) {
+    if (deleteState.busy && !force) return;
+    $("deleteDialog").hidden = true;
+    $("shell").inert = false;
+    document.body.classList.remove("modal-open");
+    const returnFocus = deleteState.returnFocus;
+    deleteState.client = "";
+    deleteState.clientName = "";
+    deleteState.returnFocus = null;
+    deleteState.busy = false;
+    if (restoreFocus && returnFocus?.isConnected) returnFocus.focus();
+  }
+
+  function updateDeleteConfirmation() {
+    const value = $("deleteConfirmInput").value;
+    const armed = Boolean(deleteState.client) && value === deleteState.client;
+    $("confirmDeleteButton").disabled = !armed || deleteState.busy;
+    const status = $("deleteConfirmStatus");
+    status.classList.toggle("armed", armed);
+    if (!value) status.textContent = "";
+    else if (armed) status.textContent = "Client ID matches. Permanent deletion is armed.";
+    else status.textContent = "The client ID does not match.";
+  }
+
+  async function deleteActiveClient() {
+    const client = deleteState.client;
+    if (!client || $("deleteConfirmInput").value !== client || deleteState.busy) return;
+
+    deleteState.busy = true;
+    const button = $("confirmDeleteButton");
+    button.disabled = true;
+    button.textContent = "Deleting";
+    hideMessage($("deleteMessage"));
+
+    try {
+      const response = await api(`/api/settings?client=${encodeURIComponent(client)}`, {
+        method: "DELETE",
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not delete this client.");
+
+      deleteState.busy = false;
+      closeDeleteDialog(false);
+      state.clients = state.clients.filter((item) => item.client !== client);
+      state.client = state.clients[0]?.client || "";
+      state.currentConfig = null;
+      deliveryState.all = { content: [], call: [], asset: [] };
+      deliveryState.editingId = null;
+      renderClientSelector();
+      writeClientQuery();
+      await loadSettings().catch((error) => {
+        if (state.key) showMessage($("globalMessage"), error.message || "The next client could not be loaded.", "error");
+      });
+      showDeletionToast(client, data.deleted || {});
+    } catch (error) {
+      deleteState.busy = false;
+      button.textContent = "Delete client permanently";
+      updateDeleteConfirmation();
+      if (state.key) showMessage($("deleteMessage"), error.message || "Could not delete this client.", "error");
+    }
+  }
+
+  function handleDeleteKeydown(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeDeleteDialog();
+      return;
+    }
+    if (event.key === "Enter" && document.activeElement === $("deleteConfirmInput")) {
+      event.preventDefault();
+      deleteActiveClient();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = $$(
+      'button:not(:disabled), input:not(:disabled)',
+      $("deleteDialog")
+    ).filter((element) => element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
+  function showDeletionToast(client, deleted) {
+    const toast = document.createElement("section");
+    toast.className = "toast";
+    toast.innerHTML = `
+      <strong>${esc(client)} deleted</strong>
+      <dl class="toast-counts">
+        ${DELETE_TABLES.map((table) => `
+          <div><dt>${esc(table)}</dt><dd>${number(deleted[table] || 0)}</dd></div>
+        `).join("")}
+      </dl>
+    `;
+    $("toastRegion").replaceChildren(toast);
+    window.setTimeout(() => {
+      if (toast.isConnected) toast.remove();
+    }, 15000);
   }
 
   async function refreshClients(preferredClient = state.client) {
