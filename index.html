@@ -3190,6 +3190,10 @@
     border-color: rgba(244,114,182,0.3);
     background: rgba(244,114,182,0.12);
   }
+  .crm-reason-chip.selected {
+    border-color: rgba(244,114,182,0.3);
+    background: rgba(244,114,182,0.12);
+  }
   .crm-note-label {
     font-size: 10px;
     font-weight: 700;
@@ -3213,7 +3217,16 @@
     border-color: rgba(244,114,182,0.42);
     box-shadow: 0 0 0 3px rgba(244,114,182,0.14);
   }
+  .crm-note-input.invalid {
+    border-color: rgba(248,113,113,0.68);
+    box-shadow: 0 0 0 3px rgba(248,113,113,0.16);
+  }
+  .crm-note-input.invalid:focus {
+    border-color: rgba(248,113,113,0.78);
+    box-shadow: 0 0 0 3px rgba(248,113,113,0.2);
+  }
   .crm-modal-hint { font-size: 11px; color: var(--muted); }
+  .crm-modal-hint.invalid { color: #fca5a5; }
   .crm-review-actions, .crm-review-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .crm-review-scroll { padding: 0 20px 20px; overflow: auto; display: flex; flex-direction: column; gap: 14px; }
   .crm-summary { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 16px; }
@@ -6176,7 +6189,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         <div class="crm-note-label">Note</div>
         <input id="crmRemoveNote" class="crm-note-input" type="text" maxlength="240" placeholder="Optional note" />
       </div>
-      <div class="crm-modal-hint">Click a reason to remove. Escape cancels.</div>
+      <div class="crm-modal-hint" id="crmRemoveHint">Click a reason to remove. Escape cancels.</div>
     </div>
   </div>
 </div>
@@ -8278,10 +8291,14 @@ initPayoutSection();
   let crmSort = { key: "", dir: 1 };
   let crmPage = 0;             // current CRM page (0-indexed) — paginated so ~400 leads never all mount
   const CRM_PAGE = 60;        // leads per page
+  const CRM_REMOVE_HINT_DEFAULT = "Click a reason to remove. Escape cancels.";
+  const CRM_REMOVE_HINT_OTHER = "Add context, then press Enter";
+  const CRM_REMOVE_HINT_INVALID = "Other needs context. Describe why.";
   // Names of lead cards currently expanded (kept across re-renders).
   const expandedLeads = new Set();
   let crmRemoveTarget = "";
   let crmRemovedPanelOpen = false;
+  let crmRemoveOtherSelected = false;
 
   // YT leads → CRM ingestion (full merge — YT Leads tab is gone)
   let _ytIngested = null;
@@ -8511,16 +8528,56 @@ initPayoutSection();
     renderCrm();
     if (crmRemovedPanelOpen) renderRemovedReview();
   }
+  function setRemoveHint(text, invalid) {
+    if (!$("crmRemoveHint")) return;
+    $("crmRemoveHint").textContent = text;
+    $("crmRemoveHint").classList.toggle("invalid", !!invalid);
+  }
+  function setRemoveOtherSelected(selected) {
+    crmRemoveOtherSelected = !!selected;
+    const otherChip = document.querySelector('#crmReasonGrid [data-reason="Other"]');
+    if (otherChip) otherChip.classList.toggle("selected", crmRemoveOtherSelected);
+    setRemoveHint(crmRemoveOtherSelected ? CRM_REMOVE_HINT_OTHER : CRM_REMOVE_HINT_DEFAULT, false);
+  }
+  function clearRemoveInvalidState() {
+    if ($("crmRemoveNote")) $("crmRemoveNote").classList.remove("invalid");
+    setRemoveHint(crmRemoveOtherSelected ? CRM_REMOVE_HINT_OTHER : CRM_REMOVE_HINT_DEFAULT, false);
+  }
+  function showRemoveInvalidState() {
+    if ($("crmRemoveNote")) $("crmRemoveNote").classList.add("invalid");
+    setRemoveHint(CRM_REMOVE_HINT_INVALID, true);
+  }
+  function resetRemoveModalState() {
+    setRemoveOtherSelected(false);
+    if ($("crmRemoveNote")) {
+      $("crmRemoveNote").value = "";
+      $("crmRemoveNote").classList.remove("invalid");
+    }
+    setRemoveHint(CRM_REMOVE_HINT_DEFAULT, false);
+  }
+  function submitRemoveFromNote() {
+    const note = (($("crmRemoveNote") && $("crmRemoveNote").value) || "").trim();
+    if (crmRemoveOtherSelected) {
+      if (!note) {
+        showRemoveInvalidState();
+        return;
+      }
+      commitRemoveReason("Other");
+      return;
+    }
+    if (note) commitRemoveReason("Other");
+  }
   function openRemoveModal(name) {
     crmRemoveTarget = name;
     if ($("crmRemoveTarget")) $("crmRemoveTarget").textContent = name;
-    if ($("crmRemoveNote")) $("crmRemoveNote").value = "";
+    resetRemoveModalState();
     if ($("crmRemoveBackdrop")) $("crmRemoveBackdrop").classList.add("open");
     document.body.style.overflow = "hidden";
     setTimeout(() => { if ($("crmRemoveNote")) $("crmRemoveNote").focus(); }, 0);
   }
   function closeRemoveModal() {
     crmRemoveTarget = "";
+    resetRemoveModalState();
     if ($("crmRemoveBackdrop")) $("crmRemoveBackdrop").classList.remove("open");
     if (!crmRemovedPanelOpen) document.body.style.overflow = "";
   }
@@ -9001,7 +9058,26 @@ initPayoutSection();
     $("crmReasonGrid").innerHTML = CRM_REMOVE_REASONS.map(reason =>
       `<button class="crm-reason-chip" data-reason="${esc(reason)}">${esc(reason)}</button>`).join("");
     $("crmReasonGrid").querySelectorAll("[data-reason]").forEach(btn => {
-      btn.addEventListener("click", () => commitRemoveReason(btn.dataset.reason));
+      btn.addEventListener("click", () => {
+        if (btn.dataset.reason === "Other") {
+          const nextSelected = !crmRemoveOtherSelected;
+          setRemoveOtherSelected(nextSelected);
+          clearRemoveInvalidState();
+          if (nextSelected && $("crmRemoveNote")) $("crmRemoveNote").focus();
+          return;
+        }
+        commitRemoveReason(btn.dataset.reason);
+      });
+    });
+  }
+  if ($("crmRemoveNote")) {
+    $("crmRemoveNote").addEventListener("input", () => {
+      clearRemoveInvalidState();
+    });
+    $("crmRemoveNote").addEventListener("keydown", (e) => {
+      if (e.key !== "Enter") return;
+      e.preventDefault();
+      submitRemoveFromNote();
     });
   }
   document.addEventListener("keydown", (e) => {
