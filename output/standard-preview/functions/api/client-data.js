@@ -1,3 +1,5 @@
+import { getClientIntegrationStatuses } from "../_shared/integrations.js";
+
 /**
  * Client portal delivery data: content pipeline, call notes, delivered assets.
  *
@@ -76,7 +78,7 @@ export async function onRequestGet({ request, env }) {
   if (access.error) return access.error;
   const client = access.client;
 
-  const [content, calls, assets] = await Promise.all([
+  const [content, calls, assets, integrations] = await Promise.all([
     safeAll(
       env.DB.prepare(
         `SELECT id,client,title,stage,platform,url,notes,scheduled_for,updated_at
@@ -97,6 +99,7 @@ export async function onRequestGet({ request, env }) {
            FROM client_assets WHERE client=? ORDER BY created_at DESC`,
       ).bind(client),
     ),
+    getClientIntegrationStatuses(env, client).catch(() => []),
   ]);
 
   return json({
@@ -105,6 +108,7 @@ export async function onRequestGet({ request, env }) {
     content: content.rows,
     calls: calls.rows,
     assets: assets.rows,
+    integrations,
     pending: content.pending || calls.pending || assets.pending,
   });
 }

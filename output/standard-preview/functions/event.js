@@ -14,6 +14,14 @@
  * video activity that happened before the form was submitted.
  */
 
+import {
+  getClientKitConfig,
+  recordFailure,
+  recordIntegrationEvent,
+  sendDiscordAlert,
+} from "./_shared/integrations.js";
+import { normalizeEmail } from "./_shared/common.js";
+
 export async function onRequestPost({ request, env }) {
   const raw = await request.text();
   let body;
@@ -79,6 +87,29 @@ export async function onRequestPost({ request, env }) {
     await attachIdentityToEvents(env, client, visitorId, email);
     const kit = await addToKit(env, client, cfg, { email, first_name: name || "" });
     await setKitStatus(env, leadId, kit.status);
+    const externalId = lead.response_id || (leadId ? `lead:${leadId}` : null);
+    const event = await recordIntegrationEvent(env, {
+      provider: "landing",
+      kind: "application",
+      client,
+      externalId,
+      payloadSummary: {
+        email,
+        name,
+        source: "typeform",
+        applied_at: lead.applied_at,
+      },
+    });
+    if (!event.duplicate) {
+      await sendDiscordAlert(env, {
+        client,
+        title: "New application",
+        lines: [
+          `${cfg?.client_name || client} submitted an application.`,
+          `${name || "Unknown"} — ${email}`,
+        ],
+      });
+    }
     await savePageEvent(env, {
       client,
       visitor_id: visitorId,
@@ -136,7 +167,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   if (body.source === "wistia" || body.kind === "wistia") {
-    await saveWatch(env, {
+    const watch = {
       client,
       email: normalizeEmail(body.email),
       visitor_id: body.visitor_id || null,
@@ -153,7 +184,9 @@ export async function onRequestPost({ request, env }) {
       playback_rate: finite(body.playback_rate),
       muted: body.muted == null ? null : (body.muted ? 1 : 0),
       metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
-    });
+    };
+    await saveWatch(env, watch);
+    await maybeAlertHotWatch(env, cfg, watch);
     return json({ ok: true, kind: "watch" });
   }
 
@@ -195,11 +228,27 @@ async function getConfig(env, client) {
       typeform_webhook_secret: env.TYPEFORM_WEBHOOK_SECRET,
     };
   }
-  return env.DB.prepare(
-    `SELECT client, wistia_media_id, typeform_url, typeform_webhook_secret,
+  const base = (await env.DB.prepare(
+    `SELECT client, COALESCE(client_name,client) AS client_name,
+            wistia_media_id, typeform_url, typeform_webhook_secret,
             kit_api_key, kit_tag_id, allowed_origin
        FROM client_config WHERE client=?`,
-  ).bind(client).first();
+  ).bind(client).first()) || {
+    client,
+    client_name: client,
+    wistia_media_id: null,
+    typeform_url: null,
+    typeform_webhook_secret: null,
+    kit_api_key: null,
+    kit_tag_id: null,
+    allowed_origin: null,
+  };
+  const kit = await getClientKitConfig(env, client);
+  if (kit) {
+    base.kit_api_key = kit.kit_api_key || base.kit_api_key || null;
+    base.kit_tag_id = kit.kit_tag_id || base.kit_tag_id || null;
+  }
+  return base;
 }
 
 async function addToKit(env, client, cfg, person) {
@@ -256,24 +305,6 @@ async function safeText(response) {
     return (await response.text()).slice(0, 300);
   } catch {
     return "";
-  }
-}
-
-/**
- * Records a delivery failure (Kit API or Typeform rejection) so it's visible
- * on /api/health and the campaign board. Never throws, never blocks the
- * original event path — if the table doesn't exist yet (migration not run)
- * or D1 isn't bound, this silently no-ops.
- */
-async function recordFailure(env, client, kind, detail) {
-  try {
-    if (!env.DB) return;
-    const safeDetail = detail == null ? null : String(detail).slice(0, 500);
-    await env.DB.prepare(
-      "INSERT INTO delivery_failures (client,kind,detail,at) VALUES (?,?,?,?)",
-    ).bind(client, kind, safeDetail, new Date().toISOString()).run();
-  } catch {
-    // swallow — telemetry must never break the funnel pipe
   }
 }
 
@@ -431,11 +462,6 @@ function constantTimeEqual(a, b) {
   return mismatch === 0;
 }
 
-function normalizeEmail(value) {
-  const email = String(value || "").trim().toLowerCase();
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null;
-}
-
 function cleanId(value) {
   return String(value || "unknown").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "unknown";
 }
@@ -454,4 +480,33 @@ function json(object, status = 200) {
       "cache-control": "no-store",
     },
   });
+}
+
+async function maybeAlertHotWatch(env, cfg, watch) {
+  if ((watch.percent || 0) < 75) return;
+  const viewerKey = watch.email || watch.visitor_id || watch.session_id || watch.wistia_visitor_key;
+  if (!viewerKey) return;
+
+  const event = await recordIntegrationEvent(env, {
+    provider: "landing",
+    kind: "hot_watch",
+    client: watch.client,
+    externalId: `hot:${viewerKey}`,
+    payloadSummary: {
+      percent: watch.percent,
+      email: watch.email,
+      page_id: watch.page_id,
+    },
+  });
+
+  if (!event.duplicate) {
+    await sendDiscordAlert(env, {
+      client: watch.client,
+      title: "Hot watch signal",
+      lines: [
+        `${cfg?.client_name || watch.client} hit ${Math.round(watch.percent || 0)}% watched.`,
+        watch.email || viewerKey,
+      ],
+    });
+  }
 }

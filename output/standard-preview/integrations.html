@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulsify - Integrations hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --ink:#131720; --muted:#626a78; --blue:#6871f4; --blue-soft:#eef0ff; --lavender:#f5f3ff;
+    --line:#e9e8ef; --white:#fff; --green:#1f9d6b; --green-soft:#e6f7ef; --red:#c1422f; --red-soft:#fbeae7; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#f3f3f8;color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;padding:40px 16px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto}
+  h1{font-size:28px;font-weight:800;letter-spacing:-.03em}
+  .sub{color:var(--muted);font-size:13.5px;line-height:1.6;margin:8px 0 26px;max-width:760px}
+  .gate,.panel,.card,.env-card{background:var(--white);border:1px solid var(--line);border-radius:18px;box-shadow:0 18px 50px rgba(68,58,139,.06)}
+  .gate{max-width:460px;padding:28px}
+  .gate p{color:var(--muted);font-size:13.5px;margin-bottom:12px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .panel{padding:24px;margin-top:18px}
+  .panel-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:18px}
+  .panel-head h2{font-size:18px;letter-spacing:-.02em}
+  .panel-head p{color:var(--muted);font-size:12.5px;max-width:620px}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  input,select,textarea,button{font:inherit}
+  input,select,textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:10px;font-size:14px;color:var(--ink);background:#fafafd}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+  textarea{resize:vertical;min-height:72px;line-height:1.5}
+  .btn{border:0;border-radius:10px;padding:12px 14px;font-weight:700;cursor:pointer}
+  .btn.primary{background:var(--blue);color:#fff}
+  .btn.secondary{background:var(--ink);color:#fff}
+  .btn.outline{background:var(--white);border:1px solid var(--line);color:var(--ink)}
+  .btn.small{padding:9px 12px;font-size:12.5px}
+  .msg{margin-top:12px;font-size:13px;padding:10px 12px;border-radius:9px;display:none}
+  .msg.ok{display:block;background:var(--green-soft);color:var(--green)}
+  .msg.err{display:block;background:var(--red-soft);color:var(--red)}
+  .card{padding:20px}
+  .card-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+  .card-top b{display:block;font-size:15px}
+  .card-top span{display:block;color:var(--muted);font-size:12px;line-height:1.5;margin-top:4px}
+  .status{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#cfd3dd}
+  .dot.live{background:var(--green)}
+  .dot.off{background:var(--red)}
+  .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .field{margin-top:12px}
+  .field label{display:block;font-size:12px;font-weight:600;margin-bottom:6px}
+  .hint{display:block;color:var(--muted);font-size:11.5px;font-weight:400;line-height:1.5;margin-top:2px}
+  .meta{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11.5px;margin-top:10px}
+  .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .one-time{margin-top:12px;padding:12px;border-radius:12px;background:var(--lavender);font-size:12px;line-height:1.6;display:none}
+  .one-time.show{display:block}
+  .one-time a{color:var(--blue);text-decoration:none;word-break:break-all}
+  .selector{min-width:240px}
+  .env-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .env-card{padding:18px}
+  .env-card b{display:block;font-size:14px}
+  .env-card p{color:var(--muted);font-size:12px;line-height:1.5;margin-top:6px}
+  .foot{margin-top:18px;color:var(--muted);font-size:12px;text-align:center}
+  .foot a{color:inherit}
+  @media (max-width:980px){ .grid,.env-grid{grid-template-columns:1fr} }
+  @media (max-width:720px){ .row{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Integrations hub</h1>
+  <p class="sub">Wire the money path here. Operator accounts live once. Booking and payment webhooks stay per client. Secrets never round-trip, tests stay cheap, and the client portal only sees connection status.</p>
+
+  <div class="gate" id="gateCard">
+    <p>Enter the admin key to unlock the hub.</p>
+    <input id="adminKey" type="password" placeholder="Admin key">
+    <button class="btn primary" style="width:100%;margin-top:12px" onclick="unlock()">Unlock</button>
+    <div class="msg err" id="gateMsg"></div>
+  </div>
+
+  <section class="panel" id="app" style="display:none">
+    <div class="panel-head">
+      <div>
+        <h2>Operator scope</h2>
+        <p>These connections feed every client: onboarding email, payment alerts, and system pings.</p>
+      </div>
+      <div class="toolbar">
+        <a class="btn outline small" href="/settings">Open settings</a>
+        <a class="btn outline small" href="/portal">Open portal</a>
+      </div>
+    </div>
+    <div class="grid" id="operatorCards"></div>
+  </section>
+
+  <section class="panel" id="clientPanel" style="display:none">
+    <div class="panel-head">
+      <div>
+        <h2>Client scope</h2>
+        <p>Pick a client, save the webhook config once, then copy the one-time endpoint URL into the provider.</p>
+      </div>
+      <div class="toolbar">
+        <select id="clientSelect" class="selector"></select>
+        <button class="btn outline small" onclick="reloadClientScope()">Refresh client</button>
+      </div>
+    </div>
+    <div class="grid" id="clientCards"></div>
+  </section>
+
+  <section class="panel" id="envPanel" style="display:none">
+    <div class="panel-head">
+      <div>
+        <h2>Env-only services</h2>
+        <p>These stay in Cloudflare secrets. This page only reports whether the key exists.</p>
+      </div>
+    </div>
+    <div class="env-grid" id="envCards"></div>
+  </section>
+
+  <p class="foot">Pulsify integrations hub | admin only</p>
+</div>
+
+<script>
+  const OPERATOR_CARDS = [
+    {
+      scope: "operator",
+      provider: "kit",
+      title: "Kit",
+      feeds: "Onboarding email after payment, plus future operator-wide email legs.",
+      fields: [
+        { key: "api_key", secret: true, label: "Kit v4 API key", hint: "Used for the live tag ping and onboarding email send." },
+        { key: "onboarding_subject", label: "Onboarding subject", placeholder: "Client name - onboarding starts here" },
+        { key: "onboarding_preview_text", label: "Preview text", placeholder: "Your form, portal, and next steps are inside." },
+        { key: "onboarding_sender_email", label: "Sending email (optional)", placeholder: "team@example.com" },
+        { key: "email_template_id", label: "Email template ID (optional)", placeholder: "2" },
+        { key: "onboarding_form_url", label: "Onboarding form URL", placeholder: "Defaults to the founder-supplied Google Form" },
+        { key: "onboarding_doc_url", label: "CO1 doc URL", placeholder: "Defaults to the founder-supplied Google Doc" },
+      ],
+    },
+    {
+      scope: "operator",
+      provider: "discord",
+      title: "Discord webhook",
+      feeds: "Instant alerts for applications, hot watches, bookings, payments, and delivery failures.",
+      fields: [
+        { key: "webhook_url", secret: true, label: "Webhook URL", hint: "The incoming webhook URL for the operator channel." },
+      ],
+    },
+  ];
+
+  const CLIENT_CARDS = [
+    {
+      scope: "client",
+      provider: "calcom",
+      title: "Cal.com",
+      feeds: "Normalizes bookings into one booking event shape for the portal and alerts.",
+      fields: [
+        { key: "api_key", secret: true, label: "API key (optional)", hint: "Stored now for later API work. Test remains config-presence only." },
+        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Leave blank to keep the saved secret. First save auto-generates one if none exists." },
+        { key: "contact_name", label: "Client contact name", placeholder: "Used in payment/onboarding fallbacks." },
+        { key: "contact_email", label: "Client contact email", placeholder: "client@example.com" },
+        { key: "booking_url", label: "Booking URL (optional)", placeholder: "https://cal.com/..." },
+      ],
+    },
+    {
+      scope: "client",
+      provider: "calendly",
+      title: "Calendly",
+      feeds: "Same normalized booking event shape as Cal.com for paid-plan clients.",
+      fields: [
+        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Leave blank to keep the saved secret. First save auto-generates one if none exists." },
+        { key: "contact_name", label: "Client contact name" },
+        { key: "contact_email", label: "Client contact email", placeholder: "client@example.com" },
+        { key: "booking_url", label: "Booking URL (optional)", placeholder: "https://calendly.com/..." },
+      ],
+    },
+    {
+      scope: "client",
+      provider: "whop",
+      title: "Whop",
+      feeds: "Normalizes payment events into the shared payments table and onboarding trigger.",
+      fields: [
+        { key: "api_key", secret: true, label: "API key (optional)", hint: "Stored now for later API actions. Webhook auth is the shared secret path." },
+        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Leave blank to keep the saved secret. First save auto-generates one if none exists." },
+        { key: "contact_name", label: "Client contact name" },
+        { key: "contact_email", label: "Client contact email", placeholder: "client@example.com" },
+        { key: "company_id", label: "Company ID (optional)", placeholder: "For operator reference only." },
+      ],
+    },
+    {
+      scope: "client",
+      provider: "stripe",
+      title: "Stripe",
+      feeds: "Signed payment webhooks into the shared payments table and onboarding trigger.",
+      fields: [
+        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Used to bind the webhook URL to this client." },
+        { key: "webhook_secret", secret: true, label: "Stripe signing secret", hint: "Set this after Stripe creates the webhook endpoint." },
+        { key: "contact_name", label: "Client contact name" },
+        { key: "contact_email", label: "Client contact email", placeholder: "client@example.com" },
+        { key: "webhook_description", label: "Webhook label (optional)", placeholder: "For operator reference only." },
+      ],
+    },
+  ];
+
+  let ADMIN_KEY = sessionStorage.getItem("pulsify_admin_key") || "";
+  const requestedClient = new URLSearchParams(location.search).get("client") || "";
+  const records = new Map();
+
+  function keyFor(scope, client, provider){
+    return `${scope}:${client || ""}:${provider}`;
+  }
+
+  function statusMarkup(connected){
+    return `<span class="status"><span class="dot ${connected ? "live" : "off"}"></span>${connected ? "Connected" : "Not connected"}</span>`;
+  }
+
+  function renderCardHtml(card){
+    return `<article class="card" id="card-${card.scope}-${card.provider}">
+      <div class="card-top">
+        <div>
+          <b>${card.title}</b>
+          <span>${card.feeds}</span>
+        </div>
+        <div id="status-${card.scope}-${card.provider}">${statusMarkup(false)}</div>
+      </div>
+      <div class="row">
+        ${card.fields.map((field) => `
+          <div class="field">
+            <label>${field.label}${field.hint ? `<span class="hint">${field.hint}</span>` : ""}</label>
+            ${field.long
+              ? `<textarea data-scope="${card.scope}" data-provider="${card.provider}" data-field="${field.key}" ${field.secret ? 'type="password"' : ""} placeholder="${field.placeholder || (field.secret ? "Leave blank to keep the saved value" : "")}"></textarea>`
+              : `<input data-scope="${card.scope}" data-provider="${card.provider}" data-field="${field.key}" ${field.secret ? 'type="password"' : ""} placeholder="${field.placeholder || (field.secret ? "Leave blank to keep the saved value" : "")}">`}
+          </div>
+        `).join("")}
+      </div>
+      <div class="meta">
+        <span id="meta-${card.scope}-${card.provider}">Last event: none yet</span>
+      </div>
+      <div class="actions">
+        <button class="btn primary small" onclick="saveCard('${card.scope}','${card.provider}')">Save</button>
+        <button class="btn outline small" onclick="testCard('${card.scope}','${card.provider}')">Test</button>
+        <button class="btn outline small" onclick="disconnectCard('${card.scope}','${card.provider}')">Disconnect</button>
+      </div>
+      <div class="msg" id="msg-${card.scope}-${card.provider}"></div>
+      <div class="one-time" id="oneTime-${card.scope}-${card.provider}"></div>
+    </article>`;
+  }
+
+  async function unlock(){
+    const key = document.getElementById("adminKey").value.trim();
+    if (!key) return;
+    ADMIN_KEY = key;
+    const ok = await bootstrap();
+    if (ok) {
+      sessionStorage.setItem("pulsify_admin_key", key);
+      document.getElementById("gateCard").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      document.getElementById("clientPanel").style.display = "block";
+      document.getElementById("envPanel").style.display = "block";
+    } else {
+      const msg = document.getElementById("gateMsg");
+      msg.textContent = "Wrong key, or ADMIN_KEY is not configured on the deployment.";
+      msg.className = "msg err";
+    }
+  }
+
+  async function bootstrap(){
+    try {
+      await loadClients();
+      renderShell();
+      await Promise.all([loadScope("operator"), reloadClientScope(), loadEnv()]);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  function renderShell(){
+    document.getElementById("operatorCards").innerHTML = OPERATOR_CARDS.map(renderCardHtml).join("");
+    document.getElementById("clientCards").innerHTML = CLIENT_CARDS.map(renderCardHtml).join("");
+  }
+
+  async function loadClients(){
+    const response = await fetch("/api/clients", { headers: { "x-admin-key": ADMIN_KEY } });
+    if (!response.ok) throw new Error("unauthorized");
+    const data = await response.json();
+    const clients = data.clients || [];
+    const select = document.getElementById("clientSelect");
+    select.innerHTML = clients.map((client) =>
+      `<option value="${escapeHtml(client.client)}">${escapeHtml(client.client_name || client.client)}</option>`
+    ).join("");
+    if (requestedClient && clients.some((client) => client.client === requestedClient)) {
+      select.value = requestedClient;
+    } else if (clients[0]) {
+      select.value = clients[0].client;
+    }
+    select.onchange = () => reloadClientScope();
+  }
+
+  async function loadScope(scope){
+    const client = scope === "client" ? document.getElementById("clientSelect").value : "";
+    const url = scope === "client"
+      ? `/api/integrations?scope=client&client=${encodeURIComponent(client)}`
+      : "/api/integrations?scope=operator";
+    const response = await fetch(url, { headers: { "x-admin-key": ADMIN_KEY } });
+    const data = await response.json();
+    if (!data.ok) throw new Error(data.error || "Could not load integrations");
+    for (const item of data.integrations || []) {
+      records.set(keyFor(item.scope, item.client || "", item.provider), item);
+    }
+    renderScope(scope);
+  }
+
+  async function reloadClientScope(){
+    const client = document.getElementById("clientSelect").value;
+    document.querySelectorAll("#clientCards .msg").forEach((node) => node.className = "msg");
+    await loadScope("client");
+    history.replaceState(null, "", `?client=${encodeURIComponent(client)}`);
+  }
+
+  function renderScope(scope){
+    const cards = scope === "operator" ? OPERATOR_CARDS : CLIENT_CARDS;
+    const client = scope === "client" ? document.getElementById("clientSelect").value : "";
+    cards.forEach((card) => {
+      const record = records.get(keyFor(scope, client, card.provider));
+      document.getElementById(`status-${scope}-${card.provider}`).innerHTML = statusMarkup(Boolean(record?.connected));
+      document.getElementById(`meta-${scope}-${card.provider}`).textContent =
+        `Last event: ${record?.last_event_ts ? new Date(record.last_event_ts).toLocaleString() : "none yet"}`;
+
+      card.fields.forEach((field) => {
+        const input = document.querySelector(`[data-scope="${scope}"][data-provider="${card.provider}"][data-field="${field.key}"]`);
+        if (!input) return;
+        if (field.secret) {
+          input.value = "";
+          const setFlag = record?.config?.[`${field.key}_set`];
+          input.placeholder = setFlag ? "Saved. Leave blank to keep it." : "Leave blank to keep the saved value";
+        } else {
+          input.value = record?.config?.[field.key] || "";
+        }
+      });
+      document.getElementById(`oneTime-${scope}-${card.provider}`).classList.remove("show");
+      document.getElementById(`oneTime-${scope}-${card.provider}`).innerHTML = "";
+    });
+  }
+
+  async function loadEnv(){
+    const response = await fetch("/api/integration-env", { headers: { "x-admin-key": ADMIN_KEY } });
+    const data = await response.json();
+    const cards = (data.services || []).map((service) => `
+      <article class="env-card">
+        ${statusMarkup(service.connected)}
+        <b style="margin-top:10px">${escapeHtml(service.label)}</b>
+        <p>${service.connected ? "Secret present in Cloudflare." : "Secret missing from Cloudflare."}</p>
+      </article>
+    `).join("");
+    document.getElementById("envCards").innerHTML = cards;
+  }
+
+  async function saveCard(scope, provider){
+    const client = scope === "client" ? document.getElementById("clientSelect").value : "";
+    const msg = document.getElementById(`msg-${scope}-${provider}`);
+    const oneTime = document.getElementById(`oneTime-${scope}-${provider}`);
+    msg.className = "msg";
+    oneTime.classList.remove("show");
+    oneTime.innerHTML = "";
+
+    const card = [...OPERATOR_CARDS, ...CLIENT_CARDS].find((item) => item.scope === scope && item.provider === provider);
+    const config = {};
+    const secrets = {};
+
+    card.fields.forEach((field) => {
+      const input = document.querySelector(`[data-scope="${scope}"][data-provider="${provider}"][data-field="${field.key}"]`);
+      const value = input ? input.value.trim() : "";
+      if (field.secret) {
+        if (value) secrets[field.key] = value;
+      } else if (value) {
+        config[field.key] = value;
+      }
+    });
+
+    const response = await fetch("/api/integrations", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": ADMIN_KEY,
+      },
+      body: JSON.stringify({ scope, client, provider, config, secrets }),
+    });
+    const data = await response.json();
+    if (!response.ok || !data.ok) {
+      msg.textContent = data.error || "Could not save.";
+      msg.className = "msg err";
+      return;
+    }
+
+    records.set(keyFor(scope, client, provider), data.integration);
+    renderScope(scope);
+    msg.textContent = "Saved.";
+    msg.className = "msg ok";
+
+    if (data.one_time?.webhook_url) {
+      oneTime.innerHTML = `Webhook endpoint: <a href="${data.one_time.webhook_url}" target="_blank">${data.one_time.webhook_url}</a><br>Copy it now. The raw secret does not round-trip on GET.`;
+      oneTime.classList.add("show");
+    }
+  }
+
+  async function testCard(scope, provider){
+    const client = scope === "client" ? document.getElementById("clientSelect").value : "";
+    const msg = document.getElementById(`msg-${scope}-${provider}`);
+    msg.className = "msg";
+    const response = await fetch(`/api/integrations?scope=${encodeURIComponent(scope)}&client=${encodeURIComponent(client)}&provider=${encodeURIComponent(provider)}&action=test`, {
+      headers: { "x-admin-key": ADMIN_KEY },
+    });
+    const data = await response.json();
+    if (!response.ok || !data.ok) {
+      msg.textContent = data.error || "Test failed.";
+      msg.className = "msg err";
+      return;
+    }
+
+    if (provider === "kit" && Array.isArray(data.test.tags)) {
+      msg.textContent = `Kit ping passed. Tags returned: ${data.test.tags.join(", ") || "none"}.`;
+    } else if (provider === "discord") {
+      msg.textContent = "Discord ping sent.";
+    } else {
+      msg.textContent = data.test.connected ? "Config present." : "Config missing.";
+    }
+    msg.className = "msg ok";
+  }
+
+  async function disconnectCard(scope, provider){
+    const client = scope === "client" ? document.getElementById("clientSelect").value : "";
+    const msg = document.getElementById(`msg-${scope}-${provider}`);
+    msg.className = "msg";
+    const response = await fetch("/api/integrations", {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": ADMIN_KEY,
+      },
+      body: JSON.stringify({ scope, client, provider }),
+    });
+    const data = await response.json();
+    if (!response.ok || !data.ok) {
+      msg.textContent = data.error || "Could not disconnect.";
+      msg.className = "msg err";
+      return;
+    }
+    records.delete(keyFor(scope, client, provider));
+    renderScope(scope);
+    msg.textContent = "Disconnected.";
+    msg.className = "msg ok";
+  }
+
+  function escapeHtml(value){
+    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      "\"":"&quot;",
+      "'":"&#39;",
+    }[char]));
+  }
+
+  if (ADMIN_KEY) {
+    document.getElementById("adminKey").value = ADMIN_KEY;
+    unlock();
+  }
+</script>
+</body>
+</html>
