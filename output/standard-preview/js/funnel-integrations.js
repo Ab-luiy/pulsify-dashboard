@@ -73,24 +73,43 @@
       config = data.config;
       if (config.wistia_media_id) mountWistia(config.wistia_media_id);
       if (config.typeform_url) mountTypeform(config.typeform_url);
-      if (config.proof_images) mountProofImages(config.proof_images);
+      mountProofImages(config.proof_images);
     } catch (error) {
       console.warn("Pulsify funnel config:", error.message);
     }
   }
 
   function mountProofImages(images) {
-    document.querySelectorAll("[data-proof-tag]").forEach((slot) => {
-      const url = images[slot.dataset.proofTag];
-      if (!url) return;
-      slot.classList.add("proof-slot-filled");
-      slot.innerHTML = "";
+    const section = document.querySelector("[data-proof-section]");
+    const feed = section?.querySelector("[data-proof-feed]");
+    if (!section || !feed) return;
+
+    const urls = images && typeof images === "object"
+      ? Object.values(images).map(validImageUrl).filter(Boolean)
+      : [];
+
+    feed.replaceChildren();
+    section.hidden = urls.length === 0;
+    if (!urls.length) return;
+
+    const fragment = document.createDocumentFragment();
+    urls.forEach((url) => {
+      const link = document.createElement("a");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+
       const img = document.createElement("img");
       img.src = url;
-      img.alt = slot.dataset.proofTag;
+      img.alt = "Client result screenshot";
       img.loading = "lazy";
-      slot.appendChild(img);
+      img.decoding = "async";
+
+      link.appendChild(img);
+      fragment.appendChild(link);
     });
+    feed.appendChild(fragment);
+    section.hidden = false;
   }
 
   function mountWistia(mediaId) {
@@ -121,7 +140,7 @@
     player = document.createElement("wistia-player");
     player.id = "pulsifyWistiaPlayer";
     player.setAttribute("media-id", mediaId);
-    player.setAttribute("player-color", "6871F4");
+    player.setAttribute("player-color", "17191F");
     player.setAttribute("aspect", "1.7777777778");
 
     mount.append(style, mediaScript, player);
@@ -365,6 +384,17 @@
 
   function cssEscape(value) {
     return String(value).replace(/["\\]/g, "\\$&");
+  }
+
+  function validImageUrl(value) {
+    try {
+      const raw = String(value || "").trim();
+      if (!raw) return "";
+      const url = new URL(raw, location.href);
+      return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+    } catch {
+      return "";
+    }
   }
 
   function round(value, places) {

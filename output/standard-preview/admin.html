@@ -196,8 +196,13 @@
           </div>
 
           <div class="subsection">
-            <div class="subsection-head"><p class="kicker">Proof wall</p><h3>Eight proof-image slots</h3><p>Direct image URLs update the live page without a code change.</p></div>
-            <div class="form-grid two" id="proofImageFields"></div>
+            <div class="subsection-head">
+              <p class="kicker">Proof wall</p>
+              <h3>Proof-image order</h3>
+              <p>Screenshots of testimonials, results, DMs, payouts, dashboards. They show in this order. More is better; the references run 70-120 of them.</p>
+            </div>
+            <div class="proof-url-list" id="proofImageFields"></div>
+            <button class="button outline proof-add-button" id="addProofImageButton" type="button">Add row</button>
           </div>
 
           <div class="subsection">
@@ -491,8 +496,9 @@
         <section class="wizard-step" data-wizard-step="7" hidden>
           <p class="eyebrow">Proof wall</p>
           <h2>Add proof images</h2>
-          <p class="wizard-intro">Direct image URLs update the live page without a code change.</p>
-          <div class="wizard-proof-grid" id="wizardProofFields"></div>
+          <p class="wizard-intro">Screenshots of testimonials, results, DMs, payouts, dashboards. They show in this order. More is better; the references run 70-120 of them.</p>
+          <div class="proof-url-list" id="wizardProofFields"></div>
+          <button class="button outline proof-add-button" id="wizardAddProofImageButton" type="button">Add row</button>
         </section>
 
         <section class="wizard-step" data-wizard-step="8" hidden>

@@ -606,11 +606,36 @@ body.modal-open { overflow: hidden; }
   border-radius: 0;
   background: linear-gradient(135deg, var(--surface-3), var(--surface));
 }
-.wizard-proof-grid {
+.proof-url-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 8px;
   margin-top: 24px;
+}
+.proof-url-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-2);
+}
+.proof-url-row label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.proof-url-row input {
+  min-width: 0;
+}
+.proof-row-actions {
+  display: flex;
+  gap: 8px;
+}
+.proof-add-button {
+  margin-top: 8px;
 }
 .wizard-summary {
   display: grid;
@@ -783,7 +808,9 @@ body.modal-open { overflow: hidden; }
   .setup-checklist h3 { white-space: normal; }
   .danger-zone { align-items: flex-start; flex-direction: column; }
   .wizard-body { padding-top: 40px; }
-  .wizard-card-grid, .wizard-form.two, .wizard-proof-grid { grid-template-columns: 1fr; }
+  .wizard-card-grid, .wizard-form.two { grid-template-columns: 1fr; }
+  .proof-url-row { grid-template-columns: 1fr; }
+  .proof-row-actions { flex-wrap: wrap; }
   .wizard-select-card { min-height: 176px; }
 }
 
