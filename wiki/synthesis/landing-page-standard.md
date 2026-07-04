@@ -62,6 +62,13 @@ Top to bottom, one idea per screen:
 - **Proof is the backbone.** Grant's ~120-screenshot wall and Mason's "testimonial
   bombardment" are the same instinct. The page lives or dies on real proof volume.
   Public pages never announce missing proof: zero images means no proof section.
+- **Empty config means invisible.** Every config-mounted block ships hidden and reveals
+  only when its config value is present and valid. No `wistia_media_id` means no video
+  frame, player chrome, or video captions. No `typeform_url` means no application
+  section and no CTA or micro-note pointing at `#apply`; if the closing section contains
+  only that CTA, the whole closing section stays hidden. Zero proof images means no proof
+  section. A name-only client renders the headline, subhead, any configured proof feed,
+  and footer.
 - **One CTA, one destination.** Repeat the same button; never introduce a competing offer.
 
 ## The gate fork — two pages

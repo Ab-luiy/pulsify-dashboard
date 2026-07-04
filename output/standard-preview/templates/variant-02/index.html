@@ -33,12 +33,12 @@
 
         <p class="hero-subhead">{{HERO_SUBHEAD}}</p>
 
-        <div class="hero-actions">
+        <div class="hero-actions" data-application-cta hidden>
           <a class="primary-cta" href="#apply">{{HERO_CTA}}</a>
           <p class="micro-note">{{MICRO_NOTE}}</p>
         </div>
 
-        <div class="video-frame">
+        <div class="video-frame" data-video-block hidden>
           <div class="video-meta">
             <span>{{VIDEO_NOTE_PRIMARY}}</span>
             <span>{{VIDEO_NOTE_SECONDARY}}</span>
@@ -49,7 +49,7 @@
       </div>
     </section>
 
-    <section class="application-section" id="apply" aria-labelledby="apply-title">
+    <section class="application-section" id="apply" data-application-section aria-labelledby="apply-title" hidden>
       <div class="container">
         <div class="section-head">
           <div class="section-kicker">{{APPLY_STEP_LABEL}}</div>
@@ -79,7 +79,7 @@
       </div>
     </section>
 
-    <section class="closing-section" aria-label="Apply now">
+    <section class="closing-section" data-application-cta aria-label="Apply now" hidden>
       <div class="container closing-shell">
         <a class="primary-cta" href="#apply">{{CLOSING_CTA}}</a>
       </div>
