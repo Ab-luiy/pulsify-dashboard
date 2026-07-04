@@ -29,18 +29,18 @@
 
         <p class="hero-subhead">{{HERO_SUBHEAD}}</p>
 
-        <div class="training-frame" id="training">
+        <div class="training-frame" id="training" data-video-block hidden>
           <div data-pulsify-wistia></div>
           <div class="training-note">
             <span>{{VIDEO_NOTE_PRIMARY}}</span>
             <span>{{VIDEO_NOTE_SECONDARY}}</span>
           </div>
         </div>
-        <a class="primary-cta" href="#apply">{{HERO_CTA}}</a>
+        <a class="primary-cta" href="#apply" data-application-cta hidden>{{HERO_CTA}}</a>
       </div>
     </section>
 
-    <section class="application-section" id="apply" aria-labelledby="apply-title">
+    <section class="application-section" id="apply" data-application-section aria-labelledby="apply-title" hidden>
       <div class="shell">
         <div class="section-pill">
           {{APPLY_STEP_LABEL}}
@@ -61,7 +61,7 @@
       </div>
     </section>
 
-    <section class="closing-section" aria-label="Apply now">
+    <section class="closing-section" data-application-cta aria-label="Apply now" hidden>
       <div class="shell closing-shell">
         <a class="primary-cta" href="#apply">{{CLOSING_CTA}}</a>
       </div>

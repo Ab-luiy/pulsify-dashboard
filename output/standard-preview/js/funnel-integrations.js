@@ -71,8 +71,8 @@
       const data = await response.json();
       if (!response.ok || !data.ok) throw new Error(data.error || "config unavailable");
       config = data.config;
-      if (config.wistia_media_id) mountWistia(config.wistia_media_id);
-      if (config.typeform_url) mountTypeform(config.typeform_url);
+      mountWistia(config.wistia_media_id);
+      mountTypeform(config.typeform_url);
       mountProofImages(config.proof_images);
     } catch (error) {
       console.warn("Pulsify funnel config:", error.message);
@@ -114,11 +114,12 @@
 
   function mountWistia(mediaId) {
     const mount = document.querySelector("[data-pulsify-wistia]");
-    if (!mount) return;
+    const validMediaId = validWistiaMediaId(mediaId);
+    if (!mount || !validMediaId) return;
     mount.innerHTML = "";
 
     const mediaScript = document.createElement("script");
-    mediaScript.src = `https://fast.wistia.com/embed/${encodeURIComponent(mediaId)}.js`;
+    mediaScript.src = `https://fast.wistia.com/embed/${encodeURIComponent(validMediaId)}.js`;
     mediaScript.async = true;
     mediaScript.type = "module";
 
@@ -131,20 +132,21 @@
 
     const style = document.createElement("style");
     style.textContent = `
-      wistia-player[media-id="${cssEscape(mediaId)}"]:not(:defined){
+      wistia-player[media-id="${cssEscape(validMediaId)}"]:not(:defined){
         display:block; padding-top:56.25%; background:#111;
       }
-      wistia-player[media-id="${cssEscape(mediaId)}"]{ display:block; width:100%; }
+      wistia-player[media-id="${cssEscape(validMediaId)}"]{ display:block; width:100%; }
     `;
 
     player = document.createElement("wistia-player");
     player.id = "pulsifyWistiaPlayer";
-    player.setAttribute("media-id", mediaId);
+    player.setAttribute("media-id", validMediaId);
     player.setAttribute("player-color", "17191F");
     player.setAttribute("aspect", "1.7777777778");
 
     mount.append(style, mediaScript, player);
-    bindWistiaEvents(mediaId);
+    bindWistiaEvents(validMediaId);
+    revealAll("[data-video-block]");
   }
 
   function bindWistiaEvents(mediaId) {
@@ -261,6 +263,7 @@
     script.src = "https://embed.typeform.com/next/embed.js";
     script.async = true;
     document.body.appendChild(script);
+    revealAll("[data-application-section], [data-application-cta]");
   }
 
   function hiddenFields() {
@@ -351,12 +354,20 @@
   }
 
   function parseTypeformId(url) {
+    const raw = String(url || "").trim();
+    if (!raw) return "";
+    if (/^[a-z0-9_-]{6,64}$/i.test(raw)) return raw;
+
     try {
-      const pathname = new URL(url).pathname.split("/").filter(Boolean);
+      const parsed = new URL(raw);
+      if (!["http:", "https:"].includes(parsed.protocol)) return "";
+      if (parsed.hostname !== "typeform.com" && !parsed.hostname.endsWith(".typeform.com")) return "";
+      const pathname = parsed.pathname.split("/").filter(Boolean);
       const toIndex = pathname.indexOf("to");
-      return toIndex >= 0 ? pathname[toIndex + 1] : pathname.at(-1);
+      const formId = toIndex >= 0 ? pathname[toIndex + 1] : "";
+      return /^[a-z0-9_-]{6,64}$/i.test(formId || "") ? formId : "";
     } catch {
-      return String(url || "").trim();
+      return "";
     }
   }
 
@@ -384,6 +395,17 @@
 
   function cssEscape(value) {
     return String(value).replace(/["\\]/g, "\\$&");
+  }
+
+  function validWistiaMediaId(value) {
+    const mediaId = String(value || "").trim();
+    return /^[a-z0-9_-]{6,64}$/i.test(mediaId) ? mediaId : "";
+  }
+
+  function revealAll(selector) {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.hidden = false;
+    });
   }
 
   function validImageUrl(value) {
