@@ -1,6 +1,7 @@
 ﻿# Memory index
 
 - [Operator console + wizard](project_operator_console.md) - 2026-07-04: /admin unifies all 4 admin pages on pulsify-funnels + 8-step add-client wizard, both live; ADMIN_KEY recovered from old transcript (user holds it); multitest junk row pending delete
+- [Fable handoff brief](project_fable_handoff.md) - 2026-07-04: parting judgment doc at wiki/synthesis/fable-handoff-2026-07-04.md; core rule = new builds gate on "does this start a conversation this week"; read it when setting priorities
 - [Claude writes copy](feedback_claude_writes_copy.md) - 2026-07-04: all client-facing copy is Claude-written in-session (brief in chat -> JSON -> page via API); Gemini key only a fallback, never push it for copy
 - [Codex builds, Claude specs](feedback_codex_builds_claude_specs.md) - 2026-07-04 standing rule: ALL implementation goes to Codex via codex exec while Fable lasts; Claude does recon/spec/review only; post-Fable = Opus 4.8 xhigh thinks, Sonnet 5.0 codes
 - [Flagship QA (Fable pass)](project_flagship_qa_2026_07_02.md) - 2026-07-02: report at wiki/synthesis/flagship-qa-2026-07-02.md; open fixes: F1 merge keen-tereshkova worktree to main (deployed source lives ONLY there), F2 bare domain renders Frank, F3 settings POST wipes absent fields; 7 standing rules incl. Kit-requires-webhook-secret
