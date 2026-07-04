@@ -7,6 +7,7 @@ const integrationsApi = await import(pathToFileURL(`${base}/functions/api/integr
 const paymentApi = await import(pathToFileURL(`${base}/functions/api/payment.js`).href);
 const hookApi = await import(pathToFileURL(`${base}/functions/api/hooks/[provider].js`).href);
 const clientDataApi = await import(pathToFileURL(`${base}/functions/api/client-data.js`).href);
+const eventApi = await import(pathToFileURL(`${base}/functions/event.js`).href);
 const { sha256Hex } = await import(pathToFileURL(`${base}/functions/_shared/common.js`).href);
 
 const results = {};
@@ -19,6 +20,7 @@ class MockDB {
       payments: seed.payments || [],
       client_config: seed.client_config || [],
       leads: seed.leads || [],
+      page_events: seed.page_events || [],
       delivery_failures: seed.delivery_failures || [],
     };
     this.audit = [];
@@ -77,6 +79,11 @@ class MockStmt {
         rows = rows.filter((row) => row.provider === p[index]);
       }
       return mode === "all" ? { results: rows } : rows[0] || null;
+    }
+
+    if (sql.includes("SELECT 1 AS has_integration FROM integrations WHERE scope='client' AND client_id=? LIMIT 1")) {
+      const row = state.integrations.find((item) => item.scope === "client" && (item.client_id || "") === p[0]);
+      return row ? { has_integration: 1 } : null;
     }
 
     if (sql.includes("SELECT provider, COALESCE(client,'') AS client_key, MAX(ts) AS last_event_ts FROM integration_events GROUP BY provider, COALESCE(client,'')")) {
@@ -147,6 +154,27 @@ class MockStmt {
       return { meta: { changes: 1, last_row_id: row.id } };
     }
 
+    if (sql.startsWith("INSERT INTO page_events")) {
+      const [client, visitorId, sessionId, pageId, event, email, path, referrer, utmJson, metadataJson, at] = p;
+      const row = {
+        id: state.page_events.length + 1,
+        client,
+        visitor_id: visitorId,
+        session_id: sessionId,
+        page_id: pageId,
+        event,
+        email,
+        path,
+        referrer,
+        utm_json: utmJson,
+        metadata_json: metadataJson,
+        at,
+      };
+      state.page_events.push(row);
+      this.db.audit.push(`page_event:${client}:${event}`);
+      return { meta: { changes: 1, last_row_id: row.id } };
+    }
+
     if (sql.startsWith("INSERT INTO integration_events")) {
       const [provider, kind, client, externalId, payloadSummaryJson, ts] = p;
       const duplicate = state.integration_events.find((row) =>
@@ -203,6 +231,22 @@ class MockStmt {
             client: row.client,
             client_name: row.client_name || row.client,
             portal_token_hash: row.portal_token_hash || null,
+          }
+        : null;
+    }
+
+    if (sql.includes("SELECT client, COALESCE(client_name,client) AS client_name, wistia_media_id, typeform_url, typeform_webhook_secret, kit_api_key, kit_tag_id, allowed_origin FROM client_config WHERE client=?")) {
+      const row = state.client_config.find((item) => item.client === p[0]);
+      return row
+        ? {
+            client: row.client,
+            client_name: row.client_name || row.client,
+            wistia_media_id: row.wistia_media_id || null,
+            typeform_url: row.typeform_url || null,
+            typeform_webhook_secret: row.typeform_webhook_secret || null,
+            kit_api_key: row.kit_api_key || null,
+            kit_tag_id: row.kit_tag_id || null,
+            allowed_origin: row.allowed_origin || null,
           }
         : null;
     }
@@ -414,8 +458,99 @@ async function runStripeHookChecks() {
   assert.equal(secondJson.duplicate, true);
   assert.equal(env.DB.state.payments.length, 1);
 
+  const unknownResponse = await hookApi.onRequestPost({
+    request: request("https://example.com/api/hooks/stripe/not-real", {
+      method: "POST",
+      body: JSON.stringify({
+        id: "evt_unknown",
+        type: "payment_intent.succeeded",
+        data: { object: { id: "pi_unknown", amount_received: 999, currency: "usd", created: 1700000000 } },
+      }),
+    }),
+    env,
+    params: { provider: "stripe", secret: "not-real" },
+  });
+  const unknownJson = await readJson(unknownResponse);
+  assert.equal(unknownJson.ok, true);
+  assert.equal(unknownJson.recorded, false);
+  assert.equal(unknownJson.reason, "unknown client");
+  assert.equal(env.DB.state.payments.length, 1);
+  assert.equal(env.DB.state.integration_events.some((row) => row.client === "unknown"), false);
+
   results.hook_signature_reject = { status: badResponse.status };
-  results.hook_idempotency = { first: firstJson, second: secondJson, payments: env.DB.state.payments.length };
+  results.hook_idempotency = {
+    first: firstJson,
+    second: secondJson,
+    unknown: unknownJson,
+    payments: env.DB.state.payments.length,
+  };
+}
+
+async function runEventBoundaryChecks() {
+  const unknownEnv = makeEnv();
+  const unknownResponse = await eventApi.onRequestPost({
+    request: request("https://example.com/event?client=review-check-ghost-xyz", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ kind: "page", event: "page_view", path: "/ghost" }),
+    }),
+    env: unknownEnv,
+  });
+  const unknownJson = await readJson(unknownResponse);
+  assert.equal(unknownResponse.status, 404);
+  assert.deepEqual(unknownJson, { ok: false, error: "unknown client" });
+  assert.equal(unknownEnv.DB.state.page_events.length, 0);
+  assert.equal(unknownEnv.DB.state.leads.length, 0);
+  assert.equal(unknownEnv.DB.state.delivery_failures.length, 0);
+
+  const knownEnv = makeEnv({
+    integrations: [
+      {
+        scope: "client",
+        client_id: "integrations-only",
+        provider: "calcom",
+        config_json: JSON.stringify({ booking_url: "https://cal.com/integrations-only" }),
+        secret_json: JSON.stringify({ path_secret: "integration-only-path" }),
+        created_at: "2026-07-04T10:00:00.000Z",
+        updated_at: "2026-07-04T10:00:00.000Z",
+      },
+    ],
+  });
+  const knownResponse = await eventApi.onRequestPost({
+    request: request("https://example.com/event?client=integrations-only", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        kind: "page",
+        event: "page_view",
+        path: "/known",
+        visitor_id: "visitor-1",
+        session_id: "session-1",
+      }),
+    }),
+    env: knownEnv,
+  });
+  const knownJson = await readJson(knownResponse);
+  assert.equal(knownResponse.status, 200);
+  assert.equal(knownJson.ok, true);
+  assert.equal(knownJson.kind, "page");
+  assert.equal(knownEnv.DB.state.page_events.length, 1);
+  assert.equal(knownEnv.DB.state.page_events[0].client, "integrations-only");
+  assert.equal(knownEnv.DB.state.leads.length, 0);
+
+  results.event_client_boundary = {
+    unknown: {
+      status: unknownResponse.status,
+      json: unknownJson,
+      page_events: unknownEnv.DB.state.page_events.length,
+      leads: unknownEnv.DB.state.leads.length,
+    },
+    integrations_only: {
+      status: knownResponse.status,
+      json: knownJson,
+      page_events: knownEnv.DB.state.page_events.length,
+    },
+  };
 }
 
 async function runPaymentChecks() {
@@ -558,6 +693,7 @@ async function runTenantIsolationCheck() {
 }
 
 await runMaskedGetAndPreservePost();
+await runEventBoundaryChecks();
 await runStripeHookChecks();
 await runPaymentChecks();
 await runTenantIsolationCheck();

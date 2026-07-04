@@ -228,12 +228,23 @@ async function getConfig(env, client) {
       typeform_webhook_secret: env.TYPEFORM_WEBHOOK_SECRET,
     };
   }
-  const base = (await env.DB.prepare(
-    `SELECT client, COALESCE(client_name,client) AS client_name,
-            wistia_media_id, typeform_url, typeform_webhook_secret,
-            kit_api_key, kit_tag_id, allowed_origin
-       FROM client_config WHERE client=?`,
-  ).bind(client).first()) || {
+  const [configRow, integrationRow] = await Promise.all([
+    env.DB.prepare(
+      `SELECT client, COALESCE(client_name,client) AS client_name,
+              wistia_media_id, typeform_url, typeform_webhook_secret,
+              kit_api_key, kit_tag_id, allowed_origin
+         FROM client_config WHERE client=?`,
+    ).bind(client).first(),
+    env.DB.prepare(
+      `SELECT 1 AS has_integration
+         FROM integrations
+        WHERE scope='client' AND client_id=?
+        LIMIT 1`,
+    ).bind(client).first().catch(() => null),
+  ]);
+  if (!configRow && !integrationRow) return null;
+
+  const base = configRow || {
     client,
     client_name: client,
     wistia_media_id: null,
