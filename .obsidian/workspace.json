@@ -180,6 +180,7 @@
   },
   "active": "65135cc810b96eda",
   "lastOpenFiles": [
+    "claude-memory/feedback_claude_writes_copy.md",
     "wiki/synthesis/operator-console-spec.md",
     "output/standard-preview/admin/console.js",
     "output/standard-preview/admin/console.css",
@@ -219,7 +220,6 @@
     "2026-05-10.md",
     "wiki/playbooks/client-scaling.md",
     "wiki/frameworks/vsl-framework.md",
-    "clients/nick/overview.md",
-    "CLAUDE.md"
+    "clients/nick/overview.md"
   ]
 }
