@@ -861,3 +861,20 @@ YouTube Analytics OAuth, Slack bot, Wistia, Composio status), I3 parked
 resolveAccess / delivery_failures patterns; OAuth tokens encrypted at rest.
 Fanbasis webhook capability explicitly flagged unverified. Handed to Codex
 (gpt-5.5 high); I1 rides with or right after the portal build.
+
+## [2026-07-03] decision | Portal v2: connection-first product spec
+
+Founder reviewed the Scoreboard mock: approved the direction earlier, then
+reframed the product — the portal is the client's connection hub first (they
+log in and connect Kit, YouTube, IG, Cal.com/Calendly, Stripe/Fanbasis/Whop,
+Zapier), proof-of-value second, and no sample stats anywhere including mocks.
+Also flagged design bugs; root causes confirmed in the mock's css (metric
+tracking -0.05em cramping numerals, red trend dots reading as errors, no
+consistent spacing scale, landing-page-size h1). Scanned the commercial portal
+market (Assembly/Copilot, SuiteDash, Wayfront) and cut the standard module set
+to what Pulsify needs — messaging/e-sign/knowledge-base skipped, the connect
+surface is the differentiator no vendor has. Full spec:
+wiki/synthesis/client-portal-product-spec.md. Stage-2 mock (first-login connect
+state, empty scoreboard, design fixes) gates the full build. I1 hub build
+running concurrently gets an additive delta: client-token-scoped writes for a
+client's own integration rows.
