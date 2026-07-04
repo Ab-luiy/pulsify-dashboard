@@ -1,17 +1,31 @@
 /**
  * Per-client integration settings.
  *
- * GET/POST /api/settings?client=<client-id>
+ * GET/POST/DELETE /api/settings?client=<client-id>
  * Header: x-admin-key: <ADMIN_KEY>
  */
 
+import { checkAdmin, cleanId, json } from "../_shared/common.js";
+
+const CLIENT_TABLES = [
+  ["client_config", "client"],
+  ["content_items", "client"],
+  ["call_notes", "client"],
+  ["client_assets", "client"],
+  ["payments", "client"],
+  ["integrations", "client_id"],
+  ["integration_events", "client"],
+  ["delivery_failures", "client"],
+  ["page_events", "client"],
+];
+
 export async function onRequestGet({ request, env }) {
-  const auth = checkAuth(request, env);
+  const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
-  const client = cleanId(url.searchParams.get("client") || "unknown");
+  const client = cleanId(url.searchParams.get("client"), "unknown");
   const row = await env.DB.prepare(
     `SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
             kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
@@ -33,12 +47,12 @@ export async function onRequestGet({ request, env }) {
 }
 
 export async function onRequestPost({ request, env }) {
-  const auth = checkAuth(request, env);
+  const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const body = await request.json().catch(() => ({}));
-  const client = cleanId(body.client || "unknown");
+  const client = cleanId(body.client, "unknown");
   if (client === "unknown") return json({ ok: false, error: "valid client id required" }, 422);
 
   const existing = await env.DB.prepare(
@@ -112,23 +126,39 @@ export async function onRequestPost({ request, env }) {
   });
 }
 
+export async function onRequestDelete({ request, env }) {
+  const auth = checkAdmin(request, env);
+  if (auth) return auth;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+
+  const client = cleanId(new URL(request.url).searchParams.get("client"), "unknown");
+  const exists = await env.DB.prepare(
+    "SELECT 1 AS found FROM client_config WHERE client=?",
+  ).bind(client).first();
+
+  if (!exists) return json({ ok: false, error: "client not found" }, 404);
+
+  const results = await env.DB.batch(
+    CLIENT_TABLES.map(([table, column]) =>
+      env.DB.prepare(`DELETE FROM ${table} WHERE ${column}=?`).bind(client),
+    ),
+  );
+  const deleted = Object.fromEntries(
+    CLIENT_TABLES.map(([table], index) => [table, Number(results[index]?.meta?.changes || 0)]),
+  );
+
+  return json({ ok: true, deleted });
+}
+
 export async function onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
-      "access-control-allow-methods": "GET, POST, OPTIONS",
+      "access-control-allow-methods": "GET, POST, DELETE, OPTIONS",
       "access-control-allow-headers": "content-type, x-admin-key",
       "access-control-max-age": "86400",
     },
   });
-}
-
-function checkAuth(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
-    return json({ ok: false, error: "unauthorized" }, 401);
-  }
-  return null;
 }
 
 function parseJson(value) {
@@ -138,19 +168,4 @@ function parseJson(value) {
 
 function hasOwn(object, key) {
   return Object.prototype.hasOwnProperty.call(object || {}, key);
-}
-
-function cleanId(value) {
-  return String(value || "unknown").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "unknown";
-}
-
-function json(object, status = 200) {
-  return new Response(JSON.stringify(object), {
-    status,
-    headers: {
-      "content-type": "application/json",
-      "access-control-allow-origin": "*",
-      "cache-control": "no-store",
-    },
-  });
 }

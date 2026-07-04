@@ -7,6 +7,7 @@ const integrationsApi = await import(pathToFileURL(`${base}/functions/api/integr
 const paymentApi = await import(pathToFileURL(`${base}/functions/api/payment.js`).href);
 const hookApi = await import(pathToFileURL(`${base}/functions/api/hooks/[provider].js`).href);
 const clientDataApi = await import(pathToFileURL(`${base}/functions/api/client-data.js`).href);
+const settingsApi = await import(pathToFileURL(`${base}/functions/api/settings.js`).href);
 const eventApi = await import(pathToFileURL(`${base}/functions/event.js`).href);
 const { sha256Hex } = await import(pathToFileURL(`${base}/functions/_shared/common.js`).href);
 
@@ -19,6 +20,9 @@ class MockDB {
       integration_events: seed.integration_events || [],
       payments: seed.payments || [],
       client_config: seed.client_config || [],
+      content_items: seed.content_items || [],
+      call_notes: seed.call_notes || [],
+      client_assets: seed.client_assets || [],
       leads: seed.leads || [],
       page_events: seed.page_events || [],
       delivery_failures: seed.delivery_failures || [],
@@ -122,6 +126,15 @@ class MockStmt {
       return { meta: { changes: 1 } };
     }
 
+    const clientDelete = sql.match(/^DELETE FROM ([a-z_]+) WHERE (client|client_id)=\?$/);
+    if (clientDelete) {
+      const [, table, column] = clientDelete;
+      if (!Array.isArray(state[table])) throw new Error(`Unknown mock table: ${table}`);
+      const before = state[table].length;
+      state[table] = state[table].filter((row) => row[column] !== p[0]);
+      return { meta: { changes: before - state[table].length } };
+    }
+
     if (sql.startsWith("DELETE FROM integrations")) {
       const [scope, clientId, provider] = p;
       const before = state.integrations.length;
@@ -151,6 +164,24 @@ class MockStmt {
       };
       state.payments.push(row);
       this.db.audit.push(`insert_payment:${reference}`);
+      return { meta: { changes: 1, last_row_id: row.id } };
+    }
+
+    if (sql.startsWith("INSERT INTO content_items")) {
+      const [client, title, stage, platform, url, notes, scheduledFor, updatedAt] = p;
+      const row = {
+        id: state.content_items.length + 1,
+        client,
+        title,
+        stage,
+        platform,
+        url,
+        notes,
+        scheduled_for: scheduledFor,
+        updated_at: updatedAt,
+      };
+      state.content_items.push(row);
+      this.db.audit.push(`content_item:${client}:${row.id}`);
       return { meta: { changes: 1, last_row_id: row.id } };
     }
 
@@ -201,6 +232,47 @@ class MockStmt {
         .filter((row) => row.provider === provider && (row.client || "") === clientKey)
         .sort((a, b) => String(b.ts).localeCompare(String(a.ts)));
       return rows[0] || null;
+    }
+
+    if (sql.includes("SELECT 1 AS found FROM client_config WHERE client=?")) {
+      return state.client_config.some((row) => row.client === p[0]) ? { found: 1 } : null;
+    }
+
+    if (sql.includes("SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json,updated_at FROM client_config WHERE client=?")) {
+      const row = state.client_config.find((item) => item.client === p[0]);
+      return row ? { ...row } : null;
+    }
+
+    if (sql.includes("SELECT client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json FROM client_config WHERE client=?")) {
+      const row = state.client_config.find((item) => item.client === p[0]);
+      return row ? { ...row } : null;
+    }
+
+    if (sql.startsWith("INSERT INTO client_config") && sql.includes("wistia_media_id")) {
+      const [
+        client, clientName, wistiaMediaId, typeformUrl, typeformWebhookSecret,
+        kitTagId, kitApiKey, allowedOrigin, proofImagesJson,
+        templateVariant, pageContentJson, updatedAt,
+      ] = p;
+      const next = {
+        client,
+        client_name: clientName,
+        wistia_media_id: wistiaMediaId,
+        typeform_url: typeformUrl,
+        typeform_webhook_secret: typeformWebhookSecret,
+        kit_tag_id: kitTagId,
+        kit_api_key: kitApiKey,
+        allowed_origin: allowedOrigin,
+        proof_images_json: proofImagesJson,
+        template_variant: templateVariant,
+        page_content_json: pageContentJson,
+        updated_at: updatedAt,
+      };
+      const existing = state.client_config.find((row) => row.client === client);
+      if (existing) Object.assign(existing, next);
+      else state.client_config.push(next);
+      this.db.audit.push(`settings_client:${client}`);
+      return { meta: { changes: 1 } };
     }
 
     if (sql.startsWith("INSERT INTO client_config")) {
@@ -692,10 +764,141 @@ async function runTenantIsolationCheck() {
   results.tenant_isolation = data;
 }
 
+async function runClientDeletionChecks() {
+  const client = "delete-check";
+  const env = makeEnv();
+
+  const createResponse = await settingsApi.onRequestPost({
+    request: request("https://example.com/api/settings", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": "admin-secret",
+      },
+      body: JSON.stringify({ client, client_name: "Deletion Check" }),
+    }),
+    env,
+  });
+  assert.equal(createResponse.status, 200);
+  assert.equal((await readJson(createResponse)).ok, true);
+
+  const contentResponse = await clientDataApi.onRequestPost({
+    request: request("https://example.com/api/client-data", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": "admin-secret",
+      },
+      body: JSON.stringify({
+        client,
+        type: "content",
+        item: { title: "Throwaway content", stage: "production" },
+      }),
+    }),
+    env,
+  });
+  assert.equal(contentResponse.status, 200);
+  assert.equal((await readJson(contentResponse)).created, true);
+
+  const paymentResponse = await paymentApi.onRequestPost({
+    request: request("https://example.com/api/payment", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": "admin-secret",
+      },
+      body: JSON.stringify({
+        client,
+        amount: 100,
+        currency: "usd",
+        rail: "manual",
+        reference: "delete-check-payment",
+      }),
+    }),
+    env,
+  });
+  assert.equal(paymentResponse.status, 200);
+  assert.equal((await readJson(paymentResponse)).duplicate, false);
+
+  env.DB.state.call_notes.push({ id: 1, client, title: "Throwaway call" });
+  env.DB.state.client_assets.push({ id: 1, client, label: "Throwaway asset" });
+  env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
+  env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
+
+  const unauthorizedResponse = await settingsApi.onRequestDelete({
+    request: request(`https://example.com/api/settings?client=${client}`, {
+      method: "DELETE",
+    }),
+    env,
+  });
+  assert.equal(unauthorizedResponse.status, 401);
+  assert.equal(env.DB.state.client_config.length, 1, "unauthorized delete changed client data");
+
+  const unknownResponse = await settingsApi.onRequestDelete({
+    request: request("https://example.com/api/settings?client=not-a-client", {
+      method: "DELETE",
+      headers: { "x-admin-key": "admin-secret" },
+    }),
+    env,
+  });
+  const unknownJson = await readJson(unknownResponse);
+  assert.equal(unknownResponse.status, 404);
+  assert.deepEqual(unknownJson, { ok: false, error: "client not found" });
+
+  const deleteResponse = await settingsApi.onRequestDelete({
+    request: request(`https://example.com/api/settings?client=${client}`, {
+      method: "DELETE",
+      headers: { "x-admin-key": "admin-secret" },
+    }),
+    env,
+  });
+  const deleteJson = await readJson(deleteResponse);
+  assert.equal(deleteResponse.status, 200);
+  assert.deepEqual(deleteJson, {
+    ok: true,
+    deleted: {
+      client_config: 1,
+      content_items: 1,
+      call_notes: 1,
+      client_assets: 1,
+      payments: 1,
+      integrations: 1,
+      integration_events: 1,
+      delivery_failures: 1,
+      page_events: 1,
+    },
+  });
+
+  const getResponse = await settingsApi.onRequestGet({
+    request: request(`https://example.com/api/settings?client=${client}`, {
+      headers: { "x-admin-key": "admin-secret" },
+    }),
+    env,
+  });
+  const getJson = await readJson(getResponse);
+  assert.equal(getResponse.status, 200);
+  assert.equal(getJson.config, null);
+
+  for (const table of [
+    "client_config", "content_items", "call_notes", "client_assets", "payments",
+    "integrations", "integration_events", "delivery_failures", "page_events",
+  ]) {
+    assert.equal(env.DB.state[table].length, 0, `${table} retained the deleted client`);
+  }
+
+  results.client_deletion = {
+    unauthorized_status: unauthorizedResponse.status,
+    unknown_status: unknownResponse.status,
+    deleted: deleteJson.deleted,
+    config_after_delete: getJson.config,
+  };
+}
+
 await runMaskedGetAndPreservePost();
 await runEventBoundaryChecks();
 await runStripeHookChecks();
 await runPaymentChecks();
 await runTenantIsolationCheck();
+await runClientDeletionChecks();
 
 console.log(JSON.stringify(results, null, 2));
