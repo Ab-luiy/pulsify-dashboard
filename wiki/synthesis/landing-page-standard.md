@@ -1,10 +1,10 @@
 ---
 type: synthesis
 tags: [funnel, landing-page, vsl, standard, asset, outreach]
-sources: [[synthesis/prospect-funnel-reference-library]], [[raw-sources/vsls/mason-bowstead-funnel-design]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
+sources: [[synthesis/prospect-funnel-reference-library]], [[synthesis/proof-wall-redesign-spec]], [[raw-sources/vsls/mason-bowstead-funnel-design]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
 status: approved
 created: 2026-06-30
-updated: 2026-07-01
+updated: 2026-07-04
 ---
 
 
@@ -43,9 +43,12 @@ Top to bottom, one idea per screen:
    script, not a mock form), directly under the video. This is the shared spine.
    Default question set: [[frameworks/generic-mmo-application-questionnaire]] — niche-agnostic,
    swap the bracketed tokens per client.
-8. **Proof wall** — the crescendo. Testimonials only: real screenshots and raw clips,
-   never retyped quote cards. **No featured/explainer video in this section** — the only
-   video on the page is the hero VSL. Header in Luke Alexander's style: `People we've helped`.
+8. **Proof wall** — the crescendo. An unlabeled feed of real screenshots in operator-set
+   order: testimonials, results, DMs, payouts, and dashboards. No categories, captions,
+   fixed slots, placeholders, or retyped quote cards. **No featured/explainer video in
+   this section** — the only video on the page is the hero VSL. Header in Luke Alexander's
+   style: `People we've helped`. If there are zero images, the entire section including
+   the heading does not render.
 9. **Closing CTA** — the same CTA, repeated. Same destination every time.
 10. **Footer** — brand line + a short results-vary disclaimer.
 
@@ -57,8 +60,8 @@ Top to bottom, one idea per screen:
   research earns it, allow one tight mechanism row, and only *after* the application —
   never above the video. Default to leaving it out.
 - **Proof is the backbone.** Grant's ~120-screenshot wall and Mason's "testimonial
-  bombardment" are the same instinct. The page lives or dies on real proof volume. A
-  skimmed page with an empty proof wall is not shippable.
+  bombardment" are the same instinct. The page lives or dies on real proof volume.
+  Public pages never announce missing proof: zero images means no proof section.
 - **One CTA, one destination.** Repeat the same button; never introduce a competing offer.
 
 ## The gate fork — two pages
@@ -78,18 +81,19 @@ There is ONE visual layer for this asset, defined by Codex's design tokens. Ever
 uses it so the output is identical regardless of which agent builds the page. Do not
 invent a parallel palette or framing.
 
-Canonical tokens (from `output/frank-mason-replica-v2/css/style.css`):
+Canonical tokens (from `output/standard-preview/templates/canonical/css/style.css`):
 
-- **Font:** `Inter` (not Inter Tight). Headlines `clamp(44px, 6.4vw, 72px)`, weight 800,
-  letter-spacing `-0.058em`, line-height `0.98`. The emphasised `em` is a blue **block**
-  with a thick underline.
-- **Palette:** `--ink #131720`, `--muted #626a78`, accent `--blue #6871f4`,
-  `--blue-soft #eef0ff`, `--lavender #f5f3ff`, `--line #e9e8ef`, full-bleed white background.
-- **Signature components:** radial violet hero/closing glow
-  (`rgba(112,104,255,…)`); glassy pills with `backdrop-filter: blur(12px)` + a `.pulse-dot`
-  glow ring; the video in a 13px white frame, 22px radius, with a solid blue play disc
-  (7px white ring); soft shadow `0 22px 70px rgba(68,58,139,.13)`.
-- Full-bleed white body — **not** a floating rounded card on a grey backdrop.
+- **Fonts:** `Inter Tight` 700–900 for headlines; `Inter` 400–600 for body.
+  Hero headlines use heavy contrast, tight tracking, and a clear scale hierarchy.
+- **Palette:** off-white `#fbfaf7`, charcoal `#17191f`, muted `#676b75`, hairline
+  `#dedfe4`, and one accent `#6871f4`.
+- **Accent rule:** the accent appears only on the headline emphasis and CTAs. No
+  accent dots, pills, underlines, highlights, progress decoration, or gradients.
+- **Spacing:** one 8px scale, generous 80–112px section gaps, and no divider seams
+  between sections.
+- **Proof feed:** three columns on wide screens, two on tablet, one at 640px and below;
+  8px gaps, natural image ratios, 1px borders, 8px radii, full-image links in a new tab.
+- Full-bleed off-white body — **not** a floating rounded card on a grey backdrop.
 - It should feel expensive because it is controlled, not because it is decorated.
 
 ### No-freehand rule

@@ -82,7 +82,7 @@
     kit_key: ["Kit v4 API key", "From Kit (ConvertKit): Settings -> Developer -> v4 key. Lets the system add subscribers and send the onboarding email."],
     kit_tag: ["Kit tag ID", "The number of the Kit tag new leads get added to; that tag drives the email automation. Find it in the tag's URL inside Kit."],
     origin: ["Landing-page origin", "The exact web address allowed to send visitor events to us (a security allowlist). Normally the pulsify-funnels domain, or the custom domain once one exists."],
-    proof: ["Proof-wall images", "Direct image URLs for the eight proof screenshots on the landing page. Blank slots show a placeholder shimmer."],
+    proof: ["Proof-wall images", "Ordered direct image URLs for testimonials, results, DMs, payouts, and dashboards. Empty means the public proof section stays hidden."],
     portal: ["Client portal link", "The tokenized login link you send the client; the Generate button mints a fresh one."],
     discord: ["Webhook URL (Discord)", "From your Discord channel: Settings -> Integrations -> Webhooks -> copy URL. Where application/booking/payment alerts get posted."],
     path_secret: ["Webhook path secret", "A random string baked into the webhook URL we hand a provider (Cal.com, Calendly, Whop) so only that provider can post to it. Auto-generated on first save; leave blank to keep it."],
@@ -102,11 +102,6 @@
     integrations: ["kit_key", "discord", "path_secret", "stripe_secret", "template_id", "onboarding_copy", "onboarding_links", "sender", "contact", "booking", "company"],
     campaigns: ["client_id", "client_name", "landing_design"],
   };
-
-  const PROOF_TAGS = [
-    "Payment proof", "Store dashboard", "Student DM", "Before / after",
-    "Ad results", "Raw clip", "Payout screenshot", "Order volume",
-  ];
 
   const WIZARD_STEPS = [
     "Name", "Client path", "Page design", "VSL video",
@@ -295,6 +290,8 @@
 
     $("clientId").addEventListener("input", updatePreviewLinks);
     $("settingsForm").addEventListener("submit", saveSettings);
+    $("addProofImageButton").addEventListener("click", () => addProofRow("proofImageFields", "proof-image-input"));
+    $("proofImageFields").addEventListener("click", handleProofListAction);
     $("generatePortalButton").addEventListener("click", generatePortalLink);
     $("copyPromptButton").addEventListener("click", copyProvisionPrompt);
     $("generateButton").addEventListener("click", generateProvisionViaApi);
@@ -309,6 +306,8 @@
       validateWizardIdentity();
     });
     $("wizardOpenExistingButton").addEventListener("click", openExistingWizardClient);
+    $("wizardAddProofImageButton").addEventListener("click", () => addProofRow("wizardProofFields", "wizard-proof-input"));
+    $("wizardProofFields").addEventListener("click", handleProofListAction);
     $$("[data-wizard-choice]").forEach((button) => {
       button.addEventListener("click", () => selectWizardChoice(button.dataset.wizardChoice));
     });
@@ -668,24 +667,73 @@
     });
   }
 
-  function renderProofFields() {
-    $("proofImageFields").innerHTML = PROOF_TAGS.map((tag) => `
-      <div class="field">
-        <label>${esc(tag)} <span class="optional">Optional</span></label>
-        <input class="proof-image-input" data-proof-tag="${esc(tag)}" type="url" placeholder="Paste a direct hosted image URL">
-        <p class="field-hint">The direct hosted URL for the ${esc(tag.toLowerCase())} screenshot. Copy it from the image host; blank keeps the shimmer placeholder.</p>
+  function renderProofFields(images) {
+    renderProofUrlList("proofImageFields", proofImageValues(images), "proof-image-input");
+  }
+
+  function renderWizardProofFields(images) {
+    renderProofUrlList("wizardProofFields", proofImageValues(images), "wizard-proof-input");
+  }
+
+  function renderProofUrlList(containerId, urls, inputClass) {
+    const rows = urls.length ? urls : [""];
+    $(containerId).innerHTML = rows.map((url, index) => `
+      <div class="proof-url-row" data-proof-row>
+        <label for="${containerId}-${index}">Screenshot URL ${index + 1}</label>
+        <input id="${containerId}-${index}" class="${inputClass}" type="url" value="${esc(url)}" placeholder="Paste a direct hosted image URL">
+        <div class="proof-row-actions" aria-label="Reorder screenshot URL ${index + 1}">
+          <button class="button outline icon-button" type="button" data-proof-action="up"${index === 0 ? " disabled" : ""}>Up</button>
+          <button class="button outline icon-button" type="button" data-proof-action="down"${index === rows.length - 1 ? " disabled" : ""}>Down</button>
+          <button class="button outline icon-button" type="button" data-proof-action="remove">Remove</button>
+        </div>
       </div>
     `).join("");
   }
 
-  function renderWizardProofFields() {
-    $("wizardProofFields").innerHTML = PROOF_TAGS.map((tag) => `
-      <div class="field">
-        <label>${esc(tag)} <span class="optional">Optional</span></label>
-        <input class="wizard-proof-input" data-proof-tag="${esc(tag)}" type="url" placeholder="Paste a direct hosted image URL">
-        <p class="field-hint">The direct hosted URL for the ${esc(tag.toLowerCase())} screenshot. Copy it from the image host; blank keeps the shimmer placeholder.</p>
-      </div>
-    `).join("");
+  function proofImageValues(images) {
+    if (!images || typeof images !== "object") return [];
+    return Object.values(images)
+      .map((url) => String(url || "").trim())
+      .filter(Boolean);
+  }
+
+  function proofListValues(container) {
+    return $$('input[type="url"]', container).map((input) => input.value);
+  }
+
+  function proofImagesPayload(selector) {
+    const urls = $$(selector)
+      .map((input) => input.value.trim())
+      .filter(Boolean);
+    return Object.fromEntries(urls.map((url, index) => [String(index + 1), url]));
+  }
+
+  function addProofRow(containerId, inputClass) {
+    const container = $(containerId);
+    renderProofUrlList(containerId, [...proofListValues(container), ""], inputClass);
+    const inputs = $$(`.${inputClass}`, container);
+    inputs.at(-1)?.focus();
+  }
+
+  function handleProofListAction(event) {
+    const button = event.target.closest("[data-proof-action]");
+    if (!button) return;
+    const container = event.currentTarget;
+    const row = button.closest("[data-proof-row]");
+    const rows = $$("[data-proof-row]", container);
+    const index = rows.indexOf(row);
+    if (index < 0) return;
+
+    const values = proofListValues(container);
+    const action = button.dataset.proofAction;
+    if (action === "remove") values.splice(index, 1);
+    if (action === "up" && index > 0) [values[index - 1], values[index]] = [values[index], values[index - 1]];
+    if (action === "down" && index < values.length - 1) [values[index + 1], values[index]] = [values[index], values[index + 1]];
+
+    const inputClass = container.id === "wizardProofFields" ? "wizard-proof-input" : "proof-image-input";
+    renderProofUrlList(container.id, values, inputClass);
+    const focusIndex = action === "up" ? index - 1 : action === "down" ? index + 1 : Math.min(index, Math.max(0, values.length - 1));
+    $$(`.${inputClass}`, container)[focusIndex]?.focus();
   }
 
   function renderWizardProgress() {
@@ -716,9 +764,7 @@
     $("wizardKitTagId").value = config.kit_tag_id || "";
     $("wizardKitApiKey").value = "";
     setSavedState($("wizardKitKeyState"), Boolean(config.kit_api_key_set), "API key");
-    $$(".wizard-proof-input").forEach((input) => {
-      input.value = config.proof_images?.[input.dataset.proofTag] || "";
-    });
+    renderWizardProofFields(config.proof_images);
     selectWizardChoice("");
     selectWizardDesign(wizardState.design);
     hideMessage($("wizardMessage"));
@@ -899,9 +945,7 @@
       return;
     }
     if (wizardState.step === 7) {
-      const proofImages = Object.fromEntries(
-        $$(".wizard-proof-input").map((input) => [input.dataset.proofTag, input.value.trim()])
-      );
+      const proofImages = proofImagesPayload(".wizard-proof-input");
       if (await saveWizardPartial({ proof_images: proofImages })) wizardAdvance();
       return;
     }
@@ -1083,7 +1127,7 @@
   }
 
   function wizardChecklist(config) {
-    const proofCount = PROOF_TAGS.filter((tag) => Boolean(config.proof_images?.[tag])).length;
+    const proofCount = proofImageValues(config.proof_images).length;
     const design = config.template_variant === "variant-02" ? "Variant 2" : "Standard";
     return [
       { step: 1, label: "Client name", detail: config.client_name || config.client || "", set: Boolean(config.client_name || config.client) },
@@ -1099,8 +1143,8 @@
       {
         step: 7,
         label: "Proof wall",
-        detail: `${proofCount} of ${PROOF_TAGS.length} proof images set`,
-        set: proofCount === PROOF_TAGS.length,
+        detail: `${proofCount} proof ${proofCount === 1 ? "image" : "images"} set`,
+        set: proofCount > 0,
       },
     ];
   }
@@ -1215,7 +1259,7 @@
     $("kitTagId").value = "";
     $("kitApiKey").value = "";
     $("allowedOrigin").value = "";
-    $$(".proof-image-input").forEach((input) => { input.value = ""; });
+    renderProofFields();
     $$(".content-field").forEach((input) => { input.value = ""; });
     setSavedState($("typeformSecretState"), false, "webhook secret");
     setSavedState($("kitKeyState"), false, "API key");
@@ -1250,7 +1294,7 @@
       setSavedState($("typeformSecretState"), Boolean(config.typeform_webhook_secret_set), "webhook secret");
       setSavedState($("kitKeyState"), Boolean(config.kit_api_key_set), "API key");
       const images = config.proof_images || {};
-      $$(".proof-image-input").forEach((input) => { input.value = images[input.dataset.proofTag] || ""; });
+      renderProofFields(images);
       const content = config.page_content || {};
       $$(".content-field").forEach((input) => { input.value = content[input.dataset.contentKey] || ""; });
       $("settingsStatus").textContent = "Loaded";
@@ -1293,7 +1337,7 @@
       kit_tag_id: $("kitTagId").value,
       kit_api_key: $("kitApiKey").value,
       allowed_origin: $("allowedOrigin").value,
-      proof_images: Object.fromEntries($$(".proof-image-input").map((input) => [input.dataset.proofTag, input.value.trim()])),
+      proof_images: proofImagesPayload(".proof-image-input"),
       template_variant: $("templateVariant").value,
       page_content: Object.fromEntries($$(".content-field").map((input) => [input.dataset.contentKey, input.value.trim()])),
     };
