@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-04T04:02:16.448648+00:00",
+  "lastUpdated": "2026-07-04T07:39:00.314Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-04T04:02:16.448648+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-03T07:56:58.311Z",
+    "updatedAt": "2026-07-04T07:39:00.256Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 502,
+      "followers": 503,
       "following": 468,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=vGGKh3r_828Q7kNvwGM1q90&_nc_oc=AdpGVsMgPvMccLXeyKf0cHKcrbLbOW_2S1vwpsB5nqynjJbwMZ1K9F8WaU5sBYK22Cw&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=V368HVP-tURYAnHzWZI_6w&_nc_tpa=Q5bMBQFc-Rk02C_Kr3U_3Q-NQFOGugdclMawET14fwn0PeT1TKe8Fbkp-LZyoXupB9zh7rjURB9gDtW9&oh=00_AQAibbAtNe4HPy7hhXBrwKWCCOrxmjb8FTnscD-KBpRNlQ&oe=6A4D2728"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=vGGKh3r_828Q7kNvwGM1q90&_nc_oc=AdpGVsMgPvMccLXeyKf0cHKcrbLbOW_2S1vwpsB5nqynjJbwMZ1K9F8WaU5sBYK22Cw&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=9y0r_N1WnRVeMfnzQdq8Kw&_nc_tpa=Q5bMBQFmSVo2PRMqcMxgqhGPDq7YchvGSuHRZ2VvYIjef-3HA6U-UmtJZqpF1V24kDxBZMswDdzpHpxc&oh=00_AQDOdlmy0kLCclrU72B8RsU1Zork83WInvinzygEfjrTtw&oe=6A4E78A8"
     },
     "content": {
       "reelsCount": 8,
@@ -138,7 +138,7 @@
       "countries": [
         {
           "name": "IN",
-          "value": 85
+          "value": 86
         },
         {
           "name": "BR",
@@ -273,11 +273,11 @@
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "CN",
           "value": 2
         },
         {
-          "name": "CN",
+          "name": "MX",
           "value": 2
         },
         {
@@ -305,15 +305,15 @@
           "value": 2
         },
         {
-          "name": "TW",
+          "name": "SN",
           "value": 1
         },
         {
-          "name": "IQ",
+          "name": "GR",
           "value": 1
         },
         {
-          "name": "AZ",
+          "name": "KZ",
           "value": 1
         }
       ],
@@ -411,35 +411,39 @@
           "value": 2
         },
         {
-          "name": "Arroio Teixeira, Rio Grande do Sul",
+          "name": "Villa España, Buenos Aires",
           "value": 1
         },
         {
-          "name": "San Antonio, Valparaíso Region",
+          "name": "São Leopoldo, Rio Grande do Sul",
           "value": 1
         },
         {
-          "name": "Soro, Odisha",
+          "name": "Eldoradopark, Gauteng",
           "value": 1
         },
         {
-          "name": "Zlín, Zlín Region",
+          "name": "Contagem, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Bilari, Uttar Pradesh",
+          "name": "San Fernando, Andalusia",
           "value": 1
         },
         {
-          "name": "Trichardt, Mpumalanga",
+          "name": "Rupnagar, Punjab region",
           "value": 1
         },
         {
-          "name": "Vila Velha, Espírito Santo",
+          "name": "Bogotá, Distrito Especial",
           "value": 1
         },
         {
-          "name": "Franca, São Paulo (state)",
+          "name": "Leiyang, Hunan",
+          "value": 1
+        },
+        {
+          "name": "Hoover, Alabama",
           "value": 1
         },
         {
@@ -447,55 +451,51 @@
           "value": 1
         },
         {
-          "name": "Colts Neck, New Jersey",
+          "name": "Taman, East Java",
           "value": 1
         },
         {
-          "name": "Ourilândia do Norte, Pará",
+          "name": "Yundum, West Coast Division ",
           "value": 1
         },
         {
-          "name": "Margilan, Fergana Region",
+          "name": "Surat, Gujarat",
           "value": 1
         },
         {
-          "name": "Reading, Pennsylvania",
+          "name": "Itaituba, Pará",
           "value": 1
         },
         {
-          "name": "Inzago, Lombardia",
+          "name": "Villa Fiorito, Buenos Aires",
           "value": 1
         },
         {
-          "name": "Coquitlam, British Columbia",
+          "name": "Tiruchirappalli, Tamil Nadu",
           "value": 1
         },
         {
-          "name": "Puerto Villarroel, Cochabamba Department",
+          "name": "Tyngsboro, Massachusetts",
           "value": 1
         },
         {
-          "name": "Racibórz, Silesian Voivodeship",
+          "name": "Viamão, Rio Grande do Sul",
           "value": 1
         },
         {
-          "name": "Addis Ababa, Addis Ababa",
+          "name": "Ban Bang Ya Phraek, Samut Prakan",
           "value": 1
         },
         {
-          "name": "Arapara, Dhaka Division",
+          "name": "Surabaya, East Java",
           "value": 1
         },
         {
-          "name": "Paragould, Arkansas",
+          "name": "Gharghoda, Chhattisgarh",
           "value": 1
         },
         {
-          "name": "Dendermonde, Flemish Region",
-          "value": 1
-        },
-        {
-          "name": "Mansoura, Dakahlia Governorate",
+          "name": "Terdal, Karnataka",
           "value": 1
         }
       ],
@@ -510,7 +510,7 @@
         },
         {
           "name": "F",
-          "value": 16
+          "value": 17
         }
       ],
       "age": [
@@ -520,7 +520,7 @@
         },
         {
           "name": "25-34",
-          "value": 97
+          "value": 98
         },
         {
           "name": "35-44",
@@ -776,7 +776,7 @@
     }
   },
   "content": {
-    "igFollowers": 502,
+    "igFollowers": 503,
     "igReach30d": 1142,
     "igReelsShipped": 18
   }
