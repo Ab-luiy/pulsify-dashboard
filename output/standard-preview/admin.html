@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsify operator console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/console.css">
+</head>
+<body>
+  <section class="auth-screen" id="authScreen">
+    <button class="icon-button auth-theme" id="authThemeButton" type="button" aria-label="Switch color theme">Theme</button>
+    <form class="auth-card" id="authForm">
+      <div class="brand-mark" aria-hidden="true">P</div>
+      <p class="eyebrow">Pulsify funnels</p>
+      <h1>Operator console</h1>
+      <p class="lede">One key opens client setup, delivery, integrations, and campaign visibility.</p>
+      <div class="field">
+        <label for="adminKey">Admin key <span class="required">Required</span></label>
+        <input id="adminKey" type="password" autocomplete="current-password" placeholder="Paste the deployment admin key">
+        <p class="field-hint">The private key set in Cloudflare. It unlocks every console section; leaving it blank keeps the console locked.</p>
+      </div>
+      <button class="button primary full" id="unlockButton" type="submit">Unlock console</button>
+      <div class="message error" id="authMessage" role="alert" hidden></div>
+    </form>
+  </section>
+
+  <div class="shell" id="shell" hidden>
+    <aside class="rail">
+      <div class="rail-brand">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div><strong>Pulsify</strong><span>Operator console</span></div>
+      </div>
+      <nav class="nav" aria-label="Console sections">
+        <a href="#clients" data-route="clients"><span>01</span>Clients</a>
+        <a href="#delivery" data-route="delivery"><span>02</span>Delivery</a>
+        <a href="#integrations" data-route="integrations"><span>03</span>Integrations</a>
+        <a href="#campaigns" data-route="campaigns"><span>04</span>Campaigns</a>
+      </nav>
+      <div class="rail-actions">
+        <button class="button ghost small" id="themeButton" type="button">Switch theme</button>
+        <button class="button ghost small" id="lockButton" type="button">Lock console</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="routeEyebrow">Client setup</p>
+          <h1 id="routeTitle">Clients</h1>
+        </div>
+        <div class="shared-client" id="sharedClientControl">
+          <label for="sharedClient">Active client <span class="required">Required for client work</span></label>
+          <select id="sharedClient" aria-describedby="sharedClientHint"></select>
+          <p class="field-hint" id="sharedClientHint">Choose the client once. Client setup, delivery, and client integrations follow this selection.</p>
+        </div>
+      </header>
+
+      <div class="global-message message error" id="globalMessage" role="alert" hidden></div>
+
+      <section class="route" id="route-clients" data-route-panel="clients">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Configure and launch</p>
+            <h2>Client pages</h2>
+            <p>Create a page, wire its tools, edit the copy, and mint the private portal link.</p>
+          </div>
+          <button class="button outline small" id="refreshClientsButton" type="button">Refresh client</button>
+        </div>
+
+        <details class="glossary" data-glossary="clients">
+          <summary>What do these mean?</summary>
+          <div class="glossary-grid"></div>
+        </details>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div><p class="kicker">New prospect</p><h3>Create a landing page from a creator brief</h3></div>
+          </div>
+          <div class="field">
+            <label for="provisionBrief">Creator brief <span class="optional">Optional for copy; required to generate</span></label>
+            <textarea id="provisionBrief" rows="7" placeholder="Paste the quote-rich creator brief"></textarea>
+            <p class="field-hint">The niche, mechanism, proof, and voice notes from Lead Studio or your research. Blank means there is nothing to give the generator.</p>
+          </div>
+          <div class="button-row">
+            <button class="button outline" id="copyPromptButton" type="button">Copy landing-page prompt</button>
+            <button class="button outline" id="generateButton" type="button">Generate with API</button>
+          </div>
+          <div class="message neutral" id="provisionNote" role="status" hidden></div>
+          <div class="field">
+            <label for="provisionJson">Generated page JSON <span class="required">Required to create</span></label>
+            <textarea id="provisionJson" rows="7" placeholder="Paste the JSON returned by your LLM"></textarea>
+            <p class="field-hint">The structured result from the copied prompt or Generate button. Blank means no page can be created; review the copy before saving it.</p>
+          </div>
+          <button class="button primary" id="createPageButton" type="button">Create page</button>
+          <div class="message" id="provisionMessage" role="status" hidden></div>
+          <div class="result-card" id="provisionResult" hidden>
+            <strong>Page created</strong>
+            <a id="resultLink" href="#" target="_blank" rel="noopener"></a>
+            <div class="button-row">
+              <button class="button outline small" id="copyResultButton" type="button">Copy link</button>
+              <a class="button outline small" id="resultCanonical" href="#" target="_blank" rel="noopener">Preview standard</a>
+              <a class="button outline small" id="resultVariant" href="#" target="_blank" rel="noopener">Preview variant 2</a>
+              <button class="button outline small" id="loadResultButton" type="button">Load in editor</button>
+            </div>
+          </div>
+        </article>
+
+        <div class="empty-state" id="clientsEmpty" hidden>
+          <h3>No clients configured yet</h3>
+          <p>Create the first prospect page above. It will become the active client automatically.</p>
+        </div>
+
+        <form class="panel" id="settingsForm">
+          <div class="panel-head">
+            <div><p class="kicker">Page configuration</p><h3>Landing page and funnel settings</h3></div>
+            <span class="status-pill" id="settingsStatus">Not loaded</span>
+          </div>
+
+          <div class="form-grid two">
+            <div class="field">
+              <label for="clientId">Client ID <span class="required">Required</span></label>
+              <input id="clientId" placeholder="Enter a permanent client slug">
+              <p class="field-hint">The short slug used in URLs and the database. Set it when the client is created; blank cannot be saved and it should never be changed later.</p>
+            </div>
+            <div class="field">
+              <label for="clientName">Client name <span class="required">Required</span></label>
+              <input id="clientName" placeholder="Enter the public display name">
+              <p class="field-hint">The name shown on the landing page and portal. Get it from the client's brand details; blank falls back to the client ID.</p>
+            </div>
+            <div class="field">
+              <label for="templateVariant">Landing page design <span class="required">Required</span></label>
+              <select id="templateVariant">
+                <option value="canonical">Standard design</option>
+                <option value="variant-02">Variant 2</option>
+              </select>
+              <p class="field-hint">Choose which approved page design renders this client's copy. If untouched, the standard design is used.</p>
+            </div>
+            <div class="preview-actions">
+              <span>Preview this client</span>
+              <a id="previewCanonical" href="#" target="_blank" rel="noopener">Standard design</a>
+              <a id="previewVariant" href="#" target="_blank" rel="noopener">Variant 2</a>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><p class="kicker">Funnel connections</p><h3>Video, form, email, and event origin</h3></div>
+            <div class="form-grid two">
+              <div class="field">
+                <label for="wistiaMediaId">Wistia media ID <span class="optional">Optional</span></label>
+                <input id="wistiaMediaId" placeholder="Paste the Wistia video code">
+                <p class="field-hint">The short code in the VSL's Wistia URL. Copy it from Wistia; blank makes the page show its video placeholder.</p>
+              </div>
+              <div class="field">
+                <label for="typeformUrl">Typeform link <span class="optional">Optional</span></label>
+                <input id="typeformUrl" type="url" placeholder="Paste the application form URL">
+                <p class="field-hint">The public share URL from Typeform. Blank means the landing page has no embedded application form.</p>
+              </div>
+              <div class="field">
+                <label for="typeformSecret">Typeform webhook secret <span class="optional">Write only</span></label>
+                <input id="typeformSecret" type="password" placeholder="Paste a new secret or leave blank">
+                <p class="field-hint">The password configured on the Typeform webhook. It rejects fake submissions; blank keeps the saved secret unchanged.</p>
+                <span class="saved-state" id="typeformSecretState">No saved secret reported.</span>
+              </div>
+              <div class="field">
+                <label for="kitTagId">Kit tag ID <span class="optional">Optional</span></label>
+                <input id="kitTagId" inputmode="numeric" placeholder="Paste the Kit tag number">
+                <p class="field-hint">The number in the Kit tag's URL. Leads receive this tag to start automation; blank means no tag is applied.</p>
+              </div>
+              <div class="field">
+                <label for="kitApiKey">Kit v4 API key <span class="optional">Write only</span></label>
+                <input id="kitApiKey" type="password" placeholder="Paste a new key or leave blank">
+                <p class="field-hint">Create it in Kit under Settings, then Developer. It lets the system add subscribers; blank keeps the saved key unchanged.</p>
+                <span class="saved-state" id="kitKeyState">No saved key reported.</span>
+              </div>
+              <div class="field">
+                <label for="allowedOrigin">Landing-page origin <span class="optional">Optional</span></label>
+                <input id="allowedOrigin" type="url" placeholder="Paste the exact allowed web address">
+                <p class="field-hint">The exact domain permitted to send visitor events. Use the live funnel or custom domain; blank uses the backend's current default behavior.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><p class="kicker">Proof wall</p><h3>Eight proof-image slots</h3><p>Direct image URLs update the live page without a code change.</p></div>
+            <div class="form-grid two" id="proofImageFields"></div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head"><p class="kicker">Page copy</p><h3>Edit the live landing-page words</h3><p>Blank fields use the template's generic default.</p></div>
+            <div class="form-grid two" id="contentFields"></div>
+          </div>
+
+          <button class="button primary" id="saveSettingsButton" type="submit">Save settings</button>
+          <div class="message" id="settingsMessage" role="status" hidden></div>
+
+          <div class="subsection compact">
+            <div class="field">
+              <label>Client portal link <span class="optional">Generated when needed</span></label>
+              <p class="field-hint">The private tokenized URL sent to this client. Generate it here; a new link turns off the previous one.</p>
+            </div>
+            <button class="button dark" id="generatePortalButton" type="button">Generate client portal link</button>
+            <div class="message" id="portalLinkMessage" role="status" hidden></div>
+          </div>
+        </form>
+      </section>
+
+      <section class="route" id="route-delivery" data-route-panel="delivery" hidden>
+        <div class="section-head">
+          <div><p class="eyebrow">Client-facing work</p><h2>Delivery</h2><p>Add and maintain the content, call notes, and assets shown in the client's portal.</p></div>
+          <button class="button outline small" id="refreshDeliveryButton" type="button">Refresh delivery</button>
+        </div>
+
+        <details class="glossary" data-glossary="delivery">
+          <summary>What do these mean?</summary>
+          <div class="glossary-grid"></div>
+        </details>
+
+        <div class="empty-state" id="deliveryNoClient" hidden>
+          <h3>No active client</h3>
+          <p>Create a client in Client setup before adding delivery work.</p>
+        </div>
+
+        <article class="panel" id="deliveryPanel">
+          <div class="tab-row" id="deliveryTabs">
+            <button class="tab active" data-delivery-type="content" type="button">Content items</button>
+            <button class="tab" data-delivery-type="call" type="button">Call notes</button>
+            <button class="tab" data-delivery-type="asset" type="button">Assets</button>
+          </div>
+
+          <form class="inset-form" id="deliveryForm">
+            <div class="form-grid three delivery-fields" data-delivery-fields="content">
+              <div class="field"><label for="deliveryTitle">Title <span class="required">Required</span></label><input id="deliveryTitle" placeholder="Enter the content title"><p class="field-hint">The video or script name from the approved plan. Blank creates an unusable portal item.</p></div>
+              <div class="field"><label for="deliveryStage">Stage <span class="required">Required</span></label><select id="deliveryStage"><option value="production">In production</option><option value="scheduled">Scheduled</option><option value="published">Published</option></select><p class="field-hint">Where the item sits in production. Update it as work moves; the default is In production.</p></div>
+              <div class="field"><label for="deliveryPlatform">Platform <span class="optional">Optional</span></label><input id="deliveryPlatform" placeholder="Enter the publishing platform"><p class="field-hint">Where the item will publish, taken from the content plan. Blank leaves the platform unlabelled.</p></div>
+              <div class="field"><label for="deliveryScheduled">Scheduled for <span class="optional">Optional</span></label><input id="deliveryScheduled" type="date"><p class="field-hint">The planned publish date from the calendar. Blank means no publish date is committed.</p></div>
+              <div class="field"><label for="deliveryContentUrl">URL <span class="optional">Optional</span></label><input id="deliveryContentUrl" type="url" placeholder="Paste the working or published link"><p class="field-hint">The draft, review, or live URL from the work tool. Blank leaves the item without a link.</p></div>
+              <div class="field span-all"><label for="deliveryContentNotes">Notes <span class="optional">Optional</span></label><textarea id="deliveryContentNotes" rows="3" placeholder="Add short context for the client"></textarea><p class="field-hint">Only the context the client needs to understand this item. Blank shows no extra note.</p></div>
+            </div>
+
+            <div class="form-grid two delivery-fields" data-delivery-fields="call" hidden>
+              <div class="field"><label for="deliveryCallDate">Call date <span class="required">Required</span></label><input id="deliveryCallDate" type="date"><p class="field-hint">The date the client call happened, from the calendar. Blank leaves the call without a useful timeline position.</p></div>
+              <div class="field"><label for="deliveryCallTitle">Title <span class="required">Required</span></label><input id="deliveryCallTitle" placeholder="Name the call"><p class="field-hint">A plain label such as onboarding or strategy call. Blank creates an unclear portal record.</p></div>
+              <div class="field"><label for="deliveryRecordingUrl">Recording URL <span class="optional">Optional</span></label><input id="deliveryRecordingUrl" type="url" placeholder="Paste the call recording link"><p class="field-hint">The replay link from the call platform. Blank means the client sees no recording link.</p></div>
+              <div class="field span-all"><label for="deliverySummary">Summary <span class="optional">Optional</span></label><textarea id="deliverySummary" rows="3" placeholder="Summarize the call in three lines"></textarea><p class="field-hint">The short outcome summary written after the call. Blank shows no recap.</p></div>
+              <div class="field span-all"><label for="deliveryDecisions">Decisions <span class="optional">Optional</span></label><textarea id="deliveryDecisions" rows="3" placeholder="Put one decision on each line"></textarea><p class="field-hint">The choices agreed on during the call, one per line. Blank means no decisions are displayed.</p></div>
+              <div class="field span-all"><label for="deliveryActions">Action items <span class="optional">Optional</span></label><textarea id="deliveryActions" rows="3" placeholder="Put one action on each line"></textarea><p class="field-hint">The next actions agreed on during the call, one per line. Blank means no actions are displayed.</p></div>
+            </div>
+
+            <div class="form-grid two delivery-fields" data-delivery-fields="asset" hidden>
+              <div class="field"><label for="deliveryAssetLabel">Label <span class="required">Required</span></label><input id="deliveryAssetLabel" placeholder="Name the asset"><p class="field-hint">The client-facing name of the script, hook file, doc, or other deliverable. Blank creates an unclear portal item.</p></div>
+              <div class="field"><label for="deliveryAssetKind">Kind <span class="required">Required</span></label><select id="deliveryAssetKind"><option value="script">Script</option><option value="hook">Hook</option><option value="swipe">Swipe file</option><option value="doc">Doc</option><option value="other">Other</option></select><p class="field-hint">The asset category used to organize the portal. Choose the closest match; Other is the fallback.</p></div>
+              <div class="field"><label for="deliveryAssetUrl">URL <span class="optional">Optional</span></label><input id="deliveryAssetUrl" type="url" placeholder="Paste the asset link"><p class="field-hint">The share link from Drive, Docs, or the delivery tool. Blank leaves the asset without a download or view link.</p></div>
+              <div class="field span-all"><label for="deliveryAssetNotes">Notes <span class="optional">Optional</span></label><textarea id="deliveryAssetNotes" rows="3" placeholder="Add short usage notes"></textarea><p class="field-hint">Any instruction the client needs to use the asset. Blank shows the asset without extra guidance.</p></div>
+            </div>
+
+            <div class="button-row">
+              <button class="button primary" id="deliverySubmitButton" type="submit">Add item</button>
+              <button class="button outline" id="deliveryCancelButton" type="button" hidden>Cancel edit</button>
+            </div>
+            <div class="message" id="deliveryMessage" role="status" hidden></div>
+          </form>
+
+          <div class="table-scroll">
+            <table>
+              <thead id="deliveryHead"></thead>
+              <tbody id="deliveryRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state inset" id="deliveryEmpty" hidden>
+            <h3>Nothing added in this view</h3>
+            <p>Use the form above to add the first client-facing item.</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="route" id="route-integrations" data-route-panel="integrations" hidden>
+        <div class="section-head">
+          <div><p class="eyebrow">Money and handoff path</p><h2>Integrations</h2><p>Connect operator-wide services once, then configure booking and payment providers per client.</p></div>
+          <button class="button outline small" id="refreshIntegrationsButton" type="button">Refresh integrations</button>
+        </div>
+
+        <details class="glossary" data-glossary="integrations">
+          <summary>What do these mean?</summary>
+          <div class="glossary-grid"></div>
+        </details>
+
+        <div class="subsection-head outside"><p class="kicker">Operator scope</p><h3>Shared services</h3><p>These connections feed every client.</p></div>
+        <div class="card-grid two" id="operatorCards"></div>
+
+        <div class="subsection-head outside"><p class="kicker">Client scope</p><h3>Booking and payment providers</h3><p>These cards follow the active client selector above.</p></div>
+        <div class="empty-state" id="integrationNoClient" hidden><h3>No active client</h3><p>Create a client before connecting a client-specific provider.</p></div>
+        <div class="card-grid two" id="clientCards"></div>
+
+        <article class="panel" id="markPaidPanel">
+          <div class="panel-head"><div><p class="kicker">Universal fallback</p><h3>Mark paid</h3><p>Record a payment that arrived outside an automated provider webhook. This triggers the existing onboarding flow.</p></div></div>
+          <form id="markPaidForm">
+            <div class="form-grid three">
+              <div class="field"><label for="paymentAmount">Amount <span class="required">Required</span></label><input id="paymentAmount" type="number" step="0.01" inputmode="decimal" placeholder="Enter the amount received"><p class="field-hint">The amount that actually cleared on the payment rail. Copy it from the receipt; blank cannot create a payment.</p></div>
+              <div class="field"><label for="paymentCurrency">Currency <span class="optional">Optional</span></label><input id="paymentCurrency" placeholder="Enter the currency code"><p class="field-hint">The three-letter currency on the receipt. Blank lets the existing backend use USD.</p></div>
+              <div class="field"><label for="paymentRail">Payment rail <span class="optional">Optional</span></label><input id="paymentRail" placeholder="Enter how the payment arrived"><p class="field-hint">The provider or transfer method shown on the receipt. Blank records it as a manual payment.</p></div>
+              <div class="field"><label for="paymentReference">Reference <span class="required">Required</span></label><input id="paymentReference" placeholder="Paste the unique payment reference"><p class="field-hint">The unique transaction or transfer reference from the receipt. It prevents duplicate onboarding; blank is rejected.</p></div>
+              <div class="field span-two"><label for="paymentNote">Note <span class="optional">Optional</span></label><input id="paymentNote" placeholder="Add factual payment context"><p class="field-hint">Any useful receipt or coverage context for the operator record. Blank stores no note.</p></div>
+            </div>
+            <button class="button primary" id="markPaidButton" type="submit">Mark paid and start onboarding</button>
+            <div class="message" id="paymentMessage" role="status" hidden></div>
+          </form>
+        </article>
+
+        <div class="subsection-head outside"><p class="kicker">Environment only</p><h3>Cloudflare secrets</h3><p>These keys stay outside the browser. The console reports presence only.</p></div>
+        <div class="card-grid three" id="envCards"></div>
+      </section>
+
+      <section class="route" id="route-campaigns" data-route-panel="campaigns" hidden>
+        <div class="section-head">
+          <div><p class="eyebrow">Outreach visibility</p><h2>Campaigns</h2><p>Real landing-page activity across every configured prospect, sorted by the signal that needs attention.</p></div>
+          <button class="button outline small" id="refreshCampaignsButton" type="button">Refresh board</button>
+        </div>
+
+        <details class="glossary" data-glossary="campaigns">
+          <summary>What do these mean?</summary>
+          <div class="glossary-grid"></div>
+        </details>
+
+        <div class="metrics-grid" id="campaignSummary"></div>
+        <article class="panel table-panel">
+          <div class="panel-head"><div><p class="kicker">Sent pages</p><h3>Campaign board</h3></div><span class="status-pill" id="campaignUpdated">Not loaded</span></div>
+          <div class="table-scroll">
+            <table class="campaign-table">
+              <thead><tr>
+                <th>Prospect</th>
+                <th>Design</th>
+                <th><button class="sort-button" data-campaign-sort="visits" type="button">Visits <span></span></button></th>
+                <th><button class="sort-button" data-campaign-sort="watch" type="button">Watch % <span></span></button></th>
+                <th><button class="sort-button" data-campaign-sort="applications" type="button">Applications <span></span></button></th>
+                <th><button class="sort-button" data-campaign-sort="activity" type="button">Last activity <span></span></button></th>
+                <th><button class="sort-button" data-campaign-sort="failures" type="button">Failures (7d) <span></span></button></th>
+                <th>Signal</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="campaignRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state inset" id="campaignEmpty" hidden>
+            <h3>No sent pages yet</h3>
+            <p>Configure a client page and send it. Real visits, watch activity, and applications will appear here.</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="/js/provision-prompt.js"></script>
+  <script src="/admin/console.js"></script>
+</body>
+</html>
