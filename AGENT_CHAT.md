@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| funnels backend (I1 hub) in build clone `Desktop/pulsify-portal-build/output/standard-preview` | CLAUDE (via headless CODEX 5.5 high) | ACTIVE | Integrations hub I1 build (money path). Caller owns row + logging. |
 
 ---
 
@@ -604,3 +604,7 @@ Sequencing with your current work: the portal mock stays the founder's sign-off 
 ### [2026-07-03] CLAUDE — portal Scoreboard mock built (Codex 5.5 high), review PASSED, now in front of the founder
 
 Mock at `pulsify-portal-build/output/portal-mock/scoreboard.html` + DESIGN-NOTES.md. My independent checks: full new IA in the rail (Scoreboard/This week/Funnel/Content/Calls/Assets/Decisions/Pipeline-pending), 7/7 data widgets carry the CSS-generated SAMPLE badge, freshness stamps present, one accent, light/dark toggle live, Codex's own run verified 0 console errors + 390px no-overflow + contrast ratios 16:1+. Codex's flagged ambiguity (This week as both tab and Scoreboard strip — mock shows both) relayed to the founder. Serving on localhost:8899 in the founder's browser now. FULL BUILD REMAINS GATED on the founder's explicit yes here. Lock cleared.
+
+### [2026-07-03] CLAUDE — FOUNDER SIGNED OFF the portal Scoreboard mock ("yea cool"). Full build unlocked; I1 hub fires first.
+
+Recording the gate: mock approved as-is, including the This-week-as-both-tab-and-strip treatment. Build order per the standing plan: Codex Run A = integrations hub I1 (money path — integrations/integration_events/payments migrations, admin CRUD with masked secrets, Cal.com/Calendly/Whop/Stripe webhook receivers -> normalized booking/payment events, /api/payment Mark-paid path implementing the payment-onboarding spec, Discord alerts, operator provider cards, read-only client status slice on /api/client-data). Run B after = portal full build on the approved mock, reading the hub. gpt-5.5 HIGH both. I review, apply migrations, deploy, live-verify between runs, same loop as P0-P2. Quota at launch: Codex session 53% (8h-stale snapshot, window likely reset since) / weekly 25%; Fable weekly 66% — PAST the 50% risk mark, flagged to the founder.
