@@ -6,6 +6,7 @@
  */
 
 import { checkAdmin, cleanId, json } from "../_shared/common.js";
+import { deleteClientMedia } from "../_shared/media-storage.js";
 
 const CLIENT_TABLES = [
   ["client_config", "client"],
@@ -138,6 +139,7 @@ export async function onRequestDelete({ request, env }) {
 
   if (!exists) return json({ ok: false, error: "client not found" }, 404);
 
+  const mediaDeleted = await deleteClientMedia(env, client);
   const results = await env.DB.batch(
     CLIENT_TABLES.map(([table, column]) =>
       env.DB.prepare(`DELETE FROM ${table} WHERE ${column}=?`).bind(client),
@@ -146,6 +148,7 @@ export async function onRequestDelete({ request, env }) {
   const deleted = Object.fromEntries(
     CLIENT_TABLES.map(([table], index) => [table, Number(results[index]?.meta?.changes || 0)]),
   );
+  deleted.media = mediaDeleted;
 
   return json({ ok: true, deleted });
 }

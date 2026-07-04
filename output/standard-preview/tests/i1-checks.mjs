@@ -8,6 +8,10 @@ const paymentApi = await import(pathToFileURL(`${base}/functions/api/payment.js`
 const hookApi = await import(pathToFileURL(`${base}/functions/api/hooks/[provider].js`).href);
 const clientDataApi = await import(pathToFileURL(`${base}/functions/api/client-data.js`).href);
 const settingsApi = await import(pathToFileURL(`${base}/functions/api/settings.js`).href);
+const mediaApi = await import(pathToFileURL(`${base}/functions/api/media.js`).href);
+const mediaGetApi = await import(pathToFileURL(`${base}/functions/media/[id].js`).href);
+const activityApi = await import(pathToFileURL(`${base}/functions/api/activity.js`).href);
+const rendererApi = await import(pathToFileURL(`${base}/functions/index.js`).href);
 const eventApi = await import(pathToFileURL(`${base}/functions/event.js`).href);
 const { sha256Hex } = await import(pathToFileURL(`${base}/functions/_shared/common.js`).href);
 
@@ -26,6 +30,7 @@ class MockDB {
       leads: seed.leads || [],
       page_events: seed.page_events || [],
       delivery_failures: seed.delivery_failures || [],
+      media: seed.media || [],
     };
     this.audit = [];
   }
@@ -102,6 +107,30 @@ class MockStmt {
       return { results: [...grouped.values()] };
     }
 
+    if (sql.includes("SELECT provider, kind, client, payload_summary_json, ts FROM integration_events ORDER BY ts DESC LIMIT 50")) {
+      return {
+        results: [...state.integration_events]
+          .sort((a, b) => String(b.ts).localeCompare(String(a.ts)))
+          .slice(0, 50),
+      };
+    }
+
+    if (sql.includes("SELECT client, amount_cents, currency, rail, occurred_at, created_at FROM payments ORDER BY occurred_at DESC LIMIT 20")) {
+      return {
+        results: [...state.payments]
+          .sort((a, b) => String(b.occurred_at).localeCompare(String(a.occurred_at)))
+          .slice(0, 20),
+      };
+    }
+
+    if (sql.includes("SELECT client, kind, detail, at FROM delivery_failures ORDER BY at DESC LIMIT 20")) {
+      return {
+        results: [...state.delivery_failures]
+          .sort((a, b) => String(b.at).localeCompare(String(a.at)))
+          .slice(0, 20),
+      };
+    }
+
     if (sql.startsWith("INSERT INTO integrations")) {
       const [scope, clientId, provider, configJson, secretJson, createdAt, updatedAt] = p;
       const existing = state.integrations.find((row) =>
@@ -124,6 +153,30 @@ class MockStmt {
       }
       this.db.audit.push("upsert_integration");
       return { meta: { changes: 1 } };
+    }
+
+    if (sql.includes("SELECT id, client, content_type, bytes, created_at FROM media WHERE id=?")) {
+      const row = state.media.find((item) => item.id === p[0]);
+      return row ? { ...row } : null;
+    }
+
+    if (sql.startsWith("INSERT INTO media")) {
+      const [id, client, contentType, bytes, createdAt] = p;
+      if (state.media.some((row) => row.id === id)) throw new Error("UNIQUE constraint failed");
+      state.media.push({
+        id,
+        client,
+        content_type: contentType,
+        bytes,
+        created_at: createdAt,
+      });
+      return { meta: { changes: 1 } };
+    }
+
+    if (sql === "DELETE FROM media WHERE id=?") {
+      const before = state.media.length;
+      state.media = state.media.filter((row) => row.id !== p[0]);
+      return { meta: { changes: before - state.media.length } };
     }
 
     const clientDelete = sql.match(/^DELETE FROM ([a-z_]+) WHERE (client|client_id)=\?$/);
@@ -236,6 +289,16 @@ class MockStmt {
 
     if (sql.includes("SELECT 1 AS found FROM client_config WHERE client=?")) {
       return state.client_config.some((row) => row.client === p[0]) ? { found: 1 } : null;
+    }
+
+    if (sql.includes("SELECT template_variant, page_content_json FROM client_config WHERE client=?")) {
+      const row = state.client_config.find((item) => item.client === p[0]);
+      return row
+        ? {
+            template_variant: row.template_variant || null,
+            page_content_json: row.page_content_json || null,
+          }
+        : null;
     }
 
     if (sql.includes("SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json,updated_at FROM client_config WHERE client=?")) {
@@ -764,6 +827,252 @@ async function runTenantIsolationCheck() {
   results.tenant_isolation = data;
 }
 
+async function runMediaChecks() {
+  const env = makeEnv({
+    client_config: [
+      { client: "media-client", client_name: "Media Client" },
+    ],
+  });
+  const sourceBytes = Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10, 1, 2, 3, 4]);
+
+  const postResponse = await mediaApi.onRequestPost({
+    request: request("https://example.com/api/media", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": "admin-secret",
+      },
+      body: JSON.stringify({
+        client: "media-client",
+        filename: "proof.png",
+        content_type: "image/png",
+        data_base64: Buffer.from(sourceBytes).toString("base64"),
+      }),
+    }),
+    env,
+  });
+  const postJson = await readJson(postResponse);
+  assert.equal(postResponse.status, 200);
+  assert.equal(postJson.ok, true);
+  assert.match(postJson.id, /^[A-Za-z0-9_-]+$/);
+  assert.equal(postJson.url, `/media/${postJson.id}`);
+
+  const getResponse = await mediaGetApi.onRequestGet({
+    env,
+    params: { id: postJson.id },
+  });
+  assert.equal(getResponse.status, 200);
+  assert.equal(getResponse.headers.get("content-type"), "image/png");
+  assert.equal(
+    getResponse.headers.get("cache-control"),
+    "public, max-age=31536000, immutable",
+  );
+  assert.deepEqual(
+    new Uint8Array(await getResponse.arrayBuffer()),
+    sourceBytes,
+    "served media bytes changed",
+  );
+
+  const deleteResponse = await mediaApi.onRequestDelete({
+    request: request(`https://example.com/api/media?id=${postJson.id}`, {
+      method: "DELETE",
+      headers: { "x-admin-key": "admin-secret" },
+    }),
+    env,
+  });
+  const deleteJson = await readJson(deleteResponse);
+  assert.equal(deleteResponse.status, 200);
+  assert.equal(deleteJson.deleted, 1);
+
+  const missingResponse = await mediaGetApi.onRequestGet({
+    env,
+    params: { id: postJson.id },
+  });
+  assert.equal(missingResponse.status, 404);
+
+  const unknownResponse = await mediaApi.onRequestPost({
+    request: request("https://example.com/api/media", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": "admin-secret",
+      },
+      body: JSON.stringify({
+        client: "not-a-client",
+        filename: "unknown.webp",
+        content_type: "image/webp",
+        data_base64: Buffer.from([1]).toString("base64"),
+      }),
+    }),
+    env,
+  });
+  assert.equal(unknownResponse.status, 404);
+  assert.equal((await readJson(unknownResponse)).error, "client not found");
+
+  const oversizedBytes = Buffer.alloc(900 * 1024 + 1, 1);
+  const oversizedResponse = await mediaApi.onRequestPost({
+    request: request("https://example.com/api/media", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-admin-key": "admin-secret",
+      },
+      body: JSON.stringify({
+        client: "media-client",
+        filename: "too-large.jpg",
+        content_type: "image/jpeg",
+        data_base64: oversizedBytes.toString("base64"),
+      }),
+    }),
+    env,
+  });
+  const oversizedJson = await readJson(oversizedResponse);
+  assert.equal(oversizedResponse.status, 413);
+  assert.match(oversizedJson.error, /900KB/);
+
+  results.media = {
+    uploaded: postJson,
+    content_type: getResponse.headers.get("content-type"),
+    deleted: deleteJson.deleted,
+    after_delete_status: missingResponse.status,
+    unknown_client_status: unknownResponse.status,
+    cap_status: oversizedResponse.status,
+  };
+}
+
+async function runActivityChecks() {
+  const env = makeEnv({
+    integration_events: [
+      {
+        provider: "landing",
+        kind: "application",
+        client: "alpha",
+        payload_summary_json: JSON.stringify({ name: "Alex" }),
+        ts: "2026-07-04T12:00:00.000Z",
+      },
+    ],
+    payments: [
+      {
+        client: "beta",
+        amount_cents: 100000,
+        currency: "USD",
+        rail: "stripe",
+        occurred_at: "2026-07-04T11:00:00.000Z",
+        created_at: "2026-07-04T11:00:01.000Z",
+      },
+    ],
+    delivery_failures: [
+      {
+        client: "gamma",
+        kind: "kit_onboarding",
+        detail: "API unavailable",
+        at: "2026-07-04T10:00:00.000Z",
+      },
+    ],
+  });
+
+  const unauthorizedResponse = await activityApi.onRequestGet({
+    request: request("https://example.com/api/activity"),
+    env,
+  });
+  assert.equal(unauthorizedResponse.status, 401);
+
+  const response = await activityApi.onRequestGet({
+    request: request("https://example.com/api/activity", {
+      headers: { "x-admin-key": "admin-secret" },
+    }),
+    env,
+  });
+  const data = await readJson(response);
+  assert.equal(response.status, 200);
+  assert.equal(data.ok, true);
+  assert.equal(data.activity.length, 3);
+  assert.deepEqual(
+    data.activity.map((item) => item.ts),
+    [
+      "2026-07-04T12:00:00.000Z",
+      "2026-07-04T11:00:00.000Z",
+      "2026-07-04T10:00:00.000Z",
+    ],
+  );
+  for (const item of data.activity) {
+    assert.deepEqual(Object.keys(item).sort(), ["client", "kind", "summary", "ts"]);
+    assert.equal(typeof item.summary, "string");
+    assert.ok(item.summary.length > 0);
+  }
+
+  results.activity = {
+    unauthorized_status: unauthorizedResponse.status,
+    activity: data.activity,
+  };
+}
+
+async function runRendererTokenChecks() {
+  const env = makeEnv({
+    client_config: [
+      {
+        client: "preview-check",
+        template_variant: "canonical",
+        page_content_json: JSON.stringify({
+          HEADLINE_LINE_ONE: "A < B",
+          FOOTER_LABEL: "Preview Client",
+        }),
+      },
+    ],
+  });
+  env.ASSETS = {
+    async fetch() {
+      return new Response(
+        '<!doctype html><meta name="description" content="{{META_DESCRIPTION}}">' +
+        "<title>{{PAGE_TITLE}}</title>" +
+        '<body data-client="{{CLIENT_SLUG}}">' +
+        "<h1>{{HEADLINE_LINE_ONE}}</h1><footer>{{FOOTER_LABEL}}</footer></body>",
+        { status: 200 },
+      );
+    },
+  };
+  const next = async () => new Response("fallback", { status: 404 });
+
+  const previewResponse = await rendererApi.onRequestGet({
+    request: request("https://example.com/?client=preview-check&preview=canonical&tokens=1"),
+    env,
+    next,
+  });
+  const previewHtml = await previewResponse.text();
+  assert.match(
+    previewHtml,
+    /<span data-token="HEADLINE_LINE_ONE">A &lt; B<\/span>/,
+  );
+  assert.match(
+    previewHtml,
+    /<span data-token="FOOTER_LABEL">Preview Client<\/span>/,
+  );
+  assert.match(previewHtml, /data-client="preview-check"/);
+  assert.match(previewHtml, /<title>Private Application<\/title>/);
+
+  const normalResponse = await rendererApi.onRequestGet({
+    request: request("https://example.com/?client=preview-check"),
+    env,
+    next,
+  });
+  const normalHtml = await normalResponse.text();
+  assert.equal(normalHtml.includes("data-token="), false);
+  assert.match(normalHtml, /<h1>A &lt; B<\/h1>/);
+
+  const tokensWithoutPreviewResponse = await rendererApi.onRequestGet({
+    request: request("https://example.com/?client=preview-check&tokens=1"),
+    env,
+    next,
+  });
+  assert.equal((await tokensWithoutPreviewResponse.text()).includes("data-token="), false);
+
+  results.renderer_tokens = {
+    preview_wrapped: true,
+    normal_wrapped: false,
+    tokens_without_preview_wrapped: false,
+  };
+}
+
 async function runClientDeletionChecks() {
   const client = "delete-check";
   const env = makeEnv();
@@ -824,6 +1133,13 @@ async function runClientDeletionChecks() {
   env.DB.state.client_assets.push({ id: 1, client, label: "Throwaway asset" });
   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
+  env.DB.state.media.push({
+    id: "delete-check-media",
+    client,
+    content_type: "image/png",
+    bytes: Uint8Array.from([1]).buffer,
+    created_at: "2026-07-04T12:00:00.000Z",
+  });
 
   const unauthorizedResponse = await settingsApi.onRequestDelete({
     request: request(`https://example.com/api/settings?client=${client}`, {
@@ -866,6 +1182,7 @@ async function runClientDeletionChecks() {
       integration_events: 1,
       delivery_failures: 1,
       page_events: 1,
+      media: 1,
     },
   });
 
@@ -881,7 +1198,7 @@ async function runClientDeletionChecks() {
 
   for (const table of [
     "client_config", "content_items", "call_notes", "client_assets", "payments",
-    "integrations", "integration_events", "delivery_failures", "page_events",
+    "integrations", "integration_events", "delivery_failures", "page_events", "media",
   ]) {
     assert.equal(env.DB.state[table].length, 0, `${table} retained the deleted client`);
   }
@@ -899,6 +1216,9 @@ await runEventBoundaryChecks();
 await runStripeHookChecks();
 await runPaymentChecks();
 await runTenantIsolationCheck();
+await runMediaChecks();
+await runActivityChecks();
+await runRendererTokenChecks();
 await runClientDeletionChecks();
 
 console.log(JSON.stringify(results, null, 2));

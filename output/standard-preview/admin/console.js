@@ -13,23 +13,27 @@
     "admin_key",
   ];
   const AUTH_MESSAGE = "Your admin key was rejected. Paste it again to unlock the console.";
+  const MAX_MEDIA_BYTES = 900 * 1024;
   const ROUTES = {
+    home: ["Operator overview", "Home"],
     clients: ["Client setup", "Clients"],
-    delivery: ["Client-facing work", "Delivery"],
+    delivery: ["Client-facing work", "Client work"],
     integrations: ["Money and handoff path", "Integrations"],
-    campaigns: ["Outreach visibility", "Campaigns"],
+    campaigns: ["Outreach visibility", "Pages sent"],
   };
 
   const state = {
     key: "",
     clients: [],
     client: new URLSearchParams(location.search).get("client") || "",
-    route: "clients",
+    route: "home",
     authPrompted: false,
     integrationsReady: false,
     campaigns: [],
     campaignSort: { key: "signal", dir: "desc" },
     currentConfig: null,
+    homeConfigs: new Map(),
+    activity: [],
   };
 
   const deliveryState = {
@@ -60,6 +64,11 @@
     busy: false,
   };
 
+  const previewState = {
+    timer: null,
+    collapsed: false,
+  };
+
   const DELETE_TABLES = [
     "client_config",
     "content_items",
@@ -70,6 +79,7 @@
     "integration_events",
     "delivery_failures",
     "page_events",
+    "media",
   ];
 
   const GLOSSARY = {
@@ -141,12 +151,12 @@
       feeds: "Sends the onboarding email after payment and supports operator-wide email flows.",
       fields: [
         { key: "api_key", secret: true, label: "Kit v4 API key", hint: "Create it in Kit under Settings -> Developer. It sends onboarding email; blank keeps the saved key." },
-        { key: "onboarding_subject", label: "Onboarding subject", hint: "Write the subject used on the automatic payment email. Get it from the approved onboarding copy; blank uses the backend default." },
-        { key: "onboarding_preview_text", label: "Onboarding preview text", hint: "Write the inbox preview paired with the subject. Get it from approved onboarding copy; blank uses the backend default." },
-        { key: "onboarding_sender_email", label: "Sending email", hint: "The approved from-address in the Kit account. Blank uses the Kit account default." },
-        { key: "email_template_id", label: "Email template ID", hint: "The optional template number found in Kit. Blank sends the plain default email." },
-        { key: "onboarding_form_url", label: "Onboarding form URL", hint: "The live intake-form share link. Copy it from Google Forms; blank uses the real backend default." },
-        { key: "onboarding_doc_url", label: "CO1 doc URL", hint: "The live onboarding-document share link. Copy it from Google Docs; blank uses the real backend default." },
+        { key: "onboarding_subject", advanced: true, label: "Onboarding subject", hint: "Write the subject used on the automatic payment email. Get it from the approved onboarding copy; blank uses the backend default." },
+        { key: "onboarding_preview_text", advanced: true, label: "Onboarding preview text", hint: "Write the inbox preview paired with the subject. Get it from approved onboarding copy; blank uses the backend default." },
+        { key: "onboarding_sender_email", advanced: true, label: "Sending email", hint: "The approved from-address in the Kit account. Blank uses the Kit account default." },
+        { key: "email_template_id", advanced: true, label: "Email template ID", hint: "The optional template number found in Kit. Blank sends the plain default email." },
+        { key: "onboarding_form_url", advanced: true, label: "Onboarding form URL", hint: "The live intake-form share link. Copy it from Google Forms; blank uses the real backend default." },
+        { key: "onboarding_doc_url", advanced: true, label: "CO1 doc URL", hint: "The live onboarding-document share link. Copy it from Google Docs; blank uses the real backend default." },
       ],
     },
     {
@@ -168,7 +178,7 @@
       feeds: "Turns Cal.com bookings into the shared booking event used by alerts and the portal.",
       fields: [
         { key: "api_key", secret: true, label: "API key", hint: "Copy it from the client's Cal.com developer settings. It is stored for later API work; blank keeps the saved key." },
-        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Use the random secret in the provider webhook URL. Leave blank to keep it; the first save generates one when needed." },
+        { key: "path_secret", secret: true, advanced: true, label: "Webhook path secret", hint: "Use the random secret in the provider webhook URL. Leave blank to keep it; the first save generates one when needed." },
         { key: "contact_name", label: "Client contact name", hint: "The person onboarding emails should greet. Get it from client intake; blank leaves the name unavailable." },
         { key: "contact_email", label: "Client contact email", hint: "The inbox that receives onboarding. Get it from client intake; blank means payment onboarding has no fallback recipient." },
         { key: "booking_url", label: "Booking URL", hint: "The client's public Cal.com booking link. Copy it from Cal.com; blank hides the booking destination." },
@@ -180,7 +190,7 @@
       title: "Calendly",
       feeds: "Turns Calendly bookings into the same shared booking event as Cal.com.",
       fields: [
-        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Use the random secret in the provider webhook URL. Leave blank to keep it; the first save generates one when needed." },
+        { key: "path_secret", secret: true, advanced: true, label: "Webhook path secret", hint: "Use the random secret in the provider webhook URL. Leave blank to keep it; the first save generates one when needed." },
         { key: "contact_name", label: "Client contact name", hint: "The person onboarding emails should greet. Get it from client intake; blank leaves the name unavailable." },
         { key: "contact_email", label: "Client contact email", hint: "The inbox that receives onboarding. Get it from client intake; blank means payment onboarding has no fallback recipient." },
         { key: "booking_url", label: "Booking URL", hint: "The client's public Calendly link. Copy it from Calendly; blank hides the booking destination." },
@@ -193,7 +203,7 @@
       feeds: "Turns Whop payment events into payment records and the onboarding trigger.",
       fields: [
         { key: "api_key", secret: true, label: "API key", hint: "Copy it from the client's Whop developer settings. It is stored for later actions; blank keeps the saved key." },
-        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Use the random secret in the Whop webhook URL. Leave blank to keep it; the first save generates one when needed." },
+        { key: "path_secret", secret: true, advanced: true, label: "Webhook path secret", hint: "Use the random secret in the Whop webhook URL. Leave blank to keep it; the first save generates one when needed." },
         { key: "contact_name", label: "Client contact name", hint: "The person onboarding emails should greet. Get it from client intake; blank leaves the name unavailable." },
         { key: "contact_email", label: "Client contact email", hint: "The inbox that receives onboarding. Get it from client intake; blank means payment onboarding has no fallback recipient." },
         { key: "company_id", label: "Company ID", hint: "The client's Whop account identifier, found in Whop. It is optional; blank stores no account reference." },
@@ -205,7 +215,7 @@
       title: "Stripe",
       feeds: "Verifies Stripe payment webhooks before recording money and starting onboarding.",
       fields: [
-        { key: "path_secret", secret: true, label: "Webhook path secret", hint: "Use the random secret in the client-specific Stripe webhook URL. Blank keeps the saved value." },
+        { key: "path_secret", secret: true, advanced: true, label: "Webhook path secret", hint: "Use the random secret in the client-specific Stripe webhook URL. Blank keeps the saved value." },
         { key: "webhook_secret", secret: true, label: "Stripe signing secret", hint: "Copy it from Stripe after creating the webhook endpoint. It proves events are genuine; blank keeps the saved secret." },
         { key: "contact_name", label: "Client contact name", hint: "The person onboarding emails should greet. Get it from client intake; blank leaves the name unavailable." },
         { key: "contact_email", label: "Client contact email", hint: "The inbox that receives onboarding. Get it from client intake; blank means payment onboarding has no fallback recipient." },
@@ -274,6 +284,7 @@
     $("authThemeButton").addEventListener("click", toggleTheme);
     $("lockButton").addEventListener("click", () => lockConsole(""));
     window.addEventListener("hashchange", routeFromHash);
+    window.addEventListener("resize", syncPreviewUi);
 
     $("sharedClient").addEventListener("change", async (event) => {
       state.client = event.target.value;
@@ -282,16 +293,47 @@
       await loadCurrentRoute();
     });
     $("addClientButton").addEventListener("click", () => openClientWizard());
+    $("homeAddClientButton").addEventListener("click", () => openClientWizard());
     $("emptyAddClientButton").addEventListener("click", () => openClientWizard());
+    $("refreshHomeButton").addEventListener("click", loadHome);
     $("refreshClientsButton").addEventListener("click", loadSettings);
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
 
-    $("clientId").addEventListener("input", updatePreviewLinks);
+    $("clientId").addEventListener("input", () => {
+      updatePreviewLinks();
+      scheduleDraftPreview();
+    });
+    $("templateVariant").addEventListener("change", reloadLivePreview);
+    $("settingsForm").addEventListener("input", (event) => {
+      if (event.target !== $("templateVariant")) scheduleDraftPreview();
+    });
+    $("settingsForm").addEventListener("change", (event) => {
+      if (event.target !== $("templateVariant")) scheduleDraftPreview();
+    });
     $("settingsForm").addEventListener("submit", saveSettings);
     $("addProofImageButton").addEventListener("click", () => addProofRow("proofImageFields", "proof-image-input"));
     $("proofImageFields").addEventListener("click", handleProofListAction);
+    $("proofImageFields").addEventListener("input", scheduleDraftPreview);
+    bindProofUploader({
+      input: $("proofFileInput"),
+      dropZone: $("proofDropZone"),
+      queue: $("proofUploadQueue"),
+      context: "settings",
+    });
+    bindProofUploader({
+      input: $("wizardProofFileInput"),
+      dropZone: $("wizardProofDropZone"),
+      queue: $("wizardProofUploadQueue"),
+      context: "wizard",
+    });
+    $("togglePreviewButton").addEventListener("click", toggleLivePreview);
+    $("closePreviewButton").addEventListener("click", closeLivePreview);
+    $("livePreviewFrame").addEventListener("load", () => {
+      scheduleDraftPreview(0);
+      window.setTimeout(() => scheduleDraftPreview(0), 500);
+    });
     $("generatePortalButton").addEventListener("click", generatePortalLink);
     $("copyPromptButton").addEventListener("click", copyProvisionPrompt);
     $("generateButton").addEventListener("click", generateProvisionViaApi);
@@ -478,6 +520,7 @@
     $("integrationNoClient").hidden = !noClient;
     $("clientCards").hidden = noClient;
     $("markPaidPanel").hidden = noClient;
+    $("homeClientsEmpty").hidden = state.clients.length > 0;
     renderDangerZone();
   }
 
@@ -636,18 +679,21 @@
 
   function routeFromHash() {
     const requested = location.hash.replace("#", "");
-    state.route = ROUTES[requested] ? requested : "clients";
+    state.route = ROUTES[requested] ? requested : "home";
     if (!location.hash || !ROUTES[requested]) history.replaceState(null, "", `${location.pathname}${location.search}#${state.route}`);
     $$("[data-route-panel]").forEach((panel) => { panel.hidden = panel.dataset.routePanel !== state.route; });
     $$("[data-route]").forEach((link) => link.classList.toggle("active", link.dataset.route === state.route));
     $("routeEyebrow").textContent = ROUTES[state.route][0];
     $("routeTitle").textContent = ROUTES[state.route][1];
+    if (state.route !== "clients") closeLivePreview();
+    syncPreviewUi();
     if (state.key) loadCurrentRoute();
   }
 
   async function loadCurrentRoute() {
     hideMessage($("globalMessage"));
     try {
+      if (state.route === "home") await loadHome();
       if (state.route === "clients") await loadSettings();
       if (state.route === "delivery") await loadDelivery();
       if (state.route === "integrations") await loadAllIntegrations();
@@ -655,6 +701,129 @@
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || "This section could not be loaded.", "error");
     }
+  }
+
+  async function loadHome() {
+    const button = $("refreshHomeButton");
+    button.disabled = true;
+    $("attentionCount").textContent = "Loading";
+    try {
+      const [activityResponse, configResults] = await Promise.all([
+        api("/api/activity"),
+        Promise.all(state.clients.map(async (client) => {
+          try {
+            const response = await api(`/api/settings?client=${encodeURIComponent(client.client)}`);
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || "Settings unavailable");
+            return [client.client, data.config || null];
+          } catch (error) {
+            if (!state.key) throw error;
+            return [client.client, null];
+          }
+        })),
+      ]);
+      const activityData = await activityResponse.json().catch(() => ({}));
+      if (!activityResponse.ok || !activityData.ok) {
+        throw new Error(activityData.error || "Could not load activity.");
+      }
+      state.homeConfigs = new Map(configResults);
+      state.activity = Array.isArray(activityData.activity) ? activityData.activity : [];
+      renderHome();
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function renderHome() {
+    const failuresByClient = new Map();
+    state.activity
+      .filter((item) => item.kind === "failure")
+      .forEach((item) => {
+        const failures = failuresByClient.get(item.client) || [];
+        failures.push(item);
+        failuresByClient.set(item.client, failures);
+      });
+
+    const attention = state.clients.map((client) => {
+      const config = state.homeConfigs.get(client.client);
+      const missing = config
+        ? wizardChecklist(config).filter((item) => !item.set)
+        : [{ label: "Page configuration", step: 1 }];
+      return {
+        client,
+        missing,
+        failures: failuresByClient.get(client.client) || [],
+      };
+    }).filter((item) => item.missing.length || item.failures.length);
+
+    $("attentionCount").textContent = attention.length
+      ? `${attention.length} ${attention.length === 1 ? "client" : "clients"}`
+      : "Clear";
+    $("attentionCount").className = `status-pill${attention.length ? "" : " success"}`;
+    $("attentionStack").innerHTML = attention.map(({ client, missing, failures }) => `
+      <button class="home-attention-row home-client-link" type="button" data-home-client="${esc(client.client)}">
+        <span class="home-row-copy">
+          <strong>${esc(client.client_name || client.client)}</strong>
+          <small>${failures.length
+            ? esc(`${failures.length} recent delivery ${failures.length === 1 ? "failure" : "failures"}`)
+            : "Saved setup is incomplete"}</small>
+        </span>
+        <span class="health-chip-row">
+          ${missing.map((item) => `<span class="health-chip missing">${esc(item.label)}</span>`).join("")}
+          ${failures.slice(0, 2).map((failure) => `<span class="health-chip failure">${esc(failure.summary || "Delivery failed")}</span>`).join("")}
+        </span>
+      </button>
+    `).join("");
+    $("attentionEmpty").hidden = attention.length > 0;
+
+    $("activityStack").innerHTML = state.activity.slice(0, 30).map((item) => {
+      const client = state.clients.find((entry) => entry.client === item.client);
+      const name = client?.client_name || item.client || "Operator";
+      return `<div class="activity-row">
+        <span class="activity-dot ${item.kind === "failure" ? "failure" : ""}" aria-hidden="true"></span>
+        <p><strong>${esc(name)}:</strong> ${esc(lowerFirst(item.summary || "Activity recorded"))}.</p>
+        <time datetime="${esc(item.ts || "")}">${relativeTime(item.ts)}</time>
+      </div>`;
+    }).join("");
+    $("activityEmpty").hidden = state.activity.length > 0;
+
+    $("clientHealthGrid").innerHTML = state.clients.map((client) => {
+      const config = state.homeConfigs.get(client.client);
+      const proofCount = proofImageValues(config?.proof_images).length;
+      const kitReady = Boolean(config?.kit_tag_id && config?.kit_api_key_set);
+      return `<button class="client-health-card home-client-link" type="button" data-home-client="${esc(client.client)}">
+        <span class="client-health-head">
+          <span><strong>${esc(client.client_name || client.client)}</strong><small>${esc(client.client)}</small></span>
+          <span class="health-chip ${config ? "ready" : "missing"}">${config ? "Page live" : "Page missing"}</span>
+        </span>
+        <span class="health-chip-row">
+          ${healthChip("Video", Boolean(config?.wistia_media_id))}
+          ${healthChip("Form", Boolean(config?.typeform_url))}
+          ${healthChip("Kit", kitReady)}
+          <span class="health-chip ${proofCount ? "ready" : "missing"}">${proofCount} proof</span>
+        </span>
+      </button>`;
+    }).join("");
+    $("homeClientsEmpty").hidden = state.clients.length > 0;
+    $$(".home-client-link").forEach((button) => {
+      button.addEventListener("click", () => openHomeClient(button.dataset.homeClient));
+    });
+  }
+
+  function healthChip(label, ready) {
+    return `<span class="health-chip ${ready ? "ready" : "missing"}">${esc(label)} ${ready ? "set" : "missing"}</span>`;
+  }
+
+  function lowerFirst(value) {
+    const text = String(value || "");
+    return text ? text[0].toLowerCase() + text.slice(1).replace(/[.!?]+$/, "") : "";
+  }
+
+  function openHomeClient(client) {
+    state.client = client;
+    renderClientSelector();
+    writeClientQuery();
+    location.hash = "clients";
   }
 
   function renderGlossaries() {
@@ -713,6 +882,7 @@
     renderProofUrlList(containerId, [...proofListValues(container), ""], inputClass);
     const inputs = $$(`.${inputClass}`, container);
     inputs.at(-1)?.focus();
+    if (containerId === "proofImageFields") scheduleDraftPreview();
   }
 
   function handleProofListAction(event) {
@@ -734,6 +904,210 @@
     renderProofUrlList(container.id, values, inputClass);
     const focusIndex = action === "up" ? index - 1 : action === "down" ? index + 1 : Math.min(index, Math.max(0, values.length - 1));
     $$(`.${inputClass}`, container)[focusIndex]?.focus();
+    if (container.id === "proofImageFields") scheduleDraftPreview();
+  }
+
+  function bindProofUploader({ input, dropZone, queue, context }) {
+    input.addEventListener("change", () => {
+      processProofFiles(input.files, context, queue);
+      input.value = "";
+    });
+    ["dragenter", "dragover"].forEach((type) => {
+      dropZone.addEventListener(type, (event) => {
+        event.preventDefault();
+        dropZone.classList.add("dragging");
+      });
+    });
+    ["dragleave", "drop"].forEach((type) => {
+      dropZone.addEventListener(type, (event) => {
+        event.preventDefault();
+        dropZone.classList.remove("dragging");
+      });
+    });
+    dropZone.addEventListener("drop", (event) => {
+      processProofFiles(event.dataTransfer?.files, context, queue);
+    });
+  }
+
+  async function processProofFiles(fileList, context, queue) {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    const client = context === "wizard"
+      ? wizardState.config.client
+      : ($("clientId").value.trim() || state.client);
+    if (!client) {
+      appendUploadError(queue, "Select or create a client before uploading proof.");
+      return;
+    }
+
+    const uploads = files.map((file) => ({ file, row: createUploadRow(queue, file.name) }));
+    for (const { file, row } of uploads) {
+      try {
+        if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
+          throw new Error("Use a PNG, JPEG, or WebP image.");
+        }
+        updateUploadRow(row, "Compressing", 8);
+        const compressed = await compressProofImage(file);
+        if (compressed.blob.size > MAX_MEDIA_BYTES) {
+          throw new Error(
+            `Still ${formatBytes(compressed.blob.size)} after compression. Crop the image or export it smaller, then try again. The upload limit is 900KB.`
+          );
+        }
+        updateUploadRow(row, `Uploading ${formatBytes(compressed.blob.size)}`, 18);
+        const dataBase64 = await blobToBase64(compressed.blob);
+        const result = await uploadMedia({
+          client,
+          filename: replaceFileExtension(file.name, compressed.extension),
+          contentType: compressed.blob.type,
+          dataBase64,
+          onProgress: (percent) => updateUploadRow(row, "Uploading", 18 + Math.round(percent * 0.8)),
+        });
+        appendProofUrl(context, result.url);
+        updateUploadRow(row, "Added to proof list", 100, "success");
+      } catch (error) {
+        updateUploadRow(row, error.message || "Upload failed.", 100, "error");
+      }
+    }
+  }
+
+  async function compressProofImage(file) {
+    const image = await loadImage(file);
+    const sourceWidth = image.naturalWidth || image.width;
+    const sourceHeight = image.naturalHeight || image.height;
+    if (!sourceWidth || !sourceHeight) throw new Error("The image could not be read.");
+    const width = Math.min(1600, sourceWidth);
+    const height = Math.max(1, Math.round(sourceHeight * (width / sourceWidth)));
+
+    const jpegCanvas = document.createElement("canvas");
+    jpegCanvas.width = width;
+    jpegCanvas.height = height;
+    const jpegContext = jpegCanvas.getContext("2d");
+    jpegContext.fillStyle = "#ffffff";
+    jpegContext.fillRect(0, 0, width, height);
+    jpegContext.drawImage(image, 0, 0, width, height);
+    const jpeg = await canvasToBlob(jpegCanvas, "image/jpeg", 0.85);
+    if (!jpeg) throw new Error("The browser could not compress this image.");
+
+    if (file.type === "image/png") {
+      const pngCanvas = document.createElement("canvas");
+      pngCanvas.width = width;
+      pngCanvas.height = height;
+      pngCanvas.getContext("2d").drawImage(image, 0, 0, width, height);
+      const png = await canvasToBlob(pngCanvas, "image/png");
+      if (png && png.size < jpeg.size) return { blob: png, extension: "png" };
+    }
+    return { blob: jpeg, extension: "jpg" };
+  }
+
+  function loadImage(file) {
+    return new Promise((resolve, reject) => {
+      const url = URL.createObjectURL(file);
+      const image = new Image();
+      image.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve(image);
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error("The image could not be read."));
+      };
+      image.src = url;
+    });
+  }
+
+  function canvasToBlob(canvas, type, quality) {
+    return new Promise((resolve) => canvas.toBlob(resolve, type, quality));
+  }
+
+  function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || "").split(",")[1] || "");
+      reader.onerror = () => reject(new Error("The compressed image could not be prepared."));
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function uploadMedia({ client, filename, contentType, dataBase64, onProgress }) {
+    return new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
+      request.open("POST", "/api/media");
+      request.setRequestHeader("content-type", "application/json");
+      request.setRequestHeader("x-admin-key", state.key);
+      request.upload.addEventListener("progress", (event) => {
+        if (event.lengthComputable) onProgress(Math.round((event.loaded / event.total) * 100));
+      });
+      request.addEventListener("load", () => {
+        let data = {};
+        try { data = JSON.parse(request.responseText || "{}"); } catch { data = {}; }
+        if (request.status === 401) {
+          lockConsole(AUTH_MESSAGE);
+          reject(new Error(AUTH_MESSAGE));
+          return;
+        }
+        if (request.status < 200 || request.status >= 300 || !data.ok || !data.url) {
+          reject(new Error(data.error || `Upload failed with status ${request.status}.`));
+          return;
+        }
+        resolve(data);
+      });
+      request.addEventListener("error", () => reject(new Error("The upload could not reach the server.")));
+      request.send(JSON.stringify({
+        client,
+        filename,
+        content_type: contentType,
+        data_base64: dataBase64,
+      }));
+    });
+  }
+
+  function appendProofUrl(context, url) {
+    const containerId = context === "wizard" ? "wizardProofFields" : "proofImageFields";
+    const inputClass = context === "wizard" ? "wizard-proof-input" : "proof-image-input";
+    const container = $(containerId);
+    const values = proofListValues(container);
+    const emptyIndex = values.findIndex((value) => !String(value).trim());
+    if (emptyIndex >= 0) values[emptyIndex] = url;
+    else values.push(url);
+    renderProofUrlList(containerId, values, inputClass);
+    if (context === "wizard") {
+      wizardState.config.proof_images = proofImagesPayload(".wizard-proof-input");
+    } else {
+      scheduleDraftPreview(0);
+    }
+  }
+
+  function createUploadRow(queue, filename) {
+    const row = document.createElement("div");
+    row.className = "upload-row";
+    row.innerHTML = `
+      <span class="upload-name">${esc(filename)}</span>
+      <span class="upload-status">Queued</span>
+      <progress max="100" value="0"></progress>
+    `;
+    queue.appendChild(row);
+    return row;
+  }
+
+  function updateUploadRow(row, status, progress, result = "") {
+    row.className = `upload-row${result ? ` ${result}` : ""}`;
+    row.querySelector(".upload-status").textContent = status;
+    row.querySelector("progress").value = Math.max(0, Math.min(100, progress));
+  }
+
+  function appendUploadError(queue, message) {
+    const row = createUploadRow(queue, "Upload");
+    updateUploadRow(row, message, 100, "error");
+  }
+
+  function replaceFileExtension(filename, extension) {
+    const stem = String(filename || "proof").replace(/\.[^.]+$/, "") || "proof";
+    return `${stem}.${extension}`;
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return `${bytes}B`;
+    return `${Math.round(bytes / 1024)}KB`;
   }
 
   function renderWizardProgress() {
@@ -765,6 +1139,7 @@
     $("wizardKitApiKey").value = "";
     setSavedState($("wizardKitKeyState"), Boolean(config.kit_api_key_set), "API key");
     renderWizardProofFields(config.proof_images);
+    $("wizardProofUploadQueue").replaceChildren();
     selectWizardChoice("");
     selectWizardDesign(wizardState.design);
     hideMessage($("wizardMessage"));
@@ -1088,6 +1463,7 @@
     try {
       await refreshClients(wizardState.config.client);
       if (state.route === "clients") await loadSettings();
+      if (state.route === "home") await loadHome();
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || "The client was saved, but the console could not refresh.", "error");
     }
@@ -1275,6 +1651,7 @@
       $("settingsStatus").textContent = "New client";
       $("settingsStatus").className = "status-pill";
       renderSetupChecklist();
+      reloadLivePreview();
       return;
     }
     $("settingsStatus").textContent = "Loading";
@@ -1305,6 +1682,7 @@
     }
     updatePreviewLinks();
     renderSetupChecklist();
+    reloadLivePreview();
   }
 
   function setSavedState(element, isSet, label) {
@@ -1316,6 +1694,89 @@
     const client = encodeURIComponent($("clientId").value.trim());
     $("previewCanonical").href = client ? `/?client=${client}&preview=canonical` : "#";
     $("previewVariant").href = client ? `/?client=${client}&preview=variant-02` : "#";
+  }
+
+  function reloadLivePreview() {
+    window.clearTimeout(previewState.timer);
+    const frame = $("livePreviewFrame");
+    const client = $("clientId").value.trim() || state.client;
+    if (!client) {
+      frame.removeAttribute("src");
+      $("previewEmpty").hidden = false;
+      return;
+    }
+    const variant = $("templateVariant").value === "variant-02" ? "variant-02" : "canonical";
+    $("previewEmpty").hidden = true;
+    frame.src = `/?client=${encodeURIComponent(client)}&preview=${encodeURIComponent(variant)}&tokens=1&draft=1`;
+  }
+
+  function scheduleDraftPreview(delay = 300) {
+    window.clearTimeout(previewState.timer);
+    previewState.timer = window.setTimeout(postDraftPreview, delay);
+  }
+
+  function postDraftPreview() {
+    const frame = $("livePreviewFrame");
+    if (!frame.contentWindow || !frame.getAttribute("src")) return;
+    frame.contentWindow.postMessage(currentDraftPayload(), location.origin);
+  }
+
+  function currentDraftPayload() {
+    return {
+      type: "pulsify-draft",
+      page_content: Object.fromEntries(
+        $$(".content-field").map((input) => [input.dataset.contentKey, input.value])
+      ),
+      proof_images: proofImagesPayload(".proof-image-input"),
+      wistia_media_id: $("wistiaMediaId").value.trim(),
+      typeform_url: $("typeformUrl").value.trim(),
+      template_variant: $("templateVariant").value,
+    };
+  }
+
+  function toggleLivePreview() {
+    const mobile = matchMedia("(max-width: 1099px)").matches;
+    if (mobile) {
+      $("previewPane").classList.add("open");
+      document.body.classList.add("preview-overlay-open");
+      $("togglePreviewButton").setAttribute("aria-expanded", "true");
+      $("togglePreviewButton").textContent = "Preview";
+      scheduleDraftPreview(0);
+      return;
+    }
+    previewState.collapsed = !previewState.collapsed;
+    $("clientWorkspace").classList.toggle("preview-collapsed", previewState.collapsed);
+    $("togglePreviewButton").setAttribute("aria-expanded", String(!previewState.collapsed));
+    $("togglePreviewButton").textContent = previewState.collapsed ? "Show preview" : "Hide preview";
+  }
+
+  function closeLivePreview() {
+    $("previewPane").classList.remove("open");
+    document.body.classList.remove("preview-overlay-open");
+    if (matchMedia("(min-width: 1100px)").matches && state.route === "clients") {
+      previewState.collapsed = true;
+      $("clientWorkspace").classList.add("preview-collapsed");
+      $("togglePreviewButton").setAttribute("aria-expanded", "false");
+      $("togglePreviewButton").textContent = "Show preview";
+    } else if (matchMedia("(max-width: 1099px)").matches) {
+      $("togglePreviewButton").setAttribute("aria-expanded", "false");
+      $("togglePreviewButton").textContent = "Preview";
+    }
+  }
+
+  function syncPreviewUi() {
+    const mobile = matchMedia("(max-width: 1099px)").matches;
+    if (mobile) {
+      const open = $("previewPane").classList.contains("open");
+      $("togglePreviewButton").setAttribute("aria-expanded", String(open));
+      $("togglePreviewButton").textContent = "Preview";
+      return;
+    }
+    $("previewPane").classList.remove("open");
+    document.body.classList.remove("preview-overlay-open");
+    $("clientWorkspace").classList.toggle("preview-collapsed", previewState.collapsed);
+    $("togglePreviewButton").setAttribute("aria-expanded", String(!previewState.collapsed));
+    $("togglePreviewButton").textContent = previewState.collapsed ? "Show preview" : "Hide preview";
   }
 
   async function saveSettings(event) {
@@ -1697,20 +2158,25 @@
   }
 
   function renderIntegrationCard(card) {
+    const regularFields = card.fields.filter((field) => !field.advanced);
+    const advancedFields = card.fields.filter((field) => field.advanced);
     return `<article class="integration-card" id="integration-${card.scope}-${card.provider}">
       <div class="integration-head">
         <div><h3>${esc(card.title)}</h3><p>${esc(card.feeds)}</p></div>
         <span class="provider-status" id="integration-status-${card.scope}-${card.provider}">Not connected</span>
       </div>
       <div class="form-grid two">
-        ${card.fields.map((field) => `
-          <div class="field">
-            <label>${esc(field.label)} <span class="${field.secret ? "optional" : "optional"}">${field.secret ? "Write only" : "Optional"}</span></label>
-            <input data-integration-scope="${card.scope}" data-integration-provider="${card.provider}" data-integration-field="${field.key}" ${field.secret ? 'type="password"' : ""} placeholder="${field.secret ? "Paste a new value or leave blank" : "Enter a value if needed"}">
-            <p class="field-hint">${esc(field.hint)}</p>
-          </div>
-        `).join("")}
+        ${regularFields.map((field) => renderIntegrationField(card, field)).join("")}
       </div>
+      ${advancedFields.length ? `
+        <details class="advanced integration-advanced">
+          <summary>Advanced</summary>
+          <p class="advanced-intro">Rarely changed provider and onboarding values. Leave write-only fields blank to keep saved secrets.</p>
+          <div class="form-grid two">
+            ${advancedFields.map((field) => renderIntegrationField(card, field)).join("")}
+          </div>
+        </details>
+      ` : ""}
       <p class="integration-meta" id="integration-meta-${card.scope}-${card.provider}">Last event: none yet</p>
       <div class="button-row">
         <button class="button primary small" data-integration-save data-scope="${card.scope}" data-provider="${card.provider}" type="button">Save</button>
@@ -1720,6 +2186,14 @@
       <div class="message" id="integration-message-${card.scope}-${card.provider}" role="status" hidden></div>
       <div class="one-time" id="integration-onetime-${card.scope}-${card.provider}" hidden></div>
     </article>`;
+  }
+
+  function renderIntegrationField(card, field) {
+    return `<div class="field">
+      <label>${esc(field.label)} <span class="optional">${field.secret ? "Write only" : "Optional"}</span></label>
+      <input data-integration-scope="${card.scope}" data-integration-provider="${card.provider}" data-integration-field="${field.key}" ${field.secret ? 'type="password"' : ""} placeholder="${field.secret ? "Paste a new value or leave blank" : "Enter a value if needed"}">
+      <p class="field-hint">${esc(field.hint)}</p>
+    </div>`;
   }
 
   function integrationKey(scope, client, provider) {
@@ -1971,7 +2445,7 @@
           <a class="button outline small" href="/?client=${encodeURIComponent(campaign.client)}" target="_blank" rel="noopener">Open page</a>
           <a class="button outline small" href="/?client=${encodeURIComponent(campaign.client)}&preview=${encodeURIComponent(otherVariant)}" target="_blank" rel="noopener">Preview alt</a>
           <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="clients">Client setup</button>
-          <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="delivery">Delivery</button>
+          <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="delivery">Client work</button>
         </div></td>
       </tr>`;
     }).join("");

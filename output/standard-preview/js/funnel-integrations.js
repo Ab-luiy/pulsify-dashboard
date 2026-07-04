@@ -19,8 +19,34 @@
 
 (() => {
   const body = document.body;
-  const urlClient = new URLSearchParams(location.search).get("client");
+  const query = new URLSearchParams(location.search);
+  const urlClient = query.get("client");
   const client = sanitize(urlClient || body.dataset.client || "unknown");
+  const draftMode = query.get("draft") === "1" && window.parent !== window;
+  const clientLabel = client.split(/[-_]+/).filter(Boolean)
+    .map((part) => part[0].toUpperCase() + part.slice(1)).join(" ") || "Pulsify";
+  const draftTokenDefaults = {
+    BRAND_MARK: clientLabel,
+    BRAND_NOTE: "",
+    AUDIENCE_PILL: "Applications are open",
+    HEADLINE_LINE_ONE: "A private breakdown,",
+    HEADLINE_EMPHASIS: "then apply to work together.",
+    HERO_SUBHEAD: "Watch the training, then apply below.",
+    HERO_CTA: "APPLY NOW",
+    MICRO_NOTE: "",
+    VIDEO_NOTE_PRIMARY: "Private training",
+    VIDEO_NOTE_SECONDARY: "No opt-in required to watch",
+    APPLY_STEP_LABEL: "Step 2",
+    APPLY_HEADING: "Apply below",
+    APPLY_INTRO: "Tell us where you're at and what you're working on.",
+    FORM_FRAME_LABEL: "Application",
+    FORM_FRAME_NOTE: "",
+    PROOF_KICKER: "Proof",
+    PROOF_INTRO: "",
+    CLOSING_CTA: "CLICK HERE TO APPLY NOW",
+    FOOTER_LABEL: clientLabel,
+    FOOTER_DISCLAIMER: "Results vary. Nothing on this page guarantees income.",
+  };
   const pageId = sanitize(body.dataset.pageId || location.pathname.replace(/\W+/g, "-") || "main");
   const apiOrigin = (body.dataset.apiOrigin || "").replace(/\/$/, "");
   const eventUrl = `${apiOrigin}/event?client=${encodeURIComponent(client)}`;
@@ -32,6 +58,15 @@
   let playing = false;
   let lastFlushAt = performance.now();
   let lastMilestone = 0;
+  let currentWistiaId = "";
+  let currentTypeformId = "";
+  let latestDraft = null;
+  const tokenDefaults = new Map(
+    Array.from(document.querySelectorAll("[data-token]"), (element) => [
+      element.dataset.token,
+      element.textContent,
+    ]),
+  );
 
   window.PulsifyFunnel = {
     client,
@@ -57,6 +92,7 @@
     },
   };
 
+  if (draftMode) addEventListener("message", receiveDraft);
   trackPageView();
   bindCtas();
   bindOptins();
@@ -74,6 +110,7 @@
       mountWistia(config.wistia_media_id);
       mountTypeform(config.typeform_url);
       mountProofImages(config.proof_images);
+      if (latestDraft) applyDraft(latestDraft);
     } catch (error) {
       console.warn("Pulsify funnel config:", error.message);
     }
@@ -112,11 +149,48 @@
     section.hidden = false;
   }
 
+  function receiveDraft(event) {
+    if (
+      event.origin !== location.origin ||
+      event.source !== window.parent ||
+      !event.data ||
+      event.data.type !== "pulsify-draft"
+    ) return;
+    latestDraft = event.data;
+    applyDraft(latestDraft);
+  }
+
+  function applyDraft(draft) {
+    const content = draft.page_content && typeof draft.page_content === "object"
+      ? draft.page_content
+      : {};
+    document.querySelectorAll("[data-token]").forEach((element) => {
+      const key = element.dataset.token;
+      const value = content[key];
+      element.textContent = value == null || String(value) === ""
+        ? (draftTokenDefaults[key] ?? tokenDefaults.get(key) ?? "")
+        : String(value);
+    });
+    mountProofImages(draft.proof_images);
+    mountWistia(draft.wistia_media_id);
+    mountTypeform(draft.typeform_url);
+  }
+
   function mountWistia(mediaId) {
     const mount = document.querySelector("[data-pulsify-wistia]");
     const validMediaId = validWistiaMediaId(mediaId);
-    if (!mount || !validMediaId) return;
+    if (!mount) return;
+    if (validMediaId && currentWistiaId === validMediaId && mount.childElementCount) {
+      revealAll("[data-video-block]");
+      return;
+    }
+    hideAll("[data-video-block]");
     mount.innerHTML = "";
+    player = null;
+    playing = false;
+    currentWistiaId = "";
+    if (!validMediaId) return;
+    currentWistiaId = validMediaId;
 
     const mediaScript = document.createElement("script");
     mediaScript.src = `https://fast.wistia.com/embed/${encodeURIComponent(validMediaId)}.js`;
@@ -200,7 +274,7 @@
   }
 
   function flushWatch(event, mediaId, includeVector = false, metadata = {}, beacon = false) {
-    if (!player) return;
+    if (draftMode || !player) return;
     const now = performance.now();
     const watchSeconds = playing ? Math.max(0, (now - lastFlushAt) / 1000) : 0;
     lastFlushAt = now;
@@ -237,7 +311,15 @@
     const mount = document.querySelector("[data-pulsify-typeform]");
     if (!mount) return;
     const formId = parseTypeformId(typeformUrl);
+    if (formId && currentTypeformId === formId && mount.childElementCount) {
+      revealAll("[data-application-section], [data-application-cta]");
+      return;
+    }
+    hideAll("[data-application-section], [data-application-cta]");
+    mount.innerHTML = "";
+    currentTypeformId = "";
     if (!formId) return;
+    currentTypeformId = formId;
 
     window.pulsifyTypeformStarted = ({ responseId }) => {
       window.PulsifyFunnel.track("form_start", { response_id: responseId || null });
@@ -246,7 +328,6 @@
       window.PulsifyFunnel.track("form_submit_client", { response_id: responseId || null });
     };
 
-    mount.innerHTML = "";
     const widget = document.createElement("div");
     widget.dataset.tfWidget = formId;
     widget.dataset.tfInlineOnMobile = "";
@@ -345,6 +426,7 @@
   }
 
   async function send(payload) {
+    if (draftMode) return { ok: true };
     return fetch(eventUrl, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -405,6 +487,12 @@
   function revealAll(selector) {
     document.querySelectorAll(selector).forEach((element) => {
       element.hidden = false;
+    });
+  }
+
+  function hideAll(selector) {
+    document.querySelectorAll(selector).forEach((element) => {
+      element.hidden = true;
     });
   }
 
