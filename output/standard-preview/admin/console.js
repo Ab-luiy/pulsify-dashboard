@@ -29,6 +29,7 @@
     integrationsReady: false,
     campaigns: [],
     campaignSort: { key: "signal", dir: "desc" },
+    currentConfig: null,
   };
 
   const deliveryState = {
@@ -40,6 +41,17 @@
 
   const integrationRecords = new Map();
   let lastProvisionResult = null;
+
+  const wizardState = {
+    step: 1,
+    created: false,
+    slugEdited: false,
+    choice: "",
+    design: "canonical",
+    config: {},
+    returnFocus: null,
+    busy: false,
+  };
 
   const GLOSSARY = {
     client_id: ["Client ID", "Short slug that identifies the client everywhere in the system (URLs, database). Set once when creating them; never change it afterwards."],
@@ -75,6 +87,11 @@
   const PROOF_TAGS = [
     "Payment proof", "Store dashboard", "Student DM", "Before / after",
     "Ad results", "Raw clip", "Payout screenshot", "Order volume",
+  ];
+
+  const WIZARD_STEPS = [
+    "Name", "Client path", "Page design", "VSL video",
+    "Application form", "Email automation", "Proof wall", "Done",
   ];
 
   const CONTENT_FIELDS = [
@@ -220,6 +237,8 @@
     applySavedTheme();
     renderGlossaries();
     renderProofFields();
+    renderWizardProofFields();
+    renderWizardProgress();
     renderContentFields();
     renderIntegrationShell();
     bindEvents();
@@ -248,6 +267,8 @@
       resetDeliveryForm();
       await loadCurrentRoute();
     });
+    $("addClientButton").addEventListener("click", () => openClientWizard());
+    $("emptyAddClientButton").addEventListener("click", () => openClientWizard());
     $("refreshClientsButton").addEventListener("click", loadSettings);
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
@@ -261,6 +282,28 @@
     $("createPageButton").addEventListener("click", createProspectPage);
     $("copyResultButton").addEventListener("click", copyProvisionResult);
     $("loadResultButton").addEventListener("click", loadProvisionResult);
+
+    $("wizardClientName").addEventListener("input", handleWizardNameInput);
+    $("wizardClientId").addEventListener("input", handleWizardSlugInput);
+    $("wizardClientId").addEventListener("blur", () => {
+      $("wizardClientId").value = $("wizardClientId").value.trim();
+      validateWizardIdentity();
+    });
+    $("wizardOpenExistingButton").addEventListener("click", openExistingWizardClient);
+    $$("[data-wizard-choice]").forEach((button) => {
+      button.addEventListener("click", () => selectWizardChoice(button.dataset.wizardChoice));
+    });
+    $$("[data-wizard-design]").forEach((button) => {
+      button.addEventListener("click", () => selectWizardDesign(button.dataset.wizardDesign));
+    });
+    $("wizardBackButton").addEventListener("click", wizardBack);
+    $("wizardContinueButton").addEventListener("click", handleWizardContinue);
+    $("wizardSkipButton").addEventListener("click", wizardSkip);
+    $("wizardSaveLaterButton").addEventListener("click", closeWizardAndRefresh);
+    $("wizardCloseButton").addEventListener("click", requestWizardClose);
+    $("wizardMintPortalButton").addEventListener("click", mintWizardPortalLink);
+    $("wizardOpenFullFormButton").addEventListener("click", openWizardFullForm);
+    $("clientWizard").addEventListener("keydown", handleWizardKeydown);
 
     $$(".tab", $("deliveryTabs")).forEach((button) => {
       button.addEventListener("click", () => setDeliveryType(button.dataset.deliveryType));
@@ -354,6 +397,11 @@
   function lockConsole(message = AUTH_MESSAGE) {
     state.key = "";
     clearStoredKeys();
+    if (!$("clientWizard").hidden) {
+      $("clientWizard").hidden = true;
+      $("shell").inert = false;
+      document.body.classList.remove("wizard-open");
+    }
     $("shell").hidden = true;
     $("authScreen").hidden = false;
     $("adminKey").value = "";
@@ -466,6 +514,521 @@
     `).join("");
   }
 
+  function renderWizardProofFields() {
+    $("wizardProofFields").innerHTML = PROOF_TAGS.map((tag) => `
+      <div class="field">
+        <label>${esc(tag)} <span class="optional">Optional</span></label>
+        <input class="wizard-proof-input" data-proof-tag="${esc(tag)}" type="url" placeholder="Paste a direct hosted image URL">
+        <p class="field-hint">The direct hosted URL for the ${esc(tag.toLowerCase())} screenshot. Copy it from the image host; blank keeps the shimmer placeholder.</p>
+      </div>
+    `).join("");
+  }
+
+  function renderWizardProgress() {
+    $("wizardProgress").innerHTML = WIZARD_STEPS.map((label, index) =>
+      `<li aria-label="Step ${index + 1}: ${esc(label)}"></li>`
+    ).join("");
+  }
+
+  function openClientWizard(step = 1, existingClient = false) {
+    const config = existingClient && state.currentConfig
+      ? { ...state.currentConfig, proof_images: { ...(state.currentConfig.proof_images || {}) } }
+      : {};
+    wizardState.step = step;
+    wizardState.created = existingClient;
+    wizardState.slugEdited = existingClient;
+    wizardState.choice = "";
+    wizardState.design = config.template_variant || "canonical";
+    wizardState.config = config;
+    wizardState.returnFocus = document.activeElement;
+    wizardState.busy = false;
+
+    $("wizardClientName").value = existingClient ? (config.client_name || state.client || "") : "";
+    $("wizardClientId").value = existingClient ? (config.client || state.client || "") : "";
+    $("wizardClientName").disabled = existingClient;
+    $("wizardClientId").disabled = existingClient;
+    $("wizardWistiaId").value = config.wistia_media_id || "";
+    $("wizardTypeformUrl").value = config.typeform_url || "";
+    $("wizardKitTagId").value = config.kit_tag_id || "";
+    $("wizardKitApiKey").value = "";
+    setSavedState($("wizardKitKeyState"), Boolean(config.kit_api_key_set), "API key");
+    $$(".wizard-proof-input").forEach((input) => {
+      input.value = config.proof_images?.[input.dataset.proofTag] || "";
+    });
+    selectWizardChoice("");
+    selectWizardDesign(wizardState.design);
+    hideMessage($("wizardMessage"));
+    hideMessage($("wizardPortalMessage"));
+
+    $("clientWizard").hidden = false;
+    $("shell").inert = true;
+    document.body.classList.add("wizard-open");
+    renderWizardStep();
+  }
+
+  function renderWizardStep() {
+    const step = wizardState.step;
+    const activeStep = document.querySelector(`[data-wizard-step="${step}"]`);
+    $$(".wizard-step").forEach((section) => {
+      section.hidden = section !== activeStep;
+      const title = section.querySelector("h2");
+      const intro = section.querySelector(".wizard-intro");
+      if (title) title.removeAttribute("id");
+      if (intro) intro.removeAttribute("id");
+    });
+    const activeTitle = activeStep?.querySelector("h2");
+    const activeIntro = activeStep?.querySelector(".wizard-intro");
+    if (activeTitle) activeTitle.id = "wizardTitle";
+    if (activeIntro) activeIntro.id = "wizardIntro";
+
+    $("wizardStepCount").textContent = `Step ${step} of ${WIZARD_STEPS.length}`;
+    $$("#wizardProgress li").forEach((item, index) => {
+      item.classList.toggle("complete", index + 1 < step);
+      item.classList.toggle("current", index + 1 === step);
+      if (index + 1 === step) item.setAttribute("aria-current", "step");
+      else item.removeAttribute("aria-current");
+    });
+
+    $("wizardSaveLaterButton").hidden = step < 2;
+    $("wizardSkipButton").hidden = step < 3 || step > 7;
+    $("wizardContinueButton").textContent = wizardContinueLabel();
+    $("wizardPreviewButton").href = wizardState.config.client
+      ? `/?client=${encodeURIComponent(wizardState.config.client)}`
+      : "#";
+    if (step === 8) renderWizardSummary();
+    if (step === 1) validateWizardIdentity();
+    hideMessage($("wizardMessage"));
+    $("clientWizard").querySelector(".wizard-body").scrollTop = 0;
+    requestAnimationFrame(focusWizardStep);
+  }
+
+  function focusWizardStep() {
+    const activeStep = document.querySelector(`[data-wizard-step="${wizardState.step}"]`);
+    if (!activeStep) return;
+    const target = activeStep.querySelector("input:not(:disabled), button.selected, button, a");
+    (target || $("wizardContinueButton")).focus();
+  }
+
+  function handleWizardNameInput() {
+    if (!wizardState.slugEdited) $("wizardClientId").value = slugifyClientName($("wizardClientName").value);
+    validateWizardIdentity();
+  }
+
+  function handleWizardSlugInput() {
+    wizardState.slugEdited = true;
+    validateWizardIdentity();
+  }
+
+  function slugifyClientName(value) {
+    return String(value || "")
+      .normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 64);
+  }
+
+  function validateWizardIdentity() {
+    const name = $("wizardClientName").value.trim();
+    const slug = $("wizardClientId").value.trim();
+    const status = $("wizardSlugStatus");
+    const openExisting = $("wizardOpenExistingButton");
+    const taken = !wizardState.created && state.clients.some((client) => client.client === slug);
+    openExisting.hidden = !taken;
+    status.className = "wizard-inline-status";
+
+    if (wizardState.created) {
+      status.textContent = "Created. This permanent ID is now locked.";
+      status.classList.add("valid");
+      return { valid: true, name, slug, taken: false };
+    }
+    if (!slug) {
+      status.textContent = "Use lowercase letters, numbers, and dashes.";
+      return { valid: false, name, slug, taken: false };
+    }
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length > 64) {
+      status.textContent = "Use lowercase letters, numbers, and single dashes only.";
+      status.classList.add("invalid");
+      return { valid: false, name, slug, taken: false };
+    }
+    if (taken) {
+      status.textContent = "This client ID already exists.";
+      status.classList.add("taken");
+      return { valid: false, name, slug, taken: true };
+    }
+    status.textContent = name
+      ? "Available. This ID becomes permanent when the client is created."
+      : "The client name is still required.";
+    status.classList.add(name ? "valid" : "invalid");
+    return { valid: Boolean(name), name, slug, taken: false };
+  }
+
+  function selectWizardChoice(choice) {
+    wizardState.choice = choice;
+    $$("[data-wizard-choice]").forEach((button) => {
+      const selected = button.dataset.wizardChoice === choice;
+      button.classList.toggle("selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    $("wizardTypeStatus").textContent = "";
+    $("wizardTypeStatus").className = "wizard-inline-status";
+  }
+
+  function selectWizardDesign(design) {
+    wizardState.design = design === "variant-02" ? "variant-02" : "canonical";
+    $$("[data-wizard-design]").forEach((button) => {
+      const selected = button.dataset.wizardDesign === wizardState.design;
+      button.classList.toggle("selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+  }
+
+  async function handleWizardContinue() {
+    if (wizardState.busy) return;
+    if (wizardState.step === 1) {
+      if (wizardState.created) {
+        wizardState.step = 2;
+        renderWizardStep();
+        return;
+      }
+      await createWizardClient(true);
+      return;
+    }
+    if (wizardState.step === 2) {
+      if (!wizardState.choice) {
+        $("wizardTypeStatus").textContent = "Choose Signed client or Prospect page to continue.";
+        $("wizardTypeStatus").className = "wizard-inline-status taken";
+        return;
+      }
+      if (wizardState.choice === "prospect") {
+        await routeWizardToProspect();
+        return;
+      }
+      wizardState.step = 3;
+      renderWizardStep();
+      return;
+    }
+    if (wizardState.step === 3) {
+      if (await saveWizardPartial({ template_variant: wizardState.design })) wizardAdvance();
+      return;
+    }
+    if (wizardState.step === 4) {
+      if (await saveWizardPartial({ wistia_media_id: $("wizardWistiaId").value.trim() })) wizardAdvance();
+      return;
+    }
+    if (wizardState.step === 5) {
+      if (await saveWizardPartial({ typeform_url: $("wizardTypeformUrl").value.trim() })) wizardAdvance();
+      return;
+    }
+    if (wizardState.step === 6) {
+      const payload = {
+        kit_tag_id: $("wizardKitTagId").value.trim(),
+        kit_api_key: $("wizardKitApiKey").value.trim(),
+      };
+      if (await saveWizardPartial(payload)) {
+        $("wizardKitApiKey").value = "";
+        setSavedState($("wizardKitKeyState"), Boolean(wizardState.config.kit_api_key_set), "API key");
+        wizardAdvance();
+      }
+      return;
+    }
+    if (wizardState.step === 7) {
+      const proofImages = Object.fromEntries(
+        $$(".wizard-proof-input").map((input) => [input.dataset.proofTag, input.value.trim()])
+      );
+      if (await saveWizardPartial({ proof_images: proofImages })) wizardAdvance();
+      return;
+    }
+    if (wizardState.step === 8) await closeWizardAndRefresh();
+  }
+
+  async function createWizardClient(advance) {
+    const identity = validateWizardIdentity();
+    if (!identity.valid) {
+      if (!identity.taken) showMessage($("wizardMessage"), "Enter a client name and a valid permanent Client ID.", "error");
+      return false;
+    }
+    const saved = await saveWizardPartial({
+      client: identity.slug,
+      client_name: identity.name,
+    });
+    if (!saved) return false;
+
+    wizardState.created = true;
+    wizardState.config.client = identity.slug;
+    wizardState.config.client_name = identity.name;
+    wizardState.config.template_variant = wizardState.config.template_variant || "canonical";
+    $("wizardClientName").disabled = true;
+    $("wizardClientId").disabled = true;
+    state.client = identity.slug;
+    if (!state.clients.some((client) => client.client === identity.slug)) {
+      state.clients.push({ client: identity.slug, client_name: identity.name });
+      state.clients.sort((a, b) => String(a.client_name || a.client).localeCompare(String(b.client_name || b.client)));
+    }
+    renderClientSelector();
+    writeClientQuery();
+    if (advance) {
+      wizardState.step = 2;
+      renderWizardStep();
+    }
+    return true;
+  }
+
+  async function saveWizardPartial(fields) {
+    const client = fields.client || wizardState.config.client || $("wizardClientId").value.trim();
+    if (!client) return false;
+    setWizardBusy(true);
+    hideMessage($("wizardMessage"));
+    const payload = { client, ...fields };
+    try {
+      const response = await api("/api/settings", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this wizard step.");
+      mergeWizardConfig(fields);
+      return true;
+    } catch (error) {
+      if (state.key) showMessage($("wizardMessage"), error.message || "Could not save this wizard step.", "error");
+      return false;
+    } finally {
+      setWizardBusy(false);
+    }
+  }
+
+  function mergeWizardConfig(fields) {
+    Object.entries(fields).forEach(([key, value]) => {
+      if (key === "kit_api_key") {
+        if (value) wizardState.config.kit_api_key_set = true;
+        return;
+      }
+      if (key === "proof_images") {
+        wizardState.config.proof_images = Object.fromEntries(
+          Object.entries(value || {}).filter(([, url]) => String(url || "").trim())
+        );
+        return;
+      }
+      wizardState.config[key] = value;
+    });
+  }
+
+  function setWizardBusy(busy) {
+    wizardState.busy = busy;
+    [
+      "wizardBackButton", "wizardContinueButton", "wizardSkipButton",
+      "wizardSaveLaterButton", "wizardCloseButton",
+    ].forEach((id) => { $(id).disabled = busy; });
+    $("wizardContinueButton").textContent = busy ? "Saving" : wizardContinueLabel();
+  }
+
+  function wizardContinueLabel() {
+    if (wizardState.step === 1) return wizardState.created ? "Continue" : "Create client";
+    if (wizardState.step === 8) return "Finish";
+    if (wizardState.step === 2) return "Continue";
+    return "Save and continue";
+  }
+
+  function wizardAdvance() {
+    wizardState.step = Math.min(8, wizardState.step + 1);
+    renderWizardStep();
+  }
+
+  function wizardSkip() {
+    if (wizardState.busy || wizardState.step < 3 || wizardState.step > 7) return;
+    wizardAdvance();
+  }
+
+  function wizardBack() {
+    if (wizardState.busy) return;
+    if (wizardState.step === 1) {
+      requestWizardClose();
+      return;
+    }
+    wizardState.step -= 1;
+    renderWizardStep();
+  }
+
+  async function requestWizardClose() {
+    if (wizardState.busy) return;
+    if (wizardState.created) {
+      if (confirm("Save and finish later? Everything already saved will be kept.")) await closeWizardAndRefresh();
+      return;
+    }
+    const identity = validateWizardIdentity();
+    if (identity.valid && confirm("Save this client and finish later?")) {
+      if (await createWizardClient(false)) await closeWizardAndRefresh();
+      return;
+    }
+    if (confirm("Close without adding a client?")) closeClientWizard();
+  }
+
+  function closeClientWizard() {
+    $("clientWizard").hidden = true;
+    $("shell").inert = false;
+    document.body.classList.remove("wizard-open");
+    const returnFocus = wizardState.returnFocus;
+    if (returnFocus && document.contains(returnFocus)) returnFocus.focus();
+  }
+
+  async function closeWizardAndRefresh() {
+    closeClientWizard();
+    if (!wizardState.created) return;
+    try {
+      await refreshClients(wizardState.config.client);
+      if (state.route === "clients") await loadSettings();
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || "The client was saved, but the console could not refresh.", "error");
+    }
+  }
+
+  async function routeWizardToProspect() {
+    const client = wizardState.config.client;
+    closeClientWizard();
+    state.client = client;
+    renderClientSelector();
+    writeClientQuery();
+    if (state.route !== "clients") location.hash = "clients";
+    try {
+      await loadSettings();
+      showMessage(
+        $("provisionNote"),
+        `Client ID "${client}" is already created. Continue with the New prospect page flow; the active client is preserved.`,
+        "neutral"
+      );
+      $("newProspectPanel").scrollIntoView({ behavior: "smooth", block: "start" });
+      $("provisionBrief").focus({ preventScroll: true });
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || "Could not open the New prospect page flow.", "error");
+    }
+  }
+
+  async function openExistingWizardClient() {
+    const slug = $("wizardClientId").value.trim();
+    if (!slug) return;
+    closeClientWizard();
+    state.client = slug;
+    renderClientSelector();
+    writeClientQuery();
+    if (state.route !== "clients") location.hash = "clients";
+    await loadSettings();
+    $("settingsForm").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function wizardChecklist(config) {
+    const proofCount = PROOF_TAGS.filter((tag) => Boolean(config.proof_images?.[tag])).length;
+    const design = config.template_variant === "variant-02" ? "Variant 2" : "Standard";
+    return [
+      { step: 1, label: "Client name", detail: config.client_name || config.client || "", set: Boolean(config.client_name || config.client) },
+      { step: 3, label: "Page design", detail: design, set: true },
+      { step: 4, label: "VSL video", detail: config.wistia_media_id || "Wistia media ID is missing", set: Boolean(config.wistia_media_id) },
+      { step: 5, label: "Application form", detail: config.typeform_url || "Typeform link is missing", set: Boolean(config.typeform_url) },
+      {
+        step: 6,
+        label: "Email automation",
+        detail: config.kit_tag_id && config.kit_api_key_set ? "Kit tag and API key are set" : "Kit tag ID or API key is missing",
+        set: Boolean(config.kit_tag_id && config.kit_api_key_set),
+      },
+      {
+        step: 7,
+        label: "Proof wall",
+        detail: `${proofCount} of ${PROOF_TAGS.length} proof images set`,
+        set: proofCount === PROOF_TAGS.length,
+      },
+    ];
+  }
+
+  function renderWizardSummary() {
+    $("wizardSummary").innerHTML = wizardChecklist(wizardState.config).map((item) => `
+      <div class="wizard-summary-row${item.set ? "" : " pending"}">
+        <span class="wizard-summary-icon" aria-hidden="true">${item.set ? "✓" : "+"}</span>
+        <span><strong>${esc(item.label)}</strong><small>${esc(item.detail)}</small></span>
+        <span class="wizard-summary-status">${item.set ? "Set" : "To add later"}</span>
+      </div>
+    `).join("");
+  }
+
+  function renderSetupChecklist() {
+    const checklist = $("setupChecklist");
+    if (!state.client || !state.currentConfig) {
+      checklist.hidden = true;
+      $("setupChecklistItems").innerHTML = "";
+      return;
+    }
+    const pending = wizardChecklist(state.currentConfig).filter((item) => !item.set);
+    checklist.hidden = pending.length === 0;
+    $("setupChecklistItems").innerHTML = pending.map((item) =>
+      `<button class="setup-checklist-item" type="button" data-setup-step="${item.step}">${esc(item.label)}</button>`
+    ).join("");
+    $$("[data-setup-step]", $("setupChecklistItems")).forEach((button) => {
+      button.addEventListener("click", () => openClientWizard(Number(button.dataset.setupStep), true));
+    });
+  }
+
+  async function mintWizardPortalLink() {
+    const client = wizardState.config.client;
+    if (!client || wizardState.busy) return;
+    const button = $("wizardMintPortalButton");
+    button.disabled = true;
+    hideMessage($("wizardPortalMessage"));
+    try {
+      const response = await api(`/api/portal-token?client=${encodeURIComponent(client)}`, { method: "POST" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate a portal link.");
+      $("wizardPortalMessage").innerHTML = `<a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>${data.note ? `<br>${esc(data.note)}` : ""}`;
+      $("wizardPortalMessage").className = "message success";
+      $("wizardPortalMessage").hidden = false;
+    } catch (error) {
+      if (state.key) showMessage($("wizardPortalMessage"), error.message || "Could not generate a portal link.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function openWizardFullForm() {
+    closeClientWizard();
+    state.client = wizardState.config.client;
+    renderClientSelector();
+    writeClientQuery();
+    if (state.route !== "clients") location.hash = "clients";
+    await loadSettings();
+    $("settingsForm").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("clientName").focus({ preventScroll: true });
+  }
+
+  function handleWizardKeydown(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      requestWizardClose();
+      return;
+    }
+    if (event.key === "Enter" && !event.shiftKey) {
+      const target = event.target;
+      if (target.matches("textarea, button, a, select")) return;
+      event.preventDefault();
+      handleWizardContinue();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = $$(
+      'button:not(:disabled), a[href], input:not(:disabled), select:not(:disabled), textarea:not(:disabled), summary',
+      $("clientWizard")
+    ).filter((element) => element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   function renderContentFields() {
     $("contentFields").innerHTML = CONTENT_FIELDS.map((field) => `
       <div class="field ${field.area ? "span-all" : ""}">
@@ -499,9 +1062,11 @@
     hideMessage($("settingsMessage"));
     hideMessage($("portalLinkMessage"));
     if (!state.client) {
+      state.currentConfig = null;
       clearSettingsFields("");
       $("settingsStatus").textContent = "New client";
       $("settingsStatus").className = "status-pill";
+      renderSetupChecklist();
       return;
     }
     $("settingsStatus").textContent = "Loading";
@@ -510,6 +1075,7 @@
     if (!response.ok) throw new Error(data.error || "Could not load client settings.");
     clearSettingsFields(state.client);
     const config = data.config;
+    state.currentConfig = config ? { ...config, client: config.client || state.client } : null;
     if (config) {
       $("clientName").value = config.client_name || "";
       $("templateVariant").value = config.template_variant || "canonical";
@@ -530,6 +1096,7 @@
       $("settingsStatus").className = "status-pill";
     }
     updatePreviewLinks();
+    renderSetupChecklist();
   }
 
   function setSavedState(element, isSet, label) {

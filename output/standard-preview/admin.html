@@ -51,10 +51,13 @@
           <p class="eyebrow" id="routeEyebrow">Client setup</p>
           <h1 id="routeTitle">Clients</h1>
         </div>
-        <div class="shared-client" id="sharedClientControl">
-          <label for="sharedClient">Active client <span class="required">Required for client work</span></label>
-          <select id="sharedClient" aria-describedby="sharedClientHint"></select>
-          <p class="field-hint" id="sharedClientHint">Choose the client once. Client setup, delivery, and client integrations follow this selection.</p>
+        <div class="shared-client-wrap">
+          <div class="shared-client" id="sharedClientControl">
+            <label for="sharedClient">Active client <span class="required">Required for client work</span></label>
+            <select id="sharedClient" aria-describedby="sharedClientHint"></select>
+            <p class="field-hint" id="sharedClientHint">Choose the client once. Client setup, delivery, and client integrations follow this selection.</p>
+          </div>
+          <button class="button primary small" id="addClientButton" type="button">Add a new client</button>
         </div>
       </header>
 
@@ -75,7 +78,15 @@
           <div class="glossary-grid"></div>
         </details>
 
-        <article class="panel">
+        <aside class="setup-checklist" id="setupChecklist" aria-labelledby="setupChecklistTitle" hidden>
+          <div>
+            <p class="kicker">Setup checklist</p>
+            <h3 id="setupChecklistTitle">Finish this client setup</h3>
+          </div>
+          <div class="setup-checklist-items" id="setupChecklistItems"></div>
+        </aside>
+
+        <article class="panel" id="newProspectPanel">
           <div class="panel-head">
             <div><p class="kicker">New prospect</p><h3>Create a landing page from a creator brief</h3></div>
           </div>
@@ -110,7 +121,8 @@
 
         <div class="empty-state" id="clientsEmpty" hidden>
           <h3>No clients configured yet</h3>
-          <p>Create the first prospect page above. It will become the active client automatically.</p>
+          <p>Add a client with their name first. Everything else can be added later.</p>
+          <button class="button primary" id="emptyAddClientButton" type="button">Add a new client</button>
         </div>
 
         <form class="panel" id="settingsForm">
@@ -350,6 +362,154 @@
         </article>
       </section>
     </main>
+  </div>
+
+  <div class="wizard-overlay" id="clientWizard" hidden>
+    <section class="wizard-dialog" role="dialog" aria-modal="true" aria-labelledby="wizardTitle" aria-describedby="wizardIntro">
+      <header class="wizard-head">
+        <div>
+          <p class="eyebrow">Add client</p>
+          <p class="wizard-step-count" id="wizardStepCount">Step 1 of 8</p>
+        </div>
+        <button class="icon-button" id="wizardCloseButton" type="button" aria-label="Save and close add-client wizard">Close</button>
+      </header>
+
+      <ol class="wizard-progress" id="wizardProgress" aria-label="Add-client progress"></ol>
+
+      <div class="wizard-body">
+        <section class="wizard-step" data-wizard-step="1">
+          <p class="eyebrow">Required</p>
+          <h2 id="wizardTitle">Who are you adding?</h2>
+          <p class="wizard-intro" id="wizardIntro">Their name creates the client immediately. You can add every other setting later.</p>
+          <div class="wizard-form">
+            <div class="field">
+              <label for="wizardClientName">Client name <span class="required">Required</span></label>
+              <input id="wizardClientName" autocomplete="off" placeholder="Enter the public display name">
+              <p class="field-hint">The name shown on the landing page and portal. Get it from the client's brand details; blank falls back to the client ID.</p>
+            </div>
+            <div class="field">
+              <label for="wizardClientId">Client ID <span class="required">Required</span></label>
+              <input id="wizardClientId" autocomplete="off" spellcheck="false" placeholder="Enter a permanent client slug" aria-describedby="wizardClientIdHint wizardSlugStatus">
+              <p class="field-hint" id="wizardClientIdHint">The short slug used in URLs and the database. Set it when the client is created; blank cannot be saved and it should never be changed later.</p>
+              <div class="wizard-inline-status" id="wizardSlugStatus" role="status"></div>
+              <button class="link-button wizard-open-existing" id="wizardOpenExistingButton" type="button" hidden>Open this client instead</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="2" hidden>
+          <p class="eyebrow">Client path</p>
+          <h2>What is this?</h2>
+          <p class="wizard-intro">Choose where to continue. The client ID has already been created.</p>
+          <div class="wizard-card-grid">
+            <button class="wizard-select-card" type="button" data-wizard-choice="signed" aria-pressed="false">
+              <span class="wizard-card-mark" aria-hidden="true"></span>
+              <strong>Signed client</strong>
+              <small>Continue setting up their page, automation, proof, and portal link.</small>
+            </button>
+            <button class="wizard-select-card" type="button" data-wizard-choice="prospect" aria-pressed="false">
+              <span class="wizard-card-mark" aria-hidden="true"></span>
+              <strong>Prospect page</strong>
+              <small>Continue in the existing New prospect page flow with this client preserved.</small>
+            </button>
+          </div>
+          <div class="wizard-inline-status" id="wizardTypeStatus" role="status"></div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="3" hidden>
+          <p class="eyebrow">Landing page</p>
+          <h2>Choose the page design</h2>
+          <p class="wizard-intro">Choose which approved page design renders this client's copy. If untouched, the standard design is used.</p>
+          <div class="wizard-card-grid">
+            <button class="wizard-select-card design-card selected" type="button" data-wizard-design="canonical" aria-pressed="true">
+              <span class="design-preview design-preview-standard" aria-hidden="true"><i></i><i></i><i></i></span>
+              <strong>Standard</strong>
+              <small>The standard landing-page design.</small>
+            </button>
+            <button class="wizard-select-card design-card" type="button" data-wizard-design="variant-02" aria-pressed="false">
+              <span class="design-preview design-preview-variant" aria-hidden="true"><i></i><i></i><i></i></span>
+              <strong>Variant 2</strong>
+              <small>The second approved landing-page design.</small>
+            </button>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="4" hidden>
+          <p class="eyebrow">VSL video</p>
+          <h2>Add the Wistia video</h2>
+          <p class="wizard-intro">Connect the client's VSL now, or add it after the page is ready.</p>
+          <div class="wizard-form">
+            <div class="field">
+              <label for="wizardWistiaId">Wistia media ID <span class="optional">Optional</span></label>
+              <input id="wizardWistiaId" placeholder="Paste the Wistia video code">
+              <p class="field-hint">The short code in the VSL's Wistia URL. Copy it from Wistia; blank makes the page show its video placeholder.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="5" hidden>
+          <p class="eyebrow">Application form</p>
+          <h2>Add the Typeform link</h2>
+          <p class="wizard-intro">Connect the application form shown on the landing page.</p>
+          <div class="wizard-form">
+            <div class="field">
+              <label for="wizardTypeformUrl">Typeform link <span class="optional">Optional</span></label>
+              <input id="wizardTypeformUrl" type="url" placeholder="Paste the application form URL">
+              <p class="field-hint">The public share URL from Typeform. Blank means the landing page has no embedded application form.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="6" hidden>
+          <p class="eyebrow">Email automation</p>
+          <h2>Connect Kit</h2>
+          <p class="wizard-intro">Add the tag that starts automation and the key that lets the system add subscribers.</p>
+          <div class="wizard-form two">
+            <div class="field">
+              <label for="wizardKitTagId">Kit tag ID <span class="optional">Optional</span></label>
+              <input id="wizardKitTagId" inputmode="numeric" placeholder="Paste the Kit tag number">
+              <p class="field-hint">The number in the Kit tag's URL. Leads receive this tag to start automation; blank means no tag is applied.</p>
+            </div>
+            <div class="field">
+              <label for="wizardKitApiKey">Kit v4 API key <span class="optional">Write only</span></label>
+              <input id="wizardKitApiKey" type="password" autocomplete="new-password" placeholder="Paste a new key or leave blank">
+              <p class="field-hint">Create it in Kit under Settings, then Developer. It lets the system add subscribers; blank keeps the saved key unchanged.</p>
+              <span class="saved-state" id="wizardKitKeyState">No saved API key reported.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="7" hidden>
+          <p class="eyebrow">Proof wall</p>
+          <h2>Add proof images</h2>
+          <p class="wizard-intro">Direct image URLs update the live page without a code change.</p>
+          <div class="wizard-proof-grid" id="wizardProofFields"></div>
+        </section>
+
+        <section class="wizard-step" data-wizard-step="8" hidden>
+          <p class="eyebrow">Done</p>
+          <h2>The client is in the system</h2>
+          <p class="wizard-intro">Set items are ready. Anything marked To add later stays visible in the Client setup checklist.</p>
+          <div class="wizard-summary" id="wizardSummary"></div>
+          <div class="wizard-done-actions">
+            <button class="button dark" id="wizardMintPortalButton" type="button">Mint the portal link</button>
+            <a class="button outline" id="wizardPreviewButton" href="#" target="_blank" rel="noopener">Preview the landing page</a>
+            <button class="button outline" id="wizardOpenFullFormButton" type="button">Open the full Client setup form</button>
+          </div>
+          <div class="message" id="wizardPortalMessage" role="status" hidden></div>
+        </section>
+        <div class="message error" id="wizardMessage" role="alert" hidden></div>
+      </div>
+
+      <footer class="wizard-footer">
+        <button class="button ghost" id="wizardBackButton" type="button">Back</button>
+        <div class="wizard-footer-actions">
+          <button class="button ghost" id="wizardSaveLaterButton" type="button" hidden>Save and finish later</button>
+          <button class="button outline" id="wizardSkipButton" type="button" hidden>Add later</button>
+          <button class="button primary" id="wizardContinueButton" type="button">Create client</button>
+        </div>
+      </footer>
+    </section>
   </div>
 
   <script src="/js/provision-prompt.js"></script>

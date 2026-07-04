@@ -66,6 +66,31 @@ The funnels system is becoming the delivery backbone (landing pages, client port
 - `tests/i1-checks.mjs` green; `git diff --stat` shows no changes under `functions/`.
 - Builder self-review, then Claude cross-review, then deploy (`--branch main`), then live verification with the real key.
 
+## Add-client wizard (v2 addendum, founder ask 2026-07-04)
+
+Founder direction: adding a client should feel like a modern SaaS signup — one question at a time, big clickable option cards, required steps up front, everything else skippable with "Add later," so a client gets into the system with just a name and the rest fills in over time.
+
+Backend precondition verified 2026-07-04: `functions/api/settings.js` merges partial payloads (absent fields keep their existing values — the old F3 wipe bug is fixed), so the wizard saves incrementally per step with no risk of clobbering earlier answers. Still zero backend changes.
+
+**Entry points:** an "Add a new client" button beside the shared client selector, and the same button inside the #clients empty state.
+
+**Flow** — full-screen overlay on /admin, one step per screen, progress dots, Back always available, "Save and finish later" visible from step 2 on (closing at any point keeps everything already saved):
+
+1. **Name.** Client name text input; a permanent ID (slug) is auto-generated from it, shown, and editable before confirm (lowercase/dashes validation, live uniqueness check against the client list — if taken, say so and offer to open that client instead). Continue immediately creates the client (`POST /api/settings` with `client` + `client_name`). This step is the only required one: after it, they exist.
+2. **What is this?** Two large select-cards: "Signed client" (continue the wizard) vs "Prospect page" (close the wizard and land them in the New prospect provisioning card with a note that the client ID is already created). Card squares, not radio buttons.
+3. **Page design.** Two select-cards, Standard vs Variant 2, each with a small visual preview; saves `template_variant`. Skippable (defaults to Standard).
+4. **VSL video.** Wistia media ID. Skippable.
+5. **Application form.** Typeform link. Skippable.
+6. **Email automation.** Kit tag ID + Kit v4 API key. Skippable.
+7. **Proof wall.** The eight proof-image URL slots (or "add later" in one click). Skippable.
+8. **Done.** A checklist summary: what is set, what is marked "To add later." Buttons: mint the portal link, preview the landing page, open the full Client setup form.
+
+Every step reuses the exact field hints and glossary language already in the console. Each Continue fires a partial save; Skip fires none.
+
+**Pending-setup visibility:** on #clients, when the active client is missing any of the wizard fields, show a small "Setup checklist" strip listing the pending items; clicking one opens the wizard at that step. This is how "to be added later" stays findable instead of forgotten.
+
+**Out of scope for the wizard:** integration provider cards (Discord, Stripe, booking providers — they stay in #integrations), the creator-brief provisioning flow itself (step 2 routes to it), and anything requiring new API parameters.
+
 ## Open questions / gaps
 
 - Whether /admin eventually absorbs a dashboard-style overview (payments feed, event log) — out of scope for this build; the hub's `integration_events` table makes it possible later.
