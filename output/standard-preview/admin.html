@@ -16,7 +16,7 @@
       <div class="brand-mark" aria-hidden="true">P</div>
       <p class="eyebrow">Pulsify funnels</p>
       <h1>Operator console</h1>
-      <p class="lede">One key opens client setup, delivery, integrations, and campaign visibility.</p>
+      <p class="lede">One key opens the overview, client setup, client work, integrations, and sent-page visibility.</p>
       <div class="field">
         <label for="adminKey">Admin key <span class="required">Required</span></label>
         <input id="adminKey" type="password" autocomplete="current-password" placeholder="Paste the deployment admin key">
@@ -34,10 +34,11 @@
         <div><strong>Pulsify</strong><span>Operator console</span></div>
       </div>
       <nav class="nav" aria-label="Console sections">
-        <a href="#clients" data-route="clients"><span>01</span>Clients</a>
-        <a href="#delivery" data-route="delivery"><span>02</span>Delivery</a>
-        <a href="#integrations" data-route="integrations"><span>03</span>Integrations</a>
-        <a href="#campaigns" data-route="campaigns"><span>04</span>Campaigns</a>
+        <a href="#home" data-route="home"><span>01</span>Home</a>
+        <a href="#clients" data-route="clients"><span>02</span>Clients</a>
+        <a href="#delivery" data-route="delivery"><span>03</span>Client work</a>
+        <a href="#integrations" data-route="integrations"><span>04</span>Integrations</a>
+        <a href="#campaigns" data-route="campaigns"><span>05</span>Pages sent</a>
       </nav>
       <div class="rail-actions">
         <button class="button ghost small" id="themeButton" type="button">Switch theme</button>
@@ -63,14 +64,65 @@
 
       <div class="global-message message error" id="globalMessage" role="alert" hidden></div>
 
-      <section class="route" id="route-clients" data-route-panel="clients">
+      <section class="route" id="route-home" data-route-panel="home">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Operator overview</p>
+            <h2>What needs a decision</h2>
+            <p>Real setup gaps, delivery failures, and system activity across every client.</p>
+          </div>
+          <button class="button outline small" id="refreshHomeButton" type="button">Refresh overview</button>
+        </div>
+
+        <div class="home-layout">
+          <article class="panel home-panel">
+            <div class="panel-head">
+              <div><p class="kicker">Needs attention</p><h3>Setup gaps and failures</h3><p>Open a client to fix the exact missing item. Failures come from the delivery log.</p></div>
+              <span class="status-pill" id="attentionCount">Not loaded</span>
+            </div>
+            <div class="home-stack" id="attentionStack"></div>
+            <div class="empty-state inset" id="attentionEmpty" hidden>
+              <h3>Nothing needs attention</h3>
+              <p>All configured clients have video, form, Kit, and at least one proof image, with no recent delivery failures.</p>
+            </div>
+          </article>
+
+          <article class="panel home-panel">
+            <div class="panel-head">
+              <div><p class="kicker">Activity</p><h3>Latest system events</h3><p>Applications, bookings, payments, integration events, and delivery failures reported by the live backend.</p></div>
+            </div>
+            <div class="home-stack" id="activityStack"></div>
+            <div class="empty-state inset" id="activityEmpty" hidden>
+              <h3>No activity recorded yet</h3>
+              <p>Send a page or connect a provider. Real applications, bookings, payments, and failures will appear here.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="subsection-head outside">
+          <p class="kicker">Clients</p>
+          <h3>Page health</h3>
+          <p>Each chip reflects the saved client configuration. Select a card to open that client.</p>
+        </div>
+        <div class="client-health-grid" id="clientHealthGrid"></div>
+        <div class="empty-state" id="homeClientsEmpty" hidden>
+          <h3>No clients configured yet</h3>
+          <p>Add the first client to start tracking setup health.</p>
+          <button class="button primary" id="homeAddClientButton" type="button">Add a new client</button>
+        </div>
+      </section>
+
+      <section class="route" id="route-clients" data-route-panel="clients" hidden>
         <div class="section-head">
           <div>
             <p class="eyebrow">Configure and launch</p>
             <h2>Client pages</h2>
             <p>Create a page, wire its tools, edit the copy, and mint the private portal link.</p>
           </div>
-          <button class="button outline small" id="refreshClientsButton" type="button">Refresh client</button>
+          <div class="section-actions">
+            <button class="button outline small" id="togglePreviewButton" type="button" aria-expanded="true">Hide preview</button>
+            <button class="button outline small" id="refreshClientsButton" type="button">Refresh client</button>
+          </div>
         </div>
 
         <details class="glossary" data-glossary="clients">
@@ -125,6 +177,7 @@
           <button class="button primary" id="emptyAddClientButton" type="button">Add a new client</button>
         </div>
 
+        <div class="client-workspace" id="clientWorkspace">
         <form class="panel" id="settingsForm">
           <div class="panel-head">
             <div><p class="kicker">Page configuration</p><h3>Landing page and funnel settings</h3></div>
@@ -171,12 +224,6 @@
                 <p class="field-hint">The public share URL from Typeform. Blank means the landing page has no embedded application form.</p>
               </div>
               <div class="field">
-                <label for="typeformSecret">Typeform webhook secret <span class="optional">Write only</span></label>
-                <input id="typeformSecret" type="password" placeholder="Paste a new secret or leave blank">
-                <p class="field-hint">The password configured on the Typeform webhook. It rejects fake submissions; blank keeps the saved secret unchanged.</p>
-                <span class="saved-state" id="typeformSecretState">No saved secret reported.</span>
-              </div>
-              <div class="field">
                 <label for="kitTagId">Kit tag ID <span class="optional">Optional</span></label>
                 <input id="kitTagId" inputmode="numeric" placeholder="Paste the Kit tag number">
                 <p class="field-hint">The number in the Kit tag's URL. Leads receive this tag to start automation; blank means no tag is applied.</p>
@@ -187,11 +234,23 @@
                 <p class="field-hint">Create it in Kit under Settings, then Developer. It lets the system add subscribers; blank keeps the saved key unchanged.</p>
                 <span class="saved-state" id="kitKeyState">No saved key reported.</span>
               </div>
-              <div class="field">
-                <label for="allowedOrigin">Landing-page origin <span class="optional">Optional</span></label>
-                <input id="allowedOrigin" type="url" placeholder="Paste the exact allowed web address">
-                <p class="field-hint">The exact domain permitted to send visitor events. Use the live funnel or custom domain; blank uses the backend's current default behavior.</p>
-              </div>
+              <details class="advanced span-all">
+                <summary>Advanced</summary>
+                <p class="advanced-intro">Security values are normally configured once. Leave write-only fields blank to keep their saved values.</p>
+                <div class="form-grid two">
+                  <div class="field">
+                    <label for="typeformSecret">Typeform webhook secret <span class="optional">Write only</span></label>
+                    <input id="typeformSecret" type="password" placeholder="Paste a new secret or leave blank">
+                    <p class="field-hint">The password configured on the Typeform webhook. It rejects fake submissions; blank keeps the saved secret unchanged.</p>
+                    <span class="saved-state" id="typeformSecretState">No saved secret reported.</span>
+                  </div>
+                  <div class="field">
+                    <label for="allowedOrigin">Landing-page origin <span class="optional">Optional</span></label>
+                    <input id="allowedOrigin" type="url" placeholder="Paste the exact allowed web address">
+                    <p class="field-hint">The exact domain permitted to send visitor events. Use the live funnel or custom domain; blank uses the backend's current default behavior.</p>
+                  </div>
+                </div>
+              </details>
             </div>
           </div>
 
@@ -199,10 +258,19 @@
             <div class="subsection-head">
               <p class="kicker">Proof wall</p>
               <h3>Proof-image order</h3>
-              <p>Screenshots of testimonials, results, DMs, payouts, dashboards. They show in this order. More is better; the references run 70-120 of them.</p>
+              <p>Upload screenshots directly or keep using hosted image URLs. They show in this order.</p>
             </div>
+            <div class="proof-upload" data-proof-upload="settings">
+              <input id="proofFileInput" class="proof-file-input" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+              <label class="proof-drop-zone" for="proofFileInput" id="proofDropZone">
+                <strong>Drop proof screenshots here</strong>
+                <span>or choose files. Images resize to 1600px and must compress below 900KB.</span>
+              </label>
+              <div class="upload-queue" id="proofUploadQueue" aria-live="polite"></div>
+            </div>
+            <p class="proof-url-divider"><span>Or paste hosted image URLs</span></p>
             <div class="proof-url-list" id="proofImageFields"></div>
-            <button class="button outline proof-add-button" id="addProofImageButton" type="button">Add row</button>
+            <button class="button outline proof-add-button" id="addProofImageButton" type="button">Add URL row</button>
           </div>
 
           <div class="subsection">
@@ -223,6 +291,25 @@
           </div>
         </form>
 
+        <aside class="preview-pane" id="previewPane" aria-label="Live landing-page preview">
+          <header class="preview-pane-head">
+            <div>
+              <p class="kicker">Live draft</p>
+              <h3>Landing-page preview</h3>
+              <p>Updates after you pause typing. Draft changes are not saved.</p>
+            </div>
+            <button class="icon-button" id="closePreviewButton" type="button">Close</button>
+          </header>
+          <div class="preview-frame-wrap">
+            <iframe id="livePreviewFrame" title="Live draft landing-page preview"></iframe>
+            <div class="preview-empty" id="previewEmpty">
+              <strong>Select a client to preview</strong>
+              <span>The preview uses the active client's saved page as its starting point.</span>
+            </div>
+          </div>
+        </aside>
+        </div>
+
         <article class="panel danger-zone" id="dangerZone" hidden>
           <div>
             <p class="kicker">Danger zone</p>
@@ -235,7 +322,7 @@
 
       <section class="route" id="route-delivery" data-route-panel="delivery" hidden>
         <div class="section-head">
-          <div><p class="eyebrow">Client-facing work</p><h2>Delivery</h2><p>Add and maintain the content, call notes, and assets shown in the client's portal.</p></div>
+          <div><p class="eyebrow">Client-facing work</p><h2>Client work</h2><p>Add and maintain the content, call notes, and assets shown in the client's portal.</p></div>
           <button class="button outline small" id="refreshDeliveryButton" type="button">Refresh delivery</button>
         </div>
 
@@ -341,7 +428,7 @@
 
       <section class="route" id="route-campaigns" data-route-panel="campaigns" hidden>
         <div class="section-head">
-          <div><p class="eyebrow">Outreach visibility</p><h2>Campaigns</h2><p>Real landing-page activity across every configured prospect, sorted by the signal that needs attention.</p></div>
+          <div><p class="eyebrow">Outreach visibility</p><h2>Pages sent</h2><p>Real landing-page activity across every configured prospect, sorted by the signal that needs attention.</p></div>
           <button class="button outline small" id="refreshCampaignsButton" type="button">Refresh board</button>
         </div>
 
@@ -496,9 +583,18 @@
         <section class="wizard-step" data-wizard-step="7" hidden>
           <p class="eyebrow">Proof wall</p>
           <h2>Add proof images</h2>
-          <p class="wizard-intro">Screenshots of testimonials, results, DMs, payouts, dashboards. They show in this order. More is better; the references run 70-120 of them.</p>
+          <p class="wizard-intro">Upload screenshots directly or paste hosted image URLs. They show in this order.</p>
+          <div class="proof-upload" data-proof-upload="wizard">
+            <input id="wizardProofFileInput" class="proof-file-input" type="file" accept="image/png,image/jpeg,image/webp" multiple>
+            <label class="proof-drop-zone" for="wizardProofFileInput" id="wizardProofDropZone">
+              <strong>Drop proof screenshots here</strong>
+              <span>or choose files. Images resize to 1600px and must compress below 900KB.</span>
+            </label>
+            <div class="upload-queue" id="wizardProofUploadQueue" aria-live="polite"></div>
+          </div>
+          <p class="proof-url-divider"><span>Or paste hosted image URLs</span></p>
           <div class="proof-url-list" id="wizardProofFields"></div>
-          <button class="button outline proof-add-button" id="wizardAddProofImageButton" type="button">Add row</button>
+          <button class="button outline proof-add-button" id="wizardAddProofImageButton" type="button">Add URL row</button>
         </section>
 
         <section class="wizard-step" data-wizard-step="8" hidden>
@@ -543,6 +639,7 @@
         <li>Delivery items, call notes, and assets</li>
         <li>Integration settings and integration activity</li>
         <li>Payment history</li>
+        <li>Uploaded proof media</li>
         <li>Delivery failures and landing-page activity</li>
       </ul>
       <p class="delete-warning">There is no undo. Type the exact client ID <code id="deleteClientId"></code> to arm the delete button.</p>

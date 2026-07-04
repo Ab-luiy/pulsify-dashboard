@@ -18,6 +18,7 @@
  */
 
 const VALID_VARIANTS = new Set(["canonical", "variant-02"]);
+const NON_WRAPPABLE_PREVIEW_TOKENS = new Set(["META_DESCRIPTION", "PAGE_TITLE"]);
 
 const DEFAULT_CONTENT = {
   META_DESCRIPTION: "A private breakdown, then apply to work together.",
@@ -70,6 +71,10 @@ export async function onRequestGet(context) {
     // client's saved template_variant — does not touch the database.
     const previewParam = url.searchParams.get("preview");
     if (previewParam && VALID_VARIANTS.has(previewParam)) variant = previewParam;
+    const tokenPreviewMode =
+      url.searchParams.get("tokens") === "1" &&
+      Boolean(previewParam) &&
+      VALID_VARIANTS.has(previewParam);
 
     const templateUrl = new URL(`/templates/${variant}/index.html`, url.origin);
     const templateResponse = await env.ASSETS.fetch(new Request(templateUrl));
@@ -87,9 +92,18 @@ export async function onRequestGet(context) {
     if (!merged.BRAND_MARK) merged.BRAND_MARK = brandFallback;
     if (!merged.FOOTER_LABEL) merged.FOOTER_LABEL = brandFallback;
 
-    html = html.replace(/\{\{(\w+)\}\}/g, (match, token) =>
-      token in merged ? escapeHtml(String(merged[token])) : "",
-    );
+    html = html.replace(/\{\{(\w+)\}\}/g, (match, token) => {
+      if (!(token in merged)) return "";
+      const escaped = escapeHtml(String(merged[token]));
+      if (
+        tokenPreviewMode &&
+        token !== "CLIENT_SLUG" &&
+        !NON_WRAPPABLE_PREVIEW_TOKENS.has(token)
+      ) {
+        return `<span data-token="${token}">${escaped}</span>`;
+      }
+      return escaped;
+    });
     html = html.replace('href="css/style.css"', `href="/templates/${variant}/css/style.css"`);
 
     return new Response(html, {

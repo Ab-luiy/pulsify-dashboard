@@ -101,6 +101,38 @@ Founder wants to delete clients himself from the console (test clients today, ch
 
 **Not in scope:** soft-delete/archive, bulk delete, deleting from the wizard.
 
+## Console v4: home view, direct image upload, live page preview (founder ask 2026-07-04, "full on")
+
+Founder wants the console friendlier and more capable in one pass: a real overview, uploading screenshots directly instead of pasting URLs, and a live preview of the landing page beside the editor that updates in real time.
+
+### Part A — backend (one claim, the only functions/ changes)
+
+1. **Media upload.** New `functions/api/media.js`:
+   - `POST /api/media` (admin-key): accepts JSON `{client, filename, content_type, data_base64}`. Cap 900KB decoded (D1 value limit); reject others with a clear error telling the operator the image is compressed client-side and this shouldn't happen. Stores in a new `media` table (migration `0009_media.sql`: id TEXT pk, client, content_type, bytes BLOB, created_at). Returns `{ok, url: "/media/{id}"}`.
+   - `GET /media/{id}` (public, `functions/media/[id].js`): serves bytes with correct content-type and `cache-control: public, max-age=31536000, immutable`.
+   - `DELETE /api/media?id=` (admin-key). Client deletion (v3) must also wipe the client's media rows — add `media` to the nine-table list, making it ten.
+   - Structure the storage behind one small read/write helper so an R2 binding can replace D1 later without touching handlers (R2 currently NOT enabled on the account).
+2. **Activity feed.** New `GET /api/activity` (admin-key): merged latest events — integration_events (50), payments (20), delivery_failures (20) — normalized to `{ts, kind, client, summary}` sorted desc. Read-only, no new tables.
+3. **Preview token mode.** In the page renderer (`functions/index.js`): when `&tokens=1` is present alongside the existing preview param, wrap every rendered copy-token value in `<span data-token="KEY">value</span>`. Only in this mode; real pages unchanged.
+4. Harness: upload round trip (post -> GET serves same bytes + content type -> delete), cap rejection, activity shape, tokens=1 wrapping, and the ten-table delete.
+
+### Part B — console UI (second claim, frontend only)
+
+1. **Home view** (new default route `#home`): three stacks — "Needs attention" (per-client missing-setup chips from existing config reads + recent delivery failures), "Activity" (from /api/activity, human sentences: "Frank's page: application received", "Rio Vance: $1,000 payment recorded"), and a compact client grid with health chips (page live / video / form / Kit / proof count) linking into #clients.
+2. **Direct upload.** On the proof list (#clients and wizard step 7): drag-drop zone + file picker next to the URL field. Client-side: canvas-resize to max 1600px wide, JPEG ~0.85, then POST to /api/media; returned URL auto-appends as a proof row. Multiple files at once, per-file progress, failures named per file. URL paste stays available.
+3. **Live preview pane.** In #clients, a right-side panel (toggleable, hidden under 1100px with a "Preview" button opening it full-screen): an iframe of `/?client={id}&preview={variant}&tokens=1&draft=1`. `funnel-integrations.js` in draft mode listens for `postMessage` `{type:"pulsify-draft", page_content, proof_images, wistia_media_id, typeform_url, template_variant}` and applies: token spans update by `data-token`, proof feed re-renders, video/application blocks gate live. Console posts the current form state debounced ~300ms on every input. Template-variant switch reloads the iframe. Nothing saves until Save is clicked — preview is draft state only.
+4. **Simplifiers, same pass:** rarely-touched fields (allowed origin, webhook secrets, email template id, onboarding URLs) fold into an "Advanced" collapse per card; rail renames Delivery -> "Client work", Campaigns -> "Pages sent"; #home becomes the post-unlock landing route.
+5. Wizard proof step gets the same upload zone.
+
+### Acceptance
+
+- Upload a real PNG from disk -> appears in the proof list and on the live page; survives refresh; served with immutable cache.
+- Preview pane reflects a headline edit within a keystroke pause, a proof upload immediately, and hides/reveals video/apply blocks as config fields empty/fill — all without saving.
+- Save still round-trips exactly as before; draft state never leaks into a real page without Save.
+- Home view shows real events (the payments/events already in D1) and correct health chips for frank and the test clients.
+- Deleting a client removes its media rows (count reported like the other tables).
+- Harness green; legacy pages untouched; 390px pass on every new surface.
+
 ## Open questions / gaps
 
 - Whether /admin eventually absorbs a dashboard-style overview (payments feed, event log) — out of scope for this build; the hub's `integration_events` table makes it possible later.
