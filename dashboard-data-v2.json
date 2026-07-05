@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-05T04:20:50.103510+00:00",
+  "lastUpdated": "2026-07-05T07:52:31.904Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-05T04:20:50.103510+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-04T07:39:00.256Z",
+    "updatedAt": "2026-07-05T07:52:31.845Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 503,
-      "following": 468,
+      "followers": 505,
+      "following": 470,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=vGGKh3r_828Q7kNvwGM1q90&_nc_oc=AdpGVsMgPvMccLXeyKf0cHKcrbLbOW_2S1vwpsB5nqynjJbwMZ1K9F8WaU5sBYK22Cw&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=9y0r_N1WnRVeMfnzQdq8Kw&_nc_tpa=Q5bMBQFmSVo2PRMqcMxgqhGPDq7YchvGSuHRZ2VvYIjef-3HA6U-UmtJZqpF1V24kDxBZMswDdzpHpxc&oh=00_AQDOdlmy0kLCclrU72B8RsU1Zork83WInvinzygEfjrTtw&oe=6A4E78A8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=aC3Je0PhoqMQ7kNvwHFz-6_&_nc_oc=AdoZYFZ6CHJ6CZcfcCOlwF1yIsfqFf2KvYyTorsSitEmWjxVmhly325yAePgoQgQPkE&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=usYMXNHF6WNqBrlKXpXoyw&_nc_tpa=Q5bMBQFoIUhusEuofv9-ZS1NvkXu2cVwmJxs89pwSGqBdwTMPIxbfEQpTAeIVQPZ5z_DBuY2wskKaUYc&oh=00_AQBSAhIkiiyZDtT6x82QjhhP95VfJCmV-DnXHmPrdUG8LQ&oe=6A4FCA28"
     },
     "content": {
       "reelsCount": 8,
@@ -62,7 +62,7 @@
           "date": "2026-05-22T13:42:59+0000",
           "reach": 134,
           "views": 164,
-          "hook": 42,
+          "hook": 41,
           "caption": "Get your game on."
         },
         {
@@ -138,7 +138,7 @@
       "countries": [
         {
           "name": "IN",
-          "value": 86
+          "value": 87
         },
         {
           "name": "BR",
@@ -233,6 +233,10 @@
           "value": 3
         },
         {
+          "name": "ES",
+          "value": 3
+        },
+        {
           "name": "AU",
           "value": 3
         },
@@ -281,10 +285,6 @@
           "value": 2
         },
         {
-          "name": "ES",
-          "value": 2
-        },
-        {
           "name": "TH",
           "value": 2
         },
@@ -305,15 +305,15 @@
           "value": 2
         },
         {
-          "name": "SN",
+          "name": "LV",
           "value": 1
         },
         {
-          "name": "GR",
+          "name": "IQ",
           "value": 1
         },
         {
-          "name": "KZ",
+          "name": "ET",
           "value": 1
         }
       ],
@@ -343,11 +343,11 @@
           "value": 3
         },
         {
-          "name": "Casablanca, Grand Casablanca",
+          "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
-          "name": "Dhaka, Dhaka Division",
+          "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
@@ -411,15 +411,19 @@
           "value": 2
         },
         {
-          "name": "Villa España, Buenos Aires",
+          "name": "London, England",
           "value": 1
         },
         {
-          "name": "São Leopoldo, Rio Grande do Sul",
+          "name": "Zlín, Zlín Region",
           "value": 1
         },
         {
-          "name": "Eldoradopark, Gauteng",
+          "name": "Clonmel, County Tipperary",
+          "value": 1
+        },
+        {
+          "name": "São Félix de Minas, Minas Gerais",
           "value": 1
         },
         {
@@ -427,35 +431,51 @@
           "value": 1
         },
         {
-          "name": "San Fernando, Andalusia",
+          "name": "Sítio Ôlho d'??gua, Ceará",
           "value": 1
         },
         {
-          "name": "Rupnagar, Punjab region",
+          "name": "Abbi, Delta State",
           "value": 1
         },
         {
-          "name": "Bogotá, Distrito Especial",
+          "name": "Dublin, Dublin",
           "value": 1
         },
         {
-          "name": "Leiyang, Hunan",
+          "name": "Sandakan, Sabah",
           "value": 1
         },
         {
-          "name": "Hoover, Alabama",
+          "name": "Castanhal, Pará",
           "value": 1
         },
         {
-          "name": "Buenos Aires, Ciudad Autónoma de Buenos Aires",
+          "name": "Centurion, Gauteng",
           "value": 1
         },
         {
-          "name": "Taman, East Java",
+          "name": "Cologne, Nordrhein-Westfalen",
           "value": 1
         },
         {
-          "name": "Yundum, West Coast Division ",
+          "name": "Arenys de Munt, Cataluña",
+          "value": 1
+        },
+        {
+          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
+          "value": 1
+        },
+        {
+          "name": "East Middlebury, Vermont",
+          "value": 1
+        },
+        {
+          "name": "Jaipur, Rajasthan",
+          "value": 1
+        },
+        {
+          "name": "Balbari, Dhaka Division",
           "value": 1
         },
         {
@@ -463,50 +483,30 @@
           "value": 1
         },
         {
-          "name": "Itaituba, Pará",
+          "name": "Mansoura, Dakahlia Governorate",
           "value": 1
         },
         {
-          "name": "Villa Fiorito, Buenos Aires",
+          "name": "Rosario, Santa Fe",
           "value": 1
         },
         {
-          "name": "Tiruchirappalli, Tamil Nadu",
+          "name": "Rajauli, Bihar",
           "value": 1
         },
         {
-          "name": "Tyngsboro, Massachusetts",
-          "value": 1
-        },
-        {
-          "name": "Viamão, Rio Grande do Sul",
-          "value": 1
-        },
-        {
-          "name": "Ban Bang Ya Phraek, Samut Prakan",
-          "value": 1
-        },
-        {
-          "name": "Surabaya, East Java",
-          "value": 1
-        },
-        {
-          "name": "Gharghoda, Chhattisgarh",
-          "value": 1
-        },
-        {
-          "name": "Terdal, Karnataka",
+          "name": "Kamalpur, Tripura",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 242
+          "value": 243
         },
         {
           "name": "M",
-          "value": 81
+          "value": 82
         },
         {
           "name": "F",
@@ -516,7 +516,7 @@
       "age": [
         {
           "name": "18-24",
-          "value": 156
+          "value": 158
         },
         {
           "name": "25-34",
@@ -564,7 +564,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 4,
-          "avgWatchTimeMs": 9242
+          "avgWatchTimeMs": 9275
         },
         "saveRate": 0,
         "shareRate": 0,
@@ -633,12 +633,12 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 3,
-          "avgWatchTimeMs": 6934
+          "avgWatchTimeMs": 6904
         },
         "saveRate": 0,
         "shareRate": 0,
         "engagementRate": 0.022388059701492536,
-        "hookScore": 42,
+        "hookScore": 41,
         "diagnosis": "Middle of the pack — test a different hook, angle, or opening visual.",
         "rank": 4
       },
@@ -776,7 +776,7 @@
     }
   },
   "content": {
-    "igFollowers": 503,
+    "igFollowers": 505,
     "igReach30d": 1142,
     "igReelsShipped": 18
   }
