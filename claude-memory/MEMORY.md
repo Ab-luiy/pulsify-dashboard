@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Batch outreach workflow](project_batch_outreach_workflow.md) - 2026-07-05: user vets+picks leads himself (human "is this a good lead" stage stays with him), then pastes me a batch block (LEAD/BRIEF/PROBLEM/ASSET) and I generate all assets in one pass; chat version first, only build a Lead Studio batch button if it earns it
+
 - [Landing mock source rule](feedback_landing_mock_source.md) - 2026-07-05/06: landing pages + the whole landing-page STANDARD are now fully Codex-owned — Claude does NOT build or touch them, founder routes changes to Codex; standard reset 2026-07-06 (student-proof-only spine, Codex reskinning variant-02); my frank-outreach-mock + frank-wieler.pages.dev predate it, leave them
 
 - [Operator console + wizard](project_operator_console.md) - 2026-07-04: /admin unifies all 4 admin pages on pulsify-funnels + 8-step add-client wizard, both live; ADMIN_KEY recovered from old transcript (user holds it); multitest junk row pending delete
