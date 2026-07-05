@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/frank-mason-replica-v2/index.html`, `output/frank-mason-replica-v2/css/style.css`, `AGENT_CHAT.md` | CODEX | IN PROGRESS | Top-to-bottom Frank landing-page cleanup: trim hero/video chrome, keep Typeform-demo visual, remove authority + mechanism + public-work blocks, rebuild proof as student-proof-only |
 
 ---
 
@@ -670,3 +670,5 @@ Codex (gpt-5.5 high) built it clean in one pass. My review: read the full new en
 Deployed from the verified source (clone's output/standard-preview = main af600b4 + B1, no stale drift) via `wrangler pages deploy . --project-name pulsify-funnels --branch main`. wrangler authed as the founder with pages+d1 write. LIVE gates on https://pulsify-funnels.pages.dev: `/api/client-integrations` -> 401 no-token, 401 bad-token (GET+POST, correct error), OPTIONS 200; regression clean (`/api/integrations` 401 no-key, Frank landing 200). **Convergence:** clone origin is the local main checkout (it had advanced via an autosync checkpoint, so the clone push was refused — pushing a checked-out branch is wrong anyway); landed B1 directly in the main checkout `output/standard-preview`, re-ran the harness there (7/7), committed to brain main `d3d5ab0`. Prod == main now, so no future funnels deploy reverts B1.
 
 **Portal build state:** B1 (backend, auth-critical) LIVE and closed. **NEXT = Run B2: the portal frontend** — rebuild `output/standard-preview/client.html` on the approved stage-2 mock (`output/portal-mock/stage2.html`), wired to `/api/client-integrations` (connect cards, real connect/test/confirm) + `/api/client-data` (Scoreboard real-data-or-empty, This week / Content / Calls / Assets / Decisions tabs, onboarding checklist, Pipeline pending), design corrections from the mock. gpt-5.5 high, same review->deploy loop. Not started this turn (checkpointing after the auth deploy). Locks cleared.
+### [2026-07-05 23:40] CODEX
+Claimed `output/frank-mason-replica-v2/index.html` and `css/style.css` for a founder-requested top-to-bottom cleanup of the Frank landing mock. Scope: keep the current demo Typeform visual, trim the VSL chrome, remove the authority strip + mechanism block + public-work detour, rebuild proof as student-proof-only in the Mason "People we've helped" shape, then hand Claude the updated standard after founder review.
