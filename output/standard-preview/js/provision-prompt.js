@@ -3,19 +3,13 @@
  *
  * Loaded directly by settings.html (browser global `PulsifyProvisionPrompt`) for the
  * client-side "Copy landing-page prompt" button. The server-side twin lives at
- * functions/_shared/provision-prompt.js (functions/api/generate.js imports it) — the
- * two files must be kept in sync by hand since Pages Functions and the settings page
+ * functions/_shared/provision-prompt.js (functions/api/generate.js imports it) -
+ * the two files must be kept in sync by hand since Pages Functions and the settings page
  * do not share a bundler. If you edit the token spec, copy rules, or prompt shape here,
  * make the same edit there.
- *
- * Token spec is intentionally data, not prose, so both the prompt text and the
- * settings.html "Page copy" fields can be generated from one source of truth in
- * this file (see CONTENT_FIELD_SPEC below, which mirrors CONTENT_FIELDS in
- * settings.html — kept as a duplicate list on purpose, small and stable).
  */
 
 (function (root) {
-  // key, where it renders, rough length guidance, which templates use it
   const TOKEN_SPEC = [
     { key: "PAGE_TITLE", where: "browser tab title", length: "under 60 characters", variant: "both" },
     { key: "META_DESCRIPTION", where: "search/share preview description", length: "one sentence, under 155 characters", variant: "both" },
@@ -29,14 +23,21 @@
     { key: "MICRO_NOTE", where: "small line directly under the hero CTA button", length: "a few words", variant: "variant-02 only" },
     { key: "VIDEO_NOTE_PRIMARY", where: "left caption under the video frame", length: "a few words", variant: "both" },
     { key: "VIDEO_NOTE_SECONDARY", where: "right caption under the video frame", length: "a few words", variant: "both" },
+    { key: "VIDEO_LABEL", where: "short overlay label inside the hero video frame", length: "2-6 words", variant: "canonical only" },
     { key: "APPLY_STEP_LABEL", where: "small step label above the application heading, e.g. \"Step 2\"", length: "2-3 words", variant: "both" },
     { key: "APPLY_HEADING", where: "heading directly above the embedded application form", length: "one short line", variant: "both" },
     { key: "APPLY_INTRO", where: "one line under the application heading", length: "one sentence", variant: "both" },
     { key: "FORM_FRAME_LABEL", where: "small label on the frame around the embedded form", length: "a few words", variant: "variant-02 only" },
     { key: "FORM_FRAME_NOTE", where: "small note on the frame around the embedded form", length: "a few words", variant: "variant-02 only" },
-    { key: "PROOF_KICKER", where: "small kicker above the proof-wall heading", length: "1-3 words", variant: "variant-02 only" },
-    { key: "PROOF_INTRO", where: "one line under the proof-wall heading (the heading itself, \"People we've helped\", is fixed and not a token)", length: "one sentence", variant: "variant-02 only" },
-    { key: "CLOSING_CTA", where: "the final button text at the bottom of the page, repeats the hero CTA's destination", length: "2-4 words, usually uppercase" , variant: "both" },
+    { key: "PROOF_KICKER", where: "small kicker above the proof heading", length: "1-3 words", variant: "both" },
+    { key: "PROOF_HEADING", where: "the main proof-section heading", length: "one short line", variant: "canonical only" },
+    { key: "PROOF_INTRO", where: "one line under the proof heading", length: "one sentence", variant: "both" },
+    { key: "CASE_STUDY_LABEL", where: "small label above each video case-study card", length: "2-4 words", variant: "canonical only" },
+    { key: "CASE_STUDY_CARD_ONE", where: "first video case-study card headline", length: "one sentence fragment", variant: "canonical only" },
+    { key: "CASE_STUDY_CARD_TWO", where: "second video case-study card headline", length: "one sentence fragment", variant: "canonical only" },
+    { key: "CASE_STUDY_CARD_THREE", where: "third video case-study card headline", length: "one sentence fragment", variant: "canonical only" },
+    { key: "CLOSING_CTA", where: "the final button text at the bottom of the page, repeats the hero CTA's destination", length: "2-4 words, usually uppercase", variant: "both" },
+    { key: "CLOSING_NOTE", where: "the small note under the final CTA in the canonical template", length: "one sentence", variant: "canonical only" },
     { key: "FOOTER_LABEL", where: "brand name in the footer", length: "1-3 words", variant: "both" },
     { key: "FOOTER_DISCLAIMER", where: "small results-vary disclaimer in the footer", length: "one sentence", variant: "both" },
   ];
@@ -46,9 +47,9 @@
   const STRUCTURE_EXPLANATION =
     "The landing page is a single scrolling page in this order: a hero headline over an embedded VSL " +
     "(video sales letter, no page above it competes for attention), then an application step (an embedded " +
-    "Typeform directly under the video), then a proof wall (\"People we've helped\" — real screenshots and " +
-    "clips only), then a closing call-to-action that repeats the same button and destination as the hero, " +
-    "then a footer with a brand line and a results-vary disclaimer.";
+    "Typeform directly under the video), then a student-proof block (video case-study cards first, then a " +
+    "centered screenshot wall with no mini captions), then a closing call-to-action that repeats the same " +
+    "button and destination as the hero, then a footer with a brand line and a results-vary disclaimer.";
 
   const COPY_RULES = [
     "Headline rule: the headline (HEADLINE_LINE_ONE + HEADLINE_EMPHASIS) must lead with a unique mechanism, a specific case study, or a specific result. Never a generic outcome statement everyone in the niche already claims. If the brief has a real, verified case study or number, lead with that. If not, lead with the mechanism (the specific behavior being replaced and what replaces it), never a vague promise.",
@@ -56,12 +57,12 @@
     "No emojis. No exclamation marks. Sentence case for headings (not Title Case).",
     "Banned AI tells, apply on every field: no \"It's not X, it's Y\" negative parallelism; no em-dash overuse (at most one or two, prefer commas and periods); no \"here's the thing\" / \"here's the kicker\" / false-suspense transitions; no rule-of-three padding stacked more than once; no curly quotes or arrow glyphs (use straight quotes and \"->\"); no corporate filler (\"it's worth noting\", \"importantly\", \"leverage\", \"seamless\", \"robust\").",
     "Write in the creator's own voice. Use the brief's verbatim quotes as the voice reference for word choice and tone, but do not lift a quote verbatim into the page copy unless it is being used as an explicit, attributed quote.",
-    "Direct, no hedging. If the brief doesn't support a claim, don't make it — write the mechanism or offer instead.",
+    "Direct, no hedging. If the brief doesn't support a claim, don't make it - write the mechanism or offer instead.",
   ];
 
   function buildTokenSpecText() {
     return TOKEN_SPEC.map((t) => {
-      const suffix = t.variant === "variant-02 only" ? " [variant-02 only]" : "";
+      const suffix = t.variant.endsWith("only") ? ` [${t.variant}]` : "";
       return `- ${t.key}: ${t.where}. Length guidance: ${t.length}.${suffix}`;
     }).join("\n");
   }
@@ -74,13 +75,13 @@
       "PAGE STRUCTURE",
       STRUCTURE_EXPLANATION,
       "",
-      "TOKEN SPEC — fill every token below. Six are marked variant-02 only; still fill them (they simply won't render on the canonical design if template_variant is \"canonical\").",
+      "TOKEN SPEC - fill every token below. Some are variant-specific; still fill them so the operator can switch templates later without rewriting from scratch.",
       buildTokenSpecText(),
       "",
       "COPY RULES",
       COPY_RULES.map((rule, i) => `${i + 1}. ${rule}`).join("\n"),
       "",
-      "CREATOR BRIEF (the only source of facts you may use — do not add anything not in here)",
+      "CREATOR BRIEF (the only source of facts you may use - do not add anything not in here)",
       "---",
       trimmedBrief || "(no brief provided)",
       "---",
@@ -96,16 +97,14 @@
     ].join("\n");
   }
 
-  function knownTokenKeys() {
-    return TOKEN_SPEC.map((t) => t.key);
-  }
-
-  root.PulsifyProvisionPrompt = {
+  const api = {
     TOKEN_SPEC,
     VARIANT_02_ONLY,
     STRUCTURE_EXPLANATION,
     COPY_RULES,
     buildPrompt,
-    knownTokenKeys,
+    knownTokenKeys: () => TOKEN_SPEC.map((t) => t.key),
   };
-})(typeof window !== "undefined" ? window : globalThis);
+
+  root.PulsifyProvisionPrompt = api;
+})(window);

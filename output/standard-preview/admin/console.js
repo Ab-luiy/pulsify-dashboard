@@ -127,10 +127,19 @@
     { key: "HERO_CTA", label: "Hero button text", meaning: "The action text on the first button." },
     { key: "VIDEO_NOTE_PRIMARY", label: "Video caption, left", meaning: "The first short note under the VSL." },
     { key: "VIDEO_NOTE_SECONDARY", label: "Video caption, right", meaning: "The second short note under the VSL." },
+    { key: "VIDEO_LABEL", label: "Video overlay label", meaning: "The short label inside the hero video frame." },
     { key: "APPLY_STEP_LABEL", label: "Application step label", meaning: "The small step marker above the application." },
     { key: "APPLY_HEADING", label: "Application heading", meaning: "The headline that introduces the application form." },
     { key: "APPLY_INTRO", label: "Application intro", meaning: "The short explanation before the application form.", area: true },
+    { key: "PROOF_KICKER", label: "Proof section kicker", meaning: "The small label above the proof block." },
+    { key: "PROOF_HEADING", label: "Proof section heading", meaning: "The main heading above the student-proof section." },
+    { key: "PROOF_INTRO", label: "Proof section intro", meaning: "The short introduction above the proof wall.", area: true },
+    { key: "CASE_STUDY_LABEL", label: "Case-study label", meaning: "The small label above each video case-study card." },
+    { key: "CASE_STUDY_CARD_ONE", label: "Case-study card one", meaning: "The first video case-study headline.", area: true },
+    { key: "CASE_STUDY_CARD_TWO", label: "Case-study card two", meaning: "The second video case-study headline.", area: true },
+    { key: "CASE_STUDY_CARD_THREE", label: "Case-study card three", meaning: "The third video case-study headline.", area: true },
     { key: "CLOSING_CTA", label: "Closing button text", meaning: "The action text on the final page button." },
+    { key: "CLOSING_NOTE", label: "Closing note", meaning: "The small note under the final CTA.", area: true },
     { key: "PAGE_TITLE", label: "Browser tab title", meaning: "The title shown in the browser tab and link previews." },
     { key: "META_DESCRIPTION", label: "Search and share description", meaning: "The description used by search engines and shared links.", area: true },
     { key: "FOOTER_LABEL", label: "Footer name", meaning: "The name shown in the page footer." },
@@ -139,8 +148,6 @@
     { key: "MICRO_NOTE", label: "Hero micro-note", meaning: "The small line below the hero button in variant 2." },
     { key: "FORM_FRAME_LABEL", label: "Form frame label", meaning: "The small label around the form in variant 2." },
     { key: "FORM_FRAME_NOTE", label: "Form frame note", meaning: "The supporting note around the form in variant 2." },
-    { key: "PROOF_KICKER", label: "Proof section kicker", meaning: "The small label above the proof wall in variant 2." },
-    { key: "PROOF_INTRO", label: "Proof section intro", meaning: "The short introduction above the proof wall in variant 2.", area: true },
   ];
 
   const OPERATOR_CARDS = [

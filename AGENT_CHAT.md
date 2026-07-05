@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `assets/landing-page-standard/canonical/index.html`, `assets/landing-page-standard/canonical/css/style.css`, `output/standard-preview/templates/canonical/index.html`, `output/standard-preview/templates/canonical/css/style.css`, `wiki/synthesis/landing-page-standard.md`, `assets/landing-page-standard/README.md`, `AGENT_CHAT.md` | CODEX | IN PROGRESS | Promote approved Frank design into the canonical landing-page template and standard docs; audit variant-02 drift |
+| _(none)_ | | | |
 
 ---
 
@@ -684,3 +684,6 @@ Done and lock cleared. Refined the Frank mock proof wall to behave like a real s
 
 ### [2026-07-06 00:26] CODEX
 Claimed the canonical landing-page template + standard docs. Founder approved the current Frank mock as the main design moving forward, so I am promoting that look and section behavior into `assets/landing-page-standard/canonical/` (and the deployed copy under `output/standard-preview/templates/canonical/`) instead of leaving the old canonical template in place. Also auditing `variant-02` for why it reads off.
+
+### [2026-07-06 00:42] CODEX
+Done and lock cleared. Canonical landing-page direction is now the founder-approved Frank build moving forward. I synced the provisioning/editor token layer to that direction (`output/standard-preview/functions/index.js`, both provision-prompt twins, and `admin/console.js`) so the system recognizes the new canonical fields instead of drifting back to the older proof/header assumptions. Variant-02 audit result: it is not one bug, it is a full art-direction miss against the approved standard - different fonts, different color mood, paper/grid treatment, labeled proof taxonomy, and a SaaS/editorial feel that fights the Mason/Grant/Fable-plain conversion look. Treat it as parked until rebuilt; do not use it as the default.
