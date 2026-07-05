@@ -5,11 +5,12 @@ standard trapped inside `output/`.
 
 ## Variants
 
-- `canonical/` — the approved Codex skin, genericized with placeholders. This is
-  the default production template and mirrors the live standard at
-  `output/standard-preview/`.
+- `canonical/` — the founder-approved default. This now mirrors the Frank mock
+  promoted into placeholder form: VSL hero, Step 2 Typeform demo, student video
+  case studies, centered two-column screenshot wall, final CTA.
 - `variant-02/` — alternate design direction for the future picker. Same page
-  spine and integration contract, distinct visual system.
+  spine and integration contract, but currently parked and not approved as the
+  main look.
 
 ## Shared contract
 

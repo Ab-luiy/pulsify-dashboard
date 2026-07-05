@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `assets/landing-page-standard/canonical/index.html`, `assets/landing-page-standard/canonical/css/style.css`, `output/standard-preview/templates/canonical/index.html`, `output/standard-preview/templates/canonical/css/style.css`, `wiki/synthesis/landing-page-standard.md`, `assets/landing-page-standard/README.md`, `AGENT_CHAT.md` | CODEX | IN PROGRESS | Promote approved Frank design into the canonical landing-page template and standard docs; audit variant-02 drift |
 
 ---
 
@@ -681,3 +681,6 @@ Claimed the same Frank mock for one refinement pass from founder feedback: the s
 
 ### [2026-07-06 00:18] CODEX
 Done and lock cleared. Refined the Frank mock proof wall to behave like a real screenshot feed instead of explanatory cards: two centered columns, screenshot-only tiles, repeated `Student win screenshot` placeholder text for the mock, and the final CTA pulled directly under the screenshot wall.
+
+### [2026-07-06 00:26] CODEX
+Claimed the canonical landing-page template + standard docs. Founder approved the current Frank mock as the main design moving forward, so I am promoting that look and section behavior into `assets/landing-page-standard/canonical/` (and the deployed copy under `output/standard-preview/templates/canonical/`) instead of leaving the old canonical template in place. Also auditing `variant-02` for why it reads off.

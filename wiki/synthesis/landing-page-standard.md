@@ -4,7 +4,7 @@ tags: [funnel, landing-page, vsl, standard, asset, outreach]
 sources: [[synthesis/prospect-funnel-reference-library]], [[synthesis/proof-wall-redesign-spec]], [[raw-sources/vsls/mason-bowstead-funnel-design]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
 status: approved
 created: 2026-06-30
-updated: 2026-07-04
+updated: 2026-07-06
 ---
 
 
@@ -18,9 +18,10 @@ a reason.
 Reference implementation: `output/standard-preview/` (`index.html` = single-page
 default, `optin.html` = the gate fork, `portal.html` = funnel reporting).
 Reusable setup starts at `assets/landing-page-standard/README.md`. Reusable assets now
-live in `assets/landing-page-standard/canonical/` (approved Codex skin, placeholderized)
-and `assets/landing-page-standard/variant-02/` (alternate visual direction, same
-runtime contract).
+live in `assets/landing-page-standard/canonical/` (approved Codex skin, placeholderized,
+and now aligned to the Frank mock the founder approved on 2026-07-06) and
+`assets/landing-page-standard/variant-02/` (alternate visual direction, currently
+kept only as a secondary experiment).
 
 ## The merge in one line
 
@@ -43,12 +44,12 @@ Top to bottom, one idea per screen:
    script, not a mock form), directly under the video. This is the shared spine.
    Default question set: [[frameworks/generic-mmo-application-questionnaire]] — niche-agnostic,
    swap the bracketed tokens per client.
-8. **Proof wall** — the crescendo. An unlabeled feed of real screenshots in operator-set
-   order: testimonials, results, DMs, payouts, and dashboards. No categories, captions,
-   fixed slots, placeholders, or retyped quote cards. **No featured/explainer video in
-   this section** — the only video on the page is the hero VSL. Header in Luke Alexander's
-   style: `People we've helped`. If there are zero images, the entire section including
-   the heading does not render.
+8. **Student proof block** — immediately after the application. First, a row of video
+   case-study cards. Then, directly underneath, a centered two-column screenshot feed.
+   The screenshot wall stays unlabeled and image-led: no explanatory note cards, no
+   category chips, no mini captions per screenshot, and no public-work detours. The
+   screenshot itself is the proof. Default header in the canonical build:
+   `Don't just take my word for it`.
 9. **Closing CTA** — the same CTA, repeated. Same destination every time.
 10. **Footer** — brand line + a short results-vary disclaimer.
 
@@ -61,6 +62,7 @@ Top to bottom, one idea per screen:
   never above the video. Default to leaving it out.
 - **Proof is the backbone.** Grant's ~120-screenshot wall and Mason's "testimonial
   bombardment" are the same instinct. The page lives or dies on real proof volume.
+  The approved canonical shape is video case studies first, then screenshot spam.
   Public pages never announce missing proof: zero images means no proof section.
 - **Empty config means invisible.** Every config-mounted block ships hidden and reveals
   only when its config value is present and valid. No `wistia_media_id` means no video
@@ -98,8 +100,9 @@ Canonical tokens (from `output/standard-preview/templates/canonical/css/style.cs
   accent dots, pills, underlines, highlights, progress decoration, or gradients.
 - **Spacing:** one 8px scale, generous 80–112px section gaps, and no divider seams
   between sections.
-- **Proof feed:** three columns on wide screens, two on tablet, one at 640px and below;
-  8px gaps, natural image ratios, 1px borders, 8px radii, full-image links in a new tab.
+- **Proof feed:** case-study row first, then a centered two-column screenshot wall on
+  desktop, one column on mobile; tight gaps, natural image ratios, and zero explanatory
+  chrome around the screenshots.
 - Full-bleed off-white body — **not** a floating rounded card on a grey backdrop.
 - It should feel expensive because it is controlled, not because it is decorated.
 
@@ -113,10 +116,18 @@ not per page. The `output/merged-standard-mock/` files define the STRUCTURE; Cod
 
 ## Copy conventions
 
-- Testimonial/proof header: `People we've helped` (Luke style). Mason's
-  `Don't just take my word for it` is the accepted alternate.
+- Testimonial/proof header in the canonical build: `Don't just take my word for it`.
+  `People we've helped` remains an accepted alternate when the proof block is more
+  Luke-coded or when the copy needs to stay flatter.
 - All copy follows the Humanizer standard. No invented testimonials, figures, or claims —
   every proof slot must be replaced with the prospect's real material before launch.
+
+### Typeform demo rule
+
+Keep the Typeform-style first-question visual in the template fallback. The founder
+explicitly approved the "First, what should I call you?" style demo as the right visual
+stand-in before a real Typeform embed is wired. This is not a custom form doctrine. It
+is a mock-state rule for how the empty embed should present.
 
 ### Headline rule (2026-07-01, direct user correction)
 
@@ -192,8 +203,9 @@ a hand-copied HTML file per prospect. This is what makes both "pick a design" an
 "edit the copy yourself" work off the same system.
 
 - **Template sources:** `assets/landing-page-standard/canonical/` and `.../variant-02/`
-  (Codex owns these — design changes happen here, once, not per client). Both use
-  `{{TOKEN}}` placeholders for every piece of copy (headline, subhead, CTA, footer,
+  (Codex owns these — design changes happen here, once, not per client). The canonical
+  source is now the founder-approved Frank design promoted into placeholder form. Both
+  use `{{TOKEN}}` placeholders for every piece of copy (headline, subhead, CTA, footer,
   etc.) and the same `data-pulsify-wistia` / `data-pulsify-typeform` / `data-proof-tag`
   integration contract.
 - **Deployed copies:** `output/standard-preview/templates/{canonical,variant-02}/` — a
@@ -211,6 +223,14 @@ a hand-copied HTML file per prospect. This is what makes both "pick a design" an
   section (every token, labeled, with a hint on which are variant-02-only). Saves to
   the same `client_config` row as the integrations below it. No code deploy needed to
   change a headline or switch designs.
+
+## Variant-02 status
+
+`variant-02` is not the main design. Founder reaction on 2026-07-06 was that it "looks
+like ass," and the source audit supports that judgment: it drifts from the approved
+standard on typography, color system, background treatment, proof-slot labeling, and
+overall mood. Keep it parked as an experiment until it is rebuilt to justify its
+existence. Do not use it as the default starting point.
 
 ## Ownership
 

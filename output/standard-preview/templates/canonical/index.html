@@ -7,7 +7,7 @@
   <title>{{PAGE_TITLE}}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body
@@ -16,9 +16,11 @@
   data-api-origin="https://pulsify-funnels.pages.dev">
   <main>
     <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-glow" aria-hidden="true"></div>
       <div class="shell hero-shell">
         <div class="brand-mark">{{BRAND_MARK}}</div>
         <div class="audience-pill">
+          <span class="pulse-dot" aria-hidden="true"></span>
           {{AUDIENCE_PILL}}
         </div>
 
@@ -29,20 +31,29 @@
 
         <p class="hero-subhead">{{HERO_SUBHEAD}}</p>
 
-        <div class="training-frame" id="training" data-video-block hidden>
-          <div data-pulsify-wistia></div>
+        <div class="training-frame" id="training">
+          <div data-pulsify-wistia>
+            <div class="training-button" aria-hidden="true">
+              <span class="training-shade"></span>
+              <span class="play-disc">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+              </span>
+              <span class="training-copy">{{VIDEO_LABEL}}</span>
+            </div>
+          </div>
           <div class="training-note">
-            <span>{{VIDEO_NOTE_PRIMARY}}</span>
             <span>{{VIDEO_NOTE_SECONDARY}}</span>
           </div>
         </div>
-        <a class="primary-cta" href="#apply" data-application-cta hidden>{{HERO_CTA}}</a>
+
+        <a class="primary-cta" href="#apply">{{HERO_CTA}}</a>
       </div>
     </section>
 
-    <section class="application-section" id="apply" data-application-section aria-labelledby="apply-title" hidden>
+    <section class="application-section" id="apply" aria-labelledby="apply-title">
       <div class="shell">
         <div class="section-pill">
+          <span class="pulse-dot" aria-hidden="true"></span>
           {{APPLY_STEP_LABEL}}
         </div>
         <h2 id="apply-title">{{APPLY_HEADING}}</h2>
@@ -50,20 +61,76 @@
 
         <div class="application-embed">
           <div data-pulsify-typeform class="typeform-live"></div>
+          <div class="typeform-blank" aria-hidden="true">
+            <div class="tf-progress"><span></span></div>
+            <div class="tf-body">
+              <div class="tf-qnum">1 -></div>
+              <div class="tf-skel tf-skel-title"></div>
+              <div class="tf-skel tf-skel-sub"></div>
+              <div class="tf-field"></div>
+              <button class="tf-next" type="button" tabindex="-1">-></button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="proof-section" data-proof-section aria-labelledby="proof-title" hidden>
+    <section class="proof-section" aria-labelledby="proof-title">
       <div class="shell proof-shell">
-        <h2 id="proof-title">People we've helped</h2>
-        <div class="proof-feed" data-proof-feed></div>
+        <div class="section-pill">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          {{PROOF_KICKER}}
+        </div>
+        <h2 id="proof-title">{{PROOF_HEADING}}</h2>
+        <p class="section-intro wide">{{PROOF_INTRO}}</p>
+
+        <div class="case-study-grid" aria-label="Student video case study slots">
+          <article class="case-study-card" data-proof-tag="Video case study 01">
+            <div class="case-study-thumb">
+              <span class="proof-play" aria-hidden="true">▶</span>
+            </div>
+            <div class="case-study-copy">
+              <span>{{CASE_STUDY_LABEL}}</span>
+              <strong>{{CASE_STUDY_CARD_ONE}}</strong>
+            </div>
+          </article>
+          <article class="case-study-card" data-proof-tag="Video case study 02">
+            <div class="case-study-thumb">
+              <span class="proof-play" aria-hidden="true">▶</span>
+            </div>
+            <div class="case-study-copy">
+              <span>{{CASE_STUDY_LABEL}}</span>
+              <strong>{{CASE_STUDY_CARD_TWO}}</strong>
+            </div>
+          </article>
+          <article class="case-study-card" data-proof-tag="Video case study 03">
+            <div class="case-study-thumb">
+              <span class="proof-play" aria-hidden="true">▶</span>
+            </div>
+            <div class="case-study-copy">
+              <span>{{CASE_STUDY_LABEL}}</span>
+              <strong>{{CASE_STUDY_CARD_THREE}}</strong>
+            </div>
+          </article>
+        </div>
+
+        <div class="proof-grid" aria-label="Student screenshot proof wall">
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+        </div>
       </div>
     </section>
 
-    <section class="closing-section" data-application-cta aria-label="Apply now" hidden>
+    <section class="closing-section" aria-label="Final call to action">
       <div class="shell closing-shell">
         <a class="primary-cta" href="#apply">{{CLOSING_CTA}}</a>
+        <p>{{CLOSING_NOTE}}</p>
       </div>
     </section>
   </main>

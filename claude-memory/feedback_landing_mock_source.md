@@ -26,3 +26,17 @@ don't regenerate from a replica or from memory; (2) the mechanism/"model" sectio
 authority/trust strip are permanently rejected, never include them unless the user
 re-approves; (3) all building/coding goes to Codex per [[feedback_codex_builds_claude_specs]],
 Claude specs + reviews only.
+
+**UPDATE 2026-07-06 — landing pages are now fully Codex-owned; Claude does NOT build or
+touch them.** The founder + Codex reworked the Frank mock and reset the landing-page
+STANDARD (new spine: VSL hero -> Step 2 application -> student-proof-ONLY screenshot feed
+under Mason's "Don't just take my word for it" -> final CTA; announcement/authority/
+mechanism/public-work all gone). Codex is promoting that look into
+`assets/landing-page-standard/canonical/` + `output/standard-preview/templates/canonical/`
+and re-skinning variant-02 (the one I built, which the founder called out as bad). Direct
+founder instruction: do NOT touch the landing-page standard or any landing page, and do
+not propose changes — if the founder wants a change they tell Codex, not me. My session's
+`output/frank-outreach-mock/index.html` + the `frank-wieler.pages.dev` deploy were built
+off the OLD canonical and now predate the new standard — leave them; reconciling is Codex's
+call. My role on landing pages is now: check AGENT_CHAT.md for Codex's updates and stay out
+of the files.

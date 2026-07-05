@@ -9,34 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700;1,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <style>
-    .application-embed{ position:relative; min-height:540px; }
-    .typeform-live{ position:relative; z-index:2; width:100%; min-height:540px; }
-    .typeform-live:empty{ display:none; }
-    .typeform-blank{ position:absolute; inset:0; z-index:1; display:flex; flex-direction:column;
-      background:var(--white); border-radius:22px; overflow:hidden; box-shadow:var(--shadow); }
-    .tf-progress{ height:4px; background:var(--line); flex:none; }
-    .tf-progress span{ display:block; height:100%; width:14%; background:var(--blue); }
-    .tf-body{ position:relative; flex:1; display:flex; flex-direction:column; justify-content:center;
-      gap:16px; padding:56px 64px 72px; }
-    .tf-qnum{ font-size:14px; font-weight:800; color:var(--blue); letter-spacing:.02em; }
-    .tf-skel{ height:22px; max-width:520px; border-radius:6px; background:linear-gradient(90deg,#eef0f6,#f6f7fb,#eef0f6);
-      background-size:200% 100%; animation:tfShimmer 1.8s ease-in-out infinite; }
-    .tf-skel-title{ width:70%; height:30px; }
-    .tf-skel-sub{ width:42%; }
-    .tf-field{ margin-top:10px; height:44px; max-width:420px; border-bottom:2px solid var(--line); }
-    .tf-next{ position:absolute; right:32px; bottom:28px; width:52px; height:52px; border-radius:50%; border:0;
-      background:var(--blue); color:#fff; font-size:20px; line-height:1; cursor:default;
-      box-shadow:0 12px 28px rgba(38,33,103,.28); }
-    .tf-brandmark{ position:absolute; left:28px; bottom:26px; font-size:11px; font-weight:700;
-      letter-spacing:.04em; color:#c7c9d6; text-transform:lowercase; }
-    @keyframes tfShimmer{ 0%{ background-position:200% 0; } 100%{ background-position:-200% 0; } }
-    @media (prefers-reduced-motion: reduce){
-      .tf-skel{ animation:none; background:#eef0f6; }
-    }
-    .training-frame{ position:relative; min-height:1px; }
-    [data-pulsify-wistia]{ width:100%; overflow:hidden; border-radius:14px; background:#111; }
-  </style>
 </head>
 <body
   data-client="{{CLIENT_SLUG}}"
@@ -66,13 +38,14 @@
               <span class="play-disc">
                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
               </span>
+              <span class="training-copy">{{VIDEO_LABEL}}</span>
             </div>
           </div>
           <div class="training-note">
-            <span>{{VIDEO_NOTE_PRIMARY}}</span>
             <span>{{VIDEO_NOTE_SECONDARY}}</span>
           </div>
         </div>
+
         <a class="primary-cta" href="#apply">{{HERO_CTA}}</a>
       </div>
     </section>
@@ -91,12 +64,11 @@
           <div class="typeform-blank" aria-hidden="true">
             <div class="tf-progress"><span></span></div>
             <div class="tf-body">
-              <div class="tf-qnum">1 &rarr;</div>
+              <div class="tf-qnum">1 -></div>
               <div class="tf-skel tf-skel-title"></div>
               <div class="tf-skel tf-skel-sub"></div>
               <div class="tf-field"></div>
-              <button class="tf-next" type="button" tabindex="-1">&rarr;</button>
-              <span class="tf-brandmark">typeform</span>
+              <button class="tf-next" type="button" tabindex="-1">-></button>
             </div>
           </div>
         </div>
@@ -105,25 +77,60 @@
 
     <section class="proof-section" aria-labelledby="proof-title">
       <div class="shell proof-shell">
-        <h2 id="proof-title">People we've helped</h2>
+        <div class="section-pill">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          {{PROOF_KICKER}}
+        </div>
+        <h2 id="proof-title">{{PROOF_HEADING}}</h2>
+        <p class="section-intro wide">{{PROOF_INTRO}}</p>
 
-        <div class="proof-grid" aria-label="Proof media slots">
-          <article class="proof-slot" data-proof-tag="Payment proof"><span class="proof-tag">Payment proof</span></article>
-          <article class="proof-slot" data-proof-tag="Store dashboard"><span class="proof-tag">Store dashboard</span></article>
-          <article class="proof-slot" data-proof-tag="Student DM"><span class="proof-tag">Student DM</span></article>
-          <article class="proof-slot" data-proof-tag="Before / after"><span class="proof-tag">Before / after</span></article>
-          <article class="proof-slot" data-proof-tag="Ad results"><span class="proof-tag">Ad results</span></article>
-          <article class="proof-slot" data-proof-tag="Raw clip"><span class="proof-tag">Raw clip</span></article>
-          <article class="proof-slot" data-proof-tag="Payout screenshot"><span class="proof-tag">Payout screenshot</span></article>
-          <article class="proof-slot" data-proof-tag="Order volume"><span class="proof-tag">Order volume</span></article>
+        <div class="case-study-grid" aria-label="Student video case study slots">
+          <article class="case-study-card" data-proof-tag="Video case study 01">
+            <div class="case-study-thumb">
+              <span class="proof-play" aria-hidden="true">▶</span>
+            </div>
+            <div class="case-study-copy">
+              <span>{{CASE_STUDY_LABEL}}</span>
+              <strong>{{CASE_STUDY_CARD_ONE}}</strong>
+            </div>
+          </article>
+          <article class="case-study-card" data-proof-tag="Video case study 02">
+            <div class="case-study-thumb">
+              <span class="proof-play" aria-hidden="true">▶</span>
+            </div>
+            <div class="case-study-copy">
+              <span>{{CASE_STUDY_LABEL}}</span>
+              <strong>{{CASE_STUDY_CARD_TWO}}</strong>
+            </div>
+          </article>
+          <article class="case-study-card" data-proof-tag="Video case study 03">
+            <div class="case-study-thumb">
+              <span class="proof-play" aria-hidden="true">▶</span>
+            </div>
+            <div class="case-study-copy">
+              <span>{{CASE_STUDY_LABEL}}</span>
+              <strong>{{CASE_STUDY_CARD_THREE}}</strong>
+            </div>
+          </article>
+        </div>
+
+        <div class="proof-grid" aria-label="Student screenshot proof wall">
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
+          <article class="proof-slot" data-proof-tag="Student win screenshot"><span>Student win screenshot</span></article>
         </div>
       </div>
     </section>
 
-    <section class="closing-section" aria-label="Apply now">
-      <div class="closing-glow" aria-hidden="true"></div>
+    <section class="closing-section" aria-label="Final call to action">
       <div class="shell closing-shell">
         <a class="primary-cta" href="#apply">{{CLOSING_CTA}}</a>
+        <p>{{CLOSING_NOTE}}</p>
       </div>
     </section>
   </main>
