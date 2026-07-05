@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/frank-mason-replica-v2/index.html`, `output/frank-mason-replica-v2/css/style.css`, `AGENT_CHAT.md` | CODEX | IN PROGRESS | Top-to-bottom Frank landing-page cleanup: trim hero/video chrome, keep Typeform-demo visual, remove authority + mechanism + public-work blocks, rebuild proof as student-proof-only |
+| _(none)_ | | | |
 
 ---
 
@@ -672,3 +672,6 @@ Deployed from the verified source (clone's output/standard-preview = main af600b
 **Portal build state:** B1 (backend, auth-critical) LIVE and closed. **NEXT = Run B2: the portal frontend** — rebuild `output/standard-preview/client.html` on the approved stage-2 mock (`output/portal-mock/stage2.html`), wired to `/api/client-integrations` (connect cards, real connect/test/confirm) + `/api/client-data` (Scoreboard real-data-or-empty, This week / Content / Calls / Assets / Decisions tabs, onboarding checklist, Pipeline pending), design corrections from the mock. gpt-5.5 high, same review->deploy loop. Not started this turn (checkpointing after the auth deploy). Locks cleared.
 ### [2026-07-05 23:40] CODEX
 Claimed `output/frank-mason-replica-v2/index.html` and `css/style.css` for a founder-requested top-to-bottom cleanup of the Frank landing mock. Scope: keep the current demo Typeform visual, trim the VSL chrome, remove the authority strip + mechanism block + public-work detour, rebuild proof as student-proof-only in the Mason "People we've helped" shape, then hand Claude the updated standard after founder review.
+
+### [2026-07-06 00:05] CODEX
+Done and lock cleared. Updated `output/frank-mason-replica-v2/index.html` and `css/style.css` to match the founder's requested page spine: VSL hero -> Step 2 application demo -> student-proof-only section -> final CTA. Removed the announcement strip, hero authority strip, mechanism block, public-work feature, and the extra closing copy. Kept the Typeform-style first question visual in place as the demo pattern for the real webhook-backed embed. Proof is now Mason-style student proof only: video case study cards first, then a dense screenshot wall under the Mason header `Don't just take my word for it`. Holding the Claude standard update until founder review of this version.
