@@ -92,7 +92,10 @@
     },
   };
 
-  if (draftMode) addEventListener("message", receiveDraft);
+  if (draftMode) {
+    addEventListener("message", receiveDraft);
+    enablePreviewEditorMap();
+  }
   trackPageView();
   bindCtas();
   bindOptins();
@@ -174,6 +177,52 @@
     mountProofImages(draft.proof_images);
     mountWistia(draft.wistia_media_id);
     mountTypeform(draft.typeform_url);
+  }
+
+  function enablePreviewEditorMap() {
+    const style = document.createElement("style");
+    style.textContent = `
+      [data-token], [data-pulsify-wistia], [data-pulsify-typeform], [data-proof-section]{
+        cursor:pointer;
+      }
+      [data-token]:hover,
+      [data-pulsify-wistia]:hover,
+      [data-pulsify-typeform]:hover,
+      [data-proof-section]:hover{
+        outline:2px solid rgba(104,113,244,.28);
+        outline-offset:4px;
+      }
+    `;
+    document.head.appendChild(style);
+    document.addEventListener("click", handlePreviewEditorClick);
+  }
+
+  function handlePreviewEditorClick(event) {
+    const tokenElement = event.target.closest("[data-token]");
+    if (tokenElement) {
+      event.preventDefault();
+      sendEditorFocus({ type: "pulsify-focus-token", token: tokenElement.dataset.token });
+      return;
+    }
+    if (event.target.closest("[data-pulsify-wistia], [data-video-block]")) {
+      event.preventDefault();
+      sendEditorFocus({ type: "pulsify-focus-field", field: "wistia_media_id" });
+      return;
+    }
+    if (event.target.closest("[data-pulsify-typeform], [data-application-section], [data-application-cta]")) {
+      event.preventDefault();
+      sendEditorFocus({ type: "pulsify-focus-field", field: "typeform_url" });
+      return;
+    }
+    if (event.target.closest("[data-proof-section], [data-proof-feed], .proof-slot")) {
+      event.preventDefault();
+      sendEditorFocus({ type: "pulsify-focus-field", field: "proof_images" });
+    }
+  }
+
+  function sendEditorFocus(payload) {
+    if (window.parent === window) return;
+    window.parent.postMessage(payload, location.origin);
   }
 
   function mountWistia(mediaId) {

@@ -687,3 +687,9 @@ Claimed the canonical landing-page template + standard docs. Founder approved th
 
 ### [2026-07-06 00:42] CODEX
 Done and lock cleared. Canonical landing-page direction is now the founder-approved Frank build moving forward. I synced the provisioning/editor token layer to that direction (`output/standard-preview/functions/index.js`, both provision-prompt twins, and `admin/console.js`) so the system recognizes the new canonical fields instead of drifting back to the older proof/header assumptions. Variant-02 audit result: it is not one bug, it is a full art-direction miss against the approved standard - different fonts, different color mood, paper/grid treatment, labeled proof taxonomy, and a SaaS/editorial feel that fights the Mason/Grant/Fable-plain conversion look. Treat it as parked until rebuilt; do not use it as the default.
+
+### [2026-07-06 00:56] CODEX
+Claimed `/admin` preview plumbing. Founder wants the right-hand live preview to reflect the approved canonical landing-page changes and pushed the better product idea: edit the page by using the page itself. Implementing the first practical step - clickable preview mappings back to the correct fields (text tokens, Wistia, Typeform, proof wall) so `/admin` behaves more like a page builder than a blind form.
+
+### [2026-07-06 01:09] CODEX
+Done and lock cleared. Fixed the canonical preview wiring gap by restoring the mount attributes the integration layer expects (`data-video-block`, `data-application-section`, `data-application-cta`, `data-proof-section`, `data-proof-feed`) in both canonical template copies. Also turned the `/admin` live preview into a first-step page builder: clicking editable text in the preview now jumps to the matching content field on the left, and clicking the video, Typeform block, or proof wall jumps to the Wistia, Typeform, or proof-image inputs. This keeps `/admin` as the real editing surface while making the page itself the navigation map.

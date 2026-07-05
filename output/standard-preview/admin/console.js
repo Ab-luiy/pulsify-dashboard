@@ -292,6 +292,7 @@
     $("lockButton").addEventListener("click", () => lockConsole(""));
     window.addEventListener("hashchange", routeFromHash);
     window.addEventListener("resize", syncPreviewUi);
+    window.addEventListener("message", handlePreviewMessage);
 
     $("sharedClient").addEventListener("change", async (event) => {
       state.client = event.target.value;
@@ -1726,6 +1727,43 @@
     const frame = $("livePreviewFrame");
     if (!frame.contentWindow || !frame.getAttribute("src")) return;
     frame.contentWindow.postMessage(currentDraftPayload(), location.origin);
+  }
+
+  function handlePreviewMessage(event) {
+    const frame = $("livePreviewFrame");
+    if (
+      event.origin !== location.origin ||
+      event.source !== frame.contentWindow ||
+      !event.data ||
+      state.route !== "clients"
+    ) return;
+
+    if (event.data.type === "pulsify-focus-token" && event.data.token) {
+      focusEditorField(document.querySelector(`.content-field[data-content-key="${event.data.token}"]`));
+      return;
+    }
+
+    if (event.data.type === "pulsify-focus-field") {
+      if (event.data.field === "wistia_media_id") {
+        focusEditorField($("wistiaMediaId"));
+        return;
+      }
+      if (event.data.field === "typeform_url") {
+        focusEditorField($("typeformUrl"));
+        return;
+      }
+      if (event.data.field === "proof_images") {
+        focusEditorField(document.querySelector(".proof-image-input"));
+      }
+    }
+  }
+
+  function focusEditorField(element) {
+    if (!element) return;
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+    element.focus({ preventScroll: true });
+    element.classList.add("field-jump");
+    window.setTimeout(() => element.classList.remove("field-jump"), 900);
   }
 
   function currentDraftPayload() {
