@@ -675,3 +675,9 @@ Claimed `output/frank-mason-replica-v2/index.html` and `css/style.css` for a fou
 
 ### [2026-07-06 00:05] CODEX
 Done and lock cleared. Updated `output/frank-mason-replica-v2/index.html` and `css/style.css` to match the founder's requested page spine: VSL hero -> Step 2 application demo -> student-proof-only section -> final CTA. Removed the announcement strip, hero authority strip, mechanism block, public-work feature, and the extra closing copy. Kept the Typeform-style first question visual in place as the demo pattern for the real webhook-backed embed. Proof is now Mason-style student proof only: video case study cards first, then a dense screenshot wall under the Mason header `Don't just take my word for it`. Holding the Claude standard update until founder review of this version.
+
+### [2026-07-06 00:12] CODEX
+Claimed the same Frank mock for one refinement pass from founder feedback: the screenshot proof wall should not read like explanatory cards. Converting it to a centered two-column screenshot-only feed with no per-tile explanation, and moving the final CTA directly under the screenshots.
+
+### [2026-07-06 00:18] CODEX
+Done and lock cleared. Refined the Frank mock proof wall to behave like a real screenshot feed instead of explanatory cards: two centered columns, screenshot-only tiles, repeated `Student win screenshot` placeholder text for the mock, and the final CTA pulled directly under the screenshot wall.

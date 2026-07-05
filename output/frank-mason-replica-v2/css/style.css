@@ -536,8 +536,7 @@ p {
   padding: 22px;
 }
 
-.case-study-copy span,
-.proof-divider span {
+.case-study-copy span {
   color: var(--blue);
   font-size: 11px;
   font-weight: 800;
@@ -554,37 +553,23 @@ p {
   letter-spacing: -0.03em;
 }
 
-.proof-divider {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  width: min(980px, 100%);
-  margin: 0 auto 24px;
-}
-
-.proof-divider::before,
-.proof-divider::after {
-  flex: 1;
-  height: 1px;
-  background: var(--line);
-  content: "";
-}
-
 .proof-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 320px));
+  justify-content: center;
   gap: 12px;
-  width: min(980px, 100%);
+  width: min(760px, 100%);
   margin: 0 auto;
-  text-align: left;
+  text-align: center;
 }
 
 .proof-slot {
-  min-height: 180px;
+  display: grid;
+  min-height: 220px;
   padding: 20px;
+  place-items: center;
   border: 1px solid var(--line);
   border-radius: 14px;
-  color: #1a1e28;
   background:
     linear-gradient(rgba(104, 113, 244, 0.028) 1px, transparent 1px),
     linear-gradient(90deg, rgba(104, 113, 244, 0.028) 1px, transparent 1px),
@@ -592,22 +577,14 @@ p {
   background-size: 24px 24px;
 }
 
-.proof-slot strong {
-  display: block;
-  margin: 0 0 10px;
-  font-size: 16px;
-  line-height: 1.35;
-}
-
-.proof-slot p {
-  margin: 0;
-  color: #777e8c;
-  font-size: 12px;
-  line-height: 1.55;
+.proof-slot span {
+  color: #5c6270;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .closing-section {
-  padding: 72px 0 88px;
+  padding: 24px 0 88px;
   text-align: center;
 }
 
@@ -653,7 +630,8 @@ footer {
 
 @media (max-width: 820px) {
   .proof-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 760px);
   }
 
   .case-study-grid {
@@ -774,7 +752,7 @@ footer {
   }
 
   .proof-slot {
-    min-height: 150px;
+    min-height: 170px;
   }
 
   .closing-section {
