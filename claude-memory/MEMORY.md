@@ -1,6 +1,6 @@
 ﻿# Memory index
 
-- [Landing mock source rule](feedback_landing_mock_source.md) - 2026-07-05: build Frank/landing outreach mocks from the APPROVED canonical template only; the mechanism/"model" section + hero authority/trust strip are permanently rejected (keep sneaking back when I rebuild from replica-v2); all coding to Codex
+- [Landing mock source rule](feedback_landing_mock_source.md) - 2026-07-05/06: landing pages + the whole landing-page STANDARD are now fully Codex-owned — Claude does NOT build or touch them, founder routes changes to Codex; standard reset 2026-07-06 (student-proof-only spine, Codex reskinning variant-02); my frank-outreach-mock + frank-wieler.pages.dev predate it, leave them
 
 - [Operator console + wizard](project_operator_console.md) - 2026-07-04: /admin unifies all 4 admin pages on pulsify-funnels + 8-step add-client wizard, both live; ADMIN_KEY recovered from old transcript (user holds it); multitest junk row pending delete
 - [Fable handoff brief](project_fable_handoff.md) - 2026-07-04: parting judgment doc at wiki/synthesis/fable-handoff-2026-07-04.md; core rule = new builds gate on "does this start a conversation this week"; read it when setting priorities
