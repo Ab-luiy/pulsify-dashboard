@@ -83,6 +83,30 @@ export const PROVIDERS = {
       return Boolean(record.secrets.path_secret || record.secrets.webhook_secret);
     },
   },
+  youtube: {
+    scope: "client",
+    configFields: ["confirmed", "confirmed_at", "channel_note"],
+    secretFields: [],
+    clientConnected(record) {
+      return Boolean(record.config.confirmed);
+    },
+  },
+  instagram: {
+    scope: "client",
+    configFields: ["confirmed", "confirmed_at", "channel_note"],
+    secretFields: [],
+    clientConnected(record) {
+      return Boolean(record.config.confirmed);
+    },
+  },
+  zapier: {
+    scope: "client",
+    configFields: ["note"],
+    secretFields: ["webhook_url"],
+    clientConnected(record) {
+      return Boolean(record.secrets.webhook_url);
+    },
+  },
 };
 
 export function validateProvider(provider, scope) {
@@ -416,7 +440,7 @@ export async function getClientIntegrationStatuses(env, client) {
     }
   }
 
-  return ["kit", "calcom", "calendly", "whop", "stripe"]
+  return ["kit", "calcom", "calendly", "whop", "stripe", "youtube", "instagram", "zapier"]
     .map((provider) => statuses.get(provider))
     .filter(Boolean);
 }
