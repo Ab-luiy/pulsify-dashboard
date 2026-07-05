@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Landing mock source rule](feedback_landing_mock_source.md) - 2026-07-05: build Frank/landing outreach mocks from the APPROVED canonical template only; the mechanism/"model" section + hero authority/trust strip are permanently rejected (keep sneaking back when I rebuild from replica-v2); all coding to Codex
+
 - [Operator console + wizard](project_operator_console.md) - 2026-07-04: /admin unifies all 4 admin pages on pulsify-funnels + 8-step add-client wizard, both live; ADMIN_KEY recovered from old transcript (user holds it); multitest junk row pending delete
 - [Fable handoff brief](project_fable_handoff.md) - 2026-07-04: parting judgment doc at wiki/synthesis/fable-handoff-2026-07-04.md; core rule = new builds gate on "does this start a conversation this week"; read it when setting priorities
 - [Claude writes copy](feedback_claude_writes_copy.md) - 2026-07-04: all client-facing copy is Claude-written in-session (brief in chat -> JSON -> page via API); Gemini key only a fallback, never push it for copy
