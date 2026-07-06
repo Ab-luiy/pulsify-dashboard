@@ -1,14 +1,14 @@
 {
-  "scrapedAt": "2026-06-29",
-  "scrapedAtFull": "2026-06-29T10:27:57+00:00",
-  "count": 489,
-  "newThisRun": 136,
+  "scrapedAt": "2026-07-06",
+  "scrapedAtFull": "2026-07-06T10:01:26+00:00",
+  "count": 715,
+  "newThisRun": 344,
   "niches": [
     "trading",
     "ecom",
     "fba"
   ],
-  "queriesRun": 22,
+  "queriesRun": 50,
   "filters": {
     "min_subs": 300,
     "max_subs": 500000,
