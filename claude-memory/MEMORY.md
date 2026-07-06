@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Funnel view-tracking](project_funnel_view_tracking.md) - 2026-07-06: shipped per-prospect watch drill-down (/admin "Pages sent" -> View activity), off-page asset tracking (/a/{token} redirect links + Tracked assets panel), IP/geo on events; migration 0010 on pulsify-portal, deployed to pulsify-funnels, landed main bf173ea; the base tracking pipe already existed and was just buried
+
 - [Batch outreach workflow](project_batch_outreach_workflow.md) - 2026-07-05: user vets+picks leads himself (human "is this a good lead" stage stays with him), then pastes me a batch block (LEAD/BRIEF/PROBLEM/ASSET) and I generate all assets in one pass; chat version first, only build a Lead Studio batch button if it earns it
 
 - [Landing mock source rule](feedback_landing_mock_source.md) - 2026-07-05/06: landing pages + the whole landing-page STANDARD are now fully Codex-owned — Claude does NOT build or touch them, founder routes changes to Codex; standard reset 2026-07-06 (student-proof-only spine, Codex reskinning variant-02); my frank-outreach-mock + frank-wieler.pages.dev predate it, leave them
