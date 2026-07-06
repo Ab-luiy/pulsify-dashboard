@@ -18,7 +18,11 @@ The DM is the first three or four words a creator sees in an IG request preview.
 
 ## The five beats
 
-1. **Casual opener.** `yo been deep in your vids this week.` Lowercase, peer, no name-drop, no quote. The first words have to read like a real person, not a pitch, because that's all the IG preview shows.
+1. **Casual opener.** Lowercase, peer, no name-drop, no quote. The first words have to read like a real person, not a pitch, because that's all the IG preview shows. The lane is understated and lightly self-deprecating (you got pulled in), never fawning. Founder-approved default rotation (2026-07-06):
+   - `ngl your channel kinda took over my week` (the favorite)
+   - `not gonna lie your vids kinda hijacked my week`
+
+   Both work because they admit you watched a lot without gushing about the creator. Rotate between them; a stronger, less-glazing "rabbit hole" variant (`went down a bit of a rabbit hole on your channel this week`) is a fallback. Retired: `yo been deep in your vids this week` (fine, but flatter than the approved two).
 2. **Genuine reference plus a plain nod.** `the way you run products at break even and let the recurring carry it, really like that.` One specific detail pulled from an actual video, transcript, or the Lead Studio profile. It proves you watched past the thumbnail. A plain "really like it," never glazing ("smartest thing in the niche").
 3. **Soft gap, framed as opportunity not flaw.** `also noticed you don't really have a page that captures people and educates them on what you can help with.` Never name the gap as a failure. Never mention a dead IG or a bad funnel. The gap is an opening, not a verdict.
 4. **The gift.** `so i just went ahead and put one together for you real quick.`
@@ -32,7 +36,7 @@ Fill the brackets:
 
 ## Worked example — Frank Wieler (real)
 
-> yo been deep in your vids this week. the way you run products at break even and let the recurring carry it, really like that. also noticed you don't really have a page that captures people and educates them on the model, so i just put one together for you. it's 100% yours, take a look and lmk what you think [frank-wieler.pages.dev]
+> not gonna lie your vids kinda hijacked my week. the way you run products at break even and let the recurring carry it, really like that. also noticed you don't really have a page that captures people and educates them on the model, so i just put one together for you. it's 100% yours, take a look and lmk what you think [frank-wieler.pages.dev]
 
 The reference is Frank's own least-obvious take (break-even ROAS, let the MRR carry it — from [[raw-sources/client-raw/frank-wieler/profile.md]]), which is exactly the detail that can't be faked from a thumbnail. That is what earns a nine-figure-brained operator's reply.
 
