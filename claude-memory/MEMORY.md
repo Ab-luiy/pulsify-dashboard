@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Cold DM formula](feedback_cold_dm_formula.md) - 2026-07-06: the repeatable casual-peer gift-first cold DM voice the founder locked (5 beats: opener, one specific reference in the middle, soft opportunity-gap, the gift, ownership+soft CTA); lowercase, no em-dashes, never name the gap as a flaw, drop link but invite reply, 30-45 words; codified at wiki/content-engine/cold-dm-formula.md, supersedes pulse-system-outreach's DM voice
+
 - [Funnel view-tracking](project_funnel_view_tracking.md) - 2026-07-06: shipped per-prospect watch drill-down (/admin "Pages sent" -> View activity), off-page asset tracking (/a/{token} redirect links + Tracked assets panel), IP/geo on events; migration 0010 on pulsify-portal, deployed to pulsify-funnels, landed main bf173ea; the base tracking pipe already existed and was just buried
 
 - [Batch outreach workflow](project_batch_outreach_workflow.md) - 2026-07-05: user vets+picks leads himself (human "is this a good lead" stage stays with him), then pastes me a batch block (LEAD/BRIEF/PROBLEM/ASSET) and I generate all assets in one pass; chat version first, only build a Lead Studio batch button if it earns it

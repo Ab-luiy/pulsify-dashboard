@@ -92,6 +92,8 @@ preview, proof placeholders, and one CTA must already exist.
 
 ### Step 4 — The DM (the asset is the message)
 
+> ⚠️ Superseded for DM voice (2026-07-06): the founder moved cold DMs to a warmer casual-peer voice with a genuine content compliment and a soft reply-inviting close. Use [[content-engine/cold-dm-formula]] as the current standard for first-touch DMs. The diagnostic Format A / Format B copy below is retired for DMs; the surrounding research, follow-up, and call steps in this playbook still stand.
+
 No permission asked. No "want me to send it over?" The opener is the asset link. Two formats — pick by prospect temperature.
 
 **Format A — Direct (cold prospects):**

@@ -85,6 +85,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[content-engine/content-pillars]] | How to define, document, and execute from 3–5 topic pillars that generate all content | 2026-05-02 |
 | [[content-engine/packaging-rules]] | Four-word title rule, face on camera, hook mechanics, open loops, editing by audience type | 2026-05-02 |
 | [[content-engine/copy-voice-guide]] | Default voice for all shipped copy — the AI tells to kill (negative parallelism, em-dash addiction, copula dodge, false suspense, bold-lead bullets) with a pre-send checklist; cross-checked against CLAUDE.md voice rules and packaging-rules | 2026-06-01 |
+| [[content-engine/cold-dm-formula]] | Casual-peer gift-first cold DM formula (5 beats: opener, genuine reference, soft gap, the gift, ownership+soft CTA); supersedes pulse-system-outreach's diagnostic DM voice; template + Frank worked example + grading rubric | 2026-07-06 |
 | [[content-engine/pulsify-vsl-v1]] | First Pulsify VSL draft for affluent coaches stuck around $10K-$35K/month | 2026-05-08 |
 | [[content-engine/pulsify-vsl-v2]] | Second Pulsify VSL draft tightening the AI infrastructure mechanism and offer flow | 2026-05-08 |
 | [[content-engine/pulsify-vsl-v3]] | Third Pulsify VSL draft with stronger diagnosis, cleaner mechanism reveal, and Nick proof | 2026-05-08 |
