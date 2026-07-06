@@ -64,6 +64,37 @@ Used when iterating a draft:
 - -points for em-dashes, glazing, naming the gap as a flaw, or a reference so generic it could be sent to anyone.
 - A 95 = real specific detail + ego-safe + tight + reply-inviting close.
 
+## Cold email variant
+
+Same voice, same five beats. Email adds two things: a subject line and a sign-off. Everything between them is the DM with line breaks. (2026-07-06: no cold-email asset existed before this — the Ben Bader swipe file is warm-list nurture, hammer-them is post-booking. This variant ports the DM formula into email.)
+
+**Subject line — the open-decider.** Lowercase, short, curiosity, never salesy. Two lanes:
+
+- **Curiosity:** `made you something`, `you're leaving money in the description`. Gives nothing away, safe, pairs with any body.
+- **Witty situation-metaphor (customizable, founder-approved 2026-07-06):** `million dollar model, no front door`, `ferrari engine, bicycle brakes`, `you built the engine, forgot the keys`, `great model, nowhere to send people`. These are a pattern, not fixed lines. Shape: **[their impressive result/model] + [the missing or broken container]**, or **[premium engine] + [cheap failure point]**. Swap both halves per creator. Aimed at the situation, never the person — playful, not an insult. These dig into the pain without naming a flaw.
+
+**One-joke rule.** A witty subject plus the witty opener is two jokes before he reads a sentence. Pick one: witty subject with a straight body open, or a curiosity subject and let the body carry the one joke. One witty element total.
+
+**Sign-off.** Lowercase first name. No title, no "best regards."
+
+### Worked example — Frank (tuned)
+
+> subject: you built the engine, forgot the keys
+>
+> not gonna lie your vids kinda hijacked my week. the way you run products at break even and let the recurring carry it, really like that.
+>
+> also noticed there's no real page capturing people and walking them through the model, so i went ahead and built you one.
+>
+> it's 100% yours. take a look and lmk what you think:
+>
+> [link]
+>
+> — [name]
+
+Note the tightening from the raw DM port: dropped the doubled connector ("anyway i also"), swapped "educates them on" for the warmer "walking them through," trimmed the gift to "went ahead and built you one," and gave "it's 100% yours." its own beat with a period.
+
+**Deploy risk (not copy).** A cold email with a single bare link to a fresh `.pages.dev` domain is a spam trigger, and deliverability tanks without SPF/DKIM/DMARC on the sending domain. A single hand-sent email from a normal inbox lands fine; batch sends need the sending infrastructure set up first. This is a separate, unsolved setup item — do not treat the copy being ready as the send being safe at volume.
+
 ## How Pulsify uses this
 
 This is the default cold-DM generator. The founder vets and picks the lead (the human "is this a good lead" call stays with him), then hands over the creator plus a transcript or their top video. I pull the one specific reference and produce the DM at a 95. The asset it points to is usually the pre-built landing page (Codex-owned, per [[playbooks/pulse-system-outreach]] and the landing-page standard). Email uses the same five beats with a different opener so the same person sees fresh copy on both channels.
