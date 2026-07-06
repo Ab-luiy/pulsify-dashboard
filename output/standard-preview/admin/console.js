@@ -34,6 +34,8 @@
     currentConfig: null,
     homeConfigs: new Map(),
     activity: [],
+    campaignSummary: {},
+    trackedAssets: [],
   };
 
   const deliveryState = {
@@ -45,6 +47,7 @@
 
   const integrationRecords = new Map();
   let lastProvisionResult = null;
+  let activityDrawerReturnFocus = null;
 
   const wizardState = {
     step: 1,
@@ -297,6 +300,7 @@
     $("sharedClient").addEventListener("change", async (event) => {
       state.client = event.target.value;
       writeClientQuery();
+      syncAssetClientOptions();
       resetDeliveryForm();
       await loadCurrentRoute();
     });
@@ -308,6 +312,14 @@
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
+    $("assetForm").addEventListener("submit", createTrackedAsset);
+    $("copyAssetResultButton").addEventListener("click", () => copyTrackedAsset($("assetResultUrl").value));
+    $("assetRows").addEventListener("click", handleTrackedAssetAction);
+    $("closeActivityDrawerButton").addEventListener("click", closeActivityDrawer);
+    $("activityDrawerBackdrop").addEventListener("click", closeActivityDrawer);
+    $("activityDrawer").addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeActivityDrawer();
+    });
 
     $("clientId").addEventListener("input", () => {
       updatePreviewLinks();
@@ -478,6 +490,7 @@
       document.body.classList.remove("wizard-open");
     }
     if (!$("deleteDialog").hidden) closeDeleteDialog(false, true);
+    if (!$("activityDrawer").hidden) closeActivityDrawer();
     $("shell").hidden = true;
     $("authScreen").hidden = false;
     $("adminKey").value = "";
@@ -529,7 +542,20 @@
     $("clientCards").hidden = noClient;
     $("markPaidPanel").hidden = noClient;
     $("homeClientsEmpty").hidden = state.clients.length > 0;
+    syncAssetClientOptions();
     renderDangerZone();
+  }
+
+  function syncAssetClientOptions() {
+    const select = $("assetClient");
+    if (!select) return;
+    select.innerHTML = [
+      '<option value="">Unassigned</option>',
+      ...state.clients.map((client) =>
+        `<option value="${esc(client.client)}">${esc(client.client_name || client.client)}</option>`
+      ),
+    ].join("");
+    select.value = state.clients.some((client) => client.client === state.client) ? state.client : "";
   }
 
   function renderDangerZone() {
@@ -694,6 +720,7 @@
     $("routeEyebrow").textContent = ROUTES[state.route][0];
     $("routeTitle").textContent = ROUTES[state.route][1];
     if (state.route !== "clients") closeLivePreview();
+    if (state.route !== "campaigns" && !$("activityDrawer").hidden) closeActivityDrawer();
     syncPreviewUi();
     if (state.key) loadCurrentRoute();
   }
@@ -716,8 +743,9 @@
     button.disabled = true;
     $("attentionCount").textContent = "Loading";
     try {
-      const [activityResponse, configResults] = await Promise.all([
+      const [activityResponse, campaignResponse, configResults] = await Promise.all([
         api("/api/activity"),
+        api("/api/campaigns"),
         Promise.all(state.clients.map(async (client) => {
           try {
             const response = await api(`/api/settings?client=${encodeURIComponent(client.client)}`);
@@ -731,11 +759,16 @@
         })),
       ]);
       const activityData = await activityResponse.json().catch(() => ({}));
+      const campaignData = await campaignResponse.json().catch(() => ({}));
       if (!activityResponse.ok || !activityData.ok) {
         throw new Error(activityData.error || "Could not load activity.");
       }
+      if (!campaignResponse.ok || !campaignData.ok) {
+        throw new Error(campaignData.error || "Could not load page activity.");
+      }
       state.homeConfigs = new Map(configResults);
       state.activity = Array.isArray(activityData.activity) ? activityData.activity : [];
+      state.campaignSummary = campaignData.summary || {};
       renderHome();
     } finally {
       button.disabled = false;
@@ -743,6 +776,8 @@
   }
 
   function renderHome() {
+    $("homeTrackingStat").textContent =
+      `${number(state.campaignSummary.pages_with_activity)} of ${number(state.campaignSummary.total_pages)}`;
     const failuresByClient = new Map();
     state.activity
       .filter((item) => item.kind === "failure")
@@ -1536,7 +1571,7 @@
   function renderWizardSummary() {
     $("wizardSummary").innerHTML = wizardChecklist(wizardState.config).map((item) => `
       <div class="wizard-summary-row${item.set ? "" : " pending"}">
-        <span class="wizard-summary-icon" aria-hidden="true">${item.set ? "✓" : "+"}</span>
+        <span class="wizard-summary-icon" aria-hidden="true">${item.set ? "OK" : "+"}</span>
         <span><strong>${esc(item.label)}</strong><small>${esc(item.detail)}</small></span>
         <span class="wizard-summary-status">${item.set ? "Set" : "To add later"}</span>
       </div>
@@ -2425,8 +2460,10 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || "Could not load campaigns.");
       state.campaigns = data.campaigns || [];
+      state.campaignSummary = data.summary || {};
       renderCampaignSummary(data.summary || {});
       renderCampaignRows();
+      await loadTrackedAssets();
       $("campaignUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
       $("campaignUpdated").className = "status-pill success";
     } finally {
@@ -2462,7 +2499,7 @@
   function renderCampaignRows() {
     $$(".sort-button span").forEach((span) => { span.textContent = ""; });
     const activeSort = document.querySelector(`[data-campaign-sort="${state.campaignSort.key}"] span`);
-    if (activeSort) activeSort.textContent = state.campaignSort.dir === "desc" ? "↓" : "↑";
+    if (activeSort) activeSort.textContent = state.campaignSort.dir === "desc" ? "v" : "^";
     const rows = [...state.campaigns].sort((a, b) => {
       const av = campaignSortValue(a, state.campaignSort.key);
       const bv = campaignSortValue(b, state.campaignSort.key);
@@ -2489,6 +2526,7 @@
         <td><div class="row-actions">
           <a class="button outline small" href="/?client=${encodeURIComponent(campaign.client)}" target="_blank" rel="noopener">Open page</a>
           <a class="button outline small" href="/?client=${encodeURIComponent(campaign.client)}&preview=${encodeURIComponent(otherVariant)}" target="_blank" rel="noopener">Preview alt</a>
+          <button type="button" data-view-activity="${esc(campaign.client)}">View activity</button>
           <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="clients">Client setup</button>
           <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="delivery">Client work</button>
         </div></td>
@@ -2503,6 +2541,206 @@
         location.hash = button.dataset.campaignRoute;
       });
     });
+    $$("[data-view-activity]", $("campaignRows")).forEach((button) => {
+      button.addEventListener("click", () => openCampaignActivity(button.dataset.viewActivity));
+    });
+  }
+
+  async function openCampaignActivity(client) {
+    const campaign = state.campaigns.find((item) => item.client === client);
+    activityDrawerReturnFocus = document.activeElement;
+    $("activityDrawerTitle").textContent = "Visitor activity";
+    $("activityDrawerClient").textContent = campaign?.client_name || client;
+    $("activityViewerSummary").innerHTML =
+      '<article class="metric-card"><span>Status</span><strong>Loading</strong><small>reading visitor activity</small></article>';
+    $("activityViewerRows").innerHTML = "";
+    $("activityViewerEmpty").hidden = true;
+    hideMessage($("activityViewerMessage"));
+    $("activityDrawer").hidden = false;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(() => $("closeActivityDrawerButton").focus());
+
+    try {
+      const response = await api(`/leads?client=${encodeURIComponent(client)}`);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not load visitor activity.");
+      }
+      renderCampaignActivity(data);
+    } catch (error) {
+      if (!state.key) return;
+      $("activityViewerSummary").innerHTML = "";
+      showMessage(
+        $("activityViewerMessage"),
+        error.message || "Could not load visitor activity.",
+        "error",
+      );
+    }
+  }
+
+  function closeActivityDrawer() {
+    $("activityDrawer").hidden = true;
+    document.body.classList.remove("modal-open");
+    const returnFocus = activityDrawerReturnFocus;
+    activityDrawerReturnFocus = null;
+    if (returnFocus?.isConnected) returnFocus.focus();
+  }
+
+  function renderCampaignActivity(data) {
+    const summary = data.summary || {};
+    const summaryCards = [
+      ["Visitors", number(summary.visitors), "page visitors"],
+      ["Watchers", number(summary.watchers), "people who watched"],
+      ["Plays", number(summary.plays), "video starts"],
+      ["Applications", number(summary.applications), "forms submitted"],
+    ];
+    $("activityViewerSummary").innerHTML = summaryCards.map((card) => `
+      <article class="metric-card"><span>${card[0]}</span><strong>${card[1]}</strong><small>${card[2]}</small></article>
+    `).join("");
+
+    const appliedEmails = new Set(
+      (data.leads || [])
+        .map((lead) => String(lead.email || "").trim().toLowerCase())
+        .filter(Boolean),
+    );
+    const viewers = [...(data.viewers || [])].sort((a, b) => {
+      const aWatched = Number(a.plays || 0) > 0 || Number(a.watch_seconds || 0) > 0;
+      const bWatched = Number(b.plays || 0) > 0 || Number(b.watch_seconds || 0) > 0;
+      if (aWatched !== bWatched) return bWatched - aWatched;
+      const depth = Number(b.watched_percent || 0) - Number(a.watched_percent || 0);
+      if (depth) return depth;
+      return String(b.last_watched_at || "").localeCompare(String(a.last_watched_at || ""));
+    });
+
+    $("activityViewerRows").innerHTML = viewers.map((viewer) => {
+      const email = String(viewer.email || "").trim();
+      const visitorId = String(viewer.visitor_id || viewer.viewer || "unknown");
+      const label = email || `visitor ${visitorId.slice(0, 4)}...`;
+      const applied = email && appliedEmails.has(email.toLowerCase());
+      return `<article class="viewer-card">
+        <div class="viewer-card-head">
+          <div><strong>${esc(label)}</strong><small>${email ? esc(visitorId) : "Unidentified visitor"}</small></div>
+          <span class="badge ${applied ? "success" : ""}">${applied ? "Applied" : "No application"}</span>
+        </div>
+        <dl class="viewer-metrics">
+          <div><dt>Watched</dt><dd>${Math.round(Number(viewer.watched_percent || 0))}%</dd></div>
+          <div><dt>Watch time</dt><dd>${formatDuration(viewer.watch_seconds)}</dd></div>
+          <div><dt>Plays</dt><dd>${number(viewer.plays)}</dd></div>
+          <div><dt>Last watched</dt><dd>${relativeTime(viewer.last_watched_at)}</dd></div>
+        </dl>
+      </article>`;
+    }).join("");
+    $("activityViewerEmpty").hidden = viewers.length > 0;
+  }
+
+  async function loadTrackedAssets() {
+    $("trackedAssetsStatus").textContent = "Loading";
+    $("trackedAssetsStatus").className = "status-pill";
+    try {
+      const response = await api("/api/assets");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not load tracked assets.");
+      }
+      state.trackedAssets = data.assets || [];
+      renderTrackedAssets();
+      $("trackedAssetsStatus").textContent = `${number(state.trackedAssets.length)} active`;
+      $("trackedAssetsStatus").className = "status-pill success";
+    } catch (error) {
+      if (!state.key) return;
+      state.trackedAssets = [];
+      renderTrackedAssets();
+      $("trackedAssetsStatus").textContent = "Unavailable";
+      showMessage($("assetMessage"), error.message || "Could not load tracked assets.", "error");
+    }
+  }
+
+  function renderTrackedAssets() {
+    $("assetRows").innerHTML = state.trackedAssets.map((asset) => `
+      <tr>
+        <td><strong>${esc(asset.label || "Tracked asset")}</strong><span class="muted">${esc(asset.lead_email || asset.client || "Unassigned")}</span></td>
+        <td><a class="asset-destination" href="${esc(asset.target_url)}" title="${esc(asset.target_url)}" target="_blank" rel="noopener">${esc(asset.target_url)}</a></td>
+        <td>${number(asset.opens)}</td>
+        <td>${number(asset.unique_ips)}</td>
+        <td>${relativeTime(asset.last_open_at)}</td>
+        <td><div class="row-actions">
+          <button type="button" data-asset-action="copy" data-asset-url="${esc(asset.url)}">Copy link</button>
+          <button type="button" data-asset-action="archive" data-asset-token="${esc(asset.token)}">Archive</button>
+        </div></td>
+      </tr>
+    `).join("");
+    $("assetEmpty").hidden = state.trackedAssets.length > 0;
+  }
+
+  async function createTrackedAsset(event) {
+    event.preventDefault();
+    const button = $("createAssetButton");
+    button.disabled = true;
+    hideMessage($("assetMessage"));
+    try {
+      const response = await api("/api/assets", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          label: $("assetLabel").value.trim(),
+          target_url: $("assetTargetUrl").value.trim(),
+          client: $("assetClient").value || null,
+          lead_email: $("assetLeadEmail").value.trim() || null,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not create the tracked link.");
+      }
+      $("assetResultUrl").value = data.url;
+      $("assetResult").hidden = false;
+      $("assetLabel").value = "";
+      $("assetTargetUrl").value = "";
+      $("assetLeadEmail").value = "";
+      showMessage($("assetMessage"), "Tracked link created.", "success");
+      await loadTrackedAssets();
+    } catch (error) {
+      if (state.key) {
+        showMessage($("assetMessage"), error.message || "Could not create the tracked link.", "error");
+      }
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function handleTrackedAssetAction(event) {
+    const button = event.target.closest("[data-asset-action]");
+    if (!button) return;
+    if (button.dataset.assetAction === "copy") {
+      await copyTrackedAsset(button.dataset.assetUrl);
+      return;
+    }
+
+    button.disabled = true;
+    try {
+      const response = await api(`/api/assets?token=${encodeURIComponent(button.dataset.assetToken)}`, {
+        method: "DELETE",
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not archive the tracked link.");
+      showMessage($("assetMessage"), "Tracked link archived.", "success");
+      await loadTrackedAssets();
+    } catch (error) {
+      if (state.key) {
+        showMessage($("assetMessage"), error.message || "Could not archive the tracked link.", "error");
+      }
+      button.disabled = false;
+    }
+  }
+
+  async function copyTrackedAsset(url) {
+    if (!url) return;
+    const copied = await copyText(url);
+    showMessage(
+      $("assetMessage"),
+      copied ? "Tracked link copied." : "Copy failed. Select the link and copy it manually.",
+      copied ? "success" : "error",
+    );
   }
 
   function signalBadge(signal) {
@@ -2526,6 +2764,11 @@
     if (difference < 3600000) return `${Math.round(difference / 60000)}m ago`;
     if (difference < 86400000) return `${Math.round(difference / 3600000)}h ago`;
     return `${Math.round(difference / 86400000)}d ago`;
+  }
+
+  function formatDuration(value) {
+    const seconds = Math.max(0, Math.round(Number(value || 0)));
+    return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
   }
 
   function formatDate(value) {

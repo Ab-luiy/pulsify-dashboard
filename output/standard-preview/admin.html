@@ -74,6 +74,12 @@
           <button class="button outline small" id="refreshHomeButton" type="button">Refresh overview</button>
         </div>
 
+        <article class="metric-card home-tracking-card">
+          <span>Pages with activity</span>
+          <strong id="homeTrackingStat">Not loaded</strong>
+          <small>visited, watched, or applied</small>
+        </article>
+
         <div class="home-layout">
           <article class="panel home-panel">
             <div class="panel-head">
@@ -461,8 +467,94 @@
             <p>Configure a client page and send it. Real visits, watch activity, and applications will appear here.</p>
           </div>
         </article>
+
+        <article class="panel" id="trackedAssetsPanel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Off-page tracking</p>
+              <h3>Tracked assets</h3>
+              <p>Turn any document or page into a short link that records each open.</p>
+            </div>
+            <span class="status-pill" id="trackedAssetsStatus">Not loaded</span>
+          </div>
+
+          <form class="inset-form" id="assetForm">
+            <div class="form-grid two">
+              <div class="field">
+                <label for="assetLabel">Label <span class="required">Required</span></label>
+                <input id="assetLabel" placeholder="Name the document or asset" required>
+                <p class="field-hint">Use a name you will recognize in follow-up.</p>
+              </div>
+              <div class="field">
+                <label for="assetTargetUrl">Destination URL <span class="required">Required</span></label>
+                <input id="assetTargetUrl" type="url" placeholder="Paste the document or page URL" required>
+                <p class="field-hint">The prospect lands here after the open is recorded.</p>
+              </div>
+              <div class="field">
+                <label for="assetClient">Client <span class="optional">Optional</span></label>
+                <select id="assetClient"></select>
+                <p class="field-hint">The active client is selected by default. Leave it unassigned when the link is not client-specific.</p>
+              </div>
+              <div class="field">
+                <label for="assetLeadEmail">Lead email <span class="optional">Optional</span></label>
+                <input id="assetLeadEmail" type="email" placeholder="Add the recipient email">
+                <p class="field-hint">Add it when this link belongs to one known lead.</p>
+              </div>
+            </div>
+            <button class="button primary" id="createAssetButton" type="submit">Create tracked link</button>
+            <div class="message" id="assetMessage" role="status" hidden></div>
+            <div class="result-card asset-result" id="assetResult" hidden>
+              <strong>Tracked link ready</strong>
+              <div class="asset-result-row">
+                <input id="assetResultUrl" readonly aria-label="Generated tracked link">
+                <button class="button outline small" id="copyAssetResultButton" type="button">Copy link</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="table-scroll tracked-assets-table">
+            <table>
+              <thead><tr>
+                <th>Asset</th>
+                <th>Destination</th>
+                <th>Opens</th>
+                <th>Unique IPs</th>
+                <th>Last open</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="assetRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state inset" id="assetEmpty" hidden>
+            <h3>No tracked assets yet</h3>
+            <p>Create the first link above. Opens will appear here.</p>
+          </div>
+        </article>
       </section>
     </main>
+  </div>
+
+  <div class="activity-drawer-overlay" id="activityDrawer" hidden>
+    <button class="activity-drawer-backdrop" id="activityDrawerBackdrop" type="button" aria-label="Close visitor activity"></button>
+    <aside class="activity-drawer" role="dialog" aria-modal="true" aria-labelledby="activityDrawerTitle">
+      <header class="activity-drawer-head">
+        <div>
+          <p class="eyebrow">Page activity</p>
+          <h2 id="activityDrawerTitle">Visitor activity</h2>
+          <p id="activityDrawerClient"></p>
+        </div>
+        <button class="icon-button" id="closeActivityDrawerButton" type="button">Close</button>
+      </header>
+      <div class="activity-drawer-body">
+        <div class="metrics-grid activity-summary" id="activityViewerSummary"></div>
+        <div class="viewer-list" id="activityViewerRows"></div>
+        <div class="empty-state" id="activityViewerEmpty" hidden>
+          <h3>No visitors have hit this page yet.</h3>
+          <p>Activity appears after the page records its first visit or video event.</p>
+        </div>
+        <div class="message error" id="activityViewerMessage" role="alert" hidden></div>
+      </div>
+    </aside>
   </div>
 
   <div class="wizard-overlay" id="clientWizard" hidden>

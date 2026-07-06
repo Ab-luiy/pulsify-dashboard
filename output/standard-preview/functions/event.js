@@ -23,6 +23,10 @@ import {
 import { normalizeEmail } from "./_shared/common.js";
 
 export async function onRequestPost({ request, env }) {
+  const ip = request.headers.get("cf-connecting-ip") || null;
+  const country = (request.cf && request.cf.country) || request.headers.get("cf-ipcountry") || null;
+  const city = (request.cf && request.cf.city) || null;
+  const userAgent = request.headers.get("user-agent") || null;
   const raw = await request.text();
   let body;
   try {
@@ -106,7 +110,7 @@ export async function onRequestPost({ request, env }) {
         title: "New application",
         lines: [
           `${cfg?.client_name || client} submitted an application.`,
-          `${name || "Unknown"} — ${email}`,
+          `${name || "Unknown"} - ${email}`,
         ],
       });
     }
@@ -121,6 +125,10 @@ export async function onRequestPost({ request, env }) {
       referrer: hidden.referrer || null,
       utm_json: JSON.stringify(extractUtm(hidden)),
       metadata_json: JSON.stringify({ source: "typeform", response_id: lead.response_id }),
+      ip,
+      country,
+      city,
+      user_agent: userAgent,
     });
     return json({ ok: true, kind: "application", kit: kit.status });
   }
@@ -162,6 +170,10 @@ export async function onRequestPost({ request, env }) {
       referrer: body.referrer || null,
       utm_json: lead.utm_json,
       metadata_json: null,
+      ip,
+      country,
+      city,
+      user_agent: userAgent,
     });
     return json({ ok: true, kind: "optin", kit: kit.status });
   }
@@ -184,6 +196,8 @@ export async function onRequestPost({ request, env }) {
       playback_rate: finite(body.playback_rate),
       muted: body.muted == null ? null : (body.muted ? 1 : 0),
       metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
+      ip,
+      country,
     };
     await saveWatch(env, watch);
     await maybeAlertHotWatch(env, cfg, watch);
@@ -202,6 +216,10 @@ export async function onRequestPost({ request, env }) {
       referrer: body.referrer || null,
       utm_json: JSON.stringify(body.utm || {}),
       metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
+      ip,
+      country,
+      city,
+      user_agent: userAgent,
     });
     return json({ ok: true, kind: "page" });
   }
@@ -386,13 +404,13 @@ async function saveWatch(env, w) {
     `INSERT INTO watch_events (
       client,email,visitor_id,session_id,page_id,media_id,wistia_visitor_key,event,
       percent,position_seconds,duration_seconds,watch_seconds,unique_seconds,
-      playback_rate,muted,metadata_json,at
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      playback_rate,muted,metadata_json,ip,country,at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(
     w.client, w.email, w.visitor_id, w.session_id, w.page_id, w.media_id,
     w.wistia_visitor_key, w.event, w.percent, w.position_seconds, w.duration_seconds,
     w.watch_seconds, w.unique_seconds, w.playback_rate, w.muted, w.metadata_json,
-    new Date().toISOString(),
+    w.ip, w.country, new Date().toISOString(),
   ).run();
 }
 
@@ -400,11 +418,13 @@ async function savePageEvent(env, e) {
   if (!env.DB) return;
   await env.DB.prepare(
     `INSERT INTO page_events (
-      client,visitor_id,session_id,page_id,event,email,path,referrer,utm_json,metadata_json,at
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+      client,visitor_id,session_id,page_id,event,email,path,referrer,utm_json,metadata_json,
+      ip,country,city,user_agent,at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(
     e.client, e.visitor_id, e.session_id, e.page_id, e.event, e.email, e.path,
-    e.referrer, e.utm_json, e.metadata_json, new Date().toISOString(),
+    e.referrer, e.utm_json, e.metadata_json, e.ip, e.country, e.city, e.user_agent,
+    new Date().toISOString(),
   ).run();
 }
 
