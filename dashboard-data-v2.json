@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-07T04:16:56.596708+00:00",
+  "lastUpdated": "2026-07-07T08:16:43.015Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-07T04:16:56.596708+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-06T08:55:51.628Z",
+    "updatedAt": "2026-07-07T08:16:42.954Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -42,9 +42,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 505,
-      "following": 469,
+      "following": 470,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=aC3Je0PhoqMQ7kNvwEXFL-n&_nc_oc=AdrmK39eanZ91fNOvbd5-uyUY4fpGbfyUlvKxZZ7pXiMmdQRfrShWPVo5RTTBC45Hhk&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=O-eqXYK-BIHpm5GiUK96-A&_nc_tpa=Q5bMBQEPJ0iGK7dNEyhmdNYiHidQOvV-q6RTOwuwgY26bJWkW9tSOG8BLi_FvFWvmIKgP5EhsGfHDVLV&oh=00_AQCX9vIyc0ZiOrF9TVUC65gpFG8ig3LAWDnVWWhSYSxBYg&oe=6A5153E8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=aC3Je0PhoqMQ7kNvwHFz-6_&_nc_oc=AdoZYFZ6CHJ6CZcfcCOlwF1yIsfqFf2KvYyTorsSitEmWjxVmhly325yAePgoQgQPkE&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=o3XxrZpRI6qp8RHz__nLPw&_nc_tpa=Q5bMBQEfVqi3vG9I2mlcQRw2P6a_s05FfqhYvbYFwGuWV-s3LjjOR9hHfonEakvliah8_Eqs2ZM73MVk&oh=00_AQC78lSjFSkmQ0Z8RpfVgmwjOngHp9n1JAFHUDIkt9C2xg&oe=6A526D28"
     },
     "content": {
       "reelsCount": 8,
@@ -197,11 +197,11 @@
           "value": 4
         },
         {
-          "name": "VN",
+          "name": "PH",
           "value": 4
         },
         {
-          "name": "PH",
+          "name": "VN",
           "value": 4
         },
         {
@@ -305,15 +305,15 @@
           "value": 2
         },
         {
-          "name": "QA",
+          "name": "JP",
           "value": 1
         },
         {
-          "name": "KR",
+          "name": "LT",
           "value": 1
         },
         {
-          "name": "AZ",
+          "name": "LV",
           "value": 1
         }
       ],
@@ -367,11 +367,11 @@
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
@@ -383,15 +383,19 @@
           "value": 2
         },
         {
+          "name": "Toronto, Ontario",
+          "value": 2
+        },
+        {
           "name": "Kigali, Kigali",
           "value": 2
         },
         {
-          "name": "Columbus, Ohio",
+          "name": "Ipatinga, Minas Gerais",
           "value": 2
         },
         {
-          "name": "Ipatinga, Minas Gerais",
+          "name": "Columbus, Ohio",
           "value": 2
         },
         {
@@ -411,15 +415,23 @@
           "value": 2
         },
         {
-          "name": "Rotterdam, Zuid-Holland",
+          "name": "São Félix de Minas, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Boissy-Saint-Léger, Île-de-France",
+          "name": "Khamanon, Punjab region",
           "value": 1
         },
         {
-          "name": "Nabadwip, West Bengal",
+          "name": "Bhubaneswar, Odisha",
+          "value": 1
+        },
+        {
+          "name": "Sítio Ôlho d'??gua, Ceará",
+          "value": 1
+        },
+        {
+          "name": "Pakaur, Jharkhand",
           "value": 1
         },
         {
@@ -427,59 +439,51 @@
           "value": 1
         },
         {
-          "name": "Puerto Princesa, Mimaropa",
+          "name": "Bogotá, Distrito Especial",
           "value": 1
         },
         {
-          "name": "Madurai, Tamil Nadu",
+          "name": "Meham, Haryana",
           "value": 1
         },
         {
-          "name": "Pretoria, Gauteng",
+          "name": "Arambagh, West Bengal",
           "value": 1
         },
         {
-          "name": "Dungarpur, Rajasthan",
+          "name": "Reading, Pennsylvania",
           "value": 1
         },
         {
-          "name": "Margilan, Fergana Region",
+          "name": "Jaipur, Rajasthan",
           "value": 1
         },
         {
-          "name": "Canaã dos Carajas, Pará",
+          "name": "Lesedi, Gauteng",
           "value": 1
         },
         {
-          "name": "Rourkela, Odisha",
+          "name": "Balbari, Dhaka Division",
           "value": 1
         },
         {
-          "name": "Majhwalia, Bihar",
+          "name": "Katihar, Bihar",
           "value": 1
         },
         {
-          "name": "Raipur, Chhattisgarh",
+          "name": "Surat, Gujarat",
           "value": 1
         },
         {
-          "name": "Sant Pere de Ribes, Cataluña",
+          "name": "Abbottabad, Khyber Pakhtunkhwa",
           "value": 1
         },
         {
-          "name": "Saywun, Hadhramaut Governorate",
+          "name": "Salempur, Uttar Pradesh",
           "value": 1
         },
         {
-          "name": "Toronto, Ontario",
-          "value": 1
-        },
-        {
-          "name": "Addis Ababa, Addis Ababa",
-          "value": 1
-        },
-        {
-          "name": "Dendermonde, Flemish Region",
+          "name": "Tehran, Tehran Province",
           "value": 1
         },
         {
@@ -487,15 +491,11 @@
           "value": 1
         },
         {
-          "name": "Belo Horizonte, Minas Gerais",
+          "name": "Surabaya, East Java",
           "value": 1
         },
         {
-          "name": "São José do Rio Prêto, São Paulo (state)",
-          "value": 1
-        },
-        {
-          "name": "Pedro Juan Caballero, Amambay Department",
+          "name": "Urgench, Xorazm Region",
           "value": 1
         }
       ],
