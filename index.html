@@ -10411,19 +10411,38 @@ initPayoutSection();
 /* Track OS command surface: latest public YouTube state + one-click module jumps. */
 (function(){
   function text(id,value){var el=document.getElementById(id);if(el&&value!=null)el.textContent=value;}
-  function renderLatestVideo(){
-    var embedded={};
-    try{embedded=JSON.parse(document.getElementById("data").textContent||"{}");}catch(e){}
-    var y=((typeof D!=="undefined"&&D.youtube)||embedded.youtube)||{};
+  function fmtDur(iso){
+    if(!iso)return"";
+    var m=/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/.exec(iso);
+    if(!m)return"";
+    var h=+(m[1]||0),mi=+(m[2]||0),s=+(m[3]||0);
+    var head=h?(h+":"+String(mi).padStart(2,"0")):String(mi);
+    return head+":"+String(s).padStart(2,"0");
+  }
+  function paintLatestVideo(y){
     var c=y.channel||{},v=y.latestVideo||{};
     var link=document.getElementById("latestVideoLink"),img=document.getElementById("latestVideoThumb");
     if(link&&v.url)link.href=v.url;
     if(img&&v.thumbnail)img.src=v.thumbnail;
     text("latestVideoTitle",v.title||"Latest YouTube upload");
-    text("latestVideoDuration",v.duration||"");
+    text("latestVideoDuration",v.duration||fmtDur(v.durationIso));
     text("latestVideoViews",(Number(v.views)||0).toLocaleString("en-US")+" views");
     text("latestVideoPublished",v.publishedLabel||"Published");
     text("latestChannelState",(Number(c.subscribers)||0).toLocaleString("en-US")+" subscribers · "+(Number(c.videos)||0)+" videos");
+  }
+  function renderLatestVideo(){
+    // Paint the embedded snapshot immediately (covers file:// + first frame),
+    // then upgrade to the live JSON the refresher keeps current. The main app's
+    // D is scoped to its own IIFE and not visible here, so read the source directly.
+    var embedded={};
+    try{embedded=JSON.parse(document.getElementById("data").textContent||"{}");}catch(e){}
+    if(embedded.youtube)paintLatestVideo(embedded.youtube);
+    if(location.protocol!=="file:"){
+      fetch("dashboard-data-v2.json?t="+Date.now(),{cache:"no-store"})
+        .then(function(r){return r.ok?r.json():null;})
+        .then(function(d){if(d&&d.youtube)paintLatestVideo(d.youtube);})
+        .catch(function(){});
+    }
   }
   document.querySelectorAll("[data-jump-tab]").forEach(function(btn){
     btn.addEventListener("click",function(){
