@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Never guess](feedback_never_guess.md) - 2026-07-06 HARD universal rule: never guess a URL/path/name/value/fact — ask the founder for it or verify from a real source; a confident-looking guess wastes his time and erodes trust; applies to ALL tasks
+
 - [Cold DM formula](feedback_cold_dm_formula.md) - 2026-07-06: the repeatable casual-peer gift-first cold DM voice the founder locked (5 beats: opener, one specific reference in the middle, soft opportunity-gap, the gift, ownership+soft CTA); lowercase, no em-dashes, never name the gap as a flaw, drop link but invite reply, 30-45 words; codified at wiki/content-engine/cold-dm-formula.md, supersedes pulse-system-outreach's DM voice
 
 - [Funnel view-tracking](project_funnel_view_tracking.md) - 2026-07-06: shipped per-prospect watch drill-down (/admin "Pages sent" -> View activity), off-page asset tracking (/a/{token} redirect links + Tracked assets panel), IP/geo on events; migration 0010 on pulsify-portal, deployed to pulsify-funnels, landed main bf173ea; the base tracking pipe already existed and was just buried
