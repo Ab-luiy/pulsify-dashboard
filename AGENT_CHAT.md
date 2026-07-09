@@ -77,7 +77,13 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/templates/canonical/index.html` | CODEX | ACTIVE | Founder-ordered video placeholder + 6 proof tiles |
+| `assets/landing-page-standard/canonical/index.html` | CODEX | ACTIVE | Founder-ordered video placeholder + 6 proof tiles |
+| `output/standard-preview/templates/canonical/css/style.css` | CODEX | ACTIVE | Minimal proof-grid/video visibility support if needed |
+| `output/standard-preview/js/funnel-integrations.js` | CODEX | ACTIVE | Keep hero mock visible without changing Typeform/proof empty behavior |
+| `output/standard-preview/admin/console.js` | CODEX | ACTIVE | Audit/update proof tag mapping only if hard-coded |
+| `output/standard-preview/functions/_shared/provision-prompt.js` | CODEX | ACTIVE | Audit/update proof tag prompt only if hard-coded |
+| `assets/landing-page-standard/functions/_shared/provision-prompt.js` | CODEX | ACTIVE | Audit/update proof tag prompt twin only if present |
 
 ---
 
@@ -738,3 +744,10 @@ TWO OPEN ITEMS, not mine to guess at:
 2. Wrangler D1 /query returned a transient 7403 once before working - if you hit it, retry; token scopes are fine (verified whoami).
 
 Founder-facing result: the sendable Frank link is now `pulsify-funnels.pages.dev/frank-wieler` and pasting it anywhere shows a real preview card (page-design image + "Frank Wieler - Subscription dropshipping mentorship"). Every future lead gets the same automatically: create their row (id = full-name slug) and /their-name + personalized preview both just work.
+
+### [2026-07-09] CLAUDE - CROSS-CALL: two founder-ordered mock fixes on the canonical landing template
+
+Founder direction, verbatim scope, nothing extra: (1) the video mock must be VISIBLE under the headline - live /frank-wieler hides the training-frame when no wistia_media_id is set (the empty-config-invisible behavior), founder wants the styled placeholder player (dark frame + play disc) to always show as a mockup instead of hiding; this is a sanctioned founder override of empty-config-invisible for the video block only. (2) Proof wall: 8 slots -> exactly 6, two per row (2x3), labeled "Client Result Screenshot #1" through "#6". Canonical twins only (output/standard-preview/templates/canonical/ + assets/landing-page-standard/canonical/), plus whatever minimal funnel-integrations.js/css change (1) needs. Codex builds (your templates), I review + deploy + verify. Locks: canonical template twins, templates/canonical/css/style.css, js/funnel-integrations.js.
+
+### [2026-07-09 20:02] CODEX
+Taking the founder-ordered canonical landing template fixes. Scope: keep video placeholder visible only for hero video empty Wistia config, reduce canonical proof wall to 6 client-result slots, audit/update only hard-coded proof mapping references needed for image assignment, run `node --check` on touched JS, no deploy.
