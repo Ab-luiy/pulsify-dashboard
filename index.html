@@ -3269,6 +3269,12 @@
   }
   .crm-removed-tag.live { color: var(--accent); border-color: rgba(244,114,182,0.24); background: rgba(244,114,182,0.08); }
   .crm-removed-tag.restored { color: var(--success); border-color: rgba(94,234,212,0.24); background: rgba(94,234,212,0.08); }
+  /* CRM cross-browser sync badge */
+  .crm-sync-badge { float: right; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--surface-2); cursor: default; }
+  .crm-sync-badge.ok { color: var(--success); border-color: rgba(94,234,212,0.3); }
+  .crm-sync-badge.busy { color: var(--text-2); }
+  .crm-sync-badge.err { color: var(--warn); border-color: rgba(250,200,100,0.35); }
+  .crm-sync-badge.off { color: var(--muted); }
   .crm-removed-empty {
     padding: 18px 16px;
     border-radius: 14px;
@@ -5773,7 +5779,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     </script>
 
     <div class="card span-12">
-      <h2>Outreach CRM <span class="meta">IG cold leads — value-led retarget</span></h2>
+      <h2>Outreach CRM <span class="meta">IG cold leads — value-led retarget</span> <span id="crmSyncBadge" class="crm-sync-badge off">Sync</span></h2>
       <div id="crmNote" style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 12px;color:var(--warn);font-size:12px;margin-bottom:14px;display:none"></div>
       <div class="kpi-row" style="grid-template-columns:repeat(6,1fr);margin-bottom:16px">
         <div class="kpi"><div class="k">Total leads</div><div class="v mono large" id="crmTotal">0</div></div>
@@ -6486,7 +6492,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
 
   const liveNow = [
     ["Dashboard snapshot", "dashboard-data-v2.json polls every 15 seconds when served locally.", "live"],
-    ["CRM edits", "Lead status, batches, and new leads save instantly in this browser.", "live"],
+    ["CRM edits", "Lead status, fields, and new leads save instantly and sync across browsers via pulsify-funnels.", "live"],
     ["Manual content metrics", "Follower, post, and reach overrides save in this browser until APIs are wired.", "live"],
     ["CSV export", "Outreach CRM can be exported whenever you want a backup.", "live"]
   ];
@@ -8260,6 +8266,7 @@ initPayoutSection();
   }
   function saveState(s) {
     try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch (e) {}
+    crmSyncSchedule();
   }
   let state = loadState();
   state.overrides = state.overrides || {};   // name -> { status, batch, handle }
@@ -8399,7 +8406,8 @@ initPayoutSection();
     return mergedPros().find(p => p.n === name) || null;
   }
   function setOverride(name, patch) {
-    state.overrides[name] = Object.assign({}, state.overrides[name], patch);
+    state.overrides[name] = Object.assign({}, state.overrides[name], patch, { _ts: Date.now() });
+    crmSyncMark(name);
     saveState(state);
   }
   // Expose to Asset Builder drawer (defined outside this IIFE)
@@ -8436,7 +8444,7 @@ initPayoutSection();
     };
   }
   function upsertRemovedReason(name, patch) {
-    state.removedReasons[name] = Object.assign(removedLeadDefaults(name), state.removedReasons[name] || {}, patch);
+    state.removedReasons[name] = Object.assign(removedLeadDefaults(name), state.removedReasons[name] || {}, patch, { _ts: Date.now() });
     return state.removedReasons[name];
   }
   function removedHistory() {
@@ -8507,7 +8515,8 @@ initPayoutSection();
       reason: meta.reason || "",
       note: meta.note || "",
       at: new Date().toISOString(),
-      restored: false
+      restored: false,
+      _ts: Date.now()
     });
     state.added = state.added.filter(a => a.n !== name);
     saveState(state);
@@ -9299,7 +9308,7 @@ initPayoutSection();
     if (!n) return;
     state.added.push({
       n, h: $("qaHandle").value.trim().replace(/^@/, ""),
-      niche: $("qaNiche").value.trim() || "—", dms: 0, stage: "new-lead"
+      niche: $("qaNiche").value.trim() || "—", dms: 0, stage: "new-lead", _ts: Date.now()
     });
     saveState(state);
     $("qaName").value = $("qaHandle").value = $("qaNiche").value = "";
@@ -9340,8 +9349,161 @@ initPayoutSection();
     });
   });
 
+  /* ============ CRM CROSS-BROWSER SYNC ============
+     Shared copy of pulsify_crm_v1 lives in the pulsify-funnels D1
+     (/api/crm-sync, admin-key gated). Every browser pushes its edits
+     (per-lead _ts, newest wins) and adopts the merged result, so lead
+     fields, pipeline moves, transcripts and assets follow you across
+     browsers. Local agents read/write the same endpoint via
+     tools/crm_sync.py. No key in this browser = local-only, as before. */
+  var CRM_SYNC_URL = (function () {
+    try { return localStorage.getItem("pulsify_crm_sync_url") || "https://pulsify-funnels.pages.dev/api/crm-sync"; }
+    catch (e) { return "https://pulsify-funnels.pages.dev/api/crm-sync"; }
+  })();
+  var CRM_SYNC_LS = "pulsify_crm_sync_v1";
+  var crmSyncState = null;                 // { since, pending: {name: markTs} }
+  var crmSyncTimer = null, crmSyncBusy = false, crmSyncQueued = false, crmSyncMuted = false;
+
+  function crmSyncKey() {
+    try { return (localStorage.getItem("pulsify_funnels_admin_key") || "").trim(); } catch (e) { return ""; }
+  }
+  function crmSyncBadge(mode, msg) {
+    const el = $("crmSyncBadge");
+    if (!el) return;
+    el.className = "crm-sync-badge " + mode;
+    el.textContent = msg;
+    el.title = mode === "off"
+      ? "Edits save in this browser only. Paste the funnels admin key in Lead Studio (Landing page block) to sync across browsers."
+      : (mode === "err" ? msg + " — edits are safe in this browser and will sync on the next successful push."
+        : "Lead edits sync through pulsify-funnels; every browser sees the same CRM.");
+  }
+  function crmSyncMark(name) {
+    if (!crmSyncState || !name) return;
+    crmSyncState.pending[name] = Date.now();
+    crmSyncSaveMeta();
+  }
+  function crmSyncSaveMeta() {
+    try { localStorage.setItem(CRM_SYNC_LS, JSON.stringify(crmSyncState)); } catch (e) {}
+  }
+  function crmSyncSchedule() {
+    if (!crmSyncState || crmSyncMuted) return;
+    clearTimeout(crmSyncTimer);
+    crmSyncTimer = setTimeout(crmSyncNow, 1800);
+  }
+  function crmSyncNow() {
+    if (!crmSyncState) return;
+    const key = crmSyncKey();
+    if (!key) { crmSyncBadge("off", "Sync off"); return; }
+    if (crmSyncBusy) { crmSyncQueued = true; return; }
+    crmSyncBusy = true;
+    crmSyncBadge("busy", "Syncing…");
+
+    // Overrides: only leads edited since the last acknowledged push.
+    const sentMarks = {};
+    const overrides = {};
+    Object.keys(crmSyncState.pending).forEach(n => {
+      const o = state.overrides[n];
+      if (!o) { delete crmSyncState.pending[n]; return; }
+      if (!o._ts) o._ts = Date.now();     // legacy entries from before sync shipped
+      sentMarks[n] = crmSyncState.pending[n];
+      overrides[n] = o;
+    });
+    // Added + removal records are small: always send the full maps.
+    const added = {};
+    state.added.forEach(a => { if (a && a.n) added[a.n] = a; });
+    state.removed.forEach(n => {
+      if (!state.removedReasons[n]) state.removedReasons[n] = Object.assign(removedLeadDefaults(n), { _ts: Date.now() });
+    });
+    const removed = {};
+    Object.keys(state.removedReasons).forEach(n => {
+      const e = state.removedReasons[n];
+      if (e && !e._ts) e._ts = 1;         // legacy record: real edits should beat it
+      removed[n] = e;
+    });
+
+    const body = { since: Math.max(0, (crmSyncState.since || 0) - 5000), overrides, added, removed };
+    fetch(CRM_SYNC_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-admin-key": key },
+      body: JSON.stringify(body)
+    })
+      .then(r => {
+        if (r.status === 401) throw new Error("Sync: bad admin key");
+        return r.json();
+      })
+      .then(d => {
+        if (!d || !d.ok) throw new Error("Sync: " + ((d && d.error) || "server error"));
+        // Clear pending marks unless the lead was re-edited mid-flight.
+        Object.keys(sentMarks).forEach(n => {
+          if (crmSyncState.pending[n] === sentMarks[n]) delete crmSyncState.pending[n];
+        });
+        crmSyncAdopt(d.state || {}, d.serverTs || Date.now());
+        crmSyncBadge("ok", "Synced");
+      })
+      .catch(e => { crmSyncBadge("err", e && e.message ? e.message : "Sync failed"); })
+      .finally(() => {
+        crmSyncBusy = false;
+        if (crmSyncQueued) { crmSyncQueued = false; crmSyncSchedule(); }
+      });
+  }
+  function crmSyncAdopt(remote, serverTs) {
+    let changed = false;
+    const same = (a, b) => { try { return JSON.stringify(a) === JSON.stringify(b); } catch (e) { return false; } };
+    const takeRemote = (local, entry, pendingLocal) => {
+      if (!local) return true;
+      const lts = Number(local._ts) || 0, rts = Number(entry._ts) || 0;
+      if (rts > lts) return true;
+      // Tie (e.g. legacy stamps): server copy wins unless we hold an unsent edit.
+      return rts === lts && !pendingLocal && !same(local, entry);
+    };
+    Object.entries(remote.overrides || {}).forEach(([n, e]) => {
+      if (!e) return;
+      if (takeRemote(state.overrides[n], e, crmSyncState.pending[n])) { state.overrides[n] = e; changed = true; }
+    });
+    Object.entries(remote.removed || {}).forEach(([n, e]) => {
+      if (!e) return;
+      if (takeRemote(state.removedReasons[n], e, false)) { state.removedReasons[n] = e; changed = true; }
+    });
+    // Active removed list is derived from the merged removal records.
+    const rmSet = new Set(state.removed);
+    Object.entries(state.removedReasons).forEach(([n, e]) => {
+      if (e && e.restored) rmSet.delete(n); else if (e) rmSet.add(n);
+    });
+    if (rmSet.size !== state.removed.length || state.removed.some(n => !rmSet.has(n))) changed = true;
+    state.removed = [...rmSet];
+    Object.entries(remote.added || {}).forEach(([n, e]) => {
+      if (!e || !e.n) return;
+      const i = state.added.findIndex(a => a && a.n === n);
+      if (i === -1) { state.added.push(e); changed = true; }
+      else if (takeRemote(state.added[i], e, false)) { state.added[i] = e; changed = true; }
+    });
+    crmSyncState.since = serverTs;
+    crmSyncSaveMeta();
+    if (changed) {
+      crmSyncMuted = true;
+      try { saveState(state); } finally { crmSyncMuted = false; }
+      renderCrm();
+      if (crmRemovedPanelOpen && typeof renderRemovedReview === "function") renderRemovedReview();
+    }
+  }
+  function initCrmSync() {
+    let meta = {};
+    try { meta = JSON.parse(localStorage.getItem(CRM_SYNC_LS)) || {}; } catch (e) {}
+    crmSyncState = { since: Number(meta.since) || 0, pending: (meta.pending && typeof meta.pending === "object") ? meta.pending : {} };
+    if (!crmSyncState.since) {
+      // First sync from this browser: push everything it has.
+      Object.keys(state.overrides).forEach(n => { crmSyncState.pending[n] = Date.now(); });
+    }
+    if (!crmSyncKey()) crmSyncBadge("off", "Sync off");
+    crmSyncNow();
+    setInterval(crmSyncNow, 45000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") crmSyncNow(); });
+    window.crmSyncNow = crmSyncNow;   // manual kick from console / other blocks
+  }
+
   renderDashboard();
   renderCrm();
+  initCrmSync();
   refreshLiveData();
   setInterval(refreshLiveData, REFRESH_MS);
 })();
@@ -10069,7 +10231,8 @@ initPayoutSection();
     resetOut();
     drawer.classList.add("open");backdrop.classList.add("open");document.body.style.overflow="hidden";
   };
-  [dEmail,dOffer,dProblem,dTranscript,dNotes,dHandle,dExtra,dProfile].forEach(function(el){if(el)el.addEventListener("change",saveField);});
+  var saveFieldT=null;
+  [dEmail,dOffer,dProblem,dTranscript,dNotes,dHandle,dExtra,dProfile].forEach(function(el){if(el){el.addEventListener("change",saveField);el.addEventListener("input",function(){clearTimeout(saveFieldT);saveFieldT=setTimeout(saveField,1200);});}});
   function close_(){drawer.classList.remove("open");backdrop.classList.remove("open");document.body.style.overflow="";}
   if(closeBtn)closeBtn.addEventListener("click",close_);
   if(backdrop)backdrop.addEventListener("click",close_);
