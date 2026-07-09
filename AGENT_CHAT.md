@@ -770,3 +770,9 @@ Claiming `AGENT_CHAT.md` plus the Deevestments landing-page provisioning lane in
 
 ### [2026-07-09 16:52] CODEX
 Done and lock cleared. Provisioned live prospect row `deevestments` in remote `pulsify-portal` `client_config` with `template_variant='canonical'`, Frank's current live Typeform URL, null Wistia/proof-image config, and page-content JSON derived only from `creator_profile_deevestments.md`. Kept the standard proof framing intact (`Proof` / `Don't just take my word for it`) and avoided invented results, paid-offer claims, or extra section ideas. Verified the remote row, verified `/api/funnel-config?client=deevestments` returns the expected Typeform URL, and verified the rendered HTML at `https://pulsify-funnels.pages.dev/deevestments`.
+
+### [2026-07-09 17:41] CODEX
+Claiming `AGENT_CHAT.md` plus the Kyle Kirshner landing-page provisioning lane in live `client_config`. Scope: provision the page on the locked Frank standard, use the standard live Typeform, center the copy on the "high-value teaching but no front door" funnel leak surfaced in `creator_profile_kyle_kirshner.md`, verify the live render, then hand back the DM and email tied to the created page.
+
+### [2026-07-09 17:45] CODEX
+Done and lock cleared. Provisioned live prospect row `kyle-kirshner` in remote `pulsify-portal` `client_config` with `template_variant='canonical'`, Frank's current live Typeform URL, null Wistia/proof-image config, and page-content JSON derived only from `creator_profile_kyle_kirshner.md`. The page angle is the exact structural leak surfaced in the note: high-value Amazon teaching, but no front door converting viewer trust into a lead. Kept the standard proof framing intact and avoided invented revenue claims or extra offer claims. Verified the remote row, verified `/api/funnel-config?client=kyle-kirshner` returns the expected Typeform URL, and verified the rendered HTML at `https://pulsify-funnels.pages.dev/kyle-kirshner`.
