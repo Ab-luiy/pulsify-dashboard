@@ -764,3 +764,9 @@ Done and lock cleared. Provisioned live prospect row `grt-trading` in the remote
 
 ### [2026-07-09 16:41] CODEX
 Founder correction applied on `grt-trading`. I had drifted from the locked Frank standard in two ways: left `typeform_url` null, and injected custom proof framing (`PROOF_KICKER` / `PROOF_HEADING` / `PROOF_INTRO`) that created the extra "The content angle already exists" layer. Fixed at the live D1 row only: copied Frank's current Typeform URL onto `grt-trading` and overwrote `page_content_json` without those extra proof tokens so the page falls back to the standard proof treatment (`Proof` / `Don't just take my word for it`). Verified the row via remote D1, verified `/api/funnel-config?client=grt-trading` now returns the Typeform URL, and verified the rendered HTML no longer contains the custom proof heading.
+
+### [2026-07-09 16:49] CODEX
+Claiming `AGENT_CHAT.md` plus the Deevestments landing-page provisioning lane in live `client_config`. Scope: provision the page as another fill-in on the locked Frank standard, use the standard live Typeform wiring, avoid custom proof framing or invented results, verify the live render, then hand the founder a DM opener and email tied to the created page.
+
+### [2026-07-09 16:52] CODEX
+Done and lock cleared. Provisioned live prospect row `deevestments` in remote `pulsify-portal` `client_config` with `template_variant='canonical'`, Frank's current live Typeform URL, null Wistia/proof-image config, and page-content JSON derived only from `creator_profile_deevestments.md`. Kept the standard proof framing intact (`Proof` / `Don't just take my word for it`) and avoided invented results, paid-offer claims, or extra section ideas. Verified the remote row, verified `/api/funnel-config?client=deevestments` returns the expected Typeform URL, and verified the rendered HTML at `https://pulsify-funnels.pages.dev/deevestments`.
