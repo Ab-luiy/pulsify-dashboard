@@ -67,6 +67,8 @@
       element.textContent,
     ]),
   );
+  const videoPlaceholderMarkup = document.querySelector("[data-pulsify-wistia]")?.innerHTML || "";
+  const proofFeedPlaceholderMarkup = document.querySelector("[data-proof-feed]")?.innerHTML || "";
 
   window.PulsifyFunnel = {
     client,
@@ -128,12 +130,14 @@
       ? Object.values(images).map(validImageUrl).filter(Boolean)
       : [];
 
-    feed.replaceChildren();
-    section.hidden = urls.length === 0;
+    section.hidden = false;
+    feed.innerHTML = proofFeedPlaceholderMarkup;
     if (!urls.length) return;
 
-    const fragment = document.createDocumentFragment();
-    urls.forEach((url) => {
+    const slots = Array.from(feed.querySelectorAll(".proof-slot"));
+    urls.forEach((url, index) => {
+      const slot = slots[index];
+      if (!slot) return;
       const link = document.createElement("a");
       link.href = url;
       link.target = "_blank";
@@ -146,10 +150,8 @@
       img.decoding = "async";
 
       link.appendChild(img);
-      fragment.appendChild(link);
+      slot.replaceChildren(link);
     });
-    feed.appendChild(fragment);
-    section.hidden = false;
   }
 
   function receiveDraft(event) {
@@ -233,13 +235,16 @@
       revealAll("[data-video-block]");
       return;
     }
-    hideAll("[data-video-block]");
-    mount.innerHTML = "";
     player = null;
     playing = false;
     currentWistiaId = "";
-    if (!validMediaId) return;
+    if (!validMediaId) {
+      mount.innerHTML = videoPlaceholderMarkup;
+      revealAll("[data-video-block]");
+      return;
+    }
     currentWistiaId = validMediaId;
+    mount.innerHTML = "";
 
     const mediaScript = document.createElement("script");
     mediaScript.src = `https://fast.wistia.com/embed/${encodeURIComponent(validMediaId)}.js`;

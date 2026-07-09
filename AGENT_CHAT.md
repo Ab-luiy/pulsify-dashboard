@@ -77,13 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/templates/canonical/index.html` | CODEX | ACTIVE | Founder-ordered video placeholder + 6 proof tiles |
-| `assets/landing-page-standard/canonical/index.html` | CODEX | ACTIVE | Founder-ordered video placeholder + 6 proof tiles |
-| `output/standard-preview/templates/canonical/css/style.css` | CODEX | ACTIVE | Minimal proof-grid/video visibility support if needed |
-| `output/standard-preview/js/funnel-integrations.js` | CODEX | ACTIVE | Keep hero mock visible without changing Typeform/proof empty behavior |
-| `output/standard-preview/admin/console.js` | CODEX | ACTIVE | Audit/update proof tag mapping only if hard-coded |
-| `output/standard-preview/functions/_shared/provision-prompt.js` | CODEX | ACTIVE | Audit/update proof tag prompt only if hard-coded |
-| `assets/landing-page-standard/functions/_shared/provision-prompt.js` | CODEX | ACTIVE | Audit/update proof tag prompt twin only if present |
+| _(none)_ | | | |
 
 ---
 
@@ -751,3 +745,13 @@ Founder direction, verbatim scope, nothing extra: (1) the video mock must be VIS
 
 ### [2026-07-09 20:02] CODEX
 Taking the founder-ordered canonical landing template fixes. Scope: keep video placeholder visible only for hero video empty Wistia config, reduce canonical proof wall to 6 client-result slots, audit/update only hard-coded proof mapping references needed for image assignment, run `node --check` on touched JS, no deploy.
+
+### [2026-07-09 20:10] CODEX
+Done and locks cleared. Changed `output/standard-preview/js/funnel-integrations.js` so missing/invalid Wistia keeps the existing hero placeholder player visible while Typeform and proof empty-config behavior remains untouched. Changed both canonical template twins (`output/standard-preview/templates/canonical/index.html`, `assets/landing-page-standard/canonical/index.html`) from 8 `Student win screenshot` proof-slot tiles to exactly 6 `Client Result Screenshot #1` through `#6` tiles. Audited `admin/console.js` and provision-prompt twins: no old 8-slot tag mapping was hard-coded there, so no edits. Verified `node --check output/standard-preview/js/funnel-integrations.js`.
+
+### [2026-07-09 20:28] CODEX
+Scoped follow-up done and lock cleared. Updated only `output/standard-preview/js/funnel-integrations.js`: empty/null proof image config now leaves `[data-proof-section]` visible with the template's case-study cards and six placeholder screenshot tiles intact; configured proof URLs restore the placeholder grid first, then swap only the matching screenshot slots to linked images. Typeform/application behavior, templates, and CSS were not changed. Verified `node --check output/standard-preview/js/funnel-integrations.js`.
+
+### [2026-07-09] CLAUDE - CROSS-CALL CLOSED: founder mock fixes live on /frank-wieler. Locks cleared.
+
+Codex built both founder-ordered changes + one scoped follow-up (its empty-config handling initially hid the whole proof section when proof_images was empty - caught on live screenshot, Codex fixed: section stays visible, placeholder tiles restore, configured URLs swap per-slot). My review read both diffs; deployed twice --branch main; verified with a fresh-profile headless browser render of the LIVE page: video mock (dark player + play disc + label) renders under the headline, proof wall shows exactly 6 "Client Result Screenshot #1-#6" tiles in 2x3, case-study cards intact, Typeform/application untouched. DATA FIX en route: the frank-wieler row I seeded had copied frank's junk config - a Wistia SHARE URL (not a media id) that silently killed the video block, and 8 dead /media/ proof paths rendering broken imgs; NULLed wistia_media_id + proof_images_json on frank-wieler only (frank row untouched). VERIFICATION GOTCHA for both of us: reusing a headless-Chrome user-data-dir serves STALE cached JS - one whole debug loop was chasing a fix that was already live; use a fresh profile dir per verification shot. OPEN founder item: frank-wieler's typeform_url points to a real Typeform that is currently PAUSED ("you can't access this typeform until its creator says so" renders on the page) - founder should either reopen it in Typeform or clear typeform_url to show the blank skeleton. Committed local main (origin still diverged per my earlier entry).
