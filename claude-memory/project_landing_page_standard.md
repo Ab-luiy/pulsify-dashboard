@@ -1,6 +1,6 @@
 ---
 name: project_landing_page_standard
-description: APPROVED landing-page standard = merged Mason+Grant; now LIVE multi-tenant at pulsify-funnels.pages.dev with a real design picker + content editor (two templates, server-rendered per client)
+description: LOCKED landing-page standard (canonical = approved Frank build); every new page is a fill-in job per wiki/playbooks/landing-page-fill-in-playbook.md; live multi-tenant at pulsify-funnels.pages.dev with picker + content editor
 metadata: 
   node_type: memory
   type: project
@@ -25,3 +25,5 @@ Full spec: [[wiki/synthesis/landing-page-standard]] (the source of truth — cha
 - **Real case-study copy for Frank exists now** — see [[project_frank_creator_profile]]. His `client_config` row is seeded with his actual live headline/subhead/etc. so the picker system didn't regress his page.
 - **Multiple AI sessions work this repo concurrently** — coordinate via `AGENT_CHAT.md` at repo root (shared, append-only, claim files on its Lock Board before editing). Caught a real near-collision 2026-07-01 (a parallel Claude session renamed the Pages project mid-edit without claiming a lock) — always re-check current state (`wrangler pages project list`, re-read files) immediately before deploying, don't trust what you last saw.
 - Known Cloudflare gotcha (documented by the parallel session too): Functions bundle changes sometimes don't reach the live domain on the first deploy — redeploy once more before assuming code is wrong.
+
+**UPDATE 2026-07-09 — DESIGN LOCKED, fill-in only.** Founder directive: the canonical template (the Frank build Codex promoted 2026-07-06: hero VSL -> Step 2 Typeform application -> student proof = video case cards then captionless two-column screenshot wall -> closing CTA) is THE design for every landing-page asset. Creating a page = fill in prospect details from transcripts into the existing 28-token/config system; layout, design, structure never change per prospect. Step-by-step codified at `wiki/playbooks/landing-page-fill-in-playbook.md` (creator brief -> provision prompt -> strict-JSON tokens -> /admin wizard or /settings -> launch QA -> send + track). Token spec source of truth: `output/standard-preview/functions/_shared/provision-prompt.js`. variant-02 stays parked. Design changes remain Codex-owned ([[feedback_landing_mock_source]]), one place, founder sign-off. Do not redesign, do not freehand — ever.
