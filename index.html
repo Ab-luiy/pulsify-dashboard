@@ -3270,7 +3270,7 @@
   .crm-removed-tag.live { color: var(--accent); border-color: rgba(244,114,182,0.24); background: rgba(244,114,182,0.08); }
   .crm-removed-tag.restored { color: var(--success); border-color: rgba(94,234,212,0.24); background: rgba(94,234,212,0.08); }
   /* CRM cross-browser sync badge */
-  .crm-sync-badge { float: right; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--surface-2); cursor: default; }
+  .crm-sync-badge { float: right; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); background: var(--surface-2); cursor: pointer; user-select: none; }
   .crm-sync-badge.ok { color: var(--success); border-color: rgba(94,234,212,0.3); }
   .crm-sync-badge.busy { color: var(--text-2); }
   .crm-sync-badge.err { color: var(--warn); border-color: rgba(250,200,100,0.35); }
@@ -9373,9 +9373,9 @@ initPayoutSection();
     el.className = "crm-sync-badge " + mode;
     el.textContent = msg;
     el.title = mode === "off"
-      ? "Edits save in this browser only. Paste the funnels admin key in Lead Studio (Landing page block) to sync across browsers."
+      ? "Edits save in this browser only. Click here and paste the funnels admin key to sync across browsers."
       : (mode === "err" ? msg + " — edits are safe in this browser and will sync on the next successful push."
-        : "Lead edits sync through pulsify-funnels; every browser sees the same CRM.");
+        : "Lead edits sync through pulsify-funnels; every browser sees the same CRM. Click to sync now.");
   }
   function crmSyncMark(name) {
     if (!crmSyncState || !name) return;
@@ -9393,7 +9393,7 @@ initPayoutSection();
   function crmSyncNow() {
     if (!crmSyncState) return;
     const key = crmSyncKey();
-    if (!key) { crmSyncBadge("off", "Sync off"); return; }
+    if (!key) { crmSyncBadge("off", "Sync off — click to set up"); return; }
     if (crmSyncBusy) { crmSyncQueued = true; return; }
     crmSyncBusy = true;
     crmSyncBadge("busy", "Syncing…");
@@ -9494,7 +9494,35 @@ initPayoutSection();
       // First sync from this browser: push everything it has.
       Object.keys(state.overrides).forEach(n => { crmSyncState.pending[n] = Date.now(); });
     }
-    if (!crmSyncKey()) crmSyncBadge("off", "Sync off");
+    if (!crmSyncKey()) crmSyncBadge("off", "Sync off — click to set up");
+    const badgeEl = $("crmSyncBadge");
+    if (badgeEl) badgeEl.addEventListener("click", () => {
+      if (crmSyncKey()) { crmSyncNow(); return; }
+      if (document.getElementById("crmSyncKeyIn")) return;
+      const input = document.createElement("input");
+      input.type = "password";
+      input.id = "crmSyncKeyIn";
+      input.placeholder = "paste funnels admin key, press Enter";
+      input.autocomplete = "off";
+      input.style.cssText = "float:right;width:240px;font:inherit;font-size:11px;padding:3px 10px;border-radius:999px;border:1px solid var(--border);background:var(--surface-2);color:var(--text-1,inherit);outline:none;margin-left:8px";
+      const done = (save) => {
+        const v = input.value.trim();
+        input.remove();
+        badgeEl.style.display = "";
+        if (save && v) {
+          try { localStorage.setItem("pulsify_funnels_admin_key", v); } catch (e) {}
+          crmSyncNow();
+        }
+      };
+      input.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter") done(true);
+        if (ev.key === "Escape") done(false);
+      });
+      input.addEventListener("blur", () => done(true));
+      badgeEl.style.display = "none";
+      badgeEl.parentNode.insertBefore(input, badgeEl);
+      input.focus();
+    });
     crmSyncNow();
     setInterval(crmSyncNow, 45000);
     document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") crmSyncNow(); });
