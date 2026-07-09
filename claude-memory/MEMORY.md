@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [OG previews + path URLs](project_og_preview_path_urls.md) - 2026-07-09: /{lead-slug} URLs + link-paste preview cards LIVE on pulsify-funnels; Frank's send link = pulsify-funnels.pages.dev/frank-wieler; shared 1200x630 og-card + per-lead og:title; ALSO: brain autosync push BROKEN since ~07-06, origin/main diverged (missing output/ + AGENT_CHAT), commit a31d5b8 local-only, needs founder reconciliation call
+
 - [Never guess](feedback_never_guess.md) - 2026-07-06 HARD universal rule: never guess a URL/path/name/value/fact — ask the founder for it or verify from a real source; a confident-looking guess wastes his time and erodes trust; applies to ALL tasks
 
 - [Cold DM formula](feedback_cold_dm_formula.md) - 2026-07-06: the repeatable casual-peer gift-first cold DM voice the founder locked (5 beats: opener, one specific reference in the middle, soft opportunity-gap, the gift, ownership+soft CTA); lowercase, no em-dashes, never name the gap as a flaw, drop link but invite reply, 30-45 words; codified at wiki/content-engine/cold-dm-formula.md, supersedes pulse-system-outreach's DM voice
