@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-09T04:14:04.188003+00:00",
+  "lastUpdated": "2026-07-09T08:21:18.601Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-09T04:14:04.188003+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-08T07:24:04.207Z",
+    "updatedAt": "2026-07-09T08:21:18.543Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 506,
-      "following": 469,
+      "followers": 504,
+      "following": 470,
       "mediaCount": 18,
-      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=r-XSKdpi4G8Q7kNvwHHDaV7&_nc_oc=AdprmlNdfi_NzUSQgso3QypZTESEswJ0a6WIRCtJ4QJO3i-IuEAr2VeZs-CL_4F9xSU&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=cD5OB7enlxO6V89Q4u1sLw&_nc_tpa=Q5bMBQHc0xVUcG2505rYpCiH7C4vXVTZinjV02x7y0xICwCU_I50ZvgXA4dkuPsb9SJJ6h3CSqTpYZ9f&oh=00_AQCJ-iBon_akw3R2runmxVkGrll4V1RG8l7d6LCN8skD7A&oe=6A53BEA8"
+      "profilePicture": "https://scontent-iad6-1.cdninstagram.com/v/t51.75761-19/498171978_17878736007318951_3728803160080062792_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=106&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42MjYuQzMifQ%3D%3D&_nc_ohc=r-XSKdpi4G8Q7kNvwH8_JKq&_nc_oc=AdqQ7z5OLoyrN0X1Sp1z1wRMD9wTdmCkgxakv8D8a8zrcasCRTkBYBT2Qnt91lSpFS8&_nc_zt=24&_nc_ht=scontent-iad6-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=jK7a1-8UqQk3CKVRvMpXBQ&_nc_tpa=Q5bMBQEuELjdb2TaQExMcXpL4sOo3E53A3blGKLilz_GmcohwFOmTeHys7A5QUpQI_Mey0E1DWX8A0Rj&oh=00_AQA6bDIqCeJQcdczUHoU417MgX9hGzCdoawr6x3i2SOwgA&oe=6A554868"
     },
     "content": {
       "reelsCount": 11,
@@ -145,7 +145,6 @@
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        1,
         3,
         0,
         0,
@@ -174,11 +173,11 @@
         0,
         0,
         135,
+        1,
         0
       ],
       "followerSeries": [
         1,
-        1,
         0,
         1,
         0,
@@ -204,6 +203,7 @@
         2,
         0,
         0,
+        1,
         1,
         0,
         0
@@ -215,7 +215,7 @@
       "countries": [
         {
           "name": "IN",
-          "value": 86
+          "value": 87
         },
         {
           "name": "BR",
@@ -258,10 +258,6 @@
           "value": 5
         },
         {
-          "name": "DE",
-          "value": 4
-        },
-        {
           "name": "CA",
           "value": 4
         },
@@ -278,16 +274,20 @@
           "value": 4
         },
         {
-          "name": "PH",
+          "name": "VN",
           "value": 4
         },
         {
-          "name": "VN",
+          "name": "PH",
           "value": 4
         },
         {
           "name": "NG",
           "value": 4
+        },
+        {
+          "name": "DE",
+          "value": 3
         },
         {
           "name": "NP",
@@ -326,11 +326,11 @@
           "value": 2
         },
         {
-          "name": "FR",
+          "name": "YE",
           "value": 2
         },
         {
-          "name": "YE",
+          "name": "FR",
           "value": 2
         },
         {
@@ -354,11 +354,11 @@
           "value": 2
         },
         {
-          "name": "CN",
+          "name": "MX",
           "value": 2
         },
         {
-          "name": "MX",
+          "name": "CN",
           "value": 2
         },
         {
@@ -382,15 +382,15 @@
           "value": 2
         },
         {
-          "name": "QA",
+          "name": "HN",
           "value": 1
         },
         {
-          "name": "CG",
+          "name": "AF",
           "value": 1
         },
         {
-          "name": "AZ",
+          "name": "CL",
           "value": 1
         }
       ],
@@ -420,11 +420,11 @@
           "value": 3
         },
         {
-          "name": "Casablanca, Grand Casablanca",
+          "name": "Dhaka, Dhaka Division",
           "value": 2
         },
         {
-          "name": "Dhaka, Dhaka Division",
+          "name": "Casablanca, Grand Casablanca",
           "value": 2
         },
         {
@@ -444,11 +444,11 @@
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
@@ -492,23 +492,11 @@
           "value": 2
         },
         {
-          "name": "São Leopoldo, Rio Grande do Sul",
+          "name": "Andradas, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Clonmel, County Tipperary",
-          "value": 1
-        },
-        {
-          "name": "Iguidi, Souss-Massa-Drâa",
-          "value": 1
-        },
-        {
-          "name": "Kyiv, Kyiv",
-          "value": 1
-        },
-        {
-          "name": "Antrim, Northern Ireland",
+          "name": "Vila Velha, Espírito Santo",
           "value": 1
         },
         {
@@ -516,35 +504,43 @@
           "value": 1
         },
         {
-          "name": "Arambagh, West Bengal",
+          "name": "Dublin, Dublin",
           "value": 1
         },
         {
-          "name": "Meham, Haryana",
+          "name": "Marhaura, Bihar",
           "value": 1
         },
         {
-          "name": "Buenos Aires, Ciudad Autónoma de Buenos Aires",
+          "name": "Honnali, Karnataka",
           "value": 1
         },
         {
-          "name": "Fuquay-Varina, North Carolina",
+          "name": "Serrania, Minas Gerais",
           "value": 1
         },
         {
-          "name": "La Rioja, La Rioja",
+          "name": "Sakti, Chhattisgarh",
           "value": 1
         },
         {
-          "name": "Margilan, Fergana Region",
+          "name": "Melbourne, Victoria",
           "value": 1
         },
         {
-          "name": "Arquitecto Tomás Romero Pereira, Itapúa Department",
+          "name": "Emalahleni, Mpumalanga",
           "value": 1
         },
         {
-          "name": "Vadippatti, Tamil Nadu",
+          "name": "Rourkela, Odisha",
+          "value": 1
+        },
+        {
+          "name": "Britânia, Goiás",
+          "value": 1
+        },
+        {
+          "name": "Jamadoba, Jharkhand",
           "value": 1
         },
         {
@@ -552,38 +548,42 @@
           "value": 1
         },
         {
-          "name": "Balbari, Dhaka Division",
+          "name": "Tawau, Sabah",
           "value": 1
         },
         {
-          "name": "Abbottabad, Khyber Pakhtunkhwa",
+          "name": "Chelmsford, Massachusetts",
           "value": 1
         },
         {
-          "name": "Tehran, Tehran Province",
+          "name": "Katihar, Bihar",
           "value": 1
         },
         {
-          "name": "Bloomfield, New Jersey",
+          "name": "Patiala, Punjab region",
           "value": 1
         },
         {
-          "name": "São José do Rio Prêto, São Paulo (state)",
+          "name": "Patilar, Bihar",
           "value": 1
         },
         {
-          "name": "Suzano, São Paulo (state)",
+          "name": "Urgench, Xorazm Region",
+          "value": 1
+        },
+        {
+          "name": "Pedro Juan Caballero, Amambay Department",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 244
+          "value": 243
         },
         {
           "name": "M",
-          "value": 81
+          "value": 82
         },
         {
           "name": "F",
@@ -593,11 +593,11 @@
       "age": [
         {
           "name": "18-24",
-          "value": 158
+          "value": 159
         },
         {
           "name": "25-34",
-          "value": 99
+          "value": 98
         },
         {
           "name": "35-44",
@@ -922,7 +922,7 @@
     }
   },
   "content": {
-    "igFollowers": 506,
+    "igFollowers": 504,
     "igReach30d": 1282,
     "igReelsShipped": 18
   }
