@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-09T10:02:35.559950+00:00",
+  "lastUpdated": "2026-07-09T15:35:56.410868+00:00",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -16,7 +16,7 @@
       "url": "https://www.youtube.com/watch?v=wr4Vu0k-7XA",
       "thumbnail": "https://i.ytimg.com/vi/wr4Vu0k-7XA/maxresdefault.jpg",
       "durationIso": "PT16M12S",
-      "views": 8,
+      "views": 9,
       "likes": 0,
       "comments": 0,
       "publishedAt": "2026-07-03T14:48:43Z",
@@ -30,7 +30,7 @@
       "ctrAvailable": false,
       "note": "YouTube Analytics OAuth is required for retention, watch time, and CTR."
     },
-    "updatedAt": "2026-07-09T10:02:35.559950+00:00"
+    "updatedAt": "2026-07-09T15:35:56.410868+00:00"
   },
   "instagram": {
     "updatedAt": "2026-07-09T08:21:18.543Z",
