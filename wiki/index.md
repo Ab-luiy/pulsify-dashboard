@@ -75,6 +75,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[playbooks/pulse-system-stack]] | Technical stack per Pulse System component — proven / v1-manual / v2-automated tags, manual-first principle, build order for the first paid client | 2026-06-09 |
 | [[playbooks/prospect-signed-onboarding]] | The checklist for when an outreach-page prospect signs — client folder, integrations on, portal link minted, delivery data seeded | 2026-07-01 |
 | [[playbooks/landing-page-launch-qa]] | Three-minute pre-send QA per outreach page plus per-batch pipe checks — render, copy rules, mobile, events, failure log | 2026-07-01 |
+| [[playbooks/lead-intel-workflow]] | Persistent per-lead outreach memory — one file per worked prospect with the diagnosed leak, personal detail, assets built, last action, and next step; keeps follow-ups out of chat-memory roulette | 2026-07-09 |
 
 ---
 

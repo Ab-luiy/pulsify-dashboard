@@ -4,6 +4,10 @@ Append-only chronological record of all vault operations. Format: `## [YYYY-MM-D
 
 ---
 
+## [2026-07-09] decision | Lead intel workflow locked for worked prospects
+
+Added a persistent lead-intel workflow so every meaningful outreach prospect now lives in repo memory instead of only in chat. New home: `outreach/intel/` with one markdown file per worked lead plus a template and README. Each file stores the source notes, core leak, one personal detail to use lightly, assets built, current best DM/email, the last action taken, and the next recommended move. Also codified the operating rule at [[playbooks/lead-intel-workflow]]: if a lead is touched in a meaningful way, its intel file gets updated before the session ends. Added seed files for Grant Zuccolotto, GRT Trading, Deevestments, and Kyle Kirshner based on the work already completed. Copy-quality note locked too: when the founder wants stronger outbound, Codex should use Claude for the final copy pass and save the improved version back into the lead file.
+
 ## [2026-07-06] ingest | Cold DM formula codified (casual-peer, gift-first)
 
 Codified the cold-DM voice the founder built and pressure-tested in a full iteration pass this session. Added [[content-engine/cold-dm-formula]]: five beats (casual opener, one genuine specific reference, soft opportunity-framed gap, the gift, ownership + soft reply-inviting close), a fill-the-brackets template, a real Frank Wieler worked example using his break-even/MRR take, the non-negotiable rules (lowercase casual, no em-dashes, reference in the middle not the opener, never name the gap as a flaw, abundance posture, drop the link but invite a reply, 30-45 words), and a 0-100 grading rubric. Flagged the contradiction with [[playbooks/pulse-system-outreach]] Step 4 (which bans casual openers and compliments) and resolved it: for cold DMs this new page is the standard as of 2026-07-06, the old diagnostic Format A is retired for DMs. Added a supersession pointer to the old playbook. Updated `index.md`. The purpose is repeatability — the founder vets and picks the lead, hands over the creator plus a transcript, and the DM auto-generates at a 95.
