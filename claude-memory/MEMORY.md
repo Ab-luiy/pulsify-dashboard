@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Instagram project](project_instagram_project.md) - 2026-07-11: new ingestion-led workstream (personal brands on IG); roadmap at wiki/synthesis/instagram-project-roadmap.md, extraction prompt at wiki/playbooks/instagram-ingest-extraction-prompt.md; LOCKED: Claude reads story screenshots, Fable plans only no code; teacher's name still unknown - ask, don't guess
+
 - [CRM cross-browser sync](project_crm_cross_browser_sync.md) - 2026-07-09: lead edits (fields/pipeline/transcripts/assets) sync via pulsify-funnels D1 /api/crm-sync (per-lead _ts merge, migration 0011); agents use pulsify-dashboard tools/crm_sync.py w/ FUNNELS_ADMIN_KEY; user must paste ADMIN_KEY once per browser (Lead Studio funnels-key field) to turn sync on
 
 - [OG previews + path URLs](project_og_preview_path_urls.md) - 2026-07-09: /{lead-slug} URLs + link-paste preview cards LIVE on pulsify-funnels; Frank's send link = pulsify-funnels.pages.dev/frank-wieler; shared 1200x630 og-card + per-lead og:title; ALSO: brain autosync push BROKEN since ~07-06, origin/main diverged (missing output/ + AGENT_CHAT), commit a31d5b8 local-only, needs founder reconciliation call
