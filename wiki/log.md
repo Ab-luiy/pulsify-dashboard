@@ -890,3 +890,7 @@ client's own integration rows.
 ## [2026-07-11] ingest | Niksetting Perplexity export audited + transcript-2 Claude extraction
 
 Audited the founder's Perplexity export (raw-sources/transcripts/Niksetting Perplexity transcript extraction.md): 23 extraction blocks covering ~20 Niksetting videos, but raw transcripts are not preserved (export truncates user messages) except transcript 2, which Perplexity counted as ingested yet never extracted. Its closing self-audit also wrongly claimed only the 4-part masterclass was ever sent. Wrote wiki/synthesis/niksetting-transcript-optimizing-for-views-claude-extraction.md — full 12-section Claude extraction of the preserved transcript, closing the gap and benchmarking Claude vs Perplexity fidelity. Raw transcripts needed from founder for full re-extraction.
+
+## [2026-07-11] ingest | Niksetting raw transcripts landed + Claude extraction pass begun
+
+Founder supplied the full raw transcript doc (21 videos, 83,250 words). Verified: all 21 titles match the Perplexity thread, none empty, and transcript 02 is character-identical to the copy preserved in the export — source is trustworthy. Split into per-video files at raw-sources/transcripts/niksetting/ (01-21). Claude extraction pass started at wiki/synthesis/niksetting-extractions/: 02 (traffic vs conversion), 07 (story sequences — 7 frameworks), 10 (8 content formats), 12 (bio), 17 (posting schedule) done. 16 remain. Extraction 02's old standalone path was moved into the folder.
