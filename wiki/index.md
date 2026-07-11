@@ -155,6 +155,11 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/niksetting-extractions/21c-masterclass-part-3]] | Masterclass 3/4: sequence types 2-5, the universal 6-step slide structure, drop-off diagnostics, 8-9 email sequence, funnel-as-web | 2026-07-11 |
 | [[synthesis/niksetting-extractions/21d-masterclass-part-4]] | Masterclass 4/4 (source of video 03): two-brand separation, 4-part screenshot proof, cadence resolution (3 min/5-7 target), call-batching calendar | 2026-07-11 |
 | [[synthesis/personal-brand-harmony-master-plan]] | THE strategy layer post-Niksetting: unified YT+IG machine, 9 new pillar pages, 4 doctrine tensions w/ recommendations, build order, automation gates | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/01-3m-yr-organic-content-strategy]] | SooWei's A-to-Z: buyer mirror form, TOF/MOF/BOF by business need, ICP-vs-dream-follower Venn, show marketing, UTM-attributed MOF, 7-person team at 23x | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/02-personal-branding-conversation]] | Interview: pay-to-compress-time, four pillars, flat tire test, specialist-over-journalist offers, Maya 0->226K/mo on 15K followers, window-closing prediction | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/03-408k-personal-brand-with-ai]] | THE AI operating system: Claude agents (ideation/objections/packaging/clipping), 6-metric idea scoring, pay-me-three-times ascension, $64K->$572K client case, Trackio attribution | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/04-psychology-four-stages]] | Four trust stages (admirable/likable/credible/trustable), three one-of-one mechanisms, FULL buyer-mirror question list, paywall arbitrage, anti-materialism play at 200K views | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/05-industry-predictions-blueprint]] | The three predictions: sales calls die, lifestyle marketing dies, value content dies to AI (missions survive); freebie challenge funnel, client documentaries, the middle squeeze | 2026-07-11 |
 
 ---
 

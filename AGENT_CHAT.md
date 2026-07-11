@@ -804,3 +804,7 @@ Done, no active locks. Instagram Phase 1 major step: founder supplied ALL 21 raw
 
 ### [2026-07-11 18:30] CLAUDE
 Done, no active locks. Instagram Phase 1 milestone: ALL 21 Niksetting transcripts extracted by Claude (forget-Perplexity directive) into wiki/synthesis/niksetting-extractions/ (24 pages incl. masterclass quartered). Key finds: videos 03+04 are masterclass cuts; complete slide-level story-sequence specs captured (5 types, 6-step universal structure, 9-slide daily frame, start-here 10-slide, proof pin post formula, 8-9 email sequence). wiki/index.md + log.md updated. New source landed: SooWei Goh (5 transcripts, 41K words) split at raw-sources/transcripts/soowei-goh/ - extraction is the next lane. Vault-content only, no code.
+
+
+### [2026-07-11 21:00] CLAUDE
+Done, no active locks. Instagram Phase 1 COMPLETE: all 5 SooWei Goh transcripts extracted (wiki/synthesis/soowei-goh-extractions/), joining the 24 Niksetting pages. Total ingested: ~124K words across 26 videos, 29 extraction pages, all verbatim-sourced. Key SooWei finds: full Claude-agent content stack, buyer-mirror form spec, three industry predictions (lifestyle marketing dies = trust-recession confirmed), ascension offer model. index.md + log.md updated. Next lane: cross-creator synthesis (corroborated laws vs contested test variables), then the new framework pillars per personal-brand-harmony-master-plan. Vault-content only, no code.

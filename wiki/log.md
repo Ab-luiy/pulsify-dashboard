@@ -903,3 +903,8 @@ Completed the Claude extraction pass over the entire Niksetting raw corpus (83,2
 ## [2026-07-11] decision | Personal-brand harmony master plan filed
 
 Wrote wiki/synthesis/personal-brand-harmony-master-plan.md - the strategic synthesis of the full Niksetting ingestion: the unified YouTube+Instagram machine, 9 new framework pillars to build, upgrades to 7 existing pages, 4 doctrine tensions with recommendations (landing pages, proof currency, bio breadth, volume), automation gates (Claude skills now, Codex builds on approval), and sequencing. Supersedes nothing; extends instagram-project-roadmap Phase 2.
+
+
+## [2026-07-11] ingest | SooWei Goh corpus fully extracted - all 5 transcripts
+
+Completed the Claude extraction pass over the SooWei Goh raw corpus (~41K words, 5 videos) into wiki/synthesis/soowei-goh-extractions/. Highest-value finds: the full AI agent stack (transcript 03 - he runs the exact AI-assisted model Pulsify sells), the complete buyer-mirror question list (04), the three industry predictions incl. lifestyle-marketing-will-die (05 - independent confirmation of the trust-recession thesis), the pay-me-three-times ascension offer model, and the dollar-per-follower metric. Cross-creator contradiction ledger updated: niche-vs-broad TOF, volume, CTA doctrine, production quality, landing pages. Both corpora now fully extracted (26 + 5 source videos, ~124K words); next step is the cross-creator synthesis (laws vs test variables).
