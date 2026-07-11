@@ -136,6 +136,25 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/niksetting-extractions/10-eight-content-formats]] | Claude extraction: the 8-reel-format ladder mapped to revenue stages, reach/conversion alternation, 131 reels -> $5M, creative-director staffing phases | 2026-07-11 |
 | [[synthesis/niksetting-extractions/12-instagram-bio-that-converts]] | Claude extraction: 3-second bio doctrine, category-of-one positioning, attract/repel filter, 3-question stranger test | 2026-07-11 |
 | [[synthesis/niksetting-extractions/17-300k-month-posting-schedule]] | Claude extraction: per-surface jobs + frequencies (reels 1/day nurture, stories 3-7/day close, soft+hard CTA, collabs), DM->setter->Calendly funnel | 2026-07-11 |
+| [[synthesis/niksetting-extractions/01-viral-format-invention-process]] | Format invention pipeline: clear-mind ideation, cross-industry research, verbal-first strategy, V1/V2/V3 testing, team production, the five roles | 2026-07-11 |
+| [[synthesis/niksetting-extractions/03-5m-322-pieces-brand-evolution]] | 322 posts/3yr -> $5.2M; the unfakeable-archive proof doctrine; 3-metric dashboard (drop-off, opt-in, save rate) | 2026-07-11 |
+| [[synthesis/niksetting-extractions/04-conversion-content-five-assets]] | The five conversion assets, 1%-per-story rule, divide-by-three money language, second-channel play, 1-on-1 to group transition | 2026-07-11 |
+| [[synthesis/niksetting-extractions/05-honest-opinion-selling-information]] | Three leverage types (unique/time/audience), two-clock rhythm (offer daily / content quarterly), decade thesis: identities+access replace information | 2026-07-11 |
+| [[synthesis/niksetting-extractions/06-200k-months-amer-case-study]] | THE tactical core: Amer debt to $200K/mo, category-of-one recipe, reframe messaging, 10-slide start-here, proof pin post formula, 9-slide daily sequence | 2026-07-11 |
+| [[synthesis/niksetting-extractions/08-onboarding-system-600k-february]] | Full client journey: pre-call video, 30-min close, personalized onboarding, 50-question intake, retreats/awards, post-close conversion survey | 2026-07-11 |
+| [[synthesis/niksetting-extractions/09-interest-media-market-math]] | Social to interest media; the TAM math: 6,500 $1M+ business coaches = $65M pipeline; ask converts which content converted them | 2026-07-11 |
+| [[synthesis/niksetting-extractions/11-content-system-five-pillars]] | The content OS: 5 pillars x 20 subsegments, reverse engineering, client dashboard + monthly recap, Ammer 2K-36K case | 2026-07-11 |
+| [[synthesis/niksetting-extractions/13-small-youtube-channel-money-ladder]] | Six-step ladder: 25 niched videos ($100K), undocumented content ($1M), in-person ($3M), 2nd channel ($5M), media company ($10M) | 2026-07-11 |
+| [[synthesis/niksetting-extractions/14-lead-quality-conversion-cycle]] | Conversion-cycle rules: respond in minutes, end every conversation yes/no/next-step, real scarcity; profile funnel closes in 24h-7d | 2026-07-11 |
+| [[synthesis/niksetting-extractions/15-marketing-ecosystem-pull-vs-push]] | Pull vs push marketing, self-selling ecosystem (profile ads, profile, sequences, start-here), DM-closing economics, 80/20 marketing inversion | 2026-07-11 |
+| [[synthesis/niksetting-extractions/16-content-impossible-to-skip]] | Direct vs indirect mechanism-stimulation, philosophy/technical axis, trust economy frame, outfit/format brand levers | 2026-07-11 |
+| [[synthesis/niksetting-extractions/19-10m-content-knowledge-36-lessons]] | His own 36-lesson doctrine compression - the best cross-check against every other extraction | 2026-07-11 |
+| [[synthesis/niksetting-extractions/20-magnetic-personal-brand]] | Stage talk: 5-level conversion filter (power flips at 4), magnetic audience, visible vs invisible traffic, platform-role map, 5 decision principles | 2026-07-11 |
+| [[synthesis/niksetting-extractions/21a-masterclass-part-1]] | Masterclass 1/4: repetition multiplier 10x/3x/50x, 5% buyer ceiling, buyers-only feedback, his 30K-500K/mo arc | 2026-07-11 |
+| [[synthesis/niksetting-extractions/21b-masterclass-part-2]] | Masterclass 2/4 (source of video 04): reels build / stories close, backtrackable consistency, Q&A sequence mechanics in full | 2026-07-11 |
+| [[synthesis/niksetting-extractions/21c-masterclass-part-3]] | Masterclass 3/4: sequence types 2-5, the universal 6-step slide structure, drop-off diagnostics, 8-9 email sequence, funnel-as-web | 2026-07-11 |
+| [[synthesis/niksetting-extractions/21d-masterclass-part-4]] | Masterclass 4/4 (source of video 03): two-brand separation, 4-part screenshot proof, cadence resolution (3 min/5-7 target), call-batching calendar | 2026-07-11 |
+| [[synthesis/personal-brand-harmony-master-plan]] | THE strategy layer post-Niksetting: unified YT+IG machine, 9 new pillar pages, 4 doctrine tensions w/ recommendations, build order, automation gates | 2026-07-11 |
 
 ---
 

@@ -894,3 +894,12 @@ Audited the founder's Perplexity export (raw-sources/transcripts/Niksetting Perp
 ## [2026-07-11] ingest | Niksetting raw transcripts landed + Claude extraction pass begun
 
 Founder supplied the full raw transcript doc (21 videos, 83,250 words). Verified: all 21 titles match the Perplexity thread, none empty, and transcript 02 is character-identical to the copy preserved in the export — source is trustworthy. Split into per-video files at raw-sources/transcripts/niksetting/ (01-21). Claude extraction pass started at wiki/synthesis/niksetting-extractions/: 02 (traffic vs conversion), 07 (story sequences — 7 frameworks), 10 (8 content formats), 12 (bio), 17 (posting schedule) done. 16 remain. Extraction 02's old standalone path was moved into the folder.
+
+
+## [2026-07-11] ingest | Niksetting corpus fully extracted - all 21 transcripts
+
+Completed the Claude extraction pass over the entire Niksetting raw corpus (83,250 words): 24 extraction pages now live in wiki/synthesis/niksetting-extractions/ (01-20 + masterclass 21a-d). Structural discoveries: videos 03 and 04 are verbatim cuts of the masterclass (recurrence de-duplicated); the five story-sequence types + universal 6-step slide structure + 9-slide daily frame + 4-part screenshot-proof structure are all captured verbatim - the story-sequence generator's full spec now exists in-vault. Cadence contradiction resolved (3 sequences/week floor, 5-7 target; 3-7 slides/day). Persistent gaps flagged: save rate never defined, Machi unidentified, lead magnet deliverable contents unknown, appointment-setting video not in corpus. Also filed SooWei Goh raw transcripts (5 videos, ~41K words) at raw-sources/transcripts/soowei-goh/ - extraction queued.
+
+## [2026-07-11] decision | Personal-brand harmony master plan filed
+
+Wrote wiki/synthesis/personal-brand-harmony-master-plan.md - the strategic synthesis of the full Niksetting ingestion: the unified YouTube+Instagram machine, 9 new framework pillars to build, upgrades to 7 existing pages, 4 doctrine tensions with recommendations (landing pages, proof currency, bio breadth, volume), automation gates (Claude skills now, Codex builds on approval), and sequencing. Supersedes nothing; extends instagram-project-roadmap Phase 2.

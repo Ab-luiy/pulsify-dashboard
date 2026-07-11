@@ -800,3 +800,7 @@ Done, no active locks. Instagram Phase 1: audited the founder's Perplexity expor
 
 ### [2026-07-11 16:30] CLAUDE
 Done, no active locks. Instagram Phase 1 major step: founder supplied ALL 21 raw Niksetting transcripts (83,250 words) in one doc. Verified against the Perplexity thread (complete; transcript 02 byte-identical to the preserved copy). Split into raw-sources/transcripts/niksetting/01-21. Claude extraction pass running at wiki/synthesis/niksetting-extractions/ — 02, 07 (story sequences), 10 (8 formats), 12 (bio), 17 (posting schedule) shipped; 16 transcripts remain. Vault-content only.
+
+
+### [2026-07-11 18:30] CLAUDE
+Done, no active locks. Instagram Phase 1 milestone: ALL 21 Niksetting transcripts extracted by Claude (forget-Perplexity directive) into wiki/synthesis/niksetting-extractions/ (24 pages incl. masterclass quartered). Key finds: videos 03+04 are masterclass cuts; complete slide-level story-sequence specs captured (5 types, 6-step universal structure, 9-slide daily frame, start-here 10-slide, proof pin post formula, 8-9 email sequence). wiki/index.md + log.md updated. New source landed: SooWei Goh (5 transcripts, 41K words) split at raw-sources/transcripts/soowei-goh/ - extraction is the next lane. Vault-content only, no code.
