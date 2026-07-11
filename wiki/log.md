@@ -886,3 +886,7 @@ wiki/synthesis/client-portal-product-spec.md. Stage-2 mock (first-login connect
 state, empty scoreboard, design fixes) gates the full build. I1 hub build
 running concurrently gets an additive delta: client-token-scoped writes for a
 client's own integration rows.
+
+## [2026-07-11] ingest | Niksetting Perplexity export audited + transcript-2 Claude extraction
+
+Audited the founder's Perplexity export (raw-sources/transcripts/Niksetting Perplexity transcript extraction.md): 23 extraction blocks covering ~20 Niksetting videos, but raw transcripts are not preserved (export truncates user messages) except transcript 2, which Perplexity counted as ingested yet never extracted. Its closing self-audit also wrongly claimed only the 4-part masterclass was ever sent. Wrote wiki/synthesis/niksetting-transcript-optimizing-for-views-claude-extraction.md — full 12-section Claude extraction of the preserved transcript, closing the gap and benchmarking Claude vs Perplexity fidelity. Raw transcripts needed from founder for full re-extraction.

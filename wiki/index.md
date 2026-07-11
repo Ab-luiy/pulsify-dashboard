@@ -131,6 +131,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/integrations-hub-spec]] | Integrations hub: one D1-backed hub on funnels, operator + client scopes, three surfaces (dashboard Integrations screen, per-client Delivery cards, read-only portal tab); phased I1 money-path (Kit/Cal.com/Whop/Stripe/Discord) -> I2 Google OAuth -> I3 parked | 2026-07-03 |
 | [[synthesis/copy-system-hardening-spec]] | Copy-system audit + hardwire design: 4 writing surfaces inventoried, 6 bugs (stale landing rules in Lead Studio, 3 divergent voice guards, structureless outreach VSL, no webinar writer), canon + CI drift-checker fix; Codex gpt-5.5 high | 2026-07-03 |
 | [[synthesis/payment-onboarding-automation-spec]] | Payment-triggered onboarding design: /api/payment (webhook + Mark-paid fallback), D1 payments table, auto Kit email + form + portal link, Revenue goes live; gated on the payment-rail decision + missing form questions | 2026-07-03 |
+| [[synthesis/niksetting-transcript-optimizing-for-views-claude-extraction]] | Claude 12-section extraction of the one Niksetting transcript preserved verbatim in the Perplexity export — closes Perplexity's missing extraction block, benchmarks extraction fidelity | 2026-07-11 |
 
 ---
 

@@ -11,10 +11,24 @@
             "id": "1bef72d5493f4d9e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "AGENT_CHAT.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
+              },
+              "icon": "lucide-file",
+              "title": "AGENT_CHAT"
             }
           }
         ]
@@ -49,7 +63,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#price",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -70,8 +84,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -178,8 +191,12 @@
       "bases:Create new base": false
     }
   },
-  "active": "65135cc810b96eda",
+  "active": "bfb6291c943dbd2a",
   "lastOpenFiles": [
+    "wiki/synthesis/niksetting-transcript-optimizing-for-views-claude-extraction.md",
+    "wiki/synthesis/niksetting-transcript-optimizing-for-views-claude-extraction.md.tmp.34968.2951086e7b6d",
+    "DESIGN.md",
+    "raw-sources/transcripts/Niksetting Perplexity transcript extraction.md",
     "output/standard-preview/migrations/0009_media.sql",
     "output/standard-preview/functions/media/[id].js",
     "output/standard-preview/functions/media",
@@ -194,7 +211,6 @@
     "output/standard-preview/admin/console.js",
     "output/standard-preview/admin/console.css",
     "output/standard-preview/admin",
-    "output/standard-preview/admin.html",
     "claude-memory/feedback_codex_builds_claude_specs.md",
     "wiki/content-engine/content-pillars.md",
     "wiki/index.md",
@@ -203,7 +219,6 @@
     "output/thumbnails/miro-proof-board-v1-new-angle-facecam-grid-merge.png",
     "raw-sources/prompts/email-sequence-prompt.md",
     "raw-sources/prompts/vsl-prompt.md",
-    "push-dashboard.bat",
     "project/uploads/P U L S I F Y (1).png",
     "project/assets/pulsify-logo.png",
     "chats/chat1.md",
@@ -218,8 +233,6 @@
     "raw-sources/prompts/landing-page-design-prompt.md",
     "wiki/playbooks/pulse-system-outreach.md",
     "wiki/people/abdullah-dagestani.md",
-    "AGENTS.md",
-    "wiki/frameworks/ai-launch-prompt-pack.md",
     "Untitled.canvas"
   ]
 }
