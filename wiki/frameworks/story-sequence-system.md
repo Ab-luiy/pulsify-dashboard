@@ -18,7 +18,13 @@ Stories are the highest-trust surface on Instagram and the closing surface of th
 
 A designed multi-slide daily story arc where every slide earns the next one. The core mechanic: "every next story adds value to the prior story," holding the viewer in a flow state until the sequence's job is done. Sequences are built for credibility and conversion, never for views; a deep sequence deliberately sheds casual viewers to concentrate buyers. Stories are also the safe surface: feed content can damage a brand, stories tolerate experiments.
 
-## The five sequence types
+## The sequence types — reconciled canon
+
+Niksetting names his types in three places, and they don't fully overlap. The masterclass teaches FIVE (Q&A, educational, credibility, value-driven, lead magnet). Video 07 operates SEVEN frameworks (founder day-in-the-life, timeline-based, Q&A, client result stacking, no-idea day, story launch, lifestyle). His own carousel caption (captured 2026-07-11, the "$964,853" post: "after analyzing the data of over 1,000 individual sequences, I found the 7 types that create the highest retention & profit") lists his OFFICIAL SEVEN: **value-driven, credibility, Q&A, day-in-the-life, breakdown, lifestyle, CTA.**
+
+The caption list is the newest and most considered; Pulsify adopts it as the canonical type menu, with the reconciliation map: educational = breakdown; client result stacking = credibility; lead magnet + timeline-based = CTA (the conversion-frame types); no-idea day = a fallback mode, not a type; story launch and start-here = permanent/campaign assets above the daily types.
+
+## The seven types (canonical), plus modes and assets
 
 1. **Q&A.** Open a question box; answer 12 hours later, picking the questions your ICP cares about. Balance answers 50/50 technical (delegable) and personal (founder-only). Cold-start rule: not enough questions, write your own — you know the pain points. The psychology: questions are the audience inviting you to perform your expertise; they want to see how you think, and every answer is a free consult. Run at least biweekly.
 2. **Educational.** One ICP topic walked across ~6 slides, belief-shift framed (old way / new way). Lead with what they walk away with, never with what they'll learn: the outcome, not the process.
