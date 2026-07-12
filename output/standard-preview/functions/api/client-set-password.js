@@ -7,6 +7,7 @@ import {
   issueClientSession,
   hashPassword,
 } from "../_shared/client-auth.js";
+import { deleteSetupCode, verifySetupCode } from "./client-email-code.js";
 
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -14,6 +15,7 @@ export async function onRequestPost({ request, env }) {
   const body = await request.json().catch(() => ({}));
   const setupToken = String(body.setup_token || "");
   const password = String(body.password || "");
+  const code = String(body.code || "");
   if (!setupToken || !password) {
     return json({ ok: false, error: "setup token and password are required" }, 422);
   }
@@ -24,6 +26,15 @@ export async function onRequestPost({ request, env }) {
   const setup = await consumeSetupToken(env, setupToken);
   if (!setup) {
     return json({ ok: false, error: "this setup link is invalid or expired" }, 401);
+  }
+  if (env.RESEND_API_KEY) {
+    if (!code) {
+      return json({ ok: false, error: "email verification code is required" }, 422);
+    }
+    const verification = await verifySetupCode(env, setup, code);
+    if (!verification.ok) {
+      return json({ ok: false, error: verification.error }, 401);
+    }
   }
 
   const salt = createPasswordSalt();
@@ -48,6 +59,7 @@ export async function onRequestPost({ request, env }) {
   ).run();
 
   await invalidateSetupTokensForClient(env, setup.client_id);
+  await deleteSetupCode(env, setup.client_id, setup.email);
   const session = await issueClientSession(env, setup.client_id);
 
   return json(

@@ -501,6 +501,64 @@ input:focus, select:focus, textarea:focus {
 .activity-row p { min-width: 0; color: var(--muted); font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
 .activity-row p strong { color: var(--ink); }
 .activity-row time { color: var(--faint); font-size: 9px; white-space: nowrap; }
+.review-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-2);
+}
+.review-card + .review-card { margin-top: 12px; }
+.review-head,
+.review-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.review-head strong { display: block; font-size: 12px; }
+.review-head p,
+.review-meta span,
+.review-slide p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+.review-meta { margin: 10px 0 12px; }
+.review-slides {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.review-slide {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.review-slide-num {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.review-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+.review-pill-list span {
+  display: inline-flex;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 700;
+}
 .client-health-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

@@ -105,6 +105,18 @@
           </article>
         </div>
 
+        <article class="panel home-panel">
+          <div class="panel-head">
+            <div><p class="kicker">Studio review</p><h3>Sequences waiting on operator review</h3><p>Approve or reject client-submitted story sequences across every dashboard.</p></div>
+            <button class="button outline small" id="refreshStudioReviewButton" type="button">Refresh review queue</button>
+          </div>
+          <div id="studioReviewQueue"></div>
+          <div class="empty-state inset" id="studioReviewEmpty" hidden>
+            <h3>No sequences are waiting</h3>
+            <p>Client drafts appear here after they are sent for review from the Studio tab.</p>
+          </div>
+        </article>
+
         <div class="subsection-head outside">
           <p class="kicker">Clients</p>
           <h3>Page health</h3>
@@ -301,8 +313,10 @@
                 <div class="field">
                   <label>Set-password link <span class="optional">Generated when needed</span></label>
                   <p class="field-hint">Generate or rotate the one-time link the client uses to set their password. A new link turns off the previous one.</p>
+                  <p class="field-hint" id="dashboardEmailHint">Setup-link emails are off until RESEND_API_KEY is set.</p>
                 </div>
-                <button class="button dark" id="generateDashboardSetupButton" type="button">Generate dashboard setup link</button>
+                <button class="button dark" id="generateDashboardSetupButton" type="button">Copy dashboard setup link</button>
+                <button class="button outline" id="emailDashboardSetupButton" type="button" disabled>Email setup link</button>
                 <div class="message" id="dashboardSetupMessage" role="status" hidden></div>
               </div>
             </div>

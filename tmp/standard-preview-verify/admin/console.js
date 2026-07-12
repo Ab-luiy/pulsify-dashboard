@@ -36,6 +36,7 @@
     activity: [],
     campaignSummary: {},
     trackedAssets: [],
+    studioReviews: [],
   };
 
   const deliveryState = {
@@ -308,6 +309,7 @@
     $("homeAddClientButton").addEventListener("click", () => openClientWizard());
     $("emptyAddClientButton").addEventListener("click", () => openClientWizard());
     $("refreshHomeButton").addEventListener("click", loadHome);
+    $("refreshStudioReviewButton").addEventListener("click", loadStudioReviewQueue);
     $("refreshClientsButton").addEventListener("click", loadSettings);
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
@@ -333,7 +335,8 @@
       if (event.target !== $("templateVariant")) scheduleDraftPreview();
     });
     $("settingsForm").addEventListener("submit", saveSettings);
-    $("generateDashboardSetupButton").addEventListener("click", generateDashboardSetupLink);
+    $("generateDashboardSetupButton").addEventListener("click", () => generateDashboardSetupLink(false));
+    $("emailDashboardSetupButton").addEventListener("click", () => generateDashboardSetupLink(true));
     $("addProofImageButton").addEventListener("click", () => addProofRow("proofImageFields", "proof-image-input"));
     $("proofImageFields").addEventListener("click", handleProofListAction);
     $("proofImageFields").addEventListener("input", scheduleDraftPreview);
@@ -744,9 +747,10 @@
     button.disabled = true;
     $("attentionCount").textContent = "Loading";
     try {
-      const [activityResponse, campaignResponse, configResults] = await Promise.all([
+      const [activityResponse, campaignResponse, reviewResponse, configResults] = await Promise.all([
         api("/api/activity"),
         api("/api/campaigns"),
+        api("/api/studio-sequences?status=review"),
         Promise.all(state.clients.map(async (client) => {
           try {
             const response = await api(`/api/settings?client=${encodeURIComponent(client.client)}`);
@@ -761,15 +765,20 @@
       ]);
       const activityData = await activityResponse.json().catch(() => ({}));
       const campaignData = await campaignResponse.json().catch(() => ({}));
+      const reviewData = await reviewResponse.json().catch(() => ({}));
       if (!activityResponse.ok || !activityData.ok) {
         throw new Error(activityData.error || "Could not load activity.");
       }
       if (!campaignResponse.ok || !campaignData.ok) {
         throw new Error(campaignData.error || "Could not load page activity.");
       }
+      if (!reviewResponse.ok || !reviewData.ok) {
+        throw new Error(reviewData.error || "Could not load the studio review queue.");
+      }
       state.homeConfigs = new Map(configResults);
       state.activity = Array.isArray(activityData.activity) ? activityData.activity : [];
       state.campaignSummary = campaignData.summary || {};
+      state.studioReviews = Array.isArray(reviewData.rows) ? reviewData.rows : [];
       renderHome();
     } finally {
       button.disabled = false;
@@ -851,6 +860,65 @@
     $("homeClientsEmpty").hidden = state.clients.length > 0;
     $$(".home-client-link").forEach((button) => {
       button.addEventListener("click", () => openHomeClient(button.dataset.homeClient));
+    });
+    renderStudioReviewQueue();
+  }
+
+  async function loadStudioReviewQueue() {
+    const button = $("refreshStudioReviewButton");
+    button.disabled = true;
+    try {
+      const response = await api("/api/studio-sequences?status=review");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not load the studio review queue.");
+      }
+      state.studioReviews = Array.isArray(data.rows) ? data.rows : [];
+      renderStudioReviewQueue();
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || "Could not load the studio review queue.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function renderStudioReviewQueue() {
+    $("studioReviewQueue").innerHTML = state.studioReviews.map((row) => `
+      <article class="review-card">
+        <div class="review-head">
+          <div>
+            <strong>${esc(row.client_id)} · ${esc(row.type || row.intent || "sequence")}</strong>
+            <p>${esc(row.topic || "")}</p>
+          </div>
+          <span class="badge accent">${esc(row.status || "review")}</span>
+        </div>
+        <div class="review-meta">
+          <span>Goal: ${esc(row.goal || "reach")}</span>
+          <span>Updated ${relativeTime(row.updated_at)}</span>
+        </div>
+        <div class="review-slides">
+          ${(Array.isArray(row.output?.slides) ? row.output.slides : []).map((slide) => `
+            <div class="review-slide">
+              <span class="review-slide-num">Slide ${Number(slide.n || 0)}</span>
+              <strong>${esc(slide.job || "")}</strong>
+              <div class="review-pill-list">${(slide.text_pills || []).map((pill) => `<span>${esc(pill)}</span>`).join("") || "<span>No copy returned</span>"}</div>
+              <p>${esc(slide.photo?.primary || "")}</p>
+            </div>
+          `).join("") || `<div class="message error">No structured JSON was saved for this sequence. Open the manual prompt and regenerate.</div>`}
+        </div>
+        <label class="field">
+          <span>Review note</span>
+          <textarea rows="3" data-review-note="${row.id}" placeholder="Write the approval context or the rejection reason."></textarea>
+        </label>
+        <div class="button-row">
+          <button class="button primary small" type="button" data-review-action="approve" data-review-id="${row.id}">Approve</button>
+          <button class="button outline small" type="button" data-review-action="reject" data-review-id="${row.id}">Reject</button>
+        </div>
+      </article>
+    `).join("");
+    $("studioReviewEmpty").hidden = state.studioReviews.length > 0;
+    $$("[data-review-action]", $("studioReviewQueue")).forEach((button) => {
+      button.addEventListener("click", () => handleStudioReviewAction(button.dataset.reviewAction, Number(button.dataset.reviewId)));
     });
   }
 
@@ -1684,6 +1752,8 @@
     $("dashboardTodosJson").value = "";
     $("dashboardTeamJson").value = "";
     $("dashboardMomentumJson").value = "";
+    $("dashboardEmailHint").textContent = "Setup-link emails are off until RESEND_API_KEY is set.";
+    $("emailDashboardSetupButton").disabled = true;
     renderProofFields();
     $$(".content-field").forEach((input) => { input.value = ""; });
     setSavedState($("typeformSecretState"), false, "webhook secret");
@@ -1726,6 +1796,7 @@
       $$(".content-field").forEach((input) => { input.value = content[input.dataset.contentKey] || ""; });
       $("dashboardLoginEmail").value = data.dashboard_auth?.email || "";
       setSavedState($("dashboardPasswordState"), Boolean(data.dashboard_auth?.has_password), "dashboard password");
+      syncDashboardEmailUi(data.dashboard_auth);
       $("dashboardPlansJson").value = formatJsonForEditor(data.dashboard_content?.plans);
       $("dashboardTodosJson").value = formatJsonForEditor(data.dashboard_content?.todos);
       $("dashboardTeamJson").value = formatJsonForEditor(data.dashboard_content?.team);
@@ -1737,6 +1808,7 @@
       $("settingsStatus").className = "status-pill";
       $("dashboardLoginEmail").value = data.dashboard_auth?.email || "";
       setSavedState($("dashboardPasswordState"), Boolean(data.dashboard_auth?.has_password), "dashboard password");
+      syncDashboardEmailUi(data.dashboard_auth);
       $("dashboardPlansJson").value = formatJsonForEditor(data.dashboard_content?.plans);
       $("dashboardTodosJson").value = formatJsonForEditor(data.dashboard_content?.todos);
       $("dashboardTeamJson").value = formatJsonForEditor(data.dashboard_content?.team);
@@ -1750,6 +1822,13 @@
   function setSavedState(element, isSet, label) {
     element.textContent = isSet ? `Saved ${label} is set. Leave the field blank to keep it.` : `No saved ${label} reported.`;
     element.classList.toggle("set", isSet);
+  }
+
+  function syncDashboardEmailUi(auth) {
+    const available = Boolean(auth?.email_delivery_available);
+    $("dashboardEmailHint").textContent = auth?.email_delivery_hint || "Setup-link emails are off until RESEND_API_KEY is set.";
+    $("dashboardEmailHint").dataset.available = available ? "1" : "0";
+    $("emailDashboardSetupButton").disabled = !available;
   }
 
   function updatePreviewLinks() {
@@ -1961,7 +2040,7 @@
     }
   }
 
-  async function generateDashboardSetupLink() {
+  async function generateDashboardSetupLink(sendEmail) {
     const client = $("clientId").value.trim() || state.client;
     const email = $("dashboardLoginEmail").value.trim();
     if (!client) {
@@ -1973,23 +2052,49 @@
       return;
     }
     const button = $("generateDashboardSetupButton");
+    const emailButton = $("emailDashboardSetupButton");
     button.disabled = true;
+    emailButton.disabled = true;
     hideMessage($("dashboardSetupMessage"));
     try {
       const response = await api("/api/client-setup-link", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ client, email }),
+        body: JSON.stringify({ client, email, send_email: sendEmail }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate the dashboard setup link.");
-      $("dashboardSetupMessage").innerHTML = `<a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>${data.note ? `<br>${esc(data.note)}` : ""}`;
+      $("dashboardSetupMessage").innerHTML = sendEmail
+        ? `Setup link emailed to ${esc(email)}.<br><a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>`
+        : `<a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>${data.note ? `<br>${esc(data.note)}` : ""}`;
       $("dashboardSetupMessage").className = "message success";
       $("dashboardSetupMessage").hidden = false;
     } catch (error) {
       if (state.key) showMessage($("dashboardSetupMessage"), error.message || "Could not generate the dashboard setup link.", "error");
     } finally {
       button.disabled = false;
+      emailButton.disabled = $("dashboardEmailHint").dataset.available !== "1";
+    }
+  }
+
+  async function handleStudioReviewAction(action, id) {
+    const noteField = document.querySelector(`[data-review-note="${id}"]`);
+    const note = noteField?.value.trim() || "";
+    try {
+      const response = await api("/api/studio-sequences", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action, id, note }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || `Could not ${action} this sequence.`);
+      }
+      state.studioReviews = state.studioReviews.filter((row) => row.id !== id);
+      renderStudioReviewQueue();
+      showMessage($("globalMessage"), `Sequence ${action === "approve" ? "approved" : "rejected"}.`, "success");
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || `Could not ${action} this sequence.`, "error");
     }
   }
 

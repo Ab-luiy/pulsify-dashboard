@@ -13,7 +13,9 @@ const CLIENT_TABLES = [
   ["client_auth", "client_id"],
   ["client_sessions", "client_id"],
   ["client_setup_tokens", "client_id"],
+  ["client_email_codes", "client_id"],
   ["client_dashboard_content", "client_id"],
+  ["studio_sequences", "client_id"],
   ["content_items", "client"],
   ["call_notes", "client"],
   ["client_assets", "client"],
@@ -57,6 +59,13 @@ export async function onRequestGet({ request, env }) {
         email: authRow.email || "",
         has_password: Boolean(authRow.pass_hash),
         updated_at: authRow.updated_at || null,
+        email_delivery_available: Boolean(env.RESEND_API_KEY && env.EMAIL_FROM),
+        email_delivery_enabled: Boolean(env.RESEND_API_KEY),
+        email_delivery_hint: env.RESEND_API_KEY
+          ? (env.EMAIL_FROM
+            ? `Setup links can be emailed from ${env.EMAIL_FROM}.`
+            : "RESEND_API_KEY is set but EMAIL_FROM is missing.")
+          : "Setup-link emails are off until RESEND_API_KEY is set.",
       } : null,
       dashboard_content: parseDashboardRows(dashboardRows.results || []),
     });
@@ -78,6 +87,13 @@ export async function onRequestGet({ request, env }) {
       email: authRow.email || "",
       has_password: Boolean(authRow.pass_hash),
       updated_at: authRow.updated_at || null,
+      email_delivery_available: Boolean(env.RESEND_API_KEY && env.EMAIL_FROM),
+      email_delivery_enabled: Boolean(env.RESEND_API_KEY),
+      email_delivery_hint: env.RESEND_API_KEY
+        ? (env.EMAIL_FROM
+          ? `Setup links can be emailed from ${env.EMAIL_FROM}.`
+          : "RESEND_API_KEY is set but EMAIL_FROM is missing.")
+        : "Setup-link emails are off until RESEND_API_KEY is set.",
     } : null,
     dashboard_content: parseDashboardRows(dashboardRows.results || []),
   });

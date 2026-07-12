@@ -11,7 +11,7 @@
     :root{
       --ink:#131720; --muted:#626a78; --blue:#6871f4; --blue-strong:#5863ef; --blue-soft:#eef0ff;
       --line:#e9e8ef; --white:#fff; --bg:#f3f5f8; --panel:#fff; --rail:#10131b; --rail-text:#9aa2b3;
-      --green:#1f9d6b; --green-soft:#e6f7ef; --red:#c1422f; --red-soft:#fbeae7;
+      --green:#1f9d6b; --green-soft:#e6f7ef; --red:#c1422f; --red-soft:#fbeae7; --amber:#935f08; --amber-soft:#fff4d9;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
@@ -38,7 +38,7 @@
     .panel-head h2{margin:0;font-size:30px;letter-spacing:-.04em}
     .panel-note{color:var(--muted);font-size:12.5px}
     .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
-    .metric,.card,.empty-card,.list-card,.todo-card{background:var(--panel);border:1px solid var(--line);border-radius:18px}
+    .metric,.card,.empty-card,.list-card,.todo-card,.studio-card,.slide-card,.history-card,.review-card,.manual-card{background:var(--panel);border:1px solid var(--line);border-radius:18px}
     .metric{padding:18px;box-shadow:0 10px 30px rgba(24,31,48,.045)}
     .metric span{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-bottom:9px;text-transform:uppercase;letter-spacing:.08em}
     .metric strong{display:block;font-size:28px;letter-spacing:-.05em}
@@ -55,8 +55,8 @@
     .empty-card h3{margin:0 0 8px;font-size:20px;letter-spacing:-.03em}
     .empty-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
     .stack{display:grid;gap:14px}
-    .list-card,.todo-card{padding:18px 20px}
-    .list-card h3,.todo-card h3{margin:0 0 14px;font-size:18px;letter-spacing:-.03em}
+    .list-card,.todo-card,.studio-card,.history-card,.review-card,.manual-card{padding:18px 20px}
+    .list-card h3,.todo-card h3,.studio-card h3,.history-card h3,.manual-card h3{margin:0 0 14px;font-size:18px;letter-spacing:-.03em}
     .list-card ul,.todo-card ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
     .list-card li,.todo-card li{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
     .item-title{display:block;font-weight:800;margin-bottom:4px}
@@ -69,10 +69,62 @@
     .pending-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:64px 30px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(100deg,#f4f4f8 25%,#fafafc 37%,#f4f4f8 63%);background-size:400% 100%;animation:pendingShimmer 3.2s ease-in-out infinite}
     body.dark .pending-card{background:linear-gradient(100deg,#171b24 25%,#1b202c 37%,#171b24 63%);background-size:400% 100%}
     @keyframes pendingShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-    .pending-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.85);color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+    .pending-pill,.status-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.85);color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
     .pending-card h3{margin:0;font-size:22px;letter-spacing:-.03em}
     .pending-card p{margin:0;max-width:420px;color:var(--muted);font-size:14px;line-height:1.65}
-    .message{margin-bottom:18px;padding:12px 14px;border-radius:14px;font-size:12.5px;line-height:1.5;background:var(--red-soft);color:var(--red)}
+    .message{margin-bottom:18px;padding:12px 14px;border-radius:14px;font-size:12.5px;line-height:1.5;background:var(--panel);color:var(--ink);border:1px solid var(--line)}
+    .message.success{background:var(--green-soft);color:var(--green)}
+    .message.warning{background:var(--amber-soft);color:var(--amber)}
+    .studio-grid{display:grid;grid-template-columns:minmax(320px,380px) minmax(0,1fr);gap:16px;align-items:start}
+    .field-grid{display:grid;gap:12px}
+    .field-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .field-grid label{display:grid;gap:7px;font-size:12px;font-weight:700}
+    .field-grid input,.field-grid select,.field-grid textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);color:var(--ink);font:inherit}
+    body.dark .field-grid input,body.dark .field-grid select,body.dark .field-grid textarea{background:#0f131b}
+    .field-grid textarea{resize:vertical;min-height:110px}
+    .field-grid input:focus,.field-grid select:focus,.field-grid textarea:focus{outline:2px solid rgba(104,113,244,.18);outline-offset:1px;border-color:var(--blue)}
+    .type-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .type-card{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.5);cursor:pointer;text-align:left}
+    .type-card strong{display:block;font-size:13px}
+    .type-card span{display:block;margin-top:5px;color:var(--muted);font-size:11.5px;line-height:1.45}
+    .type-card.active{border-color:var(--blue);background:var(--blue-soft)}
+    .button-row{display:flex;gap:10px;flex-wrap:wrap}
+    .button-row button,.button-row .ghost-button,.history-card button,.slide-actions button{border:0;border-radius:12px;padding:11px 14px;background:var(--ink);color:#fff;font:800 12px Inter,system-ui,sans-serif;cursor:pointer}
+    .button-row button.secondary,.slide-actions button.secondary,.history-card button.secondary{background:var(--blue)}
+    .button-row button.outline,.history-card button.outline,.slide-actions button.outline,.ghost-button{background:transparent;color:var(--ink);border:1px solid var(--line)}
+    body.dark .button-row button.outline,body.dark .history-card button.outline,body.dark .slide-actions button.outline,.ghost-button{color:var(--ink)}
+    .button-row button[disabled],.history-card button[disabled]{opacity:.6;cursor:wait}
+    .history-list,.review-list,.slide-list,.photo-list{display:grid;gap:12px}
+    .history-item{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+    .history-item.active{border-color:var(--blue);background:var(--blue-soft)}
+    .history-top,.review-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .history-item strong,.review-card strong{display:block;font-size:13px}
+    .history-item p,.review-card p,.manual-card p,.studio-card p,.slide-card p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.55}
+    .status-pill.draft{background:var(--blue-soft);color:var(--blue)}
+    .status-pill.review{background:var(--amber-soft);color:var(--amber)}
+    .status-pill.approved{background:var(--green-soft);color:var(--green)}
+    .status-pill.rejected{background:var(--red-soft);color:var(--red)}
+    .slide-list{margin-top:16px}
+    .slide-card{padding:18px}
+    .slide-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+    .slide-number{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+    .pill-list{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+    .pill{display:inline-flex;padding:8px 10px;border-radius:999px;background:var(--blue-soft);color:var(--blue-strong);font-size:12px;font-weight:700}
+    .photo-box,.review-note{margin-top:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+    .photo-box strong,.review-note strong,.manual-card strong{display:block;font-size:12px}
+    .slide-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .manual-card textarea{width:100%;min-height:220px;margin-top:12px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ink)}
+    body.dark .manual-card textarea{background:#0f131b}
+    .review-card{padding:18px}
+    .photo-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+    .photo-item:first-child{border-top:0}
+    .photo-item input{margin-top:4px;accent-color:var(--blue)}
+    .photo-item span{display:block;color:var(--muted);font-size:12px;line-height:1.5}
+    .empty-inline{color:var(--muted);font-size:12px}
+    code.inline{padding:2px 6px;border-radius:999px;background:var(--blue-soft);color:var(--blue-strong);font-size:11px}
+    @media (max-width:1100px){
+      .studio-grid{grid-template-columns:1fr}
+    }
     @media (max-width:980px){
       #app{display:block}
       .rail{position:sticky;z-index:20;height:auto;padding:10px 12px}
@@ -81,7 +133,7 @@
       .tab-btn{width:auto;flex:0 0 auto}
       .rail-actions{grid-template-columns:1fr 1fr}
       main{padding:24px 16px 60px}
-      .metric-grid,.two-col{grid-template-columns:1fr}
+      .metric-grid,.two-col,.field-grid.two,.type-grid{grid-template-columns:1fr}
     }
   </style>
 </head>
@@ -147,8 +199,8 @@
       </section>
 
       <section class="panel" id="panel-content">
-        <div class="panel-head"><div><h2>Content</h2><div class="panel-note">P2 will turn this into the content calendar and pipeline.</div></div></div>
-        <div class="pending-card"><span class="pending-pill">P2</span><h3>Content pipeline lands here next</h3><p>This section will show what is scheduled, in production, and published once the content layer is wired in.</p></div>
+        <div class="panel-head"><div><h2>Content</h2><div class="panel-note">P2 keeps the sequence studio in Studio. The full content calendar still lands later.</div></div></div>
+        <div class="pending-card"><span class="pending-pill">Next</span><h3>Content pipeline lands here next</h3><p>This section will show what is scheduled, in production, and published once the content layer is wired in.</p></div>
       </section>
 
       <section class="panel" id="panel-performance">
@@ -177,8 +229,69 @@
       </section>
 
       <section class="panel" id="panel-studio">
-        <div class="panel-head"><div><h2>Studio</h2><div class="panel-note">P2 will wire the content generator contract here.</div></div></div>
-        <div class="pending-card"><span class="pending-pill">P2</span><h3>Studio opens after the shell is stable</h3><p>This section will hold the sequence, carousel, and YouTube generation workflow once the generator UI is wired in.</p></div>
+        <div class="panel-head">
+          <div>
+            <h2>Studio</h2>
+            <div class="panel-note">Draft the story sequence, send it for review, and keep approved sequences in one place.</div>
+          </div>
+          <div class="panel-note" id="studioStatus">Waiting on history</div>
+        </div>
+
+        <div class="studio-grid">
+          <div class="stack">
+            <div class="studio-card">
+              <h3>Sequence builder</h3>
+              <p>Pick a sequence type or describe the intent in plain English. The builder writes the prompt contract and returns a draft.</p>
+              <div class="field-grid">
+                <div>
+                  <div class="panel-note">Type</div>
+                  <div class="type-grid" id="typeGrid"></div>
+                </div>
+                <label for="intentInput">Intent
+                  <textarea id="intentInput" placeholder="If you do not want to pick a type, describe what you want to talk about."></textarea>
+                </label>
+                <label for="topicInput">Topic
+                  <input id="topicInput" placeholder="What is the exact topic of this sequence?">
+                </label>
+                <div class="field-grid two">
+                  <label for="goalSelect">Goal
+                    <select id="goalSelect">
+                      <option value="reach">Reach</option>
+                      <option value="dms">DMs</option>
+                      <option value="booked calls">Booked calls</option>
+                    </select>
+                  </label>
+                  <label for="slideCountInput">Slide count
+                    <input id="slideCountInput" type="number" min="3" max="12" value="8">
+                  </label>
+                </div>
+                <label for="triggerWordInput">Trigger word
+                  <input id="triggerWordInput" placeholder="Required if you want a hard CTA">
+                </label>
+                <label for="proofLinesInput">Proof lines
+                  <textarea id="proofLinesInput" placeholder="One proof line per row. Use only real proof and real numbers."></textarea>
+                </label>
+              </div>
+              <div class="button-row" style="margin-top:16px">
+                <button id="generateSequenceButton" class="secondary" type="button">Generate sequence</button>
+              </div>
+            </div>
+
+            <div class="history-card">
+              <h3>Sequence history</h3>
+              <p>Open any prior draft, review state, or approved sequence.</p>
+              <div class="history-list" id="historyList"></div>
+              <div class="empty-inline" id="historyEmpty" hidden>No sequences saved yet.</div>
+            </div>
+          </div>
+
+          <div class="stack" id="studioDetail">
+            <div class="empty-card" id="studioEmpty">
+              <h3>No sequence open yet</h3>
+              <p>Generate a new sequence or open one from history. Manual-mode runs still save the prompt and can be sent for review after you draft the copy elsewhere.</p>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
@@ -196,7 +309,26 @@
     const TOKEN = sessionStorage.getItem("pulsify_portal_token") || "";
     const CLIENT = params.get("client") || "";
     const $ = (id) => document.getElementById(id);
-    const state = { client: CLIENT, sections: {} };
+    const STUDIO_TYPES = [
+      ["value-driven", "Teach something genuinely useful."],
+      ["credibility", "Stack proof and position the result."],
+      ["q&a", "Answer the question your ICP already has."],
+      ["day-in-the-life", "Document the day while carrying value."],
+      ["breakdown", "Walk one topic step by step."],
+      ["lifestyle", "Humanity without flex."],
+      ["cta", "Run the conversion sequence."],
+      ["start-here", "Build the permanent first highlight."],
+      ["story launch", "Run the campaign story sequence."],
+    ];
+    const state = {
+      client: CLIENT,
+      sections: {},
+      studio: {
+        selectedType: "",
+        rows: [],
+        current: null,
+      },
+    };
 
     document.querySelectorAll(".tab-btn").forEach((button) => {
       button.addEventListener("click", () => openTab(button.dataset.tab));
@@ -207,12 +339,14 @@
     const dark = localStorage.getItem("pulsify_client_dashboard_theme") === "dark";
     document.body.classList.toggle("dark", dark);
 
+    renderTypeGrid();
+    $("generateSequenceButton").addEventListener("click", generateSequence);
     loadDashboard();
 
     async function loadDashboard() {
       try {
         const response = await fetch(`/api/client-dashboard?client=${encodeURIComponent(state.client)}`, {
-          headers: TOKEN ? { "x-portal-token": TOKEN } : {},
+          headers: authHeaders(),
           credentials: "same-origin",
         });
         if (response.status === 401 || response.status === 403) {
@@ -222,8 +356,34 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
         renderDashboard(data);
+        await loadStudioHistory();
       } catch (error) {
         showMessage(error.message || "Could not load the dashboard.");
+      }
+    }
+
+    async function loadStudioHistory() {
+      try {
+        const response = await fetch("/api/studio-sequences", {
+          headers: authHeaders(),
+          credentials: "same-origin",
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not load sequence history.");
+        state.studio.rows = Array.isArray(data.rows) ? data.rows : [];
+        state.studio.current = state.studio.current
+          ? state.studio.rows.find((row) => row.id === state.studio.current.id) || state.studio.rows[0] || null
+          : state.studio.rows[0] || null;
+        renderHistory();
+        renderCurrentSequence();
+        $("studioStatus").textContent = `${state.studio.rows.length} sequence${state.studio.rows.length === 1 ? "" : "s"} saved`;
+      } catch (error) {
+        showMessage(error.message || "Could not load sequence history.");
+        $("studioStatus").textContent = "History unavailable";
       }
     }
 
@@ -267,6 +427,266 @@
           <td>${esc(payment.note || "-")}</td>
         </tr>
       `).join("");
+    }
+
+    function renderTypeGrid() {
+      $("typeGrid").innerHTML = STUDIO_TYPES.map(([type, note]) => `
+        <button class="type-card${state.studio.selectedType === type ? " active" : ""}" type="button" data-sequence-type="${type}">
+          <strong>${esc(type)}</strong>
+          <span>${esc(note)}</span>
+        </button>
+      `).join("");
+      document.querySelectorAll("[data-sequence-type]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.studio.selectedType = button.dataset.sequenceType === state.studio.selectedType ? "" : button.dataset.sequenceType;
+          renderTypeGrid();
+        });
+      });
+    }
+
+    async function generateSequence() {
+      const payload = {
+        type: state.studio.selectedType || "",
+        intent: $("intentInput").value.trim(),
+        topic: $("topicInput").value.trim(),
+        goal: $("goalSelect").value,
+        trigger_word: $("triggerWordInput").value.trim(),
+        proof_lines: $("proofLinesInput").value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean),
+        slide_count: Number($("slideCountInput").value || 8),
+      };
+      if (!payload.type && !payload.intent) {
+        showMessage("Pick a type or write the intent.");
+        openTab("studio");
+        return;
+      }
+      if (!payload.topic) {
+        showMessage("Topic is required.");
+        openTab("studio");
+        return;
+      }
+      const button = $("generateSequenceButton");
+      button.disabled = true;
+      showMessage("Generating sequence...");
+      try {
+        const response = await fetch("/api/studio-generate", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate the sequence.");
+        await loadStudioHistory();
+        state.studio.current = state.studio.rows.find((row) => row.id === data.id) || state.studio.current;
+        renderHistory();
+        renderCurrentSequence();
+        showMessage(data.mode === "manual"
+          ? "No LLM key is configured here. The manual prompt was saved and is ready to copy."
+          : (data.warning ? data.warning : "Sequence draft generated."), data.warning ? "warning" : "success");
+        openTab("studio");
+      } catch (error) {
+        showMessage(error.message || "Could not generate the sequence.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function renderHistory() {
+      $("historyList").innerHTML = state.studio.rows.map((row) => `
+        <div class="history-item${state.studio.current?.id === row.id ? " active" : ""}">
+          <div class="history-top">
+            <div>
+              <strong>${esc(row.topic || row.type || "Sequence")}</strong>
+              <p>${esc(row.type || row.intent || "sequence")} · ${esc(row.goal || "reach")}</p>
+            </div>
+            <span class="status-pill ${esc(row.status || "draft")}">${esc(labelStatus(row.status))}</span>
+          </div>
+          <p>Updated ${relativeTime(row.updated_at)}</p>
+          <div class="button-row" style="margin-top:12px">
+            <button class="outline" type="button" data-open-sequence="${row.id}">Open</button>
+            ${row.status === "draft" || row.status === "rejected"
+              ? `<button class="secondary" type="button" data-submit-review="${row.id}">Send for review</button>`
+              : ""}
+            ${row.status === "draft"
+              ? `<button class="outline" type="button" data-delete-sequence="${row.id}">Delete draft</button>`
+              : ""}
+          </div>
+        </div>
+      `).join("");
+      $("historyEmpty").hidden = state.studio.rows.length > 0;
+      document.querySelectorAll("[data-open-sequence]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.studio.current = state.studio.rows.find((row) => row.id === Number(button.dataset.openSequence)) || null;
+          renderHistory();
+          renderCurrentSequence();
+        });
+      });
+      document.querySelectorAll("[data-submit-review]").forEach((button) => {
+        button.addEventListener("click", () => submitForReview(Number(button.dataset.submitReview)));
+      });
+      document.querySelectorAll("[data-delete-sequence]").forEach((button) => {
+        button.addEventListener("click", () => deleteDraft(Number(button.dataset.deleteSequence)));
+      });
+    }
+
+    function renderCurrentSequence() {
+      const target = $("studioDetail");
+      const row = state.studio.current;
+      if (!row) {
+        target.innerHTML = `<div class="empty-card" id="studioEmpty"><h3>No sequence open yet</h3><p>Generate a new sequence or open one from history.</p></div>`;
+        return;
+      }
+
+      const slides = Array.isArray(row.output?.slides) ? row.output.slides : [];
+      const hooks = Array.isArray(row.output?.hooks) ? row.output.hooks : [];
+      target.innerHTML = `
+        <div class="review-card">
+          <div class="review-top">
+            <div>
+              <strong>${esc(row.topic || "Sequence")}</strong>
+              <p>${esc(row.type || row.intent || "sequence")} · ${esc(row.goal || "reach")}</p>
+            </div>
+            <span class="status-pill ${esc(row.status || "draft")}">${esc(labelStatus(row.status))}</span>
+          </div>
+          <div class="button-row" style="margin-top:14px">
+            <button class="outline" type="button" id="copyAllButton">Copy all slides</button>
+            ${row.manual_prompt ? `<button class="outline" type="button" id="copyManualPromptButton">Copy manual prompt</button>` : ""}
+          </div>
+          ${row.review_note ? `<div class="review-note"><strong>Review note</strong><p>${esc(row.review_note)}</p></div>` : ""}
+        </div>
+        ${row.manual_prompt && !slides.length ? `
+          <div class="manual-card">
+            <h3>Manual prompt</h3>
+            <p>No model output was returned here, so the contract prompt is saved for copy-paste.</p>
+            <textarea readonly id="manualPromptBox">${esc(row.manual_prompt)}</textarea>
+          </div>
+        ` : ""}
+        ${hooks.length ? `
+          <div class="studio-card">
+            <h3>Hook alternates</h3>
+            <div class="pill-list">${hooks.map((hook) => `<span class="pill">${esc(hook)}</span>`).join("")}</div>
+            <p>${esc(row.output?.why_order || "")}</p>
+            <p>${esc(row.output?.posting_note || "")}</p>
+          </div>
+        ` : ""}
+        ${slides.length ? `
+          <div class="studio-card">
+            <h3>Photo checklist</h3>
+            <div class="photo-list" id="photoList">
+              ${slides.map((slide) => `
+                <label class="photo-item">
+                  <input type="checkbox" data-photo-check="${row.id}-${slide.n}" ${isPhotoChecked(row.id, slide.n) ? "checked" : ""}>
+                  <span><strong>Slide ${Number(slide.n || 0)}</strong><br>${esc(slide.photo?.primary || "")}<br>${slide.photo?.alternative ? `Alternative: ${esc(slide.photo.alternative)}` : ""}</span>
+                </label>
+              `).join("")}
+            </div>
+            <p>Uploads are not wired in v1. The existing media path is admin-only, not client-scoped.</p>
+          </div>
+        ` : ""}
+        <div class="slide-list">
+          ${slides.map((slide) => `
+            <div class="slide-card">
+              <div class="slide-head">
+                <div>
+                  <div class="slide-number">Slide ${Number(slide.n || 0)}</div>
+                  <strong>${esc(slide.job || "")}</strong>
+                </div>
+                <span class="status-pill draft">${esc(slide.interactive || "none")}</span>
+              </div>
+              <div class="pill-list">${(slide.text_pills || []).map((pill) => `<span class="pill">${esc(pill)}</span>`).join("") || `<span class="pill">No pills returned</span>`}</div>
+              ${slide.emphasis ? `<p><strong>Emphasis:</strong> ${esc(slide.emphasis)}</p>` : ""}
+              <div class="photo-box">
+                <strong>Photo request</strong>
+                <p>${esc(slide.photo?.primary || "")}</p>
+                ${slide.photo?.alternative ? `<p>Alternative: ${esc(slide.photo.alternative)}</p>` : ""}
+              </div>
+              <div class="slide-actions">
+                <button class="outline" type="button" data-copy-slide="${row.id}-${slide.n}">Copy slide</button>
+              </div>
+            </div>
+          `).join("") || `
+            <div class="empty-card">
+              <h3>No structured slide output</h3>
+              <p>This draft only has the manual prompt or a raw model response. Use the prompt and paste the final copy back through a new run.</p>
+            </div>
+          `}
+        </div>
+      `;
+
+      const copyAllButton = $("copyAllButton");
+      if (copyAllButton) {
+        copyAllButton.addEventListener("click", async () => {
+          const copied = await copyText(formatSequenceForCopy(row));
+          showMessage(copied ? "All slides copied." : "Copy failed. Select the text manually.", copied ? "success" : undefined);
+        });
+      }
+      const copyManualPromptButton = $("copyManualPromptButton");
+      if (copyManualPromptButton) {
+        copyManualPromptButton.addEventListener("click", async () => {
+          const copied = await copyText(row.manual_prompt || "");
+          showMessage(copied ? "Manual prompt copied." : "Copy failed. Select the prompt manually.", copied ? "success" : undefined);
+        });
+      }
+      document.querySelectorAll("[data-copy-slide]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const [, slideNumber] = button.dataset.copySlide.split("-");
+          const slide = slides.find((item) => String(item.n) === slideNumber);
+          const copied = await copyText(formatSingleSlide(slide));
+          showMessage(copied ? `Slide ${slideNumber} copied.` : "Copy failed. Select the text manually.", copied ? "success" : undefined);
+        });
+      });
+      document.querySelectorAll("[data-photo-check]").forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          localStorage.setItem(`pulsify_photo_check_${checkbox.dataset.photoCheck}`, checkbox.checked ? "1" : "0");
+        });
+      });
+    }
+
+    async function submitForReview(id) {
+      try {
+        const response = await fetch("/api/studio-sequences", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({ action: "submit-for-review", id }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send this draft for review.");
+        await loadStudioHistory();
+        showMessage("Draft sent for review.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not send this draft for review.");
+      }
+    }
+
+    async function deleteDraft(id) {
+      try {
+        const response = await fetch("/api/studio-sequences", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({ action: "delete", id }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not delete this draft.");
+        await loadStudioHistory();
+        showMessage("Draft deleted.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not delete this draft.");
+      }
     }
 
     function renderListSection(targetId, heading, value, emptyHtml) {
@@ -333,8 +753,8 @@
         const response = await fetch("/api/client-dashboard-todo", {
           method: "POST",
           headers: {
+            ...authHeaders(),
             "content-type": "application/json",
-            ...(TOKEN ? { "x-portal-token": TOKEN } : {}),
           },
           credentials: "same-origin",
           body: JSON.stringify({ client: state.client, index, done }),
@@ -373,6 +793,10 @@
       const login = new URL("/portal/login", location.origin);
       if (state.client) login.searchParams.set("client", state.client);
       location.href = login.toString();
+    }
+
+    function authHeaders() {
+      return TOKEN ? { "x-portal-token": TOKEN } : {};
     }
 
     function metricCard(label, value, note) {
@@ -435,6 +859,75 @@
       return value ? new Date(value).toLocaleString() : "-";
     }
 
+    function relativeTime(value) {
+      if (!value) return "just now";
+      const timestamp = new Date(value).getTime();
+      if (Number.isNaN(timestamp)) return "just now";
+      const delta = Date.now() - timestamp;
+      if (delta < 60000) return "just now";
+      if (delta < 3600000) return `${Math.round(delta / 60000)}m ago`;
+      if (delta < 86400000) return `${Math.round(delta / 3600000)}h ago`;
+      return `${Math.round(delta / 86400000)}d ago`;
+    }
+
+    function labelStatus(value) {
+      return ({
+        draft: "Draft",
+        review: "In review",
+        approved: "Approved",
+        rejected: "Rejected",
+      })[String(value || "").toLowerCase()] || "Draft";
+    }
+
+    function isPhotoChecked(id, slideNumber) {
+      return localStorage.getItem(`pulsify_photo_check_${id}-${slideNumber}`) === "1";
+    }
+
+    function formatSingleSlide(slide) {
+      if (!slide) return "";
+      return [
+        `SLIDE ${slide.n} - ${slide.job || ""}`,
+        `TEXT: ${(slide.text_pills || []).join(" | ")}`,
+        `EMPHASIS: ${slide.emphasis || ""}`,
+        `PHOTO: ${slide.photo?.primary || ""}`,
+        slide.photo?.alternative ? `ALTERNATIVE: ${slide.photo.alternative}` : "",
+        `INTERACTIVE: ${slide.interactive || "none"}`,
+      ].filter(Boolean).join("\n");
+    }
+
+    function formatSequenceForCopy(row) {
+      const slides = Array.isArray(row.output?.slides) ? row.output.slides : [];
+      return [
+        row.topic || "Sequence",
+        row.output?.why_order || "",
+        row.output?.posting_note || "",
+        "",
+        ...slides.map(formatSingleSlide),
+      ].filter(Boolean).join("\n\n");
+    }
+
+    async function copyText(text) {
+      try {
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+      } catch {}
+      try {
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        const copied = document.execCommand("copy");
+        area.remove();
+        return copied;
+      } catch {
+        return false;
+      }
+    }
+
     function esc(value) {
       return String(value ?? "").replace(/[&<>"']/g, (character) => ({
         "&": "&amp;",
@@ -445,8 +938,9 @@
       }[character]));
     }
 
-    function showMessage(text) {
+    function showMessage(text, kind) {
       $("message").textContent = text;
+      $("message").className = kind ? `message ${kind}` : "message";
       $("message").hidden = false;
     }
   </script>
