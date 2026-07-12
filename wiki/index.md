@@ -55,6 +55,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[frameworks/instagram-conversion-assets]] | CANONICAL: the five conversion assets (sequences, personalized lead magnets, CTA assets/2nd channel, BOF proof, email), governing math (10K->18, 5% ceiling, divide-by-3), founder-ratified CTA + give-everything doctrine | 2026-07-12 |
 | [[frameworks/messaging-reframe-system]] | CANONICAL: category-of-one recipe, the reframe formula (agreed belief -> unhearable reframe -> identity shift), direct/indirect mechanism dial, divide-by-three, polarity law, objection-to-content loop | 2026-07-12 |
 | [[frameworks/proof-system]] | CANONICAL: proof hierarchy (unfakeable archive -> receipts -> volume), 4-part screenshot structure, proof pin post, consumption ladder, client documentaries, collection rituals; Pulsify student-results currency | 2026-07-12 |
+| [[frameworks/carousel-system]] | CANONICAL: the 3 proven carousel structures (methodology-as-document, taxonomy/matrix, philosophy set), design system (cover=thumbnail, chip code, swipe engine), built from 3 captured Niksetting carousels; unblocks the portal carousel studio | 2026-07-12 |
 
 ---
 
@@ -111,6 +112,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[content-engine/carousel-breakdowns/README]] | Capture protocol for high-design carousels: per-slide typography/layout/color/device annotation, swipe-engine analysis, cover deep-read, design-system extraction - fills the carousel gap in both corpora | 2026-07-12 |
 | [[content-engine/reel-format-ladder]] | CANONICAL: 8 reel formats mapped to revenue stages with growth/production/buyer-intent ratings, reach-then-harvest alternation, saturation clock, ratified volume/TOF/production dials | 2026-07-12 |
 | [[content-engine/carousel-breakdowns/niksetting-grow-acquisition-onboarding]] | Full breakdown of his 7-step methodology-as-carousel (offer as a document): replicable design system, validates free highlight naming, shows Mochi; a template for a Pulsify sales carousel | 2026-07-12 |
+| [[content-engine/carousel-breakdowns/niksetting-964k-story-sequences]] | THE definitive 7-type matrix: cadence + function + audience chips per sequence type + real mockups - folded into the story-sequence framework + generator | 2026-07-12 |
+| [[content-engine/carousel-breakdowns/niksetting-7-lessons-content]] | The philosophy set: 7 one-word concept lessons (currency/transposition/intention/invisible/creativity/angles/differentiation), each maps to a vault framework; Claude confirmed as the space's default AI | 2026-07-12 |
 | [[content-engine/sequence-breakdowns/niksetting-new-here]] | THE start-here sequence in the wild: 18 slides fully dissected (lesson template, proof interludes incl. naked $17,932 ad funnel, dual CTAs, luxury visual grammar + Pulsify currency swap); resolves Machi=Mochi | 2026-07-12 |
 
 ---

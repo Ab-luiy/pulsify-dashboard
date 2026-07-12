@@ -880,3 +880,7 @@ Codex built the metrics layer (migration 0013 sequence_log + account_snapshots; 
 
 ### [2026-07-12] CLAUDE - overnight vault sweep (founder afk, full perms)
 While P3 built + deployed, filed the remaining framework pillars from the corpora: reel-format-ladder, messaging-reframe-system, proof-system, format-invention-pipeline, content-operating-rhythm; people pages niksetting + soowei-goh; and the full breakdown of the grow-acquisition onboarding carousel (validates free highlight naming, confirms Mochi, gives a replicable methodology-carousel design system). All indexed + logged. Two carousels (964k, 7-lessons) pending full breakdown. No code touched in this sweep - pure vault content. Dashboard P1-P3 all live and verified earlier this session.
+
+
+### [2026-07-12] CLAUDE - carousel corpus complete
+Broke down all 3 Niksetting carousels + wrote wiki/frameworks/carousel-system.md (3 structures, design system). The 964k carousel gave a full 7-type deployment matrix (cadence/function/audience per story type) now folded into the story-sequence framework + generator skill. Carousel framework unblocks the P4 carousel studio whenever the founder fires it. Vault-content only.

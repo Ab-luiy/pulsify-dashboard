@@ -36,6 +36,22 @@ The caption list is the newest and most considered; Pulsify adopts it as the can
 
 Fallback mode, not a type: the **no-idea day** — 5-10 evergreen niche topics, deliberately structureless; the lack of structure itself reads as personal and builds trust.
 
+### The deployment matrix (cadence / function / audience per type)
+
+From his own "$964,853" carousel ("after analyzing over 1,000 individual sequences"), each type has a distinct cadence, a job, and a best-fit audience. Captured in full at [[content-engine/carousel-breakdowns/niksetting-964k-story-sequences]]. This is the when/why/for-whom layer the generator selects from:
+
+| Type | Cadence | Function | Best-fit audience/offer |
+|------|---------|----------|-------------------------|
+| Value-driven | 1-2x/week | Demonstrates expertise | All niches |
+| Credibility | 2-3x/week | Instills trust | Saturated niches (where claims are cheap) |
+| Q&A | 1x/week | Removes friction | Skeptical audiences |
+| Day-in-the-life | 1-2x/month | Creates familiarity | B2C niches |
+| Breakdown | 1x/week | Justifies pricing | DWY & DFY offers |
+| Lifestyle | 1-2x/week | Creates desire | Biz-opp offers |
+| CTA (conversion) | <1x/month | Tests demand | All niches |
+
+Read the totals: credibility is the workhorse (2-3x/week), value/breakdown/lifestyle mid-frequency, Q&A weekly, CTA rare (over-asking burns the audience), day-in-the-life sparing. A healthy week is credibility-heavy with value and breakdown support, Q&A weekly, a CTA only when demand is being tested. **Pulsify swap:** the lifestyle type's "creates desire" job is served by mission and transformation, not possessions; keep the cadence, change the currency.
+
 ## The universal six-step slide structure
 
 Every sequence, regardless of type, walks these steps:
