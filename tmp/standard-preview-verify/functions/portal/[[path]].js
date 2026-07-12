@@ -18,8 +18,7 @@ async function serveDashboard({ request, env }) {
     if (client) loginUrl.searchParams.set("client", client);
     return Response.redirect(loginUrl, 302);
   }
-  if (!env.ASSETS) return new Response("Not found", { status: 404 });
-  return env.ASSETS.fetch(new Request(new URL("/portal/index.html", request.url), request));
+  return serveAsset(env, request, "/portal/index.html");
 }
 
 async function serveLogin({ request, env }) {
@@ -32,8 +31,25 @@ async function serveLogin({ request, env }) {
     destination.searchParams.set("client", access.client);
     return Response.redirect(destination, 302);
   }
+  return serveAsset(env, request, "/portal/login/index.html");
+}
+
+// ASSETS.fetch on an explicit index.html returns a 308 to the directory URL,
+// which loops back into this function. Follow asset-layer redirects internally
+// and only ever return the final document to the client.
+async function serveAsset(env, request, assetPath) {
   if (!env.ASSETS) return new Response("Not found", { status: 404 });
-  return env.ASSETS.fetch(new Request(new URL("/portal/login/index.html", request.url), request));
+  let url = new URL(assetPath, request.url);
+  for (let hop = 0; hop < 3; hop++) {
+    const response = await env.ASSETS.fetch(new Request(url, { headers: request.headers }));
+    const location = response.headers.get("location");
+    if (response.status >= 301 && response.status <= 308 && location) {
+      url = new URL(location, url);
+      continue;
+    }
+    return response;
+  }
+  return new Response("Not found", { status: 404 });
 }
 
 function readPath(params) {

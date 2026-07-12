@@ -9,7 +9,7 @@ import {
 } from "./common.js";
 
 export const CLIENT_SESSION_COOKIE = "pulsify_client_session";
-export const PBKDF2_ITERATIONS = 150000;
+export const PBKDF2_ITERATIONS = 100000;
 const SESSION_TTL_DAYS = 30;
 const SETUP_TOKEN_TTL_HOURS = 72;
 const FAILED_LOGIN_LIMIT = 5;
