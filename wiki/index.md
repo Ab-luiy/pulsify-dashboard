@@ -29,7 +29,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 
 | Page | Summary | Created |
 |---|---|---|
-| [[concepts/profile-funnel]] | Pulsify's default conversion mechanism — turns an Instagram profile into a landing page for Marcus-stage clients | 2026-05-02 |
+| [[concepts/profile-funnel]] | Pulsify's default conversion mechanism, REWRITTEN 2026-07-12 with full slide-level mechanics from the originator's corpus: 3-second bio, trigger words, start-here, DM rules, 24h-7d cycle | 2026-05-02 |
 | [[concepts/unique-mechanism]] | The named proprietary methodology that differentiates every coach's offer; must exist before anything else is built | 2026-05-02 |
 | [[concepts/hammer-them-strategy]] | 15–20 retargeting pieces + 6 emails/day pre-call → 60–70%+ show rates | 2026-05-02 |
 | [[concepts/content-funnel-tof-mof-bof]] | Three-layer content funnel: attract, nurture, convert — every video has a specific job | 2026-05-02 |
@@ -50,6 +50,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[frameworks/ai-launch-prompt-pack]] | 9-prompt AI launch pack (offer → VSL → lander → Typeform → automations → pre-call → sales training → story → test); Sire $400K/5 days | 2026-05-06 |
 | [[frameworks/agency-scaling-vsl-architecture]] | Stage-specific VSL architecture for moving a stuck founder from tactics to installed revenue infrastructure | 2026-05-09 |
 | [[frameworks/story-sequence-system]] | CANONICAL: the five sequence types, universal 6-step slide structure, 9-slide daily frame, start-here + story launch, cadence/delegation, drop-off measurement - the story-sequence generator's spec | 2026-07-11 |
+| [[frameworks/instagram-conversion-assets]] | CANONICAL: the five conversion assets (sequences, personalized lead magnets, CTA assets/2nd channel, BOF proof, email), governing math (10K->18, 5% ceiling, divide-by-3), founder-ratified CTA + give-everything doctrine | 2026-07-12 |
 
 ---
 

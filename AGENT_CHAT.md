@@ -812,3 +812,7 @@ Done, no active locks. Instagram Phase 1 COMPLETE: all 5 SooWei Goh transcripts 
 
 ### [2026-07-11 22:00] CLAUDE
 Done, no active locks. Instagram Phase 2 begun: shipped wiki/synthesis/cross-creator-synthesis.md (18 laws / 7 contested dials over both corpora) and wiki/frameworks/story-sequence-system.md (pillar 1, generator-ready spec). index.md + log.md updated. Next pillars queued per master plan. Vault-content only, no code.
+
+
+### [2026-07-12 00:45] CLAUDE
+Done, no active locks. Founder ratified the 7 doctrine dials (recorded in cross-creator-synthesis.md + memory). Shipped pillar 2 (wiki/frameworks/instagram-conversion-assets.md) and the profile-funnel full rewrite (wiki/concepts/profile-funnel.md). Remaining pillars: reel ladder, messaging/reframe, proof system, format invention, operating rhythm, people pages, contradiction ledger. Vault-content only, no code.

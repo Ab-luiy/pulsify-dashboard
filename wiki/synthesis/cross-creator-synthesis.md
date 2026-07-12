@@ -35,15 +35,17 @@ Frameworks built on one guru are a copy; frameworks built on corroboration are k
 17. **Personalized lead magnets beat generic; route by stage/problem.** N: the 3-question router. S: the freebie challenge with Typeform logic. Both credit segments-by-revenue for the conversion.
 18. **The story spine sells: villain, transformation, identity shift.** N: reframe formula ("rewire my identity, not just my habits"). S: villain/hero/guide, "you're selling an identity shift."
 
-## The contested points (dials, with recommended defaults)
+## The contested points (dials — FOUNDER-RATIFIED 2026-07-12)
 
-1. **Niche purity vs algorithm-broad TOF.** N: niche only, views are a warning (the $65M math). S: ICP-x-dream-follower overlap or the algorithm buries you (the 6.1M-view SpaceX case). DEFAULT: broad-leaning at TOF only, ruthlessly niche below; watch $/follower, not views.
-2. **Volume.** N: 131-161 originals in ~3 years, anti-batching, every-other-day. S: 1-2 derivative clips shipped daily by the team. DEFAULT: N's cadence for original recordings, S's for derivatives. They may not actually disagree; neither confirms.
-3. **CTA doctrine.** N: engineered soft+hard CTAs on a schedule, trigger words. S: "I don't do CTAs" in MOF; content-as-CTA (cost-of-inaction). DEFAULT: content-as-CTA for MOF, explicit CTAs for TOF lead magnets and BOF (which S also does in practice).
-4. **Production quality.** N: lower the production, raise the clarity; raw resets every 3-6 months. S: predicts a production arms race where cinematography becomes a moat. DEFAULT: clarity first; production as a deliberate stage-appropriate amplifier (N's own "amplifiers" concept bridges them).
-5. **Landing pages.** N: "we don't utilize landing pages anymore"; start-here sequences replace them. S: opt-in pages, Typeform logic, freebie funnels, UTM attribution throughout. DEFAULT (founder-ratified direction pending): pages for cold outreach and lead magnets, start-here sequences for audience-side conversion.
-6. **Value dosage.** N: give everything ("God will give you the money back"). S: solve problems 1-3 exceptionally, sell problems 4-6; withhold the how when the ICP needs implementation. DEFAULT: S's dial, because it is a dial; N's stance is the TOF/authority end of it.
-7. **Accept vs instrument invisible traffic.** N: accept it, judge by buyers only. S: Trackio/UTM attribution on everything (the 5K-view video that out-converted). DEFAULT: instrument. This is Pulsify home turf.
+All seven dials were put to the founder and ratified with modifications. These are now settled doctrine; a dial reopens only with new evidence.
+
+1. **Niche purity vs algorithm-broad TOF.** N: niche only, views are a warning (the $65M math). S: ICP-x-dream-follower overlap or the algorithm buries you (the 6.1M-view SpaceX case). RATIFIED: broad-leaning at TOF only, ruthlessly niche below; watch $/follower, not views.
+2. **Volume.** N: 131-161 originals in ~3 years, anti-batching, every-other-day. S: 1-2 derivative clips shipped daily by the team. RATIFIED: N's cadence for original recordings, S's for derivatives.
+3. **CTA doctrine.** N: engineered soft+hard CTAs on a schedule, trigger words. S: "I don't do CTAs" in MOF. RATIFIED: founder rejects S's no-CTA posture outright. Engineered CTAs (Niksetting) are primary doctrine; content-as-CTA is a supplementary technique for trust content, never a reason to omit real CTAs.
+4. **Production quality.** N: lower the production, raise the clarity; raw resets every 3-6 months. S: predicts a production arms race where cinematography becomes a moat. RATIFIED: founder rejects S's arms-race prediction. Clarity and rawness win, full stop; production touches are optional amplifiers, never a baseline requirement.
+5. **Landing pages vs start-here sequences.** N: "we don't utilize landing pages anymore." S: opt-in pages and funnels throughout. RATIFIED: this is a per-audience TEST, not a doctrine. Run both and measure where the audience actually interacts: if IG story interaction wins for that audience, the start-here sequence carries conversion; otherwise the landing page does — and the founder's operating prior is that a landing page almost never fails. Cold outreach keeps pages regardless.
+6. **Value dosage.** N: give everything ("God will give you the money back"). S: solve problems 1-3 free, sell 4-6. RATIFIED: give everything away for free — the Hormozi doctrine, which the founder holds independently. Note the founder's observation that in practice neither creator ever truly releases everything; the posture is total generosity, the offer sells implementation, accountability, and access, not withheld information. S's 1-3 rule is demoted to a packaging observation.
+7. **Accept vs instrument invisible traffic.** N: accept it, judge by buyers only. S: attribution on everything. RATIFIED: instrument. Pulsify already owns this infrastructure.
 
 ## Single-source (adopt with attribution)
 

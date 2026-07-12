@@ -16,3 +16,6 @@ Key artifacts (both in the brain vault):
 Locked decisions: Claude reads story-sequence screenshots (founder confirmed 2026-07-11, no Perplexity/Gemini hop for images); Claude in Perplexity's picker for transcript extraction; ingestion before synthesis, always verbatim.
 
 Open: the teacher whose transcripts seed the project is NOT yet named (transcription garbled it — ask, never guess, per [[feedback-never-guess]]); reel-copy-at-scale extraction workflow undecided. See [[project-outreach-extraction-workflow]].
+
+
+**2026-07-12 — the 7 contested dials are FOUNDER-RATIFIED** (full text in wiki/synthesis/cross-creator-synthesis.md): (1) broad TOF/niche below, (2) weekly originals + daily derivative clips, (3) engineered CTAs primary — SooWei's no-CTA stance rejected as posturing, (4) raw clarity wins — SooWei's production-arms-race prediction rejected, (5) landing page vs start-here = per-audience TEST, founder prior: landing page almost never fails, (6) give EVERYTHING away free (Hormozi doctrine, founder's own belief; sell implementation/accountability/access), (7) instrument invisible traffic via our own tracking. Settled doctrine — do not relitigate; reopen only on new evidence. Both corpora (Niksetting 21 videos + SooWei Goh 5) fully extracted; cross-creator-synthesis.md = the law/contested filter all framework pages inherit.
