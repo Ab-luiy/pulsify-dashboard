@@ -1,6 +1,6 @@
 ﻿# Memory index
 
-- [Instagram project](project_instagram_project.md) - 2026-07-12: both corpora fully extracted (Niksetting 21 + SooWei Goh 5 videos -> 29 pages in wiki/synthesis/*-extractions/); 7 contested dials FOUNDER-RATIFIED (see memory file - don't relitigate); framework pillars building per wiki/synthesis/personal-brand-harmony-master-plan.md; LOCKED: Fable plans/writes only, no code; Claude reads story screenshots (still pending from founder)
+- [Instagram project](project_instagram_project.md) - 2026-07-12: FABLE HANDOFF written at wiki/synthesis/instagram-project-fable-handoff.md (read it first). DONE: both corpora extracted (34 pages), 9 framework pillars, 2 skills (sequence-ingest + story-sequence-generator), captures broken down. LIVE: client dashboard P1-P3 on pulsify-funnels (login + sequence studio + drop-off metrics). DECIDED (don't relitigate): 7 ratified dials, proof-currency=student-results-never-lifestyle, no LLM key (manual mode = Claude copy), email parked till first client. LEFT: validation loop on own IG (the real unlock), P4 sections (unblocked), more captures, missing appointment-setting source, a 3rd creator
 
 - [CRM cross-browser sync](project_crm_cross_browser_sync.md) - 2026-07-09: lead edits (fields/pipeline/transcripts/assets) sync via pulsify-funnels D1 /api/crm-sync (per-lead _ts merge, migration 0011); agents use pulsify-dashboard tools/crm_sync.py w/ FUNNELS_ADMIN_KEY; user must paste ADMIN_KEY once per browser (Lead Studio funnels-key field) to turn sync on
 
