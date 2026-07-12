@@ -923,3 +923,8 @@ Founder ratified all 7 contested dials (cross-creator-synthesis.md updated to RA
 ## [2026-07-12] decision | Story-sequence visual capture protocol created
 
 Built wiki/content-engine/sequence-breakdowns/ (README protocol + per-sequence template) and raw-sources/inspiration/story-sequences/ for the founder's screenshot drops. Design: raw images immutable in raw-sources, one wiki page per sequence with screenshots embedded inline (Obsidian renders them) above a per-slide annotation layer capturing overlay text verbatim, emphasis marks (underlines/highlights/caps), dwell slides, visuals, interactive stickers, the 6-step job per slide, CTA position, and drop-off. Every capture feeds the story-sequence system page and the future generator.
+
+
+## [2026-07-12] decision | Carousel capture protocol added
+
+Founder flagged high-design carousels as a second visual asset class alongside story sequences. Built wiki/content-engine/carousel-breakdowns/ (README protocol) + raw-sources/inspiration/carousels/. Annotation axes differ from stories: typography system, layout/whitespace, color treatment, design devices, swipe engine, cover deep-read, and design-system extraction (template-ready replication notes). Carousels are the thinnest area of both corpora, so captures here build the knowledge base directly; a carousel framework page follows once enough examples land.
