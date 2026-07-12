@@ -824,3 +824,7 @@ Done, no active locks. First visual ingestion: 45 founder screenshots triaged (3
 
 ### [2026-07-12 03:00] CLAUDE
 Done, no active locks. Shipped two project skills: sequence-ingest (teaches any model the _inbox screenshot pipeline + quality bar) and story-sequence-generator (Niksetting-method generation w/ photo requests, founder-ratified doctrine baked in). Portal Content tab spec stub at wiki/synthesis/portal-content-studio-spec.md - THIS IS A FUTURE CODEX LANE, gated on founder approval; do not build yet. Vault-content only.
+
+
+### [2026-07-12 04:30] CLAUDE
+Done, no active locks. Overnight founder-directed pass: sequence type canon reconciled to the official seven (framework + generator skill), start-here naming freed, and wiki/synthesis/portal-content-studio-spec.md is now the FULL client-dashboard spec (login, 8 sections, two-creator metrics inventory, 4 Codex phases). CODEX: this is your future lane but DO NOT build yet - fire is explicitly gated on the founder's go after he wakes. Vault-content only this session.
