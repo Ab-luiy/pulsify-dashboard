@@ -1,0 +1,219 @@
+/**
+ * Campaign board API — one operator-facing view across every client page.
+ *
+ * GET /api/campaigns
+ * Header: x-admin-key: <ADMIN_KEY>
+ *
+ * Returns every client_config row merged with per-client aggregates from
+ * page_events, watch_events, leads, and delivery_failures. Built as grouped
+ * queries (one per table) merged in JS, so cost stays flat no matter how
+ * many clients exist — never N queries per client.
+ */
+
+export async function onRequestGet({ request, env }) {
+  const auth = checkAuth(request, env);
+  if (auth) return auth;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+
+  let configs = [];
+  try {
+    const result = await env.DB.prepare(
+      `SELECT client, COALESCE(client_name,client) AS client_name,
+              COALESCE(template_variant,'canonical') AS template_variant, updated_at
+         FROM client_config ORDER BY client_name COLLATE NOCASE`,
+    ).all();
+    configs = result.results || [];
+  } catch {
+    configs = [];
+  }
+
+  const since7d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+
+  const [visitsByClient, watchByClient, leadsByClient, failuresByClient] = await Promise.all([
+    safeAll(
+      env,
+      `SELECT client,
+              COUNT(DISTINCT CASE WHEN event='page_view' THEN COALESCE(visitor_id,session_id) END) AS visitors,
+              SUM(CASE WHEN event='page_view' THEN 1 ELSE 0 END) AS page_views,
+              MAX(at) AS last_visit_at
+         FROM page_events GROUP BY client`,
+    ),
+    safeAll(
+      env,
+      `SELECT client,
+              SUM(CASE WHEN event='play' THEN 1 ELSE 0 END) AS plays,
+              MAX(COALESCE(percent,0)) AS max_percent,
+              MAX(at) AS last_watch_at
+         FROM watch_events GROUP BY client`,
+    ),
+    safeAll(
+      env,
+      `SELECT client,
+              COUNT(*) AS applications,
+              MAX(applied_at) AS last_application_at,
+              SUM(CASE WHEN kit_status='synced' THEN 1 ELSE 0 END) AS kit_synced
+         FROM leads GROUP BY client`,
+    ),
+    safeAll(
+      env,
+      `SELECT client, COUNT(*) AS failures
+         FROM delivery_failures WHERE at >= ? GROUP BY client`,
+      [since7d],
+    ),
+  ]);
+
+  const visitsMap = toMap(visitsByClient);
+  const watchMap = toMap(watchByClient);
+  const leadsMap = toMap(leadsByClient);
+  const failuresMap = toMap(failuresByClient);
+
+  // Aggregate tables may reference clients that have since been removed from
+  // client_config (or vice versa) — union every client id we've seen so the
+  // board never silently drops activity for an unconfigured page.
+  const allClients = new Set([
+    ...configs.map((c) => c.client),
+    ...visitsMap.keys(),
+    ...watchMap.keys(),
+    ...leadsMap.keys(),
+    ...failuresMap.keys(),
+  ]);
+
+  const configByClient = new Map(configs.map((c) => [c.client, c]));
+
+  const campaigns = [...allClients].map((client) => {
+    const cfg = configByClient.get(client) || {};
+    const visits = visitsMap.get(client) || {};
+    const watch = watchMap.get(client) || {};
+    const leads = leadsMap.get(client) || {};
+    const failures = failuresMap.get(client) || {};
+
+    const visitors = Number(visits.visitors || 0);
+    const pageViews = Number(visits.page_views || 0);
+    const plays = Number(watch.plays || 0);
+    const maxPercent = Number(watch.max_percent || 0);
+    const applications = Number(leads.applications || 0);
+    const kitSynced = Number(leads.kit_synced || 0);
+    const failures7d = Number(failures.failures || 0);
+
+    const lastActivityAt = latest([
+      visits.last_visit_at,
+      watch.last_watch_at,
+      leads.last_application_at,
+      cfg.updated_at,
+    ]);
+
+    return {
+      client,
+      client_name: cfg.client_name || client,
+      template_variant: cfg.template_variant || "canonical",
+      updated_at: cfg.updated_at || null,
+      visits: {
+        visitors,
+        page_views: pageViews,
+        last_visit_at: visits.last_visit_at || null,
+      },
+      video: {
+        plays,
+        max_watch_percent: maxPercent,
+        last_watched_at: watch.last_watch_at || null,
+      },
+      applications: {
+        count: applications,
+        last_application_at: leads.last_application_at || null,
+        kit_synced: kitSynced,
+      },
+      failures_7d: failures7d,
+      signal: computeSignal({ applications, maxPercent, visitors }),
+      last_activity_at: lastActivityAt,
+    };
+  });
+
+  campaigns.sort((a, b) => {
+    const rank = signalRank(b.signal) - signalRank(a.signal);
+    if (rank !== 0) return rank;
+    return (b.last_activity_at || "").localeCompare(a.last_activity_at || "");
+  });
+
+  const summary = {
+    total_pages: campaigns.length,
+    pages_with_activity: campaigns.filter((c) => c.signal !== "no activity").length,
+    total_applications: campaigns.reduce((total, c) => total + c.applications.count, 0),
+    total_failures_7d: campaigns.reduce((total, c) => total + c.failures_7d, 0),
+  };
+
+  return json({ ok: true, summary, campaigns });
+}
+
+export async function onRequestOptions() {
+  return new Response(null, {
+    headers: {
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, OPTIONS",
+      "access-control-allow-headers": "x-admin-key",
+      "access-control-max-age": "86400",
+    },
+  });
+}
+
+function computeSignal({ applications, maxPercent, visitors }) {
+  if (applications > 0) return "applied";
+  if (maxPercent >= 50) return "hot";
+  if (visitors > 0) return "visited";
+  return "no activity";
+}
+
+function signalRank(signal) {
+  switch (signal) {
+    case "applied": return 3;
+    case "hot": return 2;
+    case "visited": return 1;
+    default: return 0;
+  }
+}
+
+function latest(values) {
+  let best = null;
+  for (const value of values) {
+    if (!value) continue;
+    if (!best || String(value) > String(best)) best = value;
+  }
+  return best;
+}
+
+function toMap(rows) {
+  const map = new Map();
+  for (const row of rows) {
+    if (row && row.client) map.set(row.client, row);
+  }
+  return map;
+}
+
+/** Run a grouped query; on any error (e.g. missing table) degrade to []. */
+async function safeAll(env, sql, params = []) {
+  try {
+    const stmt = params.length ? env.DB.prepare(sql).bind(...params) : env.DB.prepare(sql);
+    const result = await stmt.all();
+    return result.results || [];
+  } catch {
+    return [];
+  }
+}
+
+function checkAuth(request, env) {
+  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
+  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+    return json({ ok: false, error: "unauthorized" }, 401);
+  }
+  return null;
+}
+
+function json(object, status = 200) {
+  return new Response(JSON.stringify(object), {
+    status,
+    headers: {
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+      "cache-control": "no-store",
+    },
+  });
+}

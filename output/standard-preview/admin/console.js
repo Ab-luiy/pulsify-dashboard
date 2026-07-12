@@ -333,6 +333,7 @@
       if (event.target !== $("templateVariant")) scheduleDraftPreview();
     });
     $("settingsForm").addEventListener("submit", saveSettings);
+    $("generateDashboardSetupButton").addEventListener("click", generateDashboardSetupLink);
     $("addProofImageButton").addEventListener("click", () => addProofRow("proofImageFields", "proof-image-input"));
     $("proofImageFields").addEventListener("click", handleProofListAction);
     $("proofImageFields").addEventListener("input", scheduleDraftPreview);
@@ -1678,10 +1679,16 @@
     $("kitTagId").value = "";
     $("kitApiKey").value = "";
     $("allowedOrigin").value = "";
+    $("dashboardLoginEmail").value = "";
+    $("dashboardPlansJson").value = "";
+    $("dashboardTodosJson").value = "";
+    $("dashboardTeamJson").value = "";
+    $("dashboardMomentumJson").value = "";
     renderProofFields();
     $$(".content-field").forEach((input) => { input.value = ""; });
     setSavedState($("typeformSecretState"), false, "webhook secret");
     setSavedState($("kitKeyState"), false, "API key");
+    setSavedState($("dashboardPasswordState"), false, "dashboard password");
     updatePreviewLinks();
   }
 
@@ -1717,11 +1724,23 @@
       renderProofFields(images);
       const content = config.page_content || {};
       $$(".content-field").forEach((input) => { input.value = content[input.dataset.contentKey] || ""; });
+      $("dashboardLoginEmail").value = data.dashboard_auth?.email || "";
+      setSavedState($("dashboardPasswordState"), Boolean(data.dashboard_auth?.has_password), "dashboard password");
+      $("dashboardPlansJson").value = formatJsonForEditor(data.dashboard_content?.plans);
+      $("dashboardTodosJson").value = formatJsonForEditor(data.dashboard_content?.todos);
+      $("dashboardTeamJson").value = formatJsonForEditor(data.dashboard_content?.team);
+      $("dashboardMomentumJson").value = formatJsonForEditor(data.dashboard_content?.momentum);
       $("settingsStatus").textContent = "Loaded";
       $("settingsStatus").className = "status-pill success";
     } else {
       $("settingsStatus").textContent = "Not configured";
       $("settingsStatus").className = "status-pill";
+      $("dashboardLoginEmail").value = data.dashboard_auth?.email || "";
+      setSavedState($("dashboardPasswordState"), Boolean(data.dashboard_auth?.has_password), "dashboard password");
+      $("dashboardPlansJson").value = formatJsonForEditor(data.dashboard_content?.plans);
+      $("dashboardTodosJson").value = formatJsonForEditor(data.dashboard_content?.todos);
+      $("dashboardTeamJson").value = formatJsonForEditor(data.dashboard_content?.team);
+      $("dashboardMomentumJson").value = formatJsonForEditor(data.dashboard_content?.momentum);
     }
     updatePreviewLinks();
     renderSetupChecklist();
@@ -1869,6 +1888,20 @@
     }
     button.disabled = true;
     hideMessage($("settingsMessage"));
+    let dashboardContent;
+    try {
+      dashboardContent = {
+        plans: parseJsonEditorValue($("dashboardPlansJson").value),
+        todos: parseJsonEditorValue($("dashboardTodosJson").value),
+        team: parseJsonEditorValue($("dashboardTeamJson").value),
+        momentum: parseJsonEditorValue($("dashboardMomentumJson").value),
+      };
+    } catch (error) {
+      showMessage($("settingsMessage"), error.message, "error");
+      button.disabled = false;
+      return;
+    }
+
     const payload = {
       client,
       client_name: $("clientName").value,
@@ -1881,6 +1914,7 @@
       proof_images: proofImagesPayload(".proof-image-input"),
       template_variant: $("templateVariant").value,
       page_content: Object.fromEntries($$(".content-field").map((input) => [input.dataset.contentKey, input.value.trim()])),
+      dashboard_content: dashboardContent,
     };
     try {
       const response = await api("/api/settings", {
@@ -1922,6 +1956,38 @@
       $("portalLinkMessage").hidden = false;
     } catch (error) {
       if (state.key) showMessage($("portalLinkMessage"), error.message || "Could not generate a portal link.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function generateDashboardSetupLink() {
+    const client = $("clientId").value.trim() || state.client;
+    const email = $("dashboardLoginEmail").value.trim();
+    if (!client) {
+      showMessage($("dashboardSetupMessage"), "Select or enter a client before generating a dashboard login.", "error");
+      return;
+    }
+    if (!email) {
+      showMessage($("dashboardSetupMessage"), "Login email is required before generating a dashboard setup link.", "error");
+      return;
+    }
+    const button = $("generateDashboardSetupButton");
+    button.disabled = true;
+    hideMessage($("dashboardSetupMessage"));
+    try {
+      const response = await api("/api/client-setup-link", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ client, email }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate the dashboard setup link.");
+      $("dashboardSetupMessage").innerHTML = `<a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>${data.note ? `<br>${esc(data.note)}` : ""}`;
+      $("dashboardSetupMessage").className = "message success";
+      $("dashboardSetupMessage").hidden = false;
+    } catch (error) {
+      if (state.key) showMessage($("dashboardSetupMessage"), error.message || "Could not generate the dashboard setup link.", "error");
     } finally {
       button.disabled = false;
     }
@@ -2769,6 +2835,25 @@
   function formatDuration(value) {
     const seconds = Math.max(0, Math.round(Number(value || 0)));
     return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, "0")}`;
+  }
+
+  function formatJsonForEditor(value) {
+    if (value == null) return "";
+    try {
+      return JSON.stringify(value, null, 2);
+    } catch {
+      return "";
+    }
+  }
+
+  function parseJsonEditorValue(value) {
+    const text = String(value || "").trim();
+    if (!text) return null;
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      throw new Error(`Invalid dashboard JSON: ${error.message}`);
+    }
   }
 
   function formatDate(value) {

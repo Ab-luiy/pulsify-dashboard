@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{PAGE_TITLE}}">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
+  <meta property="og:url" content="{{OG_URL}}">
+  <meta property="og:image" content="{{OG_IMAGE_URL}}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{PAGE_TITLE}}">
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+  <meta name="twitter:image" content="{{OG_IMAGE_URL}}">
+  <title>{{PAGE_TITLE}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body
+  data-client="{{CLIENT_SLUG}}"
+  data-page-id="main"
+  data-api-origin="https://pulsify-funnels.pages.dev">
+  <main class="page-shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="brand-row">
+          <span class="brand-mark">{{BRAND_MARK}}</span>
+          <span class="brand-note">{{BRAND_NOTE}}</span>
+        </div>
+
+        <div class="audience-pill">
+          {{AUDIENCE_PILL}}
+        </div>
+
+        <h1 id="hero-title">
+          <span>{{HEADLINE_LINE_ONE}}</span>
+          <em>{{HEADLINE_EMPHASIS}}</em>
+        </h1>
+
+        <p class="hero-subhead">{{HERO_SUBHEAD}}</p>
+
+        <div class="hero-actions" data-application-cta hidden>
+          <a class="primary-cta" href="#apply">{{HERO_CTA}}</a>
+          <p class="micro-note">{{MICRO_NOTE}}</p>
+        </div>
+
+        <div class="video-frame" data-video-block hidden>
+          <div class="video-meta">
+            <span>{{VIDEO_NOTE_PRIMARY}}</span>
+            <span>{{VIDEO_NOTE_SECONDARY}}</span>
+          </div>
+          <div data-pulsify-wistia class="video-mount">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="application-section" id="apply" data-application-section aria-labelledby="apply-title" hidden>
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">{{APPLY_STEP_LABEL}}</div>
+          <h2 id="apply-title">{{APPLY_HEADING}}</h2>
+          <p>{{APPLY_INTRO}}</p>
+        </div>
+
+        <div class="application-embed">
+          <div class="embed-topline">
+            <span>{{FORM_FRAME_LABEL}}</span>
+            <span>{{FORM_FRAME_NOTE}}</span>
+          </div>
+          <div data-pulsify-typeform class="typeform-live"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-section" data-proof-section aria-labelledby="proof-title" hidden>
+      <div class="container">
+        <div class="section-head narrow">
+          <div class="section-kicker">{{PROOF_KICKER}}</div>
+          <h2 id="proof-title">People we've helped</h2>
+          <p>{{PROOF_INTRO}}</p>
+        </div>
+
+        <div class="proof-feed" data-proof-feed></div>
+      </div>
+    </section>
+
+    <section class="closing-section" data-application-cta aria-label="Apply now" hidden>
+      <div class="container closing-shell">
+        <a class="primary-cta" href="#apply">{{CLOSING_CTA}}</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span>{{FOOTER_LABEL}}</span>
+      <p>{{FOOTER_DISCLAIMER}}</p>
+    </div>
+  </footer>
+
+  <script src="https://pulsify-funnels.pages.dev/js/funnel-integrations.js"></script>
+</body>
+</html>

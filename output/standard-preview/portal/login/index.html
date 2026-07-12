@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsify client dashboard login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#131720; --muted:#626a78; --blue:#6871f4; --blue-strong:#5863ef; --blue-soft:#eef0ff;
+      --line:#e9e8ef; --white:#fff; --bg:#f3f5f8; --shadow:0 22px 70px rgba(68,58,139,.13); --red:#c1422f;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:
+      radial-gradient(circle at 18% 12%, rgba(104,113,244,.12), transparent 28%),
+      radial-gradient(circle at 82% 0, rgba(104,113,244,.16), transparent 24%), var(--bg); color:var(--ink)}
+    .shell{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(380px,480px)}
+    .intro{padding:56px 56px 42px;display:flex;flex-direction:column;justify-content:space-between}
+    .eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+    h1{font-size:52px;line-height:.95;letter-spacing:-.05em;max-width:660px;margin:18px 0 16px}
+    .lede{max-width:560px;color:var(--muted);font-size:15px;line-height:1.7}
+    .rail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:30px;max-width:640px}
+    .rail-card{padding:18px;border:1px solid rgba(19,23,32,.08);border-radius:18px;background:rgba(255,255,255,.72);backdrop-filter:blur(16px)}
+    .rail-card span{display:block;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+    .rail-card strong{display:block;font-size:18px;letter-spacing:-.03em;margin-bottom:6px}
+    .rail-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.6}
+    .meta{color:var(--muted);font-size:12px}
+    .auth-wrap{display:flex;align-items:center;justify-content:center;padding:24px}
+    .auth-card{width:100%;padding:34px 32px;border:1px solid var(--line);border-radius:24px;background:var(--white);box-shadow:var(--shadow)}
+    .brand{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 6px rgba(104,113,244,.12)}
+    .brand small{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .brand strong{display:block;font-size:22px;letter-spacing:-.04em}
+    .auth-card h2{font-size:24px;letter-spacing:-.03em;margin:0 0 8px}
+    .auth-card p{margin:0 0 20px;color:var(--muted);font-size:13.5px;line-height:1.6}
+    .stack{display:grid;gap:14px}
+    label{display:grid;gap:7px;font-size:12px;font-weight:700}
+    input{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit}
+    input:focus{outline:2px solid rgba(104,113,244,.18);outline-offset:1px;border-color:var(--blue)}
+    button{border:0;border-radius:14px;padding:14px 16px;background:var(--ink);color:#fff;font:800 13px Inter,system-ui,sans-serif;cursor:pointer}
+    button.secondary{background:var(--blue)}
+    button[disabled]{opacity:.6;cursor:wait}
+    .hint{font-size:11.5px;color:var(--muted)}
+    .message{margin-top:14px;padding:12px 14px;border-radius:14px;font-size:12.5px;line-height:1.5}
+    .message.error{background:#fbeae7;color:var(--red)}
+    .message.success{background:#e8f6ee;color:#1f7d58}
+    .toggle{margin-top:18px;background:transparent;color:var(--blue-strong);padding:0;border-radius:0;font-weight:700}
+    @media (max-width:980px){
+      .shell{grid-template-columns:1fr}
+      .intro{padding:34px 24px 10px}
+      h1{font-size:38px}
+      .auth-wrap{padding:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="intro">
+      <div>
+        <div class="eyebrow">Pulsify client dashboard</div>
+        <h1>See revenue, delivery, and the next move in one place.</h1>
+        <p class="lede">This dashboard is the client-facing layer of the Pulsify system. Revenue is live from the payment pipe. Plans, to-dos, team, and weekly momentum are operator-maintained so the client always sees the current game plan.</p>
+        <div class="rail-grid">
+          <article class="rail-card">
+            <span>Revenue</span>
+            <strong>Live payment record</strong>
+            <p>Every recorded payment appears with running totals and a clean empty state when nothing has landed yet.</p>
+          </article>
+          <article class="rail-card">
+            <span>Momentum</span>
+            <strong>Weekly operating view</strong>
+            <p>Clients can check what shipped, what is moving this week, and what still needs them.</p>
+          </article>
+          <article class="rail-card">
+            <span>To-dos</span>
+            <strong>Client action list</strong>
+            <p>Checklist state persists in the dashboard, so the next call starts from the real status.</p>
+          </article>
+          <article class="rail-card">
+            <span>Studio</span>
+            <strong>P2 will land here</strong>
+            <p>The content-generation workspace is staged behind this shell instead of being invented ad hoc later.</p>
+          </article>
+        </div>
+      </div>
+      <div class="meta">Private dashboard. Do not share your link or credentials.</div>
+    </section>
+
+    <section class="auth-wrap">
+      <div class="auth-card">
+        <div class="brand">
+          <span class="dot"></span>
+          <div>
+            <small>Pulsify</small>
+            <strong id="cardTitle">Client login</strong>
+          </div>
+        </div>
+
+        <div id="loginPanel">
+          <h2>Sign in</h2>
+          <p>Use the email and password saved for this client dashboard.</p>
+          <form id="loginForm" class="stack">
+            <label for="email">Email
+              <input id="email" type="email" autocomplete="email" placeholder="name@company.com" required>
+            </label>
+            <label for="password">Password
+              <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+            </label>
+            <button id="loginButton" type="submit">Open dashboard</button>
+          </form>
+          <div class="hint" id="loginHint">Operator-generated setup links also land on this page.</div>
+        </div>
+
+        <div id="setupPanel" hidden>
+          <h2>Set your password</h2>
+          <p>Create the password you will use for this client dashboard.</p>
+          <form id="setupForm" class="stack">
+            <label for="setupPassword">New password
+              <input id="setupPassword" type="password" autocomplete="new-password" placeholder="At least 10 characters" required>
+            </label>
+            <button class="secondary" id="setupButton" type="submit">Save password and open dashboard</button>
+          </form>
+          <button class="toggle" id="backToLogin" type="button">Back to login</button>
+        </div>
+
+        <div class="message error" id="message" hidden></div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const setupToken = params.get("setup") || "";
+    const client = params.get("client") || "";
+    const $ = (id) => document.getElementById(id);
+
+    if (setupToken) {
+      $("loginPanel").hidden = true;
+      $("setupPanel").hidden = false;
+      $("cardTitle").textContent = "Set password";
+    }
+
+    $("email").value = sessionStorage.getItem("pulsify_client_login_email") || "";
+    $("backToLogin").addEventListener("click", () => {
+      const next = new URL(location.href);
+      next.searchParams.delete("setup");
+      location.href = next.pathname + next.search;
+    });
+
+    $("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("loginButton");
+      const payload = {
+        email: $("email").value.trim(),
+        password: $("password").value,
+      };
+      sessionStorage.setItem("pulsify_client_login_email", payload.email);
+      button.disabled = true;
+      hideMessage();
+      try {
+        const response = await fetch("/api/client-login", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not log in.");
+        location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
+      } catch (error) {
+        showMessage(error.message || "Could not log in.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $("setupForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("setupButton");
+      button.disabled = true;
+      hideMessage();
+      try {
+        const response = await fetch("/api/client-set-password", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            setup_token: setupToken,
+            password: $("setupPassword").value,
+          }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this password.");
+        location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
+      } catch (error) {
+        showMessage(error.message || "Could not save this password.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    function showMessage(text) {
+      $("message").textContent = text;
+      $("message").hidden = false;
+    }
+
+    function hideMessage() {
+      $("message").hidden = true;
+      $("message").textContent = "";
+    }
+  </script>
+</body>
+</html>

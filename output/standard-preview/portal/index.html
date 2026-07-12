@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsify client dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --ink:#131720; --muted:#626a78; --blue:#6871f4; --blue-strong:#5863ef; --blue-soft:#eef0ff;
+      --line:#e9e8ef; --white:#fff; --bg:#f3f5f8; --panel:#fff; --rail:#10131b; --rail-text:#9aa2b3;
+      --green:#1f9d6b; --green-soft:#e6f7ef; --red:#c1422f; --red-soft:#fbeae7;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+    body.dark{--ink:#f4f6fb;--muted:#929aaa;--line:#29303d;--white:#151922;--blue-soft:#24263f;--bg:#0c0f15;--panel:#151922}
+    #app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+    .rail{position:sticky;top:0;height:100vh;background:var(--rail);padding:22px 13px;border-right:1px solid #272d38}
+    .top-inner{padding:0 9px 22px;border-bottom:1px solid #272d38}
+    .brand{display:flex;align-items:center;gap:10px}
+    .pulse-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px rgba(104,113,244,.11)}
+    .brand-name{font-size:11px;font-weight:800;letter-spacing:.12em;color:#697284;text-transform:uppercase}
+    .client-name{color:#fff;margin-top:5px;font-size:20px;font-weight:800;letter-spacing:-.04em}
+    .client-subtitle{margin-top:8px;color:#8f98a8;font-size:12px;line-height:1.5}
+    nav{display:flex;flex-direction:column;gap:4px;padding:18px 0 0}
+    .tab-btn,.theme-btn,.logout-btn{width:100%;display:flex;justify-content:flex-start;align-items:center;gap:8px;padding:11px 12px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--rail-text);font:700 13px Inter,system-ui,sans-serif;cursor:pointer}
+    .tab-btn:hover,.theme-btn:hover,.logout-btn:hover{background:#1a202a;color:#fff}
+    .tab-btn.active{background:#fff;color:#151922}
+    .rail-actions{display:grid;gap:8px;margin-top:18px}
+    main{padding:38px 42px 80px}
+    .panel{display:none}
+    .panel.active{display:block;animation:panel-in 180ms ease both}
+    @keyframes panel-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+    .panel-head{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap;margin-bottom:22px}
+    .panel-head h2{margin:0;font-size:30px;letter-spacing:-.04em}
+    .panel-note{color:var(--muted);font-size:12.5px}
+    .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
+    .metric,.card,.empty-card,.list-card,.todo-card{background:var(--panel);border:1px solid var(--line);border-radius:18px}
+    .metric{padding:18px;box-shadow:0 10px 30px rgba(24,31,48,.045)}
+    .metric span{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-bottom:9px;text-transform:uppercase;letter-spacing:.08em}
+    .metric strong{display:block;font-size:28px;letter-spacing:-.05em}
+    .metric small{display:block;color:var(--muted);font-size:11px;margin-top:7px}
+    .card-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .card-head h3{margin:0;font-size:15px}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:collapse;min-width:680px}
+    th,td{text-align:left;padding:13px 20px;border-top:1px solid var(--line);font-size:12.5px;vertical-align:top}
+    th{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;background:rgba(250,250,253,.65)}
+    .amount{font-weight:800}
+    .muted{color:var(--muted)}
+    .empty-card{padding:30px}
+    .empty-card h3{margin:0 0 8px;font-size:20px;letter-spacing:-.03em}
+    .empty-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+    .stack{display:grid;gap:14px}
+    .list-card,.todo-card{padding:18px 20px}
+    .list-card h3,.todo-card h3{margin:0 0 14px;font-size:18px;letter-spacing:-.03em}
+    .list-card ul,.todo-card ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+    .list-card li,.todo-card li{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+    .item-title{display:block;font-weight:800;margin-bottom:4px}
+    .item-note{color:var(--muted);font-size:12.5px;line-height:1.55}
+    .two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .todo-row{display:flex;align-items:flex-start;gap:12px}
+    .todo-row input{margin-top:3px;width:16px;height:16px;accent-color:var(--blue)}
+    .todo-meta{margin-top:6px;color:var(--muted);font-size:11.5px}
+    .todo-done .item-title,.todo-done .item-note{text-decoration:line-through;opacity:.7}
+    .pending-card{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:64px 30px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(100deg,#f4f4f8 25%,#fafafc 37%,#f4f4f8 63%);background-size:400% 100%;animation:pendingShimmer 3.2s ease-in-out infinite}
+    body.dark .pending-card{background:linear-gradient(100deg,#171b24 25%,#1b202c 37%,#171b24 63%);background-size:400% 100%}
+    @keyframes pendingShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .pending-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.85);color:var(--muted);font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+    .pending-card h3{margin:0;font-size:22px;letter-spacing:-.03em}
+    .pending-card p{margin:0;max-width:420px;color:var(--muted);font-size:14px;line-height:1.65}
+    .message{margin-bottom:18px;padding:12px 14px;border-radius:14px;font-size:12.5px;line-height:1.5;background:var(--red-soft);color:var(--red)}
+    @media (max-width:980px){
+      #app{display:block}
+      .rail{position:sticky;z-index:20;height:auto;padding:10px 12px}
+      .top-inner{padding:0 0 9px}
+      nav{flex-direction:row;overflow:auto;padding-top:9px}
+      .tab-btn{width:auto;flex:0 0 auto}
+      .rail-actions{grid-template-columns:1fr 1fr}
+      main{padding:24px 16px 60px}
+      .metric-grid,.two-col{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <aside class="rail">
+      <div class="top-inner">
+        <div class="brand">
+          <span class="pulse-dot"></span>
+          <div>
+            <div class="brand-name">Pulsify client dashboard</div>
+            <div class="client-name" id="clientName">Loading</div>
+          </div>
+        </div>
+        <div class="client-subtitle" id="clientSubtitle">Private client workspace</div>
+      </div>
+      <nav id="tabs">
+        <button class="tab-btn active" data-tab="revenue" type="button">Revenue</button>
+        <button class="tab-btn" data-tab="content" type="button">Content</button>
+        <button class="tab-btn" data-tab="performance" type="button">Performance</button>
+        <button class="tab-btn" data-tab="team" type="button">Team</button>
+        <button class="tab-btn" data-tab="momentum" type="button">Momentum</button>
+        <button class="tab-btn" data-tab="plans" type="button">Plans</button>
+        <button class="tab-btn" data-tab="todos" type="button">To-dos</button>
+        <button class="tab-btn" data-tab="studio" type="button">Studio</button>
+      </nav>
+      <div class="rail-actions">
+        <button class="theme-btn" id="themeButton" type="button">Switch theme</button>
+        <button class="logout-btn" id="logoutButton" type="button">Log out</button>
+      </div>
+    </aside>
+
+    <main>
+      <div class="message" id="message" hidden></div>
+
+      <section class="panel active" id="panel-revenue">
+        <div class="panel-head">
+          <div>
+            <h2>Revenue</h2>
+            <div class="panel-note">Read-only from the live payments table.</div>
+          </div>
+          <div class="panel-note" id="revenueUpdated">Waiting on data</div>
+        </div>
+        <div class="metric-grid" id="revenueMetrics"></div>
+        <div class="card" id="paymentsCard">
+          <div class="card-head">
+            <h3>Payment history</h3>
+            <span class="panel-note" id="paymentCount">0 payments</span>
+          </div>
+          <div class="table-wrap" id="paymentsTableWrap">
+            <table>
+              <thead>
+                <tr><th>When</th><th>Amount</th><th>Rail</th><th>Reference</th><th>Note</th></tr>
+              </thead>
+              <tbody id="paymentRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-card" id="paymentsEmpty" hidden>
+            <h3>No payments recorded yet</h3>
+            <p>Revenue appears here as soon as Pulsify records a verified payment for this client.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-content">
+        <div class="panel-head"><div><h2>Content</h2><div class="panel-note">P2 will turn this into the content calendar and pipeline.</div></div></div>
+        <div class="pending-card"><span class="pending-pill">P2</span><h3>Content pipeline lands here next</h3><p>This section will show what is scheduled, in production, and published once the content layer is wired in.</p></div>
+      </section>
+
+      <section class="panel" id="panel-performance">
+        <div class="panel-head"><div><h2>Performance</h2><div class="panel-note">P3 will add the metrics layer.</div></div></div>
+        <div class="pending-card"><span class="pending-pill">P3</span><h3>Performance metrics are staged, not guessed</h3><p>This section will show week-over-week dashboard metrics once the manual story-entry and attribution layer is live.</p></div>
+      </section>
+
+      <section class="panel" id="panel-team">
+        <div class="panel-head"><div><h2>Team</h2><div class="panel-note">Operator-maintained from the admin console.</div></div></div>
+        <div id="teamContent"></div>
+      </section>
+
+      <section class="panel" id="panel-momentum">
+        <div class="panel-head"><div><h2>Momentum</h2><div class="panel-note">Operator-maintained weekly movement view.</div></div></div>
+        <div id="momentumContent"></div>
+      </section>
+
+      <section class="panel" id="panel-plans">
+        <div class="panel-head"><div><h2>Plans</h2><div class="panel-note">Operator-maintained roadmap and phase view.</div></div></div>
+        <div id="plansContent"></div>
+      </section>
+
+      <section class="panel" id="panel-todos">
+        <div class="panel-head"><div><h2>To-dos</h2><div class="panel-note">Check off the items you have finished. State saves back to the dashboard.</div></div></div>
+        <div id="todosContent"></div>
+      </section>
+
+      <section class="panel" id="panel-studio">
+        <div class="panel-head"><div><h2>Studio</h2><div class="panel-note">P2 will wire the content generator contract here.</div></div></div>
+        <div class="pending-card"><span class="pending-pill">P2</span><h3>Studio opens after the shell is stable</h3><p>This section will hold the sequence, carousel, and YouTube generation workflow once the generator UI is wired in.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const initialToken = params.get("t") || "";
+    if (initialToken) {
+      sessionStorage.setItem("pulsify_portal_token", initialToken);
+      const clean = new URL(location.href);
+      clean.searchParams.delete("t");
+      history.replaceState(null, "", clean.pathname + clean.search);
+    }
+
+    const TOKEN = sessionStorage.getItem("pulsify_portal_token") || "";
+    const CLIENT = params.get("client") || "";
+    const $ = (id) => document.getElementById(id);
+    const state = { client: CLIENT, sections: {} };
+
+    document.querySelectorAll(".tab-btn").forEach((button) => {
+      button.addEventListener("click", () => openTab(button.dataset.tab));
+    });
+    $("themeButton").addEventListener("click", toggleTheme);
+    $("logoutButton").addEventListener("click", logout);
+
+    const dark = localStorage.getItem("pulsify_client_dashboard_theme") === "dark";
+    document.body.classList.toggle("dark", dark);
+
+    loadDashboard();
+
+    async function loadDashboard() {
+      try {
+        const response = await fetch(`/api/client-dashboard?client=${encodeURIComponent(state.client)}`, {
+          headers: TOKEN ? { "x-portal-token": TOKEN } : {},
+          credentials: "same-origin",
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
+        renderDashboard(data);
+      } catch (error) {
+        showMessage(error.message || "Could not load the dashboard.");
+      }
+    }
+
+    function renderDashboard(data) {
+      state.client = data.client;
+      state.sections = data.sections || {};
+      $("clientName").textContent = data.client_name || data.client;
+      $("clientSubtitle").textContent = data.auth_mode === "token"
+        ? "Private token access is active for this session."
+        : "Signed in with saved client credentials.";
+      const clean = new URL(location.href);
+      clean.searchParams.set("client", state.client);
+      history.replaceState(null, "", clean.pathname + clean.search);
+
+      renderRevenue(data.revenue || {});
+      renderListSection("teamContent", "Team", state.sections.team, emptyText("No team records yet", "Pulsify will list the working team here as soon as the client setup is filled in."));
+      renderListSection("plansContent", "Plans", state.sections.plans, emptyText("No plan loaded yet", "Pulsify will add the current roadmap here once the client plan is written."));
+      renderMomentum("momentumContent", state.sections.momentum);
+      renderTodos(state.sections.todos);
+    }
+
+    function renderRevenue(revenue) {
+      const total = Number(revenue.total_revenue_cents || 0);
+      const currentMonth = Number(revenue.current_month_revenue_cents || 0);
+      const payments = revenue.payments || [];
+      $("revenueUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
+      $("revenueMetrics").innerHTML = [
+        metricCard("Total cash collected", currency(total), "all recorded payments"),
+        metricCard("This month", currency(currentMonth), "recorded in the current month"),
+        metricCard("Payment count", number(payments.length), "verified rows in the payments table"),
+      ].join("");
+      $("paymentCount").textContent = `${payments.length} payment${payments.length === 1 ? "" : "s"}`;
+      $("paymentsEmpty").hidden = payments.length > 0;
+      $("paymentsTableWrap").hidden = payments.length === 0;
+      $("paymentRows").innerHTML = payments.map((payment) => `
+        <tr>
+          <td>${date(payment.occurred_at)}</td>
+          <td class="amount">${currency(payment.amount_cents, payment.currency)}</td>
+          <td>${esc(payment.rail || "Manual")}</td>
+          <td><span class="muted">${esc(payment.reference || "-")}</span></td>
+          <td>${esc(payment.note || "-")}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderListSection(targetId, heading, value, emptyHtml) {
+      const target = $(targetId);
+      const items = normalizeItems(value);
+      if (!items.length) {
+        target.innerHTML = emptyHtml;
+        return;
+      }
+      target.innerHTML = `
+        <div class="list-card">
+          <h3>${heading}</h3>
+          <ul>${items.map(renderGenericItem).join("")}</ul>
+        </div>
+      `;
+    }
+
+    function renderMomentum(targetId, value) {
+      const target = $(targetId);
+      if (!value) {
+        target.innerHTML = emptyText("No momentum summary yet", "Pulsify will post the shipped, shipping, and delta summary here once the weekly rhythm starts.");
+        return;
+      }
+      if (Array.isArray(value)) {
+        renderListSection(targetId, "Momentum", value, "");
+        return;
+      }
+      const cards = [];
+      if (value.headline) cards.push({ title: value.headline, note: value.detail || "" });
+      if (Array.isArray(value.shipped)) cards.push(...value.shipped.map((item) => ({ title: "Shipped", note: String(item) })));
+      if (Array.isArray(value.next)) cards.push(...value.next.map((item) => ({ title: "Next", note: String(item) })));
+      if (Array.isArray(value.deltas)) cards.push(...value.deltas.map((item) => ({ title: "Delta", note: String(item) })));
+      if (!cards.length) {
+        target.innerHTML = emptyText("No momentum summary yet", "Pulsify will post the shipped, shipping, and delta summary here once the weekly rhythm starts.");
+        return;
+      }
+      target.innerHTML = `
+        <div class="two-col">
+          ${cards.map((item) => `<div class="list-card"><h3>${esc(item.title)}</h3><div class="item-note">${esc(item.note || "")}</div></div>`).join("")}
+        </div>
+      `;
+    }
+
+    function renderTodos(value) {
+      const target = $("todosContent");
+      const items = Array.isArray(value) ? value : Array.isArray(value?.items) ? value.items : [];
+      if (!items.length) {
+        target.innerHTML = emptyText("No to-dos loaded yet", "Pulsify will add the current action list here once the client roadmap is written.");
+        return;
+      }
+      target.innerHTML = `
+        <div class="todo-card">
+          <h3>Current action list</h3>
+          <ul>${items.map((item, index) => renderTodoItem(item, index)).join("")}</ul>
+        </div>
+      `;
+      target.querySelectorAll("[data-todo-index]").forEach((input) => {
+        input.addEventListener("change", () => toggleTodo(Number(input.dataset.todoIndex), input.checked));
+      });
+    }
+
+    async function toggleTodo(index, done) {
+      try {
+        const response = await fetch("/api/client-dashboard-todo", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            ...(TOKEN ? { "x-portal-token": TOKEN } : {}),
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({ client: state.client, index, done }),
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this to-do item.");
+        state.sections.todos = data.todos;
+        renderTodos(state.sections.todos);
+      } catch (error) {
+        showMessage(error.message || "Could not save this to-do item.");
+        renderTodos(state.sections.todos);
+      }
+    }
+
+    async function logout() {
+      await fetch("/api/client-logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
+      sessionStorage.removeItem("pulsify_portal_token");
+      redirectToLogin();
+    }
+
+    function openTab(tab) {
+      document.querySelectorAll(".tab-btn").forEach((button) => button.classList.toggle("active", button.dataset.tab === tab));
+      document.querySelectorAll(".panel").forEach((panel) => panel.classList.toggle("active", panel.id === `panel-${tab}`));
+    }
+
+    function toggleTheme() {
+      const next = document.body.classList.toggle("dark");
+      localStorage.setItem("pulsify_client_dashboard_theme", next ? "dark" : "light");
+    }
+
+    function redirectToLogin() {
+      const login = new URL("/portal/login", location.origin);
+      if (state.client) login.searchParams.set("client", state.client);
+      location.href = login.toString();
+    }
+
+    function metricCard(label, value, note) {
+      return `<article class="metric"><span>${label}</span><strong>${value}</strong><small>${note}</small></article>`;
+    }
+
+    function renderGenericItem(item) {
+      const title = item.title || item.name || item.label || item.role || "Item";
+      const noteParts = [item.status, item.detail, item.note, item.owner, item.deadline].filter(Boolean);
+      return `<li><span class="item-title">${esc(title)}</span><div class="item-note">${esc(noteParts.join(" | ") || "No extra detail")}</div></li>`;
+    }
+
+    function renderTodoItem(item, index) {
+      const title = item.label || item.title || item.task || `Task ${index + 1}`;
+      const noteParts = [item.owner, item.deadline, item.note].filter(Boolean);
+      return `
+        <li class="${item.done ? "todo-done" : ""}">
+          <label class="todo-row">
+            <input type="checkbox" data-todo-index="${index}" ${item.done ? "checked" : ""}>
+            <span>
+              <span class="item-title">${esc(title)}</span>
+              <span class="item-note">${esc(item.detail || item.description || "No extra detail")}</span>
+              ${noteParts.length ? `<div class="todo-meta">${esc(noteParts.join(" | "))}</div>` : ""}
+            </span>
+          </label>
+        </li>
+      `;
+    }
+
+    function normalizeItems(value) {
+      if (Array.isArray(value)) return value.map(coerceItem);
+      if (Array.isArray(value?.items)) return value.items.map(coerceItem);
+      if (value && typeof value === "object") {
+        return Object.entries(value).map(([title, detail]) => ({
+          title,
+          detail: typeof detail === "string" ? detail : JSON.stringify(detail),
+        }));
+      }
+      return [];
+    }
+
+    function coerceItem(item) {
+      if (item && typeof item === "object") return item;
+      return { title: String(item) };
+    }
+
+    function emptyText(title, note) {
+      return `<div class="empty-card"><h3>${title}</h3><p>${note}</p></div>`;
+    }
+
+    function currency(amountCents, code = "USD") {
+      return `${(Number(amountCents || 0) / 100).toFixed(2)} ${String(code || "USD").toUpperCase()}`;
+    }
+
+    function number(value) {
+      return Number(value || 0).toLocaleString();
+    }
+
+    function date(value) {
+      return value ? new Date(value).toLocaleString() : "-";
+    }
+
+    function esc(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#39;",
+      }[character]));
+    }
+
+    function showMessage(text) {
+      $("message").textContent = text;
+      $("message").hidden = false;
+    }
+  </script>
+</body>
+</html>

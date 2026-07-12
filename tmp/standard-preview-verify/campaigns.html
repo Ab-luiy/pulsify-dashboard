@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pulsify Campaign Board</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--ink:#131720;--muted:#6b7280;--blue:#6871f4;--blue2:#8b7cf6;--lav:#f4f2ff;--line:#e8e8ef;--card:#fff;--green:#14805e;--red:#b6473b;--amber:#a5690a}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 75% -10%,#ebe8ff 0,transparent 35%),#f7f7fa;color:var(--ink);font-family:Inter,system-ui,sans-serif}
+    button,input,select{font:inherit}.wrap{width:min(1320px,calc(100% - 32px));margin:0 auto;padding:30px 0 60px}
+    .top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:26px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--blue);text-transform:uppercase}
+    h1{font-size:30px;letter-spacing:-.04em;margin:5px 0 4px}.sub{color:var(--muted);font-size:13px}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    select,input,.btn{border:1px solid var(--line);border-radius:9px;background:#fff;padding:10px 12px;color:var(--ink)}.btn{cursor:pointer;font-weight:700}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;text-decoration:none}
+    .btn.small{padding:6px 9px;font-size:11px;border-radius:7px}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 12px 35px rgba(50,39,120,.04)}
+    .metric span{display:block;color:var(--muted);font-size:11px;font-weight:600;margin-bottom:8px}.metric strong{font-size:24px;letter-spacing:-.04em}.metric small{display:block;color:var(--muted);font-size:10px;margin-top:6px}
+    .table-panel{margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}.table-title{padding:18px;display:flex;justify-content:space-between;align-items:center}.table-title h2{font-size:15px;margin:0}
+    .table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:1080px}th,td{text-align:left;border-top:1px solid var(--line);padding:12px 14px;font-size:12px;vertical-align:middle}
+    th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.07em;background:#fafafd;position:sticky;top:0}
+    th.sortable{cursor:pointer;user-select:none}th.sortable:hover{color:var(--blue)}th.sortable .arrow{margin-left:4px;color:var(--blue);opacity:.7}
+    .lead-name{font-weight:700}.muted-cell{color:var(--muted);font-size:11px;margin-top:3px}
+    .badge{display:inline-block;padding:5px 8px;border-radius:999px;background:var(--lav);color:#5146c8;font-size:10px;font-weight:700;white-space:nowrap}
+    .badge.green{background:#e7f6f0;color:var(--green)}.badge.red{background:#fbeceb;color:var(--red)}.badge.amber{background:#fbf1e0;color:var(--amber)}.badge.gray{background:#eef0f4;color:var(--muted)}
+    .watch-cell{min-width:110px}.watch-line{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:5px}.watch-bar{height:5px;background:#ececf3;border-radius:9px;overflow:hidden}.watch-bar i{display:block;height:100%;background:var(--blue)}
+    .actions{display:flex;gap:6px;flex-wrap:wrap}
+    .empty{text-align:center;color:var(--muted);padding:48px}.gate{max-width:390px;margin:14vh auto 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 30px 80px rgba(54,39,120,.1)}.gate h1{font-size:22px}.gate input{width:100%;margin:18px 0 9px}.gate .btn{width:100%}.error{color:var(--red);font-size:12px;margin-top:9px;min-height:16px}
+    @media(max-width:1000px){.grid{grid-template-columns:repeat(1,1fr)}}@media(max-width:620px){.top{display:block}.controls{justify-content:flex-start;margin-top:16px}}
+  </style>
+</head>
+<body>
+  <div style="width:min(1320px,calc(100% - 32px));margin:16px auto 0;padding:11px 14px;border:1px solid #e8e8ef;border-radius:10px;background:#fff;color:#6b7280;font:600 12px/1.4 Inter,system-ui,sans-serif;text-align:center;">This legacy page remains available. <a href="/admin" style="color:#6871f4;">Open the unified operator console</a>.</div>
+  <section class="gate" id="gate">
+    <div class="eyebrow">Pulsify campaign board</div>
+    <h1>Campaign visibility</h1>
+    <p class="sub">Every outreach page sent, in one view, sorted by who needs a follow-up.</p>
+    <input id="adminKey" type="password" placeholder="Admin key" autocomplete="current-password">
+    <button class="btn primary" id="unlock">Open board</button>
+    <div class="error" id="gateError"></div>
+  </section>
+
+  <main class="wrap" id="app" hidden>
+    <header class="top">
+      <div>
+        <div class="eyebrow">Pulsify campaign board</div>
+        <h1>Campaign visibility</h1>
+        <div class="sub" id="updated">Every landing page sent, tracked in one place</div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="refresh">Refresh</button>
+        <a class="btn" id="portalLink" href="/portal">Portal</a>
+        <a class="btn primary" id="settingsLink" href="/settings">Settings</a>
+      </div>
+    </header>
+
+    <section class="grid" id="summary"></section>
+
+    <section class="table-panel">
+      <div class="table-title"><h2>Sent pages</h2><span class="sub" id="rowCount"></span></div>
+      <div class="table-wrap"><table>
+        <thead><tr>
+          <th>Prospect</th>
+          <th>Design</th>
+          <th class="sortable" data-sort="visits">Visits<span class="arrow"></span></th>
+          <th class="sortable" data-sort="watch">Watch %<span class="arrow"></span></th>
+          <th class="sortable" data-sort="applications">Applications<span class="arrow"></span></th>
+          <th class="sortable" data-sort="activity">Last activity<span class="arrow"></span></th>
+          <th class="sortable" data-sort="failures">Failures (7d)<span class="arrow"></span></th>
+          <th>Signal</th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <div class="empty" id="empty" hidden>No pages sent yet. Once a client is configured and a prospect visits, they show up here.</div>
+    </section>
+  </main>
+
+  <script>
+    const state={key:sessionStorage.getItem("pulsify_admin_key")||"",campaigns:[],sort:{key:"signal",dir:"desc"}};
+    const $=id=>document.getElementById(id);
+    $("adminKey").value=state.key;
+    $("unlock").onclick=unlock; $("adminKey").addEventListener("keydown",e=>{if(e.key==="Enter")unlock()});
+    $("refresh").onclick=loadData;
+    document.querySelectorAll("th.sortable").forEach(th=>th.addEventListener("click",()=>{
+      const key=th.dataset.sort;
+      if(state.sort.key===key){state.sort.dir=state.sort.dir==="desc"?"asc":"desc"}
+      else{state.sort={key,dir:"desc"}}
+      renderRows();
+    }));
+    if(state.key) unlock();
+
+    async function unlock(){
+      state.key=$("adminKey").value.trim(); if(!state.key)return;
+      try{
+        const r=await fetch("/api/campaigns",{headers:{"x-admin-key":state.key}}); const data=await r.json();
+        if(!r.ok)throw new Error(data.error||"Unauthorized");
+        sessionStorage.setItem("pulsify_admin_key",state.key);
+        $("gate").hidden=true; $("app").hidden=false;
+        render(data);
+      }catch(e){$("gateError").textContent=e.message}
+    }
+
+    async function loadData(){
+      $("refresh").disabled=true;
+      try{
+        const r=await fetch("/api/campaigns",{headers:{"x-admin-key":state.key}});
+        const data=await r.json(); if(!r.ok)throw new Error(data.error||"Could not load campaigns");
+        render(data);
+      }catch(e){$("updated").textContent=e.message}finally{$("refresh").disabled=false}
+    }
+
+    function render(data){
+      state.campaigns=data.campaigns||[];
+      const s=data.summary||{};
+      $("updated").textContent=`Updated ${new Date().toLocaleTimeString()}`;
+      $("summary").innerHTML=[
+        ["Total pages",num(s.total_pages),"clients configured with a page"],
+        ["Pages with activity",num(s.pages_with_activity),"visited, watched, or applied"],
+        ["Total applications",num(s.total_applications),"across every page"],
+        ["Delivery failures (7d)",num(s.total_failures_7d),"Kit sync + Typeform rejections"],
+      ].map(c=>`<article class="metric"><span>${c[0]}</span><strong>${c[1]}</strong><small>${c[2]}</small></article>`).join("");
+      renderRows();
+    }
+
+    function sortValue(c,key){
+      switch(key){
+        case "visits": return c.visits.visitors;
+        case "watch": return c.video.max_watch_percent;
+        case "applications": return c.applications.count;
+        case "activity": return c.last_activity_at||"";
+        case "failures": return c.failures_7d||0;
+        case "signal": return signalRank(c.signal);
+        default: return 0;
+      }
+    }
+    function signalRank(signal){return {applied:3,hot:2,visited:1}[signal]||0}
+
+    function renderRows(){
+      document.querySelectorAll("th.sortable .arrow").forEach(a=>a.textContent="");
+      if(state.sort.key!=="signal"){
+        const th=document.querySelector(`th[data-sort="${state.sort.key}"] .arrow`);
+        if(th)th.textContent=state.sort.dir==="desc"?"↓":"↑";
+      }
+
+      const rows=[...state.campaigns].sort((a,b)=>{
+        let av=sortValue(a,state.sort.key), bv=sortValue(b,state.sort.key);
+        let cmp;
+        if(typeof av==="string"||typeof bv==="string") cmp=String(av).localeCompare(String(bv));
+        else cmp=(av||0)-(bv||0);
+        if(state.sort.dir==="asc")cmp=-cmp;
+        if(cmp!==0)return cmp;
+        // tiebreak: signal priority then last activity, so equal sort keys stay stable and useful
+        const rankDiff=signalRank(b.signal)-signalRank(a.signal);
+        if(rankDiff!==0)return rankDiff;
+        return String(b.last_activity_at||"").localeCompare(String(a.last_activity_at||""));
+      });
+
+      $("rowCount").textContent=`${rows.length} total`;
+      $("empty").hidden=rows.length>0;
+
+      $("rows").innerHTML=rows.map(c=>{
+        const wp=Math.round(c.video.max_watch_percent||0);
+        const otherVariant=c.template_variant==="variant-02"?"canonical":"variant-02";
+        return `<tr>
+          <td><div class="lead-name">${esc(c.client_name)}</div><div class="muted-cell">${esc(c.client)}</div></td>
+          <td><span class="badge gray">${esc(c.template_variant)}</span></td>
+          <td>${num(c.visits.visitors)}<div class="muted-cell">${num(c.visits.page_views)} views</div></td>
+          <td class="watch-cell"><div class="watch-line"><span>${wp}%</span><span>${num(c.video.plays)} plays</span></div><div class="watch-bar"><i style="width:${Math.min(100,wp)}%"></i></div></td>
+          <td>${num(c.applications.count)}${c.applications.kit_synced?`<div class="muted-cell">${num(c.applications.kit_synced)} synced to Kit</div>`:""}</td>
+          <td>${relativeTime(c.last_activity_at)}</td>
+          <td>${failuresCell(c.failures_7d)}</td>
+          <td>${signalBadge(c.signal)}</td>
+          <td class="actions">
+            <a class="btn small" href="/?client=${encodeURIComponent(c.client)}" target="_blank" rel="noopener">Open page</a>
+            <a class="btn small" href="/?client=${encodeURIComponent(c.client)}&preview=${encodeURIComponent(otherVariant)}" target="_blank" rel="noopener">Preview alt</a>
+            <a class="btn small" href="/settings?client=${encodeURIComponent(c.client)}">Settings</a>
+            <a class="btn small" href="/portal?client=${encodeURIComponent(c.client)}">Portal</a>
+          </td>
+        </tr>`;
+      }).join("");
+    }
+
+    function signalBadge(signal){
+      const map={applied:["green","Applied"],hot:["amber","Hot"],visited:["","Visited"],"no activity":["gray","No activity"]};
+      const [cls,label]=map[signal]||["gray",signal];
+      return `<span class="badge ${cls}">${esc(label)}</span>`;
+    }
+
+    function failuresCell(n){
+      const count=Number(n||0);
+      if(!count)return `<span class="muted-cell">0</span>`;
+      return `<span class="badge red">${num(count)}</span>`;
+    }
+
+    function relativeTime(v){
+      if(!v)return "—";
+      const then=new Date(v).getTime(); if(Number.isNaN(then))return "—";
+      const diffMs=Date.now()-then; const abs=Math.abs(diffMs);
+      const minute=60000,hour=3600000,day=86400000;
+      let label;
+      if(abs<minute)label="just now";
+      else if(abs<hour)label=`${Math.round(abs/minute)}m ago`;
+      else if(abs<day)label=`${Math.round(abs/hour)}h ago`;
+      else label=`${Math.round(abs/day)}d ago`;
+      return label;
+    }
+
+    function num(v){return Number(v||0).toLocaleString()}
+    function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+  </script>
+</body>
+</html>

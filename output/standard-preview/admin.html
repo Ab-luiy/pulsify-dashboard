@@ -284,6 +284,60 @@
             <div class="form-grid two" id="contentFields"></div>
           </div>
 
+          <div class="subsection">
+            <div class="subsection-head">
+              <p class="kicker">Dashboard login</p>
+              <h3>Client credential access</h3>
+              <p>Set the login email and generate a one-time password link for the client dashboard.</p>
+            </div>
+            <div class="form-grid two">
+              <div class="field">
+                <label for="dashboardLoginEmail">Login email <span class="required">Required to generate</span></label>
+                <input id="dashboardLoginEmail" type="email" placeholder="Paste the client login email">
+                <p class="field-hint">Use the inbox this client should log in with. The setup link writes this email to the dashboard auth record.</p>
+                <span class="saved-state" id="dashboardPasswordState">No saved dashboard password reported.</span>
+              </div>
+              <div class="subsection compact">
+                <div class="field">
+                  <label>Set-password link <span class="optional">Generated when needed</span></label>
+                  <p class="field-hint">Generate or rotate the one-time link the client uses to set their password. A new link turns off the previous one.</p>
+                </div>
+                <button class="button dark" id="generateDashboardSetupButton" type="button">Generate dashboard setup link</button>
+                <div class="message" id="dashboardSetupMessage" role="status" hidden></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <div class="subsection-head">
+              <p class="kicker">Client dashboard</p>
+              <h3>Section JSON</h3>
+              <p>These four sections feed the P1 client dashboard shell. Use valid JSON or leave a box blank to keep that section empty.</p>
+            </div>
+            <div class="form-grid two">
+              <div class="field">
+                <label for="dashboardPlansJson">Plans JSON <span class="optional">Optional</span></label>
+                <textarea id="dashboardPlansJson" rows="7" placeholder='[{"title":"Phase 1","status":"In progress","detail":"Landing page live"}]'></textarea>
+                <p class="field-hint">Array or object. Use plain factual roadmap data only.</p>
+              </div>
+              <div class="field">
+                <label for="dashboardTodosJson">To-dos JSON <span class="optional">Optional</span></label>
+                <textarea id="dashboardTodosJson" rows="7" placeholder='[{"label":"Upload three screenshots","owner":"Client","deadline":"2026-07-18","done":false}]'></textarea>
+                <p class="field-hint">Array or object with an <code>items</code> array. Each item should include a label and can include owner, deadline, and done.</p>
+              </div>
+              <div class="field">
+                <label for="dashboardTeamJson">Team JSON <span class="optional">Optional</span></label>
+                <textarea id="dashboardTeamJson" rows="7" placeholder='[{"name":"Abdullah","role":"Strategy","note":"Handles offer and weekly direction"}]'></textarea>
+                <p class="field-hint">Array or object. Use names, roles, and short notes.</p>
+              </div>
+              <div class="field">
+                <label for="dashboardMomentumJson">Momentum JSON <span class="optional">Optional</span></label>
+                <textarea id="dashboardMomentumJson" rows="7" placeholder='{"headline":"First system week complete","shipped":["Landing page built"],"next":["Record VSL"]}'></textarea>
+                <p class="field-hint">Array or object. Use shipped, shipping, deltas, or a short headline.</p>
+              </div>
+            </div>
+          </div>
+
           <button class="button primary" id="saveSettingsButton" type="submit">Save settings</button>
           <div class="message" id="settingsMessage" role="status" hidden></div>
 
