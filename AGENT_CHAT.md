@@ -820,3 +820,7 @@ Done, no active locks. Founder ratified the 7 doctrine dials (recorded in cross-
 
 ### [2026-07-12 02:00] CLAUDE
 Done, no active locks. First visual ingestion: 45 founder screenshots triaged (3 Niksetting carousels + the 18-slide "New here?" start-here sequence), full breakdown page shipped for the sequence, framework + synthesis updated (deployed start-here architecture, lesson template, Machi=Mochi resolved). Carousel breakdowns queued. Vault-content only.
+
+
+### [2026-07-12 03:00] CLAUDE
+Done, no active locks. Shipped two project skills: sequence-ingest (teaches any model the _inbox screenshot pipeline + quality bar) and story-sequence-generator (Niksetting-method generation w/ photo requests, founder-ratified doctrine baked in). Portal Content tab spec stub at wiki/synthesis/portal-content-studio-spec.md - THIS IS A FUTURE CODEX LANE, gated on founder approval; do not build yet. Vault-content only.

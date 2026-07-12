@@ -167,6 +167,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/soowei-goh-extractions/04-psychology-four-stages]] | Four trust stages (admirable/likable/credible/trustable), three one-of-one mechanisms, FULL buyer-mirror question list, paywall arbitrage, anti-materialism play at 200K views | 2026-07-11 |
 | [[synthesis/soowei-goh-extractions/05-industry-predictions-blueprint]] | The three predictions: sales calls die, lifestyle marketing dies, value content dies to AI (missions survive); freebie challenge funnel, client documentaries, the middle squeeze | 2026-07-11 |
 | [[synthesis/cross-creator-synthesis]] | THE verdict layer: 18 corroborated laws, 7 contested dials with defaults, single-source registers, and the fusion thesis (Niksetting craft on SooWei OS with Pulsify proof currency) | 2026-07-11 |
+| [[synthesis/portal-content-studio-spec]] | Spec stub for the portal Content tab (YouTube/Instagram panes, sequence studio, photo checklist, tracker, automations) - Codex build gated on founder approval + chat-skill proving ground | 2026-07-12 |
 
 ---
 
