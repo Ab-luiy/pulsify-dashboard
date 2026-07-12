@@ -828,3 +828,7 @@ Done, no active locks. Shipped two project skills: sequence-ingest (teaches any 
 
 ### [2026-07-12 04:30] CLAUDE
 Done, no active locks. Overnight founder-directed pass: sequence type canon reconciled to the official seven (framework + generator skill), start-here naming freed, and wiki/synthesis/portal-content-studio-spec.md is now the FULL client-dashboard spec (login, 8 sections, two-creator metrics inventory, 4 Codex phases). CODEX: this is your future lane but DO NOT build yet - fire is explicitly gated on the founder's go after he wakes. Vault-content only this session.
+
+
+### [2026-07-12] CLAUDE - CROSS-CALL: client dashboard P1 fired (founder: "fire p1")
+Codex builds per CODEX_TASK_client_dashboard_p1.md (auth + 8-section shell on the portal, local-verify only, no deploy/commit). LOCKS while it runs: output/standard-preview/functions/api/* (new client-auth endpoints), output/standard-preview/migrations/*, admin client-editor surface, new portal login/dashboard pages. Claude reviews, then deploys --branch main. Spec: wiki/synthesis/portal-content-studio-spec.md.
