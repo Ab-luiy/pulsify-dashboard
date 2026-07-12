@@ -958,3 +958,7 @@ Fired on founder's "fire p1". Codex built (1,637 insertions, 14 files: auth shar
 ## [2026-07-12] client-update | Client dashboard P2 LIVE - the sequence studio
 
 Fired on founder's "p2 fire". The dashboard's Studio section now generates story sequences: type cards (the canonical seven + start-here) or free-text intent, goal-driven CTA placement, trigger word + proof lines in, slide-by-slide copy with emphasis notes and shootable photo requests out; draft -> review -> operator approval flow with an /admin review queue. Provider chain Gemini -> Anthropic -> manual prompt (currently manual on prod until a key is set). Email layer: with RESEND_API_KEY, setup links email themselves and password setup requires a 6-digit inbox code; without it, P1 flow unchanged. Claude review enriched the prompt builder with per-type structures and ran the full local + live verification (Codex sandbox lacks wrangler). Migration 0012 applied remotely through the repaired ledger.
+
+## [2026-07-12] decision | Email layer parked; no LLM key on the studio
+
+Founder rulings: domain purchase (and with it Resend email delivery + 6-digit verification) waits until the first client - the copy-the-link login flow is the operating path meanwhile. No Gemini key on pulsify-funnels: the studio stays in manual mode by design so all sequence copywriting remains Claude-in-session with full vault context; P3 gains a paste-back field for finished sequences.
