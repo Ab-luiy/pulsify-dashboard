@@ -63,6 +63,7 @@ Niksetting's conversion craft running on SooWei's operating system, with Pulsify
 - Carousels: thin in both corpora (one section in Niksetting 17). Gap stands.
 - Story-sequence screenshots (founder-held) still pending ingestion; they carry the visual layer.
 - SooWei tool names need verification before external use: Trackio, Sand Castles AI, PLAUD, "Fanbasis."
+- RESOLVED 2026-07-12: "Machi" = **Mochi**, Niksetting's funnel-tracking software ("profile x mochi"; purple mascot), confirmed by the captured "New here?" sequence — it tracks every conversion point follower-to-client and is the system behind his dashboards (07/11). His claimed pitch: "add Mochi to a good offer, profitable ads, a setter and you'll 3x your revenue."
 
 ## Source trail
 

@@ -103,6 +103,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[content-engine/sequence-breakdowns/README]] | Capture protocol for real story sequences: screenshots embedded inline in Obsidian + per-slide annotation (text verbatim, underlines/emphasis, dwell slides, interactives, 6-step job, drop-off) | 2026-07-12 |
 | [[content-engine/sequence-breakdowns/sequence-breakdown-template]] | The per-sequence template every screenshot drop gets transcribed into | 2026-07-12 |
 | [[content-engine/carousel-breakdowns/README]] | Capture protocol for high-design carousels: per-slide typography/layout/color/device annotation, swipe-engine analysis, cover deep-read, design-system extraction - fills the carousel gap in both corpora | 2026-07-12 |
+| [[content-engine/sequence-breakdowns/niksetting-new-here]] | THE start-here sequence in the wild: 18 slides fully dissected (lesson template, proof interludes incl. naked $17,932 ad funnel, dual CTAs, luxury visual grammar + Pulsify currency swap); resolves Machi=Mochi | 2026-07-12 |
 
 ---
 

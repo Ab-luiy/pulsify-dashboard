@@ -816,3 +816,7 @@ Done, no active locks. Instagram Phase 2 begun: shipped wiki/synthesis/cross-cre
 
 ### [2026-07-12 00:45] CLAUDE
 Done, no active locks. Founder ratified the 7 doctrine dials (recorded in cross-creator-synthesis.md + memory). Shipped pillar 2 (wiki/frameworks/instagram-conversion-assets.md) and the profile-funnel full rewrite (wiki/concepts/profile-funnel.md). Remaining pillars: reel ladder, messaging/reframe, proof system, format invention, operating rhythm, people pages, contradiction ledger. Vault-content only, no code.
+
+
+### [2026-07-12 02:00] CLAUDE
+Done, no active locks. First visual ingestion: 45 founder screenshots triaged (3 Niksetting carousels + the 18-slide "New here?" start-here sequence), full breakdown page shipped for the sequence, framework + synthesis updated (deployed start-here architecture, lesson template, Machi=Mochi resolved). Carousel breakdowns queued. Vault-content only.
