@@ -22,6 +22,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[people/jordan-platten]] | Elite Agency / Affluent source for founder bottleneck framing, agency systems, and stage-specific scaling pages | 2026-05-09 |
 | [[people/abdullah-dagestani]] | Pulsify founder — origin, hard authority anchors, constraints (uni, solo, Istanbul), 12-month targets | 2026-05-10 |
 | [[people/competitor-watchlist]] | 12 operator handles supplied for tracking — pending ingest, no characterization until source material lands | 2026-05-10 |
+| [[people/niksetting]] | Profile-funnel/story-sequence source (Grow Acquisition); the Instagram conversion craft the vault runs on; adopt structure, diverge on proof currency; all claims source-flagged | 2026-07-12 |
+| [[people/soowei-goh]] | The AI operating-system counterpart: agent stack, ideation scorer, buyer mirror, ascension offers, the three industry predictions; independent confirmation of Pulsify's thesis | 2026-07-12 |
 
 ---
 
@@ -51,6 +53,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[frameworks/agency-scaling-vsl-architecture]] | Stage-specific VSL architecture for moving a stuck founder from tactics to installed revenue infrastructure | 2026-05-09 |
 | [[frameworks/story-sequence-system]] | CANONICAL: the five sequence types, universal 6-step slide structure, 9-slide daily frame, start-here + story launch, cadence/delegation, drop-off measurement - the story-sequence generator's spec | 2026-07-11 |
 | [[frameworks/instagram-conversion-assets]] | CANONICAL: the five conversion assets (sequences, personalized lead magnets, CTA assets/2nd channel, BOF proof, email), governing math (10K->18, 5% ceiling, divide-by-3), founder-ratified CTA + give-everything doctrine | 2026-07-12 |
+| [[frameworks/messaging-reframe-system]] | CANONICAL: category-of-one recipe, the reframe formula (agreed belief -> unhearable reframe -> identity shift), direct/indirect mechanism dial, divide-by-three, polarity law, objection-to-content loop | 2026-07-12 |
+| [[frameworks/proof-system]] | CANONICAL: proof hierarchy (unfakeable archive -> receipts -> volume), 4-part screenshot structure, proof pin post, consumption ladder, client documentaries, collection rituals; Pulsify student-results currency | 2026-07-12 |
 
 ---
 
@@ -77,6 +81,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[playbooks/pulse-system-stack]] | Technical stack per Pulse System component — proven / v1-manual / v2-automated tags, manual-first principle, build order for the first paid client | 2026-06-09 |
 | [[playbooks/prospect-signed-onboarding]] | The checklist for when an outreach-page prospect signs — client folder, integrations on, portal link minted, delivery data seeded | 2026-07-01 |
 | [[playbooks/landing-page-launch-qa]] | Three-minute pre-send QA per outreach page plus per-batch pipe checks — render, copy rules, mobile, events, failure log | 2026-07-01 |
+| [[playbooks/format-invention-pipeline]] | CANONICAL: the adaptability engine - 5 roles, cross-industry research, verbal-first strategy, V1/V2/V3 3-day cycle, launch/innovate/retire, the saturation clock; keeps Pulsify off dead formats | 2026-07-12 |
+| [[playbooks/content-operating-rhythm]] | CANONICAL: the two clocks (offer daily / format quarterly), per-surface cadence, every-other-day anti-batch loop, call-batching calendar, delegation map, weekly/monthly rituals | 2026-07-12 |
 | [[playbooks/lead-intel-workflow]] | Persistent per-lead outreach memory — one file per worked prospect with the diagnosed leak, personal detail, assets built, last action, and next step; keeps follow-ups out of chat-memory roulette | 2026-07-09 |
 
 ---
@@ -103,6 +109,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[content-engine/sequence-breakdowns/README]] | Capture protocol for real story sequences: screenshots embedded inline in Obsidian + per-slide annotation (text verbatim, underlines/emphasis, dwell slides, interactives, 6-step job, drop-off) | 2026-07-12 |
 | [[content-engine/sequence-breakdowns/sequence-breakdown-template]] | The per-sequence template every screenshot drop gets transcribed into | 2026-07-12 |
 | [[content-engine/carousel-breakdowns/README]] | Capture protocol for high-design carousels: per-slide typography/layout/color/device annotation, swipe-engine analysis, cover deep-read, design-system extraction - fills the carousel gap in both corpora | 2026-07-12 |
+| [[content-engine/reel-format-ladder]] | CANONICAL: 8 reel formats mapped to revenue stages with growth/production/buyer-intent ratings, reach-then-harvest alternation, saturation clock, ratified volume/TOF/production dials | 2026-07-12 |
 | [[content-engine/sequence-breakdowns/niksetting-new-here]] | THE start-here sequence in the wild: 18 slides fully dissected (lesson template, proof interludes incl. naked $17,932 ad funnel, dual CTAs, luxury visual grammar + Pulsify currency swap); resolves Machi=Mochi | 2026-07-12 |
 
 ---

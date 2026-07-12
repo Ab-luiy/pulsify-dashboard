@@ -962,3 +962,8 @@ Fired on founder's "p2 fire". The dashboard's Studio section now generates story
 ## [2026-07-12] decision | Email layer parked; no LLM key on the studio
 
 Founder rulings: domain purchase (and with it Resend email delivery + 6-digit verification) waits until the first client - the copy-the-link login flow is the operating path meanwhile. No Gemini key on pulsify-funnels: the studio stays in manual mode by design so all sequence copywriting remains Claude-in-session with full vault context; P3 gains a paste-back field for finished sequences.
+
+
+## [2026-07-12] client-update | Client dashboard P3 LIVE + four framework pillars filed
+
+Fired on founder's "p3 fire". The Performance section now logs story sequences and computes drop-off (last/first views) with the slide-2=hook-failed / slide-7=body-failed diagnostics, cadence vs the 3-floor/5-7-target, and type-mix; the weekly card gives week-over-week follower/ICP-lead deltas plus dollars-per-follower off real payments. Studio gained the paste-back field so Claude-written sequences enter the review flow. Live-verified end to end (temp login, removed). While Codex built, filed four canonical framework pillars from the corpora: wiki/content-engine/reel-format-ladder.md, wiki/frameworks/messaging-reframe-system.md, wiki/frameworks/proof-system.md, wiki/playbooks/format-invention-pipeline.md. Remaining pillars: operating rhythm, two people pages, contradiction ledger; then the 3 carousel breakdowns.

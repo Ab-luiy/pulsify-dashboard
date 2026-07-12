@@ -193,6 +193,12 @@
   },
   "active": "bfb6291c943dbd2a",
   "lastOpenFiles": [
+    "wiki/people/soowei-goh.md",
+    "wiki/people/soowei-goh.md.tmp.8696.b2bb4562d8eb",
+    "wiki/people/niksetting.md",
+    "wiki/people/niksetting.md.tmp.8696.ea501b37bf04",
+    "wiki/playbooks/content-operating-rhythm.md",
+    "wiki/playbooks/content-operating-rhythm.md.tmp.8696.7e296ab29e7b",
     "tmp_portal_check.js",
     "output/standard-preview/functions/api/metrics-weekly.js",
     "output/standard-preview/functions/api/metrics-sequences.js",
@@ -205,10 +211,6 @@
     "CODEX_TASK_client_dashboard_p3.md",
     "CODEX_TASK_client_dashboard_p3.md.tmp.22104.61359742374f",
     "tmp/standard-preview-verify/page.html",
-    "tmp/standard-preview-verify/gen.json",
-    "tmp/standard-preview-verify/devserver3.log",
-    "tmp/standard-preview-verify/migrations/0012_client_dashboard_studio.sql",
-    "tmp/standard-preview-verify/functions/_shared/sequence-prompt.js",
     "CODEX_TASK_client_dashboard_p2.md",
     "tmp/standard-preview-verify/assets/og-card.png",
     "tmp/standard-preview-verify/assets/frank-product-video.jpg",
@@ -237,8 +239,6 @@
     "raw-sources/transcripts/soowei-goh/03b-half-2.md",
     "raw-sources/transcripts/soowei-goh/03a-half-1.md",
     "wiki/synthesis/soowei-goh-extractions/02-personal-branding-conversation.md",
-    "wiki/synthesis/soowei-goh-extractions/04-psychology-four-stages.md",
-    "wiki/synthesis/soowei-goh-extractions/01-3m-yr-organic-content-strategy.md",
     "Untitled.canvas"
   ]
 }
