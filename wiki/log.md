@@ -928,3 +928,8 @@ Built wiki/content-engine/sequence-breakdowns/ (README protocol + per-sequence t
 ## [2026-07-12] decision | Carousel capture protocol added
 
 Founder flagged high-design carousels as a second visual asset class alongside story sequences. Built wiki/content-engine/carousel-breakdowns/ (README protocol) + raw-sources/inspiration/carousels/. Annotation axes differ from stories: typography system, layout/whitespace, color treatment, design devices, swipe engine, cover deep-read, and design-system extraction (template-ready replication notes). Carousels are the thinnest area of both corpora, so captures here build the knowledge base directly; a carousel framework page follows once enough examples land.
+
+
+## [2026-07-12] decision | Photographic read added to sequence capture
+
+Per founder request, the sequence-breakdown protocol now mandates a full photographic read per slide: shot type, mood (the emotional argument of the frame), wealth register (raw/neutral/elevated/luxurious and what carries it), production level and lighting, and a two-way sync check (shown-vs-said, mood-vs-slide-job). The sequence dissection gains a visual grammar section capturing each creator's photographic system and the Pulsify proof-currency equivalent.

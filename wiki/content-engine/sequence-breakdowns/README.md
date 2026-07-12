@@ -26,7 +26,12 @@ The visual layer of the story-sequence system. Transcripts gave us the theory; t
 - **Overlay text, verbatim** — preserving line breaks, CAPS, punctuation quirks.
 - **Emphasis marks** — underlines, highlights, strikethrough, color changes, size jumps, bold words, emoji: which words carry them and why (the emphasized words are the slide's argument).
 - **The pause** — anything that makes the viewer tap-hold or dwell: text density, a screenshot that needs reading, a list, small text. Dwell slides are deliberate retention anchors; mark them.
-- **Visual layer** — what's behind the text: selfie, POV shot, screen recording, dashboard screenshot, DM receipt, client result, meme, plain color. Location/setting if legible (verbal-visual sync check).
+- **Visual layer (full photographic read)** — what's behind the text, deciphered on five axes:
+  - **Shot type:** selfie, mirror shot, POV (desk/laptop/car/plane window), over-shoulder, candid-of-founder shot by someone else, group shot, screen recording, dashboard/DM receipt, product/object close-up, scenery, meme, plain color card.
+  - **Mood:** the feeling the frame sells — grind (late-night desk, gym), calm authority (suit, stage, boardroom), casual intimacy (bed, couch, walking), celebration (team dinner, award), aspiration (travel, view), vulnerability (tired face, raw morning). Mood is the slide's emotional argument; name it.
+  - **Wealth register:** raw / neutral / elevated / luxurious — and what carries it (location, car interior, watch in frame, hotel, first-class cabin) vs deliberately absent. Track this creator-by-creator: it is the proof-currency choice made visible, and where Pulsify's anti-flex delta diverges from the source.
+  - **Production level:** phone-raw, phone-composed, edited (color grade, blur, crop), professional. Lighting: natural/golden hour/indoor artificial/flash.
+  - **Sync check:** does what is shown match what is said (verbal-visual sync), and does the mood match the slide's 6-step job (pain slides read heavier, result slides read brighter).
 - **Interactive elements** — poll (options verbatim), question box, slider, quiz, link sticker (destination), mention, countdown. Placement on the slide.
 - **Slide job** — which of the universal 6 steps it executes (curiosity / pain / statement+proof / belief shift / result / close), and which sequence type the whole run is.
 - **CTA mechanics** — trigger word, reply bait, link, "DM me X"; slide position of the CTA (the volume-vs-qualification dial).

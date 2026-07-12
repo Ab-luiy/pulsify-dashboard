@@ -21,7 +21,7 @@ updated: 2026-07-12
 - **Overlay text (verbatim):** "{exact text, line breaks preserved}"
 - **Emphasis:** {underlined: "..."; highlighted: "..."; caps: "..."; emoji: ...} — {what the emphasis is arguing}
 - **Pause/dwell:** {none / dwell slide — why the viewer holds}
-- **Visual:** {what's behind the text; setting; sync with the claim}
+- **Visual:** {shot type} | mood: {the emotional argument} | wealth register: {raw/neutral/elevated/luxurious — carried by what} | production: {phone-raw/composed/edited/pro; lighting} | sync: {does shown match said + does mood match slide job}
 - **Interactive:** {poll "A / B", question box, slider, link -> destination, none}
 - **Slide job:** {curiosity / pain / statement+proof / belief shift / result / close} 
 - **Flow:** {how it earns slide 2; open loop if any}
@@ -51,5 +51,6 @@ updated: 2026-07-12
 - **The authority signal:** {what makes this convert — the thing to steal}
 - **The surface language:** {what NOT to copy — niche-specific phrasing, personal references}
 - **Emphasis grammar:** {how this creator uses underlines/highlights as a system}
+- **Visual grammar:** {the creator's photographic system across the sequence: default mood, wealth register pattern, shot-type rotation, how mood shifts track the 6-step arc — and what Pulsify's equivalent looks like with our proof currency}
 - **What Pulsify adapts:** {the transferable pattern, restated for our proof currency}
 - **Feeds back to:** [[frameworks/story-sequence-system]] — {which section this updates or confirms}
