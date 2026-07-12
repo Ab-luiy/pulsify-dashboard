@@ -352,6 +352,86 @@
             </div>
           </div>
 
+          <div class="subsection">
+            <div class="subsection-head">
+              <p class="kicker">Performance</p>
+              <h3>Manual metrics entry</h3>
+              <p>Log story-sequence performance and weekly follower snapshots on behalf of the client.</p>
+            </div>
+            <div class="form-grid two">
+              <div class="field">
+                <label for="adminSequenceDate">Sequence date <span class="required">Required</span></label>
+                <input id="adminSequenceDate" type="date">
+              </div>
+              <div class="field">
+                <label for="adminSequenceType">Sequence type <span class="required">Required</span></label>
+                <select id="adminSequenceType"></select>
+              </div>
+              <div class="field span-all">
+                <label for="adminSequenceTopic">Topic <span class="required">Required</span></label>
+                <input id="adminSequenceTopic" placeholder="What was this sequence about?">
+              </div>
+              <div class="field">
+                <label for="adminSequenceSlideCount">Slide count <span class="required">Required</span></label>
+                <input id="adminSequenceSlideCount" type="number" min="1" max="30" value="8">
+              </div>
+              <div class="field">
+                <label for="adminSequenceViews">Per-slide views <span class="required">Required</span></label>
+                <input id="adminSequenceViews" placeholder="1000, 400, 380, 370">
+              </div>
+              <div class="field">
+                <label for="adminSequenceDms">DMs <span class="optional">Optional</span></label>
+                <input id="adminSequenceDms" type="number" min="0" placeholder="Optional">
+              </div>
+              <div class="field">
+                <label for="adminSequenceProfileVisits">Profile visits <span class="optional">Optional</span></label>
+                <input id="adminSequenceProfileVisits" type="number" min="0" placeholder="Optional">
+              </div>
+              <div class="field span-all">
+                <label for="adminSequenceNotes">Notes <span class="optional">Optional</span></label>
+                <textarea id="adminSequenceNotes" rows="3" placeholder="What mattered here?"></textarea>
+              </div>
+            </div>
+            <div class="button-row">
+              <button class="button dark" id="savePerformanceSequenceButton" type="button">Save sequence log</button>
+              <button class="button outline" id="clearPerformanceSequenceButton" type="button">Clear</button>
+            </div>
+
+            <div class="form-grid two" style="margin-top:16px">
+              <div class="field">
+                <label for="adminSnapshotDate">Snapshot date <span class="required">Required</span></label>
+                <input id="adminSnapshotDate" type="date">
+              </div>
+              <div class="field">
+                <label for="adminSnapshotFollowers">Followers <span class="required">Required</span></label>
+                <input id="adminSnapshotFollowers" type="number" min="0" placeholder="Required">
+              </div>
+              <div class="field">
+                <label for="adminSnapshotIcpLeads">ICP leads <span class="optional">Optional</span></label>
+                <input id="adminSnapshotIcpLeads" type="number" min="0" placeholder="Optional">
+              </div>
+              <div class="field">
+                <label for="adminSnapshotAvgViews">Average views <span class="optional">Optional</span></label>
+                <input id="adminSnapshotAvgViews" type="number" min="0" placeholder="Optional">
+              </div>
+              <div class="field span-all">
+                <label for="adminSnapshotNotes">Notes <span class="optional">Optional</span></label>
+                <textarea id="adminSnapshotNotes" rows="3" placeholder="What changed this week?"></textarea>
+              </div>
+            </div>
+            <div class="button-row">
+              <button class="button dark" id="savePerformanceSnapshotButton" type="button">Save snapshot</button>
+            </div>
+
+            <div class="message" id="performanceMessage" role="status" hidden></div>
+            <div id="performanceSummary" style="margin-top:16px"></div>
+            <div id="performanceSequenceList" style="margin-top:16px"></div>
+            <div class="empty-state inset" id="performanceEmpty" hidden>
+              <h3>No sequence metrics yet</h3>
+              <p>Log the first tracked sequence to turn on the diagnostics.</p>
+            </div>
+          </div>
+
           <button class="button primary" id="saveSettingsButton" type="submit">Save settings</button>
           <div class="message" id="settingsMessage" role="status" hidden></div>
 

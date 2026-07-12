@@ -38,7 +38,7 @@
     .panel-head h2{margin:0;font-size:30px;letter-spacing:-.04em}
     .panel-note{color:var(--muted);font-size:12.5px}
     .metric-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:22px}
-    .metric,.card,.empty-card,.list-card,.todo-card,.studio-card,.slide-card,.history-card,.review-card,.manual-card{background:var(--panel);border:1px solid var(--line);border-radius:18px}
+    .metric,.card,.empty-card,.list-card,.todo-card,.studio-card,.slide-card,.history-card,.review-card,.manual-card,.performance-card{background:var(--panel);border:1px solid var(--line);border-radius:18px}
     .metric{padding:18px;box-shadow:0 10px 30px rgba(24,31,48,.045)}
     .metric span{display:block;color:var(--muted);font-size:11px;font-weight:700;margin-bottom:9px;text-transform:uppercase;letter-spacing:.08em}
     .metric strong{display:block;font-size:28px;letter-spacing:-.05em}
@@ -55,8 +55,8 @@
     .empty-card h3{margin:0 0 8px;font-size:20px;letter-spacing:-.03em}
     .empty-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
     .stack{display:grid;gap:14px}
-    .list-card,.todo-card,.studio-card,.history-card,.review-card,.manual-card{padding:18px 20px}
-    .list-card h3,.todo-card h3,.studio-card h3,.history-card h3,.manual-card h3{margin:0 0 14px;font-size:18px;letter-spacing:-.03em}
+    .list-card,.todo-card,.studio-card,.history-card,.review-card,.manual-card,.performance-card{padding:18px 20px}
+    .list-card h3,.todo-card h3,.studio-card h3,.history-card h3,.manual-card h3,.performance-card h3{margin:0 0 14px;font-size:18px;letter-spacing:-.03em}
     .list-card ul,.todo-card ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
     .list-card li,.todo-card li{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
     .item-title{display:block;font-weight:800;margin-bottom:4px}
@@ -97,6 +97,7 @@
     .history-list,.review-list,.slide-list,.photo-list{display:grid;gap:12px}
     .history-item{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
     .history-item.active{border-color:var(--blue);background:var(--blue-soft)}
+    .history-item.editing{border-color:var(--green);background:var(--green-soft)}
     .history-top,.review-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
     .history-item strong,.review-card strong{display:block;font-size:13px}
     .history-item p,.review-card p,.manual-card p,.studio-card p,.slide-card p{margin:6px 0 0;color:var(--muted);font-size:12px;line-height:1.55}
@@ -116,6 +117,29 @@
     .manual-card textarea{width:100%;min-height:220px;margin-top:12px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ink)}
     body.dark .manual-card textarea{background:#0f131b}
     .review-card{padding:18px}
+    .performance-grid{display:grid;grid-template-columns:minmax(320px,380px) minmax(0,1fr);gap:16px;align-items:start}
+    .sequence-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .weekly-metric-list,.mix-list,.snapshot-list{display:grid;gap:10px}
+    .weekly-metric,.mix-chip,.snapshot-item{padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+    .weekly-metric strong,.mix-chip strong,.snapshot-item strong{display:block;font-size:13px}
+    .weekly-metric span,.mix-chip span,.snapshot-item span,.sequence-row p,.sequence-meta,.hint-text{display:block;color:var(--muted);font-size:12px;line-height:1.55}
+    .sequence-list{display:grid;gap:12px}
+    .sequence-row{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+    .sequence-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .sequence-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(24px,1fr));gap:6px;margin:12px 0}
+    .sequence-bar{display:flex;align-items:flex-end;justify-content:center;min-height:62px;padding-bottom:8px;border-radius:10px;background:rgba(104,113,244,.1);position:relative;overflow:hidden}
+    .sequence-bar i{position:absolute;inset:auto 0 0 0;background:linear-gradient(180deg,var(--blue),var(--blue-strong));opacity:.9}
+    .sequence-bar span{position:relative;font-size:10px;font-weight:800;color:var(--ink)}
+    .diagnostic-badge{display:inline-flex;padding:7px 10px;border-radius:999px;font-size:11px;font-weight:800;background:var(--amber-soft);color:var(--amber);text-transform:uppercase;letter-spacing:.04em}
+    .diagnostic-badge.healthy{background:var(--green-soft);color:var(--green)}
+    .content-list{display:grid;gap:12px}
+    .content-item{padding:14px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.04)}
+    .content-meta,.snapshot-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;color:var(--muted);font-size:11.5px}
+    .inline-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+    .inline-form-actions button{border:0;border-radius:12px;padding:11px 14px;background:var(--ink);color:#fff;font:800 12px Inter,system-ui,sans-serif;cursor:pointer}
+    .inline-form-actions button.outline{background:transparent;color:var(--ink);border:1px solid var(--line)}
+    .paste-box textarea{width:100%;min-height:180px;margin-top:12px;padding:12px 13px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.72);font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--ink)}
+    body.dark .paste-box textarea{background:#0f131b}
     .photo-item{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
     .photo-item:first-child{border-top:0}
     .photo-item input{margin-top:4px;accent-color:var(--blue)}
@@ -123,7 +147,7 @@
     .empty-inline{color:var(--muted);font-size:12px}
     code.inline{padding:2px 6px;border-radius:999px;background:var(--blue-soft);color:var(--blue-strong);font-size:11px}
     @media (max-width:1100px){
-      .studio-grid{grid-template-columns:1fr}
+      .studio-grid,.performance-grid{grid-template-columns:1fr}
     }
     @media (max-width:980px){
       #app{display:block}
@@ -199,13 +223,105 @@
       </section>
 
       <section class="panel" id="panel-content">
-        <div class="panel-head"><div><h2>Content</h2><div class="panel-note">P2 keeps the sequence studio in Studio. The full content calendar still lands later.</div></div></div>
-        <div class="pending-card"><span class="pending-pill">Next</span><h3>Content pipeline lands here next</h3><p>This section will show what is scheduled, in production, and published once the content layer is wired in.</p></div>
+        <div class="panel-head"><div><h2>Content</h2><div class="panel-note">Read-only pipeline items already saved for this client.</div></div></div>
+        <div id="contentSection"></div>
       </section>
 
       <section class="panel" id="panel-performance">
-        <div class="panel-head"><div><h2>Performance</h2><div class="panel-note">P3 will add the metrics layer.</div></div></div>
-        <div class="pending-card"><span class="pending-pill">P3</span><h3>Performance metrics are staged, not guessed</h3><p>This section will show week-over-week dashboard metrics once the manual story-entry and attribution layer is live.</p></div>
+        <div class="panel-head">
+          <div>
+            <h2>Performance</h2>
+            <div class="panel-note">Manual story tracking now runs here. Week over week only.</div>
+          </div>
+          <div class="panel-note" id="performanceStatus">Waiting on metrics</div>
+        </div>
+        <div class="performance-grid">
+          <div class="stack">
+            <div class="performance-card">
+              <h3>Log a sequence</h3>
+              <div class="field-grid">
+                <div class="field-grid two">
+                  <label for="sequenceDateInput">Date
+                    <input id="sequenceDateInput" type="date">
+                  </label>
+                  <label for="sequenceTypeSelect">Type
+                    <select id="sequenceTypeSelect"></select>
+                  </label>
+                </div>
+                <label for="sequenceTopicInput">Topic
+                  <input id="sequenceTopicInput" placeholder="What was this sequence about?">
+                </label>
+                <div class="field-grid two">
+                  <label for="sequenceSlideCountInput">Slide count
+                    <input id="sequenceSlideCountInput" type="number" min="1" max="30" value="8">
+                  </label>
+                  <label for="sequenceViewsInput">Per-slide views
+                    <input id="sequenceViewsInput" placeholder="1000, 400, 380, 370">
+                  </label>
+                </div>
+                <div class="field-grid two">
+                  <label for="sequenceDmsInput">DMs
+                    <input id="sequenceDmsInput" type="number" min="0" placeholder="Optional">
+                  </label>
+                  <label for="sequenceProfileVisitsInput">Profile visits
+                    <input id="sequenceProfileVisitsInput" type="number" min="0" placeholder="Optional">
+                  </label>
+                </div>
+                <label for="sequenceNotesInput">Notes
+                  <textarea id="sequenceNotesInput" placeholder="What mattered here?"></textarea>
+                </label>
+              </div>
+              <div class="inline-form-actions">
+                <button id="saveSequenceLogButton" type="button">Save sequence</button>
+                <button class="outline" id="clearSequenceLogButton" type="button">Clear</button>
+              </div>
+            </div>
+
+            <div class="performance-card">
+              <h3>Log followers</h3>
+              <div class="field-grid">
+                <div class="field-grid two">
+                  <label for="snapshotDateInput">Date
+                    <input id="snapshotDateInput" type="date">
+                  </label>
+                  <label for="snapshotFollowersInput">Followers
+                    <input id="snapshotFollowersInput" type="number" min="0" placeholder="Required">
+                  </label>
+                </div>
+                <div class="field-grid two">
+                  <label for="snapshotIcpLeadsInput">ICP leads
+                    <input id="snapshotIcpLeadsInput" type="number" min="0" placeholder="Optional">
+                  </label>
+                  <label for="snapshotAvgViewsInput">Average views
+                    <input id="snapshotAvgViewsInput" type="number" min="0" placeholder="Optional">
+                  </label>
+                </div>
+                <label for="snapshotNotesInput">Notes
+                  <textarea id="snapshotNotesInput" placeholder="What changed this week?"></textarea>
+                </label>
+              </div>
+              <div class="inline-form-actions">
+                <button id="saveSnapshotButton" type="button">Save snapshot</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="stack">
+            <div class="performance-card">
+              <h3>Weekly card</h3>
+              <div class="sequence-summary" id="performanceMetricGrid"></div>
+              <div class="weekly-metric-list" id="performanceWeeklyList"></div>
+              <div class="mix-list" id="performanceMixList"></div>
+              <div class="snapshot-list" id="snapshotList"></div>
+            </div>
+
+            <div class="performance-card">
+              <h3>Sequence log</h3>
+              <div class="sequence-list" id="sequenceList"></div>
+              <div class="empty-inline" id="sequenceListEmpty" hidden>No sequences logged yet.</div>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section class="panel" id="panel-team">
@@ -323,6 +439,15 @@
     const state = {
       client: CLIENT,
       sections: {},
+      contentItems: [],
+      performance: {
+        rows: [],
+        weekSummary: null,
+        weeklyReport: null,
+        latestSnapshot: null,
+        priorSnapshot: null,
+        editingSequenceId: null,
+      },
       studio: {
         selectedType: "",
         rows: [],
@@ -340,7 +465,12 @@
     document.body.classList.toggle("dark", dark);
 
     renderTypeGrid();
+    renderSequenceTypeSelect();
     $("generateSequenceButton").addEventListener("click", generateSequence);
+    $("saveSequenceLogButton").addEventListener("click", saveSequenceLog);
+    $("clearSequenceLogButton").addEventListener("click", clearSequenceForm);
+    $("saveSnapshotButton").addEventListener("click", saveSnapshot);
+    setTodayDefaults();
     loadDashboard();
 
     async function loadDashboard() {
@@ -356,9 +486,41 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
         renderDashboard(data);
-        await loadStudioHistory();
+        await Promise.all([loadStudioHistory(), loadPerformanceData()]);
       } catch (error) {
         showMessage(error.message || "Could not load the dashboard.");
+      }
+    }
+
+    async function loadPerformanceData() {
+      try {
+        const [sequenceResponse, weeklyResponse] = await Promise.all([
+          fetch(`/api/metrics-sequences?client=${encodeURIComponent(state.client)}`, {
+            headers: authHeaders(),
+            credentials: "same-origin",
+          }),
+          fetch(`/api/metrics-weekly?client=${encodeURIComponent(state.client)}`, {
+            headers: authHeaders(),
+            credentials: "same-origin",
+          }),
+        ]);
+        if ([sequenceResponse, weeklyResponse].some((response) => response.status === 401 || response.status === 403)) {
+          redirectToLogin();
+          return;
+        }
+        const sequenceData = await sequenceResponse.json().catch(() => ({}));
+        const weeklyData = await weeklyResponse.json().catch(() => ({}));
+        if (!sequenceResponse.ok || !sequenceData.ok) throw new Error(sequenceData.error || "Could not load sequence metrics.");
+        if (!weeklyResponse.ok || !weeklyData.ok) throw new Error(weeklyData.error || "Could not load the weekly report.");
+        state.performance.rows = Array.isArray(sequenceData.rows) ? sequenceData.rows : [];
+        state.performance.weekSummary = sequenceData.week_summary || null;
+        state.performance.weeklyReport = weeklyData.report || null;
+        state.performance.latestSnapshot = weeklyData.latest || null;
+        state.performance.priorSnapshot = weeklyData.prior || null;
+        renderPerformance();
+      } catch (error) {
+        $("performanceStatus").textContent = "Metrics unavailable";
+        showMessage(error.message || "Could not load the performance metrics.");
       }
     }
 
@@ -390,6 +552,7 @@
     function renderDashboard(data) {
       state.client = data.client;
       state.sections = data.sections || {};
+      state.contentItems = Array.isArray(data.content_items) ? data.content_items : [];
       $("clientName").textContent = data.client_name || data.client;
       $("clientSubtitle").textContent = data.auth_mode === "token"
         ? "Private token access is active for this session."
@@ -399,10 +562,35 @@
       history.replaceState(null, "", clean.pathname + clean.search);
 
       renderRevenue(data.revenue || {});
+      renderContentSection();
       renderListSection("teamContent", "Team", state.sections.team, emptyText("No team records yet", "Pulsify will list the working team here as soon as the client setup is filled in."));
       renderListSection("plansContent", "Plans", state.sections.plans, emptyText("No plan loaded yet", "Pulsify will add the current roadmap here once the client plan is written."));
       renderMomentum("momentumContent", state.sections.momentum);
       renderTodos(state.sections.todos);
+    }
+
+    function renderContentSection() {
+      const target = $("contentSection");
+      if (!state.contentItems.length) {
+        target.innerHTML = emptyText("No content items yet", "This section will show scheduled, in-production, and published work once items are saved in the operator console.");
+        return;
+      }
+      target.innerHTML = `
+        <div class="content-list">
+          ${state.contentItems.map((item) => `
+            <div class="content-item">
+              <strong>${esc(item.title || "Untitled item")}</strong>
+              <span class="hint-text">${esc(contentStageLabel(item.stage))}</span>
+              ${item.notes ? `<p>${esc(item.notes)}</p>` : `<p>No extra note saved.</p>`}
+              <div class="content-meta">
+                <span>${esc(item.platform || "No platform")}</span>
+                <span>${item.scheduled_for ? `Scheduled ${esc(item.scheduled_for)}` : `Updated ${date(item.updated_at)}`}</span>
+                ${item.url ? `<span><a href="${esc(item.url)}" target="_blank" rel="noopener">Open link</a></span>` : ""}
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      `;
     }
 
     function renderRevenue(revenue) {
@@ -442,6 +630,12 @@
           renderTypeGrid();
         });
       });
+    }
+
+    function renderSequenceTypeSelect() {
+      $("sequenceTypeSelect").innerHTML = STUDIO_TYPES.map(([type]) => `
+        <option value="${esc(type)}">${esc(type)}</option>
+      `).join("");
     }
 
     async function generateSequence() {
@@ -496,6 +690,176 @@
       } finally {
         button.disabled = false;
       }
+    }
+
+    function renderPerformance() {
+      const rows = state.performance.rows;
+      const summary = state.performance.weekSummary || {};
+      const report = state.performance.weeklyReport || {};
+      const latest = state.performance.latestSnapshot;
+      const prior = state.performance.priorSnapshot;
+
+      $("performanceStatus").textContent = rows.length
+        ? `${rows.length} sequence${rows.length === 1 ? "" : "s"} logged`
+        : "No sequences logged yet";
+
+      $("performanceMetricGrid").innerHTML = [
+        metricCard("This week", `${number(summary.sequences_this_week || 0)}`, `${number(summary.cadence_floor || 3)} minimum, ${number(summary.cadence_target_min || 5)}-${number(summary.cadence_target_max || 7)} target`),
+        metricCard("Last week", `${number(summary.sequences_last_week || 0)}`, summary.cadence_status || "week status"),
+      ].join("");
+
+      $("performanceWeeklyList").innerHTML = [
+        renderWeeklyMetric("Followers", report.followers),
+        renderWeeklyMetric("ICP leads", report.icp_leads),
+        renderWeeklyMetric("Follower to view", report.follower_to_view_ratio, "", true),
+        renderWeeklyMetric("Dollars per follower", report.dollars_per_follower),
+      ].join("");
+
+      $("performanceMixList").innerHTML = `
+        <div class="mix-chip">
+          <strong>Cadence status</strong>
+          <span>${esc(`${number(summary.sequences_this_week || 0)} of ${number(summary.cadence_floor || 3)} minimum this week`)}</span>
+        </div>
+        <div class="mix-chip">
+          <strong>This week type mix</strong>
+          <span>${esc(formatTypeMix(summary.type_mix_current_week))}</span>
+        </div>
+        <div class="mix-chip">
+          <strong>Last week type mix</strong>
+          <span>${esc(formatTypeMix(summary.type_mix_prior_week))}</span>
+        </div>
+      `;
+
+      $("snapshotList").innerHTML = [latest, prior].filter(Boolean).map((snapshot, index) => `
+        <div class="snapshot-item">
+          <strong>${index === 0 ? "Latest snapshot" : "Prior snapshot"}</strong>
+          <span>${esc(snapshot.taken_on || "")}</span>
+          <div class="snapshot-meta">
+            <span>${number(snapshot.followers)} followers</span>
+            <span>${snapshot.icp_leads == null ? "ICP leads not logged" : `${number(snapshot.icp_leads)} ICP leads`}</span>
+            <span>${snapshot.avg_views == null ? "Average views not logged" : `${number(snapshot.avg_views)} avg views`}</span>
+          </div>
+          ${snapshot.notes ? `<p>${esc(snapshot.notes)}</p>` : ""}
+        </div>
+      `).join("") || `<div class="empty-inline">No snapshots saved yet.</div>`;
+
+      $("sequenceList").innerHTML = rows.map((row) => renderSequenceRow(row)).join("");
+      $("sequenceListEmpty").hidden = rows.length > 0;
+      document.querySelectorAll("[data-edit-sequence]").forEach((button) => {
+        button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
+      });
+    }
+
+    async function saveSequenceLog() {
+      try {
+        const payload = {
+          id: state.performance.editingSequenceId || undefined,
+          posted_on: $("sequenceDateInput").value,
+          type: $("sequenceTypeSelect").value,
+          topic: $("sequenceTopicInput").value.trim(),
+          slide_count: Number($("sequenceSlideCountInput").value || 0),
+          slide_views: parseViewsInput($("sequenceViewsInput").value),
+          dms: $("sequenceDmsInput").value.trim(),
+          profile_visits: $("sequenceProfileVisitsInput").value.trim(),
+          notes: $("sequenceNotesInput").value.trim(),
+        };
+        const response = await fetch("/api/metrics-sequences", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the sequence log.");
+        clearSequenceForm();
+        await loadPerformanceData();
+        showMessage(data.updated ? "Sequence log updated." : "Sequence logged.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not save the sequence log.");
+      }
+    }
+
+    async function saveSnapshot() {
+      try {
+        const payload = {
+          taken_on: $("snapshotDateInput").value,
+          followers: $("snapshotFollowersInput").value.trim(),
+          icp_leads: $("snapshotIcpLeadsInput").value.trim(),
+          avg_views: $("snapshotAvgViewsInput").value.trim(),
+          notes: $("snapshotNotesInput").value.trim(),
+        };
+        const response = await fetch("/api/metrics-weekly", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the snapshot.");
+        clearSnapshotForm();
+        await loadPerformanceData();
+        showMessage("Snapshot saved.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not save the snapshot.");
+      }
+    }
+
+    function loadSequenceIntoForm(id) {
+      const row = state.performance.rows.find((item) => item.id === id);
+      if (!row) return;
+      state.performance.editingSequenceId = id;
+      $("sequenceDateInput").value = row.posted_on || "";
+      $("sequenceTypeSelect").value = row.type || STUDIO_TYPES[0][0];
+      $("sequenceTopicInput").value = row.topic || "";
+      $("sequenceSlideCountInput").value = row.slide_count || row.slide_views.length || 1;
+      $("sequenceViewsInput").value = Array.isArray(row.slide_views) ? row.slide_views.join(", ") : "";
+      $("sequenceDmsInput").value = row.dms == null ? "" : row.dms;
+      $("sequenceProfileVisitsInput").value = row.profile_visits == null ? "" : row.profile_visits;
+      $("sequenceNotesInput").value = row.notes || "";
+      renderPerformance();
+      openTab("performance");
+      showMessage("Editing sequence log entry.");
+    }
+
+    function clearSequenceForm() {
+      state.performance.editingSequenceId = null;
+      $("sequenceDateInput").value = todayIso();
+      $("sequenceTypeSelect").value = STUDIO_TYPES[0][0];
+      $("sequenceTopicInput").value = "";
+      $("sequenceSlideCountInput").value = 8;
+      $("sequenceViewsInput").value = "";
+      $("sequenceDmsInput").value = "";
+      $("sequenceProfileVisitsInput").value = "";
+      $("sequenceNotesInput").value = "";
+      renderPerformance();
+    }
+
+    function clearSnapshotForm() {
+      $("snapshotDateInput").value = todayIso();
+      $("snapshotFollowersInput").value = "";
+      $("snapshotIcpLeadsInput").value = "";
+      $("snapshotAvgViewsInput").value = "";
+      $("snapshotNotesInput").value = "";
+    }
+
+    function setTodayDefaults() {
+      $("sequenceDateInput").value = todayIso();
+      $("snapshotDateInput").value = todayIso();
+      $("sequenceTypeSelect").value = STUDIO_TYPES[0][0];
     }
 
     function renderHistory() {
@@ -568,6 +932,14 @@
             <textarea readonly id="manualPromptBox">${esc(row.manual_prompt)}</textarea>
           </div>
         ` : ""}
+        <div class="manual-card paste-box">
+          <h3>Paste finished sequence</h3>
+          <p>Paste the final Claude-written output here. Valid JSON is stored as-is. Everything else is saved as raw text and sent to review.</p>
+          <textarea id="finishedSequenceInput" placeholder='Paste the final sequence JSON or raw text'></textarea>
+          <div class="inline-form-actions">
+            <button id="saveFinishedSequenceButton" type="button">Save finished sequence</button>
+          </div>
+        </div>
         ${hooks.length ? `
           <div class="studio-card">
             <h3>Hook alternates</h3>
@@ -634,6 +1006,10 @@
           showMessage(copied ? "Manual prompt copied." : "Copy failed. Select the prompt manually.", copied ? "success" : undefined);
         });
       }
+      const saveFinishedSequenceButton = $("saveFinishedSequenceButton");
+      if (saveFinishedSequenceButton) {
+        saveFinishedSequenceButton.addEventListener("click", () => attachFinishedSequence(row.id));
+      }
       document.querySelectorAll("[data-copy-slide]").forEach((button) => {
         button.addEventListener("click", async () => {
           const [, slideNumber] = button.dataset.copySlide.split("-");
@@ -647,6 +1023,35 @@
           localStorage.setItem(`pulsify_photo_check_${checkbox.dataset.photoCheck}`, checkbox.checked ? "1" : "0");
         });
       });
+    }
+
+    async function attachFinishedSequence(id) {
+      const rawText = $("finishedSequenceInput")?.value.trim() || "";
+      if (!rawText) {
+        showMessage("Paste the finished sequence first.");
+        return;
+      }
+      try {
+        const response = await fetch("/api/studio-sequences", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({ action: "attach-output", id, raw_text: rawText }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the finished sequence.");
+        await loadStudioHistory();
+        showMessage("Finished sequence saved and moved to review.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not save the finished sequence.");
+      }
     }
 
     async function submitForReview(id) {
@@ -797,6 +1202,87 @@
 
     function authHeaders() {
       return TOKEN ? { "x-portal-token": TOKEN } : {};
+    }
+
+    function renderSequenceRow(row) {
+      const maxView = Math.max(...(row.slide_views || [0]), 1);
+      return `
+        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}">
+          <div class="sequence-top">
+            <div>
+              <strong>${esc(row.topic || row.type || "Sequence")}</strong>
+              <div class="sequence-meta">${esc(row.type || "sequence")} | ${esc(row.posted_on || "")} | ${row.dms == null ? "DMs not logged" : `${number(row.dms)} DMs`}</div>
+            </div>
+            <span class="diagnostic-badge${row.diagnostic === "healthy" ? " healthy" : ""}">${esc(row.diagnostic || "monitor")}</span>
+          </div>
+          <div class="sequence-strip">
+            ${(row.slide_views || []).map((value, index) => `
+              <div class="sequence-bar" title="Slide ${index + 1}: ${number(value)} views">
+                <i style="height:${Math.max(10, Math.round((Number(value || 0) / maxView) * 100))}%"></i>
+                <span>${index + 1}</span>
+              </div>
+            `).join("")}
+          </div>
+          <div class="content-meta">
+            <span>${row.completion_pct == null ? "Completion not available" : `${row.completion_pct}% completion`}</span>
+            <span>${row.dropoff_pct == null ? "Drop-off not available" : `${row.dropoff_pct}% drop-off`}</span>
+            <span>${row.biggest_drop_slide ? `Biggest drop: slide ${row.biggest_drop_slide}` : "No drop pattern yet"}</span>
+            <span>${row.profile_visits == null ? "Profile visits not logged" : `${number(row.profile_visits)} profile visits`}</span>
+          </div>
+          ${row.notes ? `<p>${esc(row.notes)}</p>` : ""}
+          <div class="inline-form-actions">
+            <button class="outline" type="button" data-edit-sequence="${row.id}">Edit</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderWeeklyMetric(label, metric, suffix = "", plain = false) {
+      const value = metric?.value;
+      const delta = metric?.delta;
+      const valueText = value == null ? "Not logged yet" : `${formatMetricValue(value, plain)}${suffix}`;
+      const deltaText = delta == null ? (metric?.hint || "Need another weekly snapshot.") : `${delta > 0 ? "+" : ""}${formatMetricValue(delta, plain)}${suffix} vs prior week`;
+      return `
+        <div class="weekly-metric">
+          <strong>${esc(label)}</strong>
+          <span>${esc(valueText)}</span>
+          <span>${esc(deltaText)}</span>
+        </div>
+      `;
+    }
+
+    function formatMetricValue(value, plain = false) {
+      if (plain) return Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 });
+      if (Math.abs(Number(value)) >= 1000) return Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 });
+      return String(value);
+    }
+
+    function formatTypeMix(mix) {
+      const entries = Object.entries(mix || {});
+      if (!entries.length) return "No logged sequences this week.";
+      return entries.map(([type, count]) => `${type}: ${count}`).join(" | ");
+    }
+
+    function parseViewsInput(value) {
+      return String(value || "")
+        .split(",")
+        .map((part) => part.trim())
+        .filter(Boolean)
+        .map((part) => Number(part))
+        .filter((part) => Number.isFinite(part) && part >= 0)
+        .map((part) => Math.round(part));
+    }
+
+    function todayIso() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function contentStageLabel(value) {
+      return ({
+        production: "In production",
+        scheduled: "Scheduled",
+        published: "Published",
+      })[String(value || "").toLowerCase()] || "Open";
     }
 
     function metricCard(label, value, note) {

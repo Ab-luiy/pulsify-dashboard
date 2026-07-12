@@ -8,7 +8,7 @@ export async function onRequestGet({ request, env }) {
   if (access.error) return access.error;
   const client = cleanId(access.client);
 
-  const [configRow, paymentRows, contentRows] = await Promise.all([
+  const [configRow, paymentRows, contentRows, pipelineRows] = await Promise.all([
     env.DB.prepare(
       `SELECT client, COALESCE(client_name, client) AS client_name
          FROM client_config
@@ -24,6 +24,15 @@ export async function onRequestGet({ request, env }) {
       `SELECT section, json, updated_at
          FROM client_dashboard_content
         WHERE client_id=?`,
+    ).bind(client).all(),
+    env.DB.prepare(
+      `SELECT id, title, stage, platform, url, notes, scheduled_for, updated_at
+         FROM content_items
+        WHERE client=?
+        ORDER BY
+          CASE stage WHEN 'production' THEN 0 WHEN 'scheduled' THEN 1 WHEN 'published' THEN 2 ELSE 3 END,
+          COALESCE(scheduled_for, updated_at) DESC,
+          id DESC`,
     ).bind(client).all(),
   ]);
 
@@ -51,6 +60,10 @@ export async function onRequestGet({ request, env }) {
       payments,
     },
     sections: parseSections(contentRows.results || []),
+    content_items: (pipelineRows.results || []).map((row) => ({
+      ...row,
+      id: Number(row.id || 0),
+    })),
   });
 }
 

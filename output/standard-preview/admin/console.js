@@ -37,6 +37,14 @@
     campaignSummary: {},
     trackedAssets: [],
     studioReviews: [],
+    performance: {
+      rows: [],
+      weekSummary: null,
+      weeklyReport: null,
+      latestSnapshot: null,
+      priorSnapshot: null,
+      editingSequenceId: null,
+    },
   };
 
   const deliveryState = {
@@ -275,6 +283,7 @@
     renderWizardProofFields();
     renderWizardProgress();
     renderContentFields();
+    renderPerformanceTypeOptions();
     renderIntegrationShell();
     bindEvents();
     routeFromHash();
@@ -311,6 +320,9 @@
     $("refreshHomeButton").addEventListener("click", loadHome);
     $("refreshStudioReviewButton").addEventListener("click", loadStudioReviewQueue);
     $("refreshClientsButton").addEventListener("click", loadSettings);
+    $("savePerformanceSequenceButton").addEventListener("click", savePerformanceSequence);
+    $("clearPerformanceSequenceButton").addEventListener("click", clearPerformanceSequenceForm);
+    $("savePerformanceSnapshotButton").addEventListener("click", savePerformanceSnapshot);
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
@@ -906,6 +918,13 @@
             </div>
           `).join("") || `<div class="message error">No structured JSON was saved for this sequence. Open the manual prompt and regenerate.</div>`}
         </div>
+        <label class="field review-output-box">
+          <span>Paste finished sequence</span>
+          <textarea rows="5" data-review-output="${row.id}" placeholder="Paste the final JSON or raw text here before approval."></textarea>
+        </label>
+        <div class="button-row">
+          <button class="button outline small" type="button" data-review-attach="${row.id}">Save pasted output</button>
+        </div>
         <label class="field">
           <span>Review note</span>
           <textarea rows="3" data-review-note="${row.id}" placeholder="Write the approval context or the rejection reason."></textarea>
@@ -919,6 +938,9 @@
     $("studioReviewEmpty").hidden = state.studioReviews.length > 0;
     $$("[data-review-action]", $("studioReviewQueue")).forEach((button) => {
       button.addEventListener("click", () => handleStudioReviewAction(button.dataset.reviewAction, Number(button.dataset.reviewId)));
+    });
+    $$("[data-review-attach]", $("studioReviewQueue")).forEach((button) => {
+      button.addEventListener("click", () => attachStudioOutputFromReview(Number(button.dataset.reviewAttach)));
     });
   }
 
@@ -1737,6 +1759,22 @@
     `).join("");
   }
 
+  function renderPerformanceTypeOptions() {
+    const options = [
+      "value-driven",
+      "credibility",
+      "q&a",
+      "day-in-the-life",
+      "breakdown",
+      "lifestyle",
+      "cta",
+      "start-here",
+      "story launch",
+    ];
+    $("adminSequenceType").innerHTML = options.map((type) => `<option value="${esc(type)}">${esc(type)}</option>`).join("");
+    $("adminSequenceType").value = options[0];
+  }
+
   function clearSettingsFields(client = "") {
     $("clientId").value = client;
     $("clientName").value = "";
@@ -1759,6 +1797,8 @@
     setSavedState($("typeformSecretState"), false, "webhook secret");
     setSavedState($("kitKeyState"), false, "API key");
     setSavedState($("dashboardPasswordState"), false, "dashboard password");
+    clearPerformanceForms();
+    renderPerformanceSection();
     updatePreviewLinks();
   }
 
@@ -1817,6 +1857,7 @@
     updatePreviewLinks();
     renderSetupChecklist();
     reloadLivePreview();
+    await loadPerformanceEntries();
   }
 
   function setSavedState(element, isSet, label) {
@@ -1835,6 +1876,207 @@
     const client = encodeURIComponent($("clientId").value.trim());
     $("previewCanonical").href = client ? `/?client=${client}&preview=canonical` : "#";
     $("previewVariant").href = client ? `/?client=${client}&preview=variant-02` : "#";
+  }
+
+  async function loadPerformanceEntries() {
+    if (!state.client) {
+      clearPerformanceForms();
+      renderPerformanceSection();
+      return;
+    }
+    try {
+      const [sequenceResponse, weeklyResponse] = await Promise.all([
+        api(`/api/metrics-sequences?client=${encodeURIComponent(state.client)}`),
+        api(`/api/metrics-weekly?client=${encodeURIComponent(state.client)}`),
+      ]);
+      const sequenceData = await sequenceResponse.json().catch(() => ({}));
+      const weeklyData = await weeklyResponse.json().catch(() => ({}));
+      if (!sequenceResponse.ok || !sequenceData.ok) {
+        throw new Error(sequenceData.error || "Could not load sequence metrics.");
+      }
+      if (!weeklyResponse.ok || !weeklyData.ok) {
+        throw new Error(weeklyData.error || "Could not load the weekly metrics.");
+      }
+      state.performance.rows = Array.isArray(sequenceData.rows) ? sequenceData.rows : [];
+      state.performance.weekSummary = sequenceData.week_summary || null;
+      state.performance.weeklyReport = weeklyData.report || null;
+      state.performance.latestSnapshot = weeklyData.latest || null;
+      state.performance.priorSnapshot = weeklyData.prior || null;
+      renderPerformanceSection();
+    } catch (error) {
+      state.performance.rows = [];
+      state.performance.weekSummary = null;
+      state.performance.weeklyReport = null;
+      state.performance.latestSnapshot = null;
+      state.performance.priorSnapshot = null;
+      renderPerformanceSection();
+      if (state.key) showMessage($("performanceMessage"), error.message || "Could not load performance metrics.", "error");
+    }
+  }
+
+  async function savePerformanceSequence() {
+    if (!state.client) {
+      showMessage($("performanceMessage"), "Select a client first.", "error");
+      return;
+    }
+    try {
+      const response = await api("/api/metrics-sequences", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          client: state.client,
+          id: state.performance.editingSequenceId || undefined,
+          posted_on: $("adminSequenceDate").value,
+          type: $("adminSequenceType").value,
+          topic: $("adminSequenceTopic").value.trim(),
+          slide_count: Number($("adminSequenceSlideCount").value || 0),
+          slide_views: parseCommaIntegers($("adminSequenceViews").value),
+          dms: $("adminSequenceDms").value.trim(),
+          profile_visits: $("adminSequenceProfileVisits").value.trim(),
+          notes: $("adminSequenceNotes").value.trim(),
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the sequence log.");
+      clearPerformanceSequenceForm();
+      await loadPerformanceEntries();
+      showMessage($("performanceMessage"), data.updated ? "Sequence log updated." : "Sequence log saved.", "success");
+    } catch (error) {
+      if (state.key) showMessage($("performanceMessage"), error.message || "Could not save the sequence log.", "error");
+    }
+  }
+
+  async function savePerformanceSnapshot() {
+    if (!state.client) {
+      showMessage($("performanceMessage"), "Select a client first.", "error");
+      return;
+    }
+    try {
+      const response = await api("/api/metrics-weekly", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          client: state.client,
+          taken_on: $("adminSnapshotDate").value,
+          followers: $("adminSnapshotFollowers").value.trim(),
+          icp_leads: $("adminSnapshotIcpLeads").value.trim(),
+          avg_views: $("adminSnapshotAvgViews").value.trim(),
+          notes: $("adminSnapshotNotes").value.trim(),
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the snapshot.");
+      clearPerformanceSnapshotForm();
+      await loadPerformanceEntries();
+      showMessage($("performanceMessage"), "Snapshot saved.", "success");
+    } catch (error) {
+      if (state.key) showMessage($("performanceMessage"), error.message || "Could not save the snapshot.", "error");
+    }
+  }
+
+  function renderPerformanceSection() {
+    const summary = state.performance.weekSummary || {};
+    const report = state.performance.weeklyReport || {};
+    const latest = state.performance.latestSnapshot;
+    const prior = state.performance.priorSnapshot;
+
+    $("performanceSummary").innerHTML = `
+      <div class="performance-summary-grid">
+        ${metricCard("This week", number(summary.sequences_this_week || 0), `${number(summary.cadence_floor || 3)} minimum | ${number(summary.cadence_target_min || 5)}-${number(summary.cadence_target_max || 7)} target`)}
+        ${metricCard("Last week", number(summary.sequences_last_week || 0), summary.cadence_status || "week status")}
+        ${metricCard("Followers", weeklyValue(report.followers), weeklyDelta(report.followers))}
+        ${metricCard("ICP leads", weeklyValue(report.icp_leads), weeklyDelta(report.icp_leads))}
+        ${metricCard("Follower to view", weeklyValue(report.follower_to_view_ratio), weeklyDelta(report.follower_to_view_ratio))}
+        ${metricCard("Dollars per follower", weeklyValue(report.dollars_per_follower), weeklyDelta(report.dollars_per_follower))}
+      </div>
+      <div class="review-card" style="margin-top:12px">
+        <div class="review-meta-column">
+          <span><strong>This week type mix</strong> ${esc(formatTypeMix(summary.type_mix_current_week))}</span>
+          <span><strong>Last week type mix</strong> ${esc(formatTypeMix(summary.type_mix_prior_week))}</span>
+          <span><strong>Latest snapshot</strong> ${latest ? `${esc(latest.taken_on)} | ${number(latest.followers)} followers` : "Not logged yet"}</span>
+          <span><strong>Prior snapshot</strong> ${prior ? `${esc(prior.taken_on)} | ${number(prior.followers)} followers` : "Need one more weekly snapshot"}</span>
+        </div>
+      </div>
+    `;
+
+    $("performanceSequenceList").innerHTML = state.performance.rows.map((row) => `
+      <article class="review-card${state.performance.editingSequenceId === row.id ? " editing" : ""}">
+        <div class="review-head">
+          <div>
+            <strong>${esc(row.topic || row.type || "Sequence")}</strong>
+            <p>${esc(row.type || "sequence")} | ${esc(row.posted_on || "")}</p>
+          </div>
+          <span class="badge ${row.diagnostic === "healthy" ? "success" : "accent"}">${esc(row.diagnostic || "monitor")}</span>
+        </div>
+        <div class="review-meta">
+          <span>${row.completion_pct == null ? "Completion not logged" : `${row.completion_pct}% completion`}</span>
+          <span>${row.dropoff_pct == null ? "Drop-off not logged" : `${row.dropoff_pct}% drop-off`}</span>
+          <span>${row.biggest_drop_slide ? `Biggest drop: slide ${row.biggest_drop_slide}` : "No slide drop yet"}</span>
+        </div>
+        <div class="sequence-bar-strip">
+          ${(row.slide_views || []).map((value, index) => `
+            <div class="sequence-bar" title="Slide ${index + 1}: ${number(value)} views">
+              <i style="height:${barHeight(value, row.slide_views)}%"></i>
+              <span>${index + 1}</span>
+            </div>
+          `).join("")}
+        </div>
+        <div class="review-meta">
+          <span>${row.dms == null ? "DMs not logged" : `${number(row.dms)} DMs`}</span>
+          <span>${row.profile_visits == null ? "Profile visits not logged" : `${number(row.profile_visits)} profile visits`}</span>
+        </div>
+        ${row.notes ? `<p>${esc(row.notes)}</p>` : ""}
+        <div class="button-row">
+          <button class="button outline small" type="button" data-performance-edit="${row.id}">Edit</button>
+        </div>
+      </article>
+    `).join("");
+    $("performanceEmpty").hidden = state.performance.rows.length > 0;
+    $$("[data-performance-edit]", $("performanceSequenceList")).forEach((button) => {
+      button.addEventListener("click", () => loadPerformanceSequenceIntoForm(Number(button.dataset.performanceEdit)));
+    });
+  }
+
+  function loadPerformanceSequenceIntoForm(id) {
+    const row = state.performance.rows.find((item) => item.id === id);
+    if (!row) return;
+    state.performance.editingSequenceId = id;
+    $("adminSequenceDate").value = row.posted_on || todayIso();
+    $("adminSequenceType").value = row.type || $("adminSequenceType").value;
+    $("adminSequenceTopic").value = row.topic || "";
+    $("adminSequenceSlideCount").value = row.slide_count || (row.slide_views || []).length || 8;
+    $("adminSequenceViews").value = Array.isArray(row.slide_views) ? row.slide_views.join(", ") : "";
+    $("adminSequenceDms").value = row.dms == null ? "" : row.dms;
+    $("adminSequenceProfileVisits").value = row.profile_visits == null ? "" : row.profile_visits;
+    $("adminSequenceNotes").value = row.notes || "";
+    renderPerformanceSection();
+    showMessage($("performanceMessage"), "Editing sequence log entry.", "neutral");
+  }
+
+  function clearPerformanceForms() {
+    clearPerformanceSequenceForm();
+    clearPerformanceSnapshotForm();
+  }
+
+  function clearPerformanceSequenceForm() {
+    state.performance.editingSequenceId = null;
+    $("adminSequenceDate").value = todayIso();
+    $("adminSequenceType").value = $("adminSequenceType").value || "value-driven";
+    $("adminSequenceTopic").value = "";
+    $("adminSequenceSlideCount").value = 8;
+    $("adminSequenceViews").value = "";
+    $("adminSequenceDms").value = "";
+    $("adminSequenceProfileVisits").value = "";
+    $("adminSequenceNotes").value = "";
+    renderPerformanceSection();
+  }
+
+  function clearPerformanceSnapshotForm() {
+    $("adminSnapshotDate").value = todayIso();
+    $("adminSnapshotFollowers").value = "";
+    $("adminSnapshotIcpLeads").value = "";
+    $("adminSnapshotAvgViews").value = "";
+    $("adminSnapshotNotes").value = "";
   }
 
   function reloadLivePreview() {
@@ -2095,6 +2337,30 @@
       showMessage($("globalMessage"), `Sequence ${action === "approve" ? "approved" : "rejected"}.`, "success");
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || `Could not ${action} this sequence.`, "error");
+    }
+  }
+
+  async function attachStudioOutputFromReview(id) {
+    const field = document.querySelector(`[data-review-output="${id}"]`);
+    const rawText = field?.value.trim() || "";
+    if (!rawText) {
+      showMessage($("globalMessage"), "Paste the finished sequence first.", "error");
+      return;
+    }
+    try {
+      const response = await api("/api/studio-sequences", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "attach-output", id, raw_text: rawText }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not save the pasted sequence output.");
+      }
+      await loadStudioReviewQueue();
+      showMessage($("globalMessage"), "Finished sequence output saved.", "success");
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || "Could not save the pasted sequence output.", "error");
     }
   }
 
@@ -2959,6 +3225,46 @@
     } catch (error) {
       throw new Error(`Invalid dashboard JSON: ${error.message}`);
     }
+  }
+
+  function metricCard(label, value, note) {
+    return `<article class="metric-card"><span>${esc(label)}</span><strong>${esc(value)}</strong><small>${esc(note)}</small></article>`;
+  }
+
+  function weeklyValue(metric) {
+    if (metric?.value == null) return "Not logged yet";
+    return Number(metric.value).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  }
+
+  function weeklyDelta(metric) {
+    if (metric?.delta == null) return metric?.hint || "Need another weekly snapshot.";
+    const delta = Number(metric.delta);
+    return `${delta > 0 ? "+" : ""}${delta.toLocaleString(undefined, { maximumFractionDigits: 2 })} vs prior week`;
+  }
+
+  function formatTypeMix(mix) {
+    const entries = Object.entries(mix || {});
+    if (!entries.length) return "No logged sequences yet.";
+    return entries.map(([type, count]) => `${type}: ${count}`).join(" | ");
+  }
+
+  function parseCommaIntegers(value) {
+    return String(value || "")
+      .split(",")
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => Number(part))
+      .filter((part) => Number.isFinite(part) && part >= 0)
+      .map((part) => Math.round(part));
+  }
+
+  function barHeight(value, allValues) {
+    const max = Math.max(...(Array.isArray(allValues) && allValues.length ? allValues : [1]), 1);
+    return Math.max(10, Math.round((Number(value || 0) / max) * 100));
+  }
+
+  function todayIso() {
+    return new Date().toISOString().slice(0, 10);
   }
 
   function formatDate(value) {

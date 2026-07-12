@@ -559,6 +559,52 @@ input:focus, select:focus, textarea:focus {
   font-size: 10px;
   font-weight: 700;
 }
+.review-output-box {
+  margin: 12px 0;
+}
+.review-output-box textarea {
+  min-height: 140px;
+}
+.performance-summary-grid,
+.performance-sequence-list {
+  display: grid;
+  gap: 12px;
+}
+.performance-sequence-list .review-card.editing {
+  border-color: var(--success);
+}
+.sequence-bar-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24px, 1fr));
+  gap: 6px;
+  margin: 10px 0 12px;
+}
+.sequence-bar {
+  position: relative;
+  min-height: 56px;
+  padding-bottom: 8px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.sequence-bar i {
+  position: absolute;
+  inset: auto 0 0 0;
+  background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+  opacity: .9;
+}
+.sequence-bar span {
+  position: relative;
+  font-size: 10px;
+  font-weight: 800;
+}
+.review-meta-column {
+  display: grid;
+  gap: 6px;
+}
 .client-health-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

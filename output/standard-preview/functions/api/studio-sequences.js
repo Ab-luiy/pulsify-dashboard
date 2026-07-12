@@ -39,6 +39,10 @@ export async function onRequestPost({ request, env }) {
   const id = Number(body.id || 0);
   if (!id) return json({ ok: false, error: "sequence id is required" }, 422);
 
+  if (action === "attach-output") {
+    return attachOutput(request, env, body, id);
+  }
+
   if (action === "approve" || action === "reject") {
     const auth = checkAdmin(request, env);
     if (auth) return auth;
@@ -122,4 +126,65 @@ function serializeRow(row) {
     created_at: row.created_at || "",
     updated_at: row.updated_at || "",
   };
+}
+
+async function attachOutput(request, env, body, id) {
+  const rawText = String(body.raw_text || "").trim();
+  if (!rawText) return json({ ok: false, error: "raw_text is required" }, 422);
+
+  const adminError = checkAdmin(request, env);
+  const isAdmin = !adminError;
+  const row = await env.DB.prepare(
+    `SELECT id, client_id, status
+       FROM studio_sequences
+      WHERE id=?`,
+  ).bind(id).first();
+  if (!row) return json({ ok: false, error: "sequence not found" }, 404);
+
+  if (!isAdmin) {
+    const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
+    if (access.error) return access.error;
+    if (cleanId(row.client_id) !== cleanId(access.client)) {
+      return json({ ok: false, error: "sequence not found" }, 404);
+    }
+  }
+
+  const parsed = parseAttachedOutput(rawText);
+  const nextStatus = isAdmin ? (row.status || "draft") : "review";
+  await env.DB.prepare(
+    `UPDATE studio_sequences
+        SET output_json=?, status=?, review_note=NULL, updated_at=?
+      WHERE id=?`,
+  ).bind(
+    JSON.stringify(parsed),
+    nextStatus,
+    new Date().toISOString(),
+    id,
+  ).run();
+
+  return json({ ok: true, status: nextStatus, output: parsed });
+}
+
+function parseAttachedOutput(rawText) {
+  const text = String(rawText || "").trim();
+  if (!text) return { raw_text: "" };
+  try {
+    const cleaned = text
+      .replace(/^```(?:json)?\s*/i, "")
+      .replace(/```\s*$/i, "")
+      .trim();
+    const parsed = JSON.parse(cleaned);
+    if (looksLikeSequenceOutput(parsed)) {
+      return parsed;
+    }
+  } catch {
+    // Fall through to raw_text payload.
+  }
+  return { raw_text: text };
+}
+
+function looksLikeSequenceOutput(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  if (!Array.isArray(value.slides)) return false;
+  return true;
 }
