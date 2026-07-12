@@ -918,3 +918,8 @@ Wrote wiki/synthesis/cross-creator-synthesis.md (the verdict layer: 18 laws both
 ## [2026-07-12] decision | Dials ratified; pillar 2 + profile-funnel rewrite shipped
 
 Founder ratified all 7 contested dials (cross-creator-synthesis.md updated to RATIFIED status): notable rulings - engineered CTAs primary (SooWei's no-CTA stance rejected), raw clarity over production arms race, landing-page-vs-start-here is a per-audience test with landing page as the never-fails prior, and give-everything-away value doctrine (Hormozi line). Ratification persisted to Claude memory. Shipped wiki/frameworks/instagram-conversion-assets.md (pillar 2: five assets, governing math, consumption ladder, email spec) and the full rewrite of wiki/concepts/profile-funnel.md (3-second bio doctrine, two-CTA rule, proof pin posts, start-here, DM conversion-cycle rules, ads-to-profile; May's lifestyle-content contradiction resolved via the proof-currency rule; the missing-Niksetting-SOP gap closed).
+
+
+## [2026-07-12] decision | Story-sequence visual capture protocol created
+
+Built wiki/content-engine/sequence-breakdowns/ (README protocol + per-sequence template) and raw-sources/inspiration/story-sequences/ for the founder's screenshot drops. Design: raw images immutable in raw-sources, one wiki page per sequence with screenshots embedded inline (Obsidian renders them) above a per-slide annotation layer capturing overlay text verbatim, emphasis marks (underlines/highlights/caps), dwell slides, visuals, interactive stickers, the 6-step job per slide, CTA position, and drop-off. Every capture feeds the story-sequence system page and the future generator.
