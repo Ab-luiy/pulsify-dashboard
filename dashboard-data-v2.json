@@ -1,25 +1,25 @@
 {
-  "lastUpdated": "2026-07-12T08:31:45.711085+00:00",
+  "lastUpdated": "2026-07-12T13:56:32.527058+00:00",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
       "handle": "@ABLuiy",
       "url": "https://www.youtube.com/@abluiy",
       "subscribers": 18,
-      "videos": 11,
+      "videos": 12,
       "views": 1874,
       "source": "youtube-data-api"
     },
     "latestVideo": {
-      "id": "wr4Vu0k-7XA",
-      "title": "Fable 5 is back, here's how you can use it to make more money with your info-business lol",
-      "url": "https://www.youtube.com/watch?v=wr4Vu0k-7XA",
-      "thumbnail": "https://i.ytimg.com/vi/wr4Vu0k-7XA/maxresdefault.jpg",
-      "durationIso": "PT16M12S",
-      "views": 9,
+      "id": "wwTZBp0zvq4",
+      "title": "how i made $90,000+ from youtube content. (step-by-step)",
+      "url": "https://www.youtube.com/watch?v=wwTZBp0zvq4",
+      "thumbnail": "https://i.ytimg.com/vi/wwTZBp0zvq4/maxresdefault.jpg",
+      "durationIso": "PT11M15S",
+      "views": 3,
       "likes": 0,
       "comments": 0,
-      "publishedAt": "2026-07-03T14:48:43Z",
+      "publishedAt": "2026-07-12T12:00:51Z",
       "publishedLabel": "latest upload",
       "source": "youtube-data-api"
     },
@@ -30,7 +30,7 @@
       "ctrAvailable": false,
       "note": "YouTube Analytics OAuth is required for retention, watch time, and CTR."
     },
-    "updatedAt": "2026-07-12T08:31:45.711085+00:00"
+    "updatedAt": "2026-07-12T13:56:32.527058+00:00"
   },
   "instagram": {
     "updatedAt": "2026-07-12T07:25:13.865Z",
