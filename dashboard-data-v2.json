@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-13T15:11:47.470233+00:00",
+  "lastUpdated": "2026-07-13T19:49:34.164250+00:00",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -7,7 +7,7 @@
       "url": "https://www.youtube.com/@abluiy",
       "subscribers": 18,
       "videos": 12,
-      "views": 1879,
+      "views": 1882,
       "source": "youtube-data-api"
     },
     "latestVideo": {
@@ -30,7 +30,7 @@
       "ctrAvailable": false,
       "note": "YouTube Analytics OAuth is required for retention, watch time, and CTR."
     },
-    "updatedAt": "2026-07-13T15:11:47.470233+00:00"
+    "updatedAt": "2026-07-13T19:49:34.164250+00:00"
   },
   "instagram": {
     "updatedAt": "2026-07-13T08:11:17.547Z",
