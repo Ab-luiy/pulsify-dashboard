@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pulsify client dashboard — redesign preview</title>
+<title>Pulsify client dashboard preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -23,7 +23,7 @@
   --shadow-md:0 8px 30px -12px rgba(13,15,20,.20);
   --shadow-lg:0 30px 70px -22px rgba(13,15,20,.32);
   --radius:16px; --radius-sm:11px; --radius-xs:8px;
-  --z-sticky:10; --z-drawer:40; --z-backdrop:50; --z-modal:60; --z-cmdk:80; --z-toast:90;
+  --z-sticky:10; --z-backdrop:30; --z-drawer:40; --z-modal:60; --z-cmdk:80; --z-toast:90;
   --ease:cubic-bezier(.22,.8,.28,1);
 }
 body.dark{
@@ -48,19 +48,20 @@ a{color:inherit;text-decoration:none}
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 #app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
 /* rail */
-.rail{position:sticky;top:0;height:100vh;background:var(--panel);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:3px;z-index:var(--z-sticky)}
+.rail{position:sticky;top:0;height:100vh;background:var(--panel);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:3px;z-index:var(--z-sticky);overflow-y:auto}
 .brand{display:flex;align-items:center;gap:11px;padding:6px 8px 16px;border-bottom:1px solid var(--line);margin-bottom:8px}
 .brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;box-shadow:0 6px 16px -6px var(--accent)}
 .brand-text b{display:block;font-size:14px;letter-spacing:-.03em;line-height:1.2}
 .brand-text span{display:block;font-size:11px;color:var(--muted);font-weight:600}
 .nav-h{font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:14px 10px 5px}
-.nav-item{display:flex;align-items:center;gap:11px;padding:8px 11px;border-radius:10px;color:var(--ink-2);font-size:13.5px;font-weight:600;transition:background .15s,color .15s;position:relative}
+.nav-item{display:flex;align-items:center;gap:11px;padding:8px 11px;border-radius:10px;color:var(--ink-2);font-size:13.5px;font-weight:600;transition:background .15s,color .15s;position:relative;text-align:left;width:100%}
 .nav-item .ic{width:18px;text-align:center;opacity:.7;font-size:17px;display:flex;align-items:center;justify-content:center}
 .nav-item:hover{background:var(--panel-2);color:var(--ink)}
 .nav-item.active{background:var(--accent-soft);color:var(--accent-ink)}
 .nav-item.active .ic{opacity:1}
 .nav-item .count{margin-left:auto;font-size:11px;font-weight:800;color:var(--muted);background:var(--panel-2);padding:1px 7px;border-radius:99px}
 .nav-item.active .count{background:var(--accent-soft);color:var(--accent-ink)}
+.nav-item .live-dot{margin-left:auto;width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .rail-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:2px}
 .cmdk-hint{margin:8px 8px 2px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);font-weight:600;cursor:pointer;transition:.15s}
 .cmdk-hint:hover{border-color:var(--line-2);color:var(--ink)}
@@ -74,8 +75,9 @@ main{min-width:0}
 .crumb .live i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s var(--ease) infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .top-actions{display:flex;align-items:center;gap:9px}
-.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;color:var(--ink-2);font-size:17px;transition:.15s}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;color:var(--ink-2);font-size:17px;transition:.15s;position:relative}
 .icon-btn:hover{border-color:var(--line-2);color:var(--ink);box-shadow:var(--shadow-xs)}
+.icon-btn .ping{position:absolute;top:8px;right:9px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
 .section{padding:24px 30px 80px}
 .panel{display:none}.panel.active{display:block}
 .panel.active>*{animation:rise .4s var(--ease) both}
@@ -86,7 +88,7 @@ main{min-width:0}
 @keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 .h-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
 .h-row h1{margin:0;font-size:26px;letter-spacing:-.045em;line-height:1.05}
-.h-row p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.h-row p{margin:6px 0 0;color:var(--muted);font-size:13px;max-width:64ch}
 .h-actions{display:flex;gap:9px;flex-wrap:wrap}
 .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:11px;font-size:12.5px;font-weight:700;transition:.15s;white-space:nowrap}
 .btn:active{transform:translateY(1px)}
@@ -97,6 +99,10 @@ main{min-width:0}
 .btn-ghost:hover{border-color:var(--line-2);box-shadow:var(--shadow-xs)}
 .btn-soft{background:var(--accent-soft);color:var(--accent-ink)}
 .btn-soft:hover{background:color-mix(in srgb,var(--accent-soft) 70%,var(--accent))}
+.btn-dark{background:var(--ink);color:var(--bg)}
+.btn-dark:hover{filter:brightness(1.1)}
+.btn-danger{background:var(--rose-soft);color:var(--rose-ink)}
+.btn-danger:hover{background:color-mix(in srgb,var(--rose-soft) 60%,var(--rose))}
 .btn-sm{padding:6px 10px;font-size:11.5px;border-radius:9px}
 /* week strip */
 .week-strip{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:14px;margin-bottom:16px}
@@ -152,18 +158,16 @@ main{min-width:0}
 .legend{display:flex;flex-direction:column;gap:9px;font-size:12.5px}
 .legend .row{display:flex;align-items:center;gap:8px}
 .legend .dot{width:9px;height:9px;border-radius:3px}
-/* retention curve */
 .curve-wrap{position:relative}
 .curve-svg{width:100%;height:150px;display:block;overflow:visible}
-.curve-note{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-top:12px;align-items:center}
-/* leaderboard */
+.curve-note{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-top:12px;align-items:center;flex-wrap:wrap}
 .lb-row{display:grid;grid-template-columns:120px 1fr 48px;gap:12px;align-items:center;padding:9px 0}
 .lb-row .nm{font-size:12.5px;font-weight:600;text-transform:capitalize}
 .lb-track{height:9px;border-radius:99px;background:var(--panel-3);overflow:hidden}
 .lb-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
 .lb-track i.dim{background:linear-gradient(90deg,var(--line-2),var(--muted));opacity:.55}
 .lb-val{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700;text-align:right}
-/* studio: type cards */
+/* studio type cards */
 .studio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:13px}
 .type-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:17px;text-align:left;position:relative;overflow:hidden;transition:transform .18s var(--ease),box-shadow .18s,border-color .18s}
 .type-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--accent-line)}
@@ -189,10 +193,9 @@ main{min-width:0}
 .insight::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 130% at 0% 0%,var(--accent-soft),transparent 46%);pointer-events:none}
 .insight-main{padding:22px 24px;position:relative}
 .insight-lab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);display:flex;align-items:center;gap:7px}
-.insight-p{font-size:14.5px;line-height:1.62;color:var(--ink-2);margin:12px 0 8px;max-width:58ch}
-.insight-p b{color:var(--ink);font-weight:700}
-.diag-line{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2);margin:9px 0;line-height:1.5}
+.diag-line{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2);margin:11px 0;line-height:1.5}
 .diag-line .di{width:22px;height:22px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;margin-top:1px}
+.diag-line b{color:var(--ink);font-weight:700}
 .insight-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
 .insight-stats{background:var(--panel-2);border-left:1px solid var(--line);padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px 14px;align-content:center;position:relative}
 .i-stat span{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
@@ -210,7 +213,7 @@ main{min-width:0}
 .carousel-create:hover{border-color:var(--indigo);background:var(--indigo-soft)}
 .carousel-create .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
 .carousel-create b{font-size:14.5px}.carousel-create p{margin:3px 0 0;font-size:12px;color:var(--muted)}
-/* frames rail */
+/* frames */
 .frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
 .frame{border:1px solid var(--line);border-radius:14px;background:linear-gradient(150deg,var(--panel),var(--panel-2));padding:16px;transition:.16s;text-align:left;position:relative;overflow:hidden}
 .frame:hover{border-color:var(--accent-line);box-shadow:var(--shadow-md);transform:translateY(-2px)}
@@ -311,30 +314,66 @@ main{min-width:0}
 .owner{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 7px;border-radius:6px;white-space:nowrap}
 .owner.you{background:var(--accent-soft);color:var(--accent-ink)}.owner.pf{background:var(--indigo-soft);color:var(--indigo-ink)}
 /* integrations */
-.intg-grid{display:grid;grid-template-columns:1fr;gap:12px}
-.intg{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:15px;display:flex;align-items:center;gap:13px}
-.intg-logo{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex:none}
-.intg .in{flex:1;min-width:0}
-.intg b{font-size:13.5px}.intg .cat{font-size:11px;color:var(--muted)}
-.intg .st{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;color:var(--accent-ink)}
-.intg .st .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-/* skeleton */
+.intg-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:24px}
+.sum-card{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:15px 17px;box-shadow:var(--shadow-sm)}
+.sum-card .l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.sum-card .v{font-size:22px;font-weight:800;letter-spacing:-.04em;margin-top:7px;display:flex;align-items:center;gap:8px}
+.sum-card .v .dotb{width:9px;height:9px}
+.auto-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--panel);margin-bottom:10px;transition:.14s}
+.auto-row:hover{border-color:var(--line-2);box-shadow:var(--shadow-xs)}
+.auto-ic{width:38px;height:38px;border-radius:10px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.auto-flow{font-size:13px;line-height:1.45}
+.auto-flow .step{display:inline-flex;align-items:center;gap:5px;font-weight:600}
+.auto-flow .arr{color:var(--muted);margin:0 9px}
+.auto-flow .sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.auto-runs{font-size:11px;color:var(--muted);font-family:"JetBrains Mono",monospace;text-align:right;white-space:nowrap}
+.cat-bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.cat-chip{padding:7px 13px;border:1px solid var(--line);border-radius:99px;font-size:12.5px;font-weight:600;color:var(--muted);background:var(--panel);transition:.14s;white-space:nowrap}
+.cat-chip:hover{border-color:var(--line-2);color:var(--ink)}
+.cat-chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.search{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:11px;background:var(--panel);padding:9px 13px;max-width:320px;margin-bottom:16px}
+.search i{color:var(--muted);font-size:16px}
+.search input{border:none;background:none;outline:none;font:inherit;font-size:13px;color:var(--ink);width:100%}
+.svc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(288px,1fr));gap:12px}
+.svc{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:11px;transition:.15s;min-height:150px}
+.svc:hover{border-color:var(--line-2);box-shadow:var(--shadow-md)}
+.svc-top{display:flex;align-items:flex-start;gap:12px}
+.svc-logo{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex:none}
+.svc-top .in{flex:1;min-width:0}
+.svc-top b{font-size:14px;letter-spacing:-.01em}
+.svc-top .cat{font-size:11px;color:var(--muted)}
+.svc p{margin:0;font-size:12px;color:var(--ink-2);line-height:1.45;flex:1}
+.svc-foot{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.svc .stt{font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:6px;color:var(--muted)}
+.svc .stt.on{color:var(--accent-ink)}
+.svc .stt .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+.spin{width:14px;height:14px;border:2px solid var(--line-2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite;display:inline-block;flex:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.det-block{margin:18px 0}
+.det-block h5{margin:0 0 9px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.det-syncs{display:grid;gap:9px}
+.det-sync{display:flex;gap:9px;align-items:flex-start;font-size:13px;color:var(--ink-2);line-height:1.4}
+.det-sync i{color:var(--accent-ink);margin-top:2px}
+.det-scope{display:flex;flex-wrap:wrap;gap:7px}
+/* settings tab */
+.subtabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:22px;overflow-x:auto}
+.subtab{padding:11px 14px;font-size:13px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;transition:.14s}
+.subtab.on{color:var(--ink);border-color:var(--accent)}
+.subtab:hover{color:var(--ink)}
+.set-sec{display:none}.set-sec.on{display:block;animation:rise .3s var(--ease) both}
+.set-card{max-width:640px}
+.set-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+/* skeleton + empty */
 .sk{background:linear-gradient(90deg,var(--panel-3) 25%,var(--panel-2) 50%,var(--panel-3) 75%);background-size:200% 100%;animation:shimmer 1.3s linear infinite;border-radius:8px}
 @keyframes shimmer{to{background-position:-200% 0}}
 .sk-fold{height:60px;margin-bottom:10px}
-/* empty */
 .empty{text-align:center;padding:44px 20px;border:1px dashed var(--line-2);border-radius:var(--radius);background:var(--panel-2)}
 .empty .ei{width:50px;height:50px;border-radius:14px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
 .empty h4{margin:0 0 5px;font-size:15px}
-.empty p{margin:0 auto 16px;font-size:13px;color:var(--muted);max-width:38ch;line-height:1.5}
+.empty p{margin:0 auto 16px;font-size:13px;color:var(--muted);max-width:40ch;line-height:1.5}
 /* drawer + modal */
 .backdrop{position:fixed;inset:0;background:rgba(9,11,16,.5);backdrop-filter:blur(3px);z-index:var(--z-backdrop);opacity:0;pointer-events:none;transition:opacity .2s}
 .backdrop.show{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;height:100vh;width:min(460px,94vw);background:var(--panel);border-left:1px solid var(--line);box-shadow:var(--shadow-lg);z-index:var(--z-drawer);transform:translateX(100%);transition:transform .3s var(--ease);display:flex;flex-direction:column}
-.drawer.show{transform:none}
-.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:19px 22px;border-bottom:1px solid var(--line)}
-.drawer-head h3{margin:0;font-size:17px;letter-spacing:-.03em}
-.drawer-body{padding:22px;overflow:auto;flex:1}
 .modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.97);width:min(720px,94vw);max-height:88vh;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);z-index:var(--z-modal);opacity:0;pointer-events:none;transition:opacity .2s,transform .24s var(--ease);display:flex;flex-direction:column;overflow:hidden}
 .modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
 .modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 24px;border-bottom:1px solid var(--line)}
@@ -344,6 +383,7 @@ main{min-width:0}
 .modal-body{padding:22px 24px;overflow:auto}
 .field{display:grid;gap:7px;margin-bottom:15px}
 .field label{font-size:12px;font-weight:700}
+.field .hint{font-size:11.5px;color:var(--muted);font-weight:400}
 .field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--panel-2);color:var(--ink);font:inherit;font-size:13px;transition:.14s}
 .field textarea{resize:vertical;min-height:82px;line-height:1.5}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
@@ -355,6 +395,7 @@ main{min-width:0}
 .slide-mini .photo{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;gap:7px;align-items:flex-start}
 .modal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:15px 24px;border-top:1px solid var(--line);background:var(--panel-2)}
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.set-row:last-child{border-bottom:none}
 .set-row .l b{display:block;font-size:13.5px}
 .set-row .l span{font-size:12px;color:var(--muted)}
 .switch{width:42px;height:24px;border-radius:99px;background:var(--line-2);position:relative;flex:none;transition:.18s;cursor:pointer}
@@ -391,14 +432,15 @@ main{min-width:0}
 @keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
 @keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
 .toast .ti-ic{width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.toast.sync .ti-ic{background:var(--indigo-soft);color:var(--indigo-ink)}
 .toast b{font-size:13px;display:block}
 .toast span{font-size:12px;color:var(--muted)}
 .preview-flag{position:fixed;left:20px;bottom:20px;z-index:70;background:var(--ink);color:var(--bg);font-size:12px;font-weight:600;padding:9px 15px;border-radius:99px;box-shadow:var(--shadow-lg);display:flex;gap:9px;align-items:center}
 .preview-flag .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-2)}
 /* responsive */
 @media(max-width:1180px){.week-strip{grid-template-columns:1fr 1fr}.pipe{grid-template-columns:repeat(3,1fr)}.pipe .pipe-flow{display:none}.insight{grid-template-columns:1fr}.insight-stats{border-left:none;border-top:1px solid var(--line)}}
-@media(max-width:1080px){.g3,.g4,.board{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
-@media(max-width:820px){#app{grid-template-columns:1fr}.rail{position:sticky;height:auto;flex-direction:row;overflow:auto;gap:4px;align-items:center;padding:10px}.rail .nav-h,.rail-foot,.brand span,.cmdk-hint{display:none}.nav-item{white-space:nowrap}.nav-item .count{display:none}.section{padding:20px 16px 70px}.topbar{padding:12px 16px}.week-strip,.g3,.g4,.board{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}}
+@media(max-width:1080px){.g3,.g4,.board{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.perf-2{grid-template-columns:1fr!important}}
+@media(max-width:820px){#app{grid-template-columns:1fr}.rail{position:sticky;height:auto;flex-direction:row;overflow-x:auto;overflow-y:visible;gap:4px;align-items:center;padding:10px}.rail .nav-h,.rail-foot,.brand span,.cmdk-hint{display:none}.nav-item{white-space:nowrap;width:auto}.nav-item .count,.nav-item .live-dot{display:none}.section{padding:20px 16px 70px}.topbar{padding:12px 16px}.week-strip,.g3,.g4,.board{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}.set-grid{grid-template-columns:1fr}.auto-row{grid-template-columns:auto 1fr;gap:10px}.auto-runs{display:none}}
 </style>
 </head>
 <body>
@@ -417,9 +459,11 @@ main{min-width:0}
     <button class="nav-item" data-tab="plans"><span class="ic"><i class="ti ti-map-2"></i></span> Plans</button>
     <button class="nav-item" data-tab="todos"><span class="ic"><i class="ti ti-checkbox"></i></span> To-dos <span class="count">3</span></button>
     <button class="nav-item" data-tab="team"><span class="ic"><i class="ti ti-users"></i></span> Team</button>
+    <div class="nav-h">Setup</div>
+    <button class="nav-item" data-tab="integrations"><span class="ic"><i class="ti ti-plug-connected"></i></span> Integrations <span class="live-dot"></span></button>
+    <button class="nav-item" data-tab="settings"><span class="ic"><i class="ti ti-settings"></i></span> Settings</button>
     <div class="rail-foot">
       <button class="cmdk-hint" onclick="openCmdk()"><i class="ti ti-command"></i> Quick actions <kbd>Ctrl K</kbd></button>
-      <button class="nav-item" onclick="openSettings()"><span class="ic"><i class="ti ti-settings"></i></span> Settings</button>
       <button class="nav-item" onclick="toggleTheme()"><span class="ic"><i class="ti ti-moon"></i></span> Theme</button>
     </div>
   </aside>
@@ -429,8 +473,8 @@ main{min-width:0}
       <div class="crumb">Workspace / <b id="crumb">Home</b> <span class="live"><i></i> Live</span></div>
       <div class="top-actions">
         <button class="icon-btn" onclick="openCmdk()" title="Quick actions (Ctrl K)"><i class="ti ti-command"></i></button>
-        <button class="icon-btn" onclick="openIntegrations()" title="Integrations"><i class="ti ti-plug-connected"></i></button>
-        <button class="icon-btn" onclick="openSettings()" title="Settings"><i class="ti ti-settings"></i></button>
+        <button class="icon-btn" onclick="go('integrations')" title="Integrations"><i class="ti ti-plug-connected"></i><span class="ping"></span></button>
+        <button class="icon-btn" onclick="go('settings')" title="Settings"><i class="ti ti-settings"></i></button>
         <button class="btn btn-primary" onclick="go('studio')"><i class="ti ti-plus"></i> New sequence</button>
       </div>
     </div>
@@ -442,23 +486,23 @@ main{min-width:0}
       </div>
       <div class="week-strip">
         <div class="week-hero">
-          <div class="lab">Cash collected · this week</div>
+          <div class="lab">Cash collected, this week</div>
           <div class="big mono">$3,000</div>
-          <div class="sub">2 payments · $8,000 all-time</div>
+          <div class="sub">2 payments, $8,000 all-time</div>
           <div class="spark"><i style="height:40%"></i><i style="height:65%"></i><i style="height:50%"></i><i style="height:80%"></i><i style="height:70%"></i><i style="height:100%"></i></div>
         </div>
         <div class="mini"><div class="lab">Followers</div><div class="v mono">9,100</div><div class="d up"><i class="ti ti-trending-up"></i> +900 wk</div></div>
-        <div class="mini"><div class="lab">$ / follower</div><div class="v mono">$0.88</div><div class="d up"><i class="ti ti-trending-up"></i> healthy</div></div>
+        <div class="mini"><div class="lab">$ / follower</div><div class="v mono">$0.88</div><div class="d up"><i class="ti ti-trending-up"></i> +$0.12 wk</div></div>
         <div class="mini"><div class="lab">DMs from stories</div><div class="v mono">41</div><div class="d up"><i class="ti ti-trending-up"></i> +12 wk</div></div>
       </div>
       <div class="next" style="margin-bottom:16px">
         <div class="nic"><i class="ti ti-bolt"></i></div>
-        <div><h3>Your next move</h3><p>Credibility is converting at <b>74% completion</b>. Your value-driven opener is leaking at slide 2. Ship 2 more credibility sequences and retest that hook.</p></div>
+        <div><h3>Your next move</h3><p>Credibility is converting at 74% completion. The value-driven opener is leaking at slide 2. Ship 2 more credibility sequences and retest that hook.</p></div>
         <button class="btn btn-primary" onclick="go('studio')">Do it in Studio <i class="ti ti-arrow-right"></i></button>
       </div>
       <div class="grid g2">
         <div class="card"><div class="card-head"><h3><i class="ti ti-circle-check" style="color:var(--accent-ink)"></i> Shipped this week</h3><span class="badge b-green">3 done</span></div><div class="card-pad" style="display:grid;gap:12px">
-          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> Bio + start-here highlight live</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> Bio and start-here highlight live</div>
           <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> 3 story sequences posted</div>
           <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> Drop-off tracking on all stories</div>
         </div></div>
@@ -472,15 +516,15 @@ main{min-width:0}
     <!-- REVENUE -->
     <section class="section panel" data-panel="revenue">
       <div class="h-row"><div><h1>Revenue</h1><p>Live from your connected payment rails.</p></div>
-        <div class="h-actions"><button class="btn btn-ghost" onclick="openIntegrations()"><i class="ti ti-plug-connected"></i> Integrations</button><button class="btn btn-ghost" onclick="openSettings()"><i class="ti ti-settings"></i> Settings</button></div>
+        <div class="h-actions"><button class="btn btn-ghost" onclick="go('integrations')"><i class="ti ti-plug-connected"></i> Rails</button><button class="btn btn-ghost" onclick="go('settings')"><i class="ti ti-settings"></i> Settings</button></div>
       </div>
       <div class="grid g4" style="margin-bottom:16px">
-        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-currency-dollar"></i></div></div><div class="lab">All-time collected</div><div class="v mono">$8,000</div><div class="src"><i class="dot"></i> Stripe · live</div></div>
+        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-currency-dollar"></i></div></div><div class="lab">All-time collected</div><div class="v mono">$8,000</div><div class="src"><i class="dot"></i> Stripe, live</div></div>
         <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-calendar-dollar"></i></div></div><div class="lab">This month</div><div class="v mono">$3,000</div><div class="d up"><i class="ti ti-trending-up"></i> +60%</div></div>
         <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--amber-soft);color:var(--amber-ink)"><i class="ti ti-receipt"></i></div></div><div class="lab">Payments</div><div class="v mono">2</div><div class="src" style="color:var(--muted)">avg $4,000</div></div>
         <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-target-arrow"></i></div></div><div class="lab">$100k tracker</div><div class="v mono">8%</div><div class="src" style="color:var(--muted)">$8k of $100k</div></div>
       </div>
-      <div class="card"><div class="card-head"><h3>Payment history</h3><button class="btn btn-ghost btn-sm" onclick="openSettings()"><i class="ti ti-adjustments"></i> Configure</button></div>
+      <div class="card"><div class="card-head"><h3>Payment history</h3><button class="btn btn-ghost btn-sm" onclick="go('settings')"><i class="ti ti-adjustments"></i> Configure</button></div>
         <div class="card-pad" style="display:grid;gap:0">
           <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--line)"><span>Note</span><span>Rail</span><span>Date</span><span style="text-align:right">Amount</span></div>
           <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:14px;font-size:13px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center"><span>Program payment</span><span class="badge b-indigo">Stripe</span><span class="mono" style="color:var(--muted)">Jul 5</span><span class="mono" style="text-align:right;font-weight:800">$5,000</span></div>
@@ -494,15 +538,15 @@ main{min-width:0}
       <div class="h-row"><div><h1>Performance</h1><p>What the data says: where you win, where you leak, what to fix.</p></div><button class="btn btn-primary" onclick="openLog()"><i class="ti ti-plus"></i> Log sequence</button></div>
       <div class="grid g4" style="margin-bottom:16px">
         <div class="card kpi"><div class="lab">Avg completion</div><div class="v mono">56%</div><div class="d up"><i class="ti ti-trending-up"></i> +4 pts wk</div></div>
-        <div class="card kpi"><div class="lab">Cadence</div><div class="v mono">4 / 7</div><div class="src" style="color:var(--muted)">target 5–7</div></div>
+        <div class="card kpi"><div class="lab">Cadence</div><div class="v mono">4 / 7</div><div class="src" style="color:var(--muted)">target 5 to 7</div></div>
         <div class="card kpi"><div class="lab">DMs from stories</div><div class="v mono">41</div><div class="d up"><i class="ti ti-trending-up"></i> +12</div></div>
         <div class="card kpi"><div class="lab">Best type</div><div class="v" style="font-size:19px;margin-top:9px">Credibility</div><div class="src" style="color:var(--muted)">74% completion</div></div>
       </div>
-      <div class="grid" style="grid-template-columns:1.3fr 1fr;margin-bottom:16px">
+      <div class="grid perf-2" style="grid-template-columns:1.3fr 1fr;margin-bottom:16px">
         <div class="card card-pad"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><h3 style="margin:0;font-size:14.5px">Where stories drop off</h3><span class="badge b-gray">avg of 4 live sequences</span></div>
           <p style="margin:6px 0 4px;font-size:12.5px;color:var(--muted)">Slide-by-slide retention. The cliff is where the hook or the ask fails.</p>
           <div class="curve-wrap" id="curveWrap"></div>
-          <div class="curve-note"><span class="badge b-rose">slide 2</span> biggest cliff — 41% of viewers leave. Fix the hook, not the offer.</div>
+          <div class="curve-note"><span class="badge b-rose">slide 2</span> biggest cliff, 41% of viewers leave. Fix the hook, not the offer.</div>
         </div>
         <div class="card card-pad"><h3 style="margin:0 0 3px;font-size:14.5px">Type leaderboard</h3>
           <p style="margin:6px 0 14px;font-size:12.5px;color:var(--muted)">Completion by sequence type. Make more of the top.</p>
@@ -520,7 +564,7 @@ main{min-width:0}
             <div class="legend">
               <div class="row"><span class="dot" style="background:var(--indigo)"></span> Non-followers <b class="mono" style="margin-left:auto">62%</b></div>
               <div class="row"><span class="dot" style="background:var(--accent)"></span> Followers <b class="mono" style="margin-left:auto">38%</b></div>
-              <div class="row" style="color:var(--muted);font-size:11.5px;margin-top:4px">21,043 views · reaching cold, healthy</div>
+              <div class="row" style="color:var(--muted);font-size:11.5px;margin-top:4px">21,043 views, reaching cold audience</div>
             </div>
           </div>
         </div>
@@ -532,14 +576,12 @@ main{min-width:0}
       <div class="h-row"><div><h1>Studio</h1><p>Your content engine. Diagnose, create, track, retest, replicate.</p></div>
         <div class="h-actions"><button class="btn btn-ghost" onclick="reloadLib()"><i class="ti ti-refresh"></i> Sync data</button><button class="btn btn-primary" onclick="scrollToEl('createRow')"><i class="ti ti-plus"></i> Create</button></div>
       </div>
-
-      <!-- insight / diagnosis engine -->
       <div class="insight card" style="margin-bottom:18px">
         <div class="insight-main">
           <div class="insight-lab"><i class="ti ti-bulb"></i> This week's read</div>
-          <div class="diag-line"><div class="di" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-trophy"></i></div><div><b>Credibility is your best type</b> — 74% completion, 18 DMs a run. Student-result proof is carrying it.</div></div>
-          <div class="diag-line"><div class="di" style="background:var(--rose-soft);color:var(--rose-ink)"><i class="ti ti-alert-triangle"></i></div><div><b>Value-driven leaks at slide 2</b> — the hook loses 41% before the payoff. This is a hook problem, not a topic problem.</div></div>
-          <div class="diag-line"><div class="di" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-arrow-right"></i></div><div><b>The play:</b> ship 2 more credibility sequences off your winning frame, and retest the value-driven opener.</div></div>
+          <div class="diag-line"><div class="di" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-trophy"></i></div><div><b>Credibility is your best type.</b> 74% completion, 18 DMs a run. Student-result proof is carrying it.</div></div>
+          <div class="diag-line"><div class="di" style="background:var(--rose-soft);color:var(--rose-ink)"><i class="ti ti-alert-triangle"></i></div><div><b>Value-driven leaks at slide 2.</b> The hook loses 41% before the payoff. This is a hook problem, not a topic problem.</div></div>
+          <div class="diag-line"><div class="di" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-arrow-right"></i></div><div><b>The play.</b> Ship 2 more credibility sequences off your winning frame, then retest the value-driven opener.</div></div>
           <div class="insight-actions"><button class="btn btn-primary" onclick="openType(1)"><i class="ti ti-sparkles"></i> Generate a credibility sequence</button><button class="btn btn-soft" onclick="openRetest(0)"><i class="ti ti-flask"></i> Retest the leaking hook</button></div>
         </div>
         <div class="insight-stats">
@@ -549,28 +591,18 @@ main{min-width:0}
           <div class="i-stat"><span>DMs generated</span><b class="mono">41</b><small class="up">+12</small></div>
         </div>
       </div>
-
-      <!-- content pipeline -->
-      <div class="lib-h"><h3><i class="ti ti-arrow-guide" style="color:var(--accent-ink)"></i> Content pipeline</h3><span class="lib-sub">Everything in flight — click a stage to filter the library</span></div>
+      <div class="lib-h"><h3><i class="ti ti-arrow-guide" style="color:var(--accent-ink)"></i> Content pipeline</h3><span class="lib-sub">Everything in flight. Click a stage to filter the library.</span></div>
       <div class="pipe" id="pipe" style="margin-bottom:26px"></div>
-
-      <!-- create -->
-      <div class="lib-h" id="createRow"><h3><i class="ti ti-plus" style="color:var(--accent-ink)"></i> Create new</h3><span class="lib-sub">Pick a type — build, edit, and send for review</span></div>
+      <div class="lib-h" id="createRow"><h3><i class="ti ti-plus" style="color:var(--accent-ink)"></i> Create new</h3><span class="lib-sub">Pick a type, then build, edit, and send for review.</span></div>
       <div class="studio-grid" id="studioGrid" style="margin-bottom:13px"></div>
-      <button class="carousel-create" onclick="openCarouselCreate()"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-layout-grid"></i></div><div style="flex:1"><b>Carousel</b><p>Methodology, taxonomy, or philosophy set — designed slide by slide.</p></div><i class="ti ti-arrow-right" style="color:var(--muted)"></i></button>
-
-      <!-- winning frames -->
-      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-award" style="color:var(--accent-ink)"></i> Winning frames</h3><span class="lib-sub">Proven structures the data earned — reuse the skeleton, swap the proof</span></div>
+      <button class="carousel-create" onclick="openCarouselCreate()"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-layout-grid"></i></div><div style="flex:1"><b>Carousel</b><p>Methodology, taxonomy, or philosophy set, designed slide by slide.</p></div><i class="ti ti-arrow-right" style="color:var(--muted)"></i></button>
+      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-award" style="color:var(--accent-ink)"></i> Winning frames</h3><span class="lib-sub">Proven structures the data earned. Reuse the skeleton, swap the proof.</span></div>
       <div class="frames" id="frames" style="margin-bottom:8px"></div>
-
-      <!-- story sequences library -->
-      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-layers-subtract" style="color:var(--accent-ink)"></i> Story sequences</h3><span class="lib-sub">Labeled by date — expand for slides, retention, and retest</span>
+      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-layers-subtract" style="color:var(--accent-ink)"></i> Story sequences</h3><span class="lib-sub">Labeled by date. Expand for slides, retention, and retest.</span>
         <div class="seg" id="seqSeg"><button class="on" data-f="all">All</button><button data-f="live">Live</button><button data-f="review">In review</button><button data-f="testing">Testing</button></div>
       </div>
       <div id="seqLib"></div>
-
-      <!-- carousels library -->
-      <div class="lib-h" style="margin-top:26px"><h3><i class="ti ti-layout-grid" style="color:var(--indigo-ink)"></i> Carousels</h3><span class="lib-sub">Labeled by number — expand for slides and saves</span></div>
+      <div class="lib-h" style="margin-top:26px"><h3><i class="ti ti-layout-grid" style="color:var(--indigo-ink)"></i> Carousels</h3><span class="lib-sub">Labeled by number. Expand for slides and saves.</span></div>
       <div id="carLib"></div>
     </section>
 
@@ -578,10 +610,10 @@ main{min-width:0}
     <section class="section panel" data-panel="plans">
       <div class="h-row"><div><h1>Plans</h1><p>Your game plan, phase by phase.</p></div><span class="badge b-green" style="align-self:center">Phase 1 of 4</span></div>
       <div class="grid g2">
-        <div class="plan"><div class="plan-top"><h4>Phase 1 · Profile funnel</h4><span class="badge b-green">In progress</span></div><div class="bar"><i style="width:70%"></i></div><p>Bio rewrite, start-here highlight, and proof pin post go live this week.</p><div class="pmeta"><i class="ti ti-calendar"></i> Jul 8 – Jul 20 <span style="margin-left:auto" class="mono">70%</span></div></div>
-        <div class="plan"><div class="plan-top"><h4>Phase 2 · Sequence engine</h4><span class="badge b-gray">Next</span></div><div class="bar"><i style="width:15%"></i></div><p>5 sequences a week across the 7 types, tracked in Performance.</p><div class="pmeta"><i class="ti ti-calendar"></i> starts Jul 21 <span style="margin-left:auto" class="mono">15%</span></div></div>
-        <div class="plan"><div class="plan-top"><h4>Phase 3 · Reels ladder</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Match reel formats to stage; reach then harvest.</p><div class="pmeta"><i class="ti ti-calendar"></i> Aug <span style="margin-left:auto" class="mono">0%</span></div></div>
-        <div class="plan"><div class="plan-top"><h4>Phase 4 · Offer + funnel</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Tighten the offer and the DM-to-call path.</p><div class="pmeta"><i class="ti ti-calendar"></i> Aug <span style="margin-left:auto" class="mono">0%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 1, profile funnel</h4><span class="badge b-green">In progress</span></div><div class="bar"><i style="width:70%"></i></div><p>Bio rewrite, start-here highlight, and proof pin post go live this week.</p><div class="pmeta"><i class="ti ti-calendar"></i> Jul 8 to Jul 20 <span style="margin-left:auto" class="mono">70%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 2, sequence engine</h4><span class="badge b-gray">Next</span></div><div class="bar"><i style="width:15%"></i></div><p>5 sequences a week across the 7 types, tracked in Performance.</p><div class="pmeta"><i class="ti ti-calendar"></i> starts Jul 21 <span style="margin-left:auto" class="mono">15%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 3, reels ladder</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Match reel formats to stage. Reach first, then harvest.</p><div class="pmeta"><i class="ti ti-calendar"></i> Aug <span style="margin-left:auto" class="mono">0%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 4, offer and funnel</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Tighten the offer and the DM-to-call path.</p><div class="pmeta"><i class="ti ti-calendar"></i> Aug <span style="margin-left:auto" class="mono">0%</span></div></div>
       </div>
     </section>
 
@@ -598,6 +630,83 @@ main{min-width:0}
       <h3 style="font-size:15px;letter-spacing:-.02em;margin:0 0 14px">What everyone's working on</h3>
       <div class="board" id="board"></div>
     </section>
+
+    <!-- INTEGRATIONS -->
+    <section class="section panel" data-panel="integrations">
+      <div class="h-row"><div><h1>Integrations</h1><p>Connect the tools that feed your numbers and run your automations. Everything the funnel touches plugs in here.</p></div>
+        <div class="h-actions"><button class="btn btn-ghost" onclick="syncAll()"><i class="ti ti-refresh"></i> Sync all</button><button class="btn btn-primary" onclick="scrollToEl('marketplace')"><i class="ti ti-plus"></i> Add a connection</button></div>
+      </div>
+      <div class="intg-summary">
+        <div class="sum-card"><div class="l">Connected</div><div class="v mono" id="sumConnected"><span class="dotb" style="background:var(--accent)"></span> 1</div></div>
+        <div class="sum-card"><div class="l">Available</div><div class="v mono" id="sumAvailable">25</div></div>
+        <div class="sum-card"><div class="l">Automations live</div><div class="v mono" id="sumAutos"><span class="dotb" style="background:var(--accent)"></span> 4</div></div>
+        <div class="sum-card"><div class="l">Last sync</div><div class="v mono" style="font-size:16px" id="sumSync">2 min ago</div></div>
+      </div>
+
+      <div class="lib-h"><h3><i class="ti ti-robot" style="color:var(--accent-ink)"></i> Active automations</h3><span class="lib-sub">Triggers wired to actions. This is the backend the client never sees running.</span></div>
+      <div id="autoList" style="margin-bottom:28px"></div>
+
+      <div class="lib-h" id="marketplace"><h3><i class="ti ti-apps" style="color:var(--accent-ink)"></i> Connect a tool</h3><span class="lib-sub">Search or filter by category, then open a card to see what it syncs.</span></div>
+      <div class="search"><i class="ti ti-search"></i><input id="svcSearch" placeholder="Search Stripe, Kit, Instagram, Zapier..." autocomplete="off"></div>
+      <div class="cat-bar" id="catBar"></div>
+      <div class="svc-grid" id="svcGrid"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section class="section panel" data-panel="settings">
+      <div class="h-row"><div><h1>Settings</h1><p>Everything about your workspace, in one place.</p></div><button class="btn btn-primary" onclick="toast('Settings saved','Changes applied to your workspace')"><i class="ti ti-check"></i> Save changes</button></div>
+      <div class="subtabs" id="setNav"></div>
+
+      <div class="set-sec on" data-set="workspace"><div class="set-card">
+        <div class="set-grid">
+          <div class="field"><label>Business name</label><input value="Rio Vance"></div>
+          <div class="field"><label>Niche</label><input value="Subscription dropshipping mentorship"></div>
+          <div class="field"><label>Timezone</label><select><option>Europe/Berlin</option><option>America/New_York</option><option>UTC</option></select></div>
+          <div class="field"><label>Revenue goal</label><input value="$100,000"></div>
+        </div>
+        <div class="field"><label>Trigger word <span class="hint">the DM keyword that starts your funnel</span></label><input value="elevate"></div>
+        <div class="field"><label>Client portal link</label><input value="pulsify-funnels.pages.dev/rio-vance" readonly></div>
+        <button class="btn btn-ghost btn-sm" onclick="toast('Copied','Portal link on your clipboard')"><i class="ti ti-copy"></i> Copy link</button>
+      </div></div>
+
+      <div class="set-sec" data-set="brand"><div class="set-card">
+        <div class="field"><label>Proof currency <span class="hint">what carries the selling</span></label><select><option>Student results only</option><option>Student results plus process</option></select></div>
+        <div class="note" style="margin-bottom:16px"><b>Locked rule.</b> Proof is student results, never lifestyle. No cars, watches, or income flexing. This is the Pulsify positioning and it does not change per client.</div>
+        <div class="field"><label>Banned words <span class="hint">the generator will avoid these</span></label><input value="passive income, get rich, guaranteed, secret"></div>
+        <div class="field"><label>Voice</label><select><option>Direct, operator tone</option><option>Warm, mentor tone</option></select></div>
+        <div class="set-row"><div class="l"><b>Kill AI tells on every draft</b><span>No negative parallelism, no em-dashes, no filler</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+      </div></div>
+
+      <div class="set-sec" data-set="content"><div class="set-card">
+        <div class="set-row"><div class="l"><b>Sequence review gate</b><span>Pulsify reviews before you post</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="set-row"><div class="l"><b>Auto-draft a retest on a leak</b><span>When completion drops below 40%</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="field" style="margin-top:16px"><label>Weekly cadence target</label><select><option>5 to 7 sequences</option><option>3 to 5 sequences</option><option>7 plus sequences</option></select></div>
+        <div class="field"><label>Default sequence goal</label><select><option>Booked calls</option><option>DMs</option><option>Reach</option></select></div>
+      </div></div>
+
+      <div class="set-sec" data-set="notifications"><div class="set-card">
+        <div class="set-row"><div class="l"><b>Weekly report email</b><span>Every Monday, your read for the week</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="set-row"><div class="l"><b>New DM alert</b><span>When a lead uses your trigger word</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="set-row"><div class="l"><b>Drop-off alert</b><span>When a live sequence starts leaking</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="set-row"><div class="l"><b>Payment alert</b><span>When cash lands in a connected rail</span></div><div class="switch" role="switch" aria-checked="false" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+      </div></div>
+
+      <div class="set-sec" data-set="access"><div class="set-card">
+        <div class="set-row"><div class="l"><b>Show revenue to team</b><span>Off by default</span></div><div class="switch" role="switch" aria-checked="false" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="set-row"><div class="l"><b>Let the setter see DMs</b><span>Herman, setter</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="swKey(event,this)"><i></i></div></div>
+        <div class="note" style="margin:16px 0"><b>Roles.</b> Operator sees everything. Content sees Studio and Performance. Setter sees DMs and bookings. Manage seats in the Team tab.</div>
+        <button class="btn btn-ghost btn-sm" onclick="go('team')"><i class="ti ti-users"></i> Open team</button>
+      </div></div>
+
+      <div class="set-sec" data-set="billing"><div class="set-card">
+        <div class="field"><label>Plan</label><input value="Pulsify growth, monthly" readonly></div>
+        <div class="set-row"><div class="l"><b>Next invoice</b><span>Aug 1</span></div><span class="mono" style="font-weight:800">$2,500</span></div>
+        <div class="set-row"><div class="l"><b>Payment method</b><span>Visa ending 4242</span></div><button class="btn btn-ghost btn-sm">Update</button></div>
+        <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line)"><div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--rose-ink);margin-bottom:12px">Danger zone</div>
+          <div class="set-row" style="border:none"><div class="l"><b>Rotate portal link</b><span>Kills the old link, ends access</span></div><button class="btn btn-danger btn-sm">Rotate</button></div>
+        </div>
+      </div></div>
+    </section>
   </main>
 </div>
 
@@ -608,16 +717,16 @@ main{min-width:0}
   <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="ic" id="tmIc"></div><div><h3 id="tmTitle"></h3><div class="sub" id="tmSub"></div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
   <div class="modal-body">
     <div class="grid g2" style="gap:14px;margin-bottom:4px">
-      <div class="field"><label>Topic</label><input value="Student went from 2k to 70k months" /></div>
+      <div class="field"><label>Topic</label><input value="Student went from 2k to 70k months"></div>
       <div class="field"><label>Goal</label><select><option>Booked calls</option><option>DMs</option><option>Reach</option></select></div>
     </div>
-    <div class="field"><label>Proof lines (student results only — never lifestyle)</label><textarea>Student X: $70k month, Stripe dashboard screenshot
+    <div class="field"><label>Proof lines <span class="hint">student results only, never lifestyle</span></label><textarea>Student X: $70k month, Stripe dashboard screenshot
 Went from 0 followers to first client in 6 weeks</textarea></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px"><b style="font-size:13.5px">Generated slides</b><span class="badge b-gray" id="tmCount">8 slides · draft</span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px"><b style="font-size:13.5px">Generated slides</b><span class="badge b-gray">8 slides, draft</span></div>
     <div class="slide-strip">
-      <div class="slide-mini"><div class="n">Slide 1 · curiosity</div><div class="txt">"I almost skipped posting this student's result."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Phone-raw selfie, tired-but-real morning look</div></div>
-      <div class="slide-mini"><div class="n">Slide 4 · pain mirror</div><div class="txt">"You're posting daily and the DMs stay quiet."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Screenshot of a flat analytics graph</div></div>
-      <div class="slide-mini"><div class="n">Slide 7 · access</div><div class="txt">"This is the exact 8-slide frame that closed her."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> The student's Stripe dashboard, numbers visible</div></div>
+      <div class="slide-mini"><div class="n">Slide 1, curiosity</div><div class="txt">"I almost skipped posting this student's result."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Phone-raw selfie, tired-but-real morning look</div></div>
+      <div class="slide-mini"><div class="n">Slide 4, pain mirror</div><div class="txt">"You're posting daily and the DMs stay quiet."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Screenshot of a flat analytics graph</div></div>
+      <div class="slide-mini"><div class="n">Slide 7, access</div><div class="txt">"This is the exact 8-slide frame that closed her."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> The student's Stripe dashboard, numbers visible</div></div>
     </div>
   </div>
   <div class="modal-foot"><span style="font-size:12px;color:var(--muted)"><i class="ti ti-shield-check" style="color:var(--accent-ink)"></i> Pulsify reviews before it posts</span><div style="display:flex;gap:10px"><button class="btn btn-ghost" onclick="toast('Regenerated','8 fresh slides drafted')">Regenerate</button><button class="btn btn-primary" onclick="closeAll();toast('Sent for review','Pulsify will approve within 24h')"><i class="ti ti-send"></i> Send for review</button></div></div>
@@ -629,7 +738,7 @@ Went from 0 followers to first client in 6 weeks</textarea></div>
   <div class="modal-body">
     <div class="fold-diag" style="margin-top:0"><div class="di" style="background:var(--rose-soft);color:var(--rose-ink)"><i class="ti ti-alert-triangle"></i></div><div><b>Slide 2 is the leak.</b> 41% of viewers left on the current opener: <span id="rtOld" style="color:var(--ink)"></span></div></div>
     <div class="field"><label>New hook to test (slide 2)</label><textarea id="rtNew">"The DMs stayed quiet until I changed one thing on my profile."</textarea></div>
-    <div class="note"><b>How the retest works:</b> we run the new hook on the next posting of this sequence, hold slides 1 and 3–8 identical, and compare completion after 48 hours. The winner becomes the frame.</div>
+    <div class="note"><b>How the retest works.</b> We run the new hook on the next posting of this sequence, hold slides 1 and 3 to 8 identical, and compare completion after 48 hours. The winner becomes the frame.</div>
   </div>
   <div class="modal-foot"><span style="font-size:12px;color:var(--muted)">Original stays live until the variant wins</span><button class="btn btn-primary" onclick="launchRetest()"><i class="ti ti-player-play"></i> Launch retest</button></div>
 </div>
@@ -638,36 +747,18 @@ Went from 0 followers to first client in 6 weeks</textarea></div>
 <div class="modal" id="logModal" role="dialog" aria-modal="true" style="width:min(560px,94vw)">
   <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-chart-histogram"></i></div><div><h3>Log a posted sequence</h3><div class="sub">Pull the numbers in so the engine can learn</div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
   <div class="modal-body">
-    <div class="grid g2" style="gap:14px"><div class="field"><label>Sequence</label><input value="Student hit 50k month" /></div><div class="field"><label>Type</label><select><option>credibility</option><option>value-driven</option><option>Q&amp;A</option></select></div></div>
-    <div class="grid g3" style="gap:14px"><div class="field"><label>Views (slide 1)</label><input class="mono" value="4200" /></div><div class="field"><label>Views (last slide)</label><input class="mono" value="2436" /></div><div class="field"><label>DMs</label><input class="mono" value="18" /></div></div>
-    <div class="note">We compute completion, drop-off per slide, and DM rate automatically, then update your leaderboard and this week's read.</div>
+    <div class="grid g2" style="gap:14px"><div class="field"><label>Sequence</label><input value="Student hit 50k month"></div><div class="field"><label>Type</label><select><option>credibility</option><option>value-driven</option><option>Q and A</option></select></div></div>
+    <div class="grid g3" style="gap:14px"><div class="field"><label>Views, slide 1</label><input class="mono" value="4200"></div><div class="field"><label>Views, last slide</label><input class="mono" value="2436"></div><div class="field"><label>DMs</label><input class="mono" value="18"></div></div>
+    <div class="note">We compute completion, drop-off per slide, and DM rate, then update your leaderboard and this week's read.</div>
   </div>
   <div class="modal-foot"><span></span><button class="btn btn-primary" onclick="closeAll();toast('Logged','Leaderboard and read updated')"><i class="ti ti-check"></i> Save metrics</button></div>
 </div>
 
-<!-- settings drawer -->
-<div class="drawer" id="settingsDrawer" role="dialog" aria-modal="true" aria-labelledby="setTitle">
-  <div class="drawer-head"><h3 id="setTitle">Workspace settings</h3><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
-  <div class="drawer-body">
-    <div class="field"><label>Business name</label><input value="Rio Vance" /></div>
-    <div class="field"><label>Niche</label><input value="Subscription dropshipping mentorship" /></div>
-    <div class="field"><label>Trigger word</label><input value="elevate" /></div>
-    <div class="field"><label>Revenue goal</label><input value="$100,000" /></div>
-    <div style="margin:22px 0 10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Preferences</div>
-    <div class="set-row"><div class="l"><b>Sequence review gate</b><span>Pulsify reviews before you post</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tSwitch(this)}"><i></i></div></div>
-    <div class="set-row"><div class="l"><b>Weekly report email</b><span>Every Monday</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tSwitch(this)}"><i></i></div></div>
-    <div class="set-row" style="border:none"><div class="l"><b>Show revenue to team</b><span>Off by default</span></div><div class="switch" role="switch" aria-checked="false" tabindex="0" onclick="tSwitch(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tSwitch(this)}"><i></i></div></div>
-    <div class="note" style="margin-top:16px">This is the GoHighLevel-style config: everything a client can customize about their workspace lives here.</div>
-  </div>
-</div>
-
-<!-- integrations drawer -->
-<div class="drawer" id="intgDrawer" role="dialog" aria-modal="true" aria-labelledby="intgTitle">
-  <div class="drawer-head"><h3 id="intgTitle">Integrations</h3><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
-  <div class="drawer-body">
-    <p style="margin:0 0 16px;font-size:13px;color:var(--muted)">Connect the tools that feed your numbers and automate delivery.</p>
-    <div class="intg-grid" id="intgGrid"></div>
-  </div>
+<!-- service detail modal -->
+<div class="modal" id="svcModal" role="dialog" aria-modal="true" aria-labelledby="svTitle" style="width:min(600px,94vw)">
+  <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="svc-logo" id="svLogo" style="width:44px;height:44px"></div><div><h3 id="svTitle"></h3><div class="sub" id="svCat"></div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+  <div class="modal-body" id="svBody"></div>
+  <div class="modal-foot"><span id="svState" style="font-size:12px;color:var(--muted)"></span><div id="svActions" style="display:flex;gap:10px"></div></div>
 </div>
 
 <!-- team member modal -->
@@ -685,57 +776,54 @@ Went from 0 followers to first client in 6 weeks</textarea></div>
 <!-- command palette -->
 <div class="cmdk-wrap" id="cmdkWrap" role="dialog" aria-modal="true" aria-label="Quick actions">
   <div class="cmdk">
-    <div class="cmdk-in"><i class="ti ti-search"></i><input id="cmdkInput" placeholder="Jump to a section, create, or retest…" autocomplete="off"></div>
+    <div class="cmdk-in"><i class="ti ti-search"></i><input id="cmdkInput" placeholder="Jump to a section, create, connect, or retest..." autocomplete="off"></div>
     <div class="cmdk-list" id="cmdkList"></div>
-    <div class="cmdk-foot"><span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> run</span><span><kbd>esc</kbd> close</span></div>
+    <div class="cmdk-foot"><span><kbd>up down</kbd> navigate</span><span><kbd>enter</kbd> run</span><span><kbd>esc</kbd> close</span></div>
   </div>
 </div>
 
 <div class="toasts" id="toasts"></div>
-<div class="preview-flag"><span class="dot"></span> Redesign preview · demo data · not wired to the DB yet</div>
+<div class="preview-flag"><span class="dot"></span> Redesign preview, demo data, not wired to the DB yet</div>
 
 <script>
 const $=id=>document.getElementById(id);const bd=$('backdrop');
 
-/* ---------- data (grounded in the vault frameworks) ---------- */
+/* ---------- data ---------- */
 const TYPES=[
  {k:'value-driven',ic:'ti-bulb',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'Solves a real problem, gives actionable steps.',chips:['1-2x/wk','Expertise','All niches']},
  {k:'credibility',ic:'ti-trophy',c:'#5b6cff',bg:'rgba(91,108,255,.12)',d:'Client wins that speak louder than any claim.',chips:['2-3x/wk','Trust','Saturated']},
- {k:'Q&A',ic:'ti-message-2',c:'#0ea5e9',bg:'rgba(14,165,233,.12)',d:'Answers FAQs, pre-handles objections.',chips:['1x/wk','Friction','Skeptical']},
+ {k:'Q and A',ic:'ti-message-2',c:'#0ea5e9',bg:'rgba(14,165,233,.12)',d:'Answers FAQs, pre-handles objections.',chips:['1x/wk','Friction','Skeptical']},
  {k:'day-in-the-life',ic:'ti-sun',c:'#e08e0b',bg:'rgba(224,142,11,.14)',d:'Hour-by-hour, unfiltered walkthrough of a day.',chips:['1-2x/mo','Familiarity','B2C']},
  {k:'breakdown',ic:'ti-list-details',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'Breaks down the mechanism behind your results.',chips:['1x/wk','Pricing','DWY/DFY']},
  {k:'lifestyle',ic:'ti-mountain',c:'#5b6cff',bg:'rgba(91,108,255,.12)',d:'The 20% human share. Humanity, not flex.',chips:['1-2x/wk','Desire','Biz-opp']},
- {k:'CTA',ic:'ti-send',c:'#f43f5e',bg:'rgba(244,63,94,.12)',d:'Converts attention into PIFs. Prior sequences pay off.',chips:['<1x/mo','Demand','All niches']},
+ {k:'CTA',ic:'ti-send',c:'#f43f5e',bg:'rgba(244,63,94,.12)',d:'Converts attention into PIFs. Prior sequences pay off.',chips:['under 1x/mo','Demand','All niches']},
  {k:'start-here',ic:'ti-flag',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'The permanent silent sales pitch on your profile.',chips:['Permanent','Convert','Highlight']},
  {k:'story launch',ic:'ti-rocket',c:'#e08e0b',bg:'rgba(224,142,11,.14)',d:'A short webinar told in stories. The money sequence.',chips:['Campaign','Sell','Warm list']}
 ];
 const PIPE=[
- {k:'idea',lab:'Ideas',n:5,c:'var(--muted)'},
- {k:'draft',lab:'Drafting',n:2,c:'var(--sky)'},
- {k:'review',lab:'In review',n:1,c:'var(--amber)'},
- {k:'scheduled',lab:'Scheduled',n:2,c:'var(--indigo)'},
- {k:'live',lab:'Live',n:4,c:'var(--accent)'},
- {k:'testing',lab:'Retesting',n:1,c:'var(--rose)'}
+ {k:'idea',lab:'Ideas',n:5,c:'var(--muted)'},{k:'draft',lab:'Drafting',n:2,c:'var(--sky)'},
+ {k:'review',lab:'In review',n:1,c:'var(--amber)'},{k:'scheduled',lab:'Scheduled',n:2,c:'var(--indigo)'},
+ {k:'live',lab:'Live',n:4,c:'var(--accent)'},{k:'testing',lab:'Retesting',n:1,c:'var(--rose)'}
 ];
 const SEQS=[
- {date:'Jul 12',type:'value-driven',status:'testing',statusc:'b-rose',topic:'How the profile funnel works',comp:33,dm:6,views:'3.8k',curve:[100,59,57,55,54,53,53],diag:{ic:'ti-alert-triangle',c:'rose',t:'Hook failed. 41% left on slide 2 before the payoff. A retest is live.'},slides:[{n:'1 · curiosity',t:'"Everyone gets the profile funnel wrong.",',r:100},{n:'2 · pain',t:'"You post daily and nothing converts."',leak:1,r:59},{n:'3 · proof',t:'Screenshot of the funnel map',r:57},{n:'7 · CTA',t:'"Comment ELEVATE for the breakdown."',r:53}],variants:[{v:'v1',comp:33,note:'original'},{v:'v2',comp:null,note:'testing',testing:1}]},
- {date:'Jul 11',type:'credibility',status:'live',statusc:'b-green',topic:'Student hit 50k month',comp:58,dm:18,views:'4.2k',curve:[100,74,70,67,64,62,60,58],diag:{ic:'ti-bulb',c:'amber',t:'Soft hook, strong body. Tighten slide 2 and this clears 70%.'},slides:[{n:'1 · curiosity',t:'"I almost skipped posting this result."',r:100},{n:'2 · pain',t:'"She was stuck at 2k for months."',leak:1,r:74},{n:'4 · proof',t:'Stripe dashboard, $50k visible',r:67},{n:'8 · close',t:'"This is the frame that did it."',r:58}]},
- {date:'Jul 9',type:'Q&A',status:'live',statusc:'b-green',topic:'Ask me anything · business + life',comp:74,dm:22,views:'5.1k',curve:[100,88,82,79,77,76,74],diag:{ic:'ti-circle-check',c:'accent',t:'Healthy. Retention holds past slide 3 — this is a frame worth reusing.'},slides:[{n:'1 · open',t:'"Ask me a question."',r:100},{n:'3 · answer',t:'"How I structure my week."',r:82},{n:'6 · answer',t:'"Why I stopped chasing views."',r:74}]},
- {date:'Jul 7',type:'day-in-the-life',status:'live',statusc:'b-green',topic:'A full day building the brand',comp:61,dm:9,views:'6.0k',curve:[100,80,74,70,66,63,61],diag:{ic:'ti-eye',c:'accent',t:'Good reach, mid DMs. Add a soft CTA on the last slide to harvest intent.'},slides:[{n:'10am',t:'Testimonial call with a client',r:100},{n:'2pm',t:'Deep work block',r:74},{n:'8:30pm',t:'Closed a client in Berlin',r:61}]},
- {date:'Jul 4',type:'credibility',status:'review',statusc:'b-amber',topic:'From laid off to $12k month',comp:null,dm:null,views:'—',diag:{ic:'ti-clock',c:'indigo',t:'Drafted from the credibility frame. Waiting on your approval to schedule.'},slides:[{n:'1 · curiosity',t:'"He got laid off in March."',r:0},{n:'4 · proof',t:'Payout screenshot, $12k',r:0},{n:'8 · close',t:'"Same frame, comment ELEVATE."',r:0}]}
+ {date:'Jul 12',type:'value-driven',status:'testing',statusc:'b-rose',topic:'How the profile funnel works',comp:33,dm:6,views:'3.8k',curve:[100,59,57,55,54,53,53],diag:{ic:'ti-alert-triangle',c:'rose',t:'Hook failed. 41% left on slide 2 before the payoff. A retest is live.'},slides:[{n:'1, curiosity',t:'"Everyone gets the profile funnel wrong."',r:100},{n:'2, pain',t:'"You post daily and nothing converts."',leak:1,r:59},{n:'3, proof',t:'Screenshot of the funnel map',r:57},{n:'7, CTA',t:'"Comment ELEVATE for the breakdown."',r:53}],variants:[{v:'v1',comp:33,note:'original'},{v:'v2',comp:null,note:'testing',testing:1}]},
+ {date:'Jul 11',type:'credibility',status:'live',statusc:'b-green',topic:'Student hit 50k month',comp:58,dm:18,views:'4.2k',curve:[100,74,70,67,64,62,60,58],diag:{ic:'ti-bulb',c:'amber',t:'Soft hook, strong body. Tighten slide 2 and this clears 70%.'},slides:[{n:'1, curiosity',t:'"I almost skipped posting this result."',r:100},{n:'2, pain',t:'"She was stuck at 2k for months."',leak:1,r:74},{n:'4, proof',t:'Stripe dashboard, $50k visible',r:67},{n:'8, close',t:'"This is the frame that did it."',r:58}]},
+ {date:'Jul 9',type:'Q and A',status:'live',statusc:'b-green',topic:'Ask me anything, business and life',comp:74,dm:22,views:'5.1k',curve:[100,88,82,79,77,76,74],diag:{ic:'ti-circle-check',c:'accent',t:'Retention holds past slide 3. A frame worth reusing.'},slides:[{n:'1, open',t:'"Ask me a question."',r:100},{n:'3, answer',t:'"How I structure my week."',r:82},{n:'6, answer',t:'"Why I stopped chasing views."',r:74}]},
+ {date:'Jul 7',type:'day-in-the-life',status:'live',statusc:'b-green',topic:'A full day building the brand',comp:61,dm:9,views:'6.0k',curve:[100,80,74,70,66,63,61],diag:{ic:'ti-eye',c:'accent',t:'Reach held, DMs lagged. Add a soft CTA on the last slide to harvest intent.'},slides:[{n:'10am',t:'Testimonial call with a client',r:100},{n:'2pm',t:'Deep work block',r:74},{n:'8:30pm',t:'Closed a client in Berlin',r:61}]},
+ {date:'Jul 4',type:'credibility',status:'review',statusc:'b-amber',topic:'From laid off to $12k month',comp:null,dm:null,views:'draft',diag:{ic:'ti-clock',c:'indigo',t:'Drafted from the credibility frame. Waiting on your approval to schedule.'},slides:[{n:'1, curiosity',t:'"He got laid off in March."',r:0},{n:'4, proof',t:'Payout screenshot, $12k',r:0},{n:'8, close',t:'"Same frame, comment ELEVATE."',r:0}]}
 ];
 const FRAMES=[
- {type:'credibility',ic:'ti-trophy',c:'#5b6cff',bg:'rgba(91,108,255,.12)',title:'8-slide proof frame',used:4,avg:71,steps:8,seed:1},
- {type:'Q&A',ic:'ti-message-2',c:'#0ea5e9',bg:'rgba(14,165,233,.12)',title:'Open-loop AMA frame',used:3,avg:74,steps:7,seed:2},
- {type:'day-in-the-life',ic:'ti-sun',c:'#e08e0b',bg:'rgba(224,142,11,.14)',title:'Morning-to-close frame',used:2,avg:61,steps:7,seed:3}
+ {type:'credibility',ic:'ti-trophy',c:'#5b6cff',title:'8-slide proof frame',used:4,avg:71,steps:8,seed:1},
+ {type:'Q and A',ic:'ti-message-2',c:'#0ea5e9',title:'Open-loop AMA frame',used:3,avg:74,steps:7,seed:2},
+ {type:'day-in-the-life',ic:'ti-sun',c:'#e08e0b',title:'Morning-to-close frame',used:2,avg:61,steps:7,seed:3}
 ];
 const CARS=[
- {num:'01',date:'Jul 10',title:'The 7-step onboarding method',type:'Methodology',saves:412,reach:'18.2k',slides:['Cover: pov onboarded','1 · Audit','2 · Profile','3 · Content','4 · Offer','5 · Revenue','6 · Sales','7 · Data','CTA: DM GA']},
- {num:'02',date:'Jun 28',title:'7 story-sequence types',type:'Taxonomy',saves:389,reach:'21.0k',slides:['Cover: $964k','1 · Value','2 · Credibility','3 · Q&A','4 · Day','5 · Breakdown','6 · Lifestyle','7 · CTA']},
+ {num:'01',date:'Jul 10',title:'The 7-step onboarding method',type:'Methodology',saves:412,reach:'18.2k',slides:['Cover: pov onboarded','1, Audit','2, Profile','3, Content','4, Offer','5, Revenue','6, Sales','7, Data','CTA: DM GA']},
+ {num:'02',date:'Jun 28',title:'7 story-sequence types',type:'Taxonomy',saves:389,reach:'21.0k',slides:['Cover: $964k','1, Value','2, Credibility','3, Q and A','4, Day','5, Breakdown','6, Lifestyle','7, CTA']},
  {num:'03',date:'Jun 15',title:'7 lessons about content',type:'Philosophy',saves:256,reach:'12.4k',slides:['Cover','Currency','Transposition','Intention','Invisible','Creativity','Angles','Difference']}
 ];
 const TEAM=[
- {n:'Abdullah',r:'Strategy & direction',av:'AB',c:'#0ea968',email:'abod@pulsify.co',mail:'DM on Slack',task:'Weekly game-plan review',busy:[0,0,1,1,0,1,0],tasks:['Weekly game-plan review','Offer tightening pass'],role:'operator'},
+ {n:'Abdullah',r:'Strategy and direction',av:'AB',c:'#0ea968',email:'abod@pulsify.co',mail:'DM on Slack',task:'Weekly game-plan review',busy:[0,0,1,1,0,1,0],tasks:['Weekly game-plan review','Offer tightening pass'],role:'operator'},
  {n:'Max',r:'Creative director',av:'MX',c:'#5b6cff',email:'max@pulsify.co',mail:'DM on Slack',task:'Editing credibility sequence',busy:[1,1,0,1,1,0,0],tasks:['Edit credibility sequence','Cut 3 reels from long form','Carousel: 7-type breakdown'],role:'content'},
  {n:'Herman',r:'Setter',av:'HR',c:'#e08e0b',email:'herman@pulsify.co',mail:'DM on Slack',task:'Working 18 warm DMs',busy:[0,1,1,0,0,1,1],tasks:['Work 18 warm DMs'],role:'setter'}
 ];
@@ -743,35 +831,65 @@ const TODOS=[
  {t:'Approve the credibility sequence draft',m:'Due Jul 14',owner:'you',done:1},
  {t:'Send 3 student result screenshots',m:'Due Jul 15',owner:'you',done:0},
  {t:'Record the value-driven sequence',m:'Due Jul 16',owner:'you',done:0},
- {t:'Ship pin post to grid',m:'Pulsify handles this · Jul 17',owner:'pf',done:0,locked:1}
-];
-const INTG=[
- {n:'Stripe',cat:'Payments',l:'S',c:'#635bff',on:1},
- {n:'Whop',cat:'Payments · BNPL',l:'W',c:'#ff4f00',on:0},
- {n:'Fanbasis',cat:'Payments · PIF',l:'F',c:'#0d9488',on:0},
- {n:'Kit',cat:'Email sequences',l:'K',c:'#facc15',ci:'#111',on:0},
- {n:'YouTube',cat:'Content',l:'Y',c:'#ef4444',on:0},
- {n:'Cal.com',cat:'Booking',l:'C',c:'#5b6cff',on:0}
+ {t:'Ship pin post to grid',m:'Pulsify handles this, Jul 17',owner:'pf',done:0,locked:1}
 ];
 const SLOTS=['9','11','1','3','5','7','9'];
-const LB=[['credibility',74,0],['Q&A',74,0],['day-in-the-life',61,0],['value-driven',33,1],['breakdown',0,1],['lifestyle',0,1]];
+const LB=[['credibility',74,0],['Q and A',74,0],['day-in-the-life',61,0],['value-driven',33,1],['breakdown',0,1],['lifestyle',0,1]];
+/* integrations marketplace */
+const CATS=['All','Payments','Email and SMS','Booking and calls','Content and social','Automation and CRM','Analytics'];
+const SERVICES=[
+ {n:'Stripe',cat:'Payments',l:'S',c:'#635bff',on:1,sync:'2 min ago',blurb:'Card payments, PIFs, and subscription billing for your program.',syncs:['Payments and payouts into Revenue','Refunds and failed charges','Subscription status per client'],scopes:['Read charges','Read customers'],fields:[{label:'Publishable key',ph:'pk_live_...'},{label:'Restricted key',ph:'rk_live_...'}]},
+ {n:'PayPal',cat:'Payments',l:'P',c:'#003087',on:0,blurb:'A second card and balance rail for prospects who prefer it.',syncs:['Payments into Revenue','Disputes and chargebacks'],scopes:['Read transactions'],fields:[{label:'Client ID',ph:'A...'},{label:'Secret',ph:'E...'}]},
+ {n:'Whop',cat:'Payments',l:'W',c:'#ff4f00',on:0,blurb:'Buy-now-pay-later and access passes for community offers.',syncs:['Payments and BNPL plans','Membership access'],scopes:['Read memberships'],fields:[{label:'API key',ph:'whop_...'}]},
+ {n:'Fanbasis',cat:'Payments',l:'F',c:'#0d9488',on:0,blurb:'PIF and split-pay rail built for coaches and creators.',syncs:['Payments and payment plans','Plan defaults'],scopes:['Read payments'],fields:[{label:'API key',ph:'fb_...'}]},
+ {n:'Wise',cat:'Payments',l:'W',c:'#37517e',on:0,blurb:'International transfers for clients paying across borders.',syncs:['Incoming transfers into Revenue'],scopes:['Read balances'],fields:[{label:'API token',ph:'...'}]},
+ {n:'Kit',cat:'Email and SMS',l:'K',c:'#facc15',ci:'#111',on:0,blurb:'Email sequences that fire when a lead applies or buys.',syncs:['Subscriber tags and events','Sequence sends and opens'],scopes:['Manage subscribers','Read broadcasts'],fields:[{label:'API secret',ph:'...'},{label:'Default tag id',ph:'e.g. 998812'}]},
+ {n:'Mailchimp',cat:'Email and SMS',l:'M',c:'#ffe01b',ci:'#111',on:0,blurb:'Broadcast list and automations if the client already runs it.',syncs:['Audiences and tags','Campaign opens'],scopes:['Read audiences'],fields:[{label:'API key',ph:'...-us21'}]},
+ {n:'Klaviyo',cat:'Email and SMS',l:'K',c:'#232426',on:0,blurb:'Email and SMS flows for ecom-heavy client lists.',syncs:['Profiles and events','Flow performance'],scopes:['Read profiles'],fields:[{label:'Private key',ph:'pk_...'}]},
+ {n:'Twilio',cat:'Email and SMS',l:'T',c:'#f22f46',on:0,blurb:'SMS reminders for booked calls and no-show recovery.',syncs:['Message delivery status'],scopes:['Send SMS'],fields:[{label:'Account SID',ph:'AC...'},{label:'Auth token',ph:'...'}]},
+ {n:'Cal.com',cat:'Booking and calls',l:'C',c:'#5b6cff',on:0,blurb:'Open-source booking for discovery and closing calls.',syncs:['Booked calls into Team','No-shows and reschedules'],scopes:['Read bookings'],fields:[{label:'API key',ph:'cal_...'}]},
+ {n:'Calendly',cat:'Booking and calls',l:'C',c:'#006bff',on:0,blurb:'The booking link most prospects already recognize.',syncs:['Scheduled events','Invitee details'],scopes:['Read scheduled events'],fields:[{label:'Personal token',ph:'...'}]},
+ {n:'Google Calendar',cat:'Booking and calls',l:'G',c:'#4285f4',on:0,blurb:'Two-way sync so the team calendar stays true.',syncs:['Availability into Team','Call blocks'],scopes:['Read and write events'],fields:[]},
+ {n:'Zoom',cat:'Booking and calls',l:'Z',c:'#2d8cff',on:0,blurb:'Call links and recordings attached to each booking.',syncs:['Meeting links','Recordings'],scopes:['Create meetings'],fields:[{label:'API key',ph:'...'}]},
+ {n:'Instagram',cat:'Content and social',l:'I',c:'#e1306c',on:0,blurb:'Story completion, DMs, and reach that drive the whole engine.',syncs:['Story views and retention','DMs with the trigger word','Follower growth'],scopes:['Read insights','Read messages'],fields:[]},
+ {n:'YouTube',cat:'Content and social',l:'Y',c:'#ff0000',on:0,blurb:'Long-form views and subs, the warmest lead source.',syncs:['Video views and retention','Subscriber growth'],scopes:['Read analytics'],fields:[]},
+ {n:'TikTok',cat:'Content and social',l:'T',c:'#010101',on:0,blurb:'Short-form reach and profile clicks for top-of-funnel.',syncs:['Video views','Profile visits'],scopes:['Read analytics'],fields:[]},
+ {n:'X',cat:'Content and social',l:'X',c:'#111',on:0,blurb:'Threads and replies for authority in the biz-op niches.',syncs:['Impressions','Profile clicks'],scopes:['Read tweets'],fields:[{label:'Bearer token',ph:'...'}]},
+ {n:'GoHighLevel',cat:'Automation and CRM',l:'G',c:'#2dd4bf',ci:'#111',on:0,blurb:'Full CRM and pipeline if the client runs their backend there.',syncs:['Contacts and pipeline stages','Appointments'],scopes:['Read contacts','Read opportunities'],fields:[{label:'API key',ph:'...'},{label:'Location id',ph:'...'}]},
+ {n:'Zapier',cat:'Automation and CRM',l:'Z',c:'#ff4a00',on:0,blurb:'Wire any of 6,000 apps into a Pulsify automation.',syncs:['Custom triggers and actions'],scopes:['Webhook access'],fields:[{label:'Webhook URL',ph:'https://hooks.zapier.com/...'}]},
+ {n:'Make',cat:'Automation and CRM',l:'M',c:'#6d00cc',on:0,blurb:'Visual multi-step automations for the more complex flows.',syncs:['Scenario triggers'],scopes:['Webhook access'],fields:[{label:'Webhook URL',ph:'https://hook.make.com/...'}]},
+ {n:'Slack',cat:'Automation and CRM',l:'S',c:'#4a154b',on:0,blurb:'Team alerts for payments, bookings, and drop-offs.',syncs:['Alert delivery'],scopes:['Post to channel'],fields:[{label:'Webhook URL',ph:'https://hooks.slack.com/...'}]},
+ {n:'Discord',cat:'Automation and CRM',l:'D',c:'#5865f2',on:0,blurb:'Community and operator alerts in one server.',syncs:['Alert delivery'],scopes:['Post to channel'],fields:[{label:'Webhook URL',ph:'https://discord.com/api/webhooks/...'}]},
+ {n:'Notion',cat:'Automation and CRM',l:'N',c:'#111',on:0,blurb:'Push call notes and content plans into the client workspace.',syncs:['Pages and databases'],scopes:['Read and write pages'],fields:[{label:'Internal token',ph:'secret_...'}]},
+ {n:'HubSpot',cat:'Automation and CRM',l:'H',c:'#ff7a59',on:0,blurb:'Enterprise CRM for clients who already live in it.',syncs:['Contacts and deals'],scopes:['Read contacts'],fields:[{label:'Private app token',ph:'pat-...'}]},
+ {n:'Google Analytics',cat:'Analytics',l:'G',c:'#e37400',on:0,blurb:'Funnel and landing-page traffic behind the numbers.',syncs:['Sessions and sources','Funnel steps'],scopes:['Read reports'],fields:[{label:'Measurement id',ph:'G-...'}]},
+ {n:'Meta Pixel',cat:'Analytics',l:'M',c:'#0866ff',on:0,blurb:'Conversion tracking for when paid ads switch on.',syncs:['Page views and conversions'],scopes:['Read events'],fields:[{label:'Pixel id',ph:'...'}]}
+];
+const AUTOS=[
+ {trig:'Payment lands',trigIc:'ti-currency-dollar',act:'Fire onboarding, create login',on:1,runs:'2 runs'},
+ {trig:'DM with trigger word',trigIc:'ti-message-2',act:'Tag in Kit, notify setter',on:1,runs:'41 runs'},
+ {trig:'Completion drops below 40%',trigIc:'ti-trending-down',act:'Flag it, draft a retest',on:1,runs:'3 runs'},
+ {trig:'New booked call',trigIc:'ti-calendar-event',act:'Alert the team in Slack',on:1,runs:'6 runs'},
+ {trig:'Every Monday',trigIc:'ti-mail',act:'Email the client their weekly read',on:0,runs:'paused'}
+];
+const SETNAV=[['workspace','Workspace'],['brand','Brand voice'],['content','Content'],['notifications','Notifications'],['access','Access'],['billing','Billing']];
 
 /* ---------- nav ---------- */
 document.querySelectorAll('.nav-item[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
 function go(tab){document.querySelectorAll('.nav-item[data-tab]').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));$('crumb').textContent=tab.charAt(0).toUpperCase()+tab.slice(1).replace('-',' ');window.scrollTo({top:0})}
 function scrollToEl(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
 
-/* ---------- studio: type cards ---------- */
+/* ---------- studio type cards ---------- */
 $('studioGrid').innerHTML=TYPES.map((t,i)=>`<button class="type-card" onclick="openType(${i})"><span class="go"><i class="ti ti-arrow-up-right"></i></span><div class="ic" style="background:${t.bg};color:${t.c}"><i class="ti ${t.ic}"></i></div><b>${t.k}</b><p>${t.d}</p><div class="chips">${t.chips.map((c,j)=>`<span class="badge ${j===0?'b-green':'b-gray'}">${c}</span>`).join('')}</div></button>`).join('');
 function openType(i){const t=TYPES[i];$('tmIc').style.background=t.bg;$('tmIc').style.color=t.c;$('tmIc').innerHTML=`<i class="ti ${t.ic}"></i>`;$('tmTitle').textContent=t.k+' sequence';$('tmSub').textContent=t.d;show('typeModal')}
-function openCarouselCreate(){toast('Carousel builder','Methodology / taxonomy / philosophy — demo')}
+function openCarouselCreate(){toast('Carousel builder','Methodology, taxonomy, or philosophy set')}
 
 /* ---------- pipeline ---------- */
 $('pipe').innerHTML=PIPE.map((s,i)=>`${i>0?'<div class="pipe-flow"><i class="ti ti-chevron-right"></i></div>':''}<button class="pipe-stage" data-stage="${s.k}" onclick="filterStage('${s.k}',this)"><div class="st-top"><span class="dotb" style="background:${s.c}"></span> ${s.lab}</div><div class="n mono">${s.n}</div><div class="lb">${s.k==='live'?'tracking now':s.k==='testing'?'variant running':'items'}</div></button>`).join('');
 let curStage=null;
-function filterStage(k,el){const on=curStage===k;curStage=on?null:k;document.querySelectorAll('.pipe-stage').forEach(p=>p.classList.remove('on'));if(!on)el.classList.add('on');const map={live:'live',review:'review',testing:'testing',scheduled:'review',draft:'review',idea:'all'};seqFilter=on?'all':(map[k]||'all');document.querySelectorAll('#seqSeg button').forEach(b=>b.classList.toggle('on',b.dataset.f===seqFilter));renderSeq();if(!on){scrollToEl('seqLib');toast('Filtered',`Showing ${k} sequences`)}}
+function filterStage(k,el){const on=curStage===k;curStage=on?null:k;document.querySelectorAll('.pipe-stage').forEach(p=>p.classList.remove('on'));if(!on)el.classList.add('on');const map={live:'live',review:'review',testing:'testing',scheduled:'review',draft:'review',idea:'all'};seqFilter=on?'all':(map[k]||'all');document.querySelectorAll('#seqSeg button').forEach(b=>b.classList.toggle('on',b.dataset.f===seqFilter));renderSeq();if(!on){scrollToEl('seqLib');toast('Filtered','Showing '+k+' sequences')}}
 
-/* ---------- winning frames ---------- */
+/* ---------- frames ---------- */
 $('frames').innerHTML=FRAMES.map((f,i)=>`<div class="frame"><div class="ft"><i class="ti ${f.ic}"></i> ${f.type}</div><h4>${f.title}</h4><div class="fm"><span>used <b>${f.used}x</b></span><span>avg <b>${f.avg}%</b></span><span><b>${f.steps}</b> slides</span></div><div class="steps">${Array.from({length:f.steps}).map(()=>'<i></i>').join('')}</div><button class="btn btn-soft frame-cta" onclick="openType(${f.seed})"><i class="ti ti-copy"></i> Create from this frame</button></div>`).join('');
 
 /* ---------- sequence library ---------- */
@@ -784,15 +902,16 @@ function seqCard(s,i){
    :(s.comp===null?`<span class="badge b-amber">awaiting approval</span><i class="ti ti-chevron-down fold-chev"></i>`
    :`<div class="mini-w"><b>${s.comp}%</b><span>done</span></div><div class="mini-w"><b>${s.dm}</b><span>DMs</span></div>${miniSpark(s.curve)}<i class="ti ti-chevron-down fold-chev"></i>`);
  const dc={rose:'var(--rose-soft);color:var(--rose-ink)',amber:'var(--amber-soft);color:var(--amber-ink)',accent:'var(--accent-soft);color:var(--accent-ink)',indigo:'var(--indigo-soft);color:var(--indigo-ink)'}[s.diag.c];
- return `<div class="fold" id="sf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('sf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('sf${i}')}">
-   <div class="fold-tag">${s.date}<span class="status ${s.statusc.replace('b-','')}" style="color:${s.statusc==='b-green'?'var(--accent-ink)':s.statusc==='b-rose'?'var(--rose-ink)':'var(--amber-ink)'}">${s.status}</span></div>
+ const stc=s.statusc==='b-green'?'var(--accent-ink)':s.statusc==='b-rose'?'var(--rose-ink)':'var(--amber-ink)';
+ return `<div class="fold" id="sf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('sf${i}')" onkeydown="foldKey(event,'sf${i}')">
+   <div class="fold-tag">${s.date}<span class="status" style="color:${stc}">${s.status}</span></div>
    <div class="fold-title"><b>${s.topic}</b><div class="sub"><span class="badge b-gray">${s.type}</span><span>${s.views} views</span></div></div>
    <div class="fold-widgets">${widgets}</div></div>
    <div class="fold-body"><div><div class="fold-inner">
      <div class="fold-diag"><div class="di" style="background:${dc}"><i class="ti ${s.diag.ic}"></i></div><div>${s.diag.t}</div></div>
      ${lineage}
      <div class="mini-slides">${s.slides.map(sl=>`<div class="mini-slide ${sl.leak?'leak':''}"><div class="n">${sl.n}</div><div class="t">${sl.t}</div>${sl.r?`<span class="ret">${sl.r}%</span>`:''}</div>`).join('')}</div>
-     <div class="fold-actions">${testing?`<button class="btn btn-ghost btn-sm"><i class="ti ti-git-compare"></i> Compare variants</button>`:`<button class="btn btn-ghost btn-sm"><i class="ti ti-edit"></i> Edit slides</button>`}<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openType(${TYPES.findIndex(t=>t.k===s.type)>-1?TYPES.findIndex(t=>t.k===s.type):1})"><i class="ti ti-copy"></i> Make another like this</button>${s.slides.some(sl=>sl.leak)?`<button class="btn btn-soft btn-sm" onclick="event.stopPropagation();openRetest(${i})"><i class="ti ti-flask"></i> Retest hook</button>`:''}<button class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i> View full</button></div>
+     <div class="fold-actions">${testing?`<button class="btn btn-ghost btn-sm"><i class="ti ti-git-compare"></i> Compare variants</button>`:`<button class="btn btn-ghost btn-sm"><i class="ti ti-edit"></i> Edit slides</button>`}<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openType(${Math.max(0,TYPES.findIndex(t=>t.k===s.type))})"><i class="ti ti-copy"></i> Make another like this</button>${s.slides.some(sl=>sl.leak)?`<button class="btn btn-soft btn-sm" onclick="event.stopPropagation();openRetest(${i})"><i class="ti ti-flask"></i> Retest hook</button>`:''}<button class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i> View full</button></div>
    </div></div></div></div>`;
 }
 function renderSeq(){const list=SEQS.filter(s=>seqFilter==='all'||s.status===seqFilter);$('seqLib').innerHTML=list.length?list.map((s)=>seqCard(s,SEQS.indexOf(s))).join(''):`<div class="empty"><div class="ei"><i class="ti ti-mood-search"></i></div><h4>Nothing here yet</h4><p>No ${seqFilter} sequences right now. Create one from a type above or a winning frame.</p><button class="btn btn-primary" onclick="scrollToEl('createRow')"><i class="ti ti-plus"></i> Create a sequence</button></div>`}
@@ -801,7 +920,7 @@ renderSeq();
 
 /* ---------- carousels ---------- */
 $('carLib').innerHTML=CARS.map((c,i)=>`
- <div class="fold" id="cf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('cf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('cf${i}')}">
+ <div class="fold" id="cf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('cf${i}')" onkeydown="foldKey(event,'cf${i}')">
    <div class="fold-tag">Carousel ${c.num}</div>
    <div class="fold-title"><b>${c.title}</b><div class="sub"><span class="badge b-indigo">${c.type}</span><span>${c.date}</span><span>${c.slides.length} slides</span></div></div>
    <div class="fold-widgets"><div class="mini-w"><b>${c.saves}</b><span>saves</span></div><div class="mini-w"><b>${c.reach}</b><span>reach</span></div><i class="ti ti-chevron-down fold-chev"></i></div></div>
@@ -809,22 +928,22 @@ $('carLib').innerHTML=CARS.map((c,i)=>`
      <div class="car-slides">${c.slides.map((sl,j)=>`<div class="car-slide"><div class="num">${String(j+1).padStart(2,'0')}</div><div class="cap">${sl}</div></div>`).join('')}</div>
      <div class="fold-actions"><button class="btn btn-ghost btn-sm"><i class="ti ti-edit"></i> Edit</button><button class="btn btn-ghost btn-sm" onclick="openCarouselCreate()"><i class="ti ti-copy"></i> Make another like this</button><button class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i> View full</button></div>
    </div></div></div></div>`).join('');
-
 function toggleFold(id){const el=$(id);el.classList.toggle('open');const h=el.querySelector('.fold-head');if(h)h.setAttribute('aria-expanded',el.classList.contains('open'))}
+function foldKey(e,id){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleFold(id)}}
 
-/* ---------- performance: retention curve + leaderboard ---------- */
+/* ---------- performance ---------- */
 function drawCurve(){const w=560,h=150,pad=8,pts=[100,59,57,55,54,53,53];const n=pts.length;const x=i=>pad+i*((w-pad*2)/(n-1));const y=v=>h-pad-(v/100)*(h-pad*2);
  let line=pts.map((v,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
  let area=line+` L${x(n-1).toFixed(1)} ${h-pad} L${pad} ${h-pad} Z`;
  const dots=pts.map((v,i)=>`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="${i===1?4.5:3}" fill="${i===1?'var(--rose)':'var(--accent)'}" stroke="var(--panel)" stroke-width="2"/>`).join('');
  const labs=pts.map((v,i)=>`<text x="${x(i).toFixed(1)}" y="${h-1}" font-size="8.5" fill="var(--muted)" text-anchor="middle" font-family="JetBrains Mono">S${i+1}</text>`).join('');
  $('curveWrap').innerHTML=`<svg class="curve-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".22"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs><path d="${area}" fill="url(#cg)"/><path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labs}</svg>`}
-$('leaderboard').innerHTML=LB.map(([nm,v,dim])=>`<div class="lb-row"><span class="nm">${nm}</span><div class="lb-track"><i class="${dim?'dim':''}" style="width:${v||3}%"></i></div><span class="lb-val">${v?v+'%':'—'}</span></div>`).join('');
+$('leaderboard').innerHTML=LB.map(([nm,v,dim])=>`<div class="lb-row"><span class="nm">${nm}</span><div class="lb-track"><i class="${dim?'dim':''}" style="width:${v||3}%"></i></div><span class="lb-val">${v?v+'%':'n/a'}</span></div>`).join('');
 drawCurve();
 
 /* ---------- todos ---------- */
-function renderTodos(){$('todoList').innerHTML=TODOS.map((t,i)=>`<div class="todo ${t.done?'done':''} ${t.locked?'':''}" style="${t.locked?'opacity:.72':''}" ${t.locked?'':`onclick="toggleTodo(${i})"`}><div class="chk" ${t.locked?'style="border-style:dashed;cursor:default"':''}><i class="ti ti-check"></i></div><div style="flex:1"><div class="t">${t.t}</div><div class="m">${t.m}</div></div><span class="owner ${t.owner}">${t.owner==='you'?'You':'Pulsify'}</span></div>`).join('')}
-function toggleTodo(i){TODOS[i].done=!TODOS[i].done;renderTodos();if(TODOS[i].done)toast('Nice','Marked complete')}
+function renderTodos(){$('todoList').innerHTML=TODOS.map((t,i)=>`<div class="todo ${t.done?'done':''}" style="${t.locked?'opacity:.72':''}" ${t.locked?'':`onclick="toggleTodo(${i})"`}><div class="chk" ${t.locked?'style="border-style:dashed;cursor:default"':''}><i class="ti ti-check"></i></div><div style="flex:1"><div class="t">${t.t}</div><div class="m">${t.m}</div></div><span class="owner ${t.owner}">${t.owner==='you'?'You':'Pulsify'}</span></div>`).join('')}
+function toggleTodo(i){TODOS[i].done=!TODOS[i].done;renderTodos()}
 renderTodos();
 
 /* ---------- team ---------- */
@@ -834,28 +953,57 @@ const ROLES={operator:'Operator',content:'Content',setter:'Setter'};
 $('board').innerHTML=Object.keys(ROLES).map(role=>{const tasks=TEAM.filter(m=>m.role===role).flatMap(m=>m.tasks.map(t=>({t,m})));return `<div><div class="col-h">${ROLES[role]} <span class="mono">${tasks.length}</span></div>${tasks.map(x=>`<div class="task-card"><div class="t">${x.t}</div><div class="who"><span class="av" style="background:${x.m.c}">${x.m.av}</span> ${x.m.n}</div></div>`).join('')}</div>`}).join('');
 
 /* ---------- integrations ---------- */
-$('intgGrid').innerHTML=INTG.map(g=>`<div class="intg"><div class="intg-logo" style="background:${g.c};color:${g.ci||'#fff'}">${g.l}</div><div class="in"><b>${g.n}</b><div class="cat">${g.cat}</div></div>${g.on?'<div class="st"><span class="dot"></span> Connected</div>':`<button class="btn btn-ghost btn-sm" onclick="toast('Connect ${g.n}','Opens OAuth — demo')">Connect</button>`}</div>`).join('');
+$('autoList').innerHTML=AUTOS.map((a,i)=>`<div class="auto-row"><div class="auto-ic"><i class="ti ${a.trigIc}"></i></div><div class="auto-flow"><span class="step">${a.trig}</span><span class="arr"><i class="ti ti-arrow-right"></i></span><span class="step">${a.act}</span><div class="sub">${a.on?'Running automatically':'Paused'}</div></div><div class="auto-runs">${a.runs}</div><div class="switch ${a.on?'on':''}" role="switch" aria-checked="${a.on}" tabindex="0" onclick="toggleAuto(${i},this)" onkeydown="swKey(event,this,()=>toggleAuto(${i},this))"><i></i></div></div>`).join('');
+function toggleAuto(i,el){AUTOS[i].on=!AUTOS[i].on;el.classList.toggle('on',AUTOS[i].on);el.setAttribute('aria-checked',AUTOS[i].on);toast(AUTOS[i].on?'Automation on':'Automation paused',AUTOS[i].trig)}
+let svcCat='All',svcQ='';
+$('catBar').innerHTML=CATS.map(c=>`<button class="cat-chip ${c==='All'?'on':''}" onclick="setCat('${c}',this)">${c}</button>`).join('');
+function setCat(c,el){svcCat=c;document.querySelectorAll('.cat-chip').forEach(x=>x.classList.remove('on'));el.classList.add('on');renderSvc()}
+function renderSvc(){const list=SERVICES.filter(s=>(svcCat==='All'||s.cat===svcCat)&&(s.n+' '+s.cat+' '+s.blurb).toLowerCase().includes(svcQ));
+ $('svcGrid').innerHTML=list.length?list.map(s=>{const i=SERVICES.indexOf(s);return `<div class="svc"><div class="svc-top"><div class="svc-logo" style="background:${s.c};color:${s.ci||'#fff'}">${s.l}</div><div class="in"><b>${s.n}</b><div class="cat">${s.cat}</div></div></div><p>${s.blurb}</p><div class="svc-foot">${svcState(s)}<button class="btn ${s.on?'btn-ghost':'btn-soft'} btn-sm" onclick="openService(${i})">${s.on?'Manage':'Connect'}</button></div></div>`}).join('')
+ :`<div class="empty" style="grid-column:1/-1"><div class="ei"><i class="ti ti-plug"></i></div><h4>No tools match</h4><p>Try another category or clear the search.</p></div>`}
+function svcState(s){return s.connecting?`<span class="stt"><span class="spin"></span> Connecting</span>`:s.on?`<span class="stt on"><span class="dot"></span> Connected, ${s.sync}</span>`:`<span class="stt">Available</span>`}
+$('svcSearch').addEventListener('input',e=>{svcQ=e.target.value.toLowerCase();renderSvc()});
+renderSvc();
+let svcIdx=0;
+function openService(i){svcIdx=i;const s=SERVICES[i];$('svLogo').style.background=s.c;$('svLogo').style.color=s.ci||'#fff';$('svLogo').textContent=s.l;$('svTitle').textContent=s.n;$('svCat').textContent=s.cat;
+ const fields=s.fields.length?`<div class="det-block"><h5>Connection</h5>${s.fields.map(f=>`<div class="field"><label>${f.label}</label><input placeholder="${f.ph}"></div>`).join('')}</div>`:`<div class="det-block"><h5>Connection</h5><div class="note">Connects with one click over OAuth. No keys to paste.</div></div>`;
+ $('svBody').innerHTML=`<p style="font-size:13.5px;color:var(--ink-2);line-height:1.55;margin:0 0 4px">${s.blurb}</p>
+   <div class="det-block"><h5>What it syncs</h5><div class="det-syncs">${s.syncs.map(x=>`<div class="det-sync"><i class="ti ti-check"></i> ${x}</div>`).join('')}</div></div>
+   <div class="det-block"><h5>Permissions</h5><div class="det-scope">${s.scopes.map(x=>`<span class="badge b-gray">${x}</span>`).join('')}</div></div>
+   ${fields}`;
+ $('svState').textContent=s.on?`Connected, last sync ${s.sync}`:'Not connected yet';
+ $('svActions').innerHTML=s.on?`<button class="btn btn-ghost" onclick="syncOne(${i})"><i class="ti ti-refresh"></i> Sync now</button><button class="btn btn-danger" onclick="disconnectSvc(${i})">Disconnect</button>`:`<button class="btn btn-primary" onclick="connectSvc(${i})"><i class="ti ti-plug-connected"></i> Connect ${s.n}</button>`;
+ show('svcModal')}
+function connectSvc(i){const s=SERVICES[i];s.connecting=1;renderSvc();closeAll();toast('sync','Connecting to '+s.n,'Authorizing and running first sync');setTimeout(()=>{s.connecting=0;s.on=1;s.sync='just now';renderSvc();updateIntgSummary();toast('Connected',s.n+' is live and syncing')},1400)}
+function disconnectSvc(i){const s=SERVICES[i];s.on=0;s.sync=null;renderSvc();updateIntgSummary();closeAll();toast('Disconnected',s.n+' no longer syncs')}
+function syncOne(i){closeAll();toast('sync','Syncing '+SERVICES[i].n,'Pulling the latest');setTimeout(()=>toast('Synced',SERVICES[i].n+' up to date'),900)}
+function syncAll(){toast('sync','Syncing all connections','Pulling the latest metrics');setTimeout(()=>{$('sumSync').textContent='just now';toast('Synced','All connections up to date')},1100)}
+function updateIntgSummary(){const on=SERVICES.filter(s=>s.on).length;$('sumConnected').innerHTML=`<span class="dotb" style="background:var(--accent)"></span> ${on}`;$('sumAvailable').textContent=SERVICES.length-on}
+updateIntgSummary();
 
-/* ---------- retest ---------- */
-let retestIdx=0;
-function openRetest(i){retestIdx=i;const s=SEQS[i];const leak=s.slides.find(sl=>sl.leak);$('rtTitle').textContent='Retest · '+s.topic;$('rtOld').textContent=leak?leak.t:'the current opener';show('retestModal')}
-function launchRetest(){const s=SEQS[retestIdx];if(s.status!=='testing'){s.status='testing';s.statusc='b-rose';s.variants=[{v:'v1',comp:s.comp,note:'original'},{v:'v2',comp:null,note:'testing',testing:1}];renderSeq()}closeAll();toast('Retest launched','Variant v2 is tracking — compare in 48h')}
-function openLog(){show('logModal')}
+/* ---------- settings ---------- */
+$('setNav').innerHTML=SETNAV.map((s,i)=>`<button class="subtab ${i===0?'on':''}" data-set="${s[0]}" onclick="setSec('${s[0]}',this)">${s[1]}</button>`).join('');
+function setSec(k,el){document.querySelectorAll('.subtab').forEach(x=>x.classList.remove('on'));el.classList.add('on');document.querySelectorAll('.set-sec').forEach(s=>s.classList.toggle('on',s.dataset.set===k))}
+function tSwitch(el){const on=el.classList.toggle('on');el.setAttribute('aria-checked',on)}
+function swKey(e,el,fn){if(e.key==='Enter'||e.key===' '){e.preventDefault();fn?fn():tSwitch(el)}}
 
 /* ---------- overlays ---------- */
 let lastFocus=null;
 function show(id){lastFocus=document.activeElement;bd.classList.add('show');$(id).classList.add('show');const f=$(id).querySelector('input,textarea,button');if(f)setTimeout(()=>f.focus(),60)}
-function closeAll(){bd.classList.remove('show');document.querySelectorAll('.modal,.drawer').forEach(m=>m.classList.remove('show'));if(lastFocus)lastFocus.focus()}
-function openSettings(){show('settingsDrawer')}
-function openIntegrations(){show('intgDrawer')}
+function closeAll(){bd.classList.remove('show');document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));if(lastFocus&&lastFocus.focus)lastFocus.focus()}
 function toggleTheme(){document.body.classList.toggle('dark');toast('Theme',document.body.classList.contains('dark')?'Dark mode':'Light mode')}
-function tSwitch(el){const on=el.classList.toggle('on');el.setAttribute('aria-checked',on)}
 
 /* ---------- toasts ---------- */
-function toast(title,sub){const el=document.createElement('div');el.className='toast';el.innerHTML=`<div class="ti-ic"><i class="ti ti-check"></i></div><div><b>${title}</b>${sub?`<span>${sub}</span>`:''}</div>`;$('toasts').appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),240)},2600)}
+function toast(title,sub,extra){let s=sub,cls='';if(title==='sync'){cls='sync';title=sub;s=extra}const el=document.createElement('div');el.className='toast '+cls;el.innerHTML=`<div class="ti-ic"><i class="ti ${cls==='sync'?'ti-refresh':'ti-check'}"></i></div><div><b>${title}</b>${s?`<span>${s}</span>`:''}</div>`;$('toasts').appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),240)},2600)}
 
-/* ---------- reload (skeleton demo) ---------- */
-function reloadLib(){const lib=$('seqLib');lib.innerHTML=Array.from({length:3}).map(()=>'<div class="sk sk-fold"></div>').join('');toast('Syncing','Pulling the latest metrics');setTimeout(()=>{renderSeq();toast('Synced','Metrics up to date')},900)}
+/* ---------- reload skeleton ---------- */
+function reloadLib(){const lib=$('seqLib');lib.innerHTML=Array.from({length:3}).map(()=>'<div class="sk sk-fold"></div>').join('');toast('sync','Syncing','Pulling the latest metrics');setTimeout(()=>{renderSeq();toast('Synced','Metrics up to date')},900)}
+
+/* ---------- retest ---------- */
+let retestIdx=0;
+function openRetest(i){retestIdx=i;const s=SEQS[i];const leak=s.slides.find(sl=>sl.leak);$('rtTitle').textContent='Retest, '+s.topic;$('rtOld').textContent=leak?leak.t:'the current opener';show('retestModal')}
+function launchRetest(){const s=SEQS[retestIdx];if(s.status!=='testing'){s.status='testing';s.statusc='b-rose';s.variants=[{v:'v1',comp:s.comp,note:'original'},{v:'v2',comp:null,note:'testing',testing:1}];renderSeq()}closeAll();toast('Retest launched','Variant v2 is tracking, compare in 48h')}
+function openLog(){show('logModal')}
 
 /* ---------- command palette ---------- */
 const CMDS=[
@@ -863,26 +1011,29 @@ const CMDS=[
  {g:'Go to',ic:'ti-currency-dollar',t:'Revenue',s:'Payments and goal',run:()=>go('revenue')},
  {g:'Go to',ic:'ti-chart-histogram',t:'Performance',s:'Drop-off and leaderboard',run:()=>go('performance')},
  {g:'Go to',ic:'ti-sparkles',t:'Studio',s:'The content engine',run:()=>go('studio')},
+ {g:'Go to',ic:'ti-plug-connected',t:'Integrations',s:'Connect your tools',run:()=>go('integrations')},
+ {g:'Go to',ic:'ti-settings',t:'Settings',s:'Workspace config',run:()=>go('settings')},
  {g:'Go to',ic:'ti-map-2',t:'Plans',s:'Game plan by phase',run:()=>go('plans')},
- {g:'Go to',ic:'ti-checkbox',t:'To-dos',s:'Your open items',run:()=>go('todos')},
  {g:'Go to',ic:'ti-users',t:'Team',s:'Who is on your build',run:()=>go('team')},
- {g:'Create',ic:'ti-trophy',t:'New credibility sequence',s:'Best type · 74%',run:()=>{go('studio');openType(1)}},
+ {g:'Create',ic:'ti-trophy',t:'New credibility sequence',s:'Best type, 74%',run:()=>{go('studio');openType(1)}},
  {g:'Create',ic:'ti-bulb',t:'New value-driven sequence',s:'Expertise play',run:()=>{go('studio');openType(0)}},
  {g:'Create',ic:'ti-rocket',t:'New story launch',s:'The money sequence',run:()=>{go('studio');openType(8)}},
- {g:'Create',ic:'ti-layout-grid',t:'New carousel',s:'Methodology / taxonomy',run:()=>{go('studio');openCarouselCreate()}},
- {g:'Act',ic:'ti-flask',t:'Retest the leaking hook',s:'Value-driven · slide 2',run:()=>{go('studio');openRetest(0)}},
+ {g:'Create',ic:'ti-layout-grid',t:'New carousel',s:'Methodology or taxonomy',run:()=>{go('studio');openCarouselCreate()}},
+ {g:'Act',ic:'ti-flask',t:'Retest the leaking hook',s:'Value-driven, slide 2',run:()=>{go('studio');openRetest(0)}},
  {g:'Act',ic:'ti-chart-histogram',t:'Log a posted sequence',s:'Feed the engine',run:()=>{go('performance');openLog()}},
- {g:'Act',ic:'ti-refresh',t:'Sync data',s:'Pull latest metrics',run:()=>{go('studio');reloadLib()}},
- {g:'Act',ic:'ti-plug-connected',t:'Integrations',s:'Connect your tools',run:openIntegrations},
- {g:'Act',ic:'ti-settings',t:'Settings',s:'Workspace config',run:openSettings},
- {g:'Act',ic:'ti-moon',t:'Toggle theme',s:'Light / dark',run:toggleTheme}
+ {g:'Act',ic:'ti-refresh',t:'Sync all connections',s:'Pull latest metrics',run:()=>{go('integrations');syncAll()}},
+ {g:'Connect',ic:'ti-brand-stripe',t:'Connect Stripe',s:'Payments',run:()=>{go('integrations');openService(0)}},
+ {g:'Connect',ic:'ti-brand-instagram',t:'Connect Instagram',s:'Story metrics and DMs',run:()=>{go('integrations');openService(13)}},
+ {g:'Connect',ic:'ti-mail',t:'Connect Kit',s:'Email sequences',run:()=>{go('integrations');openService(5)}},
+ {g:'Connect',ic:'ti-robot',t:'View automations',s:'Triggers and actions',run:()=>{go('integrations');scrollToEl('autoList')}},
+ {g:'Act',ic:'ti-moon',t:'Toggle theme',s:'Light or dark',run:toggleTheme}
 ];
 let cmdkI=0,cmdkView=CMDS;
 function openCmdk(){$('cmdkWrap').classList.add('show');$('cmdkInput').value='';cmdkFilter('');setTimeout(()=>$('cmdkInput').focus(),50)}
 function closeCmdk(){$('cmdkWrap').classList.remove('show')}
 function cmdkFilter(q){q=q.toLowerCase();cmdkView=CMDS.filter(c=>(c.t+' '+c.s+' '+c.g).toLowerCase().includes(q));cmdkI=0;renderCmdk()}
-function renderCmdk(){const l=$('cmdkList');if(!cmdkView.length){l.innerHTML='<div class="cmdk-empty">No matches. Try “retest”, “credibility”, or a section name.</div>';return}
- let html='',lastG=null;cmdkView.forEach((c,i)=>{if(c.g!==lastG){html+=`<div class="cmdk-group">${c.g}</div>`;lastG=c.g}html+=`<div class="cmdk-item ${i===cmdkI?'active':''}" data-i="${i}" onclick="runCmd(${i})" onmousemove="setCmd(${i})"><div class="ci"><i class="ti ${c.ic}"></i></div><div class="cmain"><b>${c.t}</b><div class="csub">${c.s}</div></div>${i===cmdkI?'<span class="kbd">↵</span>':''}</div>`});l.innerHTML=html;const act=l.querySelector('.cmdk-item.active');if(act)act.scrollIntoView({block:'nearest'})}
+function renderCmdk(){const l=$('cmdkList');if(!cmdkView.length){l.innerHTML='<div class="cmdk-empty">No matches. Try connect, retest, or a section name.</div>';return}
+ let html='',lastG=null;cmdkView.forEach((c,i)=>{if(c.g!==lastG){html+=`<div class="cmdk-group">${c.g}</div>`;lastG=c.g}html+=`<div class="cmdk-item ${i===cmdkI?'active':''}" data-i="${i}" onclick="runCmd(${i})" onmousemove="setCmd(${i})"><div class="ci"><i class="ti ${c.ic}"></i></div><div class="cmain"><b>${c.t}</b><div class="csub">${c.s}</div></div>${i===cmdkI?'<span class="kbd">enter</span>':''}</div>`});l.innerHTML=html;const act=l.querySelector('.cmdk-item.active');if(act)act.scrollIntoView({block:'nearest'})}
 function setCmd(i){cmdkI=i;renderCmdk()}
 function runCmd(i){const c=cmdkView[i];closeCmdk();if(c)c.run()}
 $('cmdkInput').addEventListener('input',e=>cmdkFilter(e.target.value));
