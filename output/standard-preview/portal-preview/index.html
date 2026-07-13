@@ -32,6 +32,8 @@ body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:va
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 #app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
 /* rail */
 .rail{position:sticky;top:0;height:100vh;background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px}
@@ -121,6 +123,52 @@ main{min-width:0}
 .type-card .chips{display:flex;flex-wrap:wrap;gap:6px}
 .type-card .open{position:absolute;top:16px;right:16px;color:var(--muted);font-size:16px;opacity:0;transition:.18s}
 .type-card:hover .open{opacity:1;color:var(--accent)}
+/* studio: insight + library */
+.insight{display:grid;grid-template-columns:1.5fr 1fr;gap:0;overflow:hidden}
+.insight-main{padding:22px 24px}
+.insight-lab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);display:flex;align-items:center;gap:7px}
+.insight-p{font-size:14px;line-height:1.6;color:var(--ink-2);margin:12px 0 16px;max-width:56ch}
+.insight-p b{color:var(--ink);font-weight:700}
+.insight-actions{display:flex;gap:9px;flex-wrap:wrap}
+.insight-stats{background:var(--panel-2);border-left:1px solid var(--line);padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:center}
+.i-stat span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.i-stat b{display:block;font-size:24px;letter-spacing:-.04em;margin-top:4px}
+.i-stat small{font-size:11.5px;color:var(--muted)}.i-stat small.up{color:var(--accent);font-weight:700}
+.lib-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.lib-h h3{margin:0;font-size:16px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px}
+.lib-sub{font-size:12px;color:var(--muted)}
+.carousel-create{width:100%;display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px dashed var(--line-2);border-radius:var(--radius);background:var(--panel);transition:.15s;text-align:left}
+.carousel-create:hover{border-color:var(--indigo);background:var(--indigo-soft)}
+.carousel-create .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.carousel-create b{font-size:14.5px}.carousel-create p{margin:3px 0 0;font-size:12px;color:var(--muted)}
+/* accordion rows */
+.fold{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:10px;overflow:hidden;transition:box-shadow .15s,border-color .15s}
+.fold.open{border-color:var(--accent-line);box-shadow:var(--shadow-md)}
+.fold-head{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:15px 18px;cursor:pointer}
+.fold-tag{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--muted);min-width:64px}
+.fold-title{min-width:0}
+.fold-title b{font-size:14px;letter-spacing:-.02em;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fold-title .sub{font-size:12px;color:var(--muted);margin-top:3px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.fold-widgets{display:flex;gap:8px;align-items:center}
+.mini-w{text-align:center;padding:6px 11px;border-radius:9px;background:var(--panel-2);border:1px solid var(--line);min-width:56px}
+.mini-w b{display:block;font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:-.02em}
+.mini-w span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.fold-chev{color:var(--muted);font-size:18px;transition:transform .2s}
+.fold.open .fold-chev{transform:rotate(180deg);color:var(--accent)}
+.fold-body{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.2,.8,.2,1)}
+.fold.open .fold-body{max-height:640px}
+.fold-inner{padding:4px 18px 18px;border-top:1px solid var(--line)}
+.mini-slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}
+.mini-slide{border:1px solid var(--line);border-radius:11px;padding:12px;background:var(--panel-2);min-height:96px;position:relative}
+.mini-slide .n{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+.mini-slide .t{font-size:11.5px;line-height:1.4;margin-top:6px}
+.mini-slide.leak{border-color:var(--rose);background:var(--rose-soft)}
+.mini-slide.leak .n{color:var(--rose)}
+.car-slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin:14px 0}
+.car-slide{aspect-ratio:9/16;border-radius:10px;background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;padding:9px;position:relative}
+.car-slide .num{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:800;color:var(--indigo)}
+.car-slide .cap{font-size:9.5px;color:var(--muted);line-height:1.3}
+.fold-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 /* team */
 .team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
 .member{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm)}
@@ -315,8 +363,37 @@ main{min-width:0}
 
     <!-- STUDIO -->
     <section class="section panel" data-panel="studio">
-      <div class="h-row"><div><h1>Studio</h1><p>Pick a sequence type. Click to build, edit, and send for review.</p></div></div>
-      <div class="studio-grid" id="studioGrid"></div>
+      <div class="h-row"><div><h1>Studio</h1><p>Your content engine — create, review, and see what's working.</p></div>
+        <div style="display:flex;gap:9px"><button class="btn btn-ghost" onclick="go('performance')"><i class="ti ti-chart-line"></i> Metrics</button><button class="btn btn-primary" onclick="scrollTo({top:0});document.getElementById('createRow').scrollIntoView({behavior:'smooth'})"><i class="ti ti-plus"></i> Create</button></div>
+      </div>
+
+      <!-- insight / summary strip -->
+      <div class="insight card" style="margin-bottom:20px">
+        <div class="insight-main">
+          <div class="insight-lab"><i class="ti ti-bulb"></i> This week's read</div>
+          <p class="insight-p"><b>Credibility is your best type</b> — 71% completion, 18 DMs. Your value-driven sequences are leaking at slide 2, so the hook needs work. <b>Make 2 more credibility sequences</b> and rewrite the value-driven opener.</p>
+          <div class="insight-actions"><button class="btn btn-primary" onclick="openType(1)"><i class="ti ti-sparkles"></i> Generate a credibility sequence</button><button class="btn btn-ghost" onclick="alert('Reiterate the best performer (demo)')"><i class="ti ti-repeat"></i> Reiterate the top performer</button></div>
+        </div>
+        <div class="insight-stats">
+          <div class="i-stat"><span>Sequences</span><b class="mono">12</b><small>this week</small></div>
+          <div class="i-stat"><span>Carousels</span><b class="mono">3</b><small>this week</small></div>
+          <div class="i-stat"><span>Avg completion</span><b class="mono">56%</b><small class="up">+4 pts</small></div>
+          <div class="i-stat"><span>DMs generated</span><b class="mono">41</b><small class="up">+12</small></div>
+        </div>
+      </div>
+
+      <!-- create -->
+      <div class="lib-h" id="createRow"><h3><i class="ti ti-plus" style="color:var(--accent)"></i> Create new</h3><span class="lib-sub">Pick a type — build, edit, and send for review</span></div>
+      <div class="studio-grid" id="studioGrid" style="margin-bottom:14px"></div>
+      <button class="carousel-create" onclick="openCarouselCreate()"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo)"><i class="ti ti-layout-grid"></i></div><div style="text-align:left;flex:1"><b>Carousel</b><p>Methodology, taxonomy, or philosophy set — designed slide by slide.</p></div><i class="ti ti-arrow-right" style="color:var(--muted)"></i></button>
+
+      <!-- story sequences library -->
+      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-layers-subtract" style="color:var(--accent)"></i> Story sequences</h3><span class="lib-sub">Labeled by date — click to expand slides and metrics</span></div>
+      <div id="seqLib"></div>
+
+      <!-- carousels library -->
+      <div class="lib-h" style="margin-top:26px"><h3><i class="ti ti-layout-grid" style="color:var(--indigo)"></i> Carousels</h3><span class="lib-sub">Labeled by number — click to expand slides and saves</span></div>
+      <div id="carLib"></div>
     </section>
 
     <!-- PLANS -->
@@ -457,6 +534,48 @@ function go(tab){document.querySelectorAll('.nav-item[data-tab]').forEach(n=>n.c
 // studio
 $('studioGrid').innerHTML=TYPES.map((t,i)=>`<button class="type-card" onclick="openType(${i})"><span class="open"><i class="ti ti-arrows-diagonal"></i></span><div class="ic" style="background:${t.bg};color:${t.c}"><i class="ti ${t.ic}"></i></div><b>${t.k}</b><p>${t.d}</p><div class="chips">${t.chips.map((c,j)=>`<span class="badge ${j===0?'b-green':'b-gray'}">${c}</span>`).join('')}</div></button>`).join('');
 function openType(i){const t=TYPES[i];$('tmIc').style.background=t.bg;$('tmIc').style.color=t.c;$('tmIc').innerHTML=`<i class="ti ${t.ic}"></i>`;$('tmTitle').textContent=t.k+' sequence';$('tmSub').textContent=t.d;show('typeModal')}
+function openCarouselCreate(){alert('Carousel builder (demo): methodology / taxonomy / philosophy set')}
+// story sequence library
+const SEQS=[
+ {date:'Jul 12',type:'value-driven',topic:'How the profile funnel works',comp:33,dm:6,views:'3.8k',diag:'hook failed',diagc:'b-rose',slides:[{n:'1 · curiosity',t:'"Everyone gets the profile funnel wrong."'},{n:'2 · pain',t:'"You post daily and nothing converts."',leak:1},{n:'3 · proof',t:'Screenshot of the funnel map'},{n:'7 · CTA',t:'"Comment ELEVATE for the breakdown."'}]},
+ {date:'Jul 11',type:'credibility',topic:'Student hit 50k month',comp:58,dm:18,views:'4.2k',diag:'hook failed',diagc:'b-amber',slides:[{n:'1 · curiosity',t:'"I almost skipped posting this result."'},{n:'2 · pain',t:'"She was stuck at 2k for months."',leak:1},{n:'4 · proof',t:'Stripe dashboard, $50k visible'},{n:'8 · close',t:'"This is the frame that did it."'}]},
+ {date:'Jul 9',type:'Q&A',topic:'Ask me anything · business + life',comp:74,dm:22,views:'5.1k',diag:'healthy',diagc:'b-green',slides:[{n:'1 · open',t:'"Ask me a question."'},{n:'3 · answer',t:'"How I structure my week."'},{n:'6 · answer',t:'"Why I stopped chasing views."'}]},
+ {date:'Jul 7',type:'day-in-the-life',topic:'A full day building the brand',comp:61,dm:9,views:'6.0k',diag:'monitor',diagc:'b-gray',slides:[{n:'10am',t:'Testimonial with a client'},{n:'2pm',t:'Deep work block'},{n:'8:30pm',t:'Closed a client in Berlin'}]}
+];
+$('seqLib').innerHTML=SEQS.map((s,i)=>`
+ <div class="fold" id="sf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('sf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('sf${i}')}">
+   <div class="fold-tag">${s.date}</div>
+   <div class="fold-title"><b>${s.topic}</b><div class="sub"><span class="badge b-gray">${s.type}</span><span>${s.views} views</span></div></div>
+   <div class="fold-widgets">
+     <div class="mini-w"><b>${s.comp}%</b><span>done</span></div>
+     <div class="mini-w"><b>${s.dm}</b><span>DMs</span></div>
+     <span class="badge ${s.diagc}">${s.diag}</span>
+     <i class="ti ti-chevron-down fold-chev"></i>
+   </div></div>
+   <div class="fold-body"><div class="fold-inner">
+     <div class="mini-slides">${s.slides.map(sl=>`<div class="mini-slide ${sl.leak?'leak':''}"><div class="n">${sl.n}</div><div class="t">${sl.t}</div></div>`).join('')}</div>
+     <div class="fold-actions"><button class="btn btn-ghost"><i class="ti ti-edit"></i> Edit slides</button><button class="btn btn-ghost"><i class="ti ti-repeat"></i> Make another like this</button><button class="btn btn-ghost"><i class="ti ti-external-link"></i> View full</button></div>
+   </div></div></div>`).join('');
+// carousels library
+const CARS=[
+ {num:'01',date:'Jul 10',title:'The 7-step onboarding method',type:'Methodology',saves:412,reach:'18.2k',slides:['Cover: pov onboarded','1 · Audit','2 · Profile','3 · Content','4 · Offer','5 · Revenue','6 · Sales','7 · Data','CTA: DM GA']},
+ {num:'02',date:'Jun 28',title:'7 story-sequence types',type:'Taxonomy',saves:389,reach:'21.0k',slides:['Cover: $964k','1 · Value','2 · Credibility','3 · Q&A','4 · Day','5 · Breakdown','6 · Lifestyle','7 · CTA']},
+ {num:'03',date:'Jun 15',title:'7 lessons about content',type:'Philosophy',saves:256,reach:'12.4k',slides:['Cover','Currency','Transposition','Intention','Invisible','Creativity','Angles','Differentiation']}
+];
+$('carLib').innerHTML=CARS.map((c,i)=>`
+ <div class="fold" id="cf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('cf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('cf${i}')}">
+   <div class="fold-tag">Carousel ${c.num}</div>
+   <div class="fold-title"><b>${c.title}</b><div class="sub"><span class="badge b-indigo">${c.type}</span><span>${c.date}</span><span>${c.slides.length} slides</span></div></div>
+   <div class="fold-widgets">
+     <div class="mini-w"><b>${c.saves}</b><span>saves</span></div>
+     <div class="mini-w"><b>${c.reach}</b><span>reach</span></div>
+     <i class="ti ti-chevron-down fold-chev"></i>
+   </div></div>
+   <div class="fold-body"><div class="fold-inner">
+     <div class="car-slides">${c.slides.map((sl,j)=>`<div class="car-slide"><div class="num">${String(j+1).padStart(2,'0')}</div><div class="cap">${sl}</div></div>`).join('')}</div>
+     <div class="fold-actions"><button class="btn btn-ghost"><i class="ti ti-edit"></i> Edit</button><button class="btn btn-ghost"><i class="ti ti-repeat"></i> Make another like this</button><button class="btn btn-ghost"><i class="ti ti-external-link"></i> View full</button></div>
+   </div></div></div>`).join('');
+function toggleFold(id){const el=$(id);el.classList.toggle('open');const h=el.querySelector('.fold-head');if(h)h.setAttribute('aria-expanded',el.classList.contains('open'))}
 // team
 $('teamGrid').innerHTML=TEAM.map((m,i)=>`<div class="member"><div class="member-top"><div class="avatar" style="background:${m.c}">${m.av}</div><div><h4>${m.n}</h4><div class="role">${m.r}</div></div></div><div class="contact"><a href="#"><i class="ti ti-mail"></i> ${m.email}</a><a href="#"><i class="ti ti-brand-slack"></i> ${m.mail}</a></div><div class="now"><div class="lab">Right now</div><div class="task"><i class="ti ti-player-play"></i> ${m.task}</div></div><div class="day">${m.busy.map((b,j)=>`<div class="slot ${b?'busy':''}">${SLOTS[j]}</div>`).join('')}</div><button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:13px" onclick="openMember(${i})">Open</button></div>`).join('');
 function openMember(i){const m=TEAM[i];$('mmAv').style.background=m.c;$('mmAv').textContent=m.av;$('mmName').textContent=m.n;$('mmRole').textContent=m.r;$('mmContact').innerHTML=`<a href="#" style="display:flex;gap:8px;color:var(--ink-2);text-decoration:none"><i class="ti ti-mail"></i> ${m.email}</a><a href="#" style="display:flex;gap:8px;color:var(--ink-2);text-decoration:none"><i class="ti ti-brand-slack"></i> ${m.mail}</a>`;$('mmDay').innerHTML=m.busy.map((b,j)=>`<div class="slot ${b?'busy':''}">${SLOTS[j]}</div>`).join('');$('mmTasks').innerHTML=m.tasks.map(t=>`<div class="task-card" style="margin:0"><div class="t">${t}</div></div>`).join('');show('memberModal')}
