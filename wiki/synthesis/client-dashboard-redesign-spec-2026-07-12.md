@@ -3,7 +3,7 @@ type: synthesis
 tags: [funnel, content, scaling]
 sources: [[wiki/synthesis/dashboards-audit-and-portal-strategy-2026-07-12]], [[wiki/synthesis/portal-content-studio-spec]]
 created: 2026-07-12
-updated: 2026-07-12
+updated: 2026-07-13
 ---
 
 # Client dashboard redesign — craft spec for Codex
@@ -63,6 +63,7 @@ These are what make it read as a real product (earned familiarity, Linear/Stripe
 
 - **Home / "This week"** — replaces Momentum. A money hero (cash this week + all-time + sparkline), followers, $/follower, DMs, a **"Your next move"** prescription card (the diagnosis engine surfaced on the overview, one action into Studio), and shipped-this-week / owed-this-week lists. The one-screen login view.
 - **Revenue** — money-green KPI cards (JetBrains Mono), payment table, and quick links into the Integrations and Settings tabs.
+- **Profile funnel** — its own work tab, placed before Studio because the bio is the first conversion mechanism. It must score and rewrite the bio against Niksetting's 3-second stranger test: what is in it for me, is this credible, what do I do next. The surface shows the optimized bio, clarity/polarity/proof/next-step scores, current leaks, the rewrite formula (broad who, specific what, category-of-one name, backtrackable proof), and two CTA paths (DM trigger word plus long-form trust path). Proof copy stays under the Pulsify proof-currency rule: student results only, never lifestyle.
 - **Integrations (own tab, marketplace).** A GoHighLevel/ClickFunnels-grade connect surface, not a drawer. A summary strip (connected / available / automations live / last sync), an **Active automations** layer (trigger to action rows with on/off toggles: payment to onboarding, DM-trigger-word to tag+notify, drop-off to draft-retest, booking to Slack alert, Monday to weekly email), and a **marketplace** of ~26 services in 7 categories (payments, email+SMS, booking, content+social, automation+CRM, analytics) with search + category filter. Each service opens a **detail modal**: what it does, what it syncs, permissions/scopes, and connection fields. Connect runs a real `connecting -> connected` loading state with sync toasts; connected cards show last-sync + Manage/Sync-now/Disconnect. Wire to the live integrations hub I1; connected states reflect real `integrations` rows. New tables: `integration_services` (catalog) + reuse `integrations`; `automations` (trigger, action, enabled, run_count).
 - **Settings (own tab).** Six sub-sections: Workspace (name, niche, timezone, trigger word, goal, portal link), Brand voice (proof-currency = student-results-only locked rule, banned words, kill-AI-tells toggle), Content (review gate, auto-draft-retest-on-leak, cadence target, default goal), Notifications (weekly report, DM/drop-off/payment alerts), Access (revenue visibility, per-role seat rules), Billing (plan, next invoice, payment method, danger zone: rotate portal link).
 - **Performance** — KPI cards + a **slide-by-slide retention curve** (SVG area chart, the cliff marked) + a **type leaderboard** (completion bars, top-to-bottom) + sequence rows with bar strips (drop slide in rose) + a "Log sequence" modal (feed the engine) + a reach donut. This is the live P3 data plus the tracking depth the founder asked for.
