@@ -56,6 +56,8 @@ These are what make it read as a real product (earned familiarity, Linear/Stripe
 - **Skeleton loading** — the "Sync data" action shows shimmer skeletons, not a spinner. All async surfaces load this way.
 - **Live/status affordances** — a "Live" pulse in the topbar, per-item status pills, connection states on integrations reflecting real `integrations` rows.
 - **Full keyboard + focus model** — focus-visible rings, role/aria on folds, switches, modals; Escape closes; focus returns to the trigger on close; `prefers-reduced-motion` alternative for all motion.
+- **Overlay stacking (learned defect).** Keep a strict semantic z-scale: backdrop below every drawer/modal/palette. An inverted scale (backdrop above the drawer) renders overlays *behind* the blur, which reads as a broken "blurry screen." Verify by paint order (`elementFromPoint` at the panel center hits the panel, not the backdrop), not just by whether the open-class was applied.
+- **Voice on all UI copy.** No em-dashes or en-dashes (commas/periods). No reward/celebratory microcopy (no "nice", "great job", exclamation affirmations). Factual, direct, sentence case. Proof-currency rule (student results, never lifestyle) shown as a locked setting.
 
 ## The other sections (bring to the same bar)
 
