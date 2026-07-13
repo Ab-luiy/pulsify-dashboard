@@ -6,254 +6,399 @@
 <title>Pulsify client dashboard — redesign preview</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.24.0/dist/tabler-icons.min.css">
 <style>
 :root{
-  --bg:#f5f6f8; --panel:#fff; --panel-2:#fbfbfd; --line:#e9ebef; --line-2:#dfe2e7;
-  --ink:#0d0f14; --ink-2:#3d4350; --muted:#8b909c;
-  --accent:#0ea968; --accent-2:#34d399; --accent-soft:rgba(14,169,104,.10); --accent-line:rgba(14,169,104,.28);
-  --indigo:#5b6cff; --indigo-soft:rgba(91,108,255,.10);
-  --amber:#f59e0b; --amber-soft:rgba(245,158,11,.12); --rose:#f43f5e; --rose-soft:rgba(244,63,94,.10); --sky:#0ea5e9;
-  --shadow-sm:0 1px 2px rgba(13,15,20,.04),0 1px 3px rgba(13,15,20,.06);
-  --shadow-md:0 8px 30px -12px rgba(13,15,20,.18);
-  --shadow-lg:0 24px 60px -20px rgba(13,15,20,.28);
+  --bg:#f4f6f8; --panel:#fff; --panel-2:#fafbfc; --panel-3:#f4f6f8; --line:#e8ebef; --line-2:#dde1e7;
+  --ink:#0c0e13; --ink-2:#3b4150; --muted:#667085;
+  --accent:#0ea968; --accent-2:#34d399; --accent-ink:#067a4a; --accent-soft:rgba(14,169,104,.10); --accent-line:rgba(14,169,104,.30);
+  --indigo:#5b6cff; --indigo-soft:rgba(91,108,255,.10); --indigo-ink:#3a49d6;
+  --amber:#e08e0b; --amber-soft:rgba(224,142,11,.12); --amber-ink:#8a5a06;
+  --rose:#f43f5e; --rose-soft:rgba(244,63,94,.10); --rose-ink:#c11f3b;
+  --sky:#0ea5e9; --sky-soft:rgba(14,165,233,.12);
+  --shadow-xs:0 1px 2px rgba(13,15,20,.05);
+  --shadow-sm:0 1px 2px rgba(13,15,20,.04),0 2px 6px rgba(13,15,20,.05);
+  --shadow-md:0 8px 30px -12px rgba(13,15,20,.20);
+  --shadow-lg:0 30px 70px -22px rgba(13,15,20,.32);
   --radius:16px; --radius-sm:11px; --radius-xs:8px;
-  --z-drawer:40; --z-backdrop:50; --z-modal:60;
+  --z-sticky:10; --z-drawer:40; --z-backdrop:50; --z-modal:60; --z-cmdk:80; --z-toast:90;
+  --ease:cubic-bezier(.22,.8,.28,1);
 }
 body.dark{
-  --bg:#0a0b0f; --panel:#121419; --panel-2:#15171d; --line:#20242c; --line-2:#2a2f39;
-  --ink:#f3f5f8; --ink-2:#c2c7d0; --muted:#7c828e;
-  --accent-soft:rgba(14,169,104,.16); --indigo-soft:rgba(91,108,255,.18);
-  --shadow-sm:0 1px 2px rgba(0,0,0,.3); --shadow-md:0 10px 34px -14px rgba(0,0,0,.6); --shadow-lg:0 28px 70px -24px rgba(0,0,0,.72);
+  --bg:#0a0b0f; --panel:#111318; --panel-2:#15181e; --panel-3:#0e1015; --line:#20242c; --line-2:#2b3039;
+  --ink:#f2f4f7; --ink-2:#c4c9d2; --muted:#7a808c;
+  --accent-ink:#5ee0a3; --accent-soft:rgba(14,169,104,.15); --accent-line:rgba(14,169,104,.36);
+  --indigo-ink:#9aa6ff; --indigo-soft:rgba(91,108,255,.18);
+  --amber-ink:#f0b552; --amber-soft:rgba(224,142,11,.16);
+  --rose-ink:#ff7d92; --rose-soft:rgba(244,63,94,.15);
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 2px rgba(0,0,0,.3),0 2px 8px rgba(0,0,0,.35);
+  --shadow-md:0 12px 36px -14px rgba(0,0,0,.66); --shadow-lg:0 34px 80px -26px rgba(0,0,0,.78);
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .mono{font-family:"JetBrains Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-a{color:inherit}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent-soft);color:var(--accent-ink)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}}
 #app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
 /* rail */
-.rail{position:sticky;top:0;height:100vh;background:var(--panel);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:6px}
-.brand{display:flex;align-items:center;gap:11px;padding:6px 8px 18px;border-bottom:1px solid var(--line);margin-bottom:6px}
-.brand-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;box-shadow:0 6px 16px -6px var(--accent)}
-.brand-text b{display:block;font-size:14px;letter-spacing:-.03em}
+.rail{position:sticky;top:0;height:100vh;background:var(--panel);border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:3px;z-index:var(--z-sticky)}
+.brand{display:flex;align-items:center;gap:11px;padding:6px 8px 16px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;box-shadow:0 6px 16px -6px var(--accent)}
+.brand-text b{display:block;font-size:14px;letter-spacing:-.03em;line-height:1.2}
 .brand-text span{display:block;font-size:11px;color:var(--muted);font-weight:600}
-.nav-h{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:14px 10px 6px}
-.nav-item{display:flex;align-items:center;gap:11px;padding:9px 11px;border-radius:10px;color:var(--ink-2);font-size:13.5px;font-weight:600;transition:background .15s,color .15s}
-.nav-item .ic{width:18px;text-align:center;opacity:.75;font-size:15px}
+.nav-h{font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);padding:14px 10px 5px}
+.nav-item{display:flex;align-items:center;gap:11px;padding:8px 11px;border-radius:10px;color:var(--ink-2);font-size:13.5px;font-weight:600;transition:background .15s,color .15s;position:relative}
+.nav-item .ic{width:18px;text-align:center;opacity:.7;font-size:17px;display:flex;align-items:center;justify-content:center}
 .nav-item:hover{background:var(--panel-2);color:var(--ink)}
-.nav-item.active{background:var(--accent-soft);color:var(--accent)}
+.nav-item.active{background:var(--accent-soft);color:var(--accent-ink)}
 .nav-item.active .ic{opacity:1}
-.rail-foot{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);display:grid;gap:6px}
+.nav-item .count{margin-left:auto;font-size:11px;font-weight:800;color:var(--muted);background:var(--panel-2);padding:1px 7px;border-radius:99px}
+.nav-item.active .count{background:var(--accent-soft);color:var(--accent-ink)}
+.rail-foot{margin-top:auto;padding-top:12px;border-top:1px solid var(--line);display:grid;gap:2px}
+.cmdk-hint{margin:8px 8px 2px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);font-weight:600;cursor:pointer;transition:.15s}
+.cmdk-hint:hover{border-color:var(--line-2);color:var(--ink)}
+.cmdk-hint kbd{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:10.5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:2px 6px;color:var(--ink-2)}
 /* topbar + main */
 main{min-width:0}
-.topbar{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 34px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.crumb{font-size:13px;color:var(--muted);font-weight:600}
+.topbar{position:sticky;top:0;z-index:var(--z-sticky);display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 30px;background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.crumb{font-size:13px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:7px}
 .crumb b{color:var(--ink);font-weight:700}
+.crumb .live{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);padding:3px 9px;border-radius:99px}
+.crumb .live i{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s var(--ease) infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .top-actions{display:flex;align-items:center;gap:9px}
-.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;color:var(--ink-2);font-size:16px;transition:.15s}
-.icon-btn:hover{border-color:var(--line-2);color:var(--ink);box-shadow:var(--shadow-sm)}
-.section{padding:26px 34px 70px}
-.panel{display:none}.panel.active{display:block;animation:fade .22s ease both}
-@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;color:var(--ink-2);font-size:17px;transition:.15s}
+.icon-btn:hover{border-color:var(--line-2);color:var(--ink);box-shadow:var(--shadow-xs)}
+.section{padding:24px 30px 80px}
+.panel{display:none}.panel.active{display:block}
+.panel.active>*{animation:rise .4s var(--ease) both}
+.panel.active>*:nth-child(2){animation-delay:.04s}
+.panel.active>*:nth-child(3){animation-delay:.08s}
+.panel.active>*:nth-child(4){animation-delay:.12s}
+.panel.active>*:nth-child(5){animation-delay:.16s}
+@keyframes rise{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 .h-row{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.h-row h1{margin:0;font-size:26px;letter-spacing:-.045em}
-.h-row p{margin:5px 0 0;color:var(--muted);font-size:13px}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:11px;font-size:12.5px;font-weight:700;transition:.15s}
+.h-row h1{margin:0;font-size:26px;letter-spacing:-.045em;line-height:1.05}
+.h-row p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.h-actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:11px;font-size:12.5px;font-weight:700;transition:.15s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn i{font-size:15px}
 .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 20px -8px var(--accent)}
-.btn-primary:hover{filter:brightness(1.04)}
+.btn-primary:hover{filter:brightness(1.05);box-shadow:0 10px 26px -8px var(--accent)}
 .btn-ghost{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
-/* this-week strip */
-.week-strip{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:14px;margin-bottom:22px}
-.week-hero{border-radius:var(--radius);padding:20px;background:linear-gradient(135deg,var(--accent),#0b8f58);color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-md)}
-.week-hero .lab{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;opacity:.85}
-.week-hero .big{font-size:34px;font-weight:800;letter-spacing:-.05em;margin:8px 0 2px}
-.week-hero .sub{font-size:12.5px;opacity:.9}
-.week-hero .spark{position:absolute;right:16px;bottom:14px;display:flex;align-items:flex-end;gap:3px;height:44px;opacity:.9}
-.week-hero .spark i{width:6px;border-radius:3px;background:rgba(255,255,255,.55)}
+.btn-ghost:hover{border-color:var(--line-2);box-shadow:var(--shadow-xs)}
+.btn-soft{background:var(--accent-soft);color:var(--accent-ink)}
+.btn-soft:hover{background:color-mix(in srgb,var(--accent-soft) 70%,var(--accent))}
+.btn-sm{padding:6px 10px;font-size:11.5px;border-radius:9px}
+/* week strip */
+.week-strip{display:grid;grid-template-columns:1.35fr 1fr 1fr 1fr;gap:14px;margin-bottom:16px}
+.week-hero{border-radius:var(--radius);padding:20px;background:linear-gradient(140deg,var(--accent),#0a8a55 74%,#087a4b);color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-md)}
+.week-hero::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 92% 8%,rgba(255,255,255,.22),transparent 55%);pointer-events:none}
+.week-hero .lab{font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;opacity:.9}
+.week-hero .big{font-size:34px;font-weight:800;letter-spacing:-.05em;margin:8px 0 2px;position:relative}
+.week-hero .sub{font-size:12.5px;opacity:.92;position:relative}
+.week-hero .spark{position:absolute;right:16px;bottom:14px;display:flex;align-items:flex-end;gap:3px;height:44px;z-index:1}
+.week-hero .spark i{width:6px;border-radius:3px;background:rgba(255,255,255,.6)}
 .mini{border-radius:var(--radius);padding:16px 18px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
-.mini .lab{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
-.mini .v{font-size:24px;font-weight:800;letter-spacing:-.04em;margin-top:8px}
+.mini .lab{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.mini .v{font-size:23px;font-weight:800;letter-spacing:-.04em;margin-top:8px}
 .mini .d{font-size:12px;font-weight:700;margin-top:5px;display:inline-flex;align-items:center;gap:4px}
-.up{color:var(--accent)}.down{color:var(--rose)}
+.up{color:var(--accent-ink)}.down{color:var(--rose-ink)}
 /* cards + grids */
 .grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
 .card-pad{padding:20px}
-.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line)}
-.card-head h3{margin:0;font-size:14.5px;letter-spacing:-.02em}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 20px;border-bottom:1px solid var(--line)}
+.card-head h3{margin:0;font-size:14.5px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
 .card-head .sub{font-size:12px;color:var(--muted)}
 .kpi{padding:18px 20px}
 .kpi-top{display:flex;align-items:center;justify-content:space-between}
-.kpi .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
-.kpi .lab{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:14px}
+.kpi .ic{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.kpi .lab{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-top:14px}
 .kpi .v{font-size:28px;font-weight:800;letter-spacing:-.05em;margin-top:5px}
 .kpi .d{font-size:12px;font-weight:700;margin-top:6px;display:inline-flex;gap:4px;align-items:center}
-.kpi .src{font-size:11px;color:var(--muted);margin-top:3px;display:flex;align-items:center;gap:6px}
-.kpi .src i{width:6px;height:6px;border-radius:50%;background:var(--accent)}
-.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:8px;font-size:11px;font-weight:700;line-height:1}
-.b-green{background:var(--accent-soft);color:var(--accent)}
-.b-amber{background:var(--amber-soft);color:#a76a09}
-.b-rose{background:var(--rose-soft);color:var(--rose)}
-.b-indigo{background:var(--indigo-soft);color:var(--indigo)}
-.b-gray{background:var(--panel-2);color:var(--muted);border:1px solid var(--line)}
+.kpi .src{font-size:11px;color:var(--muted);margin-top:4px;display:flex;align-items:center;gap:6px}
+.kpi .src i.dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 9px;border-radius:8px;font-size:11px;font-weight:700;line-height:1.2;white-space:nowrap}
+.b-green{background:var(--accent-soft);color:var(--accent-ink)}
+.b-amber{background:var(--amber-soft);color:var(--amber-ink)}
+.b-rose{background:var(--rose-soft);color:var(--rose-ink)}
+.b-indigo{background:var(--indigo-soft);color:var(--indigo-ink)}
+.b-sky{background:var(--sky-soft);color:#0774a3}
+.b-gray{background:var(--panel-3);color:var(--muted);border:1px solid var(--line)}
+.dotb{width:6px;height:6px;border-radius:50%;flex:none}
+/* home next-action */
+.next{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:18px 20px;border-radius:var(--radius);background:radial-gradient(120% 160% at 0% 0%,var(--accent-soft),transparent 42%),var(--panel);border:1px solid var(--accent-line);box-shadow:var(--shadow-sm)}
+.next .nic{width:46px;height:46px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 8px 18px -8px var(--accent);flex:none}
+.next h3{margin:0;font-size:16px;letter-spacing:-.02em}
+.next p{margin:4px 0 0;font-size:13px;color:var(--ink-2);line-height:1.5}
 /* performance */
 .seq{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:15px 18px;border:1px solid var(--line);border-radius:14px;background:var(--panel);transition:.15s}
-.seq:hover{border-color:var(--line-2);box-shadow:var(--shadow-sm)}
-.seq-bars{display:flex;align-items:flex-end;gap:4px;height:46px;margin-top:10px}
+.seq:hover{border-color:var(--line-2);box-shadow:var(--shadow-xs)}
+.seq-bars{display:flex;align-items:flex-end;gap:4px;height:44px;margin-top:10px}
 .seq-bars i{flex:1;border-radius:4px 4px 2px 2px;background:linear-gradient(180deg,var(--accent-2),var(--accent));min-width:5px}
 .seq-bars i.drop{background:linear-gradient(180deg,#fca5a5,var(--rose))}
 .seq h4{margin:0;font-size:14px;letter-spacing:-.02em}
-.seq .meta{font-size:12px;color:var(--muted);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.donut{width:132px;height:132px}
-.legend{display:flex;flex-direction:column;gap:8px;font-size:12.5px}
+.seq .meta{font-size:12px;color:var(--muted);margin-top:4px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.donut{width:130px;height:130px}
+.legend{display:flex;flex-direction:column;gap:9px;font-size:12.5px}
 .legend .row{display:flex;align-items:center;gap:8px}
 .legend .dot{width:9px;height:9px;border-radius:3px}
-/* studio */
-.studio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
-.type-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;text-align:left;position:relative;overflow:hidden;transition:transform .18s cubic-bezier(.2,.8,.2,1),box-shadow .18s,border-color .18s}
+/* retention curve */
+.curve-wrap{position:relative}
+.curve-svg{width:100%;height:150px;display:block;overflow:visible}
+.curve-note{display:flex;gap:8px;font-size:12px;color:var(--muted);margin-top:12px;align-items:center}
+/* leaderboard */
+.lb-row{display:grid;grid-template-columns:120px 1fr 48px;gap:12px;align-items:center;padding:9px 0}
+.lb-row .nm{font-size:12.5px;font-weight:600;text-transform:capitalize}
+.lb-track{height:9px;border-radius:99px;background:var(--panel-3);overflow:hidden}
+.lb-track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.lb-track i.dim{background:linear-gradient(90deg,var(--line-2),var(--muted));opacity:.55}
+.lb-val{font-family:"JetBrains Mono",monospace;font-size:12.5px;font-weight:700;text-align:right}
+/* studio: type cards */
+.studio-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:13px}
+.type-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:17px;text-align:left;position:relative;overflow:hidden;transition:transform .18s var(--ease),box-shadow .18s,border-color .18s}
 .type-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--accent-line)}
-.type-card .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:13px}
-.type-card b{display:block;font-size:15px;letter-spacing:-.02em}
-.type-card p{margin:6px 0 12px;font-size:12px;color:var(--muted);line-height:1.5}
+.type-card:focus-visible{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.type-card .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:12px}
+.type-card b{display:block;font-size:14.5px;letter-spacing:-.02em;text-transform:capitalize}
+.type-card p{margin:6px 0 12px;font-size:12px;color:var(--muted);line-height:1.5;min-height:36px}
 .type-card .chips{display:flex;flex-wrap:wrap;gap:6px}
-.type-card .open{position:absolute;top:16px;right:16px;color:var(--muted);font-size:16px;opacity:0;transition:.18s}
-.type-card:hover .open{opacity:1;color:var(--accent)}
-/* studio: insight + library */
-.insight{display:grid;grid-template-columns:1.5fr 1fr;gap:0;overflow:hidden}
-.insight-main{padding:22px 24px}
-.insight-lab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);display:flex;align-items:center;gap:7px}
-.insight-p{font-size:14px;line-height:1.6;color:var(--ink-2);margin:12px 0 16px;max-width:56ch}
+.type-card .go{position:absolute;top:15px;right:15px;color:var(--muted);font-size:16px;opacity:0;transform:translateX(-4px);transition:.18s}
+.type-card:hover .go{opacity:1;transform:none;color:var(--accent-ink)}
+/* pipeline */
+.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:6px}
+.pipe-stage{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:13px 14px;text-align:left;transition:.15s;position:relative}
+.pipe-stage:hover{border-color:var(--line-2);box-shadow:var(--shadow-xs)}
+.pipe-stage.on{border-color:var(--accent-line);background:var(--accent-soft)}
+.pipe-stage .st-top{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.pipe-stage .st-top .dotb{width:7px;height:7px}
+.pipe-stage .n{font-size:22px;font-weight:800;letter-spacing:-.04em;margin-top:8px}
+.pipe-stage .lb{font-size:11px;color:var(--muted);margin-top:2px}
+.pipe-flow{display:flex;align-items:center;color:var(--line-2);font-size:14px}
+/* insight */
+.insight{display:grid;grid-template-columns:1.55fr 1fr;gap:0;overflow:hidden;position:relative}
+.insight::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 130% at 0% 0%,var(--accent-soft),transparent 46%);pointer-events:none}
+.insight-main{padding:22px 24px;position:relative}
+.insight-lab{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink);display:flex;align-items:center;gap:7px}
+.insight-p{font-size:14.5px;line-height:1.62;color:var(--ink-2);margin:12px 0 8px;max-width:58ch}
 .insight-p b{color:var(--ink);font-weight:700}
-.insight-actions{display:flex;gap:9px;flex-wrap:wrap}
-.insight-stats{background:var(--panel-2);border-left:1px solid var(--line);padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:center}
-.i-stat span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.i-stat b{display:block;font-size:24px;letter-spacing:-.04em;margin-top:4px}
-.i-stat small{font-size:11.5px;color:var(--muted)}.i-stat small.up{color:var(--accent);font-weight:700}
-.lib-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.diag-line{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--ink-2);margin:9px 0;line-height:1.5}
+.diag-line .di{width:22px;height:22px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;font-size:13px;margin-top:1px}
+.insight-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}
+.insight-stats{background:var(--panel-2);border-left:1px solid var(--line);padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px 14px;align-content:center;position:relative}
+.i-stat span{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.i-stat b{display:block;font-size:23px;letter-spacing:-.04em;margin-top:4px}
+.i-stat small{font-size:11.5px;color:var(--muted)}.i-stat small.up{color:var(--accent-ink);font-weight:700}
+/* section labels */
+.lib-h{display:flex;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap}
 .lib-h h3{margin:0;font-size:16px;letter-spacing:-.03em;display:flex;align-items:center;gap:8px}
+.lib-h h3 i{font-size:18px}
 .lib-sub{font-size:12px;color:var(--muted)}
-.carousel-create{width:100%;display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px dashed var(--line-2);border-radius:var(--radius);background:var(--panel);transition:.15s;text-align:left}
+.seg{display:inline-flex;gap:3px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);margin-left:auto}
+.seg button{padding:5px 11px;border-radius:8px;font-size:12px;font-weight:600;color:var(--muted);transition:.14s}
+.seg button.on{background:var(--panel);color:var(--ink);box-shadow:var(--shadow-xs)}
+.carousel-create{width:100%;display:flex;align-items:center;gap:14px;padding:15px 18px;border:1px dashed var(--line-2);border-radius:var(--radius);background:var(--panel);transition:.15s;text-align:left}
 .carousel-create:hover{border-color:var(--indigo);background:var(--indigo-soft)}
-.carousel-create .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.carousel-create .ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
 .carousel-create b{font-size:14.5px}.carousel-create p{margin:3px 0 0;font-size:12px;color:var(--muted)}
-/* accordion rows */
-.fold{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:10px;overflow:hidden;transition:box-shadow .15s,border-color .15s}
+/* frames rail */
+.frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+.frame{border:1px solid var(--line);border-radius:14px;background:linear-gradient(150deg,var(--panel),var(--panel-2));padding:16px;transition:.16s;text-align:left;position:relative;overflow:hidden}
+.frame:hover{border-color:var(--accent-line);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.frame .ft{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-ink)}
+.frame h4{margin:9px 0 3px;font-size:14.5px;letter-spacing:-.02em}
+.frame .fm{font-size:12px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.frame .fm b{color:var(--ink);font-family:"JetBrains Mono",monospace}
+.frame .steps{display:flex;gap:3px;margin:13px 0 2px}
+.frame .steps i{flex:1;height:5px;border-radius:99px;background:var(--accent-soft)}
+.frame .frame-cta{margin-top:13px;width:100%;justify-content:center}
+/* accordion */
+.fold{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:10px;overflow:hidden;transition:box-shadow .16s,border-color .16s}
 .fold.open{border-color:var(--accent-line);box-shadow:var(--shadow-md)}
-.fold-head{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:15px 18px;cursor:pointer}
-.fold-tag{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--muted);min-width:64px}
+.fold-head{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center;padding:14px 18px;cursor:pointer}
+.fold-head:hover{background:var(--panel-2)}
+.fold-tag{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;color:var(--muted);min-width:74px;display:flex;flex-direction:column;gap:3px}
+.fold-tag .status{font-size:9px;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
 .fold-title{min-width:0}
 .fold-title b{font-size:14px;letter-spacing:-.02em;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fold-title .sub{font-size:12px;color:var(--muted);margin-top:3px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .fold-widgets{display:flex;gap:8px;align-items:center}
-.mini-w{text-align:center;padding:6px 11px;border-radius:9px;background:var(--panel-2);border:1px solid var(--line);min-width:56px}
+.mini-w{text-align:center;padding:6px 10px;border-radius:9px;background:var(--panel-2);border:1px solid var(--line);min-width:52px}
 .mini-w b{display:block;font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:-.02em}
-.mini-w span{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
-.fold-chev{color:var(--muted);font-size:18px;transition:transform .2s}
-.fold.open .fold-chev{transform:rotate(180deg);color:var(--accent)}
-.fold-body{max-height:0;overflow:hidden;transition:max-height .28s cubic-bezier(.2,.8,.2,1)}
-.fold.open .fold-body{max-height:640px}
-.fold-inner{padding:4px 18px 18px;border-top:1px solid var(--line)}
-.mini-slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:14px 0}
-.mini-slide{border:1px solid var(--line);border-radius:11px;padding:12px;background:var(--panel-2);min-height:96px;position:relative}
-.mini-slide .n{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--accent)}
+.mini-w span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.mini-spark{display:flex;align-items:flex-end;gap:2px;height:26px;padding:0 3px}
+.mini-spark i{width:4px;border-radius:2px;background:var(--accent);opacity:.85}
+.mini-spark i.drop{background:var(--rose)}
+.fold-chev{color:var(--muted);font-size:18px;transition:transform .22s var(--ease)}
+.fold.open .fold-chev{transform:rotate(180deg);color:var(--accent-ink)}
+.fold-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s var(--ease)}
+.fold.open .fold-body{grid-template-rows:1fr}
+.fold-body>div{overflow:hidden}
+.fold-inner{padding:2px 18px 18px;border-top:1px solid var(--line)}
+.fold-diag{display:flex;gap:11px;align-items:flex-start;background:var(--panel-2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin:14px 0;font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.fold-diag .di{width:26px;height:26px;border-radius:8px;flex:none;display:flex;align-items:center;justify-content:center;font-size:14px}
+.fold-diag b{color:var(--ink)}
+.mini-slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px;margin:6px 0 14px}
+.mini-slide{border:1px solid var(--line);border-radius:11px;padding:12px;background:var(--panel-2);min-height:92px;position:relative}
+.mini-slide .n{font-size:9px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-ink)}
 .mini-slide .t{font-size:11.5px;line-height:1.4;margin-top:6px}
+.mini-slide .ret{position:absolute;bottom:8px;right:10px;font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:700;color:var(--muted)}
 .mini-slide.leak{border-color:var(--rose);background:var(--rose-soft)}
-.mini-slide.leak .n{color:var(--rose)}
-.car-slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(88px,1fr));gap:8px;margin:14px 0}
-.car-slide{aspect-ratio:9/16;border-radius:10px;background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;padding:9px;position:relative}
-.car-slide .num{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:800;color:var(--indigo)}
+.mini-slide.leak .n{color:var(--rose-ink)}
+.mini-slide.leak .ret{color:var(--rose-ink)}
+.car-slides{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin:12px 0}
+.car-slide{aspect-ratio:9/16;border-radius:10px;background:linear-gradient(165deg,var(--panel-2),var(--panel-3));border:1px solid var(--line);display:flex;flex-direction:column;justify-content:space-between;padding:9px;position:relative}
+.car-slide .num{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:800;color:var(--indigo-ink)}
 .car-slide .cap{font-size:9.5px;color:var(--muted);line-height:1.3}
+.lineage{display:flex;align-items:center;gap:0;margin:12px 0;flex-wrap:wrap}
+.lineage .v{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);font-size:12px}
+.lineage .v b{font-family:"JetBrains Mono",monospace}
+.lineage .v.win{border-color:var(--accent-line);background:var(--accent-soft);color:var(--accent-ink)}
+.lineage .arr{color:var(--muted);padding:0 8px;font-size:14px}
 .fold-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
 /* team */
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
-.member{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(244px,1fr));gap:14px}
+.member{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm);transition:.15s}
+.member:hover{border-color:var(--line-2);box-shadow:var(--shadow-md)}
 .member-top{display:flex;align-items:center;gap:12px}
-.avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff}
+.avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;color:#fff;flex:none}
 .member h4{margin:0;font-size:15px;letter-spacing:-.02em}
 .member .role{font-size:12px;color:var(--muted)}
 .member .contact{margin-top:14px;display:grid;gap:7px;font-size:12.5px}
-.member .contact a{display:flex;align-items:center;gap:8px;color:var(--ink-2);text-decoration:none}
-.member .contact a:hover{color:var(--accent)}
+.member .contact a{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
+.member .contact a:hover{color:var(--accent-ink)}
 .member .now{margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
-.member .now .lab{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.member .now .lab{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .member .now .task{font-size:13px;margin-top:6px;display:flex;align-items:center;gap:8px}
-.member .now .task i{color:var(--accent)}
+.member .now .task i{color:var(--accent-ink)}
 .day{display:flex;gap:5px;margin-top:12px}
-.day .slot{flex:1;height:30px;border-radius:7px;background:var(--panel-2);border:1px solid var(--line);position:relative;font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:700}
-.day .slot.busy{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
-/* board */
+.day .slot{flex:1;height:30px;border-radius:7px;background:var(--panel-2);border:1px solid var(--line);font-size:9px;color:var(--muted);display:flex;align-items:center;justify-content:center;font-weight:700}
+.day .slot.busy{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent-ink)}
 .board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .col-h{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px;display:flex;justify-content:space-between}
-.task-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;box-shadow:var(--shadow-sm)}
+.task-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:10px;box-shadow:var(--shadow-xs);transition:.14s}
+.task-card:hover{border-color:var(--line-2)}
 .task-card .t{font-size:13px;font-weight:600}
 .task-card .who{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;align-items:center;gap:7px}
 .who .av{width:20px;height:20px;border-radius:6px;font-size:10px;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
 /* plans + todos */
-.plan{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm)}
+.plan{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm);transition:.15s}
+.plan:hover{border-color:var(--line-2);box-shadow:var(--shadow-md)}
 .plan-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .plan h4{margin:0;font-size:15px;letter-spacing:-.02em}
-.plan .bar{height:7px;border-radius:99px;background:var(--panel-2);margin:14px 0 8px;overflow:hidden}
-.plan .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.plan .bar{height:7px;border-radius:99px;background:var(--panel-3);margin:14px 0 8px;overflow:hidden}
+.plan .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--accent-2));transition:width .5s var(--ease)}
 .plan p{margin:0;font-size:12.5px;color:var(--muted);line-height:1.55}
-.todo{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--panel);margin-bottom:10px}
+.plan .pmeta{display:flex;gap:8px;margin-top:12px;font-size:11.5px;color:var(--muted);align-items:center}
+.todo{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border:1px solid var(--line);border-radius:13px;background:var(--panel);margin-bottom:10px;transition:.15s}
+.todo:hover{border-color:var(--line-2)}
 .todo .chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--line-2);flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;cursor:pointer;transition:.15s;margin-top:1px}
+.todo .chk i{opacity:0;transform:scale(.5);transition:.15s}
 .todo.done .chk{background:var(--accent);border-color:var(--accent)}
+.todo.done .chk i{opacity:1;transform:none}
 .todo .t{font-size:13.5px;font-weight:600}
 .todo.done .t{text-decoration:line-through;color:var(--muted)}
 .todo .m{font-size:11.5px;color:var(--muted);margin-top:4px}
-.owner{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 7px;border-radius:6px}
-.owner.you{background:var(--accent-soft);color:var(--accent)}.owner.pf{background:var(--indigo-soft);color:var(--indigo)}
+.owner{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 7px;border-radius:6px;white-space:nowrap}
+.owner.you{background:var(--accent-soft);color:var(--accent-ink)}.owner.pf{background:var(--indigo-soft);color:var(--indigo-ink)}
 /* integrations */
-.intg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.intg{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:16px;display:flex;flex-direction:column;gap:12px}
-.intg-top{display:flex;align-items:center;gap:11px}
-.intg-logo{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff}
+.intg-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.intg{border:1px solid var(--line);border-radius:14px;background:var(--panel);padding:15px;display:flex;align-items:center;gap:13px}
+.intg-logo{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff;flex:none}
+.intg .in{flex:1;min-width:0}
 .intg b{font-size:13.5px}.intg .cat{font-size:11px;color:var(--muted)}
-.intg .st{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px}
-.intg .st .dot{width:7px;height:7px;border-radius:50%}
+.intg .st{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;color:var(--accent-ink)}
+.intg .st .dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+/* skeleton */
+.sk{background:linear-gradient(90deg,var(--panel-3) 25%,var(--panel-2) 50%,var(--panel-3) 75%);background-size:200% 100%;animation:shimmer 1.3s linear infinite;border-radius:8px}
+@keyframes shimmer{to{background-position:-200% 0}}
+.sk-fold{height:60px;margin-bottom:10px}
+/* empty */
+.empty{text-align:center;padding:44px 20px;border:1px dashed var(--line-2);border-radius:var(--radius);background:var(--panel-2)}
+.empty .ei{width:50px;height:50px;border-radius:14px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
+.empty h4{margin:0 0 5px;font-size:15px}
+.empty p{margin:0 auto 16px;font-size:13px;color:var(--muted);max-width:38ch;line-height:1.5}
 /* drawer + modal */
 .backdrop{position:fixed;inset:0;background:rgba(9,11,16,.5);backdrop-filter:blur(3px);z-index:var(--z-backdrop);opacity:0;pointer-events:none;transition:opacity .2s}
 .backdrop.show{opacity:1;pointer-events:auto}
-.drawer{position:fixed;top:0;right:0;height:100vh;width:min(460px,94vw);background:var(--panel);border-left:1px solid var(--line);box-shadow:var(--shadow-lg);z-index:var(--z-drawer);transform:translateX(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(460px,94vw);background:var(--panel);border-left:1px solid var(--line);box-shadow:var(--shadow-lg);z-index:var(--z-drawer);transform:translateX(100%);transition:transform .3s var(--ease);display:flex;flex-direction:column}
 .drawer.show{transform:none}
-.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:20px 22px;border-bottom:1px solid var(--line)}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:19px 22px;border-bottom:1px solid var(--line)}
 .drawer-head h3{margin:0;font-size:17px;letter-spacing:-.03em}
 .drawer-body{padding:22px;overflow:auto;flex:1}
-.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-48%) scale(.97);width:min(720px,94vw);max-height:88vh;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);z-index:var(--z-modal);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;overflow:hidden}
+.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-46%) scale(.97);width:min(720px,94vw);max-height:88vh;background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);z-index:var(--z-modal);opacity:0;pointer-events:none;transition:opacity .2s,transform .24s var(--ease);display:flex;flex-direction:column;overflow:hidden}
 .modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px;border-bottom:1px solid var(--line)}
-.modal-head .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:19px}
-.modal-head h3{margin:0;font-size:19px;letter-spacing:-.03em}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:19px 24px;border-bottom:1px solid var(--line)}
+.modal-head .ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.modal-head h3{margin:0;font-size:19px;letter-spacing:-.03em;text-transform:capitalize}
 .modal-head .sub{font-size:12.5px;color:var(--muted);margin-top:2px}
-.modal-body{padding:24px;overflow:auto}
-.field{display:grid;gap:7px;margin-bottom:16px}
+.modal-body{padding:22px 24px;overflow:auto}
+.field{display:grid;gap:7px;margin-bottom:15px}
 .field label{font-size:12px;font-weight:700}
-.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--panel-2);color:var(--ink);font:inherit;font-size:13px}
-.field textarea{resize:vertical;min-height:88px}
-.field input:focus,.field select:focus,.field textarea:focus{outline:2px solid var(--accent-line);border-color:var(--accent)}
+.field input,.field select,.field textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:11px;background:var(--panel-2);color:var(--ink);font:inherit;font-size:13px;transition:.14s}
+.field textarea{resize:vertical;min-height:82px;line-height:1.5}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .slide-strip{display:grid;gap:10px}
-.slide-mini{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--panel-2)}
-.slide-mini .n{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.slide-mini{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--panel-2);position:relative;transition:.14s}
+.slide-mini:hover{border-color:var(--line-2)}
+.slide-mini .n{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink)}
 .slide-mini .txt{font-size:13px;margin-top:6px;line-height:1.5}
 .slide-mini .photo{font-size:11.5px;color:var(--muted);margin-top:8px;display:flex;gap:7px;align-items:flex-start}
-.modal-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--line);background:var(--panel-2)}
+.modal-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:15px 24px;border-top:1px solid var(--line);background:var(--panel-2)}
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
 .set-row .l b{display:block;font-size:13.5px}
 .set-row .l span{font-size:12px;color:var(--muted)}
 .switch{width:42px;height:24px;border-radius:99px;background:var(--line-2);position:relative;flex:none;transition:.18s;cursor:pointer}
 .switch.on{background:var(--accent)}
-.switch i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.switch i{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .switch.on i{left:21px}
-.note{font-size:12px;color:var(--muted);background:var(--panel-2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;line-height:1.55}
-.preview-flag{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:70;background:var(--ink);color:var(--bg);font-size:12px;font-weight:700;padding:9px 16px;border-radius:99px;box-shadow:var(--shadow-lg);display:flex;gap:9px;align-items:center}
+.note{font-size:12px;color:var(--ink-2);background:var(--panel-2);border:1px solid var(--line);border-radius:11px;padding:12px 14px;line-height:1.55}
+.note b{color:var(--ink)}
+/* command palette */
+.cmdk-wrap{position:fixed;inset:0;z-index:var(--z-cmdk);display:flex;align-items:flex-start;justify-content:center;padding-top:13vh;background:rgba(9,11,16,.44);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .16s}
+.cmdk-wrap.show{opacity:1;pointer-events:auto}
+.cmdk{width:min(600px,94vw);background:var(--panel);border:1px solid var(--line-2);border-radius:16px;box-shadow:var(--shadow-lg);overflow:hidden;transform:translateY(-8px) scale(.99);transition:transform .18s var(--ease)}
+.cmdk-wrap.show .cmdk{transform:none}
+.cmdk-in{display:flex;align-items:center;gap:11px;padding:15px 18px;border-bottom:1px solid var(--line)}
+.cmdk-in i{font-size:19px;color:var(--muted)}
+.cmdk-in input{flex:1;border:none;background:none;font:inherit;font-size:15px;color:var(--ink);outline:none}
+.cmdk-list{max-height:min(52vh,420px);overflow:auto;padding:8px}
+.cmdk-group{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:12px 12px 5px}
+.cmdk-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;cursor:pointer;font-size:13.5px}
+.cmdk-item .ci{width:30px;height:30px;border-radius:8px;background:var(--panel-2);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--ink-2);flex:none}
+.cmdk-item .csub{font-size:11.5px;color:var(--muted);margin-top:1px}
+.cmdk-item .kbd{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:10px;color:var(--muted)}
+.cmdk-item.active{background:var(--accent-soft)}
+.cmdk-item.active .ci{background:var(--accent);color:#fff}
+.cmdk-item.active .cmain b{color:var(--accent-ink)}
+.cmdk-empty{padding:34px;text-align:center;color:var(--muted);font-size:13px}
+.cmdk-foot{display:flex;gap:16px;padding:10px 16px;border-top:1px solid var(--line);font-size:11px;color:var(--muted)}
+.cmdk-foot span{display:flex;align-items:center;gap:5px}
+.cmdk-foot kbd{font-family:"JetBrains Mono",monospace;background:var(--panel-2);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+/* toasts */
+.toasts{position:fixed;right:20px;bottom:20px;z-index:var(--z-toast);display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line-2);border-radius:13px;box-shadow:var(--shadow-lg);padding:13px 16px;min-width:280px;max-width:360px;animation:toastIn .28s var(--ease) both}
+.toast.out{animation:toastOut .24s var(--ease) forwards}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+.toast .ti-ic{width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.toast b{font-size:13px;display:block}
+.toast span{font-size:12px;color:var(--muted)}
+.preview-flag{position:fixed;left:20px;bottom:20px;z-index:70;background:var(--ink);color:var(--bg);font-size:12px;font-weight:600;padding:9px 15px;border-radius:99px;box-shadow:var(--shadow-lg);display:flex;gap:9px;align-items:center}
 .preview-flag .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-2)}
-@media(max-width:1080px){.week-strip{grid-template-columns:1fr}.g3,.g4,.board{grid-template-columns:1fr}.g2{grid-template-columns:1fr}}
-@media(max-width:900px){#app{grid-template-columns:1fr}.rail{position:sticky;height:auto;flex-direction:row;overflow:auto;gap:4px;align-items:center}.rail .nav-h,.rail-foot,.brand span{display:none}.nav-item{white-space:nowrap}.section{padding:20px 16px 60px}.topbar{padding:14px 16px}}
+/* responsive */
+@media(max-width:1180px){.week-strip{grid-template-columns:1fr 1fr}.pipe{grid-template-columns:repeat(3,1fr)}.pipe .pipe-flow{display:none}.insight{grid-template-columns:1fr}.insight-stats{border-left:none;border-top:1px solid var(--line)}}
+@media(max-width:1080px){.g3,.g4,.board{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}}
+@media(max-width:820px){#app{grid-template-columns:1fr}.rail{position:sticky;height:auto;flex-direction:row;overflow:auto;gap:4px;align-items:center;padding:10px}.rail .nav-h,.rail-foot,.brand span,.cmdk-hint{display:none}.nav-item{white-space:nowrap}.nav-item .count{display:none}.section{padding:20px 16px 70px}.topbar{padding:12px 16px}.week-strip,.g3,.g4,.board{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -266,13 +411,14 @@ main{min-width:0}
     <div class="nav-h">Overview</div>
     <button class="nav-item active" data-tab="home"><span class="ic"><i class="ti ti-layout-grid"></i></span> Home</button>
     <button class="nav-item" data-tab="revenue"><span class="ic"><i class="ti ti-currency-dollar"></i></span> Revenue</button>
-    <button class="nav-item" data-tab="performance"><span class="ic"><i class="ti ti-chart-line"></i></span> Performance</button>
+    <button class="nav-item" data-tab="performance"><span class="ic"><i class="ti ti-chart-histogram"></i></span> Performance</button>
     <div class="nav-h">Work</div>
-    <button class="nav-item" data-tab="studio"><span class="ic"><i class="ti ti-sparkles"></i></span> Studio</button>
+    <button class="nav-item" data-tab="studio"><span class="ic"><i class="ti ti-sparkles"></i></span> Studio <span class="count">7</span></button>
     <button class="nav-item" data-tab="plans"><span class="ic"><i class="ti ti-map-2"></i></span> Plans</button>
-    <button class="nav-item" data-tab="todos"><span class="ic"><i class="ti ti-checkbox"></i></span> To-dos</button>
+    <button class="nav-item" data-tab="todos"><span class="ic"><i class="ti ti-checkbox"></i></span> To-dos <span class="count">3</span></button>
     <button class="nav-item" data-tab="team"><span class="ic"><i class="ti ti-users"></i></span> Team</button>
     <div class="rail-foot">
+      <button class="cmdk-hint" onclick="openCmdk()"><i class="ti ti-command"></i> Quick actions <kbd>Ctrl K</kbd></button>
       <button class="nav-item" onclick="openSettings()"><span class="ic"><i class="ti ti-settings"></i></span> Settings</button>
       <button class="nav-item" onclick="toggleTheme()"><span class="ic"><i class="ti ti-moon"></i></span> Theme</button>
     </div>
@@ -280,8 +426,9 @@ main{min-width:0}
 
   <main>
     <div class="topbar">
-      <div class="crumb">Workspace / <b id="crumb">Home</b></div>
+      <div class="crumb">Workspace / <b id="crumb">Home</b> <span class="live"><i></i> Live</span></div>
       <div class="top-actions">
+        <button class="icon-btn" onclick="openCmdk()" title="Quick actions (Ctrl K)"><i class="ti ti-command"></i></button>
         <button class="icon-btn" onclick="openIntegrations()" title="Integrations"><i class="ti ti-plug-connected"></i></button>
         <button class="icon-btn" onclick="openSettings()" title="Settings"><i class="ti ti-settings"></i></button>
         <button class="btn btn-primary" onclick="go('studio')"><i class="ti ti-plus"></i> New sequence</button>
@@ -290,7 +437,9 @@ main{min-width:0}
 
     <!-- HOME -->
     <section class="section panel active" data-panel="home">
-      <div class="h-row"><div><h1>This week</h1><p>The one screen that shows the system working.</p></div></div>
+      <div class="h-row"><div><h1>This week</h1><p>The one screen that shows the system working.</p></div>
+        <div class="h-actions"><button class="btn btn-ghost" onclick="go('performance')"><i class="ti ti-chart-histogram"></i> Full metrics</button><button class="btn btn-primary" onclick="go('studio')"><i class="ti ti-sparkles"></i> Open Studio</button></div>
+      </div>
       <div class="week-strip">
         <div class="week-hero">
           <div class="lab">Cash collected · this week</div>
@@ -300,14 +449,20 @@ main{min-width:0}
         </div>
         <div class="mini"><div class="lab">Followers</div><div class="v mono">9,100</div><div class="d up"><i class="ti ti-trending-up"></i> +900 wk</div></div>
         <div class="mini"><div class="lab">$ / follower</div><div class="v mono">$0.88</div><div class="d up"><i class="ti ti-trending-up"></i> healthy</div></div>
+        <div class="mini"><div class="lab">DMs from stories</div><div class="v mono">41</div><div class="d up"><i class="ti ti-trending-up"></i> +12 wk</div></div>
+      </div>
+      <div class="next" style="margin-bottom:16px">
+        <div class="nic"><i class="ti ti-bolt"></i></div>
+        <div><h3>Your next move</h3><p>Credibility is converting at <b>74% completion</b>. Your value-driven opener is leaking at slide 2. Ship 2 more credibility sequences and retest that hook.</p></div>
+        <button class="btn btn-primary" onclick="go('studio')">Do it in Studio <i class="ti ti-arrow-right"></i></button>
       </div>
       <div class="grid g2">
-        <div class="card"><div class="card-head"><h3>Shipped this week</h3><span class="badge b-green">3 done</span></div><div class="card-pad" style="display:grid;gap:12px">
-          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check" style="color:var(--accent)"></i> Bio + start-here highlight live</div>
-          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check" style="color:var(--accent)"></i> 3 story sequences posted</div>
-          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check" style="color:var(--accent)"></i> Drop-off tracking on</div>
+        <div class="card"><div class="card-head"><h3><i class="ti ti-circle-check" style="color:var(--accent-ink)"></i> Shipped this week</h3><span class="badge b-green">3 done</span></div><div class="card-pad" style="display:grid;gap:12px">
+          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> Bio + start-here highlight live</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> 3 story sequences posted</div>
+          <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> Drop-off tracking on all stories</div>
         </div></div>
-        <div class="card"><div class="card-head"><h3>Owed this week</h3><span class="badge b-amber">2 open</span></div><div class="card-pad" style="display:grid;gap:12px">
+        <div class="card"><div class="card-head"><h3><i class="ti ti-clock" style="color:var(--amber-ink)"></i> Owed this week</h3><span class="badge b-amber">2 open</span></div><div class="card-pad" style="display:grid;gap:12px">
           <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle" style="color:var(--muted)"></i> Send 3 student result screenshots <span class="owner you" style="margin-left:auto">You</span></div>
           <div style="display:flex;gap:10px;align-items:center;font-size:13.5px"><i class="ti ti-circle" style="color:var(--muted)"></i> Record the value-driven sequence <span class="owner you" style="margin-left:auto">You</span></div>
         </div></div>
@@ -317,15 +472,15 @@ main{min-width:0}
     <!-- REVENUE -->
     <section class="section panel" data-panel="revenue">
       <div class="h-row"><div><h1>Revenue</h1><p>Live from your connected payment rails.</p></div>
-        <div style="display:flex;gap:9px"><button class="btn btn-ghost" onclick="openIntegrations()"><i class="ti ti-plug-connected"></i> Integrations</button><button class="btn btn-ghost" onclick="openSettings()"><i class="ti ti-settings"></i> Settings</button></div>
+        <div class="h-actions"><button class="btn btn-ghost" onclick="openIntegrations()"><i class="ti ti-plug-connected"></i> Integrations</button><button class="btn btn-ghost" onclick="openSettings()"><i class="ti ti-settings"></i> Settings</button></div>
       </div>
       <div class="grid g4" style="margin-bottom:16px">
-        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent)"><i class="ti ti-currency-dollar"></i></div></div><div class="lab">All-time collected</div><div class="v mono">$8,000</div><div class="src"><i></i> Stripe · live</div></div>
-        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo)"><i class="ti ti-calendar-dollar"></i></div></div><div class="lab">This month</div><div class="v mono">$3,000</div><div class="d up"><i class="ti ti-trending-up"></i> +60%</div></div>
-        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--amber-soft);color:#a76a09"><i class="ti ti-receipt"></i></div></div><div class="lab">Payments</div><div class="v mono">2</div><div class="src" style="color:var(--muted)">avg $4,000</div></div>
-        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent)"><i class="ti ti-target-arrow"></i></div></div><div class="lab">$100k tracker</div><div class="v mono">8%</div><div class="src" style="color:var(--muted)">$8k of $100k</div></div>
+        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-currency-dollar"></i></div></div><div class="lab">All-time collected</div><div class="v mono">$8,000</div><div class="src"><i class="dot"></i> Stripe · live</div></div>
+        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-calendar-dollar"></i></div></div><div class="lab">This month</div><div class="v mono">$3,000</div><div class="d up"><i class="ti ti-trending-up"></i> +60%</div></div>
+        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--amber-soft);color:var(--amber-ink)"><i class="ti ti-receipt"></i></div></div><div class="lab">Payments</div><div class="v mono">2</div><div class="src" style="color:var(--muted)">avg $4,000</div></div>
+        <div class="card kpi"><div class="kpi-top"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-target-arrow"></i></div></div><div class="lab">$100k tracker</div><div class="v mono">8%</div><div class="src" style="color:var(--muted)">$8k of $100k</div></div>
       </div>
-      <div class="card"><div class="card-head"><h3>Payment history</h3><button class="btn btn-ghost" onclick="openSettings()"><i class="ti ti-adjustments"></i> Configure</button></div>
+      <div class="card"><div class="card-head"><h3>Payment history</h3><button class="btn btn-ghost btn-sm" onclick="openSettings()"><i class="ti ti-adjustments"></i> Configure</button></div>
         <div class="card-pad" style="display:grid;gap:0">
           <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:14px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding-bottom:12px;border-bottom:1px solid var(--line)"><span>Note</span><span>Rail</span><span>Date</span><span style="text-align:right">Amount</span></div>
           <div style="display:grid;grid-template-columns:1fr auto auto auto;gap:14px;font-size:13px;padding:14px 0;border-bottom:1px solid var(--line);align-items:center"><span>Program payment</span><span class="badge b-indigo">Stripe</span><span class="mono" style="color:var(--muted)">Jul 5</span><span class="mono" style="text-align:right;font-weight:800">$5,000</span></div>
@@ -336,25 +491,36 @@ main{min-width:0}
 
     <!-- PERFORMANCE -->
     <section class="section panel" data-panel="performance">
-      <div class="h-row"><div><h1>Performance</h1><p>Every sequence, its drop-off, and the fix.</p></div><button class="btn btn-primary" onclick="alert('Log sequence form (demo)')"><i class="ti ti-plus"></i> Log sequence</button></div>
+      <div class="h-row"><div><h1>Performance</h1><p>What the data says: where you win, where you leak, what to fix.</p></div><button class="btn btn-primary" onclick="openLog()"><i class="ti ti-plus"></i> Log sequence</button></div>
       <div class="grid g4" style="margin-bottom:16px">
-        <div class="card kpi"><div class="lab">Avg completion</div><div class="v mono">56%</div><div class="d up"><i class="ti ti-trending-up"></i> +4pts wk</div></div>
+        <div class="card kpi"><div class="lab">Avg completion</div><div class="v mono">56%</div><div class="d up"><i class="ti ti-trending-up"></i> +4 pts wk</div></div>
         <div class="card kpi"><div class="lab">Cadence</div><div class="v mono">4 / 7</div><div class="src" style="color:var(--muted)">target 5–7</div></div>
-        <div class="card kpi"><div class="lab">DMs from stories</div><div class="v mono">24</div><div class="d up"><i class="ti ti-trending-up"></i> +9</div></div>
-        <div class="card kpi"><div class="lab">Best type</div><div class="v" style="font-size:19px;margin-top:9px">Credibility</div><div class="src" style="color:var(--muted)">71% completion</div></div>
+        <div class="card kpi"><div class="lab">DMs from stories</div><div class="v mono">41</div><div class="d up"><i class="ti ti-trending-up"></i> +12</div></div>
+        <div class="card kpi"><div class="lab">Best type</div><div class="v" style="font-size:19px;margin-top:9px">Credibility</div><div class="src" style="color:var(--muted)">74% completion</div></div>
+      </div>
+      <div class="grid" style="grid-template-columns:1.3fr 1fr;margin-bottom:16px">
+        <div class="card card-pad"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px"><h3 style="margin:0;font-size:14.5px">Where stories drop off</h3><span class="badge b-gray">avg of 4 live sequences</span></div>
+          <p style="margin:6px 0 4px;font-size:12.5px;color:var(--muted)">Slide-by-slide retention. The cliff is where the hook or the ask fails.</p>
+          <div class="curve-wrap" id="curveWrap"></div>
+          <div class="curve-note"><span class="badge b-rose">slide 2</span> biggest cliff — 41% of viewers leave. Fix the hook, not the offer.</div>
+        </div>
+        <div class="card card-pad"><h3 style="margin:0 0 3px;font-size:14.5px">Type leaderboard</h3>
+          <p style="margin:6px 0 14px;font-size:12.5px;color:var(--muted)">Completion by sequence type. Make more of the top.</p>
+          <div id="leaderboard"></div>
+        </div>
       </div>
       <div class="grid g2">
         <div class="card"><div class="card-head"><h3>Recent sequences</h3><span class="sub">drop-off diagnostic</span></div><div class="card-pad" style="display:grid;gap:12px">
-          <div class="seq"><div><h4>Student hit 50k month</h4><div class="meta"><span class="badge b-green">credibility</span><span>Jul 11</span><span>18 DMs</span></div><div class="seq-bars"><i style="height:100%"></i><i class="drop" style="height:74%"></i><i style="height:70%"></i><i style="height:67%"></i><i style="height:64%"></i><i style="height:62%"></i><i style="height:60%"></i><i style="height:58%"></i></div></div><div style="text-align:right"><span class="badge b-amber">hook failed</span><div class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">58% done</div></div></div>
+          <div class="seq"><div><h4>Student hit 50k month</h4><div class="meta"><span class="badge b-green">credibility</span><span>Jul 11</span><span>18 DMs</span></div><div class="seq-bars"><i style="height:100%"></i><i class="drop" style="height:74%"></i><i style="height:70%"></i><i style="height:67%"></i><i style="height:64%"></i><i style="height:62%"></i><i style="height:60%"></i><i style="height:58%"></i></div></div><div style="text-align:right"><span class="badge b-amber">hook soft</span><div class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">58% done</div></div></div>
           <div class="seq"><div><h4>How the profile funnel works</h4><div class="meta"><span class="badge b-indigo">value-driven</span><span>Jul 12</span><span>6 DMs</span></div><div class="seq-bars"><i style="height:100%"></i><i class="drop" style="height:37%"></i><i style="height:36%"></i><i style="height:34%"></i><i style="height:34%"></i><i style="height:33%"></i><i style="height:33%"></i></div></div><div style="text-align:right"><span class="badge b-rose">hook failed</span><div class="mono" style="font-size:12px;color:var(--muted);margin-top:8px">33% done</div></div></div>
         </div></div>
         <div class="card card-pad"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><h3 style="margin:0;font-size:14.5px">Audience reach</h3><span class="badge b-gray">this week</span></div>
-          <div style="display:flex;align-items:center;gap:20px;margin-top:14px">
+          <div style="display:flex;align-items:center;gap:20px;margin-top:16px">
             <svg class="donut" viewBox="0 0 42 42"><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--line)" stroke-width="6"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--indigo)" stroke-width="6" stroke-dasharray="62 38" stroke-dashoffset="25" stroke-linecap="round"></circle><circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--accent)" stroke-width="6" stroke-dasharray="38 62" stroke-dashoffset="-37" stroke-linecap="round"></circle></svg>
             <div class="legend">
               <div class="row"><span class="dot" style="background:var(--indigo)"></span> Non-followers <b class="mono" style="margin-left:auto">62%</b></div>
               <div class="row"><span class="dot" style="background:var(--accent)"></span> Followers <b class="mono" style="margin-left:auto">38%</b></div>
-              <div class="row" style="color:var(--muted);font-size:11.5px;margin-top:4px">21,043 views · reaching cold</div>
+              <div class="row" style="color:var(--muted);font-size:11.5px;margin-top:4px">21,043 views · reaching cold, healthy</div>
             </div>
           </div>
         </div>
@@ -363,16 +529,18 @@ main{min-width:0}
 
     <!-- STUDIO -->
     <section class="section panel" data-panel="studio">
-      <div class="h-row"><div><h1>Studio</h1><p>Your content engine — create, review, and see what's working.</p></div>
-        <div style="display:flex;gap:9px"><button class="btn btn-ghost" onclick="go('performance')"><i class="ti ti-chart-line"></i> Metrics</button><button class="btn btn-primary" onclick="scrollTo({top:0});document.getElementById('createRow').scrollIntoView({behavior:'smooth'})"><i class="ti ti-plus"></i> Create</button></div>
+      <div class="h-row"><div><h1>Studio</h1><p>Your content engine. Diagnose, create, track, retest, replicate.</p></div>
+        <div class="h-actions"><button class="btn btn-ghost" onclick="reloadLib()"><i class="ti ti-refresh"></i> Sync data</button><button class="btn btn-primary" onclick="scrollToEl('createRow')"><i class="ti ti-plus"></i> Create</button></div>
       </div>
 
-      <!-- insight / summary strip -->
-      <div class="insight card" style="margin-bottom:20px">
+      <!-- insight / diagnosis engine -->
+      <div class="insight card" style="margin-bottom:18px">
         <div class="insight-main">
           <div class="insight-lab"><i class="ti ti-bulb"></i> This week's read</div>
-          <p class="insight-p"><b>Credibility is your best type</b> — 71% completion, 18 DMs. Your value-driven sequences are leaking at slide 2, so the hook needs work. <b>Make 2 more credibility sequences</b> and rewrite the value-driven opener.</p>
-          <div class="insight-actions"><button class="btn btn-primary" onclick="openType(1)"><i class="ti ti-sparkles"></i> Generate a credibility sequence</button><button class="btn btn-ghost" onclick="alert('Reiterate the best performer (demo)')"><i class="ti ti-repeat"></i> Reiterate the top performer</button></div>
+          <div class="diag-line"><div class="di" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-trophy"></i></div><div><b>Credibility is your best type</b> — 74% completion, 18 DMs a run. Student-result proof is carrying it.</div></div>
+          <div class="diag-line"><div class="di" style="background:var(--rose-soft);color:var(--rose-ink)"><i class="ti ti-alert-triangle"></i></div><div><b>Value-driven leaks at slide 2</b> — the hook loses 41% before the payoff. This is a hook problem, not a topic problem.</div></div>
+          <div class="diag-line"><div class="di" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-arrow-right"></i></div><div><b>The play:</b> ship 2 more credibility sequences off your winning frame, and retest the value-driven opener.</div></div>
+          <div class="insight-actions"><button class="btn btn-primary" onclick="openType(1)"><i class="ti ti-sparkles"></i> Generate a credibility sequence</button><button class="btn btn-soft" onclick="openRetest(0)"><i class="ti ti-flask"></i> Retest the leaking hook</button></div>
         </div>
         <div class="insight-stats">
           <div class="i-stat"><span>Sequences</span><b class="mono">12</b><small>this week</small></div>
@@ -382,40 +550,45 @@ main{min-width:0}
         </div>
       </div>
 
+      <!-- content pipeline -->
+      <div class="lib-h"><h3><i class="ti ti-arrow-guide" style="color:var(--accent-ink)"></i> Content pipeline</h3><span class="lib-sub">Everything in flight — click a stage to filter the library</span></div>
+      <div class="pipe" id="pipe" style="margin-bottom:26px"></div>
+
       <!-- create -->
-      <div class="lib-h" id="createRow"><h3><i class="ti ti-plus" style="color:var(--accent)"></i> Create new</h3><span class="lib-sub">Pick a type — build, edit, and send for review</span></div>
-      <div class="studio-grid" id="studioGrid" style="margin-bottom:14px"></div>
-      <button class="carousel-create" onclick="openCarouselCreate()"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo)"><i class="ti ti-layout-grid"></i></div><div style="text-align:left;flex:1"><b>Carousel</b><p>Methodology, taxonomy, or philosophy set — designed slide by slide.</p></div><i class="ti ti-arrow-right" style="color:var(--muted)"></i></button>
+      <div class="lib-h" id="createRow"><h3><i class="ti ti-plus" style="color:var(--accent-ink)"></i> Create new</h3><span class="lib-sub">Pick a type — build, edit, and send for review</span></div>
+      <div class="studio-grid" id="studioGrid" style="margin-bottom:13px"></div>
+      <button class="carousel-create" onclick="openCarouselCreate()"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-layout-grid"></i></div><div style="flex:1"><b>Carousel</b><p>Methodology, taxonomy, or philosophy set — designed slide by slide.</p></div><i class="ti ti-arrow-right" style="color:var(--muted)"></i></button>
+
+      <!-- winning frames -->
+      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-award" style="color:var(--accent-ink)"></i> Winning frames</h3><span class="lib-sub">Proven structures the data earned — reuse the skeleton, swap the proof</span></div>
+      <div class="frames" id="frames" style="margin-bottom:8px"></div>
 
       <!-- story sequences library -->
-      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-layers-subtract" style="color:var(--accent)"></i> Story sequences</h3><span class="lib-sub">Labeled by date — click to expand slides and metrics</span></div>
+      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-layers-subtract" style="color:var(--accent-ink)"></i> Story sequences</h3><span class="lib-sub">Labeled by date — expand for slides, retention, and retest</span>
+        <div class="seg" id="seqSeg"><button class="on" data-f="all">All</button><button data-f="live">Live</button><button data-f="review">In review</button><button data-f="testing">Testing</button></div>
+      </div>
       <div id="seqLib"></div>
 
       <!-- carousels library -->
-      <div class="lib-h" style="margin-top:26px"><h3><i class="ti ti-layout-grid" style="color:var(--indigo)"></i> Carousels</h3><span class="lib-sub">Labeled by number — click to expand slides and saves</span></div>
+      <div class="lib-h" style="margin-top:26px"><h3><i class="ti ti-layout-grid" style="color:var(--indigo-ink)"></i> Carousels</h3><span class="lib-sub">Labeled by number — expand for slides and saves</span></div>
       <div id="carLib"></div>
     </section>
 
     <!-- PLANS -->
     <section class="section panel" data-panel="plans">
-      <div class="h-row"><div><h1>Plans</h1><p>Your game plan, phase by phase.</p></div><button class="btn btn-ghost"><i class="ti ti-plus"></i> Add plan</button></div>
+      <div class="h-row"><div><h1>Plans</h1><p>Your game plan, phase by phase.</p></div><span class="badge b-green" style="align-self:center">Phase 1 of 4</span></div>
       <div class="grid g2">
-        <div class="plan"><div class="plan-top"><h4>Phase 1 · Profile funnel</h4><span class="badge b-green">In progress</span></div><div class="bar"><i style="width:70%"></i></div><p>Bio rewrite, start-here highlight, and proof pin post go live this week.</p></div>
-        <div class="plan"><div class="plan-top"><h4>Phase 2 · Sequence engine</h4><span class="badge b-gray">Next</span></div><div class="bar"><i style="width:15%"></i></div><p>5 sequences a week across the 7 types, tracked in Performance.</p></div>
-        <div class="plan"><div class="plan-top"><h4>Phase 3 · Reels ladder</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Match reel formats to stage; reach then harvest.</p></div>
-        <div class="plan"><div class="plan-top"><h4>Phase 4 · Offer + funnel</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Tighten the offer and the DM-to-call path.</p></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 1 · Profile funnel</h4><span class="badge b-green">In progress</span></div><div class="bar"><i style="width:70%"></i></div><p>Bio rewrite, start-here highlight, and proof pin post go live this week.</p><div class="pmeta"><i class="ti ti-calendar"></i> Jul 8 – Jul 20 <span style="margin-left:auto" class="mono">70%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 2 · Sequence engine</h4><span class="badge b-gray">Next</span></div><div class="bar"><i style="width:15%"></i></div><p>5 sequences a week across the 7 types, tracked in Performance.</p><div class="pmeta"><i class="ti ti-calendar"></i> starts Jul 21 <span style="margin-left:auto" class="mono">15%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 3 · Reels ladder</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Match reel formats to stage; reach then harvest.</p><div class="pmeta"><i class="ti ti-calendar"></i> Aug <span style="margin-left:auto" class="mono">0%</span></div></div>
+        <div class="plan"><div class="plan-top"><h4>Phase 4 · Offer + funnel</h4><span class="badge b-gray">Queued</span></div><div class="bar"><i style="width:0%"></i></div><p>Tighten the offer and the DM-to-call path.</p><div class="pmeta"><i class="ti ti-calendar"></i> Aug <span style="margin-left:auto" class="mono">0%</span></div></div>
       </div>
     </section>
 
     <!-- TODOS -->
     <section class="section panel" data-panel="todos">
-      <div class="h-row"><div><h1>To-dos</h1><p>Check these off as you complete them.</p></div></div>
-      <div style="max-width:640px">
-        <div class="todo done" onclick="this.classList.toggle('done')"><div class="chk"><i class="ti ti-check"></i></div><div style="flex:1"><div class="t">Approve the credibility sequence draft</div><div class="m">Due Jul 14</div></div><span class="owner you">You</span></div>
-        <div class="todo" onclick="this.classList.toggle('done')"><div class="chk"><i class="ti ti-check"></i></div><div style="flex:1"><div class="t">Send 3 student result screenshots</div><div class="m">Due Jul 15</div></div><span class="owner you">You</span></div>
-        <div class="todo" onclick="this.classList.toggle('done')"><div class="chk"><i class="ti ti-check"></i></div><div style="flex:1"><div class="t">Record the value-driven sequence</div><div class="m">Due Jul 16</div></div><span class="owner you">You</span></div>
-        <div class="todo" style="opacity:.75"><div class="chk" style="border-style:dashed;cursor:default"></div><div style="flex:1"><div class="t">Ship pin post to grid</div><div class="m">Pulsify handles this · Jul 17</div></div><span class="owner pf">Pulsify</span></div>
-      </div>
+      <div class="h-row"><div><h1>To-dos</h1><p>Check off what's yours. Grayed items are ours to handle.</p></div></div>
+      <div style="max-width:660px" id="todoList"></div>
     </section>
 
     <!-- TEAM -->
@@ -423,81 +596,83 @@ main{min-width:0}
       <div class="h-row"><div><h1>Team</h1><p>Who's on your build, and what they're working on today.</p></div></div>
       <div class="team-grid" style="margin-bottom:26px" id="teamGrid"></div>
       <h3 style="font-size:15px;letter-spacing:-.02em;margin:0 0 14px">What everyone's working on</h3>
-      <div class="board">
-        <div><div class="col-h">Operator <span class="mono">2</span></div>
-          <div class="task-card"><div class="t">Weekly game-plan review</div><div class="who"><span class="av" style="background:#0ea968">AB</span> Abdullah · today</div></div>
-          <div class="task-card"><div class="t">Offer tightening pass</div><div class="who"><span class="av" style="background:#0ea968">AB</span> Abdullah</div></div>
-        </div>
-        <div><div class="col-h">Content <span class="mono">3</span></div>
-          <div class="task-card"><div class="t">Edit credibility sequence</div><div class="who"><span class="av" style="background:#5b6cff">MX</span> Max · in progress</div></div>
-          <div class="task-card"><div class="t">Cut 3 reels from long form</div><div class="who"><span class="av" style="background:#5b6cff">MX</span> Max</div></div>
-          <div class="task-card"><div class="t">Carousel: 7-type breakdown</div><div class="who"><span class="av" style="background:#5b6cff">MX</span> Max</div></div>
-        </div>
-        <div><div class="col-h">Setter <span class="mono">1</span></div>
-          <div class="task-card"><div class="t">Work 18 warm DMs</div><div class="who"><span class="av" style="background:#f59e0b">HR</span> Herman · today</div></div>
-        </div>
-      </div>
+      <div class="board" id="board"></div>
     </section>
   </main>
 </div>
 
 <div class="backdrop" id="backdrop" onclick="closeAll()"></div>
 
-<!-- studio modal -->
-<div class="modal" id="typeModal" role="dialog" aria-modal="true">
+<!-- studio generator modal -->
+<div class="modal" id="typeModal" role="dialog" aria-modal="true" aria-labelledby="tmTitle">
   <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="ic" id="tmIc"></div><div><h3 id="tmTitle"></h3><div class="sub" id="tmSub"></div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
   <div class="modal-body">
-    <div class="grid g2" style="gap:14px;margin-bottom:18px">
+    <div class="grid g2" style="gap:14px;margin-bottom:4px">
       <div class="field"><label>Topic</label><input value="Student went from 2k to 70k months" /></div>
       <div class="field"><label>Goal</label><select><option>Booked calls</option><option>DMs</option><option>Reach</option></select></div>
     </div>
-    <div class="field"><label>Proof lines (one per line)</label><textarea>Student X: $70k month dashboard screenshot
+    <div class="field"><label>Proof lines (student results only — never lifestyle)</label><textarea>Student X: $70k month, Stripe dashboard screenshot
 Went from 0 followers to first client in 6 weeks</textarea></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin:20px 0 12px"><b style="font-size:13.5px">Generated slides</b><span class="badge b-gray">8 slides · draft</span></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px"><b style="font-size:13.5px">Generated slides</b><span class="badge b-gray" id="tmCount">8 slides · draft</span></div>
     <div class="slide-strip">
-      <div class="slide-mini"><div class="n">Slide 1 · curiosity</div><div class="txt">"I almost didn't post this student's result."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent)"></i> Phone-raw selfie, tired-but-real morning look</div></div>
-      <div class="slide-mini"><div class="n">Slide 4 · pain mirror</div><div class="txt">"You're posting daily and the DMs stay quiet."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent)"></i> Screenshot of a flat analytics graph</div></div>
-      <div class="slide-mini"><div class="n">Slide 7 · access</div><div class="txt">"This is the exact 8-slide frame that closed her."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent)"></i> The student's Stripe dashboard, numbers visible</div></div>
+      <div class="slide-mini"><div class="n">Slide 1 · curiosity</div><div class="txt">"I almost skipped posting this student's result."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Phone-raw selfie, tired-but-real morning look</div></div>
+      <div class="slide-mini"><div class="n">Slide 4 · pain mirror</div><div class="txt">"You're posting daily and the DMs stay quiet."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Screenshot of a flat analytics graph</div></div>
+      <div class="slide-mini"><div class="n">Slide 7 · access</div><div class="txt">"This is the exact 8-slide frame that closed her."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> The student's Stripe dashboard, numbers visible</div></div>
     </div>
   </div>
-  <div class="modal-foot"><button class="btn btn-ghost">Regenerate</button><button class="btn btn-ghost">Edit slides</button><button class="btn btn-primary"><i class="ti ti-send"></i> Send for review</button></div>
+  <div class="modal-foot"><span style="font-size:12px;color:var(--muted)"><i class="ti ti-shield-check" style="color:var(--accent-ink)"></i> Pulsify reviews before it posts</span><div style="display:flex;gap:10px"><button class="btn btn-ghost" onclick="toast('Regenerated','8 fresh slides drafted')">Regenerate</button><button class="btn btn-primary" onclick="closeAll();toast('Sent for review','Pulsify will approve within 24h')"><i class="ti ti-send"></i> Send for review</button></div></div>
+</div>
+
+<!-- retest modal -->
+<div class="modal" id="retestModal" role="dialog" aria-modal="true" aria-labelledby="rtTitle" style="width:min(620px,94vw)">
+  <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-flask"></i></div><div><h3 id="rtTitle">Retest the hook</h3><div class="sub">Change one variable, keep the rest, track the lift</div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+  <div class="modal-body">
+    <div class="fold-diag" style="margin-top:0"><div class="di" style="background:var(--rose-soft);color:var(--rose-ink)"><i class="ti ti-alert-triangle"></i></div><div><b>Slide 2 is the leak.</b> 41% of viewers left on the current opener: <span id="rtOld" style="color:var(--ink)"></span></div></div>
+    <div class="field"><label>New hook to test (slide 2)</label><textarea id="rtNew">"The DMs stayed quiet until I changed one thing on my profile."</textarea></div>
+    <div class="note"><b>How the retest works:</b> we run the new hook on the next posting of this sequence, hold slides 1 and 3–8 identical, and compare completion after 48 hours. The winner becomes the frame.</div>
+  </div>
+  <div class="modal-foot"><span style="font-size:12px;color:var(--muted)">Original stays live until the variant wins</span><button class="btn btn-primary" onclick="launchRetest()"><i class="ti ti-player-play"></i> Launch retest</button></div>
+</div>
+
+<!-- log sequence modal -->
+<div class="modal" id="logModal" role="dialog" aria-modal="true" style="width:min(560px,94vw)">
+  <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-chart-histogram"></i></div><div><h3>Log a posted sequence</h3><div class="sub">Pull the numbers in so the engine can learn</div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+  <div class="modal-body">
+    <div class="grid g2" style="gap:14px"><div class="field"><label>Sequence</label><input value="Student hit 50k month" /></div><div class="field"><label>Type</label><select><option>credibility</option><option>value-driven</option><option>Q&amp;A</option></select></div></div>
+    <div class="grid g3" style="gap:14px"><div class="field"><label>Views (slide 1)</label><input class="mono" value="4200" /></div><div class="field"><label>Views (last slide)</label><input class="mono" value="2436" /></div><div class="field"><label>DMs</label><input class="mono" value="18" /></div></div>
+    <div class="note">We compute completion, drop-off per slide, and DM rate automatically, then update your leaderboard and this week's read.</div>
+  </div>
+  <div class="modal-foot"><span></span><button class="btn btn-primary" onclick="closeAll();toast('Logged','Leaderboard and read updated')"><i class="ti ti-check"></i> Save metrics</button></div>
 </div>
 
 <!-- settings drawer -->
-<div class="drawer" id="settingsDrawer" role="dialog" aria-modal="true">
-  <div class="drawer-head"><h3>Workspace settings</h3><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+<div class="drawer" id="settingsDrawer" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+  <div class="drawer-head"><h3 id="setTitle">Workspace settings</h3><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
   <div class="drawer-body">
     <div class="field"><label>Business name</label><input value="Rio Vance" /></div>
     <div class="field"><label>Niche</label><input value="Subscription dropshipping mentorship" /></div>
     <div class="field"><label>Trigger word</label><input value="elevate" /></div>
     <div class="field"><label>Revenue goal</label><input value="$100,000" /></div>
     <div style="margin:22px 0 10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Preferences</div>
-    <div class="set-row"><div class="l"><b>Sequence review gate</b><span>Pulsify reviews before you post</span></div><div class="switch on" onclick="this.classList.toggle('on')"><i></i></div></div>
-    <div class="set-row"><div class="l"><b>Weekly report email</b><span>Every Monday</span></div><div class="switch on" onclick="this.classList.toggle('on')"><i></i></div></div>
-    <div class="set-row" style="border:none"><div class="l"><b>Show revenue to team</b><span>Off by default</span></div><div class="switch" onclick="this.classList.toggle('on')"><i></i></div></div>
-    <div class="note" style="margin-top:16px">This mirrors the GoHighLevel-style config: everything a client can customize about their workspace lives here.</div>
+    <div class="set-row"><div class="l"><b>Sequence review gate</b><span>Pulsify reviews before you post</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tSwitch(this)}"><i></i></div></div>
+    <div class="set-row"><div class="l"><b>Weekly report email</b><span>Every Monday</span></div><div class="switch on" role="switch" aria-checked="true" tabindex="0" onclick="tSwitch(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tSwitch(this)}"><i></i></div></div>
+    <div class="set-row" style="border:none"><div class="l"><b>Show revenue to team</b><span>Off by default</span></div><div class="switch" role="switch" aria-checked="false" tabindex="0" onclick="tSwitch(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();tSwitch(this)}"><i></i></div></div>
+    <div class="note" style="margin-top:16px">This is the GoHighLevel-style config: everything a client can customize about their workspace lives here.</div>
   </div>
 </div>
 
 <!-- integrations drawer -->
-<div class="drawer" id="intgDrawer" role="dialog" aria-modal="true">
-  <div class="drawer-head"><h3>Integrations</h3><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+<div class="drawer" id="intgDrawer" role="dialog" aria-modal="true" aria-labelledby="intgTitle">
+  <div class="drawer-head"><h3 id="intgTitle">Integrations</h3><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
   <div class="drawer-body">
     <p style="margin:0 0 16px;font-size:13px;color:var(--muted)">Connect the tools that feed your numbers and automate delivery.</p>
-    <div class="intg-grid">
-      <div class="intg"><div class="intg-top"><div class="intg-logo" style="background:#635bff">S</div><div><b>Stripe</b><div class="cat">Payments</div></div></div><div class="st" style="color:var(--accent)"><span class="dot" style="background:var(--accent)"></span> Connected</div></div>
-      <div class="intg"><div class="intg-top"><div class="intg-logo" style="background:#ff4f00">W</div><div><b>Whop</b><div class="cat">Payments · BNPL</div></div></div><button class="btn btn-ghost" style="justify-content:center">Connect</button></div>
-      <div class="intg"><div class="intg-top"><div class="intg-logo" style="background:#0d9488">F</div><div><b>Fanbasis</b><div class="cat">Payments · PIF</div></div></div><button class="btn btn-ghost" style="justify-content:center">Connect</button></div>
-      <div class="intg"><div class="intg-top"><div class="intg-logo" style="background:#facc15;color:#111">K</div><div><b>Kit</b><div class="cat">Email sequences</div></div></div><button class="btn btn-ghost" style="justify-content:center">Connect</button></div>
-      <div class="intg"><div class="intg-top"><div class="intg-logo" style="background:#ef4444">Y</div><div><b>YouTube</b><div class="cat">Content</div></div></div><button class="btn btn-ghost" style="justify-content:center">Connect</button></div>
-      <div class="intg"><div class="intg-top"><div class="intg-logo" style="background:#5b6cff">C</div><div><b>Cal.com</b><div class="cat">Booking</div></div></div><button class="btn btn-ghost" style="justify-content:center">Connect</button></div>
-    </div>
+    <div class="intg-grid" id="intgGrid"></div>
   </div>
 </div>
 
 <!-- team member modal -->
 <div class="modal" id="memberModal" role="dialog" aria-modal="true" style="width:min(520px,94vw)">
-  <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="avatar" id="mmAv" style="width:44px;height:44px"></div><div><h3 id="mmName"></h3><div class="sub" id="mmRole"></div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
+  <div class="modal-head"><div style="display:flex;gap:13px;align-items:center"><div class="avatar" id="mmAv"></div><div><h3 id="mmName"></h3><div class="sub" id="mmRole"></div></div></div><button class="icon-btn" onclick="closeAll()" aria-label="Close"><i class="ti ti-x"></i></button></div>
   <div class="modal-body">
     <div style="display:grid;gap:9px;font-size:13px" id="mmContact"></div>
     <div style="margin:20px 0 10px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)">Today's calendar</div>
@@ -507,85 +682,223 @@ Went from 0 followers to first client in 6 weeks</textarea></div>
   </div>
 </div>
 
+<!-- command palette -->
+<div class="cmdk-wrap" id="cmdkWrap" role="dialog" aria-modal="true" aria-label="Quick actions">
+  <div class="cmdk">
+    <div class="cmdk-in"><i class="ti ti-search"></i><input id="cmdkInput" placeholder="Jump to a section, create, or retest…" autocomplete="off"></div>
+    <div class="cmdk-list" id="cmdkList"></div>
+    <div class="cmdk-foot"><span><kbd>↑↓</kbd> navigate</span><span><kbd>↵</kbd> run</span><span><kbd>esc</kbd> close</span></div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
 <div class="preview-flag"><span class="dot"></span> Redesign preview · demo data · not wired to the DB yet</div>
 
 <script>
+const $=id=>document.getElementById(id);const bd=$('backdrop');
+
+/* ---------- data (grounded in the vault frameworks) ---------- */
 const TYPES=[
  {k:'value-driven',ic:'ti-bulb',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'Solves a real problem, gives actionable steps.',chips:['1-2x/wk','Expertise','All niches']},
- {k:'credibility',ic:'ti-trophy',c:'#5b6cff',bg:'rgba(91,108,255,.12)',d:'Client wins and transformations that speak louder than claims.',chips:['2-3x/wk','Trust','Saturated']},
+ {k:'credibility',ic:'ti-trophy',c:'#5b6cff',bg:'rgba(91,108,255,.12)',d:'Client wins that speak louder than any claim.',chips:['2-3x/wk','Trust','Saturated']},
  {k:'Q&A',ic:'ti-message-2',c:'#0ea5e9',bg:'rgba(14,165,233,.12)',d:'Answers FAQs, pre-handles objections.',chips:['1x/wk','Friction','Skeptical']},
- {k:'day-in-the-life',ic:'ti-sun',c:'#f59e0b',bg:'rgba(245,158,11,.14)',d:'Hour-by-hour, unfiltered walkthrough of a day.',chips:['1-2x/mo','Familiarity','B2C']},
+ {k:'day-in-the-life',ic:'ti-sun',c:'#e08e0b',bg:'rgba(224,142,11,.14)',d:'Hour-by-hour, unfiltered walkthrough of a day.',chips:['1-2x/mo','Familiarity','B2C']},
  {k:'breakdown',ic:'ti-list-details',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'Breaks down the mechanism behind your results.',chips:['1x/wk','Pricing','DWY/DFY']},
- {k:'lifestyle',ic:'ti-mountain',c:'#5b6cff',bg:'rgba(91,108,255,.12)',d:'The 20% human share. For Pulsify: humanity, not flex.',chips:['1-2x/wk','Desire','Biz-opp']},
- {k:'CTA',ic:'ti-send',c:'#f43f5e',bg:'rgba(244,63,94,.12)',d:'Converts attention into PIFs. Every prior sequence pays off.',chips:['<1x/mo','Demand','All niches']},
- {k:'start-here',ic:'ti-flag',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'The permanent silent sales pitch. Story to proof to close.',chips:['Permanent','Convert','Highlight']},
- {k:'story launch',ic:'ti-rocket',c:'#f59e0b',bg:'rgba(245,158,11,.14)',d:'A short webinar told in stories. The money sequence.',chips:['Campaign','Sell','Warm list']}
+ {k:'lifestyle',ic:'ti-mountain',c:'#5b6cff',bg:'rgba(91,108,255,.12)',d:'The 20% human share. Humanity, not flex.',chips:['1-2x/wk','Desire','Biz-opp']},
+ {k:'CTA',ic:'ti-send',c:'#f43f5e',bg:'rgba(244,63,94,.12)',d:'Converts attention into PIFs. Prior sequences pay off.',chips:['<1x/mo','Demand','All niches']},
+ {k:'start-here',ic:'ti-flag',c:'#0ea968',bg:'rgba(14,169,104,.12)',d:'The permanent silent sales pitch on your profile.',chips:['Permanent','Convert','Highlight']},
+ {k:'story launch',ic:'ti-rocket',c:'#e08e0b',bg:'rgba(224,142,11,.14)',d:'A short webinar told in stories. The money sequence.',chips:['Campaign','Sell','Warm list']}
 ];
-const TEAM=[
- {n:'Abdullah',r:'Strategy & direction',av:'AB',c:'#0ea968',email:'abod@pulsify.co',mail:'DM on Slack',task:'Weekly game-plan review',busy:[0,0,1,1,0,1,0],tasks:['Weekly game-plan review','Offer tightening pass']},
- {n:'Max',r:'Creative director',av:'MX',c:'#5b6cff',email:'max@pulsify.co',mail:'DM on Slack',task:'Editing credibility sequence',busy:[1,1,0,1,1,0,0],tasks:['Edit credibility sequence','Cut 3 reels from long form','Carousel: 7-type breakdown']},
- {n:'Herman',r:'Setter',av:'HR',c:'#f59e0b',email:'herman@pulsify.co',mail:'DM on Slack',task:'Working 18 warm DMs',busy:[0,1,1,0,0,1,1],tasks:['Work 18 warm DMs']}
+const PIPE=[
+ {k:'idea',lab:'Ideas',n:5,c:'var(--muted)'},
+ {k:'draft',lab:'Drafting',n:2,c:'var(--sky)'},
+ {k:'review',lab:'In review',n:1,c:'var(--amber)'},
+ {k:'scheduled',lab:'Scheduled',n:2,c:'var(--indigo)'},
+ {k:'live',lab:'Live',n:4,c:'var(--accent)'},
+ {k:'testing',lab:'Retesting',n:1,c:'var(--rose)'}
 ];
-const SLOTS=['9','11','1','3','5','7','9'];
-const $=id=>document.getElementById(id);const bd=$('backdrop');
-// nav
-document.querySelectorAll('.nav-item[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
-function go(tab){document.querySelectorAll('.nav-item[data-tab]').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));$('crumb').textContent=tab.charAt(0).toUpperCase()+tab.slice(1).replace('-',' ');window.scrollTo({top:0})}
-// studio
-$('studioGrid').innerHTML=TYPES.map((t,i)=>`<button class="type-card" onclick="openType(${i})"><span class="open"><i class="ti ti-arrows-diagonal"></i></span><div class="ic" style="background:${t.bg};color:${t.c}"><i class="ti ${t.ic}"></i></div><b>${t.k}</b><p>${t.d}</p><div class="chips">${t.chips.map((c,j)=>`<span class="badge ${j===0?'b-green':'b-gray'}">${c}</span>`).join('')}</div></button>`).join('');
-function openType(i){const t=TYPES[i];$('tmIc').style.background=t.bg;$('tmIc').style.color=t.c;$('tmIc').innerHTML=`<i class="ti ${t.ic}"></i>`;$('tmTitle').textContent=t.k+' sequence';$('tmSub').textContent=t.d;show('typeModal')}
-function openCarouselCreate(){alert('Carousel builder (demo): methodology / taxonomy / philosophy set')}
-// story sequence library
 const SEQS=[
- {date:'Jul 12',type:'value-driven',topic:'How the profile funnel works',comp:33,dm:6,views:'3.8k',diag:'hook failed',diagc:'b-rose',slides:[{n:'1 · curiosity',t:'"Everyone gets the profile funnel wrong."'},{n:'2 · pain',t:'"You post daily and nothing converts."',leak:1},{n:'3 · proof',t:'Screenshot of the funnel map'},{n:'7 · CTA',t:'"Comment ELEVATE for the breakdown."'}]},
- {date:'Jul 11',type:'credibility',topic:'Student hit 50k month',comp:58,dm:18,views:'4.2k',diag:'hook failed',diagc:'b-amber',slides:[{n:'1 · curiosity',t:'"I almost skipped posting this result."'},{n:'2 · pain',t:'"She was stuck at 2k for months."',leak:1},{n:'4 · proof',t:'Stripe dashboard, $50k visible'},{n:'8 · close',t:'"This is the frame that did it."'}]},
- {date:'Jul 9',type:'Q&A',topic:'Ask me anything · business + life',comp:74,dm:22,views:'5.1k',diag:'healthy',diagc:'b-green',slides:[{n:'1 · open',t:'"Ask me a question."'},{n:'3 · answer',t:'"How I structure my week."'},{n:'6 · answer',t:'"Why I stopped chasing views."'}]},
- {date:'Jul 7',type:'day-in-the-life',topic:'A full day building the brand',comp:61,dm:9,views:'6.0k',diag:'monitor',diagc:'b-gray',slides:[{n:'10am',t:'Testimonial with a client'},{n:'2pm',t:'Deep work block'},{n:'8:30pm',t:'Closed a client in Berlin'}]}
+ {date:'Jul 12',type:'value-driven',status:'testing',statusc:'b-rose',topic:'How the profile funnel works',comp:33,dm:6,views:'3.8k',curve:[100,59,57,55,54,53,53],diag:{ic:'ti-alert-triangle',c:'rose',t:'Hook failed. 41% left on slide 2 before the payoff. A retest is live.'},slides:[{n:'1 · curiosity',t:'"Everyone gets the profile funnel wrong.",',r:100},{n:'2 · pain',t:'"You post daily and nothing converts."',leak:1,r:59},{n:'3 · proof',t:'Screenshot of the funnel map',r:57},{n:'7 · CTA',t:'"Comment ELEVATE for the breakdown."',r:53}],variants:[{v:'v1',comp:33,note:'original'},{v:'v2',comp:null,note:'testing',testing:1}]},
+ {date:'Jul 11',type:'credibility',status:'live',statusc:'b-green',topic:'Student hit 50k month',comp:58,dm:18,views:'4.2k',curve:[100,74,70,67,64,62,60,58],diag:{ic:'ti-bulb',c:'amber',t:'Soft hook, strong body. Tighten slide 2 and this clears 70%.'},slides:[{n:'1 · curiosity',t:'"I almost skipped posting this result."',r:100},{n:'2 · pain',t:'"She was stuck at 2k for months."',leak:1,r:74},{n:'4 · proof',t:'Stripe dashboard, $50k visible',r:67},{n:'8 · close',t:'"This is the frame that did it."',r:58}]},
+ {date:'Jul 9',type:'Q&A',status:'live',statusc:'b-green',topic:'Ask me anything · business + life',comp:74,dm:22,views:'5.1k',curve:[100,88,82,79,77,76,74],diag:{ic:'ti-circle-check',c:'accent',t:'Healthy. Retention holds past slide 3 — this is a frame worth reusing.'},slides:[{n:'1 · open',t:'"Ask me a question."',r:100},{n:'3 · answer',t:'"How I structure my week."',r:82},{n:'6 · answer',t:'"Why I stopped chasing views."',r:74}]},
+ {date:'Jul 7',type:'day-in-the-life',status:'live',statusc:'b-green',topic:'A full day building the brand',comp:61,dm:9,views:'6.0k',curve:[100,80,74,70,66,63,61],diag:{ic:'ti-eye',c:'accent',t:'Good reach, mid DMs. Add a soft CTA on the last slide to harvest intent.'},slides:[{n:'10am',t:'Testimonial call with a client',r:100},{n:'2pm',t:'Deep work block',r:74},{n:'8:30pm',t:'Closed a client in Berlin',r:61}]},
+ {date:'Jul 4',type:'credibility',status:'review',statusc:'b-amber',topic:'From laid off to $12k month',comp:null,dm:null,views:'—',diag:{ic:'ti-clock',c:'indigo',t:'Drafted from the credibility frame. Waiting on your approval to schedule.'},slides:[{n:'1 · curiosity',t:'"He got laid off in March."',r:0},{n:'4 · proof',t:'Payout screenshot, $12k',r:0},{n:'8 · close',t:'"Same frame, comment ELEVATE."',r:0}]}
 ];
-$('seqLib').innerHTML=SEQS.map((s,i)=>`
- <div class="fold" id="sf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('sf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('sf${i}')}">
-   <div class="fold-tag">${s.date}</div>
-   <div class="fold-title"><b>${s.topic}</b><div class="sub"><span class="badge b-gray">${s.type}</span><span>${s.views} views</span></div></div>
-   <div class="fold-widgets">
-     <div class="mini-w"><b>${s.comp}%</b><span>done</span></div>
-     <div class="mini-w"><b>${s.dm}</b><span>DMs</span></div>
-     <span class="badge ${s.diagc}">${s.diag}</span>
-     <i class="ti ti-chevron-down fold-chev"></i>
-   </div></div>
-   <div class="fold-body"><div class="fold-inner">
-     <div class="mini-slides">${s.slides.map(sl=>`<div class="mini-slide ${sl.leak?'leak':''}"><div class="n">${sl.n}</div><div class="t">${sl.t}</div></div>`).join('')}</div>
-     <div class="fold-actions"><button class="btn btn-ghost"><i class="ti ti-edit"></i> Edit slides</button><button class="btn btn-ghost"><i class="ti ti-repeat"></i> Make another like this</button><button class="btn btn-ghost"><i class="ti ti-external-link"></i> View full</button></div>
-   </div></div></div>`).join('');
-// carousels library
+const FRAMES=[
+ {type:'credibility',ic:'ti-trophy',c:'#5b6cff',bg:'rgba(91,108,255,.12)',title:'8-slide proof frame',used:4,avg:71,steps:8,seed:1},
+ {type:'Q&A',ic:'ti-message-2',c:'#0ea5e9',bg:'rgba(14,165,233,.12)',title:'Open-loop AMA frame',used:3,avg:74,steps:7,seed:2},
+ {type:'day-in-the-life',ic:'ti-sun',c:'#e08e0b',bg:'rgba(224,142,11,.14)',title:'Morning-to-close frame',used:2,avg:61,steps:7,seed:3}
+];
 const CARS=[
  {num:'01',date:'Jul 10',title:'The 7-step onboarding method',type:'Methodology',saves:412,reach:'18.2k',slides:['Cover: pov onboarded','1 · Audit','2 · Profile','3 · Content','4 · Offer','5 · Revenue','6 · Sales','7 · Data','CTA: DM GA']},
  {num:'02',date:'Jun 28',title:'7 story-sequence types',type:'Taxonomy',saves:389,reach:'21.0k',slides:['Cover: $964k','1 · Value','2 · Credibility','3 · Q&A','4 · Day','5 · Breakdown','6 · Lifestyle','7 · CTA']},
- {num:'03',date:'Jun 15',title:'7 lessons about content',type:'Philosophy',saves:256,reach:'12.4k',slides:['Cover','Currency','Transposition','Intention','Invisible','Creativity','Angles','Differentiation']}
+ {num:'03',date:'Jun 15',title:'7 lessons about content',type:'Philosophy',saves:256,reach:'12.4k',slides:['Cover','Currency','Transposition','Intention','Invisible','Creativity','Angles','Difference']}
 ];
+const TEAM=[
+ {n:'Abdullah',r:'Strategy & direction',av:'AB',c:'#0ea968',email:'abod@pulsify.co',mail:'DM on Slack',task:'Weekly game-plan review',busy:[0,0,1,1,0,1,0],tasks:['Weekly game-plan review','Offer tightening pass'],role:'operator'},
+ {n:'Max',r:'Creative director',av:'MX',c:'#5b6cff',email:'max@pulsify.co',mail:'DM on Slack',task:'Editing credibility sequence',busy:[1,1,0,1,1,0,0],tasks:['Edit credibility sequence','Cut 3 reels from long form','Carousel: 7-type breakdown'],role:'content'},
+ {n:'Herman',r:'Setter',av:'HR',c:'#e08e0b',email:'herman@pulsify.co',mail:'DM on Slack',task:'Working 18 warm DMs',busy:[0,1,1,0,0,1,1],tasks:['Work 18 warm DMs'],role:'setter'}
+];
+const TODOS=[
+ {t:'Approve the credibility sequence draft',m:'Due Jul 14',owner:'you',done:1},
+ {t:'Send 3 student result screenshots',m:'Due Jul 15',owner:'you',done:0},
+ {t:'Record the value-driven sequence',m:'Due Jul 16',owner:'you',done:0},
+ {t:'Ship pin post to grid',m:'Pulsify handles this · Jul 17',owner:'pf',done:0,locked:1}
+];
+const INTG=[
+ {n:'Stripe',cat:'Payments',l:'S',c:'#635bff',on:1},
+ {n:'Whop',cat:'Payments · BNPL',l:'W',c:'#ff4f00',on:0},
+ {n:'Fanbasis',cat:'Payments · PIF',l:'F',c:'#0d9488',on:0},
+ {n:'Kit',cat:'Email sequences',l:'K',c:'#facc15',ci:'#111',on:0},
+ {n:'YouTube',cat:'Content',l:'Y',c:'#ef4444',on:0},
+ {n:'Cal.com',cat:'Booking',l:'C',c:'#5b6cff',on:0}
+];
+const SLOTS=['9','11','1','3','5','7','9'];
+const LB=[['credibility',74,0],['Q&A',74,0],['day-in-the-life',61,0],['value-driven',33,1],['breakdown',0,1],['lifestyle',0,1]];
+
+/* ---------- nav ---------- */
+document.querySelectorAll('.nav-item[data-tab]').forEach(b=>b.onclick=()=>go(b.dataset.tab));
+function go(tab){document.querySelectorAll('.nav-item[data-tab]').forEach(n=>n.classList.toggle('active',n.dataset.tab===tab));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab));$('crumb').textContent=tab.charAt(0).toUpperCase()+tab.slice(1).replace('-',' ');window.scrollTo({top:0})}
+function scrollToEl(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+
+/* ---------- studio: type cards ---------- */
+$('studioGrid').innerHTML=TYPES.map((t,i)=>`<button class="type-card" onclick="openType(${i})"><span class="go"><i class="ti ti-arrow-up-right"></i></span><div class="ic" style="background:${t.bg};color:${t.c}"><i class="ti ${t.ic}"></i></div><b>${t.k}</b><p>${t.d}</p><div class="chips">${t.chips.map((c,j)=>`<span class="badge ${j===0?'b-green':'b-gray'}">${c}</span>`).join('')}</div></button>`).join('');
+function openType(i){const t=TYPES[i];$('tmIc').style.background=t.bg;$('tmIc').style.color=t.c;$('tmIc').innerHTML=`<i class="ti ${t.ic}"></i>`;$('tmTitle').textContent=t.k+' sequence';$('tmSub').textContent=t.d;show('typeModal')}
+function openCarouselCreate(){toast('Carousel builder','Methodology / taxonomy / philosophy — demo')}
+
+/* ---------- pipeline ---------- */
+$('pipe').innerHTML=PIPE.map((s,i)=>`${i>0?'<div class="pipe-flow"><i class="ti ti-chevron-right"></i></div>':''}<button class="pipe-stage" data-stage="${s.k}" onclick="filterStage('${s.k}',this)"><div class="st-top"><span class="dotb" style="background:${s.c}"></span> ${s.lab}</div><div class="n mono">${s.n}</div><div class="lb">${s.k==='live'?'tracking now':s.k==='testing'?'variant running':'items'}</div></button>`).join('');
+let curStage=null;
+function filterStage(k,el){const on=curStage===k;curStage=on?null:k;document.querySelectorAll('.pipe-stage').forEach(p=>p.classList.remove('on'));if(!on)el.classList.add('on');const map={live:'live',review:'review',testing:'testing',scheduled:'review',draft:'review',idea:'all'};seqFilter=on?'all':(map[k]||'all');document.querySelectorAll('#seqSeg button').forEach(b=>b.classList.toggle('on',b.dataset.f===seqFilter));renderSeq();if(!on){scrollToEl('seqLib');toast('Filtered',`Showing ${k} sequences`)}}
+
+/* ---------- winning frames ---------- */
+$('frames').innerHTML=FRAMES.map((f,i)=>`<div class="frame"><div class="ft"><i class="ti ${f.ic}"></i> ${f.type}</div><h4>${f.title}</h4><div class="fm"><span>used <b>${f.used}x</b></span><span>avg <b>${f.avg}%</b></span><span><b>${f.steps}</b> slides</span></div><div class="steps">${Array.from({length:f.steps}).map(()=>'<i></i>').join('')}</div><button class="btn btn-soft frame-cta" onclick="openType(${f.seed})"><i class="ti ti-copy"></i> Create from this frame</button></div>`).join('');
+
+/* ---------- sequence library ---------- */
+let seqFilter='all';
+function miniSpark(curve){const mx=Math.max(...curve);return `<div class="mini-spark">${curve.map((v,i)=>`<i class="${curve[i]<curve[i-1]-20?'drop':''}" style="height:${Math.max(12,v/mx*100)}%"></i>`).join('')}</div>`}
+function seqCard(s,i){
+ const testing=s.status==='testing';
+ const lineage=s.variants?`<div class="lineage">${s.variants.map((v,j)=>`${j>0?'<span class="arr"><i class="ti ti-arrow-right"></i></span>':''}<div class="v ${v.testing?'':(v.comp>=s.comp&&j>0?'win':'')}"><b>${v.v}</b> ${v.testing?'<span class="badge b-rose">testing</span>':v.comp+'%'}</div>`).join('')}</div>`:'';
+ const widgets=testing?`<span class="badge b-rose"><i class="ti ti-flask"></i> retest live</span><i class="ti ti-chevron-down fold-chev"></i>`
+   :(s.comp===null?`<span class="badge b-amber">awaiting approval</span><i class="ti ti-chevron-down fold-chev"></i>`
+   :`<div class="mini-w"><b>${s.comp}%</b><span>done</span></div><div class="mini-w"><b>${s.dm}</b><span>DMs</span></div>${miniSpark(s.curve)}<i class="ti ti-chevron-down fold-chev"></i>`);
+ const dc={rose:'var(--rose-soft);color:var(--rose-ink)',amber:'var(--amber-soft);color:var(--amber-ink)',accent:'var(--accent-soft);color:var(--accent-ink)',indigo:'var(--indigo-soft);color:var(--indigo-ink)'}[s.diag.c];
+ return `<div class="fold" id="sf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('sf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('sf${i}')}">
+   <div class="fold-tag">${s.date}<span class="status ${s.statusc.replace('b-','')}" style="color:${s.statusc==='b-green'?'var(--accent-ink)':s.statusc==='b-rose'?'var(--rose-ink)':'var(--amber-ink)'}">${s.status}</span></div>
+   <div class="fold-title"><b>${s.topic}</b><div class="sub"><span class="badge b-gray">${s.type}</span><span>${s.views} views</span></div></div>
+   <div class="fold-widgets">${widgets}</div></div>
+   <div class="fold-body"><div><div class="fold-inner">
+     <div class="fold-diag"><div class="di" style="background:${dc}"><i class="ti ${s.diag.ic}"></i></div><div>${s.diag.t}</div></div>
+     ${lineage}
+     <div class="mini-slides">${s.slides.map(sl=>`<div class="mini-slide ${sl.leak?'leak':''}"><div class="n">${sl.n}</div><div class="t">${sl.t}</div>${sl.r?`<span class="ret">${sl.r}%</span>`:''}</div>`).join('')}</div>
+     <div class="fold-actions">${testing?`<button class="btn btn-ghost btn-sm"><i class="ti ti-git-compare"></i> Compare variants</button>`:`<button class="btn btn-ghost btn-sm"><i class="ti ti-edit"></i> Edit slides</button>`}<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openType(${TYPES.findIndex(t=>t.k===s.type)>-1?TYPES.findIndex(t=>t.k===s.type):1})"><i class="ti ti-copy"></i> Make another like this</button>${s.slides.some(sl=>sl.leak)?`<button class="btn btn-soft btn-sm" onclick="event.stopPropagation();openRetest(${i})"><i class="ti ti-flask"></i> Retest hook</button>`:''}<button class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i> View full</button></div>
+   </div></div></div></div>`;
+}
+function renderSeq(){const list=SEQS.filter(s=>seqFilter==='all'||s.status===seqFilter);$('seqLib').innerHTML=list.length?list.map((s)=>seqCard(s,SEQS.indexOf(s))).join(''):`<div class="empty"><div class="ei"><i class="ti ti-mood-search"></i></div><h4>Nothing here yet</h4><p>No ${seqFilter} sequences right now. Create one from a type above or a winning frame.</p><button class="btn btn-primary" onclick="scrollToEl('createRow')"><i class="ti ti-plus"></i> Create a sequence</button></div>`}
+document.querySelectorAll('#seqSeg button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#seqSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');seqFilter=b.dataset.f;renderSeq()});
+renderSeq();
+
+/* ---------- carousels ---------- */
 $('carLib').innerHTML=CARS.map((c,i)=>`
  <div class="fold" id="cf${i}"><div class="fold-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleFold('cf${i}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleFold('cf${i}')}">
    <div class="fold-tag">Carousel ${c.num}</div>
    <div class="fold-title"><b>${c.title}</b><div class="sub"><span class="badge b-indigo">${c.type}</span><span>${c.date}</span><span>${c.slides.length} slides</span></div></div>
-   <div class="fold-widgets">
-     <div class="mini-w"><b>${c.saves}</b><span>saves</span></div>
-     <div class="mini-w"><b>${c.reach}</b><span>reach</span></div>
-     <i class="ti ti-chevron-down fold-chev"></i>
-   </div></div>
-   <div class="fold-body"><div class="fold-inner">
+   <div class="fold-widgets"><div class="mini-w"><b>${c.saves}</b><span>saves</span></div><div class="mini-w"><b>${c.reach}</b><span>reach</span></div><i class="ti ti-chevron-down fold-chev"></i></div></div>
+   <div class="fold-body"><div><div class="fold-inner">
      <div class="car-slides">${c.slides.map((sl,j)=>`<div class="car-slide"><div class="num">${String(j+1).padStart(2,'0')}</div><div class="cap">${sl}</div></div>`).join('')}</div>
-     <div class="fold-actions"><button class="btn btn-ghost"><i class="ti ti-edit"></i> Edit</button><button class="btn btn-ghost"><i class="ti ti-repeat"></i> Make another like this</button><button class="btn btn-ghost"><i class="ti ti-external-link"></i> View full</button></div>
-   </div></div></div>`).join('');
+     <div class="fold-actions"><button class="btn btn-ghost btn-sm"><i class="ti ti-edit"></i> Edit</button><button class="btn btn-ghost btn-sm" onclick="openCarouselCreate()"><i class="ti ti-copy"></i> Make another like this</button><button class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i> View full</button></div>
+   </div></div></div></div>`).join('');
+
 function toggleFold(id){const el=$(id);el.classList.toggle('open');const h=el.querySelector('.fold-head');if(h)h.setAttribute('aria-expanded',el.classList.contains('open'))}
-// team
-$('teamGrid').innerHTML=TEAM.map((m,i)=>`<div class="member"><div class="member-top"><div class="avatar" style="background:${m.c}">${m.av}</div><div><h4>${m.n}</h4><div class="role">${m.r}</div></div></div><div class="contact"><a href="#"><i class="ti ti-mail"></i> ${m.email}</a><a href="#"><i class="ti ti-brand-slack"></i> ${m.mail}</a></div><div class="now"><div class="lab">Right now</div><div class="task"><i class="ti ti-player-play"></i> ${m.task}</div></div><div class="day">${m.busy.map((b,j)=>`<div class="slot ${b?'busy':''}">${SLOTS[j]}</div>`).join('')}</div><button class="btn btn-ghost" style="width:100%;justify-content:center;margin-top:13px" onclick="openMember(${i})">Open</button></div>`).join('');
-function openMember(i){const m=TEAM[i];$('mmAv').style.background=m.c;$('mmAv').textContent=m.av;$('mmName').textContent=m.n;$('mmRole').textContent=m.r;$('mmContact').innerHTML=`<a href="#" style="display:flex;gap:8px;color:var(--ink-2);text-decoration:none"><i class="ti ti-mail"></i> ${m.email}</a><a href="#" style="display:flex;gap:8px;color:var(--ink-2);text-decoration:none"><i class="ti ti-brand-slack"></i> ${m.mail}</a>`;$('mmDay').innerHTML=m.busy.map((b,j)=>`<div class="slot ${b?'busy':''}">${SLOTS[j]}</div>`).join('');$('mmTasks').innerHTML=m.tasks.map(t=>`<div class="task-card" style="margin:0"><div class="t">${t}</div></div>`).join('');show('memberModal')}
-// overlays
-function show(id){bd.classList.add('show');$(id).classList.add('show')}
-function closeAll(){bd.classList.remove('show');document.querySelectorAll('.modal,.drawer').forEach(m=>m.classList.remove('show'))}
+
+/* ---------- performance: retention curve + leaderboard ---------- */
+function drawCurve(){const w=560,h=150,pad=8,pts=[100,59,57,55,54,53,53];const n=pts.length;const x=i=>pad+i*((w-pad*2)/(n-1));const y=v=>h-pad-(v/100)*(h-pad*2);
+ let line=pts.map((v,i)=>`${i?'L':'M'}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(' ');
+ let area=line+` L${x(n-1).toFixed(1)} ${h-pad} L${pad} ${h-pad} Z`;
+ const dots=pts.map((v,i)=>`<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="${i===1?4.5:3}" fill="${i===1?'var(--rose)':'var(--accent)'}" stroke="var(--panel)" stroke-width="2"/>`).join('');
+ const labs=pts.map((v,i)=>`<text x="${x(i).toFixed(1)}" y="${h-1}" font-size="8.5" fill="var(--muted)" text-anchor="middle" font-family="JetBrains Mono">S${i+1}</text>`).join('');
+ $('curveWrap').innerHTML=`<svg class="curve-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none"><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".22"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs><path d="${area}" fill="url(#cg)"/><path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>${dots}${labs}</svg>`}
+$('leaderboard').innerHTML=LB.map(([nm,v,dim])=>`<div class="lb-row"><span class="nm">${nm}</span><div class="lb-track"><i class="${dim?'dim':''}" style="width:${v||3}%"></i></div><span class="lb-val">${v?v+'%':'—'}</span></div>`).join('');
+drawCurve();
+
+/* ---------- todos ---------- */
+function renderTodos(){$('todoList').innerHTML=TODOS.map((t,i)=>`<div class="todo ${t.done?'done':''} ${t.locked?'':''}" style="${t.locked?'opacity:.72':''}" ${t.locked?'':`onclick="toggleTodo(${i})"`}><div class="chk" ${t.locked?'style="border-style:dashed;cursor:default"':''}><i class="ti ti-check"></i></div><div style="flex:1"><div class="t">${t.t}</div><div class="m">${t.m}</div></div><span class="owner ${t.owner}">${t.owner==='you'?'You':'Pulsify'}</span></div>`).join('')}
+function toggleTodo(i){TODOS[i].done=!TODOS[i].done;renderTodos();if(TODOS[i].done)toast('Nice','Marked complete')}
+renderTodos();
+
+/* ---------- team ---------- */
+$('teamGrid').innerHTML=TEAM.map((m,i)=>`<div class="member"><div class="member-top"><div class="avatar" style="background:${m.c}">${m.av}</div><div><h4>${m.n}</h4><div class="role">${m.r}</div></div></div><div class="contact"><a href="#" onclick="return false"><i class="ti ti-mail"></i> ${m.email}</a><a href="#" onclick="return false"><i class="ti ti-brand-slack"></i> ${m.mail}</a></div><div class="now"><div class="lab">Right now</div><div class="task"><i class="ti ti-player-play-filled"></i> ${m.task}</div></div><div class="day">${m.busy.map((b,j)=>`<div class="slot ${b?'busy':''}">${SLOTS[j]}</div>`).join('')}</div><button class="btn btn-ghost btn-sm" style="width:100%;justify-content:center;margin-top:13px" onclick="openMember(${i})">Open</button></div>`).join('');
+function openMember(i){const m=TEAM[i];$('mmAv').style.background=m.c;$('mmAv').textContent=m.av;$('mmName').textContent=m.n;$('mmRole').textContent=m.r;$('mmContact').innerHTML=`<a href="#" onclick="return false" style="display:flex;gap:8px;color:var(--ink-2)"><i class="ti ti-mail"></i> ${m.email}</a><a href="#" onclick="return false" style="display:flex;gap:8px;color:var(--ink-2)"><i class="ti ti-brand-slack"></i> ${m.mail}</a>`;$('mmDay').innerHTML=m.busy.map((b,j)=>`<div class="slot ${b?'busy':''}">${SLOTS[j]}</div>`).join('');$('mmTasks').innerHTML=m.tasks.map(t=>`<div class="task-card" style="margin:0"><div class="t">${t}</div></div>`).join('');show('memberModal')}
+const ROLES={operator:'Operator',content:'Content',setter:'Setter'};
+$('board').innerHTML=Object.keys(ROLES).map(role=>{const tasks=TEAM.filter(m=>m.role===role).flatMap(m=>m.tasks.map(t=>({t,m})));return `<div><div class="col-h">${ROLES[role]} <span class="mono">${tasks.length}</span></div>${tasks.map(x=>`<div class="task-card"><div class="t">${x.t}</div><div class="who"><span class="av" style="background:${x.m.c}">${x.m.av}</span> ${x.m.n}</div></div>`).join('')}</div>`}).join('');
+
+/* ---------- integrations ---------- */
+$('intgGrid').innerHTML=INTG.map(g=>`<div class="intg"><div class="intg-logo" style="background:${g.c};color:${g.ci||'#fff'}">${g.l}</div><div class="in"><b>${g.n}</b><div class="cat">${g.cat}</div></div>${g.on?'<div class="st"><span class="dot"></span> Connected</div>':`<button class="btn btn-ghost btn-sm" onclick="toast('Connect ${g.n}','Opens OAuth — demo')">Connect</button>`}</div>`).join('');
+
+/* ---------- retest ---------- */
+let retestIdx=0;
+function openRetest(i){retestIdx=i;const s=SEQS[i];const leak=s.slides.find(sl=>sl.leak);$('rtTitle').textContent='Retest · '+s.topic;$('rtOld').textContent=leak?leak.t:'the current opener';show('retestModal')}
+function launchRetest(){const s=SEQS[retestIdx];if(s.status!=='testing'){s.status='testing';s.statusc='b-rose';s.variants=[{v:'v1',comp:s.comp,note:'original'},{v:'v2',comp:null,note:'testing',testing:1}];renderSeq()}closeAll();toast('Retest launched','Variant v2 is tracking — compare in 48h')}
+function openLog(){show('logModal')}
+
+/* ---------- overlays ---------- */
+let lastFocus=null;
+function show(id){lastFocus=document.activeElement;bd.classList.add('show');$(id).classList.add('show');const f=$(id).querySelector('input,textarea,button');if(f)setTimeout(()=>f.focus(),60)}
+function closeAll(){bd.classList.remove('show');document.querySelectorAll('.modal,.drawer').forEach(m=>m.classList.remove('show'));if(lastFocus)lastFocus.focus()}
 function openSettings(){show('settingsDrawer')}
 function openIntegrations(){show('intgDrawer')}
-function toggleTheme(){document.body.classList.toggle('dark')}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+function toggleTheme(){document.body.classList.toggle('dark');toast('Theme',document.body.classList.contains('dark')?'Dark mode':'Light mode')}
+function tSwitch(el){const on=el.classList.toggle('on');el.setAttribute('aria-checked',on)}
+
+/* ---------- toasts ---------- */
+function toast(title,sub){const el=document.createElement('div');el.className='toast';el.innerHTML=`<div class="ti-ic"><i class="ti ti-check"></i></div><div><b>${title}</b>${sub?`<span>${sub}</span>`:''}</div>`;$('toasts').appendChild(el);setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),240)},2600)}
+
+/* ---------- reload (skeleton demo) ---------- */
+function reloadLib(){const lib=$('seqLib');lib.innerHTML=Array.from({length:3}).map(()=>'<div class="sk sk-fold"></div>').join('');toast('Syncing','Pulling the latest metrics');setTimeout(()=>{renderSeq();toast('Synced','Metrics up to date')},900)}
+
+/* ---------- command palette ---------- */
+const CMDS=[
+ {g:'Go to',ic:'ti-layout-grid',t:'Home',s:'This week overview',run:()=>go('home')},
+ {g:'Go to',ic:'ti-currency-dollar',t:'Revenue',s:'Payments and goal',run:()=>go('revenue')},
+ {g:'Go to',ic:'ti-chart-histogram',t:'Performance',s:'Drop-off and leaderboard',run:()=>go('performance')},
+ {g:'Go to',ic:'ti-sparkles',t:'Studio',s:'The content engine',run:()=>go('studio')},
+ {g:'Go to',ic:'ti-map-2',t:'Plans',s:'Game plan by phase',run:()=>go('plans')},
+ {g:'Go to',ic:'ti-checkbox',t:'To-dos',s:'Your open items',run:()=>go('todos')},
+ {g:'Go to',ic:'ti-users',t:'Team',s:'Who is on your build',run:()=>go('team')},
+ {g:'Create',ic:'ti-trophy',t:'New credibility sequence',s:'Best type · 74%',run:()=>{go('studio');openType(1)}},
+ {g:'Create',ic:'ti-bulb',t:'New value-driven sequence',s:'Expertise play',run:()=>{go('studio');openType(0)}},
+ {g:'Create',ic:'ti-rocket',t:'New story launch',s:'The money sequence',run:()=>{go('studio');openType(8)}},
+ {g:'Create',ic:'ti-layout-grid',t:'New carousel',s:'Methodology / taxonomy',run:()=>{go('studio');openCarouselCreate()}},
+ {g:'Act',ic:'ti-flask',t:'Retest the leaking hook',s:'Value-driven · slide 2',run:()=>{go('studio');openRetest(0)}},
+ {g:'Act',ic:'ti-chart-histogram',t:'Log a posted sequence',s:'Feed the engine',run:()=>{go('performance');openLog()}},
+ {g:'Act',ic:'ti-refresh',t:'Sync data',s:'Pull latest metrics',run:()=>{go('studio');reloadLib()}},
+ {g:'Act',ic:'ti-plug-connected',t:'Integrations',s:'Connect your tools',run:openIntegrations},
+ {g:'Act',ic:'ti-settings',t:'Settings',s:'Workspace config',run:openSettings},
+ {g:'Act',ic:'ti-moon',t:'Toggle theme',s:'Light / dark',run:toggleTheme}
+];
+let cmdkI=0,cmdkView=CMDS;
+function openCmdk(){$('cmdkWrap').classList.add('show');$('cmdkInput').value='';cmdkFilter('');setTimeout(()=>$('cmdkInput').focus(),50)}
+function closeCmdk(){$('cmdkWrap').classList.remove('show')}
+function cmdkFilter(q){q=q.toLowerCase();cmdkView=CMDS.filter(c=>(c.t+' '+c.s+' '+c.g).toLowerCase().includes(q));cmdkI=0;renderCmdk()}
+function renderCmdk(){const l=$('cmdkList');if(!cmdkView.length){l.innerHTML='<div class="cmdk-empty">No matches. Try “retest”, “credibility”, or a section name.</div>';return}
+ let html='',lastG=null;cmdkView.forEach((c,i)=>{if(c.g!==lastG){html+=`<div class="cmdk-group">${c.g}</div>`;lastG=c.g}html+=`<div class="cmdk-item ${i===cmdkI?'active':''}" data-i="${i}" onclick="runCmd(${i})" onmousemove="setCmd(${i})"><div class="ci"><i class="ti ${c.ic}"></i></div><div class="cmain"><b>${c.t}</b><div class="csub">${c.s}</div></div>${i===cmdkI?'<span class="kbd">↵</span>':''}</div>`});l.innerHTML=html;const act=l.querySelector('.cmdk-item.active');if(act)act.scrollIntoView({block:'nearest'})}
+function setCmd(i){cmdkI=i;renderCmdk()}
+function runCmd(i){const c=cmdkView[i];closeCmdk();if(c)c.run()}
+$('cmdkInput').addEventListener('input',e=>cmdkFilter(e.target.value));
+$('cmdkWrap').addEventListener('click',e=>{if(e.target===$('cmdkWrap'))closeCmdk()});
+
+/* ---------- keyboard ---------- */
+document.addEventListener('keydown',e=>{
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('cmdkWrap').classList.contains('show')?closeCmdk():openCmdk();return}
+ if($('cmdkWrap').classList.contains('show')){
+   if(e.key==='ArrowDown'){e.preventDefault();cmdkI=Math.min(cmdkI+1,cmdkView.length-1);renderCmdk()}
+   else if(e.key==='ArrowUp'){e.preventDefault();cmdkI=Math.max(cmdkI-1,0);renderCmdk()}
+   else if(e.key==='Enter'){e.preventDefault();runCmd(cmdkI)}
+   else if(e.key==='Escape'){closeCmdk()}
+   return}
+ if(e.key==='Escape')closeAll();
+});
 </script>
 </body>
 </html>
