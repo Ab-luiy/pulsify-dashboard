@@ -56,6 +56,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[frameworks/messaging-reframe-system]] | CANONICAL: category-of-one recipe, the reframe formula (agreed belief -> unhearable reframe -> identity shift), direct/indirect mechanism dial, divide-by-three, polarity law, objection-to-content loop | 2026-07-12 |
 | [[frameworks/proof-system]] | CANONICAL: proof hierarchy (unfakeable archive -> receipts -> volume), 4-part screenshot structure, proof pin post, consumption ladder, client documentaries, collection rituals; Pulsify student-results currency | 2026-07-12 |
 | [[frameworks/carousel-system]] | CANONICAL: the 3 proven carousel structures (methodology-as-document, taxonomy/matrix, philosophy set), design system (cover=thumbnail, chip code, swipe engine), built from 3 captured Niksetting carousels; unblocks the portal carousel studio | 2026-07-12 |
+| [[frameworks/bio-optimization-system]] | CANONICAL: the bio doctrine (3-second stranger test, who-unboxed + specific-what, category-of-one name, backtrackable proof, attract/repel filter, two CTA paths, two positioning levels); the four score dimensions behind the dashboard Profile tab | 2026-07-13 |
 
 ---
 
