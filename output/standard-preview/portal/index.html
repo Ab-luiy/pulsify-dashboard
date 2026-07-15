@@ -430,6 +430,211 @@
     .photo-box strong,
     .review-note strong,
     .manual-card strong { display: block; font-size: 12px; }
+    .design-system-card {
+      display: grid;
+      gap: 12px;
+    }
+    .design-system-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      color: var(--ui-ink-2);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+    .design-system-key {
+      flex: 0 0 86px;
+      color: var(--ui-muted);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .dd {
+      display: grid;
+      gap: 7px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--ui-line);
+    }
+    .dd-row {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      color: var(--ui-muted);
+      font-size: 11.5px;
+      line-height: 1.45;
+    }
+    .dd-row b {
+      flex: 0 0 78px;
+      color: var(--ui-ink-2);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .dd-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 0;
+    }
+    .dd-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex: none;
+    }
+    .reels-grid,
+    .mode-grid,
+    .translate,
+    .angle-lib {
+      display: grid;
+      gap: 14px;
+    }
+    .mode-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .translate,
+    .angle-lib { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mode-card,
+    .capture-card,
+    .angle-card,
+    .rot-card,
+    .fmt,
+    .thought {
+      background: var(--ui-panel);
+      border: 1px solid var(--ui-line);
+      border-radius: 18px;
+      box-shadow: var(--ui-shadow-sm);
+    }
+    .mode-card,
+    .capture-card,
+    .angle-card,
+    .rot-card,
+    .fmt { padding: 18px; }
+    .mode-card h3,
+    .capture-card h3,
+    .rot-card h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: -.03em; }
+    .mode-card p,
+    .capture-card p,
+    .rot-card p,
+    .fmt p,
+    .angle-card .to {
+      margin: 0;
+      color: var(--ui-ink-2);
+      font-size: 12.5px;
+      line-height: 1.58;
+    }
+    .mode-ic {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      background: var(--ui-accent-soft);
+      color: var(--ui-accent);
+      font-weight: 900;
+    }
+    .capture-in {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .capture-in input {
+      width: 100%;
+      border: 1px solid var(--ui-line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--ui-panel) 88%, transparent);
+      color: var(--ui-ink);
+      padding: 12px 13px;
+    }
+    .capture-in button,
+    .fmt button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      color: #042b1b;
+      background: linear-gradient(135deg, var(--ui-accent), var(--ui-accent-2));
+      box-shadow: 0 14px 28px -18px rgba(14, 169, 104, .78);
+      font: 800 12px var(--ui-font);
+    }
+    .fmt button {
+      margin-top: 12px;
+      color: var(--ui-ink);
+      background: var(--ui-panel);
+      border: 1px solid var(--ui-line);
+      box-shadow: none;
+    }
+    .thought {
+      overflow: hidden;
+      transition: box-shadow .16s ease, border-color .16s ease;
+    }
+    .thought.open {
+      border-color: color-mix(in srgb, var(--ui-indigo) 40%, var(--ui-line));
+      box-shadow: var(--ui-shadow-md);
+    }
+    .thought-head {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 13px;
+      align-items: center;
+      padding: 14px 16px;
+      cursor: pointer;
+    }
+    .thought-head:hover { background: var(--ui-panel-2); }
+    .thought-ic {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--ui-indigo-soft);
+      color: var(--ui-indigo);
+      font-weight: 900;
+    }
+    .thought-title { font-size: 13.5px; font-weight: 800; }
+    .thought-angle { margin-top: 3px; color: var(--ui-muted); font-size: 11.5px; }
+    .thought-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows .24s ease;
+    }
+    .thought.open .thought-body { grid-template-rows: 1fr; }
+    .thought-body > div { overflow: hidden; padding: 0 16px 16px; }
+    .fmt strong,
+    .angle-card strong,
+    .rot-item strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 12px;
+    }
+    .angle-card strong { color: var(--ui-accent); }
+    .rot-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .rot-item {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--ui-line);
+      border-radius: 14px;
+      background: var(--ui-panel-2);
+      color: var(--ui-ink-2);
+      font-size: 12.5px;
+      line-height: 1.5;
+    }
+    .rot-item .tag {
+      color: var(--ui-indigo);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
     .sequence-strip {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(24px, 1fr));
@@ -496,7 +701,11 @@
       .two-col,
       .field-grid.two,
       .type-grid,
-      .sequence-summary { grid-template-columns: 1fr; }
+      .sequence-summary,
+      .mode-grid,
+      .translate,
+      .angle-lib,
+      .capture-in { grid-template-columns: 1fr; }
     }
     @media (max-width: 390px) {
       .rail-actions { grid-template-columns: 1fr; }
@@ -544,6 +753,7 @@
         <button class="tab-btn nav-item" data-tab="plans" type="button">Plans</button>
         <button class="tab-btn nav-item" data-tab="todos" type="button">To-dos</button>
         <button class="tab-btn nav-item" data-tab="studio" type="button">Studio</button>
+        <button class="tab-btn nav-item" data-tab="reels" type="button">Reels</button>
       </nav>
       <div class="rail-actions">
         <button class="theme-btn nav-item" id="themeButton" type="button">Switch theme</button>
@@ -754,6 +964,27 @@
               </div>
             </div>
 
+            <div class="studio-card design-system-card">
+              <h3>Design system</h3>
+              <p>Every generated slide now carries design direction, not just copy.</p>
+              <div class="design-system-row">
+                <span class="design-system-key">Annotation</span>
+                <div>Marker overlays call the reader's eye: red for pain or wrong path, green for the win, blue for proof direction, red box for receipts.</div>
+              </div>
+              <div class="design-system-row">
+                <span class="design-system-key">Type</span>
+                <div>Pill-box or drop-shadow text with left or right alignment, chosen per slide role.</div>
+              </div>
+              <div class="design-system-row">
+                <span class="design-system-key">Image class</span>
+                <div><span class="pill">proof screenshot</span> <span class="pill">device mockup</span> <span class="pill">proof wall</span> <span class="pill">real workspace</span></div>
+              </div>
+              <div class="design-system-row">
+                <span class="design-system-key">Chip code</span>
+                <div>Taxonomy slides use cadence, function, and audience chips. Lifestyle flex is not an available class.</div>
+              </div>
+            </div>
+
             <div class="history-card">
               <h3>Sequence history</h3>
               <p>Open any prior draft, review state, or approved sequence.</p>
@@ -767,6 +998,58 @@
               <h3>No sequence open yet</h3>
               <p>Generate a new sequence or open one from history. Manual-mode runs still save the prompt and can be sent for review after you draft the copy elsewhere.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-reels">
+        <div class="panel-head">
+          <div>
+            <h2>Reels</h2>
+            <div class="panel-note">Capture a raw thought, route it through a proven angle, and turn it into four content formats.</div>
+          </div>
+          <div class="panel-note">Session-only v1. No new storage table.</div>
+        </div>
+
+        <div class="reels-grid">
+          <div class="mode-grid">
+            <div class="mode-card">
+              <div class="mode-ic">R</div>
+              <h3>Redistribution</h3>
+              <p>Clip a long-form video or client call into the sharp 30 to 60 second moments, then write the hook and caption around the proof.</p>
+            </div>
+            <div class="mode-card">
+              <div class="mode-ic">O</div>
+              <h3>Origination</h3>
+              <p>A win, strategy, objection, or belief becomes a talking-head reel. The thought gets framed, then filmed in the creator's own words.</p>
+            </div>
+          </div>
+
+          <div class="capture-card">
+            <h3>Capture inbox</h3>
+            <p>Drop the raw thought as soon as it hits. The dashboard translates it into a reel, a story sequence, a carousel, and a long-form segment.</p>
+            <div class="capture-in">
+              <input id="captureInput" placeholder="closed a client who was skeptical about paying upfront" autocomplete="off">
+              <button id="captureButton" type="button">Translate</button>
+            </div>
+          </div>
+
+          <div id="thoughtList"></div>
+
+          <div>
+            <div class="panel-head" style="margin-bottom:12px">
+              <div>
+                <h2 style="font-size:22px">Angle library</h2>
+                <div class="panel-note">Every thought routes through one of these paths before it becomes a format.</div>
+              </div>
+            </div>
+            <div class="angle-lib" id="angleLib"></div>
+          </div>
+
+          <div class="rot-card">
+            <h3>Reframe rotator</h3>
+            <p>One belief can keep repeating without looking repeated. Change the presentation, keep the money message.</p>
+            <div class="rot-list" id="rotList"></div>
           </div>
         </div>
       </section>
@@ -797,6 +1080,22 @@
       ["start-here", "Build the permanent first highlight."],
       ["story launch", "Run the campaign story sequence."],
     ];
+    const REEL_ANGLES = [
+      ["A win", "Credibility sequence or proof reel"],
+      ["A new strategy", "Value-driven sequence or breakdown"],
+      ["A recurring belief", "Philosophy carousel or reframe reel"],
+      ["An objection you heard", "Q and A sequence or myth-buster reel"],
+      ["A behind-the-scenes moment", "Day-in-the-life story or process reel"],
+      ["A client transformation", "Proof pin post plus long-form breakdown"],
+    ];
+    const REFRAME_ROTATOR = [
+      ["reel", "A 20-second talking head with the belief stated plainly."],
+      ["story", "A value-driven sequence that walks through one profile fix."],
+      ["carousel", "A saveable philosophy or taxonomy set."],
+      ["long-form", "A deeper YouTube segment with the full mechanism."],
+      ["hook", "One bare hook to test the belief without building the full asset yet."],
+    ];
+    const FORMAT_LABELS = ["Reel", "Story sequence", "Carousel", "Long-form segment"];
     const state = {
       client: CLIENT,
       sections: {},
@@ -813,6 +1112,9 @@
         selectedType: "",
         rows: [],
         current: null,
+      },
+      reels: {
+        thoughts: loadSavedThoughts(),
       },
     };
 
@@ -831,7 +1133,15 @@
     $("saveSequenceLogButton").addEventListener("click", saveSequenceLog);
     $("clearSequenceLogButton").addEventListener("click", clearSequenceForm);
     $("saveSnapshotButton").addEventListener("click", saveSnapshot);
+    $("captureButton").addEventListener("click", addThought);
+    $("captureInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        addThought();
+      }
+    });
     setTodayDefaults();
+    renderReels();
     loadDashboard();
 
     async function loadDashboard() {
@@ -1043,7 +1353,7 @@
         renderHistory();
         renderCurrentSequence();
         showMessage(data.mode === "manual"
-          ? "No LLM key is configured here. The manual prompt was saved and is ready to copy."
+          ? "Manual prompt and slide design directions were saved."
           : (data.warning ? data.warning : "Sequence draft generated."), data.warning ? "warning" : "success");
         openTab("studio");
       } catch (error) {
@@ -1286,10 +1596,10 @@
           </div>
           ${row.review_note ? `<div class="review-note"><strong>Review note</strong><p>${esc(row.review_note)}</p></div>` : ""}
         </div>
-        ${row.manual_prompt && !slides.length ? `
+        ${row.manual_prompt && (row.output?.manual_mode || !slides.length) ? `
           <div class="manual-card">
             <h3>Manual prompt</h3>
-            <p>No model output was returned here, so the contract prompt is saved for copy-paste.</p>
+            <p>The copy contract is saved for Claude. The slide cards below carry the matching design direction.</p>
             <textarea readonly id="manualPromptBox">${esc(row.manual_prompt)}</textarea>
           </div>
         ` : ""}
@@ -1340,6 +1650,7 @@
                 <p>${esc(slide.photo?.primary || "")}</p>
                 ${slide.photo?.alternative ? `<p>Alternative: ${esc(slide.photo.alternative)}</p>` : ""}
               </div>
+              ${renderDesignDirection(slide)}
               <div class="slide-actions">
                 <button class="outline" type="button" data-copy-slide="${row.id}-${slide.n}">Copy slide</button>
               </div>
@@ -1384,6 +1695,255 @@
           localStorage.setItem(`pulsify_photo_check_${checkbox.dataset.photoCheck}`, checkbox.checked ? "1" : "0");
         });
       });
+    }
+
+    function renderDesignDirection(slide) {
+      const direction = normalizeSlideDesign(slide);
+      if (!direction) return "";
+      const annotations = direction.annotations;
+      const annotationText = annotations.length
+        ? annotations.map((item) => `${item.type || "none"} on ${item.target || "selected line"}`).join(", ")
+        : "none";
+      const treatment = `${direction.treatment.text}, ${direction.treatment.alignment}-aligned`;
+      const chips = direction.chips.length
+        ? direction.chips.map((chip) => `${chip.axis}: ${chip.label}`).join(", ")
+        : "";
+      return `
+        <div class="dd">
+          <div class="dd-row"><b>Annotation</b><span class="dd-chip"><span class="dd-dot" style="background:${annotationColor(annotations[0]?.type)}"></span>${esc(annotationText)}</span></div>
+          <div class="dd-row"><b>Image</b><span class="dd-chip"><span class="dd-dot" style="background:${imageClassColor(direction.imageClass)}"></span>${esc(direction.imageClass)}, ${esc(direction.artifactSlot)}</span></div>
+          <div class="dd-row"><b>Type</b><span>${esc(treatment)}</span></div>
+          ${chips ? `<div class="dd-row"><b>Chips</b><span>${esc(chips)}</span></div>` : ""}
+        </div>
+      `;
+    }
+
+    function normalizeSlideDesign(slide) {
+      const raw = slide?.design || slide?.design_direction || null;
+      if (!raw || typeof raw !== "object") return null;
+      const rawImageClass = raw.image_class && typeof raw.image_class === "object"
+        ? raw.image_class.type
+        : raw.image_class;
+      const rawArtifact = raw.artifact_slot
+        || (raw.image_class && typeof raw.image_class === "object" ? raw.image_class.artifact : "");
+      const annotations = Array.isArray(raw.annotations)
+        ? raw.annotations
+        : raw.annotation
+          ? (Array.isArray(raw.annotation) ? raw.annotation : [raw.annotation])
+          : [];
+      const treatment = raw.treatment && typeof raw.treatment === "object"
+        ? raw.treatment
+        : { text: raw.treatment || "pill-box", alignment: raw.alignment || "left" };
+      return {
+        annotations: annotations
+          .map((item) => (item && typeof item === "object" ? item : { type: String(item || "none"), target: "selected line" }))
+          .filter((item) => item.type)
+          .slice(0, 3),
+        imageClass: normalizeImageClass(rawImageClass),
+        artifactSlot: String(rawArtifact || "student-proof artifact").trim() || "student-proof artifact",
+        treatment: {
+          text: String(treatment.text || treatment.type || "pill-box").trim() === "drop-shadow" ? "drop-shadow" : "pill-box",
+          alignment: String(treatment.alignment || "left").trim() === "right" ? "right" : "left",
+        },
+        chips: Array.isArray(raw.chips) ? raw.chips.filter(Boolean).slice(0, 6) : [],
+      };
+    }
+
+    function normalizeImageClass(value) {
+      return [
+        "proof-screenshot",
+        "device-mockup",
+        "proof-wall",
+        "real-workspace",
+      ].includes(String(value || "").trim()) ? String(value || "").trim() : "real-workspace";
+    }
+
+    function annotationColor(type) {
+      const value = String(type || "");
+      if (value.includes("green")) return "var(--ui-accent)";
+      if (value.includes("blue")) return "var(--ui-sky)";
+      if (value === "none") return "var(--ui-muted)";
+      return "var(--ui-rose)";
+    }
+
+    function imageClassColor(value) {
+      return ({
+        "proof-screenshot": "var(--ui-accent)",
+        "device-mockup": "var(--ui-indigo)",
+        "proof-wall": "var(--ui-sky)",
+        "real-workspace": "var(--ui-amber)",
+      })[String(value || "")] || "var(--ui-muted)";
+    }
+
+    function renderReels() {
+      $("angleLib").innerHTML = REEL_ANGLES.map(([from, to]) => `
+        <div class="angle-card">
+          <strong>${esc(from)}</strong>
+          <div class="to">${esc(to)}</div>
+        </div>
+      `).join("");
+      $("rotList").innerHTML = REFRAME_ROTATOR.map(([tag, text]) => `
+        <div class="rot-item"><span class="tag">${esc(tag)}</span><div>${esc(text)}</div></div>
+      `).join("");
+      renderThoughts();
+    }
+
+    function renderThoughts() {
+      if (!state.reels.thoughts.length) {
+        $("thoughtList").innerHTML = `<div class="empty-card"><h3>No captured thoughts yet</h3><p>Capture one raw idea and the four-format translation appears here for this session.</p></div>`;
+        return;
+      }
+      $("thoughtList").innerHTML = state.reels.thoughts.map((thought, index) => `
+        <div class="thought${thought.open ? " open" : ""}" id="thought-${index}">
+          <div class="thought-head" role="button" tabindex="0" aria-expanded="${thought.open ? "true" : "false"}" data-toggle-thought="${index}">
+            <div class="thought-ic">${index + 1}</div>
+            <div>
+              <div class="thought-title">${esc(thought.text)}</div>
+              <div class="thought-angle">${esc(thought.angle)}</div>
+            </div>
+            <span>${thought.open ? "Close" : "Open"}</span>
+          </div>
+          <div class="thought-body">
+            <div>
+              <div class="translate">
+                ${thought.formats.map((format, formatIndex) => `
+                  <div class="fmt">
+                    <strong>${esc(FORMAT_LABELS[formatIndex] || "Format")}</strong>
+                    <p>${esc(format)}</p>
+                    ${formatIndex === 1 && thought.sequenceId ? `<button type="button" data-open-reel-sequence="${thought.sequenceId}">Open Studio draft</button>` : ""}
+                  </div>
+                `).join("")}
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join("");
+      document.querySelectorAll("[data-toggle-thought]").forEach((row) => {
+        row.addEventListener("click", () => toggleThought(Number(row.dataset.toggleThought)));
+        row.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleThought(Number(row.dataset.toggleThought));
+          }
+        });
+      });
+      document.querySelectorAll("[data-open-reel-sequence]").forEach((button) => {
+        button.addEventListener("click", () => openGeneratedSequence(Number(button.dataset.openReelSequence)));
+      });
+    }
+
+    function toggleThought(index) {
+      state.reels.thoughts = state.reels.thoughts.map((thought, thoughtIndex) => ({
+        ...thought,
+        open: thoughtIndex === index ? !thought.open : thought.open,
+      }));
+      saveThoughts();
+      renderThoughts();
+    }
+
+    async function addThought() {
+      const input = $("captureInput");
+      const text = input.value.trim();
+      if (!text) {
+        showMessage("Capture a thought first.");
+        openTab("reels");
+        return;
+      }
+      $("captureButton").disabled = true;
+      try {
+        const generated = await createReelSiblingSequence(text);
+        state.reels.thoughts.unshift({
+          text,
+          angle: chooseAngle(text),
+          sequenceId: generated.id || null,
+          open: true,
+          formats: buildThoughtFormats(text, generated),
+        });
+        state.reels.thoughts = state.reels.thoughts.slice(0, 12);
+        input.value = "";
+        saveThoughts();
+        renderThoughts();
+        await loadStudioHistory();
+        showMessage("Thought captured and translated into four formats.", "success");
+        openTab("reels");
+      } catch (error) {
+        showMessage(error.message || "Could not translate this thought.");
+      } finally {
+        $("captureButton").disabled = false;
+      }
+    }
+
+    async function createReelSiblingSequence(text) {
+      const response = await fetch("/api/studio-generate", {
+        method: "POST",
+        headers: {
+          ...authHeaders(),
+          "content-type": "application/json",
+        },
+        credentials: "same-origin",
+        body: JSON.stringify({
+          manual_mode: true,
+          type: "breakdown",
+          intent: `Turn this raw reel thought into a sibling story sequence: ${text}`,
+          topic: text,
+          goal: "reach",
+          trigger_word: "",
+          proof_lines: [],
+          slide_count: 8,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.status === 401 || response.status === 403) {
+        redirectToLogin();
+        return {};
+      }
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not create the Studio draft.");
+      return data;
+    }
+
+    function buildThoughtFormats(text, generated) {
+      const clean = text.replace(/\s+/g, " ").trim();
+      return [
+        `Talking-head reel: open on "${clean}", then explain the mistake, the better frame, and the proof-backed next move.`,
+        generated.id
+          ? `Story sequence draft saved in Studio as #${generated.id}. Use the manual prompt and design directions attached to the draft.`
+          : `Story sequence: expand "${clean}" across curiosity, pain, proof, belief shift, result, and close.`,
+        `Carousel: turn the idea into a saveable set with one clear taxonomy, proof screenshot, and chip code where it fits.`,
+        `Long-form segment: use this as a 3 to 5 minute section inside a YouTube breakdown or client-call lesson.`,
+      ];
+    }
+
+    function chooseAngle(text) {
+      const value = text.toLowerCase();
+      if (value.includes("client") || value.includes("closed") || value.includes("win")) return "A win to credibility";
+      if (value.includes("objection") || value.includes("skeptical") || value.includes("question")) return "An objection to Q and A";
+      if (value.includes("belief") || value.includes("most people") || value.includes("think")) return "A belief to reframe";
+      if (value.includes("strategy") || value.includes("system") || value.includes("framework")) return "A strategy to breakdown";
+      if (value.includes("behind") || value.includes("call") || value.includes("day")) return "A behind-the-scenes moment";
+      return "Routing to the closest proven angle";
+    }
+
+    function openGeneratedSequence(id) {
+      const row = state.studio.rows.find((item) => item.id === id);
+      if (row) {
+        state.studio.current = row;
+        renderHistory();
+        renderCurrentSequence();
+      }
+      openTab("studio");
+    }
+
+    function loadSavedThoughts() {
+      try {
+        const parsed = JSON.parse(sessionStorage.getItem("pulsify_reel_thoughts") || "[]");
+        return Array.isArray(parsed) ? parsed.slice(0, 12) : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveThoughts() {
+      sessionStorage.setItem("pulsify_reel_thoughts", JSON.stringify(state.reels.thoughts));
     }
 
     async function attachFinishedSequence(id) {
@@ -1732,12 +2292,22 @@
 
     function formatSingleSlide(slide) {
       if (!slide) return "";
+      const direction = normalizeSlideDesign(slide);
+      const treatment = direction
+        ? `${direction.treatment.text}, ${direction.treatment.alignment}-aligned`
+        : "";
+      const annotations = direction
+        ? direction.annotations.map((item) => `${item.type || "none"} on ${item.target || "selected line"}`).join(" | ")
+        : "";
       return [
         `SLIDE ${slide.n} - ${slide.job || ""}`,
         `TEXT: ${(slide.text_pills || []).join(" | ")}`,
         `EMPHASIS: ${slide.emphasis || ""}`,
         `PHOTO: ${slide.photo?.primary || ""}`,
         slide.photo?.alternative ? `ALTERNATIVE: ${slide.photo.alternative}` : "",
+        direction ? `DESIGN IMAGE: ${direction.imageClass} - ${direction.artifactSlot}` : "",
+        annotations ? `DESIGN ANNOTATION: ${annotations}` : "",
+        treatment ? `DESIGN TYPE: ${treatment}` : "",
         `INTERACTIVE: ${slide.interactive || "none"}`,
       ].filter(Boolean).join("\n");
     }

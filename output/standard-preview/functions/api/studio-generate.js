@@ -1,4 +1,9 @@
-import { buildManualPrompt, buildSequencePrompt } from "../_shared/sequence-prompt.js";
+import {
+  buildManualPrompt,
+  buildManualSequenceOutput,
+  buildSequencePrompt,
+  sanitizeDesignDirection,
+} from "../_shared/sequence-prompt.js";
 import { cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
@@ -16,6 +21,7 @@ export async function onRequestPost({ request, env }) {
   const triggerWord = String(body.trigger_word || "").trim();
   const proofLines = normalizeLines(body.proof_lines);
   const slideCount = clampSlideCount(body.slide_count);
+  const forceManual = Boolean(body.manual_mode);
 
   if (!type && !intent) {
     return json({ ok: false, error: "type or intent is required" }, 422);
@@ -49,7 +55,8 @@ export async function onRequestPost({ request, env }) {
     slide_count: slideCount,
   };
 
-  if (!env.GEMINI_API_KEY && !env.ANTHROPIC_API_KEY) {
+  if (forceManual || (!env.GEMINI_API_KEY && !env.ANTHROPIC_API_KEY)) {
+    const manualOutput = buildManualSequenceOutput(promptInput);
     const rowId = await insertSequence(env, {
       client,
       type: type || null,
@@ -58,7 +65,7 @@ export async function onRequestPost({ request, env }) {
       goal,
       triggerWord: triggerWord || null,
       paramsJson: JSON.stringify(paramsPayload),
-      outputJson: null,
+      outputJson: JSON.stringify(manualOutput),
       manualPrompt,
       status: "draft",
       reviewNote: null,
@@ -68,7 +75,7 @@ export async function onRequestPost({ request, env }) {
       id: rowId,
       mode: "manual",
       manual_prompt: manualPrompt,
-      output: null,
+      output: manualOutput,
     });
   }
 
@@ -278,24 +285,48 @@ function sanitizeSequenceOutput(value, fallback) {
   return {
     type: normalizeType(result.type) || fallback.type || "value-driven",
     mapped_from_intent: String(result.mapped_from_intent || fallback.intent || "").trim(),
-    slides: slides.map((slide, index) => ({
-      n: Number(slide?.n || index + 1),
-      job: String(slide?.job || "").trim(),
-      text_pills: Array.isArray(slide?.text_pills)
-        ? slide.text_pills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 3)
-        : [],
-      emphasis: String(slide?.emphasis || "").trim(),
-      photo: {
-        primary: String(slide?.photo?.primary || "").trim(),
-        alternative: String(slide?.photo?.alternative || "").trim(),
-      },
-      interactive: String(slide?.interactive || "none").trim() || "none",
-    })).slice(0, clampSlideCount(fallback.slideCount)),
+    slides: slides.map((slide, index) => {
+      const slideNumber = Number(slide?.n || index + 1);
+      const job = String(slide?.job || "").trim();
+      const designDirection = sanitizeDesignDirection(slide?.design || slide?.design_direction, {
+        type: normalizeType(result.type) || fallback.type || "value-driven",
+        slideNumber,
+        slideCount: fallback.slideCount,
+        job,
+      });
+      return {
+        n: slideNumber,
+        job,
+        text_pills: Array.isArray(slide?.text_pills)
+          ? slide.text_pills.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 3)
+          : [],
+        emphasis: String(slide?.emphasis || "").trim(),
+        photo: {
+          primary: String(slide?.photo?.primary || "").trim(),
+          alternative: String(slide?.photo?.alternative || "").trim(),
+        },
+        interactive: String(slide?.interactive || "none").trim() || "none",
+        design: toDesignBlock(designDirection),
+        design_direction: designDirection,
+      };
+    }).slice(0, clampSlideCount(fallback.slideCount)),
     hooks: Array.isArray(result.hooks)
       ? result.hooks.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 2)
       : [],
     why_order: String(result.why_order || "").trim(),
     posting_note: String(result.posting_note || "").trim(),
+  };
+}
+
+function toDesignBlock(direction) {
+  return {
+    annotation: direction.annotations,
+    image_class: {
+      type: direction.image_class,
+      artifact: direction.artifact_slot,
+    },
+    treatment: direction.treatment,
+    chips: direction.chips,
   };
 }
 

@@ -77,10 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/functions/_shared/sequence-prompt.js | CODEX | ACTIVE | Design-direction contract for Studio generation |
-| output/standard-preview/functions/api/studio-generate.js | CODEX | ACTIVE | Emit per-slide design blocks in LLM and manual paths |
-| output/standard-preview/portal/index.html | CODEX | ACTIVE | Studio design-direction render and Reels surface |
-| output/standard-preview/shared/pulsify-ui.css | CODEX | ACTIVE | Only if small shared UI additions are needed |
+| _(none)_ | | | |
 
 ---
 
@@ -917,3 +914,11 @@ Founder: work through the sequence/carousel design system (task 1) and the reel 
 
 ### [2026-07-15 00:00] CODEX
 Claimed the scoped design-direction + Reels files for `CODEX_TASK_design_reels.md`. Local-only execution: no deploy, no remote D1, no commit, no secrets.
+
+### [2026-07-15 03:19] CODEX
+Done and locks cleared. Implemented `CODEX_TASK_design_reels.md` locally only. Diff: `output/standard-preview/functions/_shared/sequence-prompt.js` now defines the design-direction grammar, deterministic manual slide design output, and guardrails for allowed annotations/image classes; `output/standard-preview/functions/api/studio-generate.js` now supports `manual_mode`, stores/returns manual design skeletons, and sanitizes LLM output into per-slide `design_direction` plus a compatibility `design` alias; `output/standard-preview/portal/index.html` now renders `.dd` design rows under Studio slides, adds the Studio design-system card, adds Reels nav + Reels section, and wires capture inbox -> `/api/studio-generate` manual mode with session-only thought rows. Did not touch `shared/pulsify-ui.css`.
+
+Verification: `node --check` passed for touched Worker JS files; extracted portal inline JS passed `node --check`; `rg "—|–"` returned no matches in touched files; `git diff --check` returned only existing LF->CRLF warnings; mocked-D1 acceptance passed for `studio-generate` manual and Gemini/LLM paths emitting design blocks, sanitizing invalid lifestyle imagery, Studio draft -> review -> approve, and P3 metrics slide-2 diagnostic (`hook failed`). No deploy, no remote D1, no commit, no secrets. Skipped `auto-backup.ps1` because it commits/pushes and the task explicitly said not to commit.
+
+### [2026-07-15 03:12] CODEX
+Continuing the active CODEX lock on `CODEX_TASK_design_reels.md`: implementing per-slide design-direction output in `sequence-prompt.js` and `studio-generate.js`, plus Studio rendering and the Reels tab in `portal/index.html`. Still local-only: no deploy, no remote D1, no commit, no secrets.
