@@ -854,12 +854,12 @@
       </div>
       <nav id="tabs">
         <div class="nav-group-h">Dashboard</div>
-        <button class="tab-btn nav-item active" data-tab="revenue" type="button">Revenue</button>
+        <button class="tab-btn nav-item active" data-tab="home" type="button">Home</button>
+        <button class="tab-btn nav-item" data-tab="revenue" type="button">Revenue</button>
         <button class="tab-btn nav-item" data-tab="content" type="button">Content</button>
         <button class="tab-btn nav-item" data-tab="proof" type="button">Proof vault</button>
         <button class="tab-btn nav-item" data-tab="performance" type="button">Performance</button>
         <button class="tab-btn nav-item" data-tab="team" type="button">Team</button>
-        <button class="tab-btn nav-item" data-tab="momentum" type="button">Momentum</button>
         <div class="nav-group-h">Execution</div>
         <button class="tab-btn nav-item" data-tab="plans" type="button">Plans</button>
         <button class="tab-btn nav-item" data-tab="todos" type="button">To-dos</button>
@@ -875,16 +875,49 @@
     <main>
       <div class="message" id="message" hidden></div>
 
-      <section class="panel active" id="panel-revenue">
+      <section class="panel active" id="panel-home">
         <div class="panel-head">
           <div>
-            <h2>Revenue</h2>
-            <div class="panel-note">Read-only from the live payments table.</div>
+            <h2>This week</h2>
+            <div class="panel-note">The live view of cash, audience, execution, and the next fix.</div>
           </div>
-          <div class="panel-note" id="revenueUpdated">Waiting on data</div>
+          <div class="home-actions">
+            <button class="outline" data-open-tab="performance" type="button">Full metrics</button>
+            <button data-open-tab="studio" type="button">Open Studio</button>
+          </div>
         </div>
-        <div class="metric-grid" id="revenueMetrics"></div>
-        <div class="card pulse-card">
+
+        <div class="week-strip" id="weekStrip" aria-live="polite">
+          <div class="week-loading">Loading this week's live numbers.</div>
+        </div>
+
+        <div class="next-move" id="nextMove">
+          <div class="next-move-icon" aria-hidden="true">N</div>
+          <div>
+            <h3>Your next move</h3>
+            <p>Loading the latest sequence diagnostics.</p>
+          </div>
+          <button id="nextMoveButton" data-next-tab="performance" type="button">Open Performance</button>
+        </div>
+
+        <div class="home-list-grid">
+          <div class="card home-list-card">
+            <div class="card-head">
+              <h3>Shipped this week</h3>
+              <span class="home-count success" id="shippedCount">0 shipped</span>
+            </div>
+            <div class="home-list" id="shippedThisWeek"></div>
+          </div>
+          <div class="card home-list-card">
+            <div class="card-head">
+              <h3>Owed this week</h3>
+              <span class="home-count warning" id="owedCount">0 open</span>
+            </div>
+            <div class="home-list" id="owedThisWeek"></div>
+          </div>
+        </div>
+
+        <div class="card pulse-card home-pulse-card">
           <div class="card-head">
             <h3>Pulse</h3>
             <span class="panel-note" id="pulseStatus">Last 30 days</span>
@@ -895,6 +928,17 @@
             <div class="pulse-item"><span class="pulse-icon">P</span><div><div class="pulse-skeleton"></div><div class="pulse-skeleton short"></div></div><span class="pulse-time">Loading</span></div>
           </div>
         </div>
+      </section>
+
+      <section class="panel" id="panel-revenue">
+        <div class="panel-head">
+          <div>
+            <h2>Revenue</h2>
+            <div class="panel-note">Read-only from the live payments table.</div>
+          </div>
+          <div class="panel-note" id="revenueUpdated">Waiting on data</div>
+        </div>
+        <div class="metric-grid" id="revenueMetrics"></div>
         <div class="card" id="paymentsCard">
           <div class="card-head">
             <h3>Payment history</h3>
@@ -947,13 +991,42 @@
         <div class="panel-head">
           <div>
             <h2>Performance</h2>
-            <div class="panel-note">Manual story tracking now runs here. Week over week only.</div>
+            <div class="panel-note">Where stories hold, where they leak, and what to retest.</div>
           </div>
-          <div class="panel-note" id="performanceStatus">Waiting on metrics</div>
+          <div class="performance-head-actions">
+            <span class="panel-note" id="performanceStatus">Waiting on metrics</span>
+            <button id="focusSequenceLogButton" type="button">Log sequence</button>
+          </div>
         </div>
+
+        <div class="metric-grid performance-kpi-grid" id="performanceKpis"></div>
+
+        <div class="performance-insight-grid">
+          <div class="card retention-card">
+            <div class="performance-card-heading">
+              <div>
+                <h3 id="retentionHeading">Where stories drop off</h3>
+                <p>Slide-by-slide retention from the latest sequence with logged views.</p>
+              </div>
+              <span class="home-count" id="retentionBadge">Waiting on data</span>
+            </div>
+            <div class="retention-curve" id="retentionCurve"></div>
+            <div class="curve-note" id="retentionNote">Log per-slide views to see the first retention cliff.</div>
+          </div>
+          <div class="card leaderboard-card">
+            <div class="performance-card-heading">
+              <div>
+                <h3>Type leaderboard</h3>
+                <p>Average completion by sequence type. Missing types stay visible as gaps.</p>
+              </div>
+            </div>
+            <div class="type-leaderboard" id="typeLeaderboard"></div>
+          </div>
+        </div>
+
         <div class="performance-grid">
           <div class="stack">
-            <div class="performance-card">
+            <div class="performance-card" id="logSequenceCard">
               <h3>Log a sequence</h3>
               <div class="field-grid">
                 <div class="field-grid two">
@@ -1043,11 +1116,6 @@
       <section class="panel" id="panel-team">
         <div class="panel-head"><div><h2>Team</h2><div class="panel-note">Operator-maintained from the admin console.</div></div></div>
         <div id="teamContent"></div>
-      </section>
-
-      <section class="panel" id="panel-momentum">
-        <div class="panel-head"><div><h2>Momentum</h2><div class="panel-note">Operator-maintained weekly movement view.</div></div></div>
-        <div id="momentumContent"></div>
       </section>
 
       <section class="panel" id="panel-plans">
@@ -1244,6 +1312,7 @@
     const state = {
       client: CLIENT,
       sections: {},
+      revenue: {},
       contentItems: [],
       proofItems: [],
       pulseItems: [],
@@ -1267,6 +1336,14 @@
 
     document.querySelectorAll(".tab-btn").forEach((button) => {
       button.addEventListener("click", () => openTab(button.dataset.tab));
+    });
+    document.querySelectorAll("[data-open-tab]").forEach((button) => {
+      button.addEventListener("click", () => openTab(button.dataset.openTab));
+    });
+    $("nextMoveButton").addEventListener("click", () => openTab($("nextMoveButton").dataset.nextTab || "performance"));
+    $("focusSequenceLogButton").addEventListener("click", () => {
+      $("logSequenceCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      $("sequenceTopicInput").focus({ preventScroll: true });
     });
     $("themeButton").addEventListener("click", toggleTheme);
     $("logoutButton").addEventListener("click", logout);
@@ -1349,6 +1426,7 @@
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the proof vault.");
         state.proofItems = Array.isArray(data.proof_items) ? data.proof_items : [];
         renderProofVault();
+        renderHome();
       } catch (error) {
         $("proofStatus").textContent = "Proof unavailable";
         $("proofGrid").innerHTML = `<div class="empty-card"><h3>Proof is unavailable</h3><p>${esc(error.message || "Saved proof could not be loaded.")}</p></div>`;
@@ -1428,8 +1506,8 @@
       renderContentSection();
       renderListSection("teamContent", "Team", state.sections.team, emptyText("No team records yet", "Pulsify will list the working team here as soon as the client setup is filled in."));
       renderListSection("plansContent", "Plans", state.sections.plans, emptyText("No plan loaded yet", "Pulsify will add the current roadmap here once the client plan is written."));
-      renderMomentum("momentumContent", state.sections.momentum);
       renderTodos(state.sections.todos);
+      renderHome();
     }
 
     function renderPulseFeed() {
@@ -1605,6 +1683,7 @@
     }
 
     function renderRevenue(revenue) {
+      state.revenue = revenue;
       const total = Number(revenue.total_revenue_cents || 0);
       const currentMonth = Number(revenue.current_month_revenue_cents || 0);
       const payments = revenue.payments || [];
@@ -1626,6 +1705,174 @@
           <td>${esc(payment.note || "-")}</td>
         </tr>
       `).join("");
+      renderHome();
+    }
+
+    function renderHome() {
+      const revenue = state.revenue || {};
+      const payments = Array.isArray(revenue.payments) ? revenue.payments : [];
+      const report = state.performance.weeklyReport || {};
+      const summary = state.performance.weekSummary || {};
+      const rows = state.performance.rows || [];
+      const currentWeekStart = summary.current_week_start || startOfCurrentUtcWeek();
+      const nextWeekStart = addIsoDays(currentWeekStart, 7);
+      const priorWeekStart = summary.prior_week_start || addIsoDays(currentWeekStart, -7);
+      const currentRows = rows.filter((row) => row.posted_on >= currentWeekStart && row.posted_on < nextWeekStart);
+      const priorRows = rows.filter((row) => row.posted_on >= priorWeekStart && row.posted_on < currentWeekStart);
+      const weekPayments = payments.filter((payment) => {
+        const occurredOn = String(payment.occurred_at || "").slice(0, 10);
+        return occurredOn >= currentWeekStart && occurredOn < nextWeekStart;
+      });
+      const weekCash = weekPayments.reduce((sum, payment) => sum + Number(payment.amount_cents || 0), 0);
+      const totalCash = Number(revenue.total_revenue_cents || 0);
+      const currencyCode = payments[0]?.currency || "USD";
+      const currentDms = sumLoggedMetric(currentRows, "dms");
+      const priorDms = sumLoggedMetric(priorRows, "dms");
+
+      $("weekStrip").innerHTML = `
+        <article class="week-hero${payments.length ? "" : " empty"}">
+          <span>Cash collected, this week</span>
+          <strong class="mono">${payments.length ? esc(currency(weekCash, currencyCode)) : "No payments yet"}</strong>
+          <small>${payments.length
+            ? esc(`${weekPayments.length} payment${weekPayments.length === 1 ? "" : "s"} this week, ${currency(totalCash, currencyCode)} all time`)
+            : "Connect a payment rail to see revenue here."}</small>
+        </article>
+        ${renderWeekMetric(
+          "Followers",
+          report.followers?.value == null ? null : number(report.followers.value),
+          report.followers?.delta == null
+            ? (report.followers?.hint || "Log two weekly follower snapshots.")
+            : `${signedNumber(report.followers.delta)} this week`,
+        )}
+        ${renderWeekMetric(
+          "Dollars per follower",
+          report.dollars_per_follower?.value == null ? null : formatCurrencyNumber(report.dollars_per_follower.value),
+          report.dollars_per_follower?.hint || "All-time cash divided by the latest follower count.",
+        )}
+        ${renderWeekMetric(
+          "DMs from stories",
+          currentDms == null ? null : number(currentDms),
+          currentDms == null
+            ? "Log DMs on a sequence to track story intent."
+            : (priorDms == null ? "Need a prior week for the delta." : `${signedNumber(currentDms - priorDms)} from last week`),
+        )}
+      `;
+
+      renderHomeLists(currentWeekStart, nextWeekStart);
+      renderNextMove();
+    }
+
+    function renderWeekMetric(label, value, detail) {
+      return `
+        <article class="week-mini${value == null ? " empty" : ""}">
+          <span>${esc(label)}</span>
+          <strong class="mono">${value == null ? "Not logged" : esc(value)}</strong>
+          <small>${esc(detail)}</small>
+        </article>
+      `;
+    }
+
+    function renderHomeLists(currentWeekStart, nextWeekStart) {
+      const shipped = state.contentItems.filter((item) => {
+        const itemDate = String(item.scheduled_for || item.updated_at || "").slice(0, 10);
+        return String(item.stage || "").toLowerCase() === "published" && itemDate >= currentWeekStart && itemDate < nextWeekStart;
+      });
+      const todos = Array.isArray(state.sections.todos)
+        ? state.sections.todos
+        : (Array.isArray(state.sections.todos?.items) ? state.sections.todos.items : []);
+      const openTodos = todos.filter((item) => !coerceItem(item).done).map(coerceItem);
+      const hasDeadlines = openTodos.some((item) => item.deadline);
+      const owed = hasDeadlines
+        ? openTodos.filter((item) => String(item.deadline || "").slice(0, 10) < nextWeekStart)
+        : openTodos;
+
+      $("shippedCount").textContent = `${shipped.length} shipped`;
+      $("shippedThisWeek").innerHTML = shipped.length
+        ? shipped.map((item) => `
+          <div class="home-list-item done">
+            <span class="home-list-mark" aria-hidden="true">S</span>
+            <div><strong>${esc(item.title || "Untitled item")}</strong><small>${esc(item.platform || "Platform not logged")} | ${esc(String(item.scheduled_for || item.updated_at || "").slice(0, 10))}</small></div>
+          </div>
+        `).join("")
+        : `<div class="home-list-empty">Published content appears here when it ships this week.</div>`;
+
+      $("owedCount").textContent = `${owed.length} open`;
+      $("owedThisWeek").innerHTML = owed.length
+        ? owed.map((item) => `
+          <div class="home-list-item">
+            <span class="home-list-mark" aria-hidden="true">O</span>
+            <div><strong>${esc(item.label || item.title || item.task || "Open task")}</strong><small>${esc([item.owner, item.deadline].filter(Boolean).join(" | ") || "Owner and deadline not logged")}</small></div>
+          </div>
+        `).join("")
+        : `<div class="home-list-empty">No client to-dos are owed this week.</div>`;
+    }
+
+    /*
+      Next move rules, in order:
+      1. With no sequence data, finish the proof base or log the first sequence.
+      2. If a real diagnostic identifies a hook or body leak, retest the row with the highest drop-off.
+      3. Otherwise, repeat the type with the highest average completion.
+    */
+    function renderNextMove() {
+      const rows = state.performance.rows || [];
+      const button = $("nextMoveButton");
+      const heading = $("nextMove").querySelector("h3");
+      const copy = $("nextMove").querySelector("p");
+      let title;
+      let text;
+      let tab;
+      let label;
+
+      if (!rows.length) {
+        if (!state.proofItems.length) {
+          title = "Build the proof base";
+          text = "Add the first real student result to the Proof vault, then log the first sequence so the system can diagnose it.";
+          tab = "proof";
+          label = "Open Proof vault";
+        } else {
+          title = "Log the first sequence";
+          text = "Add per-slide views and DMs from the first posted sequence. That unlocks the retention curve and next retest.";
+          tab = "performance";
+          label = "Open Performance";
+        }
+      } else {
+        const leak = rows
+          .filter((row) => row.diagnostic === "hook failed" || row.diagnostic === "body failed before the ask")
+          .sort((a, b) => Number(b.dropoff_pct || 0) - Number(a.dropoff_pct || 0))[0];
+        if (leak) {
+          title = `Retest ${leak.type || "the sequence"}`;
+          text = `${leak.topic || "The latest sequence"} loses the most attention at slide ${leak.biggest_drop_slide || "unknown"}. Keep the remaining slides stable and retest that transition.`;
+          tab = "performance";
+          label = "Open the sequence";
+        } else {
+          const best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0);
+          title = best ? `Make more ${best.type}` : "Log a complete sequence";
+          text = best
+            ? `${capitalize(best.type)} leads the logged types at ${formatPercent(best.completion)} average completion. Reuse the frame with a new topic.`
+            : "The sequence rows need first-slide and last-slide views before the system can rank the winning type.";
+          tab = best ? "studio" : "performance";
+          label = best ? "Open Studio" : "Open Performance";
+        }
+      }
+
+      heading.textContent = title;
+      copy.textContent = text;
+      button.dataset.nextTab = tab;
+      button.textContent = label;
+    }
+
+    function sumLoggedMetric(rows, key) {
+      const logged = rows.filter((row) => row[key] != null);
+      return logged.length ? logged.reduce((sum, row) => sum + Number(row[key] || 0), 0) : null;
+    }
+
+    function signedNumber(value) {
+      const numeric = Number(value || 0);
+      return `${numeric > 0 ? "+" : ""}${number(numeric)}`;
+    }
+
+    function formatCurrencyNumber(value) {
+      return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(Number(value || 0));
     }
 
     function renderTypeGrid() {
@@ -1714,6 +1961,10 @@
         ? `${rows.length} sequence${rows.length === 1 ? "" : "s"} logged`
         : "No sequences logged yet";
 
+      renderPerformanceKpis(rows, summary);
+      renderRetentionCurve(rows);
+      renderTypeLeaderboard(rows);
+
       $("performanceMetricGrid").innerHTML = [
         metricCard("This week", `${number(summary.sequences_this_week || 0)}`, `${number(summary.cadence_floor || 3)} minimum, ${number(summary.cadence_target_min || 5)}-${number(summary.cadence_target_max || 7)} target`),
         metricCard("Last week", `${number(summary.sequences_last_week || 0)}`, summary.cadence_status || "week status"),
@@ -1759,6 +2010,126 @@
       document.querySelectorAll("[data-edit-sequence]").forEach((button) => {
         button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
       });
+      renderHome();
+    }
+
+    function renderPerformanceKpis(rows, summary) {
+      const completions = rows
+        .filter((row) => row.completion_pct != null)
+        .map((row) => Number(row.completion_pct))
+        .filter(Number.isFinite);
+      const avgCompletion = completions.length
+        ? completions.reduce((sum, value) => sum + value, 0) / completions.length
+        : null;
+      const currentWeekStart = summary.current_week_start || startOfCurrentUtcWeek();
+      const nextWeekStart = addIsoDays(currentWeekStart, 7);
+      const currentRows = rows.filter((row) => row.posted_on >= currentWeekStart && row.posted_on < nextWeekStart);
+      const currentDms = sumLoggedMetric(currentRows, "dms");
+      const best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0);
+
+      $("performanceKpis").innerHTML = [
+        metricCard(
+          "Average completion",
+          avgCompletion == null ? "Not logged yet" : formatPercent(avgCompletion),
+          avgCompletion == null ? "Log first-slide and last-slide views." : `${completions.length} measured sequence${completions.length === 1 ? "" : "s"}`,
+        ),
+        metricCard(
+          "Cadence",
+          `${number(summary.sequences_this_week || 0)} / ${number(summary.cadence_target_max || 7)}`,
+          `${number(summary.cadence_floor || 3)} minimum, ${number(summary.cadence_target_min || 5)} to ${number(summary.cadence_target_max || 7)} target`,
+        ),
+        metricCard(
+          "DMs from stories",
+          currentDms == null ? "Not logged yet" : number(currentDms),
+          currentDms == null ? "Add DMs when logging a sequence." : "Logged on this week's sequences",
+        ),
+        metricCard(
+          "Best type",
+          best ? capitalize(best.type) : "Not ranked yet",
+          best ? `${formatPercent(best.completion)} average completion` : "A type needs a measured completion rate.",
+        ),
+      ].join("");
+    }
+
+    function renderRetentionCurve(rows) {
+      const row = rows.find((item) => Array.isArray(item.slide_views) && item.slide_views.length > 1 && Number(item.slide_views[0]) > 0);
+      const target = $("retentionCurve");
+      const badge = $("retentionBadge");
+      const note = $("retentionNote");
+      if (!row) {
+        target.innerHTML = `<div class="retention-empty"><strong>No retention curve yet</strong><span>Log per-slide views on a sequence to see the first cliff.</span></div>`;
+        badge.textContent = "No sequence data";
+        badge.className = "home-count";
+        note.textContent = "The curve stays empty until a real sequence has at least two logged slide-view values.";
+        return;
+      }
+
+      const views = row.slide_views.map((value) => Number(value || 0));
+      const first = views[0];
+      const retention = views.map((value) => Math.max(0, Math.min(100, (value / first) * 100)));
+      const width = 640;
+      const height = 180;
+      const padX = 18;
+      const padTop = 14;
+      const padBottom = 28;
+      const chartHeight = height - padTop - padBottom;
+      const x = (index) => padX + index * ((width - padX * 2) / Math.max(1, retention.length - 1));
+      const y = (value) => padTop + ((100 - value) / 100) * chartHeight;
+      const line = retention.map((value, index) => `${index ? "L" : "M"}${x(index).toFixed(1)} ${y(value).toFixed(1)}`).join(" ");
+      const area = `${line} L${x(retention.length - 1).toFixed(1)} ${height - padBottom} L${padX} ${height - padBottom} Z`;
+      const cliffIndex = row.biggest_drop_slide ? Number(row.biggest_drop_slide) - 1 : -1;
+      const points = retention.map((value, index) => `
+        <circle cx="${x(index).toFixed(1)}" cy="${y(value).toFixed(1)}" r="${index === cliffIndex ? 5 : 3.5}" class="${index === cliffIndex ? "cliff" : ""}"></circle>
+        <text x="${x(index).toFixed(1)}" y="${height - 7}" text-anchor="middle">S${index + 1}</text>
+      `).join("");
+      target.innerHTML = `
+        <svg viewBox="0 0 ${width} ${height}" role="img" aria-label="Retention curve for ${esc(row.topic || row.type || "logged sequence")}">
+          <defs><linearGradient id="portalRetentionGradient" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--ui-accent)" stop-opacity=".24"></stop><stop offset="1" stop-color="var(--ui-accent)" stop-opacity="0"></stop></linearGradient></defs>
+          <path class="retention-area" d="${area}"></path>
+          <path class="retention-line" d="${line}"></path>
+          ${points}
+        </svg>
+      `;
+
+      badge.textContent = row.topic || capitalize(row.type || "sequence");
+      badge.className = `home-count${row.diagnostic === "healthy" ? " success" : " danger"}`;
+      if (cliffIndex > 0) {
+        const priorValue = views[cliffIndex - 1];
+        const dropFromPrior = priorValue > 0 ? ((priorValue - views[cliffIndex]) / priorValue) * 100 : 0;
+        const direction = cliffIndex === 1
+          ? "Retest the hook and keep the body stable."
+          : (cliffIndex >= 5 && cliffIndex <= 7 ? "Retest the body before the ask." : "Review the transition into this slide.");
+        note.innerHTML = `<span class="curve-cliff-badge">Slide ${cliffIndex + 1}</span><span>${formatPercent(dropFromPrior)} of viewers leave from the prior slide. ${esc(direction)}</span>`;
+      } else {
+        note.textContent = "No clear consecutive slide cliff is available yet.";
+      }
+    }
+
+    function renderTypeLeaderboard(rows) {
+      $("typeLeaderboard").innerHTML = sequenceTypeLeaderboard(rows).map((item) => `
+        <div class="leaderboard-row${item.count ? "" : " empty"}">
+          <span>${esc(item.type)}</span>
+          <div class="leaderboard-track"><i style="width:${item.count ? Math.max(2, Math.min(100, item.completion)) : 0}%"></i></div>
+          <strong class="mono">${item.count ? formatPercent(item.completion) : "n/a"}</strong>
+        </div>
+      `).join("");
+    }
+
+    function sequenceTypeLeaderboard(rows) {
+      const byType = new Map(STUDIO_TYPES.map(([type]) => [type, []]));
+      rows.forEach((row) => {
+        if (row.completion_pct == null) return;
+        const completion = Number(row.completion_pct);
+        if (Number.isFinite(completion)) {
+          if (!byType.has(row.type)) byType.set(row.type, []);
+          byType.get(row.type).push(completion);
+        }
+      });
+      return Array.from(byType, ([type, values]) => ({
+        type,
+        count: values.length,
+        completion: values.length ? values.reduce((sum, value) => sum + value, 0) / values.length : 0,
+      })).sort((a, b) => (b.count > 0) - (a.count > 0) || b.completion - a.completion || a.type.localeCompare(b.type));
     }
 
     async function saveSequenceLog() {
@@ -2433,6 +2804,7 @@
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this to-do item.");
         state.sections.todos = data.todos;
         renderTodos(state.sections.todos);
+        renderHome();
       } catch (error) {
         showMessage(error.message || "Could not save this to-do item.");
         renderTodos(state.sections.todos);
@@ -2536,6 +2908,29 @@
 
     function todayIso() {
       return new Date().toISOString().slice(0, 10);
+    }
+
+    function startOfCurrentUtcWeek() {
+      const date = new Date();
+      date.setUTCHours(0, 0, 0, 0);
+      const day = date.getUTCDay();
+      date.setUTCDate(date.getUTCDate() + (day === 0 ? -6 : 1 - day));
+      return date.toISOString().slice(0, 10);
+    }
+
+    function addIsoDays(isoDate, days) {
+      const date = new Date(`${isoDate}T00:00:00.000Z`);
+      date.setUTCDate(date.getUTCDate() + Number(days || 0));
+      return date.toISOString().slice(0, 10);
+    }
+
+    function formatPercent(value) {
+      return `${Number(value || 0).toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
+    }
+
+    function capitalize(value) {
+      const text = String(value || "");
+      return text ? text.charAt(0).toUpperCase() + text.slice(1) : "";
     }
 
     function contentStageLabel(value) {
