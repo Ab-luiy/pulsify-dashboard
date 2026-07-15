@@ -66,10 +66,30 @@ The guardrails. Claims they cannot make (no proof yet), topics to avoid, competi
 - Generators read the brain server-side when composing prompts (extend the existing sequence-prompt builder to pull from `client_brain` instead of ad-hoc params where present).
 - Same discipline: local-verify only, no deploy/commit/remote-D1 from Codex; Claude reviews and deploys.
 
+## Founder refinements (2026-07-15, approved, fired)
+
+The section list holds. These corrections change how it fills and who fills it:
+
+- **1 Identity.** The client types a long freeform block explaining exactly what they do and how it makes money. AI distills that block into the one-line positioning and the mechanism name. So the field is a fat-block input plus an AI-distilled one-liner.
+- **3 ICP is operator-conducted research, not a client field.** Clients usually have only a slim, surface guess (generic B2C problems). We capture their guess, but the real ICP comes from Pulsify research: a story-sequence loop that asks the audience what they struggle with in exchange for a lead magnet, Instagram audience stats (age-group percentages of who watches), and above all their previous sales-call transcripts and their DMs of people asking questions (both are gold). The brain stores the guess as client-supplied and the real avatar as operator-researched.
+- **4 Story input is a voice note OR a transcript.** A 10 to 20 minute voice note telling the full career journey, or, better, a paste of a podcast/interview/meetup transcript where someone already asked them the questions. Offer both as options.
+- **5 Voice, what we actually capture:** tone (playful / serious / professional / informal), whether they curse or use slang, and their positioning attitude (for example the "they played video games, I was grinding on weekends, they did not make it and I did" frame). Collected through our own Typeform-style question layout with fields, choices, an upload button for voice notes or pictures, and an optional speech-to-text so they can talk instead of type.
+- **6 Proof.** Images and screenshots are the default (people they helped, student wins, recorded video testimonials can be linked). If they have none, an explicit choice: "I do not have proof or case studies yet." Never block on it.
+- **7 Funnel facts are operator-filled, not client-facing.** A trader or FBA creator does not know trigger words, lead magnets, or DM routing. That is the operator's craft. This section is filled operator-side, not asked on the onboarding form.
+
+### The onboarding form
+
+A Typeform-style, animated, fade-in intake: one question at a time, fields, multiple choice, empty fields, and a plus/upload control for voice notes and images. When the client finishes, the answers come back to the operator as clean, readable end-results (question, their answer), easy and dumb-proof to read, not raw data.
+
+### The generation loop (both directions)
+
+The returned answers do two jobs. One, we run them through our own Pulsify AI context to generate the client's assets and fill the gaps. Two, we produce markdown files for the client to drop into their own local folder, so their own AI knows their story, offer, ICP, voice, and proof, the exact way this vault works here. The context-package export is that set of markdown files. Later we teach them to keep it in a repo or local folder and generate their own output from it.
+
 ## Open questions
 
 - Transcription: v1 can be operator-pasted transcript (zero new infra); v2 wires a transcription API. Recommend v1 now.
 - Versioning depth: freshness stamps v1; full history later if needed.
+- R2 for proof images: v1 can accept a paste-link if R2 is not yet enabled on the account; wire real upload once the bucket exists.
 
 ## Source trail
 
