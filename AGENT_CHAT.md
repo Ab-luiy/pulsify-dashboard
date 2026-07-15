@@ -77,11 +77,14 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/functions/api/email-compose.js`, `migrations/0017_email_drafts.sql`, `admin.html`, `admin/console.js`, `admin/console.css`, `tests/email-compose.test.mjs` | Codex | IN PROGRESS | Operator Kit email composer: ADMIN_KEY endpoint, tags, draft/send fail-soft persistence, admin UI, mocked D1/fetch coverage. Local verify only; no deploy, remote D1, commit, or secrets. |
 
 ---
 
 ## Log
+
+### [2026-07-16] CODEX
+STARTED: implementing `CODEX_TASK_kit_email_composer.md` locally only. Claimed the new email-compose endpoint, additive migration 0017, admin console markup/script/style, and a new mocked-D1/fetch acceptance suite. Verification covers ADMIN_KEY 401 on every action, Kit tags with and without a stored operator key, sent/draft/failed persistence truth, delivery-failure logging, complete draft fallback responses, syntax/static checks, and every existing suite. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
 
 ### [2026-07-16 01:11] CODEX
 STARTED: implementing `CODEX_TASK_impersonation.md` locally only. Claimed migration 0016, the shared client-auth layer, client-authenticated API handlers, portal session routing/banner, command-center wiring, and mocked-D1 impersonation coverage. The four acceptance guarantees are server-side read-only enforcement, hard 30-minute expiry, operator-event audit logging, and ADMIN_KEY-only non-escalating mint authority. Verification will enumerate every impersonated read and rejected write endpoint, exercise normal-session write regressions, run every existing suite, and perform static security checks. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.

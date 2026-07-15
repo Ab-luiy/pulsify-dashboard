@@ -17,7 +17,7 @@
       <div class="brand-mark" aria-hidden="true">P</div>
       <p class="eyebrow">Pulsify funnels</p>
       <h1>Operator console</h1>
-      <p class="lede">One key opens the command center, client setup, client work, integrations, and sent-page visibility.</p>
+      <p class="lede">One key opens the command center, client setup, client work, email, integrations, and sent-page visibility.</p>
       <div class="field">
         <label for="adminKey">Admin key <span class="required">Required</span></label>
         <input id="adminKey" type="password" autocomplete="current-password" placeholder="Paste the deployment admin key">
@@ -41,7 +41,8 @@
         <a href="#brain" data-route="brain"><span>04</span>Client brain</a>
         <a href="#delivery" data-route="delivery"><span>05</span>Client work</a>
         <a href="#integrations" data-route="integrations"><span>06</span>Integrations</a>
-        <a href="#campaigns" data-route="campaigns"><span>07</span>Pages sent</a>
+        <a href="#email" data-route="email"><span>07</span>Email</a>
+        <a href="#campaigns" data-route="campaigns"><span>08</span>Pages sent</a>
       </nav>
       <div class="rail-actions">
         <button class="button ghost small" id="themeButton" type="button">Switch theme</button>
@@ -671,6 +672,84 @@
 
         <div class="subsection-head outside"><p class="kicker">Environment only</p><h3>Cloudflare secrets</h3><p>These keys stay outside the browser. The console reports presence only.</p></div>
         <div class="card-grid three" id="envCards"></div>
+      </section>
+
+      <section class="route" id="route-email" data-route-panel="email" hidden>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Operator email</p>
+            <h2>Email</h2>
+            <p>Write on behalf of the active client, save the draft here, or send it to a Kit tag.</p>
+          </div>
+          <button class="button outline small" id="refreshEmailButton" type="button">Refresh email</button>
+        </div>
+
+        <article class="panel email-connection-panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Kit connection</p>
+              <h3 id="emailKitHeading">Checking Kit</h3>
+              <p id="emailKitHint">The composer is checking the operator integration.</p>
+            </div>
+            <span class="provider-status" id="emailKitStatus">Checking</span>
+          </div>
+          <a class="button outline small" href="#integrations">Open integrations</a>
+        </article>
+
+        <article class="panel" id="emailComposerPanel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Composer</p>
+              <h3 id="emailClientLabel">No active client</h3>
+              <p>Send uses the selected Kit tag. If Kit rejects the request, the complete email stays in the recent list.</p>
+            </div>
+          </div>
+          <form id="emailComposeForm">
+            <div class="form-grid two">
+              <div class="field span-all">
+                <label for="emailSubject">Subject <span class="required">Required</span></label>
+                <input id="emailSubject" maxlength="240" placeholder="Write the inbox subject">
+                <p class="field-hint">Use the approved subject for this client and send.</p>
+              </div>
+              <div class="field span-all">
+                <label for="emailBody">Body <span class="required">Required</span></label>
+                <textarea id="emailBody" class="email-body" rows="12" placeholder="Write the email body"></textarea>
+                <p class="field-hint">Plain text is converted to email-safe HTML when Kit sends it. The exact text is stored in the draft record.</p>
+              </div>
+              <div class="field">
+                <label for="emailTag">Kit tag <span class="required">Required to send</span></label>
+                <select id="emailTag"><option value="">Checking Kit tags</option></select>
+                <p class="field-hint" id="emailTagHint">Tags load from the connected operator Kit account.</p>
+              </div>
+            </div>
+            <div class="button-row">
+              <button class="button outline" id="saveEmailDraftButton" type="button">Save draft</button>
+              <button class="button primary" id="sendEmailButton" type="button" disabled>Send through Kit</button>
+            </div>
+            <div class="message" id="emailComposeMessage" role="status" hidden></div>
+          </form>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Stored email</p>
+              <h3>Recent drafts and sends</h3>
+              <p>Draft means no Kit send occurred. Sent means Kit returned a real broadcast ID. Failed means Kit rejected or could not receive the request.</p>
+            </div>
+            <span class="status-pill" id="emailDraftsUpdated">Not loaded</span>
+          </div>
+          <div class="table-scroll" id="emailDraftsTableWrap">
+            <table class="email-drafts-table">
+              <thead><tr><th>Client</th><th>Subject</th><th>Tag</th><th>Status</th><th>Created</th><th></th></tr></thead>
+              <tbody id="emailDraftRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state inset" id="emailDraftsEmpty" hidden>
+            <h3>No stored email yet</h3>
+            <p>Save a draft or send the first email from the composer above.</p>
+          </div>
+        </article>
       </section>
 
       <section class="route" id="route-campaigns" data-route-panel="campaigns" hidden>

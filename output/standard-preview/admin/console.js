@@ -21,6 +21,7 @@
     brain: ["Structured client context", "Client brain"],
     delivery: ["Client-facing work", "Client work"],
     integrations: ["Money and handoff path", "Integrations"],
+    email: ["Operator email", "Email"],
     campaigns: ["Outreach visibility", "Pages sent"],
   };
 
@@ -47,6 +48,10 @@
     trackedAssets: [],
     studioReviews: [],
     brain: null,
+    emailConfigured: false,
+    emailTags: [],
+    emailDrafts: [],
+    emailBusy: false,
     performance: {
       rows: [],
       weekSummary: null,
@@ -340,6 +345,11 @@
     $("savePerformanceSnapshotButton").addEventListener("click", savePerformanceSnapshot);
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
+    $("refreshEmailButton").addEventListener("click", loadEmailComposer);
+    $("saveEmailDraftButton").addEventListener("click", () => submitEmail("draft"));
+    $("sendEmailButton").addEventListener("click", () => submitEmail("send"));
+    $("emailTag").addEventListener("change", syncEmailComposerUi);
+    $("emailDraftRows").addEventListener("click", handleEmailDraftAction);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
     $("hideAppliedFollowups").addEventListener("change", (event) => {
       state.followupFilters.hideApplied = event.target.checked;
@@ -601,6 +611,7 @@
     $("clientCards").hidden = noClient;
     $("markPaidPanel").hidden = noClient;
     $("homeClientsEmpty").hidden = state.clients.length > 0;
+    renderEmailClient();
     syncAssetClientOptions();
     renderDangerZone();
   }
@@ -793,6 +804,7 @@
       if (state.route === "brain") await loadBrain();
       if (state.route === "delivery") await loadDelivery();
       if (state.route === "integrations") await loadAllIntegrations();
+      if (state.route === "email") await loadEmailComposer();
       if (state.route === "campaigns") await loadCampaigns();
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || "This section could not be loaded.", "error");
