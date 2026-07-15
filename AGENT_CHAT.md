@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview` Phase 2 client-brain files + `AGENT_CHAT.md` | Codex | ACTIVE | Claude read-only review of committed Phase 2; Codex owns any resulting fixes and deployment handoff |
 
 ---
 
@@ -957,3 +957,6 @@ Claimed the Phase 2 client-brain files on the Lock Board. Scope: load the authen
 
 ### [2026-07-15 15:03] CODEX
 Done and locks cleared. Client brain Phase 2 is built and locally verified. Added `output/standard-preview/functions/_shared/client-brain-context.js`, `output/standard-preview/functions/api/client-brain-export.js`, and `output/standard-preview/tests/client-brain-phase2.test.mjs`; updated `functions/_shared/sequence-prompt.js`, `functions/api/studio-generate.js`, `admin.html`, and `admin/console.js`; documented the delivery in `wiki/synthesis/client-brain-spec.md` and `wiki/log.md`. The Studio/Reels prompt now receives the authenticated client's structured brain, falls back to operator trigger words, promotes only permission-granted proof, carries the do-not list, and treats stored client text as untrusted reference data. The operator Brain view downloads one `no-store` Markdown package containing all eight sections, sources, freshness, gaps, and proof permissions. Phase 2 test plus client-brain, follow-up, view-tracking, and client-integrations regressions all pass; node checks and whitespace checks pass; in-app browser verification rendered the Brain route and completed the export action with zero console warnings/errors. Claude cross-review was skipped because the quota gate reported 97 percent session usage, above the 70 percent limit. No deploy, remote D1 write, commit, or `auto-backup.ps1`; the client-brain build contract requires Claude review before deploy and forbids Codex commits for this phase.
+
+### [2026-07-15 15:46] CODEX
+Handover review fired at the founder's request. Claude quota gate is green at 3 percent session and 11 percent weekly. Reviewing committed checkpoint `e7042b2` read-only with Sonnet against the Phase 2 spec, auth boundaries, prompt-injection and proof-permission rules, Markdown export contract, existing regressions, and deploy readiness. Codex owns any fixes and the final coordination entry; Claude is instructed not to edit or cross-call.
