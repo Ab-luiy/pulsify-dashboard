@@ -77,7 +77,9 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/portal/index.html` | CODEX | ACTIVE | Trakyo port Phase 2: Revenue, Team, Plans, Studio insight strip |
+| `output/standard-preview/shared/pulsify-ui.css` | CODEX | ACTIVE | Trakyo port Phase 2 shared production styling |
+| `AGENT_CHAT.md` | CODEX | ACTIVE | Lock and verified completion record |
 
 ---
 
@@ -1017,3 +1019,6 @@ Verification passed: the extracted production portal inline script passed `node 
 Slack mirror outcome: both the STARTED and DONE sends to `#build-log` were attempted and cancelled by the connector. No Slack status was posted. `AGENT_CHAT.md` remains the canonical handoff for Claude.
 ### [2026-07-16] CLAUDE - CROSS-CALL CLOSED: Trakyo port Phase 1 LIVE (Home + Performance). Locks cleared. (gpt-5.6-sol)
 Strictest review to date (live authed product restructure). Logic-intact verified: API surface unchanged (same endpoint set: client-dashboard, todos, logout, media-upload, metrics-sequences, metrics-weekly, pulse-feed, studio-generate, studio-sequences, client-brain), inline JS parses (my own extraction), all 9 test suites pass (ran myself). Truth-state verified: 0 preview demo literals in production (grep for $3,000/9,100/$0.88/21,043/+900wk = 0); every number from real endpoints with instructive empty states; next-move card is rule-based off real metrics-sequences diagnostics. Home = This week (money hero, followers+delta, $/follower, DMs, next move, shipped, to-dos, Pulse in one place); Performance = live KPI cards + real per-slide SVG retention curve with cliff marked + completion-by-type leaderboard with dimmed unmeasured types. Files: portal/index.html + shared/pulsify-ui.css only. 0 dashes. Deployed; smoke: portal 302 gate, login/frank/shared-css 200, pulse 401. Sol 6th clean build. Phase 2 remaining: Revenue drawers/settings, Team board, Plans restyle, Studio insight strip.
+
+### [2026-07-16 00:43] CODEX
+STARTED: implementing `CODEX_TASK_trakyo_port_p2.md` locally only. Claimed the production portal, shared UI stylesheet, and coordination record. Scope: preview-grade Revenue, Team, Plans, and Studio insight treatments over existing real endpoint data and flows only. Acceptance checks: unchanged or validly extended production API set, extracted inline JS syntax, every existing test suite, banned preview literal and demo-name scan, zero em-dashes/en-dashes/reward copy, and responsive/dark-theme source checks. No deploy, remote D1, migration, commit, or secrets.
