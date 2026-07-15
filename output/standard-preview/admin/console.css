@@ -437,6 +437,7 @@ input:focus, select:focus, textarea:focus {
 }
 .status-pill.success, .provider-status.connected, .badge.success { color: var(--success); background: var(--success-soft); }
 .badge.accent { color: var(--accent); background: var(--accent-soft); }
+.badge.hot { color: #fff; background: var(--accent); }
 .badge.failure { color: var(--failure); background: var(--failure-soft); }
 
 .empty-state {
@@ -737,6 +738,50 @@ input:focus, select:focus, textarea:focus {
 .inset-form { padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-3); }
 
 .table-panel { padding-bottom: 0; overflow: hidden; }
+.followup-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: -4px 0 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-3);
+}
+.followup-filters { display: flex; flex-wrap: wrap; gap: 10px; }
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 10px;
+}
+.filter-toggle input {
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  accent-color: var(--accent);
+}
+.followup-count {
+  color: var(--muted);
+  font-family: var(--ui-font-mono);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.followup-page-link {
+  color: var(--accent);
+  font-family: var(--ui-font-mono);
+  font-size: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.followup-page-link:hover { text-decoration: underline; }
+.followup-score { display: flex; align-items: center; gap: 7px; }
+.followup-score small { color: var(--muted); font-family: var(--ui-font-mono); font-size: 9px; }
 .table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
 table { width: 100%; min-width: 780px; border-collapse: collapse; }
 th, td { padding: 12px; border-top: 1px solid var(--line); text-align: left; vertical-align: middle; font-size: 11px; }
@@ -1298,6 +1343,7 @@ body.modal-open { overflow: hidden; }
   .proof-row-actions { flex-wrap: wrap; }
   .wizard-select-card { min-height: 176px; }
   .advanced > .form-grid { grid-template-columns: 1fr; }
+  .followup-controls { align-items: flex-start; flex-direction: column; }
   .asset-result-row { grid-template-columns: 1fr; }
   .asset-result-row .button { width: 100%; }
   .viewer-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }

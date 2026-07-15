@@ -31,6 +31,8 @@
     integrationsReady: false,
     campaigns: [],
     campaignSort: { key: "signal", dir: "desc" },
+    followups: [],
+    followupFilters: { hideApplied: true, hideBooked: true },
     currentConfig: null,
     homeConfigs: new Map(),
     activity: [],
@@ -326,6 +328,14 @@
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
+    $("hideAppliedFollowups").addEventListener("change", (event) => {
+      state.followupFilters.hideApplied = event.target.checked;
+      renderFollowupRows();
+    });
+    $("hideBookedFollowups").addEventListener("change", (event) => {
+      state.followupFilters.hideBooked = event.target.checked;
+      renderFollowupRows();
+    });
     $("assetForm").addEventListener("submit", createTrackedAsset);
     $("copyAssetResultButton").addEventListener("click", () => copyTrackedAsset($("assetResultUrl").value));
     $("assetRows").addEventListener("click", handleTrackedAssetAction);
@@ -2900,12 +2910,69 @@
       state.campaignSummary = data.summary || {};
       renderCampaignSummary(data.summary || {});
       renderCampaignRows();
-      await loadTrackedAssets();
+      await Promise.all([loadFollowups(), loadTrackedAssets()]);
       $("campaignUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
       $("campaignUpdated").className = "status-pill success";
     } finally {
       button.disabled = false;
     }
+  }
+
+  async function loadFollowups() {
+    $("followupUpdated").textContent = "Loading";
+    $("followupUpdated").className = "status-pill";
+    hideMessage($("followupMessage"));
+    try {
+      const response = await api("/api/followups");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not load the follow-up queue.");
+      }
+      state.followups = Array.isArray(data.followups) ? data.followups : [];
+      renderFollowupRows();
+      $("followupUpdated").textContent = `${number(data.summary?.needing_followup)} need follow-up`;
+      $("followupUpdated").className = "status-pill success";
+    } catch (error) {
+      if (!state.key) return;
+      state.followups = [];
+      renderFollowupRows();
+      $("followupUpdated").textContent = "Unavailable";
+      showMessage(
+        $("followupMessage"),
+        error.message || "Could not load the follow-up queue.",
+        "error",
+      );
+    }
+  }
+
+  function renderFollowupRows() {
+    const rows = state.followups.filter((followup) => {
+      if (state.followupFilters.hideApplied && followup.outcomes?.applied) return false;
+      if (state.followupFilters.hideBooked && followup.outcomes?.booked) return false;
+      return true;
+    });
+
+    $("followupRows").innerHTML = rows.map((followup) => {
+      const watch = Math.round(Number(followup.engagement?.max_watch_percent || 0));
+      const visits = Number(followup.engagement?.page_views || 0);
+      const pagePath = followup.page_path || `/?client=${encodeURIComponent(followup.client)}`;
+      return `<tr>
+        <td><strong>${esc(followup.client_name || followup.client)}</strong><span class="muted">${number(visits)} page views</span></td>
+        <td><a class="followup-page-link" href="${esc(pagePath)}" target="_blank" rel="noopener">${esc(pagePath)}</a></td>
+        <td><div class="followup-score">${followupSignalBadge(followup.signal)}<small>${number(followup.score)} points</small></div></td>
+        <td class="watch"><div class="watch-label"><span>${watch}%</span><span>${number(followup.engagement?.plays)} plays</span></div><div class="watch-track"><i style="width:${Math.min(100, Math.max(0, watch))}%"></i></div></td>
+        <td>${relativeTime(followup.engagement?.last_viewed_at)}</td>
+        <td>${outcomeBadge(followup.outcomes?.applied, "Applied")}</td>
+        <td>${outcomeBadge(followup.outcomes?.booked, "Booked")}</td>
+        <td><div class="row-actions"><button type="button" data-followup-activity="${esc(followup.client)}">View activity</button></div></td>
+      </tr>`;
+    }).join("");
+
+    $("followupCount").textContent = `${number(rows.length)} of ${number(state.followups.length)} engaged`;
+    $("followupEmpty").hidden = rows.length > 0;
+    $$("[data-followup-activity]", $("followupRows")).forEach((button) => {
+      button.addEventListener("click", () => openCampaignActivity(button.dataset.followupActivity));
+    });
   }
 
   function renderCampaignSummary(summary) {
@@ -2985,9 +3052,10 @@
 
   async function openCampaignActivity(client) {
     const campaign = state.campaigns.find((item) => item.client === client);
+    const followup = state.followups.find((item) => item.client === client);
     activityDrawerReturnFocus = document.activeElement;
     $("activityDrawerTitle").textContent = "Visitor activity";
-    $("activityDrawerClient").textContent = campaign?.client_name || client;
+    $("activityDrawerClient").textContent = campaign?.client_name || followup?.client_name || client;
     $("activityViewerSummary").innerHTML =
       '<article class="metric-card"><span>Status</span><strong>Loading</strong><small>reading visitor activity</small></article>';
     $("activityViewerRows").innerHTML = "";
@@ -3185,6 +3253,18 @@
     if (signal === "hot") return '<span class="badge accent">Hot</span>';
     if (signal === "visited") return '<span class="badge accent">Visited</span>';
     return '<span class="badge">No activity</span>';
+  }
+
+  function followupSignalBadge(signal) {
+    if (signal === "hot") return '<span class="badge hot">Hot</span>';
+    if (signal === "warm") return '<span class="badge accent">Warm</span>';
+    return '<span class="badge">Cool</span>';
+  }
+
+  function outcomeBadge(value, label) {
+    return value
+      ? `<span class="badge success">${esc(label)}</span>`
+      : '<span class="muted">No</span>';
   }
 
   function failureBadge(value) {

@@ -593,6 +593,50 @@
         </details>
 
         <div class="metrics-grid" id="campaignSummary"></div>
+        <article class="panel table-panel followup-panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Engaged prospects</p>
+              <h3>Follow-up queue</h3>
+              <p>Prioritized by page views, watch depth, plays, and how recently the prospect viewed the page.</p>
+            </div>
+            <span class="status-pill" id="followupUpdated">Not loaded</span>
+          </div>
+          <div class="followup-controls">
+            <div class="followup-filters" aria-label="Follow-up queue filters">
+              <label class="filter-toggle" for="hideAppliedFollowups">
+                <input id="hideAppliedFollowups" type="checkbox" checked>
+                <span>Hide applied</span>
+              </label>
+              <label class="filter-toggle" for="hideBookedFollowups">
+                <input id="hideBookedFollowups" type="checkbox" checked>
+                <span>Hide booked</span>
+              </label>
+            </div>
+            <span class="followup-count" id="followupCount">0 prospects</span>
+          </div>
+          <div class="message error" id="followupMessage" role="alert" hidden></div>
+          <div class="table-scroll">
+            <table class="followup-table">
+              <thead><tr>
+                <th>Prospect</th>
+                <th>Page sent</th>
+                <th>Warm signal</th>
+                <th>Watch %</th>
+                <th>Last viewed</th>
+                <th>Applied</th>
+                <th>Booked</th>
+                <th>Actions</th>
+              </tr></thead>
+              <tbody id="followupRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state inset" id="followupEmpty" hidden>
+            <h3>No prospects match these filters</h3>
+            <p>Uncheck a completed-outcome filter, or wait for a sent page to record a view.</p>
+          </div>
+        </article>
+
         <article class="panel table-panel">
           <div class="panel-head"><div><p class="kicker">Sent pages</p><h3>Campaign board</h3></div><span class="status-pill" id="campaignUpdated">Not loaded</span></div>
           <div class="table-scroll">
