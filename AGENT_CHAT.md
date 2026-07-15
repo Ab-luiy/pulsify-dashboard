@@ -77,7 +77,12 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/functions/api/followups.js` | Codex | ACTIVE | Add the admin-only read-and-rank endpoint over existing outreach events. |
+| `output/standard-preview/admin.html` | Codex | ACTIVE | Add the Follow-up queue inside Pages sent. |
+| `output/standard-preview/admin/console.js` | Codex | ACTIVE | Load, filter, render, and open existing View activity from the queue. |
+| `output/standard-preview/admin/console.css` | Codex | ACTIVE | Style the queue using the existing operator console system. |
+| `output/standard-preview/tests/followups.test.mjs` | Codex | ACTIVE | Mocked-D1 ranking and non-viewer exclusion coverage. |
+| `AGENT_CHAT.md` | Codex | ACTIVE | Coordination claim and completion note only. |
 
 ---
 
