@@ -1,0 +1,14 @@
+Reading additional input from stdin...
+OpenAI Codex v0.144.4
+--------
+workdir: C:\Users\Abdullah\Desktop\Pulsify-Brain
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: high
+reasoning summaries: none
+session id: 019f67d3-ff0c-7a01-bfa1-dc3e42ce4251
+--------
+user
+Read CODEX_TASK_impersonation.md in this repo and fully implement it now by editing code. This is security-sensitive: the four guarantees in the file are the task. Follow every rule and test requirement exactly. Claim files on the AGENT_CHAT.md lock board first and post a done note with the endpoint-by-endpoint enforcement list when finished.

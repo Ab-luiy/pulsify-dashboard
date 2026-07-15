@@ -934,12 +934,16 @@
         <div class="panel-head">
           <div>
             <h2>Revenue</h2>
-            <div class="panel-note">Read-only from the live payments table.</div>
+            <div class="panel-note">Live payments, connected rails, and the client-owned workspace fields.</div>
           </div>
-          <div class="panel-note" id="revenueUpdated">Waiting on data</div>
+          <div class="revenue-head-actions">
+            <span class="panel-note" id="revenueUpdated">Waiting on data</span>
+            <button class="outline" data-scroll-to="revenueIntegrations" type="button">Integrations</button>
+            <button class="outline" data-scroll-to="revenueSettings" type="button">Settings</button>
+          </div>
         </div>
-        <div class="metric-grid" id="revenueMetrics"></div>
-        <div class="card" id="paymentsCard">
+        <div class="metric-grid revenue-kpi-grid" id="revenueMetrics"></div>
+        <div class="card revenue-table-card" id="paymentsCard">
           <div class="card-head">
             <h3>Payment history</h3>
             <span class="panel-note" id="paymentCount">0 payments</span>
@@ -956,6 +960,46 @@
             <h3>No payments recorded yet</h3>
             <p>Revenue appears here as soon as Pulsify records a verified payment for this client.</p>
           </div>
+        </div>
+
+        <div class="revenue-entry-grid">
+          <section class="card revenue-entry-card" id="revenueIntegrations">
+            <div class="card-head">
+              <div>
+                <h3>Integrations</h3>
+                <p>Connection states from the client integration layer.</p>
+              </div>
+              <span class="home-count" id="integrationCount">Checking</span>
+            </div>
+            <div class="integration-status-list" id="integrationStatusList" aria-live="polite">
+              <div class="revenue-inline-empty">Checking the client's available connections.</div>
+            </div>
+          </section>
+
+          <section class="card revenue-entry-card" id="revenueSettings">
+            <div class="card-head">
+              <div>
+                <h3>Settings</h3>
+                <p>Edit the identity fields this client is allowed to own.</p>
+              </div>
+              <span class="home-count" id="clientSettingsStatus">Client brain</span>
+            </div>
+            <div class="client-settings-form">
+              <label for="clientIdentityName">Name
+                <input id="clientIdentityName" type="text" autocomplete="name" placeholder="Client or brand name">
+              </label>
+              <label for="clientIdentityHandles">Handles
+                <textarea id="clientIdentityHandles" rows="3" placeholder="One social handle per line"></textarea>
+              </label>
+              <label for="clientBusinessExplainer">What the business does
+                <textarea id="clientBusinessExplainer" rows="4" placeholder="Explain what the business does and how it makes money"></textarea>
+              </label>
+              <div class="client-settings-actions">
+                <button id="saveClientSettingsButton" type="button">Save settings</button>
+                <span id="clientSettingsMessage">Only client-owned identity fields can be changed here.</span>
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 
@@ -1114,13 +1158,16 @@
       </section>
 
       <section class="panel" id="panel-team">
-        <div class="panel-head"><div><h2>Team</h2><div class="panel-note">Operator-maintained from the admin console.</div></div></div>
-        <div id="teamContent"></div>
+        <div class="panel-head"><div><h2>Team</h2><div class="panel-note">Who is assigned to the build and what is currently in their lane.</div></div></div>
+        <div class="team-card-grid" id="teamContent"></div>
       </section>
 
       <section class="panel" id="panel-plans">
-        <div class="panel-head"><div><h2>Plans</h2><div class="panel-note">Operator-maintained roadmap and phase view.</div></div></div>
-        <div id="plansContent"></div>
+        <div class="panel-head">
+          <div><h2>Plans</h2><div class="panel-note">The current roadmap, progress, and date window from the client dashboard.</div></div>
+          <span class="home-count" id="plansCount">0 plans</span>
+        </div>
+        <div class="plan-card-grid" id="plansContent"></div>
       </section>
 
       <section class="panel" id="panel-todos">
@@ -1137,9 +1184,33 @@
           <div class="panel-note" id="studioStatus">Waiting on history</div>
         </div>
 
+        <div class="studio-insight card" id="studioInsight">
+          <div class="studio-insight-main">
+            <div class="studio-insight-label">This week's read</div>
+            <div class="studio-insight-lines" id="studioInsightLines">
+              <div class="studio-insight-line"><span class="insight-mark neutral">I</span><p>Log the first sequence to create a measured read.</p></div>
+            </div>
+            <div class="studio-insight-actions">
+              <button id="studioInsightGenerateButton" type="button">Start a sequence</button>
+              <button class="outline" id="studioInsightLogButton" type="button">Open sequence log</button>
+            </div>
+          </div>
+          <div class="studio-insight-stats" id="studioInsightStats"></div>
+        </div>
+
+        <div class="studio-pipeline-card card">
+          <div class="studio-pipeline-head">
+            <div>
+              <h3>Content pipeline</h3>
+              <p>Live counts from saved Studio sequence statuses.</p>
+            </div>
+          </div>
+          <div class="studio-pipeline" id="studioPipeline"></div>
+        </div>
+
         <div class="studio-grid">
           <div class="stack">
-            <div class="studio-card">
+            <div class="studio-card" id="studioBuilderCard">
               <h3>Sequence builder</h3>
               <p>Pick a sequence type or describe the intent in plain English. The builder writes the prompt contract and returns a draft.</p>
               <div class="field-grid">
@@ -1313,6 +1384,10 @@
       client: CLIENT,
       sections: {},
       revenue: {},
+      brainSections: [],
+      brainLoadState: "loading",
+      integrations: [],
+      integrationsLoadState: "loading",
       contentItems: [],
       proofItems: [],
       pulseItems: [],
@@ -1340,6 +1415,9 @@
     document.querySelectorAll("[data-open-tab]").forEach((button) => {
       button.addEventListener("click", () => openTab(button.dataset.openTab));
     });
+    document.querySelectorAll("[data-scroll-to]").forEach((button) => {
+      button.addEventListener("click", () => $(button.dataset.scrollTo)?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    });
     $("nextMoveButton").addEventListener("click", () => openTab($("nextMoveButton").dataset.nextTab || "performance"));
     $("focusSequenceLogButton").addEventListener("click", () => {
       $("logSequenceCard").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1359,6 +1437,9 @@
     $("saveSnapshotButton").addEventListener("click", saveSnapshot);
     $("captureButton").addEventListener("click", addThought);
     $("proofUploadButton").addEventListener("click", uploadProof);
+    $("saveClientSettingsButton").addEventListener("click", saveClientSettings);
+    $("studioInsightGenerateButton").addEventListener("click", startInsightSequence);
+    $("studioInsightLogButton").addEventListener("click", openInsightLogSurface);
     $("proofGrid").addEventListener("click", (event) => {
       const button = event.target.closest("[data-proof-save]");
       if (button) saveProofClaim(button);
@@ -1371,6 +1452,9 @@
     });
     setTodayDefaults();
     renderReels();
+    renderClientSettings();
+    renderRevenueIntegrations();
+    renderStudioInsight();
     loadDashboard();
 
     async function loadDashboard() {
@@ -1386,7 +1470,7 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
         renderDashboard(data);
-        await Promise.all([loadStudioHistory(), loadPerformanceData(), loadProofVault(), loadPulseFeed()]);
+        await Promise.all([loadStudioHistory(), loadPerformanceData(), loadProofVault(), loadPulseFeed(), loadClientIntegrations()]);
       } catch (error) {
         showMessage(error.message || "Could not load the dashboard.");
       }
@@ -1425,12 +1509,41 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the proof vault.");
         state.proofItems = Array.isArray(data.proof_items) ? data.proof_items : [];
+        state.brainSections = Array.isArray(data.sections) ? data.sections : [];
+        state.brainLoadState = "ready";
         renderProofVault();
+        renderClientSettings();
+        renderRevenue(state.revenue || {});
         renderHome();
       } catch (error) {
+        state.brainLoadState = "error";
         $("proofStatus").textContent = "Proof unavailable";
         $("proofGrid").innerHTML = `<div class="empty-card"><h3>Proof is unavailable</h3><p>${esc(error.message || "Saved proof could not be loaded.")}</p></div>`;
+        renderClientSettings(error.message || "Client-owned settings could not be loaded.");
       }
+    }
+
+    async function loadClientIntegrations() {
+      if (!TOKEN) {
+        state.integrations = [];
+        state.integrationsLoadState = "session";
+        renderRevenueIntegrations();
+        return;
+      }
+      try {
+        const response = await fetch(`/api/client-integrations?client=${encodeURIComponent(state.client)}`, {
+          headers: authHeaders(),
+          credentials: "same-origin",
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not load integration states.");
+        state.integrations = Array.isArray(data.integrations) ? data.integrations : [];
+        state.integrationsLoadState = "ready";
+      } catch (error) {
+        state.integrations = [];
+        state.integrationsLoadState = "error";
+      }
+      renderRevenueIntegrations();
     }
 
     async function loadPerformanceData() {
@@ -1484,9 +1597,11 @@
         renderHistory();
         renderCurrentSequence();
         $("studioStatus").textContent = `${state.studio.rows.length} sequence${state.studio.rows.length === 1 ? "" : "s"} saved`;
+        renderStudioInsight();
       } catch (error) {
         showMessage(error.message || "Could not load sequence history.");
         $("studioStatus").textContent = "History unavailable";
+        renderStudioInsight();
       }
     }
 
@@ -1504,8 +1619,8 @@
 
       renderRevenue(data.revenue || {});
       renderContentSection();
-      renderListSection("teamContent", "Team", state.sections.team, emptyText("No team records yet", "Pulsify will list the working team here as soon as the client setup is filled in."));
-      renderListSection("plansContent", "Plans", state.sections.plans, emptyText("No plan loaded yet", "Pulsify will add the current roadmap here once the client plan is written."));
+      renderTeam(state.sections.team);
+      renderPlans(state.sections.plans);
       renderTodos(state.sections.todos);
       renderHome();
     }
@@ -1644,6 +1759,123 @@
       $("proofUploadStatus").className = `proof-upload-status${isError ? " error" : ""}`;
     }
 
+    function renderClientSettings(errorMessage = "") {
+      const identity = brainSection("identity");
+      const name = brainFieldValue(identity, "name");
+      const handles = brainFieldValue(identity, "handles");
+      const explainer = brainFieldValue(identity, "business_explainer");
+      $("clientIdentityName").value = typeof name === "string" ? name : "";
+      $("clientIdentityHandles").value = Array.isArray(handles)
+        ? handles.join("\n")
+        : (typeof handles === "string" ? handles : "");
+      $("clientBusinessExplainer").value = typeof explainer === "string" ? explainer : "";
+      $("clientSettingsStatus").textContent = state.brainLoadState === "ready"
+        ? "Client-owned fields"
+        : (state.brainLoadState === "error" ? "Unavailable" : "Loading");
+      $("clientSettingsMessage").textContent = errorMessage
+        || (state.brainLoadState === "ready"
+          ? "Only client-owned identity fields can be changed here."
+          : "Waiting for the client brain.");
+      $("saveClientSettingsButton").disabled = state.brainLoadState !== "ready";
+    }
+
+    async function saveClientSettings() {
+      const button = $("saveClientSettingsButton");
+      button.disabled = true;
+      $("clientSettingsMessage").textContent = "Saving client-owned identity fields.";
+      try {
+        const response = await fetch("/api/client-brain", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            client: state.client,
+            answers: {
+              identity: {
+                name: $("clientIdentityName").value.trim(),
+                handles: parseListInput($("clientIdentityHandles").value),
+                business_explainer: $("clientBusinessExplainer").value.trim(),
+              },
+            },
+          }),
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save client settings.");
+        $("clientSettingsMessage").textContent = "Client identity settings saved.";
+        await loadProofVault();
+        showMessage("Client identity settings saved.", "success");
+      } catch (error) {
+        $("clientSettingsMessage").textContent = error.message || "Could not save client settings.";
+        showMessage(error.message || "Could not save client settings.");
+      } finally {
+        button.disabled = state.brainLoadState !== "ready";
+      }
+    }
+
+    function renderRevenueIntegrations() {
+      const target = $("integrationStatusList");
+      if (state.integrationsLoadState === "loading") {
+        $("integrationCount").textContent = "Checking";
+        target.innerHTML = `<div class="revenue-inline-empty">Checking the client's available connections.</div>`;
+        return;
+      }
+      if (state.integrationsLoadState === "session") {
+        $("integrationCount").textContent = "Secure setup link needed";
+        target.innerHTML = `<div class="revenue-inline-empty">Connection states appear here when this workspace is opened through its secure setup link. Password-session access stays active for the rest of the portal.</div>`;
+        return;
+      }
+      if (state.integrationsLoadState === "error") {
+        $("integrationCount").textContent = "Unavailable";
+        target.innerHTML = `<div class="revenue-inline-empty">Connection states could not be loaded. Existing portal data remains available.</div>`;
+        return;
+      }
+
+      const connected = state.integrations.filter((item) => item.connected);
+      $("integrationCount").textContent = `${connected.length} of ${state.integrations.length} connected`;
+      target.innerHTML = state.integrations.map((item) => {
+        const status = item.connected ? "Connected" : "Available";
+        const timestamp = item.last_event_ts || item.updated_at || "";
+        const detail = item.connected
+          ? (timestamp ? `Last activity ${relativeTime(timestamp)}` : "Configured for this client")
+          : integrationInstruction(item.provider);
+        return `
+          <div class="integration-status-row${item.connected ? " connected" : ""}">
+            <span class="integration-provider-mark" aria-hidden="true">${esc(integrationMark(item.provider))}</span>
+            <div><strong>${esc(integrationLabel(item.provider))}</strong><small>${esc(detail)}</small></div>
+            <span class="integration-state">${esc(status)}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function integrationLabel(provider) {
+      return ({ kit: "Kit", calcom: "Cal.com", calendly: "Calendly", whop: "Whop", stripe: "Stripe", youtube: "YouTube", instagram: "Instagram", zapier: "Zapier" })[provider] || capitalize(provider);
+    }
+
+    function integrationMark(provider) {
+      return ({ kit: "K", calcom: "C", calendly: "C", whop: "W", stripe: "S", youtube: "Y", instagram: "I", zapier: "Z" })[provider] || "I";
+    }
+
+    function integrationInstruction(provider) {
+      return ({
+        kit: "Add the API key and tag during setup.",
+        calcom: "Add the booking key and event details during setup.",
+        calendly: "Add the personal token during setup.",
+        whop: "Add the payment webhook details during setup.",
+        stripe: "Add the signed payment webhook during setup.",
+        youtube: "Confirm delegated YouTube access during onboarding.",
+        instagram: "Confirm delegated Instagram access during onboarding.",
+        zapier: "Add the destination webhook during setup.",
+      })[provider] || "Complete this connection during onboarding.";
+    }
+
     function pulseIcon(kind) {
       return ({ payment: "$", page: "P", watch: "W", studio: "S", sequence: "L", proof: "V", integration: "I", content: "C" })[kind] || "P";
     }
@@ -1687,11 +1919,16 @@
       const total = Number(revenue.total_revenue_cents || 0);
       const currentMonth = Number(revenue.current_month_revenue_cents || 0);
       const payments = revenue.payments || [];
+      const currencyCode = payments[0]?.currency || "USD";
+      const revenueGoal = getRevenueGoalCents();
       $("revenueUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
       $("revenueMetrics").innerHTML = [
         metricCard("Total cash collected", currency(total), "all recorded payments"),
         metricCard("This month", currency(currentMonth), "recorded in the current month"),
         metricCard("Payment count", number(payments.length), "verified rows in the payments table"),
+        revenueGoal == null
+          ? metricCard("Revenue goal", "Not set", "No revenue target is stored in the client brain funnel facts.")
+          : metricCard("Revenue goal", formatPercent(total / revenueGoal * 100), `${currency(total, currencyCode)} of ${currency(revenueGoal, currencyCode)}`),
       ].join("");
       $("paymentCount").textContent = `${payments.length} payment${payments.length === 1 ? "" : "s"}`;
       $("paymentsEmpty").hidden = payments.length > 0;
@@ -1706,6 +1943,24 @@
         </tr>
       `).join("");
       renderHome();
+    }
+
+    function getRevenueGoalCents() {
+      const funnel = brainSection("funnel");
+      const fields = Array.isArray(funnel?.fields) ? funnel.fields : [];
+      const goalField = fields.find((field) => ["revenue_goal", "revenue_goal_cents", "monthly_revenue_goal", "revenue_target", "cash_goal", "target_revenue", "goal"].includes(field.key));
+      if (!goalField || goalField.gap) return null;
+      return parseMoneyToCents(goalField.value, goalField.key.endsWith("_cents"));
+    }
+
+    function parseMoneyToCents(value, alreadyCents = false) {
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        if (Number.isFinite(Number(value.amount_cents)) && Number(value.amount_cents) > 0) return Math.round(Number(value.amount_cents));
+        if (Number.isFinite(Number(value.amount)) && Number(value.amount) > 0) return Math.round(Number(value.amount) * 100);
+      }
+      const normalized = String(value ?? "").replace(/[^0-9.-]/g, "");
+      const amount = Number(normalized);
+      return Number.isFinite(amount) && amount > 0 ? Math.round(alreadyCents ? amount : amount * 100) : null;
     }
 
     function renderHome() {
@@ -1808,20 +2063,19 @@
     }
 
     /*
-      Next move rules, in order:
+      Shared sequence read rules, in order:
       1. With no sequence data, finish the proof base or log the first sequence.
       2. If a real diagnostic identifies a hook or body leak, retest the row with the highest drop-off.
       3. Otherwise, repeat the type with the highest average completion.
     */
-    function renderNextMove() {
+    function getSequenceRead() {
       const rows = state.performance.rows || [];
-      const button = $("nextMoveButton");
-      const heading = $("nextMove").querySelector("h3");
-      const copy = $("nextMove").querySelector("p");
       let title;
       let text;
       let tab;
       let label;
+      let leak = null;
+      let best = null;
 
       if (!rows.length) {
         if (!state.proofItems.length) {
@@ -1831,12 +2085,12 @@
           label = "Open Proof vault";
         } else {
           title = "Log the first sequence";
-          text = "Add per-slide views and DMs from the first posted sequence. That unlocks the retention curve and next retest.";
+          text = "Add per-slide views and DMs from the first posted sequence. That creates the retention curve and next retest.";
           tab = "performance";
           label = "Open Performance";
         }
       } else {
-        const leak = rows
+        leak = rows
           .filter((row) => row.diagnostic === "hook failed" || row.diagnostic === "body failed before the ask")
           .sort((a, b) => Number(b.dropoff_pct || 0) - Number(a.dropoff_pct || 0))[0];
         if (leak) {
@@ -1845,7 +2099,7 @@
           tab = "performance";
           label = "Open the sequence";
         } else {
-          const best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0);
+          best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0) || null;
           title = best ? `Make more ${best.type}` : "Log a complete sequence";
           text = best
             ? `${capitalize(best.type)} leads the logged types at ${formatPercent(best.completion)} average completion. Reuse the frame with a new topic.`
@@ -1855,10 +2109,100 @@
         }
       }
 
-      heading.textContent = title;
-      copy.textContent = text;
-      button.dataset.nextTab = tab;
-      button.textContent = label;
+      if (!best) best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0) || null;
+      return { rows, title, text, tab, label, leak, best };
+    }
+
+    function renderNextMove() {
+      const read = getSequenceRead();
+      const button = $("nextMoveButton");
+      const heading = $("nextMove").querySelector("h3");
+      const copy = $("nextMove").querySelector("p");
+
+      heading.textContent = read.title;
+      copy.textContent = read.text;
+      button.dataset.nextTab = read.tab;
+      button.textContent = read.label;
+    }
+
+    function renderStudioInsight() {
+      const read = getSequenceRead();
+      const summary = state.performance.weekSummary || {};
+      const currentWeekStart = summary.current_week_start || startOfCurrentUtcWeek();
+      const nextWeekStart = addIsoDays(currentWeekStart, 7);
+      const currentRows = read.rows.filter((row) => row.posted_on >= currentWeekStart && row.posted_on < nextWeekStart);
+      const currentDms = sumLoggedMetric(currentRows, "dms");
+      const measured = currentRows.filter((row) => row.completion_pct != null && Number.isFinite(Number(row.completion_pct)));
+      const average = measured.length
+        ? measured.reduce((sum, row) => sum + Number(row.completion_pct), 0) / measured.length
+        : null;
+      const lines = [];
+
+      if (!read.rows.length) {
+        lines.push({ tone: "neutral", mark: "1", text: "Log the first posted sequence with per-slide views. The first measured row creates the weekly read." });
+        lines.push({ tone: "neutral", mark: "2", text: state.proofItems.length ? "The proof base is ready for a credibility sequence." : "Add the first student result before building a proof-led sequence." });
+      } else {
+        if (read.best) {
+          lines.push({ tone: "success", mark: "W", text: `${capitalize(read.best.type)} leads the measured types at ${formatPercent(read.best.completion)} average completion.` });
+        }
+        if (read.leak) {
+          lines.push({ tone: "danger", mark: "L", text: `${read.leak.topic || capitalize(read.leak.type)} loses the most attention at slide ${read.leak.biggest_drop_slide || "unknown"}. Retest that transition and keep the remaining slides stable.` });
+        } else {
+          lines.push({ tone: "neutral", mark: "N", text: read.text });
+        }
+      }
+
+      $("studioInsightLines").innerHTML = lines.map((line) => `
+        <div class="studio-insight-line"><span class="insight-mark ${line.tone}">${esc(line.mark)}</span><p>${esc(line.text)}</p></div>
+      `).join("");
+      $("studioInsightStats").innerHTML = [
+        studioStat("Sequences", number(currentRows.length), "this week"),
+        studioStat("DMs generated", currentDms == null ? "Not logged" : number(currentDms), "this week"),
+        studioStat("Avg completion", average == null ? "Not logged" : formatPercent(average), "measured this week"),
+        studioStat("Best type", read.best ? capitalize(read.best.type) : "Not ranked", read.best ? `${read.best.count} measured` : "needs completion data"),
+      ].join("");
+
+      $("studioInsightGenerateButton").textContent = read.best ? `Generate ${read.best.type}` : "Start a sequence";
+      $("studioInsightLogButton").textContent = read.leak ? "Open leaking log" : "Open sequence log";
+      renderStudioPipeline();
+    }
+
+    function studioStat(label, value, detail) {
+      return `<div class="studio-stat"><span>${esc(label)}</span><strong class="mono">${esc(value)}</strong><small>${esc(detail)}</small></div>`;
+    }
+
+    function renderStudioPipeline() {
+      const stages = [
+        ["draft", "Draft"],
+        ["review", "In review"],
+        ["approved", "Approved"],
+      ];
+      $("studioPipeline").innerHTML = stages.map(([status, label]) => {
+        const count = state.studio.rows.filter((row) => row.status === status).length;
+        return `<div class="studio-pipeline-stage ${status}"><span>${esc(label)}</span><strong class="mono">${number(count)}</strong><small>saved sequence${count === 1 ? "" : "s"}</small></div>`;
+      }).join("");
+    }
+
+    function startInsightSequence() {
+      const read = getSequenceRead();
+      if (read.best) {
+        state.studio.selectedType = read.best.type;
+        renderTypeGrid();
+      }
+      openTab("studio");
+      $("studioBuilderCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      $("topicInput").focus({ preventScroll: true });
+    }
+
+    function openInsightLogSurface() {
+      const read = getSequenceRead();
+      if (read.leak?.id) {
+        loadSequenceIntoForm(Number(read.leak.id));
+        return;
+      }
+      openTab("performance");
+      $("logSequenceCard").scrollIntoView({ behavior: "smooth", block: "start" });
+      $("sequenceTopicInput").focus({ preventScroll: true });
     }
 
     function sumLoggedMetric(rows, key) {
@@ -2011,6 +2355,7 @@
         button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
       });
       renderHome();
+      renderStudioInsight();
     }
 
     function renderPerformanceKpis(rows, summary) {
@@ -2726,6 +3071,112 @@
       }
     }
 
+    function renderTeam(value) {
+      const target = $("teamContent");
+      const items = sectionItems(value, ["members", "team", "items"]);
+      if (!items.length) {
+        target.innerHTML = emptyText("No team assigned yet", "Your Pulsify team appears here once assigned.");
+        return;
+      }
+      target.innerHTML = items.map((item, index) => {
+        const name = item.name || item.title || item.label || item.person || item.owner || `Team member ${index + 1}`;
+        const role = item.role || item.position || item.lane || "Role not logged";
+        const current = item.current_task || item.task || item.working_on || item.detail || item.note || "";
+        const email = item.email || item.contact_email || "";
+        const slack = item.slack || item.slack_handle || "";
+        return `
+          <article class="team-member-card">
+            <div class="team-member-head">
+              <span class="team-avatar" aria-hidden="true">${esc(initials(name))}</span>
+              <div><h3>${esc(name)}</h3><p>${esc(role)}</p></div>
+            </div>
+            ${(email || slack) ? `<div class="team-contact-list">${email ? `<span>${esc(email)}</span>` : ""}${slack ? `<span>${esc(slack)}</span>` : ""}</div>` : ""}
+            <div class="team-now">
+              <span>Right now</span>
+              <strong>${esc(current || "Current work has not been logged.")}</strong>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function renderPlans(value) {
+      const target = $("plansContent");
+      const items = sectionItems(value, ["plans", "phases", "items"]);
+      $("plansCount").textContent = `${items.length} plan${items.length === 1 ? "" : "s"}`;
+      if (!items.length) {
+        target.innerHTML = emptyText("No plan loaded yet", "The current roadmap appears here once Pulsify adds it to the client dashboard.");
+        return;
+      }
+      target.innerHTML = items.map((item, index) => {
+        const title = item.title || item.name || item.label || item.phase || `Plan ${index + 1}`;
+        const status = String(item.status || item.state || "Status not logged");
+        const detail = item.detail || item.description || item.note || item.summary || "No plan detail has been logged.";
+        const progress = planProgress(item);
+        const dates = planDateMeta(item);
+        return `
+          <article class="plan-card">
+            <div class="plan-card-top"><h3>${esc(title)}</h3><span class="plan-status ${esc(planStatusClass(status))}">${esc(status)}</span></div>
+            <div class="plan-progress${progress == null ? " unmeasured" : ""}" role="progressbar" aria-label="${esc(title)} progress" ${progress == null ? "" : `aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"`}><i style="width:${progress == null ? 0 : progress}%"></i></div>
+            <p>${esc(detail)}</p>
+            <div class="plan-meta"><span>${esc(dates || "Dates not logged")}</span><strong class="mono">${progress == null ? "Progress not logged" : `${progress}%`}</strong></div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function sectionItems(value, keys = []) {
+      if (Array.isArray(value)) return value.map(coerceItem);
+      for (const key of keys) {
+        if (Array.isArray(value?.[key])) return value[key].map(coerceItem);
+      }
+      if (value && typeof value === "object") {
+        return Object.entries(value)
+          .filter(([key]) => !keys.includes(key))
+          .map(([title, detail]) => detail && typeof detail === "object" && !Array.isArray(detail)
+            ? { title, ...detail }
+            : { title, detail: String(detail ?? "") });
+      }
+      return [];
+    }
+
+    function planProgress(item) {
+      const raw = item.progress_pct ?? item.progress_percent ?? item.percentage ?? item.progress;
+      if (raw == null || raw === "") return null;
+      const numeric = Number(String(raw).replace("%", "").trim());
+      if (!Number.isFinite(numeric)) return null;
+      const percentage = numeric > 0 && numeric <= 1 && !String(raw).includes("%") ? numeric * 100 : numeric;
+      return Math.round(Math.max(0, Math.min(100, percentage)));
+    }
+
+    function planDateMeta(item) {
+      if (item.date_meta || item.period || item.date_range) return item.date_meta || item.period || item.date_range;
+      const start = item.start_date || item.starts_on || item.start || "";
+      const end = item.end_date || item.ends_on || item.end || item.deadline || "";
+      if (start && end) return `${start} to ${end}`;
+      if (start) return `Starts ${start}`;
+      if (end) return `Due ${end}`;
+      return item.date || "";
+    }
+
+    function planStatusClass(status) {
+      const value = String(status || "").toLowerCase();
+      if (value.includes("progress") || value.includes("active") || value.includes("current")) return "active";
+      if (value.includes("done") || value.includes("complete") || value.includes("shipped")) return "complete";
+      if (value.includes("block") || value.includes("risk")) return "blocked";
+      return "queued";
+    }
+
+    function initials(value) {
+      return String(value || "")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join("") || "P";
+    }
+
     function renderListSection(targetId, heading, value, emptyHtml) {
       const target = $(targetId);
       const items = normalizeItems(value);
@@ -2978,6 +3429,23 @@
         }));
       }
       return [];
+    }
+
+    function brainSection(key) {
+      return state.brainSections.find((section) => section.key === key) || null;
+    }
+
+    function brainFieldValue(section, key) {
+      const field = Array.isArray(section?.fields) ? section.fields.find((entry) => entry.key === key) : null;
+      return field && !field.gap ? field.value : null;
+    }
+
+    function parseListInput(value) {
+      return String(value || "")
+        .split(/[\r\n,]+/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+        .slice(0, 50);
     }
 
     function coerceItem(item) {
