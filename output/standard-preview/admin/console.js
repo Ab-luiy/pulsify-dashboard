@@ -15,6 +15,7 @@
   const AUTH_MESSAGE = "Your admin key was rejected. Paste it again to unlock the console.";
   const MAX_MEDIA_BYTES = 900 * 1024;
   const ROUTES = {
+    command: ["Cross-client rollup", "Command center"],
     home: ["Operator overview", "Home"],
     clients: ["Client setup", "Clients"],
     brain: ["Structured client context", "Client brain"],
@@ -27,9 +28,14 @@
     key: "",
     clients: [],
     client: new URLSearchParams(location.search).get("client") || "",
-    route: "home",
+    route: "command",
     authPrompted: false,
     integrationsReady: false,
+    operatorClients: [],
+    operatorSummary: {},
+    operatorActivity: [],
+    operatorSelectedClient: "",
+    operatorSort: { key: "health", dir: "asc" },
     campaigns: [],
     campaignSort: { key: "signal", dir: "desc" },
     followups: [],
@@ -323,6 +329,7 @@
     $("addClientButton").addEventListener("click", () => openClientWizard());
     $("homeAddClientButton").addEventListener("click", () => openClientWizard());
     $("emptyAddClientButton").addEventListener("click", () => openClientWizard());
+    $("refreshOperatorButton").addEventListener("click", loadOperatorOverview);
     $("refreshHomeButton").addEventListener("click", loadHome);
     $("refreshStudioReviewButton").addEventListener("click", loadStudioReviewQueue);
     $("refreshClientsButton").addEventListener("click", loadSettings);
@@ -350,6 +357,14 @@
     $("activityDrawerBackdrop").addEventListener("click", closeActivityDrawer);
     $("activityDrawer").addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeActivityDrawer();
+    });
+    $("operatorClientActions").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-operator-route]");
+      if (!button || !state.operatorSelectedClient) return;
+      state.client = state.operatorSelectedClient;
+      renderClientSelector();
+      writeClientQuery();
+      location.hash = button.dataset.operatorRoute;
     });
 
     $("clientId").addEventListener("input", () => {
@@ -432,13 +447,22 @@
     $("deliveryCancelButton").addEventListener("click", resetDeliveryForm);
     $("markPaidForm").addEventListener("submit", markPaid);
 
-    $$(".sort-button").forEach((button) => {
+    $$('[data-campaign-sort]').forEach((button) => {
       button.addEventListener("click", () => {
         const key = button.dataset.campaignSort;
         state.campaignSort = state.campaignSort.key === key
           ? { key, dir: state.campaignSort.dir === "desc" ? "asc" : "desc" }
           : { key, dir: "desc" };
         renderCampaignRows();
+      });
+    });
+    $$('[data-operator-sort]').forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = button.dataset.operatorSort;
+        state.operatorSort = state.operatorSort.key === key
+          ? { key, dir: state.operatorSort.dir === "desc" ? "asc" : "desc" }
+          : { key, dir: key === "name" || key === "health" ? "asc" : "desc" };
+        renderOperatorRows();
       });
     });
   }
@@ -748,7 +772,7 @@
 
   function routeFromHash() {
     const requested = location.hash.replace("#", "");
-    state.route = ROUTES[requested] ? requested : "home";
+    state.route = ROUTES[requested] ? requested : "command";
     if (!location.hash || !ROUTES[requested]) history.replaceState(null, "", `${location.pathname}${location.search}#${state.route}`);
     $$("[data-route-panel]").forEach((panel) => { panel.hidden = panel.dataset.routePanel !== state.route; });
     $$("[data-route]").forEach((link) => link.classList.toggle("active", link.dataset.route === state.route));
@@ -763,6 +787,7 @@
   async function loadCurrentRoute() {
     hideMessage($("globalMessage"));
     try {
+      if (state.route === "command") await loadOperatorOverview();
       if (state.route === "home") await loadHome();
       if (state.route === "clients") await loadSettings();
       if (state.route === "brain") await loadBrain();
@@ -772,6 +797,165 @@
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || "This section could not be loaded.", "error");
     }
+  }
+
+  async function loadOperatorOverview() {
+    const button = $("refreshOperatorButton");
+    button.disabled = true;
+    try {
+      const response = await api("/api/operator-overview");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not load the command center.");
+      }
+      state.operatorClients = Array.isArray(data.clients) ? data.clients : [];
+      state.operatorSummary = data.summary || {};
+      state.operatorActivity = Array.isArray(data.operator_activity) ? data.operator_activity : [];
+      if (state.operatorSelectedClient
+        && !state.operatorClients.some((client) => client.client === state.operatorSelectedClient)) {
+        state.operatorSelectedClient = "";
+      }
+      renderOperatorSummary();
+      renderOperatorRows();
+      renderOperatorActivity();
+      $("operatorUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
+      $("operatorUpdated").className = "status-pill success";
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function renderOperatorSummary() {
+    const summary = state.operatorSummary || {};
+    const cards = [
+      ["Clients", number(summary.client_count), "configured client accounts"],
+      ["At-risk", number(summary.at_risk_count), "clients below the watch threshold"],
+      ["Collected", formatCurrencyTotals(summary.total_collected_by_currency), "recorded payment total"],
+    ];
+    $("operatorSummary").innerHTML = cards.map((card) => `
+      <article class="metric-card"><span>${esc(card[0])}</span><strong>${esc(card[1])}</strong><small>${esc(card[2])}</small></article>
+    `).join("");
+  }
+
+  function operatorSortValue(client, key) {
+    if (key === "name") return String(client.client_name || client.client).toLowerCase();
+    if (key === "collected") return Number(client.collected?.total_cents || 0);
+    if (key === "followers") return Number(client.followers?.delta ?? -Infinity);
+    if (key === "cadence") return Number(client.cadence?.posted_7d || 0);
+    if (key === "brain") return Number(client.brain?.completeness_percent || 0);
+    if (key === "activity") return client.last_activity_at || "";
+    const rank = operatorHealthRank(client.health?.label);
+    const score = client.health?.score == null ? 0 : Number(client.health.score) / 1000;
+    return rank + score;
+  }
+
+  function renderOperatorRows() {
+    $$('[data-operator-sort] span').forEach((span) => { span.textContent = ""; });
+    const activeSort = document.querySelector(`[data-operator-sort="${state.operatorSort.key}"] span`);
+    if (activeSort) activeSort.textContent = state.operatorSort.dir === "desc" ? "v" : "^";
+
+    const rows = [...state.operatorClients].sort((a, b) => {
+      const av = operatorSortValue(a, state.operatorSort.key);
+      const bv = operatorSortValue(b, state.operatorSort.key);
+      let comparison = (typeof av === "string" || typeof bv === "string")
+        ? String(av).localeCompare(String(bv))
+        : Number(av) - Number(bv);
+      if (state.operatorSort.dir === "desc") comparison *= -1;
+      if (comparison) return comparison;
+      const risk = operatorHealthRank(a.health?.label) - operatorHealthRank(b.health?.label);
+      if (risk) return risk;
+      return String(a.client_name || a.client).localeCompare(String(b.client_name || b.client));
+    });
+
+    $("operatorRows").innerHTML = rows.map((client) => {
+      const selected = state.operatorSelectedClient === client.client;
+      const followerLatest = client.followers?.latest;
+      const followerDelta = client.followers?.delta;
+      const posted7d = Number(client.cadence?.posted_7d || 0);
+      const brainPercent = Number(client.brain?.completeness_percent || 0);
+      return `<tr class="${selected ? "selected" : ""}">
+        <td><button class="operator-client-button" type="button" data-operator-client="${esc(client.client)}"><strong>${esc(client.client_name || client.client)}</strong><span>${esc(client.client)}</span></button></td>
+        <td>${operatorHealthBadge(client.health)}</td>
+        <td>${esc(formatMoney(client.collected?.total_cents, client.collected?.currency))}<span class="muted">${number(client.collected?.payment_count)} payments</span></td>
+        <td>${followerLatest == null ? '<span class="muted">Not logged</span>' : `${number(followerLatest)}<span class="muted ${client.followers?.trend === "down" ? "negative" : ""}">${esc(formatDelta(followerDelta))}</span>`}</td>
+        <td><strong>${number(posted7d)} / 7d</strong><span class="muted">${client.cadence?.last_posted_on ? `last post ${relativeTime(client.cadence.last_posted_on)}` : "No posts logged"}</span></td>
+        <td><div class="operator-brain-value"><strong>${number(brainPercent)}%</strong><span>${number(client.brain?.sections_complete)} of ${number(client.brain?.total_sections)}</span></div></td>
+        <td>${relativeTime(client.last_activity_at)}</td>
+      </tr>`;
+    }).join("");
+
+    $("operatorEmpty").hidden = rows.length > 0;
+    $$('[data-operator-client]', $("operatorRows")).forEach((button) => {
+      button.addEventListener("click", () => openOperatorClient(button.dataset.operatorClient, button));
+    });
+  }
+
+  async function openOperatorClient(client, button) {
+    if (!client) return;
+    button.disabled = true;
+    try {
+      const response = await api("/api/operator-overview", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "view-client", client }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Could not record the client view.");
+      }
+      state.operatorSelectedClient = client;
+      if (data.event) state.operatorActivity.unshift(data.event);
+      renderOperatorRows();
+      renderOperatorActivity();
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || "Could not open the client.", "error");
+    } finally {
+      if (button.isConnected) button.disabled = false;
+    }
+  }
+
+  function renderOperatorActivity() {
+    const selected = state.operatorSelectedClient;
+    const selectedClient = state.operatorClients.find((client) => client.client === selected);
+    const rows = state.operatorActivity
+      .filter((event) => !selected || event.client === selected)
+      .slice(0, 12);
+
+    $("operatorActivityTitle").textContent = selectedClient
+      ? `${selectedClient.client_name || selectedClient.client} activity`
+      : "Recent operator activity";
+    $("operatorActivityMeta").textContent = selected
+      ? `Audit events recorded for ${selected}.`
+      : "Client views from the command center appear here.";
+    $("operatorClientActions").hidden = !selected;
+    $("operatorActivityList").innerHTML = rows.map((event) => `
+      <div class="operator-activity-row">
+        <span class="activity-dot" aria-hidden="true"></span>
+        <p><strong>${esc(operatorActionLabel(event.action))}</strong><span>${esc(event.client || "No client")}</span></p>
+        <time datetime="${esc(event.created_at || "")}">${relativeTime(event.created_at)}</time>
+      </div>
+    `).join("");
+    $("operatorActivityEmpty").hidden = rows.length > 0;
+  }
+
+  function operatorActionLabel(action) {
+    return action === "view-client" ? "Client opened" : String(action || "Operator event");
+  }
+
+  function operatorHealthBadge(health) {
+    const label = health?.label || "new / needs onboarding";
+    const score = health?.score == null ? "No score" : `${number(health.score)} / 100`;
+    const badgeClass = {
+      healthy: "healthy",
+      watch: "watch",
+      "at-risk": "at-risk",
+      "new / needs onboarding": "new",
+    }[label] || "new";
+    return `<span class="operator-health ${badgeClass}"><strong>${esc(label)}</strong><small>${esc(score)}</small></span>`;
+  }
+
+  function operatorHealthRank(label) {
+    return { "at-risk": 0, watch: 1, "new / needs onboarding": 2, healthy: 3 }[label] ?? 4;
   }
 
   async function loadHome() {
@@ -3631,6 +3815,33 @@
 
   function formatDate(value) {
     return value ? new Date(value).toLocaleString() : "-";
+  }
+
+  function formatCurrencyTotals(totals) {
+    const entries = Object.entries(totals || {}).filter(([, cents]) => Number(cents || 0) !== 0);
+    if (!entries.length) return "0";
+    return entries.map(([currency, cents]) => formatMoney(cents, currency)).join(" | ");
+  }
+
+  function formatMoney(cents, currency) {
+    const amount = Number(cents || 0) / 100;
+    if (!currency || currency === "unknown") return amount.toLocaleString(undefined, { maximumFractionDigits: 2 });
+    if (currency === "mixed") return "Mixed currencies";
+    try {
+      return new Intl.NumberFormat(undefined, {
+        style: "currency",
+        currency: String(currency).toUpperCase(),
+        maximumFractionDigits: 2,
+      }).format(amount);
+    } catch {
+      return `${String(currency).toUpperCase()} ${amount.toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
+    }
+  }
+
+  function formatDelta(value) {
+    if (value == null) return "Need prior snapshot";
+    const delta = Number(value || 0);
+    return `${delta > 0 ? "+" : ""}${number(delta)} vs prior`;
   }
 
   function number(value) {

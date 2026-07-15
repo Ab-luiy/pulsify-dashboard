@@ -17,7 +17,7 @@
       <div class="brand-mark" aria-hidden="true">P</div>
       <p class="eyebrow">Pulsify funnels</p>
       <h1>Operator console</h1>
-      <p class="lede">One key opens the overview, client setup, client work, integrations, and sent-page visibility.</p>
+      <p class="lede">One key opens the command center, client setup, client work, integrations, and sent-page visibility.</p>
       <div class="field">
         <label for="adminKey">Admin key <span class="required">Required</span></label>
         <input id="adminKey" type="password" autocomplete="current-password" placeholder="Paste the deployment admin key">
@@ -35,12 +35,13 @@
         <div><strong>Pulsify</strong><span>Operator console</span></div>
       </div>
       <nav class="nav" aria-label="Console sections">
-        <a href="#home" data-route="home"><span>01</span>Home</a>
-        <a href="#clients" data-route="clients"><span>02</span>Clients</a>
-        <a href="#brain" data-route="brain"><span>03</span>Client brain</a>
-        <a href="#delivery" data-route="delivery"><span>04</span>Client work</a>
-        <a href="#integrations" data-route="integrations"><span>05</span>Integrations</a>
-        <a href="#campaigns" data-route="campaigns"><span>06</span>Pages sent</a>
+        <a href="#command" data-route="command"><span>01</span>Command center</a>
+        <a href="#home" data-route="home"><span>02</span>Home</a>
+        <a href="#clients" data-route="clients"><span>03</span>Clients</a>
+        <a href="#brain" data-route="brain"><span>04</span>Client brain</a>
+        <a href="#delivery" data-route="delivery"><span>05</span>Client work</a>
+        <a href="#integrations" data-route="integrations"><span>06</span>Integrations</a>
+        <a href="#campaigns" data-route="campaigns"><span>07</span>Pages sent</a>
       </nav>
       <div class="rail-actions">
         <button class="button ghost small" id="themeButton" type="button">Switch theme</button>
@@ -65,6 +66,70 @@
       </header>
 
       <div class="global-message message error" id="globalMessage" role="alert" hidden></div>
+
+      <section class="route" id="route-command" data-route-panel="command" hidden>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Cross-client rollup</p>
+            <h2>Command center</h2>
+            <p>Revenue, client health, content cadence, brain coverage, and recent activity in one view.</p>
+          </div>
+          <button class="button outline small" id="refreshOperatorButton" type="button">Refresh rollup</button>
+        </div>
+
+        <div class="metrics-grid operator-summary" id="operatorSummary"></div>
+
+        <article class="panel operator-rollup-panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Clients rollup</p>
+              <h3>Health and operating signals</h3>
+              <p>At-risk clients load first. Select a client name to record the view and inspect recent operator activity.</p>
+            </div>
+            <span class="status-pill" id="operatorUpdated">Not loaded</span>
+          </div>
+          <div class="table-scroll">
+            <table class="operator-table">
+              <thead>
+                <tr>
+                  <th><button class="sort-button" data-operator-sort="name" type="button">Client <span></span></button></th>
+                  <th><button class="sort-button" data-operator-sort="health" type="button">Health <span></span></button></th>
+                  <th><button class="sort-button" data-operator-sort="collected" type="button">Collected <span></span></button></th>
+                  <th><button class="sort-button" data-operator-sort="followers" type="button">Followers <span></span></button></th>
+                  <th><button class="sort-button" data-operator-sort="cadence" type="button">Cadence <span></span></button></th>
+                  <th><button class="sort-button" data-operator-sort="brain" type="button">Brain <span></span></button></th>
+                  <th><button class="sort-button" data-operator-sort="activity" type="button">Last activity <span></span></button></th>
+                </tr>
+              </thead>
+              <tbody id="operatorRows"></tbody>
+            </table>
+          </div>
+          <div class="empty-state inset" id="operatorEmpty" hidden>
+            <h3>No clients configured</h3>
+            <p>Add a client before the rollup can report operating signals.</p>
+          </div>
+        </article>
+
+        <article class="panel operator-activity-panel">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Audit trail</p>
+              <h3 id="operatorActivityTitle">Recent operator activity</h3>
+              <p id="operatorActivityMeta">Client views from the command center appear here.</p>
+            </div>
+            <div class="row-actions" id="operatorClientActions" hidden>
+              <button type="button" data-operator-route="clients">Client setup</button>
+              <button type="button" data-operator-route="brain">Client brain</button>
+              <button type="button" data-operator-route="delivery">Client work</button>
+            </div>
+          </div>
+          <div class="operator-activity-list" id="operatorActivityList"></div>
+          <div class="empty-state inset" id="operatorActivityEmpty" hidden>
+            <h3>No operator activity recorded</h3>
+            <p>Select a client from the rollup to create the first audit event.</p>
+          </div>
+        </article>
+      </section>
 
       <section class="route" id="route-home" data-route-panel="home">
         <div class="section-head">

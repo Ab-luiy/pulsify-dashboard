@@ -796,6 +796,55 @@ td .muted { display: block; margin-top: 3px; color: var(--muted); font-size: 10p
 .watch-track i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
 .sort-button { border: 0; padding: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-weight: inherit; text-transform: inherit; letter-spacing: inherit; }
 
+.operator-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.operator-rollup-panel,
+.operator-activity-panel { margin-top: 16px; }
+.operator-table { min-width: 980px; }
+.operator-table tr.selected td { background: var(--accent-soft); }
+.operator-client-button {
+  min-width: 150px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+.operator-client-button strong,
+.operator-client-button span { display: block; }
+.operator-client-button strong { font-size: 11px; }
+.operator-client-button span { margin-top: 3px; color: var(--muted); font-size: 9px; }
+.operator-client-button:hover strong { color: var(--accent); }
+.operator-health { display: grid; gap: 4px; }
+.operator-health strong,
+.operator-health small { display: block; }
+.operator-health strong { font-size: 9px; text-transform: uppercase; }
+.operator-health small { color: var(--muted); font-size: 9px; }
+.operator-health.healthy strong { color: var(--success); }
+.operator-health.watch strong { color: #925b18; }
+.operator-health.at-risk strong,
+.muted.negative { color: var(--failure); }
+.operator-brain-value { min-width: 86px; }
+.operator-brain-value strong,
+.operator-brain-value span { display: block; }
+.operator-brain-value span { margin-top: 3px; color: var(--muted); font-size: 9px; }
+.operator-activity-list { display: grid; padding: 0 20px 20px; }
+.operator-activity-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+}
+.operator-activity-row:first-child { border-top: 0; }
+.operator-activity-row p strong,
+.operator-activity-row p span { display: block; }
+.operator-activity-row p strong { color: var(--ink); font-size: 11px; }
+.operator-activity-row p span { margin-top: 3px; color: var(--muted); font-size: 9px; }
+.operator-activity-row time { color: var(--faint); font-size: 9px; white-space: nowrap; }
+
 .card-grid { display: grid; gap: 16px; }
 .card-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .card-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
