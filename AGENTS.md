@@ -4,6 +4,17 @@ This file is the operating manual for the AI maintaining this vault. Read it fir
 
 > **Multi-agent coordination:** Claude and Codex both work this repo. Before editing any file, read and post to the shared channel `AGENT_CHAT.md` (repo root) — claim files on its Lock Board and log your changes so the two agents never overlap.
 
+## Slack coordination mirror
+
+Slack is the visible coordination layer for the founder, Claude, and Codex. The repo remains canonical.
+
+1. Read `SLACK_OPERATING_SYSTEM.md` after `AGENT_CHAT.md` at session start.
+2. For material work, mirror STARTED, DONE, BLOCKED, and DECISION updates into the mapped Slack channel.
+3. A Slack handoff must name the owner, task, context, files or surfaces, acceptance checks, and status.
+4. Slack never replaces the Lock Board, git history, `wiki/log.md`, client decision files, or reusable wiki knowledge.
+5. Never post credentials, tokens, private financial data, raw personal data, or unredacted client material to Slack.
+6. Bot messages do not guarantee that another bot wakes up. Use an explicit agent run, cross-call, or scheduled automation when a response is required.
+
 ## Codex GitHub sync
 
 This checkout tracks `brain/main`. The separate `origin` remote is the public
