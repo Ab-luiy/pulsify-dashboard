@@ -1360,6 +1360,8 @@ body.modal-open { overflow: hidden; }
 .proof-ledger h4 { margin: 3px 0 4px; font-size: 16px; }
 .proof-ledger-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .proof-ledger-grid article { display: grid; gap: 6px; min-width: 0; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.proof-ledger-image { display: block; overflow: hidden; margin: -4px -4px 5px; border-radius: 9px; background: var(--surface-soft); }
+.proof-ledger-image img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 .proof-ledger-grid span,
 .proof-ledger-grid small { color: var(--muted); font-size: 10px; }
 .proof-ledger-grid strong { font-size: 13px; line-height: 1.45; }

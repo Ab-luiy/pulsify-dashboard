@@ -85,10 +85,41 @@
     .step-actions { display: flex; align-items: center; gap: 12px; margin-top: 30px; }
     .step-error { margin: 13px 0 0; color: #a03232; font-size: 14px; }
     .link-note { margin-top: 10px; color: var(--muted, #68766f); font-size: 13px; line-height: 1.5; }
-    .proof-list { display: grid; gap: 12px; }
+    .proof-controls { display: grid; gap: 20px; }
+    .proof-upload-panel,
+    .proof-video-panel {
+      padding: 18px;
+      border: 1px solid rgba(20, 34, 28, .12);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .72);
+    }
+    .proof-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+    .proof-panel-head strong { display: block; font-size: 15px; }
+    .proof-panel-head span { display: block; margin-top: 4px; color: var(--muted, #68766f); font-size: 13px; line-height: 1.45; }
+    .proof-picker { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 10px 15px; border: 1px solid var(--accent, #0ea968); border-radius: 11px; color: var(--accent, #0ea968); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .proof-picker input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+    .proof-upload-list,
+    .proof-list { display: grid; gap: 12px; margin-top: 14px; }
+    .proof-upload-row {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border: 1px solid rgba(20, 34, 28, .1);
+      border-radius: 14px;
+      background: rgba(245, 247, 246, .85);
+    }
+    .proof-upload-row img { width: 92px; height: 72px; border-radius: 10px; object-fit: cover; background: rgba(20, 34, 28, .06); }
+    .proof-upload-fields { min-width: 0; }
+    .proof-upload-fields strong { display: block; overflow: hidden; margin-bottom: 7px; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .proof-upload-fields small { display: block; margin-top: 7px; color: var(--muted, #68766f); font-size: 11px; }
+    .proof-upload-fields small.error { color: #a03232; }
+    .proof-upload-actions { display: flex; align-items: center; gap: 10px; margin-top: 13px; }
+    .proof-upload-actions .submit-status { margin: 0; color: var(--muted, #68766f); font-size: 12px; }
     .proof-row {
       display: grid;
-      grid-template-columns: 160px minmax(0, 1fr) minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
       gap: 9px;
       padding: 12px;
       border: 1px solid rgba(20, 34, 28, .12);
@@ -111,7 +142,11 @@
       .progress-track { order: 3; flex-basis: 100%; }
       .onboard-main { place-items: start; padding-top: 32px; }
       .choice-grid.two { grid-template-columns: 1fr; }
+      .proof-panel-head { display: grid; }
+      .proof-picker { justify-self: start; }
+      .proof-upload-row,
       .proof-row { grid-template-columns: 1fr; }
+      .proof-upload-row img { width: 100%; height: 180px; }
       .remove-proof { justify-self: start; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -254,7 +289,7 @@
           <h1>Do you have student proof or case studies?</h1>
           <p class="step-copy">Use student results, screenshots, and video testimonials. Do not use lifestyle imagery as proof.</p>
           <div class="question-control choice-grid">
-            <label class="choice-card"><input type="radio" name="hasProof" value="yes" required><strong>Yes, I have proof to link</strong></label>
+            <label class="choice-card"><input type="radio" name="hasProof" value="yes" required><strong>Yes, I have proof to add</strong></label>
             <label class="choice-card"><input type="radio" name="hasProof" value="no"><strong>I do not have proof or case studies yet</strong></label>
           </div>
           <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
@@ -263,11 +298,25 @@
 
         <section class="step" data-step hidden>
           <p class="step-count">Proof</p>
-          <h1 id="proofTitle">Paste the proof links.</h1>
-          <p class="step-copy" id="proofCopy">Add the link and what it shows. Direct image, screenshot, and video-testimonial links all work in this phase.</p>
-          <div class="question-control">
-            <div class="proof-list" id="proofRows"></div>
-            <button class="add-proof" id="addProofButton" type="button">Add another proof link</button>
+          <h1 id="proofTitle">Add your proof.</h1>
+          <p class="step-copy" id="proofCopy">Upload result images and add what each one shows. Video testimonials stay as links.</p>
+          <div class="question-control proof-controls" id="proofControls">
+            <div class="proof-upload-panel">
+              <div class="proof-panel-head">
+                <div><strong>Proof images</strong><span>PNG, JPG, WebP, or GIF. Up to 10 MB per image.</span></div>
+                <label class="proof-picker">Choose images<input id="proofFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif" multiple></label>
+              </div>
+              <div class="proof-upload-list" id="proofUploadList"></div>
+              <div class="proof-upload-actions" id="proofUploadActions" hidden>
+                <button class="button outline" id="uploadProofButton" type="button">Upload selected images</button>
+                <p class="submit-status" id="proofUploadStatus" role="status" hidden></p>
+              </div>
+            </div>
+            <div class="proof-video-panel">
+              <div class="proof-panel-head"><div><strong>Video testimonials</strong><span>Paste a public or shared video link and add what it shows.</span></div></div>
+              <div class="proof-list" id="proofRows"></div>
+              <button class="add-proof" id="addProofButton" type="button">Add another video link</button>
+            </div>
           </div>
           <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" id="submitButton" type="submit">Submit responses</button></div>
           <p class="step-error" data-error hidden></p>
@@ -293,6 +342,8 @@
       const token = query.get("t") || "";
       const client = query.get("client") || "";
       const storyDrafts = {};
+      const proofTypes = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);
+      const maxProofBytes = 10 * 1024 * 1024;
       let index = 0;
       let moving = false;
 
@@ -301,6 +352,25 @@
       document.querySelectorAll('input[name="storyType"]').forEach((input) => input.addEventListener("change", renderStoryControl));
       document.querySelectorAll('input[name="hasProof"]').forEach((input) => input.addEventListener("change", renderProofState));
       $("addProofButton").addEventListener("click", () => addProofRow());
+      $("proofFileInput").addEventListener("change", (event) => {
+        queueProofFiles(event.target.files);
+        event.target.value = "";
+      });
+      $("uploadProofButton").addEventListener("click", async () => {
+        try {
+          await uploadPendingImages();
+        } catch (error) {
+          showProofUploadStatus(error.message || "The images could not be uploaded.", true);
+        }
+      });
+      $("proofUploadList").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-upload]");
+        if (!button) return;
+        const row = button.closest(".proof-upload-row");
+        if (row?.dataset.previewUrl) URL.revokeObjectURL(row.dataset.previewUrl);
+        row?.remove();
+        syncProofUploadActions();
+      });
       $("proofRows").addEventListener("click", (event) => {
         const button = event.target.closest("[data-remove-proof]");
         if (!button) return;
@@ -386,37 +456,125 @@
 
       function renderProofState() {
         const hasProof = selected("hasProof") === "yes";
-        $("proofTitle").textContent = hasProof ? "Paste the proof links." : "Submit the intake without proof.";
+        $("proofTitle").textContent = hasProof ? "Add your proof." : "Submit the intake without proof.";
         $("proofCopy").textContent = hasProof
-          ? "Add the link and what it shows. Direct image, screenshot, and video-testimonial links all work in this phase."
+          ? "Upload result images and add what each one shows. Video testimonials stay as links."
           : "The brain will mark proof as a gap. The operator can update it when student results exist.";
-        $("proofRows").hidden = !hasProof;
-        $("addProofButton").hidden = !hasProof;
+        $("proofControls").hidden = !hasProof;
       }
 
       function addProofRow(item = {}) {
         const row = document.createElement("div");
         row.className = "proof-row";
         row.innerHTML = `
-          <select data-proof-kind aria-label="Proof kind">
-            <option value="screenshot-link">Screenshot</option>
-            <option value="image-link">Image</option>
-            <option value="video-link">Video testimonial</option>
-          </select>
-          <input data-proof-url type="url" inputmode="url" aria-label="Proof link" placeholder="Paste the proof link" value="${escapeAttribute(item.url || "")}">
-          <input data-proof-claim aria-label="What this proof shows" placeholder="What does this show?" value="${escapeAttribute(item.claim || "")}">
-          <button class="remove-proof" data-remove-proof type="button" aria-label="Remove proof link">Remove</button>`;
-        row.querySelector("[data-proof-kind]").value = item.kind || "screenshot-link";
+          <input data-proof-url type="url" inputmode="url" aria-label="Video testimonial link" placeholder="Paste the video testimonial link" value="${escapeAttribute(item.url || "")}">
+          <input data-proof-claim aria-label="What this video shows" placeholder="What does this show?" value="${escapeAttribute(item.claim || "")}">
+          <button class="remove-proof" data-remove-proof type="button" aria-label="Remove video testimonial link">Remove</button>`;
         $("proofRows").appendChild(row);
+      }
+
+      function queueProofFiles(fileList) {
+        const files = Array.from(fileList || []);
+        for (const file of files) {
+          if (!proofTypes.has(file.type)) {
+            showProofUploadStatus(`${file.name} is not a supported image.`, true);
+            continue;
+          }
+          if (!file.size || file.size > maxProofBytes) {
+            showProofUploadStatus(`${file.name} must be 10 MB or smaller.`, true);
+            continue;
+          }
+          const row = document.createElement("div");
+          const previewUrl = URL.createObjectURL(file);
+          row.className = "proof-upload-row";
+          row.dataset.previewUrl = previewUrl;
+          row._proofFile = file;
+          row.innerHTML = `
+            <img src="${escapeAttribute(previewUrl)}" alt="Preview of ${escapeAttribute(file.name)}">
+            <div class="proof-upload-fields">
+              <strong title="${escapeAttribute(file.name)}">${escapeHtml(file.name)}</strong>
+              <input data-upload-claim maxlength="500" aria-label="What this image shows" placeholder="What does this show?">
+              <small data-upload-state>Ready to upload</small>
+            </div>
+            <button class="remove-proof" data-remove-upload type="button" aria-label="Remove ${escapeAttribute(file.name)}">Remove</button>`;
+          $("proofUploadList").appendChild(row);
+        }
+        syncProofUploadActions();
+      }
+
+      let proofUploadPromise = null;
+
+      function uploadPendingImages() {
+        if (proofUploadPromise) return proofUploadPromise;
+        proofUploadPromise = runPendingImageUpload().finally(() => { proofUploadPromise = null; });
+        return proofUploadPromise;
+      }
+
+      async function runPendingImageUpload() {
+        const rows = Array.from($("proofUploadList").querySelectorAll(".proof-upload-row:not([data-proof-url])"));
+        if (!rows.length) return;
+        const uploadButton = $("uploadProofButton");
+        uploadButton.disabled = true;
+        showProofUploadStatus(`Uploading ${rows.length} ${rows.length === 1 ? "image" : "images"}.`, false);
+        try {
+          for (const row of rows) {
+            const state = row.querySelector("[data-upload-state]");
+            state.textContent = "Uploading";
+            state.className = "";
+            const form = new FormData();
+            form.set("file", row._proofFile, row._proofFile.name);
+            form.set("claim", row.querySelector("[data-upload-claim]").value.trim());
+            const response = await fetch("/api/media-upload", {
+              method: "POST",
+              headers: token ? { "x-portal-token": token } : {},
+              body: form,
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok || !data.ok) {
+              state.textContent = data.error || "Upload failed";
+              state.className = "error";
+              throw new Error(data.error || `${row._proofFile.name} could not be uploaded.`);
+            }
+            row.dataset.proofUrl = data.url;
+            row.dataset.proofId = data.id || "";
+            row.querySelector("img").src = data.url;
+            row.querySelector("[data-remove-upload]").remove();
+            state.textContent = "Uploaded";
+            if (row.dataset.previewUrl) {
+              URL.revokeObjectURL(row.dataset.previewUrl);
+              delete row.dataset.previewUrl;
+            }
+            row._proofFile = null;
+          }
+          showProofUploadStatus("Images uploaded.", false);
+        } finally {
+          uploadButton.disabled = false;
+          syncProofUploadActions();
+        }
+      }
+
+      function syncProofUploadActions() {
+        const hasRows = Boolean($("proofUploadList").children.length);
+        const hasPending = Boolean($("proofUploadList").querySelector(".proof-upload-row:not([data-proof-url])"));
+        const hasStatus = !$("proofUploadStatus").hidden;
+        $("proofUploadActions").hidden = !hasRows && !hasStatus;
+        $("uploadProofButton").hidden = !hasPending;
+      }
+
+      function showProofUploadStatus(message, isError) {
+        const status = $("proofUploadStatus");
+        status.textContent = message;
+        status.className = `submit-status${isError ? " message error" : ""}`;
+        status.hidden = false;
       }
 
       async function submitForm(event) {
         event.preventDefault();
         const step = steps[index];
         const hasProof = selected("hasProof") === "yes";
-        const proofItems = readProofItems();
-        if (hasProof && !proofItems.length) {
-          showStepError(step.querySelector("[data-error]"), "Add at least one valid proof link, or go back and choose that you do not have proof yet.");
+        const hasPendingImages = Boolean($("proofUploadList").querySelector(".proof-upload-row:not([data-proof-url])"));
+        if (hasProof && !readProofItems().length && !hasPendingImages) {
+          showStepError(step.querySelector("[data-error]"), "Add at least one proof image or valid video link, or go back and choose that you do not have proof yet.");
           return;
         }
 
@@ -425,6 +583,9 @@
         button.textContent = "Submitting";
         $("submitStatus").hidden = true;
         try {
+          if (hasProof) await uploadPendingImages();
+          const proofItems = readProofItems();
+          if (hasProof && !proofItems.length) throw new Error("Add at least one proof image or valid video link.");
           const response = await fetch("/api/client-brain", {
             method: "POST",
             headers: {
@@ -486,12 +647,19 @@
 
       function readProofItems() {
         if (selected("hasProof") !== "yes") return [];
-        return Array.from($("proofRows").querySelectorAll(".proof-row")).map((row) => ({
-          kind: row.querySelector("[data-proof-kind]").value,
+        const images = Array.from($("proofUploadList").querySelectorAll(".proof-upload-row[data-proof-url]")).map((row) => ({
+          kind: "image",
+          url: row.dataset.proofUrl,
+          claim: row.querySelector("[data-upload-claim]").value.trim(),
+          permission: "unknown",
+        }));
+        const videos = Array.from($("proofRows").querySelectorAll(".proof-row")).map((row) => ({
+          kind: "video-link",
           url: row.querySelector("[data-proof-url]").value.trim(),
           claim: row.querySelector("[data-proof-claim]").value.trim(),
           permission: "unknown",
         })).filter((item) => item.url && /^https?:\/\//i.test(item.url));
+        return [...images, ...videos];
       }
 
       function selected(name) {
@@ -504,6 +672,10 @@
 
       function escapeAttribute(value) {
         return String(value).replace(/[&"<>]/g, (character) => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;" })[character]);
+      }
+
+      function escapeHtml(value) {
+        return escapeAttribute(value);
       }
 
       function reducedMotion() {

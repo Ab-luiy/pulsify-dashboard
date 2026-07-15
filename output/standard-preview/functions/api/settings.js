@@ -223,6 +223,7 @@ export async function onRequestDelete({ request, env }) {
   if (!exists) return json({ ok: false, error: "client not found" }, 404);
 
   const mediaDeleted = await deleteClientMedia(env, client);
+  const proofMediaDeleted = await deleteClientProofMedia(env, client);
   const results = await env.DB.batch(
     CLIENT_TABLES.map(([table, column]) =>
       env.DB.prepare(`DELETE FROM ${table} WHERE ${column}=?`).bind(client),
@@ -232,6 +233,7 @@ export async function onRequestDelete({ request, env }) {
     CLIENT_TABLES.map(([table], index) => [table, Number(results[index]?.meta?.changes || 0)]),
   );
   deleted.media = mediaDeleted;
+  deleted.proof_media = proofMediaDeleted;
 
   return json({ ok: true, deleted });
 }
@@ -267,4 +269,23 @@ function parseDashboardRows(rows) {
 
 function hasOwn(object, key) {
   return Object.prototype.hasOwnProperty.call(object || {}, key);
+}
+
+export async function deleteClientProofMedia(env, client) {
+  if (!env.MEDIA) return 0;
+  const prefix = `${client}/`;
+  let cursor;
+  let deleted = 0;
+
+  do {
+    const page = await env.MEDIA.list({ prefix, ...(cursor ? { cursor } : {}) });
+    const keys = (page?.objects || []).map((object) => object?.key).filter(Boolean);
+    if (keys.length) {
+      await env.MEDIA.delete(keys);
+      deleted += keys.length;
+    }
+    cursor = page?.truncated ? page.cursor : undefined;
+  } while (cursor);
+
+  return deleted;
 }

@@ -2035,11 +2035,14 @@
   function renderProofLedger(items) {
     return `
       <div class="proof-ledger">
-        <div class="subsection-head"><p class="kicker">Proof item rows</p><h4>Link index</h4><p>These rows mirror the submitted proof links in the dedicated proof table.</p></div>
+        <div class="subsection-head"><p class="kicker">Proof item rows</p><h4>Proof index</h4><p>Uploaded images render here. Video testimonials remain linked to their source.</p></div>
         ${items.length ? `<div class="proof-ledger-grid">${items.map((item) => {
           const url = safeWebUrl(item.url);
-          return `<article><span>${esc(labelFromKey(item.kind))}</span><strong>${esc(item.claim || "No claim added")}</strong>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open proof</a>` : ""}<small>Permission: ${esc(item.permission || "unknown")} | ${esc(formatDate(item.created_at))}</small></article>`;
-        }).join("")}</div>` : '<div class="empty-state inset"><h4>No proof links stored</h4><p>The client selected no proof, or the proof section has not been submitted.</p></div>'}
+          const image = item.kind === "image" && url
+            ? `<a class="proof-ledger-image" href="${esc(url)}" target="_blank" rel="noopener"><img src="${esc(url)}" alt="${esc(item.claim || "Uploaded proof image")}" loading="lazy"></a>`
+            : "";
+          return `<article>${image}<span>${esc(labelFromKey(item.kind))}</span><strong>${esc(item.claim || "No claim added")}</strong>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${item.kind === "image" ? "Open image" : "Open proof"}</a>` : ""}<small>Permission: ${esc(item.permission || "unknown")} | ${esc(formatDate(item.created_at))}</small></article>`;
+        }).join("")}</div>` : '<div class="empty-state inset"><h4>No proof stored</h4><p>The client selected no proof, or the proof section has not been submitted.</p></div>'}
       </div>`;
   }
 
@@ -2141,7 +2144,7 @@
 
   function safeWebUrl(value) {
     const text = String(value || "").trim();
-    return /^https?:\/\//i.test(text) ? text : "";
+    return /^https?:\/\//i.test(text) || /^\/(?!\/)/.test(text) ? text : "";
   }
 
   function setSavedState(element, isSet, label) {

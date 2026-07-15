@@ -3,7 +3,7 @@ import { resolveClientAccess } from "../_shared/client-auth.js";
 
 const SECTIONS = ["identity", "offer", "icp", "story", "voice", "proof", "funnel", "donot"];
 const SOURCES = new Set(["client-form", "voice-note", "transcript", "operator", "research"]);
-const PROOF_KINDS = new Set(["image-link", "video-link", "screenshot-link"]);
+const PROOF_KINDS = new Set(["image", "image-link", "video-link", "screenshot-link"]);
 const PERMISSIONS = new Set(["unknown", "granted", "denied"]);
 
 export const FIELD_DEFINITIONS = {

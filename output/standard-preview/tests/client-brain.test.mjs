@@ -138,12 +138,12 @@ async function testClientSubmitAndOperatorRead() {
       },
       proof: {
         has_proof: true,
-        items: [{ kind: "screenshot-link", url: "https://proof.test/student-win.png", claim: "Student reached recurring revenue." }],
+        items: [{ kind: "image", url: "/m/alpha/11111111-1111-4111-8111-111111111111.png", claim: "Student reached recurring revenue." }],
       },
     },
     proof_items: [{
-      kind: "screenshot-link",
-      url: "https://proof.test/student-win.png",
+      kind: "image",
+      url: "/m/alpha/11111111-1111-4111-8111-111111111111.png",
       claim: "Student reached recurring revenue.",
       permission: "granted",
     }],
@@ -164,7 +164,7 @@ async function testClientSubmitAndOperatorRead() {
   assert.equal(byKey.get("icp.client_guess").source, "client-form");
   assert.equal(byKey.get("voice.sample_links").source, "client-form");
   assert.equal(byKey.get("proof.has_proof").source, "client-form");
-  assert.equal(env.DB.proof[0].kind, "screenshot-link");
+  assert.equal(env.DB.proof[0].kind, "image");
   assert.equal(env.DB.proof[0].permission, "unknown");
 
   const readResponse = await clientBrainApi.onRequestGet({ request: adminRequest("alpha"), env });
