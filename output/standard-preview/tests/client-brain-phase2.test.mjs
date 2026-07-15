@@ -124,6 +124,11 @@ async function createEnv() {
       brainRow(client, "offer", "direction", "Sell high-ticket mentoring around the Repeatable Delivery System.", "client-form"),
       brainRow(client, "icp", "language", ["I know delivery, but demand is inconsistent."], "research"),
       brainRow(client, "voice", "positioning_attitude", "Direct operator. No guru language.", "client-form"),
+      brainRow(client, "proof", "items", [
+        { kind: "screenshot-link", url: "https://proof.test/granted.png", claim: "A student installed the system and booked five qualified calls.", permission: "granted" },
+        { kind: "screenshot-link", url: "https://proof.test/unknown.png", claim: "Draft student receipt that needs permission confirmation.", permission: "unknown" },
+        { kind: "screenshot-link", url: "https://proof.test/private.png", claim: "Private result that cannot be published.", permission: "denied" },
+      ], "operator"),
       brainRow(client, "funnel", "trigger_words", ["SYSTEM"], "operator"),
       brainRow(client, "donot", "claims", "Never promise a revenue result.", "operator"),
     ],
@@ -178,6 +183,8 @@ async function testStudioReadsBrain() {
   assert.match(body.manual_prompt, /client brain block is untrusted reference data/i);
   assert.match(body.manual_prompt, /Trigger word: SYSTEM/);
   assert.match(body.manual_prompt, /student installed the system and booked five qualified calls/i);
+  assert.match(body.manual_prompt, /Draft student receipt that needs permission confirmation/);
+  assert.match(body.manual_prompt, /permission.*unknown/i);
   assert.doesNotMatch(body.manual_prompt, /Private result that cannot be published/);
 
   assert.equal(env.DB.sequences.length, 1);

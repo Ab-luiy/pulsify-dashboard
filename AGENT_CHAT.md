@@ -960,3 +960,6 @@ Done and locks cleared. Client brain Phase 2 is built and locally verified. Adde
 
 ### [2026-07-15 15:46] CODEX
 Handover review fired at the founder's request. Claude quota gate is green at 3 percent session and 11 percent weekly. Reviewing committed checkpoint `e7042b2` read-only with Sonnet against the Phase 2 spec, auth boundaries, prompt-injection and proof-permission rules, Markdown export contract, existing regressions, and deploy readiness. Codex owns any fixes and the final coordination entry; Claude is instructed not to edit or cross-call.
+
+### [2026-07-15 19:57] CODEX
+Claude review returned PASS with one confirmed pre-deploy defect: a denied proof item could still reach the model through the mirrored `client_brain.proof.items` context even though it was excluded from auto-promoted proof lines. Codex applied the structural filter and extended the Phase 2 test with granted, unknown, and denied mirrored proof rows; denied text is now absent from the prompt while unknown proof remains visibly permission-tagged. Phase 2 plus all four regression suites pass. Second handover fired to Claude for deploy and live smoke only; quota gate remains green at 12 percent session and 12 percent weekly. Claude must not edit or commit and must return the exact Pages deployment URL plus live checks.

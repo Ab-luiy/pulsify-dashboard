@@ -43,7 +43,12 @@ export function buildGeneratorBrainContext(data) {
 
   for (const row of rows) {
     if (!rowsBySection.has(row.section)) continue;
-    const value = parseBrainValue(row.value_json);
+    let value = parseBrainValue(row.value_json);
+    if (row.section === "proof" && row.field === "items") {
+      value = Array.isArray(value)
+        ? value.filter((item) => item && typeof item === "object" && item.permission !== "denied")
+        : [];
+    }
     if (isBrainGap(value)) continue;
     rowsBySection.get(row.section).push({ ...row, value });
     if (row.updated_at && (!updatedAt || row.updated_at > updatedAt)) updatedAt = row.updated_at;
