@@ -109,6 +109,7 @@ export async function onRequestGet({ request, env }) {
     const access = await resolveClientAccess(request, env, {
       allowHeaderToken: true,
       allowQueryToken: false,
+      allowImpersonated: true,
     });
     if (access.error) return access.error;
     client = cleanId(access.client);

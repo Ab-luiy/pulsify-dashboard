@@ -881,6 +881,7 @@
         <td><strong>${number(posted7d)} / 7d</strong><span class="muted">${client.cadence?.last_posted_on ? `last post ${relativeTime(client.cadence.last_posted_on)}` : "No posts logged"}</span></td>
         <td><div class="operator-brain-value"><strong>${number(brainPercent)}%</strong><span>${number(client.brain?.sections_complete)} of ${number(client.brain?.total_sections)}</span></div></td>
         <td>${relativeTime(client.last_activity_at)}</td>
+        <td><button class="operator-view-button" type="button" data-impersonate-client="${esc(client.client)}">View as client</button></td>
       </tr>`;
     }).join("");
 
@@ -888,6 +889,37 @@
     $$('[data-operator-client]', $("operatorRows")).forEach((button) => {
       button.addEventListener("click", () => openOperatorClient(button.dataset.operatorClient, button));
     });
+    $$('[data-impersonate-client]', $("operatorRows")).forEach((button) => {
+      button.addEventListener("click", () => startImpersonation(button.dataset.impersonateClient, button));
+    });
+  }
+
+  async function startImpersonation(client, button) {
+    if (!client) return;
+    const portalWindow = window.open("about:blank", "_blank");
+    if (portalWindow) portalWindow.opener = null;
+    button.disabled = true;
+    try {
+      const response = await api("/api/impersonate", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ client }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok || !data.url) {
+        throw new Error(data.error || "Could not start the operator view.");
+      }
+      if (data.event) state.operatorActivity.unshift(data.event);
+      renderOperatorActivity();
+      const destination = new URL(data.url, location.origin).toString();
+      if (portalWindow) portalWindow.location.replace(destination);
+      else window.open(destination, "_blank", "noopener");
+    } catch (error) {
+      if (portalWindow) portalWindow.close();
+      if (state.key) showMessage($("globalMessage"), error.message || "Could not start the operator view.", "error");
+    } finally {
+      if (button.isConnected) button.disabled = false;
+    }
   }
 
   async function openOperatorClient(client, button) {
@@ -926,7 +958,7 @@
       : "Recent operator activity";
     $("operatorActivityMeta").textContent = selected
       ? `Audit events recorded for ${selected}.`
-      : "Client views from the command center appear here.";
+      : "Client views and read-only impersonation starts appear here.";
     $("operatorClientActions").hidden = !selected;
     $("operatorActivityList").innerHTML = rows.map((event) => `
       <div class="operator-activity-row">
@@ -939,7 +971,10 @@
   }
 
   function operatorActionLabel(action) {
-    return action === "view-client" ? "Client opened" : String(action || "Operator event");
+    if (action === "view-client") return "Client opened";
+    if (action === "impersonate-start") return "Operator view started";
+    if (action === "impersonate-use") return "Operator view opened";
+    return String(action || "Operator event");
   }
 
   function operatorHealthBadge(health) {

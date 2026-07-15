@@ -815,6 +815,20 @@ td .muted { display: block; margin-top: 3px; color: var(--muted); font-size: 10p
 .operator-client-button strong { font-size: 11px; }
 .operator-client-button span { margin-top: 3px; color: var(--muted); font-size: 9px; }
 .operator-client-button:hover strong { color: var(--accent); }
+.operator-view-button {
+  min-width: 104px;
+  padding: 7px 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--line));
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.operator-view-button:hover { border-color: var(--accent); }
+.operator-view-button:disabled { cursor: wait; opacity: .55; }
 .operator-health { display: grid; gap: 4px; }
 .operator-health strong,
 .operator-health small { display: block; }

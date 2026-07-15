@@ -6,11 +6,14 @@ import {
   invalidateSetupTokensForClient,
   issueClientSession,
   hashPassword,
+  rejectImpersonatedSession,
 } from "../_shared/client-auth.js";
 import { deleteSetupCode, verifySetupCode } from "./client-email-code.js";
 
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  const impersonationError = await rejectImpersonatedSession(request, env);
+  if (impersonationError) return impersonationError;
 
   const body = await request.json().catch(() => ({}));
   const setupToken = String(body.setup_token || "");

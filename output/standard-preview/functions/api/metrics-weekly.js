@@ -4,7 +4,7 @@ import { resolveClientAccess } from "../_shared/client-auth.js";
 export async function onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  const access = await resolveScopedAccess(request, env);
+  const access = await resolveScopedAccess(request, env, "", true);
   if (access.error) return access.error;
 
   const [snapshotRows, paymentRow] = await Promise.all([
@@ -91,7 +91,7 @@ export async function onRequestOptions() {
   });
 }
 
-async function resolveScopedAccess(request, env, bodyClient = "") {
+async function resolveScopedAccess(request, env, bodyClient = "", allowImpersonated = false) {
   const adminError = checkAdmin(request, env);
   if (!adminError) {
     const url = new URL(request.url);
@@ -99,7 +99,10 @@ async function resolveScopedAccess(request, env, bodyClient = "") {
     if (!client) return { error: json({ ok: false, error: "client is required for admin requests" }, 422) };
     return { client, auth_mode: "admin" };
   }
-  const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
+  const access = await resolveClientAccess(request, env, {
+    allowHeaderToken: true,
+    allowImpersonated,
+  });
   if (access.error) return { error: access.error };
   return { client: cleanId(access.client), auth_mode: access.auth_mode };
 }

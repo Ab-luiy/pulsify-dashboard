@@ -1,11 +1,13 @@
 import { constantTimeEqual, json, normalizeEmail, nowIso, sha256Hex } from "../_shared/common.js";
-import { consumeSetupToken } from "../_shared/client-auth.js";
+import { consumeSetupToken, rejectImpersonatedSession } from "../_shared/client-auth.js";
 
 const CODE_TTL_MINUTES = 10;
 const MAX_ATTEMPTS = 5;
 
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  const impersonationError = await rejectImpersonatedSession(request, env);
+  if (impersonationError) return impersonationError;
 
   const body = await request.json().catch(() => ({}));
   const setupToken = String(body.setup_token || "");

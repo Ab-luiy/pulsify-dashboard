@@ -17,7 +17,10 @@ export async function onRequestGet({ request, env }) {
     return json({ ok: true, rows: (rows.results || []).map(serializeRow) });
   }
 
-  const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
+  const access = await resolveClientAccess(request, env, {
+    allowHeaderToken: true,
+    allowImpersonated: true,
+  });
   if (access.error) return access.error;
 
   const client = cleanId(access.client);
@@ -37,15 +40,11 @@ export async function onRequestPost({ request, env }) {
   const body = await request.json().catch(() => ({}));
   const action = String(body.action || "").trim().toLowerCase();
   const id = Number(body.id || 0);
-  if (!id) return json({ ok: false, error: "sequence id is required" }, 422);
-
-  if (action === "attach-output") {
-    return attachOutput(request, env, body, id);
-  }
 
   if (action === "approve" || action === "reject") {
     const auth = checkAdmin(request, env);
     if (auth) return auth;
+    if (!id) return json({ ok: false, error: "sequence id is required" }, 422);
     const note = String(body.note || "").trim();
     if (action === "reject" && !note) {
       return json({ ok: false, error: "review note is required when rejecting" }, 422);
@@ -62,8 +61,16 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: true, status });
   }
 
+  const adminError = checkAdmin(request, env);
+  const isAdmin = action === "attach-output" && !adminError;
   const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
-  if (access.error) return access.error;
+  if (!isAdmin && access.error) return access.error;
+  if (!id) return json({ ok: false, error: "sequence id is required" }, 422);
+
+  if (action === "attach-output") {
+    return attachOutput(env, body, id, isAdmin ? null : access, isAdmin);
+  }
+
   const client = cleanId(access.client);
 
   const row = await env.DB.prepare(
@@ -128,12 +135,10 @@ function serializeRow(row) {
   };
 }
 
-async function attachOutput(request, env, body, id) {
+async function attachOutput(env, body, id, access, isAdmin) {
   const rawText = String(body.raw_text || "").trim();
   if (!rawText) return json({ ok: false, error: "raw_text is required" }, 422);
 
-  const adminError = checkAdmin(request, env);
-  const isAdmin = !adminError;
   const row = await env.DB.prepare(
     `SELECT id, client_id, status
        FROM studio_sequences
@@ -142,8 +147,6 @@ async function attachOutput(request, env, body, id) {
   if (!row) return json({ ok: false, error: "sequence not found" }, 404);
 
   if (!isAdmin) {
-    const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
-    if (access.error) return access.error;
     if (cleanId(row.client_id) !== cleanId(access.client)) {
       return json({ ok: false, error: "sequence not found" }, 404);
     }

@@ -1,4 +1,7 @@
-import { resolveClientAccess } from "../_shared/client-auth.js";
+import {
+  consumeImpersonationExchange,
+  resolveClientAccess,
+} from "../_shared/client-auth.js";
 
 export async function onRequest(context) {
   const path = readPath(context.params);
@@ -8,9 +11,38 @@ export async function onRequest(context) {
 }
 
 async function serveDashboard({ request, env }) {
+  const url = new URL(request.url);
+  const exchangeToken = url.searchParams.get("imp");
+  if (exchangeToken) {
+    const session = await consumeImpersonationExchange(env, exchangeToken);
+    if (!session) {
+      const loginUrl = new URL("/portal/login", request.url);
+      return new Response(null, {
+        status: 302,
+        headers: {
+          location: loginUrl.toString(),
+          "cache-control": "no-store",
+          "referrer-policy": "no-referrer",
+        },
+      });
+    }
+    const destination = new URL("/portal", request.url);
+    destination.searchParams.set("client", session.client);
+    return new Response(null, {
+      status: 302,
+      headers: {
+        location: destination.toString(),
+        "set-cookie": session.cookie,
+        "cache-control": "no-store",
+        "referrer-policy": "no-referrer",
+      },
+    });
+  }
+
   const access = await resolveClientAccess(request, env, {
     allowHeaderToken: false,
     allowQueryToken: true,
+    allowImpersonated: true,
   });
   if (access.error) {
     const loginUrl = new URL("/portal/login", request.url);
@@ -25,6 +57,7 @@ async function serveLogin({ request, env }) {
   const access = await resolveClientAccess(request, env, {
     allowHeaderToken: false,
     allowQueryToken: false,
+    allowImpersonated: true,
   });
   if (!access.error) {
     const destination = new URL("/portal", request.url);

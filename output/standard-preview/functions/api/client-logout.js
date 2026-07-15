@@ -5,9 +5,14 @@ export async function onRequestPost({ request, env }) {
   const token = parseCookies(request.headers.get("cookie")).get(CLIENT_SESSION_COOKIE);
   if (env.DB && token) {
     const hash = await sha256Hex(token);
-    await env.DB.prepare(
-      "DELETE FROM client_sessions WHERE token_hash=?",
-    ).bind(hash).run().catch(() => null);
+    await Promise.all([
+      env.DB.prepare(
+        "DELETE FROM client_sessions WHERE token_hash=?",
+      ).bind(hash).run().catch(() => null),
+      env.DB.prepare(
+        "DELETE FROM impersonation_sessions WHERE token_hash=?",
+      ).bind(hash).run().catch(() => null),
+    ]);
   }
   return json(
     { ok: true, logged_out: true },

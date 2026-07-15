@@ -4,7 +4,10 @@ import { resolveClientAccess } from "../_shared/client-auth.js";
 export async function onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
+  const access = await resolveClientAccess(request, env, {
+    allowHeaderToken: true,
+    allowImpersonated: true,
+  });
   if (access.error) return access.error;
   const client = cleanId(access.client);
 
@@ -53,6 +56,8 @@ export async function onRequestGet({ request, env }) {
     client,
     client_name: configRow?.client_name || client,
     auth_mode: access.auth_mode,
+    impersonated: access.impersonated === true,
+    impersonation_expires_at: access.impersonated ? access.expires_at : null,
     revenue: {
       total_revenue_cents: totalRevenueCents,
       current_month_revenue_cents: currentMonthRevenueCents,

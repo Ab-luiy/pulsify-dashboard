@@ -10,6 +10,23 @@
   <link rel="stylesheet" href="/shared/pulsify-ui.css">
   <style>
     html { scroll-behavior: smooth; }
+    .operator-read-only-banner {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 1000;
+      min-height: 32px;
+      display: grid;
+      place-items: center;
+      padding: 7px 16px;
+      background: #101319;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-align: center;
+    }
+    body.impersonating #app { padding-top: 32px; }
+    body.impersonating .rail { top: 32px; height: calc(100vh - 32px); }
     #app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
     .rail {
       position: sticky;
@@ -836,6 +853,7 @@
   </style>
 </head>
 <body>
+  <div class="operator-read-only-banner" id="operatorReadOnlyBanner" role="status" hidden>Operator view, read only</div>
   <div id="app">
     <aside class="rail rail-shell">
       <div class="top-inner">
@@ -1407,6 +1425,7 @@
       reels: {
         thoughts: loadSavedThoughts(),
       },
+      impersonated: false,
     };
 
     document.querySelectorAll(".tab-btn").forEach((button) => {
@@ -1607,10 +1626,15 @@
 
     function renderDashboard(data) {
       state.client = data.client;
+      state.impersonated = data.impersonated === true;
       state.sections = data.sections || {};
       state.contentItems = Array.isArray(data.content_items) ? data.content_items : [];
+      document.body.classList.toggle("impersonating", state.impersonated);
+      $("operatorReadOnlyBanner").hidden = !state.impersonated;
       $("clientName").textContent = data.client_name || data.client;
-      $("clientSubtitle").textContent = data.auth_mode === "token"
+      $("clientSubtitle").textContent = state.impersonated
+        ? "Operator view is read only."
+        : data.auth_mode === "token"
         ? "Private token access is active for this session."
         : "Signed in with saved client credentials.";
       const clean = new URL(location.href);

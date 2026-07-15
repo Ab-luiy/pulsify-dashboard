@@ -46,11 +46,11 @@ class MockStatement {
     const params = this.params;
     const state = this.db.state;
 
-    if (sql === "SELECT client FROM client_config WHERE portal_token_hash=?") {
+    if (sql.includes("FROM client_config WHERE portal_token_hash=?")) {
       const row = state.client_config.find(
         (item) => item.portal_token_hash === params[0],
       );
-      return row ? { client: row.client } : null;
+      return row ? { client: row.client, client_name: row.client_name || row.client } : null;
     }
 
     if (sql.includes(

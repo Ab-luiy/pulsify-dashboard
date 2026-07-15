@@ -8,7 +8,8 @@ import {
   sendKitTest,
   upsertIntegration,
 } from "../_shared/integrations.js";
-import { cleanId, hasOwn, json, sha256Hex, str } from "../_shared/common.js";
+import { hasOwn, json, str } from "../_shared/common.js";
+import { resolveClientAccess } from "../_shared/client-auth.js";
 
 const CLIENT_ALLOWED = [
   "kit",
@@ -26,12 +27,17 @@ const DELEGATED_PROVIDERS = new Set(["youtube", "instagram"]);
 export async function onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  const access = await resolveAccess(request, env);
-  if (access.error) return access.error;
-  const client = access.client;
   const url = new URL(request.url);
   const provider = str(url.searchParams.get("provider")).toLowerCase();
   const action = str(url.searchParams.get("action")).toLowerCase();
+  const access = await resolveClientAccess(request, env, {
+    allowHeaderToken: true,
+    allowQueryToken: false,
+    allowImpersonated: action !== "test",
+    clientHint: "",
+  });
+  if (access.error) return normalizeAccessError(access.error);
+  const client = access.client;
 
   if (action === "test") {
     if (!provider) return clientJsonError("provider is required for tests");
@@ -84,8 +90,12 @@ export async function onRequestGet({ request, env }) {
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  const access = await resolveAccess(request, env);
-  if (access.error) return access.error;
+  const access = await resolveClientAccess(request, env, {
+    allowHeaderToken: true,
+    allowQueryToken: false,
+    clientHint: "",
+  });
+  if (access.error) return normalizeAccessError(access.error);
   const body = await request.json().catch(() => ({}));
   const provider = str(body.provider).toLowerCase();
   if (!CLIENT_ALLOWED_SET.has(provider)) {
@@ -133,8 +143,12 @@ export async function onRequestPost({ request, env }) {
 export async function onRequestDelete({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  const access = await resolveAccess(request, env);
-  if (access.error) return access.error;
+  const access = await resolveClientAccess(request, env, {
+    allowHeaderToken: true,
+    allowQueryToken: false,
+    clientHint: "",
+  });
+  if (access.error) return normalizeAccessError(access.error);
   const body = await request.json().catch(() => ({}));
   const provider = str(body.provider).toLowerCase();
   if (!CLIENT_ALLOWED_SET.has(provider)) {
@@ -153,26 +167,12 @@ export async function onRequestOptions() {
   );
 }
 
-async function resolveAccess(request, env) {
-  const portalToken = request.headers.get("x-portal-token");
-  if (!portalToken) {
-    return {
-      error: json({ ok: false, error: "invalid or expired portal link" }, 401),
-    };
-  }
-
-  const hash = await sha256Hex(portalToken.trim());
-  const row = await env.DB.prepare(
-    "SELECT client FROM client_config WHERE portal_token_hash=?",
-  ).bind(hash).first();
-  if (!row) {
-    return {
-      error: json({ ok: false, error: "invalid or expired portal link" }, 401),
-    };
-  }
-  return { client: cleanId(row.client) };
-}
-
 function clientJsonError(message, status = 422) {
   return json({ ok: false, error: message }, status);
+}
+
+function normalizeAccessError(response) {
+  return response.status === 401
+    ? clientJsonError("invalid or expired portal link", 401)
+    : response;
 }
