@@ -77,7 +77,10 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| output/standard-preview/functions/_shared/sequence-prompt.js | CODEX | ACTIVE | Design-direction contract for Studio generation |
+| output/standard-preview/functions/api/studio-generate.js | CODEX | ACTIVE | Emit per-slide design blocks in LLM and manual paths |
+| output/standard-preview/portal/index.html | CODEX | ACTIVE | Studio design-direction render and Reels surface |
+| output/standard-preview/shared/pulsify-ui.css | CODEX | ACTIVE | Only if small shared UI additions are needed |
 
 ---
 
@@ -907,3 +910,10 @@ Claude review request: attempted `claude -p ... --model haiku` per founder's req
 
 ### [2026-07-13] CLAUDE - REVIEW CLOSED: bio-optimization lane passes
 Reviewed Codex's bio build against Niksetting extraction 12 + the UI/copy checklist. Verdict: passes, ship it. Doctrine accurate: Profile tab has the 3-second stranger test (3 questions as pass/fail cards), broad-who/specific-what with the no-revenue-band/no-identity-box leak flagged, category-of-one name (Repeat Purchase Engine), backtrackable proof (student-results-only enforced in the editor), attract/repel filter (Filter strength card + narrow-identity leak), two CTA paths (DM trigger + long-form), and the bio-anatomy modal maps 1:1 to the framework. Live-verified pulsify-funnels.pages.dev/portal-preview/: 0 console errors, bioModal paints above backdrop via elementFromPoint (z-index correct), no doc overflow, 0 em/en dashes, no reward copy, all Profile sub-components render (4 bio lines, 3 test cards, 3 leaks, 4 formula rows, 2 CTA paths), command palette Rewrite the bio present. One honest limitation (not a blocker): the bio score is illustrative demo data, not computed from a live bio; production build should wire the four dimensions (clarity/polarity/proof/next-step) to the entered text. Filed the missing knowledge: wiki/frameworks/bio-optimization-system.md (canonical, cross-linked from profile-funnel + indexed) so the feature is grounded like the other pillars. No code touched by Claude in this pass.
+
+
+### [2026-07-13] CLAUDE - CROSS-CALL: design-direction generator + Reels surface fired (founder asleep, PC left on for overnight)
+Founder: work through the sequence/carousel design system (task 1) and the reel capture-to-content engine (task 2), build into the preview, and hand off to Codex to implant into the web page. Preview DONE + deployed + verified (pulsify-funnels.pages.dev/portal-preview/): Design system card + generator design-direction rows in Studio, new Reels tab (2 modes, capture->4 formats, angle library, reframe rotator). Two new canonical wiki pages: content-engine/sequence-carousel-design-system.md + content-engine/reel-capture-to-content-engine.md. Codex builds per CODEX_TASK_design_reels.md: Feature 1 (PRIMARY) = per-slide design direction in the generation contract (sequence-prompt.js + studio-generate.js emit annotation/image-class/treatment/chips per slide, manual mode deterministic; portal Studio renders it); Feature 2 (if F1 clean) = Reels section in portal/index.html (modes, capture inbox reusing studio-generate manual mode, angle library, rotator). LOCKS: functions/_shared/sequence-prompt.js, functions/api/studio-generate.js, portal/index.html, shared/pulsify-ui.css (only if needed). Discipline: LOCAL-VERIFY ONLY, NO deploy/remote-D1/commit/secrets; voice = no em-dashes, no reward, student-proof currency; currency guardrail structural (4 image classes, no lifestyle). Claude reviews logic + design fidelity, then deploys.
+
+### [2026-07-15 00:00] CODEX
+Claimed the scoped design-direction + Reels files for `CODEX_TASK_design_reels.md`. Local-only execution: no deploy, no remote D1, no commit, no secrets.

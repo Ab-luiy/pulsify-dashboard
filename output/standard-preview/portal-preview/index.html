@@ -485,10 +485,67 @@ main{min-width:0}
 .toast span{font-size:12px;color:var(--muted)}
 .preview-flag{position:fixed;left:20px;bottom:20px;z-index:70;background:var(--ink);color:var(--bg);font-size:12px;font-weight:600;padding:9px 15px;border-radius:99px;box-shadow:var(--shadow-lg);display:flex;gap:9px;align-items:center}
 .preview-flag .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-2)}
+/* design system reference */
+.ds-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:16px}
+.ds-legend{display:grid;gap:11px}
+.ds-row{display:flex;align-items:flex-start;gap:12px;font-size:12.5px;color:var(--ink-2);line-height:1.4}
+.ds-key{width:80px;flex:none;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding-top:1px}
+.slide-real{border-radius:14px;background:linear-gradient(160deg,#1b1e26,#0d1015);border:1px solid var(--line);padding:16px;color:#fff;position:relative;overflow:hidden;min-height:210px;display:flex;flex-direction:column;gap:12px;justify-content:center}
+.slide-real .imgclass{position:absolute;top:9px;right:9px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.55);background:rgba(255,255,255,.09);padding:3px 8px;border-radius:6px;z-index:2}
+.slide-real .ghost{position:absolute;left:10px;top:-10px;font-size:78px;font-weight:800;color:rgba(255,255,255,.06);line-height:1;z-index:0}
+.pillbox{align-self:flex-start;background:#fff;color:#0c0e13;font-weight:800;font-size:14px;line-height:1.18;padding:7px 11px;border-radius:9px;max-width:94%;z-index:1;position:relative}
+.pillbox .red{color:#f43f5e}
+.mk{display:inline-block;font-weight:800;font-size:15px;position:relative;padding-bottom:9px;z-index:1}
+.mk .u{position:absolute;left:0;bottom:1px;width:100%;height:7px}
+.slide-real .body{font-size:12px;line-height:1.45;text-shadow:0 1px 3px rgba(0,0,0,.7);color:rgba(255,255,255,.92);z-index:1;position:relative}
+.slide-real .receipt{align-self:flex-start;border:2.5px solid #f43f5e;border-radius:9px;padding:6px 10px;font-size:12.5px;font-weight:700;transform:rotate(-1.4deg);z-index:1}
+.slide-real .receipt .red{color:#f43f5e}
+/* design direction on generated slides */
+.dd{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);display:grid;gap:6px}
+.dd-row{display:flex;gap:9px;font-size:11px;color:var(--muted);align-items:flex-start}
+.dd-row b{color:var(--ink-2);font-weight:700;min-width:72px;flex:none;text-transform:uppercase;letter-spacing:.03em;font-size:10px;padding-top:1px}
+.dd-chip{display:inline-flex;align-items:center;gap:5px}
+.dd-dot{width:8px;height:8px;border-radius:50%;flex:none}
+/* reels */
+.reel-modes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.mode-card{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm)}
+.mode-card .ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:12px}
+.mode-card h4{margin:0 0 5px;font-size:15px;letter-spacing:-.02em}
+.mode-card p{margin:0 0 13px;font-size:12.5px;color:var(--muted);line-height:1.5}
+.capture{border:1px solid var(--accent-line);border-radius:var(--radius);background:radial-gradient(120% 150% at 0 0,var(--accent-soft),transparent 45%),var(--panel);padding:18px;margin-bottom:18px}
+.capture h3{margin:0 0 4px;font-size:15px;letter-spacing:-.02em}
+.capture p{margin:0 0 13px;font-size:12.5px;color:var(--ink-2)}
+.capture-in{display:flex;gap:10px;align-items:center}
+.capture-in input{flex:1;border:1px solid var(--line);border-radius:11px;background:var(--panel-2);padding:12px 14px;font:inherit;font-size:13.5px;color:var(--ink)}
+.capture-in input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.thought{border:1px solid var(--line);border-radius:14px;background:var(--panel);margin-bottom:10px;overflow:hidden;transition:box-shadow .15s,border-color .15s}
+.thought.open{border-color:var(--indigo-soft);box-shadow:var(--shadow-md)}
+.thought-head{display:grid;grid-template-columns:auto 1fr auto;gap:13px;align-items:center;padding:14px 16px;cursor:pointer}
+.thought-head:hover{background:var(--panel-2)}
+.thought .tic{width:34px;height:34px;border-radius:10px;background:var(--indigo-soft);color:var(--indigo-ink);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+.thought .txt{font-size:13.5px;font-weight:600}
+.thought .angle{font-size:11.5px;color:var(--muted);margin-top:2px;display:flex;align-items:center;gap:6px}
+.thought-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s var(--ease)}
+.thought.open .thought-body{grid-template-rows:1fr}
+.thought-body>div{overflow:hidden}
+.translate{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:11px;padding:2px 16px 16px}
+.fmt{border:1px solid var(--line);border-radius:12px;background:var(--panel-2);padding:13px;display:flex;flex-direction:column}
+.fmt .ft{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--accent-ink)}
+.fmt p{margin:8px 0 11px;font-size:12px;color:var(--ink-2);line-height:1.45;flex:1}
+.angle-lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(228px,1fr));gap:12px}
+.angle-card{border:1px solid var(--line);border-radius:13px;background:var(--panel);padding:15px;box-shadow:var(--shadow-xs)}
+.angle-card .from{font-size:13px;font-weight:700}
+.angle-card .to{font-size:12px;color:var(--muted);margin-top:7px;display:flex;align-items:center;gap:7px;line-height:1.4}
+.angle-card .to i{color:var(--accent-ink)}
+.rotator{border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:18px;box-shadow:var(--shadow-sm)}
+.rot-belief{font-size:14px;font-weight:700;padding:12px 14px;border-radius:11px;background:var(--accent-soft);color:var(--accent-ink);margin-bottom:13px}
+.rot-list{display:grid;gap:9px}
+.rot-item{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;font-size:12.5px;padding:11px 13px;border:1px solid var(--line);border-radius:11px;color:var(--ink-2)}
+.rot-item .tag{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:3px 8px;border-radius:6px;background:var(--panel-2);color:var(--muted);border:1px solid var(--line);white-space:nowrap}
 /* responsive */
 @media(max-width:1180px){.week-strip{grid-template-columns:1fr 1fr}.pipe{grid-template-columns:repeat(3,1fr)}.pipe .pipe-flow{display:none}.insight{grid-template-columns:1fr}.insight-stats{border-left:none;border-top:1px solid var(--line)}}
-@media(max-width:1080px){.g3,.g4,.board{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.perf-2,.profile-hero,.bio-builder{grid-template-columns:1fr!important}.bio-test,.cta-paths{grid-template-columns:1fr 1fr}}
-@media(max-width:820px){#app{grid-template-columns:1fr;overflow-x:hidden}.rail{position:sticky;height:auto;width:100%;max-width:100vw;flex-direction:row;overflow-x:auto;overflow-y:visible;gap:4px;align-items:center;padding:10px}.rail .nav-h,.rail-foot,.brand span,.cmdk-hint{display:none}.nav-item{white-space:nowrap;width:auto}.nav-item .count,.nav-item .live-dot{display:none}.section{padding:20px 16px 70px}.topbar{padding:12px 16px}.week-strip,.g3,.g4,.board,.bio-test,.cta-paths{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}.set-grid{grid-template-columns:1fr}.auto-row{grid-template-columns:auto 1fr;gap:10px}.auto-runs{display:none}.axis-row{grid-template-columns:92px 1fr auto}.formula-row{grid-template-columns:1fr}.next{grid-template-columns:1fr}.next .nic{display:none}}
+@media(max-width:1080px){.g3,.g4,.board{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.perf-2,.profile-hero,.bio-builder,.ds-grid{grid-template-columns:1fr!important}.bio-test,.cta-paths{grid-template-columns:1fr 1fr}}
+@media(max-width:820px){#app{grid-template-columns:1fr;overflow-x:hidden}.rail{position:sticky;height:auto;width:100%;max-width:100vw;flex-direction:row;overflow-x:auto;overflow-y:visible;gap:4px;align-items:center;padding:10px}.rail .nav-h,.rail-foot,.brand span,.cmdk-hint{display:none}.nav-item{white-space:nowrap;width:auto}.nav-item .count,.nav-item .live-dot{display:none}.section{padding:20px 16px 70px}.topbar{padding:12px 16px}.week-strip,.g3,.g4,.board,.bio-test,.cta-paths,.reel-modes{grid-template-columns:1fr}.pipe{grid-template-columns:1fr 1fr}.set-grid{grid-template-columns:1fr}.auto-row{grid-template-columns:auto 1fr;gap:10px}.auto-runs{display:none}.axis-row{grid-template-columns:92px 1fr auto}.formula-row{grid-template-columns:1fr}.next{grid-template-columns:1fr}.next .nic{display:none}}
 </style>
 </head>
 <body>
@@ -505,6 +562,7 @@ main{min-width:0}
     <div class="nav-h">Work</div>
     <button class="nav-item" data-tab="profile"><span class="ic"><i class="ti ti-user-search"></i></span> Profile <span class="count">3</span></button>
     <button class="nav-item" data-tab="studio"><span class="ic"><i class="ti ti-sparkles"></i></span> Studio <span class="count">7</span></button>
+    <button class="nav-item" data-tab="reels"><span class="ic"><i class="ti ti-video"></i></span> Reels <span class="count">5</span></button>
     <button class="nav-item" data-tab="plans"><span class="ic"><i class="ti ti-map-2"></i></span> Plans</button>
     <button class="nav-item" data-tab="todos"><span class="ic"><i class="ti ti-checkbox"></i></span> To-dos <span class="count">3</span></button>
     <button class="nav-item" data-tab="team"><span class="ic"><i class="ti ti-users"></i></span> Team</button>
@@ -723,12 +781,60 @@ main{min-width:0}
       <button class="carousel-create" onclick="openCarouselCreate()"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-layout-grid"></i></div><div style="flex:1"><b>Carousel</b><p>Methodology, taxonomy, or philosophy set, designed slide by slide.</p></div><i class="ti ti-arrow-right" style="color:var(--muted)"></i></button>
       <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-award" style="color:var(--accent-ink)"></i> Winning frames</h3><span class="lib-sub">Proven structures the data earned. Reuse the skeleton, swap the proof.</span></div>
       <div class="frames" id="frames" style="margin-bottom:8px"></div>
+
+      <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-palette" style="color:var(--accent-ink)"></i> Design system</h3><span class="lib-sub">The look is the moat. Every slide ships with design direction, not just copy.</span></div>
+      <div class="card card-pad">
+        <div class="ds-grid">
+          <div class="ds-legend">
+            <div class="ds-row"><span class="ds-key">Annotation</span><div>Hand-drawn marker overlay. <b style="color:var(--rose-ink)">Red underline</b> marks the pain or wrong path, <b style="color:var(--accent-ink)">green</b> the win, a <b style="color:var(--rose-ink)">red box</b> rings the receipt, a blue arrow points at proof. One to three per slide, never a clean line.</div></div>
+            <div class="ds-row"><span class="ds-key">Type</span><div>Heavy sans in white pill-boxes with a red word for emphasis. Body is white drop-shadow text on the image. Carousels add a giant ghost number and a serif-plus-sans cover.</div></div>
+            <div class="ds-row"><span class="ds-key">Image class</span><div><span class="badge b-green">proof screenshot</span> <span class="badge b-indigo">device mockup</span> <span class="badge b-gray">proof wall</span> <span class="badge b-gray">real workspace</span>. Lifestyle flex is not an option, by design.</div></div>
+            <div class="ds-row"><span class="ds-key">Chip code</span><div>Colour-coded metadata pills on taxonomy slides: cadence, function, audience. Absorb the metadata without reading prose.</div></div>
+          </div>
+          <div class="slide-real">
+            <span class="imgclass">image: student dashboard</span>
+            <div class="pillbox">She was stuck at <span class="red">2k/mo</span> for months.</div>
+            <div class="mk">The Repeat Purchase Engine<svg class="u" viewBox="0 0 200 8" preserveAspectRatio="none"><path d="M2 5 Q50 1 100 4 T198 3" fill="none" stroke="#34d399" stroke-width="3.5" stroke-linecap="round"/></svg></div>
+            <div class="receipt">Stripe: <span class="red">$50,120</span> collected</div>
+            <div class="body">Same student, same offer, different model. The proof is on screen, not in a caption.</div>
+          </div>
+        </div>
+      </div>
+
       <div class="lib-h" style="margin-top:28px"><h3><i class="ti ti-layers-subtract" style="color:var(--accent-ink)"></i> Story sequences</h3><span class="lib-sub">Labeled by date. Expand for slides, retention, and retest.</span>
         <div class="seg" id="seqSeg"><button class="on" data-f="all">All</button><button data-f="live">Live</button><button data-f="review">In review</button><button data-f="testing">Testing</button></div>
       </div>
       <div id="seqLib"></div>
       <div class="lib-h" style="margin-top:26px"><h3><i class="ti ti-layout-grid" style="color:var(--indigo-ink)"></i> Carousels</h3><span class="lib-sub">Labeled by number. Expand for slides and saves.</span></div>
       <div id="carLib"></div>
+    </section>
+
+    <!-- REELS -->
+    <section class="section panel" data-panel="reels">
+      <div class="h-row"><div><h1>Reels</h1><p>Two ways in: clip what you already made, or turn what is in your head into content. Anything you think can become a piece.</p></div>
+        <div class="h-actions"><button class="btn btn-ghost" onclick="toast('Clip a video','Paste a YouTube or call link, demo')"><i class="ti ti-scissors"></i> Clip a video</button><button class="btn btn-primary" onclick="$('captureInput').focus()"><i class="ti ti-bulb"></i> Capture a thought</button></div>
+      </div>
+
+      <div class="reel-modes">
+        <div class="mode-card"><div class="ic" style="background:var(--indigo-soft);color:var(--indigo-ink)"><i class="ti ti-scissors"></i></div><h4>Redistribution</h4><p>Long-form video and sales calls become clips. We find the punchy 30 to 60 second moments, cut, hook, and caption them.</p><button class="btn btn-ghost btn-sm" onclick="toast('Clip a video','Paste a YouTube or call link, demo')"><i class="ti ti-link"></i> Paste a link</button></div>
+        <div class="mode-card"><div class="ic" style="background:var(--accent-soft);color:var(--accent-ink)"><i class="ti ti-bulb"></i></div><h4>Origination</h4><p>A win, a strategy, or a belief you hold becomes a talking-head reel. You think it, we frame it, you film it in your own words.</p><button class="btn btn-soft btn-sm" onclick="$('captureInput').focus()"><i class="ti ti-plus"></i> Start from a thought</button></div>
+      </div>
+
+      <div class="capture">
+        <h3>Capture inbox</h3>
+        <p>Drop a raw thought the moment it hits. One line or a voice note. We route it through a proven angle and turn it into a reel plus the other formats.</p>
+        <div class="capture-in"><input id="captureInput" placeholder="e.g. closed a client who was skeptical about paying upfront" autocomplete="off" onkeydown="if(event.key==='Enter')addThought()"><button class="btn btn-primary" onclick="addThought()"><i class="ti ti-arrow-right"></i> Translate</button></div>
+      </div>
+      <div id="thoughtList" style="margin-bottom:28px"></div>
+
+      <div class="lib-h"><h3><i class="ti ti-route-2" style="color:var(--accent-ink)"></i> Angle library</h3><span class="lib-sub">Every thought routes through one of these. You are not inventing a format, you are choosing a proven one.</span></div>
+      <div class="angle-lib" id="angleLib" style="margin-bottom:28px"></div>
+
+      <div class="lib-h"><h3><i class="ti ti-refresh-dot" style="color:var(--accent-ink)"></i> Reframe rotator</h3><span class="lib-sub">Say the same core belief many ways. Repeat the money message without it feeling repeated.</span></div>
+      <div class="rotator">
+        <div class="rot-belief"><i class="ti ti-quote"></i> "You do not need a bigger audience. You need a profile that converts the one you have."</div>
+        <div class="rot-list" id="rotList"></div>
+      </div>
     </section>
 
     <!-- PLANS -->
@@ -849,9 +955,15 @@ main{min-width:0}
 Went from 0 followers to first client in 6 weeks</textarea></div>
     <div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px"><b style="font-size:13.5px">Generated slides</b><span class="badge b-gray">8 slides, draft</span></div>
     <div class="slide-strip">
-      <div class="slide-mini"><div class="n">Slide 1, curiosity</div><div class="txt">"I almost skipped posting this student's result."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Phone-raw selfie, tired-but-real morning look</div></div>
-      <div class="slide-mini"><div class="n">Slide 4, pain mirror</div><div class="txt">"You're posting daily and the DMs stay quiet."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> Screenshot of a flat analytics graph</div></div>
-      <div class="slide-mini"><div class="n">Slide 7, access</div><div class="txt">"This is the exact 8-slide frame that closed her."</div><div class="photo"><i class="ti ti-camera" style="color:var(--accent-ink)"></i> The student's Stripe dashboard, numbers visible</div></div>
+      <div class="slide-mini"><div class="n">Slide 1, curiosity</div><div class="txt">"I almost skipped posting this student's result."</div>
+        <div class="dd"><div class="dd-row"><b>Annotation</b><span class="dd-chip"><span class="dd-dot" style="background:var(--rose)"></span> red word on "almost"</span></div><div class="dd-row"><b>Image</b><span class="dd-chip"><span class="dd-dot" style="background:var(--accent)"></span> real workspace, morning desk</span></div><div class="dd-row"><b>Type</b><span>white pill-box, left-aligned</span></div></div>
+      </div>
+      <div class="slide-mini"><div class="n">Slide 4, pain mirror</div><div class="txt">"You're posting daily and the DMs stay quiet."</div>
+        <div class="dd"><div class="dd-row"><b>Annotation</b><span class="dd-chip"><span class="dd-dot" style="background:var(--rose)"></span> red underline on "stay quiet"</span></div><div class="dd-row"><b>Image</b><span class="dd-chip"><span class="dd-dot" style="background:var(--indigo)"></span> proof screenshot, flat analytics</span></div><div class="dd-row"><b>Type</b><span>white drop-shadow body</span></div></div>
+      </div>
+      <div class="slide-mini"><div class="n">Slide 7, access</div><div class="txt">"This is the exact 8-slide frame that closed her."</div>
+        <div class="dd"><div class="dd-row"><b>Annotation</b><span class="dd-chip"><span class="dd-dot" style="background:var(--rose)"></span> red box on the number</span></div><div class="dd-row"><b>Image</b><span class="dd-chip"><span class="dd-dot" style="background:var(--accent)"></span> proof screenshot, Stripe dashboard</span></div><div class="dd-row"><b>Type</b><span>white pill-box, right-aligned</span></div></div>
+      </div>
     </div>
   </div>
   <div class="modal-foot"><span style="font-size:12px;color:var(--muted)"><i class="ti ti-shield-check" style="color:var(--accent-ink)"></i> Pulsify reviews before it posts</span><div style="display:flex;gap:10px"><button class="btn btn-ghost" onclick="toast('Regenerated','8 fresh slides drafted')">Regenerate</button><button class="btn btn-primary" onclick="closeAll();toast('Sent for review','Pulsify will approve within 24h')"><i class="ti ti-send"></i> Send for review</button></div></div>
@@ -1083,6 +1195,34 @@ $('carLib').innerHTML=CARS.map((c,i)=>`
      <div class="fold-actions"><button class="btn btn-ghost btn-sm"><i class="ti ti-edit"></i> Edit</button><button class="btn btn-ghost btn-sm" onclick="openCarouselCreate()"><i class="ti ti-copy"></i> Make another like this</button><button class="btn btn-ghost btn-sm"><i class="ti ti-external-link"></i> View full</button></div>
    </div></div></div></div>`).join('');
 function toggleFold(id){const el=$(id);el.classList.toggle('open');const h=el.querySelector('.fold-head');if(h)h.setAttribute('aria-expanded',el.classList.contains('open'))}
+
+/* ---------- reels: capture to content ---------- */
+const ANGLES=[
+ {from:'A win',ic:'ti-trophy',to:'Credibility sequence or a proof reel'},
+ {from:'A new strategy',ic:'ti-bulb',to:'Value-driven sequence or a breakdown'},
+ {from:'A recurring belief',ic:'ti-refresh',to:'Philosophy carousel or a reframe reel'},
+ {from:'An objection you heard',ic:'ti-message-2',to:'Q and A sequence or a myth-buster reel'},
+ {from:'A behind-the-scenes moment',ic:'ti-camera',to:'Day-in-the-life story or a lifestyle reel'},
+ {from:'A client transformation',ic:'ti-chart-arrows-vertical',to:'Proof pin post plus a long-form breakdown'}
+];
+$('angleLib').innerHTML=ANGLES.map(a=>`<div class="angle-card"><div class="from"><i class="ti ${a.ic}" style="color:var(--accent-ink)"></i> ${a.from}</div><div class="to"><i class="ti ti-arrow-right"></i> ${a.to}</div></div>`).join('');
+const REFRAMES=[
+ {tag:'reel',t:'A 20-second talking head: "Everyone chases followers. Here is why that is backwards."'},
+ {tag:'story',t:'A value-driven sequence walking through one profile fix, slide by slide.'},
+ {tag:'carousel',t:'A philosophy set: 5 reasons a small converting audience beats a big passive one.'},
+ {tag:'long-form',t:'A breakdown video: the profile funnel math, 10k followers to 18 buyers.'},
+ {tag:'hook',t:'"I grew slower than everyone in my niche and out-earned all of them. Here is how."'}
+];
+$('rotList').innerHTML=REFRAMES.map(r=>`<div class="rot-item"><span class="tag">${r.tag}</span><div>${r.t}</div></div>`).join('');
+const FMTS=[{ic:'ti-video',lab:'Reel',c:'var(--accent-ink)'},{ic:'ti-layers-subtract',lab:'Story sequence',c:'var(--indigo-ink)'},{ic:'ti-layout-grid',lab:'Carousel',c:'var(--indigo-ink)'},{ic:'ti-brand-youtube',lab:'Long-form segment',c:'var(--rose-ink)'}];
+const THOUGHTS=[
+ {t:'Closed a client who was skeptical about paying upfront',angle:'A win to credibility',ic:'ti-trophy',fmts:['A 20-second story of the objection and how it flipped.','The skeptic-to-client arc across 8 slides.','3 objections buyers have about upfront pricing, handled.','A breakdown of how you price and de-risk the first payment.']},
+ {t:'Most people set their bio to a job title and get skipped',angle:'A belief to reframe',ic:'ti-refresh',fmts:['"Your bio is a job title. That is why you get skipped."','The 3-second bio test, slide by slide.','Category-of-one naming, 5 examples.','The full bio doctrine breakdown for long form.']}
+];
+function renderThoughts(){$('thoughtList').innerHTML=THOUGHTS.map((th,i)=>`<div class="thought" id="th${i}"><div class="thought-head" role="button" tabindex="0" aria-expanded="false" onclick="toggleThought(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleThought(${i})}"><div class="tic"><i class="ti ${th.ic}"></i></div><div><div class="txt">${th.t}</div><div class="angle"><i class="ti ti-route-2"></i> ${th.angle}</div></div><i class="ti ti-chevron-down fold-chev"></i></div><div class="thought-body"><div><div class="translate">${th.fmts.map((f,j)=>`<div class="fmt"><div class="ft"><i class="ti ${FMTS[j].ic}" style="color:${FMTS[j].c}"></i> ${FMTS[j].lab}</div><p>${f}</p><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();toast('Drafted','${FMTS[j].lab} added to the pipeline')"><i class="ti ti-sparkles"></i> Draft</button></div>`).join('')}</div></div></div></div>`).join('')}
+function toggleThought(i){const el=$('th'+i);el.classList.toggle('open');const h=el.querySelector('.thought-head');if(h)h.setAttribute('aria-expanded',el.classList.contains('open'))}
+function addThought(){const v=$('captureInput').value.trim();if(!v)return;THOUGHTS.unshift({t:v,angle:'Routing to the best angle',ic:'ti-bulb',fmts:['A 20-second talking head built from this thought.','The same idea across 8 story slides.','This thought as a saveable carousel set.','The deeper breakdown for long form.']});$('captureInput').value='';renderThoughts();const first=$('th0');first.classList.add('open');first.querySelector('.thought-head').setAttribute('aria-expanded','true');toast('Captured','Translated into 4 formats')}
+renderThoughts();
 function foldKey(e,id){if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleFold(id)}}
 
 /* ---------- performance ---------- */
@@ -1182,6 +1322,9 @@ const CMDS=[
  {g:'Connect',ic:'ti-brand-instagram',t:'Connect Instagram',s:'Story metrics and DMs',run:()=>{go('integrations');openService(13)}},
  {g:'Connect',ic:'ti-mail',t:'Connect Kit',s:'Email sequences',run:()=>{go('integrations');openService(5)}},
  {g:'Connect',ic:'ti-robot',t:'View automations',s:'Triggers and actions',run:()=>{go('integrations');scrollToEl('autoList')}},
+ {g:'Go to',ic:'ti-video',t:'Reels',s:'Capture and clip',run:()=>go('reels')},
+ {g:'Create',ic:'ti-bulb',t:'Capture a thought',s:'Turn an idea into content',run:()=>{go('reels');setTimeout(()=>$('captureInput').focus(),90)}},
+ {g:'Create',ic:'ti-scissors',t:'Clip a video',s:'Long-form or a call into reels',run:()=>{go('reels');toast('Clip a video','Paste a YouTube or call link, demo')}},
  {g:'Act',ic:'ti-moon',t:'Toggle theme',s:'Light or dark',run:toggleTheme}
 ];
 let cmdkI=0,cmdkView=CMDS;
