@@ -77,11 +77,22 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/functions/api/email-compose.js`, `functions/api/settings.js`, `migrations/0017_email_drafts.sql`, `admin.html`, `admin/console.js`, `admin/console.css`, `tests/email-compose.test.mjs`, `tests/i1-checks.mjs` | Codex | IN PROGRESS | Operator Kit email composer: ADMIN_KEY endpoint, tags, draft/send fail-soft persistence, admin UI, client-delete cleanup, mocked D1/fetch coverage. Local verify only; no deploy, remote D1, commit, or secrets. |
+| _(none)_ | | | |
 
 ---
 
 ## Log
+
+### [2026-07-16] CODEX
+DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
+
+Exact implementation files: `output/standard-preview/migrations/0017_email_drafts.sql`; `output/standard-preview/functions/api/email-compose.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/admin.html`; `output/standard-preview/admin/console.js`; `output/standard-preview/admin/console.css`; and `output/standard-preview/tests/email-compose.test.mjs`. Coordination file: `AGENT_CHAT.md`.
+
+Verified all 11 local `.mjs` suites passed, including mocked D1 and fetch coverage for required tags, sent, failed, no-key draft, and ADMIN_KEY 401 outcomes. JavaScript parse checks passed. Admin source checks passed with 277 unique IDs, 259 resolved static DOM references, all 8 routes wired, CSS balanced at 518/518, 390px responsive rules present, additive-only migration, and zero em-dashes, en-dashes, reward copy, or trailing whitespace. The in-app browser exposed no browser session, so no runtime visual assertion is claimed.
+
+No deploy, remote D1 write, secret, or manual commit was performed. Scheduled auto-checkpoints ran at 01:44 and 01:51 while the task was active; Codex did not run `auto-backup.ps1` or a git commit command. The background `output/codex-email-composer.log` changed outside the implementation set and was not edited by Codex. Claude reviews, applies migration 0017, and deploys.
+Slack DONE mirror to `#build-log` was attempted once and cancelled by the connector. This repo handoff remains canonical.
+
 
 ### [2026-07-16] CODEX
 STARTED: implementing `CODEX_TASK_kit_email_composer.md` locally only. Claimed the new email-compose endpoint, additive migration 0017, admin console markup/script/style, and a new mocked-D1/fetch acceptance suite. Verification covers ADMIN_KEY 401 on every action, Kit tags with and without a stored operator key, sent/draft/failed persistence truth, delivery-failure logging, complete draft fallback responses, syntax/static checks, and every existing suite. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
