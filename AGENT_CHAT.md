@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview` Phase 2 client-brain files + `AGENT_CHAT.md` | Codex | ACTIVE | Claude read-only review of committed Phase 2; Codex owns any resulting fixes and deployment handoff |
+| _(none)_ | | | |
 
 ---
 
@@ -963,3 +963,6 @@ Handover review fired at the founder's request. Claude quota gate is green at 3 
 
 ### [2026-07-15 19:57] CODEX
 Claude review returned PASS with one confirmed pre-deploy defect: a denied proof item could still reach the model through the mirrored `client_brain.proof.items` context even though it was excluded from auto-promoted proof lines. Codex applied the structural filter and extended the Phase 2 test with granted, unknown, and denied mirrored proof rows; denied text is now absent from the prompt while unknown proof remains visibly permission-tagged. Phase 2 plus all four regression suites pass. Second handover fired to Claude for deploy and live smoke only; quota gate remains green at 12 percent session and 12 percent weekly. Claude must not edit or commit and must return the exact Pages deployment URL plus live checks.
+
+### [2026-07-15 19:59] CODEX
+Handover closed and locks cleared. Claude verified the two-file permission fix but its headless tool approval gate blocked Node test execution, so it correctly refused to deploy rather than bypass the gate. Codex reran the required Phase 2 and regression suites locally, all passed, then deployed the already reviewed current source with Wrangler. Deployment URL: `https://7f8f6a85.pulsify-funnels.pages.dev`. Live production checks: `/admin` 200 and its console bundle contains `/api/client-brain-export`; unauthenticated `/api/client-brain-export?client=alpha` 401; unauthenticated POST `/api/studio-generate` 401; `/portal/login` 200; `/frank-wieler` 200. Phase 2 is LIVE. No migration or remote D1 write was needed.

@@ -68,13 +68,13 @@ The guardrails. Claims they cannot make (no proof yet), topics to avoid, competi
 
 ## Phase 2 implementation (2026-07-15)
 
-Phase 2 is built and locally verified. The production Studio path now loads the authenticated client's `client_brain` and proof rows before composing the sequence prompt. This covers the story-sequence Studio and the Reels capture flow because both use `/api/studio-generate`.
+Phase 2 is live on `pulsify-funnels`. The production Studio path now loads the authenticated client's `client_brain` and proof rows before composing the sequence prompt. This covers the story-sequence Studio and the Reels capture flow because both use `/api/studio-generate`.
 
 The prompt consumes identity, offer, ICP, story, voice, proof, funnel facts, and the do-not list. An operator-filled trigger word becomes the fallback when the request does not supply one. Only proof with granted permission is automatically promoted into proof lines. Denied proof is excluded. Unknown-permission proof stays visible as reference data and the prompt requires confirmation before publication. Brain content is marked as untrusted reference data so text stored by a client cannot override the generator contract.
 
 The operator Brain view now has one-click export. `/api/client-brain-export` is `ADMIN_KEY`-gated and returns one structured Markdown attachment with all eight sections, field sources, freshness stamps, explicit gaps, and the proof-link permission ledger. The response is `no-store`. Direct client download is not exposed in this phase; the operator controls when the package is handed to the client.
 
-No migration was required. R2 upload, transcription, automated ICP research, and a client-facing Brain tab remain later work.
+Claude's independent review found one pre-deploy permission leak in the mirrored `proof.items` prompt block. The generator now filters denied entries structurally before prompt composition, while granted and permission-unknown entries keep their permission labels. The acceptance test covers all three states. No migration was required. R2 upload, transcription, automated ICP research, and a client-facing Brain tab remain later work.
 
 ## Founder refinements (2026-07-15, approved, fired)
 
