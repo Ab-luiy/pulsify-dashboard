@@ -6,6 +6,7 @@ import {
 } from "../_shared/sequence-prompt.js";
 import { cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
+import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -32,15 +33,19 @@ export async function onRequestPost({ request, env }) {
 
   const client = cleanId(access.client);
   const clientContext = await loadClientContext(env, client);
+  const brainContext = buildGeneratorBrainContext(clientContext.brain);
+  const effectiveTriggerWord = triggerWord || brainContext.trigger_words[0] || "";
+  const effectiveProofLines = uniqueLines([...proofLines, ...brainContext.proof_lines]);
   const promptInput = {
     clientName: clientContext.client_name || access.client_name || client,
     clientProfile: clientContext.client_profile,
+    clientBrain: brainContext.prompt_text,
     type,
     intent,
     topic,
     goal,
-    triggerWord,
-    proofLines,
+    triggerWord: effectiveTriggerWord,
+    proofLines: effectiveProofLines,
     slideCount,
   };
   const prompt = buildSequencePrompt(promptInput);
@@ -50,9 +55,15 @@ export async function onRequestPost({ request, env }) {
     intent: intent || null,
     topic,
     goal,
-    trigger_word: triggerWord || null,
-    proof_lines: proofLines,
+    trigger_word: effectiveTriggerWord || null,
+    proof_lines: effectiveProofLines,
     slide_count: slideCount,
+    brain_context: {
+      used: brainContext.used,
+      fields_used: brainContext.fields_used,
+      updated_at: brainContext.updated_at,
+      truncated: brainContext.truncated,
+    },
   };
 
   if (forceManual || (!env.GEMINI_API_KEY && !env.ANTHROPIC_API_KEY)) {
@@ -63,7 +74,7 @@ export async function onRequestPost({ request, env }) {
       intent: intent || null,
       topic,
       goal,
-      triggerWord: triggerWord || null,
+      triggerWord: effectiveTriggerWord || null,
       paramsJson: JSON.stringify(paramsPayload),
       outputJson: JSON.stringify(manualOutput),
       manualPrompt,
@@ -76,6 +87,7 @@ export async function onRequestPost({ request, env }) {
       mode: "manual",
       manual_prompt: manualPrompt,
       output: manualOutput,
+      brain_context: paramsPayload.brain_context,
     });
   }
 
@@ -104,7 +116,7 @@ export async function onRequestPost({ request, env }) {
       intent,
       slideCount,
       goal,
-      triggerWord,
+      triggerWord: effectiveTriggerWord,
     });
     outputJson = JSON.stringify(parsed);
   } catch (error) {
@@ -120,7 +132,7 @@ export async function onRequestPost({ request, env }) {
     intent: intent || null,
     topic,
     goal,
-    triggerWord: triggerWord || null,
+    triggerWord: effectiveTriggerWord || null,
     paramsJson: JSON.stringify(paramsPayload),
     outputJson,
     manualPrompt,
@@ -137,6 +149,7 @@ export async function onRequestPost({ request, env }) {
     raw_text: parsed ? undefined : rawText,
     warning: warning || undefined,
     manual_prompt: manualPrompt,
+    brain_context: paramsPayload.brain_context,
   });
 }
 
@@ -152,7 +165,7 @@ export async function onRequestOptions() {
 }
 
 async function loadClientContext(env, client) {
-  const [configRow, sectionRows] = await Promise.all([
+  const [configRow, sectionRows, brain] = await Promise.all([
     env.DB.prepare(
       `SELECT client, COALESCE(client_name, client) AS client_name, page_content_json
          FROM client_config
@@ -163,6 +176,7 @@ async function loadClientContext(env, client) {
          FROM client_dashboard_content
         WHERE client_id=?`,
     ).bind(client).all(),
+    loadClientBrainData(env, client),
   ]);
 
   const pageContent = parseJson(configRow?.page_content_json, {});
@@ -181,6 +195,7 @@ async function loadClientContext(env, client) {
   return {
     client_name: configRow?.client_name || client,
     client_profile: profileParts.join(" | ") || "No structured client profile is saved in the dashboard yet.",
+    brain,
   };
 }
 
@@ -355,6 +370,10 @@ function normalizeGoal(value) {
 function normalizeLines(value) {
   if (!Array.isArray(value)) return [];
   return value.map((item) => String(item || "").trim()).filter(Boolean).slice(0, 12);
+}
+
+function uniqueLines(value) {
+  return [...new Set(normalizeLines(value))].slice(0, 12);
 }
 
 function clampSlideCount(value) {

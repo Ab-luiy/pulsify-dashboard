@@ -327,6 +327,7 @@
     $("refreshStudioReviewButton").addEventListener("click", loadStudioReviewQueue);
     $("refreshClientsButton").addEventListener("click", loadSettings);
     $("refreshBrainButton").addEventListener("click", loadBrain);
+    $("exportBrainButton").addEventListener("click", exportBrainContext);
     $("savePerformanceSequenceButton").addEventListener("click", savePerformanceSequence);
     $("clearPerformanceSequenceButton").addEventListener("click", clearPerformanceSequenceForm);
     $("savePerformanceSnapshotButton").addEventListener("click", savePerformanceSnapshot);
@@ -1896,6 +1897,36 @@
       if (!response.ok || !data.ok) throw new Error(data.error || "Could not load this client brain.");
       state.brain = data;
       renderBrain();
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function exportBrainContext() {
+    if (!state.client) return;
+    const button = $("exportBrainButton");
+    button.disabled = true;
+    hideMessage($("brainMessage"));
+    try {
+      const response = await api(`/api/client-brain-export?client=${encodeURIComponent(state.client)}`);
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.error || "Could not export this context package.");
+      }
+      const blob = await response.blob();
+      const disposition = response.headers.get("content-disposition") || "";
+      const filename = disposition.match(/filename="([^"]+)"/i)?.[1] || `${state.client}-pulsify-context.md`;
+      const href = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = href;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(href);
+      showMessage($("brainMessage"), "Context package downloaded.", "neutral");
+    } catch (error) {
+      if (state.key) showMessage($("brainMessage"), error.message || "Could not export this context package.", "error");
     } finally {
       button.disabled = false;
     }
