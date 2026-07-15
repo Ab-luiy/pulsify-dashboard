@@ -103,6 +103,7 @@ export async function onRequestPost({ request, env }) {
     });
   }
 
+  const pendingDraft = await saveDraft(env, input, "draft", null);
   try {
     const sendAt = new Date(Date.now() + 60 * 1000).toISOString();
     const response = await fetch(KIT_BROADCASTS_URL, {
@@ -118,7 +119,7 @@ export async function onRequestPost({ request, env }) {
     const broadcastId = data?.broadcast?.id;
     if (!response.ok || !broadcastId) {
       const detail = `broadcast_${response.status}: ${summarize(data)}`;
-      const draft = await saveDraft(env, input, "failed", null);
+      const draft = await updateDraftStatus(env, pendingDraft, "failed", null);
       await recordFailure(env, input.client, FAILURE_KIND, detail, { skipDiscord: true });
       return json({
         ok: false,
@@ -132,7 +133,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     const sentAt = nowIso();
-    const draft = await saveDraft(env, input, "sent", sentAt);
+    const draft = await updateDraftStatus(env, pendingDraft, "sent", sentAt);
     await recordIntegrationEvent(env, {
       provider: "kit",
       kind: "operator_email",
@@ -143,7 +144,13 @@ export async function onRequestPost({ request, env }) {
         tag_id: input.tag_id,
         send_at: sendAt,
       },
-    });
+    }).catch((error) => recordFailure(
+      env,
+      input.client,
+      "kit_email_event",
+      `broadcast ${broadcastId} sent but event logging failed: ${error?.message || error}`,
+      { skipDiscord: true },
+    ));
     return json({
       ok: true,
       sent: true,
@@ -156,7 +163,7 @@ export async function onRequestPost({ request, env }) {
     });
   } catch (error) {
     const detail = `network_error: ${error?.message || error}`;
-    const draft = await saveDraft(env, input, "failed", null);
+    const draft = await updateDraftStatus(env, pendingDraft, "failed", null);
     await recordFailure(env, input.client, FAILURE_KIND, detail, { skipDiscord: true });
     return json({
       ok: false,
@@ -265,6 +272,13 @@ async function saveDraft(env, input, status, sentAt) {
     created_at: createdAt,
     sent_at: sentAt,
   };
+}
+
+async function updateDraftStatus(env, draft, status, sentAt) {
+  await env.DB.prepare(
+    "UPDATE email_drafts SET status=?, sent_at=? WHERE id=?",
+  ).bind(status, sentAt, draft.id).run();
+  return { ...draft, status, sent_at: sentAt };
 }
 
 function summarize(value) {

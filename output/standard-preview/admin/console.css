@@ -871,6 +871,18 @@ td .muted { display: block; margin-top: 3px; color: var(--muted); font-size: 10p
 .one-time a { color: var(--accent); }
 .env-card strong { display: block; margin-top: 10px; }
 
+.email-connection-panel .panel-head { margin-bottom: 12px; }
+.email-connection-panel .button { width: fit-content; }
+.email-body { min-height: 260px; }
+.email-no-client { opacity: .78; }
+.email-drafts-table { min-width: 900px; }
+.email-body-preview {
+  max-width: 360px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .metric-card { padding: 16px; }
 .metric-card span, .metric-card small { display: block; color: var(--muted); font-size: 10px; }

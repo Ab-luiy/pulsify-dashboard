@@ -27,6 +27,7 @@ const CLIENT_TABLES = [
   ["integrations", "client_id"],
   ["integration_events", "client"],
   ["delivery_failures", "client"],
+  ["email_drafts", "client"],
   ["page_events", "client"],
 ];
 

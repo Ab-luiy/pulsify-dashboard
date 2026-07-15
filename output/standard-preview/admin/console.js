@@ -107,6 +107,7 @@
     "integrations",
     "integration_events",
     "delivery_failures",
+    "email_drafts",
     "page_events",
     "media",
   ];
@@ -346,6 +347,7 @@
     $("refreshDeliveryButton").addEventListener("click", loadDelivery);
     $("refreshIntegrationsButton").addEventListener("click", loadAllIntegrations);
     $("refreshEmailButton").addEventListener("click", loadEmailComposer);
+    $("emailComposeForm").addEventListener("submit", (event) => event.preventDefault());
     $("saveEmailDraftButton").addEventListener("click", () => submitEmail("draft"));
     $("sendEmailButton").addEventListener("click", () => submitEmail("send"));
     $("emailTag").addEventListener("change", syncEmailComposerUi);
@@ -3372,6 +3374,199 @@
         <p>${service.connected ? "Secret present in Cloudflare." : "Secret missing from Cloudflare."}</p>
       </article>
     `).join("") || '<div class="empty-state"><h3>No environment services reported</h3><p>The endpoint returned no service status records.</p></div>';
+  }
+
+  async function loadEmailComposer() {
+    const button = $("refreshEmailButton");
+    button.disabled = true;
+    renderEmailClient();
+    try {
+      await Promise.all([loadEmailTags(), loadEmailDrafts()]);
+      renderEmailDraftRows();
+    } finally {
+      button.disabled = false;
+      syncEmailComposerUi();
+    }
+  }
+
+  async function loadEmailTags() {
+    const response = await api("/api/email-compose?action=tags");
+    const data = await response.json().catch(() => ({}));
+    state.emailConfigured = Boolean(data.api_key_set);
+    state.emailTags = Array.isArray(data.tags) ? data.tags : [];
+
+    const status = $("emailKitStatus");
+    const select = $("emailTag");
+    const previousTag = select.value;
+    if (!state.emailConfigured) {
+      status.textContent = "Not connected";
+      status.className = "provider-status";
+      $("emailKitHeading").textContent = "Kit is not connected";
+      $("emailKitHint").textContent = data.message || "Connect the operator Kit account in Integrations. Draft saving still works.";
+      $("emailTagHint").textContent = "Connect Kit to load the account tags. Send stays unavailable until then.";
+      select.innerHTML = '<option value="">Connect Kit to load tags</option>';
+      select.disabled = true;
+      return;
+    }
+
+    status.textContent = "Connected";
+    status.className = "provider-status connected";
+    $("emailKitHeading").textContent = "Kit is connected";
+    if (!response.ok || !data.ok) {
+      $("emailKitHint").textContent = data.error || "The API key is set, but Kit tags could not be loaded.";
+      $("emailTagHint").textContent = "Refresh after the Kit connection can return tags.";
+      select.innerHTML = '<option value="">Tags unavailable</option>';
+      select.disabled = true;
+      return;
+    }
+
+    $("emailKitHint").textContent = "The saved operator API key is active. Send creates a real Kit broadcast for one selected tag.";
+    if (!state.emailTags.length) {
+      $("emailTagHint").textContent = "The connected Kit account returned no tags. Create a tag in Kit, then refresh.";
+      select.innerHTML = '<option value="">No Kit tags found</option>';
+      select.disabled = true;
+      return;
+    }
+
+    $("emailTagHint").textContent = "Choose the exact Kit audience tag for this broadcast.";
+    select.innerHTML = [
+      '<option value="">Select a Kit tag</option>',
+      ...state.emailTags.map((tag) => `<option value="${esc(tag.id)}">${esc(tag.name)} (${esc(tag.id)})</option>`),
+    ].join("");
+    if (state.emailTags.some((tag) => String(tag.id) === previousTag)) select.value = previousTag;
+    select.disabled = false;
+  }
+
+  async function loadEmailDrafts() {
+    const response = await api("/api/email-compose?action=drafts");
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok || !data.ok) throw new Error(data.error || "Could not load stored email.");
+    state.emailDrafts = Array.isArray(data.drafts) ? data.drafts : [];
+    renderEmailDraftRows();
+    $("emailDraftsUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
+    $("emailDraftsUpdated").className = "status-pill success";
+  }
+
+  function renderEmailClient() {
+    const active = state.clients.find((client) => client.client === state.client);
+    $("emailClientLabel").textContent = active
+      ? `${active.client_name || active.client} email`
+      : "No active client";
+    syncEmailComposerUi();
+  }
+
+  function syncEmailComposerUi() {
+    const hasClient = Boolean(state.client);
+    const hasTag = Boolean($("emailTag").value);
+    $("saveEmailDraftButton").disabled = state.emailBusy || !hasClient;
+    $("sendEmailButton").disabled = state.emailBusy || !hasClient || !state.emailConfigured || !hasTag;
+    $("emailComposerPanel").classList.toggle("email-no-client", !hasClient);
+  }
+
+  async function submitEmail(action) {
+    const subject = $("emailSubject").value.trim();
+    const bodyText = $("emailBody").value.trim();
+    const tagId = $("emailTag").value;
+    const message = $("emailComposeMessage");
+    hideMessage(message);
+
+    if (!state.client) {
+      showMessage(message, "Select a client before saving or sending email.", "error");
+      return;
+    }
+    if (!subject || !bodyText) {
+      showMessage(message, "Subject and body are required.", "error");
+      return;
+    }
+    if (action === "send" && !tagId) {
+      showMessage(message, "Select the Kit tag before sending.", "error");
+      return;
+    }
+
+    state.emailBusy = true;
+    syncEmailComposerUi();
+    try {
+      const response = await api(`/api/email-compose?action=${encodeURIComponent(action)}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          client: state.client,
+          subject,
+          body_text: bodyText,
+          tag_id: tagId || null,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      await loadEmailDrafts();
+
+      if (data.status === "sent" && data.sent) {
+        showMessage(message, `Sent through Kit. Broadcast ${data.broadcast_id}.`, "success");
+        return;
+      }
+      if (data.status === "draft") {
+        showMessage(message, data.message || "Draft saved. No email was sent.", "neutral");
+        return;
+      }
+      if (data.status === "failed") {
+        showMessage(message, data.error || "Kit failed. The complete email is stored for copy and paste.", "error");
+        return;
+      }
+      if (!response.ok || !data.ok) throw new Error(data.error || "The email action failed.");
+      showMessage(message, "Draft saved. No email was sent.", "neutral");
+    } catch (error) {
+      if (state.key) showMessage(message, error.message || "The email action failed.", "error");
+    } finally {
+      state.emailBusy = false;
+      syncEmailComposerUi();
+    }
+  }
+
+  function renderEmailDraftRows() {
+    const rows = state.emailDrafts || [];
+    $("emailDraftsEmpty").hidden = rows.length > 0;
+    $("emailDraftsTableWrap").hidden = rows.length === 0;
+    $("emailDraftRows").innerHTML = rows.map((draft) => {
+      const statusClass = draft.status === "sent" ? "success" : draft.status === "failed" ? "failure" : "";
+      const tag = state.emailTags.find((item) => String(item.id) === String(draft.tag_id));
+      return `<tr>
+        <td><strong>${esc(draft.client || "operator")}</strong></td>
+        <td><strong>${esc(draft.subject)}</strong><span class="muted email-body-preview">${esc(String(draft.body || "").slice(0, 90))}</span></td>
+        <td>${esc(tag?.name || draft.tag_id || "Not selected")}</td>
+        <td><span class="badge ${statusClass}">${esc(draft.status || "draft")}</span></td>
+        <td>${esc(formatDate(draft.sent_at || draft.created_at))}</td>
+        <td><div class="row-actions"><button data-email-load="${esc(draft.id)}" type="button">Load</button><button data-email-copy="${esc(draft.id)}" type="button">Copy</button></div></td>
+      </tr>`;
+    }).join("");
+  }
+
+  async function handleEmailDraftAction(event) {
+    const loadButton = event.target.closest("[data-email-load]");
+    const copyButton = event.target.closest("[data-email-copy]");
+    const id = loadButton?.dataset.emailLoad || copyButton?.dataset.emailCopy;
+    if (!id) return;
+    const draft = state.emailDrafts.find((item) => String(item.id) === String(id));
+    if (!draft) return;
+
+    if (loadButton) {
+      $("emailSubject").value = draft.subject || "";
+      $("emailBody").value = draft.body || "";
+      if (draft.tag_id && !Array.from($("emailTag").options).some((option) => option.value === String(draft.tag_id))) {
+        $("emailTag").add(new Option(`Stored tag ${draft.tag_id}`, String(draft.tag_id)));
+        $("emailTag").disabled = false;
+      }
+      $("emailTag").value = draft.tag_id || "";
+      syncEmailComposerUi();
+      showMessage($("emailComposeMessage"), `Loaded ${draft.status} email. No email was sent by this action.`, "neutral");
+      $("emailSubject").focus();
+      return;
+    }
+
+    const copied = await copyText(`Subject: ${draft.subject}\n\n${draft.body}`);
+    showMessage(
+      $("emailComposeMessage"),
+      copied ? "Email copied." : "The browser blocked copying. Load the email and copy it manually.",
+      copied ? "neutral" : "error",
+    );
   }
 
   async function markPaid(event) {

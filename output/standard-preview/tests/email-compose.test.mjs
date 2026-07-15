@@ -77,6 +77,14 @@ class MockStatement {
       });
       return { meta: { changes: 1, last_row_id: id } };
     }
+    if (this.sql.startsWith("UPDATE email_drafts SET status=?")) {
+      const [status, sentAt, id] = this.params;
+      const row = state.email_drafts.find((item) => item.id === id);
+      if (!row) return { meta: { changes: 0 } };
+      row.status = status;
+      row.sent_at = sentAt;
+      return { meta: { changes: 1 } };
+    }
     if (this.sql.startsWith("INSERT INTO delivery_failures")) {
       const [client, kind, detail, at] = this.params;
       state.delivery_failures.push({ client, kind, detail, at });
@@ -203,6 +211,7 @@ async function testSendSuccess() {
   const testEnv = env({ apiKey: "kit-secret" });
   const originalFetch = globalThis.fetch;
   globalThis.fetch = async (url, options) => {
+    assert.equal(testEnv.DB.state.email_drafts[0]?.status, "draft", "email must be stored before Kit is called");
     assert.equal(String(url), "https://api.kit.com/v4/broadcasts");
     assert.equal(options.method, "POST");
     assert.equal(options.headers["X-Kit-Api-Key"], "kit-secret");
@@ -234,10 +243,13 @@ async function testSendSuccess() {
 async function testSendFailure() {
   const testEnv = env({ apiKey: "kit-secret" });
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => new Response(JSON.stringify({ errors: ["bad tag"] }), {
-    status: 422,
-    headers: { "content-type": "application/json" },
-  });
+  globalThis.fetch = async () => {
+    assert.equal(testEnv.DB.state.email_drafts[0]?.status, "draft", "email must be stored before Kit is called");
+    return new Response(JSON.stringify({ errors: ["bad tag"] }), {
+      status: 422,
+      headers: { "content-type": "application/json" },
+    });
+  };
   try {
     const response = await emailApi.onRequestPost({ request: postRequest("send", composed), env: testEnv });
     const data = await response.json();
