@@ -17,6 +17,7 @@
   const ROUTES = {
     home: ["Operator overview", "Home"],
     clients: ["Client setup", "Clients"],
+    brain: ["Structured client context", "Client brain"],
     delivery: ["Client-facing work", "Client work"],
     integrations: ["Money and handoff path", "Integrations"],
     campaigns: ["Outreach visibility", "Pages sent"],
@@ -39,6 +40,7 @@
     campaignSummary: {},
     trackedAssets: [],
     studioReviews: [],
+    brain: null,
     performance: {
       rows: [],
       weekSummary: null,
@@ -88,6 +90,8 @@
     "content_items",
     "call_notes",
     "client_assets",
+    "client_brain",
+    "proof_items",
     "payments",
     "integrations",
     "integration_events",
@@ -322,6 +326,7 @@
     $("refreshHomeButton").addEventListener("click", loadHome);
     $("refreshStudioReviewButton").addEventListener("click", loadStudioReviewQueue);
     $("refreshClientsButton").addEventListener("click", loadSettings);
+    $("refreshBrainButton").addEventListener("click", loadBrain);
     $("savePerformanceSequenceButton").addEventListener("click", savePerformanceSequence);
     $("clearPerformanceSequenceButton").addEventListener("click", clearPerformanceSequenceForm);
     $("savePerformanceSnapshotButton").addEventListener("click", savePerformanceSnapshot);
@@ -339,6 +344,7 @@
     $("assetForm").addEventListener("submit", createTrackedAsset);
     $("copyAssetResultButton").addEventListener("click", () => copyTrackedAsset($("assetResultUrl").value));
     $("assetRows").addEventListener("click", handleTrackedAssetAction);
+    $("brainSections").addEventListener("click", handleBrainAction);
     $("closeActivityDrawerButton").addEventListener("click", closeActivityDrawer);
     $("activityDrawerBackdrop").addEventListener("click", closeActivityDrawer);
     $("activityDrawer").addEventListener("keydown", (event) => {
@@ -564,6 +570,8 @@
     $("clientsEmpty").hidden = !noClient;
     $("deliveryNoClient").hidden = !noClient;
     $("deliveryPanel").hidden = noClient;
+    $("brainNoClient").hidden = !noClient;
+    $("brainWorkspace").hidden = noClient;
     $("integrationNoClient").hidden = !noClient;
     $("clientCards").hidden = noClient;
     $("markPaidPanel").hidden = noClient;
@@ -756,6 +764,7 @@
     try {
       if (state.route === "home") await loadHome();
       if (state.route === "clients") await loadSettings();
+      if (state.route === "brain") await loadBrain();
       if (state.route === "delivery") await loadDelivery();
       if (state.route === "integrations") await loadAllIntegrations();
       if (state.route === "campaigns") await loadCampaigns();
@@ -1706,7 +1715,7 @@
       const response = await api(`/api/portal-token?client=${encodeURIComponent(client)}`, { method: "POST" });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate a portal link.");
-      $("wizardPortalMessage").innerHTML = `<a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>${data.note ? `<br>${esc(data.note)}` : ""}`;
+      $("wizardPortalMessage").innerHTML = clientAccessLinksMarkup(data, client);
       $("wizardPortalMessage").className = "message success";
       $("wizardPortalMessage").hidden = false;
     } catch (error) {
@@ -1868,6 +1877,240 @@
     renderSetupChecklist();
     reloadLivePreview();
     await loadPerformanceEntries();
+  }
+
+  async function loadBrain() {
+    hideMessage($("brainMessage"));
+    if (!state.client) {
+      state.brain = null;
+      $("brainSummary").innerHTML = "";
+      $("brainSections").innerHTML = "";
+      return;
+    }
+
+    const button = $("refreshBrainButton");
+    button.disabled = true;
+    try {
+      const response = await api(`/api/client-brain?client=${encodeURIComponent(state.client)}`);
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not load this client brain.");
+      state.brain = data;
+      renderBrain();
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function renderBrain() {
+    const data = state.brain;
+    if (!data) return;
+    const summary = data.summary || {};
+    $("brainSummary").innerHTML = `
+      <article><span>Client</span><strong>${esc(data.client_name || data.client)}</strong><small>${esc(data.client)}</small></article>
+      <article><span>Fields filled</span><strong>${number(summary.filled_fields)} / ${number(summary.total_fields)}</strong><small>Structured answers and operator facts</small></article>
+      <article class="${Number(summary.gaps || 0) ? "has-gaps" : ""}"><span>Gaps</span><strong>${number(summary.gaps)}</strong><small>Fields still empty</small></article>
+      <article><span>Last updated</span><strong>${summary.updated_at ? esc(formatDate(summary.updated_at)) : "No answers"}</strong><small>Newest field freshness</small></article>`;
+
+    $("brainSections").innerHTML = (data.sections || []).map((section) => `
+      <section class="brain-section" data-brain-section="${esc(section.key)}">
+        <header class="brain-section-head">
+          <div>
+            <p class="kicker">${section.operator_only ? "Operator-only section" : "Client brain section"}</p>
+            <h3>${esc(section.label)}</h3>
+            <p>${esc(brainSectionDescription(section.key))}</p>
+          </div>
+          <span class="status-pill ${section.gaps ? "warning" : "success"}">${number(section.gaps)} ${section.gaps === 1 ? "gap" : "gaps"}</span>
+        </header>
+        <div class="brain-field-list">
+          ${(section.fields || []).map((field) => renderBrainField(section.key, field)).join("")}
+        </div>
+        ${section.key === "proof" ? renderProofLedger(data.proof_items || []) : ""}
+      </section>`).join("");
+  }
+
+  function renderBrainField(section, field) {
+    const source = field.source ? sourceLabel(field.source) : "No source";
+    const defaultSource = section === "icp" && field.key !== "client_guess" ? "research" : "operator";
+    const selectedSource = ["operator", "research"].includes(field.source) ? field.source : defaultSource;
+    return `
+      <article class="brain-field ${field.gap ? "is-gap" : ""}" data-brain-field data-section="${esc(section)}" data-field="${esc(field.key)}" data-type="${esc(field.type || "textarea")}">
+        <div class="brain-field-head">
+          <div>
+            <span class="brain-question">${esc(field.label)}</span>
+            <div class="brain-meta">
+              <span class="source-chip ${field.source ? "" : "missing"}">${esc(source)}</span>
+              <span>${field.updated_at ? `Fresh ${esc(formatDate(field.updated_at))}` : "No freshness stamp"}</span>
+              ${field.operator_only ? '<span class="operator-chip">Operator field</span>' : ""}
+            </div>
+          </div>
+          <button class="button outline small" data-brain-edit type="button">Edit</button>
+        </div>
+        <div class="brain-answer" data-brain-answer>${renderBrainValue(field.value, field.gap)}</div>
+        <div class="brain-editor" data-brain-editor hidden>
+          ${renderBrainInput(field)}
+          <div class="brain-editor-row">
+            <label>Save source
+              <select data-brain-source>
+                <option value="operator"${selectedSource === "operator" ? " selected" : ""}>Operator</option>
+                <option value="research"${selectedSource === "research" ? " selected" : ""}>Research</option>
+              </select>
+            </label>
+            <div class="button-row">
+              <button class="button primary small" data-brain-save type="button">Save field</button>
+              <button class="button ghost small" data-brain-cancel type="button">Cancel</button>
+            </div>
+          </div>
+          <p class="field-hint">Saving an empty answer clears this field and returns it to gap status.</p>
+        </div>
+      </article>`;
+  }
+
+  function renderBrainInput(field) {
+    if (field.type === "boolean") {
+      const value = field.gap ? "" : String(Boolean(field.value));
+      return `<select data-brain-input aria-label="${esc(field.label)}">
+        <option value=""${value === "" ? " selected" : ""}>Not set</option>
+        <option value="true"${value === "true" ? " selected" : ""}>Yes</option>
+        <option value="false"${value === "false" ? " selected" : ""}>No</option>
+      </select>`;
+    }
+    return `<textarea data-brain-input rows="${field.type === "textarea" || field.type === "proof-list" ? 6 : 3}" aria-label="${esc(field.label)}">${esc(brainEditorValue(field.value, field.type))}</textarea>`;
+  }
+
+  function renderBrainValue(value, gap) {
+    if (gap) return '<p class="gap-copy"><strong>Gap to close</strong><span>No answer is stored for this field.</span></p>';
+    if (typeof value === "boolean") return `<p>${value ? "Yes" : "No"}</p>`;
+    if (Array.isArray(value)) {
+      if (!value.length) return '<p class="gap-copy"><strong>Gap to close</strong><span>No answer is stored for this field.</span></p>';
+      return `<ul>${value.map((item) => {
+        if (item && typeof item === "object") {
+          const url = safeWebUrl(item.url);
+          const link = url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(item.url)}</a>` : esc(item.url || "Proof item");
+          return `<li><strong>${esc(item.kind || "proof")}</strong> ${link}${item.claim ? `<span>${esc(item.claim)}</span>` : ""}${item.permission ? `<span>Permission: ${esc(item.permission)}</span>` : ""}</li>`;
+        }
+        const url = safeWebUrl(item);
+        return `<li>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">${esc(item)}</a>` : esc(item)}</li>`;
+      }).join("")}</ul>`;
+    }
+    if (value && typeof value === "object") {
+      return `<dl>${Object.entries(value).map(([key, entry]) => `<div><dt>${esc(labelFromKey(key))}</dt><dd>${esc(entry)}</dd></div>`).join("")}</dl>`;
+    }
+    const url = safeWebUrl(value);
+    return url
+      ? `<p><a href="${esc(url)}" target="_blank" rel="noopener">${esc(value)}</a></p>`
+      : `<p>${esc(value).replace(/\n/g, "<br>")}</p>`;
+  }
+
+  function renderProofLedger(items) {
+    return `
+      <div class="proof-ledger">
+        <div class="subsection-head"><p class="kicker">Proof item rows</p><h4>Link index</h4><p>These rows mirror the submitted proof links in the dedicated proof table.</p></div>
+        ${items.length ? `<div class="proof-ledger-grid">${items.map((item) => {
+          const url = safeWebUrl(item.url);
+          return `<article><span>${esc(labelFromKey(item.kind))}</span><strong>${esc(item.claim || "No claim added")}</strong>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open proof</a>` : ""}<small>Permission: ${esc(item.permission || "unknown")} | ${esc(formatDate(item.created_at))}</small></article>`;
+        }).join("")}</div>` : '<div class="empty-state inset"><h4>No proof links stored</h4><p>The client selected no proof, or the proof section has not been submitted.</p></div>'}
+      </div>`;
+  }
+
+  async function handleBrainAction(event) {
+    const button = event.target.closest("[data-brain-edit], [data-brain-save], [data-brain-cancel]");
+    if (!button) return;
+    const card = button.closest("[data-brain-field]");
+    if (!card) return;
+    const editor = card.querySelector("[data-brain-editor]");
+    const answer = card.querySelector("[data-brain-answer]");
+
+    if (button.hasAttribute("data-brain-edit")) {
+      answer.hidden = true;
+      editor.hidden = false;
+      button.hidden = true;
+      editor.querySelector("[data-brain-input]")?.focus();
+      return;
+    }
+    if (button.hasAttribute("data-brain-cancel")) {
+      editor.hidden = true;
+      answer.hidden = false;
+      card.querySelector("[data-brain-edit]").hidden = false;
+      return;
+    }
+
+    const input = editor.querySelector("[data-brain-input]");
+    const type = card.dataset.type || "textarea";
+    const value = parseBrainEditor(input.value, type);
+    button.disabled = true;
+    try {
+      const response = await api("/api/client-brain", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          client: state.client,
+          section: card.dataset.section,
+          field: card.dataset.field,
+          value,
+          source: editor.querySelector("[data-brain-source]").value,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this brain field.");
+      await loadBrain();
+      showMessage($("brainMessage"), data.cleared ? "Field cleared." : "Field saved.", "neutral");
+    } catch (error) {
+      if (state.key) showMessage($("brainMessage"), error.message || "Could not save this brain field.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function parseBrainEditor(value, type) {
+    const text = String(value || "").trim();
+    if (type === "boolean") return text === "" ? "" : text === "true";
+    if (type === "list") return text.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    if (type === "proof-list") return text.split(/\r?\n/).map((line) => {
+      const [kind, url, claim, permission] = line.split("|").map((part) => part.trim());
+      return {
+        kind: ["image-link", "video-link", "screenshot-link"].includes(kind) ? kind : "screenshot-link",
+        url: url || kind,
+        claim: claim || "",
+        permission: ["unknown", "granted", "denied"].includes(permission) ? permission : "unknown",
+      };
+    }).filter((item) => item.url);
+    return text;
+  }
+
+  function brainEditorValue(value, type) {
+    if (value == null) return "";
+    if (type === "proof-list" && Array.isArray(value)) {
+      return value.map((item) => `${item.kind || "screenshot-link"} | ${item.url || ""} | ${item.claim || ""} | ${item.permission || "unknown"}`).join("\n");
+    }
+    if (Array.isArray(value)) return value.map((item) => typeof item === "string" ? item : Object.values(item).join(" | ")).join("\n");
+    if (typeof value === "object") return Object.entries(value).map(([key, entry]) => `${labelFromKey(key)}: ${entry}`).join("\n");
+    return String(value);
+  }
+
+  function brainSectionDescription(section) {
+    return ({
+      identity: "The full business explanation plus the operator-distilled positioning and mechanism name.",
+      offer: "What they want to sell and the operator-refined offer structure.",
+      icp: "The client's guess stays visible beside the real operator-conducted avatar research.",
+      story: "Voice note, transcript, or written journey, followed by the usable narrative bank.",
+      voice: "Tone, language habits, positioning attitude, and real voice samples.",
+      proof: "Student results only. Lifestyle imagery is not proof currency.",
+      funnel: "Operator-only trigger words, routes, links, lead magnets, and cadence facts.",
+      donot: "Claims, topics, names, numbers, and compliance lines the work cannot cross.",
+    })[section] || "Structured client context.";
+  }
+
+  function sourceLabel(source) {
+    return ({ "client-form": "Client form", "voice-note": "Voice note", transcript: "Transcript", operator: "Operator", research: "Research" })[source] || labelFromKey(source);
+  }
+
+  function labelFromKey(value) {
+    return String(value || "").replace(/[-_]+/g, " ").replace(/^./, (letter) => letter.toUpperCase());
+  }
+
+  function safeWebUrl(value) {
+    const text = String(value || "").trim();
+    return /^https?:\/\//i.test(text) ? text : "";
   }
 
   function setSavedState(element, isSet, label) {
@@ -2269,6 +2512,11 @@
     }
   }
 
+  function clientAccessLinksMarkup(data, client) {
+    const onboardingLink = `${location.origin}/onboard/?client=${encodeURIComponent(client)}&t=${encodeURIComponent(data.token || "")}`;
+    return `<strong>Client portal</strong><br><a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a><br><br><strong>Client onboarding</strong><br><a href="${esc(onboardingLink)}" target="_blank" rel="noopener">${esc(onboardingLink)}</a>${data.note ? `<br><br>${esc(data.note)}` : ""}`;
+  }
+
   async function generatePortalLink() {
     const client = $("clientId").value.trim() || state.client;
     if (!client) {
@@ -2282,7 +2530,7 @@
       const response = await api(`/api/portal-token?client=${encodeURIComponent(client)}`, { method: "POST" });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate a portal link.");
-      $("portalLinkMessage").innerHTML = `<a href="${esc(data.link)}" target="_blank" rel="noopener">${esc(data.link)}</a>${data.note ? `<br>${esc(data.note)}` : ""}`;
+      $("portalLinkMessage").innerHTML = clientAccessLinksMarkup(data, client);
       $("portalLinkMessage").className = "message success";
       $("portalLinkMessage").hidden = false;
     } catch (error) {

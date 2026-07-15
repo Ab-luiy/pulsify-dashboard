@@ -37,9 +37,10 @@
       <nav class="nav" aria-label="Console sections">
         <a href="#home" data-route="home"><span>01</span>Home</a>
         <a href="#clients" data-route="clients"><span>02</span>Clients</a>
-        <a href="#delivery" data-route="delivery"><span>03</span>Client work</a>
-        <a href="#integrations" data-route="integrations"><span>04</span>Integrations</a>
-        <a href="#campaigns" data-route="campaigns"><span>05</span>Pages sent</a>
+        <a href="#brain" data-route="brain"><span>03</span>Client brain</a>
+        <a href="#delivery" data-route="delivery"><span>04</span>Client work</a>
+        <a href="#integrations" data-route="integrations"><span>05</span>Integrations</a>
+        <a href="#campaigns" data-route="campaigns"><span>06</span>Pages sent</a>
       </nav>
       <div class="rail-actions">
         <button class="button ghost small" id="themeButton" type="button">Switch theme</button>
@@ -438,10 +439,10 @@
 
           <div class="subsection compact">
             <div class="field">
-              <label>Client portal link <span class="optional">Generated when needed</span></label>
-              <p class="field-hint">The private tokenized URL sent to this client. Generate it here; a new link turns off the previous one.</p>
+              <label>Client access links <span class="optional">Generated when needed</span></label>
+              <p class="field-hint">Generate the private portal and onboarding URLs together. A new token turns off both previous links.</p>
             </div>
-            <button class="button dark" id="generatePortalButton" type="button">Generate client portal link</button>
+            <button class="button dark" id="generatePortalButton" type="button">Generate client access links</button>
             <div class="message" id="portalLinkMessage" role="status" hidden></div>
           </div>
         </form>
@@ -473,6 +474,28 @@
           </div>
           <button class="button danger" id="openDeleteButton" type="button">Delete active client</button>
         </article>
+      </section>
+
+      <section class="route" id="route-brain" data-route-panel="brain" hidden>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Structured client context</p>
+            <h2>Client brain</h2>
+            <p>Read the returned onboarding answers, fill operator research, and close gaps by section.</p>
+          </div>
+          <button class="button outline small" id="refreshBrainButton" type="button">Refresh brain</button>
+        </div>
+
+        <div class="empty-state" id="brainNoClient" hidden>
+          <h3>No active client</h3>
+          <p>Create or select a client before opening their brain.</p>
+        </div>
+
+        <div id="brainWorkspace">
+          <div class="brain-summary" id="brainSummary"></div>
+          <div class="message" id="brainMessage" role="status" hidden></div>
+          <div class="brain-sections" id="brainSections"></div>
+        </div>
       </section>
 
       <section class="route" id="route-delivery" data-route-panel="delivery" hidden>

@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsify onboarding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/shared/pulsify-ui.css">
+  <style>
+    :root { color-scheme: light; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(14, 169, 104, .13), transparent 31rem),
+        var(--bg, #f5f7f6);
+      color: var(--ink, #14221c);
+      font-family: Inter, system-ui, sans-serif;
+    }
+    button, input, textarea, select { font: inherit; }
+    .onboard-shell { min-height: 100vh; display: grid; grid-template-rows: auto 1fr; }
+    .onboard-head {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 24px clamp(20px, 5vw, 72px);
+    }
+    .onboard-brand { display: flex; align-items: center; gap: 11px; min-width: max-content; }
+    .onboard-brand strong { display: block; font-size: 15px; }
+    .onboard-brand span { display: block; color: var(--muted, #68766f); font-size: 12px; }
+    .progress-track { height: 5px; flex: 1; overflow: hidden; border-radius: 999px; background: rgba(20, 34, 28, .09); }
+    .progress-fill { width: 0; height: 100%; border-radius: inherit; background: var(--accent, #0ea968); transition: width .25s ease; }
+    .progress-copy { color: var(--muted, #68766f); font: 600 12px/1 JetBrains Mono, monospace; white-space: nowrap; }
+    .onboard-main { display: grid; place-items: center; padding: 22px clamp(20px, 5vw, 72px) 64px; }
+    .onboard-form { width: min(800px, 100%); }
+    .step { animation: step-in .24s ease both; }
+    .step.leaving { animation: step-out .17s ease both; }
+    .step-count { margin: 0 0 12px; color: var(--accent, #0ea968); font: 600 12px/1.3 JetBrains Mono, monospace; letter-spacing: .06em; text-transform: uppercase; }
+    .step h1 { margin: 0; max-width: 760px; font-size: clamp(30px, 5vw, 52px); line-height: 1.06; letter-spacing: -.045em; }
+    .step-copy { margin: 18px 0 28px; max-width: 660px; color: var(--muted, #68766f); font-size: 17px; line-height: 1.65; }
+    .question-control { margin-top: 26px; }
+    .question-control input:not([type="checkbox"]):not([type="radio"]),
+    .question-control textarea,
+    .question-control select {
+      width: 100%;
+      border: 1px solid rgba(20, 34, 28, .17);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .9);
+      color: inherit;
+      outline: none;
+      padding: 18px 20px;
+      box-shadow: 0 12px 40px rgba(25, 50, 38, .06);
+      font-size: 18px;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    .question-control textarea { min-height: 190px; resize: vertical; line-height: 1.6; }
+    .question-control .fat-block { min-height: 280px; }
+    .question-control input:focus, .question-control textarea:focus, .question-control select:focus {
+      border-color: var(--accent, #0ea968);
+      box-shadow: 0 0 0 4px rgba(14, 169, 104, .12), 0 12px 40px rgba(25, 50, 38, .06);
+    }
+    .choice-grid { display: grid; gap: 11px; }
+    .choice-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .choice-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-height: 64px;
+      padding: 16px 18px;
+      border: 1px solid rgba(20, 34, 28, .14);
+      border-radius: 15px;
+      background: rgba(255, 255, 255, .82);
+      cursor: pointer;
+      transition: border-color .18s ease, transform .18s ease, background .18s ease;
+    }
+    .choice-card:hover { transform: translateY(-1px); border-color: rgba(14, 169, 104, .5); }
+    .choice-card:has(input:checked) { border-color: var(--accent, #0ea968); background: rgba(14, 169, 104, .08); }
+    .choice-card input { width: 19px; height: 19px; accent-color: var(--accent, #0ea968); }
+    .choice-card strong { font-size: 15px; }
+    .choice-card span { display: block; margin-top: 3px; color: var(--muted, #68766f); font-size: 13px; line-height: 1.4; }
+    .step-actions { display: flex; align-items: center; gap: 12px; margin-top: 30px; }
+    .step-error { margin: 13px 0 0; color: #a03232; font-size: 14px; }
+    .link-note { margin-top: 10px; color: var(--muted, #68766f); font-size: 13px; line-height: 1.5; }
+    .proof-list { display: grid; gap: 12px; }
+    .proof-row {
+      display: grid;
+      grid-template-columns: 160px minmax(0, 1fr) minmax(0, 1fr) auto;
+      gap: 9px;
+      padding: 12px;
+      border: 1px solid rgba(20, 34, 28, .12);
+      border-radius: 17px;
+      background: rgba(255, 255, 255, .72);
+    }
+    .proof-row input, .proof-row select { min-width: 0; padding: 13px 14px !important; border-radius: 11px !important; font-size: 14px !important; box-shadow: none !important; }
+    .remove-proof { border: 0; background: transparent; color: var(--muted, #68766f); cursor: pointer; padding: 8px; }
+    .add-proof { display: inline-flex; align-items: center; gap: 9px; margin-top: 12px; border: 0; background: transparent; color: var(--accent, #0ea968); font-weight: 700; cursor: pointer; }
+    .add-proof::before { content: "+"; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid currentColor; border-radius: 50%; }
+    .submit-status { margin-top: 14px; }
+    .completion { width: min(700px, 100%); animation: step-in .3s ease both; }
+    .completion h1 { margin: 0 0 16px; font-size: clamp(32px, 5vw, 52px); letter-spacing: -.04em; }
+    .completion p { color: var(--muted, #68766f); font-size: 17px; line-height: 1.65; }
+    [hidden] { display: none !important; }
+    @keyframes step-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes step-out { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-9px); } }
+    @media (max-width: 720px) {
+      .onboard-head { align-items: flex-start; flex-wrap: wrap; padding-top: 18px; }
+      .progress-track { order: 3; flex-basis: 100%; }
+      .onboard-main { place-items: start; padding-top: 32px; }
+      .choice-grid.two { grid-template-columns: 1fr; }
+      .proof-row { grid-template-columns: 1fr; }
+      .remove-proof { justify-self: start; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .step, .step.leaving, .completion { animation: none; }
+      .progress-fill { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="onboard-shell">
+    <header class="onboard-head">
+      <div class="onboard-brand">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div><strong>Pulsify</strong><span>Client onboarding</span></div>
+      </div>
+      <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-copy" id="progressCopy">1 / 14</span>
+    </header>
+
+    <main class="onboard-main">
+      <form class="onboard-form" id="onboardForm" novalidate>
+        <section class="step" data-step>
+          <p class="step-count">Identity</p>
+          <h1>What name should we use for you and your brand?</h1>
+          <p class="step-copy">Use the name your audience already recognizes.</p>
+          <div class="question-control"><input id="identityName" autocomplete="name" placeholder="Your name or brand name" required></div>
+          <div class="step-actions"><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Identity</p>
+          <h1>Where can people find you?</h1>
+          <p class="step-copy">Paste one handle or profile link per line. Include the platforms you actively use.</p>
+          <div class="question-control"><textarea id="identityHandles" placeholder="Instagram: @handle&#10;YouTube: channel URL&#10;TikTok: @handle"></textarea></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Identity</p>
+          <h1>Explain exactly what you do and how it makes money.</h1>
+          <p class="step-copy">Write the full version. Include the skill, the result, the business model, and what makes your approach different. Pulsify will distill this later.</p>
+          <div class="question-control"><textarea class="fat-block" id="businessExplainer" placeholder="I help... The way it makes money is... My process is..." required></textarea></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Offer</p>
+          <h1>Do you have a voice note that explains your offer?</h1>
+          <p class="step-copy">Paste a Drive, Loom, Dropbox, or other accessible link. This can be a rough explanation.</p>
+          <div class="question-control"><input id="offerVoiceNote" type="url" inputmode="url" placeholder="https://..."></div>
+          <p class="link-note">Leave it blank if you want to explain the direction in writing on the next question.</p>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Offer</p>
+          <h1>What do you want to do with the offer?</h1>
+          <p class="step-copy">Tell us what you want to sell, change, build, or improve. A rough answer is enough for the operator to diagnose.</p>
+          <div class="question-control"><textarea id="offerDirection" placeholder="I want to build... Right now I sell... The part I want to change is..."></textarea></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">ICP starting point</p>
+          <h1>Who do you think you help, and what do they struggle with?</h1>
+          <p class="step-copy">This is only a starting point. Pulsify conducts the real ICP research from audience signals, calls, and DMs.</p>
+          <div class="question-control"><textarea id="icpGuess" placeholder="I think I help... They usually struggle with..."></textarea></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Story</p>
+          <h1>How do you want to share your career journey?</h1>
+          <p class="step-copy">Choose the source that gives the clearest version of what happened.</p>
+          <div class="question-control choice-grid">
+            <label class="choice-card"><input type="radio" name="storyType" value="voice-note" required><div><strong>Voice-note link</strong><span>A 10 to 20 minute voice note telling the full journey.</span></div></label>
+            <label class="choice-card"><input type="radio" name="storyType" value="transcript"><div><strong>Transcript</strong><span>Paste a podcast, interview, or meetup transcript where someone asked the questions.</span></div></label>
+            <label class="choice-card"><input type="radio" name="storyType" value="written"><div><strong>Write it here</strong><span>Tell the journey in a long freeform block.</span></div></label>
+          </div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Story</p>
+          <h1 id="storyDetailTitle">Paste the source for your story.</h1>
+          <p class="step-copy" id="storyDetailCopy">Give the operator enough detail to understand the before-state, turning point, and what happened next.</p>
+          <div class="question-control" id="storyDetailControl"></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Voice</p>
+          <h1>Which tones sound like you?</h1>
+          <p class="step-copy">Choose every option that fits. The mix matters more than forcing one label.</p>
+          <div class="question-control choice-grid two" id="toneChoices">
+            <label class="choice-card"><input type="checkbox" value="playful"><strong>Playful</strong></label>
+            <label class="choice-card"><input type="checkbox" value="serious"><strong>Serious</strong></label>
+            <label class="choice-card"><input type="checkbox" value="professional"><strong>Professional</strong></label>
+            <label class="choice-card"><input type="checkbox" value="informal"><strong>Informal</strong></label>
+          </div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Voice</p>
+          <h1>Do you curse or use slang in your content?</h1>
+          <div class="question-control choice-grid">
+            <label class="choice-card"><input type="radio" name="curseSlang" value="frequently" required><strong>Yes, frequently</strong></label>
+            <label class="choice-card"><input type="radio" name="curseSlang" value="sometimes"><strong>Sometimes</strong></label>
+            <label class="choice-card"><input type="radio" name="curseSlang" value="rarely"><strong>Rarely</strong></label>
+            <label class="choice-card"><input type="radio" name="curseSlang" value="never"><strong>No</strong></label>
+          </div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Voice</p>
+          <h1>How do you position yourself when you talk?</h1>
+          <p class="step-copy">Describe the attitude behind your message, not just the topic.</p>
+          <div class="question-control"><textarea id="positioningAttitude" placeholder="For example: while other people played video games, I was grinding on weekends. They stopped, I kept going, and that difference shaped how I teach."></textarea></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Voice samples</p>
+          <h1>Do you have real examples of how you sound?</h1>
+          <p class="step-copy">Paste one public or shared link per line. Captions, emails, DMs, videos, and voice notes all help. This is optional.</p>
+          <div class="question-control"><textarea id="voiceSamples" placeholder="https://..."></textarea></div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Proof</p>
+          <h1>Do you have student proof or case studies?</h1>
+          <p class="step-copy">Use student results, screenshots, and video testimonials. Do not use lifestyle imagery as proof.</p>
+          <div class="question-control choice-grid">
+            <label class="choice-card"><input type="radio" name="hasProof" value="yes" required><strong>Yes, I have proof to link</strong></label>
+            <label class="choice-card"><input type="radio" name="hasProof" value="no"><strong>I do not have proof or case studies yet</strong></label>
+          </div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <p class="step-error" data-error hidden></p>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Proof</p>
+          <h1 id="proofTitle">Paste the proof links.</h1>
+          <p class="step-copy" id="proofCopy">Add the link and what it shows. Direct image, screenshot, and video-testimonial links all work in this phase.</p>
+          <div class="question-control">
+            <div class="proof-list" id="proofRows"></div>
+            <button class="add-proof" id="addProofButton" type="button">Add another proof link</button>
+          </div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" id="submitButton" type="submit">Submit responses</button></div>
+          <p class="step-error" data-error hidden></p>
+          <p class="submit-status" id="submitStatus" role="status" hidden></p>
+        </section>
+      </form>
+
+      <section class="completion" id="completion" hidden>
+        <p class="step-count">Submitted</p>
+        <h1>Your responses are saved.</h1>
+        <p>Pulsify can now review the intake, fill the operator research sections, and close the remaining gaps.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const $ = (id) => document.getElementById(id);
+      const steps = Array.from(document.querySelectorAll("[data-step]"));
+      const query = new URLSearchParams(location.search);
+      const token = query.get("t") || "";
+      const client = query.get("client") || "";
+      const storyDrafts = {};
+      let index = 0;
+      let moving = false;
+
+      document.querySelectorAll("[data-next]").forEach((button) => button.addEventListener("click", () => move(1)));
+      document.querySelectorAll("[data-back]").forEach((button) => button.addEventListener("click", () => move(-1)));
+      document.querySelectorAll('input[name="storyType"]').forEach((input) => input.addEventListener("change", renderStoryControl));
+      document.querySelectorAll('input[name="hasProof"]').forEach((input) => input.addEventListener("change", renderProofState));
+      $("addProofButton").addEventListener("click", () => addProofRow());
+      $("proofRows").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove-proof]");
+        if (!button) return;
+        button.closest(".proof-row")?.remove();
+        if (!$("proofRows").children.length) addProofRow();
+      });
+      $("onboardForm").addEventListener("submit", submitForm);
+
+      addProofRow();
+      updateProgress();
+
+      function move(direction) {
+        if (moving || (direction > 0 && !validateStep(steps[index]))) return;
+        const next = Math.max(0, Math.min(steps.length - 1, index + direction));
+        if (next === index) return;
+        moving = true;
+        const current = steps[index];
+        current.classList.add("leaving");
+        window.setTimeout(() => {
+          current.hidden = true;
+          current.classList.remove("leaving");
+          index = next;
+          if (index === 7) renderStoryControl();
+          if (index === steps.length - 1) renderProofState();
+          steps[index].hidden = false;
+          updateProgress();
+          focusFirstControl(steps[index]);
+          moving = false;
+        }, reducedMotion() ? 0 : 170);
+      }
+
+      function validateStep(step) {
+        const error = step.querySelector("[data-error]");
+        if (error) error.hidden = true;
+        const required = Array.from(step.querySelectorAll("[required]"));
+        for (const input of required) {
+          if (input.type === "radio") {
+            if (!step.querySelector(`input[name="${input.name}"]:checked`)) return showStepError(error, "Choose one option to continue.");
+            break;
+          }
+          if (!String(input.value || "").trim()) return showStepError(error, "Add an answer to continue.");
+          if (!input.checkValidity()) return showStepError(error, "Use a valid link to continue.");
+        }
+        if (step.contains($("toneChoices")) && !$("toneChoices").querySelector("input:checked")) {
+          return showStepError(error, "Choose at least one tone to continue.");
+        }
+        return true;
+      }
+
+      function showStepError(element, message) {
+        if (element) { element.textContent = message; element.hidden = false; }
+        return false;
+      }
+
+      function updateProgress() {
+        const current = index + 1;
+        $("progressCopy").textContent = `${current} / ${steps.length}`;
+        $("progressFill").style.width = `${(current / steps.length) * 100}%`;
+      }
+
+      function focusFirstControl(step) {
+        step.querySelector("input:not([type=radio]):not([type=checkbox]), textarea, input[type=radio], input[type=checkbox]")?.focus({ preventScroll: true });
+      }
+
+      function renderStoryControl() {
+        const type = selected("storyType") || "written";
+        const control = $("storyDetailControl");
+        const existing = $("storyDetail");
+        if (existing && control.dataset.storyType) storyDrafts[control.dataset.storyType] = existing.value;
+        control.dataset.storyType = type;
+        const draft = escapeAttribute(storyDrafts[type] || "");
+        if (type === "voice-note") {
+          $("storyDetailTitle").textContent = "Paste the voice-note link.";
+          control.innerHTML = `<input id="storyDetail" type="url" inputmode="url" placeholder="https://..." value="${draft}" required>`;
+        } else if (type === "transcript") {
+          $("storyDetailTitle").textContent = "Paste the transcript.";
+          control.innerHTML = `<textarea class="fat-block" id="storyDetail" placeholder="Paste the podcast, interview, or meetup transcript here" required>${draft}</textarea>`;
+        } else {
+          $("storyDetailTitle").textContent = "Tell the full career journey.";
+          control.innerHTML = `<textarea class="fat-block" id="storyDetail" placeholder="Start with the before-state, then the turning point, the setbacks, and what happened next" required>${draft}</textarea>`;
+        }
+      }
+
+      function renderProofState() {
+        const hasProof = selected("hasProof") === "yes";
+        $("proofTitle").textContent = hasProof ? "Paste the proof links." : "Submit the intake without proof.";
+        $("proofCopy").textContent = hasProof
+          ? "Add the link and what it shows. Direct image, screenshot, and video-testimonial links all work in this phase."
+          : "The brain will mark proof as a gap. The operator can update it when student results exist.";
+        $("proofRows").hidden = !hasProof;
+        $("addProofButton").hidden = !hasProof;
+      }
+
+      function addProofRow(item = {}) {
+        const row = document.createElement("div");
+        row.className = "proof-row";
+        row.innerHTML = `
+          <select data-proof-kind aria-label="Proof kind">
+            <option value="screenshot-link">Screenshot</option>
+            <option value="image-link">Image</option>
+            <option value="video-link">Video testimonial</option>
+          </select>
+          <input data-proof-url type="url" inputmode="url" aria-label="Proof link" placeholder="Paste the proof link" value="${escapeAttribute(item.url || "")}">
+          <input data-proof-claim aria-label="What this proof shows" placeholder="What does this show?" value="${escapeAttribute(item.claim || "")}">
+          <button class="remove-proof" data-remove-proof type="button" aria-label="Remove proof link">Remove</button>`;
+        row.querySelector("[data-proof-kind]").value = item.kind || "screenshot-link";
+        $("proofRows").appendChild(row);
+      }
+
+      async function submitForm(event) {
+        event.preventDefault();
+        const step = steps[index];
+        const hasProof = selected("hasProof") === "yes";
+        const proofItems = readProofItems();
+        if (hasProof && !proofItems.length) {
+          showStepError(step.querySelector("[data-error]"), "Add at least one valid proof link, or go back and choose that you do not have proof yet.");
+          return;
+        }
+
+        const button = $("submitButton");
+        button.disabled = true;
+        button.textContent = "Submitting";
+        $("submitStatus").hidden = true;
+        try {
+          const response = await fetch("/api/client-brain", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              ...(token ? { "x-portal-token": token } : {}),
+            },
+            body: JSON.stringify(buildPayload(proofItems, hasProof)),
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || !data.ok) throw new Error(data.error || "The responses could not be saved.");
+          $("onboardForm").hidden = true;
+          $("completion").hidden = false;
+          $("progressFill").style.width = "100%";
+          $("progressCopy").textContent = "Submitted";
+        } catch (error) {
+          $("submitStatus").textContent = error.message || "The responses could not be saved.";
+          $("submitStatus").className = "submit-status message error";
+          $("submitStatus").hidden = false;
+        } finally {
+          button.disabled = false;
+          button.textContent = "Submit responses";
+        }
+      }
+
+      function buildPayload(proofItems, hasProof) {
+        const storyType = selected("storyType");
+        const storyValue = $("storyDetail")?.value.trim() || "";
+        const proofSummary = proofItems.map((item) => ({ kind: item.kind, url: item.url, claim: item.claim, permission: item.permission }));
+        return {
+          ...(client ? { client } : {}),
+          answers: {
+            identity: {
+              name: $("identityName").value,
+              handles: lines($("identityHandles").value),
+              business_explainer: $("businessExplainer").value,
+            },
+            offer: {
+              voice_note_url: $("offerVoiceNote").value,
+              direction: $("offerDirection").value,
+            },
+            icp: { client_guess: $("icpGuess").value },
+            story: {
+              input_type: storyType,
+              voice_note_url: storyType === "voice-note" ? storyValue : "",
+              transcript: storyType === "transcript" ? storyValue : "",
+              narrative: storyType === "written" ? storyValue : "",
+            },
+            voice: {
+              tone: Array.from($("toneChoices").querySelectorAll("input:checked")).map((input) => input.value),
+              curse_slang: selected("curseSlang"),
+              positioning_attitude: $("positioningAttitude").value,
+              sample_links: lines($("voiceSamples").value),
+            },
+            proof: { has_proof: hasProof, items: proofSummary },
+          },
+          proof_items: proofItems,
+        };
+      }
+
+      function readProofItems() {
+        if (selected("hasProof") !== "yes") return [];
+        return Array.from($("proofRows").querySelectorAll(".proof-row")).map((row) => ({
+          kind: row.querySelector("[data-proof-kind]").value,
+          url: row.querySelector("[data-proof-url]").value.trim(),
+          claim: row.querySelector("[data-proof-claim]").value.trim(),
+          permission: "unknown",
+        })).filter((item) => item.url && /^https?:\/\//i.test(item.url));
+      }
+
+      function selected(name) {
+        return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+      }
+
+      function lines(value) {
+        return String(value || "").split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+      }
+
+      function escapeAttribute(value) {
+        return String(value).replace(/[&"<>]/g, (character) => ({ "&": "&amp;", '"': "&quot;", "<": "&lt;", ">": "&gt;" })[character]);
+      }
+
+      function reducedMotion() {
+        return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      }
+    })();
+  </script>
+</body>
+</html>

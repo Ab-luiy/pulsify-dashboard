@@ -18,6 +18,8 @@ const CLIENT_TABLES = [
   ["studio_sequences", "client_id"],
   ["sequence_log", "client_id"],
   ["account_snapshots", "client_id"],
+  ["client_brain", "client_id"],
+  ["proof_items", "client_id"],
   ["content_items", "client"],
   ["call_notes", "client"],
   ["client_assets", "client"],
