@@ -167,6 +167,113 @@
       gap: 10px;
     }
     .card-head h3 { margin: 0; font-size: 15px; }
+    .pulse-card { margin-bottom: 22px; overflow: hidden; }
+    .pulse-list { display: grid; }
+    .pulse-item {
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 20px;
+      border-top: 1px solid var(--ui-line);
+    }
+    .pulse-item:first-child { border-top: 0; }
+    .pulse-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--ui-accent-soft);
+      color: var(--ui-accent);
+      font: 900 12px var(--ui-font-mono);
+    }
+    .pulse-copy strong { display: block; font-size: 13px; }
+    .pulse-copy span { display: block; margin-top: 3px; color: var(--ui-ink-2); font-size: 12px; line-height: 1.5; }
+    .pulse-time { color: var(--ui-muted); font: 600 10.5px var(--ui-font-mono); white-space: nowrap; }
+    .pulse-skeleton {
+      height: 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--ui-panel-2), var(--ui-line), var(--ui-panel-2));
+      background-size: 220% 100%;
+      animation: pulse-loading 1.2s linear infinite;
+    }
+    .pulse-skeleton.short { width: 45%; margin-top: 8px; }
+    @keyframes pulse-loading { to { background-position: -220% 0; } }
+    .proof-upload-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr) auto;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 18px;
+      padding: 20px;
+      background: var(--ui-panel);
+      border: 1px solid var(--ui-line);
+      border-radius: 18px;
+      box-shadow: var(--ui-shadow-sm);
+    }
+    .proof-upload-card label { display: grid; gap: 7px; color: var(--ui-ink-2); font-size: 12px; font-weight: 700; }
+    .proof-upload-card input[type="file"],
+    .proof-upload-card input[type="text"],
+    .proof-edit input {
+      width: 100%;
+      border: 1px solid var(--ui-line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--ui-panel) 88%, transparent);
+      color: var(--ui-ink);
+      padding: 11px 12px;
+    }
+    .proof-upload-card button,
+    .proof-edit button {
+      border: 0;
+      border-radius: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      color: #042b1b;
+      background: linear-gradient(135deg, var(--ui-accent), var(--ui-accent-2));
+      font: 800 12px var(--ui-font);
+    }
+    .proof-upload-card button[disabled],
+    .proof-edit button[disabled] { opacity: .6; cursor: wait; }
+    .proof-upload-status { grid-column: 1 / -1; margin: 0; color: var(--ui-muted); font-size: 11.5px; }
+    .proof-upload-status.error { color: var(--ui-rose); }
+    .proof-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 14px; }
+    .proof-card {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--ui-panel);
+      border: 1px solid var(--ui-line);
+      border-radius: 18px;
+      box-shadow: var(--ui-shadow-sm);
+    }
+    .proof-thumb {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      display: block;
+      object-fit: cover;
+      background: var(--ui-panel-2);
+      border-bottom: 1px solid var(--ui-line);
+    }
+    .proof-link {
+      min-height: 160px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: linear-gradient(140deg, var(--ui-indigo-soft), var(--ui-panel-2));
+      color: var(--ui-indigo);
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      text-decoration: none;
+      border-bottom: 1px solid var(--ui-line);
+    }
+    .proof-body { display: grid; gap: 12px; padding: 16px; }
+    .proof-meta { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .proof-kind { color: var(--ui-muted); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .permission-badge { padding: 5px 8px; border-radius: 999px; background: var(--ui-panel-2); color: var(--ui-muted); font-size: 10px; font-weight: 800; }
+    .permission-badge.granted { background: var(--ui-accent-soft); color: var(--ui-accent); }
+    .permission-badge.denied { background: var(--ui-rose-soft); color: var(--ui-rose); }
+    .proof-edit { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
     .table-wrap { overflow: auto; }
     table { width: 100%; min-width: 680px; border-collapse: collapse; }
     th,
@@ -677,7 +784,8 @@
     }
     @media (max-width: 1100px) {
       .studio-grid,
-      .performance-grid { grid-template-columns: 1fr; }
+      .performance-grid,
+      .proof-upload-card { grid-template-columns: 1fr; }
     }
     @media (max-width: 980px) {
       #app { display: block; }
@@ -706,6 +814,8 @@
       .translate,
       .angle-lib,
       .capture-in { grid-template-columns: 1fr; }
+      .pulse-item { grid-template-columns: 38px minmax(0, 1fr); }
+      .pulse-time { grid-column: 2; }
     }
     @media (max-width: 390px) {
       .rail-actions { grid-template-columns: 1fr; }
@@ -746,6 +856,7 @@
         <div class="nav-group-h">Dashboard</div>
         <button class="tab-btn nav-item active" data-tab="revenue" type="button">Revenue</button>
         <button class="tab-btn nav-item" data-tab="content" type="button">Content</button>
+        <button class="tab-btn nav-item" data-tab="proof" type="button">Proof vault</button>
         <button class="tab-btn nav-item" data-tab="performance" type="button">Performance</button>
         <button class="tab-btn nav-item" data-tab="team" type="button">Team</button>
         <button class="tab-btn nav-item" data-tab="momentum" type="button">Momentum</button>
@@ -773,6 +884,17 @@
           <div class="panel-note" id="revenueUpdated">Waiting on data</div>
         </div>
         <div class="metric-grid" id="revenueMetrics"></div>
+        <div class="card pulse-card">
+          <div class="card-head">
+            <h3>Pulse</h3>
+            <span class="panel-note" id="pulseStatus">Last 30 days</span>
+          </div>
+          <div class="pulse-list" id="pulseList" aria-live="polite">
+            <div class="pulse-item"><span class="pulse-icon">P</span><div><div class="pulse-skeleton"></div><div class="pulse-skeleton short"></div></div><span class="pulse-time">Loading</span></div>
+            <div class="pulse-item"><span class="pulse-icon">P</span><div><div class="pulse-skeleton"></div><div class="pulse-skeleton short"></div></div><span class="pulse-time">Loading</span></div>
+            <div class="pulse-item"><span class="pulse-icon">P</span><div><div class="pulse-skeleton"></div><div class="pulse-skeleton short"></div></div><span class="pulse-time">Loading</span></div>
+          </div>
+        </div>
         <div class="card" id="paymentsCard">
           <div class="card-head">
             <h3>Payment history</h3>
@@ -796,6 +918,29 @@
       <section class="panel" id="panel-content">
         <div class="panel-head"><div><h2>Content</h2><div class="panel-note">Read-only pipeline items already saved for this client.</div></div></div>
         <div id="contentSection"></div>
+      </section>
+
+      <section class="panel" id="panel-proof">
+        <div class="panel-head">
+          <div>
+            <h2>Proof vault</h2>
+            <div class="panel-note">Student results carry the selling. Student results, never lifestyle.</div>
+          </div>
+          <div class="panel-note" id="proofStatus">Loading proof</div>
+        </div>
+        <div class="proof-upload-card">
+          <label for="proofFileInput">Result image
+            <input id="proofFileInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+          </label>
+          <label for="proofClaimInput">Claim caption
+            <input id="proofClaimInput" type="text" maxlength="500" placeholder="What does this result show?">
+          </label>
+          <button id="proofUploadButton" type="button">Upload proof</button>
+          <p class="proof-upload-status" id="proofUploadStatus">PNG, JPG, WebP, or GIF. Up to 10 MB.</p>
+        </div>
+        <div class="proof-grid" id="proofGrid">
+          <div class="empty-card"><h3>Loading proof</h3><p>The vault is checking this client's saved student results.</p></div>
+        </div>
       </section>
 
       <section class="panel" id="panel-performance">
@@ -1100,6 +1245,8 @@
       client: CLIENT,
       sections: {},
       contentItems: [],
+      proofItems: [],
+      pulseItems: [],
       performance: {
         rows: [],
         weekSummary: null,
@@ -1134,6 +1281,11 @@
     $("clearSequenceLogButton").addEventListener("click", clearSequenceForm);
     $("saveSnapshotButton").addEventListener("click", saveSnapshot);
     $("captureButton").addEventListener("click", addThought);
+    $("proofUploadButton").addEventListener("click", uploadProof);
+    $("proofGrid").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-proof-save]");
+      if (button) saveProofClaim(button);
+    });
     $("captureInput").addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         event.preventDefault();
@@ -1157,9 +1309,49 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
         renderDashboard(data);
-        await Promise.all([loadStudioHistory(), loadPerformanceData()]);
+        await Promise.all([loadStudioHistory(), loadPerformanceData(), loadProofVault(), loadPulseFeed()]);
       } catch (error) {
         showMessage(error.message || "Could not load the dashboard.");
+      }
+    }
+
+    async function loadPulseFeed() {
+      try {
+        const response = await fetch(`/api/pulse-feed?client=${encodeURIComponent(state.client)}`, {
+          headers: authHeaders(),
+          credentials: "same-origin",
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not load Pulse.");
+        state.pulseItems = Array.isArray(data.items) ? data.items : [];
+        renderPulseFeed();
+      } catch (error) {
+        $("pulseStatus").textContent = "Pulse unavailable";
+        $("pulseList").innerHTML = `<div class="empty-card"><h3>Pulse is unavailable</h3><p>${esc(error.message || "Recent activity could not be loaded.")}</p></div>`;
+      }
+    }
+
+    async function loadProofVault() {
+      try {
+        const response = await fetch(`/api/client-brain?client=${encodeURIComponent(state.client)}`, {
+          headers: authHeaders(),
+          credentials: "same-origin",
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the proof vault.");
+        state.proofItems = Array.isArray(data.proof_items) ? data.proof_items : [];
+        renderProofVault();
+      } catch (error) {
+        $("proofStatus").textContent = "Proof unavailable";
+        $("proofGrid").innerHTML = `<div class="empty-card"><h3>Proof is unavailable</h3><p>${esc(error.message || "Saved proof could not be loaded.")}</p></div>`;
       }
     }
 
@@ -1238,6 +1430,154 @@
       renderListSection("plansContent", "Plans", state.sections.plans, emptyText("No plan loaded yet", "Pulsify will add the current roadmap here once the client plan is written."));
       renderMomentum("momentumContent", state.sections.momentum);
       renderTodos(state.sections.todos);
+    }
+
+    function renderPulseFeed() {
+      $("pulseStatus").textContent = state.pulseItems.length
+        ? `${state.pulseItems.length} recent item${state.pulseItems.length === 1 ? "" : "s"}`
+        : "Last 30 days";
+      if (!state.pulseItems.length) {
+        $("pulseList").innerHTML = `<div class="empty-card"><h3>No recent activity yet</h3><p>Payments, funnel activity, sequences, proof, bookings, and shipped content will appear here as they happen.</p></div>`;
+        return;
+      }
+      $("pulseList").innerHTML = state.pulseItems.map((entry) => `
+        <div class="pulse-item">
+          <span class="pulse-icon" aria-hidden="true">${esc(pulseIcon(entry.kind))}</span>
+          <div class="pulse-copy">
+            <strong>${esc(entry.title || "Activity")}</strong>
+            ${entry.detail ? `<span>${esc(entry.detail)}</span>` : ""}
+          </div>
+          <time class="pulse-time" datetime="${esc(entry.ts || "")}" title="${esc(date(entry.ts))}">${esc(relativeTime(entry.ts))}</time>
+        </div>
+      `).join("");
+    }
+
+    function renderProofVault() {
+      $("proofStatus").textContent = `${state.proofItems.length} item${state.proofItems.length === 1 ? "" : "s"}`;
+      if (!state.proofItems.length) {
+        $("proofGrid").innerHTML = `<div class="empty-card"><h3>No proof yet</h3><p>Student results carry the selling. Add the first real result above.</p></div>`;
+        return;
+      }
+      $("proofGrid").innerHTML = state.proofItems.map(renderProofCard).join("");
+    }
+
+    function renderProofCard(entry) {
+      const id = Number(entry.id || 0);
+      const permission = String(entry.permission || "unknown").toLowerCase();
+      const isVideo = entry.kind === "video-link";
+      const mediaUrl = safeMediaUrl(entry.url);
+      const asset = isVideo
+        ? (safeWebUrl(entry.url)
+          ? `<a class="proof-link" href="${esc(safeWebUrl(entry.url))}" target="_blank" rel="noopener noreferrer">Open video testimonial</a>`
+          : `<div class="proof-link">Video link unavailable</div>`)
+        : (mediaUrl
+          ? `<img class="proof-thumb" src="${esc(mediaUrl)}" alt="Student result proof">`
+          : `<div class="proof-link">Image unavailable</div>`);
+      return `
+        <article class="proof-card" data-proof-id="${id}">
+          ${asset}
+          <div class="proof-body">
+            <div class="proof-meta">
+              <span class="proof-kind">${esc(isVideo ? "Video testimonial" : "Result image")}</span>
+              <span class="permission-badge ${esc(permission)}">Permission: ${esc(permission)}</span>
+            </div>
+            <div class="proof-edit">
+              <input type="text" maxlength="500" value="${esc(entry.claim || "")}" aria-label="Claim caption" placeholder="What does this result show?">
+              <button type="button" data-proof-save="${id}">Save</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    async function uploadProof() {
+      const file = $("proofFileInput").files?.[0];
+      if (!file) {
+        setProofUploadStatus("Choose a result image first.", true);
+        return;
+      }
+      const button = $("proofUploadButton");
+      button.disabled = true;
+      setProofUploadStatus("Uploading image.", false);
+      try {
+        const form = new FormData();
+        form.set("file", file, file.name);
+        form.set("claim", $("proofClaimInput").value.trim());
+        const response = await fetch("/api/media-upload", {
+          method: "POST",
+          headers: authHeaders(),
+          credentials: "same-origin",
+          body: form,
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "The image could not be uploaded.");
+        state.proofItems.unshift({ ...data, created_at: new Date().toISOString() });
+        $("proofFileInput").value = "";
+        $("proofClaimInput").value = "";
+        renderProofVault();
+        setProofUploadStatus("Proof uploaded.", false);
+        await loadPulseFeed();
+      } catch (error) {
+        setProofUploadStatus(error.message || "The image could not be uploaded.", true);
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    async function saveProofClaim(button) {
+      const card = button.closest("[data-proof-id]");
+      const id = Number(card?.dataset.proofId || 0);
+      const input = card?.querySelector("input");
+      if (!id || !input) return;
+      button.disabled = true;
+      try {
+        const response = await fetch("/api/client-brain", {
+          method: "POST",
+          headers: {
+            ...authHeaders(),
+            "content-type": "application/json",
+          },
+          credentials: "same-origin",
+          body: JSON.stringify({ action: "update-proof", client: state.client, id, claim: input.value.trim() }),
+        });
+        if (response.status === 401 || response.status === 403) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "The claim caption could not be saved.");
+        state.proofItems = state.proofItems.map((entry) => Number(entry.id) === id ? { ...entry, claim: data.proof_item.claim } : entry);
+        input.value = data.proof_item.claim;
+        showMessage("Claim caption saved.", "success");
+        await loadPulseFeed();
+      } catch (error) {
+        showMessage(error.message || "The claim caption could not be saved.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    function setProofUploadStatus(message, isError) {
+      $("proofUploadStatus").textContent = message;
+      $("proofUploadStatus").className = `proof-upload-status${isError ? " error" : ""}`;
+    }
+
+    function pulseIcon(kind) {
+      return ({ payment: "$", page: "P", watch: "W", studio: "S", sequence: "L", proof: "V", integration: "I", content: "C" })[kind] || "P";
+    }
+
+    function safeMediaUrl(value) {
+      const url = String(value || "").trim();
+      return url.startsWith("/m/") || /^https?:\/\//i.test(url) ? url : "";
+    }
+
+    function safeWebUrl(value) {
+      const url = String(value || "").trim();
+      return /^https?:\/\//i.test(url) ? url : "";
     }
 
     function renderContentSection() {

@@ -98,11 +98,21 @@ const CLIENT_FIELDS = new Map([
 ]);
 
 export async function onRequestGet({ request, env }) {
-  const auth = checkAdmin(request, env);
-  if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  const client = cleanId(new URL(request.url).searchParams.get("client"));
+  let client;
+  if (request.headers.get("x-admin-key") != null) {
+    const auth = checkAdmin(request, env);
+    if (auth) return auth;
+    client = cleanId(new URL(request.url).searchParams.get("client"));
+  } else {
+    const access = await resolveClientAccess(request, env, {
+      allowHeaderToken: true,
+      allowQueryToken: false,
+    });
+    if (access.error) return access.error;
+    client = cleanId(access.client);
+  }
   if (!client) return json({ ok: false, error: "valid client id required" }, 422);
 
   const [brainResult, proofResult, config] = await Promise.all([
@@ -148,7 +158,9 @@ export async function onRequestPost({ request, env }) {
     allowQueryToken: false,
   });
   if (access.error) return access.error;
-  return saveClientSubmission(request, env, access.client);
+  const body = await request.json().catch(() => ({}));
+  if (body.action === "update-proof") return updateClientProof(body, env, access.client);
+  return saveClientSubmission(body, env, access.client);
 }
 
 export async function onRequestOptions() {
@@ -162,8 +174,7 @@ export async function onRequestOptions() {
   });
 }
 
-async function saveClientSubmission(request, env, client) {
-  const body = await request.json().catch(() => ({}));
+async function saveClientSubmission(body, env, client) {
   if (body.client && cleanId(body.client) !== client) {
     return json({ ok: false, error: "unauthorized" }, 403);
   }
@@ -217,6 +228,27 @@ async function saveClientSubmission(request, env, client) {
     proof_items_saved: proofItems.length,
     updated_at: now,
   });
+}
+
+async function updateClientProof(body, env, client) {
+  if (body.client && cleanId(body.client) !== client) {
+    return json({ ok: false, error: "unauthorized" }, 403);
+  }
+
+  const id = Number(body.id);
+  if (!Number.isInteger(id) || id < 1) {
+    return json({ ok: false, error: "valid proof id required" }, 422);
+  }
+
+  const claim = str(body.claim).slice(0, 500);
+  const result = await env.DB.prepare(
+    "UPDATE proof_items SET claim=? WHERE id=? AND client_id=?",
+  ).bind(claim || null, id, client).run();
+  if (!Number(result?.meta?.changes || 0)) {
+    return json({ ok: false, error: "proof item not found" }, 404);
+  }
+
+  return json({ ok: true, client, proof_item: { id, claim } });
 }
 
 async function saveOperatorField(request, env) {
