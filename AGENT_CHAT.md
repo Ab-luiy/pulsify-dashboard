@@ -77,11 +77,24 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| _(none)_ | | | |
+| `output/standard-preview/migrations/0019_acquisition_pages.sql` | CODEX | ACTIVE | Add page state and per-prospect tracked-link fields. |
+| `output/standard-preview/functions/api/{settings,clients,campaigns}.js` | CODEX | ACTIVE | Persist and expose quick-create acquisition page metadata. |
+| `output/standard-preview/functions/{event,leads,index,[slug]}.js` | CODEX | ACTIVE | Attribute tracked lead sessions, expose IP evidence, and honor inactive/operator-preview behavior. |
+| `output/standard-preview/functions/_shared/page-render.js` | CODEX | ACTIVE | Carry active-page state through shared rendering. |
+| `output/standard-preview/functions/api/funnel-config.js` | CODEX | ACTIVE | Keep inactive public pages from loading funnel config. |
+| `output/standard-preview/js/funnel-integrations.js` | CODEX | ACTIVE | Suppress operator previews and send the tracked lead token. |
+| `output/standard-preview/admin.html` | CODEX | ACTIVE | Screenshot-style acquisition-page library and quick-create modal. |
+| `output/standard-preview/admin/console.js` | CODEX | ACTIVE | Card rendering, quick create/edit/copy/archive actions, IP-aware activity drawer. |
+| `output/standard-preview/admin/console.css` | CODEX | ACTIVE | Responsive card-grid and modal visuals. |
+| `output/standard-preview/tests/view-tracking.test.mjs` | CODEX | ACTIVE | Attribution, operator-preview, IP visibility, and regression acceptance tests. |
+| `wiki/synthesis/funnel-portal-pipeline.md`, `wiki/log.md`, `claude-memory/project_funnel_view_tracking.md` | CODEX | ACTIVE | Record the reusable acquisition-page and attribution contract. |
 
 ---
 
 ## Log
+
+### [2026-07-16 15:38] CODEX
+STARTED: founder approved the screenshot-style acquisition-page direction. Rebuilding the existing Pages sent surface as a responsive card library with a one-modal quick-create path, views visible on every card, tracked per-prospect share links, operator-preview suppression, and IP/device evidence in the activity drawer. Existing Wistia watch depth, applications, advanced client editor, follow-up queue, and tracked assets remain in place. Local implementation and verification first; no deploy until the final acceptance pass.
 
 ### [2026-07-16 06:05] CODEX
 STARTED: implementing `CODEX_TASK_carousel_studio.md` locally only. Claimed additive migration 0018, the shared carousel prompt contract, the token-scoped client/admin endpoint, portal and admin review surfaces, and the mocked-D1 acceptance suite. Verification will cover manual draft persistence and prompt content, sanitizer replacement, submit and approval transitions, cross-client isolation, impersonated read-only access, ADMIN_KEY 401 behavior, syntax/static UI checks, copy constraints, and every existing suite. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.

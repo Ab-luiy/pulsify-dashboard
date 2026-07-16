@@ -19,7 +19,9 @@ export async function onRequestGet({ request, env }) {
   try {
     const result = await env.DB.prepare(
       `SELECT client, COALESCE(client_name,client) AS client_name,
-              COALESCE(template_variant,'canonical') AS template_variant, updated_at
+              COALESCE(template_variant,'canonical') AS template_variant,
+              wistia_media_id, page_content_json, COALESCE(page_active,1) AS page_active,
+              prospect_email, acquisition_token, updated_at
          FROM client_config ORDER BY client_name COLLATE NOCASE`,
     ).all();
     configs = result.results || [];
@@ -34,6 +36,8 @@ export async function onRequestGet({ request, env }) {
       env,
       `SELECT client,
               COUNT(DISTINCT CASE WHEN event='page_view' THEN COALESCE(visitor_id,session_id) END) AS visitors,
+              COUNT(DISTINCT CASE WHEN event='page_view' AND email IS NOT NULL THEN COALESCE(visitor_id,session_id) END) AS attributed_visitors,
+              COUNT(DISTINCT CASE WHEN event='page_view' THEN ip END) AS unique_ips,
               SUM(CASE WHEN event='page_view' THEN 1 ELSE 0 END) AS page_views,
               MAX(at) AS last_visit_at
          FROM page_events GROUP BY client`,
@@ -89,6 +93,8 @@ export async function onRequestGet({ request, env }) {
 
     const visitors = Number(visits.visitors || 0);
     const pageViews = Number(visits.page_views || 0);
+    const attributedVisitors = Number(visits.attributed_visitors || 0);
+    const uniqueIps = Number(visits.unique_ips || 0);
     const plays = Number(watch.plays || 0);
     const maxPercent = Number(watch.max_percent || 0);
     const applications = Number(leads.applications || 0);
@@ -102,13 +108,28 @@ export async function onRequestGet({ request, env }) {
       cfg.updated_at,
     ]);
 
+    const pageContent = parseJson(cfg.page_content_json);
+    const acquisitionToken = cfg.acquisition_token || null;
     return {
       client,
       client_name: cfg.client_name || client,
       template_variant: cfg.template_variant || "canonical",
+      page_active: cfg.page_active !== 0,
+      prospect_email: cfg.prospect_email || null,
+      wistia_media_id: cfg.wistia_media_id || null,
+      preview: {
+        page_title: pageContent.PAGE_TITLE || `${cfg.client_name || client} - Private Application`,
+        headline: [pageContent.HEADLINE_LINE_ONE, pageContent.HEADLINE_EMPHASIS].filter(Boolean).join(" ")
+          || "A private breakdown, then apply to work together.",
+      },
+      share_url: acquisitionToken
+        ? `${new URL(request.url).origin}/${encodeURIComponent(client)}?lead=${encodeURIComponent(acquisitionToken)}`
+        : null,
       updated_at: cfg.updated_at || null,
       visits: {
         visitors,
+        attributed_visitors: attributedVisitors,
+        unique_ips: uniqueIps,
         page_views: pageViews,
         last_visit_at: visits.last_visit_at || null,
       },
@@ -136,12 +157,23 @@ export async function onRequestGet({ request, env }) {
 
   const summary = {
     total_pages: campaigns.length,
+    active_pages: campaigns.filter((c) => c.page_active).length,
     pages_with_activity: campaigns.filter((c) => c.signal !== "no activity").length,
     total_applications: campaigns.reduce((total, c) => total + c.applications.count, 0),
     total_failures_7d: campaigns.reduce((total, c) => total + c.failures_7d, 0),
   };
 
   return json({ ok: true, summary, campaigns });
+}
+
+function parseJson(value) {
+  if (!value) return {};
+  try {
+    const parsed = JSON.parse(value);
+    return parsed && typeof parsed === "object" ? parsed : {};
+  } catch {
+    return {};
+  }
 }
 
 export async function onRequestOptions() {

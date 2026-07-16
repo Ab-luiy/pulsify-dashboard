@@ -5,7 +5,14 @@
  * Header: x-admin-key: <ADMIN_KEY>
  */
 
-import { checkAdmin, cleanId, json } from "../_shared/common.js";
+import {
+  checkAdmin,
+  cleanId,
+  generateOpaqueToken,
+  hasOwn,
+  json,
+  normalizeEmail,
+} from "../_shared/common.js";
 import { deleteClientMedia } from "../_shared/media-storage.js";
 
 const CLIENT_TABLES = [
@@ -43,7 +50,8 @@ export async function onRequestGet({ request, env }) {
   const row = await env.DB.prepare(
     `SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
             kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
-            template_variant,page_content_json,updated_at
+            template_variant,page_content_json,page_active,prospect_email,
+            acquisition_token,updated_at
        FROM client_config WHERE client=?`,
   ).bind(client).first();
   const authRow = await env.DB.prepare(
@@ -82,6 +90,10 @@ export async function onRequestGet({ request, env }) {
   row.proof_images = parseJson(row.proof_images_json);
   row.page_content = parseJson(row.page_content_json);
   row.template_variant = row.template_variant || "canonical";
+  row.page_active = row.page_active !== 0;
+  row.share_url = row.acquisition_token
+    ? `${new URL(request.url).origin}/${encodeURIComponent(client)}?lead=${encodeURIComponent(row.acquisition_token)}`
+    : null;
   delete row.kit_api_key;
   delete row.typeform_webhook_secret;
   delete row.proof_images_json;
@@ -118,7 +130,7 @@ export async function onRequestPost({ request, env }) {
   const existing = await env.DB.prepare(
     `SELECT client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
             kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
-            template_variant,page_content_json
+            template_variant,page_content_json,page_active,prospect_email,acquisition_token
        FROM client_config WHERE client=?`,
   ).bind(client).first();
   const kitKey = body.kit_api_key || existing?.kit_api_key || null;
@@ -145,13 +157,20 @@ export async function onRequestPost({ request, env }) {
     ? (body.template_variant === "variant-02" ? "variant-02" : "canonical")
     : existing?.template_variant || "canonical";
   const keep = (key, fallback = null) => hasOwn(body, key) ? (body[key] || null) : (existing?.[key] ?? fallback);
+  const pageActive = hasOwn(body, "page_active")
+    ? (body.page_active ? 1 : 0)
+    : (existing?.page_active ?? 1);
+  const prospectEmail = hasOwn(body, "prospect_email")
+    ? normalizeEmail(body.prospect_email)
+    : (existing?.prospect_email || null);
+  const acquisitionToken = existing?.acquisition_token || generateOpaqueToken(12);
 
   await env.DB.prepare(
     `INSERT INTO client_config (
       client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret,
       kit_tag_id,kit_api_key,allowed_origin,proof_images_json,
-      template_variant,page_content_json,updated_at
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+      template_variant,page_content_json,page_active,prospect_email,acquisition_token,updated_at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     ON CONFLICT(client) DO UPDATE SET
       client_name=excluded.client_name,
       wistia_media_id=excluded.wistia_media_id,
@@ -163,6 +182,9 @@ export async function onRequestPost({ request, env }) {
       proof_images_json=excluded.proof_images_json,
       template_variant=excluded.template_variant,
       page_content_json=excluded.page_content_json,
+      page_active=excluded.page_active,
+      prospect_email=excluded.prospect_email,
+      acquisition_token=excluded.acquisition_token,
       updated_at=excluded.updated_at`,
   ).bind(
     client,
@@ -176,6 +198,9 @@ export async function onRequestPost({ request, env }) {
     proofImages,
     templateVariant,
     pageContent,
+    pageActive,
+    prospectEmail,
+    acquisitionToken,
     new Date().toISOString(),
   ).run();
 
@@ -210,6 +235,9 @@ export async function onRequestPost({ request, env }) {
     ok: true,
     saved: true,
     webhook_url: `${new URL(request.url).origin}/event?client=${encodeURIComponent(client)}`,
+    share_url: `${new URL(request.url).origin}/${encodeURIComponent(client)}?lead=${encodeURIComponent(acquisitionToken)}`,
+    page_active: Boolean(pageActive),
+    prospect_email: prospectEmail,
   });
 }
 
@@ -268,10 +296,6 @@ function parseDashboardRows(rows) {
     }
   }
   return content;
-}
-
-function hasOwn(object, key) {
-  return Object.prototype.hasOwnProperty.call(object || {}, key);
 }
 
 export async function deleteClientProofMedia(env, client) {

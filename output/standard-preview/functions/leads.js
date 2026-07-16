@@ -20,20 +20,46 @@ export async function onRequestGet({ request, env }) {
          FROM leads WHERE client=? ORDER BY applied_at DESC`,
     ).bind(client).all(),
     env.DB.prepare(
-      `SELECT
-         COALESCE(NULLIF(visitor_id,''),NULLIF(email,''),NULLIF(session_id,''),'anonymous-'||id) AS viewer,
-         MAX(email) AS email,
-         MAX(visitor_id) AS visitor_id,
-         MAX(percent) AS watched_percent,
-         SUM(COALESCE(watch_seconds,0)) AS watch_seconds,
-         MAX(COALESCE(unique_seconds,0)) AS unique_seconds,
-         MAX(COALESCE(duration_seconds,0)) AS duration_seconds,
-         SUM(CASE WHEN event='play' THEN 1 ELSE 0 END) AS plays,
-         SUM(CASE WHEN event='pause' THEN 1 ELSE 0 END) AS pauses,
-         SUM(CASE WHEN event IN ('seeked','seeking') THEN 1 ELSE 0 END) AS seeks,
-         MAX(at) AS last_watched_at
-       FROM watch_events WHERE client=? GROUP BY viewer`,
-    ).bind(client).all(),
+      `WITH visitor_events AS (
+         SELECT COALESCE(NULLIF(visitor_id,''),NULLIF(email,''),NULLIF(session_id,''),'page-'||id) AS viewer,
+                email, visitor_id, session_id, ip, country, city, user_agent, at,
+                NULL AS percent, 0 AS watch_seconds, 0 AS unique_seconds,
+                0 AS duration_seconds, 0 AS plays, 0 AS pauses, 0 AS seeks,
+                CASE WHEN event='page_view' THEN 1 ELSE 0 END AS page_views
+           FROM page_events WHERE client=?
+         UNION ALL
+         SELECT COALESCE(NULLIF(visitor_id,''),NULLIF(email,''),NULLIF(session_id,''),'watch-'||id) AS viewer,
+                email, visitor_id, session_id, ip, country, NULL AS city, NULL AS user_agent, at,
+                percent, COALESCE(watch_seconds,0) AS watch_seconds,
+                COALESCE(unique_seconds,0) AS unique_seconds,
+                COALESCE(duration_seconds,0) AS duration_seconds,
+                CASE WHEN event='play' THEN 1 ELSE 0 END AS plays,
+                CASE WHEN event='pause' THEN 1 ELSE 0 END AS pauses,
+                CASE WHEN event IN ('seeked','seeking') THEN 1 ELSE 0 END AS seeks,
+                0 AS page_views
+           FROM watch_events WHERE client=?
+       )
+       SELECT viewer,
+              MAX(email) AS email,
+              MAX(visitor_id) AS visitor_id,
+              MAX(session_id) AS session_id,
+              MAX(ip) AS ip,
+              MAX(country) AS country,
+              MAX(city) AS city,
+              MAX(user_agent) AS user_agent,
+              MAX(percent) AS watched_percent,
+              SUM(watch_seconds) AS watch_seconds,
+              MAX(unique_seconds) AS unique_seconds,
+              MAX(duration_seconds) AS duration_seconds,
+              SUM(plays) AS plays,
+              SUM(pauses) AS pauses,
+              SUM(seeks) AS seeks,
+              SUM(page_views) AS page_views,
+              MAX(at) AS last_seen_at,
+              MAX(CASE WHEN percent IS NOT NULL THEN at END) AS last_watched_at
+         FROM visitor_events
+        GROUP BY viewer`,
+    ).bind(client, client).all(),
     env.DB.prepare(
       `SELECT
          COUNT(DISTINCT CASE WHEN event='page_view' THEN COALESCE(visitor_id,session_id) END) AS visitors,
@@ -169,6 +195,8 @@ async function sha256Hex(value) {
 function normalizeViewer(row) {
   return {
     ...row,
+    attributed: Boolean(row.email),
+    page_views: Number(row.page_views || 0),
     watched_percent: Number(row.watched_percent || 0),
     watch_seconds: Number(row.watch_seconds || 0),
     unique_seconds: Number(row.unique_seconds || 0),

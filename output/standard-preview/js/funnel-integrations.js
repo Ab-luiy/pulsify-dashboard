@@ -23,6 +23,8 @@
   const urlClient = query.get("client");
   const client = sanitize(urlClient || body.dataset.client || "unknown");
   const draftMode = query.get("draft") === "1" && window.parent !== window;
+  const operatorPreview = query.get("operator_preview") === "1";
+  const leadToken = sanitizeToken(query.get("lead"));
   const clientLabel = client.split(/[-_]+/).filter(Boolean)
     .map((part) => part[0].toUpperCase() + part.slice(1)).join(" ") || "Pulsify";
   const draftTokenDefaults = {
@@ -86,6 +88,7 @@
         visitor_id: visitorId,
         session_id: sessionId,
         page_id: pageId,
+        lead_token: leadToken,
         path: location.pathname,
         referrer: document.referrer,
         utm,
@@ -340,6 +343,7 @@
       visitor_id: visitorId,
       session_id: sessionId,
       page_id: pageId,
+      lead_token: leadToken,
       media_id: mediaId,
       wistia_visitor_key: player.visitorKey || null,
       percent: round(Number(player.percentWatched || 0) * 100, 2),
@@ -402,11 +406,12 @@
   }
 
   function hiddenFields() {
-    const values = {
+      const values = {
       client,
       visitor_id: visitorId,
       session_id: sessionId,
       page_id: pageId,
+      lead_token: leadToken,
       referrer: document.referrer,
       ...utm,
     };
@@ -445,6 +450,7 @@
             visitor_id: visitorId,
             session_id: sessionId,
             page_id: pageId,
+            lead_token: leadToken,
             path: location.pathname,
             referrer: document.referrer,
             utm,
@@ -469,6 +475,7 @@
       visitor_id: visitorId,
       session_id: sessionId,
       page_id: pageId,
+      lead_token: leadToken,
       path: location.pathname,
       referrer: document.referrer,
       utm,
@@ -480,7 +487,7 @@
   }
 
   async function send(payload) {
-    if (draftMode) return { ok: true };
+    if (draftMode || operatorPreview) return { ok: true };
     return fetch(eventUrl, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -527,6 +534,10 @@
 
   function sanitize(value) {
     return String(value).toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 64) || "unknown";
+  }
+
+  function sanitizeToken(value) {
+    return String(value || "").replace(/[^A-Za-z0-9_-]/g, "").slice(0, 64);
   }
 
   function cssEscape(value) {

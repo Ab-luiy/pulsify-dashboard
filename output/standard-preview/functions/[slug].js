@@ -40,6 +40,8 @@ export async function onRequestGet(context) {
 
     const page = await loadClientPage(env, client, { requireRow: true });
     if (!page) return next();
+    const operatorPreview = new URL(request.url).searchParams.get("operator_preview") === "1";
+    if (!page.active && !operatorPreview) return next();
 
     return renderClientPage(context, client, page);
   } catch (error) {

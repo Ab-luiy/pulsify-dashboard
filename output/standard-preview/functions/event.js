@@ -20,7 +20,7 @@ import {
   recordIntegrationEvent,
   sendDiscordAlert,
 } from "./_shared/integrations.js";
-import { normalizeEmail } from "./_shared/common.js";
+import { constantTimeEqual, normalizeEmail } from "./_shared/common.js";
 
 export async function onRequestPost({ request, env }) {
   const ip = request.headers.get("cf-connecting-ip") || null;
@@ -42,6 +42,7 @@ export async function onRequestPost({ request, env }) {
   const cfg = await getConfig(env, client);
 
   if (!cfg && env.DB) return json({ ok: false, error: "unknown client" }, 404);
+  const attributedEmail = resolveAttributedEmail(cfg, body.lead_token);
 
   if (body.event_type === "form_response" || body.form_response) {
     if (cfg?.typeform_webhook_secret) {
@@ -181,7 +182,7 @@ export async function onRequestPost({ request, env }) {
   if (body.source === "wistia" || body.kind === "wistia") {
     const watch = {
       client,
-      email: normalizeEmail(body.email),
+      email: normalizeEmail(body.email) || attributedEmail,
       visitor_id: body.visitor_id || null,
       session_id: body.session_id || null,
       page_id: body.page_id || "main",
@@ -211,7 +212,7 @@ export async function onRequestPost({ request, env }) {
       session_id: body.session_id || null,
       page_id: body.page_id || "main",
       event: body.event || "page_view",
-      email: normalizeEmail(body.email),
+      email: normalizeEmail(body.email) || attributedEmail,
       path: body.path || null,
       referrer: body.referrer || null,
       utm_json: JSON.stringify(body.utm || {}),
@@ -250,7 +251,8 @@ async function getConfig(env, client) {
     env.DB.prepare(
       `SELECT client, COALESCE(client_name,client) AS client_name,
               wistia_media_id, typeform_url, typeform_webhook_secret,
-              kit_api_key, kit_tag_id, allowed_origin
+              kit_api_key, kit_tag_id, allowed_origin,
+              prospect_email, acquisition_token
          FROM client_config WHERE client=?`,
     ).bind(client).first(),
     env.DB.prepare(
@@ -271,6 +273,8 @@ async function getConfig(env, client) {
     kit_api_key: null,
     kit_tag_id: null,
     allowed_origin: null,
+    prospect_email: null,
+    acquisition_token: null,
   };
   const kit = await getClientKitConfig(env, client);
   if (kit) {
@@ -278,6 +282,13 @@ async function getConfig(env, client) {
     base.kit_tag_id = kit.kit_tag_id || base.kit_tag_id || null;
   }
   return base;
+}
+
+function resolveAttributedEmail(cfg, token) {
+  const expected = String(cfg?.acquisition_token || "");
+  const received = String(token || "");
+  if (!expected || !received || !constantTimeEqual(expected, received)) return null;
+  return normalizeEmail(cfg?.prospect_email);
 }
 
 async function addToKit(env, client, cfg, person) {

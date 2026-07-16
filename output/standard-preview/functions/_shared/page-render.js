@@ -42,7 +42,8 @@ export async function loadClientPage(env, client, { requireRow = false } = {}) {
 
   if (env.DB) {
     row = await env.DB.prepare(
-      "SELECT template_variant, page_content_json FROM client_config WHERE client=?",
+      `SELECT template_variant, page_content_json, COALESCE(page_active,1) AS page_active
+         FROM client_config WHERE client=?`,
     ).bind(client).first();
     if (row) {
       if (row.template_variant && VALID_VARIANTS.has(row.template_variant)) {
@@ -53,7 +54,7 @@ export async function loadClientPage(env, client, { requireRow = false } = {}) {
   }
 
   if (requireRow && !row) return null;
-  return { variant, content };
+  return { variant, content, active: row ? row.page_active !== 0 : true };
 }
 
 export async function renderClientPage(context, client, page, options = {}) {

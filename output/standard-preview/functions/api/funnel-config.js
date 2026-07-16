@@ -7,7 +7,8 @@ export async function onRequestGet({ request, env }) {
 
   const row = await env.DB.prepare(
     `SELECT client, COALESCE(client_name,client) AS client_name,
-            wistia_media_id, typeform_url, proof_images_json
+            wistia_media_id, typeform_url, proof_images_json,
+            COALESCE(page_active,1) AS page_active
        FROM client_config WHERE client=?`,
   ).bind(client).first();
   if (!row) return json({ ok: false, error: "unknown client" }, 404);
@@ -17,6 +18,7 @@ export async function onRequestGet({ request, env }) {
   }
   delete row.proof_images_json;
   row.proof_images = proofImages;
+  row.page_active = row.page_active !== 0;
   return json({ ok: true, config: row });
 }
 
