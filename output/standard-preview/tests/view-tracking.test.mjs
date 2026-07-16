@@ -1,4 +1,5 @@
 import { strict as assert } from "node:assert";
+import { readFileSync } from "node:fs";
 import * as eventApi from "../functions/event.js";
 import * as redirectApi from "../functions/a/[token].js";
 import * as assetsApi from "../functions/api/assets.js";
@@ -9,6 +10,7 @@ class MockDB {
   constructor(seed = {}) {
     this.assetLinks = seed.assetLinks || [];
     this.assetAggregates = seed.assetAggregates || [];
+    this.config = seed.config || {};
     this.captures = [];
   }
 
@@ -41,6 +43,8 @@ class MockStatement {
         kit_api_key: null,
         kit_tag_id: null,
         allowed_origin: null,
+        prospect_email: this.db.config.prospect_email || null,
+        acquisition_token: this.db.config.acquisition_token || null,
       };
     }
     if (sql.includes("SELECT 1 AS has_integration FROM integrations")) return null;
@@ -158,6 +162,64 @@ async function testEventTracking() {
   const watchInsert = findCapture(db, "INSERT INTO watch_events");
   assert.equal(watchInsert.params[16], "198.51.100.4");
   assert.equal(watchInsert.params[17], "US");
+}
+
+async function testLeadAttribution() {
+  const db = new MockDB({
+    config: {
+      prospect_email: "lead@example.com",
+      acquisition_token: "TrackedToken123",
+    },
+  });
+  const env = { DB: db };
+  const attributed = await eventApi.onRequestPost({
+    request: request("https://funnels.test/event?client=alpha", {
+      method: "POST",
+      headers: { "content-type": "application/json", "cf-connecting-ip": "203.0.113.22" },
+      body: JSON.stringify({
+        kind: "page",
+        event: "page_view",
+        visitor_id: "lead-visitor",
+        lead_token: "TrackedToken123",
+      }),
+    }),
+    env,
+  });
+  assert.equal(attributed.status, 200);
+  const attributedInsert = db.captures.filter((item) => item.sql.startsWith("INSERT INTO page_events")).at(-1);
+  assert.equal(attributedInsert.params[5], "lead@example.com");
+  assert.equal(JSON.parse(attributedInsert.params[9]).attribution, "tracked_link");
+
+  const invalid = await eventApi.onRequestPost({
+    request: request("https://funnels.test/event?client=alpha", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        source: "wistia",
+        event: "play",
+        visitor_id: "other-visitor",
+        lead_token: "WrongToken",
+      }),
+    }),
+    env,
+  });
+  assert.equal(invalid.status, 200);
+  const invalidInsert = db.captures.filter((item) => item.sql.startsWith("INSERT INTO watch_events")).at(-1);
+  assert.equal(invalidInsert.params[1], null);
+}
+
+function testOperatorPreviewContract() {
+  const source = readFileSync(new URL("../js/funnel-integrations.js", import.meta.url), "utf8");
+  assert.match(source, /query\.get\("operator_preview"\) === "1"/);
+  assert.match(source, /if \(draftMode \|\| operatorPreview\) return \{ ok: true \};/);
+  assert.match(source, /lead_token: leadToken/);
+
+  const rootHandler = readFileSync(new URL("../functions/index.js", import.meta.url), "utf8");
+  const slugHandler = readFileSync(new URL("../functions/[slug].js", import.meta.url), "utf8");
+  for (const handler of [rootHandler, slugHandler]) {
+    assert.match(handler, /if \(!page\.active && !operatorPreview\) return inactivePageResponse\(\);/);
+    assert.match(handler, /status: 404/);
+  }
 }
 
 async function testTrackedRedirect() {
@@ -301,9 +363,11 @@ async function testAssetsApi() {
 
 try {
   await testEventTracking();
+  await testLeadAttribution();
+  testOperatorPreviewContract();
   await testTrackedRedirect();
   await testAssetsApi();
-  console.log("PASS view tracking: event, redirect, assets API, and regression checks passed");
+  console.log("PASS view tracking: IP capture, lead attribution, operator preview, redirect, and assets API passed");
 } catch (error) {
   console.error(`FAIL view tracking: ${error?.stack || error}`);
   process.exitCode = 1;

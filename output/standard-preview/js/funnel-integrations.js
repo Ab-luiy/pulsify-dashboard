@@ -406,7 +406,7 @@
   }
 
   function hiddenFields() {
-      const values = {
+    const values = {
       client,
       visitor_id: visitorId,
       session_id: sessionId,

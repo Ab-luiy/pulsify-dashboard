@@ -77,17 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/migrations/0019_acquisition_pages.sql` | CODEX | ACTIVE | Add page state and per-prospect tracked-link fields. |
-| `output/standard-preview/functions/api/{settings,clients,campaigns}.js` | CODEX | ACTIVE | Persist and expose quick-create acquisition page metadata. |
-| `output/standard-preview/functions/{event,leads,index,[slug]}.js` | CODEX | ACTIVE | Attribute tracked lead sessions, expose IP evidence, and honor inactive/operator-preview behavior. |
-| `output/standard-preview/functions/_shared/page-render.js` | CODEX | ACTIVE | Carry active-page state through shared rendering. |
-| `output/standard-preview/functions/api/funnel-config.js` | CODEX | ACTIVE | Keep inactive public pages from loading funnel config. |
-| `output/standard-preview/js/funnel-integrations.js` | CODEX | ACTIVE | Suppress operator previews and send the tracked lead token. |
-| `output/standard-preview/admin.html` | CODEX | ACTIVE | Screenshot-style acquisition-page library and quick-create modal. |
-| `output/standard-preview/admin/console.js` | CODEX | ACTIVE | Card rendering, quick create/edit/copy/archive actions, IP-aware activity drawer. |
-| `output/standard-preview/admin/console.css` | CODEX | ACTIVE | Responsive card-grid and modal visuals. |
-| `output/standard-preview/tests/view-tracking.test.mjs` | CODEX | ACTIVE | Attribution, operator-preview, IP visibility, and regression acceptance tests. |
-| `wiki/synthesis/funnel-portal-pipeline.md`, `wiki/log.md`, `claude-memory/project_funnel_view_tracking.md` | CODEX | ACTIVE | Record the reusable acquisition-page and attribution contract. |
+| (none) | | | |
 
 ---
 
@@ -1121,3 +1111,10 @@ Verification: all 11 `.mjs` suites passed against this checkout. JS syntax check
 Close-out knowledge files: `wiki/log.md`, `claude-memory/MEMORY.md`, and `claude-memory/project_integrations_hub_i1.md`. The fully hands-off queue is empty. Remaining work is founder-gated: YouTube/Instagram OAuth galleries, the email domain, and the payment rail choice. Slack DONE mirror follows; `auto-backup.ps1` runs after this record.
 ### [2026-07-16] CLAUDE - OVERNIGHT CLOSED: carousel studio + retest loop LIVE. Locks cleared. (gpt-5.6-sol, founder-authorized autonomous run)
 Composer verification first: desktop Codex's self-deployed close-out CHECKED OUT (all 11 suites passed on my run, composer/impersonate 401 live, regressions green; its 3 fixes - Kit preview_text, numeric tag ids, impersonation TTL overrun - were legitimate). No path correction needed. STAGE 1 carousel studio: migration 0018 studio_carousels remote, carousel-prompt.js (3 structures, reuses sanitizeDesignDirection + brain read), studio-carousels.js (token client + ADMIN review, impersonation read-only), portal Carousels block + admin review queue; 12 suites passed, deployed, smoked (401 gate, regressions green). STAGE 2 retest loop: migration 0019 sequence_variants remote, sequence-variants.js (start-from-leak, log outcome, atomic winner resolution, isolation + impersonation read-only), Performance retest modal + v1/v2 lineage, Studio insight mentions active/resolved retests from real state; 13 suites passed, deployed, smoked (401 gate, carousels + regressions green). INFRA NOTE: Claude Code bash session developed cumulative parse corruption (unexpected EOF line ~67 on compound commands); workaround = fire-codex.sh script file + PowerShell for verification; if it persists next session, restart shell/session. Sol 10-for-10 across the run. Hands-off queue now truly empty; remaining = founder-gated (YouTube/IG OAuth galleries, email domain + Kit key, payment rail choice).
+
+### [2026-07-16 16:08] CODEX
+DONE: the screenshot-style Acquisition pages manager is live and all Codex locks are cleared. The operator surface now uses a responsive visual card library, quick create/edit modal, per-card views, unique visitors, tracked-lead visitors, Wistia plays and depth, active/inactive controls, tracked-link copying, and the existing follow-up and off-page asset tools. The activity drawer includes page-only visitors, true tracked-link attribution, watch behavior, application state, IP, and geo. Public dashboard previews suppress event delivery; inactive public pages return 404.
+
+Exact product files: `output/standard-preview/migrations/0020_acquisition_pages.sql`; `functions/api/settings.js`, `clients.js`, `campaigns.js`, and `funnel-config.js`; `functions/event.js`, `leads.js`, `index.js`, `[slug].js`, and `_shared/page-render.js`; `js/funnel-integrations.js`; `admin.html`; `admin/console.js`; `admin/console.css`; `tests/view-tracking.test.mjs`; and `tests/i1-checks.mjs`. Knowledge files: `wiki/synthesis/funnel-portal-pipeline.md`, `wiki/log.md`, and `claude-memory/project_funnel_view_tracking.md`.
+
+Verification: all 13 `.mjs` suites passed; 13 touched JS files passed syntax checks; 297 admin IDs are unique; diff whitespace is clean. Browser acceptance passed the three-card library, quick-create slug/live-preview flow, IP-aware activity drawer, 390px responsive layout, and zero console warnings/errors. Remote migration 0020 added the three columns and unique token index. Deployment `ff685b97` completed; production domain and immutable deployment served the new admin markup, Frank stayed 200, and campaigns/settings remained 401 without ADMIN_KEY. Slack DONE: https://pulsifyailtd.slack.com/archives/C0BHKT7249Y/p1784207292292649

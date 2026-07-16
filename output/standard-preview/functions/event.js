@@ -20,7 +20,7 @@ import {
   recordIntegrationEvent,
   sendDiscordAlert,
 } from "./_shared/integrations.js";
-import { constantTimeEqual, normalizeEmail } from "./_shared/common.js";
+import { normalizeEmail } from "./_shared/common.js";
 
 export async function onRequestPost({ request, env }) {
   const ip = request.headers.get("cf-connecting-ip") || null;
@@ -180,6 +180,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   if (body.source === "wistia" || body.kind === "wistia") {
+    const watchMetadata = eventMetadata(body.metadata, Boolean(attributedEmail));
     const watch = {
       client,
       email: normalizeEmail(body.email) || attributedEmail,
@@ -196,7 +197,7 @@ export async function onRequestPost({ request, env }) {
       unique_seconds: finite(body.unique_seconds),
       playback_rate: finite(body.playback_rate),
       muted: body.muted == null ? null : (body.muted ? 1 : 0),
-      metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
+      metadata_json: watchMetadata ? JSON.stringify(watchMetadata) : null,
       ip,
       country,
     };
@@ -206,6 +207,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   if (body.kind === "page" || body.event_type === "page_event") {
+    const pageMetadata = eventMetadata(body.metadata, Boolean(attributedEmail));
     await savePageEvent(env, {
       client,
       visitor_id: body.visitor_id || null,
@@ -216,7 +218,7 @@ export async function onRequestPost({ request, env }) {
       path: body.path || null,
       referrer: body.referrer || null,
       utm_json: JSON.stringify(body.utm || {}),
-      metadata_json: body.metadata ? JSON.stringify(body.metadata) : null,
+      metadata_json: pageMetadata ? JSON.stringify(pageMetadata) : null,
       ip,
       country,
       city,
@@ -289,6 +291,14 @@ function resolveAttributedEmail(cfg, token) {
   const received = String(token || "");
   if (!expected || !received || !constantTimeEqual(expected, received)) return null;
   return normalizeEmail(cfg?.prospect_email);
+}
+
+function eventMetadata(metadata, trackedLink) {
+  const base = metadata && typeof metadata === "object" && !Array.isArray(metadata)
+    ? metadata
+    : {};
+  if (!trackedLink) return Object.keys(base).length ? base : null;
+  return { ...base, attribution: "tracked_link" };
 }
 
 async function addToKit(env, client, cfg, person) {

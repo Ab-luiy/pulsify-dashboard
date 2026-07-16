@@ -22,7 +22,7 @@
     delivery: ["Client-facing work", "Client work"],
     integrations: ["Money and handoff path", "Integrations"],
     email: ["Operator email", "Email"],
-    campaigns: ["Outreach visibility", "Pages sent"],
+    campaigns: ["Client acquisition", "Acquisition pages"],
   };
 
   const state = {
@@ -73,6 +73,9 @@
   const integrationRecords = new Map();
   let lastProvisionResult = null;
   let activityDrawerReturnFocus = null;
+  let acquisitionModalReturnFocus = null;
+  let acquisitionEditingClient = "";
+  let acquisitionSlugEdited = false;
 
   const wizardState = {
     step: 1,
@@ -356,6 +359,19 @@
     $("emailTag").addEventListener("change", syncEmailComposerUi);
     $("emailDraftRows").addEventListener("click", handleEmailDraftAction);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
+    $("openAcquisitionPageButton").addEventListener("click", () => openAcquisitionModal());
+    $("closeAcquisitionModalButton").addEventListener("click", closeAcquisitionModal);
+    $("cancelAcquisitionModalButton").addEventListener("click", closeAcquisitionModal);
+    $("acquisitionModalBackdrop").addEventListener("click", closeAcquisitionModal);
+    $("acquisitionPageForm").addEventListener("submit", saveAcquisitionPage);
+    $("acquisitionPageName").addEventListener("input", syncAcquisitionModalPreview);
+    $("acquisitionPageSlug").addEventListener("input", () => {
+      acquisitionSlugEdited = true;
+      syncAcquisitionModalPreview();
+    });
+    $("acquisitionVideo").addEventListener("input", syncAcquisitionModalPreview);
+    $("acquisitionPageModal").addEventListener("keydown", handleAcquisitionModalKeydown);
+    $("campaignRows").addEventListener("click", handleAcquisitionCardAction);
     $("hideAppliedFollowups").addEventListener("change", (event) => {
       state.followupFilters.hideApplied = event.target.checked;
       renderFollowupRows();
@@ -563,6 +579,7 @@
     }
     if (!$("deleteDialog").hidden) closeDeleteDialog(false, true);
     if (!$("activityDrawer").hidden) closeActivityDrawer();
+    if (!$("acquisitionPageModal").hidden) closeAcquisitionModal(false);
     $("shell").hidden = true;
     $("authScreen").hidden = false;
     $("adminKey").value = "";
@@ -796,6 +813,7 @@
     $("routeTitle").textContent = ROUTES[state.route][1];
     if (state.route !== "clients") closeLivePreview();
     if (state.route !== "campaigns" && !$("activityDrawer").hidden) closeActivityDrawer();
+    if (state.route !== "campaigns" && !$("acquisitionPageModal").hidden) closeAcquisitionModal(false);
     syncPreviewUi();
     if (state.key) loadCurrentRoute();
   }
@@ -1651,7 +1669,7 @@
     $("wizardSkipButton").hidden = step < 3 || step > 7;
     $("wizardContinueButton").textContent = wizardContinueLabel();
     $("wizardPreviewButton").href = wizardState.config.client
-      ? `/?client=${encodeURIComponent(wizardState.config.client)}`
+      ? `/${encodeURIComponent(wizardState.config.client)}?operator_preview=1`
       : "#";
     if (step === 8) renderWizardSummary();
     if (step === 1) validateWizardIdentity();
@@ -2480,8 +2498,8 @@
 
   function updatePreviewLinks() {
     const client = encodeURIComponent($("clientId").value.trim());
-    $("previewCanonical").href = client ? `/?client=${client}&preview=canonical` : "#";
-    $("previewVariant").href = client ? `/?client=${client}&preview=variant-02` : "#";
+    $("previewCanonical").href = client ? `/?client=${client}&preview=canonical&operator_preview=1` : "#";
+    $("previewVariant").href = client ? `/?client=${client}&preview=variant-02&operator_preview=1` : "#";
   }
 
   async function loadPerformanceEntries() {
@@ -3100,7 +3118,7 @@
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok || !data.ok) throw new Error(data.error || "Could not create the page.");
-      showProvisionResult(slug, clientName, templateVariant, pageContent);
+      showProvisionResult(slug, clientName, templateVariant, pageContent, data.share_url);
       await refreshClients(slug);
       writeClientQuery();
       showMessage($("provisionMessage"), "Page saved.", "success");
@@ -3111,19 +3129,19 @@
     }
   }
 
-  function showProvisionResult(slug, clientName, templateVariant, pageContent) {
-    lastProvisionResult = { slug, clientName, templateVariant, pageContent };
-    const link = `${location.origin}/?client=${encodeURIComponent(slug)}`;
-    $("resultLink").href = link;
+  function showProvisionResult(slug, clientName, templateVariant, pageContent, shareUrl = null) {
+    const link = shareUrl || `${location.origin}/${encodeURIComponent(slug)}`;
+    lastProvisionResult = { slug, clientName, templateVariant, pageContent, shareUrl: link };
+    $("resultLink").href = `${location.origin}/${encodeURIComponent(slug)}?operator_preview=1`;
     $("resultLink").textContent = link;
-    $("resultCanonical").href = `${link}&preview=canonical`;
-    $("resultVariant").href = `${link}&preview=variant-02`;
+    $("resultCanonical").href = `${location.origin}/?client=${encodeURIComponent(slug)}&preview=canonical&operator_preview=1`;
+    $("resultVariant").href = `${location.origin}/?client=${encodeURIComponent(slug)}&preview=variant-02&operator_preview=1`;
     $("provisionResult").hidden = false;
   }
 
   function copyProvisionResult() {
     if (!lastProvisionResult) return;
-    copyText(`${location.origin}/?client=${encodeURIComponent(lastProvisionResult.slug)}`);
+    copyText(lastProvisionResult.shareUrl);
   }
 
   async function loadProvisionResult() {
@@ -3770,7 +3788,7 @@
     $("followupRows").innerHTML = rows.map((followup) => {
       const watch = Math.round(Number(followup.engagement?.max_watch_percent || 0));
       const visits = Number(followup.engagement?.page_views || 0);
-      const pagePath = followup.page_path || `/?client=${encodeURIComponent(followup.client)}`;
+      const pagePath = `/${encodeURIComponent(followup.client)}?operator_preview=1`;
       return `<tr>
         <td><strong>${esc(followup.client_name || followup.client)}</strong><span class="muted">${number(visits)} page views</span></td>
         <td><a class="followup-page-link" href="${esc(pagePath)}" target="_blank" rel="noopener">${esc(pagePath)}</a></td>
@@ -3793,9 +3811,9 @@
   function renderCampaignSummary(summary) {
     const cards = [
       ["Total pages", number(summary.total_pages), "clients configured with a page"],
-      ["Pages with activity", number(summary.pages_with_activity), "visited, watched, or applied"],
+      ["Active pages", number(summary.active_pages), "currently available to prospects"],
+      ["Pages viewed", number(summary.pages_with_activity), "with real tracked activity"],
       ["Total applications", number(summary.total_applications), "across every page"],
-      ["Delivery failures (7d)", number(summary.total_failures_7d), "Kit sync and Typeform rejections"],
     ];
     $("campaignSummary").innerHTML = cards.map((card) => `
       <article class="metric-card"><span>${card[0]}</span><strong>${card[1]}</strong><small>${card[2]}</small></article>
@@ -3816,53 +3834,248 @@
   }
 
   function renderCampaignRows() {
-    $$(".sort-button span").forEach((span) => { span.textContent = ""; });
-    const activeSort = document.querySelector(`[data-campaign-sort="${state.campaignSort.key}"] span`);
-    if (activeSort) activeSort.textContent = state.campaignSort.dir === "desc" ? "v" : "^";
     const rows = [...state.campaigns].sort((a, b) => {
-      const av = campaignSortValue(a, state.campaignSort.key);
-      const bv = campaignSortValue(b, state.campaignSort.key);
-      let comparison = (typeof av === "string" || typeof bv === "string")
-        ? String(av).localeCompare(String(bv))
-        : Number(av || 0) - Number(bv || 0);
-      if (state.campaignSort.dir === "desc") comparison *= -1;
-      if (comparison) return comparison;
       const signal = signalRank(b.signal) - signalRank(a.signal);
       return signal || String(b.last_activity_at || "").localeCompare(String(a.last_activity_at || ""));
     });
     $("campaignRows").innerHTML = rows.map((campaign) => {
       const watch = Math.round(campaign.video?.max_watch_percent || 0);
-      const otherVariant = campaign.template_variant === "variant-02" ? "canonical" : "variant-02";
-      return `<tr>
-        <td><strong>${esc(campaign.client_name || campaign.client)}</strong><span class="muted">${esc(campaign.client)}</span></td>
-        <td><span class="badge">${esc(campaign.template_variant || "canonical")}</span></td>
-        <td>${number(campaign.visits?.visitors)}<span class="muted">${number(campaign.visits?.page_views)} views</span></td>
-        <td class="watch"><div class="watch-label"><span>${watch}%</span><span>${number(campaign.video?.plays)} plays</span></div><div class="watch-track"><i style="width:${Math.min(100, watch)}%"></i></div></td>
-        <td>${number(campaign.applications?.count)}${campaign.applications?.kit_synced ? `<span class="muted">${number(campaign.applications.kit_synced)} synced to Kit</span>` : ""}</td>
-        <td>${relativeTime(campaign.last_activity_at)}</td>
-        <td>${failureBadge(campaign.failures_7d)}</td>
-        <td>${signalBadge(campaign.signal)}</td>
-        <td><div class="row-actions">
-          <a class="button outline small" href="/?client=${encodeURIComponent(campaign.client)}" target="_blank" rel="noopener">Open page</a>
-          <a class="button outline small" href="/?client=${encodeURIComponent(campaign.client)}&preview=${encodeURIComponent(otherVariant)}" target="_blank" rel="noopener">Preview alt</a>
-          <button type="button" data-view-activity="${esc(campaign.client)}">View activity</button>
-          <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="clients">Client setup</button>
-          <button class="link-button" type="button" data-campaign-client="${esc(campaign.client)}" data-campaign-route="delivery">Client work</button>
-        </div></td>
-      </tr>`;
+      const title = campaign.client_name || campaign.client;
+      const headline = campaign.preview?.headline || "A private breakdown, then apply to work together.";
+      const attributed = Number(campaign.visits?.attributed_visitors || 0);
+      const totalViews = Number(campaign.visits?.page_views || 0);
+      const previewUrl = `/${encodeURIComponent(campaign.client)}?operator_preview=1`;
+      return `<article class="acquisition-card ${campaign.page_active ? "" : "is-inactive"}">
+        <a class="acquisition-card-preview" href="${previewUrl}" target="_blank" rel="noopener" aria-label="Preview ${esc(title)} without tracking">
+          <span class="acquisition-card-topline"><b>${esc(title)}</b>${pageStateBadge(campaign.page_active)}</span>
+          <span class="acquisition-card-headline">${esc(headline)}</span>
+          <span class="acquisition-card-video"><i>${campaign.wistia_media_id ? "Play" : "Add video"}</i></span>
+        </a>
+        <div class="acquisition-card-body">
+          <div class="acquisition-card-title">
+            <div><strong>${esc(title)}</strong><small>/${esc(campaign.client)}</small></div>
+            ${signalBadge(campaign.signal)}
+          </div>
+          <div class="acquisition-view-row">
+            <span><b>${number(totalViews)}</b> views</span>
+            <span><b>${number(campaign.visits?.visitors)}</b> unique</span>
+            <span><b>${number(attributed)}</b> lead-attributed</span>
+          </div>
+          <div class="acquisition-watch-row">
+            <div><span>Watch depth</span><b>${watch}%</b></div>
+            <div class="watch-track"><i style="width:${Math.min(100, Math.max(0, watch))}%"></i></div>
+            <small>${number(campaign.video?.plays)} plays / ${relativeTime(campaign.last_activity_at)}</small>
+          </div>
+          <div class="acquisition-card-actions">
+            <button class="button dark small" type="button" data-acquisition-action="analytics" data-client="${esc(campaign.client)}">Analytics</button>
+            <button class="icon-action" type="button" data-acquisition-action="copy" data-client="${esc(campaign.client)}">Copy link</button>
+            <button class="icon-action" type="button" data-acquisition-action="edit" data-client="${esc(campaign.client)}">Edit</button>
+            <button class="icon-action" type="button" data-acquisition-action="toggle" data-client="${esc(campaign.client)}">${campaign.page_active ? "Deactivate" : "Activate"}</button>
+          </div>
+        </div>
+      </article>`;
     }).join("");
     $("campaignEmpty").hidden = rows.length > 0;
-    $$("[data-campaign-client]", $("campaignRows")).forEach((button) => {
-      button.addEventListener("click", () => {
-        state.client = button.dataset.campaignClient;
-        renderClientSelector();
-        writeClientQuery();
-        location.hash = button.dataset.campaignRoute;
+  }
+
+  function pageStateBadge(active) {
+    return active
+      ? '<span class="badge success">Active</span>'
+      : '<span class="badge">Inactive</span>';
+  }
+
+  function openAcquisitionModal(campaign = null) {
+    acquisitionModalReturnFocus = document.activeElement;
+    acquisitionEditingClient = campaign?.client || "";
+    acquisitionSlugEdited = Boolean(campaign);
+    $("acquisitionModalTitle").textContent = campaign ? "Edit acquisition page" : "Create acquisition page";
+    $("saveAcquisitionPageButton").textContent = campaign ? "Save changes" : "Create page";
+    $("acquisitionPageName").value = campaign?.client_name || "";
+    $("acquisitionPageSlug").value = campaign?.client || "";
+    $("acquisitionPageSlug").disabled = Boolean(campaign);
+    $("acquisitionVideo").value = campaign?.wistia_media_id || "";
+    $("acquisitionLeadEmail").value = campaign?.prospect_email || "";
+    $("acquisitionPageActive").checked = campaign ? campaign.page_active !== false : true;
+    $("acquisitionOriginLabel").textContent = `${location.origin}/`;
+    hideMessage($("acquisitionModalMessage"));
+    syncAcquisitionModalPreview();
+    $("acquisitionPageModal").hidden = false;
+    document.body.classList.add("modal-open");
+    requestAnimationFrame(() => $("acquisitionPageName").focus());
+  }
+
+  function closeAcquisitionModal(restoreFocus = true) {
+    $("acquisitionPageModal").hidden = true;
+    document.body.classList.remove("modal-open");
+    const returnFocus = acquisitionModalReturnFocus;
+    acquisitionModalReturnFocus = null;
+    acquisitionEditingClient = "";
+    acquisitionSlugEdited = false;
+    if (restoreFocus && returnFocus?.isConnected) returnFocus.focus();
+  }
+
+  function syncAcquisitionModalPreview() {
+    const name = $("acquisitionPageName").value.trim();
+    if (!acquisitionEditingClient && !acquisitionSlugEdited) {
+      $("acquisitionPageSlug").value = name.toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 64);
+    }
+    const slug = $("acquisitionPageSlug").value.trim();
+    $("acquisitionPreviewBrand").textContent = name || "Prospect page";
+    $("acquisitionPreviewTitle").textContent = name
+      ? `A private breakdown for ${name}`
+      : "A private breakdown";
+    $("acquisitionUrlPreview").textContent = `${location.origin}/${slug || "prospect-name"}`;
+    $("acquisitionPageSlug").classList.toggle("invalid", Boolean(slug) && !sanitizeSlug(slug));
+  }
+
+  function parseWistiaMediaId(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return "";
+    if (/^[a-z0-9_-]{6,64}$/i.test(raw)) return raw;
+    const match = raw.match(/\/embed\/iframe\/([a-z0-9_-]{6,64})(?:[/?#]|$)/i)
+      || raw.match(/\/(?:medias|iframe)\/([a-z0-9_-]{6,64})(?:[/?#]|$)/i)
+      || raw.match(/[?&]media(?:_id)?=([a-z0-9_-]{6,64})(?:[&#]|$)/i);
+    return match?.[1] || "";
+  }
+
+  async function saveAcquisitionPage(event) {
+    event.preventDefault();
+    const button = $("saveAcquisitionPageButton");
+    const name = $("acquisitionPageName").value.trim();
+    const slug = sanitizeSlug($("acquisitionPageSlug").value);
+    const videoInput = $("acquisitionVideo").value.trim();
+    const wistiaMediaId = parseWistiaMediaId(videoInput);
+    if (!name || !slug) {
+      showMessage($("acquisitionModalMessage"), "Add a page title and a valid page URL.", "error");
+      return;
+    }
+    if (!acquisitionEditingClient && state.clients.some((client) => client.client === slug)) {
+      showMessage($("acquisitionModalMessage"), "That page URL already exists. Edit the existing page instead.", "error");
+      return;
+    }
+    if (videoInput && !wistiaMediaId) {
+      showMessage($("acquisitionModalMessage"), "Paste a valid Wistia URL or media ID.", "error");
+      return;
+    }
+
+    button.disabled = true;
+    hideMessage($("acquisitionModalMessage"));
+    const payload = {
+      client: slug,
+      client_name: name,
+      wistia_media_id: wistiaMediaId || null,
+      prospect_email: $("acquisitionLeadEmail").value.trim() || null,
+      page_active: $("acquisitionPageActive").checked,
+    };
+    if (!acquisitionEditingClient) {
+      payload.page_content = {
+        PAGE_TITLE: `${name} - Private breakdown`,
+        BRAND_MARK: "Pulsify",
+        FOOTER_LABEL: "Pulsify",
+      };
+    }
+
+    try {
+      const wasEditing = Boolean(acquisitionEditingClient);
+      const response = await api("/api/settings", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
       });
-    });
-    $$("[data-view-activity]", $("campaignRows")).forEach((button) => {
-      button.addEventListener("click", () => openCampaignActivity(button.dataset.viewActivity));
-    });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the acquisition page.");
+      await refreshClients(slug);
+      await loadCampaigns();
+      closeAcquisitionModal(false);
+      showMessage(
+        $("acquisitionMessage"),
+        wasEditing ? "Page updated." : "Page created. Its tracked link is ready to copy.",
+        "success",
+      );
+    } catch (error) {
+      if (state.key) showMessage($("acquisitionModalMessage"), error.message || "Could not save the acquisition page.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  async function handleAcquisitionCardAction(event) {
+    const button = event.target.closest("[data-acquisition-action]");
+    if (!button) return;
+    const campaign = state.campaigns.find((item) => item.client === button.dataset.client);
+    if (!campaign) return;
+    const action = button.dataset.acquisitionAction;
+    if (action === "analytics") {
+      openCampaignActivity(campaign.client);
+      return;
+    }
+    if (action === "edit") {
+      openAcquisitionModal(campaign);
+      return;
+    }
+    button.disabled = true;
+    hideMessage($("acquisitionMessage"));
+    try {
+      if (action === "copy") {
+        let shareUrl = campaign.share_url;
+        if (!shareUrl) {
+          const response = await api("/api/settings", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ client: campaign.client }),
+          });
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok || !data.ok) throw new Error(data.error || "Could not create the tracked link.");
+          shareUrl = data.share_url;
+          await loadCampaigns();
+        }
+        const copied = await copyText(shareUrl);
+        showMessage(
+          $("acquisitionMessage"),
+          copied ? "Tracked lead link copied." : `Copy this tracked lead link: ${shareUrl}`,
+          copied ? "success" : "neutral",
+        );
+      }
+      if (action === "toggle") {
+        const response = await api("/api/settings", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ client: campaign.client, page_active: !campaign.page_active }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not change the page status.");
+        await loadCampaigns();
+        showMessage($("acquisitionMessage"), campaign.page_active ? "Page deactivated." : "Page activated.", "success");
+      }
+    } catch (error) {
+      if (state.key) showMessage($("acquisitionMessage"), error.message || "The page action failed.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function handleAcquisitionModalKeydown(event) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeAcquisitionModal();
+      return;
+    }
+    if (event.key !== "Tab") return;
+    const focusable = $$('button:not(:disabled), input:not(:disabled)', $("acquisitionPageModal"))
+      .filter((element) => element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   async function openCampaignActivity(client) {
@@ -3937,16 +4150,25 @@
       const visitorId = String(viewer.visitor_id || viewer.viewer || "unknown");
       const label = email || `visitor ${visitorId.slice(0, 4)}...`;
       const applied = email && appliedEmails.has(email.toLowerCase());
+      const locationLabel = [viewer.city, viewer.country].filter(Boolean).join(", ") || "Location unavailable";
       return `<article class="viewer-card">
         <div class="viewer-card-head">
           <div><strong>${esc(label)}</strong><small>${email ? esc(visitorId) : "Unidentified visitor"}</small></div>
-          <span class="badge ${applied ? "success" : ""}">${applied ? "Applied" : "No application"}</span>
+          <div class="viewer-badges">
+            ${viewer.tracked_link
+              ? '<span class="badge accent">Tracked lead link</span>'
+              : (email ? '<span class="badge">Known lead</span>' : '<span class="badge">Unattributed</span>')}
+            <span class="badge ${applied ? "success" : ""}">${applied ? "Applied" : "No application"}</span>
+          </div>
         </div>
         <dl class="viewer-metrics">
+          <div><dt>Page views</dt><dd>${number(viewer.page_views)}</dd></div>
           <div><dt>Watched</dt><dd>${Math.round(Number(viewer.watched_percent || 0))}%</dd></div>
           <div><dt>Watch time</dt><dd>${formatDuration(viewer.watch_seconds)}</dd></div>
           <div><dt>Plays</dt><dd>${number(viewer.plays)}</dd></div>
-          <div><dt>Last watched</dt><dd>${relativeTime(viewer.last_watched_at)}</dd></div>
+          <div><dt>IP address</dt><dd>${esc(viewer.ip || "Unavailable")}</dd></div>
+          <div><dt>Location</dt><dd>${esc(locationLabel)}</dd></div>
+          <div><dt>Last seen</dt><dd>${relativeTime(viewer.last_seen_at || viewer.last_watched_at)}</dd></div>
         </dl>
       </article>`;
     }).join("");

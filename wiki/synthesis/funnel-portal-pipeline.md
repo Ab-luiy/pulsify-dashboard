@@ -3,7 +3,7 @@ type: synthesis
 tags: [funnel, landing-page, vsl, typeform, wistia, kit, portal]
 sources: founder direction 2026-06-30 to 2026-07-01, local implementation in output/standard-preview
 created: 2026-07-01
-updated: 2026-07-01
+updated: 2026-07-16
 ---
 
 # Funnel-to-portal pipeline
@@ -39,6 +39,14 @@ The portal reads the same D1 database and filters by client ID. It reports visit
 play rate, watch time, average percentage watched, milestone retention, applications,
 opt-ins, CTA clicks, Kit sync status, and per-lead viewing behavior.
 
+Each acquisition page can also carry one prospect email and a random private-link
+token. The `?lead={token}` share URL attributes page and Wistia activity to that
+prospect before they apply. Dashboard previews use `?operator_preview=1`, which
+suppresses event delivery so operator checks do not inflate the card's view count.
+IP, country, city, and user agent remain supporting evidence in the activity drawer;
+the private token is the stronger identity signal because IP addresses can be shared,
+rotated, or masked.
+
 ## How Pulsify uses this
 
 The first live implementation is Frank's funnel in `output/standard-preview/`.
@@ -48,6 +56,12 @@ tracking code.
 
 Per-client credentials and media IDs are entered through the password-gated Settings
 page. Secrets do not go into chat or client-side JavaScript.
+
+The operator manages these pages from the Acquisition pages card library. Every card
+shows active state, views, unique visitors, tracked-lead visitors, video plays, and
+average watch depth. A single modal creates or edits the page, while the detailed
+activity drawer, follow-up queue, advanced editor, and tracked off-page assets remain
+available beneath the same surface.
 
 ## Connections
 

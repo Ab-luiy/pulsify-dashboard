@@ -20,7 +20,7 @@ export async function onRequestGet(context) {
     const client = normalizeClientId(url.searchParams.get("client") || "pulsify");
     const page = await loadClientPage(context.env, client);
     const operatorPreview = url.searchParams.get("operator_preview") === "1";
-    if (!page.active && !operatorPreview) return next();
+    if (!page.active && !operatorPreview) return inactivePageResponse();
 
     // ?preview=variant-02 lets an operator compare a design before switching the
     // client's saved template_variant — does not touch the database.
@@ -35,4 +35,14 @@ export async function onRequestGet(context) {
     console.warn("Pulsify page render:", error.message);
     return next();
   }
+}
+
+function inactivePageResponse() {
+  return new Response("Page not available", {
+    status: 404,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
 }

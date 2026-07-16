@@ -41,13 +41,23 @@ export async function onRequestGet(context) {
     const page = await loadClientPage(env, client, { requireRow: true });
     if (!page) return next();
     const operatorPreview = new URL(request.url).searchParams.get("operator_preview") === "1";
-    if (!page.active && !operatorPreview) return next();
+    if (!page.active && !operatorPreview) return inactivePageResponse();
 
     return renderClientPage(context, client, page);
   } catch (error) {
     console.warn("Pulsify slug render:", error.message);
     return next();
   }
+}
+
+function inactivePageResponse() {
+  return new Response("Page not available", {
+    status: 404,
+    headers: {
+      "content-type": "text/plain; charset=utf-8",
+      "cache-control": "no-store",
+    },
+  });
 }
 
 function getSlug(params) {

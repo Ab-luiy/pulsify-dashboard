@@ -252,7 +252,10 @@ class MockStmt {
     }
 
     if (sql.startsWith("INSERT INTO page_events")) {
-      const [client, visitorId, sessionId, pageId, event, email, path, referrer, utmJson, metadataJson, at] = p;
+      const [
+        client, visitorId, sessionId, pageId, event, email, path, referrer,
+        utmJson, metadataJson, ip, country, city, userAgent, at,
+      ] = p;
       const row = {
         id: state.page_events.length + 1,
         client,
@@ -265,6 +268,10 @@ class MockStmt {
         referrer,
         utm_json: utmJson,
         metadata_json: metadataJson,
+        ip,
+        country,
+        city,
+        user_agent: userAgent,
         at,
       };
       state.page_events.push(row);
@@ -304,17 +311,18 @@ class MockStmt {
       return state.client_config.some((row) => row.client === p[0]) ? { found: 1 } : null;
     }
 
-    if (sql.includes("SELECT template_variant, page_content_json FROM client_config WHERE client=?")) {
+    if (sql.includes("SELECT template_variant, page_content_json, COALESCE(page_active,1) AS page_active FROM client_config WHERE client=?")) {
       const row = state.client_config.find((item) => item.client === p[0]);
       return row
         ? {
             template_variant: row.template_variant || null,
             page_content_json: row.page_content_json || null,
+            page_active: row.page_active ?? 1,
           }
         : null;
     }
 
-    if (sql.includes("SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json,updated_at FROM client_config WHERE client=?")) {
+    if (sql.includes("SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json,page_active,prospect_email, acquisition_token,updated_at FROM client_config WHERE client=?")) {
       const row = state.client_config.find((item) => item.client === p[0]);
       return row ? { ...row } : null;
     }
@@ -329,7 +337,7 @@ class MockStmt {
       return { results: rows.map((row) => ({ ...row })) };
     }
 
-    if (sql.includes("SELECT client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json FROM client_config WHERE client=?")) {
+    if (sql.includes("SELECT client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json,page_active,prospect_email,acquisition_token FROM client_config WHERE client=?")) {
       const row = state.client_config.find((item) => item.client === p[0]);
       return row ? { ...row } : null;
     }
@@ -338,7 +346,7 @@ class MockStmt {
       const [
         client, clientName, wistiaMediaId, typeformUrl, typeformWebhookSecret,
         kitTagId, kitApiKey, allowedOrigin, proofImagesJson,
-        templateVariant, pageContentJson, updatedAt,
+        templateVariant, pageContentJson, pageActive, prospectEmail, acquisitionToken, updatedAt,
       ] = p;
       const next = {
         client,
@@ -352,6 +360,9 @@ class MockStmt {
         proof_images_json: proofImagesJson,
         template_variant: templateVariant,
         page_content_json: pageContentJson,
+        page_active: pageActive,
+        prospect_email: prospectEmail,
+        acquisition_token: acquisitionToken,
         updated_at: updatedAt,
       };
       const existing = state.client_config.find((row) => row.client === client);
@@ -393,7 +404,7 @@ class MockStmt {
         : null;
     }
 
-    if (sql.includes("SELECT client, COALESCE(client_name,client) AS client_name, wistia_media_id, typeform_url, typeform_webhook_secret, kit_api_key, kit_tag_id, allowed_origin FROM client_config WHERE client=?")) {
+    if (sql.includes("SELECT client, COALESCE(client_name,client) AS client_name, wistia_media_id, typeform_url, typeform_webhook_secret, kit_api_key, kit_tag_id, allowed_origin, prospect_email, acquisition_token FROM client_config WHERE client=?")) {
       const row = state.client_config.find((item) => item.client === p[0]);
       return row
         ? {
@@ -405,6 +416,8 @@ class MockStmt {
             kit_api_key: row.kit_api_key || null,
             kit_tag_id: row.kit_tag_id || null,
             allowed_origin: row.allowed_origin || null,
+            prospect_email: row.prospect_email || null,
+            acquisition_token: row.acquisition_token || null,
           }
         : null;
     }
@@ -1115,7 +1128,12 @@ async function runClientDeletionChecks() {
     env,
   });
   assert.equal(createResponse.status, 200);
-  assert.equal((await readJson(createResponse)).ok, true);
+  const createJson = await readJson(createResponse);
+  assert.equal(createJson.ok, true);
+  assert.match(createJson.share_url, new RegExp(`^https://example\\.com/${client}\\?lead=[A-Za-z0-9_-]+$`));
+  const createdConfig = env.DB.state.client_config.find((row) => row.client === client);
+  assert.equal(createdConfig.page_active, 1);
+  assert.match(createdConfig.acquisition_token, /^[A-Za-z0-9_-]+$/);
 
   const contentResponse = await clientDataApi.onRequestPost({
     request: request("https://example.com/api/client-data", {

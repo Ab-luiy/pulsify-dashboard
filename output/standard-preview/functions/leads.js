@@ -25,7 +25,8 @@ export async function onRequestGet({ request, env }) {
                 email, visitor_id, session_id, ip, country, city, user_agent, at,
                 NULL AS percent, 0 AS watch_seconds, 0 AS unique_seconds,
                 0 AS duration_seconds, 0 AS plays, 0 AS pauses, 0 AS seeks,
-                CASE WHEN event='page_view' THEN 1 ELSE 0 END AS page_views
+                CASE WHEN event='page_view' THEN 1 ELSE 0 END AS page_views,
+                CASE WHEN json_extract(metadata_json,'$.attribution')='tracked_link' THEN 1 ELSE 0 END AS tracked_link
            FROM page_events WHERE client=?
          UNION ALL
          SELECT COALESCE(NULLIF(visitor_id,''),NULLIF(email,''),NULLIF(session_id,''),'watch-'||id) AS viewer,
@@ -36,7 +37,8 @@ export async function onRequestGet({ request, env }) {
                 CASE WHEN event='play' THEN 1 ELSE 0 END AS plays,
                 CASE WHEN event='pause' THEN 1 ELSE 0 END AS pauses,
                 CASE WHEN event IN ('seeked','seeking') THEN 1 ELSE 0 END AS seeks,
-                0 AS page_views
+                0 AS page_views,
+                CASE WHEN json_extract(metadata_json,'$.attribution')='tracked_link' THEN 1 ELSE 0 END AS tracked_link
            FROM watch_events WHERE client=?
        )
        SELECT viewer,
@@ -55,6 +57,7 @@ export async function onRequestGet({ request, env }) {
               SUM(pauses) AS pauses,
               SUM(seeks) AS seeks,
               SUM(page_views) AS page_views,
+              MAX(tracked_link) AS tracked_link,
               MAX(at) AS last_seen_at,
               MAX(CASE WHEN percent IS NOT NULL THEN at END) AS last_watched_at
          FROM visitor_events
@@ -196,6 +199,7 @@ function normalizeViewer(row) {
   return {
     ...row,
     attributed: Boolean(row.email),
+    tracked_link: Boolean(row.tracked_link),
     page_views: Number(row.page_views || 0),
     watched_percent: Number(row.watched_percent || 0),
     watch_seconds: Number(row.watch_seconds || 0),
