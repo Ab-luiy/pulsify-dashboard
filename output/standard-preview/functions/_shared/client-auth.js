@@ -116,7 +116,9 @@ export async function issueImpersonationExchange(env, clientId, createdBy = "adm
   const exchangeToken = generateOpaqueToken(32);
   const exchangeHash = await sha256Hex(exchangeToken);
   const createdAt = nowIso();
-  const expiresAt = isoMinutesFromNow(IMPERSONATION_TTL_MINUTES);
+  const expiresAt = new Date(
+    new Date(createdAt).getTime() + IMPERSONATION_TTL_MINUTES * 60 * 1000,
+  ).toISOString();
 
   const sessionStatement = env.DB.prepare(
     `INSERT INTO impersonation_sessions (
@@ -430,10 +432,6 @@ function serializeCookie(name, value, options = {}) {
 
 function isoMinutesAgo(minutes) {
   return new Date(Date.now() - minutes * 60 * 1000).toISOString();
-}
-
-function isoMinutesFromNow(minutes) {
-  return new Date(Date.now() + minutes * 60 * 1000).toISOString();
 }
 
 function isoHoursFromNow(hours) {

@@ -1,7 +1,7 @@
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { strict as assert } from "node:assert";
 
-const base = "C:/Users/Abdullah/Desktop/pulsify-portal-build/output/standard-preview";
+const base = fileURLToPath(new URL("..", import.meta.url)).replace(/\\/g, "/").replace(/\/$/, "");
 
 const integrationsApi = await import(pathToFileURL(`${base}/functions/api/integrations.js`).href);
 const paymentApi = await import(pathToFileURL(`${base}/functions/api/payment.js`).href);
@@ -24,12 +24,23 @@ class MockDB {
       integration_events: seed.integration_events || [],
       payments: seed.payments || [],
       client_config: seed.client_config || [],
+      client_auth: seed.client_auth || [],
+      client_sessions: seed.client_sessions || [],
+      client_setup_tokens: seed.client_setup_tokens || [],
+      client_email_codes: seed.client_email_codes || [],
+      client_dashboard_content: seed.client_dashboard_content || [],
+      studio_sequences: seed.studio_sequences || [],
+      sequence_log: seed.sequence_log || [],
+      account_snapshots: seed.account_snapshots || [],
+      client_brain: seed.client_brain || [],
+      proof_items: seed.proof_items || [],
       content_items: seed.content_items || [],
       call_notes: seed.call_notes || [],
       client_assets: seed.client_assets || [],
       leads: seed.leads || [],
       page_events: seed.page_events || [],
       delivery_failures: seed.delivery_failures || [],
+      email_drafts: seed.email_drafts || [],
       media: seed.media || [],
     };
     this.audit = [];
@@ -304,6 +315,16 @@ class MockStmt {
     if (sql.includes("SELECT client,client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json,updated_at FROM client_config WHERE client=?")) {
       const row = state.client_config.find((item) => item.client === p[0]);
       return row ? { ...row } : null;
+    }
+
+    if (sql.includes("SELECT email, pass_hash, updated_at FROM client_auth WHERE client_id=?")) {
+      const row = state.client_auth.find((item) => item.client_id === p[0]);
+      return row ? { ...row } : null;
+    }
+
+    if (sql.includes("SELECT section, json, updated_at FROM client_dashboard_content WHERE client_id=?")) {
+      const rows = state.client_dashboard_content.filter((item) => item.client_id === p[0]);
+      return { results: rows.map((row) => ({ ...row })) };
     }
 
     if (sql.includes("SELECT client_name,wistia_media_id,typeform_url,typeform_webhook_secret, kit_tag_id,kit_api_key,allowed_origin,proof_images_json, template_variant,page_content_json FROM client_config WHERE client=?")) {
@@ -1048,7 +1069,10 @@ async function runRendererTokenChecks() {
     /<span data-token="FOOTER_LABEL">Preview Client<\/span>/,
   );
   assert.match(previewHtml, /data-client="preview-check"/);
-  assert.match(previewHtml, /<title>Private Application<\/title>/);
+  assert.equal(
+    previewHtml.includes("<title>Preview Check \u2014 Private Application</title>"),
+    true,
+  );
 
   const normalResponse = await rendererApi.onRequestGet({
     request: request("https://example.com/?client=preview-check"),
@@ -1132,6 +1156,7 @@ async function runClientDeletionChecks() {
   env.DB.state.call_notes.push({ id: 1, client, title: "Throwaway call" });
   env.DB.state.client_assets.push({ id: 1, client, label: "Throwaway asset" });
   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
+  env.DB.state.email_drafts.push({ id: 1, client, subject: "Throwaway email" });
   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
   env.DB.state.media.push({
     id: "delete-check-media",
@@ -1174,6 +1199,16 @@ async function runClientDeletionChecks() {
     ok: true,
     deleted: {
       client_config: 1,
+      client_auth: 0,
+      client_sessions: 0,
+      client_setup_tokens: 0,
+      client_email_codes: 0,
+      client_dashboard_content: 0,
+      studio_sequences: 0,
+      sequence_log: 0,
+      account_snapshots: 0,
+      client_brain: 0,
+      proof_items: 0,
       content_items: 1,
       call_notes: 1,
       client_assets: 1,
@@ -1181,8 +1216,10 @@ async function runClientDeletionChecks() {
       integrations: 1,
       integration_events: 1,
       delivery_failures: 1,
+      email_drafts: 1,
       page_events: 1,
       media: 1,
+      proof_media: 0,
     },
   });
 
@@ -1197,8 +1234,10 @@ async function runClientDeletionChecks() {
   assert.equal(getJson.config, null);
 
   for (const table of [
-    "client_config", "content_items", "call_notes", "client_assets", "payments",
-    "integrations", "integration_events", "delivery_failures", "page_events", "media",
+    "client_config", "client_auth", "client_sessions", "client_setup_tokens", "client_email_codes",
+    "client_dashboard_content", "studio_sequences", "sequence_log", "account_snapshots", "client_brain",
+    "proof_items", "content_items", "call_notes", "client_assets", "payments", "integrations",
+    "integration_events", "delivery_failures", "email_drafts", "page_events", "media",
   ]) {
     assert.equal(env.DB.state[table].length, 0, `${table} retained the deleted client`);
   }

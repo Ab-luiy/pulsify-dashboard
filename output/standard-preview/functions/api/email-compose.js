@@ -230,6 +230,7 @@ function buildBroadcast(input, kit, sendAt) {
     description: `Pulsify operator email for ${input.client}`,
     public: false,
     published_at: nowIso(),
+    preview_text: buildPreviewText(input),
     subject: input.subject,
     send_at: sendAt,
     email_template_id: kit?.config?.email_template_id
@@ -238,12 +239,17 @@ function buildBroadcast(input, kit, sendAt) {
     email_address: kit?.config?.onboarding_sender_email || null,
     subscriber_filter: [
       {
-        all: [{ type: "tag", ids: [input.tag_id] }],
+        all: [{ type: "tag", ids: [Number(input.tag_id)] }],
         any: null,
         none: null,
       },
     ],
   };
+}
+
+function buildPreviewText(input) {
+  const source = input.body_text || input.body_html.replace(/<[^>]*>/g, " ");
+  return source.replace(/\s+/g, " ").trim().slice(0, 150);
 }
 
 async function saveDraft(env, input, status, sentAt) {

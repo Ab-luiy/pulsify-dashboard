@@ -218,7 +218,8 @@ async function testSendSuccess() {
     const payload = JSON.parse(options.body);
     assert.equal(payload.subject, composed.subject);
     assert.equal(payload.content, "<p>Line one</p><p>Line two</p>");
-    assert.deepEqual(payload.subscriber_filter[0].all, [{ type: "tag", ids: ["42"] }]);
+    assert.equal(payload.preview_text, "Line one Line two");
+    assert.deepEqual(payload.subscriber_filter[0].all, [{ type: "tag", ids: [42] }]);
     return new Response(JSON.stringify({ broadcast: { id: 701 } }), {
       status: 201,
       headers: { "content-type": "application/json" },
