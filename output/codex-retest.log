@@ -63448,3 +63448,3919 @@ index 0000000000000000000000000000000000000000..637689d43a35e7199723d0c653eee61d
 +  process.exitCode = 1;
 +}
 
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command '$board = Get-Content .'"\\AGENT_CHAT.md
+"'$start = ($board | Select-String '"'"'^## Lock Board$'"').LineNumber
+"'$end = ($board | Select-String '"'"'^---$'"' | Where-Object LineNumber -gt "'$start | Select-Object -First 1).LineNumber
+$board[($start-1)..($end-1)]
+Get-Content .'"\\AGENT_CHAT.md -TotalCount 150 | Select-Object -Last 35
+git status --short" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 1011ms:
+## Lock Board
+
+Active claims only. Clear your row when done.
+
+| File / area | Owner | Status | Note |
+|---|---|---|---|
+| _(none)_ | | | |
+
+---
+Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:42 repo handoff above is canonical and all locks remain cleared.
+
+### [2026-07-16] CODEX
+DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
+
+Exact implementation files: `output/standard-preview/migrations/0017_email_drafts.sql`; `output/standard-preview/functions/api/email-compose.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/admin.html`; `output/standard-preview/admin/console.js`; `output/standard-preview/admin/console.css`; and `output/standard-preview/tests/email-compose.test.mjs`. Coordination file: `AGENT_CHAT.md`.
+
+Verified all 11 local `.mjs` suites passed, including mocked D1 and fetch coverage for required tags, sent, failed, no-key draft, and ADMIN_KEY 401 outcomes. JavaScript parse checks passed. Admin source checks passed with 277 unique IDs, 259 resolved static DOM references, all 8 routes wired, CSS balanced at 518/518, 390px responsive rules present, additive-only migration, and zero em-dashes, en-dashes, reward copy, or trailing whitespace. The in-app browser exposed no browser session, so no runtime visual assertion is claimed.
+
+No deploy, remote D1 write, secret, or manual commit was performed. Scheduled auto-checkpoints ran at 01:44 and 01:51 while the task was active; Codex did not run `auto-backup.ps1` or a git commit command. The background `output/codex-email-composer.log` changed outside the implementation set and was not edited by Codex. Claude reviews, applies migration 0017, and deploys.
+Slack DONE mirror to `#build-log` was attempted once and cancelled by the connector. This repo handoff remains canonical.
+
+
+### [2026-07-16] CODEX
+STARTED: implementing `CODEX_TASK_kit_email_composer.md` locally only. Claimed the new email-compose endpoint, additive migration 0017, admin console markup/script/style, and a new mocked-D1/fetch acceptance suite. Verification covers ADMIN_KEY 401 on every action, Kit tags with and without a stored operator key, sent/draft/failed persistence truth, delivery-failure logging, complete draft fallback responses, syntax/static checks, and every existing suite. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
+
+### [2026-07-16 01:11] CODEX
+STARTED: implementing `CODEX_TASK_impersonation.md` locally only. Claimed migration 0016, the shared client-auth layer, client-authenticated API handlers, portal session routing/banner, command-center wiring, and mocked-D1 impersonation coverage. The four acceptance guarantees are server-side read-only enforcement, hard 30-minute expiry, operator-event audit logging, and ADMIN_KEY-only non-escalating mint authority. Verification will enumerate every impersonated read and rejected write endpoint, exercise normal-session write regressions, run every existing suite, and perform static security checks. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
+
+### [2026-06-30 14:20] CLAUDE
+Channel created. This is the shared chat between Claude (Claude Code) and Codex. Codex: confirm you can read and append here. Going forward, claim files on the Lock Board before editing and log any repo changes below. No active work from me right now.
+
+### [2026-06-30 14:36] CODEX
+Confirmed. GitHub CLI is authenticated, this checkout now tracks `brain/main`, and I am adding the Codex-side pull/backup protocol to `AGENTS.md`.
+
+### [2026-06-30 14:38] CODEX
+Done: updated `AGENTS.md` with the Codex session-start pull, coordinated session-end backup, explicit `pulsify-brain` GitHub CLI targeting, and the hourly-task fallback. Lock cleared.
+
+### [2026-06-30 14:42] CODEX
+Loaded Claude's operating manual, memory index, Codex handoff, wiki index, recent decision log, and current dashboard/outreach/deploy context. Adding a persistent context bootstrap to `AGENTS.md` so future Codex sessions start from the same source of truth.
+
+### [2026-06-30 14:43] CODEX
+Done: `AGENTS.md` now boots Codex from Claude's current memory, wiki index, relevant linked notes, recent decision log, and shared lock channel. It also marks `codex-handoff.md` as historical so newer Claude memory wins. Lock cleared.
+
+### [2026-06-30 15:02] CODEX
+ M AGENT_CHAT.md
+ M output/codex-retest.log
+ M output/standard-preview/functions/api/settings.js
+ M output/standard-preview/portal/index.html
+ M output/standard-preview/tests/i1-checks.mjs
+?? output/standard-preview/functions/api/sequence-variants.js
+?? output/standard-preview/migrations/0019_sequence_variants.sql
+?? output/standard-preview/tests/sequence-variants.test.mjs
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+
+diff --git a/AGENT_CHAT.md b/AGENT_CHAT.md
+index 13940c137b390ae06e56d8961dba8c3f326d0057..587c06671b6775a5a2263034b662f9afe57f9794
+--- a/AGENT_CHAT.md
++++ b/AGENT_CHAT.md
+@@ -97,6 +97,23 @@
+ 
+ ### [2026-07-16 06:24] CODEX
+ Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:23 repo handoff above is canonical and all locks remain cleared.
++
++### [2026-07-16 06:28] CODEX
++STARTED: implementing `CODEX_TASK_retest_loop.md` locally only. Claimed additive migration 0019, the token-scoped sequence-variant endpoint, production portal retest and lineage wiring, the mocked-D1 acceptance suite, and deletion coverage if required. `sequence_ref` will bind to the existing `sequence_log.id`, verified from the metrics endpoint and schema. Acceptance covers leak and old-hook capture, cross-client isolation, impersonated read-only behavior, outcome logging, winner resolution by completion comparison, ADMIN_KEY 401, portal syntax/static checks, copy constraints, and all existing suites. Existing carousel and admin work in the dirty tree will be preserved. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
++
++### [2026-07-16 06:42] CODEX
++DONE: implemented `CODEX_TASK_retest_loop.md` locally and cleared all Codex locks. Migration 0019 adds only `sequence_variants` plus two indexes, constrains status to testing, won, lost, or retired, and binds `sequence_ref` to the existing `sequence_log.id` identifier. The new endpoint creates a baseline v1 from the logged row and a client-edited v2 hook, captures the diagnosed slide and exact transition loss, supports completion logging and atomic higher-completion winner resolution, continues later tests from the current winner, scopes every client action, allows impersonated reads while shared auth rejects all writes, and exposes ADMIN_KEY-only cross-client reads.
++
++Portal Performance rows now expose Retest hook only for real hook-failure diagnostics. The preview-style native dialog names the leaking slide and real loss, shows the current logged hook, pre-fills a deterministic editable rewrite, and explains the controlled test. Active rows show v1 versus v2 lineage with result logging and resolution controls; resolved rows name the winner. The shared sequence-read rule carries active and resolved retest state into the Studio insight strip from the same code path. Client deletion removes variant rows before sequence logs.
++
++Exact implementation files: `output/standard-preview/migrations/0019_sequence_variants.sql`; `output/standard-preview/functions/api/sequence-variants.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/portal/index.html`; `output/standard-preview/tests/sequence-variants.test.mjs`; and `output/standard-preview/tests/i1-checks.mjs`. Coordination file: `AGENT_CHAT.md`.
++
++Verification on the final tree: all 13 `.mjs` suites passed, including the new mocked-D1 suite for v1/v2 creation and hook capture, cross-client 404 isolation, impersonated GET plus start/log/resolve 403 blocks, outcome logging, completion-based won/lost resolution, unauthenticated admin 401, cross-client admin listing, portal contract, and additive migration constraints. `node --check` passed for the endpoint, settings handler, acceptance test, and extracted portal script. Static checks passed with 139 markup IDs, all 112 literal DOM references resolved, CSS balanced at 227/227, targeted `git diff --check` clean, new retest IDs unique, and zero prohibited dashes, trailing whitespace, reward copy, or destructive migration statements in the implementation set.
++
++No deploy, remote D1 write, secret, commit, or `auto-backup.ps1` run was performed. Auto-backup is intentionally skipped because the task forbids commits. The background `output/codex-retest.log` changed outside the implementation set and was not edited by Codex. The Slack STARTED mirror to `#build-log` was attempted once and cancelled by the connector. Claude reviews, applies migration 0019, and deploys.
++
++### [2026-07-16 06:43] CODEX
++Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:42 repo handoff above is canonical and all locks remain cleared.
+ 
+ ### [2026-07-16] CODEX
+ DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
+diff --git a/output/standard-preview/functions/api/sequence-variants.js b/output/standard-preview/functions/api/sequence-variants.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..990a8acae253f990f6d81654a04cdaef4be49746
+--- /dev/null
++++ b/output/standard-preview/functions/api/sequence-variants.js
+@@ -0,0 +1,374 @@
++import { checkAdmin, cleanId, json, nowIso } from "../_shared/common.js";
++import { resolveClientAccess } from "../_shared/client-auth.js";
++
++const VARIANT_COLUMNS = `id, client_id, sequence_ref, label, hook_text, status,
++  completion_pct, started_at, resolved_at, created_at`;
++
++export async function onRequestGet({ request, env }) {
++  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
++
++  const url = new URL(request.url);
++  const adminRequested = url.searchParams.get("admin") === "1";
++  const hasAdminKey = Boolean(env.ADMIN_KEY) && request.headers.get("x-admin-key") === env.ADMIN_KEY;
++  let client = "";
++  let authMode = "client";
++
++  if (adminRequested || hasAdminKey) {
++    const auth = checkAdmin(request, env);
++    if (auth) return auth;
++    client = cleanId(url.searchParams.get("client"), "");
++    authMode = "admin";
++  } else {
++    const access = await resolveClientAccess(request, env, {
++      allowHeaderToken: true,
++      allowImpersonated: true,
++    });
++    if (access.error) return access.error;
++    client = cleanId(access.client);
++    authMode = access.auth_mode;
++  }
++
++  const variants = await listVariants(env, client);
++  const sequences = await listSequences(env, client);
++  return json({
++    ok: true,
++    auth_mode: authMode,
++    rows: groupLineage(variants, sequences),
++  });
++}
++
++export async function onRequestPost({ request, env }) {
++  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
++
++  const body = await request.json().catch(() => ({}));
++  const action = String(body.action || "").trim().toLowerCase();
++  const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
++  if (access.error) return access.error;
++  const client = cleanId(access.client);
++
++  if (action === "start") return startRetest(env, client, body);
++  if (action === "log") return logOutcome(env, client, body);
++  if (action === "resolve") return resolveRetest(env, client, body);
++  return json({ ok: false, error: "unknown action" }, 422);
++}
++
++export async function onRequestOptions() {
++  return new Response(null, {
++    headers: {
++      "access-control-allow-origin": "*",
++      "access-control-allow-methods": "GET, POST, OPTIONS",
++      "access-control-allow-headers": "content-type, x-admin-key, x-portal-token",
++      "access-control-max-age": "86400",
++    },
++  });
++}
++
++async function startRetest(env, client, body) {
++  const sequenceRef = positiveInteger(body.sequence_ref);
++  const newHook = normalizeHook(body.new_hook);
++  if (!sequenceRef) return json({ ok: false, error: "sequence_ref is required" }, 422);
++  if (!newHook) return json({ ok: false, error: "new_hook is required" }, 422);
++
++  const sequence = await env.DB.prepare(
++    `SELECT id, client_id, posted_on, type, topic, slide_count, slide_views_json
++       FROM sequence_log
++      WHERE id=?`,
++  ).bind(sequenceRef).first();
++  if (!sequence || cleanId(sequence.client_id) !== client) {
++    return json({ ok: false, error: "sequence log not found" }, 404);
++  }
++
++  const diagnostic = computeDiagnostic(sequence.slide_views_json, sequence.slide_count);
++  if (diagnostic.name !== "hook failed") {
++    return json({ ok: false, error: "only a diagnosed hook failure can start a hook retest" }, 422);
++  }
++
++  const existing = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE client_id=? AND sequence_ref=?
++      ORDER BY id`,
++  ).bind(client, sequenceRef).all();
++  const variants = existing.results || [];
++  if (variants.some((variant) => variant.status === "testing")) {
++    return json({ ok: false, error: "a retest is already running for this sequence" }, 409);
++  }
++
++  const timestamp = nowIso();
++  const baseline = variants.filter((variant) => variant.status === "won").at(-1) || null;
++  const nextNumber = nextVariantNumber(variants);
++  const statements = [];
++
++  if (baseline) {
++    statements.push(env.DB.prepare(
++      `UPDATE sequence_variants
++          SET status='testing', resolved_at=NULL, started_at=?
++        WHERE id=? AND client_id=? AND sequence_ref=? AND status='won'`,
++    ).bind(timestamp, Number(baseline.id), client, sequenceRef));
++  } else {
++    statements.push(env.DB.prepare(
++      `INSERT INTO sequence_variants (
++         client_id, sequence_ref, label, hook_text, status, completion_pct,
++         started_at, resolved_at, created_at
++       ) VALUES (?, ?, 'v1', ?, 'testing', ?, ?, NULL, ?)`,
++    ).bind(
++      client,
++      sequenceRef,
++      normalizeHook(sequence.topic) || "Original hook",
++      diagnostic.completionPct,
++      timestamp,
++      timestamp,
++    ));
++  }
++
++  statements.push(env.DB.prepare(
++    `INSERT INTO sequence_variants (
++       client_id, sequence_ref, label, hook_text, status, completion_pct,
++       started_at, resolved_at, created_at
++     ) VALUES (?, ?, ?, ?, 'testing', NULL, ?, NULL, ?)`,
++  ).bind(client, sequenceRef, `v${nextNumber}`, newHook, timestamp, timestamp));
++
++  const results = await env.DB.batch(statements);
++  const createdId = Number(results.at(-1)?.meta?.last_row_id || 0);
++  return json({
++    ok: true,
++    sequence_ref: sequenceRef,
++    leaking_slide: diagnostic.biggestDropSlide,
++    leak_loss_pct: diagnostic.biggestDropPct,
++    original_hook: baseline?.hook_text || normalizeHook(sequence.topic) || "Original hook",
++    variant: {
++      id: createdId,
++      label: `v${nextNumber}`,
++      hook_text: newHook,
++      status: "testing",
++      completion_pct: null,
++    },
++  });
++}
++
++async function logOutcome(env, client, body) {
++  const variantId = positiveInteger(body.variant_id);
++  const completionPct = validCompletion(body.completion_pct);
++  if (!variantId) return json({ ok: false, error: "variant_id is required" }, 422);
++  if (completionPct == null) {
++    return json({ ok: false, error: "completion_pct must be between 0 and 100" }, 422);
++  }
++
++  const variant = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE id=?`,
++  ).bind(variantId).first();
++  if (!variant || cleanId(variant.client_id) !== client) {
++    return json({ ok: false, error: "variant not found" }, 404);
++  }
++  if (variant.status !== "testing") {
++    return json({ ok: false, error: "only a testing variant can receive an outcome" }, 422);
++  }
++
++  const result = await env.DB.prepare(
++    `UPDATE sequence_variants
++        SET completion_pct=?
++      WHERE id=? AND client_id=? AND status='testing'`,
++  ).bind(completionPct, variantId, client).run();
++  if (Number(result.meta?.changes || 0) !== 1) {
++    return json({ ok: false, error: "the variant changed before the outcome was saved" }, 409);
++  }
++  return json({ ok: true, id: variantId, completion_pct: completionPct, status: "testing" });
++}
++
++async function resolveRetest(env, client, body) {
++  const sequenceRef = positiveInteger(body.sequence_ref);
++  if (!sequenceRef) return json({ ok: false, error: "sequence_ref is required" }, 422);
++
++  const sequence = await env.DB.prepare(
++    "SELECT id, client_id FROM sequence_log WHERE id=?",
++  ).bind(sequenceRef).first();
++  if (!sequence || cleanId(sequence.client_id) !== client) {
++    return json({ ok: false, error: "sequence log not found" }, 404);
++  }
++
++  const result = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE client_id=? AND sequence_ref=? AND status='testing'
++      ORDER BY id`,
++  ).bind(client, sequenceRef).all();
++  const testing = result.results || [];
++  if (testing.length !== 2) {
++    return json({ ok: false, error: "a retest needs exactly two testing variants" }, 422);
++  }
++  if (testing.some((variant) => validCompletion(variant.completion_pct) == null)) {
++    return json({ ok: false, error: "log both completion results before resolving" }, 422);
++  }
++
++  const [first, second] = testing;
++  const firstCompletion = Number(first.completion_pct);
++  const secondCompletion = Number(second.completion_pct);
++  if (firstCompletion === secondCompletion) {
++    return json({ ok: false, error: "the variants are tied; collect another result before resolving" }, 422);
++  }
++  const winner = firstCompletion > secondCompletion ? first : second;
++  const loser = winner.id === first.id ? second : first;
++  const timestamp = nowIso();
++  const update = await env.DB.prepare(
++    `UPDATE sequence_variants
++        SET status=CASE WHEN id=? THEN 'won' ELSE 'lost' END,
++            resolved_at=?
++      WHERE client_id=? AND sequence_ref=? AND status='testing' AND id IN (?, ?)`,
++  ).bind(
++    Number(winner.id),
++    timestamp,
++    client,
++    sequenceRef,
++    Number(winner.id),
++    Number(loser.id),
++  ).run();
++  if (Number(update.meta?.changes || 0) !== 2) {
++    return json({ ok: false, error: "the retest changed before it could be resolved" }, 409);
++  }
++
++  return json({
++    ok: true,
++    sequence_ref: sequenceRef,
++    winner: serializeVariant({ ...winner, status: "won", resolved_at: timestamp }),
++    loser: serializeVariant({ ...loser, status: "lost", resolved_at: timestamp }),
++  });
++}
++
++async function listVariants(env, client) {
++  const query = client
++    ? `SELECT ${VARIANT_COLUMNS} FROM sequence_variants WHERE client_id=? ORDER BY sequence_ref DESC, id`
++    : `SELECT ${VARIANT_COLUMNS} FROM sequence_variants ORDER BY client_id, sequence_ref DESC, id`;
++  const statement = env.DB.prepare(query);
++  const result = client ? await statement.bind(client).all() : await statement.all();
++  return result.results || [];
++}
++
++async function listSequences(env, client) {
++  const columns = "id, client_id, posted_on, type, topic, slide_count, slide_views_json";
++  const query = client
++    ? `SELECT ${columns} FROM sequence_log WHERE client_id=? ORDER BY id DESC`
++    : `SELECT ${columns} FROM sequence_log ORDER BY client_id, id DESC`;
++  const statement = env.DB.prepare(query);
++  const result = client ? await statement.bind(client).all() : await statement.all();
++  return result.results || [];
++}
++
++function groupLineage(variants, sequences) {
++  const sequenceByKey = new Map(sequences.map((sequence) => [lineageKey(sequence.client_id, sequence.id), sequence]));
++  const groups = new Map();
++  for (const variant of variants) {
++    const key = lineageKey(variant.client_id, variant.sequence_ref);
++    if (!groups.has(key)) {
++      const sequence = sequenceByKey.get(key) || {};
++      const diagnostic = computeDiagnostic(sequence.slide_views_json, sequence.slide_count);
++      groups.set(key, {
++        client_id: variant.client_id,
++        sequence_ref: Number(variant.sequence_ref || 0),
++        sequence: {
++          posted_on: sequence.posted_on || "",
++          type: sequence.type || "",
++          topic: sequence.topic || "",
++        },
++        leaking_slide: diagnostic.biggestDropSlide,
++        leak_loss_pct: diagnostic.biggestDropPct,
++        active: false,
++        resolved: false,
++        winner: null,
++        variants: [],
++      });
++    }
++    const group = groups.get(key);
++    const serialized = serializeVariant(variant);
++    group.variants.push(serialized);
++    if (serialized.status === "testing") group.active = true;
++    if (serialized.status === "won") group.winner = serialized;
++  }
++  for (const group of groups.values()) group.resolved = Boolean(group.winner) && !group.active;
++  return Array.from(groups.values()).sort((a, b) => b.sequence_ref - a.sequence_ref);
++}
++
++function computeDiagnostic(slideViewsJson, slideCount) {
++  const views = parseSlideViews(slideViewsJson, slideCount);
++  const first = Number(views[0] || 0);
++  const last = Number(views.at(-1) || 0);
++  const completionPct = first > 0 ? round1((last / first) * 100) : null;
++  let biggestDrop = 0;
++  let biggestDropSlide = null;
++  let biggestDropPct = null;
++  for (let index = 1; index < views.length; index += 1) {
++    const prior = Number(views[index - 1] || 0);
++    const current = Number(views[index] || 0);
++    const drop = prior - current;
++    if (drop > biggestDrop) {
++      biggestDrop = drop;
++      biggestDropSlide = index + 1;
++      biggestDropPct = prior > 0 ? round1((drop / prior) * 100) : null;
++    }
++  }
++  const name = completionPct != null && completionPct >= 70
++    ? "healthy"
++    : (biggestDropSlide === 2
++      ? "hook failed"
++      : (biggestDropSlide != null && biggestDropSlide >= 6 && biggestDropSlide <= 8
++        ? "body failed before the ask"
++        : "monitor"));
++  return { name, completionPct, biggestDropSlide, biggestDropPct };
++}
++
++function parseSlideViews(value, slideCount) {
++  try {
++    const parsed = JSON.parse(value || "[]");
++    if (!Array.isArray(parsed)) return [];
++    return parsed
++      .map(Number)
++      .filter((item) => Number.isFinite(item) && item >= 0)
++      .slice(0, Math.max(0, Number(slideCount || parsed.length)));
++  } catch {
++    return [];
++  }
++}
++
++function serializeVariant(variant) {
++  return {
++    id: Number(variant.id || 0),
++    client_id: variant.client_id,
++    sequence_ref: Number(variant.sequence_ref || 0),
++    label: variant.label || "",
++    hook_text: variant.hook_text || "",
++    status: variant.status || "testing",
++    completion_pct: variant.completion_pct == null ? null : Number(variant.completion_pct),
++    started_at: variant.started_at || "",
++    resolved_at: variant.resolved_at || "",
++    created_at: variant.created_at || "",
++  };
++}
++
++function nextVariantNumber(variants) {
++  const numbers = variants.map((variant) => Number(String(variant.label || "").match(/^v(\d+)$/i)?.[1] || 0));
++  return Math.max(1, ...numbers) + 1;
++}
++
++function normalizeHook(value) {
++  return String(value || "").trim().replace(/\s+/g, " ").slice(0, 1000);
++}
++
++function positiveInteger(value) {
++  const number = Number(value);
++  return Number.isInteger(number) && number > 0 ? number : null;
++}
++
++function validCompletion(value) {
++  if (value == null || value === "") return null;
++  const number = Number(value);
++  return Number.isFinite(number) && number >= 0 && number <= 100 ? round1(number) : null;
++}
++
++function lineageKey(client, sequenceRef) {
++  return `${cleanId(client)}:${Number(sequenceRef || 0)}`;
++}
++
++function round1(value) {
++  return Math.round(Number(value || 0) * 10) / 10;
++}
+diff --git a/output/standard-preview/functions/api/settings.js b/output/standard-preview/functions/api/settings.js
+index 1e0276a97c3a328d1123d4317444df906d70e088..7ecb788f2d54426d42341d80bdb901d5d0d43998
+--- a/output/standard-preview/functions/api/settings.js
++++ b/output/standard-preview/functions/api/settings.js
+@@ -17,6 +17,7 @@
+   ["client_dashboard_content", "client_id"],
+   ["studio_sequences", "client_id"],
+   ["studio_carousels", "client_id"],
++  ["sequence_variants", "client_id"],
+   ["sequence_log", "client_id"],
+   ["account_snapshots", "client_id"],
+   ["client_brain", "client_id"],
+diff --git a/output/standard-preview/migrations/0019_sequence_variants.sql b/output/standard-preview/migrations/0019_sequence_variants.sql
+new file mode 100644
+index 0000000000000000000000000000000000000000..15275fcfd7ffde5c96235100026e5d0ec07a732e
+--- /dev/null
++++ b/output/standard-preview/migrations/0019_sequence_variants.sql
+@@ -0,0 +1,21 @@
++-- Controlled hook retests tied to logged sequence metrics.
++
++CREATE TABLE IF NOT EXISTS sequence_variants (
++  id               INTEGER PRIMARY KEY AUTOINCREMENT,
++  client_id        TEXT NOT NULL,
++  sequence_ref     INTEGER NOT NULL,
++  label            TEXT NOT NULL,
++  hook_text        TEXT NOT NULL,
++  status           TEXT NOT NULL CHECK (status IN ('testing', 'won', 'lost', 'retired')),
++  completion_pct   REAL CHECK (completion_pct IS NULL OR (completion_pct >= 0 AND completion_pct <= 100)),
++  started_at       TEXT NOT NULL,
++  resolved_at      TEXT,
++  created_at       TEXT NOT NULL,
++  UNIQUE (client_id, sequence_ref, label)
++);
++
++CREATE INDEX IF NOT EXISTS idx_sequence_variants_client_status
++  ON sequence_variants (client_id, status, started_at);
++
++CREATE INDEX IF NOT EXISTS idx_sequence_variants_sequence
++  ON sequence_variants (client_id, sequence_ref, id);
+diff --git a/output/standard-preview/portal/index.html b/output/standard-preview/portal/index.html
+index dd5605701c1ea2e359a90f630bd7d6f2246b50f7..c873323578a46069e2603ac748507a30e677aec1
+--- a/output/standard-preview/portal/index.html
++++ b/output/standard-preview/portal/index.html
+@@ -839,6 +839,87 @@
+       opacity: .95;
+     }
+     .sequence-bar span { position: relative; color: var(--ui-ink); font-size: 10px; font-weight: 800; }
++    .sequence-row.has-retest { border-color: color-mix(in srgb, var(--ui-indigo) 34%, var(--ui-line)); }
++    .retest-lineage {
++      display: flex;
++      align-items: stretch;
++      gap: 8px;
++      flex-wrap: wrap;
++      margin: 14px 0 4px;
++      padding: 12px;
++      border: 1px solid var(--ui-line);
++      border-radius: 14px;
++      background: color-mix(in srgb, var(--ui-panel-2) 92%, transparent);
++    }
++    .retest-variant {
++      min-width: 116px;
++      flex: 1 1 116px;
++      padding: 10px 11px;
++      border: 1px solid var(--ui-line);
++      border-radius: 11px;
++      background: var(--ui-panel);
++    }
++    .retest-variant.won { border-color: color-mix(in srgb, var(--ui-accent) 55%, var(--ui-line)); background: var(--ui-accent-soft); }
++    .retest-variant.lost { opacity: .68; }
++    .retest-variant.testing { border-color: color-mix(in srgb, var(--ui-indigo) 55%, var(--ui-line)); }
++    .retest-variant strong,
++    .retest-variant span { display: block; }
++    .retest-variant strong { font: 800 12px var(--ui-font-mono); }
++    .retest-variant span { margin-top: 4px; color: var(--ui-ink-2); font-size: 11px; line-height: 1.4; }
++    .retest-winner {
++      flex: 1 0 100%;
++      color: var(--ui-accent);
++      font-size: 12px;
++      font-weight: 800;
++    }
++    .retest-outcome {
++      display: flex;
++      align-items: end;
++      gap: 8px;
++      flex: 1 0 100%;
++      padding-top: 4px;
++    }
++    .retest-outcome label { flex: 1; color: var(--ui-ink-2); font-size: 11px; font-weight: 800; }
++    .retest-outcome input { width: 100%; margin-top: 5px; }
++    .retest-dialog {
++      width: min(620px, calc(100vw - 28px));
++      padding: 0;
++      border: 1px solid var(--ui-line);
++      border-radius: 20px;
++      background: var(--ui-panel);
++      color: var(--ui-ink);
++      box-shadow: var(--ui-shadow-lg);
++    }
++    .retest-dialog::backdrop { background: rgba(8, 15, 13, .54); backdrop-filter: blur(5px); }
++    .retest-dialog-head,
++    .retest-dialog-foot {
++      display: flex;
++      align-items: center;
++      justify-content: space-between;
++      gap: 14px;
++      padding: 18px 20px;
++    }
++    .retest-dialog-head { border-bottom: 1px solid var(--ui-line); }
++    .retest-dialog-head h3 { margin: 0; font-size: 19px; letter-spacing: -.03em; }
++    .retest-dialog-head p { margin: 4px 0 0; color: var(--ui-muted); font-size: 12px; }
++    .retest-dialog-body { display: grid; gap: 15px; padding: 20px; }
++    .retest-diagnostic,
++    .retest-method {
++      padding: 13px 14px;
++      border: 1px solid var(--ui-line);
++      border-radius: 13px;
++      background: var(--ui-panel-2);
++      color: var(--ui-ink-2);
++      font-size: 12.5px;
++      line-height: 1.55;
++    }
++    .retest-diagnostic strong,
++    .retest-method strong { color: var(--ui-ink); }
++    .retest-old-hook { color: var(--ui-ink); font-weight: 700; }
++    .retest-dialog-body label { color: var(--ui-ink-2); font-size: 12px; font-weight: 800; }
++    .retest-dialog-body textarea { width: 100%; min-height: 108px; margin-top: 7px; }
++    .retest-dialog-error { min-height: 18px; color: var(--ui-rose); font-size: 12px; }
++    .retest-dialog-foot { border-top: 1px solid var(--ui-line); }
+     .photo-item {
+       display: flex;
+       gap: 10px;
+@@ -1452,6 +1533,29 @@
+     </main>
+   </div>
+ 
++  <dialog class="retest-dialog" id="retestDialog" aria-labelledby="retestDialogTitle">
++    <div class="retest-dialog-head">
++      <div>
++        <h3 id="retestDialogTitle">Retest the hook</h3>
++        <p>Change one variable, hold the rest, compare completion.</p>
++      </div>
++      <button class="outline" id="closeRetestDialogButton" type="button" aria-label="Close retest">Close</button>
++    </div>
++    <div class="retest-dialog-body">
++      <div class="retest-diagnostic" id="retestDiagnostic"></div>
++      <div class="retest-diagnostic"><strong>Current hook.</strong> <span class="retest-old-hook" id="retestOldHook"></span></div>
++      <label for="retestNewHookInput">New hook to test
++        <textarea id="retestNewHookInput" maxlength="1000"></textarea>
++      </label>
++      <div class="retest-method"><strong>How the retest works.</strong> Run the new hook on the next posting. Keep every other slide identical. Log completion after 48 hours, then resolve the higher completion as the winner.</div>
++      <div class="retest-dialog-error" id="retestDialogError" role="alert"></div>
++    </div>
++    <div class="retest-dialog-foot">
++      <span class="panel-note">The original stays in the lineage.</span>
++      <button id="launchRetestButton" type="button">Launch retest</button>
++    </div>
++  </dialog>
++
+   <script>
+     const params = new URLSearchParams(location.search);
+     const initialToken = params.get("t") || "";
+@@ -1505,11 +1609,13 @@
+       pulseItems: [],
+       performance: {
+         rows: [],
++        variantGroups: [],
+         weekSummary: null,
+         weeklyReport: null,
+         latestSnapshot: null,
+         priorSnapshot: null,
+         editingSequenceId: null,
++        retestSequenceRef: null,
+       },
+       studio: {
+         selectedType: "",
+@@ -1557,6 +1663,8 @@
+     $("saveClientSettingsButton").addEventListener("click", saveClientSettings);
+     $("studioInsightGenerateButton").addEventListener("click", startInsightSequence);
+     $("studioInsightLogButton").addEventListener("click", openInsightLogSurface);
++    $("closeRetestDialogButton").addEventListener("click", () => $("retestDialog").close());
++    $("launchRetestButton").addEventListener("click", launchRetest);
+     $("proofGrid").addEventListener("click", (event) => {
+       const button = event.target.closest("[data-proof-save]");
+       if (button) saveProofClaim(button);
+@@ -1665,7 +1773,7 @@
+ 
+     async function loadPerformanceData() {
+       try {
+-        const [sequenceResponse, weeklyResponse] = await Promise.all([
++        const [sequenceResponse, weeklyResponse, variantsResponse] = await Promise.all([
+           fetch(`/api/metrics-sequences?client=${encodeURIComponent(state.client)}`, {
+             headers: authHeaders(),
+             credentials: "same-origin",
+@@ -1674,16 +1782,23 @@
+             headers: authHeaders(),
+             credentials: "same-origin",
+           }),
++          fetch(`/api/sequence-variants?client=${encodeURIComponent(state.client)}`, {
++            headers: authHeaders(),
++            credentials: "same-origin",
++          }),
+         ]);
+-        if ([sequenceResponse, weeklyResponse].some((response) => response.status === 401 || response.status === 403)) {
++        if ([sequenceResponse, weeklyResponse, variantsResponse].some((response) => response.status === 401 || response.status === 403)) {
+           redirectToLogin();
+           return;
+         }
+         const sequenceData = await sequenceResponse.json().catch(() => ({}));
+         const weeklyData = await weeklyResponse.json().catch(() => ({}));
++        const variantsData = await variantsResponse.json().catch(() => ({}));
+         if (!sequenceResponse.ok || !sequenceData.ok) throw new Error(sequenceData.error || "Could not load sequence metrics.");
+         if (!weeklyResponse.ok || !weeklyData.ok) throw new Error(weeklyData.error || "Could not load the weekly report.");
++        if (!variantsResponse.ok || !variantsData.ok) throw new Error(variantsData.error || "Could not load retest lineage.");
+         state.performance.rows = Array.isArray(sequenceData.rows) ? sequenceData.rows : [];
++        state.performance.variantGroups = Array.isArray(variantsData.rows) ? variantsData.rows : [];
+         state.performance.weekSummary = sequenceData.week_summary || null;
+         state.performance.weeklyReport = weeklyData.report || null;
+         state.performance.latestSnapshot = weeklyData.latest || null;
+@@ -2214,6 +2329,8 @@
+     */
+     function getSequenceRead() {
+       const rows = state.performance.rows || [];
++      const activeRetest = state.performance.variantGroups.find((group) => group.active) || null;
++      const resolvedRetest = state.performance.variantGroups.find((group) => group.resolved) || null;
+       let title;
+       let text;
+       let tab;
+@@ -2254,7 +2371,7 @@
+       }
+ 
+       if (!best) best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0) || null;
+-      return { rows, title, text, tab, label, leak, best };
++      return { rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest };
+     }
+ 
+     function renderNextMove() {
+@@ -2295,6 +2412,14 @@
+           lines.push({ tone: "neutral", mark: "N", text: read.text });
+         }
+       }
++      if (read.activeRetest) {
++        const topic = read.activeRetest.sequence?.topic || `sequence ${read.activeRetest.sequence_ref}`;
++        const testing = read.activeRetest.variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
++        lines.push({ tone: "neutral", mark: "T", text: `A hook retest is running on ${topic}${testing?.label ? ` as ${testing.label}` : ""}. Log its completion after the next posting.` });
++      } else if (read.resolvedRetest?.winner) {
++        const topic = read.resolvedRetest.sequence?.topic || `sequence ${read.resolvedRetest.sequence_ref}`;
++        lines.push({ tone: "success", mark: "R", text: `${read.resolvedRetest.winner.label} won the hook retest on ${topic} at ${formatPercent(read.resolvedRetest.winner.completion_pct)} completion.` });
++      }
+ 
+       $("studioInsightLines").innerHTML = lines.map((line) => `
+         <div class="studio-insight-line"><span class="insight-mark ${line.tone}">${esc(line.mark)}</span><p>${esc(line.text)}</p></div>
+@@ -2307,7 +2432,9 @@
+       ].join("");
+ 
+       $("studioInsightGenerateButton").textContent = read.best ? `Generate ${read.best.type}` : "Start a sequence";
+-      $("studioInsightLogButton").textContent = read.leak ? "Open leaking log" : "Open sequence log";
++      $("studioInsightLogButton").textContent = read.activeRetest
++        ? "Open active retest"
++        : (read.resolvedRetest ? "Open winning retest" : (read.leak ? "Open leaking log" : "Open sequence log"));
+       renderStudioPipeline();
+     }
+ 
+@@ -2340,6 +2467,12 @@
+ 
+     function openInsightLogSurface() {
+       const read = getSequenceRead();
++      const retest = read.activeRetest || read.resolvedRetest;
++      if (retest?.sequence_ref) {
++        openTab("performance");
++        $(`sequenceRow${Number(retest.sequence_ref)}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
++        return;
++      }
+       if (read.leak?.id) {
+         loadSequenceIntoForm(Number(read.leak.id));
+         return;
+@@ -2540,6 +2673,15 @@
+       document.querySelectorAll("[data-edit-sequence]").forEach((button) => {
+         button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
+       });
++      document.querySelectorAll("[data-retest-sequence]").forEach((button) => {
++        button.addEventListener("click", () => openRetestDialog(Number(button.dataset.retestSequence)));
++      });
++      document.querySelectorAll("[data-log-variant]").forEach((button) => {
++        button.addEventListener("click", () => logVariantOutcome(Number(button.dataset.logVariant)));
++      });
++      document.querySelectorAll("[data-resolve-retest]").forEach((button) => {
++        button.addEventListener("click", () => resolveHookRetest(Number(button.dataset.resolveRetest)));
++      });
+       renderHome();
+       renderStudioInsight();
+     }
+@@ -3611,10 +3753,142 @@
+       return TOKEN ? { "x-portal-token": TOKEN } : {};
+     }
+ 
++    function variantGroupFor(sequenceRef) {
++      return state.performance.variantGroups.find((group) => Number(group.sequence_ref) === Number(sequenceRef)) || null;
++    }
++
++    function sequenceLeakLoss(row) {
++      const slide = Number(row.biggest_drop_slide || 0);
++      const views = Array.isArray(row.slide_views) ? row.slide_views : [];
++      const prior = Number(views[slide - 2] || 0);
++      const current = Number(views[slide - 1] || 0);
++      return prior > 0 ? Math.round(Math.max(0, ((prior - current) / prior) * 100) * 10) / 10 : null;
++    }
++
++    function suggestedRetestHook(row) {
++      const topic = String(row.topic || row.type || "this topic").trim().replace(/[.!?]+$/, "");
++      return `What changed when ${topic} stopped holding attention?`;
++    }
++
++    function openRetestDialog(sequenceRef) {
++      const row = state.performance.rows.find((item) => Number(item.id) === Number(sequenceRef));
++      if (!row || row.diagnostic !== "hook failed") return;
++      const group = variantGroupFor(sequenceRef);
++      if (group?.active) {
++        showMessage("This sequence already has an active hook retest.");
++        return;
++      }
++      state.performance.retestSequenceRef = Number(sequenceRef);
++      const loss = sequenceLeakLoss(row);
++      $("retestDialogTitle").textContent = `Retest, ${row.topic || row.type || "sequence"}`;
++      $("retestDiagnostic").innerHTML = `<strong>Slide ${number(row.biggest_drop_slide)} is the leak.</strong> ${loss == null ? "The loss rate is unavailable." : `${formatPercent(loss)} of viewers left at this transition.`}`;
++      $("retestOldHook").textContent = row.topic || "Current logged hook";
++      $("retestNewHookInput").value = suggestedRetestHook(row);
++      $("retestDialogError").textContent = "";
++      $("launchRetestButton").disabled = Boolean(state.impersonated);
++      $("retestDialog").showModal();
++      $("retestNewHookInput").focus();
++    }
++
++    async function launchRetest() {
++      const sequenceRef = Number(state.performance.retestSequenceRef || 0);
++      const newHook = $("retestNewHookInput").value.trim();
++      if (!newHook) {
++        $("retestDialogError").textContent = "Write the new hook before launching the retest.";
++        return;
++      }
++      const button = $("launchRetestButton");
++      button.disabled = true;
++      try {
++        const data = await postSequenceVariant({ action: "start", sequence_ref: sequenceRef, new_hook: newHook });
++        $("retestDialog").close();
++        await loadPerformanceData();
++        showMessage(`${data.variant?.label || "The new variant"} is testing. Keep every other slide identical.`, "success");
++      } catch (error) {
++        $("retestDialogError").textContent = error.message || "Could not launch the retest.";
++      } finally {
++        button.disabled = Boolean(state.impersonated);
++      }
++    }
++
++    async function logVariantOutcome(variantId) {
++      const input = $(`variantCompletion${variantId}`);
++      const completion = Number(input?.value);
++      if (!input || input.value.trim() === "" || !Number.isFinite(completion) || completion < 0 || completion > 100) {
++        showMessage("Enter a completion rate from 0 to 100.");
++        return;
++      }
++      try {
++        await postSequenceVariant({ action: "log", variant_id: variantId, completion_pct: completion });
++        await loadPerformanceData();
++        showMessage("Variant completion logged. Resolve the comparison when both results are ready.", "success");
++      } catch (error) {
++        showMessage(error.message || "Could not log the variant outcome.");
++      }
++    }
++
++    async function resolveHookRetest(sequenceRef) {
++      try {
++        const data = await postSequenceVariant({ action: "resolve", sequence_ref: sequenceRef });
++        await loadPerformanceData();
++        showMessage(`${data.winner?.label || "The higher-completion variant"} won the hook retest.`, "success");
++      } catch (error) {
++        showMessage(error.message || "Could not resolve the hook retest.");
++      }
++    }
++
++    async function postSequenceVariant(payload) {
++      const response = await fetch("/api/sequence-variants", {
++        method: "POST",
++        headers: { ...authHeaders(), "content-type": "application/json" },
++        credentials: "same-origin",
++        body: JSON.stringify(payload),
++      });
++      const data = await response.json().catch(() => ({}));
++      if (response.status === 401) {
++        redirectToLogin();
++        throw new Error("The portal session expired.");
++      }
++      if (response.status === 403 && state.impersonated) throw new Error("Operator view is read only.");
++      if (!response.ok || !data.ok) throw new Error(data.error || "The retest request failed.");
++      return data;
++    }
++
++    function renderRetestLineage(group) {
++      if (!group) return "";
++      const variants = Array.isArray(group.variants) ? group.variants : [];
++      const winner = group.winner;
++      const pending = variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
++      const ready = group.active && variants.filter((variant) => variant.status === "testing").length === 2
++        && variants.filter((variant) => variant.status === "testing").every((variant) => variant.completion_pct != null);
++      return `
++        <div class="retest-lineage" role="group" aria-label="Hook retest lineage">
++          ${variants.map((variant) => `
++            <div class="retest-variant ${esc(variant.status)}">
++              <strong>${esc(variant.label)}${variant.status === "won" ? " winner" : ""}</strong>
++              <span>${variant.completion_pct == null ? "Testing, result not logged" : `${formatPercent(variant.completion_pct)} completion`}</span>
++            </div>
++          `).join("")}
++          ${winner ? `<div class="retest-winner">${esc(winner.label)} won with ${formatPercent(winner.completion_pct)} completion.</div>` : ""}
++          ${pending && !state.impersonated ? `
++            <div class="retest-outcome">
++              <label for="variantCompletion${pending.id}">Completion after posting
++                <input id="variantCompletion${pending.id}" type="number" min="0" max="100" step="0.1" placeholder="0 to 100">
++              </label>
++              <button class="outline" type="button" data-log-variant="${pending.id}">Log result</button>
++            </div>
++          ` : ""}
++          ${ready && !state.impersonated ? `<div class="retest-outcome"><button type="button" data-resolve-retest="${group.sequence_ref}">Resolve winner</button></div>` : ""}
++        </div>
++      `;
++    }
++
+     function renderSequenceRow(row) {
+       const maxView = Math.max(...(row.slide_views || [0]), 1);
++      const group = variantGroupFor(row.id);
++      const canRetest = row.diagnostic === "hook failed" && !group?.active;
+       return `
+-        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}">
++        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}${group ? " has-retest" : ""}" id="sequenceRow${row.id}">
+           <div class="sequence-top">
+             <div>
+               <strong>${esc(row.topic || row.type || "Sequence")}</strong>
+@@ -3636,9 +3910,11 @@
+             <span>${row.biggest_drop_slide ? `Biggest drop: slide ${row.biggest_drop_slide}` : "No drop pattern yet"}</span>
+             <span>${row.profile_visits == null ? "Profile visits not logged" : `${number(row.profile_visits)} profile visits`}</span>
+           </div>
++          ${renderRetestLineage(group)}
+           ${row.notes ? `<p>${esc(row.notes)}</p>` : ""}
+           <div class="inline-form-actions">
+             <button class="outline" type="button" data-edit-sequence="${row.id}">Edit</button>
++            ${canRetest ? `<button type="button" data-retest-sequence="${row.id}">Retest hook</button>` : ""}
+           </div>
+         </div>
+       `;
+diff --git a/output/standard-preview/tests/i1-checks.mjs b/output/standard-preview/tests/i1-checks.mjs
+index c4db03c4e8caf5d6c8d0c4376c6d38ced7b9e001..75190b2aa33f96f18fa0998372796f8a7ac384f8
+--- a/output/standard-preview/tests/i1-checks.mjs
++++ b/output/standard-preview/tests/i1-checks.mjs
+@@ -31,6 +31,7 @@
+       client_dashboard_content: seed.client_dashboard_content || [],
+       studio_sequences: seed.studio_sequences || [],
+       studio_carousels: seed.studio_carousels || [],
++      sequence_variants: seed.sequence_variants || [],
+       sequence_log: seed.sequence_log || [],
+       account_snapshots: seed.account_snapshots || [],
+       client_brain: seed.client_brain || [],
+@@ -1159,6 +1160,7 @@
+   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
+   env.DB.state.email_drafts.push({ id: 1, client, subject: "Throwaway email" });
+   env.DB.state.studio_carousels.push({ id: 1, client_id: client, topic: "Throwaway carousel" });
++  env.DB.state.sequence_variants.push({ id: 1, client_id: client, sequence_ref: 1, label: "v1" });
+   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
+   env.DB.state.media.push({
+     id: "delete-check-media",
+@@ -1208,6 +1210,7 @@
+       client_dashboard_content: 0,
+       studio_sequences: 0,
+       studio_carousels: 1,
++      sequence_variants: 1,
+       sequence_log: 0,
+       account_snapshots: 0,
+       client_brain: 0,
+@@ -1238,7 +1241,7 @@
+ 
+   for (const table of [
+     "client_config", "client_auth", "client_sessions", "client_setup_tokens", "client_email_codes",
+-    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_log", "account_snapshots", "client_brain",
++    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_variants", "sequence_log", "account_snapshots", "client_brain",
+     "proof_items", "content_items", "call_notes", "client_assets", "payments", "integrations",
+     "integration_events", "delivery_failures", "email_drafts", "page_events", "media",
+   ]) {
+diff --git a/output/standard-preview/tests/sequence-variants.test.mjs b/output/standard-preview/tests/sequence-variants.test.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..637689d43a35e7199723d0c653eee61d6b011896
+--- /dev/null
++++ b/output/standard-preview/tests/sequence-variants.test.mjs
+@@ -0,0 +1,367 @@
++import { strict as assert } from "node:assert";
++import { readFile } from "node:fs/promises";
++import * as variantsApi from "../functions/api/sequence-variants.js";
++import { CLIENT_SESSION_COOKIE } from "../functions/_shared/client-auth.js";
++
++class MockDB {
++  constructor() {
++    this.configs = [];
++    this.clientSessions = [];
++    this.impersonationSessions = [];
++    this.sequences = [];
++    this.variants = [];
++    this.nextVariantId = 1;
++  }
++
++  prepare(sql) {
++    return new MockStatement(this, sql);
++  }
++
++  async batch(statements) {
++    const results = [];
++    for (const statement of statements) results.push(await statement.run());
++    return results;
++  }
++}
++
++class MockStatement {
++  constructor(db, sql) {
++    this.db = db;
++    this.sql = sql.replace(/\s+/g, " ").trim();
++    this.values = [];
++  }
++
++  bind(...values) {
++    this.values = values;
++    return this;
++  }
++
++  async first() {
++    if (this.sql.includes("FROM impersonation_sessions s")) {
++      const [tokenHash, cutoff] = this.values;
++      const row = this.db.impersonationSessions.find((entry) =>
++        entry.token_hash === tokenHash && entry.consumed_at && entry.expires_at > cutoff);
++      if (!row) return null;
++      const config = this.db.configs.find((entry) => entry.client === row.client_id);
++      return { ...row, client_name: config?.client_name || row.client_id };
++    }
++    if (this.sql.includes("FROM client_sessions s")) {
++      const [tokenHash, cutoff] = this.values;
++      const row = this.db.clientSessions.find((entry) => entry.token_hash === tokenHash && entry.expires_at > cutoff);
++      if (!row) return null;
++      const config = this.db.configs.find((entry) => entry.client === row.client_id);
++      return { ...row, client_name: config?.client_name || row.client_id };
++    }
++    if (this.sql.includes("FROM client_config") && this.sql.includes("portal_token_hash=?")) {
++      const row = this.db.configs.find((entry) => entry.portal_token_hash === this.values[0]);
++      return row ? { client: row.client, client_name: row.client_name || row.client } : null;
++    }
++    if (this.sql.includes("FROM sequence_log") && this.sql.includes("WHERE id=?")) {
++      const row = this.db.sequences.find((entry) => entry.id === Number(this.values[0]));
++      if (!row) return null;
++      if (this.sql === "SELECT id, client_id FROM sequence_log WHERE id=?") {
++        return { id: row.id, client_id: row.client_id };
++      }
++      return { ...row };
++    }
++    if (this.sql.includes("FROM sequence_variants") && this.sql.includes("WHERE id=?")) {
++      const row = this.db.variants.find((entry) => entry.id === Number(this.values[0]));
++      return row ? { ...row } : null;
++    }
++    throw new Error(`Unexpected first query: ${this.sql}`);
++  }
++
++  async all() {
++    if (this.sql.includes("FROM sequence_variants")) {
++      let rows = [...this.db.variants];
++      if (this.sql.includes("WHERE client_id=? AND sequence_ref=? AND status='testing'")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]
++          && row.sequence_ref === Number(this.values[1]) && row.status === "testing");
++      } else if (this.sql.includes("WHERE client_id=? AND sequence_ref=?")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]
++          && row.sequence_ref === Number(this.values[1]));
++      } else if (this.sql.includes("WHERE client_id=?")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]);
++      }
++      return { results: rows.sort((a, b) => a.id - b.id).map((row) => ({ ...row })) };
++    }
++    if (this.sql.includes("FROM sequence_log")) {
++      let rows = [...this.db.sequences];
++      if (this.sql.includes("WHERE client_id=?")) rows = rows.filter((row) => row.client_id === this.values[0]);
++      return { results: rows.map((row) => ({ ...row })) };
++    }
++    throw new Error(`Unexpected all query: ${this.sql}`);
++  }
++
++  async run() {
++    if (this.sql === "DELETE FROM client_sessions WHERE expires_at<?") {
++      this.db.clientSessions = this.db.clientSessions.filter((row) => row.expires_at >= this.values[0]);
++      return changed(0);
++    }
++    if (this.sql === "DELETE FROM impersonation_sessions WHERE expires_at<?") {
++      this.db.impersonationSessions = this.db.impersonationSessions.filter((row) => row.expires_at >= this.values[0]);
++      return changed(0);
++    }
++    if (this.sql.startsWith("INSERT INTO sequence_variants")) {
++      let clientId;
++      let sequenceRef;
++      let label;
++      let hookText;
++      let completionPct;
++      let startedAt;
++      let createdAt;
++      if (this.sql.includes("VALUES (?, ?, 'v1'")) {
++        [clientId, sequenceRef, hookText, completionPct, startedAt, createdAt] = this.values;
++        label = "v1";
++      } else {
++        [clientId, sequenceRef, label, hookText, startedAt, createdAt] = this.values;
++        completionPct = null;
++      }
++      const id = this.db.nextVariantId++;
++      this.db.variants.push({
++        id,
++        client_id: clientId,
++        sequence_ref: Number(sequenceRef),
++        label,
++        hook_text: hookText,
++        status: "testing",
++        completion_pct: completionPct,
++        started_at: startedAt,
++        resolved_at: null,
++        created_at: createdAt,
++      });
++      return { meta: { changes: 1, last_row_id: id } };
++    }
++    if (this.sql.includes("SET completion_pct=?")) {
++      const [completionPct, id, clientId] = this.values;
++      const row = this.db.variants.find((entry) => entry.id === Number(id)
++        && entry.client_id === clientId && entry.status === "testing");
++      if (!row) return changed(0);
++      row.completion_pct = completionPct;
++      return changed(1);
++    }
++    if (this.sql.includes("SET status=CASE WHEN id=? THEN 'won' ELSE 'lost' END")) {
++      const [winnerId, resolvedAt, clientId, sequenceRef, firstId, secondId] = this.values;
++      const ids = new Set([Number(firstId), Number(secondId)]);
++      const rows = this.db.variants.filter((entry) => ids.has(entry.id)
++        && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "testing");
++      for (const row of rows) Object.assign(row, { status: row.id === Number(winnerId) ? "won" : "lost", resolved_at: resolvedAt });
++      return changed(rows.length);
++    }
++    if (this.sql.includes("SET status='won'")) return updateResolvedVariant(this.db, this.values, "won");
++    if (this.sql.includes("SET status='lost'")) return updateResolvedVariant(this.db, this.values, "lost");
++    if (this.sql.includes("SET status='testing', resolved_at=NULL")) {
++      const [startedAt, id, clientId, sequenceRef] = this.values;
++      const row = this.db.variants.find((entry) => entry.id === Number(id)
++        && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "won");
++      if (!row) return changed(0);
++      Object.assign(row, { status: "testing", resolved_at: null, started_at: startedAt });
++      return changed(1);
++    }
++    throw new Error(`Unexpected run query: ${this.sql}`);
++  }
++}
++
++function updateResolvedVariant(db, values, status) {
++  const [resolvedAt, id, clientId, sequenceRef] = values;
++  const row = db.variants.find((entry) => entry.id === Number(id)
++    && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "testing");
++  if (!row) return changed(0);
++  Object.assign(row, { status, resolved_at: resolvedAt });
++  return changed(1);
++}
++
++function changed(changes) {
++  return { meta: { changes } };
++}
++
++async function sha256Hex(value) {
++  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
++  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
++}
++
++function request(method, body, headers = {}, query = "") {
++  return new Request(`https://funnels.test/api/sequence-variants${query}`, {
++    method,
++    headers: { "content-type": "application/json", ...headers },
++    body: body == null ? undefined : JSON.stringify(body),
++  });
++}
++
++async function createFixture() {
++  const db = new MockDB();
++  const alphaToken = "alpha-portal-token";
++  const betaToken = "beta-portal-token";
++  db.configs.push(
++    { client: "alpha", client_name: "Alpha Coach", portal_token_hash: await sha256Hex(alphaToken) },
++    { client: "beta", client_name: "Beta Coach", portal_token_hash: await sha256Hex(betaToken) },
++  );
++  db.sequences.push(
++    {
++      id: 11,
++      client_id: "alpha",
++      posted_on: "2026-07-15",
++      type: "value-driven",
++      topic: "The profile fix that changed the DMs",
++      slide_count: 4,
++      slide_views_json: JSON.stringify([1000, 500, 450, 400]),
++    },
++    {
++      id: 22,
++      client_id: "beta",
++      posted_on: "2026-07-15",
++      type: "credibility",
++      topic: "Beta private hook",
++      slide_count: 4,
++      slide_views_json: JSON.stringify([900, 300, 280, 250]),
++    },
++  );
++  return { env: { DB: db, ADMIN_KEY: "operator-secret" }, db, alphaToken, betaToken };
++}
++
++async function testLifecycleAndIsolation() {
++  const { env, db, alphaToken } = await createFixture();
++  const started = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "start",
++      sequence_ref: 11,
++      new_hook: "The DMs changed after one profile line moved.",
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(started.status, 200);
++  const startedBody = await started.json();
++  assert.equal(startedBody.leaking_slide, 2);
++  assert.equal(startedBody.leak_loss_pct, 50);
++  assert.equal(startedBody.variant.label, "v2");
++  assert.equal(db.variants.length, 2);
++  assert.deepEqual(db.variants.map((row) => row.client_id), ["alpha", "alpha"]);
++  assert.equal(db.variants[0].sequence_ref, 11);
++  assert.equal(db.variants[0].label, "v1");
++  assert.equal(db.variants[0].hook_text, "The profile fix that changed the DMs");
++  assert.equal(db.variants[0].completion_pct, 40);
++  assert.equal(db.variants[1].label, "v2");
++  assert.equal(db.variants[1].hook_text, "The DMs changed after one profile line moved.");
++  assert.equal(db.variants[1].status, "testing");
++
++  const crossClient = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "start",
++      sequence_ref: 22,
++      new_hook: "This must stay blocked.",
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(crossClient.status, 404);
++
++  const logged = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "log",
++      variant_id: db.variants[1].id,
++      completion_pct: 61.5,
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(logged.status, 200);
++
++  const resolved = await variantsApi.onRequestPost({
++    request: request("POST", { action: "resolve", sequence_ref: 11 }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(resolved.status, 200);
++  const resolvedBody = await resolved.json();
++  assert.equal(resolvedBody.winner.label, "v2");
++  assert.equal(resolvedBody.winner.status, "won");
++  assert.equal(resolvedBody.loser.label, "v1");
++  assert.equal(resolvedBody.loser.status, "lost");
++  assert.equal(db.variants.find((row) => row.label === "v2").status, "won");
++  assert.equal(db.variants.find((row) => row.label === "v1").status, "lost");
++}
++
++async function testImpersonationReadOnlyAndClientRead() {
++  const { env, db } = await createFixture();
++  db.variants.push({
++    id: db.nextVariantId++,
++    client_id: "alpha",
++    sequence_ref: 11,
++    label: "v1",
++    hook_text: "Original hook",
++    status: "testing",
++    completion_pct: 40,
++    started_at: new Date().toISOString(),
++    resolved_at: null,
++    created_at: new Date().toISOString(),
++  });
++  const rawToken = "impersonated-retest-session";
++  db.impersonationSessions.push({
++    token_hash: await sha256Hex(rawToken),
++    client_id: "alpha",
++    consumed_at: new Date().toISOString(),
++    created_by: "admin",
++    expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
++  });
++  const headers = { cookie: `${CLIENT_SESSION_COOKIE}=${rawToken}` };
++  const read = await variantsApi.onRequestGet({ request: request("GET", null, headers), env });
++  assert.equal(read.status, 200);
++  assert.equal((await read.json()).rows[0].sequence_ref, 11);
++
++  for (const body of [
++    { action: "start", sequence_ref: 11, new_hook: "Blocked" },
++    { action: "log", variant_id: 1, completion_pct: 60 },
++    { action: "resolve", sequence_ref: 11 },
++  ]) {
++    const write = await variantsApi.onRequestPost({ request: request("POST", body, headers), env });
++    assert.equal(write.status, 403, `${body.action} must reject impersonated sessions`);
++    assert.deepEqual(await write.json(), { error: "read only" });
++  }
++}
++
++async function testAdminReadAuthAndCrossClientCoverage() {
++  const { env, db } = await createFixture();
++  db.variants.push(
++    { id: db.nextVariantId++, client_id: "alpha", sequence_ref: 11, label: "v1", hook_text: "Alpha", status: "won", completion_pct: 50, started_at: "a", resolved_at: "b", created_at: "a" },
++    { id: db.nextVariantId++, client_id: "beta", sequence_ref: 22, label: "v1", hook_text: "Beta", status: "won", completion_pct: 55, started_at: "a", resolved_at: "b", created_at: "a" },
++  );
++
++  const denied = await variantsApi.onRequestGet({ request: request("GET", null, {}, "?admin=1"), env });
++  assert.equal(denied.status, 401);
++
++  const allowed = await variantsApi.onRequestGet({
++    request: request("GET", null, { "x-admin-key": "operator-secret" }, "?admin=1"),
++    env,
++  });
++  assert.equal(allowed.status, 200);
++  const body = await allowed.json();
++  assert.deepEqual(new Set(body.rows.map((row) => row.client_id)), new Set(["alpha", "beta"]));
++}
++
++async function testMigrationAndPortalContract() {
++  const sql = await readFile(new URL("../migrations/0019_sequence_variants.sql", import.meta.url), "utf8");
++  assert.match(sql, /CREATE TABLE IF NOT EXISTS sequence_variants/);
++  assert.match(sql, /sequence_ref\s+INTEGER NOT NULL/);
++  assert.match(sql, /UNIQUE \(client_id, sequence_ref, label\)/);
++  assert.match(sql, /CHECK \(status IN \('testing', 'won', 'lost', 'retired'\)\)/);
++  assert.doesNotMatch(sql, /\b(?:DROP|ALTER|DELETE|UPDATE)\b/i);
++
++  const portal = await readFile(new URL("../portal/index.html", import.meta.url), "utf8");
++  assert.match(portal, /\/api\/sequence-variants/);
++  assert.match(portal, /data-retest-sequence/);
++  assert.match(portal, /How the retest works/);
++  assert.match(portal, /Keep every other slide identical/);
++  assert.match(portal, /data-log-variant/);
++  assert.match(portal, /data-resolve-retest/);
++  assert.match(portal, /A hook retest is running on/);
++  assert.match(portal, /won the hook retest on/);
++  assert.match(portal, /function getSequenceRead\(\) \{[\s\S]*?const activeRetest = state\.performance\.variantGroups[\s\S]*?return \{ rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest \};/);
++}
++
++try {
++  await testLifecycleAndIsolation();
++  await testImpersonationReadOnlyAndClientRead();
++  await testAdminReadAuthAndCrossClientCoverage();
++  await testMigrationAndPortalContract();
++  console.log("PASS sequence variants: start, capture, isolation, impersonation, logging, resolution, admin auth, portal, and migration");
++} catch (error) {
++  console.error(`FAIL sequence variants: ${error?.stack || error}`);
++  process.exitCode = 1;
++}
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n -C 1 \"06:42|06:43\" .\\AGENT_CHAT.md" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 601ms:
+103-
+104:### [2026-07-16 06:42] CODEX
+105-DONE: implemented `CODEX_TASK_retest_loop.md` locally and cleared all Codex locks. Migration 0019 adds only `sequence_variants` plus two indexes, constrains status to testing, won, lost, or retired, and binds `sequence_ref` to the existing `sequence_log.id` identifier. The new endpoint creates a baseline v1 from the logged row and a client-edited v2 hook, captures the diagnosed slide and exact transition loss, supports completion logging and atomic higher-completion winner resolution, continues later tests from the current winner, scopes every client action, allows impersonated reads while shared auth rejects all writes, and exposes ADMIN_KEY-only cross-client reads.
+--
+114-
+115:### [2026-07-16 06:43] CODEX
+116:Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:42 repo handoff above is canonical and all locks remain cleared.
+117-
+
+diff --git a/AGENT_CHAT.md b/AGENT_CHAT.md
+index 13940c137b390ae06e56d8961dba8c3f326d0057..587c06671b6775a5a2263034b662f9afe57f9794
+--- a/AGENT_CHAT.md
++++ b/AGENT_CHAT.md
+@@ -97,6 +97,23 @@
+ 
+ ### [2026-07-16 06:24] CODEX
+ Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:23 repo handoff above is canonical and all locks remain cleared.
++
++### [2026-07-16 06:28] CODEX
++STARTED: implementing `CODEX_TASK_retest_loop.md` locally only. Claimed additive migration 0019, the token-scoped sequence-variant endpoint, production portal retest and lineage wiring, the mocked-D1 acceptance suite, and deletion coverage if required. `sequence_ref` will bind to the existing `sequence_log.id`, verified from the metrics endpoint and schema. Acceptance covers leak and old-hook capture, cross-client isolation, impersonated read-only behavior, outcome logging, winner resolution by completion comparison, ADMIN_KEY 401, portal syntax/static checks, copy constraints, and all existing suites. Existing carousel and admin work in the dirty tree will be preserved. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
++
++### [2026-07-16 06:42] CODEX
++DONE: implemented `CODEX_TASK_retest_loop.md` locally and cleared all Codex locks. Migration 0019 adds only `sequence_variants` plus two indexes, constrains status to testing, won, lost, or retired, and binds `sequence_ref` to the existing `sequence_log.id` identifier. The new endpoint creates a baseline v1 from the logged row and a client-edited v2 hook, captures the diagnosed slide and exact transition loss, supports completion logging and atomic higher-completion winner resolution, continues later tests from the current winner, scopes every client action, allows impersonated reads while shared auth rejects all writes, and exposes ADMIN_KEY-only cross-client reads.
++
++Portal Performance rows now expose Retest hook only for real hook-failure diagnostics. The preview-style native dialog names the leaking slide and real loss, shows the current logged hook, pre-fills a deterministic editable rewrite, and explains the controlled test. Active rows show v1 versus v2 lineage with result logging and resolution controls; resolved rows name the winner. The shared sequence-read rule carries active and resolved retest state into the Studio insight strip from the same code path. Client deletion removes variant rows before sequence logs.
++
++Exact implementation files: `output/standard-preview/migrations/0019_sequence_variants.sql`; `output/standard-preview/functions/api/sequence-variants.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/portal/index.html`; `output/standard-preview/tests/sequence-variants.test.mjs`; and `output/standard-preview/tests/i1-checks.mjs`. Coordination file: `AGENT_CHAT.md`.
++
++Verification on the final tree: all 13 `.mjs` suites passed, including the new mocked-D1 suite for v1/v2 creation and hook capture, cross-client 404 isolation, impersonated GET plus start/log/resolve 403 blocks, outcome logging, completion-based won/lost resolution, unauthenticated admin 401, cross-client admin listing, portal contract, and additive migration constraints. `node --check` passed for the endpoint, settings handler, acceptance test, and extracted portal script. Static checks passed with 139 markup IDs, all 112 literal DOM references resolved, CSS balanced at 227/227, targeted `git diff --check` clean, new retest IDs unique, and zero prohibited dashes, trailing whitespace, reward copy, or destructive migration statements in the implementation set.
++
++No deploy, remote D1 write, secret, commit, or `auto-backup.ps1` run was performed. Auto-backup is intentionally skipped because the task forbids commits. The background `output/codex-retest.log` changed outside the implementation set and was not edited by Codex. The Slack STARTED mirror to `#build-log` was attempted once and cancelled by the connector. Claude reviews, applies migration 0019, and deploys.
++
++### [2026-07-16 06:43] CODEX
++Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:42 repo handoff above is canonical and all locks remain cleared.
+ 
+ ### [2026-07-16] CODEX
+ DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
+diff --git a/output/standard-preview/functions/api/sequence-variants.js b/output/standard-preview/functions/api/sequence-variants.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..990a8acae253f990f6d81654a04cdaef4be49746
+--- /dev/null
++++ b/output/standard-preview/functions/api/sequence-variants.js
+@@ -0,0 +1,374 @@
++import { checkAdmin, cleanId, json, nowIso } from "../_shared/common.js";
++import { resolveClientAccess } from "../_shared/client-auth.js";
++
++const VARIANT_COLUMNS = `id, client_id, sequence_ref, label, hook_text, status,
++  completion_pct, started_at, resolved_at, created_at`;
++
++export async function onRequestGet({ request, env }) {
++  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
++
++  const url = new URL(request.url);
++  const adminRequested = url.searchParams.get("admin") === "1";
++  const hasAdminKey = Boolean(env.ADMIN_KEY) && request.headers.get("x-admin-key") === env.ADMIN_KEY;
++  let client = "";
++  let authMode = "client";
++
++  if (adminRequested || hasAdminKey) {
++    const auth = checkAdmin(request, env);
++    if (auth) return auth;
++    client = cleanId(url.searchParams.get("client"), "");
++    authMode = "admin";
++  } else {
++    const access = await resolveClientAccess(request, env, {
++      allowHeaderToken: true,
++      allowImpersonated: true,
++    });
++    if (access.error) return access.error;
++    client = cleanId(access.client);
++    authMode = access.auth_mode;
++  }
++
++  const variants = await listVariants(env, client);
++  const sequences = await listSequences(env, client);
++  return json({
++    ok: true,
++    auth_mode: authMode,
++    rows: groupLineage(variants, sequences),
++  });
++}
++
++export async function onRequestPost({ request, env }) {
++  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
++
++  const body = await request.json().catch(() => ({}));
++  const action = String(body.action || "").trim().toLowerCase();
++  const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
++  if (access.error) return access.error;
++  const client = cleanId(access.client);
++
++  if (action === "start") return startRetest(env, client, body);
++  if (action === "log") return logOutcome(env, client, body);
++  if (action === "resolve") return resolveRetest(env, client, body);
++  return json({ ok: false, error: "unknown action" }, 422);
++}
++
++export async function onRequestOptions() {
++  return new Response(null, {
++    headers: {
++      "access-control-allow-origin": "*",
++      "access-control-allow-methods": "GET, POST, OPTIONS",
++      "access-control-allow-headers": "content-type, x-admin-key, x-portal-token",
++      "access-control-max-age": "86400",
++    },
++  });
++}
++
++async function startRetest(env, client, body) {
++  const sequenceRef = positiveInteger(body.sequence_ref);
++  const newHook = normalizeHook(body.new_hook);
++  if (!sequenceRef) return json({ ok: false, error: "sequence_ref is required" }, 422);
++  if (!newHook) return json({ ok: false, error: "new_hook is required" }, 422);
++
++  const sequence = await env.DB.prepare(
++    `SELECT id, client_id, posted_on, type, topic, slide_count, slide_views_json
++       FROM sequence_log
++      WHERE id=?`,
++  ).bind(sequenceRef).first();
++  if (!sequence || cleanId(sequence.client_id) !== client) {
++    return json({ ok: false, error: "sequence log not found" }, 404);
++  }
++
++  const diagnostic = computeDiagnostic(sequence.slide_views_json, sequence.slide_count);
++  if (diagnostic.name !== "hook failed") {
++    return json({ ok: false, error: "only a diagnosed hook failure can start a hook retest" }, 422);
++  }
++
++  const existing = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE client_id=? AND sequence_ref=?
++      ORDER BY id`,
++  ).bind(client, sequenceRef).all();
++  const variants = existing.results || [];
++  if (variants.some((variant) => variant.status === "testing")) {
++    return json({ ok: false, error: "a retest is already running for this sequence" }, 409);
++  }
++
++  const timestamp = nowIso();
++  const baseline = variants.filter((variant) => variant.status === "won").at(-1) || null;
++  const nextNumber = nextVariantNumber(variants);
++  const statements = [];
++
++  if (baseline) {
++    statements.push(env.DB.prepare(
++      `UPDATE sequence_variants
++          SET status='testing', resolved_at=NULL, started_at=?
++        WHERE id=? AND client_id=? AND sequence_ref=? AND status='won'`,
++    ).bind(timestamp, Number(baseline.id), client, sequenceRef));
++  } else {
++    statements.push(env.DB.prepare(
++      `INSERT INTO sequence_variants (
++         client_id, sequence_ref, label, hook_text, status, completion_pct,
++         started_at, resolved_at, created_at
++       ) VALUES (?, ?, 'v1', ?, 'testing', ?, ?, NULL, ?)`,
++    ).bind(
++      client,
++      sequenceRef,
++      normalizeHook(sequence.topic) || "Original hook",
++      diagnostic.completionPct,
++      timestamp,
++      timestamp,
++    ));
++  }
++
++  statements.push(env.DB.prepare(
++    `INSERT INTO sequence_variants (
++       client_id, sequence_ref, label, hook_text, status, completion_pct,
++       started_at, resolved_at, created_at
++     ) VALUES (?, ?, ?, ?, 'testing', NULL, ?, NULL, ?)`,
++  ).bind(client, sequenceRef, `v${nextNumber}`, newHook, timestamp, timestamp));
++
++  const results = await env.DB.batch(statements);
++  const createdId = Number(results.at(-1)?.meta?.last_row_id || 0);
++  return json({
++    ok: true,
++    sequence_ref: sequenceRef,
++    leaking_slide: diagnostic.biggestDropSlide,
++    leak_loss_pct: diagnostic.biggestDropPct,
++    original_hook: baseline?.hook_text || normalizeHook(sequence.topic) || "Original hook",
++    variant: {
++      id: createdId,
++      label: `v${nextNumber}`,
++      hook_text: newHook,
++      status: "testing",
++      completion_pct: null,
++    },
++  });
++}
++
++async function logOutcome(env, client, body) {
++  const variantId = positiveInteger(body.variant_id);
++  const completionPct = validCompletion(body.completion_pct);
++  if (!variantId) return json({ ok: false, error: "variant_id is required" }, 422);
++  if (completionPct == null) {
++    return json({ ok: false, error: "completion_pct must be between 0 and 100" }, 422);
++  }
++
++  const variant = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE id=?`,
++  ).bind(variantId).first();
++  if (!variant || cleanId(variant.client_id) !== client) {
++    return json({ ok: false, error: "variant not found" }, 404);
++  }
++  if (variant.status !== "testing") {
++    return json({ ok: false, error: "only a testing variant can receive an outcome" }, 422);
++  }
++
++  const result = await env.DB.prepare(
++    `UPDATE sequence_variants
++        SET completion_pct=?
++      WHERE id=? AND client_id=? AND status='testing'`,
++  ).bind(completionPct, variantId, client).run();
++  if (Number(result.meta?.changes || 0) !== 1) {
++    return json({ ok: false, error: "the variant changed before the outcome was saved" }, 409);
++  }
++  return json({ ok: true, id: variantId, completion_pct: completionPct, status: "testing" });
++}
++
++async function resolveRetest(env, client, body) {
++  const sequenceRef = positiveInteger(body.sequence_ref);
++  if (!sequenceRef) return json({ ok: false, error: "sequence_ref is required" }, 422);
++
++  const sequence = await env.DB.prepare(
++    "SELECT id, client_id FROM sequence_log WHERE id=?",
++  ).bind(sequenceRef).first();
++  if (!sequence || cleanId(sequence.client_id) !== client) {
++    return json({ ok: false, error: "sequence log not found" }, 404);
++  }
++
++  const result = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE client_id=? AND sequence_ref=? AND status='testing'
++      ORDER BY id`,
++  ).bind(client, sequenceRef).all();
++  const testing = result.results || [];
++  if (testing.length !== 2) {
++    return json({ ok: false, error: "a retest needs exactly two testing variants" }, 422);
++  }
++  if (testing.some((variant) => validCompletion(variant.completion_pct) == null)) {
++    return json({ ok: false, error: "log both completion results before resolving" }, 422);
++  }
++
++  const [first, second] = testing;
++  const firstCompletion = Number(first.completion_pct);
++  const secondCompletion = Number(second.completion_pct);
++  if (firstCompletion === secondCompletion) {
++    return json({ ok: false, error: "the variants are tied; collect another result before resolving" }, 422);
++  }
++  const winner = firstCompletion > secondCompletion ? first : second;
++  const loser = winner.id === first.id ? second : first;
++  const timestamp = nowIso();
++  const update = await env.DB.prepare(
++    `UPDATE sequence_variants
++        SET status=CASE WHEN id=? THEN 'won' ELSE 'lost' END,
++            resolved_at=?
++      WHERE client_id=? AND sequence_ref=? AND status='testing' AND id IN (?, ?)`,
++  ).bind(
++    Number(winner.id),
++    timestamp,
++    client,
++    sequenceRef,
++    Number(winner.id),
++    Number(loser.id),
++  ).run();
++  if (Number(update.meta?.changes || 0) !== 2) {
++    return json({ ok: false, error: "the retest changed before it could be resolved" }, 409);
++  }
++
++  return json({
++    ok: true,
++    sequence_ref: sequenceRef,
++    winner: serializeVariant({ ...winner, status: "won", resolved_at: timestamp }),
++    loser: serializeVariant({ ...loser, status: "lost", resolved_at: timestamp }),
++  });
++}
++
++async function listVariants(env, client) {
++  const query = client
++    ? `SELECT ${VARIANT_COLUMNS} FROM sequence_variants WHERE client_id=? ORDER BY sequence_ref DESC, id`
++    : `SELECT ${VARIANT_COLUMNS} FROM sequence_variants ORDER BY client_id, sequence_ref DESC, id`;
++  const statement = env.DB.prepare(query);
++  const result = client ? await statement.bind(client).all() : await statement.all();
++  return result.results || [];
++}
++
++async function listSequences(env, client) {
++  const columns = "id, client_id, posted_on, type, topic, slide_count, slide_views_json";
++  const query = client
++    ? `SELECT ${columns} FROM sequence_log WHERE client_id=? ORDER BY id DESC`
++    : `SELECT ${columns} FROM sequence_log ORDER BY client_id, id DESC`;
++  const statement = env.DB.prepare(query);
++  const result = client ? await statement.bind(client).all() : await statement.all();
++  return result.results || [];
++}
++
++function groupLineage(variants, sequences) {
++  const sequenceByKey = new Map(sequences.map((sequence) => [lineageKey(sequence.client_id, sequence.id), sequence]));
++  const groups = new Map();
++  for (const variant of variants) {
++    const key = lineageKey(variant.client_id, variant.sequence_ref);
++    if (!groups.has(key)) {
++      const sequence = sequenceByKey.get(key) || {};
++      const diagnostic = computeDiagnostic(sequence.slide_views_json, sequence.slide_count);
++      groups.set(key, {
++        client_id: variant.client_id,
++        sequence_ref: Number(variant.sequence_ref || 0),
++        sequence: {
++          posted_on: sequence.posted_on || "",
++          type: sequence.type || "",
++          topic: sequence.topic || "",
++        },
++        leaking_slide: diagnostic.biggestDropSlide,
++        leak_loss_pct: diagnostic.biggestDropPct,
++        active: false,
++        resolved: false,
++        winner: null,
++        variants: [],
++      });
++    }
++    const group = groups.get(key);
++    const serialized = serializeVariant(variant);
++    group.variants.push(serialized);
++    if (serialized.status === "testing") group.active = true;
++    if (serialized.status === "won") group.winner = serialized;
++  }
++  for (const group of groups.values()) group.resolved = Boolean(group.winner) && !group.active;
++  return Array.from(groups.values()).sort((a, b) => b.sequence_ref - a.sequence_ref);
++}
++
++function computeDiagnostic(slideViewsJson, slideCount) {
++  const views = parseSlideViews(slideViewsJson, slideCount);
++  const first = Number(views[0] || 0);
++  const last = Number(views.at(-1) || 0);
++  const completionPct = first > 0 ? round1((last / first) * 100) : null;
++  let biggestDrop = 0;
++  let biggestDropSlide = null;
++  let biggestDropPct = null;
++  for (let index = 1; index < views.length; index += 1) {
++    const prior = Number(views[index - 1] || 0);
++    const current = Number(views[index] || 0);
++    const drop = prior - current;
++    if (drop > biggestDrop) {
++      biggestDrop = drop;
++      biggestDropSlide = index + 1;
++      biggestDropPct = prior > 0 ? round1((drop / prior) * 100) : null;
++    }
++  }
++  const name = completionPct != null && completionPct >= 70
++    ? "healthy"
++    : (biggestDropSlide === 2
++      ? "hook failed"
++      : (biggestDropSlide != null && biggestDropSlide >= 6 && biggestDropSlide <= 8
++        ? "body failed before the ask"
++        : "monitor"));
++  return { name, completionPct, biggestDropSlide, biggestDropPct };
++}
++
++function parseSlideViews(value, slideCount) {
++  try {
++    const parsed = JSON.parse(value || "[]");
++    if (!Array.isArray(parsed)) return [];
++    return parsed
++      .map(Number)
++      .filter((item) => Number.isFinite(item) && item >= 0)
++      .slice(0, Math.max(0, Number(slideCount || parsed.length)));
++  } catch {
++    return [];
++  }
++}
++
++function serializeVariant(variant) {
++  return {
++    id: Number(variant.id || 0),
++    client_id: variant.client_id,
++    sequence_ref: Number(variant.sequence_ref || 0),
++    label: variant.label || "",
++    hook_text: variant.hook_text || "",
++    status: variant.status || "testing",
++    completion_pct: variant.completion_pct == null ? null : Number(variant.completion_pct),
++    started_at: variant.started_at || "",
++    resolved_at: variant.resolved_at || "",
++    created_at: variant.created_at || "",
++  };
++}
++
++function nextVariantNumber(variants) {
++  const numbers = variants.map((variant) => Number(String(variant.label || "").match(/^v(\d+)$/i)?.[1] || 0));
++  return Math.max(1, ...numbers) + 1;
++}
++
++function normalizeHook(value) {
++  return String(value || "").trim().replace(/\s+/g, " ").slice(0, 1000);
++}
++
++function positiveInteger(value) {
++  const number = Number(value);
++  return Number.isInteger(number) && number > 0 ? number : null;
++}
++
++function validCompletion(value) {
++  if (value == null || value === "") return null;
++  const number = Number(value);
++  return Number.isFinite(number) && number >= 0 && number <= 100 ? round1(number) : null;
++}
++
++function lineageKey(client, sequenceRef) {
++  return `${cleanId(client)}:${Number(sequenceRef || 0)}`;
++}
++
++function round1(value) {
++  return Math.round(Number(value || 0) * 10) / 10;
++}
+diff --git a/output/standard-preview/functions/api/settings.js b/output/standard-preview/functions/api/settings.js
+index 1e0276a97c3a328d1123d4317444df906d70e088..7ecb788f2d54426d42341d80bdb901d5d0d43998
+--- a/output/standard-preview/functions/api/settings.js
++++ b/output/standard-preview/functions/api/settings.js
+@@ -17,6 +17,7 @@
+   ["client_dashboard_content", "client_id"],
+   ["studio_sequences", "client_id"],
+   ["studio_carousels", "client_id"],
++  ["sequence_variants", "client_id"],
+   ["sequence_log", "client_id"],
+   ["account_snapshots", "client_id"],
+   ["client_brain", "client_id"],
+diff --git a/output/standard-preview/migrations/0019_sequence_variants.sql b/output/standard-preview/migrations/0019_sequence_variants.sql
+new file mode 100644
+index 0000000000000000000000000000000000000000..15275fcfd7ffde5c96235100026e5d0ec07a732e
+--- /dev/null
++++ b/output/standard-preview/migrations/0019_sequence_variants.sql
+@@ -0,0 +1,21 @@
++-- Controlled hook retests tied to logged sequence metrics.
++
++CREATE TABLE IF NOT EXISTS sequence_variants (
++  id               INTEGER PRIMARY KEY AUTOINCREMENT,
++  client_id        TEXT NOT NULL,
++  sequence_ref     INTEGER NOT NULL,
++  label            TEXT NOT NULL,
++  hook_text        TEXT NOT NULL,
++  status           TEXT NOT NULL CHECK (status IN ('testing', 'won', 'lost', 'retired')),
++  completion_pct   REAL CHECK (completion_pct IS NULL OR (completion_pct >= 0 AND completion_pct <= 100)),
++  started_at       TEXT NOT NULL,
++  resolved_at      TEXT,
++  created_at       TEXT NOT NULL,
++  UNIQUE (client_id, sequence_ref, label)
++);
++
++CREATE INDEX IF NOT EXISTS idx_sequence_variants_client_status
++  ON sequence_variants (client_id, status, started_at);
++
++CREATE INDEX IF NOT EXISTS idx_sequence_variants_sequence
++  ON sequence_variants (client_id, sequence_ref, id);
+diff --git a/output/standard-preview/portal/index.html b/output/standard-preview/portal/index.html
+index dd5605701c1ea2e359a90f630bd7d6f2246b50f7..c873323578a46069e2603ac748507a30e677aec1
+--- a/output/standard-preview/portal/index.html
++++ b/output/standard-preview/portal/index.html
+@@ -839,6 +839,87 @@
+       opacity: .95;
+     }
+     .sequence-bar span { position: relative; color: var(--ui-ink); font-size: 10px; font-weight: 800; }
++    .sequence-row.has-retest { border-color: color-mix(in srgb, var(--ui-indigo) 34%, var(--ui-line)); }
++    .retest-lineage {
++      display: flex;
++      align-items: stretch;
++      gap: 8px;
++      flex-wrap: wrap;
++      margin: 14px 0 4px;
++      padding: 12px;
++      border: 1px solid var(--ui-line);
++      border-radius: 14px;
++      background: color-mix(in srgb, var(--ui-panel-2) 92%, transparent);
++    }
++    .retest-variant {
++      min-width: 116px;
++      flex: 1 1 116px;
++      padding: 10px 11px;
++      border: 1px solid var(--ui-line);
++      border-radius: 11px;
++      background: var(--ui-panel);
++    }
++    .retest-variant.won { border-color: color-mix(in srgb, var(--ui-accent) 55%, var(--ui-line)); background: var(--ui-accent-soft); }
++    .retest-variant.lost { opacity: .68; }
++    .retest-variant.testing { border-color: color-mix(in srgb, var(--ui-indigo) 55%, var(--ui-line)); }
++    .retest-variant strong,
++    .retest-variant span { display: block; }
++    .retest-variant strong { font: 800 12px var(--ui-font-mono); }
++    .retest-variant span { margin-top: 4px; color: var(--ui-ink-2); font-size: 11px; line-height: 1.4; }
++    .retest-winner {
++      flex: 1 0 100%;
++      color: var(--ui-accent);
++      font-size: 12px;
++      font-weight: 800;
++    }
++    .retest-outcome {
++      display: flex;
++      align-items: end;
++      gap: 8px;
++      flex: 1 0 100%;
++      padding-top: 4px;
++    }
++    .retest-outcome label { flex: 1; color: var(--ui-ink-2); font-size: 11px; font-weight: 800; }
++    .retest-outcome input { width: 100%; margin-top: 5px; }
++    .retest-dialog {
++      width: min(620px, calc(100vw - 28px));
++      padding: 0;
++      border: 1px solid var(--ui-line);
++      border-radius: 20px;
++      background: var(--ui-panel);
++      color: var(--ui-ink);
++      box-shadow: var(--ui-shadow-lg);
++    }
++    .retest-dialog::backdrop { background: rgba(8, 15, 13, .54); backdrop-filter: blur(5px); }
++    .retest-dialog-head,
++    .retest-dialog-foot {
++      display: flex;
++      align-items: center;
++      justify-content: space-between;
++      gap: 14px;
++      padding: 18px 20px;
++    }
++    .retest-dialog-head { border-bottom: 1px solid var(--ui-line); }
++    .retest-dialog-head h3 { margin: 0; font-size: 19px; letter-spacing: -.03em; }
++    .retest-dialog-head p { margin: 4px 0 0; color: var(--ui-muted); font-size: 12px; }
++    .retest-dialog-body { display: grid; gap: 15px; padding: 20px; }
++    .retest-diagnostic,
++    .retest-method {
++      padding: 13px 14px;
++      border: 1px solid var(--ui-line);
++      border-radius: 13px;
++      background: var(--ui-panel-2);
++      color: var(--ui-ink-2);
++      font-size: 12.5px;
++      line-height: 1.55;
++    }
++    .retest-diagnostic strong,
++    .retest-method strong { color: var(--ui-ink); }
++    .retest-old-hook { color: var(--ui-ink); font-weight: 700; }
++    .retest-dialog-body label { color: var(--ui-ink-2); font-size: 12px; font-weight: 800; }
++    .retest-dialog-body textarea { width: 100%; min-height: 108px; margin-top: 7px; }
++    .retest-dialog-error { min-height: 18px; color: var(--ui-rose); font-size: 12px; }
++    .retest-dialog-foot { border-top: 1px solid var(--ui-line); }
+     .photo-item {
+       display: flex;
+       gap: 10px;
+@@ -1452,6 +1533,29 @@
+     </main>
+   </div>
+ 
++  <dialog class="retest-dialog" id="retestDialog" aria-labelledby="retestDialogTitle">
++    <div class="retest-dialog-head">
++      <div>
++        <h3 id="retestDialogTitle">Retest the hook</h3>
++        <p>Change one variable, hold the rest, compare completion.</p>
++      </div>
++      <button class="outline" id="closeRetestDialogButton" type="button" aria-label="Close retest">Close</button>
++    </div>
++    <div class="retest-dialog-body">
++      <div class="retest-diagnostic" id="retestDiagnostic"></div>
++      <div class="retest-diagnostic"><strong>Current hook.</strong> <span class="retest-old-hook" id="retestOldHook"></span></div>
++      <label for="retestNewHookInput">New hook to test
++        <textarea id="retestNewHookInput" maxlength="1000"></textarea>
++      </label>
++      <div class="retest-method"><strong>How the retest works.</strong> Run the new hook on the next posting. Keep every other slide identical. Log completion after 48 hours, then resolve the higher completion as the winner.</div>
++      <div class="retest-dialog-error" id="retestDialogError" role="alert"></div>
++    </div>
++    <div class="retest-dialog-foot">
++      <span class="panel-note">The original stays in the lineage.</span>
++      <button id="launchRetestButton" type="button">Launch retest</button>
++    </div>
++  </dialog>
++
+   <script>
+     const params = new URLSearchParams(location.search);
+     const initialToken = params.get("t") || "";
+@@ -1505,11 +1609,13 @@
+       pulseItems: [],
+       performance: {
+         rows: [],
++        variantGroups: [],
+         weekSummary: null,
+         weeklyReport: null,
+         latestSnapshot: null,
+         priorSnapshot: null,
+         editingSequenceId: null,
++        retestSequenceRef: null,
+       },
+       studio: {
+         selectedType: "",
+@@ -1557,6 +1663,8 @@
+     $("saveClientSettingsButton").addEventListener("click", saveClientSettings);
+     $("studioInsightGenerateButton").addEventListener("click", startInsightSequence);
+     $("studioInsightLogButton").addEventListener("click", openInsightLogSurface);
++    $("closeRetestDialogButton").addEventListener("click", () => $("retestDialog").close());
++    $("launchRetestButton").addEventListener("click", launchRetest);
+     $("proofGrid").addEventListener("click", (event) => {
+       const button = event.target.closest("[data-proof-save]");
+       if (button) saveProofClaim(button);
+@@ -1665,7 +1773,7 @@
+ 
+     async function loadPerformanceData() {
+       try {
+-        const [sequenceResponse, weeklyResponse] = await Promise.all([
++        const [sequenceResponse, weeklyResponse, variantsResponse] = await Promise.all([
+           fetch(`/api/metrics-sequences?client=${encodeURIComponent(state.client)}`, {
+             headers: authHeaders(),
+             credentials: "same-origin",
+@@ -1674,16 +1782,23 @@
+             headers: authHeaders(),
+             credentials: "same-origin",
+           }),
++          fetch(`/api/sequence-variants?client=${encodeURIComponent(state.client)}`, {
++            headers: authHeaders(),
++            credentials: "same-origin",
++          }),
+         ]);
+-        if ([sequenceResponse, weeklyResponse].some((response) => response.status === 401 || response.status === 403)) {
++        if ([sequenceResponse, weeklyResponse, variantsResponse].some((response) => response.status === 401 || response.status === 403)) {
+           redirectToLogin();
+           return;
+         }
+         const sequenceData = await sequenceResponse.json().catch(() => ({}));
+         const weeklyData = await weeklyResponse.json().catch(() => ({}));
++        const variantsData = await variantsResponse.json().catch(() => ({}));
+         if (!sequenceResponse.ok || !sequenceData.ok) throw new Error(sequenceData.error || "Could not load sequence metrics.");
+         if (!weeklyResponse.ok || !weeklyData.ok) throw new Error(weeklyData.error || "Could not load the weekly report.");
++        if (!variantsResponse.ok || !variantsData.ok) throw new Error(variantsData.error || "Could not load retest lineage.");
+         state.performance.rows = Array.isArray(sequenceData.rows) ? sequenceData.rows : [];
++        state.performance.variantGroups = Array.isArray(variantsData.rows) ? variantsData.rows : [];
+         state.performance.weekSummary = sequenceData.week_summary || null;
+         state.performance.weeklyReport = weeklyData.report || null;
+         state.performance.latestSnapshot = weeklyData.latest || null;
+@@ -2214,6 +2329,8 @@
+     */
+     function getSequenceRead() {
+       const rows = state.performance.rows || [];
++      const activeRetest = state.performance.variantGroups.find((group) => group.active) || null;
++      const resolvedRetest = state.performance.variantGroups.find((group) => group.resolved) || null;
+       let title;
+       let text;
+       let tab;
+@@ -2254,7 +2371,7 @@
+       }
+ 
+       if (!best) best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0) || null;
+-      return { rows, title, text, tab, label, leak, best };
++      return { rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest };
+     }
+ 
+     function renderNextMove() {
+@@ -2295,6 +2412,14 @@
+           lines.push({ tone: "neutral", mark: "N", text: read.text });
+         }
+       }
++      if (read.activeRetest) {
++        const topic = read.activeRetest.sequence?.topic || `sequence ${read.activeRetest.sequence_ref}`;
++        const testing = read.activeRetest.variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
++        lines.push({ tone: "neutral", mark: "T", text: `A hook retest is running on ${topic}${testing?.label ? ` as ${testing.label}` : ""}. Log its completion after the next posting.` });
++      } else if (read.resolvedRetest?.winner) {
++        const topic = read.resolvedRetest.sequence?.topic || `sequence ${read.resolvedRetest.sequence_ref}`;
++        lines.push({ tone: "success", mark: "R", text: `${read.resolvedRetest.winner.label} won the hook retest on ${topic} at ${formatPercent(read.resolvedRetest.winner.completion_pct)} completion.` });
++      }
+ 
+       $("studioInsightLines").innerHTML = lines.map((line) => `
+         <div class="studio-insight-line"><span class="insight-mark ${line.tone}">${esc(line.mark)}</span><p>${esc(line.text)}</p></div>
+@@ -2307,7 +2432,9 @@
+       ].join("");
+ 
+       $("studioInsightGenerateButton").textContent = read.best ? `Generate ${read.best.type}` : "Start a sequence";
+-      $("studioInsightLogButton").textContent = read.leak ? "Open leaking log" : "Open sequence log";
++      $("studioInsightLogButton").textContent = read.activeRetest
++        ? "Open active retest"
++        : (read.resolvedRetest ? "Open winning retest" : (read.leak ? "Open leaking log" : "Open sequence log"));
+       renderStudioPipeline();
+     }
+ 
+@@ -2340,6 +2467,12 @@
+ 
+     function openInsightLogSurface() {
+       const read = getSequenceRead();
++      const retest = read.activeRetest || read.resolvedRetest;
++      if (retest?.sequence_ref) {
++        openTab("performance");
++        $(`sequenceRow${Number(retest.sequence_ref)}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
++        return;
++      }
+       if (read.leak?.id) {
+         loadSequenceIntoForm(Number(read.leak.id));
+         return;
+@@ -2540,6 +2673,15 @@
+       document.querySelectorAll("[data-edit-sequence]").forEach((button) => {
+         button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
+       });
++      document.querySelectorAll("[data-retest-sequence]").forEach((button) => {
++        button.addEventListener("click", () => openRetestDialog(Number(button.dataset.retestSequence)));
++      });
++      document.querySelectorAll("[data-log-variant]").forEach((button) => {
++        button.addEventListener("click", () => logVariantOutcome(Number(button.dataset.logVariant)));
++      });
++      document.querySelectorAll("[data-resolve-retest]").forEach((button) => {
++        button.addEventListener("click", () => resolveHookRetest(Number(button.dataset.resolveRetest)));
++      });
+       renderHome();
+       renderStudioInsight();
+     }
+@@ -3611,10 +3753,142 @@
+       return TOKEN ? { "x-portal-token": TOKEN } : {};
+     }
+ 
++    function variantGroupFor(sequenceRef) {
++      return state.performance.variantGroups.find((group) => Number(group.sequence_ref) === Number(sequenceRef)) || null;
++    }
++
++    function sequenceLeakLoss(row) {
++      const slide = Number(row.biggest_drop_slide || 0);
++      const views = Array.isArray(row.slide_views) ? row.slide_views : [];
++      const prior = Number(views[slide - 2] || 0);
++      const current = Number(views[slide - 1] || 0);
++      return prior > 0 ? Math.round(Math.max(0, ((prior - current) / prior) * 100) * 10) / 10 : null;
++    }
++
++    function suggestedRetestHook(row) {
++      const topic = String(row.topic || row.type || "this topic").trim().replace(/[.!?]+$/, "");
++      return `What changed when ${topic} stopped holding attention?`;
++    }
++
++    function openRetestDialog(sequenceRef) {
++      const row = state.performance.rows.find((item) => Number(item.id) === Number(sequenceRef));
++      if (!row || row.diagnostic !== "hook failed") return;
++      const group = variantGroupFor(sequenceRef);
++      if (group?.active) {
++        showMessage("This sequence already has an active hook retest.");
++        return;
++      }
++      state.performance.retestSequenceRef = Number(sequenceRef);
++      const loss = sequenceLeakLoss(row);
++      $("retestDialogTitle").textContent = `Retest, ${row.topic || row.type || "sequence"}`;
++      $("retestDiagnostic").innerHTML = `<strong>Slide ${number(row.biggest_drop_slide)} is the leak.</strong> ${loss == null ? "The loss rate is unavailable." : `${formatPercent(loss)} of viewers left at this transition.`}`;
++      $("retestOldHook").textContent = row.topic || "Current logged hook";
++      $("retestNewHookInput").value = suggestedRetestHook(row);
++      $("retestDialogError").textContent = "";
++      $("launchRetestButton").disabled = Boolean(state.impersonated);
++      $("retestDialog").showModal();
++      $("retestNewHookInput").focus();
++    }
++
++    async function launchRetest() {
++      const sequenceRef = Number(state.performance.retestSequenceRef || 0);
++      const newHook = $("retestNewHookInput").value.trim();
++      if (!newHook) {
++        $("retestDialogError").textContent = "Write the new hook before launching the retest.";
++        return;
++      }
++      const button = $("launchRetestButton");
++      button.disabled = true;
++      try {
++        const data = await postSequenceVariant({ action: "start", sequence_ref: sequenceRef, new_hook: newHook });
++        $("retestDialog").close();
++        await loadPerformanceData();
++        showMessage(`${data.variant?.label || "The new variant"} is testing. Keep every other slide identical.`, "success");
++      } catch (error) {
++        $("retestDialogError").textContent = error.message || "Could not launch the retest.";
++      } finally {
++        button.disabled = Boolean(state.impersonated);
++      }
++    }
++
++    async function logVariantOutcome(variantId) {
++      const input = $(`variantCompletion${variantId}`);
++      const completion = Number(input?.value);
++      if (!input || input.value.trim() === "" || !Number.isFinite(completion) || completion < 0 || completion > 100) {
++        showMessage("Enter a completion rate from 0 to 100.");
++        return;
++      }
++      try {
++        await postSequenceVariant({ action: "log", variant_id: variantId, completion_pct: completion });
++        await loadPerformanceData();
++        showMessage("Variant completion logged. Resolve the comparison when both results are ready.", "success");
++      } catch (error) {
++        showMessage(error.message || "Could not log the variant outcome.");
++      }
++    }
++
++    async function resolveHookRetest(sequenceRef) {
++      try {
++        const data = await postSequenceVariant({ action: "resolve", sequence_ref: sequenceRef });
++        await loadPerformanceData();
++        showMessage(`${data.winner?.label || "The higher-completion variant"} won the hook retest.`, "success");
++      } catch (error) {
++        showMessage(error.message || "Could not resolve the hook retest.");
++      }
++    }
++
++    async function postSequenceVariant(payload) {
++      const response = await fetch("/api/sequence-variants", {
++        method: "POST",
++        headers: { ...authHeaders(), "content-type": "application/json" },
++        credentials: "same-origin",
++        body: JSON.stringify(payload),
++      });
++      const data = await response.json().catch(() => ({}));
++      if (response.status === 401) {
++        redirectToLogin();
++        throw new Error("The portal session expired.");
++      }
++      if (response.status === 403 && state.impersonated) throw new Error("Operator view is read only.");
++      if (!response.ok || !data.ok) throw new Error(data.error || "The retest request failed.");
++      return data;
++    }
++
++    function renderRetestLineage(group) {
++      if (!group) return "";
++      const variants = Array.isArray(group.variants) ? group.variants : [];
++      const winner = group.winner;
++      const pending = variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
++      const ready = group.active && variants.filter((variant) => variant.status === "testing").length === 2
++        && variants.filter((variant) => variant.status === "testing").every((variant) => variant.completion_pct != null);
++      return `
++        <div class="retest-lineage" role="group" aria-label="Hook retest lineage">
++          ${variants.map((variant) => `
++            <div class="retest-variant ${esc(variant.status)}">
++              <strong>${esc(variant.label)}${variant.status === "won" ? " winner" : ""}</strong>
++              <span>${variant.completion_pct == null ? "Testing, result not logged" : `${formatPercent(variant.completion_pct)} completion`}</span>
++            </div>
++          `).join("")}
++          ${winner ? `<div class="retest-winner">${esc(winner.label)} won with ${formatPercent(winner.completion_pct)} completion.</div>` : ""}
++          ${pending && !state.impersonated ? `
++            <div class="retest-outcome">
++              <label for="variantCompletion${pending.id}">Completion after posting
++                <input id="variantCompletion${pending.id}" type="number" min="0" max="100" step="0.1" placeholder="0 to 100">
++              </label>
++              <button class="outline" type="button" data-log-variant="${pending.id}">Log result</button>
++            </div>
++          ` : ""}
++          ${ready && !state.impersonated ? `<div class="retest-outcome"><button type="button" data-resolve-retest="${group.sequence_ref}">Resolve winner</button></div>` : ""}
++        </div>
++      `;
++    }
++
+     function renderSequenceRow(row) {
+       const maxView = Math.max(...(row.slide_views || [0]), 1);
++      const group = variantGroupFor(row.id);
++      const canRetest = row.diagnostic === "hook failed" && !group?.active;
+       return `
+-        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}">
++        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}${group ? " has-retest" : ""}" id="sequenceRow${row.id}">
+           <div class="sequence-top">
+             <div>
+               <strong>${esc(row.topic || row.type || "Sequence")}</strong>
+@@ -3636,9 +3910,11 @@
+             <span>${row.biggest_drop_slide ? `Biggest drop: slide ${row.biggest_drop_slide}` : "No drop pattern yet"}</span>
+             <span>${row.profile_visits == null ? "Profile visits not logged" : `${number(row.profile_visits)} profile visits`}</span>
+           </div>
++          ${renderRetestLineage(group)}
+           ${row.notes ? `<p>${esc(row.notes)}</p>` : ""}
+           <div class="inline-form-actions">
+             <button class="outline" type="button" data-edit-sequence="${row.id}">Edit</button>
++            ${canRetest ? `<button type="button" data-retest-sequence="${row.id}">Retest hook</button>` : ""}
+           </div>
+         </div>
+       `;
+diff --git a/output/standard-preview/tests/i1-checks.mjs b/output/standard-preview/tests/i1-checks.mjs
+index c4db03c4e8caf5d6c8d0c4376c6d38ced7b9e001..75190b2aa33f96f18fa0998372796f8a7ac384f8
+--- a/output/standard-preview/tests/i1-checks.mjs
++++ b/output/standard-preview/tests/i1-checks.mjs
+@@ -31,6 +31,7 @@
+       client_dashboard_content: seed.client_dashboard_content || [],
+       studio_sequences: seed.studio_sequences || [],
+       studio_carousels: seed.studio_carousels || [],
++      sequence_variants: seed.sequence_variants || [],
+       sequence_log: seed.sequence_log || [],
+       account_snapshots: seed.account_snapshots || [],
+       client_brain: seed.client_brain || [],
+@@ -1159,6 +1160,7 @@
+   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
+   env.DB.state.email_drafts.push({ id: 1, client, subject: "Throwaway email" });
+   env.DB.state.studio_carousels.push({ id: 1, client_id: client, topic: "Throwaway carousel" });
++  env.DB.state.sequence_variants.push({ id: 1, client_id: client, sequence_ref: 1, label: "v1" });
+   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
+   env.DB.state.media.push({
+     id: "delete-check-media",
+@@ -1208,6 +1210,7 @@
+       client_dashboard_content: 0,
+       studio_sequences: 0,
+       studio_carousels: 1,
++      sequence_variants: 1,
+       sequence_log: 0,
+       account_snapshots: 0,
+       client_brain: 0,
+@@ -1238,7 +1241,7 @@
+ 
+   for (const table of [
+     "client_config", "client_auth", "client_sessions", "client_setup_tokens", "client_email_codes",
+-    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_log", "account_snapshots", "client_brain",
++    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_variants", "sequence_log", "account_snapshots", "client_brain",
+     "proof_items", "content_items", "call_notes", "client_assets", "payments", "integrations",
+     "integration_events", "delivery_failures", "email_drafts", "page_events", "media",
+   ]) {
+diff --git a/output/standard-preview/tests/sequence-variants.test.mjs b/output/standard-preview/tests/sequence-variants.test.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..637689d43a35e7199723d0c653eee61d6b011896
+--- /dev/null
++++ b/output/standard-preview/tests/sequence-variants.test.mjs
+@@ -0,0 +1,367 @@
++import { strict as assert } from "node:assert";
++import { readFile } from "node:fs/promises";
++import * as variantsApi from "../functions/api/sequence-variants.js";
++import { CLIENT_SESSION_COOKIE } from "../functions/_shared/client-auth.js";
++
++class MockDB {
++  constructor() {
++    this.configs = [];
++    this.clientSessions = [];
++    this.impersonationSessions = [];
++    this.sequences = [];
++    this.variants = [];
++    this.nextVariantId = 1;
++  }
++
++  prepare(sql) {
++    return new MockStatement(this, sql);
++  }
++
++  async batch(statements) {
++    const results = [];
++    for (const statement of statements) results.push(await statement.run());
++    return results;
++  }
++}
++
++class MockStatement {
++  constructor(db, sql) {
++    this.db = db;
++    this.sql = sql.replace(/\s+/g, " ").trim();
++    this.values = [];
++  }
++
++  bind(...values) {
++    this.values = values;
++    return this;
++  }
++
++  async first() {
++    if (this.sql.includes("FROM impersonation_sessions s")) {
++      const [tokenHash, cutoff] = this.values;
++      const row = this.db.impersonationSessions.find((entry) =>
++        entry.token_hash === tokenHash && entry.consumed_at && entry.expires_at > cutoff);
++      if (!row) return null;
++      const config = this.db.configs.find((entry) => entry.client === row.client_id);
++      return { ...row, client_name: config?.client_name || row.client_id };
++    }
++    if (this.sql.includes("FROM client_sessions s")) {
++      const [tokenHash, cutoff] = this.values;
++      const row = this.db.clientSessions.find((entry) => entry.token_hash === tokenHash && entry.expires_at > cutoff);
++      if (!row) return null;
++      const config = this.db.configs.find((entry) => entry.client === row.client_id);
++      return { ...row, client_name: config?.client_name || row.client_id };
++    }
++    if (this.sql.includes("FROM client_config") && this.sql.includes("portal_token_hash=?")) {
++      const row = this.db.configs.find((entry) => entry.portal_token_hash === this.values[0]);
++      return row ? { client: row.client, client_name: row.client_name || row.client } : null;
++    }
++    if (this.sql.includes("FROM sequence_log") && this.sql.includes("WHERE id=?")) {
++      const row = this.db.sequences.find((entry) => entry.id === Number(this.values[0]));
++      if (!row) return null;
++      if (this.sql === "SELECT id, client_id FROM sequence_log WHERE id=?") {
++        return { id: row.id, client_id: row.client_id };
++      }
++      return { ...row };
++    }
++    if (this.sql.includes("FROM sequence_variants") && this.sql.includes("WHERE id=?")) {
++      const row = this.db.variants.find((entry) => entry.id === Number(this.values[0]));
++      return row ? { ...row } : null;
++    }
++    throw new Error(`Unexpected first query: ${this.sql}`);
++  }
++
++  async all() {
++    if (this.sql.includes("FROM sequence_variants")) {
++      let rows = [...this.db.variants];
++      if (this.sql.includes("WHERE client_id=? AND sequence_ref=? AND status='testing'")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]
++          && row.sequence_ref === Number(this.values[1]) && row.status === "testing");
++      } else if (this.sql.includes("WHERE client_id=? AND sequence_ref=?")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]
++          && row.sequence_ref === Number(this.values[1]));
++      } else if (this.sql.includes("WHERE client_id=?")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]);
++      }
++      return { results: rows.sort((a, b) => a.id - b.id).map((row) => ({ ...row })) };
++    }
++    if (this.sql.includes("FROM sequence_log")) {
++      let rows = [...this.db.sequences];
++      if (this.sql.includes("WHERE client_id=?")) rows = rows.filter((row) => row.client_id === this.values[0]);
++      return { results: rows.map((row) => ({ ...row })) };
++    }
++    throw new Error(`Unexpected all query: ${this.sql}`);
++  }
++
++  async run() {
++    if (this.sql === "DELETE FROM client_sessions WHERE expires_at<?") {
++      this.db.clientSessions = this.db.clientSessions.filter((row) => row.expires_at >= this.values[0]);
++      return changed(0);
++    }
++    if (this.sql === "DELETE FROM impersonation_sessions WHERE expires_at<?") {
++      this.db.impersonationSessions = this.db.impersonationSessions.filter((row) => row.expires_at >= this.values[0]);
++      return changed(0);
++    }
++    if (this.sql.startsWith("INSERT INTO sequence_variants")) {
++      let clientId;
++      let sequenceRef;
++      let label;
++      let hookText;
++      let completionPct;
++      let startedAt;
++      let createdAt;
++      if (this.sql.includes("VALUES (?, ?, 'v1'")) {
++        [clientId, sequenceRef, hookText, completionPct, startedAt, createdAt] = this.values;
++        label = "v1";
++      } else {
++        [clientId, sequenceRef, label, hookText, startedAt, createdAt] = this.values;
++        completionPct = null;
++      }
++      const id = this.db.nextVariantId++;
++      this.db.variants.push({
++        id,
++        client_id: clientId,
++        sequence_ref: Number(sequenceRef),
++        label,
++        hook_text: hookText,
++        status: "testing",
++        completion_pct: completionPct,
++        started_at: startedAt,
++        resolved_at: null,
++        created_at: createdAt,
++      });
++      return { meta: { changes: 1, last_row_id: id } };
++    }
++    if (this.sql.includes("SET completion_pct=?")) {
++      const [completionPct, id, clientId] = this.values;
++      const row = this.db.variants.find((entry) => entry.id === Number(id)
++        && entry.client_id === clientId && entry.status === "testing");
++      if (!row) return changed(0);
++      row.completion_pct = completionPct;
++      return changed(1);
++    }
++    if (this.sql.includes("SET status=CASE WHEN id=? THEN 'won' ELSE 'lost' END")) {
++      const [winnerId, resolvedAt, clientId, sequenceRef, firstId, secondId] = this.values;
++      const ids = new Set([Number(firstId), Number(secondId)]);
++      const rows = this.db.variants.filter((entry) => ids.has(entry.id)
++        && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "testing");
++      for (const row of rows) Object.assign(row, { status: row.id === Number(winnerId) ? "won" : "lost", resolved_at: resolvedAt });
++      return changed(rows.length);
++    }
++    if (this.sql.includes("SET status='won'")) return updateResolvedVariant(this.db, this.values, "won");
++    if (this.sql.includes("SET status='lost'")) return updateResolvedVariant(this.db, this.values, "lost");
++    if (this.sql.includes("SET status='testing', resolved_at=NULL")) {
++      const [startedAt, id, clientId, sequenceRef] = this.values;
++      const row = this.db.variants.find((entry) => entry.id === Number(id)
++        && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "won");
++      if (!row) return changed(0);
++      Object.assign(row, { status: "testing", resolved_at: null, started_at: startedAt });
++      return changed(1);
++    }
++    throw new Error(`Unexpected run query: ${this.sql}`);
++  }
++}
++
++function updateResolvedVariant(db, values, status) {
++  const [resolvedAt, id, clientId, sequenceRef] = values;
++  const row = db.variants.find((entry) => entry.id === Number(id)
++    && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "testing");
++  if (!row) return changed(0);
++  Object.assign(row, { status, resolved_at: resolvedAt });
++  return changed(1);
++}
++
++function changed(changes) {
++  return { meta: { changes } };
++}
++
++async function sha256Hex(value) {
++  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
++  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
++}
++
++function request(method, body, headers = {}, query = "") {
++  return new Request(`https://funnels.test/api/sequence-variants${query}`, {
++    method,
++    headers: { "content-type": "application/json", ...headers },
++    body: body == null ? undefined : JSON.stringify(body),
++  });
++}
++
++async function createFixture() {
++  const db = new MockDB();
++  const alphaToken = "alpha-portal-token";
++  const betaToken = "beta-portal-token";
++  db.configs.push(
++    { client: "alpha", client_name: "Alpha Coach", portal_token_hash: await sha256Hex(alphaToken) },
++    { client: "beta", client_name: "Beta Coach", portal_token_hash: await sha256Hex(betaToken) },
++  );
++  db.sequences.push(
++    {
++      id: 11,
++      client_id: "alpha",
++      posted_on: "2026-07-15",
++      type: "value-driven",
++      topic: "The profile fix that changed the DMs",
++      slide_count: 4,
++      slide_views_json: JSON.stringify([1000, 500, 450, 400]),
++    },
++    {
++      id: 22,
++      client_id: "beta",
++      posted_on: "2026-07-15",
++      type: "credibility",
++      topic: "Beta private hook",
++      slide_count: 4,
++      slide_views_json: JSON.stringify([900, 300, 280, 250]),
++    },
++  );
++  return { env: { DB: db, ADMIN_KEY: "operator-secret" }, db, alphaToken, betaToken };
++}
++
++async function testLifecycleAndIsolation() {
++  const { env, db, alphaToken } = await createFixture();
++  const started = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "start",
++      sequence_ref: 11,
++      new_hook: "The DMs changed after one profile line moved.",
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(started.status, 200);
++  const startedBody = await started.json();
++  assert.equal(startedBody.leaking_slide, 2);
++  assert.equal(startedBody.leak_loss_pct, 50);
++  assert.equal(startedBody.variant.label, "v2");
++  assert.equal(db.variants.length, 2);
++  assert.deepEqual(db.variants.map((row) => row.client_id), ["alpha", "alpha"]);
++  assert.equal(db.variants[0].sequence_ref, 11);
++  assert.equal(db.variants[0].label, "v1");
++  assert.equal(db.variants[0].hook_text, "The profile fix that changed the DMs");
++  assert.equal(db.variants[0].completion_pct, 40);
++  assert.equal(db.variants[1].label, "v2");
++  assert.equal(db.variants[1].hook_text, "The DMs changed after one profile line moved.");
++  assert.equal(db.variants[1].status, "testing");
++
++  const crossClient = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "start",
++      sequence_ref: 22,
++      new_hook: "This must stay blocked.",
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(crossClient.status, 404);
++
++  const logged = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "log",
++      variant_id: db.variants[1].id,
++      completion_pct: 61.5,
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(logged.status, 200);
++
++  const resolved = await variantsApi.onRequestPost({
++    request: request("POST", { action: "resolve", sequence_ref: 11 }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(resolved.status, 200);
++  const resolvedBody = await resolved.json();
++  assert.equal(resolvedBody.winner.label, "v2");
++  assert.equal(resolvedBody.winner.status, "won");
++  assert.equal(resolvedBody.loser.label, "v1");
++  assert.equal(resolvedBody.loser.status, "lost");
++  assert.equal(db.variants.find((row) => row.label === "v2").status, "won");
++  assert.equal(db.variants.find((row) => row.label === "v1").status, "lost");
++}
++
++async function testImpersonationReadOnlyAndClientRead() {
++  const { env, db } = await createFixture();
++  db.variants.push({
++    id: db.nextVariantId++,
++    client_id: "alpha",
++    sequence_ref: 11,
++    label: "v1",
++    hook_text: "Original hook",
++    status: "testing",
++    completion_pct: 40,
++    started_at: new Date().toISOString(),
++    resolved_at: null,
++    created_at: new Date().toISOString(),
++  });
++  const rawToken = "impersonated-retest-session";
++  db.impersonationSessions.push({
++    token_hash: await sha256Hex(rawToken),
++    client_id: "alpha",
++    consumed_at: new Date().toISOString(),
++    created_by: "admin",
++    expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
++  });
++  const headers = { cookie: `${CLIENT_SESSION_COOKIE}=${rawToken}` };
++  const read = await variantsApi.onRequestGet({ request: request("GET", null, headers), env });
++  assert.equal(read.status, 200);
++  assert.equal((await read.json()).rows[0].sequence_ref, 11);
++
++  for (const body of [
++    { action: "start", sequence_ref: 11, new_hook: "Blocked" },
++    { action: "log", variant_id: 1, completion_pct: 60 },
++    { action: "resolve", sequence_ref: 11 },
++  ]) {
++    const write = await variantsApi.onRequestPost({ request: request("POST", body, headers), env });
++    assert.equal(write.status, 403, `${body.action} must reject impersonated sessions`);
++    assert.deepEqual(await write.json(), { error: "read only" });
++  }
++}
++
++async function testAdminReadAuthAndCrossClientCoverage() {
++  const { env, db } = await createFixture();
++  db.variants.push(
++    { id: db.nextVariantId++, client_id: "alpha", sequence_ref: 11, label: "v1", hook_text: "Alpha", status: "won", completion_pct: 50, started_at: "a", resolved_at: "b", created_at: "a" },
++    { id: db.nextVariantId++, client_id: "beta", sequence_ref: 22, label: "v1", hook_text: "Beta", status: "won", completion_pct: 55, started_at: "a", resolved_at: "b", created_at: "a" },
++  );
++
++  const denied = await variantsApi.onRequestGet({ request: request("GET", null, {}, "?admin=1"), env });
++  assert.equal(denied.status, 401);
++
++  const allowed = await variantsApi.onRequestGet({
++    request: request("GET", null, { "x-admin-key": "operator-secret" }, "?admin=1"),
++    env,
++  });
++  assert.equal(allowed.status, 200);
++  const body = await allowed.json();
++  assert.deepEqual(new Set(body.rows.map((row) => row.client_id)), new Set(["alpha", "beta"]));
++}
++
++async function testMigrationAndPortalContract() {
++  const sql = await readFile(new URL("../migrations/0019_sequence_variants.sql", import.meta.url), "utf8");
++  assert.match(sql, /CREATE TABLE IF NOT EXISTS sequence_variants/);
++  assert.match(sql, /sequence_ref\s+INTEGER NOT NULL/);
++  assert.match(sql, /UNIQUE \(client_id, sequence_ref, label\)/);
++  assert.match(sql, /CHECK \(status IN \('testing', 'won', 'lost', 'retired'\)\)/);
++  assert.doesNotMatch(sql, /\b(?:DROP|ALTER|DELETE|UPDATE)\b/i);
++
++  const portal = await readFile(new URL("../portal/index.html", import.meta.url), "utf8");
++  assert.match(portal, /\/api\/sequence-variants/);
++  assert.match(portal, /data-retest-sequence/);
++  assert.match(portal, /How the retest works/);
++  assert.match(portal, /Keep every other slide identical/);
++  assert.match(portal, /data-log-variant/);
++  assert.match(portal, /data-resolve-retest/);
++  assert.match(portal, /A hook retest is running on/);
++  assert.match(portal, /won the hook retest on/);
++  assert.match(portal, /function getSequenceRead\(\) \{[\s\S]*?const activeRetest = state\.performance\.variantGroups[\s\S]*?return \{ rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest \};/);
++}
++
++try {
++  await testLifecycleAndIsolation();
++  await testImpersonationReadOnlyAndClientRead();
++  await testAdminReadAuthAndCrossClientCoverage();
++  await testMigrationAndPortalContract();
++  console.log("PASS sequence variants: start, capture, isolation, impersonation, logging, resolution, admin auth, portal, and migration");
++} catch (error) {
++  console.error(`FAIL sequence variants: ${error?.stack || error}`);
++  process.exitCode = 1;
++}
+
+codex
+Implemented the retest loop and cleared all locks.
+
+Key files:
+
+- [Migration 0019](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/migrations/0019_sequence_variants.sql)
+- [Sequence variants endpoint](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/functions/api/sequence-variants.js)
+- [Production portal](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/portal/index.html)
+- [Acceptance tests](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/tests/sequence-variants.test.mjs)
+
+Implemented v1/v2 lineage, client isolation, impersonated read-only access, completion logging, atomic winner resolution, Performance modal/lineage controls, Studio insight integration, and client-deletion cleanup.
+
+Verification:
+
+- All 13 `.mjs` suites pass.
+- JavaScript syntax and DOM-reference checks pass.
+- CSS balanced at 227/227.
+- Migration is additive-only.
+- Copy, prohibited-dash, whitespace, and reward-copy scans pass.
+
+No deployment, remote D1 mutation, commit, or auto-backup was performed. Slack STARTED/DONE posts were attempted but cancelled by the connector; the complete handoff is recorded in `AGENT_CHAT.md`.
+diff --git a/AGENT_CHAT.md b/AGENT_CHAT.md
+index 13940c137b390ae06e56d8961dba8c3f326d0057..587c06671b6775a5a2263034b662f9afe57f9794
+--- a/AGENT_CHAT.md
++++ b/AGENT_CHAT.md
+@@ -97,6 +97,23 @@
+ 
+ ### [2026-07-16 06:24] CODEX
+ Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:23 repo handoff above is canonical and all locks remain cleared.
++
++### [2026-07-16 06:28] CODEX
++STARTED: implementing `CODEX_TASK_retest_loop.md` locally only. Claimed additive migration 0019, the token-scoped sequence-variant endpoint, production portal retest and lineage wiring, the mocked-D1 acceptance suite, and deletion coverage if required. `sequence_ref` will bind to the existing `sequence_log.id`, verified from the metrics endpoint and schema. Acceptance covers leak and old-hook capture, cross-client isolation, impersonated read-only behavior, outcome logging, winner resolution by completion comparison, ADMIN_KEY 401, portal syntax/static checks, copy constraints, and all existing suites. Existing carousel and admin work in the dirty tree will be preserved. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
++
++### [2026-07-16 06:42] CODEX
++DONE: implemented `CODEX_TASK_retest_loop.md` locally and cleared all Codex locks. Migration 0019 adds only `sequence_variants` plus two indexes, constrains status to testing, won, lost, or retired, and binds `sequence_ref` to the existing `sequence_log.id` identifier. The new endpoint creates a baseline v1 from the logged row and a client-edited v2 hook, captures the diagnosed slide and exact transition loss, supports completion logging and atomic higher-completion winner resolution, continues later tests from the current winner, scopes every client action, allows impersonated reads while shared auth rejects all writes, and exposes ADMIN_KEY-only cross-client reads.
++
++Portal Performance rows now expose Retest hook only for real hook-failure diagnostics. The preview-style native dialog names the leaking slide and real loss, shows the current logged hook, pre-fills a deterministic editable rewrite, and explains the controlled test. Active rows show v1 versus v2 lineage with result logging and resolution controls; resolved rows name the winner. The shared sequence-read rule carries active and resolved retest state into the Studio insight strip from the same code path. Client deletion removes variant rows before sequence logs.
++
++Exact implementation files: `output/standard-preview/migrations/0019_sequence_variants.sql`; `output/standard-preview/functions/api/sequence-variants.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/portal/index.html`; `output/standard-preview/tests/sequence-variants.test.mjs`; and `output/standard-preview/tests/i1-checks.mjs`. Coordination file: `AGENT_CHAT.md`.
++
++Verification on the final tree: all 13 `.mjs` suites passed, including the new mocked-D1 suite for v1/v2 creation and hook capture, cross-client 404 isolation, impersonated GET plus start/log/resolve 403 blocks, outcome logging, completion-based won/lost resolution, unauthenticated admin 401, cross-client admin listing, portal contract, and additive migration constraints. `node --check` passed for the endpoint, settings handler, acceptance test, and extracted portal script. Static checks passed with 139 markup IDs, all 112 literal DOM references resolved, CSS balanced at 227/227, targeted `git diff --check` clean, new retest IDs unique, and zero prohibited dashes, trailing whitespace, reward copy, or destructive migration statements in the implementation set.
++
++No deploy, remote D1 write, secret, commit, or `auto-backup.ps1` run was performed. Auto-backup is intentionally skipped because the task forbids commits. The background `output/codex-retest.log` changed outside the implementation set and was not edited by Codex. The Slack STARTED mirror to `#build-log` was attempted once and cancelled by the connector. Claude reviews, applies migration 0019, and deploys.
++
++### [2026-07-16 06:43] CODEX
++Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:42 repo handoff above is canonical and all locks remain cleared.
+ 
+ ### [2026-07-16] CODEX
+ DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
+diff --git a/output/standard-preview/functions/api/sequence-variants.js b/output/standard-preview/functions/api/sequence-variants.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..990a8acae253f990f6d81654a04cdaef4be49746
+--- /dev/null
++++ b/output/standard-preview/functions/api/sequence-variants.js
+@@ -0,0 +1,374 @@
++import { checkAdmin, cleanId, json, nowIso } from "../_shared/common.js";
++import { resolveClientAccess } from "../_shared/client-auth.js";
++
++const VARIANT_COLUMNS = `id, client_id, sequence_ref, label, hook_text, status,
++  completion_pct, started_at, resolved_at, created_at`;
++
++export async function onRequestGet({ request, env }) {
++  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
++
++  const url = new URL(request.url);
++  const adminRequested = url.searchParams.get("admin") === "1";
++  const hasAdminKey = Boolean(env.ADMIN_KEY) && request.headers.get("x-admin-key") === env.ADMIN_KEY;
++  let client = "";
++  let authMode = "client";
++
++  if (adminRequested || hasAdminKey) {
++    const auth = checkAdmin(request, env);
++    if (auth) return auth;
++    client = cleanId(url.searchParams.get("client"), "");
++    authMode = "admin";
++  } else {
++    const access = await resolveClientAccess(request, env, {
++      allowHeaderToken: true,
++      allowImpersonated: true,
++    });
++    if (access.error) return access.error;
++    client = cleanId(access.client);
++    authMode = access.auth_mode;
++  }
++
++  const variants = await listVariants(env, client);
++  const sequences = await listSequences(env, client);
++  return json({
++    ok: true,
++    auth_mode: authMode,
++    rows: groupLineage(variants, sequences),
++  });
++}
++
++export async function onRequestPost({ request, env }) {
++  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
++
++  const body = await request.json().catch(() => ({}));
++  const action = String(body.action || "").trim().toLowerCase();
++  const access = await resolveClientAccess(request, env, { allowHeaderToken: true });
++  if (access.error) return access.error;
++  const client = cleanId(access.client);
++
++  if (action === "start") return startRetest(env, client, body);
++  if (action === "log") return logOutcome(env, client, body);
++  if (action === "resolve") return resolveRetest(env, client, body);
++  return json({ ok: false, error: "unknown action" }, 422);
++}
++
++export async function onRequestOptions() {
++  return new Response(null, {
++    headers: {
++      "access-control-allow-origin": "*",
++      "access-control-allow-methods": "GET, POST, OPTIONS",
++      "access-control-allow-headers": "content-type, x-admin-key, x-portal-token",
++      "access-control-max-age": "86400",
++    },
++  });
++}
++
++async function startRetest(env, client, body) {
++  const sequenceRef = positiveInteger(body.sequence_ref);
++  const newHook = normalizeHook(body.new_hook);
++  if (!sequenceRef) return json({ ok: false, error: "sequence_ref is required" }, 422);
++  if (!newHook) return json({ ok: false, error: "new_hook is required" }, 422);
++
++  const sequence = await env.DB.prepare(
++    `SELECT id, client_id, posted_on, type, topic, slide_count, slide_views_json
++       FROM sequence_log
++      WHERE id=?`,
++  ).bind(sequenceRef).first();
++  if (!sequence || cleanId(sequence.client_id) !== client) {
++    return json({ ok: false, error: "sequence log not found" }, 404);
++  }
++
++  const diagnostic = computeDiagnostic(sequence.slide_views_json, sequence.slide_count);
++  if (diagnostic.name !== "hook failed") {
++    return json({ ok: false, error: "only a diagnosed hook failure can start a hook retest" }, 422);
++  }
++
++  const existing = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE client_id=? AND sequence_ref=?
++      ORDER BY id`,
++  ).bind(client, sequenceRef).all();
++  const variants = existing.results || [];
++  if (variants.some((variant) => variant.status === "testing")) {
++    return json({ ok: false, error: "a retest is already running for this sequence" }, 409);
++  }
++
++  const timestamp = nowIso();
++  const baseline = variants.filter((variant) => variant.status === "won").at(-1) || null;
++  const nextNumber = nextVariantNumber(variants);
++  const statements = [];
++
++  if (baseline) {
++    statements.push(env.DB.prepare(
++      `UPDATE sequence_variants
++          SET status='testing', resolved_at=NULL, started_at=?
++        WHERE id=? AND client_id=? AND sequence_ref=? AND status='won'`,
++    ).bind(timestamp, Number(baseline.id), client, sequenceRef));
++  } else {
++    statements.push(env.DB.prepare(
++      `INSERT INTO sequence_variants (
++         client_id, sequence_ref, label, hook_text, status, completion_pct,
++         started_at, resolved_at, created_at
++       ) VALUES (?, ?, 'v1', ?, 'testing', ?, ?, NULL, ?)`,
++    ).bind(
++      client,
++      sequenceRef,
++      normalizeHook(sequence.topic) || "Original hook",
++      diagnostic.completionPct,
++      timestamp,
++      timestamp,
++    ));
++  }
++
++  statements.push(env.DB.prepare(
++    `INSERT INTO sequence_variants (
++       client_id, sequence_ref, label, hook_text, status, completion_pct,
++       started_at, resolved_at, created_at
++     ) VALUES (?, ?, ?, ?, 'testing', NULL, ?, NULL, ?)`,
++  ).bind(client, sequenceRef, `v${nextNumber}`, newHook, timestamp, timestamp));
++
++  const results = await env.DB.batch(statements);
++  const createdId = Number(results.at(-1)?.meta?.last_row_id || 0);
++  return json({
++    ok: true,
++    sequence_ref: sequenceRef,
++    leaking_slide: diagnostic.biggestDropSlide,
++    leak_loss_pct: diagnostic.biggestDropPct,
++    original_hook: baseline?.hook_text || normalizeHook(sequence.topic) || "Original hook",
++    variant: {
++      id: createdId,
++      label: `v${nextNumber}`,
++      hook_text: newHook,
++      status: "testing",
++      completion_pct: null,
++    },
++  });
++}
++
++async function logOutcome(env, client, body) {
++  const variantId = positiveInteger(body.variant_id);
++  const completionPct = validCompletion(body.completion_pct);
++  if (!variantId) return json({ ok: false, error: "variant_id is required" }, 422);
++  if (completionPct == null) {
++    return json({ ok: false, error: "completion_pct must be between 0 and 100" }, 422);
++  }
++
++  const variant = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE id=?`,
++  ).bind(variantId).first();
++  if (!variant || cleanId(variant.client_id) !== client) {
++    return json({ ok: false, error: "variant not found" }, 404);
++  }
++  if (variant.status !== "testing") {
++    return json({ ok: false, error: "only a testing variant can receive an outcome" }, 422);
++  }
++
++  const result = await env.DB.prepare(
++    `UPDATE sequence_variants
++        SET completion_pct=?
++      WHERE id=? AND client_id=? AND status='testing'`,
++  ).bind(completionPct, variantId, client).run();
++  if (Number(result.meta?.changes || 0) !== 1) {
++    return json({ ok: false, error: "the variant changed before the outcome was saved" }, 409);
++  }
++  return json({ ok: true, id: variantId, completion_pct: completionPct, status: "testing" });
++}
++
++async function resolveRetest(env, client, body) {
++  const sequenceRef = positiveInteger(body.sequence_ref);
++  if (!sequenceRef) return json({ ok: false, error: "sequence_ref is required" }, 422);
++
++  const sequence = await env.DB.prepare(
++    "SELECT id, client_id FROM sequence_log WHERE id=?",
++  ).bind(sequenceRef).first();
++  if (!sequence || cleanId(sequence.client_id) !== client) {
++    return json({ ok: false, error: "sequence log not found" }, 404);
++  }
++
++  const result = await env.DB.prepare(
++    `SELECT ${VARIANT_COLUMNS}
++       FROM sequence_variants
++      WHERE client_id=? AND sequence_ref=? AND status='testing'
++      ORDER BY id`,
++  ).bind(client, sequenceRef).all();
++  const testing = result.results || [];
++  if (testing.length !== 2) {
++    return json({ ok: false, error: "a retest needs exactly two testing variants" }, 422);
++  }
++  if (testing.some((variant) => validCompletion(variant.completion_pct) == null)) {
++    return json({ ok: false, error: "log both completion results before resolving" }, 422);
++  }
++
++  const [first, second] = testing;
++  const firstCompletion = Number(first.completion_pct);
++  const secondCompletion = Number(second.completion_pct);
++  if (firstCompletion === secondCompletion) {
++    return json({ ok: false, error: "the variants are tied; collect another result before resolving" }, 422);
++  }
++  const winner = firstCompletion > secondCompletion ? first : second;
++  const loser = winner.id === first.id ? second : first;
++  const timestamp = nowIso();
++  const update = await env.DB.prepare(
++    `UPDATE sequence_variants
++        SET status=CASE WHEN id=? THEN 'won' ELSE 'lost' END,
++            resolved_at=?
++      WHERE client_id=? AND sequence_ref=? AND status='testing' AND id IN (?, ?)`,
++  ).bind(
++    Number(winner.id),
++    timestamp,
++    client,
++    sequenceRef,
++    Number(winner.id),
++    Number(loser.id),
++  ).run();
++  if (Number(update.meta?.changes || 0) !== 2) {
++    return json({ ok: false, error: "the retest changed before it could be resolved" }, 409);
++  }
++
++  return json({
++    ok: true,
++    sequence_ref: sequenceRef,
++    winner: serializeVariant({ ...winner, status: "won", resolved_at: timestamp }),
++    loser: serializeVariant({ ...loser, status: "lost", resolved_at: timestamp }),
++  });
++}
++
++async function listVariants(env, client) {
++  const query = client
++    ? `SELECT ${VARIANT_COLUMNS} FROM sequence_variants WHERE client_id=? ORDER BY sequence_ref DESC, id`
++    : `SELECT ${VARIANT_COLUMNS} FROM sequence_variants ORDER BY client_id, sequence_ref DESC, id`;
++  const statement = env.DB.prepare(query);
++  const result = client ? await statement.bind(client).all() : await statement.all();
++  return result.results || [];
++}
++
++async function listSequences(env, client) {
++  const columns = "id, client_id, posted_on, type, topic, slide_count, slide_views_json";
++  const query = client
++    ? `SELECT ${columns} FROM sequence_log WHERE client_id=? ORDER BY id DESC`
++    : `SELECT ${columns} FROM sequence_log ORDER BY client_id, id DESC`;
++  const statement = env.DB.prepare(query);
++  const result = client ? await statement.bind(client).all() : await statement.all();
++  return result.results || [];
++}
++
++function groupLineage(variants, sequences) {
++  const sequenceByKey = new Map(sequences.map((sequence) => [lineageKey(sequence.client_id, sequence.id), sequence]));
++  const groups = new Map();
++  for (const variant of variants) {
++    const key = lineageKey(variant.client_id, variant.sequence_ref);
++    if (!groups.has(key)) {
++      const sequence = sequenceByKey.get(key) || {};
++      const diagnostic = computeDiagnostic(sequence.slide_views_json, sequence.slide_count);
++      groups.set(key, {
++        client_id: variant.client_id,
++        sequence_ref: Number(variant.sequence_ref || 0),
++        sequence: {
++          posted_on: sequence.posted_on || "",
++          type: sequence.type || "",
++          topic: sequence.topic || "",
++        },
++        leaking_slide: diagnostic.biggestDropSlide,
++        leak_loss_pct: diagnostic.biggestDropPct,
++        active: false,
++        resolved: false,
++        winner: null,
++        variants: [],
++      });
++    }
++    const group = groups.get(key);
++    const serialized = serializeVariant(variant);
++    group.variants.push(serialized);
++    if (serialized.status === "testing") group.active = true;
++    if (serialized.status === "won") group.winner = serialized;
++  }
++  for (const group of groups.values()) group.resolved = Boolean(group.winner) && !group.active;
++  return Array.from(groups.values()).sort((a, b) => b.sequence_ref - a.sequence_ref);
++}
++
++function computeDiagnostic(slideViewsJson, slideCount) {
++  const views = parseSlideViews(slideViewsJson, slideCount);
++  const first = Number(views[0] || 0);
++  const last = Number(views.at(-1) || 0);
++  const completionPct = first > 0 ? round1((last / first) * 100) : null;
++  let biggestDrop = 0;
++  let biggestDropSlide = null;
++  let biggestDropPct = null;
++  for (let index = 1; index < views.length; index += 1) {
++    const prior = Number(views[index - 1] || 0);
++    const current = Number(views[index] || 0);
++    const drop = prior - current;
++    if (drop > biggestDrop) {
++      biggestDrop = drop;
++      biggestDropSlide = index + 1;
++      biggestDropPct = prior > 0 ? round1((drop / prior) * 100) : null;
++    }
++  }
++  const name = completionPct != null && completionPct >= 70
++    ? "healthy"
++    : (biggestDropSlide === 2
++      ? "hook failed"
++      : (biggestDropSlide != null && biggestDropSlide >= 6 && biggestDropSlide <= 8
++        ? "body failed before the ask"
++        : "monitor"));
++  return { name, completionPct, biggestDropSlide, biggestDropPct };
++}
++
++function parseSlideViews(value, slideCount) {
++  try {
++    const parsed = JSON.parse(value || "[]");
++    if (!Array.isArray(parsed)) return [];
++    return parsed
++      .map(Number)
++      .filter((item) => Number.isFinite(item) && item >= 0)
++      .slice(0, Math.max(0, Number(slideCount || parsed.length)));
++  } catch {
++    return [];
++  }
++}
++
++function serializeVariant(variant) {
++  return {
++    id: Number(variant.id || 0),
++    client_id: variant.client_id,
++    sequence_ref: Number(variant.sequence_ref || 0),
++    label: variant.label || "",
++    hook_text: variant.hook_text || "",
++    status: variant.status || "testing",
++    completion_pct: variant.completion_pct == null ? null : Number(variant.completion_pct),
++    started_at: variant.started_at || "",
++    resolved_at: variant.resolved_at || "",
++    created_at: variant.created_at || "",
++  };
++}
++
++function nextVariantNumber(variants) {
++  const numbers = variants.map((variant) => Number(String(variant.label || "").match(/^v(\d+)$/i)?.[1] || 0));
++  return Math.max(1, ...numbers) + 1;
++}
++
++function normalizeHook(value) {
++  return String(value || "").trim().replace(/\s+/g, " ").slice(0, 1000);
++}
++
++function positiveInteger(value) {
++  const number = Number(value);
++  return Number.isInteger(number) && number > 0 ? number : null;
++}
++
++function validCompletion(value) {
++  if (value == null || value === "") return null;
++  const number = Number(value);
++  return Number.isFinite(number) && number >= 0 && number <= 100 ? round1(number) : null;
++}
++
++function lineageKey(client, sequenceRef) {
++  return `${cleanId(client)}:${Number(sequenceRef || 0)}`;
++}
++
++function round1(value) {
++  return Math.round(Number(value || 0) * 10) / 10;
++}
+diff --git a/output/standard-preview/functions/api/settings.js b/output/standard-preview/functions/api/settings.js
+index 1e0276a97c3a328d1123d4317444df906d70e088..7ecb788f2d54426d42341d80bdb901d5d0d43998
+--- a/output/standard-preview/functions/api/settings.js
++++ b/output/standard-preview/functions/api/settings.js
+@@ -17,6 +17,7 @@
+   ["client_dashboard_content", "client_id"],
+   ["studio_sequences", "client_id"],
+   ["studio_carousels", "client_id"],
++  ["sequence_variants", "client_id"],
+   ["sequence_log", "client_id"],
+   ["account_snapshots", "client_id"],
+   ["client_brain", "client_id"],
+diff --git a/output/standard-preview/migrations/0019_sequence_variants.sql b/output/standard-preview/migrations/0019_sequence_variants.sql
+new file mode 100644
+index 0000000000000000000000000000000000000000..15275fcfd7ffde5c96235100026e5d0ec07a732e
+--- /dev/null
++++ b/output/standard-preview/migrations/0019_sequence_variants.sql
+@@ -0,0 +1,21 @@
++-- Controlled hook retests tied to logged sequence metrics.
++
++CREATE TABLE IF NOT EXISTS sequence_variants (
++  id               INTEGER PRIMARY KEY AUTOINCREMENT,
++  client_id        TEXT NOT NULL,
++  sequence_ref     INTEGER NOT NULL,
++  label            TEXT NOT NULL,
++  hook_text        TEXT NOT NULL,
++  status           TEXT NOT NULL CHECK (status IN ('testing', 'won', 'lost', 'retired')),
++  completion_pct   REAL CHECK (completion_pct IS NULL OR (completion_pct >= 0 AND completion_pct <= 100)),
++  started_at       TEXT NOT NULL,
++  resolved_at      TEXT,
++  created_at       TEXT NOT NULL,
++  UNIQUE (client_id, sequence_ref, label)
++);
++
++CREATE INDEX IF NOT EXISTS idx_sequence_variants_client_status
++  ON sequence_variants (client_id, status, started_at);
++
++CREATE INDEX IF NOT EXISTS idx_sequence_variants_sequence
++  ON sequence_variants (client_id, sequence_ref, id);
+diff --git a/output/standard-preview/portal/index.html b/output/standard-preview/portal/index.html
+index dd5605701c1ea2e359a90f630bd7d6f2246b50f7..c873323578a46069e2603ac748507a30e677aec1
+--- a/output/standard-preview/portal/index.html
++++ b/output/standard-preview/portal/index.html
+@@ -839,6 +839,87 @@
+       opacity: .95;
+     }
+     .sequence-bar span { position: relative; color: var(--ui-ink); font-size: 10px; font-weight: 800; }
++    .sequence-row.has-retest { border-color: color-mix(in srgb, var(--ui-indigo) 34%, var(--ui-line)); }
++    .retest-lineage {
++      display: flex;
++      align-items: stretch;
++      gap: 8px;
++      flex-wrap: wrap;
++      margin: 14px 0 4px;
++      padding: 12px;
++      border: 1px solid var(--ui-line);
++      border-radius: 14px;
++      background: color-mix(in srgb, var(--ui-panel-2) 92%, transparent);
++    }
++    .retest-variant {
++      min-width: 116px;
++      flex: 1 1 116px;
++      padding: 10px 11px;
++      border: 1px solid var(--ui-line);
++      border-radius: 11px;
++      background: var(--ui-panel);
++    }
++    .retest-variant.won { border-color: color-mix(in srgb, var(--ui-accent) 55%, var(--ui-line)); background: var(--ui-accent-soft); }
++    .retest-variant.lost { opacity: .68; }
++    .retest-variant.testing { border-color: color-mix(in srgb, var(--ui-indigo) 55%, var(--ui-line)); }
++    .retest-variant strong,
++    .retest-variant span { display: block; }
++    .retest-variant strong { font: 800 12px var(--ui-font-mono); }
++    .retest-variant span { margin-top: 4px; color: var(--ui-ink-2); font-size: 11px; line-height: 1.4; }
++    .retest-winner {
++      flex: 1 0 100%;
++      color: var(--ui-accent);
++      font-size: 12px;
++      font-weight: 800;
++    }
++    .retest-outcome {
++      display: flex;
++      align-items: end;
++      gap: 8px;
++      flex: 1 0 100%;
++      padding-top: 4px;
++    }
++    .retest-outcome label { flex: 1; color: var(--ui-ink-2); font-size: 11px; font-weight: 800; }
++    .retest-outcome input { width: 100%; margin-top: 5px; }
++    .retest-dialog {
++      width: min(620px, calc(100vw - 28px));
++      padding: 0;
++      border: 1px solid var(--ui-line);
++      border-radius: 20px;
++      background: var(--ui-panel);
++      color: var(--ui-ink);
++      box-shadow: var(--ui-shadow-lg);
++    }
++    .retest-dialog::backdrop { background: rgba(8, 15, 13, .54); backdrop-filter: blur(5px); }
++    .retest-dialog-head,
++    .retest-dialog-foot {
++      display: flex;
++      align-items: center;
++      justify-content: space-between;
++      gap: 14px;
++      padding: 18px 20px;
++    }
++    .retest-dialog-head { border-bottom: 1px solid var(--ui-line); }
++    .retest-dialog-head h3 { margin: 0; font-size: 19px; letter-spacing: -.03em; }
++    .retest-dialog-head p { margin: 4px 0 0; color: var(--ui-muted); font-size: 12px; }
++    .retest-dialog-body { display: grid; gap: 15px; padding: 20px; }
++    .retest-diagnostic,
++    .retest-method {
++      padding: 13px 14px;
++      border: 1px solid var(--ui-line);
++      border-radius: 13px;
++      background: var(--ui-panel-2);
++      color: var(--ui-ink-2);
++      font-size: 12.5px;
++      line-height: 1.55;
++    }
++    .retest-diagnostic strong,
++    .retest-method strong { color: var(--ui-ink); }
++    .retest-old-hook { color: var(--ui-ink); font-weight: 700; }
++    .retest-dialog-body label { color: var(--ui-ink-2); font-size: 12px; font-weight: 800; }
++    .retest-dialog-body textarea { width: 100%; min-height: 108px; margin-top: 7px; }
++    .retest-dialog-error { min-height: 18px; color: var(--ui-rose); font-size: 12px; }
++    .retest-dialog-foot { border-top: 1px solid var(--ui-line); }
+     .photo-item {
+       display: flex;
+       gap: 10px;
+@@ -1452,6 +1533,29 @@
+     </main>
+   </div>
+ 
++  <dialog class="retest-dialog" id="retestDialog" aria-labelledby="retestDialogTitle">
++    <div class="retest-dialog-head">
++      <div>
++        <h3 id="retestDialogTitle">Retest the hook</h3>
++        <p>Change one variable, hold the rest, compare completion.</p>
++      </div>
++      <button class="outline" id="closeRetestDialogButton" type="button" aria-label="Close retest">Close</button>
++    </div>
++    <div class="retest-dialog-body">
++      <div class="retest-diagnostic" id="retestDiagnostic"></div>
++      <div class="retest-diagnostic"><strong>Current hook.</strong> <span class="retest-old-hook" id="retestOldHook"></span></div>
++      <label for="retestNewHookInput">New hook to test
++        <textarea id="retestNewHookInput" maxlength="1000"></textarea>
++      </label>
++      <div class="retest-method"><strong>How the retest works.</strong> Run the new hook on the next posting. Keep every other slide identical. Log completion after 48 hours, then resolve the higher completion as the winner.</div>
++      <div class="retest-dialog-error" id="retestDialogError" role="alert"></div>
++    </div>
++    <div class="retest-dialog-foot">
++      <span class="panel-note">The original stays in the lineage.</span>
++      <button id="launchRetestButton" type="button">Launch retest</button>
++    </div>
++  </dialog>
++
+   <script>
+     const params = new URLSearchParams(location.search);
+     const initialToken = params.get("t") || "";
+@@ -1505,11 +1609,13 @@
+       pulseItems: [],
+       performance: {
+         rows: [],
++        variantGroups: [],
+         weekSummary: null,
+         weeklyReport: null,
+         latestSnapshot: null,
+         priorSnapshot: null,
+         editingSequenceId: null,
++        retestSequenceRef: null,
+       },
+       studio: {
+         selectedType: "",
+@@ -1557,6 +1663,8 @@
+     $("saveClientSettingsButton").addEventListener("click", saveClientSettings);
+     $("studioInsightGenerateButton").addEventListener("click", startInsightSequence);
+     $("studioInsightLogButton").addEventListener("click", openInsightLogSurface);
++    $("closeRetestDialogButton").addEventListener("click", () => $("retestDialog").close());
++    $("launchRetestButton").addEventListener("click", launchRetest);
+     $("proofGrid").addEventListener("click", (event) => {
+       const button = event.target.closest("[data-proof-save]");
+       if (button) saveProofClaim(button);
+@@ -1665,7 +1773,7 @@
+ 
+     async function loadPerformanceData() {
+       try {
+-        const [sequenceResponse, weeklyResponse] = await Promise.all([
++        const [sequenceResponse, weeklyResponse, variantsResponse] = await Promise.all([
+           fetch(`/api/metrics-sequences?client=${encodeURIComponent(state.client)}`, {
+             headers: authHeaders(),
+             credentials: "same-origin",
+@@ -1674,16 +1782,23 @@
+             headers: authHeaders(),
+             credentials: "same-origin",
+           }),
++          fetch(`/api/sequence-variants?client=${encodeURIComponent(state.client)}`, {
++            headers: authHeaders(),
++            credentials: "same-origin",
++          }),
+         ]);
+-        if ([sequenceResponse, weeklyResponse].some((response) => response.status === 401 || response.status === 403)) {
++        if ([sequenceResponse, weeklyResponse, variantsResponse].some((response) => response.status === 401 || response.status === 403)) {
+           redirectToLogin();
+           return;
+         }
+         const sequenceData = await sequenceResponse.json().catch(() => ({}));
+         const weeklyData = await weeklyResponse.json().catch(() => ({}));
++        const variantsData = await variantsResponse.json().catch(() => ({}));
+         if (!sequenceResponse.ok || !sequenceData.ok) throw new Error(sequenceData.error || "Could not load sequence metrics.");
+         if (!weeklyResponse.ok || !weeklyData.ok) throw new Error(weeklyData.error || "Could not load the weekly report.");
++        if (!variantsResponse.ok || !variantsData.ok) throw new Error(variantsData.error || "Could not load retest lineage.");
+         state.performance.rows = Array.isArray(sequenceData.rows) ? sequenceData.rows : [];
++        state.performance.variantGroups = Array.isArray(variantsData.rows) ? variantsData.rows : [];
+         state.performance.weekSummary = sequenceData.week_summary || null;
+         state.performance.weeklyReport = weeklyData.report || null;
+         state.performance.latestSnapshot = weeklyData.latest || null;
+@@ -2214,6 +2329,8 @@
+     */
+     function getSequenceRead() {
+       const rows = state.performance.rows || [];
++      const activeRetest = state.performance.variantGroups.find((group) => group.active) || null;
++      const resolvedRetest = state.performance.variantGroups.find((group) => group.resolved) || null;
+       let title;
+       let text;
+       let tab;
+@@ -2254,7 +2371,7 @@
+       }
+ 
+       if (!best) best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0) || null;
+-      return { rows, title, text, tab, label, leak, best };
++      return { rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest };
+     }
+ 
+     function renderNextMove() {
+@@ -2295,6 +2412,14 @@
+           lines.push({ tone: "neutral", mark: "N", text: read.text });
+         }
+       }
++      if (read.activeRetest) {
++        const topic = read.activeRetest.sequence?.topic || `sequence ${read.activeRetest.sequence_ref}`;
++        const testing = read.activeRetest.variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
++        lines.push({ tone: "neutral", mark: "T", text: `A hook retest is running on ${topic}${testing?.label ? ` as ${testing.label}` : ""}. Log its completion after the next posting.` });
++      } else if (read.resolvedRetest?.winner) {
++        const topic = read.resolvedRetest.sequence?.topic || `sequence ${read.resolvedRetest.sequence_ref}`;
++        lines.push({ tone: "success", mark: "R", text: `${read.resolvedRetest.winner.label} won the hook retest on ${topic} at ${formatPercent(read.resolvedRetest.winner.completion_pct)} completion.` });
++      }
+ 
+       $("studioInsightLines").innerHTML = lines.map((line) => `
+         <div class="studio-insight-line"><span class="insight-mark ${line.tone}">${esc(line.mark)}</span><p>${esc(line.text)}</p></div>
+@@ -2307,7 +2432,9 @@
+       ].join("");
+ 
+       $("studioInsightGenerateButton").textContent = read.best ? `Generate ${read.best.type}` : "Start a sequence";
+-      $("studioInsightLogButton").textContent = read.leak ? "Open leaking log" : "Open sequence log";
++      $("studioInsightLogButton").textContent = read.activeRetest
++        ? "Open active retest"
++        : (read.resolvedRetest ? "Open winning retest" : (read.leak ? "Open leaking log" : "Open sequence log"));
+       renderStudioPipeline();
+     }
+ 
+@@ -2340,6 +2467,12 @@
+ 
+     function openInsightLogSurface() {
+       const read = getSequenceRead();
++      const retest = read.activeRetest || read.resolvedRetest;
++      if (retest?.sequence_ref) {
++        openTab("performance");
++        $(`sequenceRow${Number(retest.sequence_ref)}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
++        return;
++      }
+       if (read.leak?.id) {
+         loadSequenceIntoForm(Number(read.leak.id));
+         return;
+@@ -2540,6 +2673,15 @@
+       document.querySelectorAll("[data-edit-sequence]").forEach((button) => {
+         button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
+       });
++      document.querySelectorAll("[data-retest-sequence]").forEach((button) => {
++        button.addEventListener("click", () => openRetestDialog(Number(button.dataset.retestSequence)));
++      });
++      document.querySelectorAll("[data-log-variant]").forEach((button) => {
++        button.addEventListener("click", () => logVariantOutcome(Number(button.dataset.logVariant)));
++      });
++      document.querySelectorAll("[data-resolve-retest]").forEach((button) => {
++        button.addEventListener("click", () => resolveHookRetest(Number(button.dataset.resolveRetest)));
++      });
+       renderHome();
+       renderStudioInsight();
+     }
+@@ -3611,10 +3753,142 @@
+       return TOKEN ? { "x-portal-token": TOKEN } : {};
+     }
+ 
++    function variantGroupFor(sequenceRef) {
++      return state.performance.variantGroups.find((group) => Number(group.sequence_ref) === Number(sequenceRef)) || null;
++    }
++
++    function sequenceLeakLoss(row) {
++      const slide = Number(row.biggest_drop_slide || 0);
++      const views = Array.isArray(row.slide_views) ? row.slide_views : [];
++      const prior = Number(views[slide - 2] || 0);
++      const current = Number(views[slide - 1] || 0);
++      return prior > 0 ? Math.round(Math.max(0, ((prior - current) / prior) * 100) * 10) / 10 : null;
++    }
++
++    function suggestedRetestHook(row) {
++      const topic = String(row.topic || row.type || "this topic").trim().replace(/[.!?]+$/, "");
++      return `What changed when ${topic} stopped holding attention?`;
++    }
++
++    function openRetestDialog(sequenceRef) {
++      const row = state.performance.rows.find((item) => Number(item.id) === Number(sequenceRef));
++      if (!row || row.diagnostic !== "hook failed") return;
++      const group = variantGroupFor(sequenceRef);
++      if (group?.active) {
++        showMessage("This sequence already has an active hook retest.");
++        return;
++      }
++      state.performance.retestSequenceRef = Number(sequenceRef);
++      const loss = sequenceLeakLoss(row);
++      $("retestDialogTitle").textContent = `Retest, ${row.topic || row.type || "sequence"}`;
++      $("retestDiagnostic").innerHTML = `<strong>Slide ${number(row.biggest_drop_slide)} is the leak.</strong> ${loss == null ? "The loss rate is unavailable." : `${formatPercent(loss)} of viewers left at this transition.`}`;
++      $("retestOldHook").textContent = row.topic || "Current logged hook";
++      $("retestNewHookInput").value = suggestedRetestHook(row);
++      $("retestDialogError").textContent = "";
++      $("launchRetestButton").disabled = Boolean(state.impersonated);
++      $("retestDialog").showModal();
++      $("retestNewHookInput").focus();
++    }
++
++    async function launchRetest() {
++      const sequenceRef = Number(state.performance.retestSequenceRef || 0);
++      const newHook = $("retestNewHookInput").value.trim();
++      if (!newHook) {
++        $("retestDialogError").textContent = "Write the new hook before launching the retest.";
++        return;
++      }
++      const button = $("launchRetestButton");
++      button.disabled = true;
++      try {
++        const data = await postSequenceVariant({ action: "start", sequence_ref: sequenceRef, new_hook: newHook });
++        $("retestDialog").close();
++        await loadPerformanceData();
++        showMessage(`${data.variant?.label || "The new variant"} is testing. Keep every other slide identical.`, "success");
++      } catch (error) {
++        $("retestDialogError").textContent = error.message || "Could not launch the retest.";
++      } finally {
++        button.disabled = Boolean(state.impersonated);
++      }
++    }
++
++    async function logVariantOutcome(variantId) {
++      const input = $(`variantCompletion${variantId}`);
++      const completion = Number(input?.value);
++      if (!input || input.value.trim() === "" || !Number.isFinite(completion) || completion < 0 || completion > 100) {
++        showMessage("Enter a completion rate from 0 to 100.");
++        return;
++      }
++      try {
++        await postSequenceVariant({ action: "log", variant_id: variantId, completion_pct: completion });
++        await loadPerformanceData();
++        showMessage("Variant completion logged. Resolve the comparison when both results are ready.", "success");
++      } catch (error) {
++        showMessage(error.message || "Could not log the variant outcome.");
++      }
++    }
++
++    async function resolveHookRetest(sequenceRef) {
++      try {
++        const data = await postSequenceVariant({ action: "resolve", sequence_ref: sequenceRef });
++        await loadPerformanceData();
++        showMessage(`${data.winner?.label || "The higher-completion variant"} won the hook retest.`, "success");
++      } catch (error) {
++        showMessage(error.message || "Could not resolve the hook retest.");
++      }
++    }
++
++    async function postSequenceVariant(payload) {
++      const response = await fetch("/api/sequence-variants", {
++        method: "POST",
++        headers: { ...authHeaders(), "content-type": "application/json" },
++        credentials: "same-origin",
++        body: JSON.stringify(payload),
++      });
++      const data = await response.json().catch(() => ({}));
++      if (response.status === 401) {
++        redirectToLogin();
++        throw new Error("The portal session expired.");
++      }
++      if (response.status === 403 && state.impersonated) throw new Error("Operator view is read only.");
++      if (!response.ok || !data.ok) throw new Error(data.error || "The retest request failed.");
++      return data;
++    }
++
++    function renderRetestLineage(group) {
++      if (!group) return "";
++      const variants = Array.isArray(group.variants) ? group.variants : [];
++      const winner = group.winner;
++      const pending = variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
++      const ready = group.active && variants.filter((variant) => variant.status === "testing").length === 2
++        && variants.filter((variant) => variant.status === "testing").every((variant) => variant.completion_pct != null);
++      return `
++        <div class="retest-lineage" role="group" aria-label="Hook retest lineage">
++          ${variants.map((variant) => `
++            <div class="retest-variant ${esc(variant.status)}">
++              <strong>${esc(variant.label)}${variant.status === "won" ? " winner" : ""}</strong>
++              <span>${variant.completion_pct == null ? "Testing, result not logged" : `${formatPercent(variant.completion_pct)} completion`}</span>
++            </div>
++          `).join("")}
++          ${winner ? `<div class="retest-winner">${esc(winner.label)} won with ${formatPercent(winner.completion_pct)} completion.</div>` : ""}
++          ${pending && !state.impersonated ? `
++            <div class="retest-outcome">
++              <label for="variantCompletion${pending.id}">Completion after posting
++                <input id="variantCompletion${pending.id}" type="number" min="0" max="100" step="0.1" placeholder="0 to 100">
++              </label>
++              <button class="outline" type="button" data-log-variant="${pending.id}">Log result</button>
++            </div>
++          ` : ""}
++          ${ready && !state.impersonated ? `<div class="retest-outcome"><button type="button" data-resolve-retest="${group.sequence_ref}">Resolve winner</button></div>` : ""}
++        </div>
++      `;
++    }
++
+     function renderSequenceRow(row) {
+       const maxView = Math.max(...(row.slide_views || [0]), 1);
++      const group = variantGroupFor(row.id);
++      const canRetest = row.diagnostic === "hook failed" && !group?.active;
+       return `
+-        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}">
++        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}${group ? " has-retest" : ""}" id="sequenceRow${row.id}">
+           <div class="sequence-top">
+             <div>
+               <strong>${esc(row.topic || row.type || "Sequence")}</strong>
+@@ -3636,9 +3910,11 @@
+             <span>${row.biggest_drop_slide ? `Biggest drop: slide ${row.biggest_drop_slide}` : "No drop pattern yet"}</span>
+             <span>${row.profile_visits == null ? "Profile visits not logged" : `${number(row.profile_visits)} profile visits`}</span>
+           </div>
++          ${renderRetestLineage(group)}
+           ${row.notes ? `<p>${esc(row.notes)}</p>` : ""}
+           <div class="inline-form-actions">
+             <button class="outline" type="button" data-edit-sequence="${row.id}">Edit</button>
++            ${canRetest ? `<button type="button" data-retest-sequence="${row.id}">Retest hook</button>` : ""}
+           </div>
+         </div>
+       `;
+diff --git a/output/standard-preview/tests/i1-checks.mjs b/output/standard-preview/tests/i1-checks.mjs
+index c4db03c4e8caf5d6c8d0c4376c6d38ced7b9e001..75190b2aa33f96f18fa0998372796f8a7ac384f8
+--- a/output/standard-preview/tests/i1-checks.mjs
++++ b/output/standard-preview/tests/i1-checks.mjs
+@@ -31,6 +31,7 @@
+       client_dashboard_content: seed.client_dashboard_content || [],
+       studio_sequences: seed.studio_sequences || [],
+       studio_carousels: seed.studio_carousels || [],
++      sequence_variants: seed.sequence_variants || [],
+       sequence_log: seed.sequence_log || [],
+       account_snapshots: seed.account_snapshots || [],
+       client_brain: seed.client_brain || [],
+@@ -1159,6 +1160,7 @@
+   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
+   env.DB.state.email_drafts.push({ id: 1, client, subject: "Throwaway email" });
+   env.DB.state.studio_carousels.push({ id: 1, client_id: client, topic: "Throwaway carousel" });
++  env.DB.state.sequence_variants.push({ id: 1, client_id: client, sequence_ref: 1, label: "v1" });
+   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
+   env.DB.state.media.push({
+     id: "delete-check-media",
+@@ -1208,6 +1210,7 @@
+       client_dashboard_content: 0,
+       studio_sequences: 0,
+       studio_carousels: 1,
++      sequence_variants: 1,
+       sequence_log: 0,
+       account_snapshots: 0,
+       client_brain: 0,
+@@ -1238,7 +1241,7 @@
+ 
+   for (const table of [
+     "client_config", "client_auth", "client_sessions", "client_setup_tokens", "client_email_codes",
+-    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_log", "account_snapshots", "client_brain",
++    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_variants", "sequence_log", "account_snapshots", "client_brain",
+     "proof_items", "content_items", "call_notes", "client_assets", "payments", "integrations",
+     "integration_events", "delivery_failures", "email_drafts", "page_events", "media",
+   ]) {
+diff --git a/output/standard-preview/tests/sequence-variants.test.mjs b/output/standard-preview/tests/sequence-variants.test.mjs
+new file mode 100644
+index 0000000000000000000000000000000000000000..637689d43a35e7199723d0c653eee61d6b011896
+--- /dev/null
++++ b/output/standard-preview/tests/sequence-variants.test.mjs
+@@ -0,0 +1,367 @@
++import { strict as assert } from "node:assert";
++import { readFile } from "node:fs/promises";
++import * as variantsApi from "../functions/api/sequence-variants.js";
++import { CLIENT_SESSION_COOKIE } from "../functions/_shared/client-auth.js";
++
++class MockDB {
++  constructor() {
++    this.configs = [];
++    this.clientSessions = [];
++    this.impersonationSessions = [];
++    this.sequences = [];
++    this.variants = [];
++    this.nextVariantId = 1;
++  }
++
++  prepare(sql) {
++    return new MockStatement(this, sql);
++  }
++
++  async batch(statements) {
++    const results = [];
++    for (const statement of statements) results.push(await statement.run());
++    return results;
++  }
++}
++
++class MockStatement {
++  constructor(db, sql) {
++    this.db = db;
++    this.sql = sql.replace(/\s+/g, " ").trim();
++    this.values = [];
++  }
++
++  bind(...values) {
++    this.values = values;
++    return this;
++  }
++
++  async first() {
++    if (this.sql.includes("FROM impersonation_sessions s")) {
++      const [tokenHash, cutoff] = this.values;
++      const row = this.db.impersonationSessions.find((entry) =>
++        entry.token_hash === tokenHash && entry.consumed_at && entry.expires_at > cutoff);
++      if (!row) return null;
++      const config = this.db.configs.find((entry) => entry.client === row.client_id);
++      return { ...row, client_name: config?.client_name || row.client_id };
++    }
++    if (this.sql.includes("FROM client_sessions s")) {
++      const [tokenHash, cutoff] = this.values;
++      const row = this.db.clientSessions.find((entry) => entry.token_hash === tokenHash && entry.expires_at > cutoff);
++      if (!row) return null;
++      const config = this.db.configs.find((entry) => entry.client === row.client_id);
++      return { ...row, client_name: config?.client_name || row.client_id };
++    }
++    if (this.sql.includes("FROM client_config") && this.sql.includes("portal_token_hash=?")) {
++      const row = this.db.configs.find((entry) => entry.portal_token_hash === this.values[0]);
++      return row ? { client: row.client, client_name: row.client_name || row.client } : null;
++    }
++    if (this.sql.includes("FROM sequence_log") && this.sql.includes("WHERE id=?")) {
++      const row = this.db.sequences.find((entry) => entry.id === Number(this.values[0]));
++      if (!row) return null;
++      if (this.sql === "SELECT id, client_id FROM sequence_log WHERE id=?") {
++        return { id: row.id, client_id: row.client_id };
++      }
++      return { ...row };
++    }
++    if (this.sql.includes("FROM sequence_variants") && this.sql.includes("WHERE id=?")) {
++      const row = this.db.variants.find((entry) => entry.id === Number(this.values[0]));
++      return row ? { ...row } : null;
++    }
++    throw new Error(`Unexpected first query: ${this.sql}`);
++  }
++
++  async all() {
++    if (this.sql.includes("FROM sequence_variants")) {
++      let rows = [...this.db.variants];
++      if (this.sql.includes("WHERE client_id=? AND sequence_ref=? AND status='testing'")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]
++          && row.sequence_ref === Number(this.values[1]) && row.status === "testing");
++      } else if (this.sql.includes("WHERE client_id=? AND sequence_ref=?")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]
++          && row.sequence_ref === Number(this.values[1]));
++      } else if (this.sql.includes("WHERE client_id=?")) {
++        rows = rows.filter((row) => row.client_id === this.values[0]);
++      }
++      return { results: rows.sort((a, b) => a.id - b.id).map((row) => ({ ...row })) };
++    }
++    if (this.sql.includes("FROM sequence_log")) {
++      let rows = [...this.db.sequences];
++      if (this.sql.includes("WHERE client_id=?")) rows = rows.filter((row) => row.client_id === this.values[0]);
++      return { results: rows.map((row) => ({ ...row })) };
++    }
++    throw new Error(`Unexpected all query: ${this.sql}`);
++  }
++
++  async run() {
++    if (this.sql === "DELETE FROM client_sessions WHERE expires_at<?") {
++      this.db.clientSessions = this.db.clientSessions.filter((row) => row.expires_at >= this.values[0]);
++      return changed(0);
++    }
++    if (this.sql === "DELETE FROM impersonation_sessions WHERE expires_at<?") {
++      this.db.impersonationSessions = this.db.impersonationSessions.filter((row) => row.expires_at >= this.values[0]);
++      return changed(0);
++    }
++    if (this.sql.startsWith("INSERT INTO sequence_variants")) {
++      let clientId;
++      let sequenceRef;
++      let label;
++      let hookText;
++      let completionPct;
++      let startedAt;
++      let createdAt;
++      if (this.sql.includes("VALUES (?, ?, 'v1'")) {
++        [clientId, sequenceRef, hookText, completionPct, startedAt, createdAt] = this.values;
++        label = "v1";
++      } else {
++        [clientId, sequenceRef, label, hookText, startedAt, createdAt] = this.values;
++        completionPct = null;
++      }
++      const id = this.db.nextVariantId++;
++      this.db.variants.push({
++        id,
++        client_id: clientId,
++        sequence_ref: Number(sequenceRef),
++        label,
++        hook_text: hookText,
++        status: "testing",
++        completion_pct: completionPct,
++        started_at: startedAt,
++        resolved_at: null,
++        created_at: createdAt,
++      });
++      return { meta: { changes: 1, last_row_id: id } };
++    }
++    if (this.sql.includes("SET completion_pct=?")) {
++      const [completionPct, id, clientId] = this.values;
++      const row = this.db.variants.find((entry) => entry.id === Number(id)
++        && entry.client_id === clientId && entry.status === "testing");
++      if (!row) return changed(0);
++      row.completion_pct = completionPct;
++      return changed(1);
++    }
++    if (this.sql.includes("SET status=CASE WHEN id=? THEN 'won' ELSE 'lost' END")) {
++      const [winnerId, resolvedAt, clientId, sequenceRef, firstId, secondId] = this.values;
++      const ids = new Set([Number(firstId), Number(secondId)]);
++      const rows = this.db.variants.filter((entry) => ids.has(entry.id)
++        && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "testing");
++      for (const row of rows) Object.assign(row, { status: row.id === Number(winnerId) ? "won" : "lost", resolved_at: resolvedAt });
++      return changed(rows.length);
++    }
++    if (this.sql.includes("SET status='won'")) return updateResolvedVariant(this.db, this.values, "won");
++    if (this.sql.includes("SET status='lost'")) return updateResolvedVariant(this.db, this.values, "lost");
++    if (this.sql.includes("SET status='testing', resolved_at=NULL")) {
++      const [startedAt, id, clientId, sequenceRef] = this.values;
++      const row = this.db.variants.find((entry) => entry.id === Number(id)
++        && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "won");
++      if (!row) return changed(0);
++      Object.assign(row, { status: "testing", resolved_at: null, started_at: startedAt });
++      return changed(1);
++    }
++    throw new Error(`Unexpected run query: ${this.sql}`);
++  }
++}
++
++function updateResolvedVariant(db, values, status) {
++  const [resolvedAt, id, clientId, sequenceRef] = values;
++  const row = db.variants.find((entry) => entry.id === Number(id)
++    && entry.client_id === clientId && entry.sequence_ref === Number(sequenceRef) && entry.status === "testing");
++  if (!row) return changed(0);
++  Object.assign(row, { status, resolved_at: resolvedAt });
++  return changed(1);
++}
++
++function changed(changes) {
++  return { meta: { changes } };
++}
++
++async function sha256Hex(value) {
++  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
++  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
++}
++
++function request(method, body, headers = {}, query = "") {
++  return new Request(`https://funnels.test/api/sequence-variants${query}`, {
++    method,
++    headers: { "content-type": "application/json", ...headers },
++    body: body == null ? undefined : JSON.stringify(body),
++  });
++}
++
++async function createFixture() {
++  const db = new MockDB();
++  const alphaToken = "alpha-portal-token";
++  const betaToken = "beta-portal-token";
++  db.configs.push(
++    { client: "alpha", client_name: "Alpha Coach", portal_token_hash: await sha256Hex(alphaToken) },
++    { client: "beta", client_name: "Beta Coach", portal_token_hash: await sha256Hex(betaToken) },
++  );
++  db.sequences.push(
++    {
++      id: 11,
++      client_id: "alpha",
++      posted_on: "2026-07-15",
++      type: "value-driven",
++      topic: "The profile fix that changed the DMs",
++      slide_count: 4,
++      slide_views_json: JSON.stringify([1000, 500, 450, 400]),
++    },
++    {
++      id: 22,
++      client_id: "beta",
++      posted_on: "2026-07-15",
++      type: "credibility",
++      topic: "Beta private hook",
++      slide_count: 4,
++      slide_views_json: JSON.stringify([900, 300, 280, 250]),
++    },
++  );
++  return { env: { DB: db, ADMIN_KEY: "operator-secret" }, db, alphaToken, betaToken };
++}
++
++async function testLifecycleAndIsolation() {
++  const { env, db, alphaToken } = await createFixture();
++  const started = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "start",
++      sequence_ref: 11,
++      new_hook: "The DMs changed after one profile line moved.",
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(started.status, 200);
++  const startedBody = await started.json();
++  assert.equal(startedBody.leaking_slide, 2);
++  assert.equal(startedBody.leak_loss_pct, 50);
++  assert.equal(startedBody.variant.label, "v2");
++  assert.equal(db.variants.length, 2);
++  assert.deepEqual(db.variants.map((row) => row.client_id), ["alpha", "alpha"]);
++  assert.equal(db.variants[0].sequence_ref, 11);
++  assert.equal(db.variants[0].label, "v1");
++  assert.equal(db.variants[0].hook_text, "The profile fix that changed the DMs");
++  assert.equal(db.variants[0].completion_pct, 40);
++  assert.equal(db.variants[1].label, "v2");
++  assert.equal(db.variants[1].hook_text, "The DMs changed after one profile line moved.");
++  assert.equal(db.variants[1].status, "testing");
++
++  const crossClient = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "start",
++      sequence_ref: 22,
++      new_hook: "This must stay blocked.",
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(crossClient.status, 404);
++
++  const logged = await variantsApi.onRequestPost({
++    request: request("POST", {
++      action: "log",
++      variant_id: db.variants[1].id,
++      completion_pct: 61.5,
++    }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(logged.status, 200);
++
++  const resolved = await variantsApi.onRequestPost({
++    request: request("POST", { action: "resolve", sequence_ref: 11 }, { "x-portal-token": alphaToken }),
++    env,
++  });
++  assert.equal(resolved.status, 200);
++  const resolvedBody = await resolved.json();
++  assert.equal(resolvedBody.winner.label, "v2");
++  assert.equal(resolvedBody.winner.status, "won");
++  assert.equal(resolvedBody.loser.label, "v1");
++  assert.equal(resolvedBody.loser.status, "lost");
++  assert.equal(db.variants.find((row) => row.label === "v2").status, "won");
++  assert.equal(db.variants.find((row) => row.label === "v1").status, "lost");
++}
++
++async function testImpersonationReadOnlyAndClientRead() {
++  const { env, db } = await createFixture();
++  db.variants.push({
++    id: db.nextVariantId++,
++    client_id: "alpha",
++    sequence_ref: 11,
++    label: "v1",
++    hook_text: "Original hook",
++    status: "testing",
++    completion_pct: 40,
++    started_at: new Date().toISOString(),
++    resolved_at: null,
++    created_at: new Date().toISOString(),
++  });
++  const rawToken = "impersonated-retest-session";
++  db.impersonationSessions.push({
++    token_hash: await sha256Hex(rawToken),
++    client_id: "alpha",
++    consumed_at: new Date().toISOString(),
++    created_by: "admin",
++    expires_at: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
++  });
++  const headers = { cookie: `${CLIENT_SESSION_COOKIE}=${rawToken}` };
++  const read = await variantsApi.onRequestGet({ request: request("GET", null, headers), env });
++  assert.equal(read.status, 200);
++  assert.equal((await read.json()).rows[0].sequence_ref, 11);
++
++  for (const body of [
++    { action: "start", sequence_ref: 11, new_hook: "Blocked" },
++    { action: "log", variant_id: 1, completion_pct: 60 },
++    { action: "resolve", sequence_ref: 11 },
++  ]) {
++    const write = await variantsApi.onRequestPost({ request: request("POST", body, headers), env });
++    assert.equal(write.status, 403, `${body.action} must reject impersonated sessions`);
++    assert.deepEqual(await write.json(), { error: "read only" });
++  }
++}
++
++async function testAdminReadAuthAndCrossClientCoverage() {
++  const { env, db } = await createFixture();
++  db.variants.push(
++    { id: db.nextVariantId++, client_id: "alpha", sequence_ref: 11, label: "v1", hook_text: "Alpha", status: "won", completion_pct: 50, started_at: "a", resolved_at: "b", created_at: "a" },
++    { id: db.nextVariantId++, client_id: "beta", sequence_ref: 22, label: "v1", hook_text: "Beta", status: "won", completion_pct: 55, started_at: "a", resolved_at: "b", created_at: "a" },
++  );
++
++  const denied = await variantsApi.onRequestGet({ request: request("GET", null, {}, "?admin=1"), env });
++  assert.equal(denied.status, 401);
++
++  const allowed = await variantsApi.onRequestGet({
++    request: request("GET", null, { "x-admin-key": "operator-secret" }, "?admin=1"),
++    env,
++  });
++  assert.equal(allowed.status, 200);
++  const body = await allowed.json();
++  assert.deepEqual(new Set(body.rows.map((row) => row.client_id)), new Set(["alpha", "beta"]));
++}
++
++async function testMigrationAndPortalContract() {
++  const sql = await readFile(new URL("../migrations/0019_sequence_variants.sql", import.meta.url), "utf8");
++  assert.match(sql, /CREATE TABLE IF NOT EXISTS sequence_variants/);
++  assert.match(sql, /sequence_ref\s+INTEGER NOT NULL/);
++  assert.match(sql, /UNIQUE \(client_id, sequence_ref, label\)/);
++  assert.match(sql, /CHECK \(status IN \('testing', 'won', 'lost', 'retired'\)\)/);
++  assert.doesNotMatch(sql, /\b(?:DROP|ALTER|DELETE|UPDATE)\b/i);
++
++  const portal = await readFile(new URL("../portal/index.html", import.meta.url), "utf8");
++  assert.match(portal, /\/api\/sequence-variants/);
++  assert.match(portal, /data-retest-sequence/);
++  assert.match(portal, /How the retest works/);
++  assert.match(portal, /Keep every other slide identical/);
++  assert.match(portal, /data-log-variant/);
++  assert.match(portal, /data-resolve-retest/);
++  assert.match(portal, /A hook retest is running on/);
++  assert.match(portal, /won the hook retest on/);
++  assert.match(portal, /function getSequenceRead\(\) \{[\s\S]*?const activeRetest = state\.performance\.variantGroups[\s\S]*?return \{ rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest \};/);
++}
++
++try {
++  await testLifecycleAndIsolation();
++  await testImpersonationReadOnlyAndClientRead();
++  await testAdminReadAuthAndCrossClientCoverage();
++  await testMigrationAndPortalContract();
++  console.log("PASS sequence variants: start, capture, isolation, impersonation, logging, resolution, admin auth, portal, and migration");
++} catch (error) {
++  console.error(`FAIL sequence variants: ${error?.stack || error}`);
++  process.exitCode = 1;
++}
+
+tokens used
+261,543
+Implemented the retest loop and cleared all locks.
+
+Key files:
+
+- [Migration 0019](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/migrations/0019_sequence_variants.sql)
+- [Sequence variants endpoint](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/functions/api/sequence-variants.js)
+- [Production portal](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/portal/index.html)
+- [Acceptance tests](C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/tests/sequence-variants.test.mjs)
+
+Implemented v1/v2 lineage, client isolation, impersonated read-only access, completion logging, atomic winner resolution, Performance modal/lineage controls, Studio insight integration, and client-deletion cleanup.
+
+Verification:
+
+- All 13 `.mjs` suites pass.
+- JavaScript syntax and DOM-reference checks pass.
+- CSS balanced at 227/227.
+- Migration is additive-only.
+- Copy, prohibited-dash, whitespace, and reward-copy scans pass.
+
+No deployment, remote D1 mutation, commit, or auto-backup was performed. Slack STARTED/DONE posts were attempted but cancelled by the connector; the complete handoff is recorded in `AGENT_CHAT.md`.
