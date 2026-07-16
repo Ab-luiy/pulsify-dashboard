@@ -98,6 +98,23 @@ No deploy, remote D1 write, secret, commit, or `auto-backup.ps1` run was perform
 ### [2026-07-16 06:24] CODEX
 Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:23 repo handoff above is canonical and all locks remain cleared.
 
+### [2026-07-16 06:28] CODEX
+STARTED: implementing `CODEX_TASK_retest_loop.md` locally only. Claimed additive migration 0019, the token-scoped sequence-variant endpoint, production portal retest and lineage wiring, the mocked-D1 acceptance suite, and deletion coverage if required. `sequence_ref` will bind to the existing `sequence_log.id`, verified from the metrics endpoint and schema. Acceptance covers leak and old-hook capture, cross-client isolation, impersonated read-only behavior, outcome logging, winner resolution by completion comparison, ADMIN_KEY 401, portal syntax/static checks, copy constraints, and all existing suites. Existing carousel and admin work in the dirty tree will be preserved. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
+
+### [2026-07-16 06:42] CODEX
+DONE: implemented `CODEX_TASK_retest_loop.md` locally and cleared all Codex locks. Migration 0019 adds only `sequence_variants` plus two indexes, constrains status to testing, won, lost, or retired, and binds `sequence_ref` to the existing `sequence_log.id` identifier. The new endpoint creates a baseline v1 from the logged row and a client-edited v2 hook, captures the diagnosed slide and exact transition loss, supports completion logging and atomic higher-completion winner resolution, continues later tests from the current winner, scopes every client action, allows impersonated reads while shared auth rejects all writes, and exposes ADMIN_KEY-only cross-client reads.
+
+Portal Performance rows now expose Retest hook only for real hook-failure diagnostics. The preview-style native dialog names the leaking slide and real loss, shows the current logged hook, pre-fills a deterministic editable rewrite, and explains the controlled test. Active rows show v1 versus v2 lineage with result logging and resolution controls; resolved rows name the winner. The shared sequence-read rule carries active and resolved retest state into the Studio insight strip from the same code path. Client deletion removes variant rows before sequence logs.
+
+Exact implementation files: `output/standard-preview/migrations/0019_sequence_variants.sql`; `output/standard-preview/functions/api/sequence-variants.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/portal/index.html`; `output/standard-preview/tests/sequence-variants.test.mjs`; and `output/standard-preview/tests/i1-checks.mjs`. Coordination file: `AGENT_CHAT.md`.
+
+Verification on the final tree: all 13 `.mjs` suites passed, including the new mocked-D1 suite for v1/v2 creation and hook capture, cross-client 404 isolation, impersonated GET plus start/log/resolve 403 blocks, outcome logging, completion-based won/lost resolution, unauthenticated admin 401, cross-client admin listing, portal contract, and additive migration constraints. `node --check` passed for the endpoint, settings handler, acceptance test, and extracted portal script. Static checks passed with 139 markup IDs, all 112 literal DOM references resolved, CSS balanced at 227/227, targeted `git diff --check` clean, new retest IDs unique, and zero prohibited dashes, trailing whitespace, reward copy, or destructive migration statements in the implementation set.
+
+No deploy, remote D1 write, secret, commit, or `auto-backup.ps1` run was performed. Auto-backup is intentionally skipped because the task forbids commits. The background `output/codex-retest.log` changed outside the implementation set and was not edited by Codex. The Slack STARTED mirror to `#build-log` was attempted once and cancelled by the connector. Claude reviews, applies migration 0019, and deploys.
+
+### [2026-07-16 06:43] CODEX
+Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:42 repo handoff above is canonical and all locks remain cleared.
+
 ### [2026-07-16] CODEX
 DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
 

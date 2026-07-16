@@ -839,6 +839,87 @@
       opacity: .95;
     }
     .sequence-bar span { position: relative; color: var(--ui-ink); font-size: 10px; font-weight: 800; }
+    .sequence-row.has-retest { border-color: color-mix(in srgb, var(--ui-indigo) 34%, var(--ui-line)); }
+    .retest-lineage {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0 4px;
+      padding: 12px;
+      border: 1px solid var(--ui-line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--ui-panel-2) 92%, transparent);
+    }
+    .retest-variant {
+      min-width: 116px;
+      flex: 1 1 116px;
+      padding: 10px 11px;
+      border: 1px solid var(--ui-line);
+      border-radius: 11px;
+      background: var(--ui-panel);
+    }
+    .retest-variant.won { border-color: color-mix(in srgb, var(--ui-accent) 55%, var(--ui-line)); background: var(--ui-accent-soft); }
+    .retest-variant.lost { opacity: .68; }
+    .retest-variant.testing { border-color: color-mix(in srgb, var(--ui-indigo) 55%, var(--ui-line)); }
+    .retest-variant strong,
+    .retest-variant span { display: block; }
+    .retest-variant strong { font: 800 12px var(--ui-font-mono); }
+    .retest-variant span { margin-top: 4px; color: var(--ui-ink-2); font-size: 11px; line-height: 1.4; }
+    .retest-winner {
+      flex: 1 0 100%;
+      color: var(--ui-accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .retest-outcome {
+      display: flex;
+      align-items: end;
+      gap: 8px;
+      flex: 1 0 100%;
+      padding-top: 4px;
+    }
+    .retest-outcome label { flex: 1; color: var(--ui-ink-2); font-size: 11px; font-weight: 800; }
+    .retest-outcome input { width: 100%; margin-top: 5px; }
+    .retest-dialog {
+      width: min(620px, calc(100vw - 28px));
+      padding: 0;
+      border: 1px solid var(--ui-line);
+      border-radius: 20px;
+      background: var(--ui-panel);
+      color: var(--ui-ink);
+      box-shadow: var(--ui-shadow-lg);
+    }
+    .retest-dialog::backdrop { background: rgba(8, 15, 13, .54); backdrop-filter: blur(5px); }
+    .retest-dialog-head,
+    .retest-dialog-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 20px;
+    }
+    .retest-dialog-head { border-bottom: 1px solid var(--ui-line); }
+    .retest-dialog-head h3 { margin: 0; font-size: 19px; letter-spacing: -.03em; }
+    .retest-dialog-head p { margin: 4px 0 0; color: var(--ui-muted); font-size: 12px; }
+    .retest-dialog-body { display: grid; gap: 15px; padding: 20px; }
+    .retest-diagnostic,
+    .retest-method {
+      padding: 13px 14px;
+      border: 1px solid var(--ui-line);
+      border-radius: 13px;
+      background: var(--ui-panel-2);
+      color: var(--ui-ink-2);
+      font-size: 12.5px;
+      line-height: 1.55;
+    }
+    .retest-diagnostic strong,
+    .retest-method strong { color: var(--ui-ink); }
+    .retest-old-hook { color: var(--ui-ink); font-weight: 700; }
+    .retest-dialog-body label { color: var(--ui-ink-2); font-size: 12px; font-weight: 800; }
+    .retest-dialog-body textarea { width: 100%; min-height: 108px; margin-top: 7px; }
+    .retest-dialog-error { min-height: 18px; color: var(--ui-rose); font-size: 12px; }
+    .retest-dialog-foot { border-top: 1px solid var(--ui-line); }
     .photo-item {
       display: flex;
       gap: 10px;
@@ -1452,6 +1533,29 @@
     </main>
   </div>
 
+  <dialog class="retest-dialog" id="retestDialog" aria-labelledby="retestDialogTitle">
+    <div class="retest-dialog-head">
+      <div>
+        <h3 id="retestDialogTitle">Retest the hook</h3>
+        <p>Change one variable, hold the rest, compare completion.</p>
+      </div>
+      <button class="outline" id="closeRetestDialogButton" type="button" aria-label="Close retest">Close</button>
+    </div>
+    <div class="retest-dialog-body">
+      <div class="retest-diagnostic" id="retestDiagnostic"></div>
+      <div class="retest-diagnostic"><strong>Current hook.</strong> <span class="retest-old-hook" id="retestOldHook"></span></div>
+      <label for="retestNewHookInput">New hook to test
+        <textarea id="retestNewHookInput" maxlength="1000"></textarea>
+      </label>
+      <div class="retest-method"><strong>How the retest works.</strong> Run the new hook on the next posting. Keep every other slide identical. Log completion after 48 hours, then resolve the higher completion as the winner.</div>
+      <div class="retest-dialog-error" id="retestDialogError" role="alert"></div>
+    </div>
+    <div class="retest-dialog-foot">
+      <span class="panel-note">The original stays in the lineage.</span>
+      <button id="launchRetestButton" type="button">Launch retest</button>
+    </div>
+  </dialog>
+
   <script>
     const params = new URLSearchParams(location.search);
     const initialToken = params.get("t") || "";
@@ -1505,11 +1609,13 @@
       pulseItems: [],
       performance: {
         rows: [],
+        variantGroups: [],
         weekSummary: null,
         weeklyReport: null,
         latestSnapshot: null,
         priorSnapshot: null,
         editingSequenceId: null,
+        retestSequenceRef: null,
       },
       studio: {
         selectedType: "",
@@ -1557,6 +1663,8 @@
     $("saveClientSettingsButton").addEventListener("click", saveClientSettings);
     $("studioInsightGenerateButton").addEventListener("click", startInsightSequence);
     $("studioInsightLogButton").addEventListener("click", openInsightLogSurface);
+    $("closeRetestDialogButton").addEventListener("click", () => $("retestDialog").close());
+    $("launchRetestButton").addEventListener("click", launchRetest);
     $("proofGrid").addEventListener("click", (event) => {
       const button = event.target.closest("[data-proof-save]");
       if (button) saveProofClaim(button);
@@ -1665,7 +1773,7 @@
 
     async function loadPerformanceData() {
       try {
-        const [sequenceResponse, weeklyResponse] = await Promise.all([
+        const [sequenceResponse, weeklyResponse, variantsResponse] = await Promise.all([
           fetch(`/api/metrics-sequences?client=${encodeURIComponent(state.client)}`, {
             headers: authHeaders(),
             credentials: "same-origin",
@@ -1674,16 +1782,23 @@
             headers: authHeaders(),
             credentials: "same-origin",
           }),
+          fetch(`/api/sequence-variants?client=${encodeURIComponent(state.client)}`, {
+            headers: authHeaders(),
+            credentials: "same-origin",
+          }),
         ]);
-        if ([sequenceResponse, weeklyResponse].some((response) => response.status === 401 || response.status === 403)) {
+        if ([sequenceResponse, weeklyResponse, variantsResponse].some((response) => response.status === 401 || response.status === 403)) {
           redirectToLogin();
           return;
         }
         const sequenceData = await sequenceResponse.json().catch(() => ({}));
         const weeklyData = await weeklyResponse.json().catch(() => ({}));
+        const variantsData = await variantsResponse.json().catch(() => ({}));
         if (!sequenceResponse.ok || !sequenceData.ok) throw new Error(sequenceData.error || "Could not load sequence metrics.");
         if (!weeklyResponse.ok || !weeklyData.ok) throw new Error(weeklyData.error || "Could not load the weekly report.");
+        if (!variantsResponse.ok || !variantsData.ok) throw new Error(variantsData.error || "Could not load retest lineage.");
         state.performance.rows = Array.isArray(sequenceData.rows) ? sequenceData.rows : [];
+        state.performance.variantGroups = Array.isArray(variantsData.rows) ? variantsData.rows : [];
         state.performance.weekSummary = sequenceData.week_summary || null;
         state.performance.weeklyReport = weeklyData.report || null;
         state.performance.latestSnapshot = weeklyData.latest || null;
@@ -2214,6 +2329,8 @@
     */
     function getSequenceRead() {
       const rows = state.performance.rows || [];
+      const activeRetest = state.performance.variantGroups.find((group) => group.active) || null;
+      const resolvedRetest = state.performance.variantGroups.find((group) => group.resolved) || null;
       let title;
       let text;
       let tab;
@@ -2254,7 +2371,7 @@
       }
 
       if (!best) best = sequenceTypeLeaderboard(rows).find((item) => item.count > 0) || null;
-      return { rows, title, text, tab, label, leak, best };
+      return { rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest };
     }
 
     function renderNextMove() {
@@ -2295,6 +2412,14 @@
           lines.push({ tone: "neutral", mark: "N", text: read.text });
         }
       }
+      if (read.activeRetest) {
+        const topic = read.activeRetest.sequence?.topic || `sequence ${read.activeRetest.sequence_ref}`;
+        const testing = read.activeRetest.variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
+        lines.push({ tone: "neutral", mark: "T", text: `A hook retest is running on ${topic}${testing?.label ? ` as ${testing.label}` : ""}. Log its completion after the next posting.` });
+      } else if (read.resolvedRetest?.winner) {
+        const topic = read.resolvedRetest.sequence?.topic || `sequence ${read.resolvedRetest.sequence_ref}`;
+        lines.push({ tone: "success", mark: "R", text: `${read.resolvedRetest.winner.label} won the hook retest on ${topic} at ${formatPercent(read.resolvedRetest.winner.completion_pct)} completion.` });
+      }
 
       $("studioInsightLines").innerHTML = lines.map((line) => `
         <div class="studio-insight-line"><span class="insight-mark ${line.tone}">${esc(line.mark)}</span><p>${esc(line.text)}</p></div>
@@ -2307,7 +2432,9 @@
       ].join("");
 
       $("studioInsightGenerateButton").textContent = read.best ? `Generate ${read.best.type}` : "Start a sequence";
-      $("studioInsightLogButton").textContent = read.leak ? "Open leaking log" : "Open sequence log";
+      $("studioInsightLogButton").textContent = read.activeRetest
+        ? "Open active retest"
+        : (read.resolvedRetest ? "Open winning retest" : (read.leak ? "Open leaking log" : "Open sequence log"));
       renderStudioPipeline();
     }
 
@@ -2340,6 +2467,12 @@
 
     function openInsightLogSurface() {
       const read = getSequenceRead();
+      const retest = read.activeRetest || read.resolvedRetest;
+      if (retest?.sequence_ref) {
+        openTab("performance");
+        $(`sequenceRow${Number(retest.sequence_ref)}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
       if (read.leak?.id) {
         loadSequenceIntoForm(Number(read.leak.id));
         return;
@@ -2539,6 +2672,15 @@
       $("sequenceListEmpty").hidden = rows.length > 0;
       document.querySelectorAll("[data-edit-sequence]").forEach((button) => {
         button.addEventListener("click", () => loadSequenceIntoForm(Number(button.dataset.editSequence)));
+      });
+      document.querySelectorAll("[data-retest-sequence]").forEach((button) => {
+        button.addEventListener("click", () => openRetestDialog(Number(button.dataset.retestSequence)));
+      });
+      document.querySelectorAll("[data-log-variant]").forEach((button) => {
+        button.addEventListener("click", () => logVariantOutcome(Number(button.dataset.logVariant)));
+      });
+      document.querySelectorAll("[data-resolve-retest]").forEach((button) => {
+        button.addEventListener("click", () => resolveHookRetest(Number(button.dataset.resolveRetest)));
       });
       renderHome();
       renderStudioInsight();
@@ -3611,10 +3753,142 @@
       return TOKEN ? { "x-portal-token": TOKEN } : {};
     }
 
+    function variantGroupFor(sequenceRef) {
+      return state.performance.variantGroups.find((group) => Number(group.sequence_ref) === Number(sequenceRef)) || null;
+    }
+
+    function sequenceLeakLoss(row) {
+      const slide = Number(row.biggest_drop_slide || 0);
+      const views = Array.isArray(row.slide_views) ? row.slide_views : [];
+      const prior = Number(views[slide - 2] || 0);
+      const current = Number(views[slide - 1] || 0);
+      return prior > 0 ? Math.round(Math.max(0, ((prior - current) / prior) * 100) * 10) / 10 : null;
+    }
+
+    function suggestedRetestHook(row) {
+      const topic = String(row.topic || row.type || "this topic").trim().replace(/[.!?]+$/, "");
+      return `What changed when ${topic} stopped holding attention?`;
+    }
+
+    function openRetestDialog(sequenceRef) {
+      const row = state.performance.rows.find((item) => Number(item.id) === Number(sequenceRef));
+      if (!row || row.diagnostic !== "hook failed") return;
+      const group = variantGroupFor(sequenceRef);
+      if (group?.active) {
+        showMessage("This sequence already has an active hook retest.");
+        return;
+      }
+      state.performance.retestSequenceRef = Number(sequenceRef);
+      const loss = sequenceLeakLoss(row);
+      $("retestDialogTitle").textContent = `Retest, ${row.topic || row.type || "sequence"}`;
+      $("retestDiagnostic").innerHTML = `<strong>Slide ${number(row.biggest_drop_slide)} is the leak.</strong> ${loss == null ? "The loss rate is unavailable." : `${formatPercent(loss)} of viewers left at this transition.`}`;
+      $("retestOldHook").textContent = row.topic || "Current logged hook";
+      $("retestNewHookInput").value = suggestedRetestHook(row);
+      $("retestDialogError").textContent = "";
+      $("launchRetestButton").disabled = Boolean(state.impersonated);
+      $("retestDialog").showModal();
+      $("retestNewHookInput").focus();
+    }
+
+    async function launchRetest() {
+      const sequenceRef = Number(state.performance.retestSequenceRef || 0);
+      const newHook = $("retestNewHookInput").value.trim();
+      if (!newHook) {
+        $("retestDialogError").textContent = "Write the new hook before launching the retest.";
+        return;
+      }
+      const button = $("launchRetestButton");
+      button.disabled = true;
+      try {
+        const data = await postSequenceVariant({ action: "start", sequence_ref: sequenceRef, new_hook: newHook });
+        $("retestDialog").close();
+        await loadPerformanceData();
+        showMessage(`${data.variant?.label || "The new variant"} is testing. Keep every other slide identical.`, "success");
+      } catch (error) {
+        $("retestDialogError").textContent = error.message || "Could not launch the retest.";
+      } finally {
+        button.disabled = Boolean(state.impersonated);
+      }
+    }
+
+    async function logVariantOutcome(variantId) {
+      const input = $(`variantCompletion${variantId}`);
+      const completion = Number(input?.value);
+      if (!input || input.value.trim() === "" || !Number.isFinite(completion) || completion < 0 || completion > 100) {
+        showMessage("Enter a completion rate from 0 to 100.");
+        return;
+      }
+      try {
+        await postSequenceVariant({ action: "log", variant_id: variantId, completion_pct: completion });
+        await loadPerformanceData();
+        showMessage("Variant completion logged. Resolve the comparison when both results are ready.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not log the variant outcome.");
+      }
+    }
+
+    async function resolveHookRetest(sequenceRef) {
+      try {
+        const data = await postSequenceVariant({ action: "resolve", sequence_ref: sequenceRef });
+        await loadPerformanceData();
+        showMessage(`${data.winner?.label || "The higher-completion variant"} won the hook retest.`, "success");
+      } catch (error) {
+        showMessage(error.message || "Could not resolve the hook retest.");
+      }
+    }
+
+    async function postSequenceVariant(payload) {
+      const response = await fetch("/api/sequence-variants", {
+        method: "POST",
+        headers: { ...authHeaders(), "content-type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (response.status === 401) {
+        redirectToLogin();
+        throw new Error("The portal session expired.");
+      }
+      if (response.status === 403 && state.impersonated) throw new Error("Operator view is read only.");
+      if (!response.ok || !data.ok) throw new Error(data.error || "The retest request failed.");
+      return data;
+    }
+
+    function renderRetestLineage(group) {
+      if (!group) return "";
+      const variants = Array.isArray(group.variants) ? group.variants : [];
+      const winner = group.winner;
+      const pending = variants.find((variant) => variant.status === "testing" && variant.completion_pct == null);
+      const ready = group.active && variants.filter((variant) => variant.status === "testing").length === 2
+        && variants.filter((variant) => variant.status === "testing").every((variant) => variant.completion_pct != null);
+      return `
+        <div class="retest-lineage" role="group" aria-label="Hook retest lineage">
+          ${variants.map((variant) => `
+            <div class="retest-variant ${esc(variant.status)}">
+              <strong>${esc(variant.label)}${variant.status === "won" ? " winner" : ""}</strong>
+              <span>${variant.completion_pct == null ? "Testing, result not logged" : `${formatPercent(variant.completion_pct)} completion`}</span>
+            </div>
+          `).join("")}
+          ${winner ? `<div class="retest-winner">${esc(winner.label)} won with ${formatPercent(winner.completion_pct)} completion.</div>` : ""}
+          ${pending && !state.impersonated ? `
+            <div class="retest-outcome">
+              <label for="variantCompletion${pending.id}">Completion after posting
+                <input id="variantCompletion${pending.id}" type="number" min="0" max="100" step="0.1" placeholder="0 to 100">
+              </label>
+              <button class="outline" type="button" data-log-variant="${pending.id}">Log result</button>
+            </div>
+          ` : ""}
+          ${ready && !state.impersonated ? `<div class="retest-outcome"><button type="button" data-resolve-retest="${group.sequence_ref}">Resolve winner</button></div>` : ""}
+        </div>
+      `;
+    }
+
     function renderSequenceRow(row) {
       const maxView = Math.max(...(row.slide_views || [0]), 1);
+      const group = variantGroupFor(row.id);
+      const canRetest = row.diagnostic === "hook failed" && !group?.active;
       return `
-        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}">
+        <div class="sequence-row${state.performance.editingSequenceId === row.id ? " editing" : ""}${group ? " has-retest" : ""}" id="sequenceRow${row.id}">
           <div class="sequence-top">
             <div>
               <strong>${esc(row.topic || row.type || "Sequence")}</strong>
@@ -3636,9 +3910,11 @@
             <span>${row.biggest_drop_slide ? `Biggest drop: slide ${row.biggest_drop_slide}` : "No drop pattern yet"}</span>
             <span>${row.profile_visits == null ? "Profile visits not logged" : `${number(row.profile_visits)} profile visits`}</span>
           </div>
+          ${renderRetestLineage(group)}
           ${row.notes ? `<p>${esc(row.notes)}</p>` : ""}
           <div class="inline-form-actions">
             <button class="outline" type="button" data-edit-sequence="${row.id}">Edit</button>
+            ${canRetest ? `<button type="button" data-retest-sequence="${row.id}">Retest hook</button>` : ""}
           </div>
         </div>
       `;
