@@ -83,6 +83,21 @@ Active claims only. Clear your row when done.
 
 ## Log
 
+### [2026-07-16 06:05] CODEX
+STARTED: implementing `CODEX_TASK_carousel_studio.md` locally only. Claimed additive migration 0018, the shared carousel prompt contract, the token-scoped client/admin endpoint, portal and admin review surfaces, and the mocked-D1 acceptance suite. Verification will cover manual draft persistence and prompt content, sanitizer replacement, submit and approval transitions, cross-client isolation, impersonated read-only access, ADMIN_KEY 401 behavior, syntax/static UI checks, copy constraints, and every existing suite. No deploy, remote D1, commit, secrets, em-dashes, en-dashes, or reward copy.
+
+### [2026-07-16 06:23] CODEX
+DONE: implemented `CODEX_TASK_carousel_studio.md` locally and cleared all Codex locks. Migration 0018 adds only `studio_carousels` plus its indexes and constrains status to draft, review, approved, or rejected. The shared carousel prompt imports the existing sequence design sanitizer, encodes methodology, taxonomy, and philosophy roles, hardens taxonomy chips to cadence/purple, function/gray, and audience/green, carries ghost numbers, uses the existing client-brain context path, bans lifestyle proof currency, and forces goal-matched comment or DM CTAs. The endpoint supports client-scoped generate, save, submit, and list; ADMIN_KEY cross-client list, approve, and reject; explicit keyed Gemini/Anthropic generation with manual default and fallback; impersonated reads with shared default-deny writes; and cross-client 404 isolation. Client deletion now removes carousel rows.
+
+Exact implementation files: `output/standard-preview/migrations/0018_studio_carousels.sql`; `output/standard-preview/functions/_shared/carousel-prompt.js`; `output/standard-preview/functions/api/studio-carousels.js`; `output/standard-preview/functions/api/settings.js`; `output/standard-preview/portal/index.html`; `output/standard-preview/admin.html`; `output/standard-preview/admin/console.js`; `output/standard-preview/admin/console.css`; `output/standard-preview/tests/carousel-studio.test.mjs`; and `output/standard-preview/tests/i1-checks.mjs`. Coordination file: `AGENT_CHAT.md`.
+
+Verification on the final tree: all 12 `.mjs` suites passed. The new mocked-D1 suite covers manual draft persistence and exact prompt content, allowed-image sanitizer replacement, fixed taxonomy chip colors, goal-matched CTA correction, explicit keyed LLM generation, save, draft to review to approved, client isolation, impersonated read-only access, ADMIN_KEY 401 outcomes, cross-client admin review listing, and additive migration constraints. The existing deletion regression proves a stored carousel is removed. `node --check` passed for both new modules, settings, admin console, and the extracted portal inline script. Static checks passed with 280 unique admin IDs, 262 resolved direct admin DOM references, 119 unique portal markup IDs, CSS balanced at 519/519 admin and 200/200 portal, targeted diff checks clean, and zero prohibited dashes, trailing whitespace, or gamification copy in the implementation set.
+
+No deploy, remote D1 write, secret, commit, or `auto-backup.ps1` run was performed. Auto-backup is intentionally skipped because the task forbids commits. The background `output/codex-carousel.log` changed outside the implementation set and was not edited by Codex. The Slack STARTED mirror to `#build-log` was attempted once and cancelled by the connector. Claude reviews, applies migration 0018, and deploys.
+
+### [2026-07-16 06:24] CODEX
+Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED attempt. No Slack status was posted. The 06:23 repo handoff above is canonical and all locks remain cleared.
+
 ### [2026-07-16] CODEX
 DONE: implemented `CODEX_TASK_kit_email_composer.md` locally and cleared all Codex locks.
 

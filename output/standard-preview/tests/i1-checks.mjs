@@ -30,6 +30,7 @@ class MockDB {
       client_email_codes: seed.client_email_codes || [],
       client_dashboard_content: seed.client_dashboard_content || [],
       studio_sequences: seed.studio_sequences || [],
+      studio_carousels: seed.studio_carousels || [],
       sequence_log: seed.sequence_log || [],
       account_snapshots: seed.account_snapshots || [],
       client_brain: seed.client_brain || [],
@@ -1157,6 +1158,7 @@ async function runClientDeletionChecks() {
   env.DB.state.client_assets.push({ id: 1, client, label: "Throwaway asset" });
   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
   env.DB.state.email_drafts.push({ id: 1, client, subject: "Throwaway email" });
+  env.DB.state.studio_carousels.push({ id: 1, client_id: client, topic: "Throwaway carousel" });
   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
   env.DB.state.media.push({
     id: "delete-check-media",
@@ -1205,6 +1207,7 @@ async function runClientDeletionChecks() {
       client_email_codes: 0,
       client_dashboard_content: 0,
       studio_sequences: 0,
+      studio_carousels: 1,
       sequence_log: 0,
       account_snapshots: 0,
       client_brain: 0,
@@ -1235,7 +1238,7 @@ async function runClientDeletionChecks() {
 
   for (const table of [
     "client_config", "client_auth", "client_sessions", "client_setup_tokens", "client_email_codes",
-    "client_dashboard_content", "studio_sequences", "sequence_log", "account_snapshots", "client_brain",
+    "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_log", "account_snapshots", "client_brain",
     "proof_items", "content_items", "call_notes", "client_assets", "payments", "integrations",
     "integration_events", "delivery_failures", "email_drafts", "page_events", "media",
   ]) {

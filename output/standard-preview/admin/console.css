@@ -623,6 +623,14 @@ input:focus, select:focus, textarea:focus {
   display: grid;
   gap: 12px;
 }
+.carousel-review-design {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 7px 12px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
 .performance-sequence-list .review-card.editing {
   border-color: var(--success);
 }

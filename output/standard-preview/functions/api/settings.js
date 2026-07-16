@@ -16,6 +16,7 @@ const CLIENT_TABLES = [
   ["client_email_codes", "client_id"],
   ["client_dashboard_content", "client_id"],
   ["studio_sequences", "client_id"],
+  ["studio_carousels", "client_id"],
   ["sequence_log", "client_id"],
   ["account_snapshots", "client_id"],
   ["client_brain", "client_id"],

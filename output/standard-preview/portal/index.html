@@ -444,6 +444,62 @@
       gap: 16px;
       align-items: start;
     }
+    .carousel-studio-block {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid var(--ui-line);
+    }
+    .carousel-studio-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+    }
+    .carousel-studio-head h3 { margin: 0 0 5px; font-size: 22px; letter-spacing: -.04em; }
+    .carousel-studio-head p { margin: 0; color: var(--ui-ink-2); font-size: 12px; line-height: 1.58; }
+    .carousel-create-grid {
+      display: grid;
+      grid-template-columns: minmax(150px, .7fr) minmax(240px, 1.6fr) minmax(150px, .7fr) auto;
+      gap: 12px;
+      align-items: end;
+    }
+    .carousel-create-grid label { display: grid; gap: 7px; color: var(--ui-ink-2); font-size: 12px; font-weight: 700; }
+    .carousel-create-grid input,
+    .carousel-create-grid select {
+      width: 100%;
+      border: 1px solid var(--ui-line);
+      border-radius: 14px;
+      background: color-mix(in srgb, var(--ui-panel) 88%, transparent);
+      color: var(--ui-ink);
+      padding: 12px 13px;
+    }
+    .carousel-history-list { display: grid; gap: 12px; }
+    .carousel-history-item {
+      overflow: hidden;
+      background: var(--ui-panel);
+      border: 1px solid var(--ui-line);
+      border-radius: 18px;
+      box-shadow: var(--ui-shadow-sm);
+    }
+    .carousel-history-item summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 18px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .carousel-history-item summary::-webkit-details-marker { display: none; }
+    .carousel-history-item summary strong { display: block; font-size: 14px; }
+    .carousel-history-item summary p { margin: 4px 0 0; color: var(--ui-ink-2); font-size: 12px; }
+    .carousel-history-body { display: grid; gap: 14px; padding: 0 18px 18px; border-top: 1px solid var(--ui-line); }
+    .carousel-slide-list { display: grid; gap: 10px; padding-top: 16px; }
+    .carousel-slide-copy { display: grid; gap: 7px; margin: 10px 0; }
+    .carousel-slide-copy p { margin: 0; }
+    .carousel-cta { color: var(--ui-accent); font-weight: 800; }
     .field-grid { display: grid; gap: 12px; }
     .field-grid.two,
     .type-grid,
@@ -801,6 +857,7 @@
     }
     @media (max-width: 1100px) {
       .studio-grid,
+      .carousel-create-grid,
       .performance-grid,
       .proof-upload-card { grid-template-columns: 1fr; }
     }
@@ -1302,6 +1359,43 @@
             </div>
           </div>
         </div>
+
+        <div class="carousel-studio-block" id="carouselStudioBlock">
+          <div class="carousel-studio-head">
+            <div>
+              <h3>Carousels</h3>
+              <p>Build a saveable methodology, taxonomy, or philosophy set with copy and design direction attached to every slide.</p>
+            </div>
+            <div class="panel-note" id="carouselStatus">Waiting on carousel history</div>
+          </div>
+          <div class="studio-card">
+            <div class="carousel-create-grid">
+              <label for="carouselStructureSelect">Structure
+                <select id="carouselStructureSelect">
+                  <option value="methodology">Methodology</option>
+                  <option value="taxonomy">Taxonomy</option>
+                  <option value="philosophy">Philosophy</option>
+                </select>
+              </label>
+              <label for="carouselTopicInput">Topic
+                <input id="carouselTopicInput" placeholder="What should this carousel make saveable?">
+              </label>
+              <label for="carouselGoalSelect">Goal
+                <select id="carouselGoalSelect">
+                  <option value="reach">Reach</option>
+                  <option value="dms">DMs</option>
+                  <option value="booked calls">Booked calls</option>
+                </select>
+              </label>
+              <button class="secondary" id="generateCarouselButton" type="button">Generate carousel</button>
+            </div>
+          </div>
+          <div class="carousel-history-list" id="carouselHistoryList"></div>
+          <div class="empty-card" id="carouselHistoryEmpty" hidden>
+            <h3>No carousels saved yet</h3>
+            <p>Create the first draft. Manual mode saves the complete copy prompt and the numbered design contract.</p>
+          </div>
+        </div>
       </section>
 
       <section class="panel" id="panel-reels">
@@ -1422,6 +1516,9 @@
         rows: [],
         current: null,
       },
+      carousels: {
+        rows: [],
+      },
       reels: {
         thoughts: loadSavedThoughts(),
       },
@@ -1451,6 +1548,7 @@
     renderTypeGrid();
     renderSequenceTypeSelect();
     $("generateSequenceButton").addEventListener("click", generateSequence);
+    $("generateCarouselButton").addEventListener("click", generateCarousel);
     $("saveSequenceLogButton").addEventListener("click", saveSequenceLog);
     $("clearSequenceLogButton").addEventListener("click", clearSequenceForm);
     $("saveSnapshotButton").addEventListener("click", saveSnapshot);
@@ -1489,7 +1587,7 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
         renderDashboard(data);
-        await Promise.all([loadStudioHistory(), loadPerformanceData(), loadProofVault(), loadPulseFeed(), loadClientIntegrations()]);
+        await Promise.all([loadStudioHistory(), loadCarouselHistory(), loadPerformanceData(), loadProofVault(), loadPulseFeed(), loadClientIntegrations()]);
       } catch (error) {
         showMessage(error.message || "Could not load the dashboard.");
       }
@@ -1621,6 +1719,28 @@
         showMessage(error.message || "Could not load sequence history.");
         $("studioStatus").textContent = "History unavailable";
         renderStudioInsight();
+      }
+    }
+
+    async function loadCarouselHistory() {
+      try {
+        const response = await fetch("/api/studio-carousels", {
+          headers: authHeaders(),
+          credentials: "same-origin",
+        });
+        if (response.status === 401) {
+          redirectToLogin();
+          return;
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not load carousel history.");
+        state.carousels.rows = Array.isArray(data.rows) ? data.rows : [];
+        renderCarouselStudio();
+        $("carouselStatus").textContent = `${state.carousels.rows.length} carousel${state.carousels.rows.length === 1 ? "" : "s"} saved`;
+        renderStudioPipeline();
+      } catch (error) {
+        $("carouselStatus").textContent = "Carousel history unavailable";
+        showMessage(error.message || "Could not load carousel history.");
       }
     }
 
@@ -2202,8 +2322,8 @@
         ["approved", "Approved"],
       ];
       $("studioPipeline").innerHTML = stages.map(([status, label]) => {
-        const count = state.studio.rows.filter((row) => row.status === status).length;
-        return `<div class="studio-pipeline-stage ${status}"><span>${esc(label)}</span><strong class="mono">${number(count)}</strong><small>saved sequence${count === 1 ? "" : "s"}</small></div>`;
+        const count = [...state.studio.rows, ...state.carousels.rows].filter((row) => row.status === status).length;
+        return `<div class="studio-pipeline-stage ${status}"><span>${esc(label)}</span><strong class="mono">${number(count)}</strong><small>saved Studio asset${count === 1 ? "" : "s"}</small></div>`;
       }).join("");
     }
 
@@ -2313,6 +2433,48 @@
         openTab("studio");
       } catch (error) {
         showMessage(error.message || "Could not generate the sequence.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+
+    async function generateCarousel() {
+      const topic = $("carouselTopicInput").value.trim();
+      if (!topic) {
+        showMessage("Carousel topic is required.");
+        $("carouselTopicInput").focus({ preventScroll: true });
+        return;
+      }
+      const button = $("generateCarouselButton");
+      button.disabled = true;
+      showMessage("Generating carousel...");
+      try {
+        const response = await fetch("/api/studio-carousels", {
+          method: "POST",
+          headers: { ...authHeaders(), "content-type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({
+            action: "generate",
+            manual_mode: true,
+            structure: $("carouselStructureSelect").value,
+            topic,
+            goal: $("carouselGoalSelect").value,
+          }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.status === 403 && state.impersonated) throw new Error("Operator view is read only.");
+        if (response.status === 401) {
+          redirectToLogin();
+          return;
+        }
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not generate the carousel.");
+        await loadCarouselHistory();
+        $("carouselTopicInput").value = "";
+        showMessage(data.mode === "manual"
+          ? "Manual carousel prompt and numbered design directions were saved."
+          : (data.warning || "Carousel draft generated."), data.warning ? "warning" : "success");
+      } catch (error) {
+        showMessage(error.message || "Could not generate the carousel.");
       } finally {
         button.disabled = false;
       }
@@ -2651,6 +2813,120 @@
       });
     }
 
+    function renderCarouselStudio() {
+      const rows = state.carousels.rows;
+      $("carouselHistoryList").innerHTML = rows.map((row, index) => {
+        const slides = Array.isArray(row.output?.slides) ? row.output.slides : [];
+        const label = carouselLabel(row);
+        return `
+          <details class="carousel-history-item" ${index === 0 ? "open" : ""}>
+            <summary>
+              <div>
+                <strong>${esc(label)} | ${esc(row.topic || row.structure || "Carousel")}</strong>
+                <p>${esc(row.structure || "methodology")} | ${esc(row.goal || "reach")} | updated ${relativeTime(row.updated_at)}</p>
+              </div>
+              <span class="status-pill ${esc(row.status || "draft")}">${esc(labelStatus(row.status))}</span>
+            </summary>
+            <div class="carousel-history-body">
+              ${row.review_note ? `<div class="review-note"><strong>Review note</strong><p>${esc(row.review_note)}</p></div>` : ""}
+              <div class="button-row" style="padding-top:16px">
+                <button class="outline" type="button" data-copy-carousel="${row.id}">Copy all slides</button>
+                ${row.manual_prompt ? `<button class="outline" type="button" data-copy-carousel-prompt="${row.id}">Copy manual prompt</button>` : ""}
+                ${row.status === "draft" || row.status === "rejected"
+                  ? `<button class="secondary" type="button" data-submit-carousel="${row.id}">Send for review</button>`
+                  : ""}
+              </div>
+              ${row.manual_prompt && row.output?.manual_mode ? `
+                <div class="manual-card">
+                  <h3>Manual prompt</h3>
+                  <p>This is the exact prompt saved with the draft. Copy it into the manual writing path, then keep the numbered design rows attached.</p>
+                  <textarea readonly>${esc(row.manual_prompt)}</textarea>
+                </div>
+              ` : ""}
+              <div class="carousel-slide-list">
+                ${slides.map((slide) => `
+                  <div class="slide-card">
+                    <div class="slide-head">
+                      <div>
+                        <div class="slide-number">Slide ${Number(slide.n || 0)}</div>
+                        <strong>${esc(slide.role || "")}</strong>
+                      </div>
+                      <span class="status-pill draft">${esc(normalizeSlideDesign(slide)?.ghostNumber || String(slide.n || 0).padStart(2, "0"))}</span>
+                    </div>
+                    <div class="carousel-slide-copy">
+                      ${slide.headline ? `<strong>${esc(slide.headline)}</strong>` : `<span class="pill">Copy pending in manual prompt</span>`}
+                      ${slide.body ? `<p>${esc(slide.body)}</p>` : ""}
+                      ${slide.cta ? `<p class="carousel-cta">${esc(slide.cta)}</p>` : ""}
+                    </div>
+                    ${renderDesignDirection(slide)}
+                  </div>
+                `).join("") || `<div class="empty-inline">No structured slides are saved on this carousel.</div>`}
+              </div>
+            </div>
+          </details>
+        `;
+      }).join("");
+      $("carouselHistoryEmpty").hidden = rows.length > 0;
+      document.querySelectorAll("[data-copy-carousel]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const row = rows.find((item) => item.id === Number(button.dataset.copyCarousel));
+          const copied = await copyText(formatCarouselForCopy(row));
+          showMessage(copied ? "Carousel slides copied." : "Copy failed. Select the text manually.", copied ? "success" : undefined);
+        });
+      });
+      document.querySelectorAll("[data-copy-carousel-prompt]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const row = rows.find((item) => item.id === Number(button.dataset.copyCarouselPrompt));
+          const copied = await copyText(row?.manual_prompt || "");
+          showMessage(copied ? "Manual carousel prompt copied." : "Copy failed. Select the prompt manually.", copied ? "success" : undefined);
+        });
+      });
+      document.querySelectorAll("[data-submit-carousel]").forEach((button) => {
+        button.addEventListener("click", () => submitCarouselForReview(Number(button.dataset.submitCarousel)));
+      });
+    }
+
+    function carouselLabel(row) {
+      const ordered = [...state.carousels.rows].sort((a, b) => a.id - b.id);
+      const index = ordered.findIndex((item) => item.id === row.id);
+      return `Carousel ${String(Math.max(1, index + 1)).padStart(2, "0")}`;
+    }
+
+    function formatCarouselForCopy(row) {
+      if (!row) return "";
+      const slides = Array.isArray(row.output?.slides) ? row.output.slides : [];
+      return [
+        `${carouselLabel(row)}: ${row.topic || "Carousel"}`,
+        `Structure: ${row.structure || ""}`,
+        `Goal: ${row.goal || "reach"}`,
+        "",
+        ...slides.flatMap((slide) => [
+          `Slide ${slide.n || ""}: ${slide.role || ""}`,
+          slide.headline || "",
+          slide.body || "",
+          slide.cta || "",
+          formatDesignForCopy(slide),
+          "",
+        ]),
+        row.output?.caption ? `Caption: ${row.output.caption}` : "",
+        row.output?.posting_note ? `Posting note: ${row.output.posting_note}` : "",
+      ].filter((line, index, lines) => line || (index > 0 && lines[index - 1])).join("\n").trim();
+    }
+
+    function formatDesignForCopy(slide) {
+      const direction = normalizeSlideDesign(slide);
+      if (!direction) return "";
+      const annotations = direction.annotations.map((item) => `${item.type} on ${item.target}`).join(", ") || "none";
+      const chips = direction.chips.map((item) => `${item.axis}: ${item.label} (${item.color || "gray"})`).join(", ");
+      return [
+        `Design: annotation ${annotations}`,
+        `Image: ${direction.imageClass}, ${direction.artifactSlot}`,
+        `Treatment: ${direction.treatment.text}, ${direction.treatment.alignment}`,
+        chips ? `Chips: ${chips}` : "",
+        `Ghost number: ${direction.ghostNumber || String(slide.n || 0).padStart(2, "0")}`,
+      ].filter(Boolean).join("\n");
+    }
+
     function renderCurrentSequence() {
       const target = $("studioDetail");
       const row = state.studio.current;
@@ -2826,6 +3102,7 @@
           alignment: String(treatment.alignment || "left").trim() === "right" ? "right" : "left",
         },
         chips: Array.isArray(raw.chips) ? raw.chips.filter(Boolean).slice(0, 6) : [],
+        ghostNumber: String(raw.ghost_number || raw.ghostNumber || "").trim(),
       };
     }
 
@@ -3072,6 +3349,28 @@
         showMessage("Draft sent for review.", "success");
       } catch (error) {
         showMessage(error.message || "Could not send this draft for review.");
+      }
+    }
+
+    async function submitCarouselForReview(id) {
+      try {
+        const response = await fetch("/api/studio-carousels", {
+          method: "POST",
+          headers: { ...authHeaders(), "content-type": "application/json" },
+          credentials: "same-origin",
+          body: JSON.stringify({ action: "submit-for-review", id }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (response.status === 403 && state.impersonated) throw new Error("Operator view is read only.");
+        if (response.status === 401) {
+          redirectToLogin();
+          return;
+        }
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send this carousel for review.");
+        await loadCarouselHistory();
+        showMessage("Carousel sent for review.", "success");
+      } catch (error) {
+        showMessage(error.message || "Could not send this carousel for review.");
       }
     }
 

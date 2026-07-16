@@ -47,6 +47,7 @@
     campaignSummary: {},
     trackedAssets: [],
     studioReviews: [],
+    carouselReviews: [],
     brain: null,
     emailConfigured: false,
     emailTags: [],
@@ -108,6 +109,7 @@
     "integration_events",
     "delivery_failures",
     "email_drafts",
+    "studio_carousels",
     "page_events",
     "media",
   ];
@@ -338,6 +340,7 @@
     $("refreshOperatorButton").addEventListener("click", loadOperatorOverview);
     $("refreshHomeButton").addEventListener("click", loadHome);
     $("refreshStudioReviewButton").addEventListener("click", loadStudioReviewQueue);
+    $("refreshCarouselReviewButton").addEventListener("click", loadCarouselReviewQueue);
     $("refreshClientsButton").addEventListener("click", loadSettings);
     $("refreshBrainButton").addEventListener("click", loadBrain);
     $("exportBrainButton").addEventListener("click", exportBrainContext);
@@ -1012,10 +1015,11 @@
     button.disabled = true;
     $("attentionCount").textContent = "Loading";
     try {
-      const [activityResponse, campaignResponse, reviewResponse, configResults] = await Promise.all([
+      const [activityResponse, campaignResponse, reviewResponse, carouselReviewResponse, configResults] = await Promise.all([
         api("/api/activity"),
         api("/api/campaigns"),
         api("/api/studio-sequences?status=review"),
+        api("/api/studio-carousels?status=review"),
         Promise.all(state.clients.map(async (client) => {
           try {
             const response = await api(`/api/settings?client=${encodeURIComponent(client.client)}`);
@@ -1031,6 +1035,7 @@
       const activityData = await activityResponse.json().catch(() => ({}));
       const campaignData = await campaignResponse.json().catch(() => ({}));
       const reviewData = await reviewResponse.json().catch(() => ({}));
+      const carouselReviewData = await carouselReviewResponse.json().catch(() => ({}));
       if (!activityResponse.ok || !activityData.ok) {
         throw new Error(activityData.error || "Could not load activity.");
       }
@@ -1040,10 +1045,14 @@
       if (!reviewResponse.ok || !reviewData.ok) {
         throw new Error(reviewData.error || "Could not load the studio review queue.");
       }
+      if (!carouselReviewResponse.ok || !carouselReviewData.ok) {
+        throw new Error(carouselReviewData.error || "Could not load the carousel review queue.");
+      }
       state.homeConfigs = new Map(configResults);
       state.activity = Array.isArray(activityData.activity) ? activityData.activity : [];
       state.campaignSummary = campaignData.summary || {};
       state.studioReviews = Array.isArray(reviewData.rows) ? reviewData.rows : [];
+      state.carouselReviews = Array.isArray(carouselReviewData.rows) ? carouselReviewData.rows : [];
       renderHome();
     } finally {
       button.disabled = false;
@@ -1127,6 +1136,7 @@
       button.addEventListener("click", () => openHomeClient(button.dataset.homeClient));
     });
     renderStudioReviewQueue();
+    renderCarouselReviewQueue();
   }
 
   async function loadStudioReviewQueue() {
@@ -1195,6 +1205,82 @@
     $$("[data-review-attach]", $("studioReviewQueue")).forEach((button) => {
       button.addEventListener("click", () => attachStudioOutputFromReview(Number(button.dataset.reviewAttach)));
     });
+  }
+
+  async function loadCarouselReviewQueue() {
+    const button = $("refreshCarouselReviewButton");
+    button.disabled = true;
+    try {
+      const response = await api("/api/studio-carousels?status=review");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the carousel review queue.");
+      state.carouselReviews = Array.isArray(data.rows) ? data.rows : [];
+      renderCarouselReviewQueue();
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || "Could not load the carousel review queue.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function renderCarouselReviewQueue() {
+    $("carouselReviewQueue").innerHTML = state.carouselReviews.map((row) => `
+      <article class="review-card">
+        <div class="review-head">
+          <div>
+            <strong>${esc(row.client_id)} | ${esc(row.structure || "carousel")}</strong>
+            <p>${esc(row.topic || "")}</p>
+          </div>
+          <span class="badge accent">${esc(row.status || "review")}</span>
+        </div>
+        <div class="review-meta">
+          <span>Goal: ${esc(row.goal || "reach")}</span>
+          <span>Updated ${relativeTime(row.updated_at)}</span>
+        </div>
+        <div class="review-slides">
+          ${(Array.isArray(row.output?.slides) ? row.output.slides : []).map((slide) => `
+            <div class="review-slide">
+              <span class="review-slide-num">Slide ${Number(slide.n || 0)} | ${esc(slide.role || "")}</span>
+              <strong>${esc(slide.headline || "Copy pending")}</strong>
+              ${slide.body ? `<p>${esc(slide.body)}</p>` : ""}
+              ${slide.cta ? `<p><strong>CTA:</strong> ${esc(slide.cta)}</p>` : ""}
+              ${renderCarouselDesignReview(slide)}
+            </div>
+          `).join("") || `<div class="message error">No structured slides were saved for this carousel.</div>`}
+        </div>
+        <label class="field">
+          <span>Review note</span>
+          <textarea rows="3" data-carousel-review-note="${row.id}" placeholder="Write the approval context or the rejection reason."></textarea>
+        </label>
+        <div class="button-row">
+          <button class="button primary small" type="button" data-carousel-review-action="approve" data-carousel-review-id="${row.id}">Approve</button>
+          <button class="button outline small" type="button" data-carousel-review-action="reject" data-carousel-review-id="${row.id}">Reject</button>
+        </div>
+      </article>
+    `).join("");
+    $("carouselReviewEmpty").hidden = state.carouselReviews.length > 0;
+    $$('[data-carousel-review-action]', $("carouselReviewQueue")).forEach((button) => {
+      button.addEventListener("click", () => handleCarouselReviewAction(button.dataset.carouselReviewAction, Number(button.dataset.carouselReviewId)));
+    });
+  }
+
+  function renderCarouselDesignReview(slide) {
+    const raw = slide?.design || slide?.design_direction || {};
+    const annotations = raw.annotation || raw.annotations || [];
+    const image = raw.image_class && typeof raw.image_class === "object"
+      ? `${raw.image_class.type || ""}, ${raw.image_class.artifact || ""}`
+      : String(raw.image_class || "");
+    const chips = Array.isArray(raw.chips)
+      ? raw.chips.map((chip) => `${chip.axis || "chip"}: ${chip.label || ""}`).join(", ")
+      : "";
+    return `
+      <div class="review-meta carousel-review-design">
+        <span>Annotation: ${esc((Array.isArray(annotations) ? annotations : [annotations]).map((item) => item?.type || item).filter(Boolean).join(", ") || "none")}</span>
+        <span>Image: ${esc(image || "not set")}</span>
+        ${chips ? `<span>Chips: ${esc(chips)}</span>` : ""}
+        <span>Ghost: ${esc(raw.ghost_number || raw.ghostNumber || String(slide.n || 0).padStart(2, "0"))}</span>
+      </div>
+    `;
   }
 
   function healthChip(label, ready) {
@@ -2862,6 +2948,27 @@
       showMessage($("globalMessage"), `Sequence ${action === "approve" ? "approved" : "rejected"}.`, "success");
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || `Could not ${action} this sequence.`, "error");
+    }
+  }
+
+  async function handleCarouselReviewAction(action, id) {
+    const noteField = document.querySelector(`[data-carousel-review-note="${id}"]`);
+    const note = noteField?.value.trim() || "";
+    try {
+      const response = await api("/api/studio-carousels", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action, id, note }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || `Could not ${action} this carousel.`);
+      }
+      state.carouselReviews = state.carouselReviews.filter((row) => row.id !== id);
+      renderCarouselReviewQueue();
+      showMessage($("globalMessage"), `Carousel ${action === "approve" ? "approved" : "rejected"}.`, "success");
+    } catch (error) {
+      if (state.key) showMessage($("globalMessage"), error.message || `Could not ${action} this carousel.`, "error");
     }
   }
 
