@@ -1,0 +1,23 @@
+Implementation and all local checks are complete, but deployment is blocked by expired Cloudflare authentication.
+
+Passed:
+
+- `node --check`
+- All 13 `.mjs` suites
+- 304 unique HTML IDs
+- 285 resolved DOM references
+- CSS balanced at 619/619
+- Dynamic prospect-page contract
+- Dark theme and 390px responsive checks
+
+No production upload occurred. The spec remains unarchived and Codex locks remain marked `BLOCKED`.
+
+From `output/standard-preview`, run:
+
+```powershell
+npx.cmd wrangler login
+```
+
+Then reply **continue**. I’ll deploy with `--branch main`, perform visual QA and production smoke checks, archive the spec, post DONE, and run the final backup.
+
+**TLDR: Run `npx.cmd wrangler login`, then tell me to continue.**
