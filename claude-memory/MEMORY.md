@@ -4,7 +4,7 @@
 
 - [CRM cross-browser sync](project_crm_cross_browser_sync.md) - 2026-07-09: lead edits (fields/pipeline/transcripts/assets) sync via pulsify-funnels D1 /api/crm-sync (per-lead _ts merge, migration 0011); agents use pulsify-dashboard tools/crm_sync.py w/ FUNNELS_ADMIN_KEY; user must paste ADMIN_KEY once per browser (Lead Studio funnels-key field) to turn sync on
 
-- [OG previews + path URLs](project_og_preview_path_urls.md) - 2026-07-09: /{lead-slug} URLs + link-paste preview cards LIVE on pulsify-funnels; Frank's send link = pulsify-funnels.pages.dev/frank-wieler; shared 1200x630 og-card + per-lead og:title; ALSO: brain autosync push BROKEN since ~07-06, origin/main diverged (missing output/ + AGENT_CHAT), commit a31d5b8 local-only, needs founder reconciliation call
+- [OG previews + path URLs](project_og_preview_path_urls.md) - 2026-07-09: /{lead-slug} URLs + link-paste preview cards LIVE on pulsify-funnels; Frank's send link = pulsify-funnels.pages.dev/frank-wieler; shared 1200x630 og-card + per-lead og:title; autosync divergence RESOLVED 2026-07-18 (brain/main == local main)
 
 - [Never guess](feedback_never_guess.md) - 2026-07-06 HARD universal rule: never guess a URL/path/name/value/fact — ask the founder for it or verify from a real source; a confident-looking guess wastes his time and erodes trust; applies to ALL tasks
 

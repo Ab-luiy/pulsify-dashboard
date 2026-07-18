@@ -1,6 +1,6 @@
 ---
 name: project_og_preview_path_urls
-description: "OG preview cards + clean path lead URLs live on pulsify-funnels (2026-07-09); Frank's sendable link is /frank-wieler; also: brain autosync push BROKEN, origin diverged"
+description: "OG preview cards + clean path lead URLs live on pulsify-funnels (2026-07-09); Frank's sendable link is /frank-wieler"
 metadata: 
   node_type: memory
   type: project
@@ -15,4 +15,4 @@ metadata:
 - Review catch worth remembering: Codex's documented D1 SQL referenced a nonexistent `client_name` column — always PRAGMA-check client_config (14 cols) before running seeds. Wrangler D1 /query can throw a transient 7403; retry.
 - Headless screenshot gotcha (Windows): chrome `--headless=new --window-size=W,H` loses ~90px of viewport height to window decorations — capture taller and crop (I did 1200x720 -> top 1200x630 via System.Drawing). `aspect-ratio` CSS didn't apply either; force explicit heights. Needs `--no-sandbox` + scratch `--user-data-dir` to run at all from the sandboxed shell.
 
-**BROKEN + OPEN: the brain autosync push has been failing since ~2026-07-06.** Local vault main and `Ab-luiy/pulsify-brain` origin/main have fully diverged: origin is MISSING the whole `output/` tree and `AGENT_CHAT.md`, has GitHub-side "Refresh stats" commits local lacks; local has weeks of unpushed checkpoints + a stale May-25 "test" commit that conflicts on rebase. I aborted rebase AND cherry-pick rather than guess which side wins ([[feedback_never_guess]]). My commit a31d5b8 (this build) is on LOCAL main only; deployed==local source. The online backup ([[project_brain_online_backup]]) is STALE until the founder decides the reconciliation. Raise this when backup/restore or "push to origin" comes up.
+RESOLVED 2026-07-18: the brain autosync divergence reported here on 07-09 no longer exists — verified `git rev-list --left-right --count brain/main...main` = 0/0, brain/main matches local main exactly at the latest checkpoint. The online backup ([[project_brain_online_backup]]) is current. (The 275/171 divergence on `origin` = pulsify-dashboard is the documented deploy model, not a break.)
