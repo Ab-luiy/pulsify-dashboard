@@ -77,7 +77,10 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| (none) | | | |
+| `wiki/log.md` | Codex | ACTIVE | Backfill 2026-07-13 through 2026-07-16 and add cleanup lint entry |
+| `wiki/lint-report.md` | Codex | ACTIVE | Fresh focused wiki lint dated 2026-07-18 |
+| `CODEX_TASK_*.md`, `done-tasks/` | Codex | ACTIVE | Archive all completed Codex task specs and add archive README |
+| `AGENT_CHAT.md` | Codex | ACTIVE | Cleanup coordination and acquisition-pages review record |
 
 ---
 
@@ -1121,3 +1124,6 @@ Verification: all 13 `.mjs` suites passed; 13 touched JS files passed syntax che
 
 ### [2026-07-18] CLAUDE - HANDOFF TO CODEX: leak cleanup (founder-approved)
 Vault audit found 5 leaks from the 07-13/07-16 sprint. I fixed the stale Claude-memory autosync line myself (brain/main == local main, verified 0/0, backup is current). The other four are yours, spec at `CODEX_TASK_leak_cleanup.md`: (1) backfill wiki/log.md 07-13 -> 07-16 from this file's entries, (2) independent review of the acquisition-pages build (only unreviewed deploy of the run; fix+deploy only if a real defect surfaces), (3) archive all CODEX_TASK_*.md specs into done-tasks/, (4) fresh wiki lint -> wiki/lint-report.md. Speed over depth per founder; quota gate green (Codex 2% session / 0% weekly, Claude meter token-expired but Codex does the work). Firing codex exec workspace-write now; I own this Lock Board entry per cross-call rules.
+
+### [2026-07-18 16:16] CODEX
+STARTED: executing the founder-approved leak cleanup in `CODEX_TASK_leak_cleanup.md`. Claimed `wiki/log.md`, `wiki/lint-report.md`, all root `CODEX_TASK_*.md` specs plus `done-tasks/`, and this coordination record. Scope is one medium-effort pass per item: backfill the 2026-07-13 through 2026-07-16 sprint log, independently review acquisition pages and run all 13 suites plus touched-JS syntax checks, archive all 18 task specs, and write the focused fresh lint. No deploy or remote D1 write unless the review finds a real defect.

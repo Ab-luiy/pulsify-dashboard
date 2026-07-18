@@ -1061,3 +1061,15 @@ Stage 1: carousel studio in production Studio - generate in the 3 canonical stru
 ## [2026-07-16] decision | Acquisition-page manager and lead attribution
 
 Rebuilt the operator's Pages sent surface as an Acquisition pages card library with a quick-create modal, per-card views and video signals, active/inactive controls, and a detailed visitor drawer. Migration 0020 adds a private per-page token and optional prospect email so a tracked share URL can attribute page and Wistia activity before the prospect applies. Dashboard links use operator-preview mode and do not log views. IP, geo, and user agent are retained as supporting evidence, not treated as identity proof. All 13 suites and desktop/mobile browser acceptance passed. Migration 0020 and deployment `ff685b97` are live on `pulsify-funnels`.
+
+## [2026-07-15] client-update | Warm-lead follow-up queue LIVE
+
+Added an ADMIN_KEY-gated follow-up queue to the operator Pages sent surface. The queue ranks real viewers by page activity, watch depth, plays, and recency, joins application and booking outcomes, hides applied and booked prospects by default, and reuses the existing activity drawer. No migration was needed. Independent review passed the new acceptance suite and the view-tracking regression before deployment to `pulsify-funnels`.
+
+## [2026-07-15] decision | Slack operating system established
+
+Established Slack as the visible coordination mirror while the vault remains canonical. Created the eight-channel lane map, STARTED/DONE/BLOCKED/DECISION/HANDOFF message contract, privacy boundaries, source-of-truth split, bot-wakeup limitation, and daily briefing automations. The durable rules live in `SLACK_OPERATING_SYSTEM.md`, `AGENTS.md`, and `CLAUDE.md`.
+
+## [2026-07-15] client-update | Native proof-image upload LIVE
+
+Completed token-scoped proof-image upload from onboarding through the operator Brain view. The path validates PNG, JPEG, WebP, and GIF MIME plus file signatures, enforces a 10 MB cap, stores UUID-keyed objects in client-prefixed R2 paths, preserves captions and permissions in `proof_items`, serves media through `/m/`, and removes only the target client's objects during deletion. The proof-media suite and client-brain regressions passed before the R2 binding and production deployment.
