@@ -1077,3 +1077,7 @@ Completed token-scoped proof-image upload from onboarding through the operator B
 ## [2026-07-18] lint | Sprint leak cleanup and focused wiki audit
 
 Closed the remaining 2026-07-13 through 2026-07-16 record gaps, independently reviewed acquisition pages with all 13 suites and 13 JavaScript syntax checks passing, archived the completed Codex task specs, and replaced `wiki/lint-report.md` with a focused post-sprint report. The lint found stale future-tense portal architecture, an impersonation-visibility contradiction, stale client-brain proof infrastructure notes, an effectively orphaned client-brain spec, and index freshness gaps.
+
+## [2026-07-18] client-update | Operator Links directory
+
+Added an ADMIN_KEY-gated Links route to the operator console plus a compact quick-links block on the Command center. The directory groups client access, internal tools, legacy and infrastructure destinations, and prospect pages loaded dynamically from the existing Acquisition pages data so active-state changes and new pages stay in sync.

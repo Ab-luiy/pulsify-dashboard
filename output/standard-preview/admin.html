@@ -17,7 +17,7 @@
       <div class="brand-mark" aria-hidden="true">P</div>
       <p class="eyebrow">Pulsify funnels</p>
       <h1>Operator console</h1>
-      <p class="lede">One key opens the command center, client setup, client work, email, integrations, and sent-page visibility.</p>
+      <p class="lede">One key opens the command center, client setup, client work, email, integrations, links, and sent-page visibility.</p>
       <div class="field">
         <label for="adminKey">Admin key <span class="required">Required</span></label>
         <input id="adminKey" type="password" autocomplete="current-password" placeholder="Paste the deployment admin key">
@@ -43,6 +43,7 @@
         <a href="#integrations" data-route="integrations"><span>06</span>Integrations</a>
         <a href="#email" data-route="email"><span>07</span>Email</a>
         <a href="#campaigns" data-route="campaigns"><span>08</span>Acquisition pages</a>
+        <a href="#links" data-route="links"><span>09</span>Links</a>
       </nav>
       <div class="rail-actions">
         <button class="button ghost small" id="themeButton" type="button">Switch theme</button>
@@ -79,6 +80,18 @@
         </div>
 
         <div class="metrics-grid operator-summary" id="operatorSummary"></div>
+
+        <article class="panel operator-quick-links">
+          <div class="panel-head">
+            <div>
+              <p class="kicker">Quick links</p>
+              <h3>Open the daily tools</h3>
+              <p>The five destinations used most often. The full directory is under Links.</p>
+            </div>
+            <a class="button outline small" href="#links">View all links</a>
+          </div>
+          <div class="quick-links-grid" id="quickLinksGrid"></div>
+        </article>
 
         <article class="panel operator-rollup-panel">
           <div class="panel-head">
@@ -898,6 +911,20 @@
             <p>Create the first link above. Opens will appear here.</p>
           </div>
         </article>
+      </section>
+
+      <section class="route" id="route-links" data-route-panel="links" hidden>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Operator directory</p>
+            <h2>Links</h2>
+            <p>Client access, internal tools, infrastructure, and live prospect pages in one private directory.</p>
+          </div>
+          <button class="button outline small" id="refreshLinksButton" type="button">Refresh prospect pages</button>
+        </div>
+
+        <div class="links-directory" id="linksDirectory"></div>
+        <div class="message" id="linksMessage" role="status" hidden></div>
       </section>
     </main>
   </div>

@@ -77,7 +77,12 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| (none) | | | |
+| `output/standard-preview/admin.html` | CODEX | ACTIVE | Add the ADMIN_KEY-gated Links route and command-center quick links. |
+| `output/standard-preview/admin/console.js` | CODEX | ACTIVE | Wire route rendering, dynamic prospect entries, open, and copy actions. |
+| `output/standard-preview/admin/console.css` | CODEX | ACTIVE | Match the existing admin card, pill, responsive, and dark-theme language. |
+| `wiki/log.md` | CODEX | ACTIVE | Append the required client-update entry. |
+| `wiki/synthesis/funnel-portal-pipeline.md` | CODEX | ACTIVE | Document the Links route if the current page inventories admin routes. |
+| `CODEX_TASK_link_directory.md`, `done-tasks/` | CODEX | ACTIVE | Archive the completed task spec after deploy and acceptance. |
 
 ---
 
@@ -1135,3 +1140,6 @@ One concurrent repo change was preserved: `CODEX_TASK_link_directory.md` was cre
 
 ### [2026-07-18 16:27] CODEX
 Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED outcome. No Slack cleanup status was posted. The 16:24 PASS and 16:27 DONE repo entries are canonical.
+
+### [2026-07-18 16:30] CODEX
+STARTED: executing `CODEX_TASK_link_directory.md` end to end. Claimed the admin markup, console script, console stylesheet, required wiki records, and task archive path. Scope is an ADMIN_KEY-gated Links route, a compact Command center quick-links block, and a prospect-pages group rendered from the existing acquisition-page data. Acceptance includes exact visual-language reuse, 390px responsiveness, full local verification, Wrangler deploy on `main`, and the four specified production smoke checks.

@@ -3,7 +3,7 @@ type: synthesis
 tags: [funnel, landing-page, vsl, typeform, wistia, kit, portal]
 sources: founder direction 2026-06-30 to 2026-07-01, local implementation in output/standard-preview
 created: 2026-07-01
-updated: 2026-07-16
+updated: 2026-07-18
 ---
 
 # Funnel-to-portal pipeline
@@ -62,6 +62,10 @@ shows active state, views, unique visitors, tracked-lead visitors, video plays, 
 average watch depth. A single modal creates or edits the page, while the detailed
 activity drawer, follow-up queue, advanced editor, and tracked off-page assets remain
 available beneath the same surface.
+
+The ADMIN_KEY-gated Links route is the operator directory for client access, internal
+tools, infrastructure, and the current prospect-page library. Prospect links come
+from the same acquisition-page data, so new pages appear without a second manual list.
 
 ## Connections
 

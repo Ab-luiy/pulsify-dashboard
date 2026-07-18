@@ -14,6 +14,36 @@
   ];
   const AUTH_MESSAGE = "Your admin key was rejected. Paste it again to unlock the console.";
   const MAX_MEDIA_BYTES = 900 * 1024;
+  const LINK_GROUPS = [
+    {
+      title: "Client access",
+      note: "Client-facing entry points and intake.",
+      entries: [
+        { name: "Client portal", note: "Client workspace", url: "https://pulsify-funnels.pages.dev/portal" },
+        { name: "Client login", note: "Client sign-in", url: "https://pulsify-funnels.pages.dev/portal/login" },
+        { name: "Onboarding form", note: "Unique client token required", url: "https://pulsify-funnels.pages.dev/onboard" },
+      ],
+    },
+    {
+      title: "Internal tools",
+      note: "Operator surfaces used to run delivery and acquisition.",
+      entries: [
+        { name: "Operator admin", note: "Command center, follow-up queue, Studio review, and email", url: "https://pulsify-funnels.pages.dev/admin" },
+        { name: "SDR dashboard", note: "Leads and CRM", url: "https://pulsify-dashboard.pages.dev" },
+        { name: "Design preview", note: "Founder-approved portal design reference", url: "https://pulsify-funnels.pages.dev/portal-preview" },
+      ],
+    },
+    {
+      title: "Legacy + infrastructure",
+      note: "Reference builds and infrastructure controls.",
+      entries: [
+        { name: "Legacy Frank mock", note: "Original standalone Frank page", url: "https://frank-wieler.pages.dev" },
+        { name: "Cloudflare dashboard", note: "Pulsify Pages and infrastructure", url: "https://dash.cloudflare.com/437f6dfbb738a4267395bd5da251494a" },
+        { name: "Brain repo", note: "Private Pulsify operating repository", url: "https://github.com/Ab-luiy/pulsify-brain" },
+      ],
+    },
+  ];
+  const QUICK_LINK_NAMES = ["Client portal", "Client login", "Onboarding form", "SDR dashboard", "Design preview"];
   const ROUTES = {
     command: ["Cross-client rollup", "Command center"],
     home: ["Operator overview", "Home"],
@@ -23,6 +53,7 @@
     integrations: ["Money and handoff path", "Integrations"],
     email: ["Operator email", "Email"],
     campaigns: ["Client acquisition", "Acquisition pages"],
+    links: ["Operator directory", "Links"],
   };
 
   const state = {
@@ -359,6 +390,8 @@
     $("emailTag").addEventListener("change", syncEmailComposerUi);
     $("emailDraftRows").addEventListener("click", handleEmailDraftAction);
     $("refreshCampaignsButton").addEventListener("click", loadCampaigns);
+    $("refreshLinksButton").addEventListener("click", loadLinksDirectory);
+    $("linksDirectory").addEventListener("click", handleLinkCopy);
     $("openAcquisitionPageButton").addEventListener("click", () => openAcquisitionModal());
     $("closeAcquisitionModalButton").addEventListener("click", closeAcquisitionModal);
     $("cancelAcquisitionModalButton").addEventListener("click", closeAcquisitionModal);
@@ -559,6 +592,7 @@
       renderClientSelector();
       $("authScreen").hidden = true;
       $("shell").hidden = false;
+      renderQuickLinks();
       await loadCurrentRoute();
     } catch (error) {
       state.key = "";
@@ -580,6 +614,9 @@
     if (!$("deleteDialog").hidden) closeDeleteDialog(false, true);
     if (!$("activityDrawer").hidden) closeActivityDrawer();
     if (!$("acquisitionPageModal").hidden) closeAcquisitionModal(false);
+    $("quickLinksGrid").replaceChildren();
+    $("linksDirectory").replaceChildren();
+    hideMessage($("linksMessage"));
     $("shell").hidden = true;
     $("authScreen").hidden = false;
     $("adminKey").value = "";
@@ -829,6 +866,7 @@
       if (state.route === "integrations") await loadAllIntegrations();
       if (state.route === "email") await loadEmailComposer();
       if (state.route === "campaigns") await loadCampaigns();
+      if (state.route === "links") await loadLinksDirectory();
     } catch (error) {
       if (state.key) showMessage($("globalMessage"), error.message || "This section could not be loaded.", "error");
     }
@@ -3746,6 +3784,107 @@
       await Promise.all([loadFollowups(), loadTrackedAssets()]);
       $("campaignUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
       $("campaignUpdated").className = "status-pill success";
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function allStaticLinks() {
+    return LINK_GROUPS.flatMap((group) => group.entries);
+  }
+
+  function renderQuickLinks() {
+    const entries = allStaticLinks().filter((entry) => QUICK_LINK_NAMES.includes(entry.name));
+    $("quickLinksGrid").innerHTML = entries.map((entry) => `
+      <a class="quick-link" href="${esc(entry.url)}" target="_blank" rel="noopener">
+        <span>${esc(entry.name)}</span>
+        <small>${esc(entry.note)}</small>
+      </a>
+    `).join("");
+  }
+
+  async function loadLinksDirectory() {
+    const button = $("refreshLinksButton");
+    button.disabled = true;
+    hideMessage($("linksMessage"));
+    renderLinksDirectory();
+    try {
+      const response = await api("/api/campaigns");
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Could not load prospect pages.");
+      state.campaigns = Array.isArray(data.campaigns) ? data.campaigns : [];
+      renderLinksDirectory();
+    } catch (error) {
+      if (state.key) {
+        showMessage($("linksMessage"), error.message || "Could not load prospect pages.", "error");
+      }
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  function renderLinksDirectory() {
+    const prospectEntries = state.campaigns
+      .filter((campaign) => campaign.client && state.clients.some((client) => client.client === campaign.client))
+      .sort((a, b) => String(a.client_name || a.client).localeCompare(String(b.client_name || b.client)))
+      .map((campaign) => ({
+        name: campaign.client_name || campaign.client,
+        note: `/${campaign.client}`,
+        url: `https://pulsify-funnels.pages.dev/${encodeURIComponent(campaign.client)}`,
+        active: campaign.page_active !== false,
+      }));
+    const groups = [
+      ...LINK_GROUPS,
+      {
+        title: "Prospect pages",
+        note: "Generated from the current Acquisition pages library.",
+        entries: prospectEntries,
+        empty: "No prospect pages are configured.",
+      },
+    ];
+
+    $("linksDirectory").innerHTML = groups.map((group) => `
+      <article class="panel link-group">
+        <div class="panel-head">
+          <div>
+            <p class="kicker">Directory group</p>
+            <h3>${esc(group.title)}</h3>
+            <p>${esc(group.note)}</p>
+          </div>
+          <span class="status-pill">${number(group.entries.length)} links</span>
+        </div>
+        <div class="link-list">
+          ${group.entries.length ? group.entries.map(renderLinkRow).join("") : `<div class="empty-state inset"><p>${esc(group.empty || "No links configured.")}</p></div>`}
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function renderLinkRow(entry) {
+    const inactive = entry.active === false;
+    return `<div class="link-row${inactive ? " is-inactive" : ""}">
+      <div class="link-copy">
+        <div><strong>${esc(entry.name)}</strong>${inactive ? '<span class="badge">Inactive</span>' : ""}</div>
+        <small>${esc(entry.note)}</small>
+      </div>
+      <div class="link-actions">
+        <a class="button dark small" href="${esc(entry.url)}" target="_blank" rel="noopener">Open</a>
+        <button class="icon-action" type="button" data-link-copy="${esc(entry.url)}" data-link-name="${esc(entry.name)}">Copy link</button>
+      </div>
+    </div>`;
+  }
+
+  async function handleLinkCopy(event) {
+    const button = event.target.closest("[data-link-copy]");
+    if (!button) return;
+    button.disabled = true;
+    try {
+      const copied = await copyText(button.dataset.linkCopy);
+      showMessage(
+        $("linksMessage"),
+        copied ? `${button.dataset.linkName} link copied.` : `Copy this link: ${button.dataset.linkCopy}`,
+        copied ? "success" : "neutral",
+      );
     } finally {
       button.disabled = false;
     }
