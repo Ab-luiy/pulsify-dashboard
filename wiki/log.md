@@ -1073,3 +1073,7 @@ Established Slack as the visible coordination mirror while the vault remains can
 ## [2026-07-15] client-update | Native proof-image upload LIVE
 
 Completed token-scoped proof-image upload from onboarding through the operator Brain view. The path validates PNG, JPEG, WebP, and GIF MIME plus file signatures, enforces a 10 MB cap, stores UUID-keyed objects in client-prefixed R2 paths, preserves captions and permissions in `proof_items`, serves media through `/m/`, and removes only the target client's objects during deletion. The proof-media suite and client-brain regressions passed before the R2 binding and production deployment.
+
+## [2026-07-18] lint | Sprint leak cleanup and focused wiki audit
+
+Closed the remaining 2026-07-13 through 2026-07-16 record gaps, independently reviewed acquisition pages with all 13 suites and 13 JavaScript syntax checks passing, archived the completed Codex task specs, and replaced `wiki/lint-report.md` with a focused post-sprint report. The lint found stale future-tense portal architecture, an impersonation-visibility contradiction, stale client-brain proof infrastructure notes, an effectively orphaned client-brain spec, and index freshness gaps.

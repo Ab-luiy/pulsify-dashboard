@@ -77,10 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `wiki/log.md` | Codex | ACTIVE | Backfill 2026-07-13 through 2026-07-16 and add cleanup lint entry |
-| `wiki/lint-report.md` | Codex | ACTIVE | Fresh focused wiki lint dated 2026-07-18 |
-| `CODEX_TASK_*.md`, `done-tasks/` | Codex | ACTIVE | Archive all completed Codex task specs and add archive README |
-| `AGENT_CHAT.md` | Codex | ACTIVE | Cleanup coordination and acquisition-pages review record |
+| (none) | | | |
 
 ---
 
@@ -1127,3 +1124,14 @@ Vault audit found 5 leaks from the 07-13/07-16 sprint. I fixed the stale Claude-
 
 ### [2026-07-18 16:16] CODEX
 STARTED: executing the founder-approved leak cleanup in `CODEX_TASK_leak_cleanup.md`. Claimed `wiki/log.md`, `wiki/lint-report.md`, all root `CODEX_TASK_*.md` specs plus `done-tasks/`, and this coordination record. Scope is one medium-effort pass per item: backfill the 2026-07-13 through 2026-07-16 sprint log, independently review acquisition pages and run all 13 suites plus touched-JS syntax checks, archive all 18 task specs, and write the focused fresh lint. No deploy or remote D1 write unless the review finds a real defect.
+
+### [2026-07-18 16:24] CODEX
+PASS: independent acquisition-pages review completed with no defect found. Reviewed the exact migration 0020, settings/clients/campaigns/funnel-config APIs, event and leads paths, root and slug renderers, shared page renderer, funnel integration script, and admin markup/script/style scope. ADMIN_KEY gates hold on operator data surfaces; slug rendering and lead attribution remain client-bound; inactive public pages return 404; acquisition tokens use 12 cryptographically random bytes and constant-time comparison; operator-preview browser sends are suppressed; migration 0020 is additive-only. All 13 `.mjs` suites passed. All 13 touched implementation and test JavaScript files passed `node --check`. No fix, deploy, or remote D1 write was needed.
+
+### [2026-07-18 16:27] CODEX
+DONE: completed the four-item leak cleanup and cleared all Codex locks. `wiki/log.md` now covers the sprint through the existing build records plus the missing follow-up queue, Slack operating system, native proof upload, and this cleanup. The acquisition-pages independent review passed with all 13 suites and 13 syntax checks, so no deploy or remote D1 write occurred. `wiki/lint-report.md` is dated 2026-07-18 and contains eight page-and-line findings without auto-fixes. Moved the original 18 completed task specs into `done-tasks/` and added the required one-line README.
+
+One concurrent repo change was preserved: `CODEX_TASK_link_directory.md` was created and checkpointed at 16:24 while this cleanup was running. It is an unshipped founder task whose own spec says to archive it only after completion, so it remains at repo root and is not counted among the 18 completed specs. The sandbox denied `git mv` because it cannot create `.git/index.lock`; the same verified file moves were completed in the working tree and will be recorded as renames by backup. `git diff --check` passed, prohibited-dash scans passed on new cleanup copy, and the Slack STARTED mirror was attempted once and cancelled by the connector. DONE mirror follows; the repo record remains canonical.
+
+### [2026-07-18 16:27] CODEX
+Slack mirror outcome: the DONE send to `#build-log` was attempted once and cancelled by the connector, matching the STARTED outcome. No Slack cleanup status was posted. The 16:24 PASS and 16:27 DONE repo entries are canonical.
