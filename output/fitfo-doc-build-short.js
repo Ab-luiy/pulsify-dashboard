@@ -78,7 +78,7 @@ const row = (title, id, note) => new TableRow({
     ], COL[0]),
     cell([new Paragraph({
       spacing: { after: 0 },
-      children: [new ImageRun({ type: 'jpg', data: shot(id), transformation: { width: 150, height: 84 } })],
+      children: [new ImageRun({ type: 'jpg', data: shot(id), transformation: { width: 132, height: 74 } })],
     })], COL[1]),
   ],
 });
@@ -100,6 +100,45 @@ const table = new Table({
     row('You make trading harder than it has to be', 'ucwCv32cvyU', 'Bedroom, plain wall.'),
     row('How to deal with losing weeks and bounce back (-$20,000)', 'T_kKoskedtA', 'Bedroom, mid-blink. No sign of a $20k loss.'),
   ],
+});
+
+
+const BUILT = [(CONTENT_W / 2) - 40, (CONTENT_W / 2) + 40];
+const builtCell = (file, cap, width) => new TableCell({
+  width: { size: width, type: WidthType.DXA },
+  verticalAlign: VerticalAlign.TOP,
+  margins: { top: 0, bottom: 0, left: 0, right: 150 },
+  borders: {
+    top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
+    left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+  },
+  children: [
+    new Paragraph({
+      spacing: { after: 60 },
+      children: [new ImageRun({ type: 'jpg', data: fs.readFileSync(path.join(__dirname, file)), transformation: { width: 228, height: 128 } })],
+    }),
+    new Paragraph({
+      spacing: { after: 0, line: 260 },
+      children: [new TextRun({ text: cap, font: SERIF, size: T.caption, color: MUTED, italics: true })],
+    }),
+  ],
+});
+
+const builtPair = new Table({
+  columnWidths: BUILT,
+  width: { size: CONTENT_W, type: WidthType.DXA },
+  borders: {
+    top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
+    left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+    insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE },
+  },
+  rows: [new TableRow({
+    cantSplit: true,
+    children: [
+      builtCell('after-payout.jpg', 'Your payout video. Account IDs and dates kept, because they are what make it checkable.', BUILT[0]),
+      builtCell('after-chart.jpg', 'Your risk plan video. Green target, red stop, the 3.99 ratio still readable at phone size.', BUILT[1]),
+    ],
+  })],
 });
 
 const doc = new Document({
@@ -155,6 +194,11 @@ const doc = new Document({
       p('', { after: 120 }),
       p('Keep all five quiet on text, because a real number and a real face already do the work. On the video, confirm the promise the title made inside the first thirty seconds, run the body off bullets you talk from rather than read, and never finish on "that is everything for this video."', { after: 40 }),
 
+
+      h1('Two of them, already built'),
+      p('Both of these came out of the frames above. Nothing generated, nothing added, no text. Cropped out the browser, the sidebar and the taskbar, then put your own webcam frame back in the corner where it belongs.', { color: MUTED, after: 90 }),
+      builtPair,
+      new Paragraph({ spacing: { before: 190, after: 0, line: 300 }, children: [new TextRun({ text: 'That is the whole job. The thumbnail was in the recording the entire time.', font: SERIF, size: T.body, color: INK })] }),
 
       h1('Three more, if you want them'),
       p('Angles already sitting in what you do every week. Titles and thumbnail ideas only, the take is yours.', { color: MUTED, after: 40 }),
