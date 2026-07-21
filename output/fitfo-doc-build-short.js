@@ -166,9 +166,6 @@ const doc = new Document({
       ...rebuild('3', 'what i actually do with the payouts (full breakdown)',
         'Thumbnail: the transfer screen, or you at the desk, nothing else in frame. The honest answer here is usually boring, and boring lands in a niche full of rented Lamborghinis.'),
 
-      h1('If you want them built'),
-      p('Send me the payout cadence, the drawdown screenshot, and what you cut from your chart, and I will build all five thumbnails properly. Finished files, ready to upload, no charge and nothing attached. You will either use them or you will not, and either way you keep them.'),
-      p('After that, the question is where these viewers go when a video ends, because right now there is nowhere for them to land. Longer conversation, and only if the thumbnails move something first.', { after: 0 }),
     ],
   }],
 });
