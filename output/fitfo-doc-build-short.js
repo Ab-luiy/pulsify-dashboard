@@ -78,7 +78,7 @@ const row = (title, id, note) => new TableRow({
     ], COL[0]),
     cell([new Paragraph({
       spacing: { after: 0 },
-      children: [new ImageRun({ type: 'jpg', data: shot(id), transformation: { width: 132, height: 74 } })],
+      children: [new ImageRun({ type: 'jpg', data: shot(id), transformation: { width: 150, height: 84 } })],
     })], COL[1]),
   ],
 });
@@ -141,6 +141,43 @@ const builtPair = new Table({
   })],
 });
 
+
+const REF_FILES = [
+  ['ref-XQB7y00msmc-HD.jpg', 'Screen recording. Numbers big, face in the corner, no text at all.'],
+  ['ref-KnbqLjGzD3k-HD.jpg', 'Real location, two people, plain question. No numbers anywhere.'],
+  ['ref-3QDKzi4nFl8-HD.jpg', 'Real desk, real window, one short line and two labels.'],
+];
+const REF_COL = Math.floor(CONTENT_W / 3);
+const refCell = (file, cap) => new TableCell({
+  width: { size: REF_COL, type: WidthType.DXA },
+  verticalAlign: VerticalAlign.TOP,
+  margins: { top: 0, bottom: 0, left: 0, right: 120 },
+  borders: {
+    top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
+    left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+  },
+  children: [
+    new Paragraph({
+      spacing: { after: 55 },
+      children: [new ImageRun({ type: 'jpg', data: fs.readFileSync(path.join(__dirname, file)), transformation: { width: 148, height: 83 } })],
+    }),
+    new Paragraph({
+      spacing: { after: 0, line: 250 },
+      children: [new TextRun({ text: cap, font: SERIF, size: T.caption, color: MUTED, italics: true })],
+    }),
+  ],
+});
+const refStrip = new Table({
+  columnWidths: [REF_COL, REF_COL, CONTENT_W - REF_COL * 2],
+  width: { size: CONTENT_W, type: WidthType.DXA },
+  borders: {
+    top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
+    left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+    insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE },
+  },
+  rows: [new TableRow({ cantSplit: true, children: REF_FILES.map(([a, b]) => refCell(a, b)) })],
+});
+
 const doc = new Document({
   creator: 'Pulsify',
   title: 'FITFO, packaging',
@@ -195,10 +232,9 @@ const doc = new Document({
       p('Keep all five quiet on text, because a real number and a real face already do the work. On the video, confirm the promise the title made inside the first thirty seconds, run the body off bullets you talk from rather than read, and never finish on "that is everything for this video."', { after: 40 }),
 
 
-      h1('Two of them, already built'),
-      p('Both of these came out of the frames above. Nothing generated, nothing added, no text. Cropped out the browser, the sidebar and the taskbar, then put your own webcam frame back in the corner where it belongs.', { color: MUTED, after: 90 }),
-      builtPair,
-      new Paragraph({ spacing: { before: 190, after: 0, line: 300 }, children: [new TextRun({ text: 'That is the whole job. The thumbnail was in the recording the entire time.', font: SERIF, size: T.body, color: INK })] }),
+      h1('What this looks like elsewhere'),
+      p('Three from other channels, untouched. Not trading in every case, but the same two moves each time: the proof is the picture, and the text stays out of the way.', { color: MUTED, after: 100 }),
+      refStrip,
 
       h1('Three more, if you want them'),
       p('Angles already sitting in what you do every week. Titles and thumbnail ideas only, the take is yours.', { color: MUTED, after: 40 }),
