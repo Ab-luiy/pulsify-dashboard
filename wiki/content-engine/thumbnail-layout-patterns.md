@@ -42,7 +42,11 @@ Use for system and framework explainers. This is the [[content-engine/ai-content
 
 ## Pattern C — Screen recording
 
-The real interface fills the frame at real scale: a dashboard, a chart, a payout ledger. The key number stays legible. The face sits in a small inset window, usually a rounded rectangle in a corner, exactly as a webcam overlay looks in the actual recording. Sometimes a red circle or arrow drawn around the number. Text ranges from a short headline down to none at all: one reference in the set is pure dashboard plus webcam inset with no added text whatsoever, and it reads clean.
+**One number, enormous, plus a large face.** This is the part that is easy to get wrong, so it is stated first. In every working reference the key figure is one of the largest objects in the frame, often a third of its width, and the face is big and well lit. None of them show a table, a list, or a full dashboard at its native scale.
+
+> ⚠️ Corrected 2026-07-21. This section previously said "the real interface fills the frame at real scale" with the face in a small corner inset. That reading produced two failed thumbnails: a payout ledger showing twelve rows at native scale and a chart with a small dark face, both of which turned to mush at 120px. Cropping a dense interface only yields a smaller dense interface. The interface is the evidence; one number from it is the subject.
+
+The face sits in a corner as a webcam-style overlay, but large enough to read as a person rather than a stamp. Sometimes a red circle or arrow around the number. Text ranges from a short headline down to none at all, since the number is already carrying the message.
 
 The discipline that separates the good ones from a raw screenshot: browser chrome, sidebars, taskbars and desktop clutter are cropped out or covered. Only the interface that matters survives.
 
@@ -95,3 +99,12 @@ Banned across every pattern: hype adjectives, exclamation marks, shock faces, an
 
 - 20 founder-supplied reference thumbnails, `raw-sources/inspiration/thumbnail-retouch-references/`, 2026-07-21
 - [[content-engine/thumbnail-photo-cleanup-prompts]]
+
+## The 120px test (run it before shipping any thumbnail)
+
+Downscale the candidate to 120px wide and look at it. If the number is not readable and the face is not recognisable at that size, it fails, regardless of how good it looks at full resolution. This caught two thumbnails that looked acceptable at 1280px and were unusable at real feed size.
+
+```python
+from PIL import Image
+Image.open('candidate.jpg').resize((120, 68)).resize((600, 340)).save('test.png')
+```
