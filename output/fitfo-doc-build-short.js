@@ -56,7 +56,7 @@ const rebuild = (n, title, direction) => [
 const cell = (runs, width, header) => new TableCell({
   width: { size: width, type: WidthType.DXA },
   verticalAlign: VerticalAlign.CENTER,
-  margins: { top: 85, bottom: 85, left: 130, right: 130 },
+  margins: { top: 55, bottom: 55, left: 130, right: 130 },
   shading: header ? { type: ShadingType.CLEAR, fill: HEAD_FILL, color: 'auto' } : undefined,
   children: runs,
 });
@@ -78,7 +78,7 @@ const row = (title, id, note) => new TableRow({
     ], COL[0]),
     cell([new Paragraph({
       spacing: { after: 0 },
-      children: [new ImageRun({ type: 'jpg', data: shot(id), transformation: { width: 168, height: 94 } })],
+      children: [new ImageRun({ type: 'jpg', data: shot(id), transformation: { width: 150, height: 84 } })],
     })], COL[1]),
   ],
 });
@@ -153,10 +153,8 @@ const doc = new Document({
         'Screen recording. Your clean chart with one setup marked, nothing else on screen.'),
 
       p('', { after: 120 }),
-      p('Keep all five quiet on text. A real number and a real face already do the work, and loud text is what makes a channel read as a guru channel.', { after: 60 }),
+      p('Keep all five quiet on text, because a real number and a real face already do the work. On the video, confirm the promise the title made inside the first thirty seconds, run the body off bullets you talk from rather than read, and never finish on "that is everything for this video."', { after: 40 }),
 
-      h1('On structure'),
-      p('Open by confirming the exact promise the title made, and put the proof on screen inside the first thirty seconds. No welcome-back intro. Run the body off five to nine bullets you talk from rather than read, because a trader performing lines is the fastest way to lose a trader watching. Close with three asks doing different jobs: one buried in a story, one optional line mid-video, one explicit at the end. Never finish on "that is everything for this video."'),
 
       h1('Three more, if you want them'),
       p('Angles already sitting in what you do every week. Titles and thumbnail ideas only, the take is yours.', { color: MUTED, after: 40 }),
@@ -168,7 +166,9 @@ const doc = new Document({
       ...rebuild('3', 'what i actually do with the payouts (full breakdown)',
         'Thumbnail: the transfer screen, or you at the desk, nothing else in frame. The honest answer here is usually boring, and boring lands in a niche full of rented Lamborghinis.'),
 
-      new Paragraph({ spacing: { before: 130, after: 0 }, children: [new TextRun({ text: 'Worth doing? Send the numbers and I will package them the same way.', font: SERIF, size: T.body, color: INK })] }),
+      h1('If you want them built'),
+      p('Send me the payout cadence, the drawdown screenshot, and what you cut from your chart, and I will build all five thumbnails properly. Finished files, ready to upload, no charge and nothing attached. You will either use them or you will not, and either way you keep them.'),
+      p('After that, the question is where these viewers go when a video ends, because right now there is nowhere for them to land. Longer conversation, and only if the thumbnails move something first.', { after: 0 }),
     ],
   }],
 });
