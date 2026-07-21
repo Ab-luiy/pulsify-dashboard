@@ -143,38 +143,56 @@ const builtPair = new Table({
 
 
 const REF_FILES = [
-  ['ref-XQB7y00msmc-HD.jpg', 'Screen recording. Numbers big, face in the corner, no added text at all.'],
-  ['ref-3QDKzi4nFl8-HD.jpg', 'Real desk, real window, real people. One short line and two labels.'],
+  ['ref-XQB7y00msmc-HD.jpg',
+   'Screen recording. The figures are the biggest thing in the frame and the face sits in the corner. No headline, no arrows, nothing added. This is the closest example to what your payout page should become.'],
+  ['ref-3QDKzi4nFl8-HD.jpg',
+   'Real desk, real window, two real people mid-work. One short line across the top and a label on each of them. Nothing staged, no lifestyle in shot.'],
+  ['ref-KnbqLjGzD3k-HD.jpg',
+   'Same two traders, and no numbers anywhere. The question the video answers is just written on the picture. Quiet works in this niche.'],
 ];
-const REF_COL = Math.floor(CONTENT_W / 2);
-const refCell = (file, cap) => new TableCell({
-  width: { size: REF_COL, type: WidthType.DXA },
-  verticalAlign: VerticalAlign.TOP,
-  margins: { top: 0, bottom: 0, left: 0, right: 120 },
-  borders: {
-    top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
-    left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
-  },
+
+const REF_IMG = 4180;
+const refRow = ([file, cap]) => new TableRow({
+  cantSplit: true,
   children: [
-    new Paragraph({
-      spacing: { after: 55 },
-      children: [new ImageRun({ type: 'jpg', data: fs.readFileSync(path.join(__dirname, file)), transformation: { width: 262, height: 147 } })],
+    new TableCell({
+      width: { size: REF_IMG, type: WidthType.DXA },
+      verticalAlign: VerticalAlign.CENTER,
+      margins: { top: 90, bottom: 90, left: 0, right: 200 },
+      borders: {
+        top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
+        left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+      },
+      children: [new Paragraph({
+        spacing: { after: 0 },
+        children: [new ImageRun({ type: 'jpg', data: fs.readFileSync(path.join(__dirname, file)), transformation: { width: 268, height: 151 } })],
+      })],
     }),
-    new Paragraph({
-      spacing: { after: 0, line: 250 },
-      children: [new TextRun({ text: cap, font: SERIF, size: T.caption, color: MUTED, italics: true })],
+    new TableCell({
+      width: { size: CONTENT_W - REF_IMG, type: WidthType.DXA },
+      verticalAlign: VerticalAlign.CENTER,
+      margins: { top: 90, bottom: 90, left: 0, right: 0 },
+      borders: {
+        top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
+        left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
+      },
+      children: [new Paragraph({
+        spacing: { after: 0, line: 280 },
+        children: [new TextRun({ text: cap, font: SERIF, size: T.caption, color: MUTED })],
+      })],
     }),
   ],
 });
+
 const refStrip = new Table({
-  columnWidths: [REF_COL, CONTENT_W - REF_COL],
+  columnWidths: [REF_IMG, CONTENT_W - REF_IMG],
   width: { size: CONTENT_W, type: WidthType.DXA },
   borders: {
     top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
     left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE },
     insideHorizontal: { style: BorderStyle.NONE }, insideVertical: { style: BorderStyle.NONE },
   },
-  rows: [new TableRow({ cantSplit: true, children: REF_FILES.map(([a, b]) => refCell(a, b)) })],
+  rows: REF_FILES.map(refRow),
 });
 
 const doc = new Document({
@@ -232,7 +250,7 @@ const doc = new Document({
 
 
       h1('What this looks like elsewhere'),
-      p('Two from other channels, untouched. Same two moves in both: the proof is the picture, and the text stays out of the way.', { color: MUTED, after: 100 }),
+      p('Three from other channels, untouched. Same two moves in all of them: the proof is the picture, and the text stays out of the way.', { color: MUTED, after: 100 }),
       refStrip,
 
       h1('Three more, if you want them'),
