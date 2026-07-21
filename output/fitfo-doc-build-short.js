@@ -143,11 +143,10 @@ const builtPair = new Table({
 
 
 const REF_FILES = [
-  ['ref-XQB7y00msmc-HD.jpg', 'Screen recording. Numbers big, face in the corner, no text at all.'],
-  ['ref-KnbqLjGzD3k-HD.jpg', 'Real location, two people, plain question. No numbers anywhere.'],
-  ['ref-3QDKzi4nFl8-HD.jpg', 'Real desk, real window, one short line and two labels.'],
+  ['ref-XQB7y00msmc-HD.jpg', 'Screen recording. Numbers big, face in the corner, no added text at all.'],
+  ['ref-3QDKzi4nFl8-HD.jpg', 'Real desk, real window, real people. One short line and two labels.'],
 ];
-const REF_COL = Math.floor(CONTENT_W / 3);
+const REF_COL = Math.floor(CONTENT_W / 2);
 const refCell = (file, cap) => new TableCell({
   width: { size: REF_COL, type: WidthType.DXA },
   verticalAlign: VerticalAlign.TOP,
@@ -159,7 +158,7 @@ const refCell = (file, cap) => new TableCell({
   children: [
     new Paragraph({
       spacing: { after: 55 },
-      children: [new ImageRun({ type: 'jpg', data: fs.readFileSync(path.join(__dirname, file)), transformation: { width: 148, height: 83 } })],
+      children: [new ImageRun({ type: 'jpg', data: fs.readFileSync(path.join(__dirname, file)), transformation: { width: 262, height: 147 } })],
     }),
     new Paragraph({
       spacing: { after: 0, line: 250 },
@@ -168,7 +167,7 @@ const refCell = (file, cap) => new TableCell({
   ],
 });
 const refStrip = new Table({
-  columnWidths: [REF_COL, REF_COL, CONTENT_W - REF_COL * 2],
+  columnWidths: [REF_COL, CONTENT_W - REF_COL],
   width: { size: CONTENT_W, type: WidthType.DXA },
   borders: {
     top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE },
@@ -233,7 +232,7 @@ const doc = new Document({
 
 
       h1('What this looks like elsewhere'),
-      p('Three from other channels, untouched. Not trading in every case, but the same two moves each time: the proof is the picture, and the text stays out of the way.', { color: MUTED, after: 100 }),
+      p('Two from other channels, untouched. Same two moves in both: the proof is the picture, and the text stays out of the way.', { color: MUTED, after: 100 }),
       refStrip,
 
       h1('Three more, if you want them'),
