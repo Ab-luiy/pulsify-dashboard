@@ -55,6 +55,8 @@ Output one polished cleaned version of this image only.
 
 ### 2. Add the yellow-bar title treatment
 
+> ⚠️ Scope narrowed 2026-07-21: this prompt is now for **board-breakdown thumbnails only** (Pattern B in [[content-engine/thumbnail-layout-patterns]]), where the headline is structural because the board cannot be read at 120px. Do not use it on a raw photo or a screen recording. Those go quiet: no text, a plain short label, or a speech-bubble question. Founder-ratified.
+
 Use when the photo is approved and only the text layer needs to be added.
 
 ```text

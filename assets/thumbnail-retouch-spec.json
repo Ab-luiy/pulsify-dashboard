@@ -1,0 +1,109 @@
+{
+  "name": "pulsify-thumbnail-retouch",
+  "version": "1.0.0",
+  "updated": "2026-07-21",
+  "purpose": "Soft retouch of a real photo or a real screen recording into a usable thumbnail. Never generation. The source image is the subject; the edit only removes what competes with it.",
+  "source_of_truth": "wiki/content-engine/thumbnail-layout-patterns.md",
+
+  "identity_lock": {
+    "description": "Non-negotiable across every pattern. The person is a source asset, not creative clay.",
+    "preserve_exactly": [
+      "face structure, proportions and all facial features",
+      "expression and eye direction",
+      "hair, beard, stubble and hairline",
+      "skin texture, including blemishes, marks and pores",
+      "body shape and posture",
+      "hands and hand position",
+      "clothing, jewellery, headwear and glasses",
+      "any prop held or shown"
+    ],
+    "forbidden": [
+      "beautifying, smoothing or airbrushing skin",
+      "reshaping, slimming or widening the face or body",
+      "changing or enhancing the expression",
+      "straightening posture or altering the pose",
+      "replacing the person with a generated likeness",
+      "adding or removing facial hair, makeup or accessories",
+      "zooming, reframing or re-cropping the subject",
+      "changing the camera angle or perspective"
+    ]
+  },
+
+  "background": {
+    "rule": "Keep the real room. Tidy it, never replace it.",
+    "allowed": [
+      "tidy bedding, smooth fabric, straighten pillows",
+      "reduce or remove small clutter that competes with the subject",
+      "even out distracting bright spots or harsh shadows",
+      "remove screen overlays, notification popups and watermarks"
+    ],
+    "forbidden": [
+      "replacing the room with a studio, office or gradient",
+      "AI-generated or stock backgrounds",
+      "heavy blur or fake bokeh",
+      "adding luxury objects, cars, watches or cash that were not in the original frame",
+      "removing real gear such as microphones, arms, monitors or chairs"
+    ]
+  },
+
+  "grade": {
+    "contrast": "lift slightly so the subject separates from the background",
+    "clarity": "slight",
+    "saturation": "unchanged or a touch lower",
+    "lighting": "must stay natural; no relighting, no rim lights, no glow",
+    "target": "looks like a good photo, not an edited one"
+  },
+
+  "patterns": {
+    "A_raw_photo": {
+      "when": "one person, real room, the image alone carries the tension",
+      "text": "none",
+      "notes": "The most human end of the range. Default for a talking-head video where the title carries the whole promise."
+    },
+    "B_board_breakdown": {
+      "when": "explaining a system or framework off a real board",
+      "layout": "board fills the frame as the background; person at the board or as a small inset",
+      "text": "short headline permitted, black uppercase on a yellow bar; one to three small labels with hand-drawn arrows into specific parts of the board",
+      "notes": "The only pattern where the yellow bar survives. The headline is structural because a board cannot be read at 120px."
+    },
+    "C_screen_recording": {
+      "when": "the proof is on a screen: chart, dashboard, ledger, platform UI",
+      "layout": "the real interface at real scale filling the frame; face in a small corner inset shaped like a webcam overlay",
+      "must_crop_out": [
+        "browser chrome, tabs and URL bar",
+        "application sidebars not needed to read the number",
+        "OS taskbar, clock, tray and desktop icons",
+        "weather widgets and unrelated notifications"
+      ],
+      "text": "none preferred; a plain short lowercase label is acceptable; no yellow bar, no all-caps headline",
+      "emphasis": "a single hand-drawn circle or arrow around the key number is permitted",
+      "notes": "Highest-leverage pattern when the creator already records their screen."
+    },
+    "D_two_people": {
+      "when": "interview, mentor and student, or the second person is part of the proof",
+      "layout": "two people mid-action in a real location",
+      "text": "restrained; a speech-bubble question or two plain words; numbers usually absent",
+      "notes": "The real location is what makes these work. Never an AI background."
+    }
+  },
+
+  "text_treatment": {
+    "banned_everywhere": [
+      "hype adjectives",
+      "exclamation marks",
+      "shock or exaggerated facial expressions",
+      "stacked numbers",
+      "any figure not already visible on the real screen behind it",
+      "MrBeast styling, glow, bevel, gloss or 3D effects"
+    ],
+    "max_words": 4,
+    "case": "lowercase or sentence case everywhere except the Pattern B yellow bar",
+    "harmony_rule": "thumbnail text never repeats a word from the title; the thumbnail carries the punchline, the title carries the context"
+  },
+
+  "output": {
+    "aspect_ratio": "16:9",
+    "count": 1,
+    "readability_check": "must read at 120px wide: subject, key number and any text all legible"
+  }
+}

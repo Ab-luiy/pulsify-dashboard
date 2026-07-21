@@ -1081,3 +1081,13 @@ Closed the remaining 2026-07-13 through 2026-07-16 record gaps, independently re
 ## [2026-07-18] client-update | Operator Links directory
 
 Added an ADMIN_KEY-gated Links route to the operator console plus a compact quick-links block on the Command center. The directory groups client access, internal tools, legacy and infrastructure destinations, and prospect pages loaded dynamically from the existing Acquisition pages data so active-state changes and new pages stay in sync.
+
+## [2026-07-21] ingest | Thumbnail layout patterns and the quiet-text ruling
+
+Ingested 20 founder-supplied reference thumbnails into `raw-sources/inspiration/thumbnail-retouch-references/` and extracted them into the new canonical page [[content-engine/thumbnail-layout-patterns]]. Four patterns emerged: raw photo with no text, board breakdown, screen recording with a webcam-style inset, and two people in a real location. Four of the references are the same founder photo at four degrees of retouch, which fixed the identity-lock standard: person untouched, real room tidied rather than replaced, no zoom, slight contrast lift, zero text.
+
+Founder ratified the text ruling: the yellow bar survives on board breakdowns only, where the headline is structural because a board cannot be read at 120px. Raw photo, screen recording and two-person thumbnails go quiet. Hype adjectives, exclamation marks, shock faces and stacked numbers are banned across every pattern. Narrowed the scope of [[content-engine/thumbnail-photo-cleanup-prompts]] prompt 2 and of the "do not soften it" line in [[content-engine/ai-content-workflow-thumbnail-profile]], and cross-referenced the new page from [[content-engine/packaging-rules]].
+
+Flagged an unresolved contradiction on packaging rule 5, no income screenshots as thumbnails: five of the twenty approved references are revenue or payout interfaces used as the thumbnail. The distinction that appears to hold is auditable live interface versus decontextualised flex, but that is not yet ratified and rule 5 stands until it is.
+
+Also wrote `assets/thumbnail-retouch-spec.json`, the machine-readable retouch contract for handing to Codex or an image model, and rebuilt the FITFO prospect asset around the screen-recording pattern.

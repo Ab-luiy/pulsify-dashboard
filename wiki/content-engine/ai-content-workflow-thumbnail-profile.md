@@ -21,6 +21,8 @@ The approved thumbnail has five layers.
 
 First: the headline. Use a large yellow highlight bar with bold black uppercase text, subtle black drop shadow, and crisp edges. The approved headline style is the strongest part of the asset. Do not soften it. Do not redesign it when only the supporting layout changes.
 
+> ⚠️ Scope narrowed 2026-07-21: "do not soften it" applies to **this profile only**, which is a board thumbnail (Pattern B in [[content-engine/thumbnail-layout-patterns]]). The yellow bar is not the house treatment for every thumbnail. Raw photos and screen recordings go quiet: no bar, no all-caps headline, no exclamation marks. Founder-ratified.
+
 Second: the whiteboard grid. The background should be a clean white/light grey Miro-style board. The grid needs to be visible, but only slightly. Fully white looks empty. A heavy grid looks cheap and distracting.
 
 Third: the AI workflow. Use flat, matte tool icons with subtle drop shadows. No glare. No glossy 3D tiles. No warped logos. The workflow should imply a system: icons feeding into YouTube and content operations. Arrows can look hand-drawn, but they still need clear spacing and direction.

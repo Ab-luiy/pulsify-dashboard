@@ -107,6 +107,10 @@ Derived from both Ayman and Alexei's frameworks:
 4. **Curiosity or proof** — thumbnails should create either curiosity ("what is that result?") or demonstrate proof ("that number is real and I want to know how"). Generic images accomplish neither.
 5. **No income screenshots as thumbnails** — this is a trust recession rule. Income screenshot thumbnails signal the exact thing that burns prospects in 2025–2026.
 
+6. **Layout comes from [[content-engine/thumbnail-layout-patterns]]** — four patterns (raw photo, board breakdown, screen recording, two people in a real location) with the text treatment scoped per pattern. Added 2026-07-21.
+
+> ⚠️ Contradiction: rule 5 is contradicted by the reference set the founder supplied and approved on 2026-07-21. Five of those twenty thumbnails are revenue or payout interfaces used as the thumbnail: a cash-breakdown dashboard, a $132,774.21 earnings screen, a $174,210 revenue chart, a $14,377.50 daily earnings panel, and a payments ledger. The distinction that appears to hold in practice, but is **not yet founder-ratified**, is between a live interface a viewer could plausibly audit (platform UI, account ledger, dashboard with dates and IDs) and a decontextualised number presented as a flex. Do not treat rule 5 as retired until the founder rules on it.
+
 ## How Pulsify uses this
 
 Packaging rules apply to every piece of content Pulsify produces or reviews for clients. Before any video enters production (scripting, recording), the title must pass:

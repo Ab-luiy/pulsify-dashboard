@@ -64,7 +64,17 @@ Restrained end: no text at all, or a plain question in a speech bubble, or a two
 
 The founder's 2026-07-21 direction pulls toward the restrained end. Hype adjectives, exclamation marks, shock faces and stacked numbers read as guru and cost the trust the click was supposed to buy.
 
-> ⚠️ Contradiction: this direction conflicts with two pages that currently lock the loud treatment. [[content-engine/thumbnail-photo-cleanup-prompts]] prompt 2 specifies "black text on a bright yellow rectangular highlight bar, all caps, large, crisp." [[content-engine/ai-content-workflow-thumbnail-profile]] calls the yellow bar "the strongest part of the asset. Do not soften it." The titles-thumbnails skill also makes thumbnail text mandatory at four words max. Resolution pending founder decision: whether the yellow bar is retired outright, or kept only for board-breakdown thumbnails (Pattern B) where it is doing structural work, while raw-photo and screen-recording thumbnails go quiet.
+### The rule (founder-ratified 2026-07-21)
+
+**The yellow bar survives on Pattern B only.** On a board breakdown the headline is structural: the board is unreadable at 120px, so a short bold line is the only thing telling the viewer what they are looking at. Black uppercase on a yellow bar stays the treatment there.
+
+**Pattern A and Pattern C go quiet.** A raw photo carries its own tension and a real interface carries its own number, so neither needs a shouted headline. Options in order of preference: no text at all, a plain short label, or a question in a speech bubble. Lowercase or sentence case. No yellow bar, no all-caps headline, no exclamation marks, no stacked figures.
+
+**Pattern D goes quiet too.** The references that work carry a speech-bubble question or two plain words, and mostly no numbers.
+
+Banned across every pattern: hype adjectives, exclamation marks, shock faces, and any number that is not already visible on the real screen behind it.
+
+> ⚠️ Contradiction resolved: this supersedes [[content-engine/thumbnail-photo-cleanup-prompts]] prompt 2, which specified the yellow bar generically, and narrows [[content-engine/ai-content-workflow-thumbnail-profile]]'s "do not soften it" to Pattern B only. Both pages updated 2026-07-21. The titles-thumbnails skill still makes thumbnail text mandatory at four words max and has not been updated; treat this page as canonical where they disagree, per the repo-is-canonical rule.
 
 ## Connections
 
