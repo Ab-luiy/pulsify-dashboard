@@ -1091,3 +1091,11 @@ Founder ratified the text ruling: the yellow bar survives on board breakdowns on
 Flagged an unresolved contradiction on packaging rule 5, no income screenshots as thumbnails: five of the twenty approved references are revenue or payout interfaces used as the thumbnail. The distinction that appears to hold is auditable live interface versus decontextualised flex, but that is not yet ratified and rule 5 stands until it is.
 
 Also wrote `assets/thumbnail-retouch-spec.json`, the machine-readable retouch contract for handing to Codex or an image model, and rebuilt the FITFO prospect asset around the screen-recording pattern.
+
+## [2026-07-21] decision | Income-screenshot rule resolved: the coupling is the variable
+
+The founder ruled on the contradiction flagged earlier today. A real figure on a real interface shown on YouTube is blunt transparency and it is catchy, so it ships. Numbers only become obnoxious when coupled with watches, cars, or lifestyle, at which point the figure stops being evidence and becomes a status claim.
+
+Rewrote [[content-engine/packaging-rules]] rule 5 from the blanket "no income screenshots as thumbnails" to the coupling rule, and recorded it in [[content-engine/thumbnail-layout-patterns]] under Pattern C. Still banned: a figure with no interface behind it, a number the creator cannot show inside the video, any figure paired with a lifestyle signal, and hype framing around it. [[concepts/trust-recession]] needed no change; it already scoped this correctly as "income screenshots without context or audit trail", so the overly broad version existed only in packaging-rules.
+
+Unblocks the FITFO payout thumbnail, which was the last item gating that asset.

@@ -48,6 +48,8 @@ The discipline that separates the good ones from a raw screenshot: browser chrom
 
 Use for anything where the proof is on a screen. This is the pattern for trade recaps, trade breakdowns, dashboards, and payout ledgers.
 
+**On showing the number (founder ruling, 2026-07-21).** A real figure on a real interface is blunt transparency and it is catchy, so show it. The ledger, the P&L, the payout column with its account IDs and dates: that is the asset, not a liability. What makes a number obnoxious is coupling it with watches, cars or lifestyle, at which point it stops being evidence and becomes a status claim. The variable is the coupling, never the figure. Full rule in [[content-engine/packaging-rules]] rule 5.
+
 ## Pattern D — Two people, real location
 
 Two people mid-action in a real place: typing at a desk, talking at a table, pointing at a board. Real office, real city window, real interior. Never an AI background, and the founder specifically noted that the original real background is what makes these work.

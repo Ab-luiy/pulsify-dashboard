@@ -105,11 +105,15 @@ Derived from both Ayman and Alexei's frameworks:
 2. **Title and thumbnail must be connected but not redundant** — the thumbnail adds a visual element the title does not say, or vice versa. If the thumbnail just restates the title as a text overlay, one of them is wasted.
 3. **Contrast matters** — the thumbnail must pop in a sea of other thumbnails at small size. Test at 120px width.
 4. **Curiosity or proof** — thumbnails should create either curiosity ("what is that result?") or demonstrate proof ("that number is real and I want to know how"). Generic images accomplish neither.
-5. **No income screenshots as thumbnails** — this is a trust recession rule. Income screenshot thumbnails signal the exact thing that burns prospects in 2025–2026.
+5. **A number is fine on its own. It turns toxic when you couple it with status.** Founder ruling, 2026-07-21, replacing the earlier blanket "no income screenshots as thumbnails."
+
+   A real interface showing a real figure, on its own, reads as blunt transparency and it is catchy. A payout ledger with account IDs and dates, a revenue dashboard, a platform P&L: these are evidence, and evidence is what the trust recession actually rewards. The viewer can go and check.
+
+   The same number becomes obnoxious the moment it is coupled with watches, cars, or lifestyle. At that point the number stops being evidence and becomes a status claim, which is the signal that pre-categorises the creator as another scam. **The variable is the coupling, never the figure.**
+
+   Still banned: a figure with no interface behind it, a number the creator cannot show inside the video, any figure paired with a lifestyle signal, and hype framing around it (exclamation marks, "PRINTED", shock faces). Consistent with [[concepts/trust-recession]], which already scoped this correctly as "income screenshots without context or audit trail."
 
 6. **Layout comes from [[content-engine/thumbnail-layout-patterns]]** — four patterns (raw photo, board breakdown, screen recording, two people in a real location) with the text treatment scoped per pattern. Added 2026-07-21.
-
-> ⚠️ Contradiction: rule 5 is contradicted by the reference set the founder supplied and approved on 2026-07-21. Five of those twenty thumbnails are revenue or payout interfaces used as the thumbnail: a cash-breakdown dashboard, a $132,774.21 earnings screen, a $174,210 revenue chart, a $14,377.50 daily earnings panel, and a payments ledger. The distinction that appears to hold in practice, but is **not yet founder-ratified**, is between a live interface a viewer could plausibly audit (platform UI, account ledger, dashboard with dates and IDs) and a decontextualised number presented as a flex. Do not treat rule 5 as retired until the founder rules on it.
 
 ## How Pulsify uses this
 
