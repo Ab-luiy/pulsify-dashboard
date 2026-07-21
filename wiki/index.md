@@ -70,6 +70,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[playbooks/offer-creation]] | Six-component offer architecture, high-ticket vs. mid-ticket decision criteria, audit checklist | 2026-05-02 |
 | [[playbooks/ai-outreach-grant-method]] | Grant Garcia's 6-step build-before-you-DM AI outreach system | 2026-05-06 |
 | [[playbooks/pulse-system-outreach]] | Pulsify's outreach playbook — landing page first, then voice-matched VSL, Typeform, and further value assets as consecutive follow-ups | 2026-05-06 |
+| [[playbooks/prospect-asset-doc-standard]] | LOCKED layout for the doc we send a prospect after they reply: Georgia on a 72ch measure, tokens, the 8-part structure, no CTA, and the render-and-look verification loop. Fill-in, not redesign. Build script at `output/fitfo-doc-build-short.js` | 2026-07-21 |
 | [[playbooks/claude-codex-collaboration]] | Operating protocol for keeping Claude and Codex aligned inside the vault | 2026-05-09 |
 | [[playbooks/pulsify-offer-v1]] | The first commercial offer — $5–12k high-ticket, 90 days + 60-hour cap, success-metric contract, week-by-week deliverables | 2026-05-10 |
 | [[playbooks/exam-mode-autonomous-ops]] | Three-lane autonomy protocol (green / queue / red) for when the founder is offline during exams | 2026-05-10 |

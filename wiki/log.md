@@ -1099,3 +1099,15 @@ The founder ruled on the contradiction flagged earlier today. A real figure on a
 Rewrote [[content-engine/packaging-rules]] rule 5 from the blanket "no income screenshots as thumbnails" to the coupling rule, and recorded it in [[content-engine/thumbnail-layout-patterns]] under Pattern C. Still banned: a figure with no interface behind it, a number the creator cannot show inside the video, any figure paired with a lifestyle signal, and hype framing around it. [[concepts/trust-recession]] needed no change; it already scoped this correctly as "income screenshots without context or audit trail", so the overly broad version existed only in packaging-rules.
 
 Unblocks the FITFO payout thumbnail, which was the last item gating that asset.
+
+## [2026-07-21] decision | Prospect asset doc layout locked
+
+Registered the FITFO document layout as a reusable standard at [[playbooks/prospect-asset-doc-standard]], with `output/fitfo-doc-build-short.js` as the canonical implementation. Fill-in rather than redesign, same rule as the landing-page standard.
+
+The tokens: Georgia throughout with Consolas reserved for literal strings the prospect copies, a 6.1in measure at roughly 72 characters, Pulsify blue darkened to #4A53D9 for small-text contrast on white, and a hairline rule under every h1. Calibri is banned outright because it reads as a default Word document, which was the first build's real problem.
+
+Structure is eight parts: title, the finding, an evidence table of their own assets, what works, what costs them, the numbered rebuild, untouched references, optional extra ideas. No CTA, per the founder ruling that a close offering free labour on demand positions us as a vendor auditioning rather than an operator.
+
+The section that matters most is verification. Four versions shipped before anyone rendered the document, and every layout defect found afterwards was invisible in the source: a 95-character measure, a label colliding with its own value, doubled paragraph gaps, an orphan page carrying two lines. The page now carries the working toolchain for this machine, Word COM to PDF then pymupdf to PNG, since LibreOffice is absent and the docx skill's soffice shim is Unix-only. Also recorded: check the page count after every change, hash-check the shipped file against the rendered one, and kill lingering WINWORD processes before copying or the copy fails silently.
+
+Known gap: nobody has yet opened one of these in Google Drive to confirm the conversion holds.
