@@ -13,7 +13,7 @@ const INK = '1A1A1A', MUTED = '464E5C', ACCENT = '4A53D9', RULE = 'D5D5DD', HEAD
 const SERIF = 'Georgia', MONO = 'Consolas';
 const T = { title: 32, h1: 25, body: 21, small: 18, caption: 16 };
 
-const MARGIN_X = 1728, MARGIN_Y = 1296;
+const MARGIN_X = 1728, MARGIN_Y = 1080;
 const CONTENT_W = 12240 - MARGIN_X * 2;
 
 const p = (text, o = {}) => new Paragraph({
@@ -135,8 +135,8 @@ const doc = new Document({
 
       table,
 
-      p('', { after: 130 }),
-      p('Your titles are good, and that is the part most people cannot fix. You write for someone already in the seat and already down, not for beginners who want to get rich. What is missing is the other half of the pair. The thumbnail is doing nothing, and three of these five are the same video wearing different hats.'),
+      p('', { after: 60 }),
+      p('Your titles are good, and that is the part most people cannot fix. You write for someone already in the seat and already down, not for beginners who want to get rich. What is missing is the other half of the pair, and three of these five are the same video wearing different hats.'),
 
       h1('The five, rebuilt'),
       p('Three of them need no photoshoot. The thumbnail is already inside your recording, just buried under browser chrome.', { color: MUTED, after: 40 }),
@@ -144,7 +144,7 @@ const doc = new Document({
       ...rebuild('1', 'how i lost $20k in one week (full breakdown)',
         'Screen recording. The drawdown on your platform filling the frame, browser and taskbar cropped out, face in a small inset bottom right. No text on it.'),
       ...rebuild('2', '5 funded accounts, $2k payouts each (full breakdown)',
-        'Screen recording. Your payout page cropped hard, PAID column scaled until it reads at phone size, account IDs and dates kept because they are what make it checkable. This is the one you already got right by accident.'),
+        'Screen recording. Payout page cropped hard, PAID column scaled until it reads at phone size, account IDs and dates kept because they make it checkable. You already got this one right by accident.'),
       ...rebuild('3', 'the risk plan that gets me 4r on nq (step by step)',
         'Screen recording. Crop to the risk box alone, ratio still legible, toolbars gone, face inset bottom left.'),
       ...rebuild('4', 'stop trading after a red week, do this instead (copy me)',
@@ -158,11 +158,17 @@ const doc = new Document({
       h1('On structure'),
       p('Open by confirming the exact promise the title made, and put the proof on screen inside the first thirty seconds. No welcome-back intro. Run the body off five to nine bullets you talk from rather than read, because a trader performing lines is the fastest way to lose a trader watching. Close with three asks doing different jobs: one buried in a story, one optional line mid-video, one explicit at the end. Never finish on "that is everything for this video."'),
 
-      h1('Three things I need from you'),
-      bullet('Your real payout cadence and total for that two-month window, so video 2 matches your ledger exactly.'),
-      bullet('The drawdown screenshot as it looked on the platform, for video 1.'),
-      bullet('What you actually cut from your chart, for video 5.'),
-      p('Three of the five are shootable today on numbers you have already made public.', { after: 0 }),
+      h1('Three more, if you want them'),
+      p('Angles already sitting in what you do every week. Titles and thumbnail ideas only, the take is yours.', { color: MUTED, after: 40 }),
+
+      ...rebuild('1', 'why i run 5 funded accounts instead of one (full breakdown)',
+        'Thumbnail: your account list, all five visible at once, face inset. Nobody explains the multi-account decision, and everyone chasing a payout wonders about it.'),
+      ...rebuild('2', 'my full nq session, start to finish (step by step)',
+        'Thumbnail: the chart mid-session, clock visible, nothing staged. Filmed while you work rather than recapped after, which is less effort and more authority.'),
+      ...rebuild('3', 'what i actually do with the payouts (full breakdown)',
+        'Thumbnail: the transfer screen, or you at the desk, nothing else in frame. The honest answer here is usually boring, and boring lands in a niche full of rented Lamborghinis.'),
+
+      new Paragraph({ spacing: { before: 130, after: 0 }, children: [new TextRun({ text: 'Worth doing? Send the numbers and I will package them the same way.', font: SERIF, size: T.body, color: INK })] }),
     ],
   }],
 });
