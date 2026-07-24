@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-24T03:44:29.176195+00:00",
+  "lastUpdated": "2026-07-24T07:26:56.333Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-24T03:44:29.176195+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-23T07:28:11.204Z",
+    "updatedAt": "2026-07-24T07:26:56.255Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 506,
+      "followers": 507,
       "following": 493,
       "mediaCount": 5,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzIifQ%3D%3D&_nc_ohc=U9aUUyzARzYQ7kNvwH6YvWx&_nc_oc=AdrmdYg1Aq3AV5q14xjQNOmbYgGslXNlmuaDYLByc-UkUrnEpXJwrUjhs8rlr50T-8M&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=J3_hlcRuAXnmrh9pZG_2HQ&_nc_tpa=Q5bMBQFw7hJ_iieMenRWsgvZzQbl6qOVuYGzuGsxqonWfD_gsKMgNmqfzQVKAMBuncoizcch_X_zqQIa&oh=00_AQDj6xq1ohx_uClq6oCHLMlsX5-eiN0n2ZHK2cr2I2kayA&oe=6A67998E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=U9aUUyzARzYQ7kNvwH6YvWx&_nc_oc=AdrmdYg1Aq3AV5q14xjQNOmbYgGslXNlmuaDYLByc-UkUrnEpXJwrUjhs8rlr50T-8M&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=w3xh2lniyxtcOB13wa9Tgw&_nc_tpa=Q5bMBQFVCzb7mX--R8Qc_pLiTqZbIF519GKqFFF9uWYLrfVgcm0W_yPAJ-22M86oO03V28eLoyxZM8RC&oh=00_AQBjADG7wi0F6UdkX-FVm2K7OeFvtbKgyPLmUTfzKgKfaw&oe=6A68EB0E"
     },
     "content": {
       "reelsCount": 20,
@@ -208,7 +208,6 @@
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        0,
         1,
         0,
         0,
@@ -237,11 +236,11 @@
         2,
         2,
         2,
+        0,
         0
       ],
       "followerSeries": [
         0,
-        0,
         1,
         0,
         0,
@@ -268,6 +267,7 @@
         1,
         2,
         1,
+        0,
         0,
         0
       ],
@@ -373,10 +373,6 @@
           "value": 3
         },
         {
-          "name": "ES",
-          "value": 3
-        },
-        {
           "name": "AU",
           "value": 3
         },
@@ -389,11 +385,11 @@
           "value": 2
         },
         {
-          "name": "YE",
+          "name": "FR",
           "value": 2
         },
         {
-          "name": "FR",
+          "name": "YE",
           "value": 2
         },
         {
@@ -425,6 +421,10 @@
           "value": 2
         },
         {
+          "name": "ES",
+          "value": 2
+        },
+        {
           "name": "TH",
           "value": 2
         },
@@ -445,15 +445,15 @@
           "value": 2
         },
         {
-          "name": "NZ",
+          "name": "KR",
           "value": 1
         },
         {
-          "name": "BO",
+          "name": "IQ",
           "value": 1
         },
         {
-          "name": "CG",
+          "name": "TN",
           "value": 1
         }
       ],
@@ -507,11 +507,11 @@
           "value": 2
         },
         {
-          "name": "Lincoln, Nebraska",
+          "name": "Imphal, Manipur",
           "value": 2
         },
         {
-          "name": "Imphal, Manipur",
+          "name": "Lincoln, Nebraska",
           "value": 2
         },
         {
@@ -551,71 +551,75 @@
           "value": 2
         },
         {
-          "name": "Sydney, New South Wales",
+          "name": "London, England",
           "value": 1
         },
         {
-          "name": "São Leopoldo, Rio Grande do Sul",
+          "name": "Ilam, Ilam Province",
           "value": 1
         },
         {
-          "name": "Philadelphia, Pennsylvania",
+          "name": "São Pedro do Sul, Rio Grande do Sul",
           "value": 1
         },
         {
-          "name": "Playa del Carmen, Quintana Roo",
+          "name": "Quezon City, Metro Manila",
           "value": 1
         },
         {
-          "name": "Marhaura, Bihar",
+          "name": "Cathedral City, California",
           "value": 1
         },
         {
-          "name": "Centurion, Gauteng",
+          "name": "Leiyang, Hunan",
           "value": 1
         },
         {
-          "name": "Fuquay-Varina, North Carolina",
+          "name": "Paris, Île-de-France",
           "value": 1
         },
         {
-          "name": "Várzea Paulista, São Paulo (state)",
+          "name": "Sant Pere de Ribes, Cataluña",
           "value": 1
         },
         {
-          "name": "Rourkela, Odisha",
+          "name": "Smara, Guelmim-Es Semara",
           "value": 1
         },
         {
-          "name": "Kalimoni, Central Province",
+          "name": "Saywun, Hadhramaut Governorate",
           "value": 1
         },
         {
-          "name": "Coquitlam, British Columbia",
+          "name": "Pringgabaya, West Nusa Tenggara",
           "value": 1
         },
         {
-          "name": "Puerto Villarroel, Cochabamba Department",
+          "name": "Allahabad, Uttar Pradesh",
           "value": 1
         },
         {
-          "name": "Tawau, Sabah",
+          "name": "Bac Me, Hà Giang Province",
           "value": 1
         },
         {
-          "name": "Addis Ababa, Addis Ababa",
+          "name": "Baghdad, Baghdad Governorate",
           "value": 1
         },
         {
-          "name": "Iturama, Minas Gerais",
+          "name": "Katihar, Bihar",
           "value": 1
         },
         {
-          "name": "Nova Iguaçu, Rio de Janeiro (state)",
+          "name": "Duisburg, Nordrhein-Westfalen",
           "value": 1
         },
         {
-          "name": "Rialto, California",
+          "name": "Antelope, California",
+          "value": 1
+        },
+        {
+          "name": "Mansoura, Dakahlia Governorate",
           "value": 1
         },
         {
@@ -623,26 +627,22 @@
           "value": 1
         },
         {
-          "name": "Narsinghpur, Madhya Pradesh",
+          "name": "Buritizeiro, Minas Gerais",
           "value": 1
         },
         {
-          "name": "Patna, Bihar",
+          "name": "Tiruchirappalli, Tamil Nadu",
           "value": 1
         },
         {
-          "name": "Viamão, Rio Grande do Sul",
-          "value": 1
-        },
-        {
-          "name": "Mississauga, Ontario",
+          "name": "Kaunas, Kaunas County",
           "value": 1
         }
       ],
       "gender": [
         {
           "name": "U",
-          "value": 244
+          "value": 243
         },
         {
           "name": "M",
@@ -656,7 +656,7 @@
       "age": [
         {
           "name": "18-24",
-          "value": 162
+          "value": 161
         },
         {
           "name": "25-34",
@@ -1225,7 +1225,7 @@
     }
   },
   "content": {
-    "igFollowers": 506,
+    "igFollowers": 507,
     "igReach30d": 2745,
     "igReelsShipped": 5
   }
