@@ -75,8 +75,8 @@ const termsBox = new Table({
         t('The build. One payment, covers everything in the next section.', { color: MUTED }),
       ], HALF, { fill: FILL }),
       cell([
-        t('30% OF WHAT YOU COLLECT', { bold: true, color: ACCENT, after: 85 }),
-        t('Only pays when you get paid. No retainer, no monthly fee.', { color: MUTED }),
+        t('30% ONCE WE LAUNCH', { bold: true, color: ACCENT, after: 85 }),
+        t('Kicks in at the first launch, not before. Split 70/30 in your favour.', { color: MUTED }),
       ], CONTENT_W - HALF, { fill: FILL }),
     ],
   })],
@@ -114,7 +114,7 @@ const doc = new Document({
       termsBox,
       p('', { after: 150 }),
 
-      p('The split is deliberate. The $2,000 pays for the build, which is the part that takes real hours whether it works or not. The 30% is how I get paid properly, and it only happens if you collect. That means I am carrying the risk on the outcome with you instead of taking a fee and disappearing.'),
+      p('The split is deliberate. The $2,000 pays for the build, which takes real hours whether it works or not. The 30% only starts once there is something to launch and a team running it, and it comes out of profit rather than off the top. Until then you pay nothing beyond the two.'),
 
       h1('The build'),
       p('Thirty days. This is the part the $2,000 buys, and you keep all of it whether we carry on or not.', { color: MUTED, size: T.small, after: 40 }),
@@ -135,17 +135,17 @@ const doc = new Document({
         'So both of us can see what came from where. This is also what makes the 30% honest: you see the same numbers I do, and neither of us is guessing about what the content produced.'),
 
       h1('After the build'),
-      p('The 30% is what keeps me in it. Ongoing, for as long as we are working together:'),
+      p('Nothing here costs you anything until the first launch. From that point the split is 70/30 in your favour, and the 30 covers the team that runs it: 5% to the setter who handles the incoming conversations, 10% to the closer who takes the calls, 15% to me. Ongoing:'),
       bullet('Every new upload packaged: title, thumbnail, hook.'),
       bullet('The content bank refilled so it never runs dry.'),
       bullet('The funnel watched and fixed when it leaks.'),
       bullet('Sales infrastructure added when the volume justifies it, not before.'),
-      p('No monthly fee attached to any of that. If you collect nothing, I invoice nothing.', { after: 0 }),
+      p('No retainer, no monthly fee, and nothing at all until there is a launch to split. If nothing sells, the 30 is zero.', { after: 0 }),
 
       h1('What I need from you'),
       bullet('Your payout numbers and the drawdown screenshot, so the packaging uses your real figures rather than approximations.'),
       bullet('A filming cadence you will actually hold. One a week beats four in a burst.'),
-      bullet('Visibility on what comes in, so the 30% is calculated off real numbers instead of estimates.'),
+      bullet('When we do launch, visibility on what comes in, so the split is calculated off real numbers instead of estimates.'),
       p('That last one matters more than it sounds. Without it there is no way to know what worked, which makes the whole arrangement guesswork for both of us.', { after: 0 }),
 
       h1('Not included'),
