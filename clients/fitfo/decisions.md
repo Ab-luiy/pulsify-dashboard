@@ -53,14 +53,23 @@ This gap is useful on the follow-up. His own target is conservative, and the hon
 
 ---
 
-## [2026-07-24] Objection read: not-ready is a price objection
+## [2026-07-24] Objection: NOT price. Verified against the recording.
 
-**Abdullah's assessment** from the final part of the call: Carlos said something close to "I don't know if I'm ready to take this step." Abdullah reads it as a smokescreen over price, plus a genuine need for more evidence that the method works.
+**Initial read (Abdullah, from recall):** "not ready to take this step" is a smokescreen over price, plus a need for more proof the method works.
 
-**The agreed response posture:**
+> ⚠️ Corrected against the full recording. The objection is not price, and Carlos ruled it out explicitly when asked directly. Building the follow-up around price would miss him entirely, and would contradict something he stated plainly.
 
-- Demonstrate competence rather than assert it. Show the frameworks, the structures, the studied material, without it becoming a flex.
-- Do not be needy. No chasing, no discounting, no extra free work.
-- Appeal to his stated needs and future-pace his goals, using his own six-month target as the anchor.
+**What he actually said, in sequence:**
 
-**Open:** the exact objection wording is not yet captured. Verifying against the recording rather than working from recall.
+- Timing is his stated worry. He is unsure he has enough today to justify turning this into a business yet.
+- He frames the real question as whether he is ready to give it everything: if he pays and works with Abdullah, he will not half-ass it, and he does not want to waste the money by being the reason it fails.
+- Asked directly whether he was scared, he said money does not scare him. That closes the price theory.
+- He describes a part of his brain going to what happens if it works far better than expected and his life changes completely. He calls it a yield sign rather than a stop sign.
+- Asked why, he explains he met many successful people through professional tennis, understands how they think, and finds it hard to picture himself there because he has failed many times.
+- His clearest formulation: what if he does not live up to his own expectation, and what if he crashes twice as hard as he rises.
+
+**The actual objection: fear of success and self-belief, not cost and not doubt about the method.** He believes the work would help. He is unsure he is the person who can carry it, and he is wary of a version of his life he cannot picture.
+
+**Why this matters for the follow-up.** Evidence that the method works does not answer this, because he already accepts the method. What answers it is lowering the identity stakes: this is a structure that runs whether or not he feels ready, the first 90 to 120 days are process rather than transformation, and failure at this scale costs him a defined amount rather than his self-image. Abdullah's own line on the call was the right instinct, that the money exists to make him take it seriously rather than because it matters.
+
+**Also on the record:** he asks his father for advice, not his girlfriend or his friends, and he stressed the decision is his own. Any follow-up is written for him alone.

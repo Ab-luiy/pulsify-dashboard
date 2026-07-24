@@ -178,4 +178,24 @@ The stretch from roughly 1:09 to 5:02 produced no usable text, likely silence or
 
 **AB** [29:14] Begins answering, saying they start with testing, and that he will need a great deal of information from Carlos, including things he may not have considered, so the output has good input. States his own preference: he is far more interested in YouTube than Instagram, though they would combine both.
 
-*[Transcript supplied ends here at ~30:00. Remainder pending.]*
+---
+
+## 30:00 to end, summarised from the recording
+
+Raw machine transcript for this portion is at `2026-07-24-raw-transcript.txt`. Both voices are present from roughly the 5-minute mark onward.
+
+**The timeline question resolved.** Carlos restated it precisely: when is the right time, when he has built enough authenticity and authority to launch a program people will actually buy. He was candid that he thinks he is ahead of his game and needs better structure and more background before charging anyone.
+
+Abdullah's answer: the structure itself can be built almost overnight, and he claims two days against the three weeks he says other operators take. But the launch window is **90 to 120 days**, with 120 called the sweet spot. He was explicit that a week or a month would be an unserious answer, because the algorithm needs time to recognise what the channel is doing. Carlos accepted this and said it corrected an earlier impression that things would move faster.
+
+**Cadence set.** Instagram comes down from 8-10 posts a day to 5, which Abdullah tied to micro-niching and to not running out of ideas. YouTube goes to once a week. Abdullah stressed the packaging matters more than the video itself, and ruled out MrBeast-style treatment explicitly.
+
+**Growth framing.** Zero to 1k in the first month means the next month could be 2k, then compounding. Abdullah's position: consistency, being real, and treating the audience like a younger sibling. His argument is that people buy from people they like rather than from the best course, and that mildly controversial takes against the retire-my-parents-at-19 genre are available to him.
+
+**The first steps Carlos asked for.** Onboarding, voice notes covering his offer and his story end to end, then Instagram optimisation: bio, highlights, and reels, with minimal changes to the reels themselves.
+
+**Then the objection.** Carlos said he needs to think it over, cannot answer on the call, and will come back in a couple of days. He asked twice for something to read in the meantime. The substance of the objection is recorded in [[clients/fitfo/decisions]] and is **not price**. Money was explicitly ruled out when Abdullah asked directly. It is fear that it works, set against a history of failure he brought up from his tennis career.
+
+Abdullah pushed on it directly, reading his body language back to him, and offered the frame that the fee exists to make him take it seriously rather than because the money matters. He cited paying $14,000 for a program himself and coming out the other side better for it.
+
+**Housekeeping from the close.** He is **Carlos**, which only came out at 48:38 because the Google Meet display name read "Mr. Lou" and neither had introduced themselves properly. Numbers were exchanged over WhatsApp. He said he would reach out, and he asks his father for advice rather than his girlfriend or friends, stressing the decision is his alone.
