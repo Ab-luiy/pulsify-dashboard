@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-28T03:35:58.654983+00:00",
+  "lastUpdated": "2026-07-28T07:34:40.023Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-07-28T03:35:58.654983+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-27T08:23:39.427Z",
+    "updatedAt": "2026-07-28T07:34:39.938Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 506,
+      "followers": 510,
       "following": 537,
       "mediaCount": 6,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=cj76405UoNMQ7kNvwHVzAkd&_nc_oc=AdrM1S4cFonlv1_SIdoBjkR5LNBS1HdxwuswD5l4dRki7TD7B-VI0JY5Cw9Ic1YsofQ&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=-5X1Vle3qGWr2J0JWCxUUA&_nc_tpa=Q5bMBQFACvlVPzSfQnuABSnNYyE2qg243AaoBzXIUvqwjoOY9q8NlB9GdlXoeFYhLEVdxfCscvnZyIVg&oh=00_AQDUSj_7j7j7cmtws8anrgV2Bl8XX_7W62BgY4ieOuVtSQ&oe=6A6CDF8E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzIifQ%3D%3D&_nc_ohc=cj76405UoNMQ7kNvwEdkL6n&_nc_oc=Ado07kvww7OI1lsJlw5LMLgD0aoXwwlXrt_8T1ZBXUkrch0RJsA-yQ5kRLU6sm7SZXo&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=2g_LL_fjQy3ENNOTShqYcw&_nc_tpa=Q5bMBQFd2tjRbHGfVoGejsfDM_VYzDWN-eM6xlJX3t9c247ZP3DVwGRMGec2ga3S5_avgY1nkZeJcXTC&oh=00_AQDBg9Xc_ZJ_rj2yHD8G6cbRnl9jMWAXNWRPHFUpR9XgDw&oe=6A6E310E"
     },
     "content": {
       "reelsCount": 20,
@@ -55,7 +55,7 @@
       "totalShares": 10,
       "avgReach": 138,
       "avgViews": 160,
-      "avgWatchMs": 6911,
+      "avgWatchMs": 6912,
       "avgHook": 21,
       "reachByPost": [
         {
@@ -209,7 +209,6 @@
       "profileLinkTaps30d": 0,
       "reachSeries": [
         1,
-        1,
         0,
         0,
         0,
@@ -237,10 +236,10 @@
         2,
         4,
         8,
+        1,
         0
       ],
       "followerSeries": [
-        0,
         1,
         0,
         0,
@@ -266,6 +265,7 @@
         1,
         0,
         1,
+        0,
         0,
         0,
         0,
@@ -704,7 +704,7 @@
           "shares": 5,
           "saved": 6,
           "totalInteractions": 34,
-          "avgWatchTimeMs": 18008
+          "avgWatchTimeMs": 18022
         },
         "saveRate": 0.007462686567164179,
         "shareRate": 0.006218905472636816,
@@ -1241,7 +1241,7 @@
     }
   },
   "content": {
-    "igFollowers": 506,
+    "igFollowers": 510,
     "igReach30d": 2755,
     "igReelsShipped": 6
   }
