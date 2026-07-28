@@ -1,5 +1,8 @@
 ﻿# Memory index
 
+- [Price objection = smokescreen](feedback_price_objection_smokescreen.md) - 2026-07-28 HARD doctrine: a price objection is almost always a smokescreen (weight behaviour over self-report), and taking an upfront fee is non-negotiable; hold vault positions even when the founder already committed the other way - don't fold
+- [FITFO / Carlos deal](project_fitfo_carlos_deal.md) - 2026-07-28: restructured to $0 upfront + FIXED $3k performance fee (capped upside, uncapped downside); he has no offer so he's ready for content only, NOT the full stack; conditions doc owed to him at clients/fitfo/deal-conditions-draft.md
+
 - [Instagram project](project_instagram_project.md) - 2026-07-12: FABLE HANDOFF written at wiki/synthesis/instagram-project-fable-handoff.md (read it first). DONE: both corpora extracted (34 pages), 9 framework pillars, 2 skills (sequence-ingest + story-sequence-generator), captures broken down. LIVE: client dashboard P1-P3 on pulsify-funnels (login + sequence studio + drop-off metrics). DECIDED (don't relitigate): 7 ratified dials, proof-currency=student-results-never-lifestyle, no LLM key (manual mode = Claude copy), email parked till first client. LEFT: validation loop on own IG (the real unlock), P4 sections (unblocked), more captures, missing appointment-setting source, a 3rd creator
 
 - [CRM cross-browser sync](project_crm_cross_browser_sync.md) - 2026-07-09: lead edits (fields/pipeline/transcripts/assets) sync via pulsify-funnels D1 /api/crm-sync (per-lead _ts merge, migration 0011); agents use pulsify-dashboard tools/crm_sync.py w/ FUNNELS_ADMIN_KEY; user must paste ADMIN_KEY once per browser (Lead Studio funnels-key field) to turn sync on
