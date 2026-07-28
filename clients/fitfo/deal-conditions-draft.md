@@ -24,7 +24,7 @@ Both sides said these out loud in the thread. They go in as written.
 
 ## What has to be decided before this can be sent
 
-**1. `[DECIDE]` What "times 1.5" multiplies.** Carlos said "not a dollar to me until you get yours back times 1.5." That number has no base attached to it. If it means 1.5x the $2,000 originally quoted, the first tranche is $3,000 and the maths already lines up with the $3,000 he named. If it means something else, it needs saying now, because Carlos will read it his way otherwise.
+**1. ~~`[DECIDE]` What "times 1.5" multiplies.~~ RESOLVED 2026-07-28.** It multiplies the original $2,000 quote. $2,000 x 1.5 = $3,000, which is exactly the figure Carlos named. He was being precise rather than vague. Nothing further to decide, but the base should be written out explicitly in the final version so it cannot be reread later.
 
 **2. `[DECIDE]` What counts as revenue.** Cash collected or contracted value. Gross or net of refunds, chargebacks, and payment-plan defaults. If a client signs a $3,000 plan and pays $1,000 before dropping off, the answer has to already exist.
 
@@ -37,7 +37,21 @@ Both sides said these out loud in the thread. They go in as written.
 
 **4. `[DECIDE]` A time limit.** If no offer has launched by a given date, what happens. Options: the arrangement lapses, it converts to a fee, or it continues indefinitely. Right now it is indefinite by default, which is the exposure.
 
-**5. `[DECIDE]` What happens after the first $3,000.** Both sides assume continuation. Nobody has said on what terms. The obvious candidate is the 30% split from the 07-24 structure, at 5% setter, 10% closer, 15% Abdullah, but that was attached to a deal that no longer exists.
+**5. `[DECIDE]` What happens after the first $3,000. This is the most expensive open item, not the smallest.** Both sides assume continuation and nobody has said on what terms.
+
+The performance fee is fixed and constant at $3,000. Set against the 07-24 structure, the trade looks like this:
+
+| | 07-24 structure | Current structure |
+|---|---|---|
+| Guaranteed up front | $2,000 | $0 |
+| Ongoing | 30%, uncapped | Unspecified |
+| Ceiling | None | $3,000 |
+
+Capped upside against uncapped downside. If Carlos launches well and does $100,000, the arrangement as written still pays $3,000 for a full systems build delivered on spec.
+
+A revenue share earns its zero up front by having no ceiling. A fixed fee earns its ceiling by being paid up front. This structure has neither, which is the actual defect and it is worth more than the missing deposit.
+
+**Recommended shape:** the $3,000 is the first tranche rather than the ceiling. First $3,000 of revenue clears at 100% to Abdullah, then the 30% split resumes at 5% setter, 10% closer, 15% Abdullah. Carlos gives up nothing he has claimed to want, since he framed the $3,000 as proof the system works and explicitly said they continue from there.
 
 **6. `[DECIDE]` Scope of the build.** What Carlos gets for the $0 up front, and what he does not. Without this, scope creep is unbounded and there is no upfront payment sitting there to justify drawing a line.
 

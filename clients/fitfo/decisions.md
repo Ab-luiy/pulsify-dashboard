@@ -111,3 +111,9 @@ This gap is useful on the follow-up. His own target is conservative, and the hon
 **Why this matters for the follow-up.** Evidence that the method works does not answer this, because he already accepts the method. What answers it is lowering the identity stakes: this is a structure that runs whether or not he feels ready, the first 90 to 120 days are process rather than transformation, and failure at this scale costs him a defined amount rather than his self-image. Abdullah's own line on the call was the right instinct, that the money exists to make him take it seriously rather than because it matters.
 
 **Also on the record:** he asks his father for advice, not his girlfriend or his friends, and he stressed the decision is his own. Any follow-up is written for him alone.
+
+> ⚠️ Challenged 2026-07-28 by Abdullah, and the challenge holds. Standing Pulsify doctrine is that a price objection is almost always a smokescreen, and that a prospect who cannot invest up front will hide behind any other objection rather than say so. This entry treats "money does not scare me" as settling the question. It does not. A prospect's self-report on his own objection is evidence, not proof, and this page over-weighted it.
+>
+> The harder signal is behavioural and it came later: on 2026-07-27 Carlos declined $1,000 up front with the balance on delivery. Whatever he says the objection is, he would not fund four figures.
+>
+> Both readings converge on the same instruction, so the resolution does not depend on winning the argument. If the objection is fear of success, an upfront fee is what makes him take it seriously, which was Abdullah's own read on the call. If the objection is price, an upfront fee is the qualification test and failing it means he is not a client yet. Either way: take the upfront. See [[clients/fitfo/deal-conditions-draft]].
