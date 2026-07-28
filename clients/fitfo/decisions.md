@@ -4,6 +4,44 @@ Append-only. Every decision with who made it, when, and why.
 
 ---
 
+## [2026-07-28] Deal restructured: nothing up front, first $3,000 of revenue goes to Abdullah
+
+**Decided by:** Carlos proposed it, Abdullah accepted in the WhatsApp thread at 19:23. Screenshots reviewed 2026-07-28.
+
+> ⚠️ Contradiction: this supersedes the [2026-07-24] entry below, which recorded $2,000 up front plus 30% after the first launch. Neither term survives. Do not quote the old structure to Carlos.
+
+**How it moved, in sequence:**
+
+- Sunday 21:15, Carlos soft-declined. His words: his audience does not justify taking it to this level of management, he likes Abdullah because of how the call went, and he will reach out once ready.
+- Abdullah tested for price at 21:23: if pricing wasn't a problem would you start right away.
+- Carlos ruled price out again, calling it a dumb question to ask, and restated that it is about him and where he is at. This is the second independent confirmation of the objection read recorded on 07-24.
+- Abdullah countered at 02:41 with a split: $1,000 up front and $1,000 once everything is built out.
+- Carlos rejected that and counter-offered at 16:32: he pays nothing now, the first $3,000 of income attributable to the work goes to Abdullah, and not a dollar to Carlos "until you get yours back times 1.5". In the same message he asked for success cases, on the grounds that words are just words.
+- Abdullah clarified at 17:16 whether that meant revenue generated off Carlos's offer. Carlos confirmed: the money is fully dependent on how well we work.
+- Carlos's own articulation: assuming the system is in place with nothing paid from his side, they work as a team to get clients, and if they close a client for $3,000 then all of it goes to Abdullah as proof the system works.
+- His stated reason is symmetry. He wants both sides making money the same way rather than Abdullah sitting in the more favourable position if things do not work out. Win together or lose together.
+- Abdullah accepted: "I'm down. why tf not."
+
+**Terms as they stand:** $0 up front. First $3,000 of revenue Carlos generates from the offer goes entirely to Abdullah. Continuation past that point is assumed by both sides but never specified. Nothing is in writing.
+
+> Note against [[playbooks/pulsify-offer-v1]]: the documented floor is $5,000 base plus 30%. The 07-24 variant already sat below that deliberately. This sits below the variant, and carries no floor at all.
+
+**What is still open.** These are unresolved, not settled:
+
+1. **"Times 1.5" is undefined.** 1.5x of what base. Nobody has named the number it multiplies.
+2. **The trigger was raised and never answered.** Abdullah made the right point at 18:04, that "how well we work" needs articulating as either after systems are built and delivered, after launch, or against metrics other than revenue, because it has to go in a contract for both sides. Carlos's reply defined it purely as revenue and the gap was left there.
+3. **No time limit exists.** Payment depends on Carlos closing a $3,000 client.
+4. **Carlos asked for the conditions in writing at 19:30** and has not received them. He said it plainly: let's write down the conditions so we're clear with everything.
+5. **Proof is pending.** Carlos asked whether the fitness-creator and trader-creator claims could be backed with accounts. Two handles were sent plus a YouTube breakdown. He said he would check them. No confirmation he has.
+
+**Why this matters more than the number.** The payment trigger is the same event both parties agreed on 07-24 could not be rushed. [[concepts/pulsify-order-of-operations]] puts content and offer ahead of launch, Carlos has no offer yet, and he is roughly six weeks into posting at about 1,000 followers. The build is now fully on spec until he has an offer that closes. That is a real exposure and it belongs in the conditions doc rather than in a follow-up call.
+
+**Current state of play:** Carlos's last message, 16:18, asks what times Abdullah has available. The ball is with Abdullah on both the call slot and the written conditions.
+
+See [[clients/fitfo/deal-conditions-draft]].
+
+---
+
 ## [2026-07-24] Deal structure: $2,000 up front, 30% after the first launch
 
 **Decided by:** Abdullah, on the discovery call, agreed in principle by Carlos.

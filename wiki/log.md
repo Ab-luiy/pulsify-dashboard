@@ -1111,3 +1111,17 @@ Structure is eight parts: title, the finding, an evidence table of their own ass
 The section that matters most is verification. Four versions shipped before anyone rendered the document, and every layout defect found afterwards was invisible in the source: a 95-character measure, a label colliding with its own value, doubled paragraph gaps, an orphan page carrying two lines. The page now carries the working toolchain for this machine, Word COM to PDF then pymupdf to PNG, since LibreOffice is absent and the docx skill's soffice shim is Unix-only. Also recorded: check the page count after every change, hash-check the shipped file against the rendered one, and kill lingering WINWORD processes before copying or the copy fails silently.
 
 Known gap: nobody has yet opened one of these in Google Drive to confirm the conversion holds.
+
+## [2026-07-28] client-update | FITFO deal restructured, and the July 26 IG batch audited
+
+Read the WhatsApp thread with Carlos and the live IG inbox at the founder's request.
+
+The FITFO deal moved and the vault was wrong. The 2026-07-24 structure of $2,000 up front plus 30% after the first launch no longer exists. Carlos soft-declined on Sunday, ruled price out a second time when tested, rejected a $1,000 plus $1,000 split, and counter-offered nothing up front with the first $3,000 of his revenue going entirely to Abdullah. Abdullah accepted. Recorded as a superseding entry in [[clients/fitfo/decisions]] with the old entry left intact and the contradiction flagged.
+
+The objection read from 07-24 held up. Carlos independently confirmed it is not price, in his words that it is about him and where he is at, which is the second confirmation of the fear-of-success reading rather than a cost objection.
+
+Six things are undefined in the new deal: the base that "times 1.5" multiplies, what counts as revenue, what triggers payment, any time limit, the terms after the first $3,000, and the scope of the build. The trigger question was raised by Abdullah in the thread and never answered. Carlos asked for the conditions in writing and has not received them, so [[clients/fitfo/deal-conditions-draft]] now holds the draft with those six marked as founder decisions.
+
+The structural exposure worth naming: payment now triggers on Carlos closing a $3,000 client, and Carlos has no offer, roughly 1,000 followers, and six weeks of posting. Both parties agreed on 07-24 that a launch cannot be rushed, so the build sits fully on spec until the thing they agreed to slow down actually happens.
+
+IG batch audited at [[clients/_pipeline/ig-inbox-audit-2026-07-28]]. Twelve cold DMs on July 26, five replies, 42% against a near-zero rate on the April mass blast. Three said yes and none have received the promised audit. The most useful reply came from a growth operator who declined and then gave a specific teardown, including that the newest client result on the profile is from last year and that a $2 ad spend presented as proof reads as wasted money to an operator.

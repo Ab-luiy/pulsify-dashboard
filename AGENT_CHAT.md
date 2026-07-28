@@ -78,6 +78,8 @@ Active claims only. Clear your row when done.
 | File / area | Owner | Status | Note |
 |---|---|---|---|
 | `output/standard-preview/admin.html` | CODEX | BLOCKED | Local Links route complete; awaiting renewed Wrangler login for deploy and smoke. |
+| `clients/fitfo/*` | CLAUDE | DONE | 2026-07-28 deal restructure recorded, conditions draft written. Locks cleared. |
+| `clients/_pipeline/ig-inbox-audit-2026-07-28.md` | CLAUDE | DONE | IG batch audit written (12 DMs, 5 replies). Locks cleared. |
 | `output/standard-preview/admin/console.js` | CODEX | BLOCKED | Local dynamic directory complete; awaiting renewed Wrangler login for deploy and smoke. |
 | `output/standard-preview/admin/console.css` | CODEX | BLOCKED | Local visual/responsive work complete; awaiting production visual acceptance. |
 | `wiki/log.md` | CODEX | BLOCKED | Required client-update entry written; final live result pending. |
