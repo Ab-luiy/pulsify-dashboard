@@ -37,21 +37,21 @@ Both sides said these out loud in the thread. They go in as written.
 
 **4. `[DECIDE]` A time limit.** If no offer has launched by a given date, what happens. Options: the arrangement lapses, it converts to a fee, or it continues indefinitely. Right now it is indefinite by default, which is the exposure.
 
-**5. `[DECIDE]` What happens after the first $3,000. This is the most expensive open item, not the smallest.** Both sides assume continuation and nobody has said on what terms.
+**5. `[DECIDE]` Get the 30% onto the record. It is agreed but undocumented.**
 
-The performance fee is fixed and constant at $3,000. Set against the 07-24 structure, the trade looks like this:
+Founder confirmation 2026-07-28: the 30% split survives the restructure at 5% setter, 10% closer, 15% Abdullah. The $3,000 is a first tranche, not a ceiling. On that basis the economics barely moved:
 
 | | 07-24 structure | Current structure |
 |---|---|---|
 | Guaranteed up front | $2,000 | $0 |
-| Ongoing | 30%, uncapped | Unspecified |
-| Ceiling | None | $3,000 |
+| On the first $3,000 of revenue | 30% ($900) plus the $2,000 = $2,900 | 100% = $3,000 |
+| Everything after | 30% | 30% |
 
-Capped upside against uncapped downside. If Carlos launches well and does $100,000, the arrangement as written still pays $3,000 for a full systems build delivered on spec.
+Against revenue these are the same deal. The whole delta is $2,000 moving from certain to contingent, which makes the build fee in decision 3 the only economic argument left rather than one of several.
 
-A revenue share earns its zero up front by having no ceiling. A fixed fee earns its ceiling by being paid up front. This structure has neither, which is the actual defect and it is worth more than the missing deposit.
+**The real exposure here is evidentiary, not commercial.** The 30% appears nowhere in the WhatsApp thread. Carlos's only words on continuation are that they "continue working together with the same system making more and more money from more clients." No percentage, no split, no mechanism. It is agreed on the call and nowhere else.
 
-**Recommended shape:** the $3,000 is the first tranche rather than the ceiling. First $3,000 of revenue clears at 100% to Abdullah, then the 30% split resumes at 5% setter, 10% closer, 15% Abdullah. Carlos gives up nothing he has claimed to want, since he framed the $3,000 as proof the system works and explicitly said they continue from there.
+That leaves it open to an honest misunderstanding rather than bad faith: once the $3,000 clears, Carlos can reasonably read the arrangement as returning to open terms. Writing the split out, with the 5/10/15 breakdown and what revenue it applies to, is the highest-value line in this document.
 
 **6. `[DECIDE]` Scope of the build.** What Carlos gets for the $0 up front, and what he does not. Without this, scope creep is unbounded and there is no upfront payment sitting there to justify drawing a line.
 

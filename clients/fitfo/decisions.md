@@ -22,7 +22,11 @@ Append-only. Every decision with who made it, when, and why.
 - His stated reason is symmetry. He wants both sides making money the same way rather than Abdullah sitting in the more favourable position if things do not work out. Win together or lose together.
 - Abdullah accepted: "I'm down. why tf not."
 
-**Terms as they stand:** $0 up front. First $3,000 of revenue Carlos generates from the offer goes entirely to Abdullah. Continuation past that point is assumed by both sides but never specified. Nothing is in writing.
+**Terms as they stand:** $0 up front. First $3,000 of revenue Carlos generates from the offer goes entirely to Abdullah. **The 30% split survives from the 07-24 structure and resumes after that first $3,000** (5% setter, 10% closer, 15% Abdullah), confirmed by Abdullah 2026-07-28. So the $3,000 is a first tranche rather than a ceiling.
+
+> ⚠️ The 30% is agreed between the parties but appears nowhere in the WhatsApp thread. Carlos's only written words on continuation are "we continue working together with the same system." No percentage is recorded anywhere he has seen. Getting the split in writing is the priority item in [[clients/fitfo/deal-conditions-draft]].
+
+On revenue this is close to the deal it replaced. The first $3,000 would have paid $2,900 under the old structure ($2,000 up front plus 30% of $3,000) against $3,000 now, and everything after is 30% either way. The substantive change is that $2,000 moved from guaranteed to contingent.
 
 > Note against [[playbooks/pulsify-offer-v1]]: the documented floor is $5,000 base plus 30%. The 07-24 variant already sat below that deliberately. This sits below the variant, and carries no floor at all.
 
