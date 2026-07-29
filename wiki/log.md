@@ -1125,3 +1125,17 @@ Six things are undefined in the new deal: the base that "times 1.5" multiplies, 
 The structural exposure worth naming: payment now triggers on Carlos closing a $3,000 client, and Carlos has no offer, roughly 1,000 followers, and six weeks of posting. Both parties agreed on 07-24 that a launch cannot be rushed, so the build sits fully on spec until the thing they agreed to slow down actually happens.
 
 IG batch audited at [[clients/_pipeline/ig-inbox-audit-2026-07-28]]. Twelve cold DMs on July 26, five replies, 42% against a near-zero rate on the April mass blast. Three said yes and none have received the promised audit. The most useful reply came from a growth operator who declined and then gave a specific teardown, including that the newest client result on the profile is from last year and that a $2 ad spend presented as proof reads as wasted money to an operator.
+
+## [2026-07-28] ingest | acpire prospect asset built, first use of the doc standard outside FITFO
+
+Diagnosed @acp1re from his live profile and built the asset he was promised. Founder's read going in was that the account is flashy lifestyle with no educational content and nothing to target. The profile says otherwise once the captions are read rather than the grid.
+
+What he actually is: 2,442 followers, 29 posts, verified, Melbourne, founder of @empiretradingroom which describes itself as an invite only trading floor and is set to private. Micro niche is NQ futures and prop firms, tight enough to be real. Bio link goes to a public Discord invite.
+
+The wound is a contradiction between positioning and plumbing, and it is entirely in his own words. Two of his captions tell people to apply, once to "join my discord and apply to learn from me" and once to "hit me a dm to apply for my group". There is nothing to apply to. Every click lands in the same open Discord regardless of who the person is, the DM route makes him the bottleneck, and Discord captures nothing he owns. He also references "the framework" in a caption and never names it, which is a unique mechanism sitting unbuilt.
+
+Asset: `output/acp1re-the-door.docx`, built from `output/acp1re-doc-build.js`, copied off the FITFO short build per [[playbooks/prospect-asset-doc-standard]]. Two pages, rendered to PDF and read before shipping. One deviation from the standard, recorded deliberately: the evidence table is text on both sides rather than text plus screenshot, because the evidence here is verbal. His literal captions sit in mono on the left and where each one actually leads sits on the right. Screenshots would have weakened it.
+
+Build note for the next person: `docx` was no longer installed anywhere on this machine, so the module was installed into the session scratchpad and the build run with NODE_PATH pointed at it rather than adding node_modules to the repo. Page-break tuning mattered as the standard warns. The first render orphaned rebuild item 1 at the foot of page 1, fixed with a page break before the rebuild heading, which splits the document into diagnosis on page 1 and prescription on page 2.
+
+Gap left open: the students highlight has 8 slides and its contents could not be read, because the story video frames would not render through the browser capture. The asset refers to the highlight existing and makes no claim about what is in it.
