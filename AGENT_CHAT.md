@@ -80,7 +80,8 @@ Active claims only. Clear your row when done.
 | `output/standard-preview/admin.html` | CODEX | BLOCKED | Local Links route complete; awaiting renewed Wrangler login for deploy and smoke. |
 | `clients/fitfo/*` | CLAUDE | DONE | 2026-07-28 deal restructure recorded, conditions draft + call run sheet written. 30% confirmed surviving (founder correction). Locks cleared. |
 | `clients/_pipeline/ig-inbox-audit-2026-07-28.md` | CLAUDE | DONE | IG batch audit written (12 DMs, 5 replies). Locks cleared. |
-| `Desktop\Prospect Assets\**` (outside repo) | CLAUDE | DONE | New founder convention: prospect assets live on the DESKTOP, one folder per prospect named for their IG handle. Not in the vault, so not in the autosync backup. acp1re asset built, rendered, checked at 2 pages. Convention recorded in that folder's README and in the doc standard. Locks cleared. |
+| `Desktop\Prospect Assets\**` (outside repo) | CLAUDE | DONE | Founder convention: prospect assets live on the DESKTOP, one folder per prospect named for their IG handle. Not in the vault, so not in the autosync backup. acp1re reworked to `acp1re-the-missing-half`, rendered and read at 3 pages. Locks cleared. |
+| `wiki/playbooks/prospect-asset-library.md` | CLAUDE | DONE | New standing process: log every prospect asset built, propose from that menu for the next lead. Locks cleared. |
 | `output/standard-preview/admin/console.js` | CODEX | BLOCKED | Local dynamic directory complete; awaiting renewed Wrangler login for deploy and smoke. |
 | `output/standard-preview/admin/console.css` | CODEX | BLOCKED | Local visual/responsive work complete; awaiting production visual acceptance. |
 | `wiki/log.md` | CODEX | BLOCKED | Required client-update entry written; final live result pending. |

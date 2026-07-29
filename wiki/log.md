@@ -1139,3 +1139,17 @@ Asset: `output/acp1re-the-door.docx`, built from `output/acp1re-doc-build.js`, c
 Build note for the next person: `docx` was no longer installed anywhere on this machine, so the module was installed into the session scratchpad and the build run with NODE_PATH pointed at it rather than adding node_modules to the repo. Page-break tuning mattered as the standard warns. The first render orphaned rebuild item 1 at the foot of page 1, fixed with a page break before the rebuild heading, which splits the document into diagnosis on page 1 and prescription on page 2.
 
 Gap left open: the students highlight has 8 slides and its contents could not be read, because the story video frames would not render through the browser capture. The asset refers to the highlight existing and makes no claim about what is in it.
+
+## [2026-07-28] decision | Asset library opened, and acpire reworked one pillar upstream
+
+Two founder directives, both standing.
+
+**Log every asset and propose from the log.** New page at [[playbooks/prospect-asset-library]]. Every asset built for a prospect gets a row: what it treats, what it needs, who it was built for, and the founder's steer on that build. When the next lead asks for something, the proposal comes off that menu instead of being re-derived. Five assets are marked proven and four are marked proposed but not yet built, and the distinction is enforced, because presenting an unbuilt asset as shipped work is how the trust goes.
+
+**The acpire diagnosis was one pillar too far downstream.** The first build was a funnel teardown: he tells people to apply and links an open Discord. True, and not the top problem. Founder's correction, which is straight out of [[concepts/pulsify-order-of-operations]], is that his content pillar is broken first. Across twenty nine posts he has never shown the work. His audience is buying the lifestyle and has never been given the chance to buy the expertise, so fixing the door while nobody knows what is behind it treats the symptom.
+
+Rebuilt as `acp1re-the-missing-half.docx`. Same evidence-in-his-own-words method, retargeted: his captions on the left, what his audience has actually been shown on the right. Then the long-form suggestion, three title and thumbnail pairs from the titles-thumbnails skill, shorts cut from the long form, and the bio pointing at a channel rather than a Discord invite, with the room moving to second step. Three pages rather than two, traded deliberately for the extra scope.
+
+Two judgment calls worth keeping. The titles skill carries a hard rule banning lifestyle angles; it was written against rented-Lamborghini flexing, not against a man filming in his own apartment, so his aesthetic was kept as the visual language while every title stays anchored to the work rather than the life. And the founder asked us to position for the YouTube help he will need, which collides with the standard's no-CTA rule. Resolved by showing the roadmap exists and never offering to run it, so the doc demonstrates the capability instead of pitching it.
+
+Register across the whole document is suggestion rather than instruction, per the founder: "you could" instead of "do this, and I want this from you." Numbers are left as open slots where his own figure belongs, because inventing one for a prospect breaks the same rule twice.

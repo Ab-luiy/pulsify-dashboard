@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Asset library + suggestion register](feedback_asset_library_and_suggestion_register.md) - 2026-07-28: log EVERY prospect asset built into wiki/playbooks/prospect-asset-library.md and propose from that menu next time; prospect docs are suggestions ("you could") never instructions; diagnose which PILLAR is broken first (content -> offer -> funnel) - I audited a funnel while the content pillar was broken
+
 - [Prospect asset folders](project_prospect_asset_folders.md) - 2026-07-28 founder directive: prospect assets live on the DESKTOP at "Desktop\Prospect Assets\{ig-handle}\" (no @), NOT in the vault; build script + docx + rendered pdf + page pngs together; docx installs to scratchpad w/ NODE_PATH, never node_modules in the vault; folder is outside the autosync backup
 
 - [Price objection = smokescreen](feedback_price_objection_smokescreen.md) - 2026-07-28 HARD doctrine: a price objection is almost always a smokescreen (weight behaviour over self-report), and taking an upfront fee is non-negotiable; hold vault positions even when the founder already committed the other way - don't fold
