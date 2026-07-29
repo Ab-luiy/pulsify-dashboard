@@ -80,7 +80,7 @@ Active claims only. Clear your row when done.
 | `output/standard-preview/admin.html` | CODEX | BLOCKED | Local Links route complete; awaiting renewed Wrangler login for deploy and smoke. |
 | `clients/fitfo/*` | CLAUDE | DONE | 2026-07-28 deal restructure recorded, conditions draft + call run sheet written. 30% confirmed surviving (founder correction). Locks cleared. |
 | `clients/_pipeline/ig-inbox-audit-2026-07-28.md` | CLAUDE | DONE | IG batch audit written (12 DMs, 5 replies). Locks cleared. |
-| `output/acp1re-doc-build.js` + `acp1re-the-door.*` | CLAUDE | DONE | Prospect asset for @acp1re built to the doc standard, rendered and checked at 2 pages. Locks cleared. |
+| `output/prospect-assets/**` | CLAUDE | DONE | New founder convention: one folder per prospect, named for their IG handle. acp1re asset built, rendered, checked at 2 pages. Convention recorded in the folder README and in the doc standard. Locks cleared. |
 | `output/standard-preview/admin/console.js` | CODEX | BLOCKED | Local dynamic directory complete; awaiting renewed Wrangler login for deploy and smoke. |
 | `output/standard-preview/admin/console.css` | CODEX | BLOCKED | Local visual/responsive work complete; awaiting production visual acceptance. |
 | `wiki/log.md` | CODEX | BLOCKED | Required client-update entry written; final live result pending. |

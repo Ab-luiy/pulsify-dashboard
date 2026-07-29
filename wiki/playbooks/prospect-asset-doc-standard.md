@@ -22,6 +22,12 @@ A `.docx`, not a PDF and not a web page. Google Docs converts it on open with he
 
 Two pages is the target for a first send. Three is the ceiling and only when the founder trades for it deliberately.
 
+## Where it lives
+
+Founder directive 2026-07-28: one folder per prospect under `output/prospect-assets/`, named for their Instagram handle without the `@`. Build script, docx, the PDF it was rendered to and the page PNGs all stay together, because the render is the evidence the document was checked rather than a scratch file. Filenames keep the handle prefix, since the docx gets uploaded to Drive where the folder name is gone. Full convention in `output/prospect-assets/README.md`.
+
+The FITFO builds stay at `output/` root so the canonical-implementation path referenced above keeps resolving.
+
 ## Tokens
 
 ```
