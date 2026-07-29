@@ -24,7 +24,11 @@ Two pages is the target for a first send. Three is the ceiling and only when the
 
 ## Where it lives
 
-Founder directive 2026-07-28: one folder per prospect under `output/prospect-assets/`, named for their Instagram handle without the `@`. Build script, docx, the PDF it was rendered to and the page PNGs all stay together, because the render is the evidence the document was checked rather than a scratch file. Filenames keep the handle prefix, since the docx gets uploaded to Drive where the folder name is gone. Full convention in `output/prospect-assets/README.md`.
+Founder directive 2026-07-28: **assets live on the Desktop, not in the vault.** One folder per prospect under `C:\Users\Abdullah\Desktop\Prospect Assets\`, named for their Instagram handle without the `@`. Build script, docx, the PDF it was rendered to and the page PNGs all stay together, because the render is the evidence the document was checked rather than a scratch file. Filenames keep the handle prefix, since the docx gets uploaded to Drive where the folder name is gone. Full convention in that folder's `README.md`.
+
+The reason is delivery: the founder grabs the docx and uploads it to Drive, and digging through the repo to do that every time is friction on the one step that has to be fast.
+
+> ⚠️ Consequence worth knowing: that folder is outside the repo, so it is not covered by the vault's automatic backup. The build scripts are the part worth protecting, since any docx can be rebuilt from one. Nothing there survives a disk loss on its own.
 
 The FITFO builds stay at `output/` root so the canonical-implementation path referenced above keeps resolving.
 

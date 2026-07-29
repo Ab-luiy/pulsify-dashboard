@@ -1,6 +1,6 @@
 ﻿# Memory index
 
-- [Prospect asset folders](project_prospect_asset_folders.md) - 2026-07-28 founder directive: every prospect asset goes in output/prospect-assets/{ig-handle}/ (no @), build script + docx + rendered pdf + page pngs together; docx module must be installed to scratchpad w/ NODE_PATH, never node_modules in the vault
+- [Prospect asset folders](project_prospect_asset_folders.md) - 2026-07-28 founder directive: prospect assets live on the DESKTOP at "Desktop\Prospect Assets\{ig-handle}\" (no @), NOT in the vault; build script + docx + rendered pdf + page pngs together; docx installs to scratchpad w/ NODE_PATH, never node_modules in the vault; folder is outside the autosync backup
 
 - [Price objection = smokescreen](feedback_price_objection_smokescreen.md) - 2026-07-28 HARD doctrine: a price objection is almost always a smokescreen (weight behaviour over self-report), and taking an upfront fee is non-negotiable; hold vault positions even when the founder already committed the other way - don't fold
 - [FITFO / Carlos deal](project_fitfo_carlos_deal.md) - 2026-07-28: restructured to $0 upfront + first $3k at 100% + 30% still resuming after (economics barely moved; only $2k went contingent), BUT the 30% is nowhere in writing; he has no offer so he's ready for content only, NOT the full stack; conditions doc at clients/fitfo/deal-conditions-draft.md
