@@ -28,6 +28,27 @@ Carlos also asked for the recording himself at 47:39 and Abdullah agreed to send
 
 ---
 
+## [2026-07-30] Termination resolved: mutual at-will exit by message. One narrow protection recommended on money in flight.
+
+**Decided by:** Abdullah, reported 2026-07-30. This closes the open exposure raised on the 07-29 call (entry below). Not captured in either call transcript — it was agreed separately, founder-reported. Source: founder statement.
+
+**The agreed term:** either side may end the engagement at any time, for any reason, by a simple message. No notice period, no penalty, nobody is forced to keep working. Carlos keeps the systems on exit.
+
+This is the right structure and it matches Carlos's own asks (keep the systems, no time bind, not forced) and the "win together or lose together" spine. It takes his largest objection off the table.
+
+**What the at-will exit does NOT by itself resolve, and the recommended addition:** the exit right answers "can either side stop working" but not "what happens to revenue already in motion at the moment one side stops." The bad move the bare structure allows: Pulsify builds the full machine, a launch or close is in flight, Carlos ends it by text, keeps the systems, and collects on what was just built — Pulsify gets nothing on revenue its systems directly produced. Carlos flagged this shape himself by wanting to keep the systems and not be money-bound.
+
+Two narrow protections that preserve the clean at-will exit and do not bind Carlos to future solo income:
+
+1. **The $3,000 is recovered from any revenue already collected before the exit.** If money came in during the engagement, the build fee comes out of it first. If nothing came in, Carlos owes nothing and walks clean.
+2. **A 30-60 day tail, only on deals already in the pipeline at termination.** A lead mid-close when the message is sent still counts toward the split. Not a claim on revenue Carlos earns solo later.
+
+**Deliberately NOT recommended:** binding Carlos to future solo revenue after exit. The 30% is compensation for Pulsify *operating* the machine (content, packaging, sales). If Pulsify stops operating, the 30% stopping is fair, and reaching past that would over-lawyer a prospect who reads contracts closely and is already skittish about being bound. See [[deal-conditions-draft]] item 4.
+
+**Founder's own framing, for the record:** "it could be disclosed on either side whether they're okay to move on or carry on with it... a text or a message will do, and we can just stop working if one of the sides genuinely doesn't want to work anymore. They have all the right to just cut it off. Obviously, they're not forced."
+
+---
+
 ## [2026-07-29] Termination clauses: asked for directly, never answered. Now the largest open exposure.
 
 **Raised by:** Carlos, deliberately and at length. Fathom call 2, 29:02 to 32:15. Source: [[clients/fitfo/calls/2026-07-29-content-audit-call]].

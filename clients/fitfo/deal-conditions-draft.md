@@ -38,7 +38,20 @@ Recommended wording, now confirmed rather than merely recommended: the first $3,
 
 The build still stays fully on spec until Carlos has an offer that closes. That exposure did not close, it moved into item 4.
 
-**4. `[DECIDE]` Termination and exit terms. NOW THE SINGLE LARGEST OPEN ITEM, raised directly by Carlos on the 07-29 call and never answered.**
+**4. ~~`[DECIDE]` Termination and exit terms.~~ RESOLVED IN PRINCIPLE 2026-07-30. Two narrow protections still to write in.**
+
+The core is agreed (founder-reported 2026-07-30): **mutual at-will exit.** Either side ends the engagement at any time, for any reason, by a message. No notice period, no penalty, Carlos keeps the systems. This is the right structure and it gives Carlos exactly what he asked for.
+
+Still to draft, so the clean exit does not become a free-build loophole (see [[clients/fitfo/decisions]] 2026-07-30 entry for full reasoning):
+
+1. The $3,000 is recovered from any revenue already collected before the exit. Nothing collected, nothing owed.
+2. A 30-60 day tail on deals already in the pipeline at termination only. Not a claim on Carlos's future solo income.
+
+Everything below this line is the original open-item writeup, kept for the reasoning trail.
+
+---
+
+**Original writeup — Termination and exit terms, raised directly by Carlos on the 07-29 call and never answered on the call.**
 
 Carlos asked outright, call 2, 29:02: "I need to also understand what are termination clauses in the case that this simply just does is not working for either of us... What are the termination clauses in that case?" He named a concrete trigger: three months in, results nowhere near what he expects, he walks.
 
