@@ -1,5 +1,7 @@
 # Pulsify Slack operating system
 
+> Status: inactive by founder decision on 2026-07-30. Keep this page as historical setup documentation. Do not post coordination updates, recreate briefings, or build Slack automations unless the founder explicitly reactivates Slack operations.
+
 Slack is the visible operating room for the founder, Claude, and Codex. The Pulsify vault remains the source of truth. Slack exposes what is moving, what changed, what is blocked, and what requires a decision.
 
 ## Workspace identities
@@ -122,10 +124,12 @@ Sensitive source material stays in the vault or the approved client system. Post
 
 ## Scheduled briefings
 
-- `pulsify-morning-slack-briefing` runs daily at 09:00 local time and posts the verified operating brief to `#daily-briefing`.
-- `pulsify-evening-slack-digest` runs daily at 20:00 local time, posts the end-of-day digest, and mirrors any missing material build entry to `#build-log`.
+Retired by founder decision on 2026-07-30:
 
-Both automations run locally against the Pulsify-Brain project. The machine and Codex automation service must be available at the scheduled time. Manual STARTED, DONE, BLOCKED, DECISION, and HANDOFF posts remain required; the scheduled jobs are the backstop, not the only logging mechanism.
+- `pulsify-morning-slack-briefing`
+- `pulsify-evening-slack-digest`
+
+Do not recreate either automation unless the founder explicitly asks.
 
 ## Maintenance
 

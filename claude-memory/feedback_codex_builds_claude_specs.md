@@ -1,14 +1,14 @@
 ---
 name: codex-builds-claude-specs
-description: "Standing division of labor — Claude specs and reviews, Codex writes the code; Claude does not build directly while on Fable"
+description: "Standing division of labor — Claude thinks, plans, specs, and reviews; Codex implements, tests, and executes"
 metadata: 
   node_type: memory
   type: feedback
   originSessionId: 5037780b-f8fe-40fc-ae66-c468a7f53224
 ---
 
-Directive 2026-07-04: implementation work is handed to Codex (`codex exec --sandbox workspace-write`), always. Claude's job is the deep thinking: recon the code, write a self-contained spec with file paths and acceptance criteria, dispatch Codex as builder, then review the diff before deploy.
+Founder-confirmed standing directive, reaffirmed 2026-07-30: implementation work goes to Codex. Claude is the default LLM and owns the deep thinking: research, recon, planning, specifications, copy judgment, and review. Codex owns agentic coding, file changes, tests, verification, automation implementation, website builds, and deployment from Claude's direction.
 
-**Why:** Fable turns are scarce (access ends ~July 7 or at 50% Fable weekly — already past that reading); spend them on judgment, not typing. See [[fable-grade-quality]] and the cross-call protocol in AGENT_CHAT.md.
+This division is no longer conditional on Fable access. Fable-grade remains the quality standard; it is not a required runtime dependency.
 
-**How to apply:** After Fable is gone, the pattern shifts to: Opus 4.8 xhigh does the deep thinking/spec, then Claude codes directly with Sonnet 5.0 — Codex handoff is the rule only during the Fable window. Always run `python tools/quota.py` gate (Codex session >70% / weekly >85% = skip or downgrade) and log the cross-call in AGENT_CHAT.md per [[agent-cross-call-protocol]].
+**How to apply:** Claude hands Codex a self-contained build brief with file paths, constraints, and acceptance checks. Codex executes and self-verifies without calling Claude back unless the founder explicitly asks or a high-risk unresolved decision genuinely requires it. When Claude is near a session limit, preserve its remaining turns for judgment and planning, not implementation or routine review. Log coordinated work in AGENT_CHAT.md.

@@ -1189,3 +1189,11 @@ Files touched: `clients/fitfo/calls/2026-07-29-call-2-raw-transcript.txt` (new),
 ## [2026-07-30] decision | FITFO termination resolved: mutual at-will exit
 
 Founder reported the termination question (the top open exposure from the 07-29 call-2 ingest) is agreed: mutual at-will exit by message, either side can stop at any time for any reason, no penalty, Carlos keeps the systems. Recorded in clients/fitfo/decisions.md and the conditions draft. This is the right structure and matches Carlos's asks. Flagged one gap the at-will framing skips: it answers "can either side stop" but not "what happens to revenue in flight at exit." Recommended two narrow additions that keep the clean exit — $3k recovered from revenue already collected before exit, plus a 30-60 day tail only on pipeline deals at termination — while explicitly NOT binding Carlos to future solo income, because the 30% is pay for operating the machine and stopping the work fairly stops the pay. Files: clients/fitfo/decisions.md, clients/fitfo/deal-conditions-draft.md, clients/fitfo/overview.md.
+
+## [2026-07-30] decision | Claude strategizes, Codex builds; Slack automations retired
+
+Founder reaffirmed the minimal operating split. Claude remains the default LLM and owns thinking, research, planning, specifications, copy judgment, and review. Codex owns agentic coding, implementation, testing, verification, automation implementation, website builds, and deployment from Claude's direction. This split is permanent rather than conditional on Fable access. When Claude is near a session limit, Codex does not call it unless the founder explicitly asks.
+
+Slack itself remains available but is no longer part of the required operating loop. Mandatory Slack mirrors and the morning/evening briefing automations are retired and must not be recreated without a new founder instruction. The repo remains canonical through `AGENT_CHAT.md`, git, the wiki, and client files.
+
+Immediate operating priority: work the Instagram leads already waiting in the pipeline, build the promised prospect assets, and only then return to product building. The founder's language was direct: the leads have rested too long.

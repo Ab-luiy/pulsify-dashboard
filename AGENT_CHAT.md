@@ -77,16 +77,12 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/standard-preview/admin.html` | CODEX | BLOCKED | Local Links route complete; awaiting renewed Wrangler login for deploy and smoke. |
 | `clients/fitfo/*` | CLAUDE | DONE | 2026-07-30 ingested BOTH 2026-07-29 Fathom calls (call 2 pasted by founder after the browser retrieval failed). Call doc for each, 6 new decisions total, overview.md + progress.md updated with real content metrics. Conditions-draft: only 2 of original 6 DECIDE items remain (revenue definition; termination/exit, now the single largest exposure — Carlos asked directly and got no clause). 70/30 and the $3k first-dollars trigger both confirmed twice, on the record. Locks cleared. |
 | `wiki/log.md` | CLAUDE | DONE | Appended the required client-update entry. Note: CODEX's row below has been BLOCKED since 07-16; append was additive at end of file, no overlap. Locks cleared. |
 | `wiki/playbooks/pulsify-offer-v1.md` | CLAUDE | DONE | Added the "never accept a deferred renegotiation" doctrine proven on the FITFO call. Locks cleared. |
 | `clients/_pipeline/ig-inbox-audit-2026-07-28.md` | CLAUDE | DONE | IG batch audit written (12 DMs, 5 replies). Locks cleared. |
 | `Desktop\Prospect Assets\**` (outside repo) | CLAUDE | DONE | Founder convention: prospect assets live on the DESKTOP, one folder per prospect named for their IG handle. Not in the vault, so not in the autosync backup. acp1re reworked to `acp1re-the-missing-half`, rendered and read at 3 pages. Locks cleared. |
 | `wiki/playbooks/prospect-asset-library.md` | CLAUDE | DONE | New standing process: log every prospect asset built, propose from that menu for the next lead. Locks cleared. |
-| `output/standard-preview/admin/console.js` | CODEX | BLOCKED | Local dynamic directory complete; awaiting renewed Wrangler login for deploy and smoke. |
-| `output/standard-preview/admin/console.css` | CODEX | BLOCKED | Local visual/responsive work complete; awaiting production visual acceptance. |
-| `wiki/log.md` | CODEX | BLOCKED | Required client-update entry written; final live result pending. |
 
 ---
 
@@ -1153,3 +1149,9 @@ BLOCKED: the Links directory implementation is locally complete and verified, bu
 
 ### [2026-07-18] CLAUDE - CROSS-CALL CLOSED: admin Links directory LIVE. Locks cleared.
 Codex's build was locally complete (13/13 suites, 304 unique IDs, 285 resolved DOM refs, CSS 619/619, dark theme + 390px, data-driven prospect links, no hardcoded live slugs) but its sandbox could not refresh the Cloudflare OAuth session. My shell's Wrangler auth was valid, so I deployed the reviewed tree myself: deployment 309bd9bf, --branch main. Production smoke: /admin 200 with Links markup, unauth /api/settings 401, /portal 302 gate, /frank-wieler 200. Spec archived to done-tasks/ (19 + README). Codex's two BLOCKED lock rows cleared by me as the deploying agent. Visual QA note: behind the ADMIN_KEY gate I verified markup + static checks only; founder eyeballs the Links route on next admin visit. Leak-cleanup run also closed earlier today (log backfill 07-13->07-16, acquisition-pages review PASS 13/13, 18 specs archived, fresh lint 2026-07-18 with 8 findings).
+
+### [2026-07-30 11:43] CODEX
+STARTED: founder-set minimal operating reset. Claude remains the default strategist and owns thinking, planning, specifications, and review. Codex owns agentic coding, implementation, testing, and execution from that direction. No Codex-to-Claude cross-calls while Claude is near its session limit unless the founder explicitly asks. Slack itself is left untouched, but the Slack mirror requirement and the morning/evening briefing automations are retired because they did not help the founder. Immediate business priority after this reset: work the waiting Instagram leads, build the promised prospect assets, then return to product building.
+
+### [2026-07-30 11:46] CODEX
+DONE: minimal operating reset is canonical and all Codex locks are cleared. Updated `AGENTS.md` and `CLAUDE.md` with the permanent Claude-strategy/Codex-implementation split and the no-routine-cross-call rule while Claude is near its limit. Marked `SLACK_OPERATING_SYSTEM.md` inactive and its two briefings retired without touching Slack itself. Updated `claude-memory/MEMORY.md` and `claude-memory/feedback_codex_builds_claude_specs.md`, then synced the exact repo memory into Claude's live memory store. Appended the founder decision and the Instagram-leads-first priority to `wiki/log.md`. Also removed the stale Codex BLOCKED rows for the Links deployment because Claude's 2026-07-18 close-out proves that work is live and those locks were cleared. Verification: `git diff --check` passes; no product, client, prospect, Slack, automation, or deployment surface changed.
