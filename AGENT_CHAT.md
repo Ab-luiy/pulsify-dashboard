@@ -86,6 +86,8 @@ Active claims only. Clear your row when done.
 | `outreach/intel/nq-nox.md` | CODEX | DONE | Source set, diagnosis, finished document path, send-ready DM and next-step rule recorded. Lock cleared. |
 | `Desktop\Prospect Assets\nq.nox\**` (outside repo) | CODEX | DONE | Three-page DOCX, PDF, source captures, build script and inspected page PNGs complete. Lock cleared. |
 | `wiki/playbooks/prospect-asset-library.md` | CODEX | DONE | Authority bridge audit added as built/rendered with prospect send pending; build log updated. Lock cleared. |
+| `AGENT_CHAT.md` | CODEX | DONE | Full vault/GitHub/laptop-readiness audit logged below; lock cleared before the required final backup. |
+| `.gitignore`, `.claude/skills/**`, `RESTORE.md`, `claude-memory/project_brain_online_backup.md` | CODEX | DONE | Two portable project skills are now included in Git; machine state, worktrees, caches, and secrets remain excluded; restore documentation aligned. Lock cleared. |
 
 ---
 
@@ -1173,3 +1175,10 @@ STARTED: building the requested Ender / `nq.nox` send asset. Scope is the locked
 
 ### [2026-07-30 12:43] CODEX
 DONE: Ender's send asset is complete and all Codex locks are cleared. Final DOCX: `C:\Users\Abdullah\Desktop\Prospect Assets\nq.nox\nq.nox-from-proof-to-authority.docx`. The three pages cover the reel-grid proof/authority split plus a flagship $20K-in-seven-days YouTube concept; the exact one-slide mentorship story beside a seven-step proof-led rebuild; and the missing highlight rail, weekly story rhythm and Discord-one-step-later system. The exact DOCX was exported through Word to PDF and rendered to `nq.nox-p01.png` through `p03.png`; all three pages were inspected at full resolution. One visible numbering reset on page 2 was corrected and the full three-page render passed again. Structural checks: Node builder parses, DOCX ZIP is valid, three pages, four tables, no placeholders, no em/en dashes or curly quotes, and zero high-severity accessibility findings. `outreach/intel/nq-nox.md` is follow-up-ready with the file path and send DM. `wiki/playbooks/prospect-asset-library.md` records the new reusable authority-bridge pattern as built/rendered, send pending.
+
+### [2026-07-30 12:53] CODEX
+DONE: completed the founder's travel/laptop handoff audit and cleared all Codex locks before backup. Confirmed `Ab-luiy/pulsify-brain` is private, `main` tracks `brain/main`, and the checkout began at exact 0/0 local/remote parity. Audited 765 tracked files (172,024,452 bytes), zero missing tracked files, zero non-ignored untracked files, and zero tracked or eligible files at GitHub's 100 MiB single-file limit. Repository integrity has no corrupt reachable objects; scheduled task `Pulsify-Brain Auto Backup` is Ready and its last run returned 0.
+
+Closed one real portability gap: `.claude/skills/sequence-ingest/SKILL.md` and `.claude/skills/story-sequence-generator/SKILL.md` were valuable local project skills but excluded by the old blanket `.claude/` rule. They now travel with the private vault; `.gitignore`, `RESTORE.md`, and `claude-memory/project_brain_online_backup.md` preserve that boundary while continuing to exclude settings, worktrees, Codex scratch, Wrangler state, and secrets. Repo memory was copied back into Claude's live memory before final backup.
+
+Explicit exclusions: this machine currently has no root `.env` or `.env.local`, so no secret file exists to transfer. The separate founder-standard `C:\Users\Abdullah\Desktop\Prospect Assets\` folder remains outside the vault by design: 19 files, 10,752,510 bytes across `acp1re` and `nq.nox`. It will not be present in a GitHub clone or in a Google Drive upload of only `Pulsify-Brain`; back it up separately if those rendered send assets are needed on the laptop. Final `auto-backup.ps1`, remote hash parity, and a fresh-clone verification follow this coordination close-out.

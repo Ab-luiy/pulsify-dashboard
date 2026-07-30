@@ -25,6 +25,8 @@ fully automatic both ways.
    This restores Claude's memory, installs the two auto-sync hooks (pull-on-start +
    push-after-each-turn), and registers the hourly backstop task. If it can't safely
    edit `settings.json` it prints the hooks and tells you to ask Claude to add them.
+   The vault's project-specific Claude skills are already included in the clone under
+   `.claude/skills/`.
 
 4. **Recreate `.env`** in the repo root with your keys (these never sync, by design):
    ```
@@ -54,7 +56,8 @@ Manual sync any time, if you ever want it:
 
 - This is the backup/brain repo. The public dashboard deploys from the separate
   `pulsify-dashboard` repo via Cloudflare Pages — that flow is unchanged.
-- `.claude/` (incl. the ~700MB `worktrees/`) and `.env` are gitignored and don't sync.
+- Machine-specific `.claude/` state (including `worktrees/`) and `.env` are gitignored.
+  Portable project skills under `.claude/skills/` do sync with the private repo.
 - Pull is fast-forward-only: if two devices edited without syncing, it won't auto-merge —
   it leaves both sides intact for you to reconcile. Working one device at a time avoids this.
 - All scripts are path-independent — clone anywhere, any username; they locate themselves.

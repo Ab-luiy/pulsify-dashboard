@@ -7,7 +7,9 @@ __pycache__/
 
 # Claude Code local state — machine-specific, regenerated per machine.
 # Your actual brain memory is backed up separately in claude-memory/ (see sync-memory.ps1).
-.claude/
+.claude/*
+!.claude/skills/
+!.claude/skills/**
 
 # Codex scratch
 .codex-tmp/
