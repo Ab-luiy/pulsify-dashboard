@@ -1,5 +1,7 @@
 ﻿# Memory index
 
+- [Admin key access](project_admin_key_access.md) - 2026-07-28 directive: NEVER ask the founder for the admin key, he doesn't know it. It lives ONLY in browser storage on pulsify-funnels.pages.dev as `pulsify_admin_key` (sent as `x-admin-key`) + in Cloudflare - not on disk. Use it by driving /admin in his Chrome so the secret never enters context. Blocked 2026-07-28 by the permission classifier; durable fix is FUNNELS_ADMIN_KEY in a gitignored .env at vault root
+
 - [Asset library + suggestion register](feedback_asset_library_and_suggestion_register.md) - 2026-07-28: log EVERY prospect asset built into wiki/playbooks/prospect-asset-library.md and propose from that menu next time; prospect docs are suggestions ("you could") never instructions; diagnose which PILLAR is broken first (content -> offer -> funnel) - I audited a funnel while the content pillar was broken
 
 - [Prospect asset folders](project_prospect_asset_folders.md) - 2026-07-28 founder directive: prospect assets live on the DESKTOP at "Desktop\Prospect Assets\{ig-handle}\" (no @), NOT in the vault; build script + docx + rendered pdf + page pngs together; docx installs to scratchpad w/ NODE_PATH, never node_modules in the vault; folder is outside the autosync backup
