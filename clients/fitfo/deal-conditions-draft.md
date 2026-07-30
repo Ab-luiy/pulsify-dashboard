@@ -26,18 +26,25 @@ Both sides said these out loud in the thread. They go in as written.
 
 **1. ~~`[DECIDE]` What "times 1.5" multiplies.~~ RESOLVED 2026-07-28.** It multiplies the original $2,000 quote. $2,000 x 1.5 = $3,000, which is exactly the figure Carlos named. He was being precise rather than vague. Nothing further to decide, but the base should be written out explicitly in the final version so it cannot be reread later.
 
-**2. `[DECIDE]` What counts as revenue.** Cash collected or contracted value. Gross or net of refunds, chargebacks, and payment-plan defaults. If a client signs a $3,000 plan and pays $1,000 before dropping off, the answer has to already exist.
+**2. `[DECIDE]` What counts as revenue. STILL OPEN after the 07-29 call.** Cash collected or contracted value. Gross or net of refunds, chargebacks, and payment-plan defaults. If a client signs a $3,000 plan and pays $1,000 before dropping off, the answer has to already exist.
 
-**3. `[DECIDE]` What triggers payment.** This is the one raised at 18:04 and never answered. Three options were named:
-   - On delivery of the systems, regardless of launch outcome.
-   - On launch.
-   - On metrics other than revenue.
+Carlos's worked example on 07-29 was cash in his pocket ("two seats at $2,000 each. That means $4,000 in my pocket"), which implies collected rather than contracted. He never stated it as a rule and refunds were never mentioned. Write it as cash collected, net of refunds and chargebacks, and it matches how he already describes it.
 
-   Carlos's answer defined it purely as revenue. That is the version that leaves the build fully on spec. Worth deciding whether a delivery milestone carries any payment at all, because as written the trigger depends on Carlos having an offer, and he does not have one yet.
+**3. ~~`[DECIDE]` What triggers payment.~~ RESOLVED 2026-07-29, except for the base.** The trigger is revenue collected, and Pulsify is paid first out of the earliest money in. Carlos, unprompted: "There's not a single dollar that is going to my wallet until your 3K has been paid off." No delivery milestone carries any payment. The build stays fully on spec until he has an offer that closes, which remains the real exposure and is why item 4 matters more than it did before.
 
-**4. `[DECIDE]` A time limit.** If no offer has launched by a given date, what happens. Options: the arrangement lapses, it converts to a fee, or it continues indefinitely. Right now it is indefinite by default, which is the exposure.
+> ⚠️ The base is now the open question, and it is the single most important line in the agreement. Abdullah's own recap is garbled on the recording: "the two K off three K when you get the first three... 20k generated, and I'll take it." Fathom's AI summary rendered that as "$3k paid from the first $20k in revenue." Carlos's two explicit statements describe first-dollars priority with no $20k gate.
+>
+> The two readings are not equivalent. Under first-dollars, Carlos draws nothing until Pulsify has $3,000 and 70/30 starts immediately after. Under a $20k reading, it is arguable that Carlos takes his share along the way and 70/30 only engages later. Decide it deliberately and write it once.
+>
+> Recommended wording: the first $3,000 of cash collected goes to Pulsify before Carlos draws anything, and the 70/30 split applies to every dollar collected after that $3,000.
 
-**5. `[DECIDE]` Get the 30% onto the record. It is agreed but undocumented.**
+**4. `[DECIDE]` A time limit. STILL OPEN. Never discussed on the 07-29 call.** If no offer has launched by a given date, what happens. Options: the arrangement lapses, it converts to a fee, or it continues indefinitely. Right now it is indefinite by default, which is the exposure.
+
+This got worse rather than better on 07-29. The build scope expanded (portal, Slack, calendar, bio audit, YouTube structure, payment-processor setup) while the payment trigger stayed pinned to a launch that needs an offer Carlos does not have. More delivery, same zero floor, still no lapse date.
+
+**5. ~~`[DECIDE]` Get the 30% onto the record.~~ RESOLVED 2026-07-29.** Abdullah recapped it and asked "Afterwards, 7030 applies. We cool?" Carlos: "Yeah, makes sense." Abdullah then said he would put it in writing. Carlos separately asked for the recording, so once it is sent he has received the record himself.
+
+The 5/10/15 internal split is also on the record, and Carlos demonstrated he understands it by working the math out loud and correcting his own misreading. Still write the breakdown into the agreement, but the evidentiary hole is closed.
 
 Founder confirmation 2026-07-28: the 30% split survives the restructure at 5% setter, 10% closer, 15% Abdullah. The $3,000 is a first tranche, not a ceiling. On that basis the economics barely moved:
 
@@ -53,7 +60,16 @@ Against revenue these are the same deal. The whole delta is $2,000 moving from c
 
 That leaves it open to an honest misunderstanding rather than bad faith: once the $3,000 clears, Carlos can reasonably read the arrangement as returning to open terms. Writing the split out, with the 5/10/15 breakdown and what revenue it applies to, is the highest-value line in this document.
 
-**6. `[DECIDE]` Scope of the build.** What Carlos gets for the $0 up front, and what he does not. Without this, scope creep is unbounded and there is no upfront payment sitting there to justify drawing a line.
+**6. `[DECIDE]` Scope of the build. MOSTLY RESOLVED 2026-07-29 on the boundaries. Still open on the ceiling.**
+
+Carlos set the boundaries himself and Abdullah agreed to both:
+
+- **Instagram is his.** No scripted reels, his frequency, his voice, his call on what gets posted. Pulsify gets profile picture, bio, visuals, suggestions, and a veto on content actively harming the brand (Carlos granted that veto unprompted).
+- **YouTube is Pulsify's to structure.** Titles, topics, length caps, required beats. Carlos records.
+
+What is now in scope by agreement: YouTube structure and packaging, IG bio audit, grid direction, client portal, Slack workspace with daily briefing, shared calendar, WAP/Fanbases payment setup, and the funnel once a platform proves out.
+
+What is still undefined is the ceiling. There is no cap on revisions, no cap on portal build-out, no stated volume of YouTube packaging per month, and no cadence Carlos owes in return. On a $0-upfront deal that is the part that bites. Write the deliverable volumes as numbers.
 
 ## Structure to fill in once those are answered
 

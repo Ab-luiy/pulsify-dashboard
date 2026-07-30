@@ -101,6 +101,21 @@ Revenue level is informative, not gating. A coach at $15–30k/month with the ri
 6. Close: terms reviewed live, contract sent same day, payment terms confirmed.
 7. If no close: 5-touch follow-up sequence runs over 30 days, drafted by Sales Co-pilot, approved by founder.
 
+## Never accept a deferred renegotiation
+
+Proven on the FITFO call, 2026-07-29. When a prospect proposes settling the performance split *after* the first tranche clears, refuse and lock every term before any work starts.
+
+Carlos's proposal was reasonable-sounding: pay the first $3,000, then "we can have a call, negotiate the deal, whether it be 70, 30, 80, 20, 60, 40, whatever makes more sense in that moment." Abdullah declined: "I prefer for everything to be locked down right now... I hate renegotiating things when everything needs to be set."
+
+Why the refusal is structural rather than stylistic. By the time that later call happens, Pulsify is holding a finished build, months of delivery, and no signed continuation. The prospect is holding all the leverage and every incentive to argue the number down. A deferred split is not a postponed decision, it is a decision made later from the weakest position available.
+
+Two rules that follow:
+
+1. **Say the split out loud on a recorded call and get an explicit yes.** Terms agreed only in someone's memory are terms you do not have. Abdullah's recap-and-confirm ("Afterwards, 7030 applies. We cool?" / "Yeah, makes sense") is the pattern to repeat.
+2. **Send the client the recording.** It is free, it reads as transparency, and it converts a verbal agreement into a record the client has received and not disputed. Do this even when a signed contract is coming, because the contract always lags the call.
+
+Corollary for the internal split: walk the prospect through the sales-team breakdown until they restate it correctly themselves. Carlos misread 15% as sitting on top of the 30%, was corrected, and confirmed. That exchange is worth more later than a clean explanation he never engaged with.
+
 ## Capacity
 
 The founder can deliver up to 6 active clients in parallel before the operator role saturates. Each new client past 6 requires either (a) a price increase, (b) hiring a junior operator, or (c) tightening the agent to absorb more of the labor. Capacity drops during exam weeks — see [[playbooks/exam-mode-autonomous-ops]].

@@ -4,6 +4,70 @@ Append-only. Every decision with who made it, when, and why.
 
 ---
 
+## [2026-07-29] The 70/30 split is on the record. Carlos agreed to it out loud.
+
+**Decided by:** Abdullah recapped, Carlos confirmed. Fathom call, 26:07. Source: [[clients/fitfo/calls/2026-07-29-terms-lockdown-call]].
+
+This is the entry that closes the exposure flagged on 07-28.
+
+Abdullah's recap at roughly 25:5x ended with "Afterwards, 7030 applies. We cool?" Carlos: "Yeah, makes sense." Abdullah immediately followed with "Cool. So I can put it down in writing. 7030 down."
+
+Carlos also asked for the recording himself at 47:39 and Abdullah agreed to send it. Once sent, the 70/30 is not just said on a call, it is a record Carlos has received.
+
+**What was also nailed down:**
+
+- **The 30% is a fixed fee and does not shrink when Abdullah works alone.** Until there is a sales team he does the setting and closing himself and takes the whole 30%. When the team exists, 15% funds it (10% closer, 5% setter) and Abdullah keeps 15%.
+- **Carlos understands that split.** He misread it once at 19:37, thinking 15% sat on top of the 30%, was corrected, and confirmed. He cannot credibly claim confusion later.
+- **The $3,000 is paid before Carlos draws anything.** His own worked example: two seats at $2,000 is $4,000 collected, and "there's not a single dollar that is going to my wallet until your 3K has been paid off."
+
+**Abdullah refused to defer the split, and that was the right call.** Carlos proposed settling the percentage after the $3,000 cleared, floating "70, 30, 80, 20, 60, 40, whatever makes more sense in that moment." Abdullah: "I prefer for everything to be locked down right now. And this is not for like, for any, because I hate renegotiating things." Carlos accepted without pushing. Under the version Carlos proposed, Pulsify would have entered a renegotiation from the weakest possible position, holding a completed build and no signed continuation.
+
+> ⚠️ One number is unresolved and it is the important one. Abdullah's verbal recap is garbled in the transcript: "the two K off three K when you get the first three... 20k generated, and I'll take it." Fathom's AI summary read that as "$3k paid from the first $20k in revenue." Carlos's own words, twice, describe first-dollars priority with no $20k gate. The two readings change when Carlos starts taking money. Do not quote either version to Carlos until it is written deliberately. See [[clients/fitfo/deal-conditions-draft]].
+
+---
+
+## [2026-07-29] Instagram stays Carlos's. YouTube gets full Pulsify structure.
+
+**Decided by:** Carlos set both terms, Abdullah agreed to both on the spot. Fathom call, 9:39 to 15:45.
+
+**Instagram.** No scripted reels. He posts what he wants at the frequency he wants, and the page has to feel like his rather than one he is running for someone else. Abdullah gets profile picture, bio, visuals, and suggestions. Abdullah agreed hard and immediately: "hell no, you're not scripting."
+
+Carlos then granted a reciprocal veto without being asked: Abdullah can tell him a reel is stupid and harming the brand and to take it down, and Carlos will be open to it.
+
+**YouTube.** Fully open to structure. Titles, topics, length caps, and required beats, all specified by Abdullah, with Carlos recording. His words: "make a video about the strategy, try not to make it any longer than 15 minutes, and try to cover these five bases, perfect, that's all I need, I can do that."
+
+**Why this matters.** It is the reverse of the usual friction. The pillar that needs structure is the one he handed over, and the pillar he protected is the one already working. It also resolves most of `[DECIDE]` item 6 on build scope, and it means the titles-thumbnails and packaging layer is commissioned rather than sold.
+
+**Production formats discussed for YouTube:** Miro board breakdown with a small circular facecam, in-person case study interviews with students, recorded mastermind sessions.
+
+---
+
+## [2026-07-29] Funnel choice deferred to whichever platform performs. Not built yet.
+
+**Decided by:** Abdullah, stated on the call at 0:00.
+
+"I'll only be able to judge which funnel would be the best for you, depending on which platform favors you the most. If it was YouTube, then it would be a landing page funnel. If it was Instagram, then it's definitely going to be a profile funnel."
+
+Scaling comes later and is paid traffic that funnels to the profile rather than direct to mentorship: ads to profile, "start here" highlight, story sequence narrating his story, then the offer.
+
+**Why:** consistent with [[concepts/pulsify-order-of-operations]] and with the 07-24 decision not to build the funnel yet. It also keeps Pulsify from building a funnel on spec for a client who has no offer.
+
+---
+
+## [2026-07-29] Tooling: Slack, WAP/Fanbases, shared calendar, client portal, own AI subscription
+
+**Decided by:** Abdullah proposed, Carlos accepted each.
+
+- **Slack** over Discord and WhatsApp, so business sits somewhere separate from his personal Discord. He has never used it and said he can adapt.
+- **WAP / Fanbases** as the payment processor rather than Stripe, on Abdullah's claim of better rates plus the ability to finance customers. Access normally needs roughly $30k/month recurring; Abdullah says he has a connection for it.
+- **Shared calendar**, with future setter and closer availability in the same place.
+- **Client portal** for reel tracking, click-off rate, viewer data, brainstorming, planning, and to-dos. Abdullah screen-shared the live design preview.
+- **Carlos supplies his own AI subscription**, around $20/month. He already has one.
+
+> Note against [[playbooks/pulsify-contract-template-v1]]: Section V of the template specifies crypto via Binance Turkey plus SWIFT and rules out Stripe. That governs how the client pays Pulsify. WAP/Fanbases is how Carlos collects from his own customers. The two are separate rails and the agreement should not conflate them. How Carlos actually remits the $3,000 and the 30% was never discussed on this call.
+
+---
+
 ## [2026-07-28] Deal restructured: nothing up front, first $3,000 of revenue goes to Abdullah
 
 **Decided by:** Carlos proposed it, Abdullah accepted in the WhatsApp thread at 19:23. Screenshots reviewed 2026-07-28.
