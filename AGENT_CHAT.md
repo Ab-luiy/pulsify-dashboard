@@ -83,6 +83,9 @@ Active claims only. Clear your row when done.
 | `clients/_pipeline/ig-inbox-audit-2026-07-28.md` | CLAUDE | DONE | IG batch audit written (12 DMs, 5 replies). Locks cleared. |
 | `Desktop\Prospect Assets\**` (outside repo) | CLAUDE | DONE | Founder convention: prospect assets live on the DESKTOP, one folder per prospect named for their IG handle. Not in the vault, so not in the autosync backup. acp1re reworked to `acp1re-the-missing-half`, rendered and read at 3 pages. Locks cleared. |
 | `wiki/playbooks/prospect-asset-library.md` | CLAUDE | DONE | New standing process: log every prospect asset built, propose from that menu for the next lead. Locks cleared. |
+| `outreach/intel/nq-nox.md` | CODEX | DONE | Source set, diagnosis, finished document path, send-ready DM and next-step rule recorded. Lock cleared. |
+| `Desktop\Prospect Assets\nq.nox\**` (outside repo) | CODEX | DONE | Three-page DOCX, PDF, source captures, build script and inspected page PNGs complete. Lock cleared. |
+| `wiki/playbooks/prospect-asset-library.md` | CODEX | DONE | Authority bridge audit added as built/rendered with prospect send pending; build log updated. Lock cleared. |
 
 ---
 
@@ -1155,3 +1158,18 @@ STARTED: founder-set minimal operating reset. Claude remains the default strateg
 
 ### [2026-07-30 11:46] CODEX
 DONE: minimal operating reset is canonical and all Codex locks are cleared. Updated `AGENTS.md` and `CLAUDE.md` with the permanent Claude-strategy/Codex-implementation split and the no-routine-cross-call rule while Claude is near its limit. Marked `SLACK_OPERATING_SYSTEM.md` inactive and its two briefings retired without touching Slack itself. Updated `claude-memory/MEMORY.md` and `claude-memory/feedback_codex_builds_claude_specs.md`, then synced the exact repo memory into Claude's live memory store. Appended the founder decision and the Instagram-leads-first priority to `wiki/log.md`. Also removed the stale Codex BLOCKED rows for the Links deployment because Claude's 2026-07-18 close-out proves that work is live and those locks were cleared. Verification: `git diff --check` passes; no product, client, prospect, Slack, automation, or deployment surface changed.
+
+### [2026-07-30 11:57] CODEX
+STARTED: persistent lead-intel record for Ender Gündoğlu / `nq.nox`. Logging each founder-supplied reel transcript and visible evidence as it arrives. No prospect asset judgment or build yet; the record stays evidence-first until the founder finishes sending the source set.
+
+### [2026-07-30 12:04] CODEX
+UPDATE: `outreach/intel/nq-nox.md` now records Ender's affirmative “Sure” reply, the founder-supplied grid, the visible reach split, and the emerging reusable wound. Identity/proof posts materially outrun the strategy explanations: 74.8K and 36.6K on the profitable-19-year-old hook, 26.4K on a $12K day, 33.8K on a $10K payout, versus roughly 2.7K to 5.1K across visible chart recaps. The working asset is an Instagram-to-YouTube authority map, not a Discord-first funnel critique. Lock stays active while the founder continues supplying sources.
+
+### [2026-07-30 12:12] CODEX
+UPDATE: logged Ender's one-slide 1-on-1 mentorship CTA and the founder-reported absence of highlights. The story stacks availability, a DM ask, “most students” under two months, and “have testimonials” over what appears to be Ender's own payout screen. Working diagnosis now includes the missing conversion layer: story sequences jump straight to the ask, while no permanent highlight rail carries his story, student proof, mechanism, FAQ, or offer. Proposed asset expanded to the three-page doc ceiling: reel/YouTube map, exact story rebuild, and highlight architecture. No asset has shipped yet; library logging waits for the verified render.
+
+### [2026-07-30 12:20] CODEX
+STARTED: building the requested Ender / `nq.nox` send asset. Scope is the locked three-page prospect-doc ceiling: page 1 turns the live reel grid into a YouTube authority opportunity, page 2 rebuilds the captured one-slide mentorship pitch as a proof-led sequence, and page 3 installs the missing highlight rail and weekly story rhythm. Source claims stay qualified, register stays optional, and the document will not offer free execution or end with a CTA. Final ship requires DOCX, PDF and every rendered page PNG in `Desktop\Prospect Assets\nq.nox\`.
+
+### [2026-07-30 12:43] CODEX
+DONE: Ender's send asset is complete and all Codex locks are cleared. Final DOCX: `C:\Users\Abdullah\Desktop\Prospect Assets\nq.nox\nq.nox-from-proof-to-authority.docx`. The three pages cover the reel-grid proof/authority split plus a flagship $20K-in-seven-days YouTube concept; the exact one-slide mentorship story beside a seven-step proof-led rebuild; and the missing highlight rail, weekly story rhythm and Discord-one-step-later system. The exact DOCX was exported through Word to PDF and rendered to `nq.nox-p01.png` through `p03.png`; all three pages were inspected at full resolution. One visible numbering reset on page 2 was corrected and the full three-page render passed again. Structural checks: Node builder parses, DOCX ZIP is valid, three pages, four tables, no placeholders, no em/en dashes or curly quotes, and zero high-severity accessibility findings. `outreach/intel/nq-nox.md` is follow-up-ready with the file path and send DM. `wiki/playbooks/prospect-asset-library.md` records the new reusable authority-bridge pattern as built/rendered, send pending.

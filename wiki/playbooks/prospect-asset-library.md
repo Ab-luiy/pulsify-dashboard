@@ -3,7 +3,7 @@ type: playbook
 tags: [outreach, content, offer, funnel]
 sources: [[playbooks/prospect-asset-doc-standard]], [[clients/_pipeline/ig-inbox-audit-2026-07-28]], [[content-engine/cold-dm-formula]]
 created: 2026-07-28
-updated: 2026-07-28
+updated: 2026-07-30
 ---
 
 # Prospect asset library
@@ -42,6 +42,11 @@ The gift-first casual-peer DM. Wound: no relationship yet. Needs: one specific r
 **Story sequence**
 Slide-by-slide Instagram story copy with photo direction. Wound: no narrative path from profile to offer. Uses the story-sequence-generator skill.
 
+### Built and rendered, prospect send pending
+
+**Authority bridge audit**
+A three-page map connecting short-form reach, long-form authority, story conversion and permanent highlights. Wound: a creator has real reach, receipts and method language, but the expertise is compressed into reels, stories jump straight to the ask, and no highlights organise the trust path. Needs: a live reel grid with visible performance, one representative method transcript, one live sales story, and the current highlight state. Built and rendered for `nq.nox`, July 2026. Canonical build at `C:\Users\Abdullah\Desktop\Prospect Assets\nq.nox\nq.nox-doc-build.js`; send file at `nq.nox-from-proof-to-authority.docx`.
+
 ### Proposed, not yet built
 
 Named in the pipeline and ready to build when a wound calls for it. Do not present these as things we have already done.
@@ -65,3 +70,4 @@ Named in the pipeline and ready to build when a wound calls for it. Do not prese
 |---|---|---|---|---|
 | 2026-07 | FITFO | Content packaging teardown | Auto-generated thumbnails on five live uploads | Layout is fill-in, never redesign. Verify by rendering, because four versions shipped before anyone looked. |
 | 2026-07-28 | acp1re | Funnel and door teardown, then reworked into a content ladder | Told people to apply, linked an open Discord | Corrected the diagnosis one pillar upstream. The funnel was not the top problem; the audience buys his lifestyle and has never seen his expertise, so content comes first. Content, then offer, then funnel, in that order. |
+| 2026-07-30 | nq.nox | Authority bridge audit: reels to YouTube, story rebuild, highlight rail | Reach and payout proof existed, but the method had no long-form home; the story asked before proving; no permanent highlights carried his story, students, method or offer | Treat the profile as one trust system. Preserve the raw visual language, use the age hook for attention, attach student claims to student-specific proof, and move Discord one step later. Built and rendered at three pages; prospect send pending. |
