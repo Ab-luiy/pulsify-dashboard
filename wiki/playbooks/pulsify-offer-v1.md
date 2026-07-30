@@ -116,6 +116,16 @@ Two rules that follow:
 
 Corollary for the internal split: walk the prospect through the sales-team breakdown until they restate it correctly themselves. Carlos misread 15% as sitting on top of the 30%, was corrected, and confirmed. That exchange is worth more later than a clean explanation he never engaged with.
 
+## Answer a termination-clause question with a clause, not a story
+
+Also proven on the FITFO call, 2026-07-29, immediately after the split was locked. When a prospect asks directly what happens if the engagement doesn't work out, that is a request for a specific clause. A story about how the last engagement ended is not a substitute, even a true and reassuring one.
+
+Carlos asked point-blank: "What are the termination clauses in that case?" and named his own trigger (three months, no results close to expectation, he walks). Abdullah answered with how Nick's exit went, plus "I really operate in good faith." Good faith describes intent. A prospect asking for termination terms is asking what happens regardless of intent, on both sides.
+
+The trap in this specific case: Carlos, in the same breath, asked not to be time-bound, not to be bound to pay the tranche as a condition of leaving, and to keep the systems on exit. Taken literally and left unaddressed, those three asks combine into the client owing nothing, keeping everything, and facing no clock, while Pulsify is already committed to an open-ended build. The fix is not to refuse what he asked for; it is to separate what he actually objected to (being forced to keep working until paid back) from what he never objected to (owing money he actually collects). A clause that lets the payment obligation survive termination, scoped to revenue actually collected in a defined window, satisfies every condition the prospect named by number while still closing the exposure.
+
+Rule: **the moment a prospect asks "what happens if this doesn't work out," write the clause on the spot or flag it as an open item to close before signing — never let a reassuring anecdote stand in for the answer.** An anecdote feels responsive in the room and leaves nothing on paper.
+
 ## Capacity
 
 The founder can deliver up to 6 active clients in parallel before the operator role saturates. Each new client past 6 requires either (a) a price increase, (b) hiring a junior operator, or (c) tightening the agent to absorb more of the labor. Capacity drops during exam weeks — see [[playbooks/exam-mode-autonomous-ops]].

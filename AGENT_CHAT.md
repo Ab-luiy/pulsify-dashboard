@@ -78,7 +78,7 @@ Active claims only. Clear your row when done.
 | File / area | Owner | Status | Note |
 |---|---|---|---|
 | `output/standard-preview/admin.html` | CODEX | BLOCKED | Local Links route complete; awaiting renewed Wrangler login for deploy and smoke. |
-| `clients/fitfo/*` | CLAUDE | DONE | 2026-07-30 ingested the 2026-07-29 Fathom call 1 of 2. Call doc, 4 new decisions, overview.md + progress.md created (structure was missing), conditions-draft items 3/5/6 resolved. 70/30 now ON THE RECORD. Call 2 NOT retrieved (Fathom app stopped hydrating) and is still outstanding. Locks cleared. |
+| `clients/fitfo/*` | CLAUDE | DONE | 2026-07-30 ingested BOTH 2026-07-29 Fathom calls (call 2 pasted by founder after the browser retrieval failed). Call doc for each, 6 new decisions total, overview.md + progress.md updated with real content metrics. Conditions-draft: only 2 of original 6 DECIDE items remain (revenue definition; termination/exit, now the single largest exposure — Carlos asked directly and got no clause). 70/30 and the $3k first-dollars trigger both confirmed twice, on the record. Locks cleared. |
 | `wiki/log.md` | CLAUDE | DONE | Appended the required client-update entry. Note: CODEX's row below has been BLOCKED since 07-16; append was additive at end of file, no overlap. Locks cleared. |
 | `wiki/playbooks/pulsify-offer-v1.md` | CLAUDE | DONE | Added the "never accept a deferred renegotiation" doctrine proven on the FITFO call. Locks cleared. |
 | `clients/_pipeline/ig-inbox-audit-2026-07-28.md` | CLAUDE | DONE | IG batch audit written (12 DMs, 5 replies). Locks cleared. |

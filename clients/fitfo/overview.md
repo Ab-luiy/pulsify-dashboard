@@ -1,7 +1,7 @@
 ---
 type: client
 tags: [content, offer, funnel, sales]
-sources: [[clients/fitfo/calls/2026-07-24-discovery-call]], [[clients/fitfo/calls/2026-07-29-terms-lockdown-call]], [[clients/fitfo/decisions]]
+sources: [[clients/fitfo/calls/2026-07-24-discovery-call]], [[clients/fitfo/calls/2026-07-29-terms-lockdown-call]], [[clients/fitfo/calls/2026-07-29-content-audit-call]], [[clients/fitfo/decisions]]
 created: 2026-07-30
 updated: 2026-07-30
 ---
@@ -43,13 +43,13 @@ Current structure, agreed 2026-07-29. Full detail and the one unresolved number 
 | Item | Term |
 |---|---|
 | Upfront | $0. The original $2,000 was waived. |
-| First tranche | $3,000 to Pulsify, paid out of the earliest revenue, before Carlos draws anything. Carlos calls it an "interest fee" for waiving the deposit. |
+| First tranche | $3,000 to Pulsify, paid out of the earliest revenue, before Carlos draws anything. Carlos calls it an "interest fee" for waiving the deposit. Confirmed twice on 07-29: on call 1 verbally by Abdullah, and restated unprompted by Carlos on call 2 at 31:12 ("we sign on the 7030 and then the 3k upfront before I get any money"). First-dollars priority, not gated behind a larger revenue figure. |
 | After that | 70/30 split, Carlos/Pulsify. On the record as of 26:07 on the 07-29 call. |
 | Inside the 30% | 15% funds the sales team when one exists (10% closer, 5% setter). Pulsify keeps 15%. Until then Abdullah sets and closes himself and takes the full 30%. |
-| Time limit | None. Open exposure. |
-| Signed paper | None yet. Contract is action item one from the 07-29 call. |
+| Termination / exit | **None written, and this is now the single largest exposure in the deal.** Carlos asked directly for termination clauses on call 2 (29:02) and got a story about the Nick engagement, not a clause. He wants to keep the systems, no time bind, and no obligation to pay the $3,000 as a condition of leaving. See [[clients/fitfo/deal-conditions-draft]] for the recommended structure. |
+| Signed paper | None yet. Contract is action item one from the 07-29 calls. Carlos was told it is "already done by a lawyer" — nothing in the vault supports that for a document matching this deal's terms. |
 
-> ⚠️ This sits below the documented floor in [[playbooks/pulsify-offer-v1]] ($5,000 base plus 30%) and carries no floor at all. Treat as a stage-appropriate variant, not a new floor. [[playbooks/pulsify-contract-template-v1]] has no branch for a zero-base performance deal, so the agreement needs a performance-only variant rather than the v1 template.
+> ⚠️ This sits below the documented floor in [[playbooks/pulsify-offer-v1]] ($5,000 base plus 30%) and carries no floor at all. Treat as a stage-appropriate variant, not a new floor. [[playbooks/pulsify-contract-template-v1]] has no branch for a zero-base performance deal, so the agreement needs a performance-only variant rather than the v1 template, and that variant does not exist yet.
 
 ## Scope of work
 
@@ -79,11 +79,13 @@ Deliverable volumes and revision caps are still undefined, which is the live sco
 
 ## Open questions / gaps
 
-- No current follower, view, or subscriber numbers have been pulled. [[clients/fitfo/progress]] has the baseline and the gaps.
-- His IG handle and YouTube channel URL are not recorded anywhere in the vault. Needed before any audit or tracking work.
+- **Termination and exit terms are undecided and it is now the top priority.** See [[clients/fitfo/deal-conditions-draft]] item 4.
+- **No performance-only contract variant exists yet.** [[playbooks/pulsify-contract-template-v1]] does not fit and has not been adapted. Nothing can be sent until it is.
 - No offer decision. Everything else waits on it.
-- He asked for proof accounts on 07-24, two handles and a YouTube breakdown were sent, and he has never confirmed he checked them.
-- Call 2 of the 07-29 session has not been ingested.
+- His IG handle and YouTube channel URL are not recorded anywhere in the vault, despite two calls spent screen-sharing both. Needed before any audit or tracking work.
+- Real content metrics now exist (see [[clients/fitfo/progress]]) but were pulled live off a screen share, not recorded independently. Confirm against the actual accounts once the handles are on file.
+- He asked for proof accounts on 07-24, two handles and a YouTube breakdown were sent, and he has never confirmed he checked them, across three calls now.
+- Abdullah disclosed on a recording Carlos now holds that he still retains a former client's government ID and national ID number. Flagged in [[clients/fitfo/decisions]], not yet acted on.
 
 ## Connections
 

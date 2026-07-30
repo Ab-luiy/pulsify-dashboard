@@ -23,6 +23,30 @@ Carlos also asked for the recording himself at 47:39 and Abdullah agreed to send
 **Abdullah refused to defer the split, and that was the right call.** Carlos proposed settling the percentage after the $3,000 cleared, floating "70, 30, 80, 20, 60, 40, whatever makes more sense in that moment." Abdullah: "I prefer for everything to be locked down right now. And this is not for like, for any, because I hate renegotiating things." Carlos accepted without pushing. Under the version Carlos proposed, Pulsify would have entered a renegotiation from the weakest possible position, holding a completed build and no signed continuation.
 
 > ⚠️ One number is unresolved and it is the important one. Abdullah's verbal recap is garbled in the transcript: "the two K off three K when you get the first three... 20k generated, and I'll take it." Fathom's AI summary read that as "$3k paid from the first $20k in revenue." Carlos's own words, twice, describe first-dollars priority with no $20k gate. The two readings change when Carlos starts taking money. Do not quote either version to Carlos until it is written deliberately. See [[clients/fitfo/deal-conditions-draft]].
+>
+> **RESOLVED on call 2, 2026-07-29, at 31:12.** Carlos restated the deal himself, unprompted: "we sign on the 7030 and then the 3k upfront before I get any money. That's been agreed upon." Abdullah: "Perfect." Both parties have now independently stated first-dollars priority in their own words. The $20k reading was Fathom's AI misreading a garbled recap and never reflected what either party actually meant. Source: [[clients/fitfo/calls/2026-07-29-content-audit-call]].
+
+---
+
+## [2026-07-29] Termination clauses: asked for directly, never answered. Now the largest open exposure.
+
+**Raised by:** Carlos, deliberately and at length. Fathom call 2, 29:02 to 32:15. Source: [[clients/fitfo/calls/2026-07-29-content-audit-call]].
+
+Carlos asked outright: "I need to also understand what are termination clauses in the case that this simply just does is not working for either of us... if I say like, in three months, I'm not doing honestly anything close to what I expect. I simply just don't see things working out between us... What are the termination clauses in that case?"
+
+He then named three specific things he does not want, at 31:21:
+
+1. He wants to **keep the systems** on exit.
+2. He does not want the contract to be **time-bound**.
+3. He does not want to be **bound to pay the $3,000** as a condition of exit: "I don't want it to be money binded either... what I don't want is for you to say, oh, no, we're going to work until you give me my money back."
+
+**Abdullah did not answer with a clause.** He described how the exit with Nick went (systems stayed with Nick, work stopped, the friendship continued) and appealed to operating in good faith. That is a description of past behavior, not a term either party can hold the other to.
+
+**Why this now outranks every other open item.** Combined with the 07-29 call 1 scope expansion (portal, Slack, calendar, bio audit, YouTube structure, payment setup) and the zero upfront, this leaves Pulsify holding: no floor payment, no time commitment from Carlos, no lapse date, an expanding build, and a counterparty who has explicitly asked not to be bound to the one payment in the deal. Every risk sits on one side.
+
+**The resolution does not require overriding what Carlos asked for.** He objected to being *forced to keep working* until Pulsify is paid, not to owing money he actually collects. He also does not want a hard time limit, but separately volunteered elsewhere on the same call that he is patient for up to a year. A workable clause: the $3,000 survives termination on revenue Carlos actually collects within a defined window after exit; if he never launches or never collects, he owes nothing and keeps the systems. That gives him everything he asked for by name and still closes the hole.
+
+> ⚠️ Note the tension on record: Carlos stated both "I don't need anything from here to a year from now" (patience) and "in three months, I'm not doing anything close to what I expect... I don't see things working out" (his own walk-away scenario). The agreement needs to pick one number. Both cannot govern at once.
 
 ---
 
@@ -65,6 +89,37 @@ Scaling comes later and is paid traffic that funnels to the profile rather than 
 - **Carlos supplies his own AI subscription**, around $20/month. He already has one.
 
 > Note against [[playbooks/pulsify-contract-template-v1]]: Section V of the template specifies crypto via Binance Turkey plus SWIFT and rules out Stripe. That governs how the client pays Pulsify. WAP/Fanbases is how Carlos collects from his own customers. The two are separate rails and the agreement should not conflate them. How Carlos actually remits the $3,000 and the 30% was never discussed on this call.
+
+---
+
+## [2026-07-29] Real content numbers on the record for the first time. Content strategy set.
+
+**Source:** Carlos, screen-sharing IG and YouTube live. Fathom call 2. Source: [[clients/fitfo/calls/2026-07-29-content-audit-call]].
+
+First actual metrics in his file, replacing zero baseline: best reel 4.2M–5.4M views (stalled ~2k views for a week, then broke out), other reels ~700k and ~100k, story views 50 fresh climbing to ~150-200 after hours, roughly 30 inbound DMs across a month and a half of consistent posting. Abdullah's estimate: the 4M+ reel likely converted to only ~500-600 followers.
+
+**The diagnostic that matters:** a 4M-view reel produced roughly 500 followers. Reach is not the bottleneck; depth and conversion are. This is the concrete evidence behind "the whole movement is just taking people from IG to YouTube" (Abdullah, 6:11), because Instagram is already proving it can generate reach without generating the audience relationship needed to sell.
+
+**Content decisions made:**
+
+- Kill the Linktree, point the bio straight at the YouTube channel plus a CTA. Carlos agreed, called the Linktree "a lazy attempt."
+- Drop the word "free" from anything touching mentorship. Abdullah: "Mentorships are never free."
+- Highlights get a "start here" structure, modeled on Nick's build and on Niksetting's story-sequence method.
+- Reels stay untouched, Carlos already has them right. Story sequences and carousels are the actual IG build.
+- YouTube: existing consistency is good, packaging is not. Same-angle videos can be reposted with new titles and thumbnails. Scope is titles, thumbnails, and structure only.
+- **Script rule, sharper than the one recorded on call 1:** hooks and CTAs can be scripted, but the body gets bullet points only, never a script. Reasoning from both sides: a scripted rant reads as robotic; a bulleted rant still finds the genuine delivery. This is the version to carry into actual delivery work.
+- YouTube Shorts and Twitter both deprioritized by mutual agreement, not just Abdullah's call. Carlos had independently noticed Shorts get views with no downstream traction, and had no interest in learning Twitter's dynamics.
+- Funnel and scaling stay deferred, again by Carlos's own initiative: "I don't think it's worth talking too much about the funnel right now."
+
+---
+
+## [2026-07-29] Data retention flag: Abdullah still holds a former client's government ID and national ID number
+
+**Surfaced by:** Abdullah, disclosed unprompted on the recording, 42:00-43:04. Source: [[clients/fitfo/calls/2026-07-29-content-audit-call]].
+
+While explaining that he will eventually need Carlos's IG access and identity documents for WAP onboarding, Abdullah mentioned he still has Nick's ID and what he described as Nick's national security number, retained from a prior WAP onboarding for a client he no longer works with.
+
+**Why this matters:** holding a former client's government identification and national identifier indefinitely, with no stated deletion policy, is a real liability independent of anyone's intentions, and it is now disclosed on a recording Carlos has received. Not a decision, a flag: delete what is no longer needed, and route future identity collection (Carlos's included) directly to the processor requiring it rather than holding copies personally.
 
 ---
 
