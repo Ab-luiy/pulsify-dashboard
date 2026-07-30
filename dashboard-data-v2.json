@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-07-30T03:28:57.959115+00:00",
+  "lastUpdated": "2026-07-30T07:30:02.080Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,18 +33,18 @@
     "updatedAt": "2026-07-30T03:28:57.959115+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-07-29T07:38:43.210Z",
+    "updatedAt": "2026-07-30T07:30:02.013Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
-      "name": "ab.luiy",
+      "name": "AB",
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 508,
-      "following": 536,
+      "following": 535,
       "mediaCount": 6,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=fcAYk47xhY4Q7kNvwHpaiNd&_nc_oc=AdpJJwbxqgWoq17J9RAO8rNDjZvIysUzRSv2RuyiNkCuOihw85xH6bFfufsiN3qO_fE&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=EAMISdoQzz8eOnnCerjofA&_nc_tpa=Q5bMBQEtkPopWh_bj1xSKAVdHlBk6GYxQ2gg-hLkwDZ2J8FSwbIC2ZRHS48dfQyjUvEn8tw6BstuSO84&oh=00_AQAxMltwUbsYPHTCkCqlBZe_JCTZff5HFEokaXLXAMQ35g&oe=6A6F828E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=fcAYk47xhY4Q7kNvwEjvv2H&_nc_oc=AdqqHNHRQH0fIxji2ZG4gZSyI4JyH_3vLFaUT39IR18MHdoyQDkHqlQCL_D1ogSRqSA&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=1mr5t4QxA16QhPnbcu8c2A&_nc_tpa=Q5bMBQF-fwNrx5z7HSl-tYOF_6qxkxvKfoOr8s-NRwKa3Xu_YG_8SmdGUFjHFcjBKZfdxAugniZIMAkW&oh=00_AQEyUAf-DJaIGC3XqCNSGFmXzqDpNlBUMk2-COwZLo79qw&oe=6A70D40E"
     },
     "content": {
       "reelsCount": 20,
@@ -201,14 +201,13 @@
       ]
     },
     "account": {
-      "reach30d": 1567,
+      "reach30d": 1568,
       "views30d": 0,
-      "newFollowers30d": 18,
+      "newFollowers30d": 19,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        0,
         0,
         0,
         0,
@@ -237,10 +236,10 @@
         8,
         1,
         2,
+        1,
         0
       ],
       "followerSeries": [
-        0,
         0,
         1,
         2,
@@ -268,422 +267,14 @@
         0,
         0,
         3,
+        1,
         0,
         0
       ],
       "viewsSeries": [],
       "available": true
     },
-    "audience": {
-      "countries": [
-        {
-          "name": "IN",
-          "value": 88
-        },
-        {
-          "name": "BR",
-          "value": 51
-        },
-        {
-          "name": "US",
-          "value": 34
-        },
-        {
-          "name": "ID",
-          "value": 19
-        },
-        {
-          "name": "GB",
-          "value": 9
-        },
-        {
-          "name": "AR",
-          "value": 8
-        },
-        {
-          "name": "BD",
-          "value": 7
-        },
-        {
-          "name": "CO",
-          "value": 6
-        },
-        {
-          "name": "MA",
-          "value": 5
-        },
-        {
-          "name": "ZA",
-          "value": 5
-        },
-        {
-          "name": "NG",
-          "value": 5
-        },
-        {
-          "name": "TR",
-          "value": 5
-        },
-        {
-          "name": "CA",
-          "value": 4
-        },
-        {
-          "name": "UZ",
-          "value": 4
-        },
-        {
-          "name": "IR",
-          "value": 4
-        },
-        {
-          "name": "IT",
-          "value": 4
-        },
-        {
-          "name": "VN",
-          "value": 4
-        },
-        {
-          "name": "PH",
-          "value": 4
-        },
-        {
-          "name": "DE",
-          "value": 3
-        },
-        {
-          "name": "NP",
-          "value": 3
-        },
-        {
-          "name": "RW",
-          "value": 3
-        },
-        {
-          "name": "PY",
-          "value": 3
-        },
-        {
-          "name": "GM",
-          "value": 3
-        },
-        {
-          "name": "MY",
-          "value": 3
-        },
-        {
-          "name": "PK",
-          "value": 3
-        },
-        {
-          "name": "RU",
-          "value": 2
-        },
-        {
-          "name": "FR",
-          "value": 2
-        },
-        {
-          "name": "YE",
-          "value": 2
-        },
-        {
-          "name": "KE",
-          "value": 2
-        },
-        {
-          "name": "IE",
-          "value": 2
-        },
-        {
-          "name": "GH",
-          "value": 2
-        },
-        {
-          "name": "EG",
-          "value": 2
-        },
-        {
-          "name": "UY",
-          "value": 2
-        },
-        {
-          "name": "MX",
-          "value": 2
-        },
-        {
-          "name": "CN",
-          "value": 2
-        },
-        {
-          "name": "ES",
-          "value": 2
-        },
-        {
-          "name": "TH",
-          "value": 2
-        },
-        {
-          "name": "AU",
-          "value": 2
-        },
-        {
-          "name": "PE",
-          "value": 2
-        },
-        {
-          "name": "LB",
-          "value": 2
-        },
-        {
-          "name": "CZ",
-          "value": 2
-        },
-        {
-          "name": "PL",
-          "value": 2
-        },
-        {
-          "name": "QA",
-          "value": 1
-        },
-        {
-          "name": "KR",
-          "value": 1
-        },
-        {
-          "name": "TN",
-          "value": 1
-        }
-      ],
-      "cities": [
-        {
-          "name": "Jakarta, Jakarta",
-          "value": 6
-        },
-        {
-          "name": "São Paulo, São Paulo (state)",
-          "value": 3
-        },
-        {
-          "name": "Kolkata, West Bengal",
-          "value": 3
-        },
-        {
-          "name": "Pune, Maharashtra",
-          "value": 3
-        },
-        {
-          "name": "Ahmedabad, Gujarat",
-          "value": 3
-        },
-        {
-          "name": "Istanbul, Istanbul Province",
-          "value": 3
-        },
-        {
-          "name": "Dhaka, Dhaka Division",
-          "value": 2
-        },
-        {
-          "name": "Casablanca, Grand Casablanca",
-          "value": 2
-        },
-        {
-          "name": "Rio de Janeiro, Rio de Janeiro (state)",
-          "value": 2
-        },
-        {
-          "name": "Birigui, São Paulo (state)",
-          "value": 2
-        },
-        {
-          "name": "Moscow, Moscow",
-          "value": 2
-        },
-        {
-          "name": "Serekunda, Banjul",
-          "value": 2
-        },
-        {
-          "name": "Imphal, Manipur",
-          "value": 2
-        },
-        {
-          "name": "Lincoln, Nebraska",
-          "value": 2
-        },
-        {
-          "name": "Inzago, Lombardia",
-          "value": 2
-        },
-        {
-          "name": "Korea, Chhattisgarh",
-          "value": 2
-        },
-        {
-          "name": "Lima, Lima Region",
-          "value": 2
-        },
-        {
-          "name": "Kigali, Kigali",
-          "value": 2
-        },
-        {
-          "name": "Columbus, Ohio",
-          "value": 2
-        },
-        {
-          "name": "Ipatinga, Minas Gerais",
-          "value": 2
-        },
-        {
-          "name": "Houston, Texas",
-          "value": 2
-        },
-        {
-          "name": "Secunderabad, Telangana",
-          "value": 2
-        },
-        {
-          "name": "Mumbai, Maharashtra",
-          "value": 2
-        },
-        {
-          "name": "São Gonçalo, Rio de Janeiro (state)",
-          "value": 2
-        },
-        {
-          "name": "Jamtara, Jharkhand",
-          "value": 1
-        },
-        {
-          "name": "Quezon City, Metro Manila",
-          "value": 1
-        },
-        {
-          "name": "Aspur, Rajasthan",
-          "value": 1
-        },
-        {
-          "name": "Makurdu, Benué State",
-          "value": 1
-        },
-        {
-          "name": "San Fernando, Andalusia",
-          "value": 1
-        },
-        {
-          "name": "Kyiv, Kyiv",
-          "value": 1
-        },
-        {
-          "name": "Leiyang, Hunan",
-          "value": 1
-        },
-        {
-          "name": "Castanhal, Pará",
-          "value": 1
-        },
-        {
-          "name": "Pangkah, Central Java",
-          "value": 1
-        },
-        {
-          "name": "Centurion, Gauteng",
-          "value": 1
-        },
-        {
-          "name": "Moradabad, Uttar Pradesh",
-          "value": 1
-        },
-        {
-          "name": "Baku, Baku",
-          "value": 1
-        },
-        {
-          "name": "Majhwalia, Bihar",
-          "value": 1
-        },
-        {
-          "name": "Los Angeles, California",
-          "value": 1
-        },
-        {
-          "name": "Britânia, Goiás",
-          "value": 1
-        },
-        {
-          "name": "Nice, Provence-Alpes-Côte d'Azur",
-          "value": 1
-        },
-        {
-          "name": "Baghdad, Baghdad Governorate",
-          "value": 1
-        },
-        {
-          "name": "Patiala, Punjab region",
-          "value": 1
-        },
-        {
-          "name": "Paragould, Arkansas",
-          "value": 1
-        },
-        {
-          "name": "Rajauri, Jammu and Kashmir",
-          "value": 1
-        },
-        {
-          "name": "Kamalpur, Tripura",
-          "value": 1
-        }
-      ],
-      "gender": [
-        {
-          "name": "U",
-          "value": 245
-        },
-        {
-          "name": "M",
-          "value": 84
-        },
-        {
-          "name": "F",
-          "value": 17
-        }
-      ],
-      "age": [
-        {
-          "name": "18-24",
-          "value": 163
-        },
-        {
-          "name": "25-34",
-          "value": 99
-        },
-        {
-          "name": "35-44",
-          "value": 31
-        },
-        {
-          "name": "13-17",
-          "value": 29
-        },
-        {
-          "name": "45-54",
-          "value": 10
-        },
-        {
-          "name": "65+",
-          "value": 8
-        },
-        {
-          "name": "55-64",
-          "value": 6
-        }
-      ]
-    },
+    "audience": null,
     "cadence": {
       "reels7d": 0,
       "posts7d": 1,
