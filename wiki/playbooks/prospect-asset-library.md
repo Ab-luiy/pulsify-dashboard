@@ -51,6 +51,7 @@ A three-page map connecting short-form reach, long-form authority, story convers
 
 Named in the pipeline and ready to build when a wound calls for it. Do not present these as things we have already done.
 
+**Dormant channel repackage** — for a creator who already has long-form uploads that stopped. Their existing videos retitled and rethumbnailed from validated vault patterns, plus their own reel transcripts mapped to the next batch of video concepts, so the script bank is material they have already said out loud. Needs: the channel URL from the founder (never guessed), current uploads, and reel transcripts. In scope for `_acetrades_`, August 2026. Distinct from the content ladder, which proposes a channel that does not exist yet.
 **Rebuilt landing page plus pre-call email sequence** — for backend stall, where proof exists but nothing catches the lead. Landing pages are Codex-owned; Claude specs, Codex builds.
 **Application or qualification form** — for an offer with no filter. The Lead Studio Typeform generator exists and is parked.
 **Pre-call objection page** — short objection videos on one page ahead of a call, for sales-infra stall.
@@ -62,6 +63,7 @@ Named in the pipeline and ready to build when a wound calls for it. Do not prese
 - Real numbers only. If we do not have their figure, leave the slot marked for them to fill rather than inventing one.
 - No CTA. A close offering free labour positions us as a vendor auditioning. Per [[playbooks/prospect-asset-doc-standard]].
 - Suggestions, not instructions. Founder directive 2026-07-28: the register is "you could" rather than "do this, and I want this from you." A prospect who feels managed before they have paid anything does not reply.
+- The horizon note at the close. Founder directive 2026-08-02: name that the follower count is not the constraint, that the work is foundational, and that compounding takes time. No promised timeline, no pitch, no strings. Full rules in [[playbooks/prospect-asset-doc-standard]].
 - Nothing shipped unrendered. Build, export, read the pages, then send.
 
 ## Build log
@@ -70,4 +72,5 @@ Named in the pipeline and ready to build when a wound calls for it. Do not prese
 |---|---|---|---|---|
 | 2026-07 | FITFO | Content packaging teardown | Auto-generated thumbnails on five live uploads | Layout is fill-in, never redesign. Verify by rendering, because four versions shipped before anyone looked. |
 | 2026-07-28 | acp1re | Funnel and door teardown, then reworked into a content ladder | Told people to apply, linked an open Discord | Corrected the diagnosis one pillar upstream. The funnel was not the top problem; the audience buys his lifestyle and has never seen his expertise, so content comes first. Content, then offer, then funnel, in that order. |
+| 2026-08-02 | _acetrades_ | Dormant channel repackage, in progress | TBC. Draft read: a method strangers back-test in his comments, with no surface where it can be found or named | Every asset from here closes with the horizon note. The 500 to 5,000 follower band reads the follower count as the constraint, and that wrong diagnosis is what makes them quit a working system early. Also: assets are an extra hand, no strings, nothing owed. |
 | 2026-07-30 | nq.nox | Authority bridge audit: reels to YouTube, story rebuild, highlight rail | Reach and payout proof existed, but the method had no long-form home; the story asked before proving; no permanent highlights carried his story, students, method or offer | Treat the profile as one trust system. Preserve the raw visual language, use the age hook for attention, attach student claims to student-specific proof, and move Discord one step later. Built and rendered at three pages; prospect send pending. |

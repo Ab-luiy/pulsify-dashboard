@@ -3,7 +3,7 @@ type: playbook
 tags: [outreach, assets, docs, design, packaging]
 sources: [[playbooks/pulse-system-outreach]], [[content-engine/thumbnail-layout-patterns]], FITFO build 2026-07-21
 created: 2026-07-21
-updated: 2026-07-21
+updated: 2026-08-02
 ---
 
 # Prospect asset doc standard
@@ -68,8 +68,43 @@ Letter, 1.2in left and right, 0.75in top and bottom. That yields a 6.1in measure
 6. **The rebuild.** Numbered entries, accent numeral, the literal deliverable in mono, one muted line of direction beneath.
 7. **References.** Untouched examples from `raw-sources/inspiration/`, image far left, caption beside.
 8. Extra ideas, framed as optional.
+9. **The horizon note.** One short closing paragraph. See below.
 
 No CTA. Founder ruling 2026-07-21: a close that offers free labour on demand positions us as a vendor auditioning. The document ends on the work, and the DM carries whatever comes next.
+
+## The horizon note
+
+Founder directive 2026-08-02. Every asset closes on this.
+
+The creators we build for sit somewhere between 500 and 5,000 followers, and almost all of them read the follower count as the reason nothing converts. It is the wrong diagnosis and it is the one that makes them quit a working system three weeks in. The document should say so plainly before it ends.
+
+What the paragraph does:
+
+- Names the belief before they voice it. They do not have the audience they want yet, and it matters less than they think.
+- Reframes the constraint as foundation rather than volume. Right work on a small audience beats wrong work on a large one, and a small audience that trusts you is the asset a large indifferent one is not.
+- Sets the time expectation honestly. Once the foundation is fixed, the compounding takes time. Say that. A creator who is told to expect months and sees results in months stays. One who is told to expect weeks leaves in week three.
+
+What it must not do:
+
+- Promise a timeline, a number, or a follower figure. No "in 90 days." We do not have their inputs and we are not selling in this document.
+- Flatter. It is a reframe, not a pep talk.
+- Attach a condition. No strings, nothing owed, nothing asked. That is the whole reason it can sit where a CTA is banned.
+
+Anchor it in something real from their own account wherever possible. Audience quality evidence is the strongest anchor: a detailed comment from a stranger, a saved-to-shared ratio, someone quoting their method back to them. That turns the reframe from encouragement into an observation.
+
+## Upgrades queued
+
+Ratified and in force:
+
+- **The horizon note** (2026-08-02, founder directive). Section above.
+
+Proposed 2026-08-02, not yet ratified. Recorded so they do not evaporate:
+
+1. **Page one stands alone.** Finding, evidence table, rebuild on page one. Everything else optional and below the fold.
+2. **Falsifiability test on the finding.** If that exact sentence could be sent to another creator in the same niche, it is an observation and not a diagnosis. Rewrite until it only fits them.
+3. **Name what we deliberately left alone.** One sentence. Selectivity reads as expertise and it keeps the asset from being a full audit that leaves nothing to buy.
+4. **Send behind a tracked link.** The `/a/{token}` redirect and per-prospect view tracking are already live on pulsify-funnels. Sending the doc behind one tells us whether it was opened without asking the prospect anything.
+5. **Outcome columns in the build log.** Sent date, opened, replied, what they said. Three real rows are worth more than another layout pass, and right now every asset in the library has zero reply data.
 
 ## Components
 

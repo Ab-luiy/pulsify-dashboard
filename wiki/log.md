@@ -1197,3 +1197,21 @@ Founder reaffirmed the minimal operating split. Claude remains the default LLM a
 Slack itself remains available but is no longer part of the required operating loop. Mandatory Slack mirrors and the morning/evening briefing automations are retired and must not be recreated without a new founder instruction. The repo remains canonical through `AGENT_CHAT.md`, git, the wiki, and client files.
 
 Immediate operating priority: work the Instagram leads already waiting in the pipeline, build the promised prospect assets, and only then return to product building. The founder's language was direct: the leads have rested too long.
+
+## [2026-08-02] decision | The horizon note: follower count is not the constraint
+
+Founder directive during the `_acetrades_` asset build. Creators in the 500 to 5,000 follower band read their follower count as the reason nothing converts. It is the wrong diagnosis and it is the one that makes them abandon a working system three weeks in. Every prospect asset now closes with a short paragraph naming that belief before they voice it, reframing the constraint as foundation rather than volume, and setting the time expectation honestly. No promised timeline, no numbers, no flattery, no strings. It occupies the space where a CTA is banned, which is why it can sit at the close without turning the document into a pitch.
+
+Anchor it in real evidence from their own account wherever possible, audience quality being the strongest anchor. A stranger writing a detailed technical comment turns the reframe from encouragement into an observation.
+
+Also recorded five proposed upgrades to the doc standard from the same session, unratified: page one stands alone, the falsifiability test on the finding, naming what we deliberately left alone, sending behind the live `/a/{token}` tracked link, and outcome columns in the build log. That last one matters most. Three assets exist in the library and none has reply data, so the standard is being refined on craft rather than results.
+
+Files touched: `wiki/playbooks/prospect-asset-doc-standard.md` (new horizon-note section, structure part 9, upgrades-queued list), `wiki/playbooks/prospect-asset-library.md` (horizon note added to what every asset must hold, dormant-channel-repackage asset added, build log row), `outreach/intel/acetrades.md` (new), `AGENT_CHAT.md`.
+
+## [2026-08-02] ingest | _acetrades_ prospect intel opened
+
+New lead record at `outreach/intel/acetrades.md`. Verified day-trading account, first founder capture is a June 29 reel with the comment rail open. The content pillar reads healthy: raw screen recording of a real annotated chart, face cam, hoodie, zero lifestyle. The strongest visible asset is a 356-like comment from a viewer who back-tested his method and wrote a full technical breakdown of it in public, unpaid, in a thread that disappears.
+
+Three candidate wounds, none confirmed: the mechanism has no name (it is labelled "Sauce" and `#sauce`), the method has no permanent home (a YouTube channel exists but stopped four months ago), and the caption sells nothing while the CTA sits in his own comments pointing at a free Discord. Per the acp1re correction the Discord observation does not outrank the content diagnosis without more evidence.
+
+Awaiting from the founder: feed grid, highlights, bio and link destination, reel transcripts, view counts, YouTube channel URL. No build starts until the source set is complete.
