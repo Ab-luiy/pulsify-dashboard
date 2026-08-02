@@ -1,7 +1,7 @@
 ---
 type: concept
 tags: [content, packaging, thumbnails, youtube, retouch]
-sources: [[raw-sources/inspiration/thumbnail-retouch-references]], [[content-engine/thumbnail-photo-cleanup-prompts]], [[content-engine/packaging-rules]]
+sources: [[raw-sources/inspiration/thumbnail-retouch-references/README]], [[content-engine/thumbnail-photo-cleanup-prompts]], [[content-engine/packaging-rules]]
 created: 2026-07-21
 updated: 2026-07-21
 ---
