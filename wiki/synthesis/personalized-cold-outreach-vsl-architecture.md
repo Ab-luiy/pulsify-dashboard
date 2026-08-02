@@ -145,7 +145,7 @@ Use:
 
 ## Open questions / gaps
 
-- [[concepts/pulse-system]] still needs to be written.
+- [[concepts/pulse-system-mechanism]] still needs to be written.
 - Pulsify needs a visual map template for the broken path and corrected path.
 - The first five real personalized VSLs should be saved as examples once they are built.
 

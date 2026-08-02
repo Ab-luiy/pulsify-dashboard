@@ -163,7 +163,7 @@ Do not treat the source registry as a substitute for transcripts. It is enough f
 - Only one full raw VSL transcript exists locally. More user-provided transcripts are needed for line-level comparison.
 - Daniel Fazio and Serge Gatari now have transcript-derived analysis pages. Their full transcripts are not stored.
 - Jordan Platten's public interview has transcript-derived notes, but the Elite Agency embedded VSL still needs transcript capture.
-- The dedicated [[concepts/pulse-system]] page still needs to be created so the mechanism has a canonical home.
+- The dedicated [[concepts/pulse-system-mechanism]] page still needs to be created so the mechanism has a canonical home.
 - The VSL drafts have not been graded against the new personalized cold outreach VSL architecture yet.
 - The standard time cadence for the new landing page -> VSL -> Typeform value sequence is not locked.
 

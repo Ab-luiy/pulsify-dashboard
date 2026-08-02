@@ -49,7 +49,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "tag:#outreach",
+                "query": "",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -180,6 +180,9 @@
   },
   "active": "1bef72d5493f4d9e",
   "lastOpenFiles": [
+    "2026-08-02.md",
+    "Untitled 1.canvas",
+    "Untitled.canvas",
     "wiki/synthesis/payment-onboarding-automation-spec.md",
     "wiki/synthesis/integrations-hub-spec.md",
     "wiki/index.md",
@@ -216,7 +219,6 @@
     "tmp/standard-preview-verify/B1-NOTES.md",
     "CODEX_TASK_client_dashboard_p1.md",
     "wiki/synthesis/portal-content-studio-spec.md",
-    "wiki/content-engine/sequence-breakdowns/niksetting-new-here.md",
     "raw-sources/inspiration/story-sequences/niksetting/new-here/12 (014437).png",
     "raw-sources/inspiration/story-sequences/niksetting/new-here/18 (014516).png",
     "raw-sources/inspiration/story-sequences/niksetting/new-here/17 (014459).png",
@@ -224,8 +226,6 @@
     "raw-sources/inspiration/story-sequences/niksetting/new-here/15 (014451).png",
     "raw-sources/inspiration/story-sequences/niksetting/new-here/14 (014446).png",
     "raw-sources/inspiration/story-sequences/niksetting/new-here/13 (014441).png",
-    "raw-sources/inspiration/story-sequences/niksetting/new-here/11 (014431).png",
-    "wiki/content-engine/carousel-breakdowns/README.md",
-    "Untitled.canvas"
+    "raw-sources/inspiration/story-sequences/niksetting/new-here/11 (014431).png"
   ]
 }

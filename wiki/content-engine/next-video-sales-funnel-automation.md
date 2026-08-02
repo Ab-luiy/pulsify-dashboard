@@ -84,7 +84,7 @@ Invite the right viewer to apply or DM with their funnel if they already have a 
 
 - Need the exact client/demo example.
 - Need the offer CTA for this video: application, DM keyword, or audit asset.
-- Need the canonical [[concepts/pulse-system]] page before publishing if possible.
+- Need the canonical [[concepts/pulse-system-mechanism]] page before publishing if possible.
 
 ## Source trail
 

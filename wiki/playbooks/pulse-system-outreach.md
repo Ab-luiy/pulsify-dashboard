@@ -192,7 +192,7 @@ When Pulsify hires a setter (per [[playbooks/lead-sourcing-outreach]]), the sett
 
 ## Open questions / gaps
 
-- Pulse System is still working-state name (locked 2026-05-06). When [[concepts/pulse-system]] page is created, link target above resolves.
+- Pulse System is still working-state name (locked 2026-05-06). When [[concepts/pulse-system-mechanism]] page is created, link target above resolves.
 - Asset-build-time of "15–30 min" assumes the operator has run the prompts 3+ times. First 5 prospects will take 60+ min each. Plan for the curve.
 - Tracking: no pipeline template exists yet for the Pulsify outreach run. Build a Sheets template tracking: prospect, niche, wound, asset built, DM sent date, replies, follow-up cadence, call booked, call outcome.
 - Story slide-up tactic requires post-notifications on 30+ prospects. IG may rate-limit. Test and adjust the per-day target if it triggers.

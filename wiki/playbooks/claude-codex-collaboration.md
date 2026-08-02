@@ -69,7 +69,7 @@ The workflow:
 
 ## Open questions / gaps
 
-- The dedicated [[concepts/pulse-system]] page still needs to exist.
+- The dedicated [[concepts/pulse-system-mechanism]] page still needs to exist.
 - The AI system architecture needs a canonical page that separates Pulse Engine, Pulse Brain, and Pulse Loop.
 - The VSL transcript library has not started yet.
 

@@ -112,7 +112,7 @@ For a Pulsify-style high-ticket coach VSL:
 
 ## Open questions / gaps
 
-- The dedicated [[concepts/pulse-system]] page still needs to be written.
+- The dedicated [[concepts/pulse-system-mechanism]] page still needs to be written.
 - Daniel and Serge now have transcript-derived analysis pages, but full transcripts are not stored.
 - Jordan's agency interview has transcript-derived notes, but the Elite Agency embedded VSL still needs transcript capture.
 - The Charlie/Imperium transcript now has a dedicated analysis page under [[synthesis/vsl-patterns/README]].

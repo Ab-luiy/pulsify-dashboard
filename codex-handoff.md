@@ -47,7 +47,7 @@ Last updated: 2026-05-10
 
 This is the only hard blocker. Every active operational file has a broken link pointing to it:
 
-- `wiki/playbooks/pulse-system-outreach.md` — references [[concepts/pulse-system]] four times (the call walkthrough, the DM templates, the rev-share closer, the connections section)
+- `wiki/playbooks/pulse-system-outreach.md` — references [[concepts/pulse-system-mechanism]] four times (the call walkthrough, the DM templates, the rev-share closer, the connections section)
 - `wiki/synthesis/personalized-cold-outreach-vsl-architecture.md` — Section 5 is literally titled "Corrected path — show the Pulse System version" with no definition to point to
 - `wiki/playbooks/lead-sourcing-outreach.md` — flags pulse-system-outreach as the superseding SOP, which itself floats on an undefined concept
 
@@ -133,6 +133,6 @@ When Abdul provides answers to the questions above:
 2. Tag it: `type: concept`, `tags: [pulse-system, content, offer, funnel, sales, outreach]`
 3. Update `wiki/index.md` — add to Concepts section
 4. Update `wiki/log.md` — append an `ingest` or `decision` entry
-5. Find every `[[concepts/pulse-system]]` reference across the vault and verify the link resolves (there are at minimum 6 broken link instances)
+5. Find every `[[concepts/pulse-system-mechanism]]` reference across the vault and verify the link resolves (there are at minimum 6 broken link instances)
 6. Reconcile `wiki/concepts/pulsify-order-of-operations.md` with the Pulse Engine → Pulse Brain → Pulse Loop sequence — the 16-step SOP predates this framing
 7. If the deliverable list changes the offer architecture, update `wiki/playbooks/offer-creation.md` accordingly

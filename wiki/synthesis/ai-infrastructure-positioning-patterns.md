@@ -137,7 +137,7 @@ The transcript-derived Serge analysis adds a tactical implementation layer: the 
 
 ## Open questions / gaps
 
-- [[concepts/pulse-system]] needs to define exactly what assets are installed.
+- [[concepts/pulse-system-mechanism]] needs to define exactly what assets are installed.
 - Pulsify needs a visual map of the Pulse System so the infrastructure claim is tangible.
 - Current proof should be tightened before this positioning becomes the front-page promise.
 

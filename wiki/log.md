@@ -1215,3 +1215,13 @@ New lead record at `outreach/intel/acetrades.md`. Verified day-trading account, 
 Three candidate wounds, none confirmed: the mechanism has no name (it is labelled "Sauce" and `#sauce`), the method has no permanent home (a YouTube channel exists but stopped four months ago), and the caption sells nothing while the CTA sits in his own comments pointing at a free Discord. Per the acp1re correction the Discord observation does not outrank the content diagnosis without more evidence.
 
 Awaiting from the founder: feed grid, highlights, bio and link destination, reel transcripts, view counts, YouTube channel URL. No build starts until the source set is complete.
+
+## [2026-08-02] lint | Obsidian install verified, vault link health audited
+
+Obsidian is installed and connected on the Lenovoi laptop. The vault is registered at the real repo path and was open at the time of the check. Graph, backlinks, outgoing links, tag pane, properties and search are all enabled, so the `[[wiki-link]]` discipline the vault has been maintained under is now actually readable as a graph. `.obsidian/` is tracked in git, so the configuration is covered by the backup repo.
+
+Ran a full link-resolution audit: 1,918 wikilinks across the vault, 72 unresolved instances before the fix, 53 after. Found and repaired one real rename-orphan: `[[concepts/pulse-system]]` was cited 19 times across 8 files but the page has been named `pulse-system-mechanism.md` for some time. All 19 retargeted. The bulk of what still fails to resolve is deliberate template placeholder syntax rather than rot.
+
+The one genuine gap left is a set of `raw-sources/` documents that pages cite but that were never filed into the vault: the lead-sourcing SOP, the first Alexei transcript, both PulsifyMedia MSAs, the creator-profile prompt template, and the thumbnail-retouch references. Those are cited claims with no source trail behind them, which is exactly what the source-trail rule exists to prevent.
+
+Files touched: `codex-handoff.md`, `wiki/content-engine/next-video-sales-funnel-automation.md`, `wiki/playbooks/claude-codex-collaboration.md`, `wiki/playbooks/pulse-system-outreach.md`, `wiki/synthesis/ai-infrastructure-positioning-patterns.md`, `wiki/synthesis/operator-vsl-study-map.md`, `wiki/synthesis/personalized-cold-outreach-vsl-architecture.md`, `wiki/synthesis/vsl-pattern-lab.md`, `wiki/log.md`, `AGENT_CHAT.md`.
