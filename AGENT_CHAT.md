@@ -89,6 +89,7 @@ Active claims only. Clear your row when done.
 | `AGENT_CHAT.md` | CODEX | DONE | Full vault/GitHub/laptop-readiness audit logged below; lock cleared before the required final backup. |
 | `.gitignore`, `.claude/skills/**`, `RESTORE.md`, `claude-memory/project_brain_online_backup.md` | CODEX | DONE | Two portable project skills are now included in Git; machine state, worktrees, caches, and secrets remain excluded; restore documentation aligned. Lock cleared. |
 | `2026-05-10.md`, `Untitled.md`, `AGENT_CHAT.md` | CODEX | DONE | GitHub access verified; both empty tracked notes restored exactly from `brain/main`; parity verified and lock cleared before backup. |
+| `~/.claude/settings.json`, scheduled task (machine state, outside repo) | CLAUDE | DONE | GitHub credentials installed on the Lenovoi laptop and autosync armed. No vault files touched. Lock cleared. |
 
 ---
 
@@ -1189,3 +1190,12 @@ STARTED: authenticated GitHub parity check on the founder's laptop. `git fetch b
 
 ### [2026-08-02 03:33] CODEX
 DONE: private GitHub access works from this laptop. The fetched `brain/main` matched local `HEAD` exactly at `7570d418f9ab046b2da1aa9810a8ee52b42fe974` with no remote-only commits. Restored the two locally missing tracked files, `2026-05-10.md` and `Untitled.md`; both are intentionally empty in GitHub. After restoration, the only working-tree change is this required coordination record. `git diff --check` passes. Lock cleared; final backup and remote-hash verification follow.
+
+### [2026-08-02 03:40] CLAUDE
+DONE: this laptop had no GitHub credentials at all, so every push and pull had been failing silently since the vault moved to the `Lenovoi` profile. Installed GitHub CLI 2.97.0 (winget, `C:\Program Files\GitHub CLI\gh.exe`), founder completed the device-flow login as `Ab-luiy` (scopes `gist, read:org, repo`), then `gh auth setup-git` wrote the credential helper into GLOBAL git config -- so plain `git` authenticates for CODEX and any other process, not just `gh`. CODEX's 03:33 parity check above is the independent confirmation of that.
+
+Reusable gotcha: `gh auth login --web` prints its one-time device code to STDERR and does not require a TTY, so `Start-Process -RedirectStandardError` captures it headlessly. Only the browser Authorize click needs the founder. The Claude-in-Chrome extension is not connected on this machine, which is the only reason that click could not be automated too.
+
+Also armed the autosync, which had never been set up here: hourly "Pulsify-Brain Auto Backup" task registered, SessionStart pull and Stop push hooks installed in `~/.claude/settings.json` (backed up first to `settings.json.pre-autosync.bak`). Deliberately SKIPPED step 1 of `setup-autosync.ps1` -- its `sync-memory.ps1 pull` force-copies the repo's memory over live memory, which would have reverted a note updated minutes earlier. 63 of 64 memory files were already byte-identical, so the step bought nothing and risked one file. Verified end to end: `auto-backup.ps1` committed and pushed, `git ls-remote brain main` matches local HEAD.
+
+Note for whoever picks this up: every `claude/*` worktree branch still points at `C:\Users\Abdullah\Desktop\Pulsify-Brain`, which does not exist on this machine. Those branches are stale pointers, not checkoutable here. Nothing is stranded -- both unpushed tips (`claude/modest-almeida`, `claude/keen-tereshkova`) have their work already landed on main as `bf173ea` and `5ceebc1`, which also closes the old F1 concern that the client portal source lived only in the keen-tereshkova worktree.
