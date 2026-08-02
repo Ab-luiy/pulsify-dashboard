@@ -84,6 +84,37 @@ One further tile showed 132 likes and 18 comments on hover rather than a view co
 
 **Care:** "your psychology issues would vanish" is an unbacked promise. Do not repeat or amplify it in prospect-facing copy.
 
+### Source 04 — reel transcript, $1,100 day, "setup three"
+
+**Founder-supplied transcript (condensed to the mechanics):**
+
+> This is how I made eleven hundred dollars today on my funded accounts. Going to market open, you see we have a sweep of London high right here. Then we have a sweep of London low right here. A lot of traders are saying this is super choppy, but this is exactly what I want for a setup three trade. [...] put a fib tool from the top, drag it to the bottom, and all you're gonna wait for is a fifty percent retrace. [...] TP at the point two nine eight. Stop loss at the point seven oh two. And then we go one to one, and it hits super easy. If you wanna see me live trade this like I did here, make sure you join that Discord.
+
+**What it establishes:**
+
+- **He has numbered setups.** "A setup three trade" implies a set. A numbered system is the skeleton of a curriculum, and none of that architecture is visible anywhere outside his Discord.
+- The same reframe move as source 03, in one sentence: the crowd calls the tape choppy, he says choppy is the condition his setup wants.
+- Concrete levels: fib top to bottom, 50% retrace entry, TP .298, SL .702, one-to-one.
+- Discord CTA again, this time framed as watching him trade it live.
+
+**To verify:** "setup three" may be a mistranscription of a name rather than a number. Confirm before using it in copy.
+
+### Source 05 — reel transcript, bottom tick continuation trades
+
+**Founder-supplied transcript (condensed to the mechanics):**
+
+> I always see traders showing off their continuation trades, but they never explain it. So I'm gonna show you how you can bottom tick retracements and catch easy continuation trades [...] first thing we're looking for is a sweep of London high or low [...] then two five-minute candles that close in the opposite direction of the sweep [...] mark that swing high [...] looking now for two five-minute bullish candles to close above that swing high [...] a retracement down to a fib level that matches with volume [...] volume area low is above the point five eight eight. Not above the point five, so we're gonna take a trade off that point five eight eight level [...] one-to-one I usually go for with high risk [...] you could theoretically leave a runner [...] Resweep the high. Oh, we have two candle closures opposite direction, so it invalidates it. [...] Make sure you join the Discord. There's a lot of people in there. It's free right now. It's not gonna be free forever.
+
+**What it establishes:**
+
+- **The method is fully mechanical, with entry rules, confirmation rules, an invalidation rule and two exit options.** This is a teachable system, not discretionary feel. Compare `nq.nox`, who described his own trade as discretionary.
+- **Three worked examples inside one reel.** The pacing shows the strain in his own words: "this one's gonna go really fast", then "Boom. Boom. Boom." He is compressing a twenty-minute lesson into ninety seconds. That reel is also his top performer at 7,371 views, so his most compressed content is his most rewarded content.
+- The same opening move a third time: name what other traders do wrong, then do the opposite. "They never explain it."
+- **Offer intent is already there.** "It's free right now. It's not gonna be free forever." He is telegraphing a paid Discord without a date or a mechanism for it.
+- **Partially resolves the source 01 open question.** The `dreamingw0z` comment cited .5 and .588, and both are confirmed as his levels here. The .618 and .267 in that comment are the commenter's own extension. Attribute only .5, .588, .702 and .298 to him.
+
+**Vocabulary bank for packaging:** sweep of London high / London low, two five-minute candle closures, swing high, fib .5 / .588 / .702 / .298, volume profile, volume area low, bottom tick, continuation trade, runner, one-to-one high risk, setup three, market open, True Day Open, top tic.
+
 ## Emerging read
 
 - **The content pillar is healthy and his audience has already voted.** They reward the method and ignore the money posts. The diagnosis is not "make different content", it is that the best content has nowhere permanent to live.
@@ -91,9 +122,19 @@ One further tile showed 132 likes and 18 comments on hover rather than a view co
 - **The dormant YouTube is the obvious home.** "How to bottom tic continuation trades" is already a YouTube title. His short-form data pre-validated the topic set, so the repackage argument is made of his own numbers rather than our opinion.
 - **Discord observation stays subordinate.** The caption sells nothing, the CTA sits in his own comments, the sticker and one whole reel push a free Discord. Real, but per the acp1re correction it does not outrank the content diagnosis.
 
+### His signature move, across every transcript
+
+The same structure opens all three. Name what other traders get wrong, then flip it.
+
+- "Most of you struggle with psychology issues stemming from the fact that you do not trust and don't know your strategy."
+- "A lot of traders are saying this is super choppy, but this is exactly what I want for a setup three trade."
+- "I always see traders showing off their continuation trades, but they never explain it."
+
+He does this instinctively and there is no sign he has named it. It maps to the polarity and reframe mechanics in [[frameworks/messaging-reframe-system]]. Naming it back to him is the highest-value thing in the asset, because it is the one thing that scales to every future piece he makes.
+
 ## Core leak
 
-Draft: Andersen's audience rewards the method and ignores the payouts, and the method has no permanent home. It lives in sixty-second reels, a bio link, and a YouTube channel that stopped four months ago.
+Draft: Andersen has a fully mechanical, numbered trading system and a repeatable way of teaching it, and both are being compressed into ninety-second reels. His most compressed reel is his best performer, his audience rewards method over money, and the surface built for depth has been dormant four months.
 
 ## Personal detail to use lightly
 
