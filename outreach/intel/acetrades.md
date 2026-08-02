@@ -226,7 +226,10 @@ The `dreamingw0z` comment. Quoting his own audience back to him proves we read t
 
 ## Assets built
 
-None yet.
+- **Prospect document, v1, 2026-08-02:** "Ace trades: what your own numbers already decided". Source at `output/acetrades-doc.html`, copy also in `C:\Users\Lenovoi\Desktop\Prospect Assets\acetrades\`.
+- Nine sections: the finding, his own view-count table, what is working, what it is costing him, seven title and thumbnail pairs, a publish order, the bio-link suggestion with reasoning, three smaller notes, and the horizon note. No CTA.
+- **Built as HTML rather than DOCX.** This laptop has no Node and no Python, and Word COM hangs on `Documents.Add`, which points at an unclicked Word first-run dialog. Google Drive imports HTML straight into Docs, which is what the send actually needs.
+- **Not rendered.** The browser pane would not composite a screenshot, so the visual check required by [[playbooks/prospect-asset-doc-standard]] has not been done. Do it before this goes to Andersen. Once Word is unblocked, convert to DOCX and PDF, render the pages, and look at them.
 
 ## Planned asset
 
