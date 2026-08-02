@@ -152,7 +152,10 @@ para(doc, "Your teaching content beats your money content, and it is not close. 
           "floor. The lowest post on the whole account is the one where you are in a blazer at "
           "a desk.")
 para(doc, "Nobody had to tell your audience what they wanted. They already voted, and they have "
-          "been voting for a while.")
+          "been voting for a while. The bottom tick reel carries a full rule set and three "
+          "worked trades inside ninety seconds, and you can hear the strain in your own words: "
+          "\"this one's gonna go really fast,\" then boom, boom, boom. That is a twenty-minute "
+          "lesson at sprint pace, and it is still the best thing on the account.")
 
 # --- 3. evidence table ----------------------------------------------------
 heading(doc, "Your own grid")
@@ -197,26 +200,29 @@ para(doc, "The top three are all method. Two of the bottom three are payouts. Th
           "the most produced thing on the page.",
      size=9, color=MUTED, before=6, after=4)
 
-# --- 4. what is working ---------------------------------------------------
-heading(doc, "What is already working")
-para(doc, "More than you probably give yourself credit for. Under the June 29 reel, someone "
-          "back-tested your setup on their own time and then wrote the whole thing out in your "
-          "comments: the .588, the .5 entry, the one to three, which side becomes the bias when "
-          "both get swept. 356 people liked that comment. Strangers do not do that for content "
-          "they half-watched, and you did not ask them to.")
-para(doc, "Your rules are also genuinely teachable. Sweep of London high or low, two five-minute "
-          "closures in the opposite direction, mark the swing high, two closures back above it, "
-          "fib plus volume profile, then the level where volume agrees. Invalidation if it "
-          "resweeps with two closures against you. That is a system another person can actually "
-          "run, which is rarer in this space than it sounds.")
+# --- 4. the proof problem -------------------------------------------------
+heading(doc, "The proof problem nobody in your niche talks about")
+para(doc, "Payout screenshots are the one kind of proof everybody can fake and everybody knows "
+          "it. Your audience has scrolled past a thousand of them. That is most of why the "
+          "$4,49x post sits at 1,056 and a how-to sits at 7,371. It is not that they doubt you. "
+          "The format itself stopped carrying weight years ago.")
+para(doc, "The proof you cannot fake is already on your page, and you did not make it. Someone "
+          "back-tested your setup on their own time and posted the whole thing in your comments: "
+          "the .588, the .5 entry, the one to three, which side becomes the bias when both get "
+          "swept. 356 people liked it. Nobody does that for a fake. That comment is worth more "
+          "than every payout card on the account put together, and it is sitting in a thread "
+          "that will be gone in a month.")
+para(doc, "There is a second thing underneath it, and it decides whether anyone ever pays you to "
+          "teach. Your payouts prove you can trade. They do not prove you can hand it over. "
+          "Those are different products. People do not buy a mentorship because the mentor is "
+          "good, they buy it because they believe the thing he does can be transferred to them. "
+          "That comment is the only artifact on your page that proves transfer, because it is a "
+          "stranger running your rules and getting somewhere with them.")
+para(doc, "Which makes the Students highlight the most valuable real estate you own, and the "
+          "least developed thing on the profile.")
 
 # --- 5. what it costs -----------------------------------------------------
 heading(doc, "What it is costing you")
-para(doc, "The bottom tick reel carries a full rule set and three worked trades inside ninety "
-          "seconds. You can hear the strain in your own words: \"this one's gonna go really "
-          "fast,\" then boom, boom, boom. That is a twenty-minute lesson at sprint pace. It is "
-          "also your best performing post on the account, which means it is winning while "
-          "compressed.")
 para(doc, "The YouTube channel has two videos from four months ago at 176 and 63 views, covering "
           "AMD, FVGs and IFVGs. That is what most of the space teaches. Since then you named your "
           "own model and built your own rules around top tic and bottom tic entries. So it does "
@@ -229,70 +235,91 @@ para(doc, "And there is nowhere to send anyone. No link in the bio. Somebody fin
 # --- 6. the rebuild -------------------------------------------------------
 heading(doc, "Seven you could make")
 para(doc, "All of these come from things you have already said on camera. Nothing here needs a "
-          "new idea, only room.",
+          "new idea, only room. Roughly in this order: lead with what your audience already "
+          "rewarded, follow with the cheapest one to shoot, save the flagship until the format "
+          "has proven itself twice. Number seven works as the opener instead if you would rather "
+          "say the reset out loud.",
      size=9, color=MUTED, after=8)
 
 items = [
     ("how i bottom tick retracements, 3 trades (step-by-step)",
-     "Thumbnail: two closures, then entry. Your own five-minute chart with the swing high "
-     "marked. This is the topic your audience already picked, so it is the safest first upload."),
+     "Thumbnail: two closures, then entry. Your five-minute chart, swing high marked. The topic "
+     "your audience already picked, so it is the safest first upload."),
     ("don't avoid choppy days, they paid me $1,100 (full breakdown)",
      "Thumbnail: unusable to them. The exact session everyone was calling chop. Cheap to shoot "
      "and it argues with the whole niche at once."),
     ("the ace model that made $1,100 in a day (full system)",
-     "Thumbnail: sweep, retrace, done. Your TradingView chart with the levels already marked. "
-     "The flagship, once two videos have proven the format."),
+     "Thumbnail: sweep, retrace, done. Your chart with the levels already marked. The flagship."),
     ("1 hour a night fixed my trading psychology (do this)",
-     "Thumbnail: not a mindset issue. Replay software on screen instead of a chart. This is the "
-     "strongest thing you have said in any clip, and it is the one that could outrun the channel."),
+     "Thumbnail: not a mindset issue. Replay software on screen instead of a chart. The "
+     "strongest thing you have said in any clip, and the one that could outrun the channel."),
     ("watch me take $[your figure] off one sweep live (step-by-step)",
-     "Thumbnail: london high, 9:31am. Two monitors, real room, no staging. Drop your own number "
-     "in. We are not going to put words in your mouth about a trade."),
+     "Thumbnail: london high, 9:31am. Two monitors, real room, no staging. Your number goes in "
+     "the slot. We are not putting words in your mouth about a trade."),
     ("the [number] setups in the ace model explained (full system)",
      "Thumbnail: setup 3 is the one. A clean numbered board. You have said setup three out loud, "
-     "so people know there is a set. Nobody knows how big it is."),
+     "so people know a set exists. Nobody knows how big it is."),
     ("i taught the amd model wrong, here's the ace version (full system)",
-     "Thumbnail: four months ago, wrong. Your old blazer frame on the left, the hoodie and chart "
-     "frame on the right. Reclaims your most-watched upload under your own name, and the two "
-     "images make the point before anyone reads a word."),
+     "Thumbnail: four months ago, wrong. Old blazer frame left, hoodie and chart frame right. "
+     "Reclaims your most-watched upload under your own name, and the images make the point "
+     "before anyone reads a word."),
 ]
 
 for i, (t, d) in enumerate(items, start=1):
     title_line(doc, i, t)
     direction(doc, d)
 
-# --- 7. order -------------------------------------------------------------
-heading(doc, "An order that would make sense")
-para(doc, "1, then 2, then 3, then 4, then 5, then 6. Lead with the thing your audience already "
-          "rewarded, follow with the cheapest one to shoot, then the flagship once the format has "
-          "proven itself twice. Number 7 works as the opener instead if you would rather say the "
-          "reset out loud.")
+# --- 7. owning the words --------------------------------------------------
+heading(doc, "Owning the words")
+para(doc, "Top tic. Bottom tic. Setup three. Two five-minute closures. Those are yours, and "
+          "nobody else's videos come up for them.")
+para(doc, "That matters far more on YouTube than on Instagram, and the reason is worth knowing. "
+          "Instagram pushes your reel at people who were not looking for it. YouTube gets "
+          "searched by people who already have the problem and went hunting for the answer. "
+          "Those are different viewers, and the second one is much closer to paying somebody.")
+para(doc, "Right now if a person hears \"bottom tick the retracement\" in a clip and goes looking "
+          "for what it means, they find nothing. That lane is empty and it has your name on it. "
+          "Every video built on your own vocabulary claims a term nobody is competing for, and "
+          "terms compound in a way individual posts never do. The moment other people start "
+          "using your words to describe what they are doing, you stop being a trader who posts "
+          "and start being the person the method is named after. That is the difference between "
+          "an account people enjoy and a thing people pay to be let into.")
 
-# --- 8. the bio -----------------------------------------------------------
+# --- 8. what it looks like built -----------------------------------------
+heading(doc, "What it looks like once it is built")
+para(doc, "Right now the path stops. Somebody watches you teach a whole setup in ninety seconds, "
+          "wants more, and lands on a profile with nowhere to go.")
+para(doc, "Built out, the same person watches the reel, follows the link into fifteen minutes of "
+          "you actually teaching, and only then walks into the room. Three steps, one direction, "
+          "and none of it needs you to be awake.")
+para(doc, "The part that changes what you can sell is what it does to the conversation. Today "
+          "anyone who messages you starts from zero, and you end up proving yourself in a chat "
+          "window one person at a time. When somebody has already watched three or four of your "
+          "videos, the proving is finished before they type. The conversation stops being about "
+          "whether you are legitimate and becomes about whether they are a fit. Those people are "
+          "the easiest to say yes to, and the easiest to turn away, and both of those are worth "
+          "having.")
+
+# --- 9. the two loops -----------------------------------------------------
+heading(doc, "Two loops almost nobody closes")
+para(doc, "Ask why. Everyone who joins the Discord, or pays you for anything, moved for a "
+          "specific reason and usually because of one specific piece of content. Ask them what "
+          "made them actually do it. Ask every time, write the answers down, and within a month "
+          "you will know which video does the work instead of guessing at it forever. It is one "
+          "question and almost nobody asks it.")
+para(doc, "Answer once, in public. You are handling real technical questions in your comments "
+          "one person at a time. Anything you get asked twice is a video. Anything somebody "
+          "hesitates over in the DMs is a video. The questions that keep coming back are the "
+          "ones standing between a person and working with you, and answering them publicly "
+          "means you stop having the same conversation fifty times.")
+
+# --- 10. the bio ----------------------------------------------------------
 heading(doc, "The bio")
-para(doc, "There is no link. That is the smallest fix on this list and the only one that costs "
-          "nothing to make: no filming, no editing, just a field.")
-para(doc, "A link to the channel would do four things. It gives the reach somewhere to land, "
-          "because 1,698 followers pulling 2,000 to 7,400 views a reel means most of the people "
-          "watching you are not following you yet. It answers the curiosity your reels create and "
-          "cannot satisfy in ninety seconds. It puts something permanent in front of the Discord, "
-          "so people arrive having watched you teach for fifteen minutes rather than arriving "
-          "cold. And a video keeps working at 2am four weeks from now, which a live room cannot "
-          "do.")
-para(doc, "Worth waiting until two or three of the new ones are up, though. Sending traffic to "
-          "the AMD videos right now would undersell what you are doing today.")
-
-# --- 9. smaller notes -----------------------------------------------------
-heading(doc, "Three smaller things")
-para(doc, "\"Sauce\" is yours. It closes both YouTube titles and it is in your captions. Right "
-          "now it sits in the spot where the promise usually goes, so it is doing the shape of a "
-          "hook without carrying anything. It could carry something.")
-para(doc, "Your comment replies are video topics. You are answering real technical questions "
-          "there, one person at a time, and those questions arrived pre-validated. The session "
-          "hours answer alone is a video.")
-para(doc, "Your highlights are Trades, Trade Recaps, Students and Payouts. All four prove. None "
-          "of them explain. Somebody can confirm you make money four different ways and still "
-          "leave the page not knowing what the ACE MODEL actually is.")
+para(doc, "There is no link. It is the smallest fix here and the only one that costs nothing to "
+          "make. 1,698 followers pulling 2,000 to 7,400 views a reel means most of the people "
+          "watching you are not following you yet, and every one of them currently hits a dead "
+          "end. Worth waiting until two or three of the new videos are up, though. Sending "
+          "traffic to the AMD videos today would undersell what you are doing now.")
 
 # --- 10. horizon note -----------------------------------------------------
 heading(doc, "One last thing")

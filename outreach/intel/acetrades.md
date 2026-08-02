@@ -228,7 +228,14 @@ The `dreamingw0z` comment. Quoting his own audience back to him proves we read t
 
 - **Prospect document, v1, 2026-08-02:** "Ace trades: what your own numbers already decided". Source at `output/acetrades-doc.html`, copy also in `C:\Users\Lenovoi\Desktop\Prospect Assets\acetrades\`.
 - Nine sections: the finding, his own view-count table, what is working, what it is costing him, seven title and thumbnail pairs, a publish order, the bio-link suggestion with reasoning, three smaller notes, and the horizon note. No CTA.
-- **Built as HTML rather than DOCX.** This laptop has no Node and no Python, and Word COM hangs on `Documents.Add`, which points at an unclicked Word first-run dialog. Google Drive imports HTML straight into Docs, which is what the send actually needs.
+- **v2, same day, founder steer: less explaining, more of what we actually know.** Cut the generic sections (publish order as its own block, the three smaller things, the four-reason bio argument). Added four that carry the mentorship expertise:
+  - **The proof problem.** Payout screenshots are the one proof type everyone can fake and everyone knows it, which is why his $4,49x post sits at 1,056. His unfakeable proof is the stranger's back-test comment, which he did not make. Underneath it: his payouts prove he can trade, not that he can transfer it, and a mentorship is bought on transfer. That comment is the only artifact on his page proving transfer, which makes the Students highlight his most valuable and least developed real estate.
+  - **Owning the words.** Instagram pushes, YouTube gets searched. His own vocabulary is an uncontested search lane. Terms compound where posts do not, and when other people use his words he becomes the person the method is named after.
+  - **What it looks like built.** Reel, then fifteen minutes of teaching, then the room, none of it needing him awake. The consequence for what he sells: people arrive with the proving already done, so the conversation is about fit instead of legitimacy.
+  - **Two loops almost nobody closes.** Ask every joiner and buyer which piece made them move, then make more of it. Answer any twice-asked question publicly instead of fifty times privately.
+- Word count 1,623. Zero em dashes, zero curly quotes, no placeholders, two deliberate fill slots.
+- **Built via Python (python-docx) after the founder installed Python 3.14.** Build script at `output/acetrades-doc-build.py`. Node is still absent on this machine.
+- **Built as HTML first, then rebuilt as DOCX.** This laptop has no Node and no Python, and Word COM hangs on `Documents.Add`, which points at an unclicked Word first-run dialog. Google Drive imports HTML straight into Docs, which is what the send actually needs.
 - **Not rendered.** The browser pane would not composite a screenshot, so the visual check required by [[playbooks/prospect-asset-doc-standard]] has not been done. Do it before this goes to Andersen. Once Word is unblocked, convert to DOCX and PDF, render the pages, and look at them.
 
 ## Planned asset
