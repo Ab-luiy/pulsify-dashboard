@@ -124,6 +124,24 @@ One further tile showed 132 likes and 18 comments on hover rather than a view co
 
 **This changes the asset.** The founder's brief was a dormant channel repackage. Two uploads is not a back catalogue. This is a launch with two pieces of history, so the asset leads with the launch and treats the existing two as a before-and-after demonstration rather than the main event.
 
+### Source 07 — the two YouTube uploads, founder screenshot 2026-08-02
+
+| Title | Views | Age | Length |
+|---|---|---|---|
+| AMD MODEL in 5 min (Sauce) | 176 | 4 months | 6:32 |
+| FVGs and IFVGs for begginers (SAUCE) | 63 | 4 months | 14:37 |
+
+**Thumbnails:** both show him in a blue blazer, stiff arms-out pose, heavily retouched. Video 1 pairs "AMD MODEL EXPLAINED" with a diagram labelled accumulation, manipulation, distribution. Video 2 is a NOOB red X versus PRO green tick split with "FVG & IFVG" across the bottom.
+
+**What this establishes, and it is the biggest finding in the file:**
+
+- **He was teaching someone else's model.** AMD, FVG and IFVG are standard, heavily-taught concepts in this corner of the market, not his coinage. His own thumbnail spells the AMD diagram out as accumulation / manipulation / distribution. Four months ago on YouTube he was making commodity content that thousands of channels already make. Today on Instagram he teaches his own rules under his own name: ACE MODEL, top tic, bottom tic, setup three, the two-five-minute-closure confirmation. **The channel is not broken, it is four months out of date. It predates the thing that now works.** If the founder knows AMD to be Andersen's own coinage, correct this.
+- **The blazer is confirmed across both platforms.** Both thumbnails are the dressed-up version of him, and his lowest-performing Instagram reel at 811 views is the blazer and gaming chair one. Three independent data points from his own accounts say the same thing: the more produced he looks, the worse it does. The hoodie and the raw chart are the winning format and his numbers already proved it.
+- **He can already make a fifteen-minute video.** 14:37 on the FVG upload. Long-form capability is not a question mark.
+- **"Sauce" is his word and it is doing nothing.** "(Sauce)" and "(SAUCE)" close both titles, and the June 29 reel caption used it too. It occupies the parenthetical-kicker slot without carrying any payload. Keep the word, upgrade what it promises.
+- **Neither title carries a figure, a stake or a result**, and one has a typo, "begginers".
+- 176 and 63 views on YouTube against 7,371 for the same craft on Instagram. Different platform mechanics, same operator, four months apart.
+
 ## Packaging pass, 2026-08-02
 
 Run through the titles-thumbnails skill. Every dollar figure below comes from his own material. Nothing invented. Items marked VERIFY need his confirmation before they appear in a prospect-facing document.
@@ -170,7 +188,14 @@ Thumbnail text: `setup 3 is the one` / background: clean numbered board of the s
 Pillar 1, MOF. CTA: Discord.
 `[N]` stays a fill slot. He has never stated how many setups exist. Do not guess it.
 
-**Publish order for the launch:** 2, then 3, then 1, then 4, then 5, then 6. Lead with the angle his own audience already rewarded, follow with the cheapest belief breaker, then the flagship once two videos have proven the format.
+**7. The reclaim, added after source 07**
+Formula C, expose / the system that. Adapted from Dustin Varano.
+Title: `i taught the amd model wrong, here's the ace version (full system)`
+Thumbnail text: `four months ago, wrong` / background: his old blazer thumbnail on the left, the raw hoodie-and-chart frame on the right / icon: none / expression: deadpan in the new frame / harmony: the thumbnail admits the gap, the title names what replaced it.
+Pillar 3, TOF. CTA: Discord.
+Why it works: it takes his single most-viewed YouTube upload and reclaims the topic under his own mechanism, and the before-and-after thumbnail is the whole positioning argument in one image. Also the cheapest possible first upload, since the audience for the old video already exists.
+
+**Publish order for the launch:** 2, then 3, then 1, then 4, then 5, then 6, with 7 usable as the opener instead of 2 if he wants the channel reset stated out loud. Lead with the angle his own audience already rewarded, follow with the cheapest belief breaker, then the flagship once two videos have proven the format.
 
 **Thumbnail layout:** screen-recording and raw-photo patterns from [[content-engine/thumbnail-layout-patterns]]. No yellow bar, since that is ratified for board thumbnails only.
 
