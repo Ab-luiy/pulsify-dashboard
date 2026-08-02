@@ -115,6 +115,65 @@ One further tile showed 132 likes and 18 comments on hover rather than a view co
 
 **Vocabulary bank for packaging:** sweep of London high / London low, two five-minute candle closures, swing high, fib .5 / .588 / .702 / .298, volume profile, volume area low, bottom tick, continuation trade, runner, one-to-one high risk, setup three, market open, True Day Open, top tic.
 
+### Source 06 — YouTube channel, read live 2026-08-02
+
+`https://www.youtube.com/@ACETRADESOFFICIAL/videos`
+
+- **141 subscribers, 2 videos.** Channel description: "Join the Discord".
+- The video grid would not render in the in-app browser, so the two titles, view counts and upload dates are still missing. Founder has the channel open in his own tab.
+
+**This changes the asset.** The founder's brief was a dormant channel repackage. Two uploads is not a back catalogue. This is a launch with two pieces of history, so the asset leads with the launch and treats the existing two as a before-and-after demonstration rather than the main event.
+
+## Packaging pass, 2026-08-02
+
+Run through the titles-thumbnails skill. Every dollar figure below comes from his own material. Nothing invented. Items marked VERIFY need his confirmation before they appear in a prospect-facing document.
+
+**1. Flagship — the full system**
+Formula C, expose / the system that. Adapted from Dustin Varano.
+Title: `the ace model that made $1,100 in a day (full system)`
+Thumbnail text: `sweep, retrace, done` / background: his own TradingView chart, dark, marked levels / icon: none / expression: deadpan, hoodie / harmony: the thumbnail gives the three-beat mechanic, the title supplies the name and the number.
+Pillar 1, TOF. CTA: Discord, named as the place he trades it live.
+Source: transcript 04. VERIFY the $1,100 was a single session.
+
+**2. His proven angle — bottom tick continuation**
+Formula E, how I plus system. Adapted from Mason Bowstead.
+Title: `how i bottom tick a retrace for $1,282 (step-by-step)`
+Thumbnail text: `two closures, then entry` / background: five-minute chart with the swing high marked / icon: none / expression: mild surprise / harmony: the thumbnail states the confirmation rule, the title states the payoff.
+Pillar 1, TOF. CTA: Discord.
+Source: transcript 05, reel at 7,371 views. VERIFY the $1,282.50 closed trade came from this setup.
+
+**3. Belief breaker — choppy tape**
+Formula D, contrarian. Adapted from Grant Garcia.
+Title: `don't avoid choppy days, they paid me $1,100 (full breakdown)`
+Thumbnail text: `unusable to them` / background: the choppy session everyone complained about / icon: none / expression: deadpan / harmony: the thumbnail is the crowd's verdict, the title is his.
+Pillar 3, TOF. CTA: Discord.
+Source: transcript 04.
+
+**4. Belief breaker — psychology**
+Formula D, contrarian. Adapted from Mason Bowstead.
+Title: `1 hour a night fixed my trading psychology (do this)`
+Thumbnail text: `not a mindset issue` / background: replay software on screen, not a chart / icon: none / expression: flat, direct to camera / harmony: the thumbnail kills the assumed cause, the title names the fix and the dose.
+Pillar 3, MOF. CTA: Discord or a free backtesting template.
+Source: transcript 03. His strongest reframe. Do not repeat "psychology issues would vanish".
+
+**5. Live process**
+Formula B, watch me do it live. Adapted from Grant Garcia.
+Title: `watch me take $733 off one sweep live (step-by-step)`
+Thumbnail text: `london high, 9:31am` / background: two-monitor desk, real room / icon: none / expression: mid-trade concentration / harmony: the thumbnail sets the exact moment, the title sets the outcome.
+Pillar 2, MOF. CTA: Discord.
+Source: grid payout card +$733.50. VERIFY that payout came from a single sweep trade.
+
+**6. Curriculum anchor**
+Formula E, how I plus system. Adapted from Mason Bowstead.
+Title: `the [N] setups in the ace model explained (full system)`
+Thumbnail text: `setup 3 is the one` / background: clean numbered board of the setups / icon: none / expression: deadpan / harmony: the thumbnail picks a favourite, the title promises the whole set.
+Pillar 1, MOF. CTA: Discord.
+`[N]` stays a fill slot. He has never stated how many setups exist. Do not guess it.
+
+**Publish order for the launch:** 2, then 3, then 1, then 4, then 5, then 6. Lead with the angle his own audience already rewarded, follow with the cheapest belief breaker, then the flagship once two videos have proven the format.
+
+**Thumbnail layout:** screen-recording and raw-photo patterns from [[content-engine/thumbnail-layout-patterns]]. No yellow bar, since that is ratified for board thumbnails only.
+
 ## Emerging read
 
 - **The content pillar is healthy and his audience has already voted.** They reward the method and ignore the money posts. The diagnosis is not "make different content", it is that the best content has nowhere permanent to live.
