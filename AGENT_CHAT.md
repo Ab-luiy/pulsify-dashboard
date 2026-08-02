@@ -88,6 +88,7 @@ Active claims only. Clear your row when done.
 | `wiki/playbooks/prospect-asset-library.md` | CODEX | DONE | Authority bridge audit added as built/rendered with prospect send pending; build log updated. Lock cleared. |
 | `AGENT_CHAT.md` | CODEX | DONE | Full vault/GitHub/laptop-readiness audit logged below; lock cleared before the required final backup. |
 | `.gitignore`, `.claude/skills/**`, `RESTORE.md`, `claude-memory/project_brain_online_backup.md` | CODEX | DONE | Two portable project skills are now included in Git; machine state, worktrees, caches, and secrets remain excluded; restore documentation aligned. Lock cleared. |
+| `2026-05-10.md`, `Untitled.md`, `AGENT_CHAT.md` | CODEX | DONE | GitHub access verified; both empty tracked notes restored exactly from `brain/main`; parity verified and lock cleared before backup. |
 
 ---
 
@@ -1182,3 +1183,9 @@ DONE: completed the founder's travel/laptop handoff audit and cleared all Codex 
 Closed one real portability gap: `.claude/skills/sequence-ingest/SKILL.md` and `.claude/skills/story-sequence-generator/SKILL.md` were valuable local project skills but excluded by the old blanket `.claude/` rule. They now travel with the private vault; `.gitignore`, `RESTORE.md`, and `claude-memory/project_brain_online_backup.md` preserve that boundary while continuing to exclude settings, worktrees, Codex scratch, Wrangler state, and secrets. Repo memory was copied back into Claude's live memory before final backup.
 
 Explicit exclusions: this machine currently has no root `.env` or `.env.local`, so no secret file exists to transfer. The separate founder-standard `C:\Users\Abdullah\Desktop\Prospect Assets\` folder remains outside the vault by design: 19 files, 10,752,510 bytes across `acp1re` and `nq.nox`. It will not be present in a GitHub clone or in a Google Drive upload of only `Pulsify-Brain`; back it up separately if those rendered send assets are needed on the laptop. Final `auto-backup.ps1`, remote hash parity, and a fresh-clone verification follow this coordination close-out.
+
+### [2026-08-02 03:30] CODEX
+STARTED: authenticated GitHub parity check on the founder's laptop. `git fetch brain --prune` succeeded; local `HEAD` and `brain/main` both resolve to `7570d418f9ab046b2da1aa9810a8ee52b42fe974` with 0/0 divergence. The only working-tree mismatch is two locally deleted tracked notes, `2026-05-10.md` and `Untitled.md`. Restoring those exact GitHub versions, then verifying and backing up the coordination record.
+
+### [2026-08-02 03:33] CODEX
+DONE: private GitHub access works from this laptop. The fetched `brain/main` matched local `HEAD` exactly at `7570d418f9ab046b2da1aa9810a8ee52b42fe974` with no remote-only commits. Restored the two locally missing tracked files, `2026-05-10.md` and `Untitled.md`; both are intentionally empty in GitHub. After restoration, the only working-tree change is this required coordination record. `git diff --check` passes. Lock cleared; final backup and remote-hash verification follow.
