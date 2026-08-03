@@ -166,6 +166,38 @@ for i, (title_text, note, img) in enumerate(rows):
 para(doc, "Crop to the one element that matters, lose the browser chrome, and put your face in a "
           "corner. There is not a single face anywhere on the channel.", before=7)
 
+# --- references -----------------------------------------------------------
+para(doc, "Two from other channels, untouched, so you can see what that looks like when "
+          "somebody does it properly.", size=9, color=MUTED, before=10, after=6)
+
+refs = [
+    ("XQB7y00msmc-HD.jpg",
+     "Also a screen recording, same as yours. The figures are the biggest thing in the frame, "
+     "the face sits small in a corner, and nothing has been added on top. No headline, no "
+     "arrows, no banner. This is the tidy version of what you are already making."),
+    ("KnbqLjGzD3k-HD.jpg",
+     "No numbers anywhere. Two real faces in a real room, and the question the video answers "
+     "written straight onto the picture. Quiet works in this niche, and there is not one face on "
+     "your channel."),
+]
+REFS = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain\raw-sources\inspiration\thumbnail-retouch-references"
+rt = doc.add_table(rows=len(refs), cols=2)
+rt.alignment = WD_TABLE_ALIGNMENT.LEFT
+rt.autofit = False
+bs = OxmlElement("w:tblBorders")
+for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
+    e = OxmlElement("w:" + edge); e.set(qn("w:val"), "none"); bs.append(e)
+rt._tbl.tblPr.append(bs)
+for i, (f, cap) in enumerate(refs):
+    lc, rc = rt.rows[i].cells[0], rt.rows[i].cells[1]
+    lc.text = ""
+    p1 = lc.paragraphs[0]; spacing(p1, 5, 5, 1.0)
+    p1.add_run().add_picture(os.path.join(REFS, f), width=Inches(2.5))
+    rc.text = ""
+    p2 = rc.paragraphs[0]; spacing(p2, 5, 5, 1.18)
+    set_font(p2.add_run(cap), BODY, 8.5, MUTED)
+    lc.width, rc.width = Inches(2.65), Inches(3.45)
+
 # --- the landing page -----------------------------------------------------
 heading(doc, "Your 1 on 1 page, rewritten")
 para(doc, "Yours lists six deliverables that every mentorship page in the niche lists. Same "
