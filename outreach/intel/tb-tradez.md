@@ -46,6 +46,30 @@ Further row visible without counts: Trade of the day 29/07/26, NQ SMT schematic,
 
 **The four TB Trading Concept videos share one identical thumbnail.** Same photo of him in a grey hoodie, holding an iPhone showing "TRADING $1,600,000", same yin-yang sphere, same red-and-green chart background. Only the headline word changes: LIQUIDITY, MARKET STRUCTURE, CANDLE STICKS, WHY 90% FAIL. The Bali video is the only one with a different image.
 
+### Source 02b — the thumbnails pulled at full resolution, 2026-08-02
+
+Scraped the video IDs off the channel HTML and downloaded every thumbnail at max resolution into `C:\Users\Lenovoi\Desktop\Prospect Assets\tb-tradez\`.
+
+| File | Video |
+|---|---|
+| `yt-1FlbO1Xm4xE.jpg` | LIQUIDITY |
+| `yt-xyJ2LMZTldc.jpg` | MARKET STRUCTURE |
+| `yt-mVm6Dhz21hg.jpg` | CANDLE STICKS |
+| `yt-ouT5JtOJHQs.jpg` | WHY 90% FAIL |
+| `yt-HWi8jbUZyUw.jpg` | POV, Bali |
+
+**What the full-resolution images show that the screenshot did not:**
+
+- **The phone clock reads 1:89.** On every one of the four. That is not a time that exists. The phone screen in his hand is fabricated, and it is the same fabricated screen four times. Anyone who looks at the thumbnail for two seconds can see it.
+- **Two different numbers.** The four concept thumbnails show TRADING $1,600,000. The Bali thumbnail shows a portfolio at $27,540.82, up $2,145.75 (8.47%) today. Same person, same channel, two claims that do not agree.
+- **The base photograph is identical**, not merely similar: same grey hoodie, same pose, same phone in the left hand, same optical-illusion sphere in the right, same blurred office with a red chart left and a green chart right. Only the headline word changes.
+- On LIQUIDITY the headline runs behind his hood and letters are partially occluded, so the one word carrying the whole thumbnail is hard to read at feed size.
+- His face is real and unretouched, visible skin texture and all. The face is the honest part of the image. Everything he is holding is not.
+
+This is the strongest single piece of evidence in the file, and it is the FITFO move done properly: his own asset, shown back, with the thing he has stopped noticing pointed at.
+
+**Instagram reel covers could not be pulled.** IG blocks it, per the standing note in memory. If the 101K cover is needed in the doc the founder has to save it manually.
+
 ## Source 03 — tbtradez.com (read live 2026-08-02)
 
 Next.js site. Header has Enter Giveaway, Instagram, YouTube, Join Discord.
