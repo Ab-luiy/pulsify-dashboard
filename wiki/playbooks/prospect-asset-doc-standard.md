@@ -106,6 +106,18 @@ Founder directive 2026-08-02, after the first TB Tradez draft was rejected. The 
 
 **The horizon note stays short and human.** Two sentences. Do not worry about the follower count, keep the consistency and it comes in time; apply this and it should move faster. No lecture, no numbers parade.
 
+## Ease in, then cut it in half
+
+Two founder steers on the same TB draft, 2026-08-02.
+
+**Ease in.** The framework-led v2 opened on "content does two jobs" and read as though the reader had missed page one. Cold-opening on a framework feels out of context no matter how right the framework is. Open the way [[raw-sources/scripts/Ben-Bader-Emails]] opens: a hook the reader recognises from their own life, a beat of white space, then the bridge into the point. For TB that was "101,000 people watched. Then you checked your followers," followed by "same feeling as a green day that does not really move your account." Orientation first, diagnosis second.
+
+**Bader mechanics to carry across:** short paragraphs, often a single sentence. White space as punctuation. The one-line paragraph used for the landing beat. Plain conversational register, no polish. Concrete analogies drawn from the reader's own world rather than from marketing. Name the reader's inner objection before answering it. What does not carry: the crude language and the flexing.
+
+**Then cut half.** The valuable version is short. Five pages of Google Doc reads as work to get through, and the reaction we want is "this was the most valuable thing I read this week," which is a function of density, not volume. TB v2 was 1,719 words, v3 is 1,203 with every section intact. What got cut was the second and third paragraph of each section, which were almost always restatement.
+
+**Working rule:** two pages of prose plus the image tables. If a section needs three paragraphs, one of them is repeating the other two.
+
 ## Upgrades queued
 
 Ratified and in force:
