@@ -104,9 +104,9 @@ for a in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
 rpr.append(rf)
 
 # --- title + ease in ------------------------------------------------------
-para(doc, "101,000 people watched. Then you checked your followers.",
+para(doc, "did the boring work for you",
      size=16, bold=True, after=2, line=1.1)
-sub = para(doc, "Built for TB, August 2026. Everything below is finished work, not notes.",
+sub = para(doc, "Built for TB, August 2026. All of this is done, none of it is homework.",
            size=9, color=MUTED, after=12, line=1.2)
 bottom_rule(sub)
 
@@ -122,19 +122,15 @@ para(doc, "So rather than write you a list of things that are wrong, I built the
 heading(doc, "Four things, quickly")
 dot(doc, "Your best reel is the one anybody could have made. Your best thinking, the 140 point "
          "read, did 1,141 views.")
-dot(doc, "Four uploads, one photograph. Nobody who clicked the first has a reason to click the "
-         "second.")
-dot(doc, "The phone in those thumbnails reads 1:89, and they say $1,600,000 while the Bali one "
-         "says $27,540. Take the numbers off entirely.")
 dot(doc, "Liquidity, market structure and candlesticks are ICT. Your own idea, think in "
          "objectives, is buried at the end of a reel.", after=6)
 para(doc, "That last one is what everything below is built on.", size=9, color=MUTED)
 
 # --- the bio --------------------------------------------------------------
 heading(doc, "Your bio, rewritten")
-para(doc, "Yours currently promises free teaching and giveaways, which brings people who want "
-          "free things. This one names a pain and a method, so it brings people who have the "
-          "problem.", size=9, color=MUTED, after=6)
+para(doc, "Yours promises free teaching and giveaways, so it brings people who want free "
+          "things. This one names a pain, so it brings people who have it.",
+     size=9, color=MUTED, after=6)
 mono_line(doc, None, "19. nq futures.")
 mono_line(doc, None, "i teach one thing: why price takes your stop before your target")
 mono_line(doc, None, "the objectives method, free on youtube")
@@ -167,18 +163,15 @@ videos = [
       "How to check that yourself before the open, so it is a rule rather than a feeling."]),
     ("$70 away from passing an eval, then this (full breakdown)",
      "Thumbnail: $70 short. The real eval screen, your own.",
-     ["The trade that left you $70 short and what was going through your head.",
-      "What you did next, honestly, including anything that made it worse.",
+     ["The trade that left you $70 short, and what you did next, honestly.",
       "The rule you now have so it cannot happen the same way twice."]),
     ("why 90% fail, and it isn't discipline (full breakdown)",
      "Thumbnail: not discipline. At the desk, hood down, hands empty.",
-     ["The usual answer, discipline, and why it explains nothing.",
-      "What is actually happening: no defined objective, so every stop feels personal.",
-      "The one change that fixes it, which is the same idea as video one, said differently."]),
+     ["Why discipline explains nothing, and what is actually happening instead.",
+      "The one change that fixes it, which is video one said differently."]),
     ("the 5 rules i'd give myself at 17 (step-by-step)",
      "Thumbnail: before my first eval. Being nineteen is the part nobody can copy off you.",
-     ["Where you started and what you actually believed then.",
-      "The five rules, one at a time, with the mistake each one came from.",
+     ["The five rules, one at a time, with the mistake each one came from.",
       "What you would skip entirely if you were starting today."]),
 ]
 for i, (t, thumb, beats) in enumerate(videos, start=1):
@@ -232,13 +225,12 @@ for i, (title_text, note, img) in enumerate(rows, start=1):
     left.width, right.width = LW, RW
     cell_border(left); cell_border(right)
 
-para(doc, "No numbers on any of them. A figure in your marketing brings people earning about a "
-          "third of it, so $1,600,000 brings someone daydreaming about half a million who has "
-          "never funded an account. $70 away from passing brings the person holding an evaluation "
-          "right now, and he is your whole market.",
-     size=9, color=MUTED, before=7)
-para(doc, "Also drop \"TB Trading Concept\" off the end of the titles. It eats the characters "
-          "that show in search.", size=9, color=MUTED)
+para(doc, "No numbers on any of them, and the phone currently reads 1:89. A figure in your "
+          "marketing brings people earning about a third of it, so $1,600,000 brings someone "
+          "daydreaming about half a million who has never funded an account. $70 away from "
+          "passing brings the person holding an evaluation right now, and he is your whole "
+          "market. Drop \"TB Trading Concept\" off the titles too, it eats the characters that "
+          "show in search.", size=9, color=MUTED, before=7)
 
 # --- the story sequence ---------------------------------------------------
 heading(doc, "A story sequence, written out")
@@ -284,14 +276,40 @@ sub_line(doc, "What is at my stop. What is at my target. Which timeframe owns ea
 sub_line(doc, "One page, your handwriting or a plain doc, no design needed. Given for an email, "
               "not a follow. Put it in the bio and at the end of every video.")
 
-# --- where you could go differently --------------------------------------
-heading(doc, "Where you could go differently")
-para(doc, "Ask every person who joins the Discord what made them join, and write the answers "
-          "down. Within a month you stop guessing which content works. Likes will not tell you "
-          "this; the people who comment are almost never the people who buy.")
-para(doc, "And the site is a checkout, not a funnel. Everything on it is a transaction and "
-          "nothing on it captures anybody, so every visitor is borrowed. The one page above would "
-          "sit better there than the giveaway does.")
+# --- notes that are not content ------------------------------------------
+heading(doc, "Five things that are not content")
+para(doc, "Because the content is the half everyone looks at, and this is the half that decides "
+          "what it is worth.", size=9, color=MUTED, after=6)
+
+notes = [
+    ("Your income has a ceiling built into it.",
+     "Affiliate commission pays once at signup, whether they pass the eval or blow the account "
+     "in a week. Nothing you do after that earns you anything, so the number is capped by how "
+     "many strangers you can send, forever."),
+    ("You have 1,200 people and you own none of them.",
+     "Discord owns that room. One ban, one policy change, one hacked account and it is gone with "
+     "everyone in it. The one page above is the cheapest fix there is."),
+    ("Start collecting student proof before you need it.",
+     "Somebody in there will pass an eval this month. Their screenshot, where they started, the "
+     "message they sent you. Ask now and keep a folder, because when you eventually sell "
+     "anything that folder is the only thing that will sell it, and you cannot go back and "
+     "collect it later."),
+    ("Free forever is a decision you are making by not making it.",
+     "\"It is free right now, not forever\" is already in your reels with no date and no price "
+     "behind it. Announcing something you have not decided trains people to wait for it."),
+    ("Your site is a checkout, not a funnel.",
+     "Everything on it is a transaction and nothing on it captures anybody, so every visitor you "
+     "have ever sent there is borrowed."),
+]
+for title_text, note in notes:
+    p = doc.add_paragraph()
+    spacing(p, 7, 1, 1.18)
+    set_font(p.add_run(title_text), BODY, 10, INK, bold=True)
+    sub_line(doc, note)
+
+para(doc, "And the cheapest thing on the whole list: ask everyone who joins what made them "
+          "join, and write it down. Within a month you stop guessing. Likes will not tell you "
+          "this, the people who comment are almost never the people who buy.", before=8)
 
 # --- close ----------------------------------------------------------------
 heading(doc, "Last thing")
