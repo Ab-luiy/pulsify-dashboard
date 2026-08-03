@@ -185,17 +185,19 @@ para(doc, "Three things it still needs that only you have. Your funded screensho
           "naming who it is not for, because a page that turns nobody away reads like it will "
           "take anybody.", size=9, color=MUTED, before=7)
 
-# --- the linktree ---------------------------------------------------------
-heading(doc, "Your Linktree, reordered")
-mono_line(doc, None, "1  apply to work 1 on 1 with me")
-mono_line(doc, None, "2  join the free discord")
-mono_line(doc, None, "3  my youtube, daily uploads")
-mono_line(doc, None, "4  prop firm discounts, code LUKEX")
-mono_line(doc, None, "5  instagram, tiktok, x")
-para(doc, "The three firm links become one. As three separate rows the page reads as an "
-          "affiliate hub with a mentorship attached rather than the other way round, and the "
-          "application is currently eighth. Same on Instagram, where five of the seven highlights "
-          "are other companies' logos.", size=9, color=MUTED, before=6)
+# --- kill the linktree ----------------------------------------------------
+heading(doc, "Drop the Linktree, send them to the channel")
+para(doc, "Ten options is a menu, and a menu makes somebody choose. Most people choose nothing "
+          "and close it. Right now the only thing on that page that pays you properly is eighth, "
+          "under three discount codes.")
+para(doc, "One link straight to YouTube does more, because that is where you already are. The "
+          "person who lands there does not pick from a list, they watch you trade for seven "
+          "minutes, and the codes and the application are waiting in the description of every "
+          "video by the time they actually want them.")
+para(doc, "Nothing is lost. A code clicked by somebody who just watched you pass an eval "
+          "converts better than one clicked off a menu by somebody who has not, and the "
+          "highlight rail can carry the same job on Instagram, where five of the seven are "
+          "currently other companies' logos.", size=9, color=MUTED)
 
 # --- close ----------------------------------------------------------------
 heading(doc, "Last thing")
