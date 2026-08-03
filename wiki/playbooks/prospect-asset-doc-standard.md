@@ -92,6 +92,20 @@ What it must not do:
 
 Anchor it in something real from their own account wherever possible. Audience quality evidence is the strongest anchor: a detailed comment from a stranger, a saved-to-shared ratio, someone quoting their method back to them. That turns the reframe from encouragement into an observation.
 
+## Lead with the framework, not the audit
+
+Founder directive 2026-08-02, after the first TB Tradez draft was rejected. The register of these documents is a Niksetting or SooWei diagnosis, not a freelancer's notes.
+
+**The failure mode:** cataloguing details and calling it strategy. A section on a fabricated phone clock. Three paragraphs on a website's markup. Advice invented in the moment because it sounded reasonable. It reads as endless yap on a Google Doc and it destroys the authority the document exists to establish.
+
+**The rule:** open at the system level and stay there. Name which job is broken, which of the five conversion assets exist, which trust stage they are selling at, whether long form is the master asset or an afterthought, whether the mechanism is theirs or borrowed. Details earn a line, never a section. "These thumbnails look unrealistic, the numbers contradict each other, take the numbers off" is the whole thumbnail finding. What follows it must be the framework reason it matters, in TB's case that a promised figure attracts people earning a third of it, so a seven-figure number attracts nobody who is actually trading.
+
+**Source the diagnosis from the vault, every time.** [[synthesis/cross-creator-synthesis]] for the laws, [[frameworks/instagram-conversion-assets]] for the five assets and the governing math, [[frameworks/proof-system]] for proof hierarchy, [[content-engine/reel-format-ladder]] and [[playbooks/content-operating-rhythm]] for cadence. If a claim in the document cannot be traced to one of those, it is an opinion and it comes out.
+
+**Authority on the diagnosis, optional on the prescription.** "This is how it works and here is where yours is broken" is declarative. What they do about it stays "you could." Both rules hold at once.
+
+**The horizon note stays short and human.** Two sentences. Do not worry about the follower count, keep the consistency and it comes in time; apply this and it should move faster. No lecture, no numbers parade.
+
 ## Upgrades queued
 
 Ratified and in force:
