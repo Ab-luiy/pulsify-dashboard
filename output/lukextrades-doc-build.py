@@ -199,23 +199,58 @@ for i, (f, cap) in enumerate(refs):
     lc.width, rc.width = Inches(2.65), Inches(3.45)
 
 # --- the landing page -----------------------------------------------------
-heading(doc, "Your 1 on 1 page, rewritten")
-para(doc, "Yours lists six deliverables that every mentorship page in the niche lists. Same "
-          "offer, written from the buyer's side.", size=9, color=MUTED, after=6)
+heading(doc, "Your 1 on 1 page needs replacing, not rewriting")
+para(doc, "The Carrd page has no video, no proof, no price and no form. \"Apply here\" opens an "
+          "email, which means every application you have ever had left no record, no follow up "
+          "and no way to know who was interested and went quiet.")
+para(doc, "It also asks a stranger to commit to three months on the strength of six bullets they "
+          "have read on every other mentorship page in the niche. Nothing on it proves you can "
+          "teach, which is a different thing from proving you can trade, and it is the thing "
+          "being bought.")
+para(doc, "What belongs there instead is a video page with the application inside it. Top to "
+          "bottom:", after=6)
 
-mono_line(doc, None, "for the trader who keeps failing evals with a strategy that already works")
-sub_line(doc, "Three months, one on one, with someone trading the same instrument you are.")
-sub_line(doc, "")
-sub_line(doc, "A weekly call where we go through your trades, not mine.")
-sub_line(doc, "You can message me before you take it, instead of after you blow the account.")
-sub_line(doc, "Every trade reviewed, including the ones you would rather not show me.")
-sub_line(doc, "A written plan every week, and somebody who notices when you ignore it.")
-sub_line(doc, "The part where we work out why you keep breaking your own rules.")
+page = [
+    ("Headline", "How I passed a 50K Alpha Futures eval in one trade, and how I teach it. Lead "
+                 "with the real result, not the product name. You already have the result."),
+    ("One line under it", "Who this is for. \"For traders who keep failing evals with a strategy "
+                          "that already works.\""),
+    ("The video", "Large, immediately, nothing above it except the headline. Six to twelve "
+                  "minutes."),
+    ("The form", "Embedded directly under the video, on the page. Not an email address. This is "
+                 "the piece that changes everything, because it gives you a record of every "
+                 "person who was interested."),
+    ("Proof", "Underneath the form. Your funded screenshots to start, student results as they "
+              "arrive. If there is nothing yet, the section stays off rather than announcing the "
+              "gap."),
+    ("The same button again", "One destination, repeated. Never a second offer."),
+]
+for label, note in page:
+    p = doc.add_paragraph()
+    spacing(p, 6, 1, 1.18)
+    set_font(p.add_run(label + ".  "), BODY, 9.5, ACCENT, bold=True)
+    set_font(p.add_run(note), BODY, 9, MUTED)
 
-para(doc, "Three things it still needs that only you have. Your funded screenshots, dated, "
-          "numbers visible. The price on the page rather than after an email. And one line "
-          "naming who it is not for, because a page that turns nobody away reads like it will "
-          "take anybody.", size=9, color=MUTED, before=7)
+para(doc, "The video, six beats", size=10, bold=True, before=11, after=3)
+sub_line(doc, "1. The result, who it is for, and how it works. In that order, in the first "
+              "minute. Not your background.")
+sub_line(doc, "2. The exact frustration. Passing sim, failing funded. The strategy works and the "
+              "account still dies.")
+sub_line(doc, "3. Why that happens and what you do differently. Let them judge the logic, not "
+              "the claim.")
+sub_line(doc, "4. Proof. Result first, backstory second. Never the other way round.")
+sub_line(doc, "5. What they get, who it is for, and what it costs. Say the price out loud. "
+              "Anyone still watching at that point can hear it.")
+sub_line(doc, "6. One instruction: fill in the form below.")
+
+para(doc, "The form, six questions", size=10, bold=True, before=11, after=3)
+sub_line(doc, "What are you trading now, and for how long. How many evals have you taken and "
+              "what happened. What is the strategy you are running. What do you think is "
+              "actually going wrong. What can you invest in fixing it. How soon do you want to "
+              "start.")
+para(doc, "Those six do the filtering so you are not spending an hour on somebody who was never "
+          "going to buy, and the answers tell you what to say on the call before it starts.",
+     size=9, color=MUTED, before=5)
 
 # --- kill the linktree ----------------------------------------------------
 heading(doc, "Drop the Linktree, send them to the channel")
