@@ -1225,3 +1225,17 @@ Ran a full link-resolution audit: 1,918 wikilinks across the vault, 72 unresolve
 The one genuine gap left is a set of `raw-sources/` documents that pages cite but that were never filed into the vault: the lead-sourcing SOP, the first Alexei transcript, both PulsifyMedia MSAs, the creator-profile prompt template, and the thumbnail-retouch references. Those are cited claims with no source trail behind them, which is exactly what the source-trail rule exists to prevent.
 
 Files touched: `codex-handoff.md`, `wiki/content-engine/next-video-sales-funnel-automation.md`, `wiki/playbooks/claude-codex-collaboration.md`, `wiki/playbooks/pulse-system-outreach.md`, `wiki/synthesis/ai-infrastructure-positioning-patterns.md`, `wiki/synthesis/operator-vsl-study-map.md`, `wiki/synthesis/personalized-cold-outreach-vsl-architecture.md`, `wiki/synthesis/vsl-pattern-lab.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-02] decision | Prospect asset SOP: the pipeline, and two permanent tools
+
+Founder asked for a standard procedure after `_acetrades_` and `tb.tradez` were built back to back. Both builds rediscovered the same steps, rewrote the same three throwaway scripts, and the TB document was rebuilt four times before the shape was right. The craft was settled; the pipeline was not.
+
+New page at `wiki/playbooks/prospect-asset-sop.md`, five phases. Collect (scrape, log every source into the intel file first, look at thumbnails at full resolution before anything else). Diagnose (which pillar, score the five conversion assets, which trust stage, is the mechanism theirs, find the idea they own and have not named, one-sentence leak, then give the founder the read before building). Build (copy the last script, four lines of observation then four fifths built work, under 1,500 words). Verify (the checker, then actually look at the rendered pages). Ship and log (Drive, then the build log and the outcome).
+
+Two throwaway scripts became permanent tools. `tools/pull_creator_assets.py` scrapes a YouTube handle for video IDs and downloads every thumbnail at max resolution into the prospect's Desktop folder; this is the step that produced the strongest finding in both builds. `tools/check_prospect_doc.py` runs the pre-send checks: banned glyphs, the AI-tell patterns from the copy voice guide, stray placeholders, image count, and word count against the 1,500 ceiling. Tested against the TB v4 doc, passes clean.
+
+Three doctrine sections also landed on `prospect-asset-doc-standard.md` from the same session, in the order they were given: a value asset is built work rather than a diagnosis (the governing one), lead with the framework rather than the audit, and ease in Ben Bader style then cut it in half.
+
+The honest gap, recorded in the SOP: no reply data on any asset built so far, so all of this is craft-validated and none of it is results-validated. Word COM is still hanging on this machine so the render step falls to the founder.
+
+Files touched: `wiki/playbooks/prospect-asset-sop.md` (new), `tools/pull_creator_assets.py` (new), `tools/check_prospect_doc.py` (new), `wiki/playbooks/prospect-asset-doc-standard.md`, `outreach/intel/tb-tradez.md`, `output/tbtradez-doc-build.py`.
