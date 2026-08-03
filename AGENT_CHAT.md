@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | ACTIVE | 2026-08-03 founder-directed Variant 02 promotion and visual rebuild: canonical Frank typography discipline with a dark black/crimson/deep-purple vector skin; shared mounts and content-token contract preserved. |
 | `clients/fitfo/*` | CLAUDE | DONE | 2026-07-30 ingested BOTH 2026-07-29 Fathom calls (call 2 pasted by founder after the browser retrieval failed). Call doc for each, 6 new decisions total, overview.md + progress.md updated with real content metrics. Conditions-draft: only 2 of original 6 DECIDE items remain (revenue definition; termination/exit, now the single largest exposure — Carlos asked directly and got no clause). 70/30 and the $3k first-dollars trigger both confirmed twice, on the record. Locks cleared. |
 | `wiki/log.md` | CLAUDE | DONE | Appended the required client-update entry. Note: CODEX's row below has been BLOCKED since 07-16; append was additive at end of file, no overlap. Locks cleared. |
 | `wiki/playbooks/pulsify-offer-v1.md` | CLAUDE | DONE | Added the "never accept a deferred renegotiation" doctrine proven on the FITFO call. Locks cleared. |
@@ -94,6 +95,9 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-03 21:34] CODEX
+STARTED: founder directed that Variant 02 become one of the main landing-page designs after a visual rebuild. Claimed the Variant 02 source and deployed-template copy plus the landing-page standard, asset README, shared memory, and wiki log. Direction: keep the Frank/canonical typography discipline and shared Wistia/Typeform/proof contract, but give Variant 02 a distinct near-black skin with restrained crimson-to-deep-purple gradients and black vector geometry. Local verification only until the redesigned source and deployed copy match.
 
 ### [2026-07-16 15:38] CODEX
 STARTED: founder approved the screenshot-style acquisition-page direction. Rebuilding the existing Pages sent surface as a responsive card library with a one-modal quick-create path, views visible on every card, tracked per-prospect share links, operator-preview suppression, and IP/device evidence in the activity drawer. Existing Wistia watch depth, applications, advanced client editor, follow-up queue, and tracked assets remain in place. Local implementation and verification first; no deploy until the final acceptance pass.
