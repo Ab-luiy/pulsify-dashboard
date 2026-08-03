@@ -92,6 +92,20 @@ What it must not do:
 
 Anchor it in something real from their own account wherever possible. Audience quality evidence is the strongest anchor: a detailed comment from a stranger, a saved-to-shared ratio, someone quoting their method back to them. That turns the reframe from encouragement into an observation.
 
+## A value asset is built work, not a diagnosis
+
+Founder directive 2026-08-02, and it supersedes how the first three TB drafts were structured. This is the rule the whole document hangs off.
+
+The document is not an audit with recommendations attached. It is work we already did for them. "Here is what I built for you, and here is where you could go differently" rather than "here is everything wrong, and here is the framework behind it."
+
+**The split:** observation gets four lines, once, near the top. Everything after it is finished output they can pick up and use tomorrow. In the TB v4 build that meant a rewritten bio, six video titles each with a thumbnail spec and a three-beat outline, all four existing thumbnails rebuilt beside the originals, a seven-slide story sequence written out with photo direction, and a named lead magnet with its contents. Roughly four fifths of the page is deliverable.
+
+**Frameworks justify a choice in one line and never get a section.** They do not want the framework. "A number in your marketing brings people earning about a third of it" is the correct dose. The five conversion assets, the trust stages and the traffic-versus-conversion split still drive what gets built, they just stop being visible as headings.
+
+**What good looks like:** they could hand the document to an editor and something would get made from it without another conversation.
+
+**Why it reads as expensive:** built work looks like it came from somewhere. A list of observations looks like it came from a scroll through their profile.
+
 ## Lead with the framework, not the audit
 
 Founder directive 2026-08-02, after the first TB Tradez draft was rejected. The register of these documents is a Niksetting or SooWei diagnosis, not a freelancer's notes.
