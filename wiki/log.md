@@ -1239,3 +1239,13 @@ Three doctrine sections also landed on `prospect-asset-doc-standard.md` from the
 The honest gap, recorded in the SOP: no reply data on any asset built so far, so all of this is craft-validated and none of it is results-validated. Word COM is still hanging on this machine so the render step falls to the founder.
 
 Files touched: `wiki/playbooks/prospect-asset-sop.md` (new), `tools/pull_creator_assets.py` (new), `tools/check_prospect_doc.py` (new), `wiki/playbooks/prospect-asset-doc-standard.md`, `outreach/intel/tb-tradez.md`, `output/tbtradez-doc-build.py`.
+
+## [2026-08-03] decision | Variant 02 promoted as the dark landing-page design
+
+Founder promoted Variant 02 from a parked experiment to the second main landing-page design after a full visual rebuild. Canonical remains the light Frank-derived default. Variant 02 now uses the same Inter typography discipline and fixed conversion spine with a near-black base, restrained crimson-to-deep-purple gradient accents, black vector geometry, dark glass surfaces, and responsive proof/application states.
+
+The source and deployed CSS copies are synchronized. The deployed HTML keeps the existing Wistia, Typeform, proof-feed, application visibility, and content-token contracts. Settings now labels it `Variant 02 (dark vector)` instead of an alternate direction. The old beige/teal, Instrument Sans, and Space Grotesk treatment is retired.
+
+Verification: `i1-checks.mjs` passed, `proof-media.test.mjs` passed, `git diff --check` passed, and targeted contract/token/source-sync checks passed. The in-app browser refused local `file://` tab control under its security policy, so visual sign-off remains a founder refresh of the already-open local Variant 02 tab rather than an agent-captured screenshot.
+
+Files touched: `assets/landing-page-standard/variant-02/index.html`, `assets/landing-page-standard/variant-02/css/style.css`, `output/standard-preview/templates/variant-02/index.html`, `output/standard-preview/templates/variant-02/css/style.css`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.

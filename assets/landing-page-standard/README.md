@@ -5,12 +5,16 @@ standard trapped inside `output/`.
 
 ## Variants
 
-- `canonical/` — the founder-approved default. This now mirrors the Frank mock
+- `canonical/` — the founder-approved light default. This mirrors the Frank mock
   promoted into placeholder form: VSL hero, Step 2 Typeform demo, student video
   case studies, centered two-column screenshot wall, final CTA.
-- `variant-02/` — alternate design direction for the future picker. Same page
-  spine and integration contract, but currently parked and not approved as the
-  main look.
+- `variant-02/` — the founder-approved dark-vector main option. It keeps Frank's
+  Inter typography discipline and the same conversion spine, then changes the
+  skin to near-black with restrained crimson-to-deep-purple gradients and black
+  vector geometry. It is a first-class picker option, not a parked experiment.
+
+These are the two main designs. `canonical` remains the default selection; choose
+`variant-02` when the prospect's brand can carry a darker, sharper visual system.
 
 ## Shared contract
 

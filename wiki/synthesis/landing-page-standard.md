@@ -4,7 +4,7 @@ tags: [funnel, landing-page, vsl, standard, asset, outreach]
 sources: [[synthesis/prospect-funnel-reference-library]], [[synthesis/proof-wall-redesign-spec]], [[raw-sources/vsls/mason-bowstead-funnel-design]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
 status: approved
 created: 2026-06-30
-updated: 2026-07-06
+updated: 2026-08-03
 ---
 
 
@@ -17,11 +17,10 @@ a reason.
 
 Reference implementation: `output/standard-preview/` (`index.html` = single-page
 default, `optin.html` = the gate fork, `portal.html` = funnel reporting).
-Reusable setup starts at `assets/landing-page-standard/README.md`. Reusable assets now
-live in `assets/landing-page-standard/canonical/` (approved Codex skin, placeholderized,
-and now aligned to the Frank mock the founder approved on 2026-07-06) and
-`assets/landing-page-standard/variant-02/` (alternate visual direction, currently
-kept only as a secondary experiment).
+Reusable setup starts at `assets/landing-page-standard/README.md`. Two main designs now
+live under `assets/landing-page-standard/`: `canonical/` is the light Frank-derived
+default, and `variant-02/` is the approved dark-vector option. Both are placeholderized,
+use the same conversion spine, and run on the same integrations.
 
 ## The merge in one line
 
@@ -84,11 +83,13 @@ Use when capturing an email up front is worth the friction (Mason's model):
 
 Default to the **single page (no gate)** unless the email capture is specifically wanted.
 
-## Skin — one canonical design (Codex's tokens)
+## Skins — two approved designs
 
-There is ONE visual layer for this asset, defined by Codex's design tokens. Every build
-uses it so the output is identical regardless of which agent builds the page. Do not
-invent a parallel palette or framing.
+There are two approved visual layers. Pick one in the landing-page Settings surface and
+change only content inside that skin. Do not invent a third palette or framing system per
+prospect.
+
+### Canonical light — Frank-derived default
 
 Canonical tokens (from `output/standard-preview/templates/canonical/css/style.css`):
 
@@ -106,13 +107,20 @@ Canonical tokens (from `output/standard-preview/templates/canonical/css/style.cs
 - Full-bleed off-white body — **not** a floating rounded card on a grey backdrop.
 - It should feel expensive because it is controlled, not because it is decorated.
 
+### Variant 02 — dark vector
+
+Approved as a main design on 2026-08-03. It uses the same Inter typography discipline
+as the Frank-derived canonical page, a near-black base, restrained crimson-to-deep-purple
+gradient accents, black vector geometry, and dark glass surfaces. The gradient belongs
+on headline emphasis, CTAs, and thin structural edges. It does not become a neon cyber
+theme, a luxury-black flex page, or a field of colored section blocks.
+
 ### No-freehand rule
 
-When building a landing page, start from Codex's template/tokens and change only the
-content. Do not author new CSS, a new palette, or new framing. If the design needs to
-change, that is Codex's call (design owner) and it changes in one place — the template —
-not per page. The `output/merged-standard-mock/` files define the STRUCTURE; Codex's
-`frank-mason-replica-v2` styling defines the LOOK until the genericized template lands.
+When building a landing page, start from either approved template and change only the
+content. Do not author new CSS, a new palette, or new framing per prospect. If a design
+needs to change, that is Codex's call (design owner) and it changes in the template source
+and its deployed copy, not in one client page.
 
 ## Copy conventions
 
@@ -226,11 +234,12 @@ a hand-copied HTML file per prospect. This is what makes both "pick a design" an
 
 ## Variant-02 status
 
-`variant-02` is not the main design. Founder reaction on 2026-07-06 was that it "looks
-like ass," and the source audit supports that judgment: it drifts from the approved
-standard on typography, color system, background treatment, proof-slot labeling, and
-overall mood. Keep it parked as an experiment until it is rebuilt to justify its
-existence. Do not use it as the default starting point.
+`variant-02` was rebuilt and promoted to a main design on 2026-08-03. The rejected 2026-07-06
+version used mismatched typography, a beige/teal palette, and a mood that drifted from the
+Frank quality bar. The replacement uses Inter throughout, a near-black base, restrained
+crimson-to-deep-purple accents, black vector geometry, and the existing integration-safe
+page contract. It is approved for the picker alongside canonical. Canonical remains the
+default; Variant 02 is an intentional brand-fit choice, not a fallback.
 
 ## Ownership
 
