@@ -73,6 +73,41 @@ Recent uploads with views:
 
 Thumbnails pulled to `Desktop\Prospect Assets\lukextrades\` (30 files). Visually they are one template: green Impact-style text on a washed-out beige chart screenshot. "A+ IFVG Trade Recap" appears at least three times identically. **No face on any of them.**
 
+## Source 04 — the thumbnails at full resolution
+
+Two camps, and both fail for the same reason.
+
+**Camp one, the recap template.** Green Impact-style text on a washed-out beige chart. "A+ IFVG Trade Recap" appears at least three times, identical. No face.
+
+**Camp two, the raw desktop screenshot.** `yt-vobnj3gOYrU.jpg` is his entire browser window: tabs across the top, the TradingView URL in the address bar, the Ask Gemini button, the full watchlist sidebar with BTC and ETH prices, both toolbars. At feed size none of it is legible. **The only readable element in the frame is a banner across the bottom advertising Alpha Futures, FundedNext and TopOne with his code.** The most visible thing on his most-produced asset is an advert for someone else.
+
+**The exception, and it is the one that worked.** Both backtesting videos use a screenshot of a P&L calendar: a grid of days, a handful of large green dollar figures, one red. `yt-9WL6DWwoZ0E.jpg`. Nothing else in the frame. That is the only thumbnail on the channel with one readable thing in it, and the 90% version did 681 views against a channel floor around 50.
+
+The rule that falls out of his own data: one readable thing per thumbnail. The calendar has one. The desktop screenshot has forty at two per cent each.
+
+## Source 05 — lukextrades1on1.carrd.co
+
+Single page, Carrd, badge still on it.
+
+- Headline: "LukexTrades 1 on 1 Mentorship"
+- Subhead: "This is a TRUE 1 on 1 mentorship. This is NOT a group mentorship, this is true 1 on 1 coaching where I am only working with a select few at a time."
+- Three months, direct access, then "What You'll Get"
+- Six bullets: weekly 1-on-1 call via Discord, unlimited DM/WhatsApp access, trade reviews and strategy feedback, daily post-market review calls recorded, accountability and performance tracking and a weekly plan, trading psychology and discipline coaching
+- CTA: "Ready to level up your trading and fast-track your funded trader journey? Apply here and see if you're a good fit"
+- "If you are a good fit, I will email you personally and we can move forward with payment"
+- "Limited slots available"
+- Footer socials
+
+**No price. No proof. No student results. No testimonials. No FAQ. No face.**
+
+What is actually wrong with it:
+
+- The headline names the product rather than the outcome. The outcome is sitting in the CTA line at the bottom, "fast-track your funded trader journey," which is the only line on the page that says what the buyer gets.
+- The subhead spends its whole word count on what the thing is not.
+- All six bullets are deliverables. Calls, messages, reviews, tracking, psychology. Every mentorship page in this niche lists those exact six, so nothing on the page answers why him.
+- Nothing on the page proves he can do it. That is the gap that matters, because a mentorship sells transfer rather than performance, and the page contains neither.
+- It arrives from position eight on a Linktree, under three affiliate codes.
+
 ## The read
 
 **1. 1,500 videos, 1,520 subscribers.** Roughly one subscriber per video. He is out-working every creator we have looked at and it is converting to almost nothing. 44 uploads a week and $67 a month.
