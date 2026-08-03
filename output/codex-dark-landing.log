@@ -1,1 +1,39 @@
-Please send the four questions—they weren’t included in your message. I’ll answer them together using exact absolute file paths and make no changes.
+1. No. There is no dark-themed landing page with a dark body background anywhere searched.
+
+2. Repository locations:
+
+- `pulsify-funnels`: no standalone Git checkout. Its source is inside `C:\Users\Lenovoi\Downloads\Pulsify-Brain\output\standard-preview`.
+- `pulsify-dashboard`: a remote-less temporary Git snapshot exists at `C:\Users\Lenovoi\Downloads\Pulsify-Brain\.claude\worktrees\admiring-boyd-51e18a\.codex-tmp\dashboard-sdr-0703`.
+- `C:\Users\Lenovoi\Downloads\Pulsify-Brain` has `pulsify-dashboard` configured as `origin`, but it is the `pulsify-brain` working tree tracking `brain/main`, not a dashboard checkout.
+
+Neither location contains a dark landing page.
+
+3. No standalone dark landing-page variant was built, saved, deleted, or archived. Codex built a light Frank page containing one dark proof section; its body remained `#ffffff`.
+
+The last commit before removal was:
+
+`e58474d028b4fe74bbeff888160c25d4a687ca0d`
+
+At that commit, `#0f1219` appeared only in:
+
+- `C:\Users\Lenovoi\Downloads\Pulsify-Brain\output\standard-preview\css\style.css`
+- `C:\Users\Lenovoi\Downloads\Pulsify-Brain\output\frank-mason-replica-v2\css\style.css`
+
+It was removed from `standard-preview` by commit:
+
+`ac431d86a6e5413b46b2c8c8fd9fa1076447837d`
+
+It was later removed from `frank-mason-replica-v2` by commit:
+
+`dce05baaf919d16c14f5c5932c0dc74c3e5c792a`
+
+The old white page with that dark proof section also survives in a temporary deployment snapshot:
+
+- Index: `C:\Users\Lenovoi\Downloads\Pulsify-Brain\.codex-tmp\deploy-pulsify-frank\index.html`
+- CSS: `C:\Users\Lenovoi\Downloads\Pulsify-Brain\.codex-tmp\deploy-pulsify-frank\css\style.css`
+- Body background: `#ffffff`
+- Proof-section background: `#0f1219`
+
+That is not a standalone dark variant.
+
+4. Plainly: the founder’s remembered dark landing-page design does not exist in the accessible files, repositories, branches, reflogs, deleted-file history, unreachable Git objects, or backup archive. No files were modified.
