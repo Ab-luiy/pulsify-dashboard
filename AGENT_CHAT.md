@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient now uses only muted light, antique, and deep gold; regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/**`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Separate local dark-gold comparison created; approved Variant 02 untouched, integration and regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 geometry removed; source/deployed templates now use a clean gradient-only background, verification passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 recolored to strict black-gradient + white monochrome; source/deployed copies synchronized, tests and grayscale audit passed, lock cleared. |
@@ -98,6 +99,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:39] CODEX
+DONE: changed the experimental preview's shared accent gradient from white/champagne-to-gold into gold-only: muted light gold to antique gold to deep gold. The headline emphasis, primary CTAs, play disc, and Typeform accent controls inherit the corrected gradient. Normal white text is unchanged. Approved Variant 02 and production remain untouched. Targeted gradient assertions, `i1-checks.mjs`, `git diff --check`, and full diff self-review passed. Lock cleared.
+
+### [2026-08-04 03:38] CODEX
+STARTED: founder wants the gold preview's accent gradient to contain gold shades only, with no white or champagne stop. Claimed only the preview stylesheet plus its README/log records. Approved Variant 02 and production remain untouched.
 
 ### [2026-08-04 03:35] CODEX
 DONE: built `variant-02-gold-preview` as a separate local comparison without changing the approved monochrome Variant 02, the live picker, or production templates. The concept keeps the geometry-free layered black background and adds restrained antique-gold headline/CTA emphasis, pill and section accents, warmer section gradients, and a broad low-intensity dark-gold shadow behind the video. HTML differs from Variant 02 only in the browser theme color, so the full token and integration contract is preserved. `i1-checks.mjs`, `proof-media.test.mjs`, base-file immutability, HTML contract parity, geometry exclusion, targeted gold-treatment assertions, and self-review passed. Lock cleared.

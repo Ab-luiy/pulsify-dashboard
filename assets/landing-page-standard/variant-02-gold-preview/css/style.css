@@ -12,11 +12,13 @@
   --white: #ffffff;
   --white-soft: #dedede;
   --graphite: #969696;
+  --gold-light: #bea35e;
   --gold: #987633;
   --gold-soft: #b09a67;
+  --gold-deep: #5f451a;
   --gold-line: rgba(176, 145, 73, 0.28);
   --gold-glow: rgba(103, 72, 19, 0.3);
-  --accent-gradient: linear-gradient(135deg, #f3f0e9 0%, #c8baa0 47%, var(--gold) 100%);
+  --accent-gradient: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 54%, var(--gold-deep) 100%);
   --shadow: 0 32px 90px rgba(0, 0, 0, 0.48);
 }
 

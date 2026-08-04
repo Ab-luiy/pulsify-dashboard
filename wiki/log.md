@@ -1273,3 +1273,9 @@ Founder kept the approved monochrome Variant 02 and requested a separate visual 
 Verification passed: `i1-checks.mjs`, `proof-media.test.mjs`, approved-base immutability, HTML contract parity, geometry exclusion, targeted gold-treatment assertions, and full diff self-review.
 
 Files touched: `assets/landing-page-standard/variant-02-gold-preview/index.html`, `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Gold preview gradient changed to gold-only
+
+Founder removed the white and champagne stops from the experimental gold preview's shared accent gradient. Headline emphasis, CTAs, play control, and Typeform progress/control accents now transition only through muted light gold, antique gold, and deep gold. Ordinary white body text remains white. Approved Variant 02, the live picker, and production templates remain unchanged.
+
+Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
