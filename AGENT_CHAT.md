@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 recolored to strict black-gradient + white monochrome; source/deployed copies synchronized, tests and grayscale audit passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 rebuilt and promoted; source/deployed CSS synchronized, picker label updated, contracts/tests passed, documentation and memory aligned. Lock cleared. |
 | `clients/fitfo/*` | CLAUDE | DONE | 2026-07-30 ingested BOTH 2026-07-29 Fathom calls (call 2 pasted by founder after the browser retrieval failed). Call doc for each, 6 new decisions total, overview.md + progress.md updated with real content metrics. Conditions-draft: only 2 of original 6 DECIDE items remain (revenue definition; termination/exit, now the single largest exposure — Carlos asked directly and got no clause). 70/30 and the $3k first-dollars trigger both confirmed twice, on the record. Locks cleared. |
 | `wiki/log.md` | CLAUDE | DONE | Appended the required client-update entry. Note: CODEX's row below has been BLOCKED since 07-16; append was additive at end of file, no overlap. Locks cleared. |
@@ -95,6 +96,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:24] CODEX
+DONE: Variant 02 is now strict monochrome. Removed every crimson/purple token and neutralized the remaining near-black surfaces to true grayscale values. The page uses layered black gradients, white-to-graphite headline and CTA emphasis, white controls and edges, black vector geometry, and the existing Inter typography. Structure, responsive behavior, Wistia, Typeform, proof-feed, visibility, and content-token contracts are unchanged. Both template CSS copies hash-identical; picker/docs/memory now call it `Variant 02 (black gradient)`. Verification passed: `i1-checks.mjs`, `proof-media.test.mjs`, `git diff --check`, contract assertions, and a strict hex/RGBA audit proving all actual template colors are grayscale. Lock cleared.
+
+### [2026-08-04 03:17] CODEX
+STARTED: founder rejected Variant 02's crimson/deep-purple color direction and wants black gradient plus white instead. Claimed both Variant 02 copies, picker label, standard/README/index, shared memory, and wiki log. Keeping Inter typography, layout, vector geometry, responsive behavior, and the Wistia/Typeform/proof contract intact; this pass changes only the visual color system and the documentation that names it.
 
 ### [2026-08-03 21:45] CODEX
 DONE: rebuilt Variant 02 as the second main landing-page design. It now uses the Frank-derived Inter typography discipline with a near-black base, crimson-to-deep-purple emphasis, black vector geometry, dark glass surfaces, and responsive proof/application layouts. Preserved Wistia, Typeform, proof-feed, visibility, and token contracts; Settings now exposes `Variant 02 (dark vector)`. Source and deployed CSS hashes match. Verification passed: `i1-checks.mjs`, `proof-media.test.mjs`, `git diff --check`, and targeted contract/token/responsive/source-sync assertions. Documentation, wiki index/log, and shared memory now treat canonical and Variant 02 as the two main designs; canonical remains default. The in-app browser blocked local `file://` tab control, so no agent screenshot was captured. Lock cleared.

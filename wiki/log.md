@@ -1249,3 +1249,11 @@ The source and deployed CSS copies are synchronized. The deployed HTML keeps the
 Verification: `i1-checks.mjs` passed, `proof-media.test.mjs` passed, `git diff --check` passed, and targeted contract/token/source-sync checks passed. The in-app browser refused local `file://` tab control under its security policy, so visual sign-off remains a founder refresh of the already-open local Variant 02 tab rather than an agent-captured screenshot.
 
 Files touched: `assets/landing-page-standard/variant-02/index.html`, `assets/landing-page-standard/variant-02/css/style.css`, `output/standard-preview/templates/variant-02/index.html`, `output/standard-preview/templates/variant-02/css/style.css`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Variant 02 recolored to black gradient and white
+
+Founder replaced Variant 02's crimson/deep-purple treatment with a strict monochrome system. The structure, Inter typography, black vector geometry, responsive layouts, and Wistia/Typeform/proof contracts stay unchanged. The live design tokens are now grayscale only: layered black backgrounds, white-to-graphite headline and CTA gradients, white controls, neutral glass surfaces, and white structural edges.
+
+Both template copies are synchronized and the Settings picker now labels the option `Variant 02 (black gradient)`. A strict audit confirmed every hex and RGBA color in the actual template is grayscale; no crimson or purple token remains. `i1-checks.mjs`, `proof-media.test.mjs`, and `git diff --check` passed.
+
+Files touched: `assets/landing-page-standard/variant-02/index.html`, `assets/landing-page-standard/variant-02/css/style.css`, `output/standard-preview/templates/variant-02/index.html`, `output/standard-preview/templates/variant-02/css/style.css`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.

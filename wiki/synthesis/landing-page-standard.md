@@ -4,7 +4,7 @@ tags: [funnel, landing-page, vsl, standard, asset, outreach]
 sources: [[synthesis/prospect-funnel-reference-library]], [[synthesis/proof-wall-redesign-spec]], [[raw-sources/vsls/mason-bowstead-funnel-design]], [[raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30]]
 status: approved
 created: 2026-06-30
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 
@@ -19,7 +19,7 @@ Reference implementation: `output/standard-preview/` (`index.html` = single-page
 default, `optin.html` = the gate fork, `portal.html` = funnel reporting).
 Reusable setup starts at `assets/landing-page-standard/README.md`. Two main designs now
 live under `assets/landing-page-standard/`: `canonical/` is the light Frank-derived
-default, and `variant-02/` is the approved dark-vector option. Both are placeholderized,
+default, and `variant-02/` is the approved black-gradient option. Both are placeholderized,
 use the same conversion spine, and run on the same integrations.
 
 ## The merge in one line
@@ -107,13 +107,13 @@ Canonical tokens (from `output/standard-preview/templates/canonical/css/style.cs
 - Full-bleed off-white body — **not** a floating rounded card on a grey backdrop.
 - It should feel expensive because it is controlled, not because it is decorated.
 
-### Variant 02 — dark vector
+### Variant 02 — black gradient
 
-Approved as a main design on 2026-08-03. It uses the same Inter typography discipline
-as the Frank-derived canonical page, a near-black base, restrained crimson-to-deep-purple
-gradient accents, black vector geometry, and dark glass surfaces. The gradient belongs
-on headline emphasis, CTAs, and thin structural edges. It does not become a neon cyber
-theme, a luxury-black flex page, or a field of colored section blocks.
+Approved as a main design on 2026-08-03 and recolored by founder direction on 2026-08-04.
+It uses the same Inter typography discipline as the Frank-derived canonical page, layered
+black gradients, white type and controls, graphite surfaces, and black vector geometry.
+White-to-graphite gradients belong on headline emphasis, CTAs, and thin structural edges.
+No crimson, purple, or other chromatic accent belongs in this skin.
 
 ### No-freehand rule
 
@@ -236,10 +236,10 @@ a hand-copied HTML file per prospect. This is what makes both "pick a design" an
 
 `variant-02` was rebuilt and promoted to a main design on 2026-08-03. The rejected 2026-07-06
 version used mismatched typography, a beige/teal palette, and a mood that drifted from the
-Frank quality bar. The replacement uses Inter throughout, a near-black base, restrained
-crimson-to-deep-purple accents, black vector geometry, and the existing integration-safe
-page contract. It is approved for the picker alongside canonical. Canonical remains the
-default; Variant 02 is an intentional brand-fit choice, not a fallback.
+Frank quality bar. The replacement uses Inter throughout, layered black gradients, white
+type and controls, neutral graphite surfaces, black vector geometry, and the existing
+integration-safe page contract. It is approved for the picker alongside canonical.
+Canonical remains the default; Variant 02 is an intentional brand-fit choice, not a fallback.
 
 ## Ownership
 
