@@ -1,3 +1,24 @@
+.primary-cta,
+.play-disc,
+.tf-next {
+  background: radial-gradient(circle at center, #987633 0%, #76551f 58%, #4d3511 100%);
+}
+
+.primary-cta {
+  border-color: rgba(152, 118, 51, 0.42);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.62),
+    0 0 34px rgba(103, 72, 19, 0.18),
+    inset 0 1px 0 rgba(176, 154, 103, 0.24);
+}
+
+.primary-cta:hover {
+  box-shadow:
+    0 22px 58px rgba(0, 0, 0, 0.72),
+    0 0 40px rgba(103, 72, 19, 0.24),
+    inset 0 1px 0 rgba(176, 154, 103, 0.28);
+}
+
 .mockup-video-poster,
 .mockup-video-shade {
   position: absolute;

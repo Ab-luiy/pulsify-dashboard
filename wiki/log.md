@@ -1299,3 +1299,11 @@ Files touched: `assets/landing-page-standard/variant-02-gold-preview/mockup.html
 Founder centered the standalone Frank gold mockup. The mockup-specific stylesheet now centers the brand row, audience pill, hero copy, CTA group, video frame and metadata, section headings, application frame and skeleton, proof-slot labels, closing section, and footer on desktop and mobile. The generic gold preview, approved Variant 02, picker, and production remain unchanged.
 
 Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Mockup buttons darkened and shortened to Apply now
+
+Founder rejected the pale center in the standalone mockup's buttons. The mockup-specific button gradient now starts at antique gold and deepens through dark gold, with the bright white inset highlight replaced by a muted gold highlight. This applies to the two primary CTAs, play control, and Typeform next control while leaving the headline gradient unchanged. Both main CTAs now read `Apply now`.
+
+The generic gold preview, approved Variant 02, picker, and production remain unchanged.
+
+Files touched: `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.

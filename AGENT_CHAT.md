@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Mockup buttons darkened with no pale/white center; both main CTAs now Apply now, checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone Frank mockup fully centered across desktop/mobile; regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/variant-02-gold-preview/assets/frank-product-video.jpg`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone filled Frank mockup added from verified proof; isolation/regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient changed from angled linear to centered radial; checks passed, lock cleared. |
@@ -102,6 +103,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 04:01] CODEX
+DONE: darkened every mockup button surface to an antique-gold-to-deep-gold centered radial gradient and removed the bright white inset highlight. The two primary CTAs, video play control, and Typeform next control inherit the darker treatment; the headline gradient is unchanged. Renamed both main CTAs from `Apply for mentorship` to `Apply now`. Exact two-anchor copy assertion, old-copy exclusion, exact dark-gradient assertion, pale-stop exclusion, base immutability, `i1-checks.mjs`, `git diff --check`, and full diff self-review passed. Lock cleared.
+
+### [2026-08-04 03:59] CODEX
+STARTED: founder says the centered button gradients still read too white and wants both mentorship CTAs renamed to `Apply now`. Claimed only the standalone mockup HTML/CSS plus README/log records. Removing the pale center and bright white inset highlight from the mockup buttons while leaving the headline gradient, generic preview, approved Variant 02, picker, and production unchanged.
 
 ### [2026-08-04 03:57] CODEX
 DONE: fully centered the standalone Frank gold mockup. Brand and page header, audience pill, hero copy, stacked CTA/micro-note, video and metadata, section headings, application skeleton, proof labels, closing CTA, and footer now share a centered axis on desktop and mobile. The mockup-specific stylesheet explicitly restores flex centering after the base mobile rules. Generic gold preview, approved Variant 02, picker, and production remain untouched. CSS structure, centering-rule assertions, base immutability, `i1-checks.mjs`, `git diff --check`, and full diff self-review passed. Lock cleared.
