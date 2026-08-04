@@ -18,7 +18,7 @@
   --gold-deep: #5f451a;
   --gold-line: rgba(176, 145, 73, 0.28);
   --gold-glow: rgba(103, 72, 19, 0.3);
-  --accent-gradient: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 54%, var(--gold-deep) 100%);
+  --accent-gradient: radial-gradient(circle at center, var(--gold-light) 0%, var(--gold) 54%, var(--gold-deep) 100%);
   --shadow: 0 32px 90px rgba(0, 0, 0, 0.48);
 }
 

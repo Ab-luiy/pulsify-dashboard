@@ -1279,3 +1279,9 @@ Files touched: `assets/landing-page-standard/variant-02-gold-preview/index.html`
 Founder removed the white and champagne stops from the experimental gold preview's shared accent gradient. Headline emphasis, CTAs, play control, and Typeform progress/control accents now transition only through muted light gold, antique gold, and deep gold. Ordinary white body text remains white. Approved Variant 02, the live picker, and production templates remain unchanged.
 
 Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Gold preview gradient centered
+
+Founder rejected the directional/angular treatment in the experimental gold preview. Replaced the shared 135-degree linear accent gradient with a centered radial gradient using the same muted light gold, antique gold, and deep gold stops. This affects headline emphasis, CTAs, play control, and Typeform accent controls without changing layout, content, integrations, the approved Variant 02, or production.
+
+Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.

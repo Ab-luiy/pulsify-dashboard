@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient changed from angled linear to centered radial; checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient now uses only muted light, antique, and deep gold; regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/**`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Separate local dark-gold comparison created; approved Variant 02 untouched, integration and regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 geometry removed; source/deployed templates now use a clean gradient-only background, verification passed, lock cleared. |
@@ -99,6 +100,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:45] CODEX
+DONE: replaced the gold preview's 135-degree linear accent gradient with a centered radial gradient. It remains gold-only, moving from muted light gold at the center through antique gold to deep gold at the perimeter. Headline emphasis, CTAs, play disc, and Typeform accent controls inherit the change. Approved Variant 02 and production remain untouched. Exact gradient assertion, `i1-checks.mjs`, `git diff --check`, base immutability, and full diff self-review passed. Lock cleared.
+
+### [2026-08-04 03:44] CODEX
+STARTED: founder wants the experimental gold accent gradient centered instead of directional/angular. Claimed only the gold preview stylesheet plus its README/log records. Replacing the shared linear gradient with a centered radial gold gradient; approved Variant 02 and production remain untouched.
 
 ### [2026-08-04 03:39] CODEX
 DONE: changed the experimental preview's shared accent gradient from white/champagne-to-gold into gold-only: muted light gold to antique gold to deep gold. The headline emphasis, primary CTAs, play disc, and Typeform accent controls inherit the corrected gradient. Normal white text is unchanged. Approved Variant 02 and production remain untouched. Targeted gradient assertions, `i1-checks.mjs`, `git diff --check`, and full diff self-review passed. Lock cleared.
