@@ -1265,3 +1265,11 @@ Founder replaced Variant 02's crimson/deep-purple treatment with a strict monoch
 Both template copies are synchronized and the Settings picker now labels the option `Variant 02 (black gradient)`. A strict audit confirmed every hex and RGBA color in the actual template is grayscale; no crimson or purple token remains. `i1-checks.mjs`, `proof-media.test.mjs`, and `git diff --check` passed.
 
 Files touched: `assets/landing-page-standard/variant-02/index.html`, `assets/landing-page-standard/variant-02/css/style.css`, `output/standard-preview/templates/variant-02/index.html`, `output/standard-preview/templates/variant-02/css/style.css`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Variant 02 dark-gold comparison preserved separately
+
+Founder kept the approved monochrome Variant 02 and requested a separate visual comparison with dark gold. Added `assets/landing-page-standard/variant-02-gold-preview/` as a local-only concept. It preserves the geometry-free layered black background and full HTML integration contract, then introduces restrained antique-gold emphasis and a broad low-intensity dark-gold shadow behind the video. The approved Variant 02 source, deployed copy, live picker, and production renderer are unchanged.
+
+Verification passed: `i1-checks.mjs`, `proof-media.test.mjs`, approved-base immutability, HTML contract parity, geometry exclusion, targeted gold-treatment assertions, and full diff self-review.
+
+Files touched: `assets/landing-page-standard/variant-02-gold-preview/index.html`, `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.

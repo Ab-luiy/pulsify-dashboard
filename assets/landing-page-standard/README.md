@@ -16,6 +16,10 @@ standard trapped inside `output/`.
 These are the two main designs. `canonical` remains the default selection; choose
 `variant-02` when the prospect's brand can carry a monochrome, sharper visual system.
 
+`variant-02-gold-preview/` is a local comparison concept, not a third approved design.
+It preserves Variant 02 and adds restrained antique-gold accents plus a low-intensity
+dark-gold video glow. It is intentionally absent from the live picker until founder approval.
+
 ## Shared contract
 
 Every new page keeps the approved landing-page structure, swaps in the client

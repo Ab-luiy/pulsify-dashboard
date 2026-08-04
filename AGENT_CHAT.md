@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02-gold-preview/**`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Separate local dark-gold comparison created; approved Variant 02 untouched, integration and regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 geometry removed; source/deployed templates now use a clean gradient-only background, verification passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 recolored to strict black-gradient + white monochrome; source/deployed copies synchronized, tests and grayscale audit passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 rebuilt and promoted; source/deployed CSS synchronized, picker label updated, contracts/tests passed, documentation and memory aligned. Lock cleared. |
@@ -97,6 +98,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:35] CODEX
+DONE: built `variant-02-gold-preview` as a separate local comparison without changing the approved monochrome Variant 02, the live picker, or production templates. The concept keeps the geometry-free layered black background and adds restrained antique-gold headline/CTA emphasis, pill and section accents, warmer section gradients, and a broad low-intensity dark-gold shadow behind the video. HTML differs from Variant 02 only in the browser theme color, so the full token and integration contract is preserved. `i1-checks.mjs`, `proof-media.test.mjs`, base-file immutability, HTML contract parity, geometry exclusion, targeted gold-treatment assertions, and self-review passed. Lock cleared.
+
+### [2026-08-04 03:33] CODEX
+STARTED: founder wants to preserve the approved monochrome Variant 02 and see a separate dark-gold treatment. Claimed a new local-only `variant-02-gold-preview` sibling plus README and wiki log. Direction: no geometry, no overwrite, no picker or production change; add restrained antique-gold emphasis and a low-intensity dark-gold glow behind the video while preserving the full integration contract.
 
 ### [2026-08-04 03:29] CODEX
 DONE: removed Variant 02's decorative SVG plane, page grid and line overlays, responsive vector rules, and diagonal/grid geometry from the video and proof placeholders. The background is now strictly a layered black color gradient while typography, layout, grayscale palette, responsive behavior, and all funnel integration contracts remain unchanged. Source and deployed copies are synchronized. `i1-checks.mjs`, targeted geometry and funnel-contract audits, and `git diff --check` passed. Lock cleared.
