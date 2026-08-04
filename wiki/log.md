@@ -1285,3 +1285,11 @@ Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/style.c
 Founder rejected the directional/angular treatment in the experimental gold preview. Replaced the shared 135-degree linear accent gradient with a centered radial gradient using the same muted light gold, antique gold, and deep gold stops. This affects headline emphasis, CTAs, play control, and Typeform accent controls without changing layout, content, integrations, the approved Variant 02, or production.
 
 Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Filled Frank mockup added to gold preview
+
+Founder approved the centered gold direction and requested a mockup. Added a standalone local `mockup.html` inside `variant-02-gold-preview` with a dedicated poster treatment and the existing Frank video image. Copy comes from the verified Frank Wieler student-interview profile: his youngest mentorship student built nearly $1M in revenue at 15, and two subscription products reached roughly $100K peak MRR. The page does not invent program price, curriculum, delivery structure, or guarantees. Proof tiles remain clearly labeled mockup slots.
+
+The generic tokenized gold preview, approved monochrome Variant 02, live picker, and production templates are unchanged. Verification passed for zero unresolved tokens, verified claim markers, static mockup isolation, poster presence, base-file immutability, regression suite, trailing whitespace, and full diff self-review.
+
+Files touched: `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/variant-02-gold-preview/assets/frank-product-video.jpg`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.

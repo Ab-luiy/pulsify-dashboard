@@ -19,6 +19,8 @@ These are the two main designs. `canonical` remains the default selection; choos
 `variant-02-gold-preview/` is a local comparison concept, not a third approved design.
 It preserves Variant 02 and adds a centered all-gold accent gradient plus a low-intensity
 dark-gold video glow. It is intentionally absent from the live picker until founder approval.
+Open `variant-02-gold-preview/mockup.html` for the filled Frank Wieler comparison; it uses
+verified case-study copy and stays separate from the reusable tokenized template.
 
 ## Shared contract
 

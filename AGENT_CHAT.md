@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/variant-02-gold-preview/assets/frank-product-video.jpg`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone filled Frank mockup added from verified proof; isolation/regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient changed from angled linear to centered radial; checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient now uses only muted light, antique, and deep gold; regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/**`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Separate local dark-gold comparison created; approved Variant 02 untouched, integration and regression checks passed, lock cleared. |
@@ -100,6 +101,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:51] CODEX
+DONE: added a standalone filled Frank Wieler mockup inside the gold preview without changing the generic template, approved Variant 02, picker, or production. The hero uses the verified youngest-student case study: nearly $1M revenue at 15 and roughly $100K peak MRR across two subscription products. Added the existing Frank video poster with a centered dark overlay and preserved the centered gold-only accent treatment. No price, curriculum, delivery structure, or guarantee was invented; proof remains clearly labeled as mockup slots. Zero unresolved tokens, static isolation, poster presence, base immutability, `i1-checks.mjs`, whitespace checks, and full diff self-review passed. Lock cleared.
+
+### [2026-08-04 03:49] CODEX
+STARTED: founder approved the centered gold direction and wants a mockup. Claimed only new local mockup assets plus README/log records. Building a standalone Frank Wieler example from the verified student-interview profile: nearly $1M revenue and roughly $100K peak MRR across two subscription products. No invented price, curriculum, delivery model, or guarantee; generic preview, approved Variant 02, live picker, and production remain untouched.
 
 ### [2026-08-04 03:45] CODEX
 DONE: replaced the gold preview's 135-degree linear accent gradient with a centered radial gradient. It remains gold-only, moving from muted light gold at the center through antique gold to deep gold at the perimeter. Headline emphasis, CTAs, play disc, and Typeform accent controls inherit the change. Approved Variant 02 and production remain untouched. Exact gradient assertion, `i1-checks.mjs`, `git diff --check`, base immutability, and full diff self-review passed. Lock cleared.
