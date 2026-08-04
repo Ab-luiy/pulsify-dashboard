@@ -252,6 +252,24 @@ para(doc, "Those six do the filtering so you are not spending an hour on somebod
           "going to buy, and the answers tell you what to say on the call before it starts.",
      size=9, color=MUTED, before=5)
 
+# --- the preview ----------------------------------------------------------
+para(doc, "So rather than describe it, here it is with your copy in it.",
+     size=9, color=MUTED, before=11, after=6)
+
+PREVIEW = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain\output\lukextrades-preview"
+for shot, cap in (
+    ("preview-hero.png",
+     "The headline leads with the result you already have, and the video sits above everything "
+     "else on the page."),
+    ("preview-apply.png",
+     "The application is on the page rather than in your inbox. Every person who starts it "
+     "leaves a record, whether they finish or not."),
+):
+    p = doc.add_paragraph()
+    spacing(p, 4, 3, 1.0)
+    p.add_run().add_picture(os.path.join(PREVIEW, shot), width=Inches(4.5))
+    para(doc, cap, size=8.5, color=MUTED, after=9, line=1.18)
+
 # --- kill the linktree ----------------------------------------------------
 heading(doc, "Drop the Linktree, send them to the channel")
 para(doc, "Ten options is a menu, and a menu makes somebody choose. Most people choose nothing "
