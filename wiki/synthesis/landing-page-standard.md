@@ -116,6 +116,21 @@ White-to-graphite gradients belong on headline emphasis, CTAs, and thin structur
 No crimson, purple, SVG planes, grid patterns, or diagonal background shapes belong in
 this skin. The page background is color gradient only.
 
+### Retained gold comparison — not approved for the picker
+
+Founder asked on 2026-08-04 to retain the finalized gold comparison and make Claude aware
+of it. The filled reference is `assets/landing-page-standard/variant-02-gold-preview/mockup.html`.
+It keeps the geometry-free black background, centers the full layout on desktop and mobile,
+uses a centered gold-only headline gradient, dark antique-to-deep-gold buttons with no pale
+or white center, a restrained dark-gold video glow, and `Apply now` for both primary CTAs.
+The Frank mockup uses only verified case-study claims from
+[[raw-sources/client-raw/frank-wieler/profile]].
+
+This is retained design evidence, not a third main skin. It is absent from the Settings
+picker and production templates. Do not promote, deploy, or use it for a prospect until the
+founder explicitly approves that change. Canonical light and monochrome Variant 02 remain
+the only approved main designs.
+
 ### No-freehand rule
 
 When building a landing page, start from either approved template and change only the

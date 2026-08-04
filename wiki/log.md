@@ -1307,3 +1307,11 @@ Founder rejected the pale center in the standalone mockup's buttons. The mockup-
 The generic gold preview, approved Variant 02, picker, and production remain unchanged.
 
 Files touched: `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Gold mockup retained and communicated to Claude
+
+Founder explicitly asked to keep the finalized gold landing-page mockup in the shared files and communicate it to Claude. Recorded the full state and status boundary in `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, and the shared `AGENT_CHAT.md` channel. The retained artifact is `assets/landing-page-standard/variant-02-gold-preview/mockup.html` with its mockup-only stylesheet and Frank poster asset.
+
+The design is retained as a candidate/mockup, not promoted. It is not a third main design, is absent from the picker and production, and must not replace monochrome Variant 02 without a new explicit founder instruction.
+
+Files touched: `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.

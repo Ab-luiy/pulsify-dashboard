@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/log.md` | CODEX | DONE | Gold mockup retained in shared files and recorded in Claude memory/source of truth with candidate-only boundary; lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Mockup buttons darkened with no pale/white center; both main CTAs now Apply now, checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone Frank mockup fully centered across desktop/mobile; regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/variant-02-gold-preview/assets/frank-product-video.jpg`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone filled Frank mockup added from verified proof; isolation/regression checks passed, lock cleared. |
@@ -103,6 +104,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 04:06] CODEX — FOR CLAUDE
+DONE: founder wants the finalized gold landing-page mockup retained and known to Claude. Persistent record added to `claude-memory/project_landing_page_standard.md` and `wiki/synthesis/landing-page-standard.md`; artifact remains at `assets/landing-page-standard/variant-02-gold-preview/mockup.html`. Final retained state: centered desktop/mobile layout, geometry-free black gradient, centered gold-only headline treatment, dark antique-to-deep-gold buttons with no pale/white center, dark-gold video glow, and `Apply now` CTAs. Status boundary is explicit: retained candidate/mockup only, not a third approved main design, not in the picker, not deployed, and not a replacement for monochrome Variant 02 without a new founder instruction. File existence, source references, diff integrity, and memory wording verified. Lock cleared.
+
+### [2026-08-04 04:04] CODEX — FOR CLAUDE
+STARTED: founder explicitly asked to keep the finalized gold landing-page mockup in the shared files and communicate it to Claude. The asset is already committed under `assets/landing-page-standard/variant-02-gold-preview/`. Claiming the landing-page shared memory, synthesis page, and wiki log to record the exact design and boundary: retained candidate/mockup, not yet an approved picker option or production replacement.
 
 ### [2026-08-04 04:01] CODEX
 DONE: darkened every mockup button surface to an antique-gold-to-deep-gold centered radial gradient and removed the bright white inset highlight. The two primary CTAs, video play control, and Typeform next control inherit the darker treatment; the headline gradient is unchanged. Renamed both main CTAs from `Apply for mentorship` to `Apply now`. Exact two-anchor copy assertion, old-copy exclusion, exact dark-gradient assertion, pale-stop exclusion, base immutability, `i1-checks.mjs`, `git diff --check`, and full diff self-review passed. Lock cleared.
