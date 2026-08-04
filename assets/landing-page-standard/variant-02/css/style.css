@@ -72,54 +72,6 @@ p {
     linear-gradient(180deg, #0a0a0a 0%, var(--bg) 44%, var(--bg-deep) 100%);
 }
 
-.page-shell::before {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: linear-gradient(180deg, #000 0%, transparent 42%);
-  pointer-events: none;
-  content: "";
-}
-
-.page-shell::after {
-  position: absolute;
-  z-index: -1;
-  top: 620px;
-  left: 50%;
-  width: min(980px, 88vw);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.06), transparent);
-  transform: translateX(-50%);
-  content: "";
-}
-
-.vector-field {
-  position: absolute;
-  z-index: -1;
-  top: -130px;
-  right: -170px;
-  width: min(820px, 70vw);
-  height: 1040px;
-  opacity: 0.92;
-  pointer-events: none;
-}
-
-.vector-mass {
-  fill: #000000;
-  fill-opacity: 0.68;
-}
-
-.vector-lines {
-  fill: none;
-  stroke: url(#vector-edge);
-  stroke-width: 1.4;
-  vector-effect: non-scaling-stroke;
-}
-
 .hero-noise {
   position: absolute;
   inset: 0;
@@ -328,25 +280,6 @@ h1 em {
     #050505;
 }
 
-.video-placeholder::before,
-.video-placeholder::after {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  content: "";
-}
-
-.video-placeholder::before {
-  background:
-    linear-gradient(128deg, transparent 0 40%, #000000 40% 54%, transparent 54%),
-    linear-gradient(34deg, transparent 0 60%, rgba(0, 0, 0, 0.86) 60% 75%, transparent 75%);
-}
-
-.video-placeholder::after {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 38px 38px;
-}
-
 .play-disc {
   position: absolute;
   z-index: 1;
@@ -549,21 +482,8 @@ h2 {
   padding: 14px;
 }
 
-.proof-slot::before {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(137deg, transparent 0 44%, rgba(0, 0, 0, 0.72) 44% 58%, transparent 58%),
-    radial-gradient(circle at 24% 18%, rgba(255, 255, 255, 0.045), transparent 34%);
-  content: "";
-}
-
 .proof-slot-filled {
   padding: 0;
-}
-
-.proof-slot-filled::before {
-  display: none;
 }
 
 .proof-slot-filled img,
@@ -631,12 +551,6 @@ h2 {
 }
 
 @media (max-width: 860px) {
-  .vector-field {
-    right: -290px;
-    width: 840px;
-    opacity: 0.68;
-  }
-
   .proof-grid,
   .proof-feed {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -646,17 +560,6 @@ h2 {
 @media (max-width: 640px) {
   .container {
     width: min(100% - 30px, 1080px);
-  }
-
-  .page-shell::after {
-    top: 530px;
-  }
-
-  .vector-field {
-    top: -80px;
-    right: -370px;
-    width: 760px;
-    opacity: 0.56;
   }
 
   .hero {

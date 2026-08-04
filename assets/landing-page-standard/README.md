@@ -10,8 +10,8 @@ standard trapped inside `output/`.
   case studies, centered two-column screenshot wall, final CTA.
 - `variant-02/` — the founder-approved black-gradient main option. It keeps Frank's
   Inter typography discipline and the same conversion spine, then uses layered
-  black gradients, white type and controls, neutral graphite surfaces, and black
-  vector geometry. It is a first-class picker option, not a parked experiment.
+  black gradients, white type and controls, neutral graphite surfaces, and a clean
+  gradient-only background. It is a first-class picker option, not a parked experiment.
 
 These are the two main designs. `canonical` remains the default selection; choose
 `variant-02` when the prospect's brand can carry a monochrome, sharper visual system.

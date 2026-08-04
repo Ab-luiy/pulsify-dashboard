@@ -111,9 +111,10 @@ Canonical tokens (from `output/standard-preview/templates/canonical/css/style.cs
 
 Approved as a main design on 2026-08-03 and recolored by founder direction on 2026-08-04.
 It uses the same Inter typography discipline as the Frank-derived canonical page, layered
-black gradients, white type and controls, graphite surfaces, and black vector geometry.
+black gradients, white type and controls, graphite surfaces, and no decorative geometry.
 White-to-graphite gradients belong on headline emphasis, CTAs, and thin structural edges.
-No crimson, purple, or other chromatic accent belongs in this skin.
+No crimson, purple, SVG planes, grid patterns, or diagonal background shapes belong in
+this skin. The page background is color gradient only.
 
 ### No-freehand rule
 
@@ -237,7 +238,7 @@ a hand-copied HTML file per prospect. This is what makes both "pick a design" an
 `variant-02` was rebuilt and promoted to a main design on 2026-08-03. The rejected 2026-07-06
 version used mismatched typography, a beige/teal palette, and a mood that drifted from the
 Frank quality bar. The replacement uses Inter throughout, layered black gradients, white
-type and controls, neutral graphite surfaces, black vector geometry, and the existing
+type and controls, neutral graphite surfaces, no decorative geometry, and the existing
 integration-safe page contract. It is approved for the picker alongside canonical.
 Canonical remains the default; Variant 02 is an intentional brand-fit choice, not a fallback.
 

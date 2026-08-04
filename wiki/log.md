@@ -1250,6 +1250,14 @@ Verification: `i1-checks.mjs` passed, `proof-media.test.mjs` passed, `git diff -
 
 Files touched: `assets/landing-page-standard/variant-02/index.html`, `assets/landing-page-standard/variant-02/css/style.css`, `output/standard-preview/templates/variant-02/index.html`, `output/standard-preview/templates/variant-02/css/style.css`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.
 
+## [2026-08-04] decision | Variant 02 geometry removed
+
+Founder removed the geometric treatment from Variant 02. The background is now color gradient only. Deleted the decorative SVG plane from both HTML templates, the page grid and horizontal overlay, responsive vector positioning, video-placeholder diagonal/grid overlays, and proof-placeholder diagonal geometry. Typography, layout, grayscale palette, responsive behavior, and the Wistia/Typeform/proof contracts stay unchanged.
+
+Both CSS copies are synchronized. A targeted audit found no vector selectors, pseudo-element geometry, mask/grid background images, or SVG vector markup in the actual template. `i1-checks.mjs`, the funnel contract assertions, and `git diff --check` passed.
+
+Files touched: `assets/landing-page-standard/variant-02/index.html`, `assets/landing-page-standard/variant-02/css/style.css`, `output/standard-preview/templates/variant-02/index.html`, `output/standard-preview/templates/variant-02/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
 ## [2026-08-04] decision | Variant 02 recolored to black gradient and white
 
 Founder replaced Variant 02's crimson/deep-purple treatment with a strict monochrome system. The structure, Inter typography, black vector geometry, responsive layouts, and Wistia/Typeform/proof contracts stay unchanged. The live design tokens are now grayscale only: layered black backgrounds, white-to-graphite headline and CTA gradients, white controls, neutral glass surfaces, and white structural edges.

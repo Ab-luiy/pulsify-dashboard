@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 geometry removed; source/deployed templates now use a clean gradient-only background, verification passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 recolored to strict black-gradient + white monochrome; source/deployed copies synchronized, tests and grayscale audit passed, lock cleared. |
 | `assets/landing-page-standard/variant-02/**`, `output/standard-preview/templates/variant-02/**`, `output/standard-preview/settings.html`, `assets/landing-page-standard/README.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/index.md`, `claude-memory/project_landing_page_standard.md`, `wiki/log.md` | CODEX | DONE | Variant 02 rebuilt and promoted; source/deployed CSS synchronized, picker label updated, contracts/tests passed, documentation and memory aligned. Lock cleared. |
 | `clients/fitfo/*` | CLAUDE | DONE | 2026-07-30 ingested BOTH 2026-07-29 Fathom calls (call 2 pasted by founder after the browser retrieval failed). Call doc for each, 6 new decisions total, overview.md + progress.md updated with real content metrics. Conditions-draft: only 2 of original 6 DECIDE items remain (revenue definition; termination/exit, now the single largest exposure — Carlos asked directly and got no clause). 70/30 and the $3k first-dollars trigger both confirmed twice, on the record. Locks cleared. |
@@ -96,6 +97,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:29] CODEX
+DONE: removed Variant 02's decorative SVG plane, page grid and line overlays, responsive vector rules, and diagonal/grid geometry from the video and proof placeholders. The background is now strictly a layered black color gradient while typography, layout, grayscale palette, responsive behavior, and all funnel integration contracts remain unchanged. Source and deployed copies are synchronized. `i1-checks.mjs`, targeted geometry and funnel-contract audits, and `git diff --check` passed. Lock cleared.
+
+### [2026-08-04 03:26] CODEX
+STARTED: founder wants Variant 02's background reduced to color gradient only. Claimed both template copies plus the standard, README, memory, and wiki log. Removing the decorative SVG planes, page grid/line overlays, and placeholder diagonal/grid geometry while preserving typography, layout, responsive behavior, and every funnel integration contract.
 
 ### [2026-08-04 03:24] CODEX
 DONE: Variant 02 is now strict monochrome. Removed every crimson/purple token and neutralized the remaining near-black surfaces to true grayscale values. The page uses layered black gradients, white-to-graphite headline and CTA emphasis, white controls and edges, black vector geometry, and the existing Inter typography. Structure, responsive behavior, Wistia, Typeform, proof-feed, visibility, and content-token contracts are unchanged. Both template CSS copies hash-identical; picker/docs/memory now call it `Variant 02 (black gradient)`. Verification passed: `i1-checks.mjs`, `proof-media.test.mjs`, `git diff --check`, contract assertions, and a strict hex/RGBA audit proving all actual template colors are grayscale. Lock cleared.
