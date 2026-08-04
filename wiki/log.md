@@ -1293,3 +1293,9 @@ Founder approved the centered gold direction and requested a mockup. Added a sta
 The generic tokenized gold preview, approved monochrome Variant 02, live picker, and production templates are unchanged. Verification passed for zero unresolved tokens, verified claim markers, static mockup isolation, poster presence, base-file immutability, regression suite, trailing whitespace, and full diff self-review.
 
 Files touched: `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/variant-02-gold-preview/assets/frank-product-video.jpg`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Frank gold mockup fully centered
+
+Founder centered the standalone Frank gold mockup. The mockup-specific stylesheet now centers the brand row, audience pill, hero copy, CTA group, video frame and metadata, section headings, application frame and skeleton, proof-slot labels, closing section, and footer on desktop and mobile. The generic gold preview, approved Variant 02, picker, and production remain unchanged.
+
+Files touched: `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md`, `AGENT_CHAT.md`.

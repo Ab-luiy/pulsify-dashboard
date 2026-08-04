@@ -21,3 +21,77 @@
 .video-placeholder .play-disc {
   z-index: 2;
 }
+
+.hero .container,
+.application-section .container,
+.proof-section .container,
+.closing-section .container {
+  text-align: center;
+}
+
+.brand-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.audience-pill,
+.video-frame,
+.application-embed {
+  margin-inline: auto;
+}
+
+h1,
+.hero-subhead,
+.section-head {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.hero-actions,
+.video-meta,
+.embed-topline {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-actions {
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.video-meta,
+.embed-topline {
+  flex-wrap: wrap;
+}
+
+.tf-body {
+  align-items: center;
+  text-align: center;
+}
+
+.tf-skel,
+.tf-field {
+  width: min(100%, 520px);
+}
+
+.proof-slot {
+  justify-content: center;
+  text-align: center;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.footer-inner p {
+  margin-inline: auto;
+  text-align: center;
+}

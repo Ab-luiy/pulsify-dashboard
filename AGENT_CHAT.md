@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone Frank mockup fully centered across desktop/mobile; regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/variant-02-gold-preview/assets/frank-product-video.jpg`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone filled Frank mockup added from verified proof; isolation/regression checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient changed from angled linear to centered radial; checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/style.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Gold preview accent gradient now uses only muted light, antique, and deep gold; regression checks passed, lock cleared. |
@@ -101,6 +102,12 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-04 03:57] CODEX
+DONE: fully centered the standalone Frank gold mockup. Brand and page header, audience pill, hero copy, stacked CTA/micro-note, video and metadata, section headings, application skeleton, proof labels, closing CTA, and footer now share a centered axis on desktop and mobile. The mockup-specific stylesheet explicitly restores flex centering after the base mobile rules. Generic gold preview, approved Variant 02, picker, and production remain untouched. CSS structure, centering-rule assertions, base immutability, `i1-checks.mjs`, `git diff --check`, and full diff self-review passed. Lock cleared.
+
+### [2026-08-04 03:55] CODEX
+STARTED: founder wants the standalone Frank gold mockup and its contents centered. Claimed only the mockup-specific stylesheet plus README/log records. Centering the brand, hero copy, CTA, video, section headings, application frame content, proof labels, and footer without touching the generic gold preview, approved Variant 02, picker, or production.
 
 ### [2026-08-04 03:51] CODEX
 DONE: added a standalone filled Frank Wieler mockup inside the gold preview without changing the generic template, approved Variant 02, picker, or production. The hero uses the verified youngest-student case study: nearly $1M revenue at 15 and roughly $100K peak MRR across two subscription products. Added the existing Frank video poster with a centered dark overlay and preserved the centered gold-only accent treatment. No price, curriculum, delivery structure, or guarantee was invented; proof remains clearly labeled as mockup slots. Zero unresolved tokens, static isolation, poster presence, base immutability, `i1-checks.mjs`, whitespace checks, and full diff self-review passed. Lock cleared.
