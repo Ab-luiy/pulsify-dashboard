@@ -1315,3 +1315,29 @@ Founder explicitly asked to keep the finalized gold landing-page mockup in the s
 The design is retained as a candidate/mockup, not promoted. It is not a third main design, is absent from the picker and production, and must not replace monochrome Variant 02 without a new explicit founder instruction.
 
 Files touched: `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/log.md`, `AGENT_CHAT.md`.
+
+## [2026-08-04] decision | Prospect assets: three builds, five doctrine rulings, two permanent tools
+
+Three prospect assets built back to back (`_acetrades_`, `tb.tradez`, `lukextrades`) and the doctrine that came out of them. Every ruling below is the founder's, recorded in the order given.
+
+**A value asset is built work, not a diagnosis.** The governing rule. "Here is what I built for you, and here is where you could go differently," never "here is everything wrong with a framework attached." Observation gets four lines near the top; four fifths of the page is finished output. In the Luke build that meant a rewritten description, five video titles with thumbnail specs and outlines, three of his own thumbnails against a rule derived from his own data, a replacement landing page with the VSL beats and six application questions, and two rendered previews of that page in his own copy.
+
+**Lead with the framework, not the audit.** Details earn a line, never a section. The frameworks in `synthesis/cross-creator-synthesis` and `frameworks/instagram-conversion-assets` drive what gets built but stop being visible as headings. A fabricated phone clock reading 1:89 is one sentence, and what follows it is the framework reason it matters: a number in marketing attracts people earning a third of it, so a seven-figure figure attracts nobody who actually trades.
+
+**Ease in, Ben Bader style, then cut it in half.** Opening on a framework reads as though the reader missed page one. Hook on something they recognise from their own life, a beat of white space, then the bridge. TB v2 was 1,719 words; v3 was 1,203 with every section intact.
+
+**Stats read as pain when the creator already knows them.** Luke's 1,500 videos against 1,520 subscribers was the opening of v1. Founder ruling: he is aware of his position, that framing only inflicts pain, and it belongs at the close as a light sign we paid attention or not at all. The comparison was cut and the 44-uploads-a-week line became the closing note.
+
+**Do not rewrite a broken page, propose the real one.** Rewriting the copy on a Carrd page with no video, no proof, no price and no form is polishing a dead end. Say plainly it needs replacing and spec the VSL page with the application embedded.
+
+**It has to flow like an email.** Sections reference each other in the reader's own logic rather than landing cold. A stack of tips reads as a list anyone could have written; the same tips connected read as a system, and the system is what people pay to have installed.
+
+**New this session:** `wiki/playbooks/prospect-asset-sop.md`, the five-phase pipeline, now with a landing-page-preview phase. `tools/pull_creator_assets.py` scrapes a YouTube handle and downloads every thumbnail at max resolution, the step that produced the strongest finding in two of three builds. `tools/check_prospect_doc.py` runs pre-send checks and enforced the 1,500-word ceiling three times during the TB build. Headless Chrome solved the rendering problem that had been open for weeks; the exact invocation and its three gotchas are in the SOP.
+
+**Landing pages:** founder called in the gold skin at `assets/landing-page-standard/variant-02-gold-preview/` for prospect previews, which overrides Codex's candidate-only boundary for that use. A Codex cross-call confirmed no dark landing page existed at the time I searched; variant-02 was rebuilt dark at 03:30 that morning, after the search.
+
+**The follow-up gap, now filled.** Two prospects received assets and went silent. The cause is structural: the doc has no CTA by design and the first DM asks for nothing, so nothing in the sequence gives the prospect a reason to type. Three follow-up drafts are now in `content-engine/cold-dm-formula.md` with the recommended one flagged, at 3 to 5 days, marked untested.
+
+**The standing gap:** three assets exist and none has reply data. Every rule above is craft-validated and none of it is results-validated. Until that changes the build log's outcome columns are the highest-value thing anyone can fill in.
+
+Files touched: `wiki/playbooks/prospect-asset-doc-standard.md`, `wiki/playbooks/prospect-asset-sop.md`, `wiki/playbooks/prospect-asset-library.md`, `wiki/content-engine/cold-dm-formula.md`, `outreach/intel/lukextrades.md`, `outreach/intel/tb-tradez.md`, `outreach/intel/acetrades.md`, `tools/pull_creator_assets.py`, `tools/check_prospect_doc.py`, `output/lukextrades-doc-build.py`, `output/tbtradez-doc-build.py`, `output/acetrades-doc-build.py`, `output/lukextrades-preview/`.

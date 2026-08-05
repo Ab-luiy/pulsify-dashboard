@@ -92,6 +92,25 @@ What it must not do:
 
 Anchor it in something real from their own account wherever possible. Audience quality evidence is the strongest anchor: a detailed comment from a stranger, a saved-to-shared ratio, someone quoting their method back to them. That turns the reframe from encouragement into an observation.
 
+## It has to flow like an email, not read like a list of sections
+
+Founder directive 2026-08-04. The build-work rule below fixed what goes in the document. This fixes how the parts hold together.
+
+The failure it corrects: a doc that is structurally correct and still reads as a stack of unrelated blocks. Videos, then thumbnails, then a page, then a description, each landing cold with no memory of the one before it. Every section restarts the reader.
+
+The fix is connective tissue. Sections reference each other in the reader's own logic, the way a person writes an email:
+
+> "and while you're filming those, keep the description to no more than two links, which ties back to the Linktree point above. it all runs the same direction."
+
+Concretely:
+
+- Open a section by naming what it follows from. "Same reason as the thumbnails" beats a fresh heading with no bridge.
+- Close a section by pointing at the next one when they genuinely connect. "There's a version of that description further down."
+- Say out loud when two recommendations are the same idea wearing different clothes. In the Luke build, killing the Linktree, the two-link description and the on-page form are one argument about a single door, and the doc should say so rather than making him notice.
+- One spine per document. Every section should be traceable back to the finding at the top. If a section cannot be traced back, it is a different document.
+
+**Why it matters commercially:** a stack of tips reads as a list anyone could have written. The same tips, connected, read as a system, and a system is the thing people pay to have installed. The harmony is the product demonstration.
+
 ## A value asset is built work, not a diagnosis
 
 Founder directive 2026-08-02, and it supersedes how the first three TB drafts were structured. This is the rule the whole document hangs off.

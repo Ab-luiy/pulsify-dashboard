@@ -65,6 +65,25 @@ Under 1,500 words. If a section runs three paragraphs, one of them is repeating 
 
 Story sequences come from the story-sequence-generator skill, never from memory. If the creator has no student results, the type is value-driven; credibility sequences need receipts first.
 
+## Phase 3b: the landing-page preview
+
+Added 2026-08-04. When the prospect's offer page is weak or missing, the document does not rewrite their copy. It shows them the page, filled with their own words.
+
+The two approved skins live at `assets/landing-page-standard/`. `variant-02` is the monochrome dark build. `variant-02-gold-preview` is the gold candidate, retained by founder instruction on 2026-08-04; Codex's note marks it candidate-only and not in the picker, so it is used for prospect previews and nothing else without a new instruction. Both share the same token set, so one fill script produces both.
+
+`output/lukextrades-preview/fill.py` is the reference implementation. Copy it, swap the 25 tokens, and it writes both skins plus a hero-hidden copy of each so the application section can be shot directly.
+
+**Rendering, and this is the part that was missing for weeks:**
+
+```bash
+chrome.exe --headless=new --disable-gpu --no-sandbox --hide-scrollbars \
+  --allow-file-access-from-files --user-data-dir=%TEMP%\chrome-shot-profile \
+  --virtual-time-budget=8000 --window-size=1280,1500 \
+  --screenshot=out.png "file:///path/to/index.html"
+```
+
+Headless Chrome produces clean 1280-wide PNGs that drop straight into the docx at 4.5in. Notes that cost time to learn: `--user-data-dir` is required or it silently fails, an `#anchor` will not scroll before capture so hide the hero with injected CSS instead, and the in-app browser pane cannot be widened past roughly 300px so it is no substitute.
+
 ## Phase 4: verify
 
 ```bash

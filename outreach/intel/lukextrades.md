@@ -132,9 +132,33 @@ Draft: Luke has more output than anyone in the niche and it is pointed at a form
 
 Ace had depth with nowhere to live. TB had reach that converted nobody. **Luke has effort aimed at the wrong format.** The lever here is packaging and format selection, not production, because production is the one thing he has already solved. Do not let this doc read like the other two.
 
+## Source 06 — his best video, founder-supplied 2026-08-03
+
+`https://youtu.be/tNy_uIzu3eI` — "How I Passed a 50K Alpha Futures Zero Eval in 1 Trade | DayTrading NASDAQ Futures". **5,229 views, 7.2 minutes, uploaded 2025-10-10.**
+
+**This corrects the earlier read in this file.** I had called long-form backtesting his signal because the 56-minute video did 681. It is not. The 5,229 video is seven minutes long, so length is not the variable. Three things in that title are:
+
+- a prop firm people already search by name
+- a number
+- "in 1 trade", the impossible version of something that normally takes weeks
+
+And the part that matters commercially: he holds affiliate codes with Alpha Futures, FundedNext and TopOne. The format that performs best on his channel is the same format that feeds the revenue he already collects. He has made it once.
+
 ## Assets built
 
-None yet. 30 thumbnails pulled.
+**Prospect document, `lukextrades-you-already-did-the-hard-part.docx`, 2026-08-04.** In `Desktop\Prospect Assets\lukextrades\`. Build script `output/lukextrades-doc-build.py`. 1,353 words, 8 images, passes `tools/check_prospect_doc.py`.
+
+Contents: the eval-format finding and five videos built off it, one per prop firm he already carries; his own three thumbnails against the rule that fell out of his data (one readable thing per thumbnail, the calendar has one, the desktop screenshot has forty at two per cent each); two untouched reference thumbnails from the vault; killing the Linktree in favour of one YouTube link; the 1-on-1 page replaced rather than rewritten, with the VSL beats and six application questions; two rendered previews of that page in his own copy; and the YouTube description.
+
+**Landing-page previews.** `output/lukextrades-preview/` builds both skins from `fill.py`. Monochrome `variant-02` and the gold `variant-02-gold-preview`, rendered with headless Chrome. Founder called the gold in on 2026-08-04 for the YouTube-arrival case, which overrides Codex's candidate-only note for prospect previews.
+
+Headline used, per the standard's rule to lead with a verified result when one exists: "I passed a 50K eval in one trade. Now I sit with six people at a time and get them there."
+
+**Founder steers applied during this build, in order.** Stop over-diagnosing, the stats read as pain and he already knows them, so 1,500 videos against 1,520 subscribers moved to the close as a light touch and the comparison itself was cut. Cut the yap in half, 1,146 words down to 739 before the later sections went back in. Do not rewrite a broken page, propose the real asset and say plainly it needs replacing. Keep the reference thumbnails in. Two links in the description, free training first.
+
+## Status
+
+`built, not sent`. No reply data on any asset yet.
 
 ## Pending from founder
 

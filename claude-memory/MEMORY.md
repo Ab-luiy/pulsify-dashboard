@@ -18,6 +18,8 @@
 
 ## Prospect assets / outreach
 
+- [Value asset = built work](feedback_value_asset_is_built_work.md) - the 6 governing rules for prospect docs: built work not diagnosis, framework not audit, ease in Bader-style then halve it, never open on pain stats they already know, replace broken assets don't reword them, flows like an email. Pipeline: wiki/playbooks/prospect-asset-sop.md
+- [Prospect asset SOP + tools](project_prospect_asset_sop.md) - 5-phase pipeline; tools/pull_creator_assets.py pulls YT thumbnails at max res (this step found the best insight in 2 of 3 builds), tools/check_prospect_doc.py enforces voice + the 1500-word ceiling, headless Chrome renders landing-page previews. 3 assets built, ZERO reply data
 - [Horizon note (follower reframe)](feedback_horizon_note_follower_reframe.md) - 2026-08-02: every prospect asset closes naming that the 500-5k follower count is NOT the constraint, the foundation is, compounding takes time; no timeline promise, no pitch, no strings. Five doc-standard upgrades proposed but unratified
 - [Asset library + suggestion register](feedback_asset_library_and_suggestion_register.md) - log EVERY prospect asset into wiki/playbooks/prospect-asset-library.md and propose from that menu; docs are suggestions ("you could") never instructions; diagnose which PILLAR is broken first (content -> offer -> funnel)
 - [Prospect asset folders](project_prospect_asset_folders.md) - assets live on the Desktop at "Desktop\Prospect Assets\{ig-handle}\", NOT the vault; script + docx + pdf + page pngs together; docx installs to scratchpad with NODE_PATH; folder is outside the autosync backup

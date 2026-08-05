@@ -106,6 +106,32 @@ This is the default cold-DM generator. The founder vets and picks the lead (the 
 - [[people/marcus-avatar]] — who these DMs target
 - [[concepts/trust-recession]] — why the gift-first, no-flex posture converts in this market
 
+## The follow-up (drafted 2026-08-04, untested)
+
+Two prospects received a full asset and went silent. The diagnosis is structural rather than a copy problem: **the document has no CTA by design, and the first DM asks for nothing, so nowhere in the sequence is the prospect ever given a reason to type.** They read it, think well of it, and have nothing to reply to. The follow-up has to carry the ask the doc deliberately does not.
+
+Its job is to be the easiest possible message to answer. Not a reminder, never "did you see it."
+
+**Option A, the small question. Recommended.**
+
+> yo did the thumbnail part land or was that too much at once? only asking cause im putting these together for a few people and wanna know what's actually useful
+
+One question, answerable in a word, about them rather than us. The stated reason for asking is not a pitch, and "for a few people" carries quiet social proof without a claim. Swap the noun per prospect: thumbnails for a packaging asset, the story sequence for a sequence asset.
+
+**Option B, gift again.**
+
+> forgot to put this in the doc. [one specific extra thing]. no reply needed, just thought you'd want it
+
+Reopens the thread with the same gift-first posture and asks nothing. Needs one genuinely useful extra thing in hand.
+
+**Option C, the clean exit.**
+
+> no stress if that wasn't useful. if you did want to run any of it and got stuck, i'll answer anything on it. either way good luck with the eval stuff
+
+Permission to be done, which sometimes draws a reply on its own. Can read slightly wounded, so it goes last.
+
+**Timing:** 3 to 5 days, proposed not proven. Log what happens; this section becomes doctrine only when reply data exists.
+
 ## Open questions / gaps
 
 - The Ben Bader swipe file ([[raw-sources/scripts/Ben-Bader-Emails.md]]) is the wit reference the founder relates to. The transferable moves (absurd-specific imagery, the mirror, the earned-dare CTA) are noted but not yet codified into their own email voice page. The founder found heavy wit "too generated" for cold DMs and pulled back to the plain casual voice above — wit stays a lighter seasoning, not the structure.
