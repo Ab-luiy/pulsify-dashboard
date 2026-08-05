@@ -253,22 +253,39 @@ para(doc, "Those six do the filtering so you are not spending an hour on somebod
      size=9, color=MUTED, before=5)
 
 # --- the preview ----------------------------------------------------------
-para(doc, "So rather than describe it, here it is with your copy in it.",
-     size=9, color=MUTED, before=11, after=6)
+para(doc, "So rather than describe it, here it is with your copy already in it. Two versions of "
+          "the same page.", size=9, color=MUTED, before=11, after=6)
 
 PREVIEW = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain\output\lukextrades-preview"
 for shot, cap in (
-    ("preview-hero.png",
+    ("mono-hero.png",
      "The headline leads with the result you already have, and the video sits above everything "
      "else on the page."),
-    ("preview-apply.png",
+    ("gold-hero.png",
+     "Same page, warmer. This one is centred and probably reads better to a YouTube audience "
+     "arriving from a description link."),
+    ("mono-apply.png",
      "The application is on the page rather than in your inbox. Every person who starts it "
-     "leaves a record, whether they finish or not."),
+     "leaves a record, whether they finish it or not."),
 ):
     p = doc.add_paragraph()
     spacing(p, 4, 3, 1.0)
     p.add_run().add_picture(os.path.join(PREVIEW, shot), width=Inches(4.5))
     para(doc, cap, size=8.5, color=MUTED, after=9, line=1.18)
+
+# --- the description ------------------------------------------------------
+heading(doc, "Your YouTube description")
+para(doc, "Every video is a chance to send somebody somewhere, and right now the description is "
+          "doing none of that. Short is the point.", size=9, color=MUTED, after=6)
+mono_line(doc, None, "i trade nq.")
+mono_line(doc, None, "")
+mono_line(doc, None, "my free training: lukextrades.com")
+mono_line(doc, None, "instagram: instagram.com/lukextrades")
+mono_line(doc, None, "")
+mono_line(doc, None, "prop firm discounts, code LUKEX: [your link]")
+para(doc, "Free training first, because that is the one that leads anywhere. The codes stay, "
+          "they just sit below the thing that builds the relationship instead of above it.",
+     size=9, color=MUTED, before=7)
 
 # --- kill the linktree ----------------------------------------------------
 heading(doc, "Drop the Linktree, send them to the channel")
@@ -277,8 +294,9 @@ para(doc, "Ten options is a menu, and a menu makes somebody choose. Most people 
           "under three discount codes.")
 para(doc, "One link straight to YouTube does more, because that is where you already are. The "
           "person who lands there does not pick from a list, they watch you trade for seven "
-          "minutes, and the codes and the application are waiting in the description of every "
-          "video by the time they actually want them.")
+          "minutes, and the training and the codes are both waiting in the description of every "
+          "video by the time they actually want them. There is a version of that description "
+          "further down.")
 para(doc, "Nothing is lost. A code clicked by somebody who just watched you pass an eval "
           "converts better than one clicked off a menu by somebody who has not, and the "
           "highlight rail can carry the same job on Instagram, where five of the seven are "

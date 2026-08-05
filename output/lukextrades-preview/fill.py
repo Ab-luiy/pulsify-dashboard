@@ -1,9 +1,18 @@
-"""Fill variant-02 with Luke's copy for a preview screenshot. Content only, no design changes."""
+"""Fill the landing-page templates with Luke's copy for preview screenshots.
+
+Builds two skins: monochrome variant-02 and the retained gold variant.
+Content only. No design changes to either template.
+"""
 import os
+import re
 import shutil
 
-SRC = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain\assets\landing-page-standard\variant-02"
-DST = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain\output\lukextrades-preview"
+ROOT = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain"
+SKINS = {
+    "mono": os.path.join(ROOT, r"assets\landing-page-standard\variant-02"),
+    "gold": os.path.join(ROOT, r"assets\landing-page-standard\variant-02-gold-preview"),
+}
+DST = os.path.join(ROOT, r"output\lukextrades-preview")
 
 TOKENS = {
     "PAGE_TITLE": "LukexTrades 1 on 1 Mentorship",
@@ -48,26 +57,39 @@ TOKENS = {
                          "is a guarantee of performance.",
 }
 
-os.makedirs(os.path.join(DST, "css"), exist_ok=True)
-shutil.copy2(os.path.join(SRC, "css", "style.css"), os.path.join(DST, "css", "style.css"))
+INTEGRATION = ('<script src="https://pulsify-funnels.pages.dev/js/'
+               'funnel-integrations.js"></script>')
 
-with open(os.path.join(SRC, "index.html"), encoding="utf-8") as f:
-    html = f.read()
+for skin, src in SKINS.items():
+    out_dir = os.path.join(DST, skin)
+    os.makedirs(os.path.join(out_dir, "css"), exist_ok=True)
 
-for k, v in TOKENS.items():
-    html = html.replace("{{" + k + "}}", v)
+    for f in os.listdir(os.path.join(src, "css")):
+        shutil.copy2(os.path.join(src, "css", f), os.path.join(out_dir, "css", f))
+    if os.path.isdir(os.path.join(src, "assets")):
+        shutil.copytree(os.path.join(src, "assets"),
+                        os.path.join(out_dir, "assets"), dirs_exist_ok=True)
 
-# the live integration script is not reachable offline; drop it for the preview only
-html = html.replace(
-    '<script src="https://pulsify-funnels.pages.dev/js/funnel-integrations.js"></script>', "")
+    with open(os.path.join(src, "index.html"), encoding="utf-8") as f:
+        html = f.read()
 
-leftover = [t for t in TOKENS if "{{" + t + "}}" in html]
-import re
-unfilled = re.findall(r"\{\{[A-Z0-9_]+\}\}", html)
+    # the gold skin ships its own extra stylesheet on the mockup, not the template
+    if skin == "gold" and os.path.exists(os.path.join(src, "css", "mockup.css")):
+        html = html.replace('<link rel="stylesheet" href="css/style.css">',
+                            '<link rel="stylesheet" href="css/style.css">\n'
+                            '  <link rel="stylesheet" href="css/mockup.css">')
 
-out = os.path.join(DST, "index.html")
-with open(out, "w", encoding="utf-8") as f:
-    f.write(html)
+    for k, v in TOKENS.items():
+        html = html.replace("{{" + k + "}}", v)
+    html = html.replace(INTEGRATION, "")
 
-print("wrote:", out)
-print("unfilled tokens:", unfilled if unfilled else "none")
+    with open(os.path.join(out_dir, "index.html"), "w", encoding="utf-8") as f:
+        f.write(html)
+
+    # a second copy with the hero hidden, so the application section can be shot directly
+    with open(os.path.join(out_dir, "_apply.html"), "w", encoding="utf-8") as f:
+        f.write(html.replace("</head>",
+                             "<style>.hero{display:none!important}</style></head>"))
+
+    unfilled = re.findall(r"\{\{[A-Z0-9_]+\}\}", html)
+    print(f"{skin:>5}: {out_dir}  unfilled={unfilled if unfilled else 'none'}")
