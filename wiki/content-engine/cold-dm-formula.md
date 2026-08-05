@@ -120,9 +120,19 @@ One question, answerable in a word, about them rather than us. The stated reason
 
 **Option B, gift again.**
 
-> forgot to put this in the doc. [one specific extra thing]. no reply needed, just thought you'd want it
+> forgot to put this in the doc. [the extra thing, and the reason]. no reply needed, just thought you'd want it
 
-Reopens the thread with the same gift-first posture and asks nothing. Needs one genuinely useful extra thing in hand.
+Reopens the thread with the same gift-first posture and asks nothing. The bracket is the entire message: generic and it reads as a bump, specific and it reopens the thread on its own.
+
+**Picking the extra thing.** Three tests. It takes them under a minute to do. It was not in the document. And the *reason* is the gift, not the instruction, because "pin that comment" is a tip while "pin that comment, it's the only proof on your page you didn't make yourself" is an insight. Source it from the evidence you gathered and did not use, which makes it automatically specific to them and automatically not a repeat.
+
+Worked, 2026-08-04:
+
+> Andersen / `_acetrades_`: forgot to put this in the doc. pin that comment where the guy back-tested your setup, it's the only proof on your page you didn't make yourself. no reply needed, just thought you'd want it
+
+> Ender / `nq.nox`: forgot to put this in the doc. name that first highlight "start here" instead of anything clever, it's the one every new person taps first. no reply needed, just thought you'd want it
+
+Both around 40 words. Deliberately avoided for Ender: the "pros over flex" video his follower requested, because `outreach/intel/nq-nox.md` flags that phrase as unverified and a wrong detail in a follow-up is worse than no follow-up.
 
 **Option C, the clean exit.**
 
