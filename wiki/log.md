@@ -1341,3 +1341,21 @@ Three prospect assets built back to back (`_acetrades_`, `tb.tradez`, `lukextrad
 **The standing gap:** three assets exist and none has reply data. Every rule above is craft-validated and none of it is results-validated. Until that changes the build log's outcome columns are the highest-value thing anyone can fill in.
 
 Files touched: `wiki/playbooks/prospect-asset-doc-standard.md`, `wiki/playbooks/prospect-asset-sop.md`, `wiki/playbooks/prospect-asset-library.md`, `wiki/content-engine/cold-dm-formula.md`, `outreach/intel/lukextrades.md`, `outreach/intel/tb-tradez.md`, `outreach/intel/acetrades.md`, `tools/pull_creator_assets.py`, `tools/check_prospect_doc.py`, `output/lukextrades-doc-build.py`, `output/tbtradez-doc-build.py`, `output/acetrades-doc-build.py`, `output/lukextrades-preview/`.
+
+## [2026-08-04] decision | First reply data: a booked call, and the "I already knew that" signal
+
+**The first outcome on any prospect asset.** The founder followed up a ghosted lead using the Option A follow-up and it booked a call. That is the first evidence that any part of this pipeline converts, and it validates the follow-up specifically rather than the doc.
+
+**The other reply is the more useful one.** A different prospect came back with, in substance, "I already knew that." Recorded here because it is the single most actionable piece of feedback the outreach motion has produced.
+
+Read: this is not a length complaint and shortening will not fix it. A meaningful share of what these documents contain is category advice any switched-on creator has already heard, and reading it aloud or cutting it in half leaves that share intact. What survives the test is only what we could see and they could not: the 1:89 clock across four of TB's thumbnails, the stranger who back-tested Andersen's setup in his own comments at 356 likes, Luke's best video being seven minutes rather than the fifty-six-minute one, Andersen's teaching reels beating his money reels four to one on his own grid.
+
+New cut rule, tighter than the falsifiability test already on the doc standard: **delete everything the prospect could have known without us, keep only what we found by looking.** Applies to whole sections, not sentences.
+
+**Format shift, founder-proposed and agreed with one correction.** The founder proposed a Loom of himself reading the document. A video of someone reading a document is a flatter format than the document, and it does not answer "I already knew this," it only makes them sit through it. The version that works is a screen-share of *their* account with him talking over it: scroll the grid, point at the two numbers, open a thumbnail at full size. Ninety seconds to three minutes. That cannot be dismissed as generic because it is their own screen, and it moves trust several stages at once because they hear and see him.
+
+**Delivery correction:** send it as a native video file in the Instagram DM, not a Loom link. Instagram plays uploaded video inline; a Loom link is a click out of the app to a stranger's domain, which is exactly the click a skeptical prospect will not make. Record in Loom if convenient, download the mp4, send the file.
+
+**The document survives but gets demoted.** The video earns the reply, the document is the leave-behind. Currently the doc is doing both jobs and it is the weaker opener.
+
+**Carlos:** founder is standing down on the FITFO deal for now, judged too much hassle for the return. Not closed, parked.
