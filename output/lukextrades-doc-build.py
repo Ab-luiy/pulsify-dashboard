@@ -166,38 +166,6 @@ for i, (title_text, note, img) in enumerate(rows):
 para(doc, "Crop to the one element that matters, lose the browser chrome, and put your face in a "
           "corner. There is not a single face anywhere on the channel.", before=7)
 
-# --- references -----------------------------------------------------------
-para(doc, "Two from other channels, untouched, so you can see what that looks like when "
-          "somebody does it properly.", size=9, color=MUTED, before=10, after=6)
-
-refs = [
-    ("XQB7y00msmc-HD.jpg",
-     "Also a screen recording, same as yours. The figures are the biggest thing in the frame, "
-     "the face sits small in a corner, and nothing has been added on top. No headline, no "
-     "arrows, no banner. This is the tidy version of what you are already making."),
-    ("KnbqLjGzD3k-HD.jpg",
-     "No numbers anywhere. Two real faces in a real room, and the question the video answers "
-     "written straight onto the picture. Quiet works in this niche, and there is not one face on "
-     "your channel."),
-]
-REFS = r"C:\Users\Lenovoi\Downloads\Pulsify-Brain\raw-sources\inspiration\thumbnail-retouch-references"
-rt = doc.add_table(rows=len(refs), cols=2)
-rt.alignment = WD_TABLE_ALIGNMENT.LEFT
-rt.autofit = False
-bs = OxmlElement("w:tblBorders")
-for edge in ("top", "left", "bottom", "right", "insideH", "insideV"):
-    e = OxmlElement("w:" + edge); e.set(qn("w:val"), "none"); bs.append(e)
-rt._tbl.tblPr.append(bs)
-for i, (f, cap) in enumerate(refs):
-    lc, rc = rt.rows[i].cells[0], rt.rows[i].cells[1]
-    lc.text = ""
-    p1 = lc.paragraphs[0]; spacing(p1, 5, 5, 1.0)
-    p1.add_run().add_picture(os.path.join(REFS, f), width=Inches(2.5))
-    rc.text = ""
-    p2 = rc.paragraphs[0]; spacing(p2, 5, 5, 1.18)
-    set_font(p2.add_run(cap), BODY, 8.5, MUTED)
-    lc.width, rc.width = Inches(2.65), Inches(3.45)
-
 # --- the landing page -----------------------------------------------------
 heading(doc, "Your 1 on 1 page needs replacing, not rewriting")
 para(doc, "The Carrd page has no video, no proof, no price and no form. \"Apply here\" opens an "
@@ -232,15 +200,13 @@ for label, note in page:
     set_font(p.add_run(note), BODY, 9, MUTED)
 
 para(doc, "The video, six beats", size=10, bold=True, before=11, after=3)
-sub_line(doc, "1. The result, who it is for, and how it works. In that order, in the first "
-              "minute. Not your background.")
-sub_line(doc, "2. The exact frustration. Passing sim, failing funded. The strategy works and the "
+sub_line(doc, "1. The result, who it is for, and how it works, in the first minute. Not your "
+              "background.")
+sub_line(doc, "2. The exact frustration. Passing sim, failing funded, strategy works and the "
               "account still dies.")
-sub_line(doc, "3. Why that happens and what you do differently. Let them judge the logic, not "
-              "the claim.")
-sub_line(doc, "4. Proof. Result first, backstory second. Never the other way round.")
-sub_line(doc, "5. What they get, who it is for, and what it costs. Say the price out loud. "
-              "Anyone still watching at that point can hear it.")
+sub_line(doc, "3. Why that happens and what you do differently.")
+sub_line(doc, "4. Proof. Result first, backstory second.")
+sub_line(doc, "5. What they get and what it costs. Say the price out loud.")
 sub_line(doc, "6. One instruction: fill in the form below.")
 
 para(doc, "The form, six questions", size=10, bold=True, before=11, after=3)
@@ -288,19 +254,17 @@ para(doc, "Free training first, because that is the one that leads anywhere. The
      size=9, color=MUTED, before=7)
 
 # --- kill the linktree ----------------------------------------------------
-heading(doc, "Drop the Linktree, send them to the channel")
-para(doc, "Ten options is a menu, and a menu makes somebody choose. Most people choose nothing "
-          "and close it. Right now the only thing on that page that pays you properly is eighth, "
-          "under three discount codes.")
-para(doc, "One link straight to YouTube does more, because that is where you already are. The "
-          "person who lands there does not pick from a list, they watch you trade for seven "
-          "minutes, and the training and the codes are both waiting in the description of every "
-          "video by the time they actually want them. There is a version of that description "
-          "further down.")
-para(doc, "Nothing is lost. A code clicked by somebody who just watched you pass an eval "
-          "converts better than one clicked off a menu by somebody who has not, and the "
-          "highlight rail can carry the same job on Instagram, where five of the seven are "
-          "currently other companies' logos.", size=9, color=MUTED)
+heading(doc, "Your offer is the eighth link on your own page")
+para(doc, "Counted it. Apply to work 1 on 1 with me sits at position eight on the Linktree, under "
+          "three prop firm discount codes and two social links. On Instagram, five of your seven "
+          "highlights are other companies' logos.")
+para(doc, "So the two surfaces a stranger actually lands on are both mostly advertising somebody "
+          "else, and the only thing that pays you properly is the hardest thing to find on "
+          "either.")
+para(doc, "One link to the channel instead of ten. The person who lands there watches you trade "
+          "for seven minutes rather than picking off a menu, and the training and the codes both "
+          "sit in the description of every video by the time they want them. There is a version "
+          "of that description below.")
 
 # --- close ----------------------------------------------------------------
 heading(doc, "Last thing")
