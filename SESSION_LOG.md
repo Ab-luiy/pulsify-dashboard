@@ -58,7 +58,12 @@ Running notes / carry-over items between Claude Code sessions.
 - [x] Dashboard `clients` block in `index.html` updated to match, now shows a result line
       per partner (new `.client-result` + `.badge.past` styles).
 
+- [x] **`STORY_SEQUENCE.md`** — 7-frame gameplan for the profile highlight, with format
+      rules, build order, and a monthly refresh cadence. Blocked on the pre-flight items
+      listed in that file before filming.
+
 ### TODO (next session)
+- [ ] Clear the `STORY_SEQUENCE.md` pre-flight list, then film.
 - [ ] Fill the three gaps in `WINS.md`: Jacob's surname/scope/outcome, Cihan's
       high-ticket figure + growth timeframe, and whether Nicholas's $94k is revenue
       generated for him or Pulsify's own take.
