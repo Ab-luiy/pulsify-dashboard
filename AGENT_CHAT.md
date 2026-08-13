@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Founder-directed currency/arithmetic and Instagram display-name correction; regenerate `_capture.html` and re-verify at a true 390 CSS viewport. No restructure, deploy, or Wrangler. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Targeted correctness and premium-pop pass completed and headless Chrome verified at 390 and 1280 output widths, including no-JS, overflow, annotations, console state and live hero clearance. No deploy or live publication. |
 | `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/log.md` | CODEX | DONE | Gold mockup retained in shared files and recorded in Claude memory/source of truth with candidate-only boundary; lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Mockup buttons darkened with no pale/white center; both main CTAs now Apply now, checks passed, lock cleared. |
