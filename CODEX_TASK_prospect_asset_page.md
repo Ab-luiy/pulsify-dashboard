@@ -29,15 +29,60 @@ Reuse, do not invent:
 - Funnels source of truth is `output/standard-preview/` on brain main. Templates live in `output/standard-preview/templates/`.
 - Headless Chrome renders at 1280 wide. Gotchas in `wiki/playbooks/prospect-asset-sop.md` phase 3b and `claude-memory/project_og_preview_path_urls.md` (window decorations eat ~90px of height, force explicit heights, `--user-data-dir` and `--no-sandbox` are required).
 
+## Presentation, and this governs everything below
+
+**It moves like a slideshow.** Sections fade in as they enter and fade back out as they leave, so moving through it feels like advancing a deck rather than scrolling a document. One idea per slide; if a section holds two arguments it becomes two slides.
+
+- Fade plus a small translate on enter, fade on exit. Subtle. Nothing bouncing, spinning or flying across the viewport.
+- Intersection observer only. **Never scroll-jack.** The reader keeps normal scroll control. Hijacking scroll on a phone gets the tab closed.
+- Copy must be readable before JS runs or if it never runs. Never gate content behind an animation.
+- Honour `prefers-reduced-motion`: fades collapse to instant, content still appears.
+
+**Mobile is the primary view.** The prospect opens this from an Instagram DM, inside Instagram's in-app browser, on a phone, one-handed. That is the real viewport. Desktop is where we build it and where almost nobody reads it.
+
+- Design at **390 wide first**, then let it grow. Never design at 1280 and shrink.
+- Every image stays legible at phone width. Side-by-side comparisons stack, and the annotation has to survive the stack.
+- No tables on mobile. Tier tables and evidence grids become stacked cards, never a table with a horizontal scrollbar.
+- Generous line height, nothing under about 15px, real tap targets.
+- Zero horizontal overflow at 390 checked as carefully as at 1280.
+
 ## Sections, in order
 
 **1. Hero.** Title, one line naming who it was built for and what from. Not a wall.
 
-**2. The finding.** Short. The strongest observation, with visual weight on the numbers.
+**2. The economics. This is the opening argument and the hardest thing on the page.**
+
+His own Whop, verified live 2026-08-13:
+
+| Tier | Price | Members |
+|---|---|---|
+| The Trading Club, free Discord | Free | 3,500 (his own page says "3,600+ strong community") |
+| VIP Lite, live trading calls | GBP 99/month | 2 |
+
+Alongside 58 reviews at 5.0, 98 percent of them five star.
+
+The argument: 3,600 people in the room and two of them pay. That is not a trust problem, because the people who reach him buy and then say so in public. Everything else on this page explains why so few reach him.
+
+Give the two numbers enormous visual weight. They are the reason he keeps reading. Stack as cards on mobile, never a table.
+
+**Do not use any figure for the 1-on-1 mentorship.** An earlier draft claimed 9 members and that number has no verified source. Free tier and VIP Lite only.
+
+**3. The finding.** Short. The strongest observation, with visual weight on the numbers. Frame it as the explanation of section 2: this is *why* so few of the 3,600 ever get far enough to buy.
 
 **3. Evidence grid.** His four thumbnails as cards, each with title, view count and a one-line note. The two identical templates (`yt-SJkj4JfEczo.jpg` and `yt-8K4dFyrucXk.jpg`) must sit adjacent so a reader sees for themselves that they are the same file with one word changed. Annotate the recycled `peak +120.4R` on both with a callout. This is the highest-value visual on the page.
 
 **4. Six titles, each with its thumbnail.** Non-negotiable per the standard: a title without an image is not a packaging recommendation. Card per title. Where we have no rendered thumbnail, show the reference thumbnail it is modelled on from his own channel (`yt-VjUpqe73wQw.jpg` and `yt-E6yw1uGNWBY.jpg` are the certificate format the rebuilds copy).
+
+**4b. His own channel already ran the experiment.** A short slide, four bars, his numbers off the `@matt.bergin` vlog channel with nothing added:
+
+| Video | Views |
+|---|---|
+| When you know it all but you still aren't profitable (trading) | 1.7K |
+| what its actually like making '30k' a month and why its not what you expect | 1.3K |
+| Buying a 2023 RS5 at 22 | 401 |
+| Audi RS5 Review | 331 |
+
+The honest teardown beats the car roughly four to one on his own audience. One line of copy, let the bars carry it. This earns the right to everything the page says about leading with proof instead of lifestyle, because he proved it himself without meaning to.
 
 **5. The description block.** Show the current one and the rebuilt one side by side, in a code/terminal treatment. The point is that his mentorship link is missing from the current one, so mark the absence visually rather than describing it.
 

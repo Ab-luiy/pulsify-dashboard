@@ -28,6 +28,37 @@ The reaction we want at the end is not "that was thorough." It is "this guy know
 
 **Design it as if it were a landing page.** Not a report, not a PDF, not a Word file with pictures in it. The mental model is a well-built one-page site with sections, cards, annotated images and visual hierarchy.
 
+## Presentation: it moves like a slideshow
+
+Founder directive 2026-08-13, second design pass.
+
+The asset reads as a sequence of slides rather than one long static column. Sections fade in as they enter and fade back out as they leave, so moving through it feels like advancing through a deck rather than scrolling a page.
+
+Why it matters: the fade is what converts passive scrolling into anticipation. Each section arriving on its own is the thing that makes the next one worth reaching. A static page shows the reader how much is left and invites a skim; a sequence reveals one idea at a time and holds them.
+
+Requirements:
+
+- One idea per slide. If a section has two arguments in it, it is two slides.
+- Fade and a small translate on enter, fade on exit. Subtle, not theatrical. Nothing that bounces, spins or slides across the viewport.
+- Driven by an intersection observer, never by scroll-jacking. The reader keeps normal control of their scroll. Hijacking it on a phone is the fastest way to get the tab closed.
+- Content must be present and readable with JavaScript disabled or before it runs. Never gate the copy behind an animation that might not fire.
+- Honour `prefers-reduced-motion`. Fades collapse to instant, content still appears.
+
+## Mobile is the primary view, not the second one
+
+Founder directive 2026-08-13, same pass, and it follows from how the asset is actually delivered.
+
+The prospect gets this as a link in an Instagram DM. They open it inside Instagram's in-app browser, on a phone, one-handed, probably within seconds of reading the message. **That is the real viewport.** Desktop is where we build it and where almost nobody reads it.
+
+So mobile is the design target and desktop is the adaptation, not the reverse.
+
+- Design at 390 wide first, then let it grow. Never design at 1280 and shrink.
+- Every image must stay legible at phone width. A thumbnail comparison that only works side by side on desktop has to stack, and the annotation has to survive the stack.
+- Tables are the usual casualty. A tier table or an evidence grid becomes stacked cards on mobile, not a table with a horizontal scrollbar.
+- Tap targets, generous line height, no text under about 15px.
+- Test in a real mobile viewport with device emulation on, not just a narrow desktop window. Instagram's in-app browser is more constrained than mobile Safari or Chrome.
+- Zero horizontal overflow at any width, checked at 390 as carefully as at 1280.
+
 ## What must be visual rather than written
 
 These four were called out by name. None of them may ship as a paragraph again.
