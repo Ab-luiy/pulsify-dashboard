@@ -1411,3 +1411,11 @@ Logged as a triggered reminder rather than a task. When the first client payment
 This is the same "custom domain" item flagged open in the 2026-08-13 prospect-asset ruling above, where a custom domain was named the last remaining piece of the link-trust problem on hosted prospect pages. It stays open by choice, not by oversight.
 
 Second ruling in the same exchange: a cheap TLD cannot be made to display as a different domain. Whatever URL is pasted into a DM is the URL the prospect sees. Masked forwarding shows the cheap domain in the address bar anyway, breaks the OG preview cards shipped 2026-07-09, and reads as evasive. So whichever domain is bought is the real public domain until it is replaced.
+
+## [2026-08-13] decision | founder correction on link trust, domain moves in front of revenue
+
+Correction to the entry above. I argued that `pulsify-funnels.pages.dev` reads as neutral to a prospect because it is visibly Cloudflare infrastructure. The founder rejected that outright: nobody outside dev work knows what `pages.dev` is, so to a trader opening a cold DM it is an unknown domain with the same trust cost as a .info. Standing rule from it - never assume a prospect parses infrastructure.
+
+Consequence recorded rather than the buy decision being changed. The domain sits in front of revenue, not after it, because every prospect asset is delivered through the link. Deferring it until first money makes the domain wait on revenue it partly gates. Argument put to the founder, decision left with him.
+
+Mechanics confirmed for the record. The per-lead path URLs shipped 2026-07-09 already produce `/{lead-slug}`, so attaching a custom domain converts every link to `domain.com/frank-wieler` with no rebuild - a DNS change only. Buying at Cloudflare Registrar avoids a nameserver migration because Pages already hosts the project. A name-first form (`frank-wieler.domain.com`) is possible but needs wildcard DNS and Codex verification on Pages, so the path form stands as the zero-engineering option.
