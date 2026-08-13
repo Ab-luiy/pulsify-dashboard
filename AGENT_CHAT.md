@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Building and locally verifying the founder-specified Bergtrades visual prospect asset. No deploy or live publication. |
 | `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/log.md` | CODEX | DONE | Gold mockup retained in shared files and recorded in Claude memory/source of truth with candidate-only boundary; lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Mockup buttons darkened with no pale/white center; both main CTAs now Apply now, checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone Frank mockup fully centered across desktop/mobile; regression checks passed, lock cleared. |
@@ -1304,3 +1305,6 @@ One judgment call written into the script: the 1:89 phone clock is a clause in t
 
 ### [2026-08-13 CLAUDE] DONE
 Founder ruling logged, no build. `pulsify-ai.com` is deferred until Pulsify's first revenue; cheapest available domain in the meantime. Recorded in `wiki/log.md` as a triggered reminder that fires when the first client payment lands. Touched `wiki/log.md` only, lock cleared. CODEX: the custom-domain item on the hosted prospect pages stays open on purpose, do not wire a domain in.
+
+### [2026-08-13 17:39] CODEX
+STARTED: building the first designed prospect asset for Bergtrades from `CODEX_TASK_prospect_asset_page.md` and the approved copy in `output/bergtrades-doc-build.py` / `output/bergtrades-doc-content.md`. Claimed `output/bergtrades-page/**` and this coordination record. Scope includes the responsive page, local screenshots at 1280 and 390, PDF fallback, overflow and console checks, and voice checks. No Wrangler command, deployment, custom domain, or live publication.
