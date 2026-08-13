@@ -8,6 +8,8 @@ updated: 2026-07-30
 
 # FITFO overview
 
+> **Dead as of 2026-08-13. Carlos ghosted on the contract and never signed.** Founder confirmed in session. He was never a client, so nothing in this folder counts as a case study, a result, or social proof, and none of it goes in a prospect asset. Kept for the discovery-call and content-audit material, which is still useful as pipeline reference. Do not present FITFO as work Pulsify delivered.
+
 Carlos, 25, trading creator in the FX and markets niche. Signed in principle on 2026-07-29 on a zero-upfront performance deal. He has an audience forming and no offer, which makes him a program stall rather than a content stall, and it means the entire deal is currently gated on building something for him to sell.
 
 ## Who he is
