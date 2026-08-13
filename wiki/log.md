@@ -1387,3 +1387,17 @@ Two founder rulings recorded. No trigger word on either CTA at zero audience: ev
 One open constraint: Pulse System pillars 4 and 5 have no client artifact because no client has run the full v1 mechanism end to end. Resolved by using the founder's own CRM and operator console, labelled honestly as his own, rather than staging a client dashboard that does not exist.
 
 Awaiting founder photos against the two shot lists. Cover number attribution on the carousel ($96k, one client or several) needs confirming before publishing.
+
+## [2026-08-13] decision | prospect assets become designed pages
+
+Founder directive after reviewing the bergtrades build: the asset stops being a document and becomes a designed page. His read was that the docx was bland and that "people really cannot read nowadays," and that we have been demonstrating our packaging ability with an unstyled Word file.
+
+Governing principle recorded as build for a scroller, not a reader. Four things may never ship as prose again: every title appears beside its thumbnail, bio audits render as side-by-side Instagram profile mocks, packaging before-and-after is shown with real numbers as proof, and emphasis is designed rather than implied. Register shifts from operator briefing to selling, so the prospect finishes able to tell right from wrong in their own business.
+
+New standard at [[playbooks/prospect-asset-visual-standard]]. [[playbooks/prospect-asset-doc-standard]] now carries a superseded-in-part banner: its layout half is retired, its writing rules stand.
+
+Resolved the founder's link-trust objection from the build records rather than by guessing. OG preview cards and clean per-lead path URLs both shipped 2026-07-09, so a pasted link already renders a preview card and already carries the prospect's name. Two rules follow: never send these behind the `/a/{token}` redirect, because a redirect reads as more suspicious and the hosted page is already instrumented, and a custom domain is the last remaining piece and is a founder purchase decision.
+
+Two content gaps blocked and flagged rather than filled. The packaging before-and-after case the founder references verbally has no recorded numbers or thumbnails anywhere, and `clients/fitfo/progress.md` confirms no YouTube baseline was ever captured. The $50M figure he wants attached to the VSL framework has no support in [[people/jeremy-haynes]] or anywhere else. Neither ships until sourced.
+
+Codex build brief written to `CODEX_TASK_prospect_asset_page.md`. Not fired, awaiting founder go on the design direction.

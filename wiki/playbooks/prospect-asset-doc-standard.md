@@ -8,6 +8,10 @@ updated: 2026-08-02
 
 # Prospect asset doc standard
 
+> **Superseded in part, 2026-08-13.** The founder ruled that these assets must be designed pages rather than documents: built for a scroller, visual first, with titles shown beside their thumbnails and bios rendered as side-by-side profile mocks. **The layout half of this page no longer governs new builds.** See [[playbooks/prospect-asset-visual-standard]].
+>
+> Everything on this page about *what the words do* still holds in full: built work over diagnosis, ease in then cut it in half, flows like an email, verbatim quotes, real numbers only, no CTA, the horizon note, nothing shipped unrendered. Read both.
+
 The locked layout for the document we send a prospect after they reply. Built and pressure-tested on the FITFO packaging asset over 2026-07-21. Like the landing-page standard, this is fill-in rather than redesign: the tokens, the structure and the components below do not get reinvented per prospect.
 
 Canonical implementation: `output/fitfo-doc-build-short.js`. Copy it, swap the content, keep the layer above the content untouched.
