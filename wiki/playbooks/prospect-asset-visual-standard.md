@@ -114,6 +114,44 @@ So:
 
 That is the whole rule. Everything else is judgment, and the bias should be toward shipping.
 
+## Read the vault before writing, not after
+
+Founder directive 2026-08-13, after the first Berg build shipped copy that read as AI-written while the assets that would have fixed it sat unopened.
+
+**Every asset is written from the vault's own sources, every time.** Writing from instinct and checking against the standard afterwards does not work. The order is read first, then write.
+
+Minimum reading before a line is written:
+
+| Job | File |
+|---|---|
+| Kill AI tells, pre-send checklist | [[content-engine/copy-voice-guide]] |
+| Copy rules | `copywriting.skill`, `raw-sources/prompts/_voice-guard.md` |
+| Writing a client VSL | `raw-sources/prompts/client-vsl-writer-prompt.md` |
+| VSL structure, plus real dissected examples | `raw-sources/frameworks/VSL-Frameworks-Jeremy-Haynes.md`, [[synthesis/vsl-pattern-lab]] |
+| Bios | [[synthesis/niksetting-extractions/12-instagram-bio-that-converts]] |
+| Conversion assets | [[synthesis/niksetting-extractions/04-conversion-content-five-assets]] |
+| Register and authority | [[people/niksetting]], [[people/soowei-goh]] |
+
+**Register:** explain the way Niksetting or SooWei would. Declarative, from a system, authority on the diagnosis. Never "yeah, and you could also."
+
+## Highlights: the permanent rail
+
+Founder directive 2026-08-13, stated explicitly for Berg **and every creator after him**. This is now the recommended highlight structure in every profile audit:
+
+1. **Start here** or **New here?** — orients a first-time visitor
+2. **My Story**
+3. **RESULTS** — nothing in it but results
+
+Highlights named `YouTube`, `Testimonials`, `Few Certs`, `Few Trades` come out. Those are folders, not jobs. A highlight rail has one purpose, which is walking a stranger from arrival to proof in three taps.
+
+## Order sections by effort, easiest first
+
+Attention is the constraint, so the document opens with what they could fix in ten minutes and moves toward the heavier work. Leading with the biggest lift loses them before the easy wins land.
+
+## Three links, maximum, in the description
+
+Landing page first, Instagram second, one optional third. No Discord invite, no link shorteners. A shortener is the only unbranded thing on the page and it reads as a redirect.
+
 ## Register: sell, do not brief
 
 Second founder correction on the same pass. The bergtrades doc read as operational lingo written for another operator.
