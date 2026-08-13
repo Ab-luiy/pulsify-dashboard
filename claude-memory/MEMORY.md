@@ -86,5 +86,5 @@
 ## Infra / personal
 
 - [Brain online backup](project_brain_online_backup.md) - the whole brain syncs both ways with private repo Ab-luiy/pulsify-brain: SessionStart pulls, Stop pushes, hourly task; new device = clone plus ./setup-autosync.ps1 plus recreate .env; see RESTORE.md
-- [Cloudflare MCP + skills](project_cloudflare_mcp_setup.md) - plugin installed 2026-08-13; 13 skills plus cloudflare-docs work now, but the 4 account servers need interactive OAuth no agent session can complete (no TTY, winpty fails too) - don't retry, he runs `claude mcp login` himself; recommended read-only scope
+- [Cloudflare MCP + skills](project_cloudflare_mcp_setup.md) - LIVE 2026-08-13: 13 skills plus all 5 MCP servers connected; api/builds/observability are read-only, bindings has full access (D1 writes - treat as dangerous); OAuth needs a TTY so only he can run `claude mcp login`
 - [Health tracker workflow](project_health_tracker.md) - Health tab logs calories and macros; he dictates meals or sends photos and I log via Chrome automation; cut 110 to 80kg, 1800 kcal, OMAD
