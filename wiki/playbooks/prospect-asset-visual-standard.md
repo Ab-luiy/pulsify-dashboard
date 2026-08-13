@@ -39,7 +39,18 @@ Why it matters: the fade is what converts passive scrolling into anticipation. E
 Requirements:
 
 - One idea per slide. If a section has two arguments in it, it is two slides.
-- Fade and a small translate on enter, fade on exit. Subtle, not theatrical. Nothing that bounces, spins or slides across the viewport.
+- Fade and a small translate on enter, fade on exit. Nothing that bounces, spins or flies across the viewport.
+
+**Things should pop, and that is not the same as being subtle.** Founder directive 2026-08-13, third design pass: elements need presence when they arrive, because the reader is scrolling on reflex and the arrival is what earns the next one. The distinction that matters:
+
+- **Premium pop:** a card lifting slightly as it lands, a number scaling up into place, a badge appearing a beat after the image it annotates, depth from shadow and layering, a highlight that draws the eye to the one thing that matters on that slide. It reads as expensive and considered.
+- **Cheap animation:** bouncing, spinning, sliding across the screen, everything moving at once, motion for its own sake. It reads as a template.
+
+The test is whether the motion directs attention to something specific. A number scaling up because it is the point of the slide is pop. A card sliding in because sliding looks busy is noise.
+
+Sequence within a slide, do not fire everything at once. Image, then its annotation, then the copy. That stagger is what makes it feel built rather than dumped.
+
+This does not contradict [[feedback_dashboard_quality_bar]]. Premium and decluttered still governs. Pop is about presence and hierarchy, not volume.
 - Driven by an intersection observer, never by scroll-jacking. The reader keeps normal control of their scroll. Hijacking it on a phone is the fastest way to get the tab closed.
 - Content must be present and readable with JavaScript disabled or before it runs. Never gate the copy behind an animation that might not fire.
 - Honour `prefers-reduced-motion`. Fades collapse to instant, content still appears.
