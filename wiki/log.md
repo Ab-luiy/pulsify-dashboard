@@ -1373,3 +1373,17 @@ Two documents built, rendered and read: `bergtrades-the-proof-is-on-the-wrong-pa
 Three vault updates fell out of it. The Word COM render blocker in [[playbooks/prospect-asset-sop]] is cleared, with the working recipe recorded. [[frameworks/vsl-framework]] carries a contradiction flag: its six steps do not match the raw Jeremy Haynes source and the raw order was used for the build. [[playbooks/prospect-asset-library]] has the new build-log row.
 
 Not sent. Awaiting founder review.
+
+## [2026-08-13] client-update | Pulsify's own IG: start-here sequence + methodology carousel
+
+Founder asked for a story sequence for his highlights and a carousel, both against the captured Niksetting frameworks. Confirmed what the vault actually holds before drafting: [[frameworks/story-sequence-system]], the 18-slide [[content-engine/sequence-breakdowns/niksetting-new-here]] teardown, [[content-engine/sequence-carousel-design-system]] and [[frameworks/carousel-system]]. Nothing in the vault matches "harmonize" - the only hit is inside a SooWei transcript and it is not a framework. Flagged rather than guessed.
+
+Two assets built. [[content-engine/pulsify-start-here-sequence-v1]] is the transformation sequence, 12 slides, every number pulled from the authority anchors in [[people/abdullah-dagestani]] and nothing invented. Two deliberate calls: the transformation on show is capability rather than money (founder's own constraint, and the only version that survives a prospect checking), and slide 7 admits the Nick churn with the blame on the founder for never setting the timeline expectation.
+
+[[content-engine/pulsify-methodology-carousel-v1]] is the methodology-as-document carousel: the labor-layer wedge, then the five Pulse System pillars, then a CTA that routes the reader into the start-here highlight. Founder ruled out the taxonomy structure for now on the correct read that reach plays need reach.
+
+Two founder rulings recorded. No trigger word on either CTA at zero audience: everyone reaching these assets arrives from a cold DM already open, so a trigger word is friction on a live conversation. Re-add it when reels start pulling strangers. And the transformation story stays in stories only, not duplicated to the grid.
+
+One open constraint: Pulse System pillars 4 and 5 have no client artifact because no client has run the full v1 mechanism end to end. Resolved by using the founder's own CRM and operator console, labelled honestly as his own, rather than staging a client dashboard that does not exist.
+
+Awaiting founder photos against the two shot lists. Cover number attribution on the carousel ($96k, one client or several) needs confirming before publishing.

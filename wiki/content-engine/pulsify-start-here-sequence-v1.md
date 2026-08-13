@@ -238,15 +238,17 @@ if you're a coach or creator doing real numbers, and you can feel that something
 
 free. no call, no strings. i just want to be useful to the right people.
 
-dm me "{TRIGGER}" and send me your page.
+you already have my dm open. just say so.
 ```
 
-**EMPHASIS:** the trigger word in a red-boxed pill, the only red on the slide.
+**EMPHASIS:** minimal. One red underline under "no call, no strings."
 **PHOTO:** him, close-up, phone-raw, looking at camera. This is the one authority close-up in the sequence and it should be the least produced photo of the twelve.
 **INTERACTIVE:** none. Keep the DM as the only path.
 **JOB:** close from abundance.
 
-**Trigger word:** founder to pick. Not "audit" or "review" — the ratified prospect-asset doctrine is built work, never diagnosis, so the promise on this slide has to be a built thing. "gameplan," "build," "piece" all fit.
+**No trigger word (founder ruling, 2026-08-13).** A DM trigger word is a mechanic for an audience. At zero audience, everyone who reaches this highlight arrived from a cold DM the founder sent, so they are already in the thread. Asking them to type a word back adds friction to a conversation that is already open. The line "you already have my dm open" converts the constraint into a close.
+
+**Re-add the trigger word when:** reels start pulling non-followers, or the account reaches the point where strangers land on the profile without a DM first. At that point the highlight gets a second CTA slide appended (per the accretion pattern) carrying the trigger.
 
 **Volume note:** promising built work at scale is expensive. If the DM volume becomes real, swap the promise to a lighter one rather than breaking it.
 
