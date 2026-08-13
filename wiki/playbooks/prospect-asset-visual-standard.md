@@ -62,11 +62,15 @@ Do not open on the mess. "You have four VSLs and you have clearly been testing a
 
 Open on the replacement instead. The shape:
 
-> You have tested a lot of these. I built you one, off the limited information I have from the outside. It is built on the framework we use for this, which is the one behind [PROVEN RESULT - source it or leave it out].
+> You have tested a lot of these. I built you one, off the limited information I have from the outside. It is built on the framework we use for this, which has done over $10m in information product and mentorship sales.
 
 Then the asset itself.
 
-> ⚠️ Gap as of 2026-08-13: the founder wants this framed with a figure attached to the framework, referenced verbally as $50 million in information and mentorship sales. `wiki/people/jeremy-haynes.md` carries no revenue figure and nothing else in the vault supports it. **Until sourced, name the framework without the number.** An unverifiable figure in a document whose entire argument is "show the document, do not make the claim" is the one contradiction that would sink it.
+**The figure, ruled 2026-08-13.** Use **over $10m**, attached to the framework and not to us. Founder's basis: it is Jeremy Haynes' framework and he only works with info product coaches doing at least a million a month, so the number is conservative. Recorded as a founder assertion rather than a vault-sourced figure, since [[people/jeremy-haynes]] carries no revenue data. Do not inflate it later on the assumption it was verified.
+
+**Do not credit Jeremy by name in prospect-facing copy.** Founder directive. The framework gets used, the source does not get named. This is normal in marketing and nobody expects attribution in a sales asset.
+
+**The line that matters.** "The framework we use, which has done over $10m in info product and mentorship sales" is true and names nobody. "The framework that has generated *us* over $10m" is a different claim and it is false. Never write the second. The whole asset argues for showing evidence over making claims, so a figure we could not stand behind on a call is the one thing that would sink it.
 
 ## Delivery, and the link-trust problem
 
