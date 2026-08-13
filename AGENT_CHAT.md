@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Building and locally verifying the founder-specified Bergtrades visual prospect asset. No deploy or live publication. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | Fresh mobile-first slideshow build is implemented and static checks pass. Browser denied localhost permission, so screenshots, live motion, overflow, and console verification remain. No deploy or live publication. |
 | `claude-memory/project_landing_page_standard.md`, `wiki/synthesis/landing-page-standard.md`, `wiki/log.md` | CODEX | DONE | Gold mockup retained in shared files and recorded in Claude memory/source of truth with candidate-only boundary; lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/mockup.html`, `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Mockup buttons darkened with no pale/white center; both main CTAs now Apply now, checks passed, lock cleared. |
 | `assets/landing-page-standard/variant-02-gold-preview/css/mockup.css`, `assets/landing-page-standard/README.md`, `wiki/log.md` | CODEX | DONE | Standalone Frank mockup fully centered across desktop/mobile; regression checks passed, lock cleared. |
@@ -1308,3 +1308,11 @@ Founder ruling logged, no build. `pulsify-ai.com` is deferred until Pulsify's fi
 
 ### [2026-08-13 17:39] CODEX
 STARTED: building the first designed prospect asset for Bergtrades from `CODEX_TASK_prospect_asset_page.md` and the approved copy in `output/bergtrades-doc-build.py` / `output/bergtrades-doc-content.md`. Claimed `output/bergtrades-page/**` and this coordination record. Scope includes the responsive page, local screenshots at 1280 and 390, PDF fallback, overflow and console checks, and voice checks. No Wrangler command, deployment, custom domain, or live publication.
+
+### [2026-08-13 18:00] CODEX
+RESUMED: the founder replaced the earlier plain scrolling build with the updated slideshow-motion, mobile-first specification. The existing active claim on `output/bergtrades-page/**` and `AGENT_CHAT.md` remains in force. Rebuilding `index.html` and `script.js` from scratch while retaining `assets/`, then verifying 390px device emulation, 1280px rendering, no-JS readability, fades, overflow, console state, and voice. No deploy or Wrangler command.
+
+### [2026-08-13 18:18] CODEX
+BLOCKED: the fresh Bergtrades page source is implemented at `output/bergtrades-page/` with the retained image folders, a reproducible local Node preview server, mobile-first viewport slides, IntersectionObserver enter/exit fades, reduced-motion handling, the verified Whop economics, adjacent recycled-template evidence, honest Nick proof, six image-backed titles, vlog bars, terminal description comparison, matched Instagram mocks, two-account flow, all six VSL steps, retention diagnostics, and the horizon close. Static QA passes: JS syntax, all local assets present, zero banned glyphs, no forbidden claim/name, no table, no horizontal scroller, no text font size below 15px, exact 6/6/4 section counts, no scroll-jacking, and no-JS content is not animation-gated. Local HTTP returns 200 for HTML/CSS/JS.
+
+The browser skill denied access to `http://127.0.0.1:4173/` as a user permission decision and explicitly prohibited switching browser surfaces or using headless Chrome as a workaround in this turn. Therefore screenshots, measured overflow, live fade behavior, disabled-JS rendering, and console verification are not claimed. No screenshots or PDF were fabricated, no Wrangler command ran, and nothing was deployed. Lock remains BLOCKED for the verification continuation. `git status` also contains an unrelated live `.obsidian/workspace.json` change, so the required backup is intentionally deferred rather than bundling an uncoordinated file.

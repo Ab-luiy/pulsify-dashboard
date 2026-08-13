@@ -87,6 +87,22 @@ Preceding uploads ran a median of roughly 125 views. 814 against 125 is about 6.
 
 **4. Emphasis is designed, not implied.** Numbers, the finding, the rebuilt strings and the before/after deltas get visual weight: scale, colour, a card, a callout. Annotation on images is encouraged. Arrows pointing at the specific defect in their own screenshot do more work than a sentence describing where to look.
 
+## How precise to be
+
+Founder correction 2026-08-13, after a build stalled on wanting a source for a number nobody outside the business could have.
+
+**These are surface reads and they are supposed to be.** We work from what is public: their channel, their view counts, their pages, whatever their Whop or their bio exposes. Revenue, enrolment, churn, ad spend and margin are invisible to us and always will be. Demanding certainty on those makes the asset unwriteable.
+
+So:
+
+- **Infer freely from what is public.** Two hundred views against a nine hundred view median is a real observation and it does not need their analytics to be worth saying.
+- **Hedge honestly when hedging is honest.** "Roughly", "looks like", "from the outside" cost nothing and they are accurate. The prospect knows we cannot see inside.
+- **Do not block on a gap.** If a number cannot be stood behind, cut it or soften it and keep building. Stopping the whole asset to chase one figure is the wrong trade.
+
+**The one line that still holds:** do not state a specific number about *their* business that we cannot see and they can check. Their view counts are fair game because they are public and they match. "You have nine mentorship clients" is not, because they know the real figure and a wrong one ends the conversation on the spot.
+
+That is the whole rule. Everything else is judgment, and the bias should be toward shipping.
+
 ## Register: sell, do not brief
 
 Second founder correction on the same pass. The bergtrades doc read as operational lingo written for another operator.

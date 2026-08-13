@@ -1,30 +1,67 @@
 (() => {
-  const root = document.documentElement;
-  const meter = document.querySelector('.scroll-meter span');
-  const railLinks = Array.from(document.querySelectorAll('[data-rail]'));
-  const sections = Array.from(document.querySelectorAll('[data-section]'));
+  "use strict";
 
-  const updateMeter = () => {
-    const max = root.scrollHeight - window.innerHeight;
-    const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
-    meter.style.transform = `scaleX(${progress})`;
+  const root = document.documentElement;
+  const progress = document.querySelector(".progress-line span");
+  const reveals = Array.from(document.querySelectorAll("[data-reveal]"));
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let progressFrame = 0;
+
+  const updateProgress = () => {
+    progressFrame = 0;
+    if (!progress) return;
+
+    const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const ratio = Math.min(1, Math.max(0, window.scrollY / scrollable));
+    progress.style.width = `${ratio * 100}%`;
   };
 
-  const observer = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter((entry) => entry.isIntersecting)
-      .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-    if (!visible) return;
-    railLinks.forEach((link) => {
-      const active = link.dataset.rail === visible.target.dataset.section;
-      link.classList.toggle('active', active);
-      if (active) link.setAttribute('aria-current', 'true');
-      else link.removeAttribute('aria-current');
-    });
-  }, { rootMargin: '-20% 0px -58% 0px', threshold: [0.08, 0.2, 0.5] });
+  const requestProgressUpdate = () => {
+    if (progressFrame) return;
+    progressFrame = window.requestAnimationFrame(updateProgress);
+  };
 
-  sections.forEach((section) => observer.observe(section));
-  window.addEventListener('scroll', updateMeter, { passive: true });
-  window.addEventListener('resize', updateMeter);
-  updateMeter();
+  updateProgress();
+  window.addEventListener("scroll", requestProgressUpdate, { passive: true });
+  window.addEventListener("resize", requestProgressUpdate, { passive: true });
+
+  if (reducedMotion) {
+    root.dataset.motion = "reduced";
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    root.dataset.motion = "unsupported";
+    return;
+  }
+
+  const markInitialSlides = () => {
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    reveals.forEach((section) => {
+      const bounds = section.getBoundingClientRect();
+      const isVisible = bounds.bottom > viewportHeight * 0.12 && bounds.top < viewportHeight * 0.88;
+      section.classList.toggle("is-active", isVisible);
+    });
+  };
+
+  markInitialSlides();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const active = entry.isIntersecting && entry.intersectionRatio >= 0.12;
+      entry.target.classList.toggle("is-active", active);
+    });
+  }, {
+    root: null,
+    rootMargin: "-10% 0px -10% 0px",
+    threshold: [0, 0.06, 0.12, 0.24, 0.5, 0.75]
+  });
+
+  reveals.forEach((section) => observer.observe(section));
+
+  window.requestAnimationFrame(() => {
+    root.classList.add("motion-ready");
+    root.dataset.motion = "ready";
+  });
 })();
