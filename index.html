@@ -2523,6 +2523,7 @@
   .client-main { flex: 1; min-width: 0; }
   .client-name { font-weight: 600; color: var(--text); font-size: 13.5px; }
   .client-row .lesson { color: var(--text-2); font-size: 11.5px; margin-top: 3px; line-height: 1.45; }
+  .client-result { color: var(--accent); font-size: 12px; font-weight: 600; margin-top: 3px; letter-spacing: 0.01em; }
   .badge {
     display: inline-block;
     font-size: 10px;
@@ -2536,6 +2537,7 @@
   }
   .badge.churned { color: var(--danger); border-color: rgba(252,165,165,0.45); background: rgba(252,165,165,0.08); text-shadow: 0 0 10px rgba(252,165,165,0.5); }
   .badge.active  { color: var(--success); border-color: rgba(94,234,212,0.45); background: rgba(94,234,212,0.08); text-shadow: 0 0 10px rgba(94,234,212,0.5); }
+  .badge.past    { color: #a5b4fc; border-color: rgba(165,180,252,0.45); background: rgba(165,180,252,0.08); text-shadow: 0 0 10px rgba(165,180,252,0.45); }
 
   .targets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
   .target-col {
@@ -6331,8 +6333,10 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     "cash":     [0, 0, 0, 0, 0]
   },
   "clients": [
-    { "name": "Nicholas | Day Trader (@niicksfx)", "status": "active", "lesson": "Past/active client — helping w/ YouTube content. NOT a cold lead. Nurture, don't pitch." },
-    { "name": "Nick (Mamba FX)", "status": "churned", "lesson": "Expectation/timeline mismatch — drove the success-metric requirement" }
+    { "name": "Nicholas | Day Trader (@niicksfx)", "status": "past", "result": "~$94,000 total generated", "lesson": "On-and-off, not currently active. YouTube content. NOT a cold lead — nurture, don't pitch." },
+    { "name": "Cihan | Fitness", "status": "past", "result": "IG 200k → 500k followers · high-ticket sold", "lesson": "Instagram growth + high-ticket offer. High-ticket figure not recorded yet." },
+    { "name": "Jacob", "status": "past", "result": "—", "lesson": "Worked together — scope, dates and outcome still need filling in." },
+    { "name": "Nick (Mamba FX)", "status": "churned", "result": "—", "lesson": "Expectation/timeline mismatch — drove the success-metric requirement" }
   ],
   "crmNote": "All leads below got the Apr 14–15 blast (1:11 voice note + same Loom, zero personalization). ~4% reply. Do NOT re-spam. Retarget = lead with a custom value asset per Pulse System playbook. Peers/friends/spam/ex-client stripped out. Handles only exist for threads opened (IG hides @ in list view).",
   "crm": {
@@ -8232,12 +8236,17 @@ initPayoutSection();
     const initial = ((c.name || "?").trim().charAt(0) || "?").toUpperCase();
     const grad = c.status === "active"
       ? "linear-gradient(135deg,#5eead4,#34d399)"
-      : "linear-gradient(135deg,#fb7185,#fca5a5)";
+      : c.status === "past"
+        ? "linear-gradient(135deg,#93c5fd,#a5b4fc)"
+        : "linear-gradient(135deg,#fb7185,#fca5a5)";
+    const result = c.result && c.result !== "—"
+      ? `<div class="client-result">${c.result}</div>` : "";
     return `
     <div class="client-row">
       <div class="client-av" style="background:${grad}">${initial}</div>
       <div class="client-main">
         <div class="client-name">${c.name}</div>
+        ${result}
         <div class="lesson">${c.lesson || ""}</div>
       </div>
       <span class="badge ${c.status}">${c.status}</span>

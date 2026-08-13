@@ -45,3 +45,23 @@ Running notes / carry-over items between Claude Code sessions.
 ### Context
 - Raised at end of session; user was signing off for the night and wanted this logged
   so it can be picked up fresh. Nothing built yet — this is a captured request only.
+
+---
+
+## 2026-08-13
+
+### Done
+- [x] **Created `WINS.md`** — the wins/client ledger. Roster confirmed by AB:
+      Nicholas (@niicksfx, ~$94k total, on-and-off), Cihan (fitness, IG 200k → 500k +
+      high-ticket sold), Jacob (worked together, details missing), Nick/Mamba FX (churned).
+      Frank Wieler is **not** a client — `tools/exclusions.json` label corrected.
+- [x] Dashboard `clients` block in `index.html` updated to match, now shows a result line
+      per partner (new `.client-result` + `.badge.past` styles).
+
+### TODO (next session)
+- [ ] Fill the three gaps in `WINS.md`: Jacob's surname/scope/outcome, Cihan's
+      high-ticket figure + growth timeframe, and whether Nicholas's $94k is revenue
+      generated for him or Pulsify's own take.
+- [ ] Reconcile public claims with the ledger before the story highlight ships —
+      IG bio says "$alotof6figs generated", YT title says "$90,000+ from youtube content".
+      Ledger currently supports one ~$94k client result, not either claim as worded.
