@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-08-13T02:47:20.161207+00:00",
+  "lastUpdated": "2026-08-13T06:11:21.017Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-08-13T02:47:20.161207+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-08-12T06:08:23.042Z",
+    "updatedAt": "2026-08-13T06:11:20.922Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 520,
-      "following": 542,
+      "followers": 517,
+      "following": 543,
       "mediaCount": 6,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=RgAz9PC5yacQ7kNvwHu9X5N&_nc_oc=Adoblo_LydQBcdLy9oSVUMP9B0RhLz0wcxi53kxB5zxHhB4p0oCCZaTUYywDocqu_b0&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=xW81xnJPYQdcClYBsi5Rbg&_nc_tpa=Q5bMBQJDSCyiggs47j3Feki091k7dL6s0HpUoj4j1wpg_DVLMcAphk8-6vTfbNXBPtP9dc-kqW9Ooyr1&oh=00_AQGz6oSJb_ttI5etfIIXbUez4xz_xdSdLtAZu52OEZlZyw&oe=6A81F78E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=RgAz9PC5yacQ7kNvwEB9sC8&_nc_oc=AdomA4UYlaj9LI8hESMr4zRQQCdx9KQbK4gu8ZCnSaJ7L8H5PvOseZXgi-JYTzbcbRM&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=YXzUaXdryb9m35mSnDuExQ&_nc_tpa=Q5bMBQLuiua0WAwPDV4gACNwpTfGNq36bgfRw8kym40Zok78qrp14vfdAWEs1GUvOO1lsDLCIhQ3VJT_&oh=00_AQFgCz21u1Htt6Z7AC3bQ7xA-4IBPKISASRaIpNxbA81Gg&oe=6A83490E"
     },
     "content": {
       "reelsCount": 22,
@@ -215,14 +215,13 @@
       ]
     },
     "account": {
-      "reach30d": 1523,
+      "reach30d": 1063,
       "views30d": 0,
       "newFollowers30d": 29,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        475,
         567,
         16,
         3,
@@ -251,10 +250,10 @@
         9,
         1,
         0,
-        2
+        2,
+        15
       ],
       "followerSeries": [
-        2,
         0,
         0,
         0,
@@ -283,6 +282,7 @@
         1,
         0,
         3,
+        2,
         0
       ],
       "viewsSeries": [],
@@ -292,7 +292,7 @@
     "cadence": {
       "reels7d": 0,
       "posts7d": 0,
-      "stories7d": 0
+      "stories7d": 1
     },
     "reels": [
       {
@@ -884,6 +884,20 @@
     },
     "stories": [
       {
+        "id": "18097984166625792",
+        "permalink": "https://www.instagram.com/stories/ab.luiy/3962361505005893322",
+        "timestamp": "2026-08-12T21:32:01+0000",
+        "capturedAt": "2026-08-13T06:11:20.921Z",
+        "thumbnailDataUri": "",
+        "insights": {
+          "reach": 15,
+          "replies": 0,
+          "navigation": 15,
+          "profileVisits": 0,
+          "follows": 0
+        }
+      },
+      {
         "id": "18166312603384530",
         "permalink": "https://www.instagram.com/stories/ab.luiy/3919286258895845527",
         "timestamp": "2026-06-14T11:09:11+0000",
@@ -899,16 +913,16 @@
       }
     ],
     "storiesSummary": {
-      "count": 1,
-      "totalReach": 0,
+      "count": 2,
+      "totalReach": 15,
       "totalReplies": 0,
       "totalProfileVisits": 0,
-      "totalNavigation": 0,
-      "avgReach": 0
+      "totalNavigation": 15,
+      "avgReach": 8
     }
   },
   "content": {
-    "igFollowers": 520,
+    "igFollowers": 517,
     "igReach30d": 3160,
     "igReelsShipped": 6
   }
