@@ -1401,3 +1401,13 @@ Resolved the founder's link-trust objection from the build records rather than b
 Two content gaps blocked and flagged rather than filled. The packaging before-and-after case the founder references verbally has no recorded numbers or thumbnails anywhere, and `clients/fitfo/progress.md` confirms no YouTube baseline was ever captured. The $50M figure he wants attached to the VSL framework has no support in [[people/jeremy-haynes]] or anywhere else. Neither ships until sourced.
 
 Codex build brief written to `CODEX_TASK_prospect_asset_page.md`. Not fired, awaiting founder go on the design direction.
+
+## [2026-08-13] decision | pulsify-ai.com deferred until first revenue
+
+Founder was at the Wix checkout for `pulsify-ai.com` ($7.90 first year, renews at $21.35/yr) and stepped back. Ruling: no domain purchase until Pulsify takes its first money. Until then he wants the cheapest domain available and will upgrade later.
+
+Logged as a triggered reminder rather than a task. When the first client payment lands, the reminder to buy `pulsify-ai.com` fires unprompted, alongside the existing post-close onboarding trigger. Buy at a flat-rate registrar rather than a first-year bait price.
+
+This is the same "custom domain" item flagged open in the 2026-08-13 prospect-asset ruling above, where a custom domain was named the last remaining piece of the link-trust problem on hosted prospect pages. It stays open by choice, not by oversight.
+
+Second ruling in the same exchange: a cheap TLD cannot be made to display as a different domain. Whatever URL is pasted into a DM is the URL the prospect sees. Masked forwarding shows the cheap domain in the address bar anyway, breaks the OG preview cards shipped 2026-07-09, and reads as evasive. So whichever domain is bought is the real public domain until it is replaced.

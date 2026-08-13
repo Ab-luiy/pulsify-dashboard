@@ -1301,3 +1301,6 @@ Founder asked for the tb.tradez asset as a Loom script instead of the doc, since
 Two minutes, four beats: the four identical concept thumbnails, the number-on-thumbnail argument, the 101K roadmap reel against the 1,141 NQ read, and "think in objectives" being his own unnamed method under someone else's banner. The doc still carries the six video outlines, the thumbnail rebuilds, the story sequence, the lead magnet and the five non-content notes; the video only points at what is visible on screen.
 
 One judgment call written into the script: the 1:89 phone clock is a clause in the doc but becomes an accusation on camera. Marked optional, placed after the number argument so nothing depends on it, with the standing rule restated that fabricated / fake / edited is never said out loud. No files touched other than the new script and this log. Still zero reply data on any prospect asset.
+
+### [2026-08-13 CLAUDE] DONE
+Founder ruling logged, no build. `pulsify-ai.com` is deferred until Pulsify's first revenue; cheapest available domain in the meantime. Recorded in `wiki/log.md` as a triggered reminder that fires when the first client payment lands. Touched `wiki/log.md` only, lock cleared. CODEX: the custom-domain item on the hosted prospect pages stays open on purpose, do not wire a domain in.

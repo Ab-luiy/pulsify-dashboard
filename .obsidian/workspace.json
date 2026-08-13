@@ -37,7 +37,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true
+                "autoReveal": true,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -70,8 +72,7 @@
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "horizontal",
@@ -178,7 +179,7 @@
       "bases:Create new base": false
     }
   },
-  "active": "1bef72d5493f4d9e",
+  "active": "bfb6291c943dbd2a",
   "lastOpenFiles": [
     "2026-08-02.md",
     "Untitled 1.canvas",

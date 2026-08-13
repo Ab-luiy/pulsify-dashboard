@@ -60,6 +60,7 @@
 - [Integrations hub I1 live](project_integrations_hub_i1.md) - /integrations UI, D1 integrations/payments, Mark-paid onboarding trigger, webhooks, Discord alerts, all live; RULE: non-null getters delete !cfg gates; user-side = Kit key + Discord webhook
 - [Two-portal reskin](project_portal_reskin.md) - live operator design is MIRAGE; client client.html Atelier design finished but never deployed
 - [Flagship QA (Fable pass)](project_flagship_qa_2026_07_02.md) - wiki/synthesis/flagship-qa-2026-07-02.md; open: bare domain renders Frank, settings POST wipes absent fields; 7 standing rules incl. Kit-requires-webhook-secret
+- [Domain purchase deferred](project_domain_purchase_pending.md) - pulsify-ai.com wanted but NOT bought (Wix $7.90 -> $21.35/yr renew); TRIGGER = first client payment lands, remind him unprompted to buy it at a flat-rate registrar
 - [Fable handoff brief](project_fable_handoff.md) - wiki/synthesis/fable-handoff-2026-07-04.md; core rule = new builds gate on "does this start a conversation this week"
 
 ## Dashboard / CRM / leads
