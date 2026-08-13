@@ -59,14 +59,31 @@ Reuse, do not invent:
 - Also render a PDF from the same HTML as a fallback for prospects who will not click a link. One source, two outputs.
 - Deploy: `wrangler pages deploy . --project-name pulsify-funnels --branch main` from `output/standard-preview/`. Migration before code deploy if any is needed. **Always `--branch main`.**
 
-## Blocked, do not invent
+## Section 3b: the proof block (unblocked 2026-08-13)
 
-Two content blocks are specced but must not be filled until the founder supplies real data. Build the slots, leave them empty, do not fabricate:
+This is the single most persuasive thing on the page. It sits right after the evidence grid, because it proves the rule we just stated using our own client work.
 
-1. **The packaging before/after case study.** A real client channel, both thumbnails, real before and after view counts. Not in the vault. `clients/fitfo/progress.md` records no YouTube baseline.
-2. **Any revenue figure attached to the VSL framework.** `wiki/people/jeremy-haynes.md` carries no such number. Name the framework without a figure until sourced.
+Source: [[project_nick_case_study]]. Thumbnails at `Desktop\Prospect Assets\niicksfx\`.
 
-Never invent a stat. This is a hard rule in CLAUDE.md and the whole document argues for showing evidence rather than making claims, so a fabricated number would sink it.
+Three founder-confirmed uploads Pulsify packaged on a channel that was around 200 subscribers at the time:
+
+| File | Title | Views |
+|---|---|---|
+| `yt-3QDKzi4nFl8.jpg` | watch us breakdown our 6 figure trading systems live. (step-by-step) | 814 |
+| `yt-KnbqLjGzD3k.jpg` | trading mentor exposes trading mentorships | 737 |
+| `yt-enVq8W8N6mU.jpg` | my $30k/mo secret that stopped me from blowing accounts (step by step) | 314 |
+
+Against a median of roughly 125 views on the uploads immediately before. Show that median as the baseline, visually.
+
+Annotate each thumbnail with what it is doing: arrows and labels on the first, the speech-bubble question on the second, the named blueprint on the third. The annotation is the teaching.
+
+**Do not overclaim.** Views settled back after that batch before climbing again. The copy says those uploads spiked and the top two are still the channel's best a year later. It does not say the channel was transformed. A case study that overstates is worse than none in a document arguing for evidence over claims.
+
+## Do not invent
+
+One block stays constrained. Attach **over $10m** to the framework, never to us. "The framework we use, which has done over $10m in info product and mentorship sales" is fine. "The framework that generated us over $10m" is false and must never appear. Do not name Jeremy Haynes in prospect-facing copy.
+
+Never invent a stat. Hard rule in CLAUDE.md, and the whole document argues for showing evidence rather than making claims.
 
 ## Done means
 

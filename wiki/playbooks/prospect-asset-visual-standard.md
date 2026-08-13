@@ -40,7 +40,19 @@ Keep the mock faithful to how Instagram actually looks. Do not invent UI, do not
 
 **3. The packaging before and after is proof, and it needs real numbers.** The strongest block we can put in any of these is a real case: here is what the thumbnail and title were, here is what we rebuilt them to, here is what the video did before and after, on a channel of this size.
 
-> ⚠️ Gap as of 2026-08-13: we do not have this case documented. The founder has referenced a roughly 200-subscriber channel that reached about 1K in six months, with a repackaged video hitting around 900 views. `clients/fitfo/progress.md` records no YouTube baseline at all and the subscriber count was never stated, so the numbers are not in the vault and the thumbnails are not saved. **Nothing goes in a prospect asset until the founder supplies the channel, both thumbnails and the real figures.** Never invent a stat, per CLAUDE.md.
+**Resolved 2026-08-13. The case is Nick, `@niicksfx`.** Full detail in [[project_nick_case_study]]; thumbnails at `Desktop\Prospect Assets\niicksfx\`. Founder confirmed the three uploads Pulsify packaged:
+
+| Title | Views | What the thumbnail does |
+|---|---|---|
+| watch us breakdown our 6 figure trading systems live. (step-by-step) | 814 | "TRADING IS THIS EASY" on a yellow bar, arrows labelling both men "6-FIGURE TRADER" |
+| trading mentor exposes trading mentorships | 737 | Speech bubbles posing the viewer's own question back at them |
+| my $30k/mo secret that stopped me from blowing accounts (step by step) | 314 | A named blueprint diagram in frame, six labelled boxes |
+
+Preceding uploads ran a median of roughly 125 views. 814 against 125 is about 6.5x, and the top two are still the channel's best a year on.
+
+**State it honestly.** Views settled back after that batch before climbing again, so those specific uploads spiked; the channel was not permanently transformed. A case study that overclaims is worse than none, particularly in a document whose whole argument is show the evidence rather than make the claim.
+
+**The transferable principle, and it is the one to teach:** something concrete and legible carries the claim inside the frame. Arrows and annotation, a speech bubble asking the viewer's real question, a named diagram, a real document. Not one big styled word. This is why the case study belongs in every packaging asset: it demonstrates the rule with our own work instead of asserting it.
 
 **4. Emphasis is designed, not implied.** Numbers, the finding, the rebuilt strings and the before/after deltas get visual weight: scale, colour, a card, a callout. Annotation on images is encouraged. Arrows pointing at the specific defect in their own screenshot do more work than a sentence describing where to look.
 
