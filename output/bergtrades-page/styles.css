@@ -13,7 +13,7 @@
   --white-soft: #dedede;
   --graphite: #969696;
   --accent-gradient: linear-gradient(135deg, var(--white) 0%, var(--white-soft) 54%, var(--graphite) 100%);
-  --shadow: 0 30px 80px rgba(0, 0, 0, 0.52);
+  --shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 26px 72px rgba(0, 0, 0, 0.56), 0 62px 130px rgba(0, 0, 0, 0.3);
   --radius: 20px;
   --page-pad: 20px;
 }
@@ -230,7 +230,8 @@ strong {
   text-align: center;
 }
 
-.hero {
+.slide.hero {
+  padding-bottom: calc(112px + env(safe-area-inset-bottom));
   background:
     radial-gradient(circle at 76% 18%, rgba(255, 255, 255, 0.09), transparent 28%),
     radial-gradient(circle at 8% 74%, rgba(255, 255, 255, 0.035), transparent 24%),
@@ -298,8 +299,11 @@ strong {
 
 .scroll-cue {
   position: absolute;
-  inset: auto auto max(18px, env(safe-area-inset-bottom)) 50%;
+  inset: auto auto max(28px, env(safe-area-inset-bottom)) 50%;
+  padding: 6px 10px;
+  border-radius: 999px;
   color: var(--soft);
+  background: rgba(3, 3, 3, 0.82);
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.15em;
@@ -344,8 +348,9 @@ strong {
   background-clip: text;
   font-size: clamp(84px, 25vw, 130px);
   font-weight: 850;
-  letter-spacing: -0.09em;
-  line-height: 0.8;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.065em;
+  line-height: 0.96;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -840,7 +845,7 @@ strong {
 
 .ig-phone {
   position: relative;
-  width: min(100%, 344px);
+  width: min(100%, 430px);
   overflow: hidden;
   padding: 18px 16px 46px;
   border: 1px solid var(--line-strong);
@@ -893,8 +898,8 @@ strong {
 
 .ig-stats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
   text-align: center;
 }
 
@@ -942,7 +947,12 @@ strong {
 }
 
 .current-bio p {
-  color: var(--muted);
+  color: #dfdfdf;
+}
+
+.flag {
+  display: inline;
+  font-family: "Segoe UI Emoji", "Apple Color Emoji", sans-serif;
 }
 
 .ig-link {
@@ -973,10 +983,18 @@ strong {
 }
 
 .ig-highlights {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px 8px;
   margin: 20px 0;
+}
+
+.ig-highlights > span {
+  display: grid;
+  min-width: 0;
+  justify-items: center;
+  gap: 7px;
+  text-align: center;
 }
 
 .ig-highlights i {
@@ -986,6 +1004,37 @@ strong {
   border: 1px solid #454545;
   border-radius: 50%;
   background: linear-gradient(145deg, #282828, #111);
+}
+
+.ig-highlights b {
+  display: block;
+  max-width: 100%;
+  color: #d8d8d8;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.rebuilt-bio .changed-line,
+.ig-link.changed-line {
+  margin-right: -7px;
+  margin-left: -7px;
+  padding: 5px 7px;
+  border-left: 2px solid #fff;
+  border-radius: 0 7px 7px 0;
+  color: #fff;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.055));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.rebuilt-bio .changed-line {
+  margin-bottom: 4px;
+}
+
+.ig-link.changed-line {
+  min-height: 0;
+  margin-top: 8px;
 }
 
 .ig-tabs {
@@ -1228,6 +1277,85 @@ blockquote > span {
   overflow-wrap: anywhere;
 }
 
+.suggested-price {
+  display: inline;
+  padding: 2px 5px;
+  color: #050505;
+  background: #f4f4f4;
+  box-decoration-break: clone;
+  font-weight: 900;
+  -webkit-box-decoration-break: clone;
+}
+
+.delivery-note {
+  padding-left: 16px;
+  border-left: 2px solid var(--line-strong);
+}
+
+.price-math {
+  display: grid;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.price-math article {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(145deg, rgba(33, 33, 33, 0.98), rgba(8, 8, 8, 0.99));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), var(--shadow);
+}
+
+.price-math article > span,
+.price-math article > strong,
+.price-math article > b {
+  display: block;
+}
+
+.price-math article > span {
+  color: var(--soft);
+  font-size: 15px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.price-math article > strong {
+  margin-top: 13px;
+  font-size: clamp(25px, 6.6vw, 38px);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.price-math article > b {
+  margin-top: 11px;
+  color: var(--white-soft);
+  font-size: clamp(20px, 5.4vw, 28px);
+  line-height: 1.15;
+}
+
+.math-mark {
+  display: grid;
+  min-height: 44px;
+  place-items: center;
+  color: var(--soft);
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.price-conclusion {
+  max-width: 760px;
+  margin-top: 28px;
+  color: var(--ink);
+  font-size: clamp(21px, 5.7vw, 30px);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  line-height: 1.28;
+}
+
 .diagnostic-list {
   display: grid;
   gap: 1px;
@@ -1292,6 +1420,21 @@ blockquote > span {
   margin-top: 58px;
 }
 
+.economics-card,
+.media-card,
+.baseline-block,
+.proof-image,
+.title-reference,
+.terminal,
+.ig-phone,
+.account-card,
+blockquote,
+.price-math article,
+.diagnostic-list {
+  isolation: isolate;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), var(--shadow);
+}
+
 .motion-ready [data-reveal] > .slide-inner,
 .motion-ready [data-reveal] > .scroll-cue {
   opacity: 0.06;
@@ -1312,6 +1455,64 @@ blockquote > span {
 
 .motion-ready .hero:not(.is-active) > .scroll-cue {
   transform: translateX(-50%) translateY(16px);
+}
+
+.motion-ready [data-reveal] [data-stage] {
+  will-change: opacity, filter, translate, scale;
+}
+
+.motion-ready [data-reveal] [data-stage="image"] {
+  opacity: 0.08;
+  filter: brightness(0.72) saturate(0.82);
+  translate: 0 14px;
+  transition: opacity 560ms cubic-bezier(0.22, 1, 0.36, 1), filter 700ms cubic-bezier(0.22, 1, 0.36, 1), translate 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-ready [data-reveal] [data-stage="annotation"] {
+  opacity: 0.03;
+  scale: 0.94;
+  translate: 0 8px;
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), scale 520ms cubic-bezier(0.22, 1, 0.36, 1), translate 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-ready [data-reveal] [data-stage="copy"] {
+  opacity: 0.04;
+  translate: 0 11px;
+  transition: opacity 520ms cubic-bezier(0.22, 1, 0.36, 1), translate 620ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.motion-ready [data-reveal].is-active [data-stage="image"] {
+  opacity: 1;
+  filter: none;
+  translate: 0 0;
+  transition-delay: 70ms;
+}
+
+.motion-ready [data-reveal].is-active [data-stage="annotation"] {
+  opacity: 1;
+  scale: 1;
+  translate: 0 0;
+  transition-delay: 290ms;
+}
+
+.motion-ready [data-reveal].is-active [data-stage="copy"] {
+  opacity: 1;
+  translate: 0 0;
+  transition-delay: 470ms;
+}
+
+.motion-ready [data-reveal] .pop-number {
+  opacity: 0.18;
+  scale: 0.82;
+  transform-origin: left center;
+  transition: opacity 420ms cubic-bezier(0.22, 1, 0.36, 1), scale 720ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, scale;
+}
+
+.motion-ready [data-reveal].is-active .pop-number {
+  opacity: 1;
+  scale: 1;
+  transition-delay: 360ms;
 }
 
 :focus-visible {
@@ -1420,6 +1621,11 @@ blockquote > span {
   .objection-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+
+  .price-math {
+    grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr);
+    align-items: stretch;
+  }
 }
 
 @media (min-width: 1120px) {
@@ -1451,7 +1657,7 @@ blockquote > span {
   }
 
   .hero-frame figcaption,
-  .title-reference figcaption {
+.title-reference figcaption {
     inset: auto 8px 8px;
     padding: 8px 10px;
   }
@@ -1491,6 +1697,14 @@ blockquote > span {
   .motion-ready .hero > .scroll-cue {
     transform: translateX(-50%) !important;
   }
+
+  .motion-ready [data-reveal] [data-stage],
+  .motion-ready [data-reveal] .pop-number {
+    opacity: 1 !important;
+    filter: none !important;
+    scale: 1 !important;
+    translate: none !important;
+  }
 }
 
 @media print {
@@ -1526,5 +1740,13 @@ blockquote > span {
   .motion-ready [data-reveal] > .slide-inner {
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .motion-ready [data-reveal] [data-stage],
+  .motion-ready [data-reveal] .pop-number {
+    opacity: 1 !important;
+    filter: none !important;
+    scale: 1 !important;
+    translate: none !important;
   }
 }

@@ -84,6 +84,32 @@ chrome.exe --headless=new --disable-gpu --no-sandbox --hide-scrollbars \
 
 Headless Chrome produces clean 1280-wide PNGs that drop straight into the docx at 4.5in. Notes that cost time to learn: `--user-data-dir` is required or it silently fails, an `#anchor` will not scroll before capture so hide the hero with injected CSS instead, and the in-app browser pane cannot be widened past roughly 300px so it is no substitute.
 
+### Two capture traps, both found the hard way 2026-08-13
+
+**1. `--window-size` is not the CSS viewport on this machine.** A 0.75 device scale factor is applied, so `--window-size=390` renders a **292px** viewport and `--window-size=488` renders 366. `--force-device-scale-factor=1` did not override it. Divide the target by 0.75:
+
+| CSS viewport wanted | Pass `--window-size` |
+|---|---|
+| 390 (phone) | 520 |
+| 1280 (desktop) | 1707 |
+
+**Always check the output PNG's actual pixel width before trusting a screenshot.** This trap produced a false alarm during the bergtrades build: at a 292px viewport the stylesheet's 320px `min-width` guaranteed 28px of clipped text, which read exactly like a serious responsive bug and was not one. Nearly reported it to the founder as a defect.
+
+**2. A reveal-animated page captures blank.** Sections that start at `opacity: 0` and fade in on an intersection observer never fire in a headless single-shot capture, so most of the page renders empty. Worse, full-height slides (`min-height: 100svh`) inherit the capture window height, so a 16000px tall window makes every slide 16000px tall.
+
+The fix is a throwaway capture copy, never a change to the real file:
+
+```python
+override = '''<style id="capture-override">
+  .slide{min-height:auto !important;padding:34px 0 !important;}
+  [data-reveal], [data-reveal] > .slide-inner{opacity:1 !important;transform:none !important;}
+  .sticky-intro{position:static !important;}
+</style></head>'''
+html = html.replace('</head>', override, 1)
+```
+
+Write it to `_capture.html`, screenshot that, leave `index.html` untouched. Then slice the tall PNG into readable chunks with pymupdf before reading it, since a 12000px image is unreadable in one piece.
+
 ## Phase 4: verify
 
 ```bash
