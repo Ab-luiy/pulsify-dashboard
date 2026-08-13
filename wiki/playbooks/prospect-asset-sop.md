@@ -94,7 +94,16 @@ Voice violations, AI tells, stray placeholders, image count, word count against 
 
 **That is not the verification.** The rule stands: never send a document nobody has looked at. Render to PDF, rasterise every page, read them. Check the page count after every change, because one spacing tweak flips a two-pager to three.
 
-> Known blocker as of 2026-08-02: Word COM hangs on this machine, apparently on an unclicked first-run dialog, so `Documents.Add` never returns. Until somebody opens Word once and clicks through, the render step falls to the founder opening the file. Node is also absent here; python-docx plus a manual open is the working path.
+> ~~Known blocker as of 2026-08-02: Word COM hangs on this machine~~ **Cleared 2026-08-13.** Word COM opens and exports without hanging on the current machine, so phase 4 runs end to end. The working recipe, verified on the bergtrades build:
+
+```powershell
+Get-Process WINWORD -ErrorAction SilentlyContinue | Stop-Process -Force
+$w=New-Object -ComObject Word.Application; $w.Visible=$false; $w.DisplayAlerts=0
+$d=$w.Documents.Open("$dir\X.docx",[ref]$false,[ref]$true)
+$d.ExportAsFixedFormat("$dir\X.pdf",17); $d.Close([ref]$false); $w.Quit()
+```
+
+Use `Documents.Open` rather than `Documents.Add`, and set `DisplayAlerts=0` before opening. Note that `python` is not on PATH here but the `py` launcher is, so every script call is `py script.py`. Node is still absent; python-docx plus pymupdf is the working path.
 
 ## Phase 5: ship and log
 

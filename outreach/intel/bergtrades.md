@@ -152,6 +152,35 @@ He disqualifies people out loud, twice: "If you're not a serious trader... pleas
 Real numbers, all verbatim, none invented:
 35.9R in the last 60 days. Max loss streak 6. 108R down to 81R drawdown, 20 Apr to 22 May. Loses ~3 months a year, wins ~9. 40+ years of backtested data. Profitable 3+ years. ~$200K in team payouts this year. Weekly team payouts ranging $264 to $31K. Teaches the model in under 4 weeks. ~45 minutes a day on the charts. 55-60+ accounts, 3 model variations. 15 traders in Koh Samui, 9-10 more coming.
 
+## Founder steers, 2026-08-13
+
+- Drop the banned-account angle. Two accounts stay. Reframe as a split: one carries him (story, takes, story sequences, highlights), the other carries students and results. Framed as an angle he could take, not a must-do.
+- The 10K account is "an organised mess" and that is the thing to fix.
+- Landing pages are fine. One line each on the defects, no section.
+- The VSL is the centrepiece. He has several and that is the problem. Rewrite the mentorship one using Jeremy Haynes. "That will literally be the breaker of everything."
+- VSL shape he wants: struggle, lost money, found the method, broke even, wins, the life it bought, then it is attainable with 1-on-1 help throughout.
+
+## Built, 2026-08-13
+
+Two documents, both rendered and read page by page:
+
+| File | Words | Pages |
+|---|---|---|
+| `bergtrades-the-proof-is-on-the-wrong-page.docx` | 1,185 | 3 |
+| `bergtrades-vsl-rewritten.docx` | 893 | 2 |
+
+Both at `Desktop\Prospect Assets\bergtrades\`. Build script `output/bergtrades-doc-build.py` builds both.
+
+Split into two because the teardown came in at 1,742 words against the 1,500 ceiling and the VSL is a script rather than a section. Splitting fixed the count and gave the script its own file.
+
+VSL written against the **raw** Jeremy Haynes six-step (hook, why you, buying motives, offer, objections, qualification and CTA), not the wiki page's variant. See the contradiction flag now on [[frameworks/vsl-framework]].
+
+## Open slots he has to fill
+
+- The mentorship price. Marked `[YOUR PRICE]` in the VSL doc. Never invent it.
+- What the offer includes, marked `[weeks, calls, group, access]`.
+- Any personal detail for the "the life" beat in step two. Deliberately left blank rather than invented.
+
 ## Status
 
-Read delivered to founder 2026-08-13. Doc not yet built.
+Built and rendered 2026-08-13. **Not sent.** Awaiting founder review, then the price fill, then Drive upload and the DM.

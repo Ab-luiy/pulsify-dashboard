@@ -1359,3 +1359,17 @@ New cut rule, tighter than the falsifiability test already on the doc standard: 
 **The document survives but gets demoted.** The video earns the reply, the document is the leave-behind. Currently the doc is doing both jobs and it is the weaker opener.
 
 **Carlos:** founder is standing down on the FITFO deal for now, judged too much hassle for the return. Not closed, parked.
+
+## [2026-08-13] ingest | bergtrades prospect asset built
+
+Founder supplied the Loom transcript, IG and DM screenshots and three full video transcripts for Matthew Bergin (@bergtrades.ig, 10K). Scraped both YouTube channels for real titles and view counts, pulled 30 thumbnails at max res, and read both offer pages plus the application form.
+
+The diagnosis inverted the founder's Loom read. The Loom called the thumbnails weak and asked for better design. The channel data says his best-performing thumbnails are raw unedited screen grabs and his worst are the polished ones: every frame carrying a readable document did 500 to 1.2K, every designed graphic with a single word did 62 to 373. His two newest are the same file with one word swapped, carrying the same recycled +120.4R stat. Same month, he removed bergsmentorship.com from his video descriptions and replaced it with a linktw.in shortener, leaving five affiliate links above his own offer. Spine of the doc: his proof and his teaching are on the wrong surfaces, since thetradingclub.uk carries seven named student transformations and none of them are videos.
+
+Also found his unnamed unique mechanism, stated once in a transcript and nowhere else: a mechanical model makes the mentor auditable, so his students can check his results against their own in a way a discretionary mentor cannot.
+
+Two documents built, rendered and read: `bergtrades-the-proof-is-on-the-wrong-page.docx` (1,185 words, 3 pages) and `bergtrades-vsl-rewritten.docx` (893 words, 2 pages), both on the Desktop under `Prospect Assets\bergtrades\`. Build script at `output/bergtrades-doc-build.py`, intel at `outreach/intel/bergtrades.md`.
+
+Three vault updates fell out of it. The Word COM render blocker in [[playbooks/prospect-asset-sop]] is cleared, with the working recipe recorded. [[frameworks/vsl-framework]] carries a contradiction flag: its six steps do not match the raw Jeremy Haynes source and the raw order was used for the build. [[playbooks/prospect-asset-library]] has the new build-log row.
+
+Not sent. Awaiting founder review.

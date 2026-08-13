@@ -20,6 +20,8 @@ Pulsify does not build VSLs for every client from day one. The VSL requires a fi
 
 ### The 6-step VSL structure
 
+> ⚠️ Contradiction found 2026-08-13: the six steps written on this page (Hook, Problem, Mechanism, Proof, Offer, CTA) do not match the six steps in the raw source [[raw-sources/frameworks/VSL-Frameworks-Jeremy-Haynes]], which are **Hook, Why you, Buying motives, Offer, Objection handling, Qualification and CTA** and which that file calls "non-negotiable for any client building a VSL." The raw source is Jeremy's actual flow and this page appears to be a paraphrase that drifted. Resolution: **use the raw source's order.** The biggest practical difference is that credibility comes second, immediately after the hook, rather than proof arriving at step four. The bergtrades VSL build 2026-08-13 used the raw order. This page needs a rewrite against the source.
+
 Jeremy's VSL framework follows a fixed six-step flow. Every element earns its place or gets cut.
 
 **Step 1: Hook**
