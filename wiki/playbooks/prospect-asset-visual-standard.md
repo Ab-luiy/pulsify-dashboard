@@ -152,6 +152,25 @@ Attention is the constraint, so the document opens with what they could fix in t
 
 Landing page first, Instagram second, one optional third. No Discord invite, no link shorteners. A shortener is the only unbranded thing on the page and it reads as a redirect.
 
+## The close: proof, delivery, ask
+
+Founder directive 2026-08-13. **This replaces the horizon note as the ending of every asset**, and it reverses the long-standing no-CTA rule from [[playbooks/prospect-asset-doc-standard]].
+
+Why it changed: the horizon note reassures a creator that their follower count is not the constraint. That lands for someone at 500 followers. It reads as condescending to someone at 10K with 58 five-star reviews. And an asset that ends on encouragement gives a warm reader nothing to do.
+
+**Three short paragraphs maximum. The visuals carry the weight, not the prose.**
+
+1. **We have done this before.** One line naming that we have fixed the same thing for creators in their niche and outside it. Never a case-study essay.
+2. **Proof strip.** Real before-and-after screenshots of accounts we have worked on, plus a results figure rendered inside our own dashboard UI.
+3. **What they would get.** One line: their own dashboard and portal, built around the leaks in their funnel rather than a template, tracking a new viewer through to a paying client.
+4. **CTA button** worded so it assumes the decision. "Set this up for me" over "book a call" — by this point the reader is asking how they get it, not whether it works.
+
+### Rendering the proof tiles
+
+Screenshot our **real** product, do not mock one up. `output/standard-preview/portal-preview/index.html` is the client portal, `client.html` the client dashboard, `campaigns.html` the campaigns board. Render with headless Chrome and strip the "demo data" badge before it goes in a prospect asset.
+
+**The hard line on figures.** Putting a real number of ours into our own dashboard UI is a product screenshot and it is fine. Inventing the number, or presenting a rendered tile as a genuine payment-processor receipt, is fabricating a record and it does not ship. Every figure traces to something the founder has confirmed, per CLAUDE.md's never-invent-a-stat rule.
+
 ## Register: sell, do not brief
 
 Second founder correction on the same pass. The bergtrades doc read as operational lingo written for another operator.

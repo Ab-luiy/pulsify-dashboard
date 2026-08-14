@@ -62,6 +62,7 @@ Educational content only - NOT financial advice
 
 **Rebuilt:**
 ```
+Day trader (GB flag)
 one mechanical model, and my students trade it with me
 all my trades are on my youtube (link)
 ```
@@ -172,16 +173,14 @@ For every one of those, put the document in the frame. The payout certificate, t
 
 ## 8. YOUR ACCOUNTS
 
-**Headline:** You are posting sixteen times more on the smaller account.
+**Headline:** Three accounts, and the crowd is at the quiet one.
 
 **Body:**
-@bergtrades.ig has 10K followers and 16 posts. @battmergin has 1,479 followers and 260 posts. Then there is the club account on top.
+10K follow @bergtrades.ig. 1,479 follow @battmergin. The club account sits on top of both.
 
-Three doors, and the crowd is standing at the one with nothing behind it.
+Splitting a personal account off from a results account works once the mentorship is big enough that the wins account has something new to post every day. Before that it just splits the attention you already have, and the account with the audience ends up being the one you send people away from.
 
-Splitting a personal account from a results account works once the mentorship is already big enough that the wins account has something to post every day. Before that it just divides the attention you have.
-
-Pick the account with the followers, put everything there, and point the other two at it.
+Pick the one with the followers, put everything there, and point the other two at it.
 
 ---
 
@@ -202,15 +201,24 @@ And the headline is wider than a phone screen, so it gets cut off at both edges 
 
 ## CLOSE
 
-**Headline:** The VSL is already written.
+**Headline:** We have done this before.
 
-**Body:**
-The video on that page is the last thing left, and it is the one worth replacing. We wrote it out already, in your voice, using your students and your drawdown. It is done, not an offer to do it.
+**Body, three short paragraphs, visuals carry the rest:**
 
-Say the word and it is yours.
+We have fixed this for creators in trading and well outside it. It is the same story every time. The proof already exists and it is filed where nobody looks.
 
-**Button:** Book a call
+[PROOF STRIP — before and after Instagram accounts, side by side. Founder to supply.]
+[CASH TILE — the $98k, rendered inside our own dashboard. Founder to confirm the figure and whose it is.]
+
+You would get your own dashboard and portal, built around the leaks in your funnel rather than a template, tracking every new viewer through to a paying client.
+
+[PORTAL SAMPLE — `output/bergtrades-page/shots/sample-portal-preview-index-html.png`, demo badge removed.]
+
+The VSL for that page is already written, in your voice, off your students and your drawdown. Done, not an offer to do it.
+
+**Button:** Set this up for me
 **Link:** https://cal.com/mista-ab/1-1-consultation-call-with-*ab
+(asterisk verified as part of the real slug: with it 200, without it 404)
 
 ---
 
