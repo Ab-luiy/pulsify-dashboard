@@ -5,24 +5,31 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 65194e69-79cf-4a94-92d3-160eea48e5ab
-  modified: 2026-08-15T01:18:17.703Z
+  modified: 2026-08-15T01:55:00.089Z
 ---
 
 Nick (Nicholas, `@niicksfx` on both IG and YouTube) is Pulsify's real client case study and the one to reach for when a prospect asset needs proof. Not FITFO, who ghosted ([[project_fitfo_carlos_deal]]).
 
 **The revenue result**, written up in `clients/nick/overview.md` with a confirmed video testimonial: $10-20k/month from trading alone to $50k/month from trading plus selling his information, roughly 3 months to consistent qualified leads.
 
-**The headline numbers for prospect assets** (founder-confirmed 2026-08-13):
+**The headline numbers for prospect assets:**
 
-| Metric | Figure |
-|---|---|
-| Total sales across the engagement | **$98,000** |
-| Instagram, start to finish | **6,000 -> 20,000 in 4 months** |
-| Sales per follower (derived) | $4.90 |
+| Metric | Figure | Status |
+|---|---|---|
+| Total sales across the engagement | **$98,000** | Founder-stated, definite |
+| Instagram followers now | **24.1K** | Verified live 2026-08-13 |
+| Sales per follower | $4.07 | Derived |
+| Monthly revenue | $10-20K -> $50K/mo | Video testimonial |
 
-Rendered as a portal tile at `output/bergtrades-page/proof/nick-proof-tile.png`, built from the
-real client portal UI, not a mockup. Crop to the metrics band only: below it the portal carries
-demo task lists that a reader would mistake for Nick's.
+**Do NOT print a follower before-and-after.** The founder recalls ~6,000 at the start but said
+"or sumn, I'm not sure", and recalled the finish as 20,000 when the live account is 24.1K.
+No day-zero screenshot exists. The starting number is memory, not data.
+
+**Third time his recalled numbers have missed** (200-subs-to-1k, ~900 views, now 20k vs 24.1K).
+Always pull the live figure before writing one down.
+
+Tile at `output/bergtrades-page/proof/nick-proof-tile.png`, built from the real client portal UI.
+Crop to the metrics band; below it are demo task lists a reader would mistake for Nick's.
 
 ## The packaging case study, founder-confirmed 2026-08-13
 

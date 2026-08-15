@@ -13,21 +13,33 @@ Stage when Pulsify started: $10K-$20K/month from trading alone, no consistent in
 Result: $50K/month (trading + info offer combined)
 Timeframe: approximately 3 months to consistent qualified leads
 
-## Headline numbers (founder-confirmed 2026-08-13)
+## Headline numbers
 
-| Metric | Figure |
-|---|---|
-| Total sales across the engagement | **$98,000** |
-| Instagram followers, start to finish | **6,000 -> 20,000 in 4 months** |
-| Sales per follower (derived) | $4.90 |
-| Monthly revenue | $10-20K/mo -> $50K/mo |
+| Metric | Figure | Status |
+|---|---|---|
+| Total sales across the engagement | **$98,000** | Founder-stated 2026-08-13, definite |
+| Instagram followers now | **24.1K** (19 posts, 641 following) | **Verified live 2026-08-13** off `@niicksfx` |
+| Sales per follower (derived) | $4.07 | $98,000 / 24,100 |
+| Monthly revenue | $10-20K/mo -> $50K/mo | From the video testimonial |
 
-These are the figures used in prospect assets. Rendered as a portal tile at
-`output/bergtrades-page/proof/nick-proof-tile.png`, built from the real client portal UI
-(`output/standard-preview/portal-preview/index.html`) rather than a mockup.
+> ⚠️ **The starting follower count is NOT verified.** The founder recalls roughly 6,000 at the
+> start and said in the same breath "or sumn, I'm not sure." He also recalled the finish as 20,000
+> when the live account reads 24.1K. Treat 6K as a memory, not a figure. **Do not print a
+> before-and-after follower delta in a prospect asset until a real baseline surfaces.**
+>
+> This is the second time his recalled numbers have missed. See also the packaging case study,
+> where 200-subs-to-1k and "about 900 views" did not match the channel. Always pull the live
+> number.
 
-The platform for the 6K-to-20K figure is Instagram (`@niicksfx`). His YouTube channel is a
-separate, much smaller asset at 764 subscribers.
+No day-zero screenshot of his account exists, which is why `wiki/playbooks/prospect-signed-onboarding.md`
+step 8 now forces a baseline capture for every client.
+
+Prospect-asset tile: `output/bergtrades-page/proof/nick-proof-tile.png`, built from the real
+client portal UI (`output/standard-preview/portal-preview/index.html`) rather than a mockup.
+Crop to the metrics band; below it the portal carries demo task lists.
+
+His Instagram highlight rail is already close to the structure we recommend to prospects:
+Start Today, Students, Results, Mind | Health.
 
 ## What was done
 
