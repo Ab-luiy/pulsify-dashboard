@@ -5,7 +5,16 @@
   const progress = document.querySelector(".progress-line span");
   const reveals = Array.from(document.querySelectorAll("[data-reveal]"));
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const primaryCta = document.getElementById("cta-primary");
   let progressFrame = 0;
+
+  if (primaryCta) {
+    primaryCta.addEventListener("click", () => {
+      try {
+        navigator.sendBeacon('/api/click', JSON.stringify({cta:'implement', t:Date.now(), path:location.pathname}));
+      } catch {}
+    });
+  }
 
   const updateProgress = () => {
     progressFrame = 0;
@@ -26,7 +35,7 @@
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
   const stageGroups = {
-    image: ".hero-frame, .terminal, .after-card, .highlight-wall span, .highlight-plan, .form-number-card, .proof-image, .formula-stack, .thumbnail-text, .close-proof, .primary-cta",
+    image: ".hero-frame, .terminal, .after-card, .highlight-wall span, .highlight-plan, .form-number-card, .proof-image, .packaging-card, .formula-stack, .thumbnail-text, .close-proof, .primary-cta",
     annotation: ".block-label, .proof-number-label",
     copy: ".hero-copy, .section-intro, .action-copy, .proof-intro-grid > div, .proof-copy, .formula-after, .title-intro-grid > p, .text-title-layout h3, .close-inner > p"
   };
