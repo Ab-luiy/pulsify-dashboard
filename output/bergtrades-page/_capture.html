@@ -16,9 +16,11 @@
   <script src="script.js" defer></script>
 <style id="capture-override">
   .slide{min-height:auto !important;padding:34px 0 !important;}
+  .bio-slide,.highlights-slide{padding-inline:var(--page-pad) !important;}
   [data-reveal],[data-reveal] > .slide-inner,[data-stage],.pop-number{opacity:1 !important;transform:none !important;scale:1 !important;filter:none !important;}
   .sticky-intro{position:static !important;}
-</style></head>
+</style>
+</head>
 <body>
   <div class="progress-line" aria-hidden="true"><span></span></div>
   <header class="site-head">
@@ -70,7 +72,7 @@
       </div>
     </section>
 
-    <section class="slide action-slide" data-reveal aria-labelledby="bio-title">
+    <section class="slide action-slide bio-slide" data-reveal aria-labelledby="bio-title">
       <div class="slide-inner">
         <div class="section-intro">
           <p class="eyebrow">2. YOUR BIO. FIVE MINUTES.</p>
@@ -81,27 +83,81 @@
           <p>Yours answers the first with a job title anyone can claim, then sends them to a second account instead of your work.</p>
           <p>The thing that actually separates you is already true and you never say it. Your students take the same trades you take. Nobody running a discretionary model can write that sentence.</p>
         </div>
-        <div class="terminal-grid bio-terminals">
-          <div>
-            <p class="block-label">Current:</p>
-            <div class="terminal">
-              <div class="terminal-lines">
-                <p><b>1</b><span>Day trader (GB)</span></p>
-                <p><b>2</b><span>@battmergin for my trades</span></p>
-                <p><b>3</b><span>Join here -&gt; @thetradingclub.ig</span></p>
-                <p><b>4</b><span>Educational content only - NOT financial advice</span></p>
+        <div class="profile-compare" aria-label="Current and rebuilt Instagram profile comparison">
+          <div class="profile-panel current-profile-panel" data-stage="image">
+            <p class="profile-panel-label"><span aria-hidden="true"></span>Current</p>
+            <article class="ig-phone current-phone" aria-label="Current Instagram profile mock">
+              <div class="phone-status" aria-hidden="true">
+                <span>9:41</span>
+                <i class="phone-island"></i>
+                <span class="phone-status-icons"><i></i><i></i><i></i></span>
               </div>
-            </div>
+              <div class="ig-toolbar">
+                <span class="ig-handle">bergtrades.ig</span>
+                <span class="ig-toolbar-icons" aria-hidden="true"><i></i><i></i></span>
+              </div>
+              <div class="ig-profile-row">
+                <div class="ig-avatar"><img src="assets/berg/yt-VjUpqe73wQw.jpg" alt="Matthew Bergin"></div>
+                <div class="ig-stats">
+                  <div><strong>16</strong><span>posts</span></div>
+                  <div><strong>10K</strong><span>followers</span></div>
+                  <div><strong>357</strong><span>following</span></div>
+                </div>
+              </div>
+              <div class="ig-identity"><strong>Matthew Bergin</strong></div>
+              <div class="ig-bio current-bio">
+                <p>Day trader <span class="flag" role="img" aria-label="United Kingdom flag">🇬🇧</span></p>
+                <p class="bio-defect">@battmergin for my trades</p>
+                <p>Join here -&gt; @thetradingclub.ig</p>
+                <p>Educational content only - NOT financial advice</p>
+              </div>
+              <div class="ig-actions" aria-hidden="true"><span>Follow</span><span>Message</span></div>
+              <div class="ig-highlights profile-highlight-rail" aria-label="Current highlight rail">
+                <span><i></i><b>RESULTS 8</b></span>
+                <span><i></i><b>My Story</b></span>
+                <span><i></i><b>Few Certs</b></span>
+                <span><i></i><b>Few Trades</b></span>
+                <span><i></i><b>RESULTS 7</b></span>
+                <span><i></i><b>YouTube</b></span>
+                <span><i></i><b>Testimonials</b></span>
+              </div>
+              <div class="ig-tabs" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="ig-posts" aria-hidden="true"><i></i><i></i><i></i></div>
+            </article>
           </div>
-          <div>
-            <p class="block-label">Rebuilt:</p>
-            <div class="terminal rebuilt-terminal">
-              <div class="terminal-lines">
-                <p><b>1</b><span>Day trader (GB flag)</span></p>
-                <p><b>2</b><span>one mechanical model, and my students trade it with me</span></p>
-                <p><b>3</b><span>all my trades are on my youtube (link)</span></p>
+
+          <div class="profile-change" data-stage="annotation" aria-label="Bio rebuilt"><span aria-hidden="true"></span><small>Bio rebuilt</small></div>
+
+          <div class="profile-panel rebuilt-profile-panel" data-stage="copy">
+            <p class="profile-panel-label"><span aria-hidden="true"></span>Rebuilt</p>
+            <article class="ig-phone rebuilt-phone" aria-label="Rebuilt Instagram profile mock">
+              <div class="phone-status" aria-hidden="true">
+                <span>9:41</span>
+                <i class="phone-island"></i>
+                <span class="phone-status-icons"><i></i><i></i><i></i></span>
               </div>
-            </div>
+              <div class="ig-toolbar">
+                <span class="ig-handle">bergtrades.ig</span>
+                <span class="ig-toolbar-icons" aria-hidden="true"><i></i><i></i></span>
+              </div>
+              <div class="ig-profile-row">
+                <div class="ig-avatar"><img src="assets/berg/yt-VjUpqe73wQw.jpg" alt="Matthew Bergin"></div>
+                <div class="ig-stats">
+                  <div><strong>16</strong><span>posts</span></div>
+                  <div><strong>10K</strong><span>followers</span></div>
+                  <div><strong>357</strong><span>following</span></div>
+                </div>
+              </div>
+              <div class="ig-identity"><strong>Matthew Bergin</strong></div>
+              <div class="ig-bio rebuilt-bio">
+                <p>Day trader <span class="flag" role="img" aria-label="United Kingdom flag">🇬🇧</span></p>
+                <p class="changed-line">one mechanical model, and my students trade it with me</p>
+                <p class="changed-line">all my trades are on my youtube (link)</p>
+              </div>
+              <div class="ig-actions" aria-hidden="true"><span>Follow</span><span>Message</span></div>
+              <div class="ig-tabs rebuilt-tabs" aria-hidden="true"><i></i><i></i><i></i></div>
+              <div class="ig-posts rebuilt-posts" aria-hidden="true"><i></i><i></i><i></i></div>
+            </article>
           </div>
         </div>
         <div class="after-card">
@@ -111,7 +167,7 @@
       </div>
     </section>
 
-    <section class="slide action-slide" data-reveal aria-labelledby="highlights-title">
+    <section class="slide action-slide highlights-slide" data-reveal aria-labelledby="highlights-title">
       <div class="slide-inner">
         <div class="section-intro">
           <p class="eyebrow">3. YOUR HIGHLIGHTS. TWENTY MINUTES.</p>
@@ -120,19 +176,33 @@
         <div class="action-copy narrow-copy">
           <p>RESULTS 8, My Story, Few Certs, Few Trades, RESULTS 7, YouTube, Testimonials. A new visitor does not know which to open, so they open none.</p>
         </div>
-        <div class="highlight-wall" aria-hidden="true">
-          <span>RESULTS 8</span>
-          <span>My Story</span>
-          <span>Few Certs</span>
-          <span>Few Trades</span>
-          <span>RESULTS 7</span>
-          <span>YouTube</span>
-          <span>Testimonials</span>
-        </div>
         <div class="highlight-plan">
           <p><strong>Start here</strong> is for someone who landed twenty seconds ago. Who you are, what you trade, what you give away for free, and your wins. People like watching someone win.</p>
           <p><strong>My story</strong> is the one you already have. It is the one that makes them stay.</p>
           <p>Then results. Results. Results. Not certs, not trades, not testimonials, not YouTube. All of that is results, and it should read as a wall of them rather than four folders with numbers after the name.</p>
+        </div>
+        <div class="highlight-rail-compare" aria-label="Current and rebuilt Instagram highlight rails">
+          <article class="highlight-rail-card current-rail-card" data-stage="image">
+            <header><span>Current</span><strong>7</strong></header>
+            <div class="story-rail current-story-rail">
+              <span><i></i><b>RESULTS 8</b></span>
+              <span><i></i><b>My Story</b></span>
+              <span><i></i><b>Few Certs</b></span>
+              <span><i></i><b>Few Trades</b></span>
+              <span><i></i><b>RESULTS 7</b></span>
+              <span><i></i><b>YouTube</b></span>
+              <span><i></i><b>Testimonials</b></span>
+            </div>
+          </article>
+          <div class="rail-change" data-stage="annotation" aria-hidden="true"><span></span></div>
+          <article class="highlight-rail-card rebuilt-rail-card" data-stage="copy">
+            <header><span>Rebuilt</span><strong>3</strong></header>
+            <div class="story-rail rebuilt-story-rail">
+              <span><i></i><b>Start here</b></span>
+              <span><i></i><b>My story</b></span>
+              <span><i></i><b>Results</b></span>
+            </div>
+          </article>
         </div>
       </div>
     </section>
