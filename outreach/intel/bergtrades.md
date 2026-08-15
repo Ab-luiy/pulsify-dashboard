@@ -16,7 +16,7 @@ Day trader, UK, based in Thailand. Replied to the cold DM, watched the Loom, ask
 
 | Surface | Handle / URL | Size | State |
 |---|---|---|---|
-| IG main | `@bergtrades.ig` | 10K followers, 16 posts | Audience lives here, almost no content |
+| IG main | `@bergtrades.ig` | 10K followers, 18 posts | Audience lives here, almost no content |
 | IG secondary | `@battmergin` | 1,479 followers, 260 posts | Content lives here, almost no audience |
 | IG third | `@thetradingclub.ig` | not pulled | The community account |
 | YouTube education | `youtube.com/@Bergtrades` | 2.52K subs, 646 videos (30 long-form, 48+ shorts) | The active channel |

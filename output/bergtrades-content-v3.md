@@ -55,7 +55,7 @@ The thing that actually separates you is already true and you never say it. Your
 > RENDER AS TWO INSTAGRAM PROFILE MOCKS, NOT CODE BLOCKS. Current on one side, rebuilt on the
 > other. Stacked on mobile. Build the Instagram chrome in HTML/CSS, never a generated image.
 > Profile facts, verified, identical in both mocks: name **Matthew Bergin**, handle
-> **bergtrades.ig**, **16 posts**, **10K followers**, **357 following**.
+> **bergtrades.ig**, **18 posts**, **10K followers**, **357 following**.
 > In the rebuilt mock, highlight the changed lines so the difference reads without comparing
 > word by word.
 
