@@ -36,6 +36,22 @@ The whole point of the architecture is that signing a client requires no rebuild
 
 7. **Log it.** New decisions into `clients/{name}/decisions.md`, a `client-update` entry in `wiki/log.md`, and starting KPIs (followers, current revenue, close rate if known) into `clients/{name}/progress.md` so there's a baseline to show progress against.
 
+8. **Capture the day-zero screenshots. This is not optional and it cannot be done later.**
+
+   Added 2026-08-13 after the Nick case study needed a before-and-after and no before image existed anywhere. His growth from 6,000 to 20,000 followers survived only as a number the founder remembered, so the strongest proof asset we own had to be rebuilt from figures instead of shown.
+
+   Save into `clients/{name}/baseline/`, dated:
+
+   - The Instagram profile, full screen, follower count visible
+   - The YouTube channel page, subscriber count and the videos grid visible
+   - Their landing page or sales page, full scroll
+   - Their link-in-bio destination
+   - Any dashboard or payment screen showing current revenue, if they will share it
+
+   A number in a spreadsheet does not sell. A before-and-after image does, and it is unrecoverable once the account has grown. Every hour of delay makes it less true.
+
+   The same rule applies to prospects the moment they reply, since the assets we build for them become case studies if they sign.
+
 ## Open questions / gaps
 
 - Untested end to end — no prospect has signed through this pipeline yet. First real signing should be run against this list and the list corrected where reality disagrees.

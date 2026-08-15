@@ -207,8 +207,9 @@ And the headline is wider than a phone screen, so it gets cut off at both edges 
 
 We have fixed this for creators in trading and well outside it. It is the same story every time. The proof already exists and it is filed where nobody looks.
 
-[PROOF STRIP — before and after Instagram accounts, side by side. Founder to supply.]
-[CASH TILE — the $98k, rendered inside our own dashboard. Founder to confirm the figure and whose it is.]
+[PROOF TILE — `output/bergtrades-page/proof/nick-proof-tile.png`. Nick's real numbers inside our own portal: $98,000 total sales, 6,000 to 20,000 followers in 4 months, $50,000/mo from $10-20k.]
+
+No before screenshot exists for Nick and we are not faking one. The delta is carried by the numbers, which anyone can check against his live profile. A current screenshot of his account can sit beside the tile as the "now".
 
 You would get your own dashboard and portal, built around the leaks in your funnel rather than a template, tracking every new viewer through to a paying client.
 
