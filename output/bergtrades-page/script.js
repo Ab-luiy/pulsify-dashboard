@@ -26,9 +26,9 @@
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
   const stageGroups = {
-    image: ".hero-frame, .economics-card, .media-card, .baseline-block, .proof-image, .title-reference, .rule-orb, .bar-chart, .terminal, .ig-phone, .account-card, .price-math article",
-    annotation: ".hero-frame figcaption, .metric-pill, .image-callout, .proof-annotation, .title-reference figcaption, .missing-slot strong, .profile-change, .flow-mark, .changed-line, .math-mark",
-    copy: ".hero-copy, .economics h2, .economics-argument, .finding-copy, .section-intro, .media-copy, .proof-intro-grid > div:first-child, .proof-copy, .title-intro-grid > div, .title-intro-grid > p, .title-copy, .thumb-rule-grid > div:not(.rule-orb), .terminal-note, .profile-note, .account-close"
+    image: ".hero-frame, .terminal, .after-card, .highlight-wall span, .highlight-plan, .form-number-card, .proof-image, .formula-stack, .thumbnail-text, .close-proof, .primary-cta",
+    annotation: ".block-label, .proof-number-label",
+    copy: ".hero-copy, .section-intro, .action-copy, .proof-intro-grid > div, .proof-copy, .formula-after, .title-intro-grid > p, .text-title-layout h3, .close-inner > p"
   };
 
   Object.entries(stageGroups).forEach(([stage, selector]) => {
