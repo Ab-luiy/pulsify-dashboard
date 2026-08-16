@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V6 built-work opening and section 6 ratio relocation complete; source/dist/capture synchronized and both required PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | New opening, smaller mobile headline scale, semantic emphasis and tighter top pacing complete. Forced-reveal PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Copy and field changes complete with static QA passing. Fresh 390px PNG remains blocked by the previously declined localhost browser permission; no alternate browser workaround is permitted. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Real current/rebuilt Instagram screenshots now replace both HTML phone mocks; mock-only and separate highlight-rail CSS removed; forced-reveal capture regenerated and static QA passes. Chrome blocked the local page before render, so no fresh 390px PNG exists. No deploy. Lock cleared. |
@@ -110,6 +111,9 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-16 15:05] CODEX
+STARTED: founder updated the `OPENING` and `6. your accounts and your page` sections in `output/bergtrades-content-v6.md`. Claimed `output/bergtrades-page/**` plus this coordination record. Scope is the verbatim three-paragraph built-work opening, the relocated `3,600` / `2` clause in section 6, the source-marked emphasis, removal of the statistic from top-page metadata, synchronized source/dist/capture files, and two exact 390px renders at 0.75 device scale, including one 520x1126 browser window proving the full opening copy fits one phone screen. No other copy, screenshot, bullet, neon field, proof tile, CTA, font, reveal, headline-scale, deploy, Wrangler command, or live publication.
 
 ### [2026-08-16 13:29] CODEX
 STARTED: founder supplied the rewritten Bergtrades opening and requested a mobile-first typography and pacing pass. Claimed `output/bergtrades-page/**` plus this coordination record. Scope is limited to the verbatim new opening, restrained semantic bold/italic emphasis across existing body copy, meaningfully smaller mobile display sizes, tighter top rhythm, regenerated forced-reveal capture, and a confirmed 390px PNG from `--window-size=520` at 0.75 device scale. Both Instagram screenshots, all other copy, bullets, proof tile, CTA, neon fields, and reveals stay unchanged. No deploy.
@@ -1463,3 +1467,11 @@ BLOCKED ON RENDER ONLY: inserted the exact new section 2 paragraph immediately b
 
 ### [2026-08-16 13:28] CODEX
 BACKUP BLOCKED: after confirming the working tree contained only the six coordinated files above, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred. Lock cleared.
+
+### [2026-08-16 15:11] CODEX
+DONE: replaced the Bergtrades opening with the new verbatim built-work framing from `output/bergtrades-content-v6.md`: `we made you a few things.` plus three tailored reason-first paragraphs, with only `six videos` bold. Removed the old 3,600 / 2 ratio and related proof copy from the hero and top-page metadata. Inserted the updated verbatim ratio clause into section 6 with only `3,600` and `2` bold, removing the prior bold treatment from 10k and 1,479 to preserve the two-emphasis limit. Source, `dist`, and `_capture.html` are synchronized; `_capture.html` retains the forced-visible, zero-min-height override. CSS, JavaScript, both Instagram screenshots, all other sections, all three bullet lists, three neon-field components, the proof tile, CTA, fonts, reveals and reduced headline scale are unchanged.
+
+Verification passed: source/dist/capture parity, exact opening and section 6 copy hooks, three opening body paragraphs, emphasis counts of one in the opening and two in section 6, no old ratio in the hero or metadata, no banned punctuation glyphs, no fixed text below 15px, valid JavaScript, protected-file diff guard and `git diff --check`. Headless Chrome ran at 0.75 device scale with `--window-size=520,9600` and `--window-size=520,1126`. `shots/opening-full-390.png` is confirmed 390x7200 and shows the whole page without visible edge bleed or clipping. `shots/opening-phone-390.png` is confirmed 390x845 and visibly contains the opening headline and all three paragraphs together, plus the hero image. No deploy, Wrangler command or live publication. The concurrently created untracked `output/bergtrades-content-v7.md` was not touched.
+
+### [2026-08-16 15:12] CODEX
+BACKUP DEFERRED: `output/bergtrades-content-v7.md` appeared as an untracked concurrent user/Claude file during this task. `auto-backup.ps1` stages the entire worktree, so running it would bundle that unrelated file with this bounded v6 page change. Left the file untouched and did not run the backup script. The normal hourly backup remains available after the concurrent v7 work is coordinated. No deploy occurred.
