@@ -3550,6 +3550,36 @@ blockquote,
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.035));
 }
 
+.bio-slide .rebuilt-bio {
+  min-height: 0;
+}
+
+.bio-slide .ig-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin: 3px 2px 0;
+  color: #e0f1ff;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.bio-slide .ig-profile-link svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
+.bio-slide .ig-profile-link path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .bio-slide .ig-social-proof {
   display: grid;
   min-height: 41px;
@@ -3774,6 +3804,10 @@ blockquote,
 .videos-slide,
 .close-slide {
   min-height: auto;
+}
+
+.action-terminal .terminal-lines p {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .packaging-inner,

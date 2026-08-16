@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/index.html`, `output/bergtrades-page/styles.css`, `output/bergtrades-page/_capture.html`, `output/bergtrades-page/shots/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | Both profile mocks are rebuilt and static QA passes. Chrome rejected permission for the local capture page, so fresh 390px PNG generation and rendered fidelity/overflow inspection remain blocked. No other copy/section change and no deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Founder supplied the v4 six-section copy replacement and exact rebuilt-profile content changes. Rebuilding from `output/bergtrades-content-v4.md`, preserving the approved Instagram chrome, regenerating capture source and verifying at a confirmed 390px PNG width. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V3 content rebuild and static checks complete; local browser access was denied, so no fresh screenshots or rendered overflow/console claims were made. No deploy or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Founder-directed USD recommendation, exchange-rate-independent year comparison, and Instagram display-name correction completed in source and regenerated capture. Static checks passed. The local browser permission was denied, so no fresh PNG or 390px visual verification is claimed. No restructure, deploy, or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Targeted correctness and premium-pop pass completed and headless Chrome verified at 390 and 1280 output widths, including no-JS, overflow, annotations, console state and live hero clearance. No deploy or live publication. |
@@ -1373,3 +1373,6 @@ Static QA passes: two phones, facts repeated exactly twice, two verified badges,
 
 ### [2026-08-16 02:53] CODEX
 BACKUP BLOCKED: confirmed the working tree contains only the coordinated Bergtrades mock source/capture files plus this log, then ran the required `auto-backup.ps1`. The sandbox cannot create `.git/index.lock`, so no commit or push occurred. The hourly backup task remains the fallback.
+
+### [2026-08-16 10:46] CODEX
+STARTED: founder directed the Bergtrades page rebuild from `output/bergtrades-content-v4.md` as the only body-copy source. Reactivated the existing claim as `output/bergtrades-page/**` plus this coordination record. Scope: exact six-section order and copy, deletion of superseded page content, unchanged Instagram UI chrome, two-line rebuilt bio with the YouTube URL in Instagram's profile-link row, rebuilt highlights `Start here / My story / Results / Results / Results`, capture regeneration, and verified 390 CSS-pixel screenshots using the requested 0.75 scale factor. CTA label, URL, id and nonblocking beacon hook remain exact. No deploy or Wrangler command.
