@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Insert the new verbatim v7 section 4 after the bio section, renumber the existing final section to 5, regenerate the forced-reveal capture, and verify at a 500px-or-wider Chrome viewport with DOM overflow equality. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Rebuild from v8 verbatim: add own-video proof section first, move YouTube argument to section 2, simplify title rows and Nick captions, preserve all protected components, regenerate capture, and verify at 500px or wider by DOM overflow equality. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V7 opening + four sections + close rebuild complete and static QA passes. Chrome local-page permission blocked the fresh 390px PNG and rendered-height measurement; no alternate browser path used. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V6 built-work opening and section 6 ratio relocation complete; source/dist/capture synchronized and both required PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | New opening, smaller mobile headline scale, semantic emphasis and tighter top pacing complete. Forced-reveal PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
@@ -1509,3 +1509,6 @@ BACKUP BLOCKED: after confirming the working tree contains only the two synchron
 
 ### [2026-08-16 16:18] CODEX
 STARTED: founder added `4. how content really works` to `output/bergtrades-content-v7.md`. Reactivated the existing claim on `output/bergtrades-page/**` plus this coordination record. Scope is limited to inserting its two verbatim prose paragraphs after `3. your bio, rebuilt`, renumbering `two quick ones` to section 5, synchronizing source/dist/capture, and verifying forced reveals in headless Chrome at 500px or wider by checking root `scrollWidth === clientWidth`. Everything else stays unchanged. No deploy, Wrangler command, or live publication.
+
+### [2026-08-16 16:31] CODEX
+STARTED: founder superseded the Bergtrades page body with `output/bergtrades-content-v8.md` as the only copy source. Updated the active claim on `output/bergtrades-page/**` and this coordination record. Scope is the new own-video proof section first, the YouTube argument directly beneath it as section 2, centered one-column six-title rows with distinct numbered markers, real-title-and-view-count-only Nick captions, protected Instagram screenshots/bio/two-link/proof/CTA/fonts/reveals/scroll-meter/spacing, synchronized source/dist/capture, and headless Chrome verification at 500px or wider using root `scrollWidth === clientWidth`. No deploy, Wrangler command, or live publication.

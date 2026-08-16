@@ -257,6 +257,76 @@ em {
     0 20px 44px rgba(0, 0, 0, 0.3);
 }
 
+.youtube-result {
+  display: grid;
+  grid-template-columns: minmax(140px, 220px) minmax(0, 1fr);
+  width: min(100%, 620px);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.youtube-result img {
+  width: 100%;
+  height: 100%;
+  min-height: 116px;
+  object-fit: cover;
+}
+
+.youtube-result figcaption {
+  min-width: 0;
+  align-self: center;
+  padding: 12px 14px;
+}
+
+.youtube-result figcaption strong,
+.youtube-result figcaption span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.youtube-result figcaption strong {
+  font-size: 16px;
+  letter-spacing: -0.018em;
+  line-height: 1.35;
+}
+
+.youtube-result figcaption span {
+  margin-top: 6px;
+  color: var(--soft);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.proof-body {
+  max-width: 760px;
+  margin-top: 22px;
+}
+
+.formula-block {
+  margin-top: 20px;
+}
+
+.formula-block + .formula-block,
+.proof-body > .formula-block + p {
+  margin-top: 18px;
+}
+
+.formula-label {
+  color: var(--white-soft);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.formula-field {
+  min-width: 0;
+  margin-top: 8px;
+}
+
 .video-idea-list {
   display: grid;
   overflow: hidden;
@@ -264,12 +334,15 @@ em {
 }
 
 .video-idea-row {
+  position: relative;
   display: grid;
+  min-height: 58px;
   min-width: 0;
-  gap: 8px;
-  padding: 13px 14px;
+  place-items: center;
+  padding: 14px 48px;
   border-bottom: 1px solid var(--line);
   background: linear-gradient(110deg, rgba(255, 255, 255, 0.034), transparent 50%);
+  text-align: center;
 }
 
 .video-idea-row:last-child {
@@ -277,31 +350,20 @@ em {
 }
 
 .video-idea-row h3 {
+  width: 100%;
   min-width: 0;
   overflow-wrap: anywhere;
 }
 
-.thumbnail-text {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-}
-
-.thumbnail-text strong,
-.thumbnail-text i {
-  font-size: 15px;
-  line-height: 1.25;
-}
-
-.thumbnail-text strong {
-  letter-spacing: -0.008em;
-}
-
-.thumbnail-text i {
+.video-number {
+  position: absolute;
+  left: 16px;
   color: var(--soft);
-  font-style: normal;
-  font-weight: 800;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
 .packaging-grid {
@@ -310,13 +372,29 @@ em {
 }
 
 .packaging-card {
-  position: relative;
   min-width: 0;
   overflow: hidden;
   border: 1px solid var(--line-strong);
   border-radius: 16px;
   background: var(--surface);
   box-shadow: var(--shadow);
+}
+
+.packaging-card figcaption {
+  display: flex;
+  min-width: 0;
+  min-height: 112px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 13px 14px 14px;
+}
+
+.packaging-card figcaption strong {
+  font-size: 16px;
+  letter-spacing: -0.018em;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .proof-image {
@@ -331,19 +409,13 @@ em {
 }
 
 .packaging-count {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  padding: 7px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 999px;
-  color: #050505;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.44);
-  font-size: 28px;
+  margin-top: auto;
+  color: var(--soft);
+  font-size: 15px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.055em;
-  line-height: 1;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
 }
 
 .section-followup {
@@ -570,13 +642,6 @@ em {
     margin-bottom: 24px;
   }
 
-  .video-idea-row {
-    grid-template-columns: minmax(0, 1.08fr) minmax(250px, 0.92fr);
-    align-items: center;
-    gap: 24px;
-    padding: 15px 18px;
-  }
-
   .packaging-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -606,6 +671,27 @@ em {
 
   .instagram-screenshot {
     border-radius: 40px;
+  }
+
+  .youtube-result {
+    grid-template-columns: minmax(118px, 38%) minmax(0, 1fr);
+  }
+
+  .youtube-result figcaption {
+    padding: 10px 12px;
+  }
+
+  .youtube-result figcaption strong {
+    font-size: 15px;
+  }
+
+  .video-idea-row {
+    padding-right: 42px;
+    padding-left: 42px;
+  }
+
+  .video-number {
+    left: 14px;
   }
 }
 
