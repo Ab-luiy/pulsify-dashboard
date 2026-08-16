@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Proof band now uses separate number and people tiers. Source/dist/capture parity and headless QA passed at exact 500px and 900px content widths, including zero tier overlap and root width equality. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Two-layer proof constellation implemented and static QA complete. Chrome retained the previously declined localhost permission, so policy blocked fresh rendered shots, interaction checks, and the required 500px root-width measurement. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Proof rail implementation and static QA complete. Chrome localhost permission blocked the required rendered interaction, overflow and screenshot checks; no alternate browser workaround used. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V8 body rebuild complete from the sole copy source; source/dist/capture synchronized and headless Chrome verified at a true 500px viewport with root scrollWidth equal to clientWidth. No deploy. Lock cleared. |
@@ -1545,3 +1546,16 @@ Chrome still rejects localhost because the user previously declined that permiss
 
 ### [2026-08-16 18:40] CODEX
 BACKUP BLOCKED: after the proof-constellation lock was cleared and the expected-only working-tree status plus `git diff --check` passed, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 18:53] CODEX
+STARTED: founder required the Bergtrades proof band to use two vertically stacked, non-overlapping tiers. Claimed `output/bergtrades-page/**` plus this coordination record. Scope is four sharp number screenshots in an upper 190px desktop or 140px mobile zone, four people photos in a lower 400px desktop or 260px mobile zone, independent 0.6x and 1x loops, bounded scatter, tier-local lift, pointer/touch scrub, reduced-motion scrolling, synchronized source/dist/capture files, frozen forced-reveal stills at 500px and 900px, visual inspection of all four number screenshots, and root `scrollWidth === clientWidth` verification. Assets, all other page content, CTA, and `sendBeacon('/api/click')` remain unchanged. No deploy.
+
+### [2026-08-16 19:18] CODEX
+DONE: rebuilt the Bergtrades proof band as two normal-flow grid rows with their own clipped interaction surfaces. The four number screenshots now occupy the upper 190px desktop or 140px mobile tier at full opacity with no blur. The four people images occupy the lower 400px desktop or 260px mobile tier, separated by an 18px desktop or 12px mobile gutter. Both tiers use bounded offsets, 0.90 to 1.06 scale variance, uneven gaps, and tier-local 4 percent hover or touch lift. The loops now advance independently at 13.2 and 22 pixels per second, an exact 0.6 speed ratio. Pointer down pauses both, dragging scrubs only the touched tier, release preserves tier-local momentum, and reduced motion keeps the first scattered sequence static with internal horizontal scrolling. Tier clipping and isolated stacking prevent every rest, hover, and dragged item from crossing the tier boundary.
+
+Changed `output/bergtrades-page/styles.css`, `script.js`, their two `dist/` counterparts, and `_capture.html`; added `shots/proof-band-500.png` and `shots/proof-band-900.png`. `_capture.html` remains normalized equal to source, forces every reveal visible, and freezes the proof loop. The eight source assets were not edited and remain byte-equal to the eight `dist` copies. Source/dist HTML, CSS and JavaScript parity, JavaScript syntax, banned-glyph scan, exact 4/4 tier split, speed ratio, zone sizes, edge mask, reduced-motion scroll rules, hover rules, single CTA tracking hook and `git diff --check` all pass.
+
+Headless Chrome reported exact 500px and 900px content widths with `document.documentElement.scrollWidth === clientWidth` at both sizes. Rendered tier geometry was 140px plus a 12px gutter plus 260px at 500, and 190px plus an 18px gutter plus 400px at 900, with zero overlap. All eight items remain fully inside their own tier at rest and at the 4 percent lift. Both stills were opened and inspected: all four number screenshots are fully visible, sharp and legible, and no people photo covers any part of them. Shot dimensions are 500x412 and 900x608. No deploy, Wrangler command or live publication. Lock cleared.
+
+### [2026-08-16 19:19] CODEX
+BACKUP BLOCKED: after the lock was cleared and the expected-only working tree plus `git diff --check` passed, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.

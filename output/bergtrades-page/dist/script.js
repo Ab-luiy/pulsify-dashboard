@@ -36,14 +36,14 @@
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
   const proofItems = [
-    { src: "assets/proof/proof-cash.webp", layer: "back", offset: -46, scale: 0.94 },
-    { src: "assets/proof/proof-nick.webp", layer: "front", offset: 34, scale: 1.04 },
-    { src: "assets/proof/proof-dashboard.webp", layer: "back", offset: 54, scale: 1.04 },
-    { src: "assets/proof/proof-jacob.webp", layer: "front", offset: -62, scale: 0.91 },
-    { src: "assets/proof/proof-closed-list.webp", layer: "back", offset: -12, scale: 0.88 },
-    { src: "assets/proof/proof-nick-mamba.webp", layer: "front", offset: 6, scale: 1.08 },
-    { src: "assets/proof/proof-payment.webp", layer: "back", offset: 66, scale: 0.98 },
-    { src: "assets/proof/proof-table.webp", layer: "front", offset: -38, scale: 0.96 }
+    { src: "assets/proof/proof-cash.webp", tier: "numbers", offset: -22, scale: 0.94 },
+    { src: "assets/proof/proof-dashboard.webp", tier: "numbers", offset: 18, scale: 1.02 },
+    { src: "assets/proof/proof-closed-list.webp", tier: "numbers", offset: -8, scale: 0.90 },
+    { src: "assets/proof/proof-payment.webp", tier: "numbers", offset: 24, scale: 1.06 },
+    { src: "assets/proof/proof-nick.webp", tier: "people", offset: 20, scale: 1.04 },
+    { src: "assets/proof/proof-jacob.webp", tier: "people", offset: -24, scale: 0.92 },
+    { src: "assets/proof/proof-nick-mamba.webp", tier: "people", offset: 8, scale: 1.06 },
+    { src: "assets/proof/proof-table.webp", tier: "people", offset: -14, scale: 0.97 }
   ];
 
   const setupProofConstellation = () => {
@@ -52,115 +52,126 @@
     if (!band || !stage) return;
 
     const captureMode = root.hasAttribute("data-proof-freeze");
-    const gapPattern = [34, 76, 48, 90, 62, 28];
-    const layers = {};
+    const gapPatterns = {
+      numbers: [32, 64, 40, 86],
+      people: [68, 34, 88, 48]
+    };
+    const tierSettings = {
+      numbers: { speed: 0.0132, initialPhase: 0.02 },
+      people: { speed: 0.022, initialPhase: 0.31 }
+    };
+    const tiers = {};
     let animationFrame = 0;
     let lastFrame = 0;
     let dragging = false;
     let pointerId = null;
+    let activeTier = null;
     let activeItem = null;
     let lastPointerX = 0;
     let lastPointerTime = 0;
     let pointerVelocity = 0;
-    let momentumVelocity = 0;
-    let pauseUntil = 0;
 
     const normalise = (value, width) => {
       if (!width) return 0;
       return ((value % width) + width) % width;
     };
 
-    const renderItem = (item, itemIndex, layerName) => {
+    const renderItem = (item, itemIndex, tierName) => {
       const image = document.createElement("img");
       const scale = item.scale.toFixed(3);
       const offset = `${item.offset}px`;
-      const mobileOffset = `${Math.round(item.offset * 0.56)}px`;
-      const gapOffset = layerName === "back" ? 1 : 0;
+      const mobileOffset = `${Math.round(item.offset * 0.67)}px`;
+      const gap = gapPatterns[tierName][itemIndex % gapPatterns[tierName].length];
 
       image.className = "proof-item";
       image.src = item.src;
       image.alt = "";
       image.loading = "eager";
-      image.decoding = "async";
+      image.decoding = captureMode ? "sync" : "async";
       image.draggable = false;
       image.style.setProperty("--proof-offset", offset);
       image.style.setProperty("--proof-mobile-offset", mobileOffset);
       image.style.setProperty("--proof-scale", scale);
       image.style.setProperty("--proof-hover-scale", (item.scale * 1.04).toFixed(3));
-      image.style.setProperty("--proof-gap", `${gapPattern[(itemIndex + gapOffset) % gapPattern.length]}px`);
+      image.style.setProperty("--proof-gap", `${gap}px`);
+      image.style.setProperty("--proof-mobile-gap", `${Math.max(24, Math.round(gap * 0.62))}px`);
 
       return image;
     };
 
-    const buildLayer = (layerName) => {
-      const layerItems = proofItems.filter((item) => item.layer === layerName);
-      const layer = document.createElement("div");
+    const buildTier = (tierName) => {
+      const tierItems = proofItems.filter((item) => item.tier === tierName);
+      const tier = document.createElement("div");
       const track = document.createElement("div");
       let firstSequence = null;
 
-      layer.className = `proof-layer proof-layer-${layerName}`;
-      track.className = "proof-layer-track";
-      track.dataset.proofTrack = layerName;
+      tier.className = `proof-tier proof-tier-${tierName}`;
+      tier.dataset.proofTier = tierName;
+      track.className = "proof-tier-track";
+      track.dataset.proofTrack = tierName;
 
       for (let copyIndex = 0; copyIndex < 3; copyIndex += 1) {
         const sequence = document.createElement("div");
-        sequence.className = "proof-layer-sequence";
-        sequence.dataset.proofSequence = layerName;
+        sequence.className = "proof-tier-sequence";
+        sequence.dataset.proofSequence = tierName;
         if (copyIndex > 0) sequence.setAttribute("aria-hidden", "true");
 
-        layerItems.forEach((item, itemIndex) => {
-          sequence.append(renderItem(item, itemIndex, layerName));
+        tierItems.forEach((item, itemIndex) => {
+          sequence.append(renderItem(item, itemIndex, tierName));
         });
 
         if (!firstSequence) firstSequence = sequence;
         track.append(sequence);
       }
 
-      layer.append(track);
-      stage.append(layer);
-      layers[layerName] = {
-        layer,
+      tier.append(track);
+      stage.append(tier);
+      tiers[tierName] = {
+        element: tier,
         track,
         firstSequence,
         width: 0,
         position: 0,
-        initialPhase: layerName === "front" ? 0.12 : 0.44
+        momentumVelocity: 0,
+        pauseUntil: 0,
+        ...tierSettings[tierName]
       };
     };
 
-    buildLayer("back");
-    buildLayer("front");
+    buildTier("numbers");
+    buildTier("people");
 
     const applyPositions = () => {
-      Object.values(layers).forEach((layer) => {
-        layer.track.style.transform = `translate3d(${-layer.position}px, 0, 0)`;
+      Object.values(tiers).forEach((tier) => {
+        tier.track.style.transform = `translate3d(${-tier.position}px, 0, 0)`;
       });
     };
 
     const measure = () => {
-      let widestLayer = band.clientWidth;
-
-      Object.values(layers).forEach((layer) => {
-        const oldWidth = layer.width;
-        const phase = oldWidth ? layer.position / oldWidth : layer.initialPhase;
-        const measuredWidth = layer.firstSequence.getBoundingClientRect().width;
+      Object.values(tiers).forEach((tier) => {
+        const oldWidth = tier.width;
+        const phase = captureMode
+          ? tier.initialPhase
+          : oldWidth
+            ? normalise(tier.position, oldWidth) / oldWidth
+            : tier.initialPhase;
+        const measuredWidth = tier.firstSequence.getBoundingClientRect().width;
 
         if (!measuredWidth) return;
-        layer.width = measuredWidth;
-        layer.position = normalise(phase * measuredWidth, measuredWidth);
-        widestLayer = Math.max(widestLayer, measuredWidth);
+        tier.width = measuredWidth;
+        tier.position = captureMode && measuredWidth <= tier.element.clientWidth
+          ? -(tier.element.clientWidth - measuredWidth) / 2
+          : normalise(phase * measuredWidth, measuredWidth);
       });
 
-      stage.style.width = `${Math.ceil(widestLayer)}px`;
       applyPositions();
       band.dataset.proofReady = "true";
     };
 
-    const moveLayers = (frontDistance) => {
-      if (!layers.front.width || !layers.back.width) return;
-      layers.front.position = normalise(layers.front.position + frontDistance, layers.front.width);
-      layers.back.position = normalise(layers.back.position + frontDistance * 0.55, layers.back.width);
-      applyPositions();
+    const moveTier = (tier, distance) => {
+      if (!tier?.width) return;
+      tier.position = normalise(tier.position + distance, tier.width);
+      tier.track.style.transform = `translate3d(${-tier.position}px, 0, 0)`;
     };
 
     const tick = (now) => {
@@ -169,19 +180,21 @@
       lastFrame = now;
 
       if (!motionPreference.matches && !captureMode && !dragging && !document.hidden) {
-        if (Math.abs(momentumVelocity) > 0.012) {
-          moveLayers(momentumVelocity * elapsed);
-          momentumVelocity *= Math.pow(0.92, elapsed / 16.667);
-        } else {
-          if (momentumVelocity) {
-            momentumVelocity = 0;
-            pauseUntil = now + 500;
-          }
+        Object.values(tiers).forEach((tier) => {
+          if (Math.abs(tier.momentumVelocity) > 0.012) {
+            moveTier(tier, tier.momentumVelocity * elapsed);
+            tier.momentumVelocity *= Math.pow(0.92, elapsed / 16.667);
+          } else {
+            if (tier.momentumVelocity) {
+              tier.momentumVelocity = 0;
+              tier.pauseUntil = now + 500;
+            }
 
-          if (now >= pauseUntil && layers.front.width) {
-            moveLayers((layers.front.width / 52000) * elapsed);
+            if (now >= tier.pauseUntil) {
+              moveTier(tier, tier.speed * elapsed);
+            }
           }
-        }
+        });
       }
 
       if (!motionPreference.matches && !captureMode) {
@@ -200,14 +213,15 @@
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
       animationFrame = 0;
       lastFrame = 0;
-      momentumVelocity = 0;
+      Object.values(tiers).forEach((tier) => {
+        tier.momentumVelocity = 0;
+      });
       band.dataset.autoDrift = state;
     };
 
     const clearActiveItem = () => {
       if (!activeItem) return;
       activeItem.classList.remove("is-touched");
-      activeItem.closest(".proof-layer")?.classList.remove("is-interacting");
       activeItem = null;
     };
 
@@ -216,8 +230,10 @@
 
       if (dragging) {
         dragging = false;
-        band.classList.remove("is-dragging");
-        if (!motionPreference.matches) momentumVelocity = pointerVelocity;
+        activeTier?.element.classList.remove("is-dragging");
+        if (!motionPreference.matches && activeTier) {
+          activeTier.momentumVelocity = pointerVelocity;
+        }
       }
 
       clearActiveItem();
@@ -227,16 +243,21 @@
       if (band.hasPointerCapture?.(event.pointerId)) {
         band.releasePointerCapture(event.pointerId);
       }
+
+      activeTier = null;
     };
 
     band.addEventListener("pointerdown", (event) => {
       if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
 
+      const tierElement = event.target.closest(".proof-tier");
+      if (!tierElement) return;
+
       pointerId = event.pointerId;
+      activeTier = tiers[tierElement.dataset.proofTier];
       activeItem = event.target.closest(".proof-item");
       if (activeItem) {
         activeItem.classList.add("is-touched");
-        activeItem.closest(".proof-layer")?.classList.add("is-interacting");
       }
 
       if (motionPreference.matches && event.pointerType === "touch") return;
@@ -245,8 +266,8 @@
       lastPointerX = event.clientX;
       lastPointerTime = event.timeStamp;
       pointerVelocity = 0;
-      momentumVelocity = 0;
-      band.classList.add("is-dragging");
+      activeTier.momentumVelocity = 0;
+      activeTier.element.classList.add("is-dragging");
       band.setPointerCapture?.(event.pointerId);
 
       if (event.pointerType === "mouse") event.preventDefault();
@@ -259,9 +280,9 @@
       const elapsed = Math.max(8, event.timeStamp - lastPointerTime);
 
       if (motionPreference.matches) {
-        band.scrollLeft -= deltaX;
+        activeTier.element.scrollLeft -= deltaX;
       } else {
-        moveLayers(-deltaX);
+        moveTier(activeTier, -deltaX);
       }
 
       pointerVelocity = -deltaX / elapsed;
@@ -276,15 +297,15 @@
     band.addEventListener("lostpointercapture", finishPointer);
 
     const handleMotionPreference = () => {
-      if (motionPreference.matches) {
+      if (captureMode) {
+        stopDrift("frozen");
+      } else if (motionPreference.matches) {
         stopDrift();
-        band.scrollLeft = 0;
-        Object.values(layers).forEach((layer) => {
-          layer.position = 0;
+        Object.values(tiers).forEach((tier) => {
+          tier.element.scrollLeft = 0;
+          tier.position = 0;
         });
         applyPositions();
-      } else if (captureMode) {
-        stopDrift("frozen");
       } else {
         measure();
         startDrift();

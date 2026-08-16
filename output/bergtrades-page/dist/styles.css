@@ -528,57 +528,62 @@ em {
 }
 
 .proof-constellation {
-  --proof-band-height: clamp(380px, 46vw, 540px);
-  --proof-front-height: clamp(300px, 31vw, 420px);
+  --proof-upper-zone: 190px;
+  --proof-lower-zone: 400px;
+  --proof-tier-gutter: 18px;
+  --proof-number-height: 130px;
+  --proof-people-height: 306px;
   position: relative;
   width: 100%;
   min-width: 0;
-  height: var(--proof-band-height);
+  height: calc(var(--proof-upper-zone) + var(--proof-tier-gutter) + var(--proof-lower-zone));
   margin-top: 16px;
   overflow: hidden;
   overscroll-behavior-inline: contain;
-  cursor: grab;
-  isolation: isolate;
   mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  scrollbar-width: none;
-  touch-action: pan-y;
   user-select: none;
   -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  -webkit-overflow-scrolling: touch;
-}
-
-.proof-constellation::-webkit-scrollbar {
-  display: none;
-}
-
-.proof-constellation.is-dragging {
-  cursor: grabbing;
 }
 
 .proof-constellation-stage {
-  position: relative;
+  display: grid;
+  grid-template-rows: var(--proof-upper-zone) var(--proof-lower-zone);
+  row-gap: var(--proof-tier-gutter);
   width: 100%;
   min-width: 100%;
   height: 100%;
 }
 
-.proof-layer {
-  position: absolute;
-  z-index: 1;
-  inset: 0;
-  pointer-events: none;
+.proof-tier {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  overscroll-behavior-inline: contain;
+  cursor: grab;
+  isolation: isolate;
+  scrollbar-width: none;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
-.proof-layer-front {
-  z-index: 2;
+.proof-tier::-webkit-scrollbar {
+  display: none;
 }
 
-.proof-layer:has(.proof-item:hover),
-.proof-layer.is-interacting {
-  z-index: 4;
+.proof-tier.is-dragging {
+  cursor: grabbing;
 }
 
-.proof-layer-track {
+.proof-tier-numbers {
+  --proof-item-height: var(--proof-number-height);
+}
+
+.proof-tier-people {
+  --proof-item-height: var(--proof-people-height);
+}
+
+.proof-tier-track {
   position: absolute;
   top: 0;
   left: 0;
@@ -589,7 +594,7 @@ em {
   will-change: transform;
 }
 
-.proof-layer-sequence {
+.proof-tier-sequence {
   display: flex;
   height: 100%;
   flex: 0 0 auto;
@@ -602,7 +607,7 @@ em {
   z-index: 1;
   width: auto;
   max-width: none;
-  height: var(--proof-front-height);
+  height: var(--proof-item-height);
   flex: 0 0 auto;
   margin-right: var(--proof-gap);
   opacity: 1;
@@ -616,18 +621,10 @@ em {
   -webkit-user-drag: none;
 }
 
-.proof-layer-back .proof-item {
-  height: calc(var(--proof-front-height) * 0.72);
-  opacity: 0.55;
-  filter: blur(1px);
-}
-
 .proof-item:hover,
 .proof-item.is-touched {
   z-index: 20;
-  opacity: 1;
-  filter: blur(0);
-  transform: translate3d(0, calc(var(--proof-offset) - 8px), 0) scale(var(--proof-hover-scale));
+  transform: translate3d(0, calc(var(--proof-offset) - 6px), 0) scale(var(--proof-hover-scale));
 }
 
 .close-tail > p {
@@ -771,17 +768,21 @@ em {
 
 @media (max-width: 600px) {
   .proof-constellation {
-    --proof-band-height: 380px;
-    --proof-front-height: 278px;
+    --proof-upper-zone: 140px;
+    --proof-lower-zone: 260px;
+    --proof-tier-gutter: 12px;
+    --proof-number-height: 86px;
+    --proof-people-height: 192px;
   }
 
   .proof-item {
+    margin-right: var(--proof-mobile-gap);
     transform: translate3d(0, var(--proof-mobile-offset), 0) scale(var(--proof-scale));
   }
 
   .proof-item:hover,
   .proof-item.is-touched {
-    transform: translate3d(0, calc(var(--proof-mobile-offset) - 7px), 0) scale(var(--proof-hover-scale));
+    transform: translate3d(0, calc(var(--proof-mobile-offset) - 5px), 0) scale(var(--proof-hover-scale));
   }
 }
 
@@ -841,18 +842,19 @@ em {
     transform: none !important;
   }
 
-  .proof-constellation {
+  .proof-tier {
     overflow-x: auto;
     overflow-y: hidden;
     cursor: auto;
     touch-action: pan-x pan-y;
   }
 
-  .proof-layer-track {
+  .proof-tier-track {
+    position: relative;
     transform: none !important;
   }
 
-  .proof-layer-sequence[aria-hidden="true"] {
+  .proof-tier-sequence[aria-hidden="true"] {
     display: none;
   }
 }
