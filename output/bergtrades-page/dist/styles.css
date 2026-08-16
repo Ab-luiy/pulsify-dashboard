@@ -507,179 +507,126 @@ em {
 
 .close-column {
   width: calc(100% - var(--page-pad) - var(--page-pad));
-  max-width: 760px;
+  max-width: 980px;
   margin-inline: auto;
 }
 
-/* ---- proof field: the closing composition ---------------------------- */
+/* ---- the close: one number, its receipt, then the wall ---------------- */
 
-.proof-field {
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  margin-top: 22px;
+.proof-statement {
+  width: calc(100% - var(--page-pad) - var(--page-pad));
+  max-width: 980px;
+  margin: 26px auto 0;
+}
+
+.proof-figure {
+  color: var(--ink);
+  font-size: clamp(74px, 15.5vw, 178px);
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  letter-spacing: -0.058em;
+  line-height: 0.86;
+}
+
+.proof-figure-note {
+  max-width: 620px;
+  margin-top: 16px;
+  color: var(--white-soft);
+  font-size: clamp(17px, 4.2vw, 20px);
+  text-wrap: pretty;
+}
+
+.proof-receipt {
+  width: calc(100% - var(--page-pad) - var(--page-pad));
+  max-width: 980px;
   overflow: hidden;
-  isolation: isolate;
-  touch-action: pan-y;
-  user-select: none;
-}
-
-.proof-field::after {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  background: radial-gradient(ellipse 46% 42% at 50% 50%, rgba(255, 255, 255, 0.062), transparent 72%);
-  pointer-events: none;
-  content: "";
-}
-
-.proof-field-stage {
-  container-type: size;
-  position: relative;
-  width: min(100%, 1180px);
-  height: auto;
-  max-height: 76vh;
-  margin-inline: auto;
-  aspect-ratio: 1180 / 680;
-}
-
-.pf-rings {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  color: rgba(255, 255, 255, 0.21);
-  pointer-events: none;
-}
-
-.pf-rings g {
-  transform: scale(var(--ring-scale, 1));
-  transform-box: fill-box;
-  transform-origin: center;
-  vector-effect: non-scaling-stroke;
-}
-
-.pf-node {
-  position: absolute;
-  top: calc(var(--y) * 1%);
-  left: calc(var(--x) * 1%);
-  width: calc(var(--wh) * 1cqh);
-  transform:
-    translate(-50%, -50%)
-    translate(var(--tx, 0px), var(--ty, 0px))
-    scale(var(--sc, 1));
-  transform-origin: center;
-  transition: filter 320ms ease-out, opacity 320ms ease-out;
-}
-
-.pf-media {
-  display: block;
-  overflow: hidden;
-  border-radius: 10px;
-}
-
-.pf-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  -webkit-user-drag: none;
-}
-
-.pf-node--metric {
-  z-index: 3;
-}
-
-.pf-node--metric .pf-media {
-  box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.12),
-    0 26px 62px rgba(0, 0, 0, 0.62);
-}
-
-.pf-node--headline {
-  z-index: 5;
-}
-
-.pf-node--headline .pf-media {
-  padding: 1% 1.2%;
-  border-radius: 13px;
+  margin: 24px auto 0;
+  padding: 0.9%;
+  border-radius: 14px;
   background: #f6f8fa;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.24),
-    0 0 72px rgba(255, 255, 255, calc(0.05 + 0.09 * var(--glow, 1))),
-    0 34px 88px rgba(0, 0, 0, 0.72);
+    0 0 0 1px rgba(255, 255, 255, 0.26),
+    0 0 78px rgba(255, 255, 255, 0.07),
+    0 30px 74px rgba(0, 0, 0, 0.66);
 }
 
-.pf-node--headline .pf-media img {
+.proof-receipt img {
+  width: 100%;
+  aspect-ratio: 2980 / 417;
   object-fit: contain;
 }
 
-/* people surface as they pass the middle of the screen, so a phone with no
-   hover still gets to see who they are. --reveal is driven by scroll, --hv by
-   the pointer; whichever is higher wins. */
-@property --hv {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 0;
+.proof-wall {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  margin-top: 40px;
+  padding-inline: 12px;
+  columns: 4;
+  column-gap: 12px;
+  overflow: clip;
 }
 
-.pf-node--person {
-  --reveal: 0;
-  z-index: 1;
-  opacity: calc(0.3 + 0.42 * max(var(--reveal), var(--hv)));
-  filter:
-    brightness(calc(0.84 + 0.16 * max(var(--reveal), var(--hv))))
-    blur(calc(1.2px * (1 - max(var(--reveal), var(--hv)))));
-  mix-blend-mode: luminosity;
-  transition: --hv 280ms ease-out;
-}
-
-.pf-node--person .pf-media {
-  border-radius: 8px;
-  mask-image: radial-gradient(ellipse 76% 76% at 50% 50%, #000 34%, transparent 82%);
-  -webkit-mask-image: radial-gradient(ellipse 76% 76% at 50% 50%, #000 34%, transparent 82%);
-}
-
-.pf-node--person:hover {
-  --hv: 1;
-  z-index: 2;
-}
-
-.pf-node--metric:hover .pf-media,
-.pf-node--headline:hover .pf-media {
+.pw-item {
+  position: relative;
+  overflow: hidden;
+  break-inside: avoid;
+  margin-bottom: 12px;
+  border-radius: 13px;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.3),
-    0 34px 78px rgba(0, 0, 0, 0.72);
+    0 0 0 1px rgba(255, 255, 255, calc(0.08 + 0.1 * max(var(--reveal, 0), var(--hv)))),
+    0 22px 48px rgba(0, 0, 0, calc(0.46 + 0.2 * max(var(--reveal, 0), var(--hv))));
+  transform:
+    translate(var(--tx, 0px), calc(var(--ty, 0px) - 8px * max(var(--reveal, 0), var(--hv))))
+    scale(var(--sc, 1));
+  transition: --hv 260ms ease-out, box-shadow 260ms ease-out;
 }
 
-/* node placement: x / y are percentages of the stage, wh is width in cqh
-   (percent of stage height) so the whole composition scales as one piece. */
+.pw-item img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
-.pf-node[data-node="banner"] { --x: 50; --y: 50; --wh: 118; }
-.pf-node[data-node="closed-list"] { --x: 17.5; --y: 21; --wh: 46; }
-.pf-node[data-node="dashboard"] { --x: 82; --y: 21; --wh: 45; }
-.pf-node[data-node="cash"] { --x: 82; --y: 79; --wh: 53; }
-.pf-node[data-node="payment"] { --x: 17.5; --y: 77; --wh: 31; }
-.pf-node[data-node="jacob"] { --x: 50; --y: 11; --wh: 18; }
-.pf-node[data-node="nick"] { --x: 6.5; --y: 49; --wh: 17; }
-.pf-node[data-node="mamba"] { --x: 94; --y: 50.5; --wh: 17; }
+.pw-item[data-shot] img {
+  aspect-ratio: var(--crop);
+  object-fit: cover;
+  object-position: var(--crop-pos, center);
+}
 
-.pf-node[data-node="banner"] .pf-media { aspect-ratio: 2980 / 417; }
-.pf-node[data-node="closed-list"] .pf-media { aspect-ratio: 904 / 620; }
-.pf-node[data-node="dashboard"] .pf-media { aspect-ratio: 633 / 295; }
-.pf-node[data-node="cash"] .pf-media { aspect-ratio: 620 / 140; }
-.pf-node[data-node="payment"] .pf-media { aspect-ratio: 695 / 620; }
-.pf-node[data-node="jacob"] .pf-media { aspect-ratio: 1 / 1; }
-.pf-node[data-node="nick"] .pf-media { aspect-ratio: 413 / 620; }
-.pf-node[data-node="mamba"] .pf-media { aspect-ratio: 465 / 620; }
+.pw-item:hover {
+  --hv: 1;
+  z-index: 3;
+}
 
-/* the dashboard crops to its kpi strip so the real numbers stay readable */
-.pf-node[data-node="dashboard"] .pf-media img { object-position: center top; }
+/* photos sit a step back at rest and come forward as they pass the middle of
+   the screen, so a phone with no hover still gets to see who they are. */
+.pw-person img {
+  filter: brightness(calc(0.62 + 0.38 * max(var(--reveal, 0), var(--hv)))) saturate(calc(0.62 + 0.38 * max(var(--reveal, 0), var(--hv))));
+  transition: filter 260ms ease-out;
+}
+
+.pw-item[data-shot="cash"] {
+  --crop: 620 / 232;
+}
+
+.pw-item[data-shot="dashboard"] {
+  --crop: 633 / 420;
+  --crop-pos: center top;
+}
+
+.pw-item[data-shot="payment"] {
+  --crop: 695 / 540;
+  --crop-pos: center top;
+}
+
+.close-tail {
+  margin-top: 46px;
+}
 
 .close-tail > p {
   max-width: 720px;
-  margin-top: 18px;
+  margin-top: 0;
   color: var(--white-soft);
 }
 
@@ -815,78 +762,38 @@ em {
     width: 100%;
   }
 
-  .proof-field {
-    margin-top: 26px;
+  .proof-wall {
+    padding-inline: 16px;
+    column-gap: 16px;
+  }
+
+  .pw-item {
+    margin-bottom: 16px;
   }
 }
 
-/* mobile: the same field, recomposed as a vertical stack. the headline
-   banner crops to its cash-collected card so the number stays readable. */
 @media (max-width: 759px) {
-  .proof-field-stage {
-    width: 100%;
-    max-height: none;
-    aspect-ratio: 360 / 680;
+  .proof-wall {
+    margin-top: 30px;
+    padding-inline: 10px;
+    columns: 2;
+    column-gap: 10px;
   }
 
-  .pf-node[data-node="banner"] { --x: 50; --y: 16.5; --wh: 43; }
-  .pf-node[data-node="closed-list"] { --x: 34; --y: 42; --wh: 30; }
-  .pf-node[data-node="payment"] { --x: 80; --y: 40; --wh: 17; }
-  .pf-node[data-node="dashboard"] { --x: 38; --y: 63; --wh: 30; }
-  .pf-node[data-node="cash"] { --x: 55; --y: 87; --wh: 38; }
-  .pf-node[data-node="jacob"] { --x: 92; --y: 34; --wh: 14; }
-  .pf-node[data-node="nick"] { --x: 7; --y: 57; --wh: 13; }
-  .pf-node[data-node="mamba"] { --x: 90; --y: 74; --wh: 13; }
-
-  .pf-node[data-node="banner"] .pf-media {
-    padding: 0;
-    aspect-ratio: 600 / 417;
+  .pw-item {
+    margin-bottom: 10px;
   }
 
-  .pf-node[data-node="banner"] .pf-media img {
+  .proof-receipt {
+    padding: 1.4%;
+  }
+
+  /* the banner is 7:1, so on a phone it crops to the cards that carry the
+     number rather than shrinking to an unreadable strip. */
+  .proof-receipt img {
+    aspect-ratio: 1180 / 417;
     object-fit: cover;
     object-position: left center;
-  }
-
-  .pf-rings {
-    opacity: 0.72;
-  }
-}
-
-@media (max-width: 430px) {
-  .hero {
-    padding-top: calc(42px + env(safe-area-inset-top));
-    padding-bottom: 42px;
-  }
-
-  .slide:not(.hero):not(.close-slide) {
-    padding-top: 48px;
-    padding-bottom: 48px;
-  }
-
-  .instagram-screenshot {
-    border-radius: 40px;
-  }
-
-  .youtube-result {
-    grid-template-columns: minmax(118px, 38%) minmax(0, 1fr);
-  }
-
-  .youtube-result figcaption {
-    padding: 10px 12px;
-  }
-
-  .youtube-result figcaption strong {
-    font-size: 15px;
-  }
-
-  .video-idea-row {
-    padding-right: 42px;
-    padding-left: 42px;
-  }
-
-  .video-number {
-    left: 14px;
   }
 }
 
@@ -909,11 +816,7 @@ em {
     transform: none !important;
   }
 
-  .pf-node {
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .pf-rings g {
+  .pw-item {
     transform: none !important;
   }
 }
@@ -949,11 +852,7 @@ em {
     transform: none !important;
   }
 
-  .pf-node {
-    transform: translate(-50%, -50%) !important;
-  }
-
-  .pf-rings g {
+  .pw-item {
     transform: none !important;
   }
 }

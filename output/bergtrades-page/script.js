@@ -35,46 +35,36 @@
   window.addEventListener("scroll", requestProgressUpdate, { passive: true });
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
-  const setupProofField = () => {
-    const field = document.querySelector("[data-proof-field]");
-    const stage = field?.querySelector("[data-proof-stage]");
-    if (!field || !stage) return;
+  const setupProofWall = () => {
+    const wall = document.querySelector("[data-proof-wall]");
+    if (!wall) return;
 
-    const rings = stage.querySelector("[data-pf-rings]");
     const captureMode = root.hasAttribute("data-proof-freeze");
-    const nodes = Array.from(stage.querySelectorAll(".pf-node")).map((element, index) => ({
+    const items = Array.from(wall.querySelectorAll(".pw-item")).map((element, index) => ({
       element,
-      depth: Number.parseFloat(element.dataset.depth || "1"),
-      isPerson: element.classList.contains("pf-node--person"),
-      phase: index * 1.31,
-      swayX: 4 + (index % 3) * 3.2,
-      swayY: 3.4 + (index % 4) * 2.1,
-      period: 8200 + index * 1450,
+      isPerson: element.classList.contains("pw-person"),
+      lag: 0.72 + ((index * 0.37) % 1) * 0.5,
       restX: 0,
       restY: 0
     }));
 
-    if (!nodes.length) return;
-
-    // rest offsets are read untransformed: with left/top set and a -50%
-    // translate, offsetLeft/offsetTop already sit on the node's centre.
-    const measure = () => {
-      const midX = stage.clientWidth / 2;
-      const midY = stage.clientHeight / 2;
-
-      nodes.forEach((node) => {
-        node.restX = node.element.offsetLeft - midX;
-        node.restY = node.element.offsetTop - midY;
-      });
-    };
+    if (!items.length) return;
 
     let spread = 1;
-    let pointerX = 0;
-    let pointerY = 0;
-    let targetPointerX = 0;
-    let targetPointerY = 0;
     let inView = false;
-    let fieldFrame = 0;
+    let wallFrame = 0;
+
+    // offsetLeft/offsetTop are untransformed, so the rest geometry stays
+    // correct no matter what the current frame has applied.
+    const measure = () => {
+      const midX = wall.clientWidth / 2;
+      const midY = wall.clientHeight / 2;
+
+      items.forEach((item) => {
+        item.restX = item.element.offsetLeft + item.element.offsetWidth / 2 - midX;
+        item.restY = item.element.offsetTop + item.element.offsetHeight / 2 - midY;
+      });
+    };
 
     const readSpread = () => {
       if (motionPreference.matches || captureMode) {
@@ -82,100 +72,70 @@
         return;
       }
 
-      const bounds = field.getBoundingClientRect();
+      const bounds = wall.getBoundingClientRect();
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
-      const travelled = (viewportHeight - bounds.top) / (viewportHeight * 0.72);
+      const travelled = (viewportHeight - bounds.top) / (viewportHeight * 0.78);
       const clamped = Math.min(1, Math.max(0, travelled));
-      const eased = 1 - Math.pow(1 - clamped, 3);
 
-      spread = 0.44 + 0.56 * eased;
+      spread = 0.999 - Math.pow(1 - clamped, 3);
     };
 
-    const paint = (now) => {
-      const settled = (spread - 0.44) / 0.56;
+    const paint = () => {
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
       const viewportMiddle = viewportHeight / 2;
-      const revealReach = viewportHeight * 0.36;
+      const revealReach = viewportHeight * 0.62;
+      const gather = spread - 1;
 
-      pointerX += (targetPointerX - pointerX) * 0.08;
-      pointerY += (targetPointerY - pointerY) * 0.08;
+      items.forEach((item) => {
+        const pull = gather * 0.34 * item.lag;
 
-      nodes.forEach((node) => {
-        const pull = spread - 1;
-        const sway = motionPreference.matches || captureMode ? 0 : 1;
-        const swayX = Math.sin(now / node.period + node.phase) * node.swayX * node.depth * sway;
-        const swayY = Math.cos(now / (node.period * 1.27) + node.phase) * node.swayY * node.depth * sway;
-        const driftX = pointerX * 15 * node.depth;
-        const driftY = pointerY * 9 * node.depth;
+        item.element.style.setProperty("--tx", `${(item.restX * pull).toFixed(2)}px`);
+        item.element.style.setProperty("--ty", `${(item.restY * pull).toFixed(2)}px`);
+        item.element.style.setProperty("--sc", (0.9 + 0.1 * spread).toFixed(4));
 
-        node.element.style.setProperty("--tx", `${(node.restX * pull + swayX + driftX).toFixed(2)}px`);
-        node.element.style.setProperty("--ty", `${(node.restY * pull + swayY + driftY).toFixed(2)}px`);
-        node.element.style.setProperty("--sc", (0.8 + 0.2 * spread).toFixed(4));
+        const box = item.element.getBoundingClientRect();
+        const offCentre = Math.abs(box.top + box.height / 2 - viewportMiddle);
+        const reveal = Math.max(0, 1 - offCentre / revealReach);
 
-        if (node.isPerson) {
-          const box = node.element.getBoundingClientRect();
-          const offCentre = Math.abs(box.top + box.height / 2 - viewportMiddle);
-          const reveal = Math.max(0, 1 - offCentre / revealReach);
-
-          node.element.style.setProperty("--reveal", (reveal * reveal * (3 - 2 * reveal)).toFixed(3));
-        }
+        item.element.style.setProperty("--reveal", (reveal * reveal * (3 - 2 * reveal)).toFixed(3));
       });
-
-      if (rings) {
-        rings.style.setProperty("--ring-scale", (0.66 + 0.34 * spread).toFixed(4));
-      }
-
-      field.style.setProperty("--glow", settled.toFixed(3));
     };
 
-    const tick = (now) => {
-      fieldFrame = 0;
+    const frame = () => {
+      wallFrame = 0;
       readSpread();
-      paint(now);
+      paint();
 
-      if (inView && !captureMode) {
-        fieldFrame = window.requestAnimationFrame(tick);
+      if (inView && !captureMode && !motionPreference.matches) {
+        wallFrame = window.requestAnimationFrame(frame);
       }
     };
 
     const start = () => {
-      if (fieldFrame || captureMode) return;
-      fieldFrame = window.requestAnimationFrame(tick);
+      if (wallFrame || captureMode || motionPreference.matches) return;
+      wallFrame = window.requestAnimationFrame(frame);
     };
 
     const stop = () => {
-      if (fieldFrame) window.cancelAnimationFrame(fieldFrame);
-      fieldFrame = 0;
+      if (wallFrame) window.cancelAnimationFrame(wallFrame);
+      wallFrame = 0;
     };
 
     const settle = () => {
       measure();
       readSpread();
-      paint(0);
+      paint();
     };
 
-    // spread is driven straight off scroll as well as off the ambient loop, so
-    // it stays correct even when the loop is paused, throttled or offscreen.
+    // driven off scroll as well as off the frame loop, so it stays correct
+    // when the loop is paused, throttled or the section is offscreen.
     window.addEventListener("scroll", () => {
       if (captureMode) return;
       readSpread();
-      paint(window.performance ? performance.now() : 0);
+      paint();
     }, { passive: true });
 
-    field.addEventListener("pointermove", (event) => {
-      if (event.pointerType !== "mouse" || motionPreference.matches) return;
-
-      const bounds = field.getBoundingClientRect();
-      targetPointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
-      targetPointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
-    }, { passive: true });
-
-    field.addEventListener("pointerleave", () => {
-      targetPointerX = 0;
-      targetPointerY = 0;
-    }, { passive: true });
-
-    const images = Array.from(stage.querySelectorAll("img"));
+    const images = Array.from(wall.querySelectorAll("img"));
     const imagesReady = images.map((image) => {
       if (image.complete) return Promise.resolve();
       return new Promise((resolve) => {
@@ -189,17 +149,10 @@
     window.addEventListener("resize", settle, { passive: true });
 
     if ("ResizeObserver" in window) {
-      new ResizeObserver(settle).observe(stage);
+      new ResizeObserver(settle).observe(wall);
     }
 
-    if (captureMode) {
-      spread = 1;
-      paint(0);
-      field.dataset.proofReady = "true";
-      return;
-    }
-
-    if ("IntersectionObserver" in window) {
+    if (!captureMode && "IntersectionObserver" in window) {
       const watcher = new IntersectionObserver((entries) => {
         inView = entries.some((entry) => entry.isIntersecting);
         if (inView) {
@@ -207,10 +160,10 @@
         } else {
           stop();
         }
-      }, { rootMargin: "220px 0px 220px 0px", threshold: 0 });
+      }, { rootMargin: "300px 0px 300px 0px", threshold: 0 });
 
-      watcher.observe(field);
-    } else {
+      watcher.observe(wall);
+    } else if (!captureMode) {
       inView = true;
       start();
     }
@@ -218,13 +171,9 @@
     const handleMotionPreference = () => {
       if (motionPreference.matches) {
         stop();
-        targetPointerX = 0;
-        targetPointerY = 0;
-        pointerX = 0;
-        pointerY = 0;
         measure();
         spread = 1;
-        paint(0);
+        paint();
       } else if (inView) {
         start();
       }
@@ -237,10 +186,11 @@
     }
 
     handleMotionPreference();
-    field.dataset.proofReady = "true";
+    wall.dataset.proofReady = "true";
   };
 
-  setupProofField();
+  setupProofWall();
+
 
 
   if (reducedMotion) {
