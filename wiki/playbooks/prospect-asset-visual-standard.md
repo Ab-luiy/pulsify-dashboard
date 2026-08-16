@@ -3,7 +3,7 @@ type: playbook
 tags: [outreach, assets, design, docs, funnel]
 sources: [[playbooks/prospect-asset-doc-standard]], [[playbooks/prospect-asset-sop]], founder directive 2026-08-13
 created: 2026-08-13
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Prospect asset visual standard
@@ -161,27 +161,49 @@ Why it changed: the horizon note reassures a creator that their follower count i
 **Three short paragraphs maximum. The visuals carry the weight, not the prose.**
 
 1. **We have done this before.** One line naming that we have fixed the same thing for creators in their niche and outside it. Never a case-study essay.
-2. **Proof strip.** Real before-and-after screenshots of accounts we have worked on, plus a results figure rendered inside our own dashboard UI.
-3. **What they would get.** One line: their own dashboard and portal, built around the leaks in their funnel rather than a template, tracking a new viewer through to a paying client.
+2. **The proof block.** The strongest figure set as type, its receipt screenshot, the remaining metrics, then the client photos. Full shape below.
+3. **The shared diagnosis.** Two paragraphs naming what those creators all had wrong and why this prospect is further along. Superseded the "what they would get" delivery line on 2026-08-17, which read as sales.
 4. **CTA button** worded so it assumes the decision. "Set this up for me" over "book a call" — by this point the reader is asking how they get it, not whether it works.
 
-### The proof band, and it is now the standard close for every asset
+### The close, and this is the standard for every asset
 
-Founder directive 2026-08-16, after a first attempt was rejected as "slapped on there". Proof images in a plain marquee always read as assets queued in a row. The band has to be designed or it undercuts the thing it is trying to prove.
+Founder-approved 2026-08-17 on the bergtrades rebuild, replacing the drifting proof band ruled 2026-08-16. Two attempts were rejected before this one and both failure modes are worth keeping.
 
-**The pattern, reusable per prospect:**
+**Failure one: sparse.** A two-layer parallax band, then a scattered constellation of tiles. Founder's read: "this is not cutting it at all." Both were eight objects floating in a large black stage, which reads as a moodboard and contradicts this vault's own density principle. Density is the argument.
 
-- **Two parallax layers.** Number screenshots sit behind at ~0.72 scale, ~0.55 opacity, 1px blur, drifting at ~0.55x speed. People photos sit in front, full scale, sharp, 1x speed. The speed difference is what creates depth; a single layer cannot fake it.
-- **Nothing on a baseline.** Every item gets its own vertical offset (roughly -70 to +70px), its own slight scale (0.88 to 1.08) and uneven horizontal gaps. Even spacing is what makes a row look mechanical.
-- **Both edges dissolve** to transparent over ~12% of the band width, so items emerge and disappear instead of being clipped. This single detail is most of the difference between designed and cropped.
-- **Bottom fade lives in the image file**, not in CSS: the bottom fifth of every asset is faded to transparent when it is prepared. It survives being saved and it works on any ground.
-- **Lift on pointer.** Hover or touch scales the item ~4%, removes the blur, raises it above its neighbours, ~220ms. That is how the numbers stay readable without a single label.
-- **Slow.** A full cycle runs 45 to 60 seconds. Ambient, not a carousel.
-- **Driven by a data array** of `{src, layer, offset, scale}` so the next prospect is an array swap, not a rebuild.
+**Failure two: the money was hidden.** Every figure was locked inside a 200px screenshot, so the largest type in a section about $98,000 was the heading. The section never actually said its own number.
 
-**Banned in this band:** captions, names, "trusted by", counters, dots, arrows, badges, cards, borders, panels, glows, drop shadows, 3D flips, rotation, tilt, sparkle. No text beyond the heading that already exists. Do not round-crop environmental photos, it cuts heads off.
+**The shape, top to bottom:**
 
-**Redaction happens in the image file, never in CSS.** Client names get pixelated then blurred so the redaction survives a save. Crop away anything above or below the part that carries the proof.
+1. **Heading.** One line. "we've done this before."
+2. **The number as type.** The single strongest figure at `clamp(74px, 15.5vw, 178px)`, weight 800, tabular figures, tracking -0.058em. The biggest thing in the section and usually on the page. One supporting line beneath it, every figure in that line read off the screenshot that follows.
+3. **The receipt.** The screenshot proving that number, immediately below it, full column width in a light card. Claim and evidence touch.
+4. **The metrics grid.** Remaining proof screenshots, two columns desktop and one column mobile, sized so the numbers are legible on the page rather than only in the alt text. Roughly 430px wide on desktop. Crop each to the part carrying the number.
+5. **The people row.** Every client photo, one row, full bleed, lit and sharp at full brightness.
+6. **Closing copy.** Two short paragraphs, per the shared-diagnosis rule below.
+7. **CTA.**
+
+**The room.** The same client photos also tile the whole section background: 24 tiles at 25% width, shuffled so no face sits beside or under itself, with rotating `object-position` values so repeats do not read as a pattern. Exposure `brightness(0.42) saturate(0.82)`, opacity 1.
+
+**Never dissolve people with opacity and blur.** Founder's exact objection: "is there a way we can get the pictures to appear instead of them being translucent." Blur and grayscale are what make a photograph read as a watermark. Darken with exposure and hold legibility with a scrim instead. Same final luminance, completely different read.
+
+**Two depths, one set of photos.** The row is lit foreground, the wall is dim ambience. That contrast is what lets the copy say "everyone up there" and have it land. Founder rejected an earlier version precisely because the sentence named a group the design never presented.
+
+**The scrim carries legibility, not the photos.** Asymmetric on desktop, roughly 0.9 alpha under the copy column falling to 0.26 on the open side, so photographs genuinely read where nothing sits over them. Even, around 0.68, on mobile where copy runs full width.
+
+**Verify contrast on a ground-only render.** Hide every copy block, screenshot that, and sample the true background beneath each text run. Sampling a normal render measures glyph antialiasing and returns nonsense; this cost a full pass to learn. The bergtrades close measures 11.25:1 at worst against AA's 4.5.
+
+**Motion.** Tiles gather toward the centre at ~0.9 scale and settle into place as the section scrolls through, driven off one `--spread` variable. Drive it from the scroll event as well as the rAF loop so it stays correct when the loop is paused, throttled or offscreen. Rest geometry reads from `offsetLeft`/`offsetTop`, which transforms do not affect.
+
+**Anything that only reveals on hover is broken.** The prospect is on a phone. Any reveal must also be driven by distance from the middle of the viewport so scrolling alone surfaces it. Pointer hover feeds a separate variable and `max()` picks the higher of the two.
+
+**Closing copy: the shared diagnosis.** Founder directive 2026-08-16. Open by naming that the creators shown all had the same thing wrong, that we fixed it, and that the numbers followed. Then one paragraph on why this prospect is further along than they were, built only from things already shown earlier in the asset.
+
+The thread must be the one the asset already argued. For bergtrades that was packaging, because sections 1 and 4 both diagnose it. Naming the page's own argument is not a new claim; inventing a shared thread is.
+
+Casual and friendly. The rejected version pitched a dashboard and portal, and the founder's note was that it "triggers sales resistance where they stop seeing through the thing." Drop the deliverables pitch. The CTA already says what happens next.
+
+**Banned in the close:** captions or name labels on proof, "trusted by", counters, badges, avatar circles (they read as a testimonial widget), round-cropping environmental photos, and any blur on a client photograph.
 
 ### Rendering the proof tiles
 
@@ -232,6 +254,13 @@ Two rules that follow:
 **Never send these behind `/a/{token}`.** The redirect exists for tracking a Google Doc we cannot instrument. A redirect URL is more suspicious than a plain one, and the hosted page is already instrumented, so the redirect buys nothing and costs trust.
 
 **A custom domain is the remaining fix and it is a founder decision.** `pulsify-funnels.pages.dev` is the part that still reads as an unrecognised host. Cloudflare Pages custom domains are free, and the build notes record that origins are computed per-request so a domain change needs no code work. Open, pending the founder buying one.
+
+**Send-link checks, ruled 2026-08-17.** Run all four before any asset link goes out. The bergtrades link failed three of them at the moment the founder asked whether it was ready to send.
+
+- **`og:image` must exist and resolve.** Without it a pasted link renders a bare text card and reads as broken. Render 1200x630 from the asset's own hero, which is personal rather than a pitch, and set `twitter:card` to `summary_large_image`.
+- **`noindex, nofollow` on the page.** These carry a named prospect and real client revenue screenshots. Note that `robots.txt` on Cloudflare Pages returns the SPA fallback HTML rather than a real robots file, so the meta tag is the only control that works.
+- **No "preview", "test" or "staging" in the host.** The asset argues the work is already built; a URL saying preview contradicts that before they read a word. Deploy to a clean project name.
+- **Every asset returns 200 on the live host,** not just the page, and the CTA target resolves. Check the images, the stylesheet, the script and the booking link.
 
 **PDF fallback.** Build one HTML source and render a PDF from it for any prospect who will not click a link. Same source, no second design pass.
 

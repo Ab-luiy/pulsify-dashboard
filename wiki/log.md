@@ -1419,3 +1419,17 @@ Correction to the entry above. I argued that `pulsify-funnels.pages.dev` reads a
 Consequence recorded rather than the buy decision being changed. The domain sits in front of revenue, not after it, because every prospect asset is delivered through the link. Deferring it until first money makes the domain wait on revenue it partly gates. Argument put to the founder, decision left with him.
 
 Mechanics confirmed for the record. The per-lead path URLs shipped 2026-07-09 already produce `/{lead-slug}`, so attaching a custom domain converts every link to `domain.com/frank-wieler` with no rebuild - a DNS change only. Buying at Cloudflare Registrar avoids a nameserver migration because Pages already hosts the project. A name-first form (`frank-wieler.domain.com`) is possible but needs wildcard DNS and Codex verification on Pages, so the path form stands as the zero-engineering option.
+
+## [2026-08-17] decision | Close-section standard rewritten off the bergtrades rebuild
+
+The proof-band pattern ruled 2026-08-16 is superseded in [[playbooks/prospect-asset-visual-standard]]. It was rejected in build: "this is not cutting it at all." Two failure modes recorded rather than just the replacement, because both are easy to repeat.
+
+Sparse beat dense. A two-layer drifting band and then a scattered constellation both put eight objects in a large black stage, which reads as a moodboard and argues against this vault's own density principle. Second, the money was hidden: every figure sat inside a 200px screenshot, so the largest type in a section about $98,000 was the heading. The section never said its own number.
+
+The standard is now: heading, the strongest figure set as type at up to 178px, its receipt screenshot directly beneath, the remaining metrics at a size where the numbers actually read on the page, then every client photo in one lit full-bleed row, over a background of those same photos tiled as the room. Two depths, one set of images, which is what lets the closing copy say "everyone up there" and have it land.
+
+Three rules generalised out of it. Never dissolve people with opacity and blur, since blur and grayscale are what make a photograph read as a watermark; darken with exposure and hold legibility with a scrim. Anything that only reveals on hover is broken, because the prospect is on a phone, so every reveal is also driven by distance from the viewport middle. And verify contrast on a ground-only render with copy hidden, since sampling a normal render measures glyph antialiasing and returns nonsense.
+
+Closing copy changed too. The old ending pitched a dashboard and portal and read as sales; founder's note was that it "triggers sales resistance where they stop seeing through the thing." It now opens on the shared diagnosis, and the diagnosis must be the one the asset already argued rather than a new claim.
+
+Also added four send-link checks to the delivery section, after the bergtrades link failed three of them at the point the founder asked whether it was ready to send: a resolving `og:image`, `noindex`, no "preview" in the host, and a 200 check on every asset plus the CTA target. Live asset: https://bergtrades.pages.dev
