@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Diagnose and fix 390px horizontal overflow only; copy/design unchanged; verify exact-width PNG, edge-ink count, and root scrollWidth. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | Grid-track fix is applied and static QA passes. Fresh exact-390 render, edge-ink count, and root scrollWidth await localhost permission in the connected browser. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V7 opening + four sections + close rebuild complete and static QA passes. Chrome local-page permission blocked the fresh 390px PNG and rendered-height measurement; no alternate browser path used. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V6 built-work opening and section 6 ratio relocation complete; source/dist/capture synchronized and both required PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | New opening, smaller mobile headline scale, semantic emphasis and tighter top pacing complete. Forced-reveal PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
@@ -1496,3 +1496,13 @@ BACKUP BLOCKED: after the lock was cleared and the expected-only status plus `gi
 
 ### [2026-08-16 15:38] CODEX
 STARTED: founder reported confirmed horizontal overflow at a 390px Bergtrades render. Claimed `output/bergtrades-page/**` plus this coordination record. Scope is diagnosis from rendered geometry, the smallest width/wrapping fix with copy and design unchanged, source/dist/capture synchronization, and verification at exactly 390px: output PNG width, last-three-column ink rows, and `document.documentElement.scrollWidth`. No deploy, Wrangler command, or live publication.
+
+### [2026-08-16 15:44] CODEX
+BLOCKED ON FRESH RENDER ONLY: the existing exact-390 artifact proves the overflow is shared by every section, including normal prose, the six-title field, both screenshot blocks, proof tile and close. The common cause is `.slide` using an implicit `auto` grid column: the track grows from max-content, so `.slide-inner { width: 100% }` resolves against an overwide track. Existing `overflow-x: clip` on `body` and `overflow: clip` on `.slide` then masked the document width and cut the content at the viewport edge.
+
+Applied the geometry fix in `output/bergtrades-page/styles.css` and `dist/styles.css`: `.slide` now declares `grid-template-columns: minmax(0, 1fr)`, and both masking clip rules are removed so no hidden overflow can make the check pass falsely. Copy, HTML, assets, fonts, reveals, spacing and every component are unchanged; source/dist hashes match, CSS braces are balanced, the minimum fixed font remains 15px, long titles and terminal URLs retain their existing wrapping rules, and `git diff --check` passes.
+
+The connected Chrome browser still refuses `http://127.0.0.1:4173/_capture.html` because localhost permission was previously declined. Browser policy prohibits substituting a command-line renderer or alternate browser after that denial. Therefore the required post-fix 390px PNG, last-three-column ink count and `document.documentElement.scrollWidth` are not claimed yet. Lock remains blocked for that verification continuation. No deploy, Wrangler command or live publication.
+
+### [2026-08-16 15:45] CODEX
+BACKUP BLOCKED: after confirming the working tree contains only the two synchronized CSS files and this coordination record, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.

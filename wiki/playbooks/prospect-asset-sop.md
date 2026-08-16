@@ -86,14 +86,22 @@ Headless Chrome produces clean 1280-wide PNGs that drop straight into the docx a
 
 ### Two capture traps, both found the hard way 2026-08-13
 
-**1. `--window-size` is not the CSS viewport on this machine.** A 0.75 device scale factor is applied, so `--window-size=390` renders a **292px** viewport and `--window-size=488` renders 366. `--force-device-scale-factor=1` did not override it. Divide the target by 0.75:
+**1. Headless Chrome cannot render a viewport narrower than 500px.** This is the important one and it invalidated a whole session of "verified at 390" checks.
 
-| CSS viewport wanted | Pass `--window-size` |
-|---|---|
-| 390 (phone) | 520 |
-| 1280 (desktop) | 1707 |
+Windows Chrome enforces a minimum window width of about 500px. Pass `--window-size=390` and the page lays out at **innerWidth 500**, then the screenshot is simply cropped to 390 pixels. The crop slices through text mid-word, which looks exactly like a horizontal-overflow bug and is not one.
 
-**Always check the output PNG's actual pixel width before trusting a screenshot.** This trap produced a false alarm during the bergtrades build: at a 292px viewport the stylesheet's 320px `min-width` guaranteed 28px of clipped text, which read exactly like a serious responsive bug and was not one. Nearly reported it to the founder as a defect.
+Proved by injecting a banner that prints `window.innerWidth` into the page and screenshotting it. Do that whenever a narrow render looks wrong, instead of trusting the flag:
+
+```js
+b.textContent = 'inner=' + innerWidth + ' client=' + document.documentElement.clientWidth
+             + ' scroll=' + document.documentElement.scrollWidth;
+```
+
+**What this means:** the narrowest layout verifiable with headless Chrome here is ~500 CSS px. Real phones are 390 to 430, so **the last 100px is unverifiable locally and has to be checked on a real device.** The founder checking it on his phone is not optional politeness, it is the only test that covers that range.
+
+The old note claimed a 0.75 device-scale factor and told you to divide by 0.75. That was wrong, and following it meant every mobile check ran at ~500 while believing it ran at 390.
+
+**Always make the page report its own width before trusting a narrow screenshot.** This trap caused a false alarm on the bergtrades build twice: clipped text at the crop boundary was read as a responsive bug, a fix was commissioned for it, and there was never anything wrong with the page.
 
 **2. A reveal-animated page captures blank.** Sections that start at `opacity: 0` and fade in on an intersection observer never fire in a headless single-shot capture, so most of the page renders empty. Worse, full-height slides (`min-height: 100svh`) inherit the capture window height, so a 16000px tall window makes every slide 16000px tall.
 
