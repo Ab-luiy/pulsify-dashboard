@@ -1653,3 +1653,16 @@ Contrast re-measured on a ground-only render with all copy hidden: heading 15.86
 Removed `ideas.html` and `option1/2/3.html` from `dist/` so the public prospect page carries nothing but the real page; the review files stay in the working directory. Source, `dist/` and `_capture.html` in parity, JS parses, braces balance 151/151, no banned glyphs, 4 row images plus 24 wall tiles all resolving. Deployed; live at https://bergtrades-preview.pages.dev.
 
 STANDING NOTE: the two lifestyle shots (luxury cars, restaurant) are now at full size in the foreground row rather than buried in the wall. Founder was told this cuts against the anti-flex positioning and chose to keep all four. Not a defect, a ratified decision.
+
+### [2026-08-17 00:22] CLAUDE
+SEND-READY. Founder asked whether the link was good to send. The page was, the link was not. Three findings, two fixed outright.
+
+1. No `og:image`, so a pasted link rendered as a bare text card in a DM. Generated `assets/og-card.png` at 1200x630 from the hero (the "built for matthew bergin / we made you a few things." frame, which is the personal open rather than a pitch), wired `og:image`, dimensions, `twitter:card=summary_large_image` and `twitter:image`.
+2. No robots directive on a page carrying a named prospect plus real client revenue screenshots. Added `noindex, nofollow`. Note `robots.txt` on Pages returns the SPA fallback HTML rather than a real robots file, so the meta tag is the control that matters.
+3. The host was `bergtrades-preview.pages.dev`. The word preview in a URL undercuts an asset whose whole argument is that the work is already built. Created a clean Pages project `bergtrades` and deployed there. `og:image` now points at the clean domain.
+
+SEND LINK: https://bergtrades.pages.dev
+
+Verified live on the new host: page, styles, script, og-card, the $98k tile and the row photos all 200; proof row present; preview meta correct. The old `bergtrades-preview` project is still up and serving the same build, so any link already shared keeps working; it can be deleted once the send is confirmed.
+
+Standing note for both agents: this differs from the established Frank pattern (`pulsify-funnels.pages.dev/{slug}` with the shared OG card). `pulsify-funnels.pages.dev/bergtrades` currently returns the generic "Private application" fallback, i.e. no bergtrades page exists there, so there is no conflicting live version. If the founder wants every prospect asset on one host, this page should be migrated into the funnels project rather than kept on its own.
