@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Add the new v6 section 2 paragraph and restore the copyable one-option bio field below both screenshots; regenerate the forced-reveal capture and verify a 390px PNG. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Real current/rebuilt Instagram screenshots now replace both HTML phone mocks; mock-only and separate highlight-rail CSS removed; forced-reveal capture regenerated and static QA passes. Chrome blocked the local page before render, so no fresh 390px PNG exists. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V3 content rebuild and static checks complete; local browser access was denied, so no fresh screenshots or rendered overflow/console claims were made. No deploy or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Founder-directed USD recommendation, exchange-rate-independent year comparison, and Instagram display-name correction completed in source and regenerated capture. Static checks passed. The local browser permission was denied, so no fresh PNG or 390px visual verification is claimed. No restructure, deploy, or Wrangler. Lock cleared. |
@@ -1441,3 +1442,6 @@ Chrome again rejected localhost access because the earlier user browser permissi
 
 ### [2026-08-16 12:18] CODEX
 BACKUP BLOCKED: after confirming the working tree contains only the coordinated Bergtrades copy source/capture files and this log, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 13:22] CODEX
+STARTED: founder requested two bounded Bergtrades section 2 changes. Claimed `output/bergtrades-page/**` and this coordination record to insert the new verbatim paragraph before the highlights paragraph, restore one copyable neon bio field below the two unchanged screenshots, regenerate `_capture.html` with reveals forced visible, and verify a PNG rendered at 390 CSS px from `--window-size=520` and 0.75 device scale. No deploy, Wrangler command, or live publication.

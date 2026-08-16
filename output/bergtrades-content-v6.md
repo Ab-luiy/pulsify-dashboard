@@ -13,12 +13,12 @@ Every command became an option. Every accusation became an observation.
 
 **Eyebrow:** built for matthew bergin
 
-**Headline:** 3,600 in the free room. two in the paid one.
+**Headline (SMALLER than the section headlines, not a hero):** 3,600 in the room. only **2** buy.
 
 **Body:**
-you've got 58 five star reviews and a guy who went from an $81 payout to over a million in funding. the people who actually reach you buy, and then they say so in public.
+58 five star reviews. one guy went from an $81 payout to *over a million* in funding. everyone who actually gets to you buys, and then says so in public.
 
-so the offer's fine. it's just that not many make it that far, and most of that is upstream stuff you can move in an afternoon.
+so it's not the offer. it's everything sitting in front of it.
 
 ---
 
@@ -52,6 +52,8 @@ Instagram: https://www.instagram.com/bergtrades.ig/
 what's in this for me, is this guy legit, where do i go next. right now the first answer is a job title anyone could claim, and the next step points at a second account rather than your stuff.
 
 the line you already have is better than any of that. your students take the same trades you do. nobody running a discretionary model can say it.
+
+the other thing is where it points. right now it hands people to another profile, and a profile visit doesn't really build anything. the long form does. someone who sits with you for twenty minutes knows you in a way nobody scrolling a grid ever will, and that depth is what makes the rest of it easy.
 
 highlights are similar. there's seven, and someone new won't know which to tap, so they tend to tap none. start here would catch whoever landed twenty seconds ago. my story is the one that makes them stay. after that it's all results, and it reads stronger as a wall of them than as four folders with numbers.
 
