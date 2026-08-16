@@ -36,14 +36,14 @@
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
   const proofItems = [
-    { src: "assets/proof/proof-cash.webp", tier: "numbers", offset: -22, scale: 0.94 },
-    { src: "assets/proof/proof-dashboard.webp", tier: "numbers", offset: 18, scale: 1.02 },
-    { src: "assets/proof/proof-closed-list.webp", tier: "numbers", offset: -8, scale: 0.90 },
-    { src: "assets/proof/proof-payment.webp", tier: "numbers", offset: 24, scale: 1.06 },
-    { src: "assets/proof/proof-nick.webp", tier: "people", offset: 20, scale: 1.04 },
-    { src: "assets/proof/proof-jacob.webp", tier: "people", offset: -24, scale: 0.92 },
-    { src: "assets/proof/proof-nick-mamba.webp", tier: "people", offset: 8, scale: 1.06 },
-    { src: "assets/proof/proof-table.webp", tier: "people", offset: -14, scale: 0.97 }
+    { src: "assets/proof/proof-cash.webp", tier: "numbers", offset: -7, scale: 0.94 },
+    { src: "assets/proof/proof-dashboard.webp", tier: "numbers", offset: 6, scale: 1.02 },
+    { src: "assets/proof/proof-closed-list.webp", tier: "numbers", offset: -4, scale: 0.90 },
+    { src: "assets/proof/proof-payment.webp", tier: "numbers", offset: 5, scale: 1.06 },
+    { src: "assets/proof/proof-nick.webp", tier: "people", offset: 4, scale: 1.04 },
+    { src: "assets/proof/proof-jacob.webp", tier: "people", offset: -6, scale: 0.92 },
+    { src: "assets/proof/proof-nick-mamba.webp", tier: "people", offset: 2, scale: 1.06 },
+    { src: "assets/proof/proof-table.webp", tier: "people", offset: -4, scale: 0.97 }
   ];
 
   const setupProofConstellation = () => {
@@ -79,8 +79,7 @@
     const renderItem = (item, itemIndex, tierName) => {
       const image = document.createElement("img");
       const scale = item.scale.toFixed(3);
-      const offset = `${item.offset}px`;
-      const mobileOffset = `${Math.round(item.offset * 0.67)}px`;
+      const offset = `${item.offset}%`;
       const gap = gapPatterns[tierName][itemIndex % gapPatterns[tierName].length];
 
       image.className = "proof-item";
@@ -90,7 +89,6 @@
       image.decoding = captureMode ? "sync" : "async";
       image.draggable = false;
       image.style.setProperty("--proof-offset", offset);
-      image.style.setProperty("--proof-mobile-offset", mobileOffset);
       image.style.setProperty("--proof-scale", scale);
       image.style.setProperty("--proof-hover-scale", (item.scale * 1.04).toFixed(3));
       image.style.setProperty("--proof-gap", `${gap}px`);

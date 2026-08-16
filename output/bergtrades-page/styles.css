@@ -528,15 +528,16 @@ em {
 }
 
 .proof-constellation {
-  --proof-upper-zone: 190px;
-  --proof-lower-zone: 400px;
-  --proof-tier-gutter: 18px;
-  --proof-number-height: 130px;
-  --proof-people-height: 306px;
+  --proof-band-height: 72vh;
+  --proof-upper-zone: 26%;
+  --proof-lower-zone: 68%;
+  --proof-tier-gutter: 6%;
+  --proof-number-height: 80%;
+  --proof-people-height: 85%;
   position: relative;
   width: 100%;
   min-width: 0;
-  height: calc(var(--proof-upper-zone) + var(--proof-tier-gutter) + var(--proof-lower-zone));
+  height: var(--proof-band-height);
   margin-top: 16px;
   overflow: hidden;
   overscroll-behavior-inline: contain;
@@ -768,21 +769,16 @@ em {
 
 @media (max-width: 600px) {
   .proof-constellation {
-    --proof-upper-zone: 140px;
-    --proof-lower-zone: 260px;
-    --proof-tier-gutter: 12px;
-    --proof-number-height: 86px;
-    --proof-people-height: 192px;
+    --proof-band-height: 78vh;
   }
 
   .proof-item {
     margin-right: var(--proof-mobile-gap);
-    transform: translate3d(0, var(--proof-mobile-offset), 0) scale(var(--proof-scale));
   }
 
   .proof-item:hover,
   .proof-item.is-touched {
-    transform: translate3d(0, calc(var(--proof-mobile-offset) - 5px), 0) scale(var(--proof-hover-scale));
+    transform: translate3d(0, calc(var(--proof-offset) - 5px), 0) scale(var(--proof-hover-scale));
   }
 }
 

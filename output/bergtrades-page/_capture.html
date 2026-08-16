@@ -13,27 +13,13 @@
   <meta name="theme-color" content="#070707">
   <title>Matthew Bergin | we made you a few things.</title>
   <link rel="stylesheet" href="styles.css">
-  <style id="capture-override">
-    .slide {
-      min-height: 0 !important;
-    }
-
-    [data-reveal] > .slide-inner,
-    [data-reveal] [data-stage],
-    [data-reveal] .pop-number {
-      opacity: 1 !important;
-      filter: none !important;
-      scale: 1 !important;
-      translate: none !important;
-      transform: none !important;
-    }
-
-    .proof-tier-track {
-      transition: none !important;
-    }
-  </style>
   <script src="script.js" defer></script>
-</head>
+<style id="capture-override">
+  .slide{min-height:auto !important;padding:34px 0 !important;}
+  [data-reveal],[data-reveal] > .slide-inner,[data-stage],.pop-number{opacity:1 !important;transform:none !important;scale:1 !important;filter:none !important;}
+  .sticky-intro{position:static !important;}
+  .proof-constellation{--proof-band-height:658px !important;}
+</style></head>
 <body>
   <div class="progress-line" aria-hidden="true"><span></span></div>
   <main id="top">
