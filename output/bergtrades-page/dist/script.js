@@ -35,283 +35,136 @@
   window.addEventListener("scroll", requestProgressUpdate, { passive: true });
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
-  const proofItems = [
-    { src: "assets/proof/proof-nick.webp", tier: "people", offset: 0, scale: 1 },
-    { src: "assets/proof/proof-jacob.webp", tier: "people", offset: -1, scale: 0.96 },
-    { src: "assets/proof/proof-nick-mamba.webp", tier: "people", offset: 0.7, scale: 0.98 },
-    { src: "assets/proof/proof-table.webp", tier: "people", offset: -0.5, scale: 0.97 },
-    { src: "assets/proof/proof-cash.webp", tier: "numbers", offset: 0.8, scale: 1 },
-    { src: "assets/proof/proof-dashboard.webp", tier: "numbers", offset: -1.2, scale: 0.98 },
-    { src: "assets/proof/proof-closed-list.webp", tier: "numbers", offset: -0.6, scale: 0.96 },
-    { src: "assets/proof/proof-payment.webp", tier: "numbers", offset: 0, scale: 1.02 }
-  ];
+  const setupProofField = () => {
+    const field = document.querySelector("[data-proof-field]");
+    const stage = field?.querySelector("[data-proof-stage]");
+    if (!field || !stage) return;
 
-  const setupProofConstellation = () => {
-    const band = document.querySelector("[data-proof-constellation]");
-    const stage = band?.querySelector("[data-proof-stage]");
-    if (!band || !stage) return;
-
+    const rings = stage.querySelector("[data-pf-rings]");
     const captureMode = root.hasAttribute("data-proof-freeze");
-    const gapPatterns = {
-      numbers: [32, 64, 40, 86],
-      people: [68, 34, 88, 48]
-    };
-    const tierSettings = {
-      numbers: { speed: 0.0132, initialPhase: 0.02 },
-      people: { speed: 0.022, initialPhase: 0.31 }
-    };
-    const tiers = {};
-    let animationFrame = 0;
-    let lastFrame = 0;
-    let dragging = false;
-    let pointerId = null;
-    let activeTier = null;
-    let activeItem = null;
-    let lastPointerX = 0;
-    let lastPointerTime = 0;
-    let pointerVelocity = 0;
+    const nodes = Array.from(stage.querySelectorAll(".pf-node")).map((element, index) => ({
+      element,
+      depth: Number.parseFloat(element.dataset.depth || "1"),
+      phase: index * 1.31,
+      swayX: 4 + (index % 3) * 3.2,
+      swayY: 3.4 + (index % 4) * 2.1,
+      period: 8200 + index * 1450,
+      restX: 0,
+      restY: 0
+    }));
 
-    const normalise = (value, width) => {
-      if (!width) return 0;
-      return ((value % width) + width) % width;
-    };
+    if (!nodes.length) return;
 
-    const renderItem = (item, itemIndex, tierName) => {
-      const image = document.createElement("img");
-      const scale = item.scale.toFixed(3);
-      const offset = `${item.offset}%`;
-      const gap = gapPatterns[tierName][itemIndex % gapPatterns[tierName].length];
+    // rest offsets are read untransformed: with left/top set and a -50%
+    // translate, offsetLeft/offsetTop already sit on the node's centre.
+    const measure = () => {
+      const midX = stage.clientWidth / 2;
+      const midY = stage.clientHeight / 2;
 
-      image.className = "proof-item";
-      image.src = item.src;
-      image.alt = "";
-      image.loading = "eager";
-      image.decoding = captureMode ? "sync" : "async";
-      image.draggable = false;
-      image.style.setProperty("--proof-offset", offset);
-      image.style.setProperty("--proof-scale", scale);
-      image.style.setProperty("--proof-hover-scale", (item.scale * 1.04).toFixed(3));
-      image.style.setProperty("--proof-gap", `${gap}px`);
-      image.style.setProperty("--proof-mobile-gap", `${Math.max(24, Math.round(gap * 0.62))}px`);
-
-      return image;
+      nodes.forEach((node) => {
+        node.restX = node.element.offsetLeft - midX;
+        node.restY = node.element.offsetTop - midY;
+      });
     };
 
-    const buildTier = (tierName) => {
-      const tierItems = proofItems.filter((item) => item.tier === tierName);
-      const tier = document.createElement("div");
-      const track = document.createElement("div");
-      let firstSequence = null;
+    let spread = 1;
+    let pointerX = 0;
+    let pointerY = 0;
+    let targetPointerX = 0;
+    let targetPointerY = 0;
+    let inView = false;
+    let fieldFrame = 0;
 
-      tier.className = `proof-tier proof-tier-${tierName}`;
-      tier.dataset.proofTier = tierName;
-      track.className = "proof-tier-track";
-      track.dataset.proofTrack = tierName;
-
-      for (let copyIndex = 0; copyIndex < 3; copyIndex += 1) {
-        const sequence = document.createElement("div");
-        sequence.className = "proof-tier-sequence";
-        sequence.dataset.proofSequence = tierName;
-        if (copyIndex > 0) sequence.setAttribute("aria-hidden", "true");
-
-        tierItems.forEach((item, itemIndex) => {
-          sequence.append(renderItem(item, itemIndex, tierName));
-        });
-
-        if (!firstSequence) firstSequence = sequence;
-        track.append(sequence);
+    const readSpread = () => {
+      if (motionPreference.matches || captureMode) {
+        spread = 1;
+        return;
       }
 
-      tier.append(track);
-      stage.append(tier);
-      tiers[tierName] = {
-        element: tier,
-        track,
-        firstSequence,
-        width: 0,
-        position: 0,
-        momentumVelocity: 0,
-        pauseUntil: 0,
-        ...tierSettings[tierName]
-      };
+      const bounds = field.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      const travelled = (viewportHeight - bounds.top) / (viewportHeight * 0.72);
+      const clamped = Math.min(1, Math.max(0, travelled));
+      const eased = 1 - Math.pow(1 - clamped, 3);
+
+      spread = 0.44 + 0.56 * eased;
     };
 
-    buildTier("people");
-    buildTier("numbers");
+    const paint = (now) => {
+      const settled = (spread - 0.44) / 0.56;
 
-    const applyPositions = () => {
-      Object.values(tiers).forEach((tier) => {
-        tier.track.style.transform = `translate3d(${-tier.position}px, 0, 0)`;
-      });
-    };
+      pointerX += (targetPointerX - pointerX) * 0.08;
+      pointerY += (targetPointerY - pointerY) * 0.08;
 
-    const measure = () => {
-      Object.values(tiers).forEach((tier) => {
-        const oldWidth = tier.width;
-        const phase = captureMode
-          ? tier.initialPhase
-          : oldWidth
-            ? normalise(tier.position, oldWidth) / oldWidth
-            : tier.initialPhase;
-        const measuredWidth = tier.firstSequence.getBoundingClientRect().width;
+      nodes.forEach((node) => {
+        const pull = spread - 1;
+        const sway = motionPreference.matches || captureMode ? 0 : 1;
+        const swayX = Math.sin(now / node.period + node.phase) * node.swayX * node.depth * sway;
+        const swayY = Math.cos(now / (node.period * 1.27) + node.phase) * node.swayY * node.depth * sway;
+        const driftX = pointerX * 15 * node.depth;
+        const driftY = pointerY * 9 * node.depth;
 
-        if (!measuredWidth) return;
-        tier.width = measuredWidth;
-        tier.position = captureMode && measuredWidth <= tier.element.clientWidth
-          ? -(tier.element.clientWidth - measuredWidth) / 2
-          : normalise(phase * measuredWidth, measuredWidth);
+        node.element.style.setProperty("--tx", `${(node.restX * pull + swayX + driftX).toFixed(2)}px`);
+        node.element.style.setProperty("--ty", `${(node.restY * pull + swayY + driftY).toFixed(2)}px`);
+        node.element.style.setProperty("--sc", (0.8 + 0.2 * spread).toFixed(4));
       });
 
-      applyPositions();
-      band.dataset.proofReady = "true";
-    };
+      if (rings) {
+        rings.style.setProperty("--ring-scale", (0.66 + 0.34 * spread).toFixed(4));
+      }
 
-    const moveTier = (tier, distance) => {
-      if (!tier?.width) return;
-      tier.position = normalise(tier.position + distance, tier.width);
-      tier.track.style.transform = `translate3d(${-tier.position}px, 0, 0)`;
+      field.style.setProperty("--glow", settled.toFixed(3));
     };
 
     const tick = (now) => {
-      animationFrame = 0;
-      const elapsed = lastFrame ? Math.min(48, now - lastFrame) : 0;
-      lastFrame = now;
+      fieldFrame = 0;
+      readSpread();
+      paint(now);
 
-      if (!motionPreference.matches && !captureMode && !dragging && !document.hidden) {
-        Object.values(tiers).forEach((tier) => {
-          if (Math.abs(tier.momentumVelocity) > 0.012) {
-            moveTier(tier, tier.momentumVelocity * elapsed);
-            tier.momentumVelocity *= Math.pow(0.92, elapsed / 16.667);
-          } else {
-            if (tier.momentumVelocity) {
-              tier.momentumVelocity = 0;
-              tier.pauseUntil = now + 500;
-            }
-
-            if (now >= tier.pauseUntil) {
-              moveTier(tier, tier.speed * elapsed);
-            }
-          }
-        });
-      }
-
-      if (!motionPreference.matches && !captureMode) {
-        animationFrame = window.requestAnimationFrame(tick);
+      if (inView && !captureMode) {
+        fieldFrame = window.requestAnimationFrame(tick);
       }
     };
 
-    const startDrift = () => {
-      if (animationFrame || motionPreference.matches || captureMode) return;
-      lastFrame = 0;
-      band.dataset.autoDrift = "on";
-      animationFrame = window.requestAnimationFrame(tick);
+    const start = () => {
+      if (fieldFrame || captureMode) return;
+      fieldFrame = window.requestAnimationFrame(tick);
     };
 
-    const stopDrift = (state = "off") => {
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
-      animationFrame = 0;
-      lastFrame = 0;
-      Object.values(tiers).forEach((tier) => {
-        tier.momentumVelocity = 0;
-      });
-      band.dataset.autoDrift = state;
+    const stop = () => {
+      if (fieldFrame) window.cancelAnimationFrame(fieldFrame);
+      fieldFrame = 0;
     };
 
-    const clearActiveItem = () => {
-      if (!activeItem) return;
-      activeItem.classList.remove("is-touched");
-      activeItem = null;
+    const settle = () => {
+      measure();
+      readSpread();
+      paint(0);
     };
 
-    const finishPointer = (event) => {
-      if (event.pointerId !== pointerId) return;
+    // spread is driven straight off scroll as well as off the ambient loop, so
+    // it stays correct even when the loop is paused, throttled or offscreen.
+    window.addEventListener("scroll", () => {
+      if (captureMode) return;
+      readSpread();
+      paint(window.performance ? performance.now() : 0);
+    }, { passive: true });
 
-      if (dragging) {
-        dragging = false;
-        activeTier?.element.classList.remove("is-dragging");
-        if (!motionPreference.matches && activeTier) {
-          activeTier.momentumVelocity = pointerVelocity;
-        }
-      }
+    field.addEventListener("pointermove", (event) => {
+      if (event.pointerType !== "mouse" || motionPreference.matches) return;
 
-      clearActiveItem();
-      pointerId = null;
-      pointerVelocity = 0;
+      const bounds = field.getBoundingClientRect();
+      targetPointerX = ((event.clientX - bounds.left) / bounds.width - 0.5) * 2;
+      targetPointerY = ((event.clientY - bounds.top) / bounds.height - 0.5) * 2;
+    }, { passive: true });
 
-      if (band.hasPointerCapture?.(event.pointerId)) {
-        band.releasePointerCapture(event.pointerId);
-      }
-
-      activeTier = null;
-    };
-
-    band.addEventListener("pointerdown", (event) => {
-      if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
-
-      const tierElement = event.target.closest(".proof-tier");
-      if (!tierElement) return;
-
-      pointerId = event.pointerId;
-      activeTier = tiers[tierElement.dataset.proofTier];
-      activeItem = event.target.closest(".proof-item");
-      if (activeItem) {
-        activeItem.classList.add("is-touched");
-      }
-
-      if (motionPreference.matches && event.pointerType === "touch") return;
-
-      dragging = true;
-      lastPointerX = event.clientX;
-      lastPointerTime = event.timeStamp;
-      pointerVelocity = 0;
-      activeTier.momentumVelocity = 0;
-      activeTier.element.classList.add("is-dragging");
-      band.setPointerCapture?.(event.pointerId);
-
-      if (event.pointerType === "mouse") event.preventDefault();
-    });
-
-    band.addEventListener("pointermove", (event) => {
-      if (!dragging || event.pointerId !== pointerId) return;
-
-      const deltaX = event.clientX - lastPointerX;
-      const elapsed = Math.max(8, event.timeStamp - lastPointerTime);
-
-      if (motionPreference.matches) {
-        activeTier.element.scrollLeft -= deltaX;
-      } else {
-        moveTier(activeTier, -deltaX);
-      }
-
-      pointerVelocity = -deltaX / elapsed;
-      lastPointerX = event.clientX;
-      lastPointerTime = event.timeStamp;
-
-      if (event.cancelable) event.preventDefault();
-    });
-
-    band.addEventListener("pointerup", finishPointer);
-    band.addEventListener("pointercancel", finishPointer);
-    band.addEventListener("lostpointercapture", finishPointer);
-
-    const handleMotionPreference = () => {
-      if (captureMode) {
-        stopDrift("frozen");
-      } else if (motionPreference.matches) {
-        stopDrift();
-        Object.values(tiers).forEach((tier) => {
-          tier.element.scrollLeft = 0;
-          tier.position = 0;
-        });
-        applyPositions();
-      } else {
-        measure();
-        startDrift();
-      }
-    };
+    field.addEventListener("pointerleave", () => {
+      targetPointerX = 0;
+      targetPointerY = 0;
+    }, { passive: true });
 
     const images = Array.from(stage.querySelectorAll("img"));
-    const imageReady = images.map((image) => {
+    const imagesReady = images.map((image) => {
       if (image.complete) return Promise.resolve();
       return new Promise((resolve) => {
         image.addEventListener("load", resolve, { once: true });
@@ -319,14 +172,51 @@
       });
     });
 
-    measure();
-    Promise.all(imageReady).then(measure);
-    window.addEventListener("resize", measure, { passive: true });
+    settle();
+    Promise.all(imagesReady).then(settle);
+    window.addEventListener("resize", settle, { passive: true });
 
     if ("ResizeObserver" in window) {
-      const resizeObserver = new ResizeObserver(measure);
-      resizeObserver.observe(band);
+      new ResizeObserver(settle).observe(stage);
     }
+
+    if (captureMode) {
+      spread = 1;
+      paint(0);
+      field.dataset.proofReady = "true";
+      return;
+    }
+
+    if ("IntersectionObserver" in window) {
+      const watcher = new IntersectionObserver((entries) => {
+        inView = entries.some((entry) => entry.isIntersecting);
+        if (inView) {
+          start();
+        } else {
+          stop();
+        }
+      }, { rootMargin: "220px 0px 220px 0px", threshold: 0 });
+
+      watcher.observe(field);
+    } else {
+      inView = true;
+      start();
+    }
+
+    const handleMotionPreference = () => {
+      if (motionPreference.matches) {
+        stop();
+        targetPointerX = 0;
+        targetPointerY = 0;
+        pointerX = 0;
+        pointerY = 0;
+        measure();
+        spread = 1;
+        paint(0);
+      } else if (inView) {
+        start();
+      }
+    };
 
     if (motionPreference.addEventListener) {
       motionPreference.addEventListener("change", handleMotionPreference);
@@ -335,9 +225,11 @@
     }
 
     handleMotionPreference();
+    field.dataset.proofReady = "true";
   };
 
-  setupProofConstellation();
+  setupProofField();
+
 
   if (reducedMotion) {
     root.dataset.motion = "reduced";

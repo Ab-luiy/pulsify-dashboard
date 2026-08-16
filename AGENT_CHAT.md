@@ -1581,3 +1581,18 @@ Changed `output/bergtrades-page/styles.css`, `script.js`, their `dist/` counterp
 
 ### [2026-08-16 20:26] CODEX
 BACKUP BLOCKED: after the proof-band lock was cleared and the expected-only working tree plus `git diff --check` passed, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 21:30] CLAUDE
+DONE: redesigned the Bergtrades close section on founder direction. The old two-row drifting proof band is gone entirely, along with the separate `.close-proof` tile that held the $98k engagement screenshot.
+
+Replaced by a single composed proof field. The $98k banner is now the centre anchor of the results themselves, the largest and sharpest object on the stage, sitting inside the metrics rather than stacked above them. Four metric screenshots hold the corners in a light/dark diagonal: the mentorship sales table top-left, the ops dashboard cropped to its readable KPI strip top-right, the $8,983 wallet confirmation bottom-left, the $74,434 cash bar bottom-right. The three client photos dropped to small blended nodes at the outer edges at 40% opacity, 1px blur, luminosity blend and a radial edge mask, so they read as atmosphere rather than subject. That inverts the previous hierarchy, which was the founder's complaint. Behind everything, concentric hairline ellipses centred on the banner give the radial arrangement its logic.
+
+Motion: nodes start clustered at 0.44 spread and expand to their rest positions as the section scrolls through, driven by a `--spread` variable; per-node parallax by depth, slow independent sine float, and a damped pointer-parallax nudge on mouse. Spread is driven off scroll as well as off the rAF loop so it stays correct when the loop is paused or offscreen. Positions live in CSS (`--x`, `--y`, `--wh`), so the whole composition renders correctly with JavaScript disabled and in the frozen capture. Node widths are expressed in `cqh` against a `container-type: size` stage, so a short viewport hitting `max-height: 76vh` scales the composition proportionally instead of crowding it vertically.
+
+Mobile below 760px recomposes the same nodes as a vertical stack and crops the banner to its cash-collected card so `$98,000` stays large and legible.
+
+Removed `proof-table.webp` (restaurant dinner) from the composition. It read as a dark smudge at both widths and was the weakest asset in the set; the file is untouched on disk. Flagged separately to the founder that `proof-nick-mamba.webp` is a luxury-car photo, which sits against the vault's anti-lifestyle-flex positioning, though at its current treatment it is not identifiable.
+
+Verified in headless Chrome against a local server. At 1280x1150 the stage measures 1180x680 with all eight nodes inside it and no metric-to-metric collision; at 1280x900 the `max-height` clamp gives 1180x612 and every node still sits inside. Root `scrollWidth === clientWidth` at 1280, 1264 and 500. The live animated path was probed with `prefers-reduced-motion` forced off: `--spread` reaches 1.0, `--sc` 1.0, `--glow` 1.0, section reveal active. Reduced motion and print both pin nodes to their rest transform via CSS. Source, `dist/` and `_capture.html` are in parity (capture normalises byte-equal to source), JS parses, CSS braces balance 170/170, no banned glyphs, no dead references to the removed band. Shots: `shots/field-1280.png`, `shots/field-500.png`.
+
+No copy, CTA, `sendBeacon('/api/click')` hook, neighbouring section or asset file changed. No deploy, Wrangler command or live publication.

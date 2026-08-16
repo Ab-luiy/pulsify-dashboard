@@ -511,119 +511,159 @@ em {
   margin-inline: auto;
 }
 
-.close-proof {
-  width: min(100%, 580px);
-  overflow: hidden;
-  margin-top: 18px;
-  border: 1px solid var(--line-strong);
-  border-radius: 12px;
-  background: #f3f5f7;
-  box-shadow: var(--shadow);
-}
+/* ---- proof field: the closing composition ---------------------------- */
 
-.close-proof img {
-  width: 100%;
-  aspect-ratio: 5.86 / 1;
-  object-fit: contain;
-}
-
-.proof-constellation {
-  --proof-photo-row-height: 82vh;
-  --proof-number-row-height: 170px;
-  --proof-row-gap: 20px;
-  --proof-people-height: 96%;
-  --proof-number-height: 92%;
+.proof-field {
   position: relative;
   width: 100%;
   min-width: 0;
-  margin-top: 16px;
+  margin-top: 22px;
   overflow: hidden;
-  overscroll-behavior-inline: contain;
+  isolation: isolate;
+  touch-action: pan-y;
   user-select: none;
 }
 
-.proof-constellation-stage {
-  display: grid;
-  grid-template-rows: var(--proof-photo-row-height) var(--proof-number-row-height);
-  row-gap: var(--proof-row-gap);
-  width: 100%;
-  min-width: 100%;
-}
-
-.proof-tier {
-  position: relative;
-  width: 100%;
-  min-width: 0;
-  overflow: hidden;
-  overscroll-behavior-inline: contain;
-  cursor: grab;
-  isolation: isolate;
-  scrollbar-width: none;
-  touch-action: pan-y;
-  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
-  -webkit-overflow-scrolling: touch;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
-}
-
-.proof-tier::-webkit-scrollbar {
-  display: none;
-}
-
-.proof-tier.is-dragging {
-  cursor: grabbing;
-}
-
-.proof-tier-numbers {
-  --proof-item-height: var(--proof-number-height);
-}
-
-.proof-tier-people {
-  --proof-item-height: var(--proof-people-height);
-}
-
-.proof-tier-track {
+.proof-field::after {
   position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  width: max-content;
-  height: 100%;
-  align-items: center;
-  will-change: transform;
+  z-index: 0;
+  inset: 0;
+  background: radial-gradient(ellipse 46% 42% at 50% 50%, rgba(255, 255, 255, 0.062), transparent 72%);
+  pointer-events: none;
+  content: "";
 }
 
-.proof-tier-sequence {
-  display: flex;
+.proof-field-stage {
+  container-type: size;
+  position: relative;
+  width: min(100%, 1180px);
+  height: auto;
+  max-height: 76vh;
+  margin-inline: auto;
+  aspect-ratio: 1180 / 680;
+}
+
+.pf-rings {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
   height: 100%;
-  flex: 0 0 auto;
-  align-items: center;
+  color: rgba(255, 255, 255, 0.21);
   pointer-events: none;
 }
 
-.proof-item {
-  position: relative;
-  z-index: 1;
-  width: auto;
-  max-width: none;
-  height: var(--proof-item-height);
-  flex: 0 0 auto;
-  margin-right: var(--proof-gap);
-  opacity: 1;
-  filter: none;
-  object-fit: contain;
-  object-position: center;
-  pointer-events: auto;
-  transform: translate3d(0, var(--proof-offset), 0) scale(var(--proof-scale));
+.pf-rings g {
+  transform: scale(var(--ring-scale, 1));
+  transform-box: fill-box;
   transform-origin: center;
-  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease-out, filter 220ms ease-out;
+  vector-effect: non-scaling-stroke;
+}
+
+.pf-node {
+  position: absolute;
+  top: calc(var(--y) * 1%);
+  left: calc(var(--x) * 1%);
+  width: calc(var(--wh) * 1cqh);
+  transform:
+    translate(-50%, -50%)
+    translate(var(--tx, 0px), var(--ty, 0px))
+    scale(var(--sc, 1));
+  transform-origin: center;
+  transition: filter 320ms ease-out, opacity 320ms ease-out;
+}
+
+.pf-media {
+  display: block;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.pf-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   -webkit-user-drag: none;
 }
 
-.proof-item:hover,
-.proof-item.is-touched {
-  z-index: 20;
-  transform: translate3d(0, var(--proof-offset), 0) scale(var(--proof-hover-scale));
+.pf-node--metric {
+  z-index: 3;
 }
+
+.pf-node--metric .pf-media {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 26px 62px rgba(0, 0, 0, 0.62);
+}
+
+.pf-node--headline {
+  z-index: 5;
+}
+
+.pf-node--headline .pf-media {
+  padding: 1% 1.2%;
+  border-radius: 13px;
+  background: #f6f8fa;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.24),
+    0 0 72px rgba(255, 255, 255, calc(0.05 + 0.09 * var(--glow, 1))),
+    0 34px 88px rgba(0, 0, 0, 0.72);
+}
+
+.pf-node--headline .pf-media img {
+  object-fit: contain;
+}
+
+.pf-node--person {
+  z-index: 1;
+  opacity: 0.4;
+  filter: grayscale(0.3) brightness(0.86) blur(1px);
+  mix-blend-mode: luminosity;
+}
+
+.pf-node--person .pf-media {
+  border-radius: 8px;
+  mask-image: radial-gradient(ellipse 76% 76% at 50% 50%, #000 34%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse 76% 76% at 50% 50%, #000 34%, transparent 82%);
+}
+
+.pf-node--person:hover {
+  z-index: 2;
+  opacity: 0.82;
+  filter: grayscale(0) brightness(1) blur(0);
+}
+
+.pf-node--metric:hover .pf-media,
+.pf-node--headline:hover .pf-media {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.3),
+    0 34px 78px rgba(0, 0, 0, 0.72);
+}
+
+/* node placement: x / y are percentages of the stage, wh is width in cqh
+   (percent of stage height) so the whole composition scales as one piece. */
+
+.pf-node[data-node="banner"] { --x: 50; --y: 50; --wh: 118; }
+.pf-node[data-node="closed-list"] { --x: 17.5; --y: 21; --wh: 46; }
+.pf-node[data-node="dashboard"] { --x: 82; --y: 21; --wh: 45; }
+.pf-node[data-node="cash"] { --x: 82; --y: 79; --wh: 53; }
+.pf-node[data-node="payment"] { --x: 17.5; --y: 77; --wh: 31; }
+.pf-node[data-node="jacob"] { --x: 50; --y: 11; --wh: 18; }
+.pf-node[data-node="nick"] { --x: 6.5; --y: 49; --wh: 17; }
+.pf-node[data-node="mamba"] { --x: 94; --y: 50.5; --wh: 17; }
+
+.pf-node[data-node="banner"] .pf-media { aspect-ratio: 2980 / 417; }
+.pf-node[data-node="closed-list"] .pf-media { aspect-ratio: 904 / 620; }
+.pf-node[data-node="dashboard"] .pf-media { aspect-ratio: 633 / 295; }
+.pf-node[data-node="cash"] .pf-media { aspect-ratio: 620 / 140; }
+.pf-node[data-node="payment"] .pf-media { aspect-ratio: 695 / 620; }
+.pf-node[data-node="jacob"] .pf-media { aspect-ratio: 1 / 1; }
+.pf-node[data-node="nick"] .pf-media { aspect-ratio: 413 / 620; }
+.pf-node[data-node="mamba"] .pf-media { aspect-ratio: 465 / 620; }
+
+/* the dashboard crops to its kpi strip so the real numbers stay readable */
+.pf-node[data-node="dashboard"] .pf-media img { object-position: center top; }
 
 .close-tail > p {
   max-width: 720px;
@@ -763,20 +803,41 @@ em {
     width: 100%;
   }
 
-  .proof-constellation {
-    --proof-photo-row-height: 76vh;
-    --proof-number-row-height: 210px;
+  .proof-field {
+    margin-top: 26px;
   }
 }
 
-@media (max-width: 600px) {
-  .proof-item {
-    margin-right: var(--proof-mobile-gap);
+/* mobile: the same field, recomposed as a vertical stack. the headline
+   banner crops to its cash-collected card so the number stays readable. */
+@media (max-width: 759px) {
+  .proof-field-stage {
+    width: 100%;
+    max-height: none;
+    aspect-ratio: 360 / 680;
   }
 
-  .proof-item:hover,
-  .proof-item.is-touched {
-    transform: translate3d(0, var(--proof-offset), 0) scale(var(--proof-hover-scale));
+  .pf-node[data-node="banner"] { --x: 50; --y: 16.5; --wh: 43; }
+  .pf-node[data-node="closed-list"] { --x: 34; --y: 42; --wh: 30; }
+  .pf-node[data-node="payment"] { --x: 80; --y: 40; --wh: 17; }
+  .pf-node[data-node="dashboard"] { --x: 38; --y: 63; --wh: 30; }
+  .pf-node[data-node="cash"] { --x: 55; --y: 87; --wh: 38; }
+  .pf-node[data-node="jacob"] { --x: 92; --y: 34; --wh: 14; }
+  .pf-node[data-node="nick"] { --x: 7; --y: 57; --wh: 13; }
+  .pf-node[data-node="mamba"] { --x: 90; --y: 74; --wh: 13; }
+
+  .pf-node[data-node="banner"] .pf-media {
+    padding: 0;
+    aspect-ratio: 600 / 417;
+  }
+
+  .pf-node[data-node="banner"] .pf-media img {
+    object-fit: cover;
+    object-position: left center;
+  }
+
+  .pf-rings {
+    opacity: 0.72;
   }
 }
 
@@ -836,20 +897,12 @@ em {
     transform: none !important;
   }
 
-  .proof-tier {
-    overflow-x: auto;
-    overflow-y: hidden;
-    cursor: auto;
-    touch-action: pan-x pan-y;
+  .pf-node {
+    transform: translate(-50%, -50%) !important;
   }
 
-  .proof-tier-track {
-    position: relative;
+  .pf-rings g {
     transform: none !important;
-  }
-
-  .proof-tier-sequence[aria-hidden="true"] {
-    display: none;
   }
 }
 
@@ -881,6 +934,14 @@ em {
     filter: none !important;
     scale: 1 !important;
     translate: none !important;
+    transform: none !important;
+  }
+
+  .pf-node {
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .pf-rings g {
     transform: none !important;
   }
 }
