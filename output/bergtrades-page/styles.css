@@ -527,37 +527,30 @@ em {
 
 .cb-layer {
   position: absolute;
-  inset: -7% -3%;
+  display: flex;
+  inset: -4% -2%;
+  flex-wrap: wrap;
+  align-content: flex-start;
   opacity: calc(0.4 + 0.16 * var(--cb-lift, 0));
+  filter: grayscale(0.42) brightness(0.84) blur(2px);
   transform: translate3d(0, var(--cb-shift, 0px), 0);
   will-change: transform;
 }
 
+/* tiled so every one of the four is legible at a normal size and no single
+   photo owns the section. object-position varies so repeats do not read as a
+   repeating pattern. */
 .cb-layer img {
-  position: absolute;
-  top: 0;
-  width: 34%;
-  height: 100%;
-  filter: grayscale(0.42) brightness(0.82) blur(2px);
+  width: 25%;
+  height: clamp(200px, 21vw, 340px);
+  flex: 0 0 auto;
   object-fit: cover;
-  mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 74%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 74%, transparent 100%);
 }
 
-.cb-layer img:nth-child(1) {
-  left: 0;
-  mask-image: linear-gradient(to right, #000 0%, #000 74%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 74%, transparent 100%);
-}
-
-.cb-layer img:nth-child(2) { left: 22%; }
-.cb-layer img:nth-child(3) { left: 44%; }
-
-.cb-layer img:nth-child(4) {
-  left: 66%;
-  mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 100%);
-}
+.cb-layer img:nth-child(4n + 1) { object-position: 50% 22%; }
+.cb-layer img:nth-child(4n + 2) { object-position: 34% 50%; }
+.cb-layer img:nth-child(4n + 3) { object-position: 66% 38%; }
+.cb-layer img:nth-child(4n + 4) { object-position: 50% 64%; }
 
 /* the scrim keeps every piece of copy above it at full contrast and hands the
    section back to pure black at both seams. */
@@ -683,6 +676,10 @@ em {
   max-width: 720px;
   margin-top: 0;
   color: var(--white-soft);
+}
+
+.close-tail > p + p {
+  margin-top: 14px;
 }
 
 .primary-cta {
@@ -842,14 +839,9 @@ em {
   }
 
   .cb-layer img {
-    width: 56%;
-    height: 52%;
+    width: 50%;
+    height: 210px;
   }
-
-  .cb-layer img:nth-child(1) { left: 0; top: 0; }
-  .cb-layer img:nth-child(2) { left: 44%; top: 0; }
-  .cb-layer img:nth-child(3) { left: 0; top: 48%; }
-  .cb-layer img:nth-child(4) { left: 44%; top: 48%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
