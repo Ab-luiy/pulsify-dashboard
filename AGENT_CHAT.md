@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | Three margin notes and capture parity are complete; exact-copy/static checks pass. Chrome still has a persisted local-preview denial, so the requested 0.75-scale render and confirmed 390px PNG remain blocked. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Founder superseded the margin-note treatment with three exact v5 bullet lists. Updating only those blocks, preserving reveal behavior, regenerating forced-visible capture, and verifying a 390px PNG at 0.75 scale. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V3 content rebuild and static checks complete; local browser access was denied, so no fresh screenshots or rendered overflow/console claims were made. No deploy or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Founder-directed USD recommendation, exchange-rate-independent year comparison, and Instagram display-name correction completed in source and regenerated capture. Static checks passed. The local browser permission was denied, so no fresh PNG or 390px visual verification is claimed. No restructure, deploy, or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Targeted correctness and premium-pop pass completed and headless Chrome verified at 390 and 1280 output widths, including no-JS, overflow, annotations, console state and live hero clearance. No deploy or live publication. |
@@ -1401,3 +1401,6 @@ Static QA passes: visible copy is unchanged against `HEAD`; both page sources co
 
 ### [2026-08-16 11:26] CODEX
 BACKUP BLOCKED: after confirming the working tree contains only the coordinated Bergtrades page files and this log, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 11:53] CODEX
+RESUMED: founder replaced the three Bergtrades left-rule margin notes with the exact bullet lists under `**Bullets:**` in sections 1, 4 and 5 of `output/bergtrades-content-v5.md`. Reactivated the existing claim on `output/bergtrades-page/**` and this coordination record. Scope is limited to real `ul`/`li` markup for those three blocks, restrained accent markers, removal of obsolete note styling, preserved reveal/stagger behavior, capture regeneration and exact 390px PNG verification using `--window-size=520` at 0.75 device scale. No other copy, mock, proof tile, CTA, deploy, Wrangler command or live publication.
