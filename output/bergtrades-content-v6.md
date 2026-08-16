@@ -13,12 +13,14 @@ Every command became an option. Every accusation became an observation.
 
 **Eyebrow:** built for matthew bergin
 
-**Headline (SMALLER than the section headlines, not a hero):** 3,600 in the room. only **2** buy.
+**Headline (SMALLER than the section headlines, not a hero):** we made you a few things.
 
 **Body:**
-58 five star reviews. one guy went from an $81 payout to *over a million* in funding. everyone who actually gets to you buys, and then says so in public.
+youtube's doing most of the work for you, so we packaged **six videos**, titles and thumbnail text ready to go.
 
-so it's not the offer. it's everything sitting in front of it.
+the bio was sending people to a second account instead of your own stuff, so there's a rebuilt one in here too.
+
+and the video on your page is doing the wrong job for someone who's already watched hours of you, so we wrote you a new one.
 
 ---
 
@@ -151,7 +153,7 @@ the shape, every time: lowercase, a real number, no question marks, short bracke
 **Headline:** three accounts, and the crowd's on the quiet one.
 
 **Body:**
-10k follow @bergtrades.ig. 1,479 follow @battmergin. the club account sits on top of both. splitting a personal account off from a results account tends to work once the mentorship is big enough to feed the wins account daily. before that it usually just splits the attention.
+10k follow @bergtrades.ig. 1,479 follow @battmergin. the club account sits on top of both, and **3,600** of them are in the free room with **2** on the paid tier. splitting a personal account off from a results account tends to work once the mentorship is big enough to feed the wins account daily. before that it usually just splits the attention.
 
 one option is putting everything on the one with the followers and pointing the other two at it.
 
