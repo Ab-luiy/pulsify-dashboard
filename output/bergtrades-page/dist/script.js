@@ -45,6 +45,7 @@
     const nodes = Array.from(stage.querySelectorAll(".pf-node")).map((element, index) => ({
       element,
       depth: Number.parseFloat(element.dataset.depth || "1"),
+      isPerson: element.classList.contains("pf-node--person"),
       phase: index * 1.31,
       swayX: 4 + (index % 3) * 3.2,
       swayY: 3.4 + (index % 4) * 2.1,
@@ -92,6 +93,9 @@
 
     const paint = (now) => {
       const settled = (spread - 0.44) / 0.56;
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
+      const viewportMiddle = viewportHeight / 2;
+      const revealReach = viewportHeight * 0.36;
 
       pointerX += (targetPointerX - pointerX) * 0.08;
       pointerY += (targetPointerY - pointerY) * 0.08;
@@ -107,6 +111,14 @@
         node.element.style.setProperty("--tx", `${(node.restX * pull + swayX + driftX).toFixed(2)}px`);
         node.element.style.setProperty("--ty", `${(node.restY * pull + swayY + driftY).toFixed(2)}px`);
         node.element.style.setProperty("--sc", (0.8 + 0.2 * spread).toFixed(4));
+
+        if (node.isPerson) {
+          const box = node.element.getBoundingClientRect();
+          const offCentre = Math.abs(box.top + box.height / 2 - viewportMiddle);
+          const reveal = Math.max(0, 1 - offCentre / revealReach);
+
+          node.element.style.setProperty("--reveal", (reveal * reveal * (3 - 2 * reveal)).toFixed(3));
+        }
       });
 
       if (rings) {

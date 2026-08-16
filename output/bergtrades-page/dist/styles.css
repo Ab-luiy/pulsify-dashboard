@@ -615,11 +615,24 @@ em {
   object-fit: contain;
 }
 
+/* people surface as they pass the middle of the screen, so a phone with no
+   hover still gets to see who they are. --reveal is driven by scroll, --hv by
+   the pointer; whichever is higher wins. */
+@property --hv {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
 .pf-node--person {
+  --reveal: 0;
   z-index: 1;
-  opacity: 0.4;
-  filter: grayscale(0.3) brightness(0.86) blur(1px);
+  opacity: calc(0.3 + 0.42 * max(var(--reveal), var(--hv)));
+  filter:
+    brightness(calc(0.84 + 0.16 * max(var(--reveal), var(--hv))))
+    blur(calc(1.2px * (1 - max(var(--reveal), var(--hv)))));
   mix-blend-mode: luminosity;
+  transition: --hv 280ms ease-out;
 }
 
 .pf-node--person .pf-media {
@@ -629,9 +642,8 @@ em {
 }
 
 .pf-node--person:hover {
+  --hv: 1;
   z-index: 2;
-  opacity: 0.82;
-  filter: grayscale(0) brightness(1) blur(0);
 }
 
 .pf-node--metric:hover .pf-media,

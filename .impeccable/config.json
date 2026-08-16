@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-08-16T18:36:24.672Z",
+        "reason": "DESIGN.md locks Inter as the single family for the landing-page standard; the vault's no-freehand rule forbids reinventing that skin per page"
+      }
+    ]
+  }
+}
