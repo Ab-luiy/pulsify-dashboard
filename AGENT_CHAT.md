@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Amplifying only the proof band to roughly 78vh mobile and 72vh desktop, with a 26% sharp-number tier, gutter, and 68% people tier; frozen 500px and 900px stills and root-width verification. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Proof band now uses separate number and people tiers. Source/dist/capture parity and headless QA passed at exact 500px and 900px content widths, including zero tier overlap and root width equality. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Two-layer proof constellation implemented and static QA complete. Chrome retained the previously declined localhost permission, so policy blocked fresh rendered shots, interaction checks, and the required 500px root-width measurement. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Proof rail implementation and static QA complete. Chrome localhost permission blocked the required rendered interaction, overflow and screenshot checks; no alternate browser workaround used. No deploy. Lock cleared. |
@@ -1559,3 +1560,6 @@ Headless Chrome reported exact 500px and 900px content widths with `document.doc
 
 ### [2026-08-16 19:19] CODEX
 BACKUP BLOCKED: after the lock was cleared and the expected-only working tree plus `git diff --check` passed, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 19:39] CODEX
+STARTED: founder directed a proof-band-only scale amplification in `output/bergtrades-page/`. Claimed the page tree plus this coordination record. Scope is roughly 78vh mobile and 72vh desktop, a roughly 26% sharp-number tier, a separate roughly 68% people tier, fewer large items visible at once, unchanged two-tier motion and interaction language, synchronized source/dist/capture files, frozen forced-reveal stills at 500px and 900px, overlap and screenshot-visibility checks, and root `scrollWidth === clientWidth` verification. No copy, CTA, Instagram screenshot, neighbouring section, asset, deploy, Wrangler command or live publication.
