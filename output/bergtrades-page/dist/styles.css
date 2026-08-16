@@ -237,6 +237,15 @@ em {
   margin-top: 10px;
 }
 
+.prose-body {
+  max-width: 760px;
+  margin-top: 18px;
+}
+
+.prose-body p + p {
+  margin-top: 18px;
+}
+
 .neon-field {
   border: 1px solid rgba(230, 230, 230, 0.18);
   background: linear-gradient(180deg, rgba(3, 3, 3, 0.95), rgba(0, 0, 0, 0.98));

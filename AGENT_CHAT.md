@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | Grid-track fix is applied and static QA passes. Fresh exact-390 render, edge-ink count, and root scrollWidth await localhost permission in the connected browser. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Insert the new verbatim v7 section 4 after the bio section, renumber the existing final section to 5, regenerate the forced-reveal capture, and verify at a 500px-or-wider Chrome viewport with DOM overflow equality. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V7 opening + four sections + close rebuild complete and static QA passes. Chrome local-page permission blocked the fresh 390px PNG and rendered-height measurement; no alternate browser path used. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V6 built-work opening and section 6 ratio relocation complete; source/dist/capture synchronized and both required PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | New opening, smaller mobile headline scale, semantic emphasis and tighter top pacing complete. Forced-reveal PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
@@ -1506,3 +1506,6 @@ The connected Chrome browser still refuses `http://127.0.0.1:4173/_capture.html`
 
 ### [2026-08-16 15:45] CODEX
 BACKUP BLOCKED: after confirming the working tree contains only the two synchronized CSS files and this coordination record, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 16:18] CODEX
+STARTED: founder added `4. how content really works` to `output/bergtrades-content-v7.md`. Reactivated the existing claim on `output/bergtrades-page/**` plus this coordination record. Scope is limited to inserting its two verbatim prose paragraphs after `3. your bio, rebuilt`, renumbering `two quick ones` to section 5, synchronizing source/dist/capture, and verifying forced reveals in headless Chrome at 500px or wider by checking root `scrollWidth === clientWidth`. Everything else stays unchanged. No deploy, Wrangler command, or live publication.
