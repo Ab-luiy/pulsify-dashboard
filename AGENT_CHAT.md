@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Diagnose and fix 390px horizontal overflow only; copy/design unchanged; verify exact-width PNG, edge-ink count, and root scrollWidth. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V7 opening + four sections + close rebuild complete and static QA passes. Chrome local-page permission blocked the fresh 390px PNG and rendered-height measurement; no alternate browser path used. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V6 built-work opening and section 6 ratio relocation complete; source/dist/capture synchronized and both required PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | New opening, smaller mobile headline scale, semantic emphasis and tighter top pacing complete. Forced-reveal PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
@@ -1492,3 +1493,6 @@ CORRECTION: the rebuilt stylesheet is 556 lines, not 567. The prior 2,539-line c
 
 ### [2026-08-16 15:31] CODEX
 BACKUP BLOCKED: after the lock was cleared and the expected-only status plus `git diff --check` passed, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 15:38] CODEX
+STARTED: founder reported confirmed horizontal overflow at a 390px Bergtrades render. Claimed `output/bergtrades-page/**` plus this coordination record. Scope is diagnosis from rendered geometry, the smallest width/wrapping fix with copy and design unchanged, source/dist/capture synchronization, and verification at exactly 390px: output PNG width, last-three-column ink rows, and `document.documentElement.scrollWidth`. No deploy, Wrangler command, or live publication.
