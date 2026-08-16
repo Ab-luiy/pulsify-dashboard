@@ -46,7 +46,7 @@ Instagram: https://www.instagram.com/bergtrades.ig/
 
 ## 2. your bio and highlights
 
-**Headline:** three seconds is about all the bio gets.
+**Headline:** the bio's next step is another account.
 
 **Body:**
 what's in this for me, is this guy legit, where do i go next. right now the first answer is a job title anyone could claim, and the next step points at a second account rather than your stuff.
