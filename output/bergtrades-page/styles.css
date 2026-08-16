@@ -531,8 +531,8 @@ em {
   inset: -4% -2%;
   flex-wrap: wrap;
   align-content: flex-start;
-  opacity: calc(0.4 + 0.16 * var(--cb-lift, 0));
-  filter: grayscale(0.42) brightness(0.84) blur(2px);
+  opacity: 1;
+  filter: saturate(0.88) brightness(calc(0.5 + 0.08 * var(--cb-lift, 0)));
   transform: translate3d(0, var(--cb-shift, 0px), 0);
   will-change: transform;
 }
@@ -547,10 +547,10 @@ em {
   object-fit: cover;
 }
 
-.cb-layer img:nth-child(4n + 1) { object-position: 50% 22%; }
-.cb-layer img:nth-child(4n + 2) { object-position: 34% 50%; }
-.cb-layer img:nth-child(4n + 3) { object-position: 66% 38%; }
-.cb-layer img:nth-child(4n + 4) { object-position: 50% 64%; }
+.cb-layer img:nth-child(4n + 1) { object-position: 50% 26%; }
+.cb-layer img:nth-child(4n + 2) { object-position: 42% 40%; }
+.cb-layer img:nth-child(4n + 3) { object-position: 58% 30%; }
+.cb-layer img:nth-child(4n + 4) { object-position: 50% 46%; }
 
 /* the scrim keeps every piece of copy above it at full contrast and hands the
    section back to pure black at both seams. */
@@ -558,8 +558,8 @@ em {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 74% 56% at 50% 46%, transparent 0%, rgba(3, 3, 3, 0.32) 100%),
-    linear-gradient(180deg, #030303 0%, rgba(3, 3, 3, 0.22) 13%, rgba(3, 3, 3, 0.26) 80%, #030303 100%);
+    linear-gradient(96deg, rgba(3, 3, 3, 0.9) 0%, rgba(3, 3, 3, 0.82) 40%, rgba(3, 3, 3, 0.42) 68%, rgba(3, 3, 3, 0.26) 100%),
+    linear-gradient(180deg, #030303 0%, rgba(3, 3, 3, 0.1) 12%, rgba(3, 3, 3, 0.12) 82%, #030303 100%);
   content: "";
 }
 
@@ -841,6 +841,11 @@ em {
   .cb-layer img {
     width: 50%;
     height: 210px;
+  }
+
+  .close-backdrop::after {
+    background:
+      linear-gradient(180deg, #030303 0%, rgba(3, 3, 3, 0.66) 10%, rgba(3, 3, 3, 0.7) 86%, #030303 100%);
   }
 }
 

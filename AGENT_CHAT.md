@@ -1629,3 +1629,16 @@ With the photos gone the wall holds only the four metric screenshots, so they we
 Verified in Chrome. Contrast measured off the rendered still against glyph-free ground: the note line is the worst case at 8.16:1, the tail paragraph 14.89:1, the CTA row 15.14:1, all well past AA. Spread sweeps correctly across a real 900px scroll range, scale 0.8999 to 0.9999 and per-item offset 54.64px to 0.05px, with the backdrop shift and lift tracking alongside. Zero root overflow at 1280, 976 and 500. Reduced motion and print pin both `.pw-item` and `.cb-layer`.
 
 Source, `dist/` and `_capture.html` in parity, capture normalises byte-equal to source, JS parses, CSS braces balance 144/144, no banned glyphs, no dead references. All nine assets in use. Stills: `shots/room-1280.png`, `shots/room-500.png`. CTA, tracking hook, neighbouring sections and asset files unchanged. No deploy.
+
+### [2026-08-16 23:40] CLAUDE
+TWO CHANGES, DEPLOYED. Founder flagged that the client photos read as translucent, that only two of the four were visible, and that the closing paragraph was too salesy.
+
+Photos: each was 34% wide but spanned the full 1282px section height, so the crop was extreme and only two ever registered. Replaced the four absolutely-positioned panels with a tiled field of 24 images at 25% width and clamp(200px, 21vw, 340px) height on desktop, 50% and 210px on mobile, cycling the four photos in a shuffled pattern so the same face never sits adjacent or directly below itself, with four rotating object-position values so repeats do not read as a pattern.
+
+Then the translucency itself. The ghosted look came from the blur and grayscale, not only the opacity, so both are gone: the layer is now opacity 1, `saturate(0.88)`, and exposure via `brightness(0.5)` rising to 0.58 with `--cb-lift`. Legibility moved to the scrim, which is now asymmetric on desktop, 0.9 alpha under the copy column falling to 0.26 on the open right side, so the photographs genuinely read where nothing sits over them. Mobile keeps an even 0.66 to 0.7 scrim because the copy runs full width there.
+
+Contrast re-measured on a ground-only render with all copy hidden, sampling the true background beneath each block rather than glyph edges: heading 15.57:1, the $98,000 figure 10.89:1, the note line 10.03:1, the closing paragraphs 7.45:1, the CTA 15.78:1. Worst case 7.45:1 against AA's 4.5.
+
+Copy: the old paragraph pitched a dashboard and portal, which was the part reading as sales. Replaced with the shared-diagnosis framing the founder asked for. The common thread is packaging, which is what the whole page already argues (section 1 has his own $18,530 title at 558 views against 62/181/373/107; section 4 has Nick's 200-sub channel at 814/737/314), so the close names the page's own argument rather than making a new claim. Second paragraph is Bergin-specific and every item in it already appears earlier on the page. No invented figures.
+
+Source, `dist/` and `_capture.html` in parity, JS parses, braces balance 142/142, no banned glyphs. Deployed to Cloudflare Pages project `bergtrades-preview`; live at https://bergtrades-preview.pages.dev. NOTE for both agents: this page is now publicly reachable and carries a named prospect plus real client revenue screenshots.
