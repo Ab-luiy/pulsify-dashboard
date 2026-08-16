@@ -492,6 +492,8 @@ em {
 }
 
 .close-slide {
+  position: relative;
+  overflow: hidden;
   padding-top: 56px;
   padding-right: 0;
   padding-bottom: calc(56px + env(safe-area-inset-bottom));
@@ -511,7 +513,62 @@ em {
   margin-inline: auto;
 }
 
-/* ---- the close: one number, its receipt, then the wall ---------------- */
+/* ---- the close: one number, its receipt, the metrics, and a room --------
+   the client photos are the ground the whole section stands on, sunk into
+   the black rather than sitting in it. */
+
+.close-backdrop {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.cb-layer {
+  position: absolute;
+  inset: -7% -3%;
+  opacity: calc(0.4 + 0.16 * var(--cb-lift, 0));
+  transform: translate3d(0, var(--cb-shift, 0px), 0);
+  will-change: transform;
+}
+
+.cb-layer img {
+  position: absolute;
+  top: 0;
+  width: 34%;
+  height: 100%;
+  filter: grayscale(0.42) brightness(0.82) blur(2px);
+  object-fit: cover;
+  mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 74%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 74%, transparent 100%);
+}
+
+.cb-layer img:nth-child(1) {
+  left: 0;
+  mask-image: linear-gradient(to right, #000 0%, #000 74%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 0%, #000 74%, transparent 100%);
+}
+
+.cb-layer img:nth-child(2) { left: 22%; }
+.cb-layer img:nth-child(3) { left: 44%; }
+
+.cb-layer img:nth-child(4) {
+  left: 66%;
+  mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%, #000 100%);
+}
+
+/* the scrim keeps every piece of copy above it at full contrast and hands the
+   section back to pure black at both seams. */
+.close-backdrop::after {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 74% 56% at 50% 46%, transparent 0%, rgba(3, 3, 3, 0.32) 100%),
+    linear-gradient(180deg, #030303 0%, rgba(3, 3, 3, 0.22) 13%, rgba(3, 3, 3, 0.26) 80%, #030303 100%);
+  content: "";
+}
 
 .proof-statement {
   width: calc(100% - var(--page-pad) - var(--page-pad));
@@ -526,6 +583,7 @@ em {
   font-weight: 800;
   letter-spacing: -0.058em;
   line-height: 0.86;
+  text-shadow: 0 8px 44px rgba(0, 0, 0, 0.6);
 }
 
 .proof-figure-note {
@@ -557,25 +615,24 @@ em {
 }
 
 .proof-wall {
-  position: relative;
-  width: 100%;
+  display: grid;
+  width: calc(100% - var(--page-pad) - var(--page-pad));
+  max-width: 1340px;
   min-width: 0;
-  margin-top: 40px;
-  padding-inline: 12px;
-  columns: 4;
-  column-gap: 12px;
-  overflow: clip;
+  align-items: start;
+  margin: 38px auto 0;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .pw-item {
   position: relative;
+  min-width: 0;
   overflow: hidden;
-  break-inside: avoid;
-  margin-bottom: 12px;
   border-radius: 13px;
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, calc(0.08 + 0.1 * max(var(--reveal, 0), var(--hv)))),
-    0 22px 48px rgba(0, 0, 0, calc(0.46 + 0.2 * max(var(--reveal, 0), var(--hv))));
+    0 0 0 1px rgba(255, 255, 255, calc(0.1 + 0.1 * max(var(--reveal, 0), var(--hv)))),
+    0 26px 60px rgba(0, 0, 0, calc(0.5 + 0.22 * max(var(--reveal, 0), var(--hv))));
   transform:
     translate(var(--tx, 0px), calc(var(--ty, 0px) - 8px * max(var(--reveal, 0), var(--hv))))
     scale(var(--sc, 1));
@@ -599,24 +656,22 @@ em {
   z-index: 3;
 }
 
-/* photos sit a step back at rest and come forward as they pass the middle of
-   the screen, so a phone with no hover still gets to see who they are. */
-.pw-person img {
-  filter: brightness(calc(0.62 + 0.38 * max(var(--reveal, 0), var(--hv)))) saturate(calc(0.62 + 0.38 * max(var(--reveal, 0), var(--hv))));
-  transition: filter 260ms ease-out;
-}
-
 .pw-item[data-shot="cash"] {
-  --crop: 620 / 232;
+  --crop: 620 / 172;
 }
 
 .pw-item[data-shot="dashboard"] {
-  --crop: 633 / 420;
+  --crop: 633 / 288;
   --crop-pos: center top;
 }
 
 .pw-item[data-shot="payment"] {
-  --crop: 695 / 540;
+  --crop: 695 / 400;
+  --crop-pos: center top;
+}
+
+.pw-item[data-shot="closed-list"] {
+  --crop: 904 / 520;
   --crop-pos: center top;
 }
 
@@ -763,25 +818,15 @@ em {
   }
 
   .proof-wall {
-    padding-inline: 16px;
-    column-gap: 16px;
-  }
-
-  .pw-item {
-    margin-bottom: 16px;
+    gap: 20px;
   }
 }
 
 @media (max-width: 759px) {
   .proof-wall {
-    margin-top: 30px;
-    padding-inline: 10px;
-    columns: 2;
-    column-gap: 10px;
-  }
-
-  .pw-item {
-    margin-bottom: 10px;
+    margin-top: 28px;
+    gap: 12px;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .proof-receipt {
@@ -791,10 +836,20 @@ em {
   /* the banner is 7:1, so on a phone it crops to the cards that carry the
      number rather than shrinking to an unreadable strip. */
   .proof-receipt img {
-    aspect-ratio: 1180 / 417;
+    aspect-ratio: 930 / 417;
     object-fit: cover;
     object-position: left center;
   }
+
+  .cb-layer img {
+    width: 56%;
+    height: 52%;
+  }
+
+  .cb-layer img:nth-child(1) { left: 0; top: 0; }
+  .cb-layer img:nth-child(2) { left: 44%; top: 0; }
+  .cb-layer img:nth-child(3) { left: 0; top: 48%; }
+  .cb-layer img:nth-child(4) { left: 44%; top: 48%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -816,7 +871,8 @@ em {
     transform: none !important;
   }
 
-  .pw-item {
+  .pw-item,
+  .cb-layer {
     transform: none !important;
   }
 }
@@ -852,7 +908,8 @@ em {
     transform: none !important;
   }
 
-  .pw-item {
+  .pw-item,
+  .cb-layer {
     transform: none !important;
   }
 }

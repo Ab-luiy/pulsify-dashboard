@@ -40,9 +40,10 @@
     if (!wall) return;
 
     const captureMode = root.hasAttribute("data-proof-freeze");
+    const backdrop = document.querySelector("[data-close-backdrop]");
+    const backdropLayer = backdrop?.querySelector("[data-cb-layer]");
     const items = Array.from(wall.querySelectorAll(".pw-item")).map((element, index) => ({
       element,
-      isPerson: element.classList.contains("pw-person"),
       lag: 0.72 + ((index * 0.37) % 1) * 0.5,
       restX: 0,
       restY: 0
@@ -83,7 +84,7 @@
     const paint = () => {
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 1;
       const viewportMiddle = viewportHeight / 2;
-      const revealReach = viewportHeight * 0.62;
+      const revealReach = viewportHeight * 0.78;
       const gather = spread - 1;
 
       items.forEach((item) => {
@@ -99,6 +100,15 @@
 
         item.element.style.setProperty("--reveal", (reveal * reveal * (3 - 2 * reveal)).toFixed(3));
       });
+
+      if (backdropLayer && backdrop) {
+        const room = backdrop.getBoundingClientRect();
+        const through = (viewportHeight - room.top) / (viewportHeight + room.height);
+        const eased = Math.min(1, Math.max(0, through));
+
+        backdropLayer.style.setProperty("--cb-shift", `${((eased - 0.5) * -74).toFixed(2)}px`);
+        backdropLayer.style.setProperty("--cb-lift", (1 - Math.abs(eased - 0.5) * 2).toFixed(3));
+      }
     };
 
     const frame = () => {
