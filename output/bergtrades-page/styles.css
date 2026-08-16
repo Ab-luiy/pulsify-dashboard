@@ -493,14 +493,22 @@ em {
 
 .close-slide {
   padding-top: 56px;
+  padding-right: 0;
   padding-bottom: calc(56px + env(safe-area-inset-bottom));
+  padding-left: 0;
   background:
     radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.075), transparent 30%),
     #030303;
 }
 
 .close-inner {
+  max-width: none;
+}
+
+.close-column {
+  width: calc(100% - var(--page-pad) - var(--page-pad));
   max-width: 760px;
+  margin-inline: auto;
 }
 
 .close-proof {
@@ -519,7 +527,55 @@ em {
   object-fit: contain;
 }
 
-.close-inner > p {
+.proof-rail {
+  --proof-height: clamp(250px, 60vw, 360px);
+  width: 100%;
+  min-width: 0;
+  margin-top: 16px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  cursor: grab;
+  scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.proof-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.proof-rail.is-dragging {
+  cursor: grabbing;
+}
+
+.proof-rail-track {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  align-items: flex-start;
+}
+
+.proof-sequence {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.proof-sequence img {
+  width: auto;
+  max-width: none;
+  height: var(--proof-height);
+  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: center top;
+  pointer-events: none;
+}
+
+.close-tail > p {
   max-width: 720px;
   margin-top: 18px;
   color: var(--white-soft);
