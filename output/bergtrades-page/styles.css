@@ -2167,6 +2167,27 @@ blockquote,
   border-radius: 47px;
 }
 
+.bio-copy-option {
+  width: 100%;
+  margin: 42px auto 0;
+}
+
+.bio-copy-option .profile-panel-label {
+  margin-bottom: 14px;
+}
+
+.bio-copy-field .terminal-lines p {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.bio-copy-field .bio-profile-link {
+  grid-template-columns: max-content minmax(0, 1fr);
+}
+
+.bio-copy-field .bio-profile-link strong {
+  font-weight: 700;
+}
+
 .packaging-intro,
 .videos-slide,
 .close-slide {
