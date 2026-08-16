@@ -1525,7 +1525,6 @@ blockquote > span {
   min-width: 0;
 }
 
-.after-card,
 .highlight-plan,
 .formula-stack,
 .thumbnail-text {
@@ -1537,21 +1536,24 @@ blockquote > span {
   box-shadow: var(--shadow);
 }
 
-.after-card {
-  max-width: 850px;
-}
-
-.after-card > p:not(.block-label) {
-  color: var(--white-soft);
-}
-
-.after-card > p + p {
-  margin-top: 18px;
-}
-
-.wide-card {
+.margin-note {
+  width: 100%;
   max-width: 920px;
-  margin-inline: auto;
+  min-width: 0;
+  margin: 42px auto;
+  padding: 1px 0 1px 17px;
+  border-left: 3px solid var(--white-soft);
+}
+
+.margin-note > p {
+  color: var(--ink);
+  font-size: clamp(18px, 4.8vw, 20px);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.margin-note > p + p {
+  margin-top: 18px;
 }
 
 .highlight-wall {
@@ -2375,7 +2377,6 @@ blockquote > span {
 blockquote,
 .price-math article,
 .diagnostic-list,
-.after-card,
 .highlight-plan,
 .formula-stack,
 .thumbnail-text,
@@ -2591,7 +2592,7 @@ blockquote,
   }
 
   .action-grid > .block-stack,
-  .action-grid > .after-card {
+  .action-grid > .margin-note {
     grid-column: 1 / -1;
   }
 
@@ -3814,10 +3815,6 @@ blockquote,
   text-transform: uppercase;
 }
 
-.bio-slide .after-card {
-  margin-top: 42px;
-}
-
 .packaging-intro,
 .videos-slide,
 .close-slide {
@@ -3880,10 +3877,6 @@ blockquote,
   letter-spacing: 0.09em;
   line-height: 1;
   text-transform: uppercase;
-}
-
-.packaging-inner > .after-card {
-  margin-top: 18px;
 }
 
 .videos-slide .title-intro-grid {
@@ -3963,10 +3956,6 @@ blockquote,
   color: #fff;
   font-weight: 800;
   letter-spacing: -0.01em;
-}
-
-.videos-inner > .after-card {
-  margin-top: 20px;
 }
 
 .close-slide {

@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | V5 copy, Inter, contrast/readability, numeral removal, CTA and capture source are complete; exact-copy/static checks pass. Chrome has a persisted user denial for localhost access, so fresh rendered QA and the required 390px PNG remain blocked until local preview permission is allowed. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | Three margin notes and capture parity are complete; exact-copy/static checks pass. Chrome still has a persisted local-preview denial, so the requested 0.75-scale render and confirmed 390px PNG remain blocked. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V3 content rebuild and static checks complete; local browser access was denied, so no fresh screenshots or rendered overflow/console claims were made. No deploy or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Founder-directed USD recommendation, exchange-rate-independent year comparison, and Instagram display-name correction completed in source and regenerated capture. Static checks passed. The local browser permission was denied, so no fresh PNG or 390px visual verification is claimed. No restructure, deploy, or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Targeted correctness and premium-pop pass completed and headless Chrome verified at 390 and 1280 output widths, including no-JS, overflow, annotations, console state and live hero clearance. No deploy or live publication. |
@@ -1390,3 +1390,14 @@ Static verification passes: every v5 headline, paragraph and code-block line is 
 
 ### [2026-08-16 11:08] CODEX
 BACKUP BLOCKED: the hourly checkpoint already committed the v5 page implementation as `86aa2c7`. After adding the `.woff2` preview MIME and this render-block record, the required `auto-backup.ps1` was attempted again. This sandbox cannot create `.git/index.lock`, so those final two coordinated edits remain uncommitted. Working-tree status contains only `AGENT_CHAT.md` and `output/bergtrades-page/serve.mjs`. No deploy occurred.
+
+### [2026-08-16 11:21] CODEX
+RESUMED: founder requested one targeted Bergtrades design change. Reactivated the existing claim on `output/bergtrades-page/**` and this coordination record. Scope is limited to replacing all three `.after-card` callout boxes with left-accent margin notes, preserving their reveal/stagger behavior and exact copy, regenerating `_capture.html`, and confirming a 390px-wide PNG from `--window-size=520` at 0.75 device scale. No other section change, deploy, Wrangler command, or live publication.
+
+### [2026-08-16 11:25] CODEX
+BLOCKED ON RENDER ONLY: replaced all three boxed `.after-card`/`.wide-card` callouts with one consistent `.margin-note` treatment. Each note now has no fill, container border, radius, or shadow; it uses a 3px `var(--white-soft)` left rule, 17px left padding, brighter 18-20px text, 1.6 line height, and 42px vertical breathing room. Renamed the markup hook and updated `script.js` so the existing reveal/stagger assignment is preserved. `_capture.html` matches `index.html` apart from its forced-visible, zero-min-height capture override.
+
+Static QA passes: visible copy is unchanged against `HEAD`; both page sources contain exactly three notes; old `.after-card` and `.wide-card` references are gone; the note is width-safe with global border-box sizing; CSS braces, JavaScript syntax, capture parity, HTTP responses, and `git diff --check` pass. The connected Chrome browser refused the local preview because localhost permission remains declined and explicitly prohibited an alternate browser or raw command-line renderer. Therefore no new screenshot exists and the required `--window-size=520` at 0.75 device scale, 390px PNG width, rendered overflow, and visual QA are not claimed. No deploy, Wrangler command, or live publication. Files touched: `output/bergtrades-page/index.html`, `styles.css`, `script.js`, `_capture.html`, and `AGENT_CHAT.md`; `shots/**` is unchanged.
+
+### [2026-08-16 11:26] CODEX
+BACKUP BLOCKED: after confirming the working tree contains only the coordinated Bergtrades page files and this log, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
