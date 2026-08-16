@@ -532,7 +532,7 @@ em {
   flex-wrap: wrap;
   align-content: flex-start;
   opacity: 1;
-  filter: saturate(0.88) brightness(calc(0.5 + 0.08 * var(--cb-lift, 0)));
+  filter: saturate(0.82) brightness(calc(0.42 + 0.08 * var(--cb-lift, 0)));
   transform: translate3d(0, var(--cb-shift, 0px), 0);
   will-change: transform;
 }
@@ -667,6 +667,38 @@ em {
   --crop: 904 / 520;
   --crop-pos: center top;
 }
+
+/* the four brought forward, lit and sharp, over the room they were already
+   standing in. the wall stays; this is the foreground plate. */
+.proof-row {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  margin-top: 46px;
+  gap: 4px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.proof-row::before {
+  position: absolute;
+  z-index: -1;
+  inset: -26px -8px;
+  background: radial-gradient(ellipse 62% 84% at 50% 50%, rgba(3, 3, 3, 0.72), transparent 76%);
+  pointer-events: none;
+  content: ;
+}
+
+.proof-row img {
+  width: 100%;
+  height: clamp(200px, 26vw, 370px);
+  object-fit: cover;
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.6);
+}
+
+.proof-row img:nth-child(1) { object-position: 50% 24%; }
+.proof-row img:nth-child(2) { object-position: 46% 34%; }
+.proof-row img:nth-child(3) { object-position: 50% 42%; }
+.proof-row img:nth-child(4) { object-position: 54% 30%; }
 
 .close-tail {
   margin-top: 46px;
@@ -836,6 +868,15 @@ em {
     aspect-ratio: 930 / 417;
     object-fit: cover;
     object-position: left center;
+  }
+
+  .proof-row {
+    margin-top: 32px;
+    gap: 2px;
+  }
+
+  .proof-row img {
+    height: clamp(150px, 41vw, 210px);
   }
 
   .cb-layer img {

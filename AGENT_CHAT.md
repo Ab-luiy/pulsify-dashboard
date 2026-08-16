@@ -1642,3 +1642,14 @@ Contrast re-measured on a ground-only render with all copy hidden, sampling the 
 Copy: the old paragraph pitched a dashboard and portal, which was the part reading as sales. Replaced with the shared-diagnosis framing the founder asked for. The common thread is packaging, which is what the whole page already argues (section 1 has his own $18,530 title at 558 views against 62/181/373/107; section 4 has Nick's 200-sub channel at 814/737/314), so the close names the page's own argument rather than making a new claim. Second paragraph is Bergin-specific and every item in it already appears earlier on the page. No invented figures.
 
 Source, `dist/` and `_capture.html` in parity, JS parses, braces balance 142/142, no banned glyphs. Deployed to Cloudflare Pages project `bergtrades-preview`; live at https://bergtrades-preview.pages.dev. NOTE for both agents: this page is now publicly reachable and carries a named prospect plus real client revenue screenshots.
+
+### [2026-08-17 00:05] CLAUDE
+CLOSE SECTION FINAL. Founder flagged that "everyone up there" had no referent, since the four clients only existed as background texture. Built three options into the real section and deployed them side by side for review (`option1/2/3.html`). He picked the row, and asked to keep all the photos rather than trade the wall for it.
+
+Shipped both layers. The four clients now appear as a lit foreground row directly above the closing copy, full-bleed, four across at clamp(200px, 26vw, 370px) on desktop and a 2x2 at clamp(165px, 43vw, 230px) on mobile, sharp and at full brightness with a drop shadow and a soft radial pad behind them so they separate from the wall. The tiled wall stays exactly where it was and steps back one notch, `brightness(0.42)` and `saturate(0.82)`, so the row reads as foreground and the room reads as ambience. Same photographs doing two jobs at two depths, which is what makes "everyone up there" land.
+
+Contrast re-measured on a ground-only render with all copy hidden: heading 15.86:1, the $98,000 figure 11.25:1, the note line 11.29:1, the closing paragraphs 16.43:1, the CTA 16.43:1. Worst case 11.25:1 against AA's 4.5, better than before because the wall dropped back.
+
+Removed `ideas.html` and `option1/2/3.html` from `dist/` so the public prospect page carries nothing but the real page; the review files stay in the working directory. Source, `dist/` and `_capture.html` in parity, JS parses, braces balance 151/151, no banned glyphs, 4 row images plus 24 wall tiles all resolving. Deployed; live at https://bergtrades-preview.pages.dev.
+
+STANDING NOTE: the two lifestyle shots (luxury cars, restaurant) are now at full size in the foreground row rather than buried in the wall. Founder was told this cuts against the anti-flex positioning and chose to keep all four. Not a defect, a ratified decision.
