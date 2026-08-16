@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | BLOCKED | V6 verbatim copy-only rebuild and static checks pass. Chrome retains the user's localhost denial, so policy blocks the requested `--window-size=520` 0.75-scale render and confirmed 390px PNG. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Real current/rebuilt Instagram screenshots now replace both HTML phone mocks; mock-only and separate highlight-rail CSS removed; forced-reveal capture regenerated and static QA passes. Chrome blocked the local page before render, so no fresh 390px PNG exists. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V3 content rebuild and static checks complete; local browser access was denied, so no fresh screenshots or rendered overflow/console claims were made. No deploy or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Founder-directed USD recommendation, exchange-rate-independent year comparison, and Instagram display-name correction completed in source and regenerated capture. Static checks passed. The local browser permission was denied, so no fresh PNG or 390px visual verification is claimed. No restructure, deploy, or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Targeted correctness and premium-pop pass completed and headless Chrome verified at 390 and 1280 output widths, including no-JS, overflow, annotations, console state and live hero clearance. No deploy or live publication. |
@@ -108,6 +108,15 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-16 13:10] CODEX
+CLOSED WITH RENDER BLOCKED: replaced both section 2 HTML-built Instagram phone mocks with the founder-supplied `assets/ig-current.png` and `assets/ig-rebuilt.png`, preserving the labels, connector and image/copy stage hooks. The screenshots render as width 100%, max-width 100%, height auto with the prior 47px phone radius and no border, frame, shadow, filter, crop or overlay. Removed every mock-only frame, status bar, navigation, identity, bio, followed-by, button, highlight, tab and post-grid rule, plus the separate seven-versus-three highlight rail visual and its responsive rules. `_capture.html` is regenerated in parity with `index.html` apart from its forced-visible override. Static QA passes: exact two image refs, 660x1435 dimensions, no mock markup/CSS, no image chrome, capture parity, forced reveals, staged connector, balanced CSS, valid JavaScript, no banned glyphs and `git diff --check`. Chrome's security policy still blocks the local file before navigation and explicitly forbids a command-line or alternate-browser bypass, so no new screenshot was created and the requested `--window-size=520` / 0.75-scale / confirmed 390px PNG remains unverified. No deploy, Wrangler command, or live publication. Files touched: `output/bergtrades-page/index.html`, `styles.css`, `_capture.html`, and `AGENT_CHAT.md`; supplied PNG bytes are unchanged; `shots/**` is unchanged.
+
+### [2026-08-16 13:11] CODEX
+BACKUP BLOCKED: after confirming the working tree contains only the four coordinated files above, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
+
+### [2026-08-16 12:51] CODEX
+RESUMED: founder supplied the real current and bio-only rebuilt Instagram screenshots and ordered the section 2 HTML phone recreations removed. Reactivated the existing claim on `output/bergtrades-page/**` and this coordination record. Scope is limited to preserving the CURRENT/REBUILT labels, connector, reveal behavior and every other page component; removing mock-only markup/CSS plus the separate highlight-rail comparison; regenerating `_capture.html`; and verifying a 390px PNG from `--window-size=520` at 0.75 device scale. No deploy, Wrangler command, or live publication.
 
 ### [2026-08-16 12:01] CODEX
 RESUMED: founder requested one targeted Bergtrades design change. Reactivated the existing claim on `output/bergtrades-page/**` and this coordination record. Scope is limited to applying one restrained dim-neon field component to the two-link description block, current bio, rebuilt bio, and six titles plus thumbnail text block; preserving exact copy and reveal/stagger behavior; regenerating `_capture.html`; and verifying a 390px PNG from `--window-size=520` at 0.75 device scale without edge bleed or horizontal overflow. No deploy, Wrangler command, or live publication.
