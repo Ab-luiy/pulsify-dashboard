@@ -39,7 +39,11 @@ Apply for 1-on-1 mentorship: https://bergsmentorship.com
 Instagram: https://www.instagram.com/bergtrades.ig/
 ```
 
-kill the shortener, it's the only unbranded link in there and it reads like a redirect. drop the discord invite off the top too. someone who just watched twenty minutes of you should land on your page, not in a room with 3,600 people trying to find you.
+**Bullets:**
+- kill the shortener, it reads like a redirect
+- drop the discord invite off the top
+- affiliates go under your own offer, not over it
+- they should land on your page, not in a room with 3,600 people
 
 ---
 
@@ -96,7 +100,11 @@ three videos repackaged. 814, 737 and 314 views on a channel averaging around 12
 
 **Show the three Nick thumbnails with their view counts.**
 
-look at what's actually in each frame. a yellow bar with four words and arrows pointing at both guys. the viewer's own question sitting in a speech bubble. a blueprint with six boxes on it. something in every frame you can read in half a second.
+**Bullets:**
+- a yellow bar, four words, arrows on both guys
+- the viewer's own question in a speech bubble
+- a blueprint with six boxes on it
+- all of it readable in half a second
 
 your own numbers say the same. week 1 of road to $2m had marker on a whiteboard and real certs with your name on them, did 1.2k. the last two weeks did 62, 181, 373 and 107.
 
@@ -131,7 +139,11 @@ the shape every time: lowercase, a real number, no question marks, short bracket
    10 TRADERS WATCHING  |  30 DAYS
 ```
 
-you ran the running total format for seven weeks and it carried the channel, then stopped at $2,150,000. for all six, put the document in the frame. the payout cert, the journal row, the equity curve with your name on it. the marker on the whiteboard is why week 1 worked.
+**Bullets:**
+- put the document in the frame, every time
+- payout cert, journal row, equity curve with your name on it
+- you ran the running total for seven weeks, then stopped at $2,150,000
+- the marker on the whiteboard is why week 1 worked
 
 ---
 
