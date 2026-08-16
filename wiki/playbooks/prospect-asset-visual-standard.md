@@ -165,6 +165,24 @@ Why it changed: the horizon note reassures a creator that their follower count i
 3. **What they would get.** One line: their own dashboard and portal, built around the leaks in their funnel rather than a template, tracking a new viewer through to a paying client.
 4. **CTA button** worded so it assumes the decision. "Set this up for me" over "book a call" — by this point the reader is asking how they get it, not whether it works.
 
+### The proof band, and it is now the standard close for every asset
+
+Founder directive 2026-08-16, after a first attempt was rejected as "slapped on there". Proof images in a plain marquee always read as assets queued in a row. The band has to be designed or it undercuts the thing it is trying to prove.
+
+**The pattern, reusable per prospect:**
+
+- **Two parallax layers.** Number screenshots sit behind at ~0.72 scale, ~0.55 opacity, 1px blur, drifting at ~0.55x speed. People photos sit in front, full scale, sharp, 1x speed. The speed difference is what creates depth; a single layer cannot fake it.
+- **Nothing on a baseline.** Every item gets its own vertical offset (roughly -70 to +70px), its own slight scale (0.88 to 1.08) and uneven horizontal gaps. Even spacing is what makes a row look mechanical.
+- **Both edges dissolve** to transparent over ~12% of the band width, so items emerge and disappear instead of being clipped. This single detail is most of the difference between designed and cropped.
+- **Bottom fade lives in the image file**, not in CSS: the bottom fifth of every asset is faded to transparent when it is prepared. It survives being saved and it works on any ground.
+- **Lift on pointer.** Hover or touch scales the item ~4%, removes the blur, raises it above its neighbours, ~220ms. That is how the numbers stay readable without a single label.
+- **Slow.** A full cycle runs 45 to 60 seconds. Ambient, not a carousel.
+- **Driven by a data array** of `{src, layer, offset, scale}` so the next prospect is an array swap, not a rebuild.
+
+**Banned in this band:** captions, names, "trusted by", counters, dots, arrows, badges, cards, borders, panels, glows, drop shadows, 3D flips, rotation, tilt, sparkle. No text beyond the heading that already exists. Do not round-crop environmental photos, it cuts heads off.
+
+**Redaction happens in the image file, never in CSS.** Client names get pixelated then blurred so the redaction survives a save. Crop away anything above or below the part that carries the proof.
+
 ### Rendering the proof tiles
 
 Screenshot our **real** product, do not mock one up. `output/standard-preview/portal-preview/index.html` is the client portal, `client.html` the client dashboard, `campaigns.html` the campaigns board. Render with headless Chrome and strip the "demo data" badge before it goes in a prospect asset.
