@@ -36,14 +36,14 @@
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
   const proofItems = [
-    { src: "assets/proof/proof-cash.webp", tier: "numbers", offset: -7, scale: 0.94 },
-    { src: "assets/proof/proof-dashboard.webp", tier: "numbers", offset: 6, scale: 1.02 },
-    { src: "assets/proof/proof-closed-list.webp", tier: "numbers", offset: -4, scale: 0.90 },
-    { src: "assets/proof/proof-payment.webp", tier: "numbers", offset: 5, scale: 1.06 },
-    { src: "assets/proof/proof-nick.webp", tier: "people", offset: 4, scale: 1.04 },
-    { src: "assets/proof/proof-jacob.webp", tier: "people", offset: -6, scale: 0.92 },
-    { src: "assets/proof/proof-nick-mamba.webp", tier: "people", offset: 2, scale: 1.06 },
-    { src: "assets/proof/proof-table.webp", tier: "people", offset: -4, scale: 0.97 }
+    { src: "assets/proof/proof-nick.webp", tier: "people", offset: 0, scale: 1 },
+    { src: "assets/proof/proof-jacob.webp", tier: "people", offset: -1, scale: 0.96 },
+    { src: "assets/proof/proof-nick-mamba.webp", tier: "people", offset: 0.7, scale: 0.98 },
+    { src: "assets/proof/proof-table.webp", tier: "people", offset: -0.5, scale: 0.97 },
+    { src: "assets/proof/proof-cash.webp", tier: "numbers", offset: 0.8, scale: 1 },
+    { src: "assets/proof/proof-dashboard.webp", tier: "numbers", offset: -1.2, scale: 0.98 },
+    { src: "assets/proof/proof-closed-list.webp", tier: "numbers", offset: -0.6, scale: 0.96 },
+    { src: "assets/proof/proof-payment.webp", tier: "numbers", offset: 0, scale: 1.02 }
   ];
 
   const setupProofConstellation = () => {
@@ -136,8 +136,8 @@
       };
     };
 
-    buildTier("numbers");
     buildTier("people");
+    buildTier("numbers");
 
     const applyPositions = () => {
       Object.values(tiers).forEach((tier) => {

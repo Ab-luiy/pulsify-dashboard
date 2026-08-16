@@ -528,31 +528,26 @@ em {
 }
 
 .proof-constellation {
-  --proof-band-height: 72vh;
-  --proof-upper-zone: 26%;
-  --proof-lower-zone: 68%;
-  --proof-tier-gutter: 6%;
-  --proof-number-height: 80%;
-  --proof-people-height: 85%;
+  --proof-photo-row-height: 82vh;
+  --proof-number-row-height: 170px;
+  --proof-row-gap: 20px;
+  --proof-people-height: 96%;
+  --proof-number-height: 92%;
   position: relative;
   width: 100%;
   min-width: 0;
-  height: var(--proof-band-height);
   margin-top: 16px;
   overflow: hidden;
   overscroll-behavior-inline: contain;
-  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
   user-select: none;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
 .proof-constellation-stage {
   display: grid;
-  grid-template-rows: var(--proof-upper-zone) var(--proof-lower-zone);
-  row-gap: var(--proof-tier-gutter);
+  grid-template-rows: var(--proof-photo-row-height) var(--proof-number-row-height);
+  row-gap: var(--proof-row-gap);
   width: 100%;
   min-width: 100%;
-  height: 100%;
 }
 
 .proof-tier {
@@ -565,7 +560,9 @@ em {
   isolation: isolate;
   scrollbar-width: none;
   touch-action: pan-y;
+  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
   -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
 .proof-tier::-webkit-scrollbar {
@@ -625,7 +622,7 @@ em {
 .proof-item:hover,
 .proof-item.is-touched {
   z-index: 20;
-  transform: translate3d(0, calc(var(--proof-offset) - 6px), 0) scale(var(--proof-hover-scale));
+  transform: translate3d(0, var(--proof-offset), 0) scale(var(--proof-hover-scale));
 }
 
 .close-tail > p {
@@ -765,20 +762,21 @@ em {
   .profile-panel {
     width: 100%;
   }
+
+  .proof-constellation {
+    --proof-photo-row-height: 76vh;
+    --proof-number-row-height: 210px;
+  }
 }
 
 @media (max-width: 600px) {
-  .proof-constellation {
-    --proof-band-height: 78vh;
-  }
-
   .proof-item {
     margin-right: var(--proof-mobile-gap);
   }
 
   .proof-item:hover,
   .proof-item.is-touched {
-    transform: translate3d(0, calc(var(--proof-offset) - 5px), 0) scale(var(--proof-hover-scale));
+    transform: translate3d(0, var(--proof-offset), 0) scale(var(--proof-hover-scale));
   }
 }
 
