@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" data-proof-freeze>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -26,6 +26,10 @@
       scale: 1 !important;
       translate: none !important;
       transform: none !important;
+    }
+
+    .proof-layer-track {
+      transition: none !important;
     }
   </style>
   <script src="script.js" defer></script>
@@ -236,29 +240,8 @@
           </figure>
         </div>
 
-        <div class="proof-rail" data-proof-rail data-stage="image">
-          <div class="proof-rail-track" data-proof-track>
-            <div class="proof-sequence" data-proof-sequence>
-              <img src="assets/proof/proof-nick.webp" alt="" width="413" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-cash.webp" alt="" width="620" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-jacob.webp" alt="" width="620" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-closed-list.webp" alt="" width="904" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-table.webp" alt="" width="465" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-dashboard.webp" alt="" width="633" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-nick-mamba.webp" alt="" width="465" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-payment.webp" alt="" width="695" height="620" loading="eager" draggable="false">
-            </div>
-            <div class="proof-sequence" aria-hidden="true">
-              <img src="assets/proof/proof-nick.webp" alt="" width="413" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-cash.webp" alt="" width="620" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-jacob.webp" alt="" width="620" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-closed-list.webp" alt="" width="904" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-table.webp" alt="" width="465" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-dashboard.webp" alt="" width="633" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-nick-mamba.webp" alt="" width="465" height="620" loading="eager" draggable="false">
-              <img src="assets/proof/proof-payment.webp" alt="" width="695" height="620" loading="eager" draggable="false">
-            </div>
-          </div>
+        <div class="proof-constellation" data-proof-constellation data-stage="image" aria-hidden="true">
+          <div class="proof-constellation-stage" data-proof-stage></div>
         </div>
 
         <div class="close-column close-tail">

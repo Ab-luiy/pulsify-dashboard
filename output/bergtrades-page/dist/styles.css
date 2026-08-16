@@ -527,52 +527,107 @@ em {
   object-fit: contain;
 }
 
-.proof-rail {
-  --proof-height: clamp(250px, 60vw, 360px);
+.proof-constellation {
+  --proof-band-height: clamp(380px, 46vw, 540px);
+  --proof-front-height: clamp(300px, 31vw, 420px);
+  position: relative;
   width: 100%;
   min-width: 0;
+  height: var(--proof-band-height);
   margin-top: 16px;
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
   overscroll-behavior-inline: contain;
   cursor: grab;
+  isolation: isolate;
+  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
   scrollbar-width: none;
-  touch-action: pan-x pan-y;
+  touch-action: pan-y;
   user-select: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
   -webkit-overflow-scrolling: touch;
 }
 
-.proof-rail::-webkit-scrollbar {
+.proof-constellation::-webkit-scrollbar {
   display: none;
 }
 
-.proof-rail.is-dragging {
+.proof-constellation.is-dragging {
   cursor: grabbing;
 }
 
-.proof-rail-track {
+.proof-constellation-stage {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+}
+
+.proof-layer {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.proof-layer-front {
+  z-index: 2;
+}
+
+.proof-layer:has(.proof-item:hover),
+.proof-layer.is-interacting {
+  z-index: 4;
+}
+
+.proof-layer-track {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   width: max-content;
-  min-width: 100%;
-  align-items: flex-start;
+  height: 100%;
+  align-items: center;
+  will-change: transform;
 }
 
-.proof-sequence {
+.proof-layer-sequence {
   display: flex;
+  height: 100%;
   flex: 0 0 auto;
-  align-items: flex-start;
-  gap: 10px;
-  padding-right: 10px;
+  align-items: center;
+  pointer-events: none;
 }
 
-.proof-sequence img {
+.proof-item {
+  position: relative;
+  z-index: 1;
   width: auto;
   max-width: none;
-  height: var(--proof-height);
+  height: var(--proof-front-height);
   flex: 0 0 auto;
+  margin-right: var(--proof-gap);
+  opacity: 1;
+  filter: none;
   object-fit: contain;
-  object-position: center top;
-  pointer-events: none;
+  object-position: center;
+  pointer-events: auto;
+  transform: translate3d(0, var(--proof-offset), 0) scale(var(--proof-scale));
+  transform-origin: center;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease-out, filter 220ms ease-out;
+  -webkit-user-drag: none;
+}
+
+.proof-layer-back .proof-item {
+  height: calc(var(--proof-front-height) * 0.72);
+  opacity: 0.55;
+  filter: blur(1px);
+}
+
+.proof-item:hover,
+.proof-item.is-touched {
+  z-index: 20;
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, calc(var(--proof-offset) - 8px), 0) scale(var(--proof-hover-scale));
 }
 
 .close-tail > p {
@@ -714,6 +769,22 @@ em {
   }
 }
 
+@media (max-width: 600px) {
+  .proof-constellation {
+    --proof-band-height: 380px;
+    --proof-front-height: 278px;
+  }
+
+  .proof-item {
+    transform: translate3d(0, var(--proof-mobile-offset), 0) scale(var(--proof-scale));
+  }
+
+  .proof-item:hover,
+  .proof-item.is-touched {
+    transform: translate3d(0, calc(var(--proof-mobile-offset) - 7px), 0) scale(var(--proof-hover-scale));
+  }
+}
+
 @media (max-width: 430px) {
   .hero {
     padding-top: calc(42px + env(safe-area-inset-top));
@@ -768,6 +839,21 @@ em {
     scale: 1 !important;
     translate: none !important;
     transform: none !important;
+  }
+
+  .proof-constellation {
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: auto;
+    touch-action: pan-x pan-y;
+  }
+
+  .proof-layer-track {
+    transform: none !important;
+  }
+
+  .proof-layer-sequence[aria-hidden="true"] {
+    display: none;
   }
 }
 
