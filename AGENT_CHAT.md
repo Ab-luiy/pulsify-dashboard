@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Founder superseded the margin-note treatment with three exact v5 bullet lists. Updating only those blocks, preserving reveal behavior, regenerating forced-visible capture, and verifying a 390px PNG at 0.75 scale. No deploy. |
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | ACTIVE | Founder-directed dim neon field treatment for the four monospace blocks, capture regeneration, and exact 390px verification. Copy and all other page treatments stay unchanged. No deploy. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V3 content rebuild and static checks complete; local browser access was denied, so no fresh screenshots or rendered overflow/console claims were made. No deploy or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Founder-directed USD recommendation, exchange-rate-independent year comparison, and Instagram display-name correction completed in source and regenerated capture. Static checks passed. The local browser permission was denied, so no fresh PNG or 390px visual verification is claimed. No restructure, deploy, or Wrangler. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Targeted correctness and premium-pop pass completed and headless Chrome verified at 390 and 1280 output widths, including no-JS, overflow, annotations, console state and live hero clearance. No deploy or live publication. |
@@ -108,6 +108,9 @@ Active claims only. Clear your row when done.
 ---
 
 ## Log
+
+### [2026-08-16 12:01] CODEX
+RESUMED: founder requested one targeted Bergtrades design change. Reactivated the existing claim on `output/bergtrades-page/**` and this coordination record. Scope is limited to applying one restrained dim-neon field component to the two-link description block, current bio, rebuilt bio, and six titles plus thumbnail text block; preserving exact copy and reveal/stagger behavior; regenerating `_capture.html`; and verifying a 390px PNG from `--window-size=520` at 0.75 device scale without edge bleed or horizontal overflow. No deploy, Wrangler command, or live publication.
 
 ### [2026-08-04 04:06] CODEX — FOR CLAUDE
 DONE: founder wants the finalized gold landing-page mockup retained and known to Claude. Persistent record added to `claude-memory/project_landing_page_standard.md` and `wiki/synthesis/landing-page-standard.md`; artifact remains at `assets/landing-page-standard/variant-02-gold-preview/mockup.html`. Final retained state: centered desktop/mobile layout, geometry-free black gradient, centered gold-only headline treatment, dark antique-to-deep-gold buttons with no pale/white center, dark-gold video glow, and `Apply now` CTAs. Status boundary is explicit: retained candidate/mockup only, not a third approved main design, not in the picker, not deployed, and not a replacement for monochrome Variant 02 without a new founder instruction. File existence, source references, diff integrity, and memory wording verified. Lock cleared.
@@ -1404,3 +1407,11 @@ BACKUP BLOCKED: after confirming the working tree contains only the coordinated 
 
 ### [2026-08-16 11:53] CODEX
 RESUMED: founder replaced the three Bergtrades left-rule margin notes with the exact bullet lists under `**Bullets:**` in sections 1, 4 and 5 of `output/bergtrades-content-v5.md`. Reactivated the existing claim on `output/bergtrades-page/**` and this coordination record. Scope is limited to real `ul`/`li` markup for those three blocks, restrained accent markers, removal of obsolete note styling, preserved reveal/stagger behavior, capture regeneration and exact 390px PNG verification using `--window-size=520` at 0.75 device scale. No other copy, mock, proof tile, CTA, deploy, Wrangler command or live publication.
+
+### [2026-08-16 11:59] CODEX
+BLOCKED ON RENDER ONLY: replaced exactly the three Bergtrades margin notes with real `ul`/`li` lists using the twelve verbatim lowercase items under the three v5 `**Bullets:**` labels. The separate paragraph after section 4's bullets remains unchanged as normal body copy. Removed every `.margin-note` hook and its left-rule styling, added a width-safe `.bullet-list` with a restrained 0.65em `var(--white-soft)` marker, body-plus text, 12px item spacing and 19px total list inset, and updated the existing staged-reveal selector from `.margin-note` to `.bullet-list`. `_capture.html` was regenerated with its forced-visible, zero-min-height override intact.
+
+Static QA passes: three source lists equal three HTML lists and three capture lists verbatim; twelve `li` elements; no other HTML outside the three target blocks changed; no old note/card hooks remain; section 4's follow-up is byte-copy preserved; capture parity passes after removing its one override block and normalizing line endings; reveal assignment, CSS brace balance, JavaScript syntax, width-safety, banned-glyph exclusion, local index/capture HTTP 200 and `git diff --check` all pass. Chrome again rejected the localhost preview because the user previously declined that browser permission and explicitly prohibited a command-line or alternate-surface workaround. Therefore no new screenshot was created, no PNG path can be reported, and `--window-size=520` at 0.75 scale, 390px output width and rendered overflow remain unverified. No existing shot was overwritten. No deploy, Wrangler command or live publication. Files changed: `output/bergtrades-page/index.html`, `_capture.html`, `styles.css`, `script.js`, and `AGENT_CHAT.md`; `shots/**` remains unchanged.
+
+### [2026-08-16 12:00] CODEX
+BACKUP BLOCKED: after confirming the working tree contains only the coordinated Bergtrades page files plus this log, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no final commit or push occurred. No deploy occurred.

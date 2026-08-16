@@ -1536,24 +1536,36 @@ blockquote > span {
   box-shadow: var(--shadow);
 }
 
-.margin-note {
+.bullet-list {
   width: 100%;
   max-width: 920px;
   min-width: 0;
-  margin: 42px auto;
-  padding: 1px 0 1px 17px;
-  border-left: 3px solid var(--white-soft);
-}
-
-.margin-note > p {
+  margin: 38px auto;
+  padding: 0 0 0 19px;
   color: var(--ink);
   font-size: clamp(18px, 4.8vw, 20px);
   font-weight: 500;
-  line-height: 1.6;
+  line-height: 1.45;
 }
 
-.margin-note > p + p {
-  margin-top: 18px;
+.bullet-list > li {
+  min-width: 0;
+  padding-left: 4px;
+  overflow-wrap: anywhere;
+}
+
+.bullet-list > li::marker {
+  color: var(--white-soft);
+  font-size: 0.65em;
+}
+
+.bullet-list > li + li {
+  margin-top: 12px;
+}
+
+.list-followup {
+  max-width: 920px;
+  margin: -6px auto 0;
 }
 
 .highlight-wall {
@@ -2592,7 +2604,7 @@ blockquote,
   }
 
   .action-grid > .block-stack,
-  .action-grid > .margin-note {
+  .action-grid > .bullet-list {
     grid-column: 1 / -1;
   }
 
