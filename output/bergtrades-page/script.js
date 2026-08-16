@@ -34,18 +34,6 @@
   window.addEventListener("scroll", requestProgressUpdate, { passive: true });
   window.addEventListener("resize", requestProgressUpdate, { passive: true });
 
-  const stageGroups = {
-    image: ".hero-frame, .terminal, .bullet-list, .highlight-wall span, .highlight-plan, .proof-image, .packaging-card, .formula-stack, .thumbnail-text, .close-proof, .primary-cta",
-    annotation: ".block-label, .proof-number-label",
-    copy: ".hero-copy, .section-intro, .action-copy, .proof-intro-grid > div, .proof-copy, .formula-after, .title-intro-grid > p, .text-title-layout h3, .close-inner > p"
-  };
-
-  Object.entries(stageGroups).forEach(([stage, selector]) => {
-    document.querySelectorAll(selector).forEach((element) => {
-      if (element.closest("[data-reveal]")) element.dataset.stage = stage;
-    });
-  });
-
   if (reducedMotion) {
     root.dataset.motion = "reduced";
     return;

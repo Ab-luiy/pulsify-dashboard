@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | V7 opening + four sections + close rebuild complete and static QA passes. Chrome local-page permission blocked the fresh 390px PNG and rendered-height measurement; no alternate browser path used. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | V6 built-work opening and section 6 ratio relocation complete; source/dist/capture synchronized and both required PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | New opening, smaller mobile headline scale, semantic emphasis and tighter top pacing complete. Forced-reveal PNGs confirmed at exactly 390px wide. No deploy. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | CLOSED | Copy and field changes complete with static QA passing. Fresh 390px PNG remains blocked by the previously declined localhost browser permission; no alternate browser workaround is permitted. No deploy. Lock cleared. |
@@ -1475,3 +1476,19 @@ Verification passed: source/dist/capture parity, exact opening and section 6 cop
 
 ### [2026-08-16 15:12] CODEX
 BACKUP DEFERRED: `output/bergtrades-content-v7.md` appeared as an untracked concurrent user/Claude file during this task. `auto-backup.ps1` stages the entire worktree, so running it would bundle that unrelated file with this bounded v6 page change. Left the file untouched and did not run the backup script. The normal hourly backup remains available after the concurrent v7 work is coordinated. No deploy occurred.
+
+### [2026-08-16 15:15] CODEX
+STARTED: founder directed a major Bergtrades page cut with `output/bergtrades-content-v7.md` as the only copy source. Claimed `output/bergtrades-page/**` and this coordination record. Scope is opening, four numbered sections and close only; preserve the six-title block, three Nick thumbnails, both Instagram screenshots plus bio field, compact description/application links, Nick proof tile, exact CTA/tracking contract, reveals/stagger and scroll progress; tighten vertical rhythm and verify a forced-reveal PNG at exactly 390px wide plus total rendered page height. No deploy, Wrangler command or live publication.
+
+### [2026-08-16 15:30] CODEX
+CLOSED ON RENDER ONLY: rebuilt the Bergtrades page body from `output/bergtrades-content-v7.md` into the exact opening, four numbered sections and close. Deleted the standalone description, application-form, accounts/page and formulas sections plus every prior takeaway paragraph; removed the old hero image; moved the six-video field to section 1, retained the three Nick thumbnails in section 2, retained both real Instagram screenshots plus the compact exact bio field in section 3, folded the two-link description field and form recommendation into section 4, and reduced the close to the Nick proof tile, exact final paragraph and exact CTA. Source, dist and capture sources are synchronized. CSS was cut from 2,539 to 567 lines so deleted structures leave no dead spacing; all slides now use content-height sections with 42-56px mobile section padding, 8-12px heading-to-copy spacing, 32px mobile display headings and no fixed text below 15px. Reveals, stagger, reduced-motion behavior, neon fields and the scroll progress meter remain. `_capture.html` has a dedicated override forcing slide and staged-reveal visibility.
+
+Static verification passes: normalized visible page text exactly matches the v7 copy and visual labels; six total sections, six title rows, three Nick thumbnails, two Instagram screenshots, two neon fields and all six referenced assets; deleted-copy sentinel scan; source/dist parity; capture/source parity after removing the single override; CTA id, exact asterisk URL and nonblocking `sendBeacon('/api/click')` hook; zero banned punctuation glyphs; minimum fixed font size 15px; CSS brace balance; source/dist JavaScript syntax; local index and capture HTTP 200; dist assets present; and `git diff --check`.
+
+Rendered QA remains blocked. The Browser skill selected Chrome, set a 390px viewport and attempted to open `http://127.0.0.1:4173/_capture.html`, but Chrome rejected the local-page permission because it was previously declined and explicitly prohibited a command-line renderer or alternate browser surface as a workaround. The viewport override was reset. No fresh PNG was created or old shot overwritten, so exact PNG width, horizontal overflow, visual fidelity and total rendered page height are not claimed. Files changed: `output/bergtrades-page/index.html`, `styles.css`, `script.js`, `_capture.html`, `dist/index.html`, `dist/styles.css`, `dist/script.js`, and `AGENT_CHAT.md`. No deploy, Wrangler command or live publication. Lock cleared.
+
+### [2026-08-16 15:30] CODEX
+CORRECTION: the rebuilt stylesheet is 556 lines, not 567. The prior 2,539-line count is correct. No file or verification scope changed.
+
+### [2026-08-16 15:31] CODEX
+BACKUP BLOCKED: after the lock was cleared and the expected-only status plus `git diff --check` passed, the required `auto-backup.ps1` was attempted. This sandbox cannot create `.git/index.lock`, so no commit or push occurred. No deploy occurred.
