@@ -78,7 +78,16 @@ highlights go **start here**, **my story**, then results, results, results.
 
 ---
 
-## 4. two quick ones
+## 4. how content really works
+
+**Body:**
+content is the thing that primes everything else. the packaging decides whether any of it gets seen, and the title shapes that were working for you, you stopped making. everything else on this page is small next to that. get the packaging right and most of the rest stops mattering.
+
+the youtube link in the bio matters because a new pair of eyes gets nurtured by long form in a way a grid never does. that's the 7-11-4 rule, roughly seven hours of you, eleven touchpoints, four places, before someone buys, and youtube stacks those hours far faster than instagram ever will.
+
+---
+
+## 5. two quick ones
 
 **Body:**
 description back to two links, mentorship first.
