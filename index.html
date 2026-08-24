@@ -5899,6 +5899,66 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
       <div class="empty" id="crmEmpty" style="display:none">No leads match.</div>
       <div id="crmMore" class="crm-pager" style="display:none"></div>
     </div>
+
+    <!-- ===== IG FOLLOW-UP SEQUENCE ===== -->
+    <div class="card span-12" id="seqCard">
+      <style>
+        #seqCard .seq-steps { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-bottom:16px; }
+        #seqCard .seq-step { background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 11px; }
+        #seqCard .seq-step .ss-day { font-size:10px; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); font-weight:600; }
+        #seqCard .seq-step .ss-name { font-size:13px; font-weight:600; margin:3px 0 5px; }
+        #seqCard .seq-step .ss-hint { font-size:11.5px; line-height:1.45; color:var(--text-2); }
+        #seqCard .seq-step .ss-count { float:right; font-size:11px; font-family:var(--mono,monospace); color:var(--cyan); }
+        #seqCard .seq-row { display:flex; align-items:center; gap:10px; padding:9px 11px; border-bottom:1px solid var(--border); font-size:12.5px; flex-wrap:wrap; }
+        #seqCard .seq-row:last-child { border-bottom:0; }
+        #seqCard .sr-name { font-weight:600; min-width:190px; }
+        #seqCard .sr-handle { font-family:var(--mono,monospace); font-size:11.5px; color:var(--cyan); text-decoration:none; min-width:150px; }
+        #seqCard .sr-step { font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--border-strong); color:var(--text-2); white-space:nowrap; }
+        #seqCard .sr-due { font-family:var(--mono,monospace); font-size:11.5px; min-width:96px; }
+        #seqCard .sr-due.over { color:var(--warn); }
+        #seqCard .sr-acts { margin-left:auto; display:flex; gap:6px; flex-wrap:wrap; }
+        #seqCard .sr-hint { flex-basis:100%; font-size:11.5px; color:var(--muted); line-height:1.45; }
+        #seqCard .seq-list { border:1px solid var(--border); border-radius:var(--radius-sm); max-height:520px; overflow:auto; }
+        #seqCard textarea { width:100%; min-height:130px; background:var(--surface-2); border:1px solid var(--border); border-radius:var(--radius-sm); color:var(--text); font:inherit; font-size:12px; font-family:var(--mono,monospace); padding:10px; resize:vertical; }
+      </style>
+      <h2>Follow-up sequence <span class="meta">IG leads on delivered — value-led, 5 touches / 30 days</span></h2>
+      <div id="seqNote" style="background:var(--surface-2);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 12px;color:var(--warn);font-size:12px;margin-bottom:14px">
+        DM threads cannot be pulled automatically — the Instagram integration on this repo is analytics-only (Composio, media + insights scopes) and the Graph API never exposes delivered-vs-seen receipts. Enroll leads from the CRM below, or paste a thread export into <em>Import DM threads</em>.
+      </div>
+      <div class="kpi-row" style="grid-template-columns:repeat(5,1fr);margin-bottom:16px">
+        <div class="kpi"><div class="k">Enrolled</div><div class="v mono large" id="seqEnrolled">0</div></div>
+        <div class="kpi accent"><div class="k">Due now</div><div class="v mono large" id="seqDue">0</div></div>
+        <div class="kpi"><div class="k">Overdue</div><div class="v mono large" id="seqOverdue">0</div></div>
+        <div class="kpi"><div class="k">Completed</div><div class="v mono large" id="seqDone">0</div></div>
+        <div class="kpi"><div class="k">Replied</div><div class="v mono large" id="seqReplied">0</div></div>
+      </div>
+      <div class="seq-steps" id="seqSteps"></div>
+      <div class="crm-toolbar" style="margin-bottom:12px">
+        <button id="seqEnrollFiltered" class="crm-link-btn">Enroll leads matching CRM filters</button>
+        <button id="seqImportOpen" class="crm-link-btn">Import DM threads</button>
+        <button id="seqExport" class="crm-link-btn">Export due list (CSV)</button>
+        <select id="seqScope" class="crm-select" style="margin-left:auto">
+          <option value="due">Due now</option>
+          <option value="all">All enrolled</option>
+          <option value="upcoming">Upcoming</option>
+          <option value="ended">Ended</option>
+        </select>
+      </div>
+      <div id="seqImportWrap" style="display:none;margin-bottom:14px">
+        <div style="font-size:11.5px;color:var(--text-2);margin-bottom:6px;line-height:1.5">
+          One thread per line. <code>handle | Name | niche | last-sent YYYY-MM-DD</code> — only <code>handle</code> is required.
+          Existing leads are matched by handle or name and enrolled in place; unknown handles are added as new Instagram leads.
+        </div>
+        <textarea id="seqImportText" placeholder="theanomalytrader | Philip | Trading | 2026-08-14&#10;hazontrades&#10;newlead_fx | Sam R | Trading | 2026-08-18"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
+          <button id="seqImportRun" class="crm-link-btn">Parse &amp; enroll</button>
+          <button id="seqImportCancel" class="crm-link-btn warn">Cancel</button>
+          <span id="seqImportMsg" style="font-size:11.5px;color:var(--text-2)"></span>
+        </div>
+      </div>
+      <div class="seq-list" id="seqListWrap"><div id="seqList"></div></div>
+      <div class="empty" id="seqEmpty" style="display:none">Nothing in this view.</div>
+    </div>
   </div>
 </section>
 
@@ -8980,10 +9040,238 @@ initPayoutSection();
 
   // Expose to Asset Builder drawer (defined outside this IIFE)
   window.renderCrm = renderCrm;
+  // ===== IG follow-up sequence =====================================================
+  // Per-lead cadence for leads that were DM'd and never answered. Lives on the same
+  // `state.overrides[name]` record the CRM already syncs to D1, so a sequence started
+  // in one browser shows up everywhere. Deliberately value-led: the crmNote rule is
+  // "do NOT re-spam" — every touch before day 15 gives something and asks for nothing.
+  const DAY_MS = 864e5;
+  const SEQ_ID = "ig-retarget-v1";
+  const SEQ_STEPS = [
+    { day: 0,  label: "Value asset",      hint: "Send the custom asset built in Lead Studio. Reference the recurring theme from their content so it is obvious you watched several videos. No link, no ask." },
+    { day: 3,  label: "Diagnosis",        hint: "One specific gap you can see in their funnel or content, plus one low-friction question only someone who studied them would ask. Under 30 words." },
+    { day: 8,  label: "Proof drop",       hint: "One relevant result framed as what closing that gap did (Nick: $10-20K to $50K/month in 3 months). Still no pitch." },
+    { day: 15, label: "Direct ask",       hint: "One line. Offer the full build or 15 minutes. This is the first and only explicit ask in the sequence." },
+    { day: 30, label: "Permission close", hint: "Short, no guilt. Close the loop and leave the door open. If nothing comes back, move them to Dead." }
+  ];
+  // Gaps are measured from the previous touch, not from enrolment, so a late send
+  // pushes the whole tail out instead of stacking every remaining step as overdue.
+  const SEQ_GAPS = SEQ_STEPS.map((s, i) => i === 0 ? 0 : s.day - SEQ_STEPS[i - 1].day);
+  const SEQ_ENDED_STATUS = ["replied", "call-booked", "won", "dead"];
+  let seqScope = "due";
+
+  function seqGet(name) {
+    const o = state.overrides[name];
+    return (o && o.seq && o.seq.id === SEQ_ID) ? o.seq : null;
+  }
+  function seqPut(name, patch) {
+    const cur = seqGet(name) || {};
+    setOverride(name, { seq: Object.assign({ id: SEQ_ID }, cur, patch) });
+  }
+  function seqActive(lead) {
+    const s = seqGet(lead.n);
+    return !!(s && !s.endedAt && SEQ_ENDED_STATUS.indexOf(lead.status) === -1);
+  }
+  function seqEnroll(name, lastSentAt) {
+    if (seqGet(name) && !seqGet(name).endedAt) return false;   // already running
+    const now = Date.now();
+    // A lead who already got the blast starts at step 1 (the opener is spent), due
+    // straight away; a genuinely fresh thread starts at step 0.
+    const anchored = lastSentAt ? Date.parse(lastSentAt) : null;
+    const startedAt = (anchored && !isNaN(anchored)) ? anchored : now;
+    const priorTouch = (anchored && !isNaN(anchored)) ? 1 : 0;
+    seqPut(name, {
+      step: priorTouch,
+      startedAt: startedAt,
+      lastTouchAt: priorTouch ? startedAt : null,
+      nextDueAt: priorTouch ? startedAt + SEQ_GAPS[1] * DAY_MS : now,
+      endedAt: null,
+      endReason: "",
+      history: []
+    });
+    return true;
+  }
+  function seqMarkSent(name) {
+    const s = seqGet(name);
+    if (!s) return;
+    const now = Date.now();
+    const done = (s.step || 0) + 1;
+    const hist = (s.history || []).concat([{ step: s.step || 0, at: now }]);
+    if (done >= SEQ_STEPS.length) {
+      seqPut(name, { step: done, lastTouchAt: now, nextDueAt: null, endedAt: now, endReason: "exhausted", history: hist });
+    } else {
+      seqPut(name, { step: done, lastTouchAt: now, nextDueAt: now + SEQ_GAPS[done] * DAY_MS, history: hist });
+    }
+    setOverride(name, { status: done <= 1 ? "sent" : "follow-up" });
+  }
+  function seqSnooze(name, days) {
+    const s = seqGet(name);
+    if (!s) return;
+    seqPut(name, { nextDueAt: Math.max(Date.now(), s.nextDueAt || Date.now()) + days * DAY_MS });
+  }
+  function seqEnd(name, reason, status) {
+    seqPut(name, { endedAt: Date.now(), endReason: reason, nextDueAt: null });
+    if (status) setOverride(name, { status: status });
+  }
+
+  function seqDueLabel(ts) {
+    if (!ts) return "—";
+    const diff = Math.round((ts - Date.now()) / DAY_MS);
+    if (diff < -1) return Math.abs(diff) + "d late";
+    if (diff <= 0) return "today";
+    if (diff === 1) return "tomorrow";
+    return "in " + diff + "d";
+  }
+  function seqRows() {
+    const now = Date.now();
+    return basePros()
+      .map(p => ({ lead: p, seq: seqGet(p.n) }))
+      .filter(r => r.seq)
+      .map(r => {
+        const ended = !!r.seq.endedAt || SEQ_ENDED_STATUS.indexOf(r.lead.status) > -1;
+        return Object.assign(r, {
+          ended: ended,
+          due: !ended && r.seq.nextDueAt != null && r.seq.nextDueAt <= now,
+          overdue: !ended && r.seq.nextDueAt != null && r.seq.nextDueAt < now - DAY_MS
+        });
+      })
+      .sort((a, b) => (a.seq.nextDueAt || 8e15) - (b.seq.nextDueAt || 8e15));
+  }
+  function seqScoped(rows) {
+    if (seqScope === "due") return rows.filter(r => r.due);
+    if (seqScope === "upcoming") return rows.filter(r => !r.ended && !r.due);
+    if (seqScope === "ended") return rows.filter(r => r.ended);
+    return rows;
+  }
+
+  function renderSeq() {
+    if (!$("seqCard")) return;
+    const rows = seqRows();
+    const active = rows.filter(r => !r.ended);
+    $("seqEnrolled").textContent = fmt(active.length);
+    $("seqDue").textContent = fmt(rows.filter(r => r.due).length);
+    $("seqOverdue").textContent = fmt(rows.filter(r => r.overdue).length);
+    $("seqDone").textContent = fmt(rows.filter(r => r.ended && r.seq.endReason === "exhausted").length);
+    $("seqReplied").textContent = fmt(rows.filter(r => r.ended && r.lead.status === "replied").length);
+
+    $("seqSteps").innerHTML = SEQ_STEPS.map((s, i) => {
+      const at = active.filter(r => (r.seq.step || 0) === i).length;
+      return `<div class="seq-step">
+        <div class="ss-day">Day ${s.day}<span class="ss-count">${fmt(at)}</span></div>
+        <div class="ss-name">${esc(s.label)}</div>
+        <div class="ss-hint">${esc(s.hint)}</div>
+      </div>`;
+    }).join("");
+
+    const shown = seqScoped(rows).slice(0, 120);
+    $("seqEmpty").style.display = shown.length ? "none" : "block";
+    $("seqListWrap").style.display = shown.length ? "block" : "none";
+    $("seqList").innerHTML = shown.map(r => {
+      const step = SEQ_STEPS[Math.min(r.seq.step || 0, SEQ_STEPS.length - 1)];
+      const handle = r.lead.h
+        ? `<a class="sr-handle" href="https://instagram.com/${esc(r.lead.h)}" target="_blank" rel="noopener">@${esc(r.lead.h)}</a>`
+        : `<span class="sr-handle" style="color:var(--muted)">— thread only</span>`;
+      const dueCls = r.overdue ? "sr-due over" : "sr-due";
+      const dueTxt = r.ended ? (r.seq.endReason || "ended") : seqDueLabel(r.seq.nextDueAt);
+      const acts = r.ended ? "" : `<div class="sr-acts">
+          <button class="crm-link-btn" data-seq="sent" data-n="${encodeURIComponent(r.lead.n)}">Mark sent</button>
+          <button class="crm-link-btn" data-seq="snooze" data-n="${encodeURIComponent(r.lead.n)}">Snooze 2d</button>
+          <button class="crm-link-btn" data-seq="replied" data-n="${encodeURIComponent(r.lead.n)}">Replied</button>
+          <button class="crm-link-btn warn" data-seq="stop" data-n="${encodeURIComponent(r.lead.n)}">Stop</button>
+        </div>`;
+      return `<div class="seq-row">
+        <span class="sr-name">${esc(r.lead.n)}</span>
+        ${handle}
+        <span class="sr-step">${r.ended ? `${r.seq.step || 0}/${SEQ_STEPS.length} sent` : `${(r.seq.step || 0) + 1}/${SEQ_STEPS.length} · ${esc(step.label)}`}</span>
+        <span class="${dueCls}">${esc(dueTxt)}</span>
+        ${acts}
+        ${r.ended ? "" : `<div class="sr-hint">${esc(step.hint)}</div>`}
+      </div>`;
+    }).join("");
+
+    $("seqList").querySelectorAll("button[data-seq]").forEach(b => {
+      b.addEventListener("click", () => {
+        const name = decodeURIComponent(b.dataset.n);
+        const act = b.dataset.seq;
+        if (act === "sent") seqMarkSent(name);
+        else if (act === "snooze") seqSnooze(name, 2);
+        else if (act === "replied") seqEnd(name, "replied", "replied");
+        else if (act === "stop") seqEnd(name, "stopped", null);
+        renderCrm();
+      });
+    });
+  }
+
+  function seqEnrollFiltered() {
+    const rows = crmFiltered().filter(p => !seqActive(p));
+    if (!rows.length) { alert("Every lead in the current CRM filter is already in a sequence."); return; }
+    const preview = rows.slice(0, 6).map(p => "· " + p.n).join("\n");
+    if (!confirm(`Enroll ${rows.length} lead(s) in "${SEQ_ID}"?\n\n${preview}${rows.length > 6 ? "\n· …" : ""}\n\nThis writes to the synced CRM. Nothing is sent — each touch is marked by hand.`)) return;
+    rows.forEach(p => seqEnroll(p.n, null));
+    renderCrm();
+  }
+
+  function seqParseImport(text) {
+    return text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(line => {
+      const parts = line.split("|").map(s => s.trim());
+      return {
+        h: (parts[0] || "").replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//i, "").replace(/\/.*$/, ""),
+        n: parts[1] || "",
+        niche: parts[2] || "—",
+        last: parts[3] || ""
+      };
+    }).filter(r => r.h);
+  }
+  function seqRunImport() {
+    const parsed = seqParseImport($("seqImportText").value);
+    if (!parsed.length) { $("seqImportMsg").textContent = "Nothing parsed — one handle per line."; return; }
+    const all = mergedPros();
+    let matched = 0, created = 0, skipped = 0;
+    parsed.forEach(r => {
+      const hit = all.find(p => (p.h && p.h.toLowerCase() === r.h.toLowerCase()) || (r.n && p.n === r.n));
+      const name = hit ? hit.n : (r.n || r.h);
+      if (hit) { matched++; } else {
+        state.added.push({ n: name, h: r.h, niche: r.niche, dms: 1, stage: "no-reply", _source: "instagram" });
+        created++;
+      }
+      if (!hit || !hit.h) setOverride(name, { handle: r.h });
+      if (!seqEnroll(name, r.last)) skipped++;
+    });
+    saveState(state);
+    $("seqImportMsg").textContent = `${matched} matched · ${created} added · ${skipped} already running.`;
+    $("seqImportText").value = "";
+    renderCrm();
+  }
+  function seqExportCsv() {
+    const rows = seqScoped(seqRows());
+    const head = "name,handle,step,step_label,due,status\n";
+    const body = rows.map(r => {
+      const step = SEQ_STEPS[Math.min(r.seq.step || 0, SEQ_STEPS.length - 1)];
+      const due = r.seq.nextDueAt ? new Date(r.seq.nextDueAt).toISOString().slice(0, 10) : "";
+      return [r.lead.n, r.lead.h, (r.seq.step || 0) + 1, step.label, due, r.lead.status]
+        .map(v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`).join(",");
+    }).join("\n");
+    const url = URL.createObjectURL(new Blob([head + body], { type: "text/csv" }));
+    const a = document.createElement("a");
+    a.href = url; a.download = "followup-due.csv"; a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  if ($("seqEnrollFiltered")) $("seqEnrollFiltered").addEventListener("click", seqEnrollFiltered);
+  if ($("seqExport")) $("seqExport").addEventListener("click", seqExportCsv);
+  if ($("seqScope")) $("seqScope").addEventListener("change", () => { seqScope = $("seqScope").value; renderSeq(); });
+  if ($("seqImportOpen")) $("seqImportOpen").addEventListener("click", () => {
+    const w = $("seqImportWrap");
+    w.style.display = w.style.display === "none" ? "block" : "none";
+  });
+  if ($("seqImportCancel")) $("seqImportCancel").addEventListener("click", () => { $("seqImportWrap").style.display = "none"; });
+  if ($("seqImportRun")) $("seqImportRun").addEventListener("click", seqRunImport);
+
   function renderCrm() {
     const P = basePros();
     refreshKpis(P);
     renderCrmIntel(P);
+    renderSeq();
     syncBatchFilter(P);
     const rows = crmFiltered();
     $("crmEmpty").style.display = rows.length ? "none" : "block";
