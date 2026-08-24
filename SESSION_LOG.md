@@ -23,6 +23,16 @@ Running notes / carry-over items between Claude Code sessions.
     enrols the lot. A lead with a last-sent date starts at step 2, since the opener is
     already spent.
 
+- **`tools/ig_dm_export.py`** turns Meta's official "Download your information"
+  export into the quiet-thread cohort. It merges every `message_N.json` per thread,
+  undoes Meta's latin-1/UTF-8 mojibake, recovers @handles from the export's folder
+  names, auto-detects which participant is you, and filters to threads where you sent
+  last and they never came back. Default output is the exact
+  `handle | Name | niche | last-sent` paste format the dashboard's import box wants;
+  `--format csv|json`, `--never-replied`, `--days`, `--groups` for everything else.
+  Reuses `lead_scoring.niche_of` so niches agree with the rest of the CRM.
+  Read-only: it prints, it never writes to the CRM.
+
 ### Blocked - Instagram DM ingestion
 - **No DM access from this environment.** Connected connectors are Fathom, Gmail,
   Google Calendar, Google Drive, Miro, Notion. `ig-report/` is analytics-only
@@ -33,7 +43,9 @@ Running notes / carry-over items between Claude Code sessions.
   they never replied" - that is what the sequence is modelled on.
 - To unlock automated thread pulls: IG Business account linked to a Facebook Page, a
   Meta app with `instagram_manage_messages` + `pages_manage_metadata`, then re-auth the
-  Composio Instagram connection with those scopes. Until then the import box is the path.
+  Composio Instagram connection with those scopes. Even then, the API's conversation
+  history is windowed - the data export is the only source for the full back catalogue,
+  so `ig_dm_export.py` stays useful after the scopes land.
 
 ---
 
