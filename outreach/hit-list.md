@@ -4,20 +4,23 @@
 
 The prospects. One row per prospect. Status updated as it changes.
 
+> **Live-state reconciliation 2026-08-24.** Every row below was checked against the real IG inbox ([[clients/_pipeline/ig-inbox-audit-2026-08-24]]). The statuses recorded here were wrong: nine rows marked `raw` or `researched` had in fact been DM'd in April 2026 and went silent, and `@_hd_trading` has been waiting on us for 127 days. Corrected below. The full working queue is `outreach/followup-tracker.md`.
+
+
 **Status values:** `raw` (just added) · `researched` (Claude built profile + asset angle) · `asset-built` (value-asset ready to send) · `sent` · `replied` · `booked` · `held` · `closed` · `dead`
 
 **Tier:** `A` (high conviction, hit first) · `B` (solid, hit second) · `C` (long shot, hit when capacity allows)
 
 | handle | niche | followers | tier | status | last touch | notes |
 |---|---|---|---|---|---|---|
-| @_hd_trading | trading | ? | A | researched | 2026-05-15 | Hamish D. Warm — prior convo, sent 5min audio about ~$20k solo launch, interested in a call then ghosted at booking. Can sell, can't systematize. IG content not viewable from web (blocked) — asset can ship on launch-story context alone. DM + asset angle drafted 2026-05-15. Need screenshots of his last 3 posts to finish the 1-pager. |
-| @richessefx | trading | ? | A | raw | 2026-05-15 | warm — same story as @_hd_trading: prior convo, interested, ghosted at booking. |
-| @_perryx_ | ecom | ? | B | raw | — | no context — research from scratch. |
-| @jordankilgour | TikTok Shop agency (B2B) | 5.5k | B | researched | 2026-05-15 | Co-founder Gamenetics ($10M+ GMV), founder XFACTR (TikTok Shop agency, $50k+/mo brands only). Funnel = xfactr.io/lp-tiktok-shop → Typeform → call. B2B not B2C-coach, so Pulse System fit is non-standard — angle is personal-brand layer feeding XFACTR's inbound pipeline. Asset + DM drafted 2026-05-15. |
-| @javie_fx | trading | ? | B | raw | — | no context — research from scratch. |
-| @fibsdontlie | trading | ? | B | raw | — | no context — research from scratch. |
-| @itsalexbaluyut | trading | ? | B | raw | — | no context — research from scratch. |
-| @smartmoneymo | trading | ? | B | raw | — | no context — research from scratch. |
-| @jahvonnw | FBA | ? | B | raw | — | no context — research from scratch. |
-| @tradewithjem | trading | ? | B | raw | — | no context — research from scratch. |
-| @argerfx | trading | ? | B | raw | — | no context — research from scratch. |
+| @_hd_trading | trading | ? | A | **awaiting-us** | 2026-04-09 | ⚠️ **Ball has been in our court for 127 days.** Last message in the thread is his: "Sounds good bro". Hamish D. Warm, prior convo, 5min audio about a ~$20k solo launch, interested then ghosted at booking. Highest-value dormant thread in the inbox. |
+| @richessefx | trading | ? | A | **awaiting-us** | 2026-04-14 | Replied in April, quiet 124 days. Same story as @_hd_trading: prior convo, interested, ghosted at booking. |
+| @_perryx_ | ecom | ? | B | **sent, no reply** | 2026-04-22 | DM'd April, silent 124 days. Pre-formula opener. No context beyond that. |
+| @jordankilgour | TikTok Shop agency (B2B) | 5.5k | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. Co-founder Gamenetics ($10M+ GMV), founder XFACTR. B2B not B2C-coach, so Pulse System fit is non-standard. The asset drafted 2026-05-15 postdates the send and was never used. |
+| @javie_fx | trading | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |
+| @fibsdontlie | trading | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |
+| @itsalexbaluyut | trading | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |
+| @smartmoneymo | trading | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |
+| @jahvonnw | FBA | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |
+| @tradewithjem | trading | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |
+| @argerfx | trading | ? | B | **sent, no reply** | 2026-04-14 | DM'd April, silent 132 days. |

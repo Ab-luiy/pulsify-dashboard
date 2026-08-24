@@ -132,7 +132,7 @@ The three tb.tradez assets are already built and sitting at `Desktop\Prospect As
 | @handle | What it is |
 |---|---|
 | `daybrade` | Sends reels constantly, no outreach in the thread. Personal contact |
-| `passmesomedupe` | One message, "when shes black". Personal, not outreach. Excluded from the 37 |
+| `passmesomedupe` | One message, "when shes black". Personal, not outreach. Excluded from the working list |
 | `jeremy` | Inbound. Pitching the founder, asked "You get a chance to get signed up?" |
 | `abdullah.index` | Inbound pitch. Sells Miro boards for long-form coaches, offered a free first build |
 | `connie.um.partnership` | Inbound cold spam, "May I ask if you are a trader?" |

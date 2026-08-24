@@ -12,7 +12,7 @@ The cadence and the copy for every IG thread that went quiet. Built 2026-08-24 o
 
 ## Why this matters for Pulsify
 
-Instagram is the active lead channel. The opener works, it produced a 42% reply rate on the July batch. What has never existed is a second message that gets answered, so the pipeline stalls at the exact point where the money is.
+Instagram is the active lead channel and it is getting quieter. The 2026-07-26 batch returned at most 18% (44 sends, 8 threads with any inbound). The 2026-08-22 batch returned one reply on 33 sends, and that reply was from someone already known. What has never existed is a second message that gets answered, so the pipeline stalls at the exact point where the money is. Follow-ups recover part of the backlog. They do not fix a first touch that is trending down, and that is a separate piece of work.
 
 Grant's number, already in [[playbooks/pulse-system-outreach]]: one of his biggest ever clients took over a year of follow-up. Most operators stop at message three. Pulsify was stopping at a second permission request.
 
@@ -179,7 +179,7 @@ Re-pull the inbox any time with `npx tsx dm-audit.ts` in `.claude/worktrees/admi
 
 ## Open questions / gaps
 
-- Touch 2 is the load-bearing bet and it has never been sent. If it fails, the problem is not the copy, it is that 37 cold traders do not want anything from a stranger, and the answer moves upstream to targeting.
+- Touch 2 is the load-bearing bet and it has never been sent. If it fails, the problem is not the copy, it is that cold traders at this volume do not want anything from a stranger, and the answer moves upstream to targeting.
 - Unmeasured: whether a doc link, a PDF, a carousel of images, or plain text in the thread actually gets consumed. The `_acetrades_` thread says a Doc link does not. That is one data point and it decides how every asset ships.
 - No trigger defined for bringing a dormant thread back.
 - Reply rate per batch is not tracked anywhere yet. `dm-audit.ts` can compute it once follow-ups start landing.

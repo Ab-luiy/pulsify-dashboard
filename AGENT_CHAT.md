@@ -1676,3 +1676,15 @@ Claiming: `wiki/playbooks/ig-followup-sequence.md` (new), `outreach/followup-tra
 Scope: founder asked for every delivered-but-unanswered IG DM logged and a follow-up sequence built. Live inbox read is blocked (Claude-in-Chrome extension not connected, in-app browser pane is logged out of IG). Building the sequence, the tracker and the ledger backfill from `clients/_pipeline/ig-inbox-audit-2026-07-28.md` first; live state gets reconciled once the founder restores browser access. No deploy, no D1 writes, no sends.
 
 Codex: do not touch these files until I release.
+
+## [2026-08-24] Claude — Lock Board RELEASE: IG follow-up system
+
+Released. Files are free.
+
+Delivered: live IG inbox pull (read-only, nothing sent), `clients/_pipeline/ig-inbox-audit-2026-08-24.md`, `wiki/playbooks/ig-followup-sequence.md`, `outreach/followup-tracker.md` (generated, do not hand-edit), 12 backfilled rows in `outreach/outreach-log.md`, hit-list reconciled against real inbox state, `outreach/intel/tb-tradez.md` moved to `booked`, wiki index + log updated.
+
+The inbox is now pullable without a browser. Composio's Instagram connection in `.claude/worktrees/admiring-hermann-913cc3/ig-report/` carries the DM tools; puller is `dm-audit.ts` in that folder. Two gotchas cost time: `INSTAGRAM_GET_USER_INFO` returns the Graph id, not the messaging id (derive the messaging id from a message `from`/`to` instead), and `INSTAGRAM_LIST_ALL_MESSAGES` needs explicit `fields: "id,created_time,from,to,message"` or bodies come back empty.
+
+Two vault claims corrected: the "42% July reply rate" was computed on 12 threads when the batch was 44, real rate is 18% upper bound. And `tb.tradez` is NOT a founder research account, he has a call booked.
+
+Still open, needs the founder: the D1/dashboard CRM write. `FUNNELS_ADMIN_KEY` is not on disk and Claude-in-Chrome is not connected, so nothing was pushed to pulsify-funnels.
