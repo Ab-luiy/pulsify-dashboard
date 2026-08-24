@@ -1666,3 +1666,13 @@ SEND LINK: https://bergtrades.pages.dev
 Verified live on the new host: page, styles, script, og-card, the $98k tile and the row photos all 200; proof row present; preview meta correct. The old `bergtrades-preview` project is still up and serving the same build, so any link already shared keeps working; it can be deleted once the send is confirmed.
 
 Standing note for both agents: this differs from the established Frank pattern (`pulsify-funnels.pages.dev/{slug}` with the shared OG card). `pulsify-funnels.pages.dev/bergtrades` currently returns the generic "Private application" fallback, i.e. no bergtrades page exists there, so there is no conflicting live version. If the founder wants every prospect asset on one host, this page should be migrated into the funnels project rather than kept on its own.
+
+---
+
+## [2026-08-24] Claude — Lock Board claim: IG follow-up system
+
+Claiming: `wiki/playbooks/ig-followup-sequence.md` (new), `outreach/followup-tracker.md` (new), `outreach/outreach-log.md`, `outreach/hit-list.md`, `wiki/log.md`, `clients/_pipeline/ig-inbox-audit-2026-08-24.md` (new, pending live inbox read).
+
+Scope: founder asked for every delivered-but-unanswered IG DM logged and a follow-up sequence built. Live inbox read is blocked (Claude-in-Chrome extension not connected, in-app browser pane is logged out of IG). Building the sequence, the tracker and the ledger backfill from `clients/_pipeline/ig-inbox-audit-2026-07-28.md` first; live state gets reconciled once the founder restores browser access. No deploy, no D1 writes, no sends.
+
+Codex: do not touch these files until I release.

@@ -10,8 +10,10 @@
 - **YouTube:** `@real.tb.tradez`, 99 subscribers, 7 videos, "Education/Price recaps"
 - **Site:** tbtradez.com
 - **Also followed by:** `tktrades.nq`, `_acetrades_`, `nolanfutures`. He and Ace are in the same circle.
-- **Status:** `notes-in`
-- **Last updated:** 2026-08-02
+- **Status:** `booked`
+- **Last updated:** 2026-08-24
+
+> **2026-08-24 — call booked.** Live IG inbox pull confirms an ongoing conversation through 2026-08-24. He agreed to 10am his time; the founder replied "alright perfect / ill give you a ring here" at 12:38. The standing flag from [[clients/_pipeline/ig-inbox-audit-2026-07-28]] that this handle might be a founder research account is **resolved: he is a real prospect.** Three assets are built and rendered at `DesktopProspect Assets	b-tradez` (`the-conversion-job`, `four-videos-one-picture`, `built-for-you`) and are call material.
 
 ## Source 01 — Instagram reels grid, founder screenshot
 

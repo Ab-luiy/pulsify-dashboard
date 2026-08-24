@@ -1433,3 +1433,25 @@ Three rules generalised out of it. Never dissolve people with opacity and blur, 
 Closing copy changed too. The old ending pitched a dashboard and portal and read as sales; founder's note was that it "triggers sales resistance where they stop seeing through the thing." It now opens on the shared diagnosis, and the diagnosis must be the one the asset already argued rather than a new claim.
 
 Also added four send-link checks to the delivery section, after the bergtrades link failed three of them at the point the founder asked whether it was ready to send: a resolving `og:image`, `noindex`, no "preview" in the host, and a 200 check on every asset plus the CTA target. Live asset: https://bergtrades.pages.dev
+
+## [2026-08-24] ingest | IG DM inbox pulled live, follow-up sequence built
+
+Founder asked for every delivered-but-unanswered IG DM logged and a follow-up sequence built for them, with IG lead generation as the current focus.
+
+The inbox turned out to be reachable without a browser. The Composio Instagram connection already used for reel insights (`.claude/worktrees/admiring-hermann-913cc3/ig-report/`) also carries the DM tools, which the vault had not recorded. Wrote a read-only puller, `dm-audit.ts`, that enumerates every thread and classifies it by who spoke last. 175 threads enumerated, nothing sent, nothing marked seen.
+
+**37 threads are sitting on delivered with no reply**, across four first-touch batches: 2026-07-26, 2026-08-11, 2026-08-22, 2026-08-23. Full breakdown in [[clients/_pipeline/ig-inbox-audit-2026-08-24]].
+
+The finding that reframes the ask: the opener asks permission to send an audit, and the follow-up sent to nine of these threads on 2026-08-22 ("do i just fk it and drop it right here anyway?") asks permission a second time. Zero replies. Meanwhile the small-question follow-up sent to `_acetrades_` on 2026-08-05 got an answer in under a minute, and what it revealed was that the Google Doc had never been opened. So a follow-up that requests permission gets ignored, one that hands something over or asks for one word gets answered. That rule is the spine of the new [[playbooks/ig-followup-sequence]].
+
+Second constraint written down: 37 people have been promised a custom audit, which is 37 documents nobody is going to build. The sequence is tiered deliberately. Touch 2 is a single specific change the prospect can make in a minute, delivered in the DM itself, which costs about five minutes of profile research. The full document is built only for people who respond. That also matches the 2026-07-06 decision in [[content-engine/cold-dm-formula]] that the gift ships in the first message, which the opener in use had drifted from.
+
+Two corrections to standing vault claims:
+
+> ⚠️ `tb.tradez` was flagged in [[clients/_pipeline/ig-inbox-audit-2026-07-28]] and [[playbooks/prospect-asset-library]] as possibly a founder research account, and blocked from receiving anything. The live thread shows an ongoing conversation and a call agreed for 10am his time on 2026-08-24. He is a real prospect. Flag removed, `outreach/intel/tb-tradez.md` moved to `booked`, and his three built assets are call material.
+
+> ⚠️ The July batch was recorded as 12 sends. The live pull surfaces materially more silent threads dated 2026-07-26, so that count was low. `outreach/outreach-log.md` had zero rows for any of it; twelve real events have now been backfilled from the pull.
+
+Also surfaced: `niicksfx`, the one confirmed case study, asked for guidance on 2026-08-20 about building his own offer and agreed to call, and the thread has been quiet since 08-22. `bergtrades` has an unfulfilled promise sitting in the thread from 08-20.
+
+Files touched: [[playbooks/ig-followup-sequence]] (new), [[clients/_pipeline/ig-inbox-audit-2026-08-24]] (new), `outreach/followup-tracker.md` (new), `outreach/outreach-log.md`, `outreach/intel/tb-tradez.md`, `wiki/index.md`, this log, plus `dm-audit.ts` in the ig-report worktree.

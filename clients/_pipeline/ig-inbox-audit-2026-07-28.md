@@ -6,7 +6,7 @@ Opener used (single variant, minor swap of "im not a trader" / "im not in your s
 
 > your profile hijacked my day bro haha, I've been taking a look at your content and honestly most of the stuff in there resonated with me even though im not in your space, I've made you a lil something that goes over your entire brand with nuanced audits. I'd be happy to send it over for you to take a look, lmk!
 
-Matches [[wiki/content-engine/cold-dm-formula]]. **12 sent, 5 replied.** That is a 42% reply rate against a near-zero rate on the April 2026 mass blast recorded in [[clients/_pipeline/ig-inbox-audit-2026-05-16]]. The formula is working and the difference is the format change, not the volume.
+Matches [[wiki/content-engine/cold-dm-formula]]. **12 sent, 5 replied.** (⚠️ Corrected 2026-08-24: the live inbox pull shows materially more silent threads dated 2026-07-26 than this audit captured, so 12 undercounts the batch. See [[clients/_pipeline/ig-inbox-audit-2026-08-24]].) That is a 42% reply rate against a near-zero rate on the April 2026 mass blast recorded in [[clients/_pipeline/ig-inbox-audit-2026-05-16]]. The formula is working and the difference is the format change, not the volume.
 
 ## Replied, said yes, asset not delivered
 
@@ -18,7 +18,7 @@ The gift was promised in the opener and has not been sent to any of these. That 
 | ACE | _acetrades_ | ❤️ reaction, then "I'd like to take a look" | Mon 00:28 |
 | tb tradez \| Day Trader | tb.tradez | "Sure man" | Mon 01:12 |
 
-> ⚠️ tb.tradez may be one of the founder's own research accounts rather than a prospect. Unconfirmed as of writing. Do not send an audit to this handle until it is resolved.
+> ⚠️ **RESOLVED 2026-08-24: tb.tradez is a real prospect with a call booked.** See [[clients/_pipeline/ig-inbox-audit-2026-08-24]]. The original note, kept for the record: tb.tradez may be one of the founder's own research accounts rather than a prospect. Unconfirmed as of writing. Do not send an audit to this handle until it is resolved.
 
 ## Replied, asset said to be sent, unverified
 
