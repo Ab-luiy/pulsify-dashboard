@@ -1484,3 +1484,23 @@ Also found already built and needing no work: a source filter with YT / IG / Man
 **Ten threads are at `replied` and the ball has been ours for weeks.** Six of them were not in this morning's audit at all: `nq.nox` (doc actually delivered 07-30, not pending as the asset library claimed, corrected), `pov.tess` (asked for a green light on 07-26 that never came, she is warm), `cris.londonn` (engaged on YouTube, then three stacked messages and nothing), `janahrga` (soft no on YouTube, students-only strategy, so any asset has to fit IG), `iamm3mphis` (he sent something 33 days ago and got no reply), `tre.bonavita` (asked whether we watched his Mason interview, 45 days). Plus `acp1re`, where delivery was claimed and never confirmed.
 
 Two UI changes remain and they are Codex's lane, specced at `CODEX_TASK_ig_pipeline_section.md`. First, `mergedPros()` hardcodes `_source: "manual"` on added leads, so the IG chip currently shows nothing and all 87 sit under Manual. Second, follow-up depth collapses into one column, so the founder's 1st/2nd/3rd split needs `follow-up-1/2/3` added to `STATUSES` with `follow-up` migrating into `follow-up-1`. The data is already deep enough to restage exactly once that lands: four threads are at three follow-ups, two at two.
+
+## [2026-08-24] lint | Why the staged IG leads were invisible: the CRM sync endpoint was never built
+
+The founder clicked through to the CRM and saw none of the 87 leads staged earlier today. Root cause is not the staging. It is that nothing has ever carried CRM data between D1 and a browser.
+
+Three findings, each verified rather than inferred:
+
+1. **`/api/crm-sync` does not exist.** `git ls-tree -r origin/main functions/` returns only `functions/generate.js` and `functions/transcript.js`. A POST to `https://pulsify-funnels.pages.dev/api/crm-sync` answers **405**, the static-asset response, not the 401 a key-gated function would give, and a GET falls through to the SPA HTML. The client half in `index.html` (~9394) has been calling an endpoint that was never written.
+
+> ⚠️ This contradicts the standing claim that CRM cross-browser sync is live. It is not. The client code shipped, the server never did. Anything that assumed leads move between browsers has been wrong.
+
+2. **The key is unobtainable anyway.** `crmSyncKey()` reads `pulsify_funnels_admin_key` from localStorage, which the founder does not have. `ADMIN_KEY` on the pulsify-funnels Pages project is `secret_text`, so its value cannot be read back from the Cloudflare API by anyone. Telling him to paste it would have been dead-end advice.
+
+3. **There is no base prospect list.** `dashboard-data-v2.json` on `origin/main` carries `lastUpdated, youtube, instagram, content` and no `crm` key, so `D.crm.prospects` is always empty. Every non-YouTube lead exists only in `localStorage.pulsify_crm_v1`. The CRM's 825 leads all come from `ytLeadsData` inlined in `index.html`.
+
+Also noted: pulsify-funnels last deployed 2026-07-18 and is Direct Upload rather than git-connected, so anything built for it since then has never shipped.
+
+Interim fix, verified live in a clean browser: `output/ig-pipeline-load.js` merges the 87 leads and their staging straight into `localStorage.pulsify_crm_v1`. Tested by injecting two leads into a fresh session, where the CRM total moved 825 to 827 and the status lanes picked up Sent 1 and Replied +1. Non-destructive, generated from D1 so it stays the source of truth.
+
+The durable fix is Codex's, now Change 0 in `CODEX_TASK_ig_pipeline_section.md`: either build the missing `functions/api/crm-sync.js` against the contract the client already implements, with CORS for the dashboard origin, or add a `crm` block to `dashboard-data-v2.json` and read status off the base prospect. Preference is the endpoint, since it also fixes edits made in one browser being invisible in another.

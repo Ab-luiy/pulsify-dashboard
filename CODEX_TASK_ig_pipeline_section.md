@@ -27,6 +27,25 @@ Database `pulsify-portal`, uuid `764a46f6-9f61-4f45-85b5-7e9a00e8be01`.
 
 Source of truth for the staging logic: `.claude/worktrees/admiring-hermann-913cc3/ig-report/dm-audit.ts` (read-only inbox puller) and `dm-audit.json`. Regenerating the SQL is scripted; ask Claude for `build-stages.js` if you need to re-derive.
 
+## Change 0 — the CRM sync endpoint does not exist (root cause)
+
+Found 2026-08-24 while debugging why the founder saw no leads. This blocks everything else, so do it first or the data can never reach a browser.
+
+- `git ls-tree -r origin/main functions/` returns only `functions/generate.js` and `functions/transcript.js`. **There is no `crm-sync` anywhere in the repo.**
+- `POST https://pulsify-funnels.pages.dev/api/crm-sync` returns **405**, which is the static-asset response, not a 401. `GET` falls through to the SPA HTML with 200. Both confirm no Pages Function is bound to that path.
+- So `crmSyncNow()` in `index.html` (~9394) has been calling an endpoint that was never built. The client half shipped, the server half did not.
+- Compounding it: `crmSyncKey()` reads `pulsify_funnels_admin_key` from localStorage, and the founder does not have that value. `ADMIN_KEY` on the pulsify-funnels Pages project is `secret_text`, so it cannot be read back from the Cloudflare API by anyone.
+- Last pulsify-funnels deployment is 2026-07-18, and the project is Direct Upload (`source: null`), not git-connected. Anything written since then has never shipped.
+
+**Also note the dashboard has no base prospect list.** `dashboard-data-v2.json` on `origin/main` has top-level keys `lastUpdated, youtube, instagram, content` and **no `crm` key**, so `D.crm.prospects` is always empty. Every non-YouTube lead lives only in `localStorage.pulsify_crm_v1`. That is the entire reason this is fragile.
+
+Pick one, in preference order:
+
+1. **Build the missing `functions/api/crm-sync.js` on pulsify-funnels**, matching the contract the client already implements: POST, `x-admin-key` header, body `{since, overrides, added, removed}`, response `{ok:true, state:{overrides,added,removed}, serverTs}`, reading and writing `crm_added` / `crm_overrides` / `crm_removed` in the `pulsify-portal` D1 (uuid `764a46f6-9f61-4f45-85b5-7e9a00e8be01`). Delta by `sts > since`. Needs CORS for the `https://pulsify-dashboard.pages.dev` origin, including the `OPTIONS` preflight, since `x-admin-key` plus a JSON content-type always preflights. Then redeploy funnels, which is overdue anyway.
+2. **Or add a `crm` block to `dashboard-data-v2.json`** and have `mergedPros()` read `status`, `batch` and `notes` off the base prospect instead of only from `state.overrides`. Same-origin fetch, no key, no CORS. Less durable for edits, but it makes the pipeline visible to any browser immediately.
+
+Until one of these lands, the only way to see the leads is pasting `output/ig-pipeline-load.js` into the console, which is what the founder is doing today.
+
 ## Change 1 — added leads must keep their own source
 
 **The bug.** In `mergedPros()` (~line 8368):

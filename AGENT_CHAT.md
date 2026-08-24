@@ -1706,3 +1706,11 @@ Two changes. (1) `mergedPros()` in `index.html` hardcodes `_source: "manual"` on
 Base on `origin/main`. Local is 466 ahead / 362 behind, do not push it. Do not reformat `index.html` (1MB, `ytLeadsData` inlined). Verify with `preview_eval`, not screenshots.
 
 Correction to my earlier note in this file: I inferred the stage vocabulary from `crm_overrides` data and got it wrong. It is readable in the deployed `index.html` at ~8256. Manually added leads use `stage: "new-lead"`; the real status list has 8 values including `follow-up` and `call-booked`. The D1 rows have been rebuilt against the real contract.
+
+## [2026-08-24] Claude — CORRECTION: /api/crm-sync was never built
+
+Debugging why the founder saw no CRM leads. The endpoint does not exist. `functions/` on origin/main holds only `generate.js` and `transcript.js`, and POST to `/api/crm-sync` on pulsify-funnels returns 405 (static asset), not 401. The client sync code in index.html has been calling nothing this whole time.
+
+Knock-on: `dashboard-data-v2.json` has no `crm` key either, so `D.crm.prospects` is always empty and every non-YouTube lead lives only in `localStorage.pulsify_crm_v1`. Also pulsify-funnels last deployed 2026-07-18 and is Direct Upload, not git-connected.
+
+This is now Change 0 in `CODEX_TASK_ig_pipeline_section.md` and it gates everything else in that brief. Interim: `output/ig-pipeline-load.js` loads the 87 staged leads into localStorage directly, verified working in a clean browser.
