@@ -22,6 +22,16 @@ These are worth more than the entire silent list and none of them is a follow-up
 | `lukextrades` | Doc delivered 08-05, he said he would read it, silent 7 days | Touch 3, the small question |
 | `_acetrades_` | Doc delivered 08-02. Touch 3 already run 08-05, he replied he had not opened it. Silent 19 days | Re-send the substance in the thread itself, not the link. The doc is the blocker |
 
+| `nq.nox` | Ender. Doc delivered 2026-07-30 after an access-permission fumble. Touch-4 extra-gift sent 08-05 (with a typo: "create the irst highlight"). Silent 19d | Touch 3, the small question. Note the library says "send pending" - it was sent |
+| `pov.tess` | Real conversation about student interviews. On 07-26 we asked "let me know if i have the green light to send it" and she never answered. Silent 28d | Stop asking. Send it. She is warm |
+| `cris.londonn` | Engaged on YouTube ("due to start posting, havent yet"). We then sent 3 messages in a row, last was "next 24 hrs could set you up to 100k months" on 07-26. Silent 28d | Re-open with one specific thing, no stacking |
+| `janahrga` | Engaged, said a YT channel is a longer-term goal and her strategy is students-only. Silent 35d | Soft no on YouTube. Any asset must fit IG, not YT |
+| `iamm3mphis` | **Ball is ours.** He sent an attachment 33 days ago and we never replied | Reply |
+| `tre.bonavita` | Peer-adjacent. Discussed outreach method and his Mason interview, asked if we watched it. Silent 45d | Answer his question or close it out |
+| `acp1re` | We said "should be in your inbox in a min" on 07-26 and delivery was never confirmed. Silent 28d | Confirm whether it landed. If not, send it |
+
+> All ten `replied` threads are the real front of the pipeline. Several have been waiting on us for a month, which is a worse failure than the 76 who never answered.
+
 ## Priority 2 — delivered, no reply (79)
 
 Ordered oldest first. `FU` marks threads that already received the 2026-08-22 permission-ask follow-up, which returned nothing. They still need touch 2, and it must not be another ask.

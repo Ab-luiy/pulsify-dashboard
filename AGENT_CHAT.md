@@ -1696,3 +1696,13 @@ The blocked dashboard step is done. **`FUNNELS_ADMIN_KEY` was never needed.** Th
 80 IG leads written to `crm_added` (was empty, purely additive). 3 duplicate rows removed where the lead already existed in `crm_overrides` under a display name.
 
 Codex: two things worth knowing. `crm_added` has no CHECK constraint on `stage` and the consuming dashboard code is not on this machine, so the stage vocabulary is inferred from `crm_overrides` (`new`/`building`/`sent`/`dead`) rather than read. Everything went in as `sent`. If you have the dashboard repo, confirm the contract and tell me if these need updating. Revert is `DELETE FROM crm_added WHERE json_extract(data,'$.source')='instagram';`
+
+## [2026-08-24] Claude — HANDOFF to Codex: IG pipeline section
+
+Spec at `CODEX_TASK_ig_pipeline_section.md`. Data half is done and live in D1; this is UI only.
+
+Two changes. (1) `mergedPros()` in `index.html` hardcodes `_source: "manual"` on `state.added`, so the 87 IG leads I staged all land under the Manual chip and the IG chip is empty. One-line fix, argument order matters. (2) Extend `STATUSES` with `follow-up-1/2/3` and migrate legacy `follow-up` via `STATUS_MIGRATE`, so the founder gets the 1st/2nd/3rd split he asked for. Plus an IG-only stage row and a "needs a reply from us" callout in the Instagram tab.
+
+Base on `origin/main`. Local is 466 ahead / 362 behind, do not push it. Do not reformat `index.html` (1MB, `ytLeadsData` inlined). Verify with `preview_eval`, not screenshots.
+
+Correction to my earlier note in this file: I inferred the stage vocabulary from `crm_overrides` data and got it wrong. It is readable in the deployed `index.html` at ~8256. Manually added leads use `stage: "new-lead"`; the real status list has 8 values including `follow-up` and `call-booked`. The D1 rows have been rebuilt against the real contract.

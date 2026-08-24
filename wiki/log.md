@@ -1470,3 +1470,17 @@ Three rows were inserted and then removed as duplicates: `frank_wieler1`, `deeve
 > ⚠️ Unverified: the `stage` value. `crm_added` documents its payload as `{n,h,niche,dms,stage,_ts}` but carries no CHECK constraint, and the canonical dashboard repo is not on this machine, so the consuming code could not be read. Every row was written with `stage: "sent"`, which is the accurate state and is one of the four values observed in `crm_overrides` (`new`, `building`, `sent`, `dead`). No new enum value was invented, so `tb.tradez` shows as `sent` with the booking in its note rather than a `booked` stage. If the CRM needs a different stage vocabulary for manually added leads, these 80 rows need one update.
 
 Revert in full with `DELETE FROM crm_added WHERE json_extract(data,'$.source')='instagram';`
+
+## [2026-08-24] client-update | IG outreach staged as its own pipeline
+
+Founder asked for the IG conversations isolated in the dashboard pipeline and staged by how far through the follow-up sequence each lead is.
+
+Read the deployed dashboard (`origin/main:index.html`, ~1MB, 10,650 lines) rather than the stale local copy, which corrected an inference from earlier today. The CRM stage vocabulary is not the four values visible in the data. It is `STATUSES = ["new","building","sent","follow-up","replied","call-booked","won","dead"]`, and manually added leads carry `stage: "new-lead"`, not `"sent"`. The earlier write used `sent` and has been rebuilt.
+
+Also found already built and needing no work: a source filter with YT / IG / Manual chips, a status board rendered per status, a batch filter, and an Instagram tab with a funnel that reads IG lead counts straight from the CRM.
+
+87 IG threads from 2026-07-09 onward are now staged in D1, in `crm_added` plus matching `crm_overrides`. Status splits `sent` 64, `follow-up` 12, `replied` 10, `call-booked` 1. Batch 1-7 maps to the real send dates. Every row carries a note reading like `IG - opener 2026-07-26 - follow-up 1 sent 2026-08-22 - no reply 1d - touch 2 of 5`. Follow-up depth is computed as outbound messages on a later day than the opener, so same-day reactions and stacked extras are not counted as touches.
+
+**Ten threads are at `replied` and the ball has been ours for weeks.** Six of them were not in this morning's audit at all: `nq.nox` (doc actually delivered 07-30, not pending as the asset library claimed, corrected), `pov.tess` (asked for a green light on 07-26 that never came, she is warm), `cris.londonn` (engaged on YouTube, then three stacked messages and nothing), `janahrga` (soft no on YouTube, students-only strategy, so any asset has to fit IG), `iamm3mphis` (he sent something 33 days ago and got no reply), `tre.bonavita` (asked whether we watched his Mason interview, 45 days). Plus `acp1re`, where delivery was claimed and never confirmed.
+
+Two UI changes remain and they are Codex's lane, specced at `CODEX_TASK_ig_pipeline_section.md`. First, `mergedPros()` hardcodes `_source: "manual"` on added leads, so the IG chip currently shows nothing and all 87 sit under Manual. Second, follow-up depth collapses into one column, so the founder's 1st/2nd/3rd split needs `follow-up-1/2/3` added to `STATUSES` with `follow-up` migrating into `follow-up-1`. The data is already deep enough to restage exactly once that lands: four threads are at three follow-ups, two at two.
