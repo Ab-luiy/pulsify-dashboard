@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: feedback
   originSessionId: 97b13450-29f2-4f8c-b4f6-887acf4b0c19
-  modified: 2026-08-26T16:38:40.488Z
+  modified: 2026-08-26T16:40:33.364Z
 ---
 
 Founder doctrine, 2026-08-26, taught while walking me through the Pulsify Inbound DM Framework (`raw-sources/frameworks/Pulsify-Inbound-DM-Framework.txt`, screenshots in the folder beside it):
@@ -16,7 +16,7 @@ Founder doctrine, 2026-08-26, taught while walking me through the Pulsify Inboun
 
 **How to apply:**
 - Inbound (they messaged first, keyword or otherwise): qualify, ask direct questions, state the investment, disqualify gracefully with a resource.
-- Outbound (we reached out): never mention price. Never qualify on money. The only thing being sold is the appointment.
+- Outbound (we reached out): never mention price. Never qualify on money. The appointment is the eventual objective, but NO individual touch asks for it. Founder, 2026-08-26: "the reply is the goal, call comes after theres warmth." So per-message the ask is a reply, and the call only enters once a real conversation exists. Both things are true and they operate at different levels.
 - Also as of 2026-08-26: mentioning "clients make a high 4 figure investment" is a no-go for Pulsify in any context right now.
 - The INFO keyword in the framework is illustrative, not a required mechanic.
 - What DOES transfer both ways is the conversational mechanic: lowercase, one thought per message, questions rather than statements, mirroring their language, brevity. Confirmed independently by the follow-up data in [[project_ig_followup_sequence]].
