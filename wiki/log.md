@@ -1504,3 +1504,13 @@ Also noted: pulsify-funnels last deployed 2026-07-18 and is Direct Upload rather
 Interim fix, verified live in a clean browser: `output/ig-pipeline-load.js` merges the 87 leads and their staging straight into `localStorage.pulsify_crm_v1`. Tested by injecting two leads into a fresh session, where the CRM total moved 825 to 827 and the status lanes picked up Sent 1 and Replied +1. Non-destructive, generated from D1 so it stays the source of truth.
 
 The durable fix is Codex's, now Change 0 in `CODEX_TASK_ig_pipeline_section.md`: either build the missing `functions/api/crm-sync.js` against the contract the client already implements, with CORS for the dashboard origin, or add a `crm` block to `dashboard-data-v2.json` and read status off the base prospect. Preference is the endpoint, since it also fixes edits made in one browser being invisible in another.
+
+## [2026-08-26] client-update | TB Tradez signed, contract drafted from FITFO
+
+TB Tradez (Tahlon Buttle, British Columbia, Canada) signed on a call. Terms: no upfront payment, 35% revenue share. Client folder created at `clients/tb-tradez/`.
+
+Founder supplied the FITFO service agreement, which existed only in Google Drive and was absent from the vault despite being referenced. Archived as `raw-sources/contracts/fitfo-service-agreement.docx` - the first contract actually stored here. The Nick Furr and Jacob Thomas MSAs cited in the v1 template's source trail are still missing.
+
+The TB Tradez agreement was derived from FITFO rather than from `wiki/playbooks/pulsify-contract-template-v1.md`, which assumes a base fee, a $100k guarantee, and a 90-day paid term that do not apply to a performance-only deal. Changes: Initial Recovery Fee removed, 30% to 35%, sales-team split restated as 10/5/20, recovery-fee survival clause dropped from Section III, and the revenue base scoped from "all revenue collected by the Client" to revenue from offers developed under the agreement - the unqualified version reads as a claim on a trading client's personal P&L.
+
+Deliverables: `clients/tb-tradez/contract-draft.md` (annotated) and `clients/tb-tradez/TB-Tradez-Service-Agreement.docx` (sendable, FITFO formatting preserved). Four open items logged in `clients/tb-tradez/decisions.md`, including the deviation from the offer-page floor of $5k base + 30%.
