@@ -67,6 +67,8 @@ This settles the long-running Pulsifymedia LTD vs Pulsify Media LLC conflict by 
 2. Whether to close the zero-floor exposure. Recommended fix is redrafting the tail from "any opportunity already in active progress, collected within 30 days" to "any lead that entered the pipeline during the engagement, collected within 90 days" - the first condition is the binding one, not the day count. Must be raised by voice before it appears in the document.
 3. Whether Section I scope matches what was promised on the call. Carried over from FITFO unchanged and includes sales-team recruitment and paid ads.
 4. ~~Operator entity.~~ **RESOLVED 2026-08-27:** no entity, founder signs personally.
-5. Founder's legal name as it appears on ID. Currently written as "Abdullah Dagestani", unverified.
+5. ~~Founder's legal name as it appears on ID.~~ **RESOLVED 2026-08-27:** founder instructed that his personal name be removed. The Operator party line reads "Pulsifymedia" alone and the signature Name line is left blank for hand completion. Title remains Founder.
+
+   > ⚠️ Consequence, recorded rather than argued. "Pulsifymedia" is not a registered company and an unregistered trading name is not a legal person, so the agreement now names no identifiable party on the Operator side. This weakens enforcement in both directions - notably Pulsify's ability to pursue the 35% if payments stop, which on a zero-upfront deal is the only compensation in the contract. The founder was told and chose this. Revisit if an entity is ever registered.
 6. Tahlon's address and email. Left blank in the document for him to complete.
 7. The Client details block duplicates the name already captured in the party line and the signature block, and collects an email no clause in the agreement refers to. Proposed fix: reduce to contact details and add a notices clause pointing at it. Not yet approved. Same flaw exists in the FITFO document already sent to Carlos.
