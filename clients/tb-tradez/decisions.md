@@ -43,9 +43,30 @@ Source archived at `raw-sources/contracts/fitfo-service-agreement.docx`. This is
 
 **One substantive change beyond the fee numbers:** the revenue base was scoped from FITFO's unqualified "all revenue collected by the Client" to revenue from the offers developed under the agreement. Reason and trade-off in [[clients/tb-tradez/contract-draft]].
 
+## [2026-08-27] Parties resolved - no registered entity
+
+**Decided by:** founder.
+
+- **Operator: no registered company.** Neither Pulsifymedia LTD nor Pulsify Media LLC exists as a registered entity. The founder signs personally. The party line reads "Abdullah Dagestani, trading as Pulsifymedia"; PULSIFYMEDIA remains the document header as a trading name.
+- **Client: Tahlon Buttle personally.** TB Tradez is a brand, not an incorporated company. He is personally liable.
+- **Founder title:** Founder.
+
+This settles the long-running Pulsifymedia LTD vs Pulsify Media LLC conflict by resolving it as neither. Both names should be corrected wherever they appear as though a company exists:
+
+- `wiki/playbooks/pulsify-contract-template-v1.md` - uses "PULSIFYMEDIA LTD." throughout and describes it as a UK ltd.
+- `wiki/playbooks/pulsify-offer-v1.md` - same.
+- The live CO1 Full Onboarding Doc - says "Pulsify Media LLC".
+
+> ⚠️ Both parties now sign as individuals with unlimited personal liability, and they sit in different countries (Turkey and Canada) under an agreement that names no governing jurisdiction. Nothing here is wrong, but the combination means the contract's practical enforcement is control of the systems and accounts rather than legal recourse. That is an argument for the termination tail carrying real weight.
+
+**Unverified:** the founder's legal name is taken from [[people/abdullah-dagestani]], which describes him as Syrian by nationality and ethnically Dagestani. Whether "Dagestani" is the surname on his identity document is not confirmed. Must match ID before signing.
+
 ## Open
 
-1. How 35% splits when a sales team is engaged. Drafted as 10% closer / 5% setter / 20% Operator. Unconfirmed.
-2. Whether to close the zero-floor exposure, and if so by extending the 30-day tail or adding a recovery fee. Must be raised by voice before it appears in the document.
+1. ~~How 35% splits when a sales team is engaged.~~ **RESOLVED 2026-08-27:** 10% closer, 5% setter, 20% Operator.
+2. Whether to close the zero-floor exposure. Recommended fix is redrafting the tail from "any opportunity already in active progress, collected within 30 days" to "any lead that entered the pipeline during the engagement, collected within 90 days" - the first condition is the binding one, not the day count. Must be raised by voice before it appears in the document.
 3. Whether Section I scope matches what was promised on the call. Carried over from FITFO unchanged and includes sales-team recruitment and paid ads.
-4. Operator entity: the vault says Pulsifymedia LTD, the live CO1 onboarding doc says Pulsify Media LLC, and the FITFO agreement leaves the line blank. Unresolved.
+4. ~~Operator entity.~~ **RESOLVED 2026-08-27:** no entity, founder signs personally.
+5. Founder's legal name as it appears on ID. Currently written as "Abdullah Dagestani", unverified.
+6. Tahlon's address and email. Left blank in the document for him to complete.
+7. The Client details block duplicates the name already captured in the party line and the signature block, and collects an email no clause in the agreement refers to. Proposed fix: reduce to contact details and add a notices clause pointing at it. Not yet approved. Same flaw exists in the FITFO document already sent to Carlos.
