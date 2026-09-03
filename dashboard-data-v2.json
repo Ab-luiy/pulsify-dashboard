@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-03T04:34:02.853280+00:00",
+  "lastUpdated": "2026-09-03T09:20:36.619Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-09-03T04:34:02.853280+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-09-02T09:13:11.615Z",
+    "updatedAt": "2026-09-03T09:20:36.554Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -42,9 +42,9 @@
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
       "followers": 492,
-      "following": 561,
+      "following": 563,
       "mediaCount": 8,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=R96VlUhoMCQQ7kNvwEaOgp7&_nc_oc=AdrH2X08P9NyRUf8vcwxKKlBs2gaXjSJF8U1cioltUBb9bYoRwcrLCQbO6iXy7bMPmc&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=_IjBxf7MKUk2Q4L95vYK8Q&_nc_tpa=Q5bMBQKg_jKBvphyimju4iAYPgGmNyNgZLzeY83oKOskyPMvH9RHJJkcLSQdztp9XIbFKMV5rpqfFcRJ&oh=00_AQJHHrONwF4PT-bMFPwoFFbfGFNo-2tP283_x68cLVCvtQ&oe=6A9DA70E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=c3eTaPdPY-gQ7kNvwHeMn-V&_nc_oc=Adrrvd1dEt46XEcQi1N_MvQQ4GpsyIwQq2Rwmq1Mfr5XcqcBvAd_IG80f8nBcK73Ah8&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=vAysP-TpvErp1AUqLmfuBw&_nc_tpa=Q5bMBQIa2WZQ-5A_RN4lk_mGGTxMIwycA45PBOmEnpBN4xFTGeRsr32q6oQgfpnEIFqtl8HCI-UafcV0&oh=00_AQJc6ficg1Qy9mk6JKVigk_10T4A6KO0FOfq8gRM7FoHqQ&oe=6A9EF88E"
     },
     "content": {
       "reelsCount": 14,
@@ -159,14 +159,13 @@
       ]
     },
     "account": {
-      "reach30d": 227,
+      "reach30d": 218,
       "views30d": 0,
-      "newFollowers30d": 30,
+      "newFollowers30d": 28,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        9,
         4,
         1,
         4,
@@ -195,10 +194,10 @@
         4,
         4,
         5,
-        1
+        1,
+        0
       ],
       "followerSeries": [
-        3,
         0,
         0,
         2,
@@ -223,6 +222,7 @@
         0,
         0,
         0,
+        1,
         1,
         1,
         1,
