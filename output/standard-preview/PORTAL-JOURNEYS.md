@@ -32,3 +32,6 @@ Existing backend regression suite and a new real-SQLite record suite cover tenan
 ## Files
 
 `admin.html`, `admin/console.js`, `portal/index.html`, `portal/login/index.html`, `portal/login/auth.css`, `portal/studio-app.js`, `portal/journeys.js`, `portal/journeys.css`, `portal/media-workspace.js`, `portal/references/*`, `functions/portal/[[path]].js`, `functions/_shared/client-auth.js`, `functions/api/client-set-password.js`, `functions/api/workspace-records.js`, `migrations/0021_workspace_records.sql`, `tests/workspace-records.test.mjs`, `tests/journeys-browser.cjs`, and this report. Shared coordination is in `AGENT_CHAT.md` and `wiki/log.md`.
+
+## Published version
+Published September 7 to https://pulsify-funnels.pages.dev, deployment https://567313b5.pulsify-funnels.pages.dev. The D1 file-import endpoint rejected authentication; the same additive schema was applied successfully through the standard D1 query endpoint. All 14 backend test files passed. Local browser checks additionally verified the operator launch screen and add-client wizard. The changed-file list also includes tests/portal-readiness.test.mjs, READINESS.md and STUDIO-RENOVATION.md.

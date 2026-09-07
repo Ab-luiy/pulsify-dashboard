@@ -46,3 +46,6 @@ Create the client in the operator console, generate a password setup link for th
 ## Useful next additions
 
 A personal welcome video, a client-specific first-week checklist with a visible first milestone, and a weekly before/after progress recap would make the workspace feel prepared for that client. The AI context download is already available; populate it with their actual offer, audience, voice and proof before their first working session.
+
+## Portal renovation, September 7 (later release)
+The guided channel workspaces, new login and invitation registration, operator destination screen, media batch queue, story photo/drawing tools, saved YouTube packages, copywriter and manual lead register are now described in PORTAL-JOURNEYS.md. That report supersedes the earlier navigation and Studio scope notes above. Existing provider limitations still apply.

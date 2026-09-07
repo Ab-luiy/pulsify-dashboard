@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/**, wiki/log.md | CODEX | ACTIVE | Portal guided channels, galleries, uploads, login and operator launchpad. |
+| output/standard-preview/**, wiki/log.md | CODEX | DONE | Guided portal renovation deployed and tested. See PORTAL-JOURNEYS.md. |
 | output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
 | output/standard-preview/**, claude-memory/project_funnel_portal_pipeline.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Portal readiness fixes deployed and verified; founder test login set. Lock cleared. |
 | `tools/instagram-dm-audit/**`, `raw-sources/instagram-dm-audit/**`, `clients/_pipeline/ig-inbox-audit-2026-08-24.md`, `clients/_pipeline/ig-inbox-audit-2026-08-26.md`, `wiki/index.md`, `wiki/log.md`, `wiki/playbooks/ig-followup-sequence.md`, `outreach/followup-tracker.md`, `outreach/outreach-log.md`, `claude-memory/project_ig_dm_bridge.md`, `claude-memory/project_composio_ig_bridge.md`, `claude-memory/MEMORY.md`, `CODEX_TASK_ig_pipeline_section.md`, `AGENT_CHAT.md` | CODEX | DONE | Laptop recovery completed, verified, documented, and ready for auto-backup. Lock cleared. |
@@ -1742,3 +1742,7 @@ DONE: Studio renovation deployed at https://fbf091f2.pulsify-funnels.pages.dev, 
 
 ### [2026-09-07 17:25] CODEX
 STARTED: founder authorizes portal renovation: guided Instagram/YouTube creation, media upload, access, tracker, registration and founder destination screen. Preserving existing tenant auth and integrations; external account activation remains dependent on real provider setup.
+
+### [2026-09-07 18:40] CODEX
+COMPLETED: founder-directed guided portal renovation deployed to https://567313b5.pulsify-funnels.pages.dev (production pulsify-funnels). Changed admin.html/admin console, portal login/register routing, first-password onboarding redirect, channel journeys JS/CSS, media batch uploader and story photo/font/drawing/export controls, protected reference images, tenant-scoped workspace-records API and additive migration 0021, browser/SQLite tests, READINESS/STUDIO reports and PORTAL-JOURNEYS.md. Canonical user-facing limits are documented: manual DM register, user-owned AI, no provider inbox/analytics importer, no DocuSign provisioning, no cross-domain SSO. All 14 backend test files passed; local browser suite passed with mocked writes and 390px layout; live public routes 200 and protected API/images 401 without login. D1 import endpoint rejected auth; standard query endpoint applied identical additive schema successfully. Full file inventory in PORTAL-JOURNEYS.md. Locks cleared; final backup follows.
+

@@ -47,3 +47,6 @@ All 13 backend test files passed, including real SQLite tests for draft-only sav
 Responsive CSS includes 980px and 640px layouts, horizontal slide navigation and a stacked editor. The browser viewport override did not actually change its measured 2109px width during this session, so a fresh 390px visual pass remains unverified. Do not describe that check as passed. Preview-host DNS also failed in Chrome; browser verification used the canonical production hostname after deployment.
 
 The separate operator dashboard and the inner layouts of other portal panels remain roadmap work. This release does not add finished image rendering, scheduling, social auto-imports or configured hosted AI/email providers.
+
+## Guided channels follow-on
+The later founder-directed portal renovation extends this release with Instagram/YouTube entry paths, references, image backgrounds, drawing, composition exports and saved writing/video/lead work. See PORTAL-JOURNEYS.md for the final capability and verification boundaries.
