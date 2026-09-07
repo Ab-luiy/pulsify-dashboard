@@ -1,0 +1,20 @@
+{
+  "name": "pulsify-instagram-dm-audit",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Read-only Instagram DM inbox audit via Composio.",
+  "scripts": {
+    "audit": "tsx dm-audit.ts",
+    "probe": "tsx probe.ts"
+  },
+  "dependencies": {
+    "@composio/core": "^0.10.0",
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.3",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,9 +1,9 @@
 ---
 type: playbook
 tags: [outreach, dms, copy, follow-up, instagram]
-sources: [[clients/_pipeline/ig-inbox-audit-2026-08-24]], [[content-engine/cold-dm-formula]], [[playbooks/pulse-system-outreach]], [[playbooks/prospect-asset-library]]
+sources: [[clients/_pipeline/ig-inbox-audit-2026-08-24]], [[clients/_pipeline/ig-inbox-audit-2026-08-26]], [[content-engine/cold-dm-formula]], [[playbooks/pulse-system-outreach]], [[playbooks/prospect-asset-library]]
 created: 2026-08-24
-updated: 2026-08-24
+updated: 2026-09-07
 ---
 
 # IG follow-up sequence
@@ -167,7 +167,7 @@ Everything in [[content-engine/cold-dm-formula]] binds. The same person has to h
 
 Every touch is a row in `outreach/outreach-log.md` as `follow-up-sent`. State and next-touch date live in `outreach/followup-tracker.md`, which is the queue. This page is the method.
 
-Re-pull the inbox any time with `npx tsx dm-audit.ts` in `.claude/worktrees/admiring-hermann-913cc3/ig-report/`. It is read-only and reclassifies every thread, so the tracker never has to be maintained by hand.
+Re-pull the inbox any time with `npm run audit -- 250` from `tools/instagram-dm-audit/`. It is read-only and reclassifies every thread, so the tracker never has to be maintained by hand.
 
 ## Connections
 
@@ -186,7 +186,8 @@ Re-pull the inbox any time with `npx tsx dm-audit.ts` in `.claude/worktrees/admi
 
 ## Source trail
 
-- Live inbox pull 2026-08-24, `dm-audit.json`, 175 threads
+- `raw-sources/instagram-dm-audit/dm-audit-2026-08-24-full.json` — 175 conversations enumerated, 160 thread records retained
 - [[clients/_pipeline/ig-inbox-audit-2026-08-24]] — the audit
+- [[clients/_pipeline/ig-inbox-audit-2026-08-26]] — the recent-60 delta check recovered from the laptop vault
 - [[content-engine/cold-dm-formula]] — the 2026-07-06 link-in-first-message decision and the follow-up options drafted 2026-08-04
 - Founder instruction 2026-08-24: log every delivered DM, build a follow-up sequence, IG is the current focus

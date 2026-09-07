@@ -1,5 +1,5 @@
 ---
-updated: 2026-07-01
+updated: 2026-09-07
 aliases:
 ---
 
@@ -73,6 +73,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[playbooks/prospect-asset-doc-standard]] | LOCKED layout for the doc we send a prospect after they reply: Georgia on a 72ch measure, tokens, the 8-part structure, no CTA, and the render-and-look verification loop. Fill-in, not redesign. Build script at `output/fitfo-doc-build-short.js` | 2026-07-21 |
 | [[playbooks/prospect-asset-visual-standard]] | The asset is a designed page, not a document: built for a scroller, mobile-first. Carries the LOCKED close standard (number as type, receipt, metrics grid, lit photo row over a photo room) and the four send-link checks | 2026-08-17 |
 | [[playbooks/ig-followup-sequence]] | The IG follow-up cadence and copy. Built off a live inbox pull that found 37 threads on delivered. Core rule: a follow-up that asks permission gets ignored, one that hands something over or asks for one word gets answered. Tiered so touch 2 scales and the full doc is earned | 2026-08-24 |
+| [[clients/_pipeline/ig-inbox-audit-2026-08-26]] | Recent-60 Instagram inbox delta recovered from the laptop vault; preserves the August 26 state changes without treating a partial scan as a full-inbox replacement | 2026-08-26 |
 | [[playbooks/claude-codex-collaboration]] | Operating protocol for keeping Claude and Codex aligned inside the vault | 2026-05-09 |
 | [[playbooks/pulsify-offer-v1]] | The first commercial offer — $5–12k high-ticket, 90 days + 60-hour cap, success-metric contract, week-by-week deliverables | 2026-05-10 |
 | [[playbooks/exam-mode-autonomous-ops]] | Three-lane autonomy protocol (green / queue / red) for when the founder is offline during exams | 2026-05-10 |
@@ -255,6 +256,7 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 | `raw-sources/sops/Client Onboarding SOP.pdf` | SOP | No wiki page created — source contains only a Google Forms link, no extractable content |
 | `raw-sources/scripts/AI-Outreach-Framework-Grant-Garcia.md` | Outreach framework | [[playbooks/ai-outreach-grant-method]], [[playbooks/pulse-system-outreach]] |
 | `raw-sources/scripts/AI-Launch-Prompt-Pack-Grant-Garcia.md` | Prompt pack | [[frameworks/ai-launch-prompt-pack]], [[playbooks/pulse-system-outreach]] |
+| `raw-sources/instagram-dm-audit/` | Private IG inbox snapshots, 2026-08-24 and 2026-08-26 | [[clients/_pipeline/ig-inbox-audit-2026-08-24]], [[clients/_pipeline/ig-inbox-audit-2026-08-26]], [[playbooks/ig-followup-sequence]] |
 | `raw-sources/scripts/Ben-Bader-Emails.md` | Email swipe file | Copywriting skill (ben-bader-style.md reference) |
 | `raw-sources/frameworks/VSL-Framework-Luke-Alexander.md` | VSL framework | Copywriting skill (vsl-framework.md reference) |
 | `raw-sources/vsls/imperium-agency-vsl-transcript.md` | VSL transcript | [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]] |

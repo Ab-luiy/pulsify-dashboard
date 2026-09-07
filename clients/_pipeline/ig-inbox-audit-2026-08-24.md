@@ -1,6 +1,6 @@
 # IG inbox audit — 2026-08-24
 
-Source: `ab.luiy` IG DM inbox, pulled live 2026-08-24 via the Composio Instagram toolkit (`INSTAGRAM_LIST_ALL_CONVERSATIONS` + `INSTAGRAM_LIST_ALL_MESSAGES`). Read-only, nothing sent, nothing marked seen. Raw data at `.claude/worktrees/admiring-hermann-913cc3/ig-report/dm-audit.json`, puller at `dm-audit.ts` in the same folder.
+Source: `ab.luiy` IG DM inbox, pulled live 2026-08-24 via the Composio Instagram toolkit (`INSTAGRAM_LIST_ALL_CONVERSATIONS` + `INSTAGRAM_LIST_ALL_MESSAGES`). Read-only, nothing sent, nothing marked seen. Raw data at `raw-sources/instagram-dm-audit/dm-audit-2026-08-24-full.json`; the canonical puller is `tools/instagram-dm-audit/dm-audit.ts`.
 
 This supersedes the manual browser method used for [[clients/_pipeline/ig-inbox-audit-2026-07-28]]. The inbox is now pullable on demand without a browser session.
 
@@ -152,7 +152,7 @@ Sending is possible through this bridge but nothing has been sent and nothing wi
 
 ## Source trail
 
-- Live pull 2026-08-24, `dm-audit.json`, 175 threads enumerated
+- `raw-sources/instagram-dm-audit/dm-audit-2026-08-24-full.json` — 175 conversations enumerated, 160 thread records retained
 - [[clients/_pipeline/ig-inbox-audit-2026-07-28]] — the previous audit this one updates
 - [[content-engine/cold-dm-formula]] — the standard the current opener diverges from
 - [[playbooks/ig-followup-sequence]] — the sequence built off this audit

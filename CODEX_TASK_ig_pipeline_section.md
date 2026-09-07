@@ -25,7 +25,7 @@ Database `pulsify-portal`, uuid `764a46f6-9f61-4f45-85b5-7e9a00e8be01`.
   - `batch` 1-7 maps to the real send batches: 1 = 2026-07-09/10, 2 = 07-18/20, 3 = 07-26/27, 4 = 08-02, 5 = 08-11, 6 = 08-22, 7 = 08-23.
   - `notes` reads e.g. `IG - opener 2026-07-26 - follow-up 1 sent 2026-08-22 - no reply 1d - touch 2 of 5`.
 
-Source of truth for the staging logic: `.claude/worktrees/admiring-hermann-913cc3/ig-report/dm-audit.ts` (read-only inbox puller) and `dm-audit.json`. Regenerating the SQL is scripted; ask Claude for `build-stages.js` if you need to re-derive.
+Source of truth for the staging logic: `tools/instagram-dm-audit/dm-audit.ts` (read-only inbox puller) and the dated snapshots in `raw-sources/instagram-dm-audit/`. Regenerating the SQL is scripted; ask Claude for `build-stages.js` if you need to re-derive.
 
 ## Change 0 — the CRM sync endpoint does not exist (root cause)
 
@@ -104,7 +104,7 @@ WHERE json_extract(data, '$.status') = 'follow-up'
   AND name IN (SELECT name FROM crm_added);
 ```
 
-Deeper follow-up counts already exist in the data (4 threads are at 3 follow-ups, 2 at 2), so once the UI is live Claude will restage all 87 to exact depth from `dm-audit.json`.
+Deeper follow-up counts already exist in the August 24 data (4 threads are at 3 follow-ups, 2 at 2), so once the UI is live Claude will restage all 87 to exact depth from `raw-sources/instagram-dm-audit/dm-audit-2026-08-24-full.json`.
 
 ## Change 3 — an IG outreach section, not just a filter
 

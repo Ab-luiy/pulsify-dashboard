@@ -1,0 +1,2230 @@
+{
+  "self": {
+    "id": "17841469568516308",
+    "username": "ab.luiy"
+  },
+  "pulled_at": "2026-08-24T13:30:06.060Z",
+  "threads": [
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0Mjc2MDI1OTc3ODQxNjExMTg2",
+      "handle": "daybrade",
+      "state": "inbound-only",
+      "days_since_last": 0,
+      "message_count": 31,
+      "last_message_at": "2026-08-24T12:57:33+0000",
+      "last_message_from": "daybrade",
+      "last_outbound_at": "",
+      "last_outbound_text": "",
+      "last_inbound_at": "2026-08-24T12:57:33+0000",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-24T12:57:33+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:36:28+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:35:50+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:33:40+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:33:01+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:31:06+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:28:13+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:27:25+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:27:06+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:25:07+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-23T01:22:11+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-17T00:05:13+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-17T00:02:55+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:52:05+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "check for dupes",
+          "at": "2026-08-16T23:49:40+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:49:39+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:44:27+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:41:07+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:34:09+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:32:50+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:28:41+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T23:18:25+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:48:56+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:48:40+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:48:18+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:47:46+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:46:32+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:45:43+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:44:35+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:40:59+0000"
+        },
+        {
+          "from_id": "784176910802156",
+          "from_username": "daybrade",
+          "text": "",
+          "at": "2026-08-16T22:38:21+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYyNjA2ODU4NTY3NDUwNTM1",
+      "handle": "tb.tradez",
+      "state": "we-spoke-last",
+      "days_since_last": 0,
+      "message_count": 30,
+      "last_message_at": "2026-08-24T12:38:20+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-24T12:38:20+0000",
+      "last_outbound_text": "ill give you a ring here",
+      "last_inbound_at": "2026-08-24T03:47:45+0000",
+      "last_inbound_text": "Yeah I’m down",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "ill give you a ring here",
+          "at": "2026-08-24T12:38:20+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "alright perfect",
+          "at": "2026-08-24T12:35:47+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Yeah I’m down",
+          "at": "2026-08-24T03:47:45+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Alright 10 am ur time we run it?",
+          "at": "2026-08-24T03:14:19+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "But I’m pretty free during the morning",
+          "at": "2026-08-24T03:13:22+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Well afternoon yes",
+          "at": "2026-08-24T03:13:17+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Nah not busy",
+          "at": "2026-08-24T03:13:10+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "you available tomorrow mornings or afternoons btw?",
+          "at": "2026-08-24T03:13:03+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "It has been brotha",
+          "at": "2026-08-24T03:12:44+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Hope its a blast in BC 🤞",
+          "at": "2026-08-24T03:12:08+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Now it’s morning",
+          "at": "2026-08-23T16:33:08+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Got to my hotel at 2am last night",
+          "at": "2026-08-23T16:33:03+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Nah I’m still travelling",
+          "at": "2026-08-23T16:32:56+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "You back home from traveling?",
+          "at": "2026-08-23T13:13:22+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "We’ll talk more",
+          "at": "2026-08-23T02:55:33+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Yeah bro fs get some sleep",
+          "at": "2026-08-23T02:55:15+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-08-23T02:51:22+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "",
+          "at": "2026-08-23T01:49:26+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "if we can get an approximation on that I’d love that",
+          "at": "2026-08-23T01:46:28+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Yea thats cool",
+          "at": "2026-08-23T01:45:09+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "I’m traveling rn but I could make some time",
+          "at": "2026-08-23T01:26:45+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "That work with you?",
+          "at": "2026-08-23T01:26:34+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Maybe we can just hop on an insta call in like a few hours?",
+          "at": "2026-08-23T01:26:31+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Tbh I like ever hop on calls with people but ur approach was hella good",
+          "at": "2026-08-23T01:26:19+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-08-23T01:18:10+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Why not?",
+          "at": "2026-08-23T01:16:36+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Youtube is a whole different game as well as much as Instagram but you aint gotta worry much about that part",
+          "at": "2026-08-23T01:15:41+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Thank you brother",
+          "at": "2026-08-23T01:15:16+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "And I definitely want to focus more on long form to nurture yk",
+          "at": "2026-08-23T01:11:15+0000"
+        },
+        {
+          "from_id": "27670602595915730",
+          "from_username": "tb.tradez",
+          "text": "Like I have basic knowledge but I don’t understand it like I understand Instagram",
+          "at": "2026-08-23T01:10:55+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5OTc4NzQ4NDkxMDI5Mzg0",
+      "handle": "passmesomedupe",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-23T01:39:02+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-23T01:39:02+0000",
+      "last_outbound_text": "when shes black",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "when shes black",
+          "at": "2026-08-23T01:39:02+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjIyNTA2NDk0Nzc2NzQ3",
+      "handle": "jaywaytrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-23T01:14:33+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-23T01:14:33+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-23T01:14:33+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5Nzg4NDMxOTYwNzI0OTU2",
+      "handle": "kjptradez",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-23T01:13:58+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-23T01:13:58+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-23T01:13:58+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwOTMzMTYzNjg4MzQwNjQ4",
+      "handle": "alyssapilavis",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-23T01:13:14+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-23T01:13:14+0000",
+      "last_outbound_text": "your profile hijacked my day haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-23T01:13:14+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjUxMjEzMzUxOTkxODgw",
+      "handle": "_ronintrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-23T01:12:36+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-23T01:12:36+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-23T01:12:36+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwOTgyNzExNjg2Njg5MDEw",
+      "handle": "_byron_wilson",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:30:52+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:30:52+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:30:52+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "👏",
+          "at": "2026-08-22T14:30:37+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NjU0NDk3NTQ0MzMxMjkx",
+      "handle": "ronz",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:29:53+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:29:53+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:29:53+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYzNzA2NDU5MDEwODM0NjA5",
+      "handle": "oztradess",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:29:24+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:29:24+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:29:24+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NTQ1MTk2NjY5MDEyMjI3",
+      "handle": "alexohtrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:29:10+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:29:10+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:29:10+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "👏",
+          "at": "2026-08-22T14:29:01+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYyMDI2Mjk1NjUyMDk4MDc5",
+      "handle": "walterdeviation",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:28:39+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:28:39+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:28:39+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "👏",
+          "at": "2026-08-22T14:28:27+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NzMxNTMyMjM1OTMyMjgw",
+      "handle": "rossmetzler",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:28:04+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:28:04+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:28:04+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjU5MTY0ODAxMDU2MjMy",
+      "handle": "zentradesnq",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:27:49+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:27:49+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:27:49+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NjY4NzkyMjQ2NTI4NzY2",
+      "handle": "real_bentradezz",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:27:33+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:27:33+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:27:33+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwNzg4MjY1NjEyODgxOTYz",
+      "handle": "nq_bandyman",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:27:09+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:27:09+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:27:09+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYyNDU3MTcxMjAyNDU4MzE4",
+      "handle": "oliver.trades.nq",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:26:30+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:26:30+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:26:30+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MTkxNTI1Njc0OTc3NDYy",
+      "handle": "sebfutures",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:26:02+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:26:02+0000",
+      "last_outbound_text": "do i just fk it and drop it here anyway?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it here anyway?",
+          "at": "2026-08-22T14:26:02+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-07-26T19:19:56+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjE3MDczNDQ1NzM4NzUy",
+      "handle": "phystrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:25:39+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:25:39+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:25:39+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwMDIwMDU1MTgwMjI4MTA5",
+      "handle": "nq.will",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:25:03+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:25:03+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:25:03+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjUzOTgwMDExNTU3MTY1",
+      "handle": "cashfelz",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:24:42+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:24:42+0000",
+      "last_outbound_text": "do i just fk it and drop it right here anyway?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it right here anyway?",
+          "at": "2026-08-22T14:24:42+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-07-26T19:21:46+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0Mjc2MDk1MzMwMjA5NDA1OTI3",
+      "handle": "mattowentrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:24:09+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:24:09+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:24:09+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5ODk2NzkwNzcwMzc1NjU1",
+      "handle": "velotradesnq",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:23:39+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:23:39+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:23:39+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYyNzUzMzcxODM5NTA3NjA5",
+      "handle": "teaguehib",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:23:14+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:23:14+0000",
+      "last_outbound_text": "do i just fk it and drop it right here anyway?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it right here anyway?",
+          "at": "2026-08-22T14:23:14+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "ngl ur videos hijacked my day, being consistent posting content is hella inspirational. Theres a couple of things I can send you over to help you package these videos better and automate your ideation process. lmk if you’d like it. wont send it without ur permission",
+          "at": "2026-07-26T15:18:11+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NzUzMzM2MjQ3NDIxMTk2",
+      "handle": "seanrechtman",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:22:53+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:22:53+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:22:53+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0Mjc2MDc3MzExODA0NDA1OTI3",
+      "handle": "aidaninvesting",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:22:24+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:22:24+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:22:24+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Aint no candle like a diddy candle 🙏",
+          "at": "2025-12-02T12:25:24+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NTkzMjEyMzAzOTY0MjQy",
+      "handle": "not.jakeryan",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:21:11+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:21:11+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:21:11+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwMTYyODMwMDc1NjkwMTA5",
+      "handle": "shahemtp",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:20:39+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:20:39+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:20:39+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwMTQwMTMxMDkxMjYxNjMw",
+      "handle": "moneymaxtrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 3,
+      "last_message_at": "2026-08-22T14:20:16+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:20:16+0000",
+      "last_outbound_text": "there’s also a quick design you can use for your landing page i’d love to slide but need your green light on that too",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "there’s also a quick design you can use for your landing page i’d love to slide but need your green light on that too",
+          "at": "2026-08-22T14:20:16+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it here anyway?",
+          "at": "2026-08-22T14:19:23+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-07-26T19:22:12+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5OTA2NDczNzg4MzkzOTg1",
+      "handle": "npcniko",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:19:06+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:19:06+0000",
+      "last_outbound_text": "do i just fk it and drop it right here anyway?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it right here anyway?",
+          "at": "2026-08-22T14:19:06+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not in your space, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-07-26T19:31:15+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwNDU3NDg3MTgyOTIxMzE0",
+      "handle": "runitwithjersey",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:18:32+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:18:32+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:18:32+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjMzOTQzNzM3NTI2MzY2",
+      "handle": "realriderjet",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:18:14+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:18:14+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:18:14+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwMzg0MjA3OTQwMDc1MTQx",
+      "handle": "ahmedyfx",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:17:43+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:17:43+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:17:43+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "yoooo bismillah mashallah",
+          "at": "2026-08-11T00:33:49+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYxMDU1MzUwNTI5NDA4ODE2",
+      "handle": "artan.fx",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:17:20+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:17:20+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:17:20+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwOTQ4MjI0MTM2ODM1MDI0",
+      "handle": "matrixmisk",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:16:55+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:16:55+0000",
+      "last_outbound_text": "*do i just fk it and drop it anyway here?*",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "*do i just fk it and drop it anyway here?*",
+          "at": "2026-08-22T14:16:55+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-11T00:32:49+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0Mjc2MDYwMzc3OTI5NTYwMjUz",
+      "handle": "hantradesnq",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:16:12+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:16:12+0000",
+      "last_outbound_text": "do i just fk it and drop it anyway right here?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it anyway right here?",
+          "at": "2026-08-22T14:16:12+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-11T00:31:31+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjQwMDk1NDczMTkxNjI3",
+      "handle": "alexsesartic",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 1,
+      "last_message_at": "2026-08-22T14:15:25+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:15:25+0000",
+      "last_outbound_text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-22T14:15:25+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwNzE3NDU5NTA2NjM5NTAx",
+      "handle": "aymantrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 3,
+      "last_message_at": "2026-08-22T14:15:00+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:15:00+0000",
+      "last_outbound_text": "do i just fk it and drop it here anyway?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it here anyway?",
+          "at": "2026-08-22T14:15:00+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "manifesting you opening this dm",
+          "at": "2026-08-11T00:22:45+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-11T00:22:02+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjA5NjE3Nzc2NDE3NTcx",
+      "handle": "iveytrades",
+      "state": "delivered-no-reply",
+      "days_since_last": 1,
+      "message_count": 2,
+      "last_message_at": "2026-08-22T14:14:33+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T14:14:33+0000",
+      "last_outbound_text": "do i just fk it and drop it here for ya?",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do i just fk it and drop it here for ya?",
+          "at": "2026-08-22T14:14:33+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-11T00:21:45+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NzMyOTg2NzU2MDEzOTk5",
+      "handle": "niicksfx",
+      "state": "we-spoke-last",
+      "days_since_last": 2,
+      "message_count": 31,
+      "last_message_at": "2026-08-22T13:13:36+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-22T13:13:36+0000",
+      "last_outbound_text": "bet",
+      "last_inbound_at": "2026-08-21T23:36:20+0000",
+      "last_inbound_text": "I think I have it I’ll shoot you a call later today",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "bet",
+          "at": "2026-08-22T13:13:36+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "I think I have it I’ll shoot you a call later today",
+          "at": "2026-08-21T23:36:20+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "gimme a ring and lets have a chat about that and we’ll see what we can do",
+          "at": "2026-08-20T15:22:38+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "do u still have my ft/contact saved?",
+          "at": "2026-08-20T15:21:49+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "I lowkey need some guidance with video ideas and all that. I think imma have my own offer but I got a lot of\nPeople funneling in from live streaming \n\nI was running an offer with Luca and I’m not sure if he is gonna do it together anymore and I just wanna know if you would work again",
+          "at": "2026-08-20T06:24:59+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "what you got in mind?",
+          "at": "2026-08-20T00:58:53+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "I’m glad I was of help brother",
+          "at": "2026-08-20T00:57:58+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "glad to hear you’re fine",
+          "at": "2026-08-20T00:57:42+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "Ive been good bro, I haven’t had an offer and thought of you\n\nEspecially how you went about scripting and helping with content \n\nBut idk if your to busy with two clients to potentially work again here in the near future",
+          "at": "2026-08-20T00:12:21+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "how u been",
+          "at": "2026-08-19T23:57:31+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "u been good?",
+          "at": "2026-08-19T23:57:16+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "I’ve got 2 im working with rn",
+          "at": "2026-08-19T23:57:05+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "Fire you working with anyone rn",
+          "at": "2026-08-19T23:36:07+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Yea",
+          "at": "2026-08-19T22:59:54+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "You still an operator",
+          "at": "2026-08-19T21:26:29+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "whats good",
+          "at": "2026-08-19T11:02:29+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "Yo",
+          "at": "2026-08-19T02:37:24+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "ofc bro, i know how much it meant for you.. get it!!",
+          "at": "2026-04-10T10:02:48+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "Thanks brother genuinely means more than you know 🙌",
+          "at": "2026-04-10T01:41:39+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "happy to see that",
+          "at": "2026-04-09T19:30:51+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "coming to fruition at last",
+          "at": "2026-04-09T19:30:47+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "banger",
+          "at": "2026-04-09T19:30:37+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "Yessir finally, and I’m getting a fire YouTube video with him rn",
+          "at": "2026-04-09T16:45:22+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "it happened!",
+          "at": "2026-04-09T07:19:13+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "LOL",
+          "at": "2025-12-27T17:39:39+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "but that was a huge typo",
+          "at": "2025-12-27T17:39:38+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "i cant say i didnt",
+          "at": "2025-12-27T17:39:23+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "Did bro sleep with all the shawties at his place",
+          "at": "2025-12-27T17:19:34+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "I was gonna say wtf",
+          "at": "2025-12-27T17:19:23+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "i meant i got fam over mb",
+          "at": "2025-12-27T10:31:21+0000"
+        },
+        {
+          "from_id": "853213560218053",
+          "from_username": "niicksfx",
+          "text": "With the fam",
+          "at": "2025-12-26T21:29:25+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MjA1Nzc1MDI2OTE3ODM2",
+      "handle": "connie.um.partnership",
+      "state": "inbound-only",
+      "days_since_last": 3,
+      "message_count": 1,
+      "last_message_at": "2026-08-21T12:54:34+0000",
+      "last_message_from": "connie.um.partnership",
+      "last_outbound_at": "",
+      "last_outbound_text": "",
+      "last_inbound_at": "2026-08-21T12:54:34+0000",
+      "last_inbound_text": "Hi! May I ask if you are a trader?",
+      "messages": [
+        {
+          "from_id": "1618763996632205",
+          "from_username": "connie.um.partnership",
+          "text": "Hi! May I ask if you are a trader?",
+          "at": "2026-08-21T12:54:34+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwNDM5MDY3MTQ0ODQ5ODYy",
+      "handle": "jeremy",
+      "state": "awaiting-us",
+      "days_since_last": 3,
+      "message_count": 5,
+      "last_message_at": "2026-08-20T17:20:48+0000",
+      "last_message_from": "jeremy",
+      "last_outbound_at": "2026-08-20T15:20:42+0000",
+      "last_outbound_text": "Send me the link",
+      "last_inbound_at": "2026-08-20T17:20:48+0000",
+      "last_inbound_text": "You get a chance to get signed up?",
+      "messages": [
+        {
+          "from_id": "2152085815717702",
+          "from_username": "jeremy",
+          "text": "You get a chance to get signed up?",
+          "at": "2026-08-20T17:20:48+0000"
+        },
+        {
+          "from_id": "2152085815717702",
+          "from_username": "jeremy",
+          "text": "Let me know your thoughts after you check it out",
+          "at": "2026-08-20T15:20:46+0000"
+        },
+        {
+          "from_id": "2152085815717702",
+          "from_username": "jeremy",
+          "text": "",
+          "at": "2026-08-20T15:20:45+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Send me the link",
+          "at": "2026-08-20T15:20:42+0000"
+        },
+        {
+          "from_id": "2152085815717702",
+          "from_username": "jeremy",
+          "text": "",
+          "at": "2026-08-20T08:21:39+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NjU2NjYwNzgzNjYwMzU5",
+      "handle": "abdvl163",
+      "state": "awaiting-us",
+      "days_since_last": 3,
+      "message_count": 31,
+      "last_message_at": "2026-08-20T17:08:46+0000",
+      "last_message_from": "abdvl163",
+      "last_outbound_at": "2026-08-20T15:52:11+0000",
+      "last_outbound_text": "",
+      "last_inbound_at": "2026-08-20T17:08:46+0000",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-08-20T17:08:46+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-08-20T15:52:11+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-08-16T08:00:24+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-08-13T10:17:26+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "recheck his dms are disabled",
+          "at": "2026-07-26T19:30:09+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-07-26T19:30:09+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-07-22T15:50:53+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-07-20T12:27:44+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-07-17T02:21:35+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-07-15T12:26:41+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-07-11T15:10:21+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-07-10T10:23:59+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-07-10T10:23:37+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-07-08T10:17:15+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "been going through your vids this week. rn your description just dumps everyone on a raw skool link so i put together a proper landing page for you. the part where you'll run a product at like 1.2 break even cause the MRR carries it, that's the thing nobody else in ecom is actually saying. leads with your student and the recurring angle, one way in. it's yours, take a look [link]",
+          "at": "2026-07-06T11:40:35+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-07-04T14:01:45+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-02-14T14:04:22+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-02-13T19:23:42+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-01-10T17:38:21+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2026-01-02T15:46:49+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-12-30T09:02:55+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "https://www.instagram.com/amiraldabagh?igsh=MXJ0cTR6bGF0YTNhag==",
+          "at": "2025-12-29T20:43:23+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2025-12-29T20:43:22+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-12-26T20:14:40+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2025-12-03T17:28:57+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2025-09-18T09:38:52+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "https://www.instagram.com/ultraviiiolette",
+          "at": "2025-09-13T21:11:55+0000"
+        },
+        {
+          "from_id": "608156141848563",
+          "from_username": "abdvl163",
+          "text": "",
+          "at": "2025-09-13T21:11:54+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-09-08T22:23:57+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-07-29T08:38:35+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-06-17T10:14:49+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5MTk5Mzc0NTY3MzEwMzUx",
+      "handle": "bergtrades.ig",
+      "state": "we-spoke-last",
+      "days_since_last": 3,
+      "message_count": 12,
+      "last_message_at": "2026-08-20T16:03:28+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-20T16:03:28+0000",
+      "last_outbound_text": "hol up ive found something exciting too",
+      "last_inbound_at": "2026-08-17T13:28:48+0000",
+      "last_inbound_text": "Ok I’ll check through",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "hol up ive found something exciting too",
+          "at": "2026-08-20T16:03:28+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "lmk ur thoughts",
+          "at": "2026-08-17T20:57:44+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "its a new format we’re rolling out",
+          "at": "2026-08-17T20:57:37+0000"
+        },
+        {
+          "from_id": "1327720966015822",
+          "from_username": "bergtrades.ig",
+          "text": "Ok I’ll check through",
+          "at": "2026-08-17T13:28:48+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-08-16T21:24:20+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "https://bergtrades.pages.dev",
+          "at": "2026-08-16T21:21:56+0000"
+        },
+        {
+          "from_id": "1327720966015822",
+          "from_username": "bergtrades.ig",
+          "text": "send the doc over sure",
+          "at": "2026-08-12T09:30:51+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2026-08-11T15:59:04+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "https://www.loom.com/share/03f406e2f9d14fc187a550fe182c6e68",
+          "at": "2026-08-11T15:56:50+0000"
+        },
+        {
+          "from_id": "1327720966015822",
+          "from_username": "bergtrades.ig",
+          "text": "Sure",
+          "at": "2026-08-11T11:35:00+0000"
+        },
+        {
+          "from_id": "1327720966015822",
+          "from_username": "bergtrades.ig",
+          "text": "Great outreach msg",
+          "at": "2026-08-11T11:34:59+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-11T00:34:26+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NzA2ODU5NjA1MjkxNzQ3",
+      "handle": "mattt.fx",
+      "state": "we-spoke-last",
+      "days_since_last": 4,
+      "message_count": 30,
+      "last_message_at": "2026-08-20T01:01:29+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-20T01:01:29+0000",
+      "last_outbound_text": "congrats!!!\n\nim hoping you got a corner for your sim racer lol",
+      "last_inbound_at": "2026-08-03T00:45:07+0000",
+      "last_inbound_text": "Bless u bro 🙏🏼",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "congrats!!!\n\nim hoping you got a corner for your sim racer lol",
+          "at": "2026-08-20T01:01:29+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "Bless u bro 🙏🏼",
+          "at": "2026-08-03T00:45:07+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "bless the freshness",
+          "at": "2026-08-02T23:42:00+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "inshallah !",
+          "at": "2025-12-20T23:23:14+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "2026 100k",
+          "at": "2025-12-20T12:20:57+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "you deserve it bro",
+          "at": "2025-12-20T12:20:50+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "thanks broo",
+          "at": "2025-12-18T02:29:03+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "congratssssssss 🎉",
+          "at": "2025-12-17T12:59:32+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "set and 😴",
+          "at": "2025-10-27T10:47:02+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "dropped a text",
+          "at": "2025-09-22T00:45:53+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "",
+          "at": "2025-09-22T00:45:03+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "6044468972",
+          "at": "2025-09-22T00:45:02+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "",
+          "at": "2025-09-22T00:44:41+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "",
+          "at": "2025-09-22T00:21:12+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "^",
+          "at": "2025-09-22T00:20:54+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "rn is perfect later is tough",
+          "at": "2025-09-22T00:20:41+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "Unless u wanna wait till later",
+          "at": "2025-09-22T00:20:12+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "hit it when ur rdy",
+          "at": "2025-09-22T00:20:11+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "But not for long",
+          "at": "2025-09-22T00:20:05+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "Ya",
+          "at": "2025-09-22T00:19:50+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "can do rn?",
+          "at": "2025-09-21T23:59:43+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "What time ?",
+          "at": "2025-09-21T23:59:27+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "think you’d be down for a 10 min quick convo",
+          "at": "2025-09-21T23:14:53+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "why not give you a quick call over here?",
+          "at": "2025-09-21T23:14:29+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "Send me  audio msg on everything you will be handling and helping me with",
+          "at": "2025-09-21T22:02:32+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "But if ur just creating a funnel and helping me come up with content ideas then 25 a lot",
+          "at": "2025-09-21T22:02:02+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "If your helping me with a lot of it then it might make sense",
+          "at": "2025-09-21T22:01:45+0000"
+        },
+        {
+          "from_id": "1189920405836993",
+          "from_username": "mattt.fx",
+          "text": "25% is too much bro, what will you be doing for me",
+          "at": "2025-09-21T22:01:33+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-09-21T11:06:38+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "",
+          "at": "2025-09-21T11:05:37+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUzMjc3MjgwODk2NTc0MTUy",
+      "error": "Error: INSTAGRAM_LIST_ALL_MESSAGES: \"Instagram API error (code=100, subcode=33): Unsupported get request. Object with ID 'aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjgxMTUzMjc3MjgwODk2NTc0MTUy' does not exist, cannot be loaded due to missing permissions, or does not support this operation\""
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwMzAzMDg3MzkxODcwMTI1",
+      "handle": "lukextrades",
+      "state": "we-spoke-last",
+      "days_since_last": 7,
+      "message_count": 9,
+      "last_message_at": "2026-08-16T21:35:45+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-16T21:35:45+0000",
+      "last_outbound_text": "hows content going?",
+      "last_inbound_at": "2026-08-11T17:14:22+0000",
+      "last_inbound_text": "my bad bro i’m gonna look thru this all, didnt see the message",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "hows content going?",
+          "at": "2026-08-16T21:35:45+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "nah G you’re good",
+          "at": "2026-08-16T21:35:28+0000"
+        },
+        {
+          "from_id": "920496987435537",
+          "from_username": "lukextrades",
+          "text": "my bad bro i’m gonna look thru this all, didnt see the message",
+          "at": "2026-08-11T17:14:22+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "let me know your thoughts",
+          "at": "2026-08-05T01:37:24+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "here's the doc, https://docs.google.com/document/d/1VRx4bVMFn48WyMJUGETuCHfLccdWWbo7ru6JsRTWSss/edit?usp=sharing",
+          "at": "2026-08-05T01:37:17+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "I've had fun creating this doc where it thoroughly explains everything you possibly need to be equipped with the right information for the current lvl that ur at so you can see better results in your content and more.",
+          "at": "2026-08-05T01:37:08+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "yo g my fault been catching flights this whole week.",
+          "at": "2026-08-05T01:36:06+0000"
+        },
+        {
+          "from_id": "920496987435537",
+          "from_username": "lukextrades",
+          "text": "yea forsure bro",
+          "at": "2026-07-28T21:26:12+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "ngl ur videos hijacked my day, being consistent posting content is hella inspirational. Theres a couple of things I can send you over to help you package these videos better and automate your ideation process. lmk if you’d like it. wont send it without ur permission",
+          "at": "2026-07-26T15:18:59+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0Mjg2MDQ3NTQ1NzQyODA5NTQ3",
+      "handle": "abdullah.index",
+      "state": "inbound-only",
+      "days_since_last": 10,
+      "message_count": 3,
+      "last_message_at": "2026-08-13T15:52:13+0000",
+      "last_message_from": "abdullah.index",
+      "last_outbound_at": "",
+      "last_outbound_text": "",
+      "last_inbound_at": "2026-08-13T15:52:13+0000",
+      "last_inbound_text": "I'll actually build the first Miro for free just so you can see the standard and how it'd work out you, you only pay if you end up recording it",
+      "messages": [
+        {
+          "from_id": "1027539893518825",
+          "from_username": "abdullah.index",
+          "text": "I'll actually build the first Miro for free just so you can see the standard and how it'd work out you, you only pay if you end up recording it",
+          "at": "2026-08-13T15:52:13+0000"
+        },
+        {
+          "from_id": "1027539893518825",
+          "from_username": "abdullah.index",
+          "text": "You can see the standard here: https://miro.com/app/board/uXjVH6eCbUk=/?share_link_id=871411483666 \n(Takes a couple seconds to load)",
+          "at": "2026-08-11T17:21:48+0000"
+        },
+        {
+          "from_id": "1027539893518825",
+          "from_username": "abdullah.index",
+          "text": "came across your channel, i build the miro boards that sit behind long form for coaches selling courses, the visual that carries while you talk. few in my bio, mind if i break down your next video?",
+          "at": "2026-08-11T17:21:46+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjU5NzgzMTQxNjA0NDM2MTgw",
+      "handle": "nqryder",
+      "state": "delivered-no-reply",
+      "days_since_last": 13,
+      "message_count": 2,
+      "last_message_at": "2026-08-11T00:21:15+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-11T00:21:15+0000",
+      "last_outbound_text": "absolute beast bro",
+      "last_inbound_at": "",
+      "last_inbound_text": "",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "absolute beast bro",
+          "at": "2026-08-11T00:21:15+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-08-11T00:20:52+0000"
+        }
+      ]
+    },
+    {
+      "conversation_id": "aWdfZAG06MzQwMjgyMzY2ODQxNzEwMzAxMjQ0MjYwNzg2MDI2NTgzMDgzNTky",
+      "handle": "_acetrades_",
+      "state": "we-spoke-last",
+      "days_since_last": 19,
+      "message_count": 9,
+      "last_message_at": "2026-08-05T01:39:44+0000",
+      "last_message_from": "ab.luiy",
+      "last_outbound_at": "2026-08-05T01:39:44+0000",
+      "last_outbound_text": "let me know if any of it resonates with you",
+      "last_inbound_at": "2026-08-05T01:38:56+0000",
+      "last_inbound_text": "mb",
+      "messages": [
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "let me know if any of it resonates with you",
+          "at": "2026-08-05T01:39:44+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "no worries at all",
+          "at": "2026-08-05T01:39:20+0000"
+        },
+        {
+          "from_id": "1024922953798451",
+          "from_username": "_acetrades_",
+          "text": "mb",
+          "at": "2026-08-05T01:38:56+0000"
+        },
+        {
+          "from_id": "1024922953798451",
+          "from_username": "_acetrades_",
+          "text": "I haven’t even looked at it 💀",
+          "at": "2026-08-05T01:38:51+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "yo did the thumbnail part land or was that too much at once? only asking cause im putting these together for a few people and wanna know what's actually useful",
+          "at": "2026-08-05T01:38:13+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "my bad, been catching flights. I enjoyed making this doc for you, let me know what you think of it!",
+          "at": "2026-08-02T16:26:42+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "Here ya go G\n\nhttps://docs.google.com/document/d/1Yj_KgA_11hFmIJHeE9a-RWA4RRhqO_z32s2g9cbMaQc/edit?usp=sharing",
+          "at": "2026-08-02T16:25:07+0000"
+        },
+        {
+          "from_id": "1024922953798451",
+          "from_username": "_acetrades_",
+          "text": "I’d like to take a look",
+          "at": "2026-07-27T21:28:35+0000"
+        },
+        {
+          "from_id": "17841469568516308",
+          "from_username": "ab.luiy",
+          "text": "your profile hijacked my day bro haha, I’ve been taking a look at your content and honestly most of the stuff in there resonated with me even though im not a trader, I’ve made you a lil something that goes over your entire brand with nuanced audits. I’d be happy to send it over for you to take a look, lmk!",
+          "at": "2026-07-26T19:17:58+0000"
+        }
+      ]
+    }
+  ]
+}

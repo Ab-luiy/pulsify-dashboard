@@ -2,7 +2,7 @@
 
 The live queue. Method in [[wiki/playbooks/ig-followup-sequence]], this file is what you open.
 
-**Generated 2026-08-24 from a live inbox pull.** Do not hand-maintain. Re-run `npx tsx dm-audit.ts` in `.claude/worktrees/admiring-hermann-913cc3/ig-report/` and regenerate. It is read-only.
+**Generated 2026-08-24 from a live inbox pull.** Do not hand-maintain. Re-run `npm run audit -- 250` from `tools/instagram-dm-audit/` and regenerate. It is read-only. The recovered 2026-08-26 file covers only the 60 most recent threads, so this full tracker was not regenerated from that partial snapshot.
 
 **States:** `A` said yes never delivered · `B` delivered no reply · `C` asset delivered then silence · `dormant` sequence exhausted
 
