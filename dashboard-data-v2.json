@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-07T04:42:35.951681+00:00",
+  "lastUpdated": "2026-09-07T09:52:18.639Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-09-07T04:42:35.951681+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-09-06T09:05:25.864Z",
+    "updatedAt": "2026-09-07T09:52:18.590Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -44,7 +44,7 @@
       "followers": 491,
       "following": 562,
       "mediaCount": 8,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=1tesc6sMcPUQ7kNvwFtJoHU&_nc_oc=AdpzEWtR1NvvNnpSTxHT0H1qOnSpX4p4QWCLRq_U4Ow1fYBFOtAlMKJHzty4rHCaw4c&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=1Bp7IU8WJKYhjO6m53KHRg&_nc_tpa=Q5bMBQLleL8jNttE5z5o5W-5d97C8LD8gyZ7T02UwMQ3lrKaqN5PpokECaUziDJzGME_j86qhB4ffyIq&oh=00_AQI72MzEe8yPSCeuvtG9f5PbmBxqRajDWrhMNGxv3DMZ5A&oe=6AA2ED0E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=1tesc6sMcPUQ7kNvwFhmfEj&_nc_oc=Ado1OTA7sUKdcoOQdCTTTnOsN2HEUrfRqzvaNcoU4o8wkTsj0A3EdyIP7IHeSORfiyc&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=2A-2xEKeUYSZvdjSDQxflQ&_nc_tpa=Q5bMBQIpQAVSnThaNBa1eHJ0SFrQv0Eap9ZOhK1vWEiZeaXkTuWk9XYKR_Hg_0VD8WPXHmP9tO-bZO9S&oh=00_AQL3PeQUYkzrkJRWPs5XpNsccSn7QRYxzorxzVWlRrLrSw&oe=6AA476CE"
     },
     "content": {
       "reelsCount": 14,
@@ -55,7 +55,7 @@
       "totalShares": 11,
       "avgReach": 145,
       "avgViews": 171,
-      "avgWatchMs": 8348,
+      "avgWatchMs": 8351,
       "avgHook": 25,
       "reachByPost": [
         {
@@ -159,14 +159,13 @@
       ]
     },
     "account": {
-      "reach30d": 216,
+      "reach30d": 207,
       "views30d": 0,
       "newFollowers30d": 27,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        9,
         1,
         0,
         2,
@@ -195,10 +194,10 @@
         1,
         3,
         3,
+        0,
         0
       ],
       "followerSeries": [
-        1,
         0,
         3,
         2,
@@ -226,6 +225,7 @@
         0,
         1,
         0,
+        1,
         0,
         0
       ],
@@ -253,7 +253,7 @@
           "shares": 1,
           "saved": 9,
           "totalInteractions": 18,
-          "avgWatchTimeMs": 15530
+          "avgWatchTimeMs": 15637
         },
         "saveRate": 0.03272727272727273,
         "shareRate": 0.0036363636363636364,
@@ -276,7 +276,7 @@
           "shares": 5,
           "saved": 6,
           "totalInteractions": 34,
-          "avgWatchTimeMs": 17943
+          "avgWatchTimeMs": 17928
         },
         "saveRate": 0.007398273736128237,
         "shareRate": 0.006165228113440197,
@@ -368,7 +368,7 @@
           "shares": 0,
           "saved": 2,
           "totalInteractions": 4,
-          "avgWatchTimeMs": 7707
+          "avgWatchTimeMs": 7653
         },
         "saveRate": 0.015748031496062992,
         "shareRate": 0,
