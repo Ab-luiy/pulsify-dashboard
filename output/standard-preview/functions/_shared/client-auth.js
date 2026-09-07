@@ -270,7 +270,7 @@ export async function createSetupLink(env, origin, clientId, email) {
     ok: true,
     client: safeClient,
     email: normalizedEmail,
-    link: `${origin}/portal/login?client=${encodeURIComponent(safeClient)}&setup=${encodeURIComponent(token)}`,
+    link: `${origin}/portal/register?client=${encodeURIComponent(safeClient)}&setup=${encodeURIComponent(token)}`,
     expires_at: expiresAt,
     note: "Shown once. Generating a new setup link turns off the previous one.",
   };

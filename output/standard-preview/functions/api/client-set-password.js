@@ -41,6 +41,7 @@ export async function onRequestPost({ request, env }) {
   }
 
   const salt = createPasswordSalt();
+  const priorAuth = await env.DB.prepare('SELECT pass_hash FROM client_auth WHERE client_id=?').bind(setup.client_id).first();
   const passHash = await hashPassword(password, salt, PBKDF2_ITERATIONS);
   const now = new Date().toISOString();
 
@@ -70,7 +71,7 @@ export async function onRequestPost({ request, env }) {
     {
       ok: true,
       client: setup.client_id,
-      redirect: `/portal?client=${encodeURIComponent(setup.client_id)}`,
+      redirect: `${priorAuth?.pass_hash ? '/portal' : '/onboard'}?client=${encodeURIComponent(setup.client_id)}`,
     },
     200,
     { "set-cookie": session.cookie },

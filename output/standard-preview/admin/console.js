@@ -45,6 +45,7 @@
   ];
   const QUICK_LINK_NAMES = ["Client portal", "Client login", "Onboarding form", "SDR dashboard", "Design preview"];
   const ROUTES = {
+    launch: ["Pulsify workspace", "Where would you like to go?"],
     command: ["Cross-client rollup", "Command center"],
     home: ["Operator overview", "Home"],
     clients: ["Client setup", "Clients"],
@@ -340,6 +341,7 @@
     renderPerformanceTypeOptions();
     renderIntegrationShell();
     bindEvents();
+    $("launchAddClient").onclick=()=>openClientWizard();
     routeFromHash();
 
     const saved = readStoredKey();
@@ -842,7 +844,7 @@
 
   function routeFromHash() {
     const requested = location.hash.replace("#", "");
-    state.route = ROUTES[requested] ? requested : "command";
+    state.route = ROUTES[requested] ? requested : "launch";
     if (!location.hash || !ROUTES[requested]) history.replaceState(null, "", `${location.pathname}${location.search}#${state.route}`);
     $$("[data-route-panel]").forEach((panel) => { panel.hidden = panel.dataset.routePanel !== state.route; });
     $$("[data-route]").forEach((link) => link.classList.toggle("active", link.dataset.route === state.route));

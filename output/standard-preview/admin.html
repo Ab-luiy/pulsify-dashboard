@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/shared/pulsify-ui.css">
   <link rel="stylesheet" href="/admin/console.css">
+<link rel="stylesheet" href="/portal/journeys.css">
 </head>
 <body>
   <section class="auth-screen" id="authScreen">
@@ -35,6 +36,7 @@
         <div><strong>Pulsify</strong><span>Operator console</span></div>
       </div>
       <nav class="nav" aria-label="Console sections">
+        <a href="#launch" data-route="launch"><span>00</span>Workspace</a>
         <a href="#command" data-route="command"><span>01</span>Command center</a>
         <a href="#home" data-route="home"><span>02</span>Home</a>
         <a href="#clients" data-route="clients"><span>03</span>Clients</a>
@@ -69,6 +71,7 @@
 
       <div class="global-message message error" id="globalMessage" role="alert" hidden></div>
 
+      <section class="route jx-panel" data-route-panel="launch" hidden><div class="jx-head"><small>YOUR PULSIFY WORKSPACE</small><h2>Choose your next move.</h2><p>Your business, your clients, one place to start.</p></div><div class="jx-grid"><a class="jx-card" href="#command" style="text-decoration:none"><span class="jx-kicker">01 / OPERATE</span><strong>My dashboard</strong><p>Revenue, client health, delivery and the work that needs you.</p><span class="jx-arrow">↗</span></a><a class="jx-card" href="#home" style="text-decoration:none"><span class="jx-kicker">02 / CLIENT WORK</span><strong>Client portals</strong><p>Choose a client and open their workspace.</p><span class="jx-arrow">↗</span></a><button class="jx-card" id="launchAddClient"><span class="jx-kicker">03 / ONBOARD</span><strong>Add a new client</strong><p>Create the workspace and prepare their personal invitation.</p><span class="jx-arrow">+</span></button></div><div class="jx-toolbar"><a class="jx-button secondary" href="https://pulsify-dashboard.pages.dev" target="_blank" rel="noopener">Open outreach dashboard</a><a class="jx-button secondary" href="#integrations">Access & integrations</a></div></section>
       <section class="route" id="route-command" data-route-panel="command" hidden>
         <div class="section-head">
           <div>

@@ -6,6 +6,12 @@ import {
 
 export async function onRequest(context) {
   const path = readPath(context.params);
+  if (/^references\/(story-\d+\.png|thumbnail-\d+\.jpg)$/.test(path)) {
+    const access = await resolveClientAccess(context.request, context.env, { allowHeaderToken: false, allowImpersonated: true });
+    if (access.error) return access.error;
+    return serveAsset(context.env, context.request, '/portal/' + path);
+  }
+  if (path === "register") return serveAsset(context.env, context.request, "/portal/login/index.html");
   if (path === "login") return serveLogin(context);
   if (!path) return serveDashboard(context);
   return context.next();
