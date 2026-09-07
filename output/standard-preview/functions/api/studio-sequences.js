@@ -67,8 +67,8 @@ export async function onRequestPost({ request, env }) {
   if (!isAdmin && access.error) return access.error;
   if (!id) return json({ ok: false, error: "sequence id is required" }, 422);
 
-  if (action === "attach-output") {
-    return attachOutput(env, body, id, isAdmin ? null : access, isAdmin);
+  if (action === "attach-output" || action === "save-draft") {
+    return attachOutput(env, body, id, isAdmin ? null : access, isAdmin, action === "save-draft");
   }
 
   const client = cleanId(access.client);
@@ -135,7 +135,7 @@ function serializeRow(row) {
   };
 }
 
-async function attachOutput(env, body, id, access, isAdmin) {
+async function attachOutput(env, body, id, access, isAdmin, draftOnly = false) {
   const rawText = String(body.raw_text || "").trim();
   if (!rawText) return json({ ok: false, error: "raw_text is required" }, 422);
 
@@ -150,10 +150,13 @@ async function attachOutput(env, body, id, access, isAdmin) {
     if (cleanId(row.client_id) !== cleanId(access.client)) {
       return json({ ok: false, error: "sequence not found" }, 404);
     }
+    if (row.status !== "draft" && row.status !== "rejected") {
+      return json({ ok: false, error: "only draft or rejected sequences can be edited" }, 422);
+    }
   }
 
   const parsed = parseAttachedOutput(rawText);
-  const nextStatus = isAdmin ? (row.status || "draft") : "review";
+  const nextStatus = isAdmin ? (row.status || "draft") : draftOnly ? "draft" : "review";
   await env.DB.prepare(
     `UPDATE studio_sequences
         SET output_json=?, status=?, review_note=NULL, updated_at=?
@@ -188,6 +191,6 @@ function parseAttachedOutput(rawText) {
 
 function looksLikeSequenceOutput(value) {
   if (!value || typeof value !== "object" || Array.isArray(value)) return false;
-  if (!Array.isArray(value.slides)) return false;
+  if (!Array.isArray(value.slides) && typeof value.raw_text !== "string") return false;
   return true;
 }

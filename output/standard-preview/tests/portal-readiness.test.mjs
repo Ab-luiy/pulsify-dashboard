@@ -8,6 +8,7 @@ import { onRequestPost as upload } from '../functions/api/media-upload.js';
 import { onRequestPost as setupLink } from '../functions/api/client-setup-link.js';
 import { onRequest } from '../functions/portal/[[path]].js';
 import { onRequestGet as contextExport } from '../functions/api/client-context.js';
+import { onRequestPost as studioWrite } from '../functions/api/studio-sequences.js';
 import { sha256Hex } from '../functions/_shared/common.js';
 
 const sql = new DatabaseSync(':memory:');
@@ -77,5 +78,17 @@ response=await onRequest({env:assetEnv,params:{path:''},request:new Request('htt
 assert.equal(response.status,200);
 const privateCookie=response.headers.get('set-cookie').split(';')[0];
 assert.equal((await resolveClientAccess(new Request('https://qa.test/portal?client=qa',{headers:{cookie:privateCookie}}),env)).client,'qa','private-link refresh remains authenticated after URL token removal');
+sql.exec("CREATE TABLE studio_sequences(id INTEGER PRIMARY KEY,client_id TEXT,status TEXT,output_json TEXT,review_note TEXT,updated_at TEXT); INSERT INTO studio_sequences(id,client_id,status) VALUES(1,'qa','draft'),(2,'other','draft'),(3,'qa','approved')");
+const writeDraft=(id,output)=>studioWrite({env,request:post('/api/studio-sequences',{action:'save-draft',id,raw_text:JSON.stringify(output)},{cookie})});
+response=await writeDraft(1,{slides:[{text_pills:['Saved copy']}]});
+assert.equal(response.status,200);
+assert.equal(sql.prepare('SELECT status FROM studio_sequences WHERE id=1').get().status,'draft','saving does not submit for review');
+response=await writeDraft(1,{raw_text:'Plain story copy'});
+assert.deepEqual((await response.json()).output,{raw_text:'Plain story copy'},'plain text output round trips without JSON nesting');
+assert.equal((await writeDraft(2,{raw_text:'Wrong tenant'})).status,404);
+assert.equal((await writeDraft(3,{raw_text:'Approved edit'})).status,422);
+response=await studioWrite({env,request:post('/api/studio-sequences',{action:'submit-for-review',id:1},{cookie})});
+assert.equal(response.status,200);
+assert.equal((await writeDraft(1,{raw_text:'Edit during review'})).status,422);
 sql.close();
 console.log('PASS real SQLite: first-client setup, password login, tenant isolation, reset/session revocation, proof upload constraint, email failure and setup-page routing');

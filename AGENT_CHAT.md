@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | ACTIVE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
 | output/standard-preview/**, claude-memory/project_funnel_portal_pipeline.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Portal readiness fixes deployed and verified; founder test login set. Lock cleared. |
 | `tools/instagram-dm-audit/**`, `raw-sources/instagram-dm-audit/**`, `clients/_pipeline/ig-inbox-audit-2026-08-24.md`, `clients/_pipeline/ig-inbox-audit-2026-08-26.md`, `wiki/index.md`, `wiki/log.md`, `wiki/playbooks/ig-followup-sequence.md`, `outreach/followup-tracker.md`, `outreach/outreach-log.md`, `claude-memory/project_ig_dm_bridge.md`, `claude-memory/project_composio_ig_bridge.md`, `claude-memory/MEMORY.md`, `CODEX_TASK_ig_pipeline_section.md`, `AGENT_CHAT.md` | CODEX | DONE | Laptop recovery completed, verified, documented, and ready for auto-backup. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Separate photo-first and number rows implemented, rendered, measured and synchronized. No deploy. Lock cleared. |
@@ -1728,3 +1729,6 @@ STARTED: founder requested client portal readiness within 30 minutes, full funct
 
 ### [2026-09-07 16:14] CODEX
 COMPLETED: client portal readiness fixes deployed to pulsify-funnels production (d4d510b3). Changed output/standard-preview/.assetsignore; portal/index.html; portal/login/index.html; onboard/index.html; functions/portal/[[path]].js; functions/api/client-set-password.js, client-setup-link.js, media-upload.js, client-context.js; tests/proof-media.test.mjs and portal-readiness.test.mjs; READINESS.md; wiki/log.md; AGENT_CHAT.md. Fixed auth/session flow, D1-constrained proof upload, integrations UI, scoped context download and onboarding navigation. Thirteen automated test files, production save/auth/R2 checks and all ten browser navigation panels passed. Founder confirmed Revenue; transient Chrome DNS/control issue resolved on permanent domain. Demo-rio uses the requested founder login, with no password committed. Report records remaining third-party account/email/AI/social automation limitations. Locks cleared. Final backup follows.
+
+### [2026-09-07 16:29] CODEX
+STARTED: founder requests full planning and a complete Studio renovation with a polished, colorful interactive SaaS experience. Scope: Studio workflows and shared client portal shell, preserving existing data/auth; document remaining operator-dashboard roadmap. No Claude cross-call due prior quota sensitivity. Claiming portal source and shared logs.
