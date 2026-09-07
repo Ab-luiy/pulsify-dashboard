@@ -1581,7 +1581,7 @@
       sessionStorage.setItem("pulsify_portal_token", initialToken);
       const clean = new URL(location.href);
       clean.searchParams.delete("t");
-      history.replaceState(null, "", clean.pathname + clean.search);
+      history.replaceState(null, "", clean.pathname + clean.search + clean.hash);
     }
 
     const TOKEN = sessionStorage.getItem("pulsify_portal_token") || "";
@@ -1914,7 +1914,7 @@
       if (data.client === "demo-rio") $("clientSubtitle").textContent = "Demo workspace. Sample figures and tasks are for testing.";
       const clean = new URL(location.href);
       clean.searchParams.set("client", state.client);
-      history.replaceState(null, "", clean.pathname + clean.search);
+      history.replaceState(null, "", clean.pathname + clean.search + clean.hash);
 
       renderRevenue(data.revenue || {});
       renderContentSection();

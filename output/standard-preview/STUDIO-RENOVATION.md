@@ -35,3 +35,15 @@ Separate capability work follows the visual renovation: durable reel ideas; prov
 ## What makes it personal
 
 The first screen should show that client's actual open projects, voice and proof. The brief should draw from their brain. The review should preserve their wording and show specific feedback. A first-week checklist and a welcome recording can make the initial workspace feel prepared without inventing results or activity.
+
+## Shipped and verified, 2026-09-07
+
+Production: https://pulsify-funnels.pages.dev/portal?client=demo-rio#studio (deployment https://fbf091f2.pulsify-funnels.pages.dev).
+
+Shipped the four Studio modes and shared client-portal shell described above, including slide text/alignment controls, draft deletion for stories, import validation, JSON export, retained creative direction and project notes. Save requests temporarily lock the editor to prevent input races. Portal URL cleanup now preserves the active panel hash across reloads.
+
+All 13 backend test files passed, including real SQLite tests for draft-only saves, plain-text round trips, foreign-tenant rejection and review/approved edit guards. A DOM harness checked controller initialization, preserved creation forms, project opening, live copy/style previews and cancelled unsaved navigation. Live Chrome checks verified story creation, multi-slide edits, saved-copy reload, review submission and locking, search, board view, carousel save/reload, alignment save, malformed-import rejection, light/dark screenshots and Studio deep-link reload. Test data stayed inside demo-rio: one explicitly named QA story was created and sent for review; the existing QA carousel received sample headline/alignment edits.
+
+Responsive CSS includes 980px and 640px layouts, horizontal slide navigation and a stacked editor. The browser viewport override did not actually change its measured 2109px width during this session, so a fresh 390px visual pass remains unverified. Do not describe that check as passed. Preview-host DNS also failed in Chrome; browser verification used the canonical production hostname after deployment.
+
+The separate operator dashboard and the inner layouts of other portal panels remain roadmap work. This release does not add finished image rendering, scheduling, social auto-imports or configured hosted AI/email providers.

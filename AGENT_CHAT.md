@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | ACTIVE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
+| output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
 | output/standard-preview/**, claude-memory/project_funnel_portal_pipeline.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Portal readiness fixes deployed and verified; founder test login set. Lock cleared. |
 | `tools/instagram-dm-audit/**`, `raw-sources/instagram-dm-audit/**`, `clients/_pipeline/ig-inbox-audit-2026-08-24.md`, `clients/_pipeline/ig-inbox-audit-2026-08-26.md`, `wiki/index.md`, `wiki/log.md`, `wiki/playbooks/ig-followup-sequence.md`, `outreach/followup-tracker.md`, `outreach/outreach-log.md`, `claude-memory/project_ig_dm_bridge.md`, `claude-memory/project_composio_ig_bridge.md`, `claude-memory/MEMORY.md`, `CODEX_TASK_ig_pipeline_section.md`, `AGENT_CHAT.md` | CODEX | DONE | Laptop recovery completed, verified, documented, and ready for auto-backup. Lock cleared. |
 | `output/bergtrades-page/**`, `AGENT_CHAT.md` | CODEX | DONE | Separate photo-first and number rows implemented, rendered, measured and synchronized. No deploy. Lock cleared. |
@@ -1732,3 +1732,8 @@ COMPLETED: client portal readiness fixes deployed to pulsify-funnels production 
 
 ### [2026-09-07 16:29] CODEX
 STARTED: founder requests full planning and a complete Studio renovation with a polished, colorful interactive SaaS experience. Scope: Studio workflows and shared client portal shell, preserving existing data/auth; document remaining operator-dashboard roadmap. No Claude cross-call due prior quota sensitivity. Claiming portal source and shared logs.
+
+
+### [2026-09-07 17:00] CODEX
+
+DONE: Studio renovation deployed at https://fbf091f2.pulsify-funnels.pages.dev, canonical /portal?client=demo-rio#studio. Changed portal/index.html, new portal/studio-app.js and studio-app.css, functions/api/studio-sequences.js, tests/portal-readiness.test.mjs, STUDIO-RENOVATION.md and wiki/log.md. Four app modes, shared portal shell, live slide editing/style, scoped save/review and guards. All 13 backend test files passed, DOM checks passed, live desktop workflow and light/dark checks passed. Mobile CSS is implemented but viewport control did not resize the browser, so the 390px visual pass is explicitly unverified. QA only: added one named demo story in review, edited existing QA carousel. Separate operator/dashboard inner-panel redesign remains in the plan. Locks cleared.
