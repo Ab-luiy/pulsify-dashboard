@@ -1,5 +1,6 @@
 import {
   consumeImpersonationExchange,
+  issueClientSession,
   resolveClientAccess,
 } from "../_shared/client-auth.js";
 
@@ -50,7 +51,12 @@ async function serveDashboard({ request, env }) {
     if (client) loginUrl.searchParams.set("client", client);
     return Response.redirect(loginUrl, 302);
   }
-  return serveAsset(env, request, "/portal/index.html");
+  const response = await serveAsset(env, request, "/portal/index.html");
+  if (access.auth_mode === "token" && response.ok) {
+    const session = await issueClientSession(env, access.client);
+    response.headers.set("set-cookie", session.cookie);
+  }
+  return response;
 }
 
 async function serveLogin({ request, env }) {

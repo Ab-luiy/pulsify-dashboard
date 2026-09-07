@@ -8,6 +8,7 @@ import { onRequestPost as upload } from '../functions/api/media-upload.js';
 import { onRequestPost as setupLink } from '../functions/api/client-setup-link.js';
 import { onRequest } from '../functions/portal/[[path]].js';
 import { onRequestGet as contextExport } from '../functions/api/client-context.js';
+import { sha256Hex } from '../functions/_shared/common.js';
 
 const sql = new DatabaseSync(':memory:');
 sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
@@ -71,5 +72,10 @@ assert.equal(response.status,200,'signed-in clients can still open setup links')
 assert.equal(await response.text(),'setup form');
 assert.equal(response.headers.get('cache-control'),'no-store');
 assert.equal(response.headers.get('referrer-policy'),'no-referrer');
+sql.prepare('UPDATE client_config SET portal_token_hash=? WHERE client=?').run(await sha256Hex('qa-private-link'),'qa');
+response=await onRequest({env:assetEnv,params:{path:''},request:new Request('https://qa.test/portal?t=qa-private-link&client=qa')});
+assert.equal(response.status,200);
+const privateCookie=response.headers.get('set-cookie').split(';')[0];
+assert.equal((await resolveClientAccess(new Request('https://qa.test/portal?client=qa',{headers:{cookie:privateCookie}}),env)).client,'qa','private-link refresh remains authenticated after URL token removal');
 sql.close();
 console.log('PASS real SQLite: first-client setup, password login, tenant isolation, reset/session revocation, proof upload constraint, email failure and setup-page routing');
