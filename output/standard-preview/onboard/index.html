@@ -328,6 +328,7 @@
         <p class="step-count">Submitted</p>
         <h1>Your responses are saved.</h1>
         <p>Pulsify can now review the intake, fill the operator research sections, and close the remaining gaps.</p>
+        <a id="returnToPortal" href="/portal">Open your dashboard</a>
       </section>
     </main>
   </div>
@@ -340,6 +341,10 @@
       const steps = Array.from(document.querySelectorAll("[data-step]"));
       const query = new URLSearchParams(location.search);
       const token = query.get("t") || "";
+      const portalDestination = new URL("/portal", location.origin);
+      if (query.get("client")) portalDestination.searchParams.set("client", query.get("client"));
+      if (token) portalDestination.searchParams.set("t", token);
+      document.getElementById("returnToPortal").href = portalDestination.toString();
       const client = query.get("client") || "";
       const storyDrafts = {};
       const proofTypes = new Set(["image/png", "image/jpeg", "image/webp", "image/gif"]);

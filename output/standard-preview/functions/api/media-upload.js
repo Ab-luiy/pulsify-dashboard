@@ -49,10 +49,10 @@ export async function onRequestPost({ request, env }) {
   try {
     const result = await env.DB.prepare(
       `INSERT INTO proof_items (client_id, kind, url, claim, permission, created_at)
-       VALUES (?, 'image', ?, ?, 'unknown', ?)`,
+       VALUES (?, 'image-link', ?, ?, 'unknown', ?)`,
     ).bind(access.client, url, upload.claim || null, now).run();
     const id = Number(result?.meta?.last_row_id || 0) || null;
-    return json({ ok: true, id, client: access.client, kind: "image", url, claim: upload.claim || "", permission: "unknown" }, 201);
+    return json({ ok: true, id, client: access.client, kind: "image-link", url, claim: upload.claim || "", permission: "unknown" }, 201);
   } catch {
     await env.MEDIA.delete(key).catch(() => {});
     return json({ ok: false, error: "image record could not be saved" }, 500);

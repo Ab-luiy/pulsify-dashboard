@@ -1130,6 +1130,17 @@
             <div class="integration-status-list" id="integrationStatusList" aria-live="polite">
               <div class="revenue-inline-empty">Checking the client's available connections.</div>
             </div>
+            <details id="connectionSetup" style="margin-top:20px">
+              <summary>Set up a connection</summary>
+              <form id="connectionForm" class="client-settings-form" style="margin-top:16px">
+                <label for="connectionProvider">Service
+                  <select id="connectionProvider"><option value="kit">Kit</option><option value="calcom">Cal.com</option><option value="calendly">Calendly</option><option value="stripe">Stripe</option><option value="whop">Whop</option><option value="youtube">YouTube</option><option value="instagram">Instagram</option><option value="zapier">Zapier</option></select>
+                </label>
+                <div id="connectionFields" class="client-settings-form"></div>
+                <button id="saveConnectionButton" type="submit">Save connection</button>
+                <p id="connectionMessage" role="status"></p>
+              </form>
+            </details>
           </section>
 
           <section class="card revenue-entry-card" id="revenueSettings">
@@ -1141,6 +1152,11 @@
               <span class="home-count" id="clientSettingsStatus">Client brain</span>
             </div>
             <div class="client-settings-form">
+              <p>Your offer, audience, voice, and proof stay together. Complete your intake, then download the context to use with your own AI.</p>
+              <div class="client-settings-actions">
+                <button id="openIntakeButton" type="button" class="outline">Complete onboarding</button>
+                <button id="downloadContextButton" type="button" class="outline">Download my AI context</button>
+              </div>
               <label for="clientIdentityName">Name
                 <input id="clientIdentityName" type="text" autocomplete="name" placeholder="Client or brand name">
               </label>
@@ -1661,6 +1677,30 @@
     $("captureButton").addEventListener("click", addThought);
     $("proofUploadButton").addEventListener("click", uploadProof);
     $("saveClientSettingsButton").addEventListener("click", saveClientSettings);
+    $("connectionProvider").addEventListener("change", renderConnectionForm);
+    $("connectionForm").addEventListener("submit", saveConnection);
+    renderConnectionForm();
+    $("openIntakeButton").addEventListener("click", () => {
+      const next = new URL("/onboard", location.origin);
+      next.searchParams.set("client", state.client);
+      if (TOKEN) next.searchParams.set("t", TOKEN);
+      location.href = next.toString();
+    });
+    $("downloadContextButton").addEventListener("click", async () => {
+      const button = $("downloadContextButton");
+      button.disabled = true;
+      try {
+        const response = await fetch(`/api/client-context?client=${encodeURIComponent(state.client)}`, { headers: authHeaders(), credentials: "same-origin" });
+        if (!response.ok) throw new Error("Could not download your context. Please try again.");
+        const url = URL.createObjectURL(await response.blob());
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${state.client}-pulsify-context.md`;
+        link.click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      } catch (error) { showMessage(error.message); }
+      finally { button.disabled = false; }
+    });
     $("studioInsightGenerateButton").addEventListener("click", startInsightSequence);
     $("studioInsightLogButton").addEventListener("click", openInsightLogSurface);
     $("closeRetestDialogButton").addEventListener("click", () => $("retestDialog").close());
@@ -1749,12 +1789,6 @@
     }
 
     async function loadClientIntegrations() {
-      if (!TOKEN) {
-        state.integrations = [];
-        state.integrationsLoadState = "session";
-        renderRevenueIntegrations();
-        return;
-      }
       try {
         const response = await fetch(`/api/client-integrations?client=${encodeURIComponent(state.client)}`, {
           headers: authHeaders(),
@@ -1865,13 +1899,17 @@
       state.sections = data.sections || {};
       state.contentItems = Array.isArray(data.content_items) ? data.content_items : [];
       document.body.classList.toggle("impersonating", state.impersonated);
+      $("connectionSetup").hidden = state.impersonated;
+      $("openIntakeButton").disabled = state.impersonated;
       $("operatorReadOnlyBanner").hidden = !state.impersonated;
       $("clientName").textContent = data.client_name || data.client;
+      if (data.client === "demo-rio") $("clientName").textContent = "Founder test workspace";
       $("clientSubtitle").textContent = state.impersonated
         ? "Operator view is read only."
         : data.auth_mode === "token"
         ? "Private token access is active for this session."
         : "Signed in with saved client credentials.";
+      if (data.client === "demo-rio") $("clientSubtitle").textContent = "Demo workspace. Sample figures and tasks are for testing.";
       const clean = new URL(location.href);
       clean.searchParams.set("client", state.client);
       history.replaceState(null, "", clean.pathname + clean.search);
@@ -2085,11 +2123,6 @@
         target.innerHTML = `<div class="revenue-inline-empty">Checking the client's available connections.</div>`;
         return;
       }
-      if (state.integrationsLoadState === "session") {
-        $("integrationCount").textContent = "Secure setup link needed";
-        target.innerHTML = `<div class="revenue-inline-empty">Connection states appear here when this workspace is opened through its secure setup link. Password-session access stays active for the rest of the portal.</div>`;
-        return;
-      }
       if (state.integrationsLoadState === "error") {
         $("integrationCount").textContent = "Unavailable";
         target.innerHTML = `<div class="revenue-inline-empty">Connection states could not be loaded. Existing portal data remains available.</div>`;
@@ -2097,9 +2130,9 @@
       }
 
       const connected = state.integrations.filter((item) => item.connected);
-      $("integrationCount").textContent = `${connected.length} of ${state.integrations.length} connected`;
+      $("integrationCount").textContent = `${connected.length} of ${state.integrations.length} configured`;
       target.innerHTML = state.integrations.map((item) => {
-        const status = item.connected ? "Connected" : "Available";
+        const status = item.last_event_ts ? "Receiving events" : item.connected ? "Configured" : "Not configured";
         const timestamp = item.last_event_ts || item.updated_at || "";
         const detail = item.connected
           ? (timestamp ? `Last activity ${relativeTime(timestamp)}` : "Configured for this client")
@@ -2116,6 +2149,52 @@
 
     function integrationLabel(provider) {
       return ({ kit: "Kit", calcom: "Cal.com", calendly: "Calendly", whop: "Whop", stripe: "Stripe", youtube: "YouTube", instagram: "Instagram", zapier: "Zapier" })[provider] || capitalize(provider);
+    }
+
+    function connectionDefinition(provider) {
+      return ({
+        kit: [["tag_id", "Kit tag ID", "text", "config"], ["api_key", "Kit v4 API key", "password", "secrets"]],
+        calcom: [["booking_url", "Booking URL", "url", "config"], ["api_key", "API key (optional)", "password", "secrets"]],
+        calendly: [["booking_url", "Booking URL", "url", "config"]],
+        stripe: [["webhook_secret", "Stripe webhook signing secret", "password", "secrets"]],
+        whop: [["company_id", "Whop company ID", "text", "config"], ["api_key", "API key (optional)", "password", "secrets"]],
+        youtube: [["channel_note", "YouTube channel URL or access note", "text", "config"]],
+        instagram: [["channel_note", "Instagram handle or access note", "text", "config"]],
+        zapier: [["webhook_url", "Zapier catch-hook URL", "url", "secrets"]],
+      })[provider] || [];
+    }
+
+    function renderConnectionForm() {
+      const provider = $("connectionProvider").value;
+      const saved = state.integrations.find(item => item.provider === provider);
+      const delegated = ["youtube", "instagram"].includes(provider);
+      $("connectionFields").innerHTML = connectionDefinition(provider).map(([key,label,type,group]) => `<label for="connection-${key}">${esc(label)}<input id="connection-${key}" name="${key}" type="${type}" autocomplete="off" value="${group === "config" ? esc(saved?.config?.[key] || "") : ""}" ${group === "secrets" ? 'placeholder="Leave blank to keep the saved value"' : ""}></label>`).join("")
+        + (delegated ? `<label><input id="connectionConfirmed" type="checkbox" ${saved?.config?.confirmed ? "checked" : ""}> I have granted Pulsify access to this account.</label><p>Share access through YouTube Studio permissions or Meta Business Suite. This records access; it does not automatically import analytics.</p>` : `<p>Saved credentials stay private. For booking and payment services, add the webhook URL returned after saving in that service. Events appear only after the service delivers them.</p>`);
+      $("connectionMessage").textContent = "";
+    }
+
+    async function saveConnection(event) {
+      event.preventDefault();
+      const button = $("saveConnectionButton");
+      button.disabled = true;
+      const provider = $("connectionProvider").value;
+      const payload = { provider, config: {}, secrets: {} };
+      for (const [key,,,group] of connectionDefinition(provider)) {
+        const value = $("connection-" + key).value.trim();
+        if (group === "config" || value) payload[group][key] = value;
+      }
+      if (["youtube", "instagram"].includes(provider)) payload.confirm = $("connectionConfirmed").checked;
+      try {
+        const response = await fetch("/api/client-integrations", { method:"POST", credentials:"same-origin", headers:{...authHeaders(),"content-type":"application/json"}, body:JSON.stringify(payload) });
+        const data = await response.json();
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save the connection.");
+        await loadClientIntegrations();
+        renderConnectionForm();
+        $("connectionMessage").textContent = data.one_time?.webhook_url
+          ? `Saved. Copy this webhook URL into ${integrationLabel(provider)} now; it is shown only once: ${data.one_time.webhook_url}`
+          : "Connection settings saved. Analytics and events appear when the service sends them.";
+      } catch(error) { $("connectionMessage").textContent = error.message || "Could not save the connection."; }
+      finally { button.disabled = false; }
     }
 
     function integrationMark(provider) {
@@ -3730,6 +3809,7 @@
     async function logout() {
       await fetch("/api/client-logout", { method: "POST", credentials: "same-origin" }).catch(() => null);
       sessionStorage.removeItem("pulsify_portal_token");
+      sessionStorage.removeItem("pulsify_reel_thoughts");
       redirectToLogin();
     }
 

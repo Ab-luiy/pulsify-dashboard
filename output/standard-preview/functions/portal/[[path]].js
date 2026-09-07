@@ -54,6 +54,9 @@ async function serveDashboard({ request, env }) {
 }
 
 async function serveLogin({ request, env }) {
+  if (new URL(request.url).searchParams.has("setup")) {
+    return serveAsset(env, request, "/portal/login/index.html");
+  }
   const access = await resolveClientAccess(request, env, {
     allowHeaderToken: false,
     allowQueryToken: false,
@@ -80,7 +83,11 @@ async function serveAsset(env, request, assetPath) {
       url = new URL(location, url);
       continue;
     }
-    return response;
+    const headers = new Headers(response.headers);
+    headers.set("cache-control", "no-store");
+    headers.set("referrer-policy", "no-referrer");
+    headers.set("x-robots-tag", "noindex, nofollow");
+    return new Response(response.body, { status: response.status, headers });
   }
   return new Response("Not found", { status: 404 });
 }

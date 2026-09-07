@@ -62,6 +62,7 @@ export async function onRequestPost({ request, env }) {
   ).run();
 
   await invalidateSetupTokensForClient(env, setup.client_id);
+  await env.DB.prepare("DELETE FROM client_sessions WHERE client_id=?").bind(setup.client_id).run();
   await deleteSetupCode(env, setup.client_id, setup.email);
   const session = await issueClientSession(env, setup.client_id);
 

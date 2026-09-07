@@ -42,7 +42,7 @@ class MockStatement {
       this.db.proof.push({
         id,
         client_id: clientId,
-        kind: "image",
+        kind: "image-link",
         url,
         claim,
         permission: "unknown",
@@ -152,12 +152,12 @@ async function run() {
   assert.equal(uploaded.status, 201);
   assert.equal(uploadBody.ok, true);
   assert.equal(uploadBody.id, 1);
-  assert.equal(uploadBody.kind, "image");
+  assert.equal(uploadBody.kind, "image-link");
   assert.match(uploadBody.url, /^\/m\/alpha\/[0-9a-f-]{36}\.png$/i);
   assert.equal(env.DB.proof.length, 1);
   assert.deepEqual(
     { kind: env.DB.proof[0].kind, url: env.DB.proof[0].url, claim: env.DB.proof[0].claim, permission: env.DB.proof[0].permission },
-    { kind: "image", url: uploadBody.url, claim: "Student reached the stated result.", permission: "unknown" },
+    { kind: "image-link", url: uploadBody.url, claim: "Student reached the stated result.", permission: "unknown" },
   );
 
   const key = uploadBody.url.replace(/^\/m\//, "");

@@ -7,3 +7,8 @@
 migrations
 migrations/**
 wrangler.toml
+tests
+tests/**
+*.md
+.wrangler-config
+.wrangler-config/**

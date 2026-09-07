@@ -208,6 +208,7 @@
     }
     @media (max-width: 980px) {
       .shell { grid-template-columns: 1fr; }
+      .auth-wrap { grid-row: 1; }
       .intro { padding: 34px 24px 10px; }
       .auth-wrap { padding: 24px; }
     }
@@ -275,7 +276,7 @@
             </label>
             <button id="loginButton" type="submit">Open dashboard</button>
           </form>
-          <div class="hint" id="loginHint">Operator-generated setup links also land on this page.</div>
+          <div class="hint" id="loginHint">Forgot your password? Ask your Pulsify contact for a new password setup link.</div>
         </div>
 
         <div id="setupPanel" hidden>
@@ -283,7 +284,7 @@
           <p>Create the password you will use for this client dashboard.</p>
           <form id="setupForm" class="stack">
             <label for="setupPassword">New password
-              <input id="setupPassword" type="password" autocomplete="new-password" placeholder="At least 10 characters" required>
+              <input id="setupPassword" type="password" autocomplete="new-password" minlength="10" placeholder="At least 10 characters" required>
             </label>
             <label for="setupCode" id="setupCodeWrap" hidden>Email verification code
               <input id="setupCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the 6-digit code">
@@ -308,6 +309,8 @@
     const client = params.get("client") || "";
     const $ = (id) => document.getElementById(id);
     const setupState = { requiresCode: false };
+    // A password login must not reuse another client's private-link token.
+    sessionStorage.removeItem("pulsify_portal_token");
 
     if (setupToken) {
       $("loginPanel").hidden = true;
@@ -342,6 +345,7 @@
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not log in.");
+        sessionStorage.removeItem("pulsify_reel_thoughts");
         location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
       } catch (error) {
         showMessage(error.message || "Could not log in.");

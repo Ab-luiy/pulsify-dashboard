@@ -10,6 +10,9 @@ export async function onRequestPost({ request, env }) {
   const client = cleanId(body.client || "");
   const email = normalizeEmail(body.email || "");
   const sendEmail = Boolean(body.send_email);
+  if (sendEmail && (!env.RESEND_API_KEY || !env.EMAIL_FROM)) {
+    return json({ ok: false, error: "Email delivery is not configured. Generate a setup link without email and share it directly." }, 422);
+  }
   if (!client) return json({ ok: false, error: "valid client id required" }, 422);
   if (!email) return json({ ok: false, error: "valid email required" }, 422);
 
@@ -38,7 +41,7 @@ export async function onRequestPost({ request, env }) {
         expiresAt: result.expires_at,
       });
     } catch (error) {
-      return json({ ok: false, error: `could not send setup email: ${safeMessage(error)}` }, 502);
+      return json({ ...result, emailed: false, warning: "Email delivery failed. Copy and share this setup link directly." });
     }
   }
 
