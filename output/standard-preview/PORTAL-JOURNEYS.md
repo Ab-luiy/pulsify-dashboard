@@ -1,5 +1,7 @@
 # Portal journeys — September 7, 2026
 
+> September 8 update: the current shell, integrated AI, focused workflows and verification are documented in [WORKSPACE-REDESIGN.md](WORKSPACE-REDESIGN.md). Older manual-only AI and future-dashboard notes below describe the previous release.
+
 ## Implemented
 
 - Instagram task entry, established sequence-type menu, layout starters and attributed reference galleries. Full 18-panel founder-captured Niksetting example plus proof/lesson excerpts. Creator examples are reference material, never Pulsify results.

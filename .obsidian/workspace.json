@@ -37,9 +37,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true,
-                "showSearch": false,
-                "searchQuery": ""
+                "autoReveal": true
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -181,6 +179,7 @@
   },
   "active": "bfb6291c943dbd2a",
   "lastOpenFiles": [
+    "output/standard-preview/functions/api/workspace-summary.js",
     "output/bergtrades-page/shots/f05.png",
     "output/bergtrades-page/shots/f04.png",
     "output/bergtrades-page/shots/f03.png",
@@ -195,7 +194,6 @@
     "output/bergtrades-page/shots/fix-390-hero-live.png",
     "output/bergtrades-page/shots/fix-390-nojs.png",
     "output/bergtrades-page/shots/fix-1280-lower.png",
-    "output/bergtrades-page/shots/fix-1280-top.png",
     "output/bergtrades-page/_measure.html",
     "output/bergtrades-page/_capture.html",
     "output/bergtrades-page/shots",

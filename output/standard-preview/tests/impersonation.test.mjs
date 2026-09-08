@@ -1,3 +1,4 @@
+import * as copywriterApi from '../functions/api/copywriter.js';
 import { strict as assert } from "node:assert";
 import * as impersonateApi from "../functions/api/impersonate.js";
 import * as clientBrainApi from "../functions/api/client-brain.js";
@@ -484,6 +485,7 @@ async function testNormalSessionWritesStillWork() {
   assert.equal(JSON.parse(db.dashboardContent[0].json)[0].done, true);
 
   const authPassesToValidation = [
+    ["copywriter", copywriterApi.onRequestPost({ request: jsonRequest("https://funnels.test/api/copywriter", "POST", {brief:"test"}, cookie), env })],
     ["metrics-sequences", metricsSequencesApi.onRequestPost({ request: jsonRequest("https://funnels.test/api/metrics-sequences", "POST", {}, cookie), env })],
     ["metrics-weekly", metricsWeeklyApi.onRequestPost({ request: jsonRequest("https://funnels.test/api/metrics-weekly", "POST", {}, cookie), env })],
     ["studio-sequences", studioSequencesApi.onRequestPost({ request: jsonRequest("https://funnels.test/api/studio-sequences", "POST", {}, cookie), env })],

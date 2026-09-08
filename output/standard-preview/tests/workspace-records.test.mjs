@@ -1,3 +1,4 @@
+import {onRequestGet as summary} from '../functions/api/workspace-summary.js';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
@@ -21,3 +22,5 @@ assert.equal((await onRequestPost({env,request:req({...body,kind:'admin'})})).st
 assert.equal((await onRequestPost({env,request:req(null)})).status,422);
 assert.equal((await onRequestPost({env,request:req({...body,data:{notes:'x'.repeat(100001)}})})).status,413);
 console.log('PASS workspace records: persistence, tenant isolation, stale update conflicts, auth, size and schema validation');
+
+for(const table of ['studio_sequences','studio_carousels','sequence_log','proof_items']){sql.exec('CREATE TABLE '+table+'(client_id TEXT)');sql.prepare('INSERT INTO '+table+' VALUES(?),(?)').run('a','b');}sql.exec('CREATE TABLE payments(client TEXT)');sql.prepare('INSERT INTO payments VALUES(?)').run('a');const result=await summary({env,request:new Request('https://test/api/workspace-summary',{headers:{'x-portal-token':'token-a'}})});const totals=await result.json();assert.equal(totals.counts.stories,1);assert.equal(totals.counts.sequences,1);assert.equal(totals.counts.lead,1);assert.equal((await summary({env,request:new Request('https://test/api/workspace-summary')})).status,401);console.log('PASS all-time summary: direct database counts and tenant isolation');

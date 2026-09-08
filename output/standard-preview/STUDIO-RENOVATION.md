@@ -1,5 +1,7 @@
 # Studio renovation
 
+> September 8 update: the current shell, integrated AI, focused workflows and verification are documented in [WORKSPACE-REDESIGN.md](WORKSPACE-REDESIGN.md). Older manual-only AI and future-dashboard notes below describe the previous release.
+
 ## Product decision
 
 Studio becomes a content workspace, with a small number of deliberate modes instead of a page of generators. The existing tenant data, review workflow and prompt contracts remain the foundation. The client portal gets the same typography, navigation, controls and color system. The separate operator dashboard is a subsequent implementation, not something silently included in this release.

@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/**, wiki/log.md | CODEX | ACTIVE | Full portal skeleton replacement, focused routes, differentiated workflows, media archive, AI copywriter and dashboard redesign. |
+| output/standard-preview/**, wiki/log.md | CODEX | DONE | Workspace redesign deployed at 34510f3b; navigation, differentiated workflows, live AI, 45-image archive, operator dashboard and verification complete. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Guided portal renovation deployed and tested. See PORTAL-JOURNEYS.md. |
 | output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
 | output/standard-preview/**, claude-memory/project_funnel_portal_pipeline.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Portal readiness fixes deployed and verified; founder test login set. Lock cleared. |
@@ -1749,3 +1749,6 @@ COMPLETED: founder-directed guided portal renovation deployed to https://567313b
 
 ### [2026-09-08] CODEX
 STARTED: founder rejects inherited skeleton and authorizes full redesign. Auditing all client sections, replacing navigation with expandable channel sidebar and route history, splitting creation/performance/connection forms into steps and dialogs, differentiating all story types, importing complete supplied thumbnail archive, applying canonical title formulas, rebuilding home/revenue/media/admin visual layout, and enabling tenant-scoped AI copy assistance. This newer request supersedes the older manual-only AI preference for the Copywriter feature. No outbound messages or provider publishing.
+
+### [2026-09-08 13:43] CODEX
+COMPLETED: founder-directed full portal skeleton redesign is live at https://34510f3b.pulsify-funnels.pages.dev (production pulsify-funnels). Changed portal/index.html; new workspace-content.js/workspace-shell.js/workspace-shell.css/thumbnail-library.json and 45 protected library assets; studio-app.js integration; shared/icons brand marks; admin.html/console.js and new admin/workspace.js/workspace.css; functions/api/copywriter.js and workspace-summary.js; portal asset auth route; migration 0022 and wrangler AI binding; browser, SQLite and impersonation tests; WORKSPACE-REDESIGN.md plus release-document pointers; wiki/log.md. All 15 backend test files and the full Playwright workspace suite pass. Actual authenticated Workers AI generation returned 200; production sections, service logos, mobile view, database all-time counts and unauthenticated 401 checks passed without browser errors. Temporary QA sessions deleted. Full scope/limitations are documented in WORKSPACE-REDESIGN.md. Social inbox/analytics imports, DocuSign provisioning and the separate SDR dashboard remain outside this implementation. The hourly backup captured earlier work mid-session. Concurrent Obsidian workspace/graph formatting changes were observed and preserved for the normal backup, not edited by Codex. Locks cleared.

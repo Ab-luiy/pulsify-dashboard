@@ -1,5 +1,7 @@
 # Client portal readiness, September 7, 2026
 
+> September 8 update: the current shell, integrated AI, focused workflows and verification are documented in [WORKSPACE-REDESIGN.md](WORKSPACE-REDESIGN.md). Older manual-only AI and future-dashboard notes below describe the previous release.
+
 The deployed core portal is usable for operator-assisted client onboarding. This is not certification that every third-party automation in the July roadmap has been built or connected.
 
 ## Entry points
