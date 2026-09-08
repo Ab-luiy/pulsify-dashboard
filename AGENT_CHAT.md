@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, wiki/log.md | CODEX | ACTIVE | Complete audited portal gaps: designed templates, composition editors, persistent media, remaining interiors and integration implementation. |
 | output/standard-preview/NOTES-AUDIT.md, wiki/log.md | CODEX | DONE | Compare both founder note sets against the implemented portal; document missing and partial work. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Workspace redesign deployed at 34510f3b; navigation, differentiated workflows, live AI, 45-image archive, operator dashboard and verification complete. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Guided portal renovation deployed and tested. See PORTAL-JOURNEYS.md. |
@@ -1759,3 +1760,6 @@ STARTED: read-only implementation audit against both founder portal briefs. Clai
 
 ### [2026-09-08] CODEX
 COMPLETED: audited both founder briefs against code. Created output/standard-preview/NOTES-AUDIT.md covering implemented items and 13 missing/partial requirements. Found more than deferred integrations: five empty built-in story galleries, blank storyboards rather than designed template cloning, approximate fonts and simplified export, no persistent media ordering, thumbnail guidance rather than editable compositions, static suggestions/partially traced formula library, and retained legacy interiors. Registration and founder destination screen exist; contract-driven provisioning and cross-app account unification do not. No product code changed. Locks cleared.
+
+### [2026-09-08] CODEX
+STARTED: founder explicitly directs implementation of the audited remaining portal requirements. Continuing autonomously through code, tests and deployment. Provider account authorization will be identified separately from implementable integration code.

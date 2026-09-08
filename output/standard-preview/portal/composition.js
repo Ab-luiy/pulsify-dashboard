@@ -1,0 +1,17 @@
+/* One renderer supplies both the editor preview and downloaded PNG. */
+window.PulsifyComposition=(()=>{
+ const fonts={modern:'Arial, sans-serif',classic:'Georgia, serif',typewriter:'monospace',strong:'Arial Black, Arial, sans-serif'};
+ const color=(s,fallback)=>/^#[0-9a-f]{6}$/i.test(s||'')?s:fallback;
+ function wrap(ctx,text,width){const lines=[];for(const paragraph of String(text||'').split('\n')){let line='';for(const word of paragraph.split(/\s+/)){if(line&&ctx.measureText(line+' '+word).width>width){lines.push(line);line=word;}else line+=(line?' ':'')+word;}lines.push(line);}return lines;}
+ function base(slide,format='story'){const canvas=document.createElement('canvas');canvas.width=format==='thumbnail'?1280:1080;canvas.height=format==='thumbnail'?720:format==='story'?1920:1080;return canvas;}
+ function paint(canvas,slide,image){const c=canvas.getContext('2d'),w=canvas.width,h=canvas.height,t=slide.composition||{},bg=color(t.background,'#252131'),accent=color(t.accent,'#BAA6EF');c.clearRect(0,0,w,h);c.fillStyle=bg;c.fillRect(0,0,w,h);
+  if(image){const scale=Math.max(w/image.width,h/image.height)*(Number(t.zoom)||1);c.drawImage(image,(w-image.width*scale)/2,(h-image.height*scale)/2,image.width*scale,image.height*scale);c.fillStyle='rgba(0,0,0,'+Math.min(.85,Math.max(0,Number(t.shade??.25)))+')';c.fillRect(0,0,w,h);}else{c.fillStyle=accent+'20';c.beginPath();c.arc(w*.95,h*.22,w*.65,0,Math.PI*2);c.fill();c.fillStyle=accent+'30';c.fillRect(w*.08,h*.09,w*.12,7);}
+  const size=Math.max(20,Math.min(120,Number(t.fontSize)||54)),x=w*Math.max(.04,Math.min(.6,Number(t.x??.09))),y=h*Math.max(.08,Math.min(.8,Number(t.y??.34))),width=w*Math.min(.9,Number(t.width)||.82);c.font=`600 ${size}px ${fonts[slide.font_style]||fonts.modern}`;c.textBaseline='top';const align=slide.design?.treatment?.alignment||'left',pill=slide.design?.treatment?.text==='pill-box';const blocks=slide.text_pills||[slide.headline,slide.body,slide.cta].filter(Boolean);let py=y;
+  for(const block of blocks){for(const line of wrap(c,block,width-32)){if(py+size>h*.94)break;const measured=Math.min(width,c.measureText(line).width),px=align==='right'?w-x-measured:x;if(pill){c.fillStyle=color(t.pill,'#F4F0FA');c.beginPath();c.roundRect(px-15,py-10,measured+30,size*1.32,10);c.fill();}c.fillStyle=color(t.text,pill?'#211B30':'#FFFFFF');if(!pill){c.shadowColor='#0007';c.shadowBlur=7;}c.fillText(line,px,py,width);c.shadowBlur=0;py+=size*1.55;}py+=size*.45;}
+  if(t.label){c.font='500 24px Arial';c.fillStyle=accent;c.fillText(String(t.label).slice(0,70),w*.09,h*.13,w*.82);}for(const line of slide.strokes||[]){c.beginPath();c.strokeStyle=color(line.color,'#FFFFFF');c.lineWidth=7;c.lineCap='round';(line.points||[]).forEach((p,i)=>i?c.lineTo(p[0]*w,p[1]*h):c.moveTo(p[0]*w,p[1]*h));c.stroke();}return canvas;
+ }
+ async function render(slide,format='story'){const canvas=base(slide,format);let image=null;if(/^\/(m|portal\/references)\/[\w/.-]+$/.test(slide.media_url||'')){image=new Image();image.src=slide.media_url;await image.decode();}return paint(canvas,slide,image);}
+ function preview(slide,format='story'){return paint(base(slide,format),slide,null).toDataURL('image/png');}
+ async function download(canvas,name){const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));if(!blob)throw Error('Image export failed');const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1500);}
+ return {render,preview,download,fonts};
+})();
