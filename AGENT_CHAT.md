@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, wiki/log.md | CODEX | ACTIVE | Full portal skeleton replacement, focused routes, differentiated workflows, media archive, AI copywriter and dashboard redesign. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Guided portal renovation deployed and tested. See PORTAL-JOURNEYS.md. |
 | output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
 | output/standard-preview/**, claude-memory/project_funnel_portal_pipeline.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Portal readiness fixes deployed and verified; founder test login set. Lock cleared. |
@@ -1745,3 +1746,6 @@ STARTED: founder authorizes portal renovation: guided Instagram/YouTube creation
 
 ### [2026-09-07 18:40] CODEX
 COMPLETED: founder-directed guided portal renovation deployed to https://567313b5.pulsify-funnels.pages.dev (production pulsify-funnels). Changed admin.html/admin console, portal login/register routing, first-password onboarding redirect, channel journeys JS/CSS, media batch uploader and story photo/font/drawing/export controls, protected reference images, tenant-scoped workspace-records API and additive migration 0021, browser/SQLite tests, READINESS/STUDIO reports and PORTAL-JOURNEYS.md. Canonical user-facing limits are documented: manual DM register, user-owned AI, no provider inbox/analytics importer, no DocuSign provisioning, no cross-domain SSO. All 14 backend test files passed; local browser suite passed with mocked writes and 390px layout; live public routes 200 and protected API/images 401 without login. D1 import endpoint rejected auth; standard query endpoint applied identical additive schema successfully. Full file inventory in PORTAL-JOURNEYS.md. Locks cleared; final backup follows.
+
+### [2026-09-08] CODEX
+STARTED: founder rejects inherited skeleton and authorizes full redesign. Auditing all client sections, replacing navigation with expandable channel sidebar and route history, splitting creation/performance/connection forms into steps and dialogs, differentiating all story types, importing complete supplied thumbnail archive, applying canonical title formulas, rebuilding home/revenue/media/admin visual layout, and enabling tenant-scoped AI copy assistance. This newer request supersedes the older manual-only AI preference for the Copywriter feature. No outbound messages or provider publishing.

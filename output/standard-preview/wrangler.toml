@@ -2,6 +2,9 @@ name = "pulsify-funnels"
 pages_build_output_dir = "."
 compatibility_date = "2026-06-30"
 
+[ai]
+binding = "AI"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "pulsify-portal"

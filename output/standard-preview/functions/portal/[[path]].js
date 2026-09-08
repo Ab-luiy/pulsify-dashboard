@@ -6,7 +6,7 @@ import {
 
 export async function onRequest(context) {
   const path = readPath(context.params);
-  if (/^references\/(story-\d+\.png|thumbnail-\d+\.jpg)$/.test(path)) {
+  if (/^references\/(story-\d+\.png|thumbnail-\d+\.jpg|library-\d+\.(png|jpg))$/.test(path)) {
     const access = await resolveClientAccess(context.request, context.env, { allowHeaderToken: false, allowImpersonated: true });
     if (access.error) return access.error;
     return serveAsset(context.env, context.request, '/portal/' + path);

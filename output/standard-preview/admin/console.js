@@ -843,7 +843,7 @@
   }
 
   function routeFromHash() {
-    const requested = location.hash.replace("#", "");
+    const requested = location.hash.replace("#", "").split("/")[0];
     state.route = ROUTES[requested] ? requested : "launch";
     if (!location.hash || !ROUTES[requested]) history.replaceState(null, "", `${location.pathname}${location.search}#${state.route}`);
     $$("[data-route-panel]").forEach((panel) => { panel.hidden = panel.dataset.routePanel !== state.route; });

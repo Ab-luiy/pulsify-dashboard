@@ -1,0 +1,317 @@
+[
+  {
+    "id": 1,
+    "title": "miro proof board v1 clean rebuild exact ui",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-clean-rebuild-exact-ui.png",
+    "url": "/portal/references/library-1.png"
+  },
+  {
+    "id": 2,
+    "title": "miro proof board v1 content with ai 2 approved",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-content-with-ai-2-approved.png",
+    "url": "/portal/references/library-2.png"
+  },
+  {
+    "id": 3,
+    "title": "miro proof board v1 content with ai 2 clean final v2",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-content-with-ai-2-clean-final-v2.png",
+    "url": "/portal/references/library-3.png"
+  },
+  {
+    "id": 4,
+    "title": "miro proof board v1 content with ai 2 final v2",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-content-with-ai-2-final-v2.png",
+    "url": "/portal/references/library-4.png"
+  },
+  {
+    "id": 5,
+    "title": "miro proof board v1 content with ai 2 final v3",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-content-with-ai-2-final-v3.png",
+    "url": "/portal/references/library-5.png"
+  },
+  {
+    "id": 6,
+    "title": "miro proof board v1 content with ai 2 final v4",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-content-with-ai-2-final-v4.png",
+    "url": "/portal/references/library-6.png"
+  },
+  {
+    "id": 7,
+    "title": "miro proof board v1 content with ai 2 final",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-content-with-ai-2-final.png",
+    "url": "/portal/references/library-7.png"
+  },
+  {
+    "id": 8,
+    "title": "miro proof board v1 new angle facecam bg blur",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-angle-facecam-bg-blur.png",
+    "url": "/portal/references/library-8.png"
+  },
+  {
+    "id": 9,
+    "title": "miro proof board v1 new angle facecam grid merge",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-angle-facecam-grid-merge.png",
+    "url": "/portal/references/library-9.png"
+  },
+  {
+    "id": 10,
+    "title": "miro proof board v1 new angle real face fit",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-angle-real-face-fit.png",
+    "url": "/portal/references/library-10.png"
+  },
+  {
+    "id": 11,
+    "title": "miro proof board v1 new angle real face",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-angle-real-face.png",
+    "url": "/portal/references/library-11.png"
+  },
+  {
+    "id": 12,
+    "title": "miro proof board v1 new webcam approved style real face v6",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-approved-style-real-face-v6.png",
+    "url": "/portal/references/library-12.png"
+  },
+  {
+    "id": 13,
+    "title": "miro proof board v1 new webcam approved style real face v7",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-approved-style-real-face-v7.png",
+    "url": "/portal/references/library-13.png"
+  },
+  {
+    "id": 14,
+    "title": "miro proof board v1 new webcam approved style real face v8",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-approved-style-real-face-v8.png",
+    "url": "/portal/references/library-14.png"
+  },
+  {
+    "id": 15,
+    "title": "miro proof board v1 new webcam blended real face v3",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-blended-real-face-v3.png",
+    "url": "/portal/references/library-15.png"
+  },
+  {
+    "id": 16,
+    "title": "miro proof board v1 new webcam blended real face v4",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-blended-real-face-v4.png",
+    "url": "/portal/references/library-16.png"
+  },
+  {
+    "id": 17,
+    "title": "miro proof board v1 new webcam blended real face v5",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-blended-real-face-v5.png",
+    "url": "/portal/references/library-17.png"
+  },
+  {
+    "id": 18,
+    "title": "miro proof board v1 new webcam original style real face v2",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-original-style-real-face-v2.png",
+    "url": "/portal/references/library-18.png"
+  },
+  {
+    "id": 19,
+    "title": "miro proof board v1 new webcam original style real face",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-new-webcam-original-style-real-face.png",
+    "url": "/portal/references/library-19.png"
+  },
+  {
+    "id": 20,
+    "title": "miro proof board v1 rebuilt final claude fixed v2",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-rebuilt-final-claude-fixed-v2.png",
+    "url": "/portal/references/library-20.png"
+  },
+  {
+    "id": 21,
+    "title": "miro proof board v1 rebuilt final claude fixed",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-rebuilt-final-claude-fixed.png",
+    "url": "/portal/references/library-21.png"
+  },
+  {
+    "id": 22,
+    "title": "miro proof board v1 rebuilt final clean",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-rebuilt-final-clean.png",
+    "url": "/portal/references/library-22.png"
+  },
+  {
+    "id": 23,
+    "title": "miro proof board v1 rebuilt final",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-rebuilt-final.png",
+    "url": "/portal/references/library-23.png"
+  },
+  {
+    "id": 24,
+    "title": "miro proof board v1 rebuilt from clean layers",
+    "category": "Founder variant",
+    "source": "output/thumbnails/miro-proof-board-v1-rebuilt-from-clean-layers.png",
+    "url": "/portal/references/library-24.png"
+  },
+  {
+    "id": 25,
+    "title": "3QDKzi4nFl8 HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/3QDKzi4nFl8-HD.jpg",
+    "url": "/portal/references/library-25.jpg"
+  },
+  {
+    "id": 26,
+    "title": "AVwLBdBhNYE HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/AVwLBdBhNYE-HD.jpg",
+    "url": "/portal/references/library-26.jpg"
+  },
+  {
+    "id": 27,
+    "title": "AZs4vZqquHs HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/AZs4vZqquHs-HD.jpg",
+    "url": "/portal/references/library-27.jpg"
+  },
+  {
+    "id": 28,
+    "title": "ETIRwgMOyvg HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/ETIRwgMOyvg-HD.jpg",
+    "url": "/portal/references/library-28.jpg"
+  },
+  {
+    "id": 29,
+    "title": "h0570Xsmc7M HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/h0570Xsmc7M-HD.jpg",
+    "url": "/portal/references/library-29.jpg"
+  },
+  {
+    "id": 30,
+    "title": "ig_0090eade658ee99e016a455aa9b0308191a7559d846f8a23a5",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/ig_0090eade658ee99e016a455aa9b0308191a7559d846f8a23a5.png",
+    "url": "/portal/references/library-30.png"
+  },
+  {
+    "id": 31,
+    "title": "ig_052cb5a4b23237d5016a455c708cb8819193e9a7ee01502945",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/ig_052cb5a4b23237d5016a455c708cb8819193e9a7ee01502945.png",
+    "url": "/portal/references/library-31.png"
+  },
+  {
+    "id": 32,
+    "title": "ig_0a873a8a37460147016a45563674cc81918e232d0fdbb706af",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/ig_0a873a8a37460147016a45563674cc81918e232d0fdbb706af.png",
+    "url": "/portal/references/library-32.png"
+  },
+  {
+    "id": 33,
+    "title": "ig_0f1462a1f69a6408016a4553c935b8819bb575f812fbc8aa0f",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/ig_0f1462a1f69a6408016a4553c935b8819bb575f812fbc8aa0f.png",
+    "url": "/portal/references/library-33.png"
+  },
+  {
+    "id": 34,
+    "title": "ig_0f1462a1f69a6408016a45545f5e90819b9159a9a033202b34",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/ig_0f1462a1f69a6408016a45545f5e90819b9159a9a033202b34.png",
+    "url": "/portal/references/library-34.png"
+  },
+  {
+    "id": 35,
+    "title": "Jk7tOhcuA6A HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/Jk7tOhcuA6A-HD.jpg",
+    "url": "/portal/references/library-35.jpg"
+  },
+  {
+    "id": 36,
+    "title": "kkUPYufYQSI HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/kkUPYufYQSI-HD.jpg",
+    "url": "/portal/references/library-36.jpg"
+  },
+  {
+    "id": 37,
+    "title": "KnbqLjGzD3k HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/KnbqLjGzD3k-HD.jpg",
+    "url": "/portal/references/library-37.jpg"
+  },
+  {
+    "id": 38,
+    "title": "LW20KlhEh2U HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/LW20KlhEh2U-HD.jpg",
+    "url": "/portal/references/library-38.jpg"
+  },
+  {
+    "id": 39,
+    "title": "MpgV2Lh5iE8 HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/MpgV2Lh5iE8-HD.jpg",
+    "url": "/portal/references/library-39.jpg"
+  },
+  {
+    "id": 40,
+    "title": "piUV5wZ7G_o HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/piUV5wZ7G_o-HD.jpg",
+    "url": "/portal/references/library-40.jpg"
+  },
+  {
+    "id": 41,
+    "title": "PvX1SCuGLTE HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/PvX1SCuGLTE-HD.jpg",
+    "url": "/portal/references/library-41.jpg"
+  },
+  {
+    "id": 42,
+    "title": "tZSN h_aOWs HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/tZSN-h_aOWs-HD.jpg",
+    "url": "/portal/references/library-42.jpg"
+  },
+  {
+    "id": 43,
+    "title": "XQB7y00msmc HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/XQB7y00msmc-HD.jpg",
+    "url": "/portal/references/library-43.jpg"
+  },
+  {
+    "id": 44,
+    "title": "XstUllNuwms HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/XstUllNuwms-HD.jpg",
+    "url": "/portal/references/library-44.jpg"
+  },
+  {
+    "id": 45,
+    "title": "Z MHrteEkkE HD",
+    "category": "Supplied reference",
+    "source": "raw-sources/inspiration/thumbnail-retouch-references/Z-MHrteEkkE-HD.jpg",
+    "url": "/portal/references/library-45.jpg"
+  }
+]

@@ -1,0 +1,1 @@
+Brand marks: Simple Icons (CC0), https://github.com/simple-icons/simple-icons; Instagram/YouTube fallback v13.21.0 where unavailable in develop. Whop mark from https://whop.com official website logo component, retrieved 2026-09-08. Brand rights remain with their respective owners.
