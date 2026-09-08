@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/NOTES-AUDIT.md, wiki/log.md | CODEX | DONE | Compare both founder note sets against the implemented portal; document missing and partial work. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Workspace redesign deployed at 34510f3b; navigation, differentiated workflows, live AI, 45-image archive, operator dashboard and verification complete. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Guided portal renovation deployed and tested. See PORTAL-JOURNEYS.md. |
 | output/standard-preview/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Studio renovation: app workflow, visual editor, shared portal shell, tests and deployment. |
@@ -1752,3 +1753,9 @@ STARTED: founder rejects inherited skeleton and authorizes full redesign. Auditi
 
 ### [2026-09-08 13:43] CODEX
 COMPLETED: founder-directed full portal skeleton redesign is live at https://34510f3b.pulsify-funnels.pages.dev (production pulsify-funnels). Changed portal/index.html; new workspace-content.js/workspace-shell.js/workspace-shell.css/thumbnail-library.json and 45 protected library assets; studio-app.js integration; shared/icons brand marks; admin.html/console.js and new admin/workspace.js/workspace.css; functions/api/copywriter.js and workspace-summary.js; portal asset auth route; migration 0022 and wrangler AI binding; browser, SQLite and impersonation tests; WORKSPACE-REDESIGN.md plus release-document pointers; wiki/log.md. All 15 backend test files and the full Playwright workspace suite pass. Actual authenticated Workers AI generation returned 200; production sections, service logos, mobile view, database all-time counts and unauthenticated 401 checks passed without browser errors. Temporary QA sessions deleted. Full scope/limitations are documented in WORKSPACE-REDESIGN.md. Social inbox/analytics imports, DocuSign provisioning and the separate SDR dashboard remain outside this implementation. The hourly backup captured earlier work mid-session. Concurrent Obsidian workspace/graph formatting changes were observed and preserved for the normal backup, not edited by Codex. Locks cleared.
+
+### [2026-09-08] CODEX
+STARTED: read-only implementation audit against both founder portal briefs. Claiming NOTES-AUDIT.md and wiki/log.md to preserve the complete remaining-work list. No product changes or deployment in this audit.
+
+### [2026-09-08] CODEX
+COMPLETED: audited both founder briefs against code. Created output/standard-preview/NOTES-AUDIT.md covering implemented items and 13 missing/partial requirements. Found more than deferred integrations: five empty built-in story galleries, blank storyboards rather than designed template cloning, approximate fonts and simplified export, no persistent media ordering, thumbnail guidance rather than editable compositions, static suggestions/partially traced formula library, and retained legacy interiors. Registration and founder destination screen exist; contract-driven provisioning and cross-app account unification do not. No product code changed. Locks cleared.
