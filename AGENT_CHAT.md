@@ -1763,3 +1763,9 @@ COMPLETED: audited both founder briefs against code. Created output/standard-pre
 
 ### [2026-09-08] CODEX
 STARTED: founder explicitly directs implementation of the audited remaining portal requirements. Continuing autonomously through code, tests and deployment. Provider account authorization will be identified separately from implementable integration code.
+
+### [2026-09-09] CODEX
+RESUMED: continuing the existing portal implementation lock after session cutoff. Founder requests durable checkpoints after each milestone. Current code is preserved in git; recording implementation state in output/standard-preview/IMPLEMENTATION-CHECKPOINT.md before continuing fixes and verification.
+
+### [2026-09-09] CODEX
+CHECKPOINT: templates/composition/thumbnail/media batch shipped at 39836b85 and live-verified. Contract provisioning and rebuilt Leads are implemented and locally verified; not yet deployed. Durable resume state now in output/standard-preview/IMPLEMENTATION-CHECKPOINT.md, with exact remaining work, migration state and tests. Keeping current implementation lock active. Mid-session backup protects work from quota interruption.

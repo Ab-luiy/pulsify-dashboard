@@ -58,7 +58,7 @@
   const editable=()=>ui.project && !state.impersonated && ['draft','rejected'].includes(ui.project.status);
   const slides=()=>Array.isArray(ui.output?.slides)?ui.output.slides:[];
   const hasCopy=s=>Boolean((s.text_pills||[]).join('').trim()||s.headline?.trim()||s.body?.trim()||s.cta?.trim());
-  const isComplete=()=>Boolean(ui.output?.raw_text?.trim()||(slides().length&&slides().every(hasCopy)));
+  const isComplete=()=>!slides().some(s=>/\[[^\]]+\]/.test([...(s.text_pills||[]),s.headline||'',s.body||'',s.cta||''].join(' ')))&&Boolean(ui.output?.raw_text?.trim()||(slides().length&&slides().every(hasCopy)));
   function allowLeave(){if(ui.busy){notify('Please wait for the save to finish.');return false;}return !ui.dirty||confirm('You have unsaved edits. Discard them?');}
   function setView(view,skipGuard=false){
     if(!skipGuard&&(ui.busy||(ui.view==='editor'&&view!=='editor'))&&!allowLeave())return false;

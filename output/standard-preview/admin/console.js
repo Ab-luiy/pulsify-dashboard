@@ -352,6 +352,15 @@
   }
 
   function bindEvents() {
+    $("contractStatusButton").onclick = async () => {
+      const target=$("contractStatus");target.textContent='Checking contract onboarding…';
+      try {const response=await api('/api/contract-status');const data=await response.json();if(!response.ok)throw Error(data.error||'Could not load onboarding status.');
+        target.replaceChildren();const line=document.createElement('p');line.textContent=data.configured?'Configuration present. Test a completed contract before using this with clients.':'Setup required: '+data.missing.join(', ');target.append(line);
+        const steps=document.createElement('p');steps.textContent='In DocuSign Connect, use JSON SIM with HMAC, recipients and custom fields. URL: '+data.webhook+'. Use the '+data.role+' signer role and envelope custom field pulsify_portal=true.';target.append(steps);
+        for(const row of data.rows){const item=document.createElement('p');item.textContent=row.client_id+' · '+row.state+' · '+row.created_at;target.append(item);}
+      } catch(error) {target.textContent=error.message;}
+    };
+
     $("authForm").addEventListener("submit", (event) => {
       event.preventDefault();
       unlockWithKey($("adminKey").value.trim(), false);

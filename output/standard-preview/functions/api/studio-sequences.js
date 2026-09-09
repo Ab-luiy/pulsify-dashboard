@@ -74,7 +74,7 @@ export async function onRequestPost({ request, env }) {
   const client = cleanId(access.client);
 
   const row = await env.DB.prepare(
-    `SELECT id, client_id, status
+    `SELECT id, client_id, status, output_json
        FROM studio_sequences
       WHERE id=?`,
   ).bind(id).first();
@@ -85,6 +85,11 @@ export async function onRequestPost({ request, env }) {
   if (action === "submit-for-review") {
     if (row.status !== "draft" && row.status !== "rejected") {
       return json({ ok: false, error: "only draft or rejected sequences can be sent for review" }, 422);
+    }
+    const output = parseJson(row.output_json, {});
+    if (output.template_id && (output.slides || []).some(slide =>
+      /\[[^\]]+\]/.test([...(slide.text_pills || []), slide.headline || '', slide.body || '', slide.cta || ''].join(' ')))) {
+      return json({ ok: false, error: "Replace the bracketed template prompts with your own copy before review." }, 422);
     }
     await env.DB.prepare(
       `UPDATE studio_sequences
@@ -140,7 +145,7 @@ async function attachOutput(env, body, id, access, isAdmin, draftOnly = false) {
   if (!rawText) return json({ ok: false, error: "raw_text is required" }, 422);
 
   const row = await env.DB.prepare(
-    `SELECT id, client_id, status
+    `SELECT id, client_id, status, output_json
        FROM studio_sequences
       WHERE id=?`,
   ).bind(id).first();
@@ -194,3 +199,4 @@ function looksLikeSequenceOutput(value) {
   if (!Array.isArray(value.slides) && typeof value.raw_text !== "string") return false;
   return true;
 }
+
