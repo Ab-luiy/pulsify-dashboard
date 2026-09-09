@@ -77,7 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/**, wiki/log.md | CODEX | ACTIVE | Complete audited portal gaps: designed templates, composition editors, persistent media, remaining interiors and integration implementation. |
+| output/standard-preview/**, wiki/log.md | CODEX | DONE | September 9 release 776a4c37; remaining work and exact resume state in IMPLEMENTATION-CHECKPOINT.md. |
 | output/standard-preview/NOTES-AUDIT.md, wiki/log.md | CODEX | DONE | Compare both founder note sets against the implemented portal; document missing and partial work. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Workspace redesign deployed at 34510f3b; navigation, differentiated workflows, live AI, 45-image archive, operator dashboard and verification complete. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Guided portal renovation deployed and tested. See PORTAL-JOURNEYS.md. |
@@ -1769,3 +1769,6 @@ RESUMED: continuing the existing portal implementation lock after session cutoff
 
 ### [2026-09-09] CODEX
 CHECKPOINT: templates/composition/thumbnail/media batch shipped at 39836b85 and live-verified. Contract provisioning and rebuilt Leads are implemented and locally verified; not yet deployed. Durable resume state now in output/standard-preview/IMPLEMENTATION-CHECKPOINT.md, with exact remaining work, migration state and tests. Keeping current implementation lock active. Mid-session backup protects work from quota interruption.
+
+### [2026-09-09] CODEX
+RELEASE CHECKPOINT: continued founder portal implementation after cutoff. Live release 776a4c37 includes 27 editable story templates/shared composition renderer from interrupted source, template review guard, editable thumbnail save/reload/PNG export/video attachment, five-stage contextual AI video suggestions, persistent media order (migration 0023), focused content/team/plans/todos/leads with saved DM summaries, 16 verified original YouTube titles/creators/links, and DocuSign provisioning handler/admin status (migration 0024). DocuSign requires configuration and a controlled live event; no real emails sent. Changed portal JS/CSS/thumbnail-library, admin.html/admin console, studio-sequences API, new secret-box/contract-status/docusign-connect and contract migration/test; extended browser and readiness tests. All 16 backend files and extended browser suite pass; live checks passed without console errors, anonymous endpoints blocked, temp session deleted. Updated NOTES-AUDIT.md and CONTRACT-ONBOARDING.md. IMPLEMENTATION-CHECKPOINT.md is the durable shared restart point requested by founder; its exact-next-work list preserves social OAuth/imports, unified founder account, adaptive intake, remaining interiors and source/design gaps. Full brief remains unfinished. Lock cleared; final backup follows.

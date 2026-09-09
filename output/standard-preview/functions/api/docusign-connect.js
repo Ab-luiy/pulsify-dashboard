@@ -34,6 +34,7 @@ export async function onRequestPost({request,env}) {
   if (raw.byteLength > 262144) return json({ok:false,error:'Payload too large.'},413);
   if (!await authenticated(request,raw,env.DOCUSIGN_HMAC_SECRET)) return json({ok:false,error:'Invalid signature.'},401);
   let event;try{event=JSON.parse(new TextDecoder().decode(raw));}catch{return json({ok:false,error:'Invalid JSON.'},422);}
+  if (!event || typeof event !== 'object' || Array.isArray(event)) return json({ok:false,error:'An event object is required.'},422);
   if (String(event.data?.accountId) !== String(env.DOCUSIGN_ACCOUNT_ID)) return json({ok:false,error:'Account mismatch.'},403);
   if (event.event !== 'envelope-completed') return json({ok:true,ignored:true});
   const summary=event.data?.envelopeSummary,envelope=String(event.data?.envelopeId||'');

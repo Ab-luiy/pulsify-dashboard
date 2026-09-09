@@ -8,29 +8,39 @@ Implement the remaining requirements from both founder portal briefs. The founde
 
 ## Deployment state
 
-Last verified production release: 34510f3b.pulsify-funnels.pages.dev. Canonical: https://pulsify-funnels.pages.dev. Subsequent composition/template/media changes exist in source and were captured by the repo backup, but have not been deployed.
+Current verified production release: 776a4c37.pulsify-funnels.pages.dev. Canonical: https://pulsify-funnels.pages.dev. All implementation changes in this checkpoint are deployed. Migrations 0023 and 0024 were applied remotely. Live browser checks passed with zero errors; protected endpoints return 401 anonymously. Contract webhook correctly returns 503 while configuration is absent. No real invitation emails were sent.
 
-## Implemented in source since that release
+## Implementation files
 
 - portal/composition.js: shared canvas story/carousel/thumbnail renderer and PNG export.
 - portal/story-templates.js: 27 original editable templates, three treatments for each of nine story types. Original designs, not claimed creator screenshots.
 - portal/composition-editor.js: composition preview, position/size/background controls and shared export.
 - portal/thumbnail-designer.js: editable compositions, saved structured designs and feed-size preview.
 - portal/workspace-shell.js: template gallery/cloning, thumbnail designer routes, post-upload media ordering, first pass at Content/Plans/Team/To-dos interiors.
-- functions/api/media-order.js and migrations/0023_media_order.sql: tenant-scoped persistent order. Migration not yet applied remotely.
+- functions/api/media-order.js and migrations/0023_media_order.sql: tenant-scoped persistent order. Migration applied remotely on September 9.
 - portal/index.html and workspace-shell.css: scripts and composition layering.
 
-## Exact next checks and fixes
+## Exact next work
 
-1. Prevent unresolved template placeholders from being sent for review; fix stale chosen-template metadata after changing type.
-2. Correct asynchronous deep-link loading for new workspace and designer routes.
-3. Connect saved thumbnail designs to the video packaging wizard, verify save/reload/export and template clone/reload with browser tests.
-4. Test media-order authorization, tenant isolation, invalid inputs and persistence. Test preview/export parity and inspect actual screenshots.
-5. Add client-context AI video/title/thumbnail suggestions inside the video wizard.
-6. Complete remaining Leads, account, carousel and operator setup interiors without dropping existing data/actions.
-7. Implement founder account/session path, DocuSign verified/idempotent provisioning and adaptable onboarding.
-8. Implement social OAuth, encrypted token storage, refresh/imports and signed/idempotent DM webhooks. Real activation still requires provider app configuration and account consent.
-9. Catalogue original YouTube title/creator metadata only when verifiable; exact licensed Instagram fonts and absent creator screenshots must not be fabricated.
+1. Implement social OAuth, encrypted token storage/refresh, scoped analytics imports and signed/idempotent inbox events. The existing cards are still delegated-access records. Actual activation requires provider application configuration and account consent. secret-box.js now provides context-bound AES-GCM storage, but is only used for contract invitations so far.
+2. Implement unified founder account/session and separate SDR dashboard handoff without breaking current admin-key/client auth.
+3. Adapt onboarding selections into workspace feature configuration. Existing intake already saves client context, but does not select modules automatically.
+4. Rebuild remaining account, carousel and operator setup interiors. Content/Plans/Team/To-dos/Leads were rebuilt in this session; preserve existing array/object formats when continuing.
+5. Exact licensed Instagram fonts/stickers remain absent. Original editable galleries now cover every type, but external creator screenshots remain absent for five types; do not pass original designs off as creator evidence.
+6. Thumbnail designs support one background image and text; multi-image layers remain a possible next composition enhancement. Sixteen archive videos now have verified YouTube metadata; 29 other assets have no verified original video metadata.
+7. Audit the exact formula catalogue against canonical source pages; current patterns and AI suggestions do not establish a complete performance-traced formula library.
+8. Activate and live-test DocuSign after account/HMAC/email configuration. Code, admin status, migration 0024 and tests are built. No actual invitation emails were sent during development. See CONTRACT-ONBOARDING.md.
+
+## Completed verification in this resumed session
+
+- Corrected stale template type metadata and added server/client placeholder review guard.
+- New route deep links and nested Team/Plans schema load correctly.
+- Designed story cloning/reload and preview/export pixel equality pass.
+- Thumbnail save/reload/export and video attachment pass; five-stage client-context AI suggestions are wired.
+- Persistent media order validation, missing auth and tenant ownership checks pass against real SQLite.
+- Rebuilt Leads forms persist notes/AI summaries and survive reload.
+- Contract test covers signed events, account isolation, atomic creation, encrypted pending link, retry, duplicates and existing accounts with mocked delivery.
+- Sixteen backend test files and the extended Playwright suite pass.
 
 ## Verification and release commands
 
@@ -52,3 +62,5 @@ Last verified production release: 34510f3b.pulsify-funnels.pages.dev. Canonical:
 - 2026-09-09 release milestone: migration 0023 applied remotely; composition/template/thumbnail/media batch deployed as 39836b85. Live checks passed with zero browser errors and protected endpoints returning 401 anonymously; temporary QA session deleted.
 - 2026-09-09 next milestone in source: DocuSign raw-body HMAC/account/role/explicit-envelope-marker validation, atomic account provisioning, encrypted pending invitations, delivery retries and duplicate protection, plus admin connection status and CONTRACT-ONBOARDING.md. New SQLite contract test passes; 16 backend test files pass. Migration 0024 NOT applied and this milestone NOT deployed yet. No real emails sent.
 - 2026-09-09 UI milestone in source: replaced legacy Leads panel with stage filters, focused edit dialog, persisted conversation summaries using existing AI. Extended browser suite passes, including lead reload and admin contract-status panel. Next: migrate 0024/deploy/verify; continue remaining audit items. Social OAuth/imports, founder unified login, adaptable intake, native font assets, archive metadata and remaining account/carousel/operator interiors remain unfinished.
+
+- 2026-09-09 final release checkpoint: 776a4c37 is live with all changes above, including the 16 verified video metadata records. Migrations 0023/0024 applied. Latest live checks passed, temporary session removed. Remaining work is explicitly listed above; the full founder brief is not complete. Shared lock released and final repo backup follows.
