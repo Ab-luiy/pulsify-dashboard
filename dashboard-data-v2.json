@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-11T04:41:37.673167+00:00",
+  "lastUpdated": "2026-09-11T09:17:29.129Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-09-11T04:41:37.673167+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-09-10T09:18:42.707Z",
+    "updatedAt": "2026-09-11T09:17:29.057Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 492,
-      "following": 560,
+      "followers": 489,
+      "following": 557,
       "mediaCount": 8,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=GS2kxBW_HTIQ7kNvwEIpFGJ&_nc_oc=Adpdbzg1fvRKrWuEMVR0bUmZs5-zYGPisTXbDF5rJTKat2Rxp6_0F9J1BhEZQ48XVDo&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=QCI5dInXfNpuodzLRDfmBg&_nc_tpa=Q5bMBQLx_bzHGBkmTfqW8LC8KDmyoBAIZeknIeXgDZlJve7t7Moh45xYdyRy6EPtMeLzR-UjjGhfYEoP&oh=00_AQJCrnxMw4UuXMr9U2QWeZp0X8vNX42F_yURqwp18qBmpA&oe=6AA8330E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=GS2kxBW_HTIQ7kNvwEIpFGJ&_nc_oc=Adpdbzg1fvRKrWuEMVR0bUmZs5-zYGPisTXbDF5rJTKat2Rxp6_0F9J1BhEZQ48XVDo&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=VeJGRVkGQUp-LrdkJfl9mg&_nc_tpa=Q5bMBQK-M_g-lH8NOCWuNDtz9pKKtN844ZX2_dzX_VT7hgFXMpH71phe4DEg4VZYptYFx_nd0XWomOeh&oh=00_AQJulXzFAJW8cz3vEmsz7Xmz2a54zb31uXfs359roJ0-eQ&oe=6AA9848E"
     },
     "content": {
       "reelsCount": 15,
@@ -55,7 +55,7 @@
       "totalShares": 11,
       "avgReach": 139,
       "avgViews": 165,
-      "avgWatchMs": 8823,
+      "avgWatchMs": 8802,
       "avgHook": 26,
       "reachByPost": [
         {
@@ -111,7 +111,7 @@
           "date": "2026-07-12T12:45:26+0000",
           "reach": 35,
           "views": 45,
-          "hook": 9,
+          "hook": 8,
           "caption": "#personalbranding #coaches #trading #airbnb"
         },
         {
@@ -166,14 +166,13 @@
       ]
     },
     "account": {
-      "reach30d": 266,
+      "reach30d": 250,
       "views30d": 0,
       "newFollowers30d": 25,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        16,
         7,
         0,
         2,
@@ -202,10 +201,10 @@
         51,
         7,
         3,
-        1
+        1,
+        0
       ],
       "followerSeries": [
-        0,
         0,
         1,
         0,
@@ -234,6 +233,7 @@
         0,
         1,
         0,
+        0,
         0
       ],
       "viewsSeries": [],
@@ -260,7 +260,7 @@
           "shares": 1,
           "saved": 9,
           "totalInteractions": 18,
-          "avgWatchTimeMs": 15599
+          "avgWatchTimeMs": 15556
         },
         "saveRate": 0.03272727272727273,
         "shareRate": 0.0036363636363636364,
@@ -283,7 +283,7 @@
           "shares": 5,
           "saved": 6,
           "totalInteractions": 34,
-          "avgWatchTimeMs": 17908
+          "avgWatchTimeMs": 17887
         },
         "saveRate": 0.007398273736128237,
         "shareRate": 0.006165228113440197,
@@ -306,7 +306,7 @@
           "shares": 1,
           "saved": 1,
           "totalInteractions": 8,
-          "avgWatchTimeMs": 17207
+          "avgWatchTimeMs": 17132
         },
         "saveRate": 0.005208333333333333,
         "shareRate": 0.005208333333333333,
@@ -329,7 +329,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 4,
-          "avgWatchTimeMs": 14128
+          "avgWatchTimeMs": 14075
         },
         "saveRate": 0,
         "shareRate": 0,
@@ -398,7 +398,7 @@
           "shares": 0,
           "saved": 2,
           "totalInteractions": 4,
-          "avgWatchTimeMs": 7699
+          "avgWatchTimeMs": 7650
         },
         "saveRate": 0.015748031496062992,
         "shareRate": 0,
@@ -421,7 +421,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 3,
-          "avgWatchTimeMs": 9351
+          "avgWatchTimeMs": 9325
         },
         "saveRate": 0,
         "shareRate": 0,
@@ -467,7 +467,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 2,
-          "avgWatchTimeMs": 5926
+          "avgWatchTimeMs": 5941
         },
         "saveRate": 0,
         "shareRate": 0,
@@ -490,12 +490,12 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 0,
-          "avgWatchTimeMs": 5380
+          "avgWatchTimeMs": 5306
         },
         "saveRate": 0,
         "shareRate": 0,
         "engagementRate": 0,
-        "hookScore": 9,
+        "hookScore": 8,
         "diagnosis": "Middle of the pack — test a different hook, angle, or opening visual.",
         "rank": 11
       },
@@ -786,7 +786,7 @@
     }
   },
   "content": {
-    "igFollowers": 492,
+    "igFollowers": 489,
     "igReach30d": 2090,
     "igReelsShipped": 8
   }
