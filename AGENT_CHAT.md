@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| outreach/resources/next-video/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md | CODEX | DONE | Reusable next-video image/PDF built, visually verified and registered. No DMs sent. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | September 9 release 776a4c37; remaining work and exact resume state in IMPLEMENTATION-CHECKPOINT.md. |
 | output/standard-preview/NOTES-AUDIT.md, wiki/log.md | CODEX | DONE | Compare both founder note sets against the implemented portal; document missing and partial work. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | Workspace redesign deployed at 34510f3b; navigation, differentiated workflows, live AI, 45-image archive, operator dashboard and verification complete. |
@@ -1772,3 +1773,9 @@ CHECKPOINT: templates/composition/thumbnail/media batch shipped at 39836b85 and 
 
 ### [2026-09-09] CODEX
 RELEASE CHECKPOINT: continued founder portal implementation after cutoff. Live release 776a4c37 includes 27 editable story templates/shared composition renderer from interrupted source, template review guard, editable thumbnail save/reload/PNG export/video attachment, five-stage contextual AI video suggestions, persistent media order (migration 0023), focused content/team/plans/todos/leads with saved DM summaries, 16 verified original YouTube titles/creators/links, and DocuSign provisioning handler/admin status (migration 0024). DocuSign requires configuration and a controlled live event; no real emails sent. Changed portal JS/CSS/thumbnail-library, admin.html/admin console, studio-sequences API, new secret-box/contract-status/docusign-connect and contract migration/test; extended browser and readiness tests. All 16 backend files and extended browser suite pass; live checks passed without console errors, anonymous endpoints blocked, temp session deleted. Updated NOTES-AUDIT.md and CONTRACT-ONBOARDING.md. IMPLEMENTATION-CHECKPOINT.md is the durable shared restart point requested by founder; its exact-next-work list preserves social OAuth/imports, unified founder account, adaptive intake, remaining interiors and source/design gaps. Full brief remains unfinished. Lock cleared; final backup follows.
+
+### [2026-09-12 15:15] CODEX
+STARTED: Founder requested immediate build of a reusable next-video resource for follow-up 2. Claimed outreach/resources/next-video/**, asset library and wiki log. Building one general phone-readable image plus PDF, no per-prospect personalization or outbound messages. Final user copies also go to the originating task outputs directory.
+
+### [2026-09-12 15:18] CODEX
+COMPLETED: Added outreach/resources/next-video/build.py, next-video.pdf, next-video.png and SEND-NOTE.md. Updated wiki/playbooks/prospect-asset-library.md and wiki/log.md. General resource uses founder-approved topic directions and send copy; proposed day-2 attachment, reusable across niches. Verified one PDF page, complete text, 1080x1600 PNG and clean rendered layout. Copied final PNG/PDF/send note to originating task outputs. No messages or deployment. Locks cleared; final auto-backup follows.
