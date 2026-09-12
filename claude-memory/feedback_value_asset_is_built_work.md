@@ -20,3 +20,9 @@ Six founder rulings from the 2026-08-02/04 prospect-asset builds (`_acetrades_`,
 **Why:** three drafts of TB's doc were rejected for being analytical, generic and too long, and Luke's v1 opened by inflicting a stat he was already painfully aware of. The craft is now settled and written down, so no future build should relitigate it.
 
 **How to apply:** run `wiki/playbooks/prospect-asset-sop.md` end to end. `tools/pull_creator_assets.py` pulls thumbnails, `tools/check_prospect_doc.py` enforces the ceiling and the voice checks, headless Chrome renders landing-page previews. Related: [[feedback-horizon-note-follower-reframe]], [[feedback-asset-library-and-suggestion-register]], [[feedback-plain-speech]].
+
+## 2026-09-12: Reusable document excerpts for mass outreach
+
+Founder rejected the designed green next-video card. Follow-up value should look organic: a useful section selected from an actual Pulsify document, with ordinary document typography and modest highlighting. Build a real reusable source document and extract the relevant section; do not imitate app chrome or invent licensing-program history. Do not force per-prospect customization while the founder is doing mass outreach alone. Choose the topic once and reuse the matching screenshot.
+
+Canonical replacement: outreach/resources/document-excerpts/. Three-page PDF plus editable Markdown and six verified cropped PNGs: content ideas/recording, profile highlights/bio, VSL opening/page congruence. Each route has screenshot 01 for day 2 and screenshot 02 for day 6, with captions and the complete test cadence in SEND-NOTE.md. Old designed card retained only for history. Source review is documented in SOURCE-REVIEW.md. These resources are general and must not be passed off as previously promised personalized audits. No external sends or measured effectiveness yet.

@@ -87,3 +87,11 @@ Canonical files: `outreach/resources/next-video/next-video.png`, `next-video.pdf
 Proposed send placement: day 2 after the opener, or immediately when requested earlier. Exact founder-approved copy: "figured this might come in handy on those days where you know your stuff but can't decide what to make a video about". Attach the PNG in the DM. PDF is optional. Never describe this as a personalized audit or as proof that an earlier audit promise was fulfilled.
 
 Source: founder-approved direction in the September 12 outreach conversation; [[content-engine/content-pillars]] informs the use of questions, examples and process. Cadence and efficacy remain untested. See [[playbooks/ig-followup-sequence]] for existing inbox evidence; its individualized early-value approach is not a requirement for this founder-authorized reusable resource.
+
+## [2026-09-12] Organic document excerpts replace the designed card
+
+Founder rejected the designed next-video handout in favor of actual document excerpts that can be reused at volume. The previous green next-video card is retained as history and is no longer the default send asset.
+
+Built outreach/resources/document-excerpts/: one three-page PDF, editable Markdown, six direct PDF viewport PNGs, SEND-NOTE.md with every message and attachment timing, build/export/extraction scripts and SOURCE-REVIEW.md. Content pair covers turning questions into video angles and recording examples; profile pair covers start-here/highlight functions and bio/YouTube/DM continuity; funnel pair covers Jeremy's summary and correct VSL flow plus page congruence and sales-question/data checks. Review used [[people/ayman-arab]], [[frameworks/story-sequence-system]], [[frameworks/bio-optimization-system]] and the Jeremy VSL raw source. No claims of approval by those people.
+
+Send screenshot 01 on day 2 and screenshot 02 on day 6 for the selected route, using the same source document. Proposed founder-directed cadence remains days 1/2/3/6/11/18 after opener, stop on response or decline. General material must not be described as custom or as an established licensed program. No DMs sent; no efficacy data. Verified all three PDF pages and six crops visually. Word renderer was unavailable; DOCX is an internal draft only, PDF and Markdown are the delivered sources.

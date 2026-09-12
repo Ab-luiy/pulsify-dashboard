@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| outreach/resources/document-excerpts/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and live mirror | CODEX | DONE | Three source sections, six verified screenshots and send pack complete; old card retired from default sends. |
 | claude-memory/feedback_source_based_expert_review.md, wiki/log.md, corresponding live memory | CODEX | DONE | Three unrecognized names excluded from default review; historical sources preserved. |
 | claude-memory/feedback_source_based_expert_review.md, claude-memory/MEMORY.md, wiki/log.md, matching live memory files | CODEX | DONE | Review workflow and source routing saved; limited-coverage guards preserved; live memory synchronized. |
 | claude-memory/feedback_flag_gaps_no_heavy_claims.md, claude-memory/MEMORY.md, wiki/log.md, corresponding live memory files | CODEX | DONE | Framework fidelity rule saved and live memory synchronized; no source frameworks changed. |
@@ -1800,3 +1801,9 @@ STARTED: Founder does not recognize Grayson Loupas, Dan Bolton or Abdoulaye Waly
 
 ### [2026-09-12 16:02] CODEX
 COMPLETED: Updated feedback_source_based_expert_review.md and wiki/log.md; synchronized live memory. Grayson Loupas, Dan Bolton and Abdoulaye Waly excluded from default reviews pending founder selection. No historical source edits. Locks cleared.
+
+### [2026-09-12 16:07] CODEX
+STARTED: Founder rejects designed handout style and asks to finalize low-friction outreach with organic excerpts from actual reusable files. Building real editable source document with three send-ready screenshot crops, preserving original card for history. Claimed resource directory, asset library, decision log and existing asset feedback memory/live mirror. Source review uses Ayman/Niksetting for content/profile and Jeremy raw material for VSL; no licensing-status claims or external sends.
+
+### [2026-09-12 16:13] CODEX
+COMPLETED: Added outreach/resources/document-excerpts/**: build/export/extract scripts, PDF/Markdown source, internal DOCX draft, six screenshots, SEND-NOTE.md and SOURCE-REVIEW.md. Updated asset library, wiki log and existing asset feedback memory/live copy. Verified 3 PDF pages plus all six crops; exact text/dimensions checked. DOCX renderer unavailable (no LibreOffice), so only verified PDF/Markdown/screenshots delivered. User ZIP in originating outputs contains six PNGs, PDF, Markdown and send sheet. No DMs or deploy. Locks cleared.

@@ -1557,3 +1557,7 @@ Founder requests simulated relevant expert feedback before deliverables and next
 ## [2026-09-12] decision | Unrecognized peripheral names excluded from default review
 
 Founder does not recognize Grayson Loupas, Dan Bolton or Abdoulaye Waly. Checked their provenance: May 9 external research registry and peripheral synthesis, not dedicated ingested frameworks. Pack-level approval metadata does not establish personal selection or governing authority. Updated shared expert-review memory and its live mirror to exclude these three pending explicit founder selection; retained historical sources unchanged.
+
+## [2026-09-12] decision | Organic document excerpts and complete send pack
+
+Founder rejected the designed screenshot style and directed a practical reusable file-excerpt workflow. Built outreach/resources/document-excerpts/ with three source sections, six PDF-rendered screenshot crops, complete route/caption/cadence SEND-NOTE.md, editable Markdown, source review and reproducible scripts. Updated prospect-asset-library.md to retire the older card from default sending, and existing asset feedback memory/live mirror to preserve the new style and low-friction requirement. All three PDF pages and six final PNGs visually verified; PDF page count and crop text/dimensions checked. Bundled Word renderer failed due absent LibreOffice; no verified DOCX delivered. User pack (PNG/PDF/Markdown/send sheet) copied to originating task outputs and zipped. No external messages or deployments.
