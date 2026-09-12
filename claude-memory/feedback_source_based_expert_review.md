@@ -47,3 +47,7 @@ Watchlist-only at the time of this instruction: Jace England, Tymek Karecki, Luk
 ## Source trail
 
 Founder request in the September 12 outreach conversation; wiki/index.md; wiki/synthesis/operator-vsl-study-map.md; wiki/synthesis/peripheral-operator-reference-map.md; wiki/synthesis/cross-creator-synthesis.md; the files listed above. This is an adopted review procedure, not evidence that every stored teaching is empirically validated.
+
+## 2026-09-12 correction: unrecognized names are not adopted reviewers
+
+The founder explicitly said he does not recognize Grayson Loupas, Dan Bolton or Abdoulaye Waly. Exclude these three from default expert review and strategy inputs unless the founder subsequently selects them. This overrides their inclusion in the limited-coverage list above. Their names came from raw-sources/inspiration/vsl-operator-study-source-list.md, dated May 9: a peripheral research pack whose header records approval for pattern research, not individual adoption of each figure as an authority. Do not claim the founder personally selected these names. Preserve historical files; research inclusion alone does not authorize promotion into governing or default review sources.

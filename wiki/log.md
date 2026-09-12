@@ -1553,3 +1553,7 @@ Founder corrected Codex's unsupported permissive advice about travel, personal a
 ## [2026-09-12] decision | Source-based expert review before relevant outputs
 
 Founder requests simulated relevant expert feedback before deliverables and next approaches. Added claude-memory/feedback_source_based_expert_review.md with a task-to-source map and mandatory source-check, review and revision workflow; indexed it in MEMORY.md. Jeremy Haynes leads VSL/webinar/sales-funnel work; other figures contribute within documented scope and founder-adopted rules. Interpretations must not be represented as real statements or endorsements. Peripheral summaries require adequate supporting material and watchlist-only names remain unavailable for substantive simulation. Mirrors synchronized to live Claude memory. No changes to historical source teachings or product assets.
+
+## [2026-09-12] decision | Unrecognized peripheral names excluded from default review
+
+Founder does not recognize Grayson Loupas, Dan Bolton or Abdoulaye Waly. Checked their provenance: May 9 external research registry and peripheral synthesis, not dedicated ingested frameworks. Pack-level approval metadata does not establish personal selection or governing authority. Updated shared expert-review memory and its live mirror to exclude these three pending explicit founder selection; retained historical sources unchanged.

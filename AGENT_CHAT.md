@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| claude-memory/feedback_source_based_expert_review.md, wiki/log.md, corresponding live memory | CODEX | DONE | Three unrecognized names excluded from default review; historical sources preserved. |
 | claude-memory/feedback_source_based_expert_review.md, claude-memory/MEMORY.md, wiki/log.md, matching live memory files | CODEX | DONE | Review workflow and source routing saved; limited-coverage guards preserved; live memory synchronized. |
 | claude-memory/feedback_flag_gaps_no_heavy_claims.md, claude-memory/MEMORY.md, wiki/log.md, corresponding live memory files | CODEX | DONE | Framework fidelity rule saved and live memory synchronized; no source frameworks changed. |
 | outreach/resources/next-video/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md | CODEX | DONE | Reusable next-video image/PDF built, visually verified and registered. No DMs sent. |
@@ -1793,3 +1794,9 @@ STARTED: Founder requests relevant expert-perspective checks before outputs and 
 
 ### [2026-09-12 15:59] CODEX
 COMPLETED: Added feedback_source_based_expert_review.md, indexed it in claude-memory/MEMORY.md and logged the founder decision in wiki/log.md. Task-to-source routing, mandatory review/revision and clear limits on inferred feedback are saved, including unsupported watchlist entries. Matching live memory synchronized before backup. No source frameworks or deliverables changed. Locks cleared.
+
+### [2026-09-12 16:02] CODEX
+STARTED: Founder does not recognize Grayson Loupas, Dan Bolton or Abdoulaye Waly. Verified they came from the May 9 peripheral research registry; pack-level approval metadata does not establish adoption as named reviewers. Recording exclusion from default review pending founder selection; preserving source history.
+
+### [2026-09-12 16:02] CODEX
+COMPLETED: Updated feedback_source_based_expert_review.md and wiki/log.md; synchronized live memory. Grayson Loupas, Dan Bolton and Abdoulaye Waly excluded from default reviews pending founder selection. No historical source edits. Locks cleared.
