@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| claude-memory/feedback_flag_gaps_no_heavy_claims.md, claude-memory/MEMORY.md, wiki/log.md, corresponding live memory files | CODEX | DONE | Framework fidelity rule saved and live memory synchronized; no source frameworks changed. |
 | outreach/resources/next-video/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md | CODEX | DONE | Reusable next-video image/PDF built, visually verified and registered. No DMs sent. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | September 9 release 776a4c37; remaining work and exact resume state in IMPLEMENTATION-CHECKPOINT.md. |
 | output/standard-preview/NOTES-AUDIT.md, wiki/log.md | CODEX | DONE | Compare both founder note sets against the implemented portal; document missing and partial work. |
@@ -1779,3 +1780,9 @@ STARTED: Founder requested immediate build of a reusable next-video resource for
 
 ### [2026-09-12 15:18] CODEX
 COMPLETED: Added outreach/resources/next-video/build.py, next-video.pdf, next-video.png and SEND-NOTE.md. Updated wiki/playbooks/prospect-asset-library.md and wiki/log.md. General resource uses founder-approved topic directions and send copy; proposed day-2 attachment, reusable across niches. Verified one PDF page, complete text, 1080x1600 PNG and clean rendered layout. Copied final PNG/PDF/send note to originating task outputs. No messages or deployment. Locks cleared; final auto-backup follows.
+
+### [2026-09-12 15:29] CODEX
+STARTED: Founder requests permanent correction after unsupported leniency about profile highlights. Claiming existing evidence/claims feedback memory, memory index, wiki log and matching live memory copies. Will record framework fidelity, source attribution and no invented exceptions while preserving distinctions between founder rules, source claims and observed data. No source framework changes or external messages.
+
+### [2026-09-12 15:30] CODEX
+COMPLETED: Extended claude-memory/feedback_flag_gaps_no_heavy_claims.md with founder's evidence-only framework-fidelity rule; updated its MEMORY.md index entry and wiki/log.md. Read canonical cross-creator and story-sequence pages fully; preserved exact source boundaries rather than inventing bans. Mirrored changed memory files to live Claude memory to avoid backup clobber. No framework rewrites or external messages. Locks cleared; verification and auto-backup follow.
