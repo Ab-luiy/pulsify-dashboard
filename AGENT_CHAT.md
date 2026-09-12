@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| claude-memory/feedback_source_based_expert_review.md, claude-memory/MEMORY.md, wiki/log.md, matching live memory files | CODEX | DONE | Review workflow and source routing saved; limited-coverage guards preserved; live memory synchronized. |
 | claude-memory/feedback_flag_gaps_no_heavy_claims.md, claude-memory/MEMORY.md, wiki/log.md, corresponding live memory files | CODEX | DONE | Framework fidelity rule saved and live memory synchronized; no source frameworks changed. |
 | outreach/resources/next-video/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md | CODEX | DONE | Reusable next-video image/PDF built, visually verified and registered. No DMs sent. |
 | output/standard-preview/**, wiki/log.md | CODEX | DONE | September 9 release 776a4c37; remaining work and exact resume state in IMPLEMENTATION-CHECKPOINT.md. |
@@ -1786,3 +1787,9 @@ STARTED: Founder requests permanent correction after unsupported leniency about 
 
 ### [2026-09-12 15:30] CODEX
 COMPLETED: Extended claude-memory/feedback_flag_gaps_no_heavy_claims.md with founder's evidence-only framework-fidelity rule; updated its MEMORY.md index entry and wiki/log.md. Read canonical cross-creator and story-sequence pages fully; preserved exact source boundaries rather than inventing bans. Mirrored changed memory files to live Claude memory to avoid backup clobber. No framework rewrites or external messages. Locks cleared; verification and auto-backup follow.
+
+### [2026-09-12 15:59] CODEX
+STARTED: Founder requests relevant expert-perspective checks before outputs and next approaches. Claiming new shared review-workflow memory, index, decision log and live copies. Reviews will be source-grounded interpretations, not invented quotes or personal endorsements; watchlist-only names remain pending evidence.
+
+### [2026-09-12 15:59] CODEX
+COMPLETED: Added feedback_source_based_expert_review.md, indexed it in claude-memory/MEMORY.md and logged the founder decision in wiki/log.md. Task-to-source routing, mandatory review/revision and clear limits on inferred feedback are saved, including unsupported watchlist entries. Matching live memory synchronized before backup. No source frameworks or deliverables changed. Locks cleared.
