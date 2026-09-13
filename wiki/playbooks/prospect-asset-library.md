@@ -3,10 +3,12 @@ type: playbook
 tags: [outreach, content, offer, funnel]
 sources: [[playbooks/prospect-asset-doc-standard]], [[clients/_pipeline/ig-inbox-audit-2026-07-28]], [[content-engine/cold-dm-formula]]
 created: 2026-07-28
-updated: 2026-07-30
+updated: 2026-09-13
 ---
 
 # Prospect asset library
+
+Latest reusable test (2026-09-13): `outreach/resources/standalone-content-v1/`. Two standalone PNGs, exact generation prompts, and send captions. Asset 01 turns one solved problem into three video angles; asset 02 packages the walkthrough with a thumbnail before/after, opening and annotated example. Built and visually checked; founder review and prospect testing pending. The founder requested standalone visuals after the document crops below, so those earlier formats remain history rather than the default for this test. The framework is general, illustrated through finding clients; no personal audit or invented results are implied. Apply [[content-engine/content-pillars]], [[content-engine/packaging-rules]], [[people/ayman-arab]] and [[people/alexei]]. Content demonstrates expertise in support of the $3–$4k offer, then an appropriate funnel; the cold resource has no mentorship bait or sales CTA. Day 2 sends image 01, day 3 explains its application, day 6 sends connected image 02. See the package's SEND-NOTE.md. Source: explicit founder direction in the September outreach conversation; efficacy is untested.
 
 Every asset Pulsify has built for a prospect, what wound it treats, and what it takes to build another one. Founder directive 2026-07-28: log every asset as it ships, then propose from this list when the next lead asks for something. The point is that the menu compounds. Nothing gets re-derived from scratch, and the founder's judgment on each build gets written down instead of living in one conversation.
 

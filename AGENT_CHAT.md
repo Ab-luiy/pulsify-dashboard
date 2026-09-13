@@ -77,6 +77,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| outreach/resources/standalone-content-v1/, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and matching live memory | CODEX | DONE | Two connected standalone PNGs visually reviewed; prompts, send notes and shared memory saved. Founder review and live testing pending. |
 | outreach/resources/document-excerpts/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and live mirror | CODEX | DONE | Three source sections, six verified screenshots and send pack complete; old card retired from default sends. |
 | claude-memory/feedback_source_based_expert_review.md, wiki/log.md, corresponding live memory | CODEX | DONE | Three unrecognized names excluded from default review; historical sources preserved. |
 | claude-memory/feedback_source_based_expert_review.md, claude-memory/MEMORY.md, wiki/log.md, matching live memory files | CODEX | DONE | Review workflow and source routing saved; limited-coverage guards preserved; live memory synchronized. |
@@ -1807,3 +1808,12 @@ STARTED: Founder rejects designed handout style and asks to finalize low-frictio
 
 ### [2026-09-12 16:13] CODEX
 COMPLETED: Added outreach/resources/document-excerpts/**: build/export/extract scripts, PDF/Markdown source, internal DOCX draft, six screenshots, SEND-NOTE.md and SOURCE-REVIEW.md. Updated asset library, wiki log and existing asset feedback memory/live copy. Verified 3 PDF pages plus all six crops; exact text/dimensions checked. DOCX renderer unavailable (no LibreOffice), so only verified PDF/Markdown/screenshots delivered. User ZIP in originating outputs contains six PNGs, PDF, Markdown and send sheet. No DMs or deploy. Locks cleared.
+
+
+### [2026-09-13] CODEX
+Claimed standalone-content-v1 and supporting library/memory/log files. Building two reusable visual resources for content ideation and packaging, with illustrative examples and no invented outcomes. Founder authorized build in current outreach conversation.
+
+
+
+### [2026-09-13] CODEX
+Completed outreach/resources/standalone-content-v1/ (two PNGs, prompts, send notes). Updated wiki/playbooks/prospect-asset-library.md, wiki/log.md and claude-memory/feedback_value_asset_is_built_work.md plus its live mirror. Both images inspected for full text, visual sequence and illustrative labeling. Shared latest standalone testing direction; no prospect messages sent. User-facing output pack saved in originating task outputs. Lock released.
