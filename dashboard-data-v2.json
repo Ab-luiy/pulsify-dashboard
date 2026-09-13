@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-13T04:48:36.119842+00:00",
+  "lastUpdated": "2026-09-13T09:54:45.627Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-09-13T04:48:36.119842+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-09-12T08:57:36.936Z",
+    "updatedAt": "2026-09-13T09:54:45.560Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -44,7 +44,7 @@
       "followers": 488,
       "following": 559,
       "mediaCount": 8,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=vKT083aLhIEQ7kNvwG3599i&_nc_oc=AdotImDLk9N4ebOY4eCHKUYaW3k5vD-W4_Gjw2ui1Oj7VB2A0KpjIoHn8fRy90MMyDE&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=f4gFP8ETLOTUycPTcWK0OA&_nc_tpa=Q5bMBQLFezxa94eCEqz8RChGroqekq1x-sN6_TqDcfHaRk5YKve5-zhE44_Gxg0RBbvSYsKUdM_mZCyb&oh=00_AQIyyFQUUwYz9aXfcyCtX3DG_31dNzkjLBfd1QgxyunW6Q&oe=6AAAD60E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=vKT083aLhIEQ7kNvwHy6MXv&_nc_oc=AdoTNcK0V3F0w66zS_4D0-gJwqYvNDWu87UrtyZ5tS_phKvIBtyR4frYrDywBXhm9Qk&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=QAh3wdeR0lhP1BV3WLqucg&_nc_tpa=Q5bMBQLML5ESKWilryMtOp4IhXXn8wljiM9e01SoCoAlxfDkoiSuHZdeOIS_gc2SDfLA1NTDRW7rVIf0&oh=00_AQJnRG0z9wmIrnR5qaZlc4WpFbSkvsyh9t0-cAdhT7EGYA&oe=6AAC5FCE"
     },
     "content": {
       "reelsCount": 15,
@@ -55,7 +55,7 @@
       "totalShares": 11,
       "avgReach": 139,
       "avgViews": 165,
-      "avgWatchMs": 8802,
+      "avgWatchMs": 8805,
       "avgHook": 26,
       "reachByPost": [
         {
@@ -168,12 +168,11 @@
     "account": {
       "reach30d": 244,
       "views30d": 0,
-      "newFollowers30d": 25,
+      "newFollowers30d": 24,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        0,
         2,
         15,
         16,
@@ -202,10 +201,10 @@
         3,
         1,
         1,
+        0,
         0
       ],
       "followerSeries": [
-        1,
         0,
         1,
         1,
@@ -231,6 +230,7 @@
         2,
         0,
         1,
+        0,
         0,
         0,
         0,
@@ -329,7 +329,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 4,
-          "avgWatchTimeMs": 14075
+          "avgWatchTimeMs": 14078
         },
         "saveRate": 0,
         "shareRate": 0,
@@ -421,7 +421,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 3,
-          "avgWatchTimeMs": 9325
+          "avgWatchTimeMs": 9380
         },
         "saveRate": 0,
         "shareRate": 0,
