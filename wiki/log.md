@@ -1569,3 +1569,7 @@ Founder authorized building the first two connected standalone assets after choo
 ## [2026-09-15] decision | Persistent packaging screenshot collection
 
 Created outreach/packaging-references/Packaging examples.md and its attachments folder at founder request. Note provides good/bad/unsorted sections, optional source and performance fields, and latest dotted-board design direction. Indexed in wiki/index.md for future retrieval. No examples ingested yet; original screenshots will remain intact.
+
+## [2026-09-15] query | First packaging screenshot batch reviewed
+
+Visually read all 14 founder PNGs containing 15 videos (14 listing pairs and one watch-page frame). Added outreach/packaging-references/Packaging review.md with exact visible titles, capture-relative metrics, three annotation bullets per video, source limitations and recommended board examples. Embedded all 14 untouched screenshots in Packaging examples.md. Flagged the TradingLab 2.1m/7.6x example as a claim-style critique, not a proven performance failure; flagged JJ Simon as a video-frame/design reference with original thumbnail absent. Collection remains in progress. No external links, live analytics or income verified.

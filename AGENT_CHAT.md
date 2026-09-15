@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-15: outreach/packaging-references/Packaging examples.md, outreach/packaging-references/Packaging review.md, wiki/log.md. Reviewing founder screenshots; preserving original PNGs.
+
 Packaging reference setup: CODEX claims outreach/packaging-references/, wiki/index.md and wiki/log.md (DONE, 2026-09-15).
 
 Active claims only. Clear your row when done.
@@ -1827,3 +1829,11 @@ Creating founder-requested persistent Obsidian packaging reference note and atta
 
 ### [2026-09-15] CODEX
 Completed outreach/packaging-references/Packaging examples.md, attachments/.gitkeep, wiki/index.md and wiki/log.md. Verified note and attachment folder exist; collection awaits founder screenshots. Lock released.
+
+
+### [2026-09-15] CODEX
+Founder added 14 screenshot attachments. All opened and inspected; 15 videos represented, including one watch-page frame. Creating per-example bullet breakdowns and linking embeds in the reference note. Founder labels preserved; no live metrics, CTR, income or sales verification inferred from screenshots.
+
+
+### [2026-09-15] CODEX
+Completed first screenshot batch review: 14 original PNGs, 15 video entries, three bullet annotations each. All note embeds resolve. Added Packaging review.md, linked and embedded collection in Packaging examples.md, appended wiki/log.md. Founder screenshots preserved unchanged and included in vault backup as requested. No final board generation; bad-example collection remains open. Locks released.
