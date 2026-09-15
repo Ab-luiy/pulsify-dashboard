@@ -1565,3 +1565,7 @@ Founder rejected the designed screenshot style and directed a practical reusable
 ## [2026-09-13] decision | Standalone content follow-up visuals built
 
 Founder authorized building the first two connected standalone assets after choosing this format for testing. Added outreach/resources/standalone-content-v1/: two visually inspected PNGs, exact built-in image-generation prompts and day 2/3/6 send notes. Image 01 branches one solved problem into three videos; image 02 continues its walkthrough with thumbnail before/after, opening and annotated mock example. Updated prospect asset library and existing asset feedback memory, mirrored to live Claude memory. The example and imagery are illustrative, with no invented results, personal-audit claim or promised sales. General framework serves content, then the high-ticket offer and funnel; no external sends or efficacy evidence. Deliverables copied and zipped in the originating task outputs.
+
+## [2026-09-15] decision | Persistent packaging screenshot collection
+
+Created outreach/packaging-references/Packaging examples.md and its attachments folder at founder request. Note provides good/bad/unsorted sections, optional source and performance fields, and latest dotted-board design direction. Indexed in wiki/index.md for future retrieval. No examples ingested yet; original screenshots will remain intact.

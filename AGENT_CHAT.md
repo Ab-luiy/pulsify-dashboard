@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+Packaging reference setup: CODEX claims outreach/packaging-references/, wiki/index.md and wiki/log.md (DONE, 2026-09-15).
+
 Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
@@ -1817,3 +1819,11 @@ Claimed standalone-content-v1 and supporting library/memory/log files. Building 
 
 ### [2026-09-13] CODEX
 Completed outreach/resources/standalone-content-v1/ (two PNGs, prompts, send notes). Updated wiki/playbooks/prospect-asset-library.md, wiki/log.md and claude-memory/feedback_value_asset_is_built_work.md plus its live mirror. Both images inspected for full text, visual sequence and illustrative labeling. Shared latest standalone testing direction; no prospect messages sent. User-facing output pack saved in originating task outputs. Lock released.
+
+
+### [2026-09-15] CODEX
+Creating founder-requested persistent Obsidian packaging reference note and attachments folder; indexing the collection for future retrieval. No existing source material modified.
+
+
+### [2026-09-15] CODEX
+Completed outreach/packaging-references/Packaging examples.md, attachments/.gitkeep, wiki/index.md and wiki/log.md. Verified note and attachment folder exist; collection awaits founder screenshots. Lock released.

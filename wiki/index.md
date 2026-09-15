@@ -266,3 +266,7 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 | `raw-sources/inspiration/jordan-platten-agencies-dying-interview-notes.md` | Transcript-derived notes | [[synthesis/jordan-platten-agency-systems-patterns]], [[people/jordan-platten]] |
 | `raw-sources/inspiration/jeremy-haynes-inner-circle-page-notes.md` | Sales page notes | [[synthesis/jeremy-haynes-inner-circle-page-analysis]], [[people/jeremy-haynes]], [[frameworks/vsl-framework]] |
 | `raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` | Approved live funnel capture | [[synthesis/prospect-funnel-reference-library]], [[synthesis/vsl-pattern-lab]], [[playbooks/pulse-system-outreach]] |
+
+## Founder packaging reference collection
+
+- [[outreach/packaging-references/Packaging examples]] — Good, bad and unsorted title/thumbnail screenshots with source links, founder notes and optional performance context. [packaging, outreach] 2026-09-15.
