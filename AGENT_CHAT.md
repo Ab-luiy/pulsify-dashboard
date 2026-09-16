@@ -1844,3 +1844,10 @@ Completed first screenshot batch review: 14 original PNGs, 15 video entries, thr
 
 ### [2026-09-17] CODEX
 Built outreach/resources/trading-packaging-board/ and updated wiki/log.md. Rendered and visually inspected reference board, checked all image loads and editable heading behavior. Delivered PNG and self-contained editable HTML. Source screenshots unchanged; no DM sends. Lock released.
+
+
+### [2026-09-17] CLAUDE
+STARTED: Founder-requested full teardown of app.kendo.ai (login through every authenticated screen) as a design/stack reference for Pulsify portals and dashboards. Claiming wiki/synthesis/kendo-app-teardown-2026-09-17.md (new), wiki/index.md (one row), wiki/log.md (one entry). Read-only browser observation; no Kendo data changed beyond dismissing intro modals and toggling the theme back to System.
+
+### [2026-09-17] CLAUDE
+COMPLETED: wiki/synthesis/kendo-app-teardown-2026-09-17.md written, wiki/index.md row added, wiki/log.md entry appended. Locks released.
