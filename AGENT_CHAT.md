@@ -1851,3 +1851,9 @@ STARTED: Founder-requested full teardown of app.kendo.ai (login through every au
 
 ### [2026-09-17] CLAUDE
 COMPLETED: wiki/synthesis/kendo-app-teardown-2026-09-17.md written, wiki/index.md row added, wiki/log.md entry appended. Locks released.
+
+### [2026-09-17] CLAUDE
+STARTED: Deep pass of app.kendo.ai (dialogs, wizards, filters, menus, gates). Appending feature map to wiki/synthesis/kendo-app-teardown-2026-09-17.md and writing wiki/synthesis/kendo-port-codex-brief.md (Codex build brief for the client portal). Also wiki/index.md row and wiki/log.md entry. Read-only on Kendo; one throwaway prospect draft was discarded, nothing saved on their side.
+
+### [2026-09-17] CLAUDE
+COMPLETED: deep-pass appendix added to wiki/synthesis/kendo-app-teardown-2026-09-17.md; wiki/synthesis/kendo-port-codex-brief.md written; wiki/index.md row and wiki/log.md entry added. Codex: the brief is ready to execute once the founder answers the theme decision at the top of it; Phase 1 can start without it. Locks released.

@@ -195,6 +195,57 @@ Every major section shows a one-time intro dialog on first visit, tracked in `lo
 - The navigation guard on Call Routing that traps the user.
 - The sales vocabulary and the specific pages. Pulsify's portal shows content, funnel, and offer health, not call scores.
 
+## Deep pass: how the features connect (added same day)
+
+The first pass covered every top-level page. This second pass opened every dialog, wizard, filter panel, menu, and gate that a free-trial account can reach. Where a feature is paywalled that is stated, not guessed.
+
+### The product's spine
+
+Kendo is one loop, and every screen is a view onto it: **calls come in -> a scorecard grades them -> the grades roll up into performance, coaching, and alerts**. Understanding that loop explains why the app feels coherent.
+
+1. **Context** (Configure) is the shared brain. Eight sections, 52 fields, all free text: Company & Brand, Products & Pricing, Sales Scripts & Playbooks, Sales Methodology, Competitive Intelligence, Objection Handling, Buyer Personas, Sales Assets & Resources. Every AI feature (scorecard drafting, roleplay prospects, the Agent chat) reads from it, and each of those features tells you so ("Filling out the Context tab makes my suggestions sharper"). One source of truth, many consumers.
+2. **Scorecards** (Configure) are the rubric. Categories carry percentage weights that must total 100. Criteria inside a category carry relative points and a Required flag. Four ways to create one: AI designer (chat plus up to 5 attached files), learn from 2 to 5 past calls, pick a template (MEDDPIC 7 criteria, BANT 4, NEPQ 7, Consultative 5, plus Discovery, Demo, Closing call templates), or blank.
+3. **Call Routing** (Configure) decides which scorecard grades which call. A node canvas: source node (any source or a specific provider) connects to an assignment node (a scorecard). Tabs for Editor, Runs (an audit of every routing evaluation with matched, fallback, team-default, unmatched outcomes), and Versions (immutable published releases with restore). Draft until published.
+4. **Calls** is the library. Three tabs: Live calls, AI roleplays, Upload (MP3, WAV, M4A, MP4, TXT, VTT, up to 50 files). Filters span role, job title, source, payment, deal outcome, provider, meeting type, import method, processing state, rep, and score band.
+5. **Integrations** feeds the library. 21 connectors in six groups (meeting tools, dialers, CRM, payments, notifications, automation) plus Webhooks and a Push API. Payment connectors (Stripe, Whop) exist so revenue can be matched to the call that closed it, which is what makes "cash collected per call" possible.
+6. **Overview, Performance, Best Calls, and the rep profile** are the read side. Overview KPIs click through to Performance. A Performance row clicks through to the rep profile (per-rep KPIs, missed opportunities, action items, all calls, performance profile, top objections, key strengths). Best Calls surfaces anything scoring 70 or more as a team film room.
+7. **Roleplay and Paths** are the practice side. A prospect is a 3-step wizard (Buyer Profile, Scenario & Resistance, Voice & Configuration) with five entry points: AI conversation, manual, import from a website, from a past call, or Kendo recommendations from your context. A Path is a named sequence of up to 10 prospect steps. Roleplay minutes are the metered credit.
+8. **Agent** is the chat layer over all of it, with three status pills (sources connected, calls analyzed, data sufficiency) so the user knows how much to trust the answer.
+
+### Gating and monetization
+
+- Free trial: 1 seat, 30 roleplay minutes, 300 live-call minutes, everything visible.
+- Paywalled behind a plan: connecting any integration, adding team members. The gate is a small centered dialog ("Upgrade required" or "Paid plan required") with "Not now" and "View plans". View plans swaps the Billing page into a pricing view.
+- Pricing: Pro at 46 dollars per user per month billed yearly (550 a year), Max at 83 (1000 a year), a monthly toggle, a G2 badge, and a "Talk to sales" line for SSO and done-for-you setup.
+- Credits: workspace-shared, auto-reload optional, purchased through Stripe. Usage page breaks minutes down by feature and by member.
+- Affiliate program through Rewardful, exposed as "Open Portal" on the Account page.
+
+The pattern to copy is not the prices. It is that every locked action still renders fully, explains itself in one sentence, and routes to one upgrade surface.
+
+### Onboarding mechanics
+
+- First login: a "What's new" video modal, then an 8-step Launch Checklist card pinned to the top of Overview. Each step has a one-paragraph explanation, a primary CTA that deep-links into the right page, and a manual "Mark as completed". Step 4 completes itself when the system detects a scored call. Progress is stored server-side per user per team.
+- Each section shows a one-time "Introducing X" intro dialog (gradient header, three benefit lines) tracked per user in localStorage.
+- Empty states carry the next action. Table cells with missing data say "Add outcomes" or "Analyze calls" instead of a dash.
+
+### Account and security surface
+
+Profile (name, locked email, phone, photo), Notifications (about 25 individually toggled events, each tagged Email or In app and Required or Recommended), Security (password, Google, Microsoft, authenticator app, email verification, passkey, connected desktop apps), Sessions (sign-in activity grouped by IP). Theme choice is per device.
+
+### Interaction details worth copying
+
+- Header date range: a popover with 13 presets on the left, two month calendars, and a selected-range footer with Cancel and Update. One shared range drives every page and is persisted per user.
+- Notifications bell and avatar menu are Radix menus with the same popover styling everywhere.
+- Sidebar collapses to a 64 px icon rail, persisted.
+- Workspace switcher lists teams and offers Create New Team. Everything is team-scoped.
+- Performance table: Filters (role, job title, member, data availability) and Columns (show, hide, drag to reorder, grouped by Volume, Conversion, Revenue, Quality) both persist per team.
+- Wizards guard exit with a "Discard unsaved prospect changes?" dialog. Call Routing guards with a native browser confirm, which is the one place the app feels cheap.
+- No command palette. Ctrl+K does nothing.
+
+### What stayed out of reach
+
+Integration connect dialogs, Slack setup, webhook signing, member invites, and any screen that needs real call data are behind the paywall or behind having data. Voice provider for roleplay is not identified; the voice list (Brianna, Brian, Parker, Archie, Gemma and about 25 more with British, Australian, and Southern variants) looks like a third-party TTS catalog, but that is an inference.
+
 ## Open questions / gaps
 
 - The internals of `api.kendo.ai` (queues, transcription, scoring pipeline) are invisible from the client and were not probed.
