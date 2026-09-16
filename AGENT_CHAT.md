@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-17: outreach/resources/trading-packaging-board/, wiki/log.md. Building real-reference packaging asset and editable HTML; source screenshots unchanged.
+
 CODEX DONE 2026-09-15: outreach/packaging-references/Packaging examples.md, outreach/packaging-references/Packaging review.md, wiki/log.md. Reviewing founder screenshots; preserving original PNGs.
 
 Packaging reference setup: CODEX claims outreach/packaging-references/, wiki/index.md and wiki/log.md (DONE, 2026-09-15).
@@ -1837,3 +1839,8 @@ Founder added 14 screenshot attachments. All opened and inspected; 15 videos rep
 
 ### [2026-09-15] CODEX
 Completed first screenshot batch review: 14 original PNGs, 15 video entries, three bullet annotations each. All note embeds resolve. Added Packaging review.md, linked and embedded collection in Packaging examples.md, appended wiki/log.md. Founder screenshots preserved unchanged and included in vault backup as requested. No final board generation; bad-example collection remains open. Locks released.
+
+
+
+### [2026-09-17] CODEX
+Built outreach/resources/trading-packaging-board/ and updated wiki/log.md. Rendered and visually inspected reference board, checked all image loads and editable heading behavior. Delivered PNG and self-contained editable HTML. Source screenshots unchanged; no DM sends. Lock released.

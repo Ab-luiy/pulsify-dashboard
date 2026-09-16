@@ -1573,3 +1573,7 @@ Created outreach/packaging-references/Packaging examples.md and its attachments 
 ## [2026-09-15] query | First packaging screenshot batch reviewed
 
 Visually read all 14 founder PNGs containing 15 videos (14 listing pairs and one watch-page frame). Added outreach/packaging-references/Packaging review.md with exact visible titles, capture-relative metrics, three annotation bullets per video, source limitations and recommended board examples. Embedded all 14 untouched screenshots in Packaging examples.md. Flagged the TradingLab 2.1m/7.6x example as a claim-style critique, not a proven performance failure; flagged JJ Simon as a video-frame/design reference with original thumbnail absent. Collection remains in progress. No external links, live analytics or income verified.
+
+## [2026-09-17] decision | Real-reference trading packaging asset
+
+Founder rejected generic worksheets as insufficiently compelling for message requests and authorized building a specific finished reference asset. Built outreach/resources/trading-packaging-board/ with self-contained editable board.html, build.cjs and rendered trading-packaging.png. Three source references, two annotations each, and a concrete title/recording adaptation; source images retained unchanged. Verified image loading, text editing and rendered layout. Founder review and live DM testing pending; no conversion claims. User outputs copied to originating task outputs.
