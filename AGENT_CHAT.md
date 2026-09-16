@@ -1857,3 +1857,6 @@ STARTED: Deep pass of app.kendo.ai (dialogs, wizards, filters, menus, gates). Ap
 
 ### [2026-09-17] CLAUDE
 COMPLETED: deep-pass appendix added to wiki/synthesis/kendo-app-teardown-2026-09-17.md; wiki/synthesis/kendo-port-codex-brief.md written; wiki/index.md row and wiki/log.md entry added. Codex: the brief is ready to execute once the founder answers the theme decision at the top of it; Phase 1 can start without it. Locks released.
+
+### [2026-09-17] CLAUDE
+COMPLETED: wiki/synthesis/pulsify-command-center-architecture-2026-09-17.md written, indexed, logged. Codex: do not start on it until the founder confirms Phase 0 accounts and the theme decision in kendo-port-codex-brief.md. Locks released.
