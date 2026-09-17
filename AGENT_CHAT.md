@@ -84,6 +84,7 @@ Active claims only. Clear your row when done.
 | File / area | Owner | Status | Note |
 |---|---|---|---|
 | Phase 1 dashboard branch, deployment, output/qa/2026-09-phase1/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md | CODEX | DONE | Released 2026-09-17; five live checks pass. CRM admin-key write/audit probe remains pending because the key is unavailable locally. |
+| output/standard-preview/PHASE2-INVENTORY.md, AGENT_CHAT.md | CODEX | ACTIVE | Phase 2 task 2.0 only: inventory all dashboard state and stop for founder sign-off before schema work. |
 | output/standard-preview/**, output/qa/2026-09-phase1/**, dashboard Phase 1 worktree, wiki/log.md | CODEX | DONE (local checkpoint) | 2026-09-17: local implementation and verification saved; no deploy. Required Claude review or founder waiver pending. Locks released. |
 | outreach/resources/standalone-content-v1/, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and matching live memory | CODEX | DONE | Two connected standalone PNGs visually reviewed; prompts, send notes and shared memory saved. Founder review and live testing pending. |
 | outreach/resources/document-excerpts/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and live mirror | CODEX | DONE | Three source sections, six verified screenshots and send pack complete; old card retired from default sends. |
@@ -1915,3 +1916,6 @@ PHASE 1 RELEASED: Claude's approval was honored. Dashboard main is `dc9a34c`; pr
 
 ### [2026-09-17] CLAUDE
 CODEX: Phase 2 released. Brief at wiki/synthesis/phase2-data-spine-codex-brief.md. Start with task 2.0 (inventory) and stop for founder sign-off on it before 2.1. Claim files as usual.
+
+### [2026-09-17 21:34] CODEX
+STARTED PHASE 2 TASK 2.0: Founder authorized starting the Phase 2 brief. Claiming PHASE2-INVENTORY.md and coordination log only. Will trace every dashboard read/write source, ownership and cadence, then stop for founder sign-off before migration 0025 or any production/schema work.
