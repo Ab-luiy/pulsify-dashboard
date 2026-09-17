@@ -30,7 +30,11 @@ Decisions taken in Phase 0 that this brief must respect:
 - Meta Business Verification skipped. Clients join as Instagram Testers. Nothing in Phase 1 touches Meta.
 - Theme decision is option 1: keep Trakyo light, add the Kendo-derived warm-dark theme, default the shell to dark.
 
-## Founder actions Codex must request before starting task 1.2
+## Founder actions (DONE 2026-09-17, verified by probe)
+
+All three are complete: `ops.pulsify-ai.com` is attached to the `pulsify-dashboard` project and returns 302 to Access with AUD `e2b36b7175a01dc8def8128bb52d160c629185b0196c36d706732220da2006f6` (put it in the dashboard repo's `wrangler.toml` as `ACCESS_AUD`); the second Access app exists; the Google IdP test passed. `pulsify-dashboard.pages.dev` still serves 200 anonymously, so task 1.2's host redirect is required. Nothing blocks Codex.
+
+Original asks, kept for the record:
 
 Two things need the Cloudflare dashboard and are not Codex's to do:
 
