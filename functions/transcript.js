@@ -1,3 +1,4 @@
+import { operatorIdentity } from './_shared/access.js';
 // Cloudflare Pages Function — POST /transcript
 // Body: { urls: ["https://youtube.com/watch?v=...", ...] }  (max 3)
 // Returns: { transcripts: [ {url, videoId, lang, text} | {url, videoId, error} ] }
@@ -90,17 +91,7 @@ function jsonResponse(obj, status, request) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  const expectedToken = String((env && env.FN_ACCESS_TOKEN) || "");
-  const suppliedToken = request.headers.get(ACCESS_HEADER) || "";
-  if (!suppliedToken) {
-    return jsonResponse({ error: "Unauthorized." }, 401, request);
-  }
-  if (!expectedToken) {
-    return jsonResponse({ error: "FN_ACCESS_TOKEN is not configured." }, 500, request);
-  }
-  if (suppliedToken !== expectedToken) {
-    return jsonResponse({ error: "Unauthorized." }, 401, request);
-  }
+  if (!operatorIdentity(request)) return jsonResponse({error:"Operator sign-in required."},401,request);
   const apiKey = env && env.SUPADATA_API_KEY;
   if (!apiKey) {
     return jsonResponse({ error: "SUPADATA_API_KEY is not set on this Cloudflare Pages project (Settings -> Environment variables)." }, 500, request);

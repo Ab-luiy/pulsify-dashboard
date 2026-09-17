@@ -1,3 +1,4 @@
+import { operatorIdentity } from './_shared/access.js';
 // Cloudflare Pages Function — POST /generate
 // Body: { prompt: string, key?: string, model?: string, max_tokens?: number }
 //
@@ -79,17 +80,7 @@ async function callAnthropic(prompt, apiKey, maxTokens, request) {
 
 export async function onRequestPost(context) {
   const { request, env } = context;
-  const expectedToken = String((env && env.FN_ACCESS_TOKEN) || "");
-  const suppliedToken = request.headers.get(ACCESS_HEADER) || "";
-  if (!suppliedToken) {
-    return json({ error: { message: "Unauthorized." } }, 401, request);
-  }
-  if (!expectedToken) {
-    return json({ error: { message: "FN_ACCESS_TOKEN is not configured." } }, 500, request);
-  }
-  if (suppliedToken !== expectedToken) {
-    return json({ error: { message: "Unauthorized." } }, 401, request);
-  }
+  if (!operatorIdentity(request)) return json({error:{message:"Operator sign-in required."}},401,request);
 
   let body;
   try { body = await request.json(); } catch (e) { return json({ error: { message: "invalid JSON body" } }, 400, request); }
