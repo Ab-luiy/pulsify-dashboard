@@ -69,10 +69,9 @@ if (args.has("--apply-command")) {
     const command = process.platform === "win32" ? process.execPath : "npx";
     const commandArgs = process.platform === "win32"
       ? [wrangler]
-      : [];
+      : ["wrangler"];
     try {
       execFileSync(command, [...commandArgs,
-        "wrangler",
         "d1",
         "execute",
         "pulsify-portal",
