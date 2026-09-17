@@ -32,5 +32,18 @@ for(const theme of ['dark','light'])for(const width of [1536,390]){
  await page.goto('http://127.0.0.1:8771/portal/login?qaTheme='+theme);await page.locator('#email').waitFor();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'login overflow');await page.screenshot({path:path.join(qa,'login-'+theme+'-'+width+'.png'),fullPage:true});
 }
 await page.setViewportSize({width:1536,height:1000});await page.goto('http://127.0.0.1:8771/admin.html?view=overview');await page.locator('.ps-dates').click();assert.equal(await page.locator('[data-preset]').count(),13);await page.locator('[data-preset="Last 7 days"]').click();await page.locator('[data-update]').click();assert.equal(await page.locator('.ps-date-label').innerText(),'Last 7 days');await page.locator('.ps-collapse').click();assert.equal(await page.locator('.ps-sidebar').evaluate(e=>Math.round(e.getBoundingClientRect().width)),64);await page.reload();assert.equal(await page.locator('.ps-sidebar').evaluate(e=>Math.round(e.getBoundingClientRect().width)),64);await page.evaluate(()=>PulsifyOperatorShell.go('settings'));await page.locator('[data-theme-mode="light"]').click();assert.equal(await page.evaluate(()=>document.documentElement.dataset.theme),'light');
-assert.deepEqual(errors,[]);console.log('PASS Phase 1: 12 screenshots, impersonation banner, no key field, date presets, theme, collapse persistence, responsive overflow. APIs mocked.');
+await page.evaluate(()=>PulsifyOperatorShell.go('home'));
+await page.frameLocator('iframe').locator('#shell').waitFor();
+await page.locator('iframe').evaluate(f=>{f.contentWindow.phase1Preserved='draft';});
+await page.evaluate(()=>{PulsifyOperatorShell.go('settings');PulsifyOperatorShell.go('home');});
+assert.equal(await page.locator('iframe').evaluate(f=>f.contentWindow.phase1Preserved),'draft','operator iframe must retain its document and draft state');
+await page.evaluate(()=>{localStorage.setItem('pulsify:range:qa',JSON.stringify('Custom'));localStorage.setItem('pulsify:custom-range:qa',JSON.stringify({from:'2026-09-01',to:'2026-09-30'}));});
+await page.goto('http://127.0.0.1:8771/portal?client=qa&view=revenue');
+await page.waitForFunction(()=>document.querySelector('#wsStage')?.textContent.includes('2026-09-01 to 2026-09-30'));
+assert.match(await page.locator('#wsStage').innerText(),/\$1,750/);
+await page.evaluate(()=>PulsifyClientShell.go('revenue/transactions'));
+assert.equal(await page.locator('#paymentRows tr').count(),1,'selected range excludes August payment');
+impersonated=false;await page.goto('http://127.0.0.1:8771/portal?client=qa&view=home');
+await page.locator('.ps-switch').click();assert.equal(await page.locator('[data-client=""]').count(),0,'normal client has no operator workspace switch');
+assert.deepEqual(errors,[]);console.log('PASS Phase 1: screenshots, impersonation, date filtering, preserved operator iframe drafts, client-scoped switcher, theme and responsive layout. APIs mocked.');
 }finally{await browser.close();server.close();}})().catch(e=>{console.error(e);server.close();process.exitCode=1;});
