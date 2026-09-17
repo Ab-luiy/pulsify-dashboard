@@ -17,7 +17,11 @@ export async function onRequestGet(context) {
   const { request, next } = context;
   try {
     const url = new URL(request.url);
-    const client = normalizeClientId(url.searchParams.get("client") || "pulsify");
+    const requestedClient = url.searchParams.get("client");
+    // The apex is the product gateway. Prospect funnels live at their named
+    // slugs; retain ?client= only for backwards-compatible preview links.
+    if (!requestedClient) return next();
+    const client = normalizeClientId(requestedClient);
     const page = await loadClientPage(context.env, client);
     const operatorPreview = url.searchParams.get("operator_preview") === "1";
     if (!page.active && !operatorPreview) return inactivePageResponse();

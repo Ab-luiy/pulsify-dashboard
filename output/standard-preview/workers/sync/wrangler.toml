@@ -1,0 +1,22 @@
+name = "pulsify-sync"
+main = "src/index.js"
+compatibility_date = "2026-09-17"
+
+[triggers]
+crons = ["* * * * *", "15 */6 * * *", "0 5 * * *", "0 6 * * 1"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "pulsify-portal"
+database_id = "764a46f6-9f61-4f45-85b5-7e9a00e8be01"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "pulsify-media"
+
+[vars]
+ACCESS_AUD = "8c6c31dea1fa44e035c1449ec35f7d2a80601521be6d184fd5ed1d1a594af312"
+COMPOSIO_USER_ID = "owner"
+OPERATOR_EMAIL = "abod.louai@gmail.com"
+YOUTUBE_HANDLE = "abluiy"
+SYNC_ENABLED = "false"

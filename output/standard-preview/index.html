@@ -3,81 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Watch the private breakdown, then apply to work together.">
-  <title>Private application</title>
+  <meta name="description" content="Pulsify is the operating system for content, clients, and growth.">
+  <title>Pulsify — Command center</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/entry.css">
 </head>
-<body data-client="pulsify" data-page-id="main">
-  <main>
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="shell hero-shell">
-        <div class="brand-mark">Private application</div>
-        <div class="audience-pill">
-          Private training and application
-        </div>
+<body>
+  <main class="entry-shell">
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="Pulsify home">
+        <span class="wordmark-mark" aria-hidden="true">P</span>
+        <span>Pulsify</span>
+      </a>
+      <span class="system-state"><span aria-hidden="true"></span>Command center</span>
+    </header>
 
-        <h1 id="hero-title">
-          A private breakdown,
-          <em>then apply to work together.</em>
-        </h1>
-
-        <p class="hero-subhead">
-          Watch the training, then answer a few questions below.
-        </p>
-
-        <div class="training-frame" id="training" data-video-block hidden>
-          <div data-pulsify-wistia></div>
-          <div class="training-note">
-            <span>12-minute private breakdown</span>
-            <span>No opt-in required to watch</span>
-          </div>
-        </div>
-        <a class="primary-cta" href="#apply" data-application-cta hidden>APPLY NOW</a>
+    <section class="entry-grid" aria-labelledby="entry-title">
+      <div class="intro">
+        <p class="eyebrow">Content <span>→</span> Offer <span>→</span> Funnel</p>
+        <h1 id="entry-title">The operating system behind the work.</h1>
+        <p class="lede">Run the pipeline, manage client delivery, and see what is moving the business from one place.</p>
       </div>
+
+      <nav class="access-panel" aria-label="Choose your workspace">
+        <a class="access-card access-card-primary" href="/admin">
+          <span class="access-meta">Founder and team</span>
+          <span class="access-title">Operator workspace</span>
+          <span class="access-copy">Pipeline, content, clients, revenue, and operations.</span>
+          <span class="access-action">Sign in <span aria-hidden="true">↗</span></span>
+        </a>
+
+        <a class="access-card" href="/portal/login">
+          <span class="access-meta">Active clients</span>
+          <span class="access-title">Client portal</span>
+          <span class="access-copy">View deliverables, decisions, progress, and next actions.</span>
+          <span class="access-action">Open portal <span aria-hidden="true">→</span></span>
+        </a>
+      </nav>
     </section>
 
-    <section class="application-section" id="apply" data-application-section aria-labelledby="apply-title" hidden>
-      <div class="shell">
-        <div class="section-pill">
-          Step 2
-        </div>
-        <h2 id="apply-title">Apply below</h2>
-        <p class="section-intro">
-          This is for operators who already understand the basics and are ready to
-          build, test, and execute.
-        </p>
-
-        <div class="application-embed">
-          <div data-pulsify-typeform class="typeform-live"></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="proof-section" data-proof-section aria-labelledby="proof-title" hidden>
-      <div class="shell proof-shell">
-        <h2 id="proof-title">People we've helped</h2>
-        <div class="proof-feed" data-proof-feed></div>
-      </div>
-    </section>
-
-    <section class="closing-section" data-application-cta aria-label="Apply now" hidden>
-      <div class="shell closing-shell">
-        <a class="primary-cta" href="#apply">CLICK HERE TO APPLY NOW</a>
-      </div>
-    </section>
+    <footer class="entry-footer">
+      <span>Private workspace</span>
+      <span>Prospect pages are available through their direct links.</span>
+    </footer>
   </main>
-
-  <footer>
-    <div class="shell footer-inner">
-      <span>Private application</span>
-      <p>Results vary. Nothing on this page guarantees income. Proof claims and media must be verified before publication.</p>
-    </div>
-  </footer>
-
-  <script src="js/script.js"></script>
-  <script src="js/funnel-integrations.js"></script>
 </body>
 </html>

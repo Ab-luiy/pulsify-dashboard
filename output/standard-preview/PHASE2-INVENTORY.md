@@ -5,7 +5,22 @@ Scope: Task 2.0 only. This document inventories the operator dashboard state bef
 
 ## Gate
 
-No Task 2.1 schema work should begin until the founder reviews and approves this inventory. The main risks are losing the embedded outreach prospect seed, copying browser-held secrets into D1, or duplicating the existing CRM and payment tables.
+The founder reviewed the inventory on 2026-09-17, delegated the implementation choices to Codex, and added one non-negotiable requirement: accounts contacted through Instagram DMs must appear automatically in a live pipeline. Task 2.1 may proceed with the decisions recorded below. The main risks remain losing the embedded outreach prospect seed, copying browser-held secrets into D1, or duplicating the existing CRM and payment tables.
+
+## Founder-directed Instagram pipeline
+
+The current Instagram analytics job does not make the inbox live. Existing Instagram outreach records were imported into the CRM as a point-in-time batch, and later activity in Instagram does not automatically move those records.
+
+Phase 2 now includes this behavior:
+
+1. The sync Worker checks the connected Instagram inbox every minute through Composio's conversation/message APIs. This is the reliable path for DMs sent manually from the Instagram app.
+2. New provider conversations and messages are upserted idempotently into `ig_conversations` and `ig_messages` by provider ID.
+3. Every conversation with an outbound founder message is projected into the existing CRM automatically. A first outbound DM maps to `sent`; a later outbound touch on a different day with no reply maps to `follow-up`; an inbound message maps to `replied`.
+4. Automatic projection never regresses terminal or higher-intent manual states such as `call-booked`, `won`, or `dead`. Booking integrations become the canonical source for `call-booked` when available.
+5. The dashboard reads the D1-backed pipeline and refreshes frequently without a page reload. A provider webhook or a message sent through the dashboard can update immediately; activity performed in the native Instagram app is bounded by the one-minute reconciliation interval.
+6. The Worker accepts signed Composio trigger events if an Instagram message trigger becomes available for the connected account, while the minute reconciliation remains the recovery path for missed or duplicate delivery.
+
+This is near-live rather than a false promise of zero latency: Composio currently exposes Instagram conversation/message reads, while trigger availability must be discovered against the connected project. The system guarantees automatic reconciliation and idempotency even when no Instagram trigger is available.
 
 ## Measured production snapshot
 
@@ -41,6 +56,7 @@ The large live JSON is mostly public YouTube/Instagram reporting data plus accum
 | CRM manually added leads | Existing D1 `crm_added`, keyed by lead name; payload contract includes `{n,h,niche,dms,stage,_ts}` and may include source fields | Lead Studio | Same CRM sync path/cadence | Operator/global workspace today | Keep existing table and merge contract unchanged. |
 | CRM removals | Existing D1 `crm_removed`, keyed by lead name; removal reason/note/time and lead context | Lead Studio | Same CRM sync path/cadence | Operator/global workspace today | Keep existing table and merge contract unchanged. |
 | CRM sync generation | Existing D1 sync generation metadata plus browser `since`/pending marks | CRM sync/takeover flow | API and browser synchronization | Operator/global workspace today | Preserve existing generation and newest-`_ts`-wins behavior. |
+| Instagram DM conversations/messages | Current live source is the connected Instagram Business/Creator account through Composio; the repo contains only point-in-time CRM imports and no durable message ledger | Future inbox/pipeline view; existing CRM shows imported lead status only | Currently manual/batch. Phase 2 Worker will reconcile every minute and accept signed trigger events when supported | Per operator Instagram account and lead conversation | Add `ig_conversations` and `ig_messages`; project status into existing CRM instead of creating a second pipeline. |
 | Payments ledger | Existing D1 `payments`: `id`, `client`, `amount_cents`, `currency`, `rail`, unique `reference`, `occurred_at`, `recorded_by`, `note`, `created_at` | Client overview APIs today; operator payment/income UI does not yet use it | Integration/manual server paths as payments are recorded | Per client, visible in operator aggregates | Reuse this ledger for operator payment and income views. Do not create a second payment table or copy totals into `operator_state`. |
 | Client records | Existing D1 client/config/workspace APIs; shell fetches `/api/clients` | Workspace switcher and client surfaces | Existing client/provisioning flows | Per client | Reuse current tables/APIs. The embedded client array is a fallback to retire after parity. |
 | Operator identity/session | Cloudflare Access identity via `/api/operator-bootstrap` | Shell, permissions, audit context | Access/session lifecycle | Per operator | Keep as the identity source; attach `operator_id` to new operator state and audit writes. |
@@ -115,6 +131,7 @@ LocalStorage cannot be backfilled remotely by a deployment. The cutover needs a 
 | `yt_leads` and `yt_leads_meta` | Exact lead payloads and scrape-run metadata |
 | Existing CRM tables/API | Lead edits, manually added leads, removals, sync generation |
 | Existing `payments` table | Payment transactions used to derive cash collected and related operator/client views |
+| `ig_conversations` and `ig_messages` | Provider-truth Instagram inbox ledger; projected automatically into the existing CRM pipeline |
 | `operator_state` | Operating-plan counters, targets, checklist, content configuration/pipeline, manual snapshots that lack event sources, and health state if no normalized health table is approved |
 | Browser storage only | Theme, navigation resume, sidebar/range preferences, temporary caches, calculators, open UI state |
 | Worker secrets/integration secret storage | YouTube and Composio credentials and any later provider credentials; never browser localStorage or general operator state |
@@ -129,11 +146,12 @@ LocalStorage cannot be backfilled remotely by a deployment. The cutover needs a 
 6. Switch reads to APIs, then stop browser provider polling and GitHub Action writes.
 7. Delete embedded/JSON fallbacks only after two consecutive successful scheduled Worker runs and parity evidence are recorded.
 
-## Founder decisions required for Task 2.1
+## Resolved implementation decisions
 
-1. Approve `operator_state` as the initial home for the health log, or add normalized `health_entries` because meal-level querying and audit are product requirements.
-2. Approve merging the embedded CRM seed into the existing canonical CRM data after a dry-run diff; leaving it in HTML would keep a hidden dependency.
-3. Approve storing the merged content pipeline as `operator_state.content_pipeline` for Phase 2 rather than adding a first-class content-production schema now.
-4. Confirm that local theme/navigation/filter/calculator state remains device-only and that no browser credential value is migrated.
+1. Use `operator_state` as the initial home for the health log. Normalize it later only if meal-level reporting or audit becomes a product requirement.
+2. Merge the embedded CRM seed into the existing canonical CRM after a dry-run diff. Never delete the embedded source until every seed is accounted for.
+3. Store the merged content pipeline as `operator_state.content_pipeline` for Phase 2. Do not add another content-production schema yet.
+4. Keep theme, navigation, filters, calendar navigation, and calculators on the device. Migrate no browser credential values.
+5. Add normalized Instagram conversation/message tables and project their activity into the existing CRM. Do not use `operator_state` as an inbox or create a parallel pipeline.
 
-Approval of this inventory authorizes Task 2.1 schema work with these boundaries. It does not authorize deletion of the legacy JSON, embedded seed, localStorage compatibility paths, or GitHub Actions until parity gates pass.
+These decisions authorize Task 2.1 schema work. They do not authorize deletion of the legacy JSON, embedded seed, localStorage compatibility paths, or GitHub Actions until parity gates pass.
