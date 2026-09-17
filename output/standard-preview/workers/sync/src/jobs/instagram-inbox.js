@@ -4,18 +4,34 @@ const TERMINAL = new Set(["call-booked", "won", "dead"]);
 
 export async function syncInstagramInbox(env) {
   const operatorEmail = env.OPERATOR_EMAIL || "operator";
-  const profile = await composioExecute(env, "INSTAGRAM_GET_USER_INFO", { ig_user_id: "me" });
-  const ownId = String(profile?.id || profile?.data?.id || "");
-  const connectedAccountId = String(profile?.id || "");
+  const syncState = await loadSyncState(env);
+  let ownId = String(syncState.ownId || "");
+  let connectedAccountId = String(syncState.connectedAccountId || "");
+  if (!ownId) {
+    const profile = await composioExecute(env, "INSTAGRAM_GET_USER_INFO", { ig_user_id: "me" });
+    ownId = String(profile?.id || profile?.data?.id || "");
+    connectedAccountId = String(profile?.id || profile?.data?.id || "");
+  }
   const conversationsPayload = await composioExecute(env, "INSTAGRAM_LIST_ALL_CONVERSATIONS", {
     platform: "instagram",
     fields: "id,updated_time,participants,messages",
     limit: 100,
   });
   const conversations = findRows(conversationsPayload);
+  const watermark = conversations.reduce((latest, row) => {
+    const value = String(row.updated_time || "");
+    return value > latest ? value : latest;
+  }, syncState.watermark || "");
+  const changed = syncState.watermark
+    ? conversations.filter((row) => !row.updated_time || String(row.updated_time) > syncState.watermark)
+    : conversations;
+  if (!changed.length) {
+    if (!syncState.ownId) await saveSyncState(env, { ownId, connectedAccountId, watermark });
+    return 0;
+  }
   let written = 0;
 
-  for (const rawConversation of conversations) {
+  for (const rawConversation of changed) {
     const conversationId = String(rawConversation.id || rawConversation.conversation_id || "");
     if (!conversationId) continue;
     let messages = findRows(rawConversation.messages);
@@ -79,7 +95,25 @@ export async function syncInstagramInbox(env) {
     }
     await projectConversationToCrm(env, participant, conversationId, normalized);
   }
+  await saveSyncState(env, { ownId, connectedAccountId, watermark });
   return written;
+}
+
+async function loadSyncState(env) {
+  const row = await env.DB.prepare(
+    "SELECT payload_json FROM snapshots WHERE scope='operator' AND client_id='' AND source='instagram' AND kind='inbox-sync-state'",
+  ).first().catch(() => null);
+  try { return JSON.parse(row?.payload_json || "{}"); } catch { return {}; }
+}
+
+async function saveSyncState(env, state) {
+  const now = new Date().toISOString();
+  await env.DB.prepare(
+    `INSERT INTO snapshots(scope,client_id,source,kind,captured_at,payload_json)
+     VALUES('operator','','instagram','inbox-sync-state',?,?)
+     ON CONFLICT(scope,client_id,source,kind) DO UPDATE SET
+       captured_at=excluded.captured_at,payload_json=excluded.payload_json`,
+  ).bind(now, JSON.stringify(state)).run();
 }
 
 async function executeMessages(env, conversationId) {

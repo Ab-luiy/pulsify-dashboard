@@ -2,7 +2,7 @@ import { withOperator } from "../../_shared/access.js";
 import { json, parseJson } from "../../_shared/common.js";
 import { resolveOperator } from "../../_shared/spine-auth.js";
 
-const PAGE_SIZE = 100;
+const PAGE_SIZE = 500;
 
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);
