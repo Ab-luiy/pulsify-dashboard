@@ -26,7 +26,9 @@ They look like typos of each other. They are three separate Google accounts.
 |---|---|---|
 | Cloudflare (account id `437f6dfbb738a4267395bd5da251494a`): Registrar for `pulsify-ai.com`, Pages project `pulsify-funnels`, D1, Zero Trust team `pulsify-ai` | `abod.louai@gmail.com` | 2026-09-17, dashboard title and `wrangler login` record in AGENT_CHAT |
 | Meta Accounts Centre: Facebook profile "AB Luiy", Instagram `ab.luiy`, Facebook Page "Pulsify" | `abood.louai@gmail.com` (primary contact), phone verified 2026-09-17 | 2026-09-17, Accounts Centre |
-| Meta for Developers (app for Instagram DMs and insights) | registering under the "AB Luiy" Facebook profile, in progress 2026-09-17 | pending |
+| Meta for Developers: app "Pulsify", App ID `1617160843090125`, Instagram use case, connected to business portfolio **abdul** (ID 221866223598606, clean, never ran ads) | `abood.louai@gmail.com` (Facebook "AB Luiy") | 2026-09-17, app dashboard |
+| Meta business portfolio "Pulsify media" (ID 1198606604815844) | same login. **Ad-restricted since 2024-08-20, appeal window closed, Meta refuses deletion while restricted. Owns nothing. Ignore it.** | 2026-09-17, Account Quality |
+| Nick's business (ad spend history) | `abod.steam@gmail.com` was added as admin there; that is where the founder's past ad running happened, not on abdul | founder statement 2026-09-17 |
 | Google Cloud project "Pulsify" (YouTube APIs, OAuth clients) | not created yet. Decide the owning Google account before creating it and record it here | pending |
 | Resend or Postmark (transactional email for `pulsify-ai.com`) | not created yet | pending |
 | DocuSign developer, Fathom | not created yet | pending |
@@ -45,7 +47,7 @@ They look like typos of each other. They are three separate Google accounts.
 ## Open questions / gaps
 
 - Which Google account will own Google Cloud. Default is the Cloudflare one, unconfirmed.
-- Whether the registered developer email on Meta ends up as `abood.louai@gmail.com` or another; confirm once registration finishes.
+- Meta Business Verification is SKIPPED: no registered entity (founder is a student). Clients connect as Instagram Testers on the app instead (App roles, tester invite, client accepts in IG settings). Revisit verification and App Review when there is a legal entity or more than a handful of clients.
 
 ## Source trail
 
