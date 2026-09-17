@@ -1605,3 +1605,7 @@ Existing project `pulsify-dashboard-496614` (owner abod.louai@gmail.com, same as
 ## [2026-09-17] client-update | Cloudflare Access gate on /admin live
 
 Created the self-hosted Access application "Pulsify operator console" on pulsify-ai.com/admin and www.pulsify-ai.com/admin with an allow policy for the founder's email only. Verified with curl: both /admin URLs 302 to the Access login, /frank-wieler still 200. The pages.dev hostname still bypasses Access; Codex Phase 1 middleware must validate the Cf-Access-Jwt-Assertion against the AUD tag (recorded in the account registry) and refuse admin requests without it. Founder chose theme option 1 (keep Trakyo light, add the Kendo-derived warm-dark theme, default dark) for the Kendo port brief.
+
+## [2026-09-17] client-update | Transactional email live on pulsify-ai.com
+
+Founder created the Resend account (abod.louai@gmail.com). Added pulsify-ai.com in Resend (us-east-1, not the Tokyo default), entered the four DNS records into Cloudflare by hand (DKIM TXT, two SPF CNAMEs DNS-only, DMARC TXT), confirmed each resolves at 1.1.1.1, domain shows Verified. Created a sending-only API key named pulsify-funnels; founder pasted it into the pulsify-funnels project as RESEND_API_KEY (caught a wrong-clipboard paste of the Google secret before save). Sender decided: hello@pulsify-ai.com. Step 6 of the Phase 0 setup complete; nothing sends yet until Codex wires the email rail.
