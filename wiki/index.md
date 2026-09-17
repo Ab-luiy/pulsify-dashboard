@@ -65,6 +65,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 
 | Page | Summary | Created |
 |---|---|---|
+| [[playbooks/account-registry]] | Which email owns which service (Cloudflare, Meta, Google, email, contracts); three near-identical Gmails, check before creating accounts | 2026-09-17 |
 | [[playbooks/lead-sourcing-outreach]] | 50–100 DMs/day across 6 platforms, Day 1/3/5/7 follow-up, Loom approach, setter hiring | 2026-05-02 |
 | [[playbooks/client-scaling]] | Scale signal, price ladder ($2K→$5K→$10K+), DWY transition, organic vs. paid routes | 2026-05-02 |
 | [[playbooks/offer-creation]] | Six-component offer architecture, high-ticket vs. mid-ticket decision criteria, audit checklist | 2026-05-02 |

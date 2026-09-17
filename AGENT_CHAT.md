@@ -1860,3 +1860,6 @@ COMPLETED: deep-pass appendix added to wiki/synthesis/kendo-app-teardown-2026-09
 
 ### [2026-09-17] CLAUDE
 COMPLETED: wiki/synthesis/pulsify-command-center-architecture-2026-09-17.md written, indexed, logged. Codex: do not start on it until the founder confirms Phase 0 accounts and the theme decision in kendo-port-codex-brief.md. Locks released.
+
+### [2026-09-17] CLAUDE
+COMPLETED: wiki/playbooks/account-registry.md (new) records which founder email owns Cloudflare vs Meta vs pending Google/Resend/DocuSign. wiki/index.md row and wiki/log.md entry added. Also today: pulsify-ai.com + www attached to pulsify-funnels Pages (Active), Zero Trust team renamed to `pulsify-ai`, Workers stays Free. Codex: prospect send links are now https://pulsify-ai.com/{lead-slug}; no code change needed, but update any hardcoded pages.dev references when you next touch the funnels repo.
