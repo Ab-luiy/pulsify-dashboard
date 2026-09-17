@@ -13,7 +13,7 @@ export async function onRequest(context) {
   }
   if (path === "register") return serveAsset(context.env, context.request, "/portal/login/index.html");
   if (path === "login") return serveLogin(context);
-  if (!path) return serveDashboard(context);
+  if (!path || path === 'index.html') return serveDashboard(context);
   return context.next();
 }
 
@@ -57,7 +57,12 @@ async function serveDashboard({ request, env }) {
     if (client) loginUrl.searchParams.set("client", client);
     return Response.redirect(loginUrl, 302);
   }
-  const response = await serveAsset(env, request, "/portal/index.html");
+  let response = await serveAsset(env, request, "/portal/index.html");
+  if (response.ok && (response.headers.get('content-type') || '').includes('text/html')) {
+    const session = JSON.stringify({client:access.client,client_name:access.client_name,impersonated:Boolean(access.impersonated)}).replace(/</g,'\\u003c');
+    const html = await response.text();
+    response = new Response(html.replace('<head>','<head><script>window.PulsifySession='+session+';</script>'),{status:response.status,headers:response.headers});
+  }
   if (access.auth_mode === "token" && response.ok) {
     const session = await issueClientSession(env, access.client);
     response.headers.set("set-cookie", session.cookie);

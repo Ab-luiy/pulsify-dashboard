@@ -195,6 +195,7 @@
   },
   "active": "1bef72d5493f4d9e",
   "lastOpenFiles": [
+    "output/standard-preview/tests/bootstrap-range.test.mjs",
     "output/qa/2026-09-phase1/dashboard-light-1536.png",
     "output/qa/2026-09-phase1/login-light-390.png",
     "output/qa/2026-09-phase1/client-light-390.png",
@@ -211,7 +212,6 @@
     "output/qa/2026-09-phase1/lighthouse-dark.json",
     "output/qa/2026-09-phase1/client-dark-390.png",
     "output/qa/2026-09-phase1/overview-dark-390.png",
-    "output/qa/2026-09-phase1/login-dark-1536.png",
     "output/qa/2026-09-phase1",
     "output/qa",
     "output/standard-preview/tests/phase1-browser.cjs",

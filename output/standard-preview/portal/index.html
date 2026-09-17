@@ -1590,7 +1590,7 @@
     }
 
     const TOKEN = sessionStorage.getItem("pulsify_portal_token") || "";
-    const CLIENT = params.get("client") || "";
+    const CLIENT = window.PulsifySession?.client || params.get("client") || "";
     const $ = (id) => document.getElementById(id);
     const STUDIO_TYPES = [
       ["value-driven", "Teach something genuinely useful."],
@@ -1742,6 +1742,7 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not load the dashboard.");
         renderDashboard(data);
+        try { localStorage.setItem('pulsify:analytics:v1:'+data.client,JSON.stringify(data)); } catch {}
         await Promise.all([loadStudioHistory(), loadCarouselHistory(), loadPerformanceData(), loadProofVault(), loadPulseFeed(), loadClientIntegrations()]);
       } catch (error) {
         showMessage(error.message || "Could not load the dashboard.");
@@ -2263,7 +2264,7 @@
       state.revenue = revenue;
       const total = Number(revenue.total_revenue_cents || 0);
       const currentMonth = Number(revenue.current_month_revenue_cents || 0);
-      const payments = revenue.payments || [];
+      const payments = (revenue.payments || []).filter(row=>!window.PulsifyRange||PulsifyRange.contains(row.occurred_at));
       const currencyCode = payments[0]?.currency || "USD";
       const revenueGoal = getRevenueGoalCents();
       $("revenueUpdated").textContent = `Updated ${new Date().toLocaleTimeString()}`;
@@ -2700,7 +2701,7 @@
     }
 
     function renderPerformance() {
-      const rows = state.performance.rows;
+      const rows = (state.performance.rows||[]).filter(row=>!window.PulsifyRange||PulsifyRange.contains(row.posted_on));
       const summary = state.performance.weekSummary || {};
       const report = state.performance.weeklyReport || {};
       const latest = state.performance.latestSnapshot;

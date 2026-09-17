@@ -10,6 +10,7 @@ export async function onRequest(context) {
     path.startsWith("/.wrangler") ||
     path.startsWith("/.git") ||
     path.startsWith("/.dev.vars") ||
+    path.startsWith("/tests/") ||
     path.startsWith("/migrations/");
 
   if (blocked) {
