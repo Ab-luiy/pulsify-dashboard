@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {onRequestGet,onRequestPost} from '../functions/api/crm-sync.js';
+const db=new DatabaseSync(':memory:');
+for(const table of ['crm_overrides','crm_added','crm_removed'])db.exec(`CREATE TABLE ${table}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
+const env={ADMIN_KEY:'test',DB:{prepare(query){let args=[];const p={bind(...v){args=v;return p;},async all(){return{results:db.prepare(query).all(...args)};},async run(){db.prepare(query).run(...args);}};return p;},async batch(statements){for(const s of statements)await s.run();}}};
+const request=(body,key='test')=>new Request('https://test/api/crm-sync',{method:body?'POST':'GET',headers:{'x-admin-key':key},body:body?JSON.stringify(body):undefined});
+assert.equal((await onRequestGet({env,request:request(null,'bad')})).status,401);
+const first={since:0,overrides:{Lead:{status:'sent',_ts:100}},added:{Second:{n:'Second',_ts:101}},removed:{Old:{reason:'outside ICP',_ts:102}}};
+let r=await onRequestPost({env,request:request(first)});assert.equal(r.status,200);let data=await r.json();assert.equal(data.state.overrides.Lead.status,'sent');
+await onRequestPost({env,request:request({overrides:{Lead:{status:'stale',_ts:99}}})});
+data=await(await onRequestGet({env,request:request(null)})).json();assert.equal(data.state.overrides.Lead.status,'sent');assert.equal(data.state.added.Second.n,'Second');assert.equal(data.state.removed.Old.reason,'outside ICP');
+await onRequestPost({env,request:request({overrides:{Lead:{status:'replied',_ts:103}}})});
+data=await(await onRequestGet({env,request:request(null)})).json();assert.equal(data.state.overrides.Lead.status,'replied');
+assert.equal((await onRequestPost({env,request:request({overrides:{Lead:{_ts:Date.now()+86400000}}})})).status,422);
+console.log('PASS CRM sync: existing schema, key auth, newest-edit wins, independent maps and timestamp validation. In-memory SQLite only.');

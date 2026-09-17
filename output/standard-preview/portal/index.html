@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="/shared/theme.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pulsify client dashboard</title>
@@ -993,6 +994,8 @@
   <link rel="stylesheet" href="/portal/studio-app.css">
 <link rel="stylesheet" href="/portal/journeys.css">
 <link rel="stylesheet" href="/portal/workspace-shell.css">
+<link rel="stylesheet" href="/shared/shell.css">
+<link rel="stylesheet" href="/portal/phase1.css">
 </head>
 <body>
   <div class="operator-read-only-banner" id="operatorReadOnlyBanner" role="status" hidden>Operator view, read only</div>
@@ -1583,7 +1586,7 @@
       sessionStorage.setItem("pulsify_portal_token", initialToken);
       const clean = new URL(location.href);
       clean.searchParams.delete("t");
-      history.replaceState(null, "", clean.pathname + clean.search + clean.hash);
+      history.replaceState(history.state, "", clean.pathname + clean.search + clean.hash);
     }
 
     const TOKEN = sessionStorage.getItem("pulsify_portal_token") || "";
@@ -1916,7 +1919,7 @@
       if (data.client === "demo-rio") $("clientSubtitle").textContent = "Demo workspace. Sample figures and tasks are for testing.";
       const clean = new URL(location.href);
       clean.searchParams.set("client", state.client);
-      history.replaceState(null, "", clean.pathname + clean.search + clean.hash);
+      history.replaceState(history.state, "", clean.pathname + clean.search + clean.hash);
 
       renderRevenue(data.revenue || {});
       renderContentSection();
@@ -4256,5 +4259,7 @@
 <script src="/portal/story-templates.js"></script>
 <script src="/portal/thumbnail-designer.js"></script>
 <script src="/portal/workspace-shell.js"></script>
+<script src="/shared/shell.js"></script>
+<script src="/portal/phase1.js"></script>
 </body>
 </html>

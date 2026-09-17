@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script src="/shared/theme.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sign in · Pulsify</title>
@@ -9,9 +10,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/shared/pulsify-ui.css">
   <link rel="stylesheet" href="/portal/login/auth.css">
+<link rel="stylesheet" href="/shared/shell.css">
+<link rel="stylesheet" href="/portal/login/phase1.css">
 </head>
 <body>
   <div class="shell">
+<aside class="login-gradient"><p>Your content, clients and growth. Together.</p></aside>
 
 
     <section class="auth-wrap">
@@ -61,7 +65,7 @@
 
         <div class="message error" id="message" hidden></div>
       </div>
-      <div class="auth-links"><a href="/portal/register">Create your account</a><a href="/admin">Operator sign in</a></div><div class="auth-footer">Pulsify · Private client workspace</div>
+      <div class="auth-links"><a href="/portal/register">Create your account</a><a href="https://pulsify-ai.com/admin">Operator sign in</a></div><div class="auth-footer">Pulsify · Private client workspace</div>
     </section>
   </div>
 
@@ -182,5 +186,6 @@
       $("message").textContent = "";
     }
   </script>
+
 </body>
 </html>

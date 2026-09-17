@@ -1,3 +1,4 @@
+import { hasOperator } from './access.js';
 export function json(object, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(object), {
     status,
@@ -50,8 +51,7 @@ export async function sha256Hex(value) {
 }
 
 export function checkAdmin(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+  if (!hasOperator(request, env)) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
   return null;

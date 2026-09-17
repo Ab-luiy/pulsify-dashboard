@@ -7,7 +7,7 @@ import {
 const RATE_LIMIT_COUNT = 10;
 const RATE_LIMIT_WINDOW_MINUTES = 5;
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, data }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -21,7 +21,7 @@ export async function onRequestPost({ request, env }) {
   ).bind(client).first();
   if (!config) return json({ ok: false, error: "client not found" }, 404);
 
-  const createdBy = "admin";
+  const createdBy = data?.operator?.email || "admin";
   const threshold = new Date(
     Date.now() - RATE_LIMIT_WINDOW_MINUTES * 60 * 1000,
   ).toISOString();

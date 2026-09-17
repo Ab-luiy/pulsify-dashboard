@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 export async function onRequestPost({ request, env }) {
   const auth = checkAuth(request, env);
   if (auth) return auth;
@@ -122,8 +123,7 @@ function cleanToken(value) {
 }
 
 function checkAuth(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+  if (!hasOperator(request, env)) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
   return null;

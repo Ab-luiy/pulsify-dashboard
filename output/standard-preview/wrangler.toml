@@ -13,3 +13,7 @@ database_id = "764a46f6-9f61-4f45-85b5-7e9a00e8be01"
 [[r2_buckets]]
 binding = "MEDIA"
 bucket_name = "pulsify-media"
+
+[vars]
+ACCESS_AUD = "8c6c31dea1fa44e035c1449ec35f7d2a80601521be6d184fd5ed1d1a594af312"
+ACCESS_DASHBOARD_AUD = "e2b36b7175a01dc8def8128bb52d160c629185b0196c36d706732220da2006f6"

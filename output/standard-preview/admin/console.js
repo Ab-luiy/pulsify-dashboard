@@ -12,25 +12,25 @@
     "pulsify_campaigns_admin_key",
     "admin_key",
   ];
-  const AUTH_MESSAGE = "Your admin key was rejected. Paste it again to unlock the console.";
+  const AUTH_MESSAGE = "Your session has expired. Sign in again.";
   const MAX_MEDIA_BYTES = 900 * 1024;
   const LINK_GROUPS = [
     {
       title: "Client access",
       note: "Client-facing entry points and intake.",
       entries: [
-        { name: "Client portal", note: "Client workspace", url: "https://pulsify-funnels.pages.dev/portal" },
-        { name: "Client login", note: "Client sign-in", url: "https://pulsify-funnels.pages.dev/portal/login" },
-        { name: "Onboarding form", note: "Unique client token required", url: "https://pulsify-funnels.pages.dev/onboard" },
+        { name: "Client portal", note: "Client workspace", url: "https://pulsify-ai.com/portal" },
+        { name: "Client login", note: "Client sign-in", url: "https://pulsify-ai.com/portal/login" },
+        { name: "Onboarding form", note: "Unique client token required", url: "https://pulsify-ai.com/onboard" },
       ],
     },
     {
       title: "Internal tools",
       note: "Operator surfaces used to run delivery and acquisition.",
       entries: [
-        { name: "Operator admin", note: "Command center, follow-up queue, Studio review, and email", url: "https://pulsify-funnels.pages.dev/admin" },
-        { name: "SDR dashboard", note: "Leads and CRM", url: "https://pulsify-dashboard.pages.dev" },
-        { name: "Design preview", note: "Founder-approved portal design reference", url: "https://pulsify-funnels.pages.dev/portal-preview" },
+        { name: "Operator admin", note: "Command center, follow-up queue, Studio review, and email", url: "https://pulsify-ai.com/admin" },
+        { name: "SDR dashboard", note: "Leads and CRM", url: "https://ops.pulsify-ai.com" },
+        { name: "Design preview", note: "Founder-approved portal design reference", url: "https://pulsify-ai.com/portal-preview" },
       ],
     },
     {
@@ -329,10 +329,11 @@
     },
   };
 
+  window.PulsifyOperator = { navigate: routeFromHash, state };
   init();
 
   function init() {
-    applySavedTheme();
+    window.PulsifyTheme?.apply();
     renderGlossaries();
     renderProofFields();
     renderWizardProofFields();
@@ -344,11 +345,8 @@
     $("launchAddClient").onclick=()=>openClientWizard();
     routeFromHash();
 
-    const saved = readStoredKey();
-    if (saved) {
-      $("adminKey").value = saved;
-      unlockWithKey(saved, true);
-    }
+    clearStoredKeys();
+    unlockWithKey("access", true);
   }
 
   function bindEvents() {
@@ -361,10 +359,7 @@
       } catch(error) {target.textContent=error.message;}
     };
 
-    $("authForm").addEventListener("submit", (event) => {
-      event.preventDefault();
-      unlockWithKey($("adminKey").value.trim(), false);
-    });
+
     $("themeButton").addEventListener("click", toggleTheme);
     $("authThemeButton").addEventListener("click", toggleTheme);
     $("lockButton").addEventListener("click", () => lockConsole(""));
@@ -589,16 +584,16 @@
     button.disabled = true;
     hideMessage($("authMessage"));
     try {
-      const response = await fetch("/api/clients", { headers: { "x-admin-key": key } });
+      const response = await fetch("/api/clients");
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
         if (response.status === 401) throw new Error(AUTH_MESSAGE);
-        throw new Error(data.error || "The console could not verify this key.");
+        throw new Error(data.error || "The console could not verify this session.");
       }
       state.key = key;
       state.authPrompted = false;
       state.clients = data.clients || [];
-      persistKey(key);
+      window.dispatchEvent(new CustomEvent("pulsify:operator-ready", {detail:{clients:state.clients}}));
       pickInitialClient();
       renderClientSelector();
       $("authScreen").hidden = true;
@@ -630,15 +625,16 @@
     hideMessage($("linksMessage"));
     $("shell").hidden = true;
     $("authScreen").hidden = false;
-    $("adminKey").value = "";
+
     if (message) showMessage($("authMessage"), message, "error");
     else hideMessage($("authMessage"));
-    $("adminKey").focus();
+    location.href = "https://pulsify-ai.com/admin";
   }
 
   async function api(url, options = {}) {
     const headers = new Headers(options.headers || {});
-    headers.set("x-admin-key", state.key);
+    headers.delete("x-admin-key");
+    headers.set("x-pulsify-operator", "1");
     const response = await fetch(url, { ...options, headers });
     if (response.status === 401) {
       if (!state.authPrompted) {
@@ -851,10 +847,10 @@
     history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   }
 
-  function routeFromHash() {
-    const requested = location.hash.replace("#", "").split("/")[0];
+  function routeFromHash(requestedView) {
+    const requested = typeof requestedView === "string" ? requestedView : location.hash.replace("#", "").split("/")[0];
     state.route = ROUTES[requested] ? requested : "launch";
-    if (!location.hash || !ROUTES[requested]) history.replaceState(null, "", `${location.pathname}${location.search}#${state.route}`);
+
     $$("[data-route-panel]").forEach((panel) => { panel.hidden = panel.dataset.routePanel !== state.route; });
     $$("[data-route]").forEach((link) => link.classList.toggle("active", link.dataset.route === state.route));
     $("routeEyebrow").textContent = ROUTES[state.route][0];
@@ -3841,7 +3837,7 @@
       .map((campaign) => ({
         name: campaign.client_name || campaign.client,
         note: `/${campaign.client}`,
-        url: `https://pulsify-funnels.pages.dev/${encodeURIComponent(campaign.client)}`,
+        url: `https://pulsify-ai.com/${encodeURIComponent(campaign.client)}`,
         active: campaign.page_active !== false,
       }));
     const groups = [

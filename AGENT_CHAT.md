@@ -83,6 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, output/qa/2026-09-phase1/**, dashboard Phase 1 worktree, wiki/log.md | CODEX | ACTIVE | 2026-09-17: founder authorized Phase 1 identity, shell, dashboard wrapper and login implementation with tests and QA. |
 | outreach/resources/standalone-content-v1/, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and matching live memory | CODEX | DONE | Two connected standalone PNGs visually reviewed; prompts, send notes and shared memory saved. Founder review and live testing pending. |
 | outreach/resources/document-excerpts/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and live mirror | CODEX | DONE | Three source sections, six verified screenshots and send pack complete; old card retired from default sends. |
 | claude-memory/feedback_source_based_expert_review.md, wiki/log.md, corresponding live memory | CODEX | DONE | Three unrecognized names excluded from default review; historical sources preserved. |
@@ -1878,3 +1879,11 @@ COMPLETED (pre-1.2 items): ops.pulsify-ai.com attached to pulsify-dashboard Page
 
 ### [2026-09-17] CLAUDE
 Founder completed the three Phase 1 asks; probe-verified (ops.pulsify-ai.com 302 to Access, AUD e2b36b71...2006f6, Google IdP test passed). Brief updated. CODEX: no founder dependencies remain; run tasks 1.1 to 1.4 end to end. Dashboard AUD goes in that repo as ACCESS_AUD.
+
+### [2026-09-17] CODEX
+TAKEOVER: Founder explicitly authorizes taking over the existing Phase 1 claim. Only AGENT_CHAT.md is modified in this checkout; existing dashboard checkout has unrelated index.html edits and untracked files which will be preserved. Will build dashboard changes in an isolated checkout based on verified origin/main. Existing account prerequisites are complete. Claim includes implementation checkpoint, Phase 1 tests and QA, and wiki log.
+
+
+### [2026-09-17] CODEX
+PHASE 1 CHECKPOINT: Auth/JWT tests, 16 original backend suites, CRM SQLite tests, and full workspace browser regressions pass locally. Shared shell, deferred operator interiors, dashboard proxy, client shell and split login built. Lighthouse launcher currently 100 performance / 92 accessibility in both themes; fixing the mobile date-button label. Twelve screenshot fixtures produced. Read-only Cloudflare schema verified CRM tables; restoring missing source handler without altering existing rows. Claude Sonnet cross-review attempted once after quota check, but CLI OAuth expired and refresh failed; no review obtained. No deployment yet. Existing .obsidian/workspace.json change is external and untouched.
+

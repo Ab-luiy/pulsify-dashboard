@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
@@ -5,7 +6,7 @@ export async function onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
-  const isAdmin = request.headers.get("x-admin-key") === env.ADMIN_KEY && Boolean(env.ADMIN_KEY);
+  const isAdmin = hasOperator(request, env);
   if (isAdmin && url.searchParams.get("status") === "review") {
     const rows = await env.DB.prepare(
       `SELECT id, client_id, type, intent, topic, goal, trigger_word, params_json, output_json,

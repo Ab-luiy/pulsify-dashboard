@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 import { getClientIntegrationStatuses } from "../_shared/integrations.js";
 
 /**
@@ -209,16 +210,14 @@ async function resolveAccess(request, env, url) {
     return { client: cleanId(row.client), scope: "client" };
   }
 
-  if (!env.ADMIN_KEY) return { error: json({ ok: false, error: "ADMIN_KEY not configured" }, 500) };
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+  if (!hasOperator(request, env)) {
     return { error: json({ ok: false, error: "unauthorized" }, 401) };
   }
   return { client: cleanId(url.searchParams.get("client") || "unknown"), scope: "admin" };
 }
 
 function checkAdmin(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+  if (!hasOperator(request, env)) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
   return null;

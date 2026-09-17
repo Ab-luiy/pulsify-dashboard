@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 /**
  * Operator command center API.
  *
@@ -366,8 +367,7 @@ async function safeAll(env, sql, params = []) {
 }
 
 function checkAuth(request, env) {
-  if (!env.ADMIN_KEY) return json({ ok: false, error: "ADMIN_KEY not configured" }, 500);
-  if (request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+  if (!hasOperator(request, env)) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
   return null;

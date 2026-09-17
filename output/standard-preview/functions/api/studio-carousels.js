@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
@@ -17,7 +18,7 @@ const SELECT_COLUMNS = `id, client_id, structure, topic, goal, params_json, outp
 export async function onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const url = new URL(request.url);
-  const hasAdminKey = Boolean(env.ADMIN_KEY) && request.headers.get("x-admin-key") === env.ADMIN_KEY;
+  const hasAdminKey = hasOperator(request, env);
 
   if (hasAdminKey) {
     const status = normalizeStatusFilter(url.searchParams.get("status"));

@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso, str } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
@@ -101,7 +102,7 @@ export async function onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   let client;
-  if (request.headers.get("x-admin-key") != null) {
+  if ((hasOperator(request, env) || request.headers.get("x-admin-key") != null)) {
     const auth = checkAdmin(request, env);
     if (auth) return auth;
     client = cleanId(new URL(request.url).searchParams.get("client"));
@@ -148,7 +149,7 @@ export async function onRequestGet({ request, env }) {
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
-  if (request.headers.get("x-admin-key") != null) {
+  if ((hasOperator(request, env) || request.headers.get("x-admin-key") != null)) {
     const auth = checkAdmin(request, env);
     if (auth) return auth;
     return saveOperatorField(request, env);

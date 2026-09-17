@@ -1,5 +1,6 @@
+import { hasOperator } from '../_shared/access.js';
 export async function onRequestGet({ request, env }) {
-  if (!env.ADMIN_KEY || request.headers.get("x-admin-key") !== env.ADMIN_KEY) {
+  if (!hasOperator(request, env)) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);

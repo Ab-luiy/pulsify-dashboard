@@ -1,3 +1,4 @@
+import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
@@ -9,7 +10,7 @@ export async function onRequestGet({ request, env }) {
 
   const url = new URL(request.url);
   const adminRequested = url.searchParams.get("admin") === "1";
-  const hasAdminKey = Boolean(env.ADMIN_KEY) && request.headers.get("x-admin-key") === env.ADMIN_KEY;
+  const hasAdminKey = hasOperator(request, env);
   let client = "";
   let authMode = "client";
 
