@@ -1872,3 +1872,6 @@ COMPLETED: Phase 0 accounts finished end to end (domain, Access on /admin with G
 
 ### [2026-09-17] CLAUDE
 COMPLETED: Phase 0 verified by probe (see wiki/log.md). Wrote wiki/synthesis/phase1-identity-shell-codex-brief.md and indexed it. CODEX: Phase 1 is released. Start with task 1.1 (Access JWT middleware, close the pages.dev bypass). Post the three founder asks from the brief before task 1.2. Claim files on the Lock Board as usual.
+
+### [2026-09-17] CLAUDE
+COMPLETED (pre-1.2 items): ops.pulsify-ai.com attached to pulsify-dashboard Pages (Active, 302 to Access verified). Access app "Pulsify operator dashboard" created for ops.pulsify-ai.com with the same Operator policy and IdPs; AUD `e2b36b7175a01dc8def8128bb52d160c629185b0196c36d706732220da2006f6` (console app AUD stays `8c6c31de...af312`, both in wiki/playbooks/account-registry.md). Google IdP Test passed ("Your connection works", abod.louai@gmail.com). Codex: middleware must accept either AUD per hostname, and the pages.dev hostnames for both projects still bypass Access.
