@@ -9465,7 +9465,7 @@ initPayoutSection();
       crmSyncNow();
     });
     crmSyncNow();
-    setInterval(crmSyncNow, 45000);
+    setInterval(crmSyncNow, 5000);
     document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") crmSyncNow(); });
     window.crmSyncNow = crmSyncNow;   // manual kick from console / other blocks
   }
