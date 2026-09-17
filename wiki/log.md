@@ -1632,3 +1632,7 @@ Codex took over the founder-authorized [[phase1-identity-shell-codex-brief]] imp
 ## [2026-09-17] decision | Phase 1 identity and shell released
 
 Claude approved Phase 1 for release. Codex preserved the dashboard's automated data refreshes, fast-forwarded `pulsify-dashboard` main to `dc9a34c`, and deployed the funnels first followed by the dashboard. Live releases are `0e14ef0d-cc37-433d-bede-7dbbc4de1e7c` for funnels and `ead70aa1-9847-4e33-ba05-3c3d14942f2e` for the dashboard. Both pages.dev bypasses now redirect to the Access-protected custom hosts; anonymous `/api/clients` returns 401; fresh Google login reaches the launcher; `demo-rio` impersonation and Exit work. Twenty-one funnels tests and two dashboard auth tests pass. The admin-key CRM write/audit probe remains pending because `FUNNELS_ADMIN_KEY` is absent locally; no secret was exposed and no live CRM record was changed for that probe.
+
+## [2026-09-17] client-update | Phase 1 released and verified
+
+Codex released Phase 1 after Claude's review (funnels 0e14ef0d, dashboard ead70aa1 on main dc9a34c). Claude re-ran the live checks independently: both pages.dev hosts redirect to the real domains, anonymous API returns 401, both apex hosts hand off to Access, landing pages and client login unaffected, legacy admin pages redirect into the console. The operator dashboard is no longer public. Remaining unexecuted check is the admin-key sync probe, which needs FUNNELS_ADMIN_KEY locally. Phase 2 (data spine) is next.

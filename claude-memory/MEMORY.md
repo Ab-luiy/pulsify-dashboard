@@ -55,7 +55,7 @@
 
 ## Funnels / landing pages / portal
 
-- [Phase 0 accounts DONE 2026-09-17](project_phase0_accounts_done.md) - domain, Access, Meta, Google, Resend, DocuSign, Fathom all set; IDs + secrets inventory in wiki/playbooks/account-registry.md; founder writes Phase 1 brief with Fable
+- [Phase 0 accounts DONE + Phase 1 RELEASED 2026-09-17](project_phase0_accounts_done.md) - accounts in wiki/playbooks/account-registry.md; Phase 1 (Access login, one shell, launcher) live and Claude-verified; next is Phase 2 (D1 data spine + cron Worker) per wiki/synthesis/pulsify-command-center-architecture-2026-09-17.md
 
 - [Landing-page standard LOCKED](project_landing_page_standard.md) - the approved Frank build is THE design for every landing page, fill-in only (brief -> 28 tokens -> /admin or /settings), never redesign; wiki/playbooks/landing-page-fill-in-playbook.md
 - [Landing mock source rule](feedback_landing_mock_source.md) - landing pages and the whole standard are Codex-owned; Claude does not build or touch them
