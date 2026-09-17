@@ -195,6 +195,7 @@
   },
   "active": "1bef72d5493f4d9e",
   "lastOpenFiles": [
+    "output/standard-preview/PHASE2-INVENTORY.md",
     "wiki/synthesis/phase2-data-spine-codex-brief.md",
     "output/qa/2026-09-phase1/live-http.json",
     "output/qa/2026-09-phase1/README.md",
@@ -241,7 +242,6 @@
     "CODEX_TASK_trakyo_reskin.md",
     "wiki/synthesis/dashboards-audit-and-portal-strategy-2026-07-12.md",
     "wiki/synthesis/instagram-project-fable-handoff.md",
-    "wiki/frameworks/carousel-system.md",
-    "wiki/content-engine/carousel-breakdowns/niksetting-7-lessons-content.md"
+    "wiki/frameworks/carousel-system.md"
   ]
 }
