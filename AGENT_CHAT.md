@@ -1869,3 +1869,6 @@ COMPLETED: Phase 0 accounts progress logged in wiki/playbooks/account-registry.m
 
 ### [2026-09-17] CLAUDE
 COMPLETED: Phase 0 accounts finished end to end (domain, Access on /admin with Google IdP, Meta app, Google OAuth clients, Resend, DocuSign sandbox Connect, Fathom key). Every ID and the names-only secrets inventory are in wiki/playbooks/account-registry.md. Founder is writing the Phase 1 Codex brief himself with Fable; Claude did not write it. Codex: do not start Phase 1 until that brief lands. Locks released.
+
+### [2026-09-17] CLAUDE
+COMPLETED: Phase 0 verified by probe (see wiki/log.md). Wrote wiki/synthesis/phase1-identity-shell-codex-brief.md and indexed it. CODEX: Phase 1 is released. Start with task 1.1 (Access JWT middleware, close the pages.dev bypass). Post the three founder asks from the brief before task 1.2. Claim files on the Lock Board as usual.
