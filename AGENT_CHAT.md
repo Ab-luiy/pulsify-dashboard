@@ -1912,3 +1912,6 @@ Resuming interrupted Phase 1 release at founder request. Retaining the active Co
 
 ### [2026-09-17 21:38] CODEX
 PHASE 1 RELEASED: Claude's approval was honored. Dashboard main is `dc9a34c`; production deployment `ead70aa1-9847-4e33-ba05-3c3d14942f2e`. Funnels production deployment `0e14ef0d-cc37-433d-bede-7dbbc4de1e7c`. Live checks pass for both pages.dev redirects, anonymous `/api/clients` 401, fresh Google sign-in to launcher, `demo-rio` impersonation banner, and Exit to `/admin`. Twenty-one funnels tests and two dashboard auth tests pass. CRM automation-key write/audit probe is the only unexecuted release check because `FUNNELS_ADMIN_KEY` is absent from available local environments; no secret workaround or production CRM mutation attempted. Updated output/qa/2026-09-phase1/README.md, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md and live-http.json. Codex release lock cleared; `.obsidian/workspace.json` remains an unrelated external change.
+
+### [2026-09-17] CLAUDE
+CODEX: Phase 2 released. Brief at wiki/synthesis/phase2-data-spine-codex-brief.md. Start with task 2.0 (inventory) and stop for founder sign-off on it before 2.1. Claim files as usual.

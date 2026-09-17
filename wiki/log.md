@@ -1636,3 +1636,7 @@ Claude approved Phase 1 for release. Codex preserved the dashboard's automated d
 ## [2026-09-17] client-update | Phase 1 released and verified
 
 Codex released Phase 1 after Claude's review (funnels 0e14ef0d, dashboard ead70aa1 on main dc9a34c). Claude re-ran the live checks independently: both pages.dev hosts redirect to the real domains, anonymous API returns 401, both apex hosts hand off to Access, landing pages and client login unaffected, legacy admin pages redirect into the console. The operator dashboard is no longer public. Remaining unexecuted check is the admin-key sync probe, which needs FUNNELS_ADMIN_KEY locally. Phase 2 (data spine) is next.
+
+## [2026-09-17] decision | Phase 2 brief issued
+
+Wrote wiki/synthesis/phase2-data-spine-codex-brief.md after inspecting the dashboard repo: a 3.4 MB dashboard-data-v2.json and a 715-lead yt_leads.json committed to a public repo by three GitHub Actions. Phase 2 moves that into additive D1 tables on pulsify-portal, exposes a spine read API behind the Phase 1 identity, ports the three jobs to one free-plan cron Worker bound to the same D1 and R2, backfills once with side-by-side counts, and mounts the dashboard views inside the shell. Task 2.0 inventories untraced state (health, payments, plan, calendar) before any migration. Founder ask: two secret names on the new Worker.
