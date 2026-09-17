@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 /**
  * Campaign board API — one operator-facing view across every client page.
@@ -11,7 +12,7 @@ import { hasOperator } from '../_shared/access.js';
  * many clients exist — never N queries per client.
  */
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAuth(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -177,7 +178,7 @@ function parseJson(value) {
   }
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -249,3 +250,6 @@ function json(object, status = 200) {
     },
   });
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

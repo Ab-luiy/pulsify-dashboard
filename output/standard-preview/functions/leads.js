@@ -1,3 +1,4 @@
+import { withOperator } from './_shared/access.js';
 import { hasOperator } from './_shared/access.js';
 /**
  * Portal data API.
@@ -6,7 +7,7 @@ import { hasOperator } from './_shared/access.js';
  * Header: x-admin-key: <ADMIN_KEY>
  */
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
@@ -153,7 +154,7 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -233,3 +234,6 @@ function json(object, status = 200) {
     },
   });
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

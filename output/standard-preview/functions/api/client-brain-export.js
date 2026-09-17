@@ -1,8 +1,9 @@
+import { withOperator } from '../_shared/access.js';
 import { buildMarkdownContextPackage, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { checkAdmin, cleanId, json, nowIso } from "../_shared/common.js";
 import { groupBrainRows } from "./client-brain.js";
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -38,7 +39,7 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -48,3 +49,6 @@ export async function onRequestOptions() {
     },
   });
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

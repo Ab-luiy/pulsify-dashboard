@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
@@ -15,7 +16,7 @@ import {
 const SELECT_COLUMNS = `id, client_id, structure, topic, goal, params_json, output_json,
   manual_prompt, status, review_note, created_at, updated_at`;
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const url = new URL(request.url);
   const hasAdminKey = hasOperator(request, env);
@@ -45,7 +46,7 @@ export async function onRequestGet({ request, env }) {
   return json({ ok: true, rows: (rows.results || []).map(serializeRow) });
 }
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const body = await request.json().catch(() => ({}));
   const action = String(body.action || "generate").trim().toLowerCase();
@@ -63,7 +64,7 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: false, error: "unknown action" }, 422);
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -341,3 +342,7 @@ function parseModelJson(raw) {
 function safeMessage(error) {
   return String(error?.message || error || "unknown error").slice(0, 400);
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

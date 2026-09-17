@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import {
   checkAdmin,
   cleanId,
@@ -14,7 +15,7 @@ import {
 const ALLOWED_CONTENT_TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 const MAX_MEDIA_BYTES = 900 * 1024;
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -58,7 +59,7 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: true, id, url: `/media/${id}` });
 }
 
-export async function onRequestDelete({ request, env }) {
+async function handle_onRequestDelete({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -70,7 +71,7 @@ export async function onRequestDelete({ request, env }) {
   return json({ ok: true, id, deleted });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -122,3 +123,7 @@ function mediaTooLarge() {
 function isStorageId(value) {
   return /^[A-Za-z0-9_-]{1,128}$/.test(value);
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestDelete = withOperator(handle_onRequestDelete);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

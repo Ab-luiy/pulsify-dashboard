@@ -1,6 +1,7 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, json } from "../_shared/common.js";
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -29,7 +30,7 @@ export async function onRequestGet({ request, env }) {
   return json({ ok: true, activity });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -132,3 +133,6 @@ function formatMoney(amountCents, currency) {
     return `${amount.toFixed(2)} ${code}`;
   }
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

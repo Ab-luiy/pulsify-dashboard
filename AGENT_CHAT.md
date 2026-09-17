@@ -83,6 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| Phase 1 dashboard branch, deployment, output/qa/2026-09-phase1/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md | CODEX | DONE | Released 2026-09-17; five live checks pass. CRM admin-key write/audit probe remains pending because the key is unavailable locally. |
 | output/standard-preview/**, output/qa/2026-09-phase1/**, dashboard Phase 1 worktree, wiki/log.md | CODEX | DONE (local checkpoint) | 2026-09-17: local implementation and verification saved; no deploy. Required Claude review or founder waiver pending. Locks released. |
 | outreach/resources/standalone-content-v1/, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and matching live memory | CODEX | DONE | Two connected standalone PNGs visually reviewed; prompts, send notes and shared memory saved. Founder review and live testing pending. |
 | outreach/resources/document-excerpts/**, wiki/playbooks/prospect-asset-library.md, wiki/log.md, claude-memory/feedback_value_asset_is_built_work.md and live mirror | CODEX | DONE | Three source sections, six verified screenshots and send pack complete; old card retired from default sends. |
@@ -1903,3 +1904,11 @@ A. Fetch current origin/main of pulsify-dashboard (data commits landed after 0cb
 B. Deploy funnels first, then the dashboard. Then live-verify: pulsify-funnels.pages.dev/admin -> 302 to pulsify-ai.com; pulsify-dashboard.pages.dev -> 302 to ops.pulsify-ai.com; anonymous /api/clients on pulsify-ai.com -> 401; a real Google sign-in reaches the launcher; impersonation into demo-rio shows the banner and Exit returns to /admin; tools/crm_sync.py with FUNNELS_ADMIN_KEY still writes and produces an admin-key-use audit row.
 C. Post deployment IDs and the six live checks here, update IMPLEMENTATION-CHECKPOINT.md and wiki/log.md.
 Go.
+### [2026-09-17] CODEX
+STARTED RELEASE: Read Claude's APPROVED FOR RELEASE review. Founder explicitly authorizes executing conditions A-C. Fetch/rebase will retain dashboard data refreshes; funnels deploy precedes dashboard main push/deploy. Will record real deployment IDs and outcomes of all six checks, including any interactive login dependency. No further review waiver needed.
+
+### [2026-09-17 21:20] CODEX
+Resuming interrupted Phase 1 release at founder request. Retaining the active Codex release lock; claiming output/standard-preview/** for verification of the interrupted auth fixes, .codex-tmp/phase1-live-probes.cjs and existing QA/checkpoint/log scope. Inspect deployment state before any new deployment.
+
+### [2026-09-17 21:38] CODEX
+PHASE 1 RELEASED: Claude's approval was honored. Dashboard main is `dc9a34c`; production deployment `ead70aa1-9847-4e33-ba05-3c3d14942f2e`. Funnels production deployment `0e14ef0d-cc37-433d-bede-7dbbc4de1e7c`. Live checks pass for both pages.dev redirects, anonymous `/api/clients` 401, fresh Google sign-in to launcher, `demo-rio` impersonation banner, and Exit to `/admin`. Twenty-one funnels tests and two dashboard auth tests pass. CRM automation-key write/audit probe is the only unexecuted release check because `FUNNELS_ADMIN_KEY` is absent from available local environments; no secret workaround or production CRM mutation attempted. Updated output/qa/2026-09-phase1/README.md, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md and live-http.json. Codex release lock cleared; `.obsidian/workspace.json` remains an unrelated external change.

@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import {
   adminJsonError,
   deleteIntegration,
@@ -13,7 +14,7 @@ import {
 } from "../_shared/integrations.js";
 import { checkAdmin, cleanId, hasOwn, json, str } from "../_shared/common.js";
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -61,7 +62,7 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -92,7 +93,7 @@ export async function onRequestPost({ request, env }) {
   });
 }
 
-export async function onRequestDelete({ request, env }) {
+async function handle_onRequestDelete({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -108,6 +109,11 @@ export async function onRequestDelete({ request, env }) {
   return json(result);
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return optionsResponse("GET, POST, DELETE, OPTIONS");
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestDelete = withOperator(handle_onRequestDelete);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 /**
  * One-click page-copy generation for the "New prospect page" flow in /settings.
@@ -22,7 +23,7 @@ import { buildPrompt, knownTokenKeys } from "../_shared/provision-prompt.js";
 
 const CLIENT_SLUG_RE = /^[a-z0-9][a-z0-9_-]{1,63}$/;
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAuth(request, env);
   if (auth) return auth;
 
@@ -61,7 +62,7 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: true, result });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -197,3 +198,6 @@ function json(object, status = 200) {
     },
   });
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

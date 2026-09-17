@@ -1,10 +1,11 @@
+import { withOperator } from '../_shared/access.js';
 import {checkAdmin,json} from '../_shared/common.js';
 const tables={overrides:'crm_overrides',added:'crm_added',removed:'crm_removed'};
-export async function onRequestGet({request,env}){
+async function handle_onRequestGet({request,env}){
  const denied=checkAdmin(request,env);if(denied)return denied;
  return snapshot(env,0);
 }
-export async function onRequestPost({request,env}){
+async function handle_onRequestPost({request,env}){
  const denied=checkAdmin(request,env);if(denied)return denied;
  const raw=await request.text();if(raw.length>5*1024*1024)return json({ok:false,error:'Sync payload too large'},413);
  let body;try{body=JSON.parse(raw);}catch{return json({ok:false,error:'Invalid JSON'},400);}
@@ -30,3 +31,6 @@ async function snapshot(env,since){
  }
  return json({ok:true,state,serverTs});
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);

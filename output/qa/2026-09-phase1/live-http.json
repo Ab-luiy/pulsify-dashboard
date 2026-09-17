@@ -1,0 +1,40 @@
+{
+  "checked_at": "2026-09-17T18:19:37.714Z",
+  "results": [
+    {
+      "url": "https://pulsify-funnels.pages.dev/admin",
+      "status": 302,
+      "location": "https://pulsify-ai.com/admin"
+    },
+    {
+      "url": "https://pulsify-dashboard.pages.dev/",
+      "status": 302,
+      "location": "https://ops.pulsify-ai.com/"
+    },
+    {
+      "url": "https://pulsify-ai.com/api/clients",
+      "status": 401,
+      "location": null
+    },
+    {
+      "url": "https://pulsify-ai.com/admin",
+      "status": 302,
+      "location": "https://pulsify-ai.cloudflareaccess.com/cdn-cgi/access/login/pulsify-ai.com"
+    },
+    {
+      "url": "https://ops.pulsify-ai.com/",
+      "status": 302,
+      "location": "https://pulsify-ai.cloudflareaccess.com/cdn-cgi/access/login/ops.pulsify-ai.com"
+    },
+    {
+      "url": "https://pulsify-ai.com/portal/login",
+      "status": 200,
+      "location": null
+    },
+    {
+      "url": "https://pulsify-ai.com/frank-wieler",
+      "status": 200,
+      "location": null
+    }
+  ]
+}

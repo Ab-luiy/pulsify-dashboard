@@ -1,8 +1,9 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json } from "../_shared/common.js";
 import { getPortalTokenState, mintPortalToken } from "../_shared/portal-tokens.js";
 import { optionsResponse } from "../_shared/integrations.js";
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -15,7 +16,7 @@ export async function onRequestPost({ request, env }) {
   return json(result, result.ok ? 200 : 404);
 }
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -27,6 +28,10 @@ export async function onRequestGet({ request, env }) {
   return json({ ok: true, client, has_token: Boolean(row?.portal_token_hash) });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return optionsResponse("GET, POST, OPTIONS");
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

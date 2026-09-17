@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {validateAccess,accessToken,ISSUER,operatorIdentity} from '../functions/_shared/access.js';
 import {onRequest} from '../functions/_middleware.js';
 import {checkAdmin} from '../functions/_shared/common.js';
+import {onRequestGet as clientsHandler} from '../functions/api/clients.js';
 const pair=await crypto.subtle.generateKey({name:'RSASSA-PKCS1-v1_5',modulusLength:2048,publicExponent:new Uint8Array([1,0,1]),hash:'SHA-256'},true,['sign','verify']);
 const jwk={...await crypto.subtle.exportKey('jwk',pair.publicKey),kid:'test-key',alg:'RS256'};
 const encode=o=>Buffer.from(JSON.stringify(o)).toString('base64url');
@@ -15,6 +16,13 @@ test('RS256 validates audience, issuer, expiry, signature, algorithm and cookie'
  const parts=valid.split('.');parts[1]=encode({aud:['console'],iss:ISSUER,exp:Date.now()/1000+600,email:'attacker@example.test'});assert.equal(await validateAccess(parts.join('.'),'console',{fetcher}),null);
  const request=new Request('https://pulsify-ai.com/admin',{headers:{cookie:'other=x; CF_Authorization='+valid}});assert.equal(accessToken(request),valid);
  assert.equal(await validateAccess('malformed','console',{fetcher}),null);
+});
+test('Pages cloned requests retain server-validated identity through context.data',async()=>{
+ const env={ACCESS_AUD:'console',DB:{prepare(){return{all:async()=>({results:[]})};}}};
+ const request=new Request('https://pulsify-ai.com/api/clients',{headers:{'Cf-Access-Jwt-Assertion':await token()}}),data={};
+ const response=await onRequest({request,env,data,next:()=>clientsHandler({request:new Request(request.clone()),env,data})});
+ assert.equal(response.status,200);assert.equal(data.operator.email,'operator@example.test');
+ assert.equal((await clientsHandler({request:new Request('https://pulsify-ai.com/api/clients',{headers:{'x-pulsify-operator':'1','x-operator-email':'fake@test'}}),env,data:{}})).status,401);
 });
 test('middleware redirects bypass hosts, protects HTML aliases, audits API keys and passes trusted identity to handlers',async()=>{
  const env={ACCESS_AUD:'console',ADMIN_KEY:'automation-test',DB:{prepare(){return{bind(){return{run:async()=>{events++;}};}};}}};let events=0;

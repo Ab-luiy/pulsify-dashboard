@@ -1,8 +1,9 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, json } from "../_shared/common.js";
 import { optionsResponse } from "../_shared/integrations.js";
 import { normalizedPaymentFromManual, processNormalizedPayment } from "../_shared/payments.js";
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -14,6 +15,9 @@ export async function onRequestPost({ request, env }) {
   return json(result, status);
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return optionsResponse("POST, OPTIONS");
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { getClientIntegrationStatuses } from "../_shared/integrations.js";
 
@@ -71,7 +72,7 @@ const FIELDS = {
   },
 };
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
@@ -114,7 +115,7 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -157,7 +158,7 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: true, id: result.meta?.last_row_id ?? null, created: true });
 }
 
-export async function onRequestDelete({ request, env }) {
+async function handle_onRequestDelete({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -181,7 +182,7 @@ export async function onRequestDelete({ request, env }) {
   return json({ ok: true, deleted: true });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -260,3 +261,8 @@ function json(object, status = 200) {
     },
   });
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestDelete = withOperator(handle_onRequestDelete);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

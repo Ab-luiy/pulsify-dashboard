@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json } from "../_shared/common.js";
 import {
   IMPERSONATION_TTL_MINUTES,
@@ -7,7 +8,7 @@ import {
 const RATE_LIMIT_COUNT = 10;
 const RATE_LIMIT_WINDOW_MINUTES = 5;
 
-export async function onRequestPost({ request, env, data }) {
+async function handle_onRequestPost({ request, env, data }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -58,7 +59,7 @@ export async function onRequestPost({ request, env, data }) {
   }
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -68,3 +69,6 @@ export async function onRequestOptions() {
     },
   });
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

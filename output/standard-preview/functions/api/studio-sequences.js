@@ -1,8 +1,9 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
@@ -35,7 +36,7 @@ export async function onRequestGet({ request, env }) {
   return json({ ok: true, rows: (rows.results || []).map(serializeRow) });
 }
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const body = await request.json().catch(() => ({}));
@@ -111,7 +112,7 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: false, error: "unknown action" }, 422);
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -201,3 +202,7 @@ function looksLikeSequenceOutput(value) {
   return true;
 }
 
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

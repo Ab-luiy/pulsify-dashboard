@@ -1,5 +1,6 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   if (!hasOperator(request, env)) {
     return json({ ok: false, error: "unauthorized" }, 401);
   }
@@ -24,3 +25,5 @@ function json(object, status = 200) {
     },
   });
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);

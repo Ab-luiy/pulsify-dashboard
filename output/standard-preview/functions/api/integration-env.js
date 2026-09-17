@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, json } from "../_shared/common.js";
 import { optionsResponse } from "../_shared/integrations.js";
 
@@ -7,7 +8,7 @@ const ENV_SERVICES = [
   { provider: "supadata", envKey: "SUPADATA_API_KEY", label: "Supadata" },
 ];
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
 
@@ -21,6 +22,9 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return optionsResponse("GET, OPTIONS", "x-admin-key");
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
@@ -5,7 +6,7 @@ import { resolveClientAccess } from "../_shared/client-auth.js";
 const VARIANT_COLUMNS = `id, client_id, sequence_ref, label, hook_text, status,
   completion_pct, started_at, resolved_at, created_at`;
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
@@ -38,7 +39,7 @@ export async function onRequestGet({ request, env }) {
   });
 }
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const body = await request.json().catch(() => ({}));
@@ -53,7 +54,7 @@ export async function onRequestPost({ request, env }) {
   return json({ ok: false, error: "unknown action" }, 422);
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -373,3 +374,7 @@ function lineageKey(client, sequenceRef) {
 function round1(value) {
   return Math.round(Number(value || 0) * 10) / 10;
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

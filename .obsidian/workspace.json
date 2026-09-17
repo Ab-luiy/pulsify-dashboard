@@ -195,6 +195,7 @@
   },
   "active": "1bef72d5493f4d9e",
   "lastOpenFiles": [
+    "output/qa/2026-09-phase1/live-http.json",
     "output/qa/2026-09-phase1/README.md",
     "output/standard-preview/shared/fonts/OFL.txt",
     "output/standard-preview/tests/bootstrap-range.test.mjs",
@@ -241,7 +242,6 @@
     "wiki/synthesis/dashboards-audit-and-portal-strategy-2026-07-12.md",
     "wiki/synthesis/instagram-project-fable-handoff.md",
     "wiki/frameworks/carousel-system.md",
-    "wiki/content-engine/carousel-breakdowns/niksetting-7-lessons-content.md",
-    "wiki/content-engine/carousel-breakdowns/niksetting-964k-story-sequences.md"
+    "wiki/content-engine/carousel-breakdowns/niksetting-7-lessons-content.md"
   ]
 }

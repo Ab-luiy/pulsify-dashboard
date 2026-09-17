@@ -1,7 +1,8 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, normalizeEmail } from "../_shared/common.js";
 import { createSetupLink } from "../_shared/client-auth.js";
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -51,7 +52,7 @@ export async function onRequestPost({ request, env }) {
   });
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     headers: {
       "access-control-allow-origin": "*",
@@ -89,3 +90,6 @@ async function sendSetupLinkEmail(env, payload) {
 function safeMessage(error) {
   return String(error?.message || error || "unknown error").slice(0, 400);
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

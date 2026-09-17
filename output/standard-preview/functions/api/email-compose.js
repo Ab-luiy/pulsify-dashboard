@@ -1,3 +1,4 @@
+import { withOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, escapeHtml, json, nowIso, str, strOrNull } from "../_shared/common.js";
 import { getIntegration, recordFailure, recordIntegrationEvent } from "../_shared/integrations.js";
 
@@ -5,7 +6,7 @@ const KIT_TAGS_URL = "https://api.kit.com/v4/tags";
 const KIT_BROADCASTS_URL = "https://api.kit.com/v4/broadcasts";
 const FAILURE_KIND = "kit_email_compose";
 
-export async function onRequestGet({ request, env }) {
+async function handle_onRequestGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -57,7 +58,7 @@ export async function onRequestGet({ request, env }) {
   }
 }
 
-export async function onRequestPost({ request, env }) {
+async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -177,7 +178,7 @@ export async function onRequestPost({ request, env }) {
   }
 }
 
-export async function onRequestOptions() {
+async function handle_onRequestOptions() {
   return new Response(null, {
     status: 204,
     headers: {
@@ -294,3 +295,7 @@ function summarize(value) {
     return String(value || "").slice(0, 300);
   }
 }
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);
