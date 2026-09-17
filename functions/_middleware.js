@@ -3,7 +3,13 @@ export async function onRequest(context) {
  const {request,env}=context,url=new URL(request.url);
  if(url.hostname!=='ops.pulsify-ai.com'&&!['localhost','127.0.0.1'].includes(url.hostname)) return Response.redirect('https://ops.pulsify-ai.com'+url.pathname+url.search,302);
  if(/^\/(?:\.git|\.wrangler|\.dev\.vars|tests)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404});
- const token=accessToken(request),operator=await validateAccess(token,env.ACCESS_AUD);
+ const local=['localhost','127.0.0.1'].includes(url.hostname),devBypass=local&&env.DEV_ACCESS_BYPASS==='true';
+ const isDocument=request.headers.get('sec-fetch-dest')==='document'||(request.headers.get('accept')||'').includes('text/html');
+ if(url.hostname==='ops.pulsify-ai.com'&&isDocument&&url.searchParams.get('embed')!=='1'){
+  const pathView=url.pathname.split('/').filter(Boolean)[0],view=pathView||url.searchParams.get('view')||'live';
+  return Response.redirect('https://pulsify-ai.com/admin?view='+encodeURIComponent(view),302);
+ }
+ const token=accessToken(request),operator=devBypass?{email:'local-dev@pulsify.invalid'}:await validateAccess(token,env.ACCESS_AUD);
  if(!operator)return new Response('Operator sign-in required',{status:401,headers:{'cache-control':'no-store'}});
  if(!['GET','HEAD','OPTIONS'].includes(request.method)){
   const origin=request.headers.get('origin');

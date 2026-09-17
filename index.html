@@ -6453,8 +6453,11 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
   const usd = (n) => "$" + fmt(n);
   const pct = (n) => Math.round(n) + "%";
   const todayStr = new Date().toISOString().slice(0, 10);
-  const DATA_URL = "dashboard-data-v2.json";
-  const REFRESH_MS = 15000;
+  const DATA_URL = "/api/spine/snapshot?scope=operator";
+  const SERIES_URL = "/api/spine/series?scope=operator";
+  const LEADS_URL = "/api/spine/leads";
+  const SPINE_CACHE_KEY = "pulsify_spine_cache_v1";
+  const REFRESH_MS = 60000;
   const METRIC_KEY = "pulsify_metric_overrides_v1";
   const CONTENT_PIPELINE_KEY = "pulsify_content_pipeline_v1";
   function loadJson(key) {
@@ -6474,12 +6477,14 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     data.content = Object.assign({}, data.content || {}, metricState.content);
     return data;
   }
-  let D = applyMetricOverrides(parseEmbeddedData());
+  let spineLeadRaw = [];
+  let spineLeadsLoaded = false;
+  let D = applyMetricOverrides(deepMerge(parseEmbeddedData(), loadJson(SPINE_CACHE_KEY).dashboard || {}));
   window.addEventListener('pulsify:range',()=>{renderMetrics();renderPayments();});
   let lastLiveRefresh = null;
 
   const liveNow = [
-    ["Dashboard snapshot", "dashboard-data-v2.json polls every 15 seconds when served locally.", "live"],
+    ["Dashboard snapshot", "D1 snapshots refresh through the authenticated data spine.", "live"],
     ["CRM edits", "Lead status, fields, and new leads save instantly and sync across browsers via pulsify-funnels.", "live"],
     ["Manual content metrics", "Follower, post, and reach overrides save in this browser until APIs are wired.", "live"],
     ["CSV export", "Outreach CRM can be exported whenever you want a backup.", "live"]
@@ -6491,7 +6496,7 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
     ["Instagram", "Useful, but Meta setup makes it slower than the other connectors.", "later"]
   ];
   const sourceMap = [
-    ["Plan and targets", "dashboard-data-v2.json", "15 sec", "live"],
+    ["Plan and targets", "operator state with embedded migration fallback", "on change", "live"],
     ["Outreach CRM", "browser storage + export", "instant", "live"],
     ["Content metrics", "manual browser input now, APIs later", "instant", "live"],
     ["Calls booked", "Cal.com API", "5-15 min", "next"],
@@ -6523,6 +6528,63 @@ After outputting the Creator Profile, give me one paragraph on which asset to bu
         : pv;
     });
     return out;
+  }
+
+  function dashboardFromSpine(snapshotData, seriesData) {
+    const patch = { youtube: {}, instagram: {} };
+    let newest = "";
+    (snapshotData.snapshots || []).forEach((row) => {
+      newest = row.captured_at > newest ? row.captured_at : newest;
+      if (row.source === "youtube") {
+        const key = row.kind === "latest-video" ? "latestVideo" : row.kind;
+        patch.youtube[key] = row.payload;
+      } else if (row.source === "instagram") {
+        const key = row.kind.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+        patch.instagram[key] = row.payload;
+      }
+    });
+    const latest = {};
+    (seriesData.points || []).forEach((point) => {
+      const key = point.source + ":" + point.metric;
+      if (!latest[key] || point.ts > latest[key].ts) latest[key] = point;
+    });
+    patch.youtube.channel = Object.assign({}, patch.youtube.channel || {}, {
+      subscribers: latest["youtube:subscribers"]?.value ?? patch.youtube.channel?.subscribers,
+      views: latest["youtube:channel_views"]?.value ?? patch.youtube.channel?.views,
+      videos: latest["youtube:video_count"]?.value ?? patch.youtube.channel?.videos,
+    });
+    patch.instagram.profile = Object.assign({}, patch.instagram.profile || {}, {
+      followers: latest["instagram:followers"]?.value ?? patch.instagram.profile?.followers,
+      mediaCount: latest["instagram:media_count"]?.value ?? patch.instagram.profile?.mediaCount,
+    });
+    patch.instagram.account = Object.assign({}, patch.instagram.account || {}, {
+      reach30d: latest["instagram:reach_30d"]?.value ?? patch.instagram.account?.reach30d,
+      views30d: latest["instagram:views_30d"]?.value ?? patch.instagram.account?.views30d,
+    });
+    patch.content = {
+      igFollowers: patch.instagram.profile.followers,
+      igReach30d: patch.instagram.account.reach30d,
+    };
+    patch.youtube.updatedAt = newest;
+    patch.instagram.updatedAt = newest;
+    patch.lastUpdated = newest;
+    return patch;
+  }
+
+  async function loadSpineLeads() {
+    if (spineLeadsLoaded) return;
+    const rows = [];
+    let cursor = 0;
+    do {
+      const response = await fetch(LEADS_URL + "?cursor=" + cursor, { cache: "no-store" });
+      if (!response.ok) throw new Error("Leads HTTP " + response.status);
+      const page = await response.json();
+      rows.push(...(page.leads || []));
+      cursor = page.nextCursor;
+    } while (cursor != null);
+    spineLeadRaw = rows;
+    spineLeadsLoaded = true;
+    _ytIngested = null;
   }
 
   function pill(status) {
@@ -8280,12 +8342,14 @@ initPayoutSection();
   let _ytIngested = null;
   function ytAsProspects() {
     if (_ytIngested) return _ytIngested;
-    let raw = [];
-    try {
-      const el = document.getElementById("ytLeadsData");
-      const txt = el ? el.textContent.trim() : "";
-      if (txt && txt.charAt(0) === "[") raw = JSON.parse(txt);
-    } catch (e) { console.warn("YT→CRM parse fail:", e); raw = []; }
+    let raw = spineLeadRaw;
+    if (location.protocol === "file:" && !raw.length) {
+      try {
+        const el = document.getElementById("ytLeadsData");
+        const txt = el ? el.textContent.trim() : "";
+        if (txt && txt.charAt(0) === "[") raw = JSON.parse(txt);
+      } catch (e) { console.warn("YT→CRM fallback parse fail:", e); raw = []; }
+    }
 
     // One-time migration: copy legacy yt overrides keyed by channel-url → CRM overrides keyed by name
     try {
@@ -8987,18 +9051,23 @@ initPayoutSection();
 
     try {
       if ($("refreshStatus")) $("refreshStatus").textContent = "pulling";
-      const res = await fetch(DATA_URL + "?t=" + Date.now(), { cache: "no-store" });
-      if (!res.ok) throw new Error("HTTP " + res.status);
-      const next = await res.json();
+      const [snapshotResponse, seriesResponse] = await Promise.all([
+        fetch(DATA_URL, { cache: "no-store" }),
+        fetch(SERIES_URL, { cache: "no-store" }),
+      ]);
+      if (!snapshotResponse.ok || !seriesResponse.ok) throw new Error("Spine HTTP " + snapshotResponse.status + "/" + seriesResponse.status);
+      const next = dashboardFromSpine(await snapshotResponse.json(), await seriesResponse.json());
+      await loadSpineLeads();
       D = applyMetricOverrides(deepMerge(parseEmbeddedData(), next));
+      saveJson(SPINE_CACHE_KEY, { dashboard: next, cachedAt: new Date().toISOString() });
       lastLiveRefresh = new Date();
-      setLiveStatus("live JSON", "ok");
-      if ($("refreshStatus")) $("refreshStatus").textContent = Math.round(REFRESH_MS / 1000) + " sec";
+      setLiveStatus("live D1", "ok");
+      if ($("refreshStatus")) $("refreshStatus").textContent = "D1 · " + Math.round(REFRESH_MS / 1000) + " sec";
       renderDashboard();
       renderCrm();
     } catch (err) {
       setLiveStatus("snapshot fallback", "warn");
-      if ($("refreshStatus")) $("refreshStatus").textContent = "JSON blocked";
+      if ($("refreshStatus")) $("refreshStatus").textContent = "D1 unavailable";
       renderLivePanel();
       console.warn("Dashboard live refresh failed:", err);
     }
@@ -9465,8 +9534,11 @@ initPayoutSection();
       crmSyncNow();
     });
     crmSyncNow();
-    setInterval(crmSyncNow, 5000);
-    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") crmSyncNow(); });
+    setInterval(() => {
+      const badge = $("crmSyncBadge");
+      if (document.visibilityState === "visible" && badge && badge.offsetParent !== null) crmSyncNow();
+    }, 5000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") crmSyncNow(); });
     window.crmSyncNow = crmSyncNow;   // manual kick from console / other blocks
   }
 
@@ -10552,16 +10624,20 @@ initPayoutSection();
     text("latestChannelState",(Number(c.subscribers)||0).toLocaleString("en-US")+" subscribers · "+(Number(c.videos)||0)+" videos");
   }
   function renderLatestVideo(){
-    // Paint the embedded snapshot immediately (covers file:// + first frame),
-    // then upgrade to the live JSON the refresher keeps current. The main app's
-    // D is scoped to its own IIFE and not visible here, so read the source directly.
+    // Paint the embedded snapshot immediately for file previews, then upgrade
+    // to the authenticated D1 snapshot used by the dashboard.
     var embedded={};
     try{embedded=JSON.parse(document.getElementById("data").textContent||"{}");}catch(e){}
     if(embedded.youtube)paintLatestVideo(embedded.youtube);
     if(location.protocol!=="file:"){
-      fetch("dashboard-data-v2.json?t="+Date.now(),{cache:"no-store"})
+      fetch("/api/spine/snapshot?scope=operator&source=youtube",{cache:"no-store"})
         .then(function(r){return r.ok?r.json():null;})
-        .then(function(d){if(d&&d.youtube)paintLatestVideo(d.youtube);})
+        .then(function(d){
+          if(!d)return;
+          var youtube={};
+          (d.snapshots||[]).forEach(function(row){youtube[row.kind==="latest-video"?"latestVideo":row.kind]=row.payload;});
+          paintLatestVideo(youtube);
+        })
         .catch(function(){});
     }
   }

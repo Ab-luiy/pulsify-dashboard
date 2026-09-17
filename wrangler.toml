@@ -4,3 +4,4 @@ compatibility_date = "2026-06-30"
 
 [vars]
 ACCESS_AUD = "e2b36b7175a01dc8def8128bb52d160c629185b0196c36d706732220da2006f6"
+DEV_ACCESS_BYPASS = "false"
