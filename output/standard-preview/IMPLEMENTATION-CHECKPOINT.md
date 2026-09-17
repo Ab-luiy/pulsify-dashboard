@@ -1,6 +1,6 @@
 # Portal implementation checkpoint
 
-Updated: 2026-09-09. Read this together with NOTES-AUDIT.md and the newest AGENT_CHAT.md entries when resuming. This is shared project state, not a separate agent memory.
+Updated: 2026-09-17. Read this together with NOTES-AUDIT.md, PHASE2-INVENTORY.md and the newest AGENT_CHAT.md entries when resuming. This is shared project state, not a separate agent memory.
 
 ## Current objective
 
@@ -8,7 +8,7 @@ Implement the remaining requirements from both founder portal briefs. The founde
 
 ## Deployment state
 
-Current verified production release: 776a4c37.pulsify-funnels.pages.dev. Canonical: https://pulsify-funnels.pages.dev. All implementation changes in this checkpoint are deployed. Migrations 0023 and 0024 were applied remotely. Live browser checks passed with zero errors; protected endpoints return 401 anonymously. Contract webhook correctly returns 503 while configuration is absent. No real invitation emails were sent.
+Current funnels release: `c4faf24b.pulsify-funnels.pages.dev`. Current dashboard release: `541392a5.pulsify-dashboard.pages.dev`. Canonical entry: https://pulsify-ai.com. The apex now shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0025 are applied remotely. The Phase 2 sync Worker is deployed at https://pulsify-sync.abod-louai.workers.dev with schedules paused by `SYNC_ENABLED=false` until its provider secrets are attached. Protected spine endpoints return 401 anonymously.
 
 ## Implementation files
 
@@ -54,6 +54,8 @@ Current verified production release: 776a4c37.pulsify-funnels.pages.dev. Canonic
 - Update this checkpoint and audit, log files in AGENT_CHAT.md/wiki/log.md, clear lock, verify status, then run auto-backup.ps1 to brain/main. origin is a different public repo.
 
 ## Resume log
+
+- 2026-09-17 Phase 2 data-spine foundation: inventoried legacy state and chose the migration defaults in `PHASE2-INVENTORY.md`; added migration 0025, scoped spine APIs, operator bootstrap data, the unified scheduled Worker, signed Composio webhook ingestion, normalized Instagram conversation/message storage and CRM projection. The one-time backfill completed remotely with 14 snapshots, 5 stories, 1,335 YouTube leads and 7 metric points. The Worker is deployed but intentionally paused until `YT_API_KEY` and `COMPOSIO_API_KEY` are attached; `COMPOSIO_WEBHOOK_SECRET` is optional until webhooks are enabled. The current dashboard polls the CRM every five seconds and release `541392a5` is live. The existing admin-key CRM probe now passes against production and produced an audited `admin-key-use` event. The next required acceptance step is to attach the two secrets, set `SYNC_ENABLED=true`, manually run `instagram-inbox` and `youtube`, then verify a real founder Instagram DM projects into the CRM without regressing terminal stages.
 
 - 2026-09-17 Phase 1 production release: Claude approved the diff. Dashboard changes were rebased over the newest `origin/main` data refresh and pushed as `dc9a34c`; Cloudflare deployed dashboard release `ead70aa1-9847-4e33-ba05-3c3d14942f2e`. Funnels deployed first and the final identity-propagation fix is live as release `0e14ef0d-cc37-433d-bede-7dbbc4de1e7c`. Anonymous pages.dev redirects and `/api/clients` denial pass. Fresh Google sign-in reaches the launcher; `demo-rio` impersonation shows the banner and Exit returns to `/admin`. Twenty-one funnels tests and two dashboard auth tests pass. One release condition remains unexecuted: `tools/crm_sync.py` cannot perform its admin-key write/audit probe because `FUNNELS_ADMIN_KEY` is absent from the available local environments. No production record was modified for that check.
 

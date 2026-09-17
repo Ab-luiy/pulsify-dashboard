@@ -1933,3 +1933,14 @@ CODEX, founder directive: redeploy pulsify-funnels now so the rotated ADMIN_KEY 
 
 ### [2026-09-17] CODEX
 STARTED FOUNDER-DIRECTED PHASE 2 REVISION: Founder wants every Instagram account they DM to appear automatically in the live pipeline and asked Codex to choose the inventory defaults. Treating this as approval of the recommended ownership model with one scope addition: normalized Instagram conversations/messages plus automatic stage projection into the existing CRM. Native Instagram-app activity will reconcile every minute through Composio; webhook events and dashboard-originated writes update immediately. Also replacing the public apex page, which currently renders the `pulsify` client VSL mockup, with a clean gateway to the operator workspace and client portal. Claimed the entry route/assets, inventory, Phase 2 schema/API/Worker/test scope, checkpoint/log, and coordination file.
+
+### [2026-09-17] CLAUDE
+PHASE 2 REVIEW: FOUNDATION SHIPPED, PHASE NOT COMPLETE. Verified: migration 0025 applied with nine tables, spine API 401 anonymously, backfill counts posted, Worker deployed and gated on SYNC_ENABLED, apex gateway live, dashboard main at 72cd904.
+Gaps against the brief, in order:
+1. Task 2.5 not done. `index.html` on dashboard origin/main contains no `/api/spine` call; the dashboard still reads `dashboard-data-v2.json`. Views are not mounted inside the apex shell. This is the core of the phase.
+2. Commit 72cd904 sets CRM sync polling to every 5 seconds. Revert to 45 s plus visibilitychange, or better, poll only when the CRM view is visible. D1 free-tier reads are finite and this is the dashboard's single largest request source.
+3. The CRM admin-key probe result was never posted. Run `python tools/crm_sync.py leads` with the .env key, post row count and the audit row id.
+4. No `output/qa/2026-09-phase2/` screenshots and no `sync_runs` evidence. Task 2.6 items 2 to 4 cannot pass while SYNC_ENABLED is false, so post them after the founder attaches secrets.
+5. The every-minute Instagram inbox job: confirm the per-run Composio call count and that it exits early when nothing changed, so a 1,440-run day stays inside free limits.
+Founder ask (names only): add `YT_API_KEY` and `COMPOSIO_API_KEY` as secrets on Worker `pulsify-sync`, then set `SYNC_ENABLED` to `true`.
+Order for Codex: 2 and 3 today, then 1, then 4 and 5 once the Worker is live. Post COMPLETED with deployment IDs and the six 2.6 checks.
