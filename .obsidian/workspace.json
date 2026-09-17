@@ -11,24 +11,10 @@
             "id": "1bef72d5493f4d9e",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "codex-handoff.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": true,
-                "backlinkOpts": {
-                  "collapseAll": false,
-                  "extraContext": false,
-                  "sortOrder": "alphabetical",
-                  "showSearch": false,
-                  "searchQuery": "",
-                  "backlinkCollapsed": false,
-                  "unlinkedCollapsed": true
-                }
-              },
-              "icon": "lucide-file",
-              "title": "codex-handoff"
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -51,7 +37,7 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": true,
+                "autoReveal": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
@@ -195,6 +181,22 @@
   },
   "active": "1bef72d5493f4d9e",
   "lastOpenFiles": [
+    "claude-memory/MEMORY.md",
+    "raw-sources/frameworks/Webinar_Frameworks_Compressed.pdf",
+    "raw-sources/frameworks/VSL-Frameworks-Jeremy-Haynes.md",
+    "raw-sources/frameworks/VSL-Framework-Luke-Alexander.md",
+    "raw-sources/frameworks/Call-Funnel-Framework-Jeremy-Haynes.md",
+    "raw-sources/frameworks/pulsify-inbound-dm-framework-screenshots/image5.png",
+    "raw-sources/frameworks/pulsify-inbound-dm-framework-screenshots/image3.png",
+    "raw-sources/frameworks/pulsify-inbound-dm-framework-screenshots/image2.png",
+    "raw-sources/frameworks/pulsify-inbound-dm-framework-screenshots/image1.png",
+    "done-tasks/CODEX_TASK_trakyo_port_p2.md",
+    "tools/instagram-dm-audit/node_modules/@composio/client/src/internal/README.md",
+    "wiki/playbooks/prospect-asset-visual-standard.md",
+    "wiki/index.md",
+    "output/standard-preview/tests/instagram-inbox.test.mjs",
+    "codex-handoff.md",
+    "output/standard-preview/tests/phase2-shell.test.mjs",
     "output/standard-preview/workers/sync/backfill.mjs",
     "output/standard-preview/tests/entry-page.test.mjs",
     "output/standard-preview/tests/sync-worker.test.mjs",
@@ -202,10 +204,6 @@
     "output/standard-preview/workers/sync/src/index.js",
     "output/standard-preview/workers/sync/src/jobs/leads.js",
     "output/standard-preview/workers/sync/src/jobs/instagram.js",
-    "output/standard-preview/workers/sync/src/jobs/youtube.js",
-    "output/standard-preview/workers/sync/src/jobs/instagram-inbox.js",
-    "output/standard-preview/workers/sync/src/jobs",
-    "output/standard-preview/workers/sync/src/db.js",
     "output/standard-preview/PHASE2-INVENTORY.md",
     "wiki/synthesis/phase2-data-spine-codex-brief.md",
     "output/qa/2026-09-phase1/README.md",
@@ -215,10 +213,6 @@
     "output/qa/2026-09-phase1/overview-light-390.png",
     "output/qa/2026-09-phase1/login-light-1536.png",
     "output/qa/2026-09-phase1/client-light-1536.png",
-    "output/qa/2026-09-phase1/overview-light-1536.png",
-    "output/qa/2026-09-phase1/login-dark-390.png",
-    "output/qa/2026-09-phase1/client-dark-390.png",
-    "output/qa/2026-09-phase1/overview-dark-390.png",
     "DESIGN.md",
     "PRODUCT.md",
     "RESTORE.md",
@@ -234,14 +228,6 @@
     "claude-memory/project_domain_purchase_pending.md",
     "2026-08-02.md",
     "Untitled 1.canvas",
-    "Untitled.canvas",
-    "wiki/synthesis/payment-onboarding-automation-spec.md",
-    "wiki/synthesis/integrations-hub-spec.md",
-    "wiki/index.md",
-    "AGENT_CHAT.md",
-    "wiki/synthesis/client-dashboard-redesign-spec-2026-07-12.md",
-    "CODEX_TASK_trakyo_reskin.md",
-    "wiki/synthesis/dashboards-audit-and-portal-strategy-2026-07-12.md",
-    "wiki/synthesis/instagram-project-fable-handoff.md"
+    "Untitled.canvas"
   ]
 }
