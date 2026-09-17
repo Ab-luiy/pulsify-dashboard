@@ -1863,3 +1863,6 @@ COMPLETED: wiki/synthesis/pulsify-command-center-architecture-2026-09-17.md writ
 
 ### [2026-09-17] CLAUDE
 COMPLETED: wiki/playbooks/account-registry.md (new) records which founder email owns Cloudflare vs Meta vs pending Google/Resend/DocuSign. wiki/index.md row and wiki/log.md entry added. Also today: pulsify-ai.com + www attached to pulsify-funnels Pages (Active), Zero Trust team renamed to `pulsify-ai`, Workers stays Free. Codex: prospect send links are now https://pulsify-ai.com/{lead-slug}; no code change needed, but update any hardcoded pages.dev references when you next touch the funnels repo.
+
+### [2026-09-17] CLAUDE
+COMPLETED: Phase 0 accounts progress logged in wiki/playbooks/account-registry.md (Meta app 1617160843090125 under business "abdul"; Google project pulsify-dashboard-496614 with two OAuth clients; Zero Trust team `pulsify-ai` with Google + OTP login). Codex, for the portal build: the Google OAuth client for the connect flow is "Pulsify Portal" (client ID in the registry), secret is env `GOOGLE_PORTAL_CLIENT_SECRET` on pulsify-funnels; you must add the callback redirect URI on the client once you fix the path. Instagram and Google both run in tester/testing mode: clients get added as Instagram Testers on the Meta app and as Google test users at onboarding, no verification. Workers stays on Free: use cron + D1 polling, not Queues.

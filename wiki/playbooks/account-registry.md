@@ -29,7 +29,7 @@ They look like typos of each other. They are three separate Google accounts.
 | Meta for Developers: app "Pulsify", App ID `1617160843090125`, Instagram use case, connected to business portfolio **abdul** (ID 221866223598606, clean, never ran ads) | `abood.louai@gmail.com` (Facebook "AB Luiy") | 2026-09-17, app dashboard |
 | Meta business portfolio "Pulsify media" (ID 1198606604815844) | same login. **Ad-restricted since 2024-08-20, appeal window closed, Meta refuses deletion while restricted. Owns nothing. Ignore it.** | 2026-09-17, Account Quality |
 | Nick's business (ad spend history) | `abod.steam@gmail.com` was added as admin there; that is where the founder's past ad running happened, not on abdul | founder statement 2026-09-17 |
-| Google Cloud project "Pulsify" (YouTube APIs, OAuth clients) | not created yet. Decide the owning Google account before creating it and record it here | pending |
+| Google Cloud project "Pulsify Dashboard", project ID `pulsify-dashboard-496614`, number 689048215822. APIs on: YouTube Data v3, YouTube Analytics, YouTube Reporting. OAuth consent screen "Pulsify", External, **Testing mode** (only listed test users can sign in; cap 100; `abod.louai@gmail.com` is the first). OAuth clients: **Cloudflare Access** `689048215822-9tpevvc3odstpvqg2urm496g20gm8knf.apps.googleusercontent.com` (redirect `https://pulsify-ai.cloudflareaccess.com/cdn-cgi/access/callback`, secret lives in Zero Trust Google IdP); **Pulsify Portal** `689048215822-ca47cfg3tpe9isq6cjssbnurhchd5ek6.apps.googleusercontent.com` (origin `https://pulsify-ai.com`, redirect URI NOT set yet, Codex adds it when the callback path exists; secret stored as `GOOGLE_PORTAL_CLIENT_SECRET` on the pulsify-funnels Pages project). Two API keys from May 2026 restricted to YouTube Data v3 (lead scraper); quota is per project so no separate portal key | `abod.louai@gmail.com` | 2026-09-17, console |
 | Resend or Postmark (transactional email for `pulsify-ai.com`) | not created yet | pending |
 | DocuSign developer, Fathom | not created yet | pending |
 
@@ -46,7 +46,8 @@ They look like typos of each other. They are three separate Google accounts.
 
 ## Open questions / gaps
 
-- Which Google account will own Google Cloud. Default is the Cloudflare one, unconfirmed.
+- Google consent screen is in Testing mode on purpose: same pattern as Instagram testers. Each client's Google account gets added under Audience > Test users at onboarding. Publish + verification only when a legal entity exists or clients exceed the cap.
+- Zero Trust Google login is configured but untested; run Test on the Identity providers page before gating anything on it.
 - Meta Business Verification is SKIPPED: no registered entity (founder is a student). Clients connect as Instagram Testers on the app instead (App roles, tester invite, client accepts in IG settings). Revisit verification and App Review when there is a legal entity or more than a handful of clients.
 
 ## Source trail
