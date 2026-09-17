@@ -23,7 +23,7 @@ import sys
 import time
 import urllib.request
 
-BASE = os.environ.get("CRM_SYNC_URL", "https://pulsify-funnels.pages.dev/api/crm-sync")
+BASE = os.environ.get("CRM_SYNC_URL", "https://pulsify-ai.com/api/crm-sync")
 
 
 def admin_key():
@@ -44,7 +44,11 @@ def call(method="GET", body=None):
         BASE,
         method=method,
         data=json.dumps(body).encode() if body is not None else None,
-        headers={"x-admin-key": admin_key(), "content-type": "application/json"},
+        headers={
+            "x-admin-key": admin_key(),
+            "content-type": "application/json",
+            "user-agent": "Pulsify-CRM-Sync/1.0",
+        },
     )
     with urllib.request.urlopen(req, timeout=60) as r:
         out = json.load(r)
