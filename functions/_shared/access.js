@@ -4,6 +4,14 @@ let cache = { until: 0, keys: [] };
 export const ISSUER = 'https://pulsify-ai.cloudflareaccess.com';
 export const operatorIdentity = request => identities.get(request) || null;
 export function rememberOperator(request, identity) { identities.set(request, identity); }
+// Pages clones Request for every handler but preserves trusted context.data.
+// Bind the identity again at the route boundary; never read an identity header.
+export function withOperator(handler) {
+  return context => {
+    if (context.data?.operator) rememberOperator(context.request, context.data.operator);
+    return handler(context);
+  };
+}
 export function accessToken(request) {
   const header = request.headers.get('Cf-Access-Jwt-Assertion');
   if (header) return header;

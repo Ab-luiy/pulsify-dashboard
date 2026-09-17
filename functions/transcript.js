@@ -1,3 +1,4 @@
+import { withOperator } from './_shared/access.js';
 import { operatorIdentity } from './_shared/access.js';
 // Cloudflare Pages Function — POST /transcript
 // Body: { urls: ["https://youtube.com/watch?v=...", ...] }  (max 3)
@@ -89,7 +90,7 @@ function jsonResponse(obj, status, request) {
   });
 }
 
-export async function onRequestPost(context) {
+async function handle_onRequestPost(context) {
   const { request, env } = context;
   if (!operatorIdentity(request)) return jsonResponse({error:"Operator sign-in required."},401,request);
   const apiKey = env && env.SUPADATA_API_KEY;
@@ -112,7 +113,7 @@ export async function onRequestPost(context) {
   return jsonResponse({ transcripts }, 200, request);
 }
 
-export async function onRequestOptions(context) {
+async function handle_onRequestOptions(context) {
   const headers = responseHeaders(context.request);
   headers["Access-Control-Allow-Methods"] = "POST, OPTIONS";
   headers["Access-Control-Allow-Headers"] = "Content-Type, X-FN-Access-Token";
@@ -121,3 +122,6 @@ export async function onRequestOptions(context) {
     headers
   });
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);

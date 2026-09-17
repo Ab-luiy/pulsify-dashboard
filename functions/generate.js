@@ -1,3 +1,4 @@
+import { withOperator } from './_shared/access.js';
 import { operatorIdentity } from './_shared/access.js';
 // Cloudflare Pages Function — POST /generate
 // Body: { prompt: string, key?: string, model?: string, max_tokens?: number }
@@ -78,7 +79,7 @@ async function callAnthropic(prompt, apiKey, maxTokens, request) {
   return new Response(text, { status: r.status, headers: responseHeaders(request) });
 }
 
-export async function onRequestPost(context) {
+async function handle_onRequestPost(context) {
   const { request, env } = context;
   if (!operatorIdentity(request)) return json({error:{message:"Operator sign-in required."}},401,request);
 
@@ -104,7 +105,7 @@ export async function onRequestPost(context) {
   return json({ error: { message: "No LLM key set. Add GEMINI_API_KEY (free, aistudio.google.com) or ANTHROPIC_API_KEY in Cloudflare Pages -> Settings -> Environment variables, or paste a key in the drawer field." } }, 500, request);
 }
 
-export async function onRequestOptions(context) {
+async function handle_onRequestOptions(context) {
   const headers = responseHeaders(context.request);
   headers["Access-Control-Allow-Methods"] = "POST, OPTIONS";
   headers["Access-Control-Allow-Headers"] = "Content-Type, X-FN-Access-Token";
@@ -113,3 +114,6 @@ export async function onRequestOptions(context) {
     headers
   });
 }
+
+export const onRequestPost = withOperator(handle_onRequestPost);
+export const onRequestOptions = withOperator(handle_onRequestOptions);
