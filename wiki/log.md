@@ -1613,3 +1613,7 @@ Founder created the Resend account (abod.louai@gmail.com). Added pulsify-ai.com 
 ## [2026-09-17] client-update | DocuSign sandbox wired to the contract trigger
 
 Founder created a DocuSign developer account. Captured the API Account ID, stored DOCUSIGN_ACCOUNT_ID and EMAIL_FROM on pulsify-funnels, founder pasted the Connect HMAC key as DOCUSIGN_HMAC_SECRET, and INTEGRATION_ENCRYPTION_KEY was generated in-page (32 random bytes, base64) straight into the Cloudflare dialog so it never passed through chat. Created Connect configuration "Pulsify portal provisioning" pointing at /api/docusign-connect with JSON SIM, Envelope Completed, custom fields, recipients and HMAC, matching CONTRACT-ONBOARDING.md. All seven variables the handler checks now exist. Flagged clearly: this is the demo environment, envelopes carry the demo stamp, real contracts need a paid plan. Not yet tested with a live envelope.
+
+## [2026-09-17] client-update | Fathom API key stored, Phase 0 accounts complete
+
+Fathom exposes API key generation on the founder's plan; created API client "Pulsify portal", founder pasted it into pulsify-funnels as FATHOM_API_KEY (verified length and prefix against the Fathom page before save). That closes Step 7 and the whole Phase 0 account list: domain, Access + Google login, Meta app, Google Cloud OAuth, Resend, DocuSign sandbox, Fathom. Registry now carries a names-only secrets inventory for the funnels project. Next: Codex Phase 1 brief.

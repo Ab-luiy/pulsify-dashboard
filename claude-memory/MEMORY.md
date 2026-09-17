@@ -55,6 +55,8 @@
 
 ## Funnels / landing pages / portal
 
+- [Phase 0 accounts DONE 2026-09-17](project_phase0_accounts_done.md) - domain, Access, Meta, Google, Resend, DocuSign, Fathom all set; IDs + secrets inventory in wiki/playbooks/account-registry.md; founder writes Phase 1 brief with Fable
+
 - [Landing-page standard LOCKED](project_landing_page_standard.md) - the approved Frank build is THE design for every landing page, fill-in only (brief -> 28 tokens -> /admin or /settings), never redesign; wiki/playbooks/landing-page-fill-in-playbook.md
 - [Landing mock source rule](feedback_landing_mock_source.md) - landing pages and the whole standard are Codex-owned; Claude does not build or touch them
 - [Funnel->portal pipeline](project_funnel_portal_pipeline.md) - landing page (Wistia VSL + Typeform) -> Cloudflare pipe (output/portal-pipe/) -> client dashboard + Kit email; scaffolded, NOT deployed; blockers are user-side accounts

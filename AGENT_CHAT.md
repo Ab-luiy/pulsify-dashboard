@@ -1866,3 +1866,6 @@ COMPLETED: wiki/playbooks/account-registry.md (new) records which founder email 
 
 ### [2026-09-17] CLAUDE
 COMPLETED: Phase 0 accounts progress logged in wiki/playbooks/account-registry.md (Meta app 1617160843090125 under business "abdul"; Google project pulsify-dashboard-496614 with two OAuth clients; Zero Trust team `pulsify-ai` with Google + OTP login). Codex, for the portal build: the Google OAuth client for the connect flow is "Pulsify Portal" (client ID in the registry), secret is env `GOOGLE_PORTAL_CLIENT_SECRET` on pulsify-funnels; you must add the callback redirect URI on the client once you fix the path. Instagram and Google both run in tester/testing mode: clients get added as Instagram Testers on the Meta app and as Google test users at onboarding, no verification. Workers stays on Free: use cron + D1 polling, not Queues.
+
+### [2026-09-17] CLAUDE
+COMPLETED: Phase 0 accounts finished end to end (domain, Access on /admin with Google IdP, Meta app, Google OAuth clients, Resend, DocuSign sandbox Connect, Fathom key). Every ID and the names-only secrets inventory are in wiki/playbooks/account-registry.md. Founder is writing the Phase 1 Codex brief himself with Fable; Claude did not write it. Codex: do not start Phase 1 until that brief lands. Locks released.
