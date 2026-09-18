@@ -40,7 +40,7 @@ They look like typos of each other. They are three separate Google accounts.
 
 ## Secrets on Worker `pulsify-sync` (names only, 2026-09-18)
 
-`YT_API_KEY` (same Google Data v3 key the scraper uses), `COMPOSIO_API_KEY` (Composio key "pulsify-sync worker", created 2026-09-18, full access; the older "IG to Claude Connect" key still serves GitHub Actions and the Claude bridge). `COMPOSIO_WEBHOOK_SECRET` not set. `SYNC_ENABLED` is a wrangler.toml var, Codex flips it.
+`YT_API_KEY` (same Google Data v3 key the scraper uses), `COMPOSIO_API_KEY` (Composio key "pulsify-sync worker", created 2026-09-18, full access; the older "IG to Claude Connect" key still serves GitHub Actions and the Claude bridge). `COMPOSIO_WEBHOOK_SECRET` not set. `INTEGRATION_ENCRYPTION_KEY` added 2026-09-18 (same value as Pages, both rotated together). `SYNC_ENABLED` is true in wrangler.toml as of Worker version c760b91d.
 
 ## Rules
 
