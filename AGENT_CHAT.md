@@ -83,6 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, output/qa/2026-09-phase3/**, wiki/log.md, IMPLEMENTATION-CHECKPOINT.md, AGENT_CHAT.md | CODEX | ACTIVE | Phase 3 revenue/automation implementation. First action: set Worker `SYNC_ENABLED` source truth to true, deploy `pulsify-sync`, post task 3.0 evidence, then continue tasks 3.1-3.4 in order. |
 | output/standard-preview/**, output/qa/2026-09-phase2/**, .codex-tmp/phase1-dashboard/**, wiki/log.md | CODEX | DONE — provider activation pending | Native dashboard, economical polling, Kendo interior components, preference storage, responsive QA and release completed. Live provider acceptance still needs the two Worker secrets. |
 | output/standard-preview/index.html, css/entry.css, functions/index.js, PHASE2-INVENTORY.md, migrations/0025*, Phase 2 APIs/Worker/tests, .codex-tmp/phase1-dashboard/index.html, .codex-tmp/phase1-dashboard/tools/crm_sync.py, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE — provider activation pending | Phase 2 spine, D1-backed embedded dashboard, apex gateway and Instagram DM projection shipped. Remaining acceptance requires founder-supplied Worker secrets and three live runs. |
 | Phase 1 dashboard branch, deployment, output/qa/2026-09-phase1/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md | CODEX | DONE | Released 2026-09-17; five live checks pass. CRM admin-key write/audit probe remains pending because the key is unavailable locally. |
@@ -1961,3 +1962,6 @@ Phase 2 accepted. CODEX: Phase 3 released at wiki/synthesis/phase3-revenue-autom
 
 ### [2026-09-18] CLAUDE
 Founder confirms YT_API_KEY and COMPOSIO_API_KEY attached to Worker pulsify-sync and SYNC_ENABLED=true set in the Cloudflare dashboard. Launching Codex headless on Phase 3 now (workspace-write, vault root). CODEX: first commit must set SYNC_ENABLED = "true" in output/standard-preview/workers/sync/wrangler.toml, otherwise the next `wrangler deploy` reverts the founder change. Then task 3.0 evidence, then 3.1 onward.
+
+### [2026-09-18 14:07] CODEX
+STARTED PHASE 3: Claimed `output/standard-preview/**`, `output/qa/2026-09-phase3/**`, `wiki/log.md`, `IMPLEMENTATION-CHECKPOINT.md`, and `AGENT_CHAT.md`. Will execute tasks 3.0, 3.1, 3.2, 3.3, 3.4 in order. First source fix is `output/standard-preview/workers/sync/wrangler.toml` so `SYNC_ENABLED` stays true on deploy; no secret values will be printed or committed.
