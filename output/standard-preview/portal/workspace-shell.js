@@ -1,7 +1,7 @@
 /* Route-owned presentation. Existing client APIs and editor contracts are retained. */
 (() => {
  'use strict';
- const content=window.PulsifyContent,archive=document.createElement('div');archive.id='wsArchive';
+ const content=window.PulsifyContent,bootTitle=document.querySelector('.ps-boot h1'),archive=document.createElement('div');archive.id='wsArchive';
  for(const child of [...document.body.children])if(!['SCRIPT','DIALOG'].includes(child.tagName))archive.append(child);
  document.body.append(archive);document.body.classList.add('ws-enabled');
  const root=document.createElement('div');root.className='ws-shell';document.body.append(root);
@@ -16,7 +16,7 @@
  const blocks={performanceKpis:$('performanceKpis'),retention:$('retentionCurve').closest('.card'),leaderboard:$('typeLeaderboard').closest('.card'),sequenceForm:$('logSequenceCard'),followersForm:$('snapshotDateInput').closest('.performance-card'),weekly:$('performanceMetricGrid').closest('.performance-card'),history:$('sequenceList').closest('.performance-card'),studio:$('panel-studio'),reels:$('panel-reels'),upload:$('proofFileInput').closest('.proof-upload-card'),connections:$('connectionSetup'),account:$('revenueSettings'),payments:$('paymentsCard')};
  const legacyOpen=openTab;
  const money=(n,currency='USD')=>new Intl.NumberFormat('en-US',{style:'currency',currency,maximumFractionDigits:0}).format(Number(n||0)/100);
- const heading=(title,note='',eyebrow='',action='')=>{$('wsHeading').innerHTML=`<div class="ws-heading"><div>${eyebrow?`<span class="ws-eyebrow">${esc(eyebrow)}</span>`:''}<h1>${esc(title)}</h1>${note?`<p>${esc(note)}</p>`:''}</div>${action}</div>`;};
+ const heading=(title,note='',eyebrow='',action='')=>{$('wsHeading').innerHTML=`<div class="ws-heading"><div>${eyebrow?`<span class="ws-eyebrow">${esc(eyebrow)}</span>`:''}<h1>${esc(title)}</h1>${note?`<p>${esc(note)}</p>`:''}</div>${action}</div>`;if(title==='Your workspace'&&bootTitle)$('wsHeading').querySelector('h1').replaceWith(bootTitle);};
  const card=(title,note,to,symbol='copy',tag='Explore')=>`<button class="ws-card action" data-go="${esc(to)}"><span class="ws-badge">${icon(symbol)}</span><h3>${esc(title)}</h3><p>${esc(note)}</p><span class="ws-card-footer">${esc(tag)}<span>↗</span></span></button>`;
  const stats=list=>`<div class="ws-grid four">${list.map(([label,value,note])=>`<div class="ws-card ws-stat"><small>${esc(label)}</small><b>${esc(String(value))}</b><small>${esc(note||'Saved in your workspace')}</small></div>`).join('')}</div>`;
  const empty=text=>`<div class="ws-empty">${esc(text)}</div>`;

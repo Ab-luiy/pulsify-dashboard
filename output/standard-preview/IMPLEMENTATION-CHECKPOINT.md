@@ -1,6 +1,6 @@
 # Portal implementation checkpoint
 
-Updated: 2026-09-17. Read this together with NOTES-AUDIT.md, PHASE2-INVENTORY.md and the newest AGENT_CHAT.md entries when resuming. This is shared project state, not a separate agent memory.
+Updated: 2026-09-18. Read this together with NOTES-AUDIT.md, PHASE2-INVENTORY.md and the newest AGENT_CHAT.md entries when resuming. This is shared project state, not a separate agent memory.
 
 ## Current objective
 
@@ -8,7 +8,7 @@ Implement the remaining requirements from both founder portal briefs. The founde
 
 ## Deployment state
 
-Current funnels release: `7269dc36.pulsify-funnels.pages.dev`. Current dashboard release: `cc05ec35.pulsify-dashboard.pages.dev`, commit `c769d0a`. Canonical entry: https://pulsify-ai.com. The apex now shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0025 are applied remotely. The Phase 2 sync Worker version is `f5a859fc-fe45-40c1-9ffb-06d2540e1fdc` at https://pulsify-sync.abod-louai.workers.dev with schedules paused by `SYNC_ENABLED=false` until its provider secrets are attached. Protected spine endpoints return 401 anonymously.
+Current funnels release: `3d0baea8.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0026 are applied remotely. The Phase 2 sync Worker version is `f5a859fc-fe45-40c1-9ffb-06d2540e1fdc` at https://pulsify-sync.abod-louai.workers.dev with schedules paused by `SYNC_ENABLED=false` until its provider secrets are attached. Protected spine endpoints return 401 anonymously.
 
 ## Implementation files
 
@@ -17,19 +17,23 @@ Current funnels release: `7269dc36.pulsify-funnels.pages.dev`. Current dashboard
 - portal/composition-editor.js: composition preview, position/size/background controls and shared export.
 - portal/thumbnail-designer.js: editable compositions, saved structured designs and feed-size preview.
 - portal/workspace-shell.js: template gallery/cloning, thumbnail designer routes, post-upload media ordering, first pass at Content/Plans/Team/To-dos interiors.
+- admin/native-dashboard.js and admin/dashboard.html: same-origin native dashboard mount. No iframe remains in operator dashboard views.
+- shared/surface.css and shared/surface.js: Kendo-derived eight-cell KPI grid, metric ordering/visibility controls, actionable empty states, feature introductions, launch checklist and gating dialog.
+- portal/legacy.css and portal/legacy.js: extracted legacy client workspace payload. The portal boot shell now paints before the deferred application bundle.
+- functions/api/workspace-preferences.js and migrations/0026_workspace_preferences.sql: tenant-scoped persistent metric/checklist preferences. Migration applied remotely on September 18.
+- functions/api/dashboard-generate.js and functions/api/transcript.js: same-origin operator endpoints required by the native dashboard.
 - functions/api/media-order.js and migrations/0023_media_order.sql: tenant-scoped persistent order. Migration applied remotely on September 9.
 - portal/index.html and workspace-shell.css: scripts and composition layering.
 
 ## Exact next work
 
-1. Implement social OAuth, encrypted token storage/refresh, scoped analytics imports and signed/idempotent inbox events. The existing cards are still delegated-access records. Actual activation requires provider application configuration and account consent. secret-box.js now provides context-bound AES-GCM storage, but is only used for contract invitations so far.
-2. Implement unified founder account/session and separate SDR dashboard handoff without breaking current admin-key/client auth.
-3. Adapt onboarding selections into workspace feature configuration. Existing intake already saves client context, but does not select modules automatically.
-4. Rebuild remaining account, carousel and operator setup interiors. Content/Plans/Team/To-dos/Leads were rebuilt in this session; preserve existing array/object formats when continuing.
-5. Exact licensed Instagram fonts/stickers remain absent. Original editable galleries now cover every type, but external creator screenshots remain absent for five types; do not pass original designs off as creator evidence.
-6. Thumbnail designs support one background image and text; multi-image layers remain a possible next composition enhancement. Sixteen archive videos now have verified YouTube metadata; 29 other assets have no verified original video metadata.
-7. Audit the exact formula catalogue against canonical source pages; current patterns and AI suggestions do not establish a complete performance-traced formula library.
-8. Activate and live-test DocuSign after account/HMAC/email configuration. Code, admin status, migration 0024 and tests are built. No actual invitation emails were sent during development. See CONTRACT-ONBOARDING.md.
+1. Attach `YT_API_KEY` and `COMPOSIO_API_KEY` to `pulsify-sync`, set `SYNC_ENABLED=true`, manually run `instagram-inbox`, `youtube` and `leads`, verify one real Instagram DM projects into CRM without regressing terminal stages, and retain evidence from three scheduled runs. `COMPOSIO_WEBHOOK_SECRET` is optional until webhooks are enabled.
+2. Continue social OAuth, encrypted token storage/refresh and account consent. The provider cards still record delegated access; the Worker/data spine does not replace OAuth onboarding.
+3. Implement unified founder account/session and separate SDR dashboard handoff without breaking current admin-key/client auth.
+4. Adapt onboarding selections into workspace feature configuration. Existing intake saves client context but does not select modules automatically.
+5. Continue bundle-level mobile performance work. Desktop Lighthouse is 100 performance and 96 accessibility in both themes; simulated mobile performance remains below the Phase 1 desktop benchmark because the legacy client application is still a large single bundle.
+6. Rebuild remaining account, carousel and operator setup interiors. Preserve the existing array/object formats.
+7. Activate and live-test DocuSign after account/HMAC/email configuration. Code, admin status, migration 0024 and tests are built. No actual invitation emails were sent during development. See CONTRACT-ONBOARDING.md.
 
 ## Completed verification in this resumed session
 
@@ -46,14 +50,17 @@ Current funnels release: `7269dc36.pulsify-funnels.pages.dev`. Current dashboard
 
 - `node --test output/standard-preview/tests/*.test.mjs`
 - `node output/standard-preview/tests/workspace-browser.cjs` (real local UI, mocked APIs; Chrome/Playwright installed).
-- Browser screenshots: output/standard-preview/.wrangler/qa (ignored).
-- Previous release passed 15 backend test files, browser suite and actual hosted AI generation. New features need additional tests; existing browser suite passed on the interrupted source but did not exercise the new features.
+- `node output/standard-preview/tests/phase2-browser.cjs` covers 108 operator/client screenshots at 1536 px and 390 px in both themes, loading state, native mounting, no iframe, persisted preferences, feature intro, checklist and hidden-view polling.
+- Browser evidence: `output/qa/2026-09-phase2/`.
+- Current release passes 33 backend tests and the full Phase 2 browser matrix. Desktop Lighthouse is 100 performance and 96 accessibility in fresh browsers for both themes.
 - Apply additive D1 migrations using Wrangler remote execute --command; --file previously failed while the query endpoint worked. Never drop data.
 - Deploy from output/standard-preview: `npx wrangler pages deploy . --project-name pulsify-funnels --branch main --commit-dirty=true`.
 - Live QA can use existing ignored .wrangler/qa/live-ai.cjs; temporary session must be deleted in finally. Never print auth values.
 - Update this checkpoint and audit, log files in AGENT_CHAT.md/wiki/log.md, clear lock, verify status, then run auto-backup.ps1 to brain/main. origin is a different public repo.
 
 ## Resume log
+
+- 2026-09-18 native Phase 2 interiors and final release: replaced the operator iframe with a same-origin native dashboard built from the verified D1-backed source; retired direct dashboard embeds; changed CRM refresh from five seconds to 45 seconds and only while the CRM is visible; shipped the Kendo-derived KPI grid, configurable metrics, feature intros, launch checklist, empty states and gating dialog; applied migration 0026 for tenant-scoped preferences; and extracted the legacy portal payload into deferred assets with a layout-matched boot shell. Funnels release `3d0baea8` is live. Dashboard source commit `51c314f` redirects the direct host into `pulsify-ai.com/admin#crm`. Thirty-three backend tests and the 108-view browser matrix pass. Fresh desktop Lighthouse runs score 100 performance and 96 accessibility in both themes. Provider-run acceptance remains pending only because the Worker is paused without `YT_API_KEY` and `COMPOSIO_API_KEY`.
 
 - 2026-09-18 Phase 2 data-spine foundation: inventoried legacy state and chose the migration defaults in `PHASE2-INVENTORY.md`; added migration 0025, scoped spine APIs, operator bootstrap data, the unified scheduled Worker, signed Composio webhook ingestion, normalized Instagram conversation/message storage and CRM projection. The one-time backfill completed remotely with 14 snapshots, 5 stories, 1,335 YouTube leads and 7 metric points. The dashboard now reads D1 snapshots, series and paginated leads through the Phase 1 proxy, and dashboard views mount inside the apex shell. Direct `ops.pulsify-ai.com/crm` navigation returns to the apex CRM view. CRM sync polls every five seconds only while its view is visible. The unchanged Instagram inbox path makes one Composio list call per minute and exits before message reads. The admin-key probe returned 121 CRM rows and produced audited `admin-key-use` event 11. The Worker remains intentionally paused until `YT_API_KEY` and `COMPOSIO_API_KEY` are attached; `COMPOSIO_WEBHOOK_SECRET` is optional until webhooks are enabled. Next acceptance: attach the two secrets, set `SYNC_ENABLED=true`, manually run `instagram-inbox` and `youtube`, verify a real founder Instagram DM projects into the CRM without regressing terminal stages, then collect three scheduled-run and responsive screenshot evidence.
 

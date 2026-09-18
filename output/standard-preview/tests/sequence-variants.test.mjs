@@ -343,7 +343,10 @@ async function testMigrationAndPortalContract() {
   assert.match(sql, /CHECK \(status IN \('testing', 'won', 'lost', 'retired'\)\)/);
   assert.doesNotMatch(sql, /\b(?:DROP|ALTER|DELETE|UPDATE)\b/i);
 
-  const portal = await readFile(new URL("../portal/index.html", import.meta.url), "utf8");
+  const portal = [
+    await readFile(new URL("../portal/index.html", import.meta.url), "utf8"),
+    await readFile(new URL("../portal/legacy.js", import.meta.url), "utf8"),
+  ].join("\n");
   assert.match(portal, /\/api\/sequence-variants/);
   assert.match(portal, /data-retest-sequence/);
   assert.match(portal, /How the retest works/);
