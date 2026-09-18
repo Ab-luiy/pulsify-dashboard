@@ -1,6 +1,6 @@
 # Phase 2 native interiors QA
 
-Verified 2026-09-18 against the source deployed as funnels release `3d0baea8` and dashboard source commit `51c314f`.
+Verified 2026-09-18 against the source deployed as funnels release `70e809ea` and dashboard source commit `51c314f`.
 
 ## Result
 
@@ -14,7 +14,8 @@ The shared interior layer provides an eight-cell KPI grid, persistent ordering a
 - Browser: 108 screenshots covering every operator and client view at 1536 px and 390 px in dark and light themes.
 - State: KPI order, hidden metrics and checklist completion survive reload through the preference API mock.
 - Network: D1 snapshot requests observed; `dashboard-data-v2.json` absent; hidden CRM interval produced no sync request.
-- Lighthouse desktop, fresh browser per theme: performance 100, accessibility 96 in dark and light.
+- Lighthouse desktop, fresh browser per theme: performance 92 light / 100 dark, accessibility 96 in both themes.
+- Lighthouse mobile, fresh browser per theme: performance 77 light / 75 dark, accessibility 96 and cumulative layout shift 0 in both themes.
 - Live: apex 200, protected spine API 401 anonymously, Worker health 200, pages.dev admin 302 to the apex.
 
 ## Seven-gate review
@@ -31,4 +32,4 @@ The shared interior layer provides an eight-cell KPI grid, persistent ordering a
 
 Provider activation is external to this release. `pulsify-sync` still needs `YT_API_KEY` and `COMPOSIO_API_KEY`, then `SYNC_ENABLED=true`. After that, run and retain evidence for a real Instagram DM projection, YouTube refresh, lead refresh and three scheduled cycles.
 
-Simulated mobile Lighthouse performance remains below the desktop gate because the legacy client application still ships as one large bundle. The new boot shell reduces first paint delay, but route-level mobile splitting remains future performance work.
+Simulated mobile Lighthouse performance remains below the desktop gate because the legacy client application still ships as one large bundle. Local product CSS now loads before paint, eliminating the full-page layout shift; route-level mobile splitting remains future performance work.
