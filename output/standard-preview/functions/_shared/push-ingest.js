@@ -110,7 +110,7 @@ export async function ingest(env, key, record) {
 
   if (record.kind === "payment") {
     const result = await processNormalizedPayment(env, {
-      client: clientId || "pulsify",
+      client: clientId || operatorClientId(env),
       reference: `push:${record.data.reference}`,
       amountCents: record.data.amount_cents,
       currency: record.data.currency,
@@ -174,6 +174,13 @@ export async function ingest(env, key, record) {
 
 export function ingestError(message, status = 422) {
   return json({ ok: false, error: message }, status);
+}
+
+// Operator-scope payments are recorded against the workspace that represents
+// Pulsify itself. Set OPERATOR_CLIENT_ID in wrangler.toml to the client_config
+// row for the founder workspace; it must exist or matching has no candidates.
+export function operatorClientId(env) {
+  return cleanId(env?.OPERATOR_CLIENT_ID, "") || "pulsify";
 }
 
 export function cleanClient(value) {

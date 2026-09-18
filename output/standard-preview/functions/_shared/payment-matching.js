@@ -2,7 +2,7 @@
 // scope and records the result. Exact email is the only automatic match.
 // Everything else is a suggestion a human confirms. One payment attaches to
 // one target, enforced by a partial unique index on confirmed rows.
-import { generateOpaqueToken, json, normalizeEmail, nowIso, parseJson, str } from "./common.js";
+import { json, normalizeEmail, nowIso, parseJson, str } from "./common.js";
 import { emitEvent } from "./outbound-webhooks.js";
 
 export const AUTO_CONFIRM_THRESHOLD = 0.95;
@@ -26,6 +26,7 @@ function daysBetween(a, b) {
 //  - integration_events of kind booking/application carrying an email
 export async function loadCandidates(env, clientId) {
   const candidates = [];
+  const operatorId = String(env?.OPERATOR_CLIENT_ID || "pulsify");
   const records = await env.DB.prepare(
     "SELECT id, title, data_json, updated_at FROM workspace_records WHERE client_id=? AND kind='lead' ORDER BY updated_at DESC LIMIT 2000",
   ).bind(clientId).all().catch(() => ({ results: [] }));
@@ -33,7 +34,7 @@ export async function loadCandidates(env, clientId) {
     const data = parseJson(row.data_json, {});
     candidates.push({ kind: "workspace_record", id: row.id, label: str(row.title), email: normalizeEmail(data.email), name: str(row.title), handle: str(data.ig || data.handle).replace(/^@/, ""), lastActivity: row.updated_at });
   }
-  if (clientId === "pulsify") {
+  if (clientId === operatorId) {
     for (const table of ["crm_added", "crm_overrides"]) {
       const rows = await env.DB.prepare(`SELECT name, data FROM ${table} LIMIT 5000`).all().catch(() => ({ results: [] }));
       for (const row of rows.results || []) {
@@ -151,7 +152,6 @@ export async function attachManual(env, clientId, paymentId, target, decidedBy) 
     return { error: json({ ok: false, error: "target kind and id required" }, 422) };
   }
   const now = nowIso();
-  const id = generateOpaqueToken(6);
   try {
     await env.DB.batch([
       env.DB.prepare("UPDATE payment_matches SET status='rejected', decided_by=?, decided_at=?, updated_at=? WHERE payment_id=? AND status<>'rejected'").bind(decidedBy, now, now, paymentId),
@@ -164,7 +164,7 @@ export async function attachManual(env, clientId, paymentId, target, decidedBy) 
     return { error: json({ ok: false, error: "could not attach payment" }, 409) };
   }
   await emitEvent(env, { scope: "client", clientId, event: "payment.matched", data: { payment_id: paymentId, target_kind: target.kind, target_id: str(target.id), auto: false, manual: true } });
-  return { ok: true, id };
+  return { ok: true };
 }
 
 export async function listByStatus(env, clientId, status, limit = 200) {

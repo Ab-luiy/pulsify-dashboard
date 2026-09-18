@@ -103,7 +103,7 @@
         ${client ? `<h2>Payment matching</h2><p class="ps-subtitle">Confirm which lead each payment belongs to. Only confirmed matches count toward cash collected.</p><div id="int-matches" class="int-table skeleton" style="min-height:64px"></div>` : ""}`;
       root.querySelectorAll("[data-pick]").forEach((b) => (b.onclick = () => { active = ALL.find((i) => i.id === b.dataset.pick); draw(); }));
       root.querySelector("[data-connect]")?.addEventListener("click", () => connect(active));
-      root.querySelector("[data-disconnect]")?.addEventListener("click", async () => { await api(`/api/integrations${qs}&provider=${active.id}`, { method: "DELETE" }); await render(root, ctx); });
+      root.querySelector("[data-disconnect]")?.addEventListener("click", async () => { await api("/api/integrations", { method: "DELETE", body: JSON.stringify({ scope, client, provider: active.id }) }); await render(root, ctx); });
       drawKeys(); drawHooks(); if (client) drawMatches();
     };
 

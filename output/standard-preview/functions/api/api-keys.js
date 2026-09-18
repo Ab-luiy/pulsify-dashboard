@@ -4,7 +4,6 @@ import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { createApiKey, listApiKeys, revokeApiKey } from "../_shared/push-ingest.js";
 import { resolveSpineRead } from "../_shared/spine-auth.js";
-import { emitEvent } from "../_shared/outbound-webhooks.js";
 
 async function scopeFor(request, env, url, body) {
   const requestedScope = str(url.searchParams.get("scope") || body?.scope || "operator");
@@ -48,4 +47,3 @@ async function handleDelete({ request, env }) {
 export const onRequestGet = withOperator(handleGet);
 export const onRequestPost = withOperator(handlePost);
 export const onRequestDelete = withOperator(handleDelete);
-export { emitEvent as _emit };
