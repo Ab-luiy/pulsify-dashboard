@@ -9061,7 +9061,7 @@ initPayoutSection();
       D = applyMetricOverrides(deepMerge(parseEmbeddedData(), next));
       saveJson(SPINE_CACHE_KEY, { dashboard: next, cachedAt: new Date().toISOString() });
       lastLiveRefresh = new Date();
-      setLiveStatus("live D1", "ok");
+      setLiveStatus("Saved data", "ok");
       if ($("refreshStatus")) $("refreshStatus").textContent = "D1 · " + Math.round(REFRESH_MS / 1000) + " sec";
       renderDashboard();
       renderCrm();
@@ -9537,16 +9537,17 @@ initPayoutSection();
     setInterval(() => {
       const badge = $("crmSyncBadge");
       if (document.visibilityState === "visible" && badge && badge.offsetParent !== null) crmSyncNow();
-    }, 5000);
-    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") crmSyncNow(); });
+    }, 45000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && $("crmSyncBadge")?.offsetParent !== null) crmSyncNow(); });
     window.crmSyncNow = crmSyncNow;   // manual kick from console / other blocks
   }
 
   renderDashboard();
   renderCrm();
   initCrmSync();
+  window.PulsifyDashboardRefresh = refreshLiveData;
   refreshLiveData();
-  setInterval(refreshLiveData, REFRESH_MS);
+  setInterval(() => { if (document.visibilityState === "visible" && document.querySelector(".native-dashboard")?.hidden !== true) refreshLiveData(); }, REFRESH_MS);
 })();
 </script>
 

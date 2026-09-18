@@ -5,7 +5,7 @@ export async function onRequest(context) {
  if(/^\/(?:\.git|\.wrangler|\.dev\.vars|tests)(?:\/|$)/.test(url.pathname))return new Response('Not found',{status:404});
  const local=['localhost','127.0.0.1'].includes(url.hostname),devBypass=local&&env.DEV_ACCESS_BYPASS==='true';
  const isDocument=request.headers.get('sec-fetch-dest')==='document'||(request.headers.get('accept')||'').includes('text/html');
- if(url.hostname==='ops.pulsify-ai.com'&&isDocument&&url.searchParams.get('embed')!=='1'){
+ if(url.hostname==='ops.pulsify-ai.com'&&isDocument){
   const pathView=url.pathname.split('/').filter(Boolean)[0],view=pathView||url.searchParams.get('view')||'live';
   return Response.redirect('https://pulsify-ai.com/admin?view='+encodeURIComponent(view),302);
  }
