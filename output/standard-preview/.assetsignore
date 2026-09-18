@@ -12,3 +12,7 @@ tests/**
 *.md
 .wrangler-config
 .wrangler-config/**
+tools
+tools/**
+workers
+workers/**

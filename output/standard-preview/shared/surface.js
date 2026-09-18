@@ -5,7 +5,7 @@
  async function preference(config,key,value){
   const operator=config.scope==='operator';
   const url=operator?'/api/spine/state':'/api/workspace-preferences';
-  const response=await fetch(url+(value===undefined?'?key='+encodeURIComponent(key):''),{method:value===undefined?'GET':'PUT',headers:{...(config.headers?.()||{}),...(value===undefined?{}:{'content-type':'application/json'})},...(value===undefined?{}:{body:JSON.stringify({key,value})})});
+  const response=await fetch(url+(value===undefined?'?key='+encodeURIComponent(key):''),{method:value===undefined?'GET':'PUT',keepalive:value!==undefined,headers:{...(config.headers?.()||{}),...(value===undefined?{}:{'content-type':'application/json'})},...(value===undefined?{}:{body:JSON.stringify({key,value})})});
   if(!response.ok)throw Error('Your layout could not be saved. Please retry.');
   const data=await response.json();return operator?data.state?.value:data.value;
  }
@@ -14,12 +14,12 @@
  function intro(view,uid){const spec=intros[view];if(!spec||document.querySelector('dialog[open]'))return;const key='pulsify:featureIntroSeen:'+uid;let seen;try{seen=JSON.parse(localStorage.getItem(key)||'[]');}catch{seen=[];}if(seen.includes(view))return;const d=dialog(spec[0],spec[1],'<ul>'+spec[2].map(s=>'<li>'+esc(s)+'</li>').join('')+'</ul><button class="ps-control" style="width:100%">Continue</button>',true);const remember=()=>{if(!seen.includes(view))seen.push(view);localStorage.setItem(key,JSON.stringify(seen));};d.querySelector('button').onclick=()=>d.close();d.addEventListener('close',remember);}
  function metricDestination(label,config){const l=label.toLowerCase();if(/cash|payment|revenue|collected/.test(l))return config.scope==='operator'?'payments':'revenue';if(/lead|conversation|reply|call/.test(l))return config.scope==='operator'?'crm':'leads';if(/video|youtube|subscriber/.test(l))return config.scope==='operator'?'metrics':'youtube/projects';if(/image|proof/.test(l))return 'media';return config.scope==='operator'?'instagram':'performance';}
  function enhance(root,config){
-  root.querySelectorAll('.ws-grid.four,.kpi-row,.ps-kpis').forEach((grid,index)=>{
-   const cells=[...grid.children].filter(c=>c.matches('.ws-stat,.kpi,.ps-kpi'));
+  root.querySelectorAll('.ws-grid.four,.kpi-row,.ps-kpis,.metric-grid').forEach((grid,index)=>{
+   const cells=[...grid.children].filter(c=>c.matches('.ws-stat,.kpi,.ps-kpi,.metric'));
    if(!cells.length||grid.dataset.surfaceReady)return;grid.dataset.surfaceReady='1';grid.classList.add('ps-metric-grid');
    const key='kpi-layout:'+(grid.closest('.tab-panel')?.id||config.view).replace(/[^a-z0-9:_-]/gi,'-')+':'+index,identity=(config.client||'operator')+':'+key;
-   const layout=preferences.get(identity)||{order:[],hidden:[]};preferences.set(identity,layout);
-   const ids=cells.map((cell,i)=>{const label=cell.querySelector('small,.k')?.textContent.trim()||'Metric '+(i+1),id=label.toLowerCase().replace(/[^a-z0-9]+/g,'-');cell.dataset.metric=id;cell.classList.add('ps-metric');cell.tabIndex=0;cell.setAttribute('role','button');cell.setAttribute('aria-label',label+' details');
+   const layout=preferences.get(identity)||{order:[],hidden:[],subscribers:[]};preferences.set(identity,layout);
+   const ids=cells.map((cell,i)=>{const label=cell.querySelector(':scope > span,small,.k')?.textContent.trim()||'Metric '+(i+1),id=label.toLowerCase().replace(/[^a-z0-9]+/g,'-');cell.dataset.metric=id;cell.classList.add('ps-metric');cell.tabIndex=0;cell.setAttribute('role','button');cell.setAttribute('aria-label',label+' details');
     const handle=document.createElement('button');handle.className='ps-metric-handle';handle.textContent='⠿';handle.draggable=true;handle.title='Drag to reorder. Use Alt + Left or Right to move.';handle.setAttribute('aria-label','Move '+label);cell.append(handle);
     handle.addEventListener('click',e=>e.stopPropagation());handle.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',id));
     cell.addEventListener('dragover',e=>e.preventDefault());cell.addEventListener('drop',e=>{e.preventDefault();move(e.dataTransfer.getData('text/plain'),id);});
@@ -27,10 +27,11 @@
     const open=()=>config.go(metricDestination(label,config));cell.addEventListener('click',e=>{if(!e.target.closest('button,a,input'))open();});cell.addEventListener('keydown',e=>{if(e.target===cell&&['Enter',' '].includes(e.key)){e.preventDefault();open();}});
     const footer=document.createElement('div');footer.className='ps-metric-footer';footer.innerHTML='<span>Recorded results</span><span>View details</span>';cell.append(footer);return id;});
    function apply(){cells.sort((a,b)=>{const ai=layout.order.indexOf(a.dataset.metric),bi=layout.order.indexOf(b.dataset.metric);return (ai<0?999:ai)-(bi<0?999:bi);}).forEach(c=>{c.hidden=layout.hidden.includes(c.dataset.metric);grid.append(c);});}
-   function save(){if(config.readOnly)return;preference(config,key,layout).catch(e=>notice(e.message));}
+   function save(){if(config.readOnly)return;preference(config,key,{order:layout.order,hidden:layout.hidden}).catch(e=>notice(e.message));}
    function move(id,target){if(config.readOnly||id===target||!ids.includes(id)||!ids.includes(target))return;const order=[...grid.children].map(c=>c.dataset.metric),from=order.indexOf(id),to=order.indexOf(target);order.splice(from,1);order.splice(to,0,id);layout.order=order;apply();save();}
    const tools=document.createElement('div');tools.className='ps-grid-tools';tools.innerHTML='<button class="ps-control">Metrics</button>';grid.before(tools);tools.firstChild.onclick=()=>{const d=dialog('Visible metrics','Choose the numbers you want in this view.',ids.map(id=>'<label style="display:block;padding:10px 0"><input type="checkbox" value="'+esc(id)+'" '+(!layout.hidden.includes(id)?'checked':'')+' '+(config.readOnly?'disabled':'')+'> '+esc(id.replaceAll('-',' '))+'</label>').join('')+'<div class="ps-dialog-actions"><button class="ps-control">Done</button></div>');d.querySelectorAll('input').forEach(input=>input.onchange=()=>{if(!input.checked&&ids.length-layout.hidden.length===1){input.checked=true;return;}layout.hidden=input.checked?layout.hidden.filter(x=>x!==input.value):[...layout.hidden,input.value];apply();save();});d.querySelector('button').onclick=()=>d.close();};
-   apply();if(!layout.loaded){layout.loaded=true;preference(config,key).then(saved=>{if(saved){layout.order=Array.isArray(saved.order)?saved.order:[];layout.hidden=Array.isArray(saved.hidden)?saved.hidden:[];apply();}}).catch(()=>{});}
+   layout.subscribers=layout.subscribers.filter(s=>s.grid.isConnected);layout.subscribers.push({grid,apply});
+   apply();if(!layout.loaded){layout.loaded=true;preference(config,key).then(saved=>{if(saved){layout.order=Array.isArray(saved.order)?saved.order:[];layout.hidden=Array.isArray(saved.hidden)?saved.hidden:[];layout.subscribers.filter(s=>s.grid.isConnected).forEach(s=>s.apply());}}).catch(()=>{});}
   });
   root.querySelectorAll('.ws-empty').forEach(empty=>{if(empty.dataset.surfaceReady)return;empty.dataset.surfaceReady='1';const text=empty.textContent.trim();const view=config.view;const next=view.startsWith('youtube')?['Create a video','youtube/types']:view.startsWith('copy')?['Open writing desk','copy']:view==='media'?['Add images','media']:view==='leads'?['Review connections','access']:['Open integrations','access'];empty.classList.add('ps-surface-empty');empty.innerHTML='<span class="ps-empty-icon" aria-hidden="true">+</span><h3>Ready for your first item</h3><p>'+esc(text)+'</p><button class="ps-control">'+next[0]+'</button>';empty.querySelector('button').onclick=()=>{if(view==='media')document.querySelector('[data-ws="upload"]')?.click();else config.go(next[1]);};});
  }
