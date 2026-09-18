@@ -48,6 +48,7 @@ const server = http.createServer((req, res) => {
 
 (async () => {
   await new Promise(resolve => server.listen(8773, '127.0.0.1', resolve));
+  if (process.env.QA_SERVE) { console.log('Login QA server: http://127.0.0.1:8773/portal/login'); return; }
   const browser = await chromium.launch({ headless: true, executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe' });
   const page = await browser.newPage({ viewport: { width: 1536, height: 960 }, colorScheme: 'light' });
   const errors = [];
@@ -58,15 +59,15 @@ const server = http.createServer((req, res) => {
       await page.setViewportSize({ width, height: width === 390 ? 844 : 960 });
       await page.goto('http://127.0.0.1:8773/portal/login', { waitUntil: 'networkidle' });
       await page.locator('#email').waitFor();
-      assert.equal(await page.locator('h1').innerText(), 'Welcome back');
+      assert.equal(await page.locator('#loginPanel h1').innerText(), 'Welcome back');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `sign-in overflow at ${width}`);
-      assert.match(await page.locator('.auth-panel').evaluate(el => getComputedStyle(el).backgroundColor), /rgb\((17|18), (16|17), (15|16)\)/);
+      assert.equal(await page.locator('.auth-panel').evaluate(el => getComputedStyle(el).backgroundColor), 'rgb(17, 15, 14)');
       await page.screenshot({ path: path.join(qa, `login-signin-${width}.png`), fullPage: true });
       if (width === 390) assert.equal(requests.some(item => /login-hero-\d+\.(avif|webp|jpg)$/.test(item)), false, 'mobile downloaded the desktop hero');
       else assert.equal(requests.some(item => /login-hero-\d+\.(avif|webp)$/.test(item)), true, 'desktop did not load a responsive hero');
 
       await page.goto('http://127.0.0.1:8773/portal/register', { waitUntil: 'networkidle' });
-      assert.equal(await page.locator('h1').innerText(), 'Get started with Pulsify');
+      assert.equal(await page.locator('#registrationNote h1').innerText(), 'Get started with Pulsify');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `create-account overflow at ${width}`);
       await page.screenshot({ path: path.join(qa, `login-create-${width}.png`), fullPage: true });
     }

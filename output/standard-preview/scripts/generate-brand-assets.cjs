@@ -39,8 +39,8 @@ const markSvg = (color = 'currentColor', background = '') => `<?xml version="1.0
 
 const lockupSvg = (color = 'currentColor') => `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 224 64" role="img" aria-label="Pulsify">
-  <path fill="${color}" fill-rule="evenodd" d="${markPath}" transform="translate(8 15) scale(.53125)"/>
-  <text x="54" y="46" fill="${color}" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="600" letter-spacing="-0.84">Pulsify</text>
+  <path fill="${color}" fill-rule="evenodd" d="${markPath}" transform="translate(6 10) scale(.6875)"/>
+  <text x="70" y="46" fill="${color}" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="600" letter-spacing="-0.84">Pulsify</text>
 </svg>`;
 
 const monogramSvg = `<?xml version="1.0" encoding="UTF-8"?>

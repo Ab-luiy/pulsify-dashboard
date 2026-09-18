@@ -1837,3 +1837,5 @@ body.modal-open { overflow: hidden; }
   .link-actions .button,
   .link-actions .icon-action { flex: 1 1 0; justify-content: center; text-align: center; }
 }
+
+.brand-mark img{display:block;width:100%;height:100%;object-fit:contain;border-radius:inherit}

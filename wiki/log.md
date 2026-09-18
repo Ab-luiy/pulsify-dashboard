@@ -1676,3 +1676,7 @@ Codex reviewed the deployed Phase 3 source against [[phase3-revenue-automation-c
 ## [2026-09-18] decision | Login page and brand mark brief
 
 Founder supplied a login mockup (Kendo split layout with a monochrome baroque statue photograph on the right) and a 3D render of the Pulsify mark. Both saved under output/standard-preview/assets/brand/. Wrote wiki/synthesis/login-brand-codex-brief.md: trace the mark to a flat SVG, seven variations plus a contact sheet, rebuild portal/login to the mockup with the Pulsify lockup top-left, corrected legal copy, no copy over the image, dark only, and rules for where the coin render is and is not used. Independent of Phase 3.
+
+## [2026-09-19] client-update | Pulsify mark system and login built locally
+
+Selected the founder-supplied flat geometric mark as the product master after comparing all three sources at real UI sizes. Built a fill-only SVG mark, horizontal lockup, seven production variations, favicons and PWA icons; reserved the black dimensional coin for marketing. Rebuilt `/portal/login` to the supplied Kendo-style 500 px split composition with the existing password, invitation and email-code behavior intact, responsive AVIF/WebP/JPEG artwork and no mobile hero request. Replaced app-shell P tiles with the monogram and added the lockup to the public gateway footer and Push API docs. Backend tests pass 34/34, focused and full browser suites pass, and local login Lighthouse is 94 performance / 95 accessibility with zero layout shift. Evidence: `output/qa/2026-09-brand/README.md`. No deployment occurred.
