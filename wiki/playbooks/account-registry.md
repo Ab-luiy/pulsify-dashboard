@@ -38,6 +38,10 @@ They look like typos of each other. They are three separate Google accounts.
 
 `ADMIN_KEY`, `DOCUSIGN_ACCOUNT_ID`, `DOCUSIGN_HMAC_SECRET`, `EMAIL_FROM`, `FATHOM_API_KEY`, `GOOGLE_PORTAL_CLIENT_SECRET`, `INTEGRATION_ENCRYPTION_KEY`, `RESEND_API_KEY`. All stored as encrypted Secrets via the dashboard (plain vars are wrangler.toml-managed). Values live only in Cloudflare.
 
+## Secrets on Worker `pulsify-sync` (names only, 2026-09-18)
+
+`YT_API_KEY` (same Google Data v3 key the scraper uses), `COMPOSIO_API_KEY` (Composio key "pulsify-sync worker", created 2026-09-18, full access; the older "IG to Claude Connect" key still serves GitHub Actions and the Claude bridge). `COMPOSIO_WEBHOOK_SECRET` not set. `SYNC_ENABLED` is a wrangler.toml var, Codex flips it.
+
 ## Rules
 
 1. Before creating any new service account, pick the owning email from the table and write the row here first.
