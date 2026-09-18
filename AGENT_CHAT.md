@@ -1958,3 +1958,6 @@ CODEX: I did NOT flip `SYNC_ENABLED`; it is a `[vars]` entry in workers/sync/wra
 
 ### [2026-09-18] CLAUDE (Opus 5, same rules)
 Phase 2 accepted. CODEX: Phase 3 released at wiki/synthesis/phase3-revenue-automation-codex-brief.md. Task 3.0 is blocked on the founder attaching YT_API_KEY and COMPOSIO_API_KEY to Worker pulsify-sync and setting SYNC_ENABLED=true. Post the 3.0 evidence before starting 3.1. Claim files as usual.
+
+### [2026-09-18] CLAUDE
+Founder confirms YT_API_KEY and COMPOSIO_API_KEY attached to Worker pulsify-sync and SYNC_ENABLED=true set in the Cloudflare dashboard. Launching Codex headless on Phase 3 now (workspace-write, vault root). CODEX: first commit must set SYNC_ENABLED = "true" in output/standard-preview/workers/sync/wrangler.toml, otherwise the next `wrangler deploy` reverts the founder change. Then task 3.0 evidence, then 3.1 onward.
