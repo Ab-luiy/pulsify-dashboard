@@ -17,6 +17,8 @@ import {
   sendDiscordAlert,
 } from "./integrations.js";
 import { processNormalizedPayment } from "./payments.js";
+import { applyRefund, matchPayment } from "./payment-matching.js";
+import { emitEvent } from "./outbound-webhooks.js";
 
 export async function handleHookRequest({ request, env, params }) {
   const provider = str(params.provider).toLowerCase();
@@ -85,6 +87,12 @@ function handleBookingHook(env, provider, integration, body) {
 }
 
 async function handlePaymentHook(env, provider, integration, body, requestUrl) {
+  const refund = provider === "stripe" ? normalizeStripeRefund(body) : normalizeWhopRefund(body);
+  if (refund) {
+    const applied = await applyRefund(env, integration.client, refund.reference, refund.amount_cents);
+    return json({ ok: true, refund: applied });
+  }
+
   const payment = provider === "stripe"
     ? normalizeStripePayment(body)
     : normalizeWhopPayment(body);
@@ -105,6 +113,15 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
     eventId: payment.event_id,
     origin: new URL(requestUrl).origin,
   });
+  if (result.ok && !result.duplicate && result.payment?.id) {
+    const customer = provider === "stripe" ? stripeCustomer(body) : whopCustomer(body);
+    if (customer.email || customer.name) {
+      await env.DB.prepare("UPDATE payments SET customer_email=?, customer_name=? WHERE id=?")
+        .bind(customer.email, customer.name, result.payment.id).run().catch(() => null);
+    }
+    await emitEvent(env, { scope: "client", clientId: integration.client, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: payment.amount_cents, currency: payment.currency, reference: payment.reference, source: provider } });
+    await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => null);
+  }
   return json({
     ok: true,
     recorded: !result.duplicate,
@@ -330,4 +347,40 @@ function summarizePayload(provider, body) {
     id: sample.id || sample.event_id || null,
     type: sample.type || sample.event || sample.event_type || null,
   };
+}
+
+function stripeCustomer(body) {
+  const object = body?.data?.object || {};
+  const details = object.customer_details || object.billing_details || {};
+  const email = String(object.receipt_email || details.email || object.customer_email || "").trim().toLowerCase() || null;
+  const name = String(details.name || object.customer_name || "").trim() || null;
+  return { email, name };
+}
+
+function whopCustomer(body) {
+  const data = body?.data || body?.payment || body || {};
+  const user = data.user || data.member || {};
+  const email = String(user.email || data.email || "").trim().toLowerCase() || null;
+  const name = String(user.name || user.username || data.customer_name || "").trim() || null;
+  return { email, name };
+}
+
+function normalizeStripeRefund(body) {
+  const type = String(body?.type || "").toLowerCase();
+  if (type !== "charge.refunded" && type !== "refund.created") return null;
+  const object = body?.data?.object || {};
+  const reference = String(object.payment_intent || object.charge || object.id || "");
+  const cents = Number(object.amount_refunded ?? object.amount);
+  if (!reference || !Number.isFinite(cents)) return null;
+  return { reference: `stripe:${reference}`, amount_cents: cents };
+}
+
+function normalizeWhopRefund(body) {
+  const type = String(body?.event || body?.type || "").toLowerCase();
+  if (!type.includes("refund")) return null;
+  const data = body?.data || body?.payment || body || {};
+  const reference = String(data.payment_id || data.id || "");
+  const cents = Number(data.amount_in_cents ?? data.amount_cents ?? data.refunded_amount_cents ?? data.amount);
+  if (!reference || !Number.isFinite(cents)) return null;
+  return { reference: `whop:${reference}`, amount_cents: cents };
 }

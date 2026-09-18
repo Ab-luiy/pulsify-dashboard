@@ -4,12 +4,16 @@ import { syncInstagram } from "./jobs/instagram.js";
 import { syncInstagramInbox } from "./jobs/instagram-inbox.js";
 import { syncYouTubeLeads } from "./jobs/leads.js";
 import { syncYouTube } from "./jobs/youtube.js";
+import { sweepWebhooks } from "./jobs/webhook-outbox.js";
+import { rematchPayments } from "./jobs/payments.js";
 
 const JOBS = {
   youtube: syncYouTube,
   instagram: syncInstagram,
   "instagram-inbox": syncInstagramInbox,
   leads: syncYouTubeLeads,
+  "webhook-outbox": sweepWebhooks,
+  "payment-rematch": rematchPayments,
 };
 
 export default {
@@ -18,6 +22,7 @@ export default {
     const job = scheduledJob(controller.cron);
     if (!job) return;
     ctx.waitUntil(runJob(env, job, () => JOBS[job](env)));
+    if (controller.cron === "* * * * *") ctx.waitUntil(runJob(env, "webhook-outbox", () => sweepWebhooks(env)));
   },
 
   async fetch(request, env, ctx) {
@@ -30,7 +35,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);
@@ -52,6 +57,7 @@ export function scheduledJob(cron) {
   if (cron === "15 */6 * * *") return "youtube";
   if (cron === "0 5 * * *") return "instagram";
   if (cron === "0 6 * * 1") return "leads";
+  if (cron === "*/30 * * * *") return "payment-rematch";
   return null;
 }
 

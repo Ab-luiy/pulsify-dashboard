@@ -80,11 +80,15 @@ export async function processNormalizedPayment(env, input) {
        FROM payments WHERE reference=?`,
   ).bind(reference).first();
 
-  const sideEffects = await runPaymentSideEffects(env, {
-    ...payment,
-    origin: input.origin,
-    client_name: input.clientName,
-  });
+  // Push API and rematch paths record revenue for clients who are already
+  // onboarded. They must never mint a new portal link or send onboarding mail.
+  const sideEffects = input.skipSideEffects
+    ? { skipped: true, reason: "side effects disabled for this rail" }
+    : await runPaymentSideEffects(env, {
+      ...payment,
+      origin: input.origin,
+      client_name: input.clientName,
+    });
 
   return { ok: true, duplicate: false, payment, side_effects: sideEffects };
 }
