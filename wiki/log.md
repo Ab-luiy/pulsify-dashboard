@@ -1656,3 +1656,7 @@ Closed the product-visible gap identified in the founder's review. Replaced the 
 ## [2026-09-18] client-update | pulsify-sync provider secrets
 
 Added YT_API_KEY (copied from the old worktree .env via clipboard script, never printed) and COMPOSIO_API_KEY (new full-access Composio key "pulsify-sync worker", founder created and pasted) as secrets on the pulsify-sync Worker and deployed. Left SYNC_ENABLED for Codex because it lives in wrangler.toml [vars] and a dashboard edit would be clobbered on deploy. Registry carries the names-only inventory.
+
+## [2026-09-18] decision | Phase 2 accepted, Phase 3 brief issued
+
+Codex's native Phase 2 remediation checked against live repos: the dashboard reads the spine API inside the apex shell, KPI grid and Kendo interior components applied, CRM polling fixed, migration 0026 applied. The sync Worker remains paused for lack of two secrets; that is the founder's single highest-value five-minute action. Wrote wiki/synthesis/phase3-revenue-automation-codex-brief.md, scoped to work that needs no provider review: payment matching, signed outbound webhooks via an outbox sweep on the free plan, a Push API so Zapier, Make and n8n cover unbuilt connectors, and the Integrations view. Instagram and YouTube OAuth deferred until a legal entity exists. Model on the Claude side changed from Fable 5.1 to Opus 5; the working method is entirely file-based and continues unchanged.
