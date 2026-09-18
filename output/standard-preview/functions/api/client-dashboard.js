@@ -18,11 +18,12 @@ export async function onRequestGet({ request, env }) {
         WHERE client=?`,
     ).bind(client).first(),
     env.DB.prepare(
-      `SELECT id, amount_cents, currency, rail, reference, occurred_at, note, recorded_by
-         FROM payments
-        WHERE client=?
-        ORDER BY occurred_at DESC, id DESC`,
-    ).bind(client).all(),
+      `SELECT p.id, p.amount_cents, p.currency, p.rail, p.reference, p.occurred_at, p.note, p.recorded_by, p.refunded_cents
+         FROM payments p
+        WHERE p.client=? AND p.kind='charge'
+          AND EXISTS (SELECT 1 FROM payment_matches m WHERE m.payment_id=p.id AND m.client_id=? AND m.status='confirmed')
+        ORDER BY p.occurred_at DESC, p.id DESC`,
+    ).bind(client, client).all(),
     env.DB.prepare(
       `SELECT section, json, updated_at
          FROM client_dashboard_content
@@ -42,13 +43,15 @@ export async function onRequestGet({ request, env }) {
   const payments = (paymentRows.results || []).map((row) => ({
     ...row,
     amount_cents: Number(row.amount_cents || 0),
+    refunded_cents: Number(row.refunded_cents || 0),
+    net_amount_cents: Math.max(0, Number(row.amount_cents || 0) - Number(row.refunded_cents || 0)),
   }));
   const now = new Date();
   const currentMonthKey = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
-  const totalRevenueCents = payments.reduce((sum, row) => sum + Number(row.amount_cents || 0), 0);
+  const totalRevenueCents = payments.reduce((sum, row) => sum + row.net_amount_cents, 0);
   const currentMonthRevenueCents = payments.reduce((sum, row) => {
     const occurred = String(row.occurred_at || "").slice(0, 7);
-    return occurred === currentMonthKey ? sum + Number(row.amount_cents || 0) : sum;
+    return occurred === currentMonthKey ? sum + row.net_amount_cents : sum;
   }, 0);
 
   return json({
@@ -62,6 +65,7 @@ export async function onRequestGet({ request, env }) {
       total_revenue_cents: totalRevenueCents,
       current_month_revenue_cents: currentMonthRevenueCents,
       payment_count: payments.length,
+      average_deal_cents: payments.length ? Math.round(totalRevenueCents / payments.length) : 0,
       payments,
     },
     sections: parseSections(contentRows.results || []),

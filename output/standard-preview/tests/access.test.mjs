@@ -35,4 +35,6 @@ test('middleware redirects bypass hosts, protects HTML aliases, audits API keys 
  assert.equal((await invoke('https://pulsify-ai.com/api/settings',{'Cf-Access-Jwt-Assertion':valid,origin:'https://evil.test'},'POST')).status,403);
  assert.equal((await invoke('https://pulsify-ai.com/portal/login')).status,200);
  assert.equal((await invoke('https://pulsify-ai.com/api/client-login',{},'POST')).status,200);
+ assert.equal((await invoke('https://pulsify-ai.com/api/api-keys')).status,200);
+ assert.equal((await invoke('https://pulsify-ai.com/api/integrations')).status,200);
 });

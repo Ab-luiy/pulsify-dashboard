@@ -2,6 +2,7 @@ import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
+import { emitEvent } from "../_shared/outbound-webhooks.js";
 
 async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -52,6 +53,7 @@ async function handle_onRequestPost({ request, env }) {
       return json({ ok: false, error: "review note is required when rejecting" }, 422);
     }
     const status = action === "approve" ? "approved" : "rejected";
+    const sequence = await env.DB.prepare("SELECT client_id FROM studio_sequences WHERE id=?").bind(id).first();
     const result = await env.DB.prepare(
       `UPDATE studio_sequences
           SET status=?, review_note=?, updated_at=?
@@ -59,6 +61,9 @@ async function handle_onRequestPost({ request, env }) {
     ).bind(status, note || null, new Date().toISOString(), id).run();
     if (!Number(result.meta?.changes || 0)) {
       return json({ ok: false, error: "sequence not found" }, 404);
+    }
+    if (status === "approved" && sequence?.client_id) {
+      await emitEvent(env, { scope: "client", clientId: sequence.client_id, event: "content.sequence_published", data: { sequence_id: id, status } }).catch(() => null);
     }
     return json({ ok: true, status });
   }

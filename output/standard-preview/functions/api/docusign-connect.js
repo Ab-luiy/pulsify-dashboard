@@ -1,5 +1,6 @@
 import { json, normalizeEmail, sha256Hex, generateOpaqueToken } from '../_shared/common.js';
 import { seal, unseal } from '../_shared/secret-box.js';
+import { emitEvent } from '../_shared/outbound-webhooks.js';
 
 const encoder = new TextEncoder();
 async function authenticated(request, raw, secret) {
@@ -68,5 +69,6 @@ export async function onRequestPost({request,env}) {
     if(raced)return deliver(env,raced);
     return json({ok:false,error:'Provisioning could not complete; retry the event.'},503);
   }
+  await emitEvent(env,{scope:'client',clientId:client,event:'client.provisioned',data:{client_id:client,email,envelope_id:envelope}}).catch(()=>null);
   return deliver(env,{envelope_id:envelope,email,state:'pending',invitation_cipher:cipher,expires_at:expires});
 }

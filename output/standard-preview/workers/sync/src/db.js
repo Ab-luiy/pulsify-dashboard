@@ -1,3 +1,5 @@
+import { emitEvent } from "../../../functions/_shared/outbound-webhooks.js";
+
 export async function runJob(env, job, task) {
   const startedAt = new Date().toISOString();
   const result = await env.DB.prepare(
@@ -16,6 +18,7 @@ export async function runJob(env, job, task) {
       "UPDATE sync_runs SET finished_at=?,status='error',error=? WHERE id=?",
     ).bind(new Date().toISOString(), message, id).run().catch(() => null);
     await alertFailure(env, job, message);
+    await emitEvent(env, { scope: "operator", event: "integration.sync_failed", data: { job, error: message } }).catch(() => null);
     throw error;
   }
 }

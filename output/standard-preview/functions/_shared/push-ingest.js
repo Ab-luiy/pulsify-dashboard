@@ -47,7 +47,7 @@ export async function resolveApiKey(env, request) {
   const supplied = extractApiKey(request);
   if (!supplied || !supplied.startsWith("pk_") || supplied.length > 200) return null;
   const row = await env.DB.prepare(
-    "SELECT id, scope, client_id FROM api_keys WHERE key_hash=? AND revoked_at IS NULL",
+    "SELECT id, scope, client_id, created_by FROM api_keys WHERE key_hash=? AND revoked_at IS NULL",
   ).bind(await sha256Hex(supplied)).first();
   return row || null;
 }
@@ -82,7 +82,9 @@ export function validateIngest(body) {
     const text = str(data.text).slice(0, 4000);
     if (!handle || !["inbound", "outbound"].includes(direction) || !text) return { error: "message needs handle, direction (inbound|outbound) and text" };
     const ts = strOrNull(data.ts) || nowIso();
-    return { kind, externalId: str(body.external_id || body.externalId).slice(0, 200) || null, data: { handle, direction, text, ts, channel: str(data.channel).slice(0, 40) || "instagram" } };
+    const channel = str(data.channel).slice(0, 40) || "instagram";
+    const externalId = str(body.external_id || body.externalId || `${channel}:${handle}:${direction}:${ts}:${text}`).slice(0, 200);
+    return { kind, externalId, data: { handle, direction, text, ts, channel } };
   }
   if (kind === "metric") {
     const source = str(data.source).slice(0, 60);
@@ -91,7 +93,8 @@ export function validateIngest(body) {
     if (!source || !metric || value == null) return { error: "metric needs source, metric and numeric value" };
     const dims = data.dims && typeof data.dims === "object" && !Array.isArray(data.dims) ? data.dims : {};
     if (Object.keys(dims).length > 20) return { error: "dims may hold at most 20 keys" };
-    return { kind, externalId: null, data: { source, metric, value, ts: strOrNull(data.ts) || nowIso(), dims } };
+    const ts = strOrNull(data.ts) || nowIso();
+    return { kind, externalId: str(body.external_id || body.externalId || `${source}:${metric}:${ts}:${JSON.stringify(dims)}`).slice(0, 200), data: { source, metric, value, ts, dims } };
   }
   const amount = numberOrNull(data.amount_cents ?? data.amountCents);
   const amountMajor = numberOrNull(data.amount);
@@ -133,10 +136,15 @@ export async function ingest(env, key, record) {
   }
 
   if (record.kind === "metric") {
-    await env.DB.prepare(
+    const dimsJson = JSON.stringify(record.data.dims);
+    const inserted = await env.DB.prepare(
       `INSERT OR IGNORE INTO metric_points (scope, client_id, source, metric, ts, value, dims_json) VALUES (?,?,?,?,?,?,?)`,
-    ).bind(scope, clientId, record.data.source, record.data.metric, record.data.ts, record.data.value, JSON.stringify(record.data.dims)).run();
-    return { id, duplicate: false };
+    ).bind(scope, clientId, record.data.source, record.data.metric, record.data.ts, record.data.value, dimsJson).run();
+    const duplicate = (inserted.meta?.changes || 0) === 0;
+    const row = await env.DB.prepare(
+      "SELECT id FROM metric_points WHERE scope=? AND client_id=? AND source=? AND metric=? AND ts=? AND dims_json=?",
+    ).bind(scope, clientId, record.data.source, record.data.metric, record.data.ts, dimsJson).first();
+    return { id: row?.id ? `metric_${row.id}` : id, duplicate };
   }
 
   const inserted = await env.DB.prepare(
@@ -167,9 +175,53 @@ export async function ingest(env, key, record) {
   } else if (record.kind === "lead") {
     await emitEvent(env, { scope, clientId, event: "lead.created", data: { id, ...record.data } });
   } else if (record.kind === "message") {
+    if (scope === "operator" && record.data.channel === "instagram") {
+      await projectPushInstagramMessage(env, key, record, now);
+    }
     await emitEvent(env, { scope, clientId, event: "conversation.new_message", data: { id, ...record.data } });
   }
   return { id, duplicate: false };
+}
+
+async function projectPushInstagramMessage(env, key, record, now) {
+  const digest = (await sha256Hex(record.externalId)).slice(0, 24);
+  const handle = record.data.handle;
+  const conversationId = `pushconv_${(await sha256Hex(handle)).slice(0, 20)}`;
+  const messageId = `pushmsg_${digest}`;
+  const operatorEmail = str(key.created_by || env.OPERATOR_EMAIL || "operator");
+  await env.DB.prepare(
+    `INSERT INTO ig_conversations(
+       id,operator_email,connected_account_id,participant_id,participant_username,
+       participant_name,first_message_at,last_message_at,last_direction,payload_json,created_at,updated_at
+     ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)
+     ON CONFLICT(id) DO UPDATE SET
+       last_message_at=CASE WHEN excluded.last_message_at > ig_conversations.last_message_at THEN excluded.last_message_at ELSE ig_conversations.last_message_at END,
+       last_direction=CASE WHEN excluded.last_message_at >= ig_conversations.last_message_at THEN excluded.last_direction ELSE ig_conversations.last_direction END,
+       payload_json=excluded.payload_json,updated_at=excluded.updated_at`,
+  ).bind(conversationId, operatorEmail, `push-api:${key.id}`, handle, handle, handle, record.data.ts, record.data.ts, record.data.direction, JSON.stringify(record.data), now, now).run();
+  await env.DB.prepare(
+    `INSERT OR IGNORE INTO ig_messages(id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at)
+     VALUES(?,?,?,?,?,?,?,?)`,
+  ).bind(messageId, conversationId, operatorEmail, record.data.direction, record.data.ts, record.data.text, JSON.stringify(record.data), now).run();
+
+  const ts = Date.now();
+  const added = { n: handle, h: handle, niche: "", dms: 1, stage: "new-lead", src: "instagram", igConversationId: conversationId, _ts: ts };
+  const existing = await env.DB.prepare("SELECT data FROM crm_overrides WHERE name=?").bind(handle).first().catch(() => null);
+  let current = {};
+  try { current = JSON.parse(existing?.data || "{}"); } catch { current = {}; }
+  const terminal = new Set(["call-booked", "won", "dead"]);
+  const statements = [env.DB.prepare(
+    "INSERT OR IGNORE INTO crm_added(name,data,ts,sts,updated_at) VALUES(?,?,?,?,?)",
+  ).bind(handle, JSON.stringify(added), ts, ts, now)];
+  if (!terminal.has(current.status)) {
+    const status = record.data.direction === "inbound" ? "replied" : "sent";
+    statements.push(env.DB.prepare(
+      `INSERT INTO crm_overrides(name,data,ts,sts,updated_at) VALUES(?,?,?,?,?)
+       ON CONFLICT(name) DO UPDATE SET data=excluded.data,ts=excluded.ts,sts=excluded.sts,updated_at=excluded.updated_at
+       WHERE excluded.ts > crm_overrides.ts`,
+    ).bind(handle, JSON.stringify({ ...current, status, igConversationId: conversationId, _ts: ts }), ts, ts, now));
+  }
+  await env.DB.batch(statements);
 }
 
 export function ingestError(message, status = 422) {

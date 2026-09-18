@@ -12,16 +12,28 @@ import {
   upsertIntegration,
   validateProvider,
 } from "../_shared/integrations.js";
-import { checkAdmin, cleanId, hasOwn, json, str } from "../_shared/common.js";
+import { hasOwn, json, str } from "../_shared/common.js";
+import { resolveSpineRead } from "../_shared/spine-auth.js";
+
+async function scopeFor(request, env, url, body) {
+  const requestedScope = str(url.searchParams.get("scope") || body?.scope || "operator");
+  const requestedClient = str(url.searchParams.get("client") || body?.client || "");
+  const access = await resolveSpineRead(request, env, requestedScope, requestedClient);
+  if (access.error) return access;
+  if (access.role === "client" && access.impersonated && request.method !== "GET") {
+    return { error: json({ ok: false, error: "impersonated sessions cannot manage integrations" }, 403) };
+  }
+  return { ...access, actor: access.operatorEmail || `client:${access.client}` };
+}
 
 async function handle_onRequestGet({ request, env }) {
-  const auth = checkAdmin(request, env);
-  if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const url = new URL(request.url);
   const scope = normalizeScope(url.searchParams.get("scope") || "client");
-  const client = scope === "client" ? cleanId(url.searchParams.get("client")) : "";
+  const access = await scopeFor(request, env, url);
+  if (access.error) return access.error;
+  const client = access.client;
   const provider = str(url.searchParams.get("provider")).toLowerCase() || "";
   const action = str(url.searchParams.get("action")).toLowerCase();
 
@@ -63,13 +75,13 @@ async function handle_onRequestGet({ request, env }) {
 }
 
 async function handle_onRequestPost({ request, env }) {
-  const auth = checkAdmin(request, env);
-  if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const body = await request.json().catch(() => ({}));
-  const scope = normalizeScope(body.scope);
-  const client = scope === "client" ? cleanId(body.client) : "";
+  const access = await scopeFor(request, env, new URL(request.url), body);
+  if (access.error) return access.error;
+  const scope = access.scope;
+  const client = access.client;
   const provider = str(body.provider).toLowerCase();
   if (!scope) return adminJsonError("scope must be operator or client");
   const checked = validateProvider(provider, scope);
@@ -94,13 +106,13 @@ async function handle_onRequestPost({ request, env }) {
 }
 
 async function handle_onRequestDelete({ request, env }) {
-  const auth = checkAdmin(request, env);
-  if (auth) return auth;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   const body = await request.json().catch(() => ({}));
-  const scope = normalizeScope(body.scope);
-  const client = scope === "client" ? cleanId(body.client) : "";
+  const access = await scopeFor(request, env, new URL(request.url), body);
+  if (access.error) return access.error;
+  const scope = access.scope;
+  const client = access.client;
   const provider = str(body.provider).toLowerCase();
   if (!scope) return adminJsonError("scope must be operator or client");
 

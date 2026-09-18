@@ -1668,3 +1668,11 @@ Founder directed Claude (Opus 5) to build Phase 3 because Codex has no usage. Bu
 ## [2026-09-18] client-update | Phase 3 revenue automation released
 
 Founder ran a one-file Node deploy script in his own wrangler-authenticated terminal (my tool shells could not see the token due to sandboxing). Migration 0027 applied remotely statement by statement (19/19), INTEGRATION_ENCRYPTION_KEY rotated to one fresh value on both pulsify-funnels and pulsify-sync, funnels deployed (648ef212), Worker deployed (c760b91d) with SYNC_ENABLED true. Verified live: anonymous ingest 401, API key created in the Integrations view, Push API lead accepted (201), duplicate resend deduped, lead visible in Lead Studio. Outbound webhook signed-delivery check left for Codex.
+
+## [2026-09-18] lint | Phase 3 independent code review and local remediation
+
+Codex reviewed the deployed Phase 3 source against [[phase3-revenue-automation-codex-brief]] under an explicit deployment hold. The review found and locally fixed payment double-counting and refund idempotency, Whop currency-unit and signature handling, the missing scheduled Stripe/Whop import, Push API message/metric/body-limit defects, client revenue leakage from unconfirmed payments, mixed client API routing, operator/client Integrations scope, manual payment search, missing outbound event producers, and the missing unmatched Instagram inbox. The full 34-test backend suite passes and both Cloudflare targets compile. No production write, cleanup, or deployment occurred. Evidence: `output/qa/2026-09-phase3/CODEX-REVIEW.md`.
+
+## [2026-09-18] decision | Login page and brand mark brief
+
+Founder supplied a login mockup (Kendo split layout with a monochrome baroque statue photograph on the right) and a 3D render of the Pulsify mark. Both saved under output/standard-preview/assets/brand/. Wrote wiki/synthesis/login-brand-codex-brief.md: trace the mark to a flat SVG, seven variations plus a contact sheet, rebuild portal/login to the mockup with the Pulsify lockup top-left, corrected legal copy, no copy over the image, dark only, and rules for where the coin render is and is not used. Independent of Phase 3.

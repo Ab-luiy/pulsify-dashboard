@@ -50,7 +50,8 @@ export async function loadCandidates(env, clientId) {
     const summary = parseJson(row.payload_summary_json, {});
     const email = normalizeEmail(summary.email || summary.attendee_email || summary.invitee_email);
     if (!email) continue;
-    candidates.push({ kind: "contact_email", id: email, label: str(summary.name || summary.invitee_name || email), email, name: str(summary.name || summary.invitee_name), handle: "", lastActivity: row.ts, eventKind: row.kind });
+    const amountCents = Number(summary.amount_cents ?? (summary.amount != null ? Number(summary.amount) * 100 : NaN));
+    candidates.push({ kind: "contact_email", id: email, label: str(summary.name || summary.invitee_name || email), email, name: str(summary.name || summary.invitee_name), handle: "", lastActivity: row.ts, eventKind: row.kind, expectedAmountCents: Number.isFinite(amountCents) ? Math.round(amountCents) : null });
   }
   return candidates;
 }
@@ -75,6 +76,11 @@ export function rankCandidates(payment, candidates) {
           if (days <= 3) { score += 0.3; reasons.push("activity within 3 days"); }
           else if (days <= 14) { score += 0.15; reasons.push("activity within 14 days"); }
         }
+      }
+      if (candidate.expectedAmountCents != null && Number.isFinite(Number(payment.amount_cents))) {
+        const difference = Math.abs(Number(payment.amount_cents) - candidate.expectedAmountCents);
+        if (difference === 0) { score += 0.2; reasons.push("exact expected amount"); }
+        else if (candidate.expectedAmountCents > 0 && difference / candidate.expectedAmountCents <= 0.1) { score += 0.1; reasons.push("amount within 10%"); }
       }
       if (candidate.eventKind === "booking") { score += 0.1; reasons.push("had a booked call"); }
     }
@@ -202,10 +208,20 @@ export async function revenueKpis(env, clientId, from, to) {
   return { won_calls: won, cash_collected_cents: cash, avg_deal_cents: won ? Math.round(cash / won) : 0 };
 }
 
-export async function applyRefund(env, clientId, reference, refundCents) {
-  const payment = await env.DB.prepare("SELECT id, amount_cents, refunded_cents FROM payments WHERE client=? AND reference=?").bind(clientId, reference).first();
+export async function applyRefund(env, clientId, reference, refundCents, options = {}) {
+  const references = Array.isArray(reference) ? reference : [reference];
+  let payment = null;
+  for (const candidate of references.filter(Boolean)) {
+    payment = await env.DB.prepare("SELECT id, amount_cents, refunded_cents FROM payments WHERE client=? AND reference=?").bind(clientId, candidate).first();
+    if (payment) break;
+  }
   if (!payment) return { ok: false, error: "payment not found" };
-  const total = Math.min(payment.amount_cents, payment.refunded_cents + Math.max(0, Math.round(refundCents)));
+  const amount = Math.max(0, Math.round(refundCents));
+  const total = Math.min(
+    payment.amount_cents,
+    options.mode === "absolute" ? Math.max(payment.refunded_cents, amount) : payment.refunded_cents + amount,
+  );
+  if (total === payment.refunded_cents) return { ok: true, duplicate: true, refunded_cents: total };
   await env.DB.prepare("UPDATE payments SET refunded_cents=? WHERE id=?").bind(total, payment.id).run();
   await emitEvent(env, { scope: "client", clientId, event: "payment.refunded", data: { payment_id: payment.id, refunded_cents: total } });
   return { ok: true, refunded_cents: total };

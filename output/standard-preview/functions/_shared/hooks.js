@@ -51,6 +51,13 @@ export async function handleHookRequest({ request, env, params }) {
         return json({ ok: false, error: "invalid Stripe signature" }, 401);
       }
     }
+    if (provider === "whop" && integration.secrets.webhook_secret) {
+      const verified = await verifyStandardWebhook(request, raw, integration.secrets.webhook_secret);
+      if (!verified) {
+        await recordFailure(env, integration.client, "whop_signature", "invalid Whop signature");
+        return json({ ok: false, error: "invalid Whop signature" }, 401);
+      }
+    }
 
     if (provider === "calcom" || provider === "calendly") {
       return handleBookingHook(env, provider, integration, body);
@@ -89,7 +96,29 @@ function handleBookingHook(env, provider, integration, body) {
 async function handlePaymentHook(env, provider, integration, body, requestUrl) {
   const refund = provider === "stripe" ? normalizeStripeRefund(body) : normalizeWhopRefund(body);
   if (refund) {
-    const applied = await applyRefund(env, integration.client, refund.reference, refund.amount_cents);
+    const event = await recordIntegrationEvent(env, {
+      provider,
+      kind: "refund",
+      client: integration.client,
+      externalId: refund.event_id,
+      payloadSummary: {
+        references: refund.references,
+        amount_cents: refund.amount_cents,
+        mode: refund.mode,
+      },
+    });
+    if (event.duplicate) return json({ ok: true, refund: { ok: true, duplicate: true } });
+    const applied = await applyRefund(
+      env,
+      integration.client,
+      refund.references,
+      refund.amount_cents,
+      { mode: refund.mode },
+    );
+    if (!applied.ok) {
+      await env.DB.prepare("DELETE FROM integration_events WHERE provider=? AND kind='refund' AND external_id=?")
+        .bind(provider, refund.event_id).run().catch(() => null);
+    }
     return json({ ok: true, refund: applied });
   }
 
@@ -213,14 +242,14 @@ function normalizeCalendlyBooking(body) {
   };
 }
 
-function normalizeWhopPayment(body) {
+export function normalizeWhopPayment(body) {
   const type = str(body?.event || body?.type).toLowerCase();
-  if (!type.includes("payment") && !type.includes("invoice")) return null;
+  if (!["payment.succeeded", "payment.completed", "invoice.paid"].includes(type)) return null;
 
   const data = body?.data || body?.payment || body;
-  const amount = numberOrNull(
-    data?.amount_in_cents ?? data?.amount_cents ?? data?.amount ?? data?.total,
-  );
+  if (data?.status && !["succeeded", "completed", "paid"].includes(str(data.status).toLowerCase())) return null;
+  if (data?.substatus && !["succeeded", "completed", "paid"].includes(str(data.substatus).toLowerCase())) return null;
+  const amount = whopAmountCents(data, ["amount_in_cents", "amount_cents"], ["amount", "total"]);
   const reference = str(
     data?.id || data?.payment_id || data?.invoice_id || body?.id || body?.event_id,
   );
@@ -236,7 +265,7 @@ function normalizeWhopPayment(body) {
   };
 }
 
-function normalizeStripePayment(body) {
+export function normalizeStripePayment(body) {
   const type = str(body?.type).toLowerCase();
   const object = body?.data?.object || {};
   if (!type) return null;
@@ -271,7 +300,7 @@ function normalizeStripePayment(body) {
 
   if (type === "invoice.paid") {
     const cents = numberOrNull(object.amount_paid ?? object.total);
-    const reference = str(object.id);
+    const reference = str(object.payment_intent || object.id);
     if (cents == null || !reference) return null;
     return {
       event_id: str(body.id || reference),
@@ -285,7 +314,10 @@ function normalizeStripePayment(body) {
 
   if (type === "charge.succeeded") {
     const cents = numberOrNull(object.amount);
-    const reference = str(object.id);
+    // Stripe emits both Charge and PaymentIntent events for one card payment.
+    // Canonicalize both to the PaymentIntent so the unique payment reference
+    // suppresses the second event instead of counting the same sale twice.
+    const reference = str(object.payment_intent || object.id);
     if (cents == null || !reference) return null;
     return {
       event_id: str(body.id || reference),
@@ -340,6 +372,22 @@ async function verifyStripeSignature(header, payload, secret) {
   return constantTimeEqual(expected, signature);
 }
 
+async function verifyStandardWebhook(request, payload, secret) {
+  const id = request.headers.get("webhook-id") || "";
+  const timestamp = request.headers.get("webhook-timestamp") || "";
+  const signatures = request.headers.get("webhook-signature") || "";
+  const seconds = Number(timestamp);
+  if (!id || !Number.isFinite(seconds) || Math.abs(Date.now() / 1000 - seconds) > 300 || !signatures) return false;
+  const encoded = secret.startsWith("whsec_") ? secret.slice(6) : secret;
+  let keyBytes;
+  try { keyBytes = Uint8Array.from(atob(encoded), (character) => character.charCodeAt(0)); }
+  catch { keyBytes = new TextEncoder().encode(encoded); }
+  const key = await crypto.subtle.importKey("raw", keyBytes, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const bytes = new Uint8Array(await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(`${id}.${timestamp}.${payload}`)));
+  const expected = btoa(String.fromCharCode(...bytes));
+  return signatures.split(" ").some((part) => constantTimeEqual(part.replace(/^v1,/, ""), expected));
+}
+
 function summarizePayload(provider, body) {
   const sample = body && typeof body === "object" ? body : {};
   return {
@@ -365,22 +413,50 @@ function whopCustomer(body) {
   return { email, name };
 }
 
-function normalizeStripeRefund(body) {
+export function normalizeStripeRefund(body) {
   const type = String(body?.type || "").toLowerCase();
   if (type !== "charge.refunded" && type !== "refund.created") return null;
   const object = body?.data?.object || {};
-  const reference = String(object.payment_intent || object.charge || object.id || "");
+  if (type === "refund.created" && object.status && object.status !== "succeeded") return null;
+  const references = [...new Set([
+    object.payment_intent,
+    object.charge,
+    type === "charge.refunded" ? object.id : null,
+  ].filter(Boolean).map((value) => `stripe:${String(value)}`))];
   const cents = Number(object.amount_refunded ?? object.amount);
-  if (!reference || !Number.isFinite(cents)) return null;
-  return { reference: `stripe:${reference}`, amount_cents: cents };
+  if (!references.length || !Number.isFinite(cents)) return null;
+  return {
+    event_id: String(body?.id || `${type}:${references[0]}:${cents}`),
+    references,
+    amount_cents: cents,
+    mode: type === "charge.refunded" ? "absolute" : "increment",
+  };
 }
 
-function normalizeWhopRefund(body) {
+export function normalizeWhopRefund(body) {
   const type = String(body?.event || body?.type || "").toLowerCase();
   if (!type.includes("refund")) return null;
   const data = body?.data || body?.payment || body || {};
-  const reference = String(data.payment_id || data.id || "");
-  const cents = Number(data.amount_in_cents ?? data.amount_cents ?? data.refunded_amount_cents ?? data.amount);
+  if (data?.status && !["succeeded", "completed"].includes(str(data.status).toLowerCase())) return null;
+  const reference = String(data.payment_id || data.payment?.id || data.id || "");
+  const cents = whopAmountCents(data, ["amount_in_cents", "amount_cents", "refunded_amount_cents"], ["amount", "refunded_amount"]);
   if (!reference || !Number.isFinite(cents)) return null;
-  return { reference: `whop:${reference}`, amount_cents: cents };
+  return {
+    event_id: String(body?.id || body?.event_id || `${type}:${reference}:${cents}`),
+    references: [`whop:${reference}`],
+    amount_cents: cents,
+    mode: "increment",
+  };
+}
+
+function whopAmountCents(data, centFields, majorFields) {
+  for (const field of centFields) {
+    const value = numberOrNull(data?.[field]);
+    if (value != null) return Math.round(value);
+  }
+  for (const field of majorFields) {
+    const value = numberOrNull(data?.[field]);
+    if (value != null) return Math.round(value * 100);
+  }
+  return null;
 }

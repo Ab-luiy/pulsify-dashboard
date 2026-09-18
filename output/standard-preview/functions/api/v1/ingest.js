@@ -13,7 +13,7 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "rate limit: 30 requests per minute per key" }, 429, { "retry-after": "60" });
   }
   const raw = await request.text();
-  if (raw.length > MAX_BODY_BYTES) return json({ ok: false, error: "body exceeds 1 MB" }, 413);
+  if (new TextEncoder().encode(raw).byteLength > MAX_BODY_BYTES) return json({ ok: false, error: "body exceeds 1 MB" }, 413);
   let body;
   try { body = JSON.parse(raw); } catch { return ingestError("invalid JSON body", 400); }
   const record = validateIngest(body);

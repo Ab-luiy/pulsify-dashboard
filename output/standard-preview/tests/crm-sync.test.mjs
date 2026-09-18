@@ -3,7 +3,7 @@ import {DatabaseSync} from 'node:sqlite';
 import {onRequestGet,onRequestPost} from '../functions/api/crm-sync.js';
 const db=new DatabaseSync(':memory:');
 for(const table of ['crm_overrides','crm_added','crm_removed'])db.exec(`CREATE TABLE ${table}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
-const env={ADMIN_KEY:'test',DB:{prepare(query){let args=[];const p={bind(...v){args=v;return p;},async all(){return{results:db.prepare(query).all(...args)};},async run(){db.prepare(query).run(...args);}};return p;},async batch(statements){for(const s of statements)await s.run();}}};
+const env={ADMIN_KEY:'test',DB:{prepare(query){let args=[];const p={bind(...v){args=v;return p;},async first(){return db.prepare(query).get(...args)||null;},async all(){return{results:db.prepare(query).all(...args)};},async run(){db.prepare(query).run(...args);}};return p;},async batch(statements){for(const s of statements)await s.run();}}};
 const request=(body,key='test')=>new Request('https://test/api/crm-sync',{method:body?'POST':'GET',headers:{'x-admin-key':key},body:body?JSON.stringify(body):undefined});
 assert.equal((await onRequestGet({env,request:request(null,'bad')})).status,401);
 const first={since:0,overrides:{Lead:{status:'sent',_ts:100}},added:{Second:{n:'Second',_ts:101}},removed:{Old:{reason:'outside ICP',_ts:102}}};

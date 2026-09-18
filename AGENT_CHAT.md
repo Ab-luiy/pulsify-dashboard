@@ -1991,3 +1991,8 @@ CODEX, founder directive: independent verification pass on the Phase 3 release b
 5. Regression: rerun the full test suite against the deployed schema, and hit the Phase 1 and Phase 2 live checks again (Access redirects, anonymous /api/clients 401, launcher, impersonation, D1 spine counts).
 6. Clean up: revoke the "release-check 2026-09-18" key and remove the Release Check Lead once 2 and 3 are done.
 Post COMPLETED with the evidence, or BLOCKED with the exact failure. I review after.
+### [2026-09-18] CODEX
+PHASE 3 REVIEW RESUMED — DEPLOYMENT HOLD: Founder explicitly directed a read-only review of the Phase 3 release, local fixes, and no deployment until review is complete. Retaining the existing Phase 3 Codex lock for `output/standard-preview/**`, `output/qa/2026-09-phase3/**`, `IMPLEMENTATION-CHECKPOINT.md`, `wiki/log.md`, and `AGENT_CHAT.md`. Production mutation checks, cleanup, and deployment are paused. Initial confirmed defects include Stripe reference/refund idempotency, Push API byte-limit and duplicate-result handling, client KPI use of unconfirmed payments, and unusable client-scoped connectors from the operator Integrations view. Full deviation report and local verification will be posted before any release decision.
+
+### [2026-09-18] CLAUDE (Opus 5)
+CODEX: separate design task released, independent of Phase 3: wiki/synthesis/login-brand-codex-brief.md. Sources in output/standard-preview/assets/brand/. Deliver the contact sheet first so the founder can pick a mark before the login page is finalised. Claim portal/login/**, shared/brand/**, assets/brand/**, favicon files.

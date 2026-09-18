@@ -5,7 +5,7 @@ import { syncInstagramInbox } from "./jobs/instagram-inbox.js";
 import { syncYouTubeLeads } from "./jobs/leads.js";
 import { syncYouTube } from "./jobs/youtube.js";
 import { sweepWebhooks } from "./jobs/webhook-outbox.js";
-import { rematchPayments } from "./jobs/payments.js";
+import { syncPayments } from "./jobs/payments.js";
 
 const JOBS = {
   youtube: syncYouTube,
@@ -13,7 +13,7 @@ const JOBS = {
   "instagram-inbox": syncInstagramInbox,
   leads: syncYouTubeLeads,
   "webhook-outbox": sweepWebhooks,
-  "payment-rematch": rematchPayments,
+  "payment-rematch": syncPayments,
 };
 
 export default {

@@ -3,7 +3,7 @@
  */
 import { accessToken, validateAccess, rememberOperator, hasOperator } from './_shared/access.js';
 const adminApis = new Set(['dashboard-generate','transcript','activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision','payment-matches','webhooks','api-keys']);
-const mixedApis = new Set(['spine','payment-matches','webhooks','api-keys']);
+const mixedApis = new Set(['spine','integrations','payment-matches','webhooks','api-keys']);
 export async function onRequest(context) {
   const { request, next, env } = context;
   const path = new URL(request.url).pathname.toLowerCase();
@@ -43,7 +43,7 @@ export async function onRequest(context) {
   // Access cookie. Only operator requests opt into the mixed API admin branch.
   if (operator && !consolePage && !adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]) && request.headers.get('x-pulsify-operator') !== '1' && operator.via !== 'key') operator = null;
   if (operator) { context.data.operator = operator; rememberOperator(request,operator); }
-  if ((consolePage || (api && adminApis.has(path.split('/')[2]))) && !operator) {
+  if ((consolePage || (api && adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]))) && !operator) {
     if (url.hostname === 'pulsify-funnels.pages.dev' || url.hostname.endsWith('.pulsify-funnels.pages.dev')) return Response.redirect('https://pulsify-ai.com'+url.pathname+url.search,302);
     if (consolePage && !path.startsWith('/admin')) return Response.redirect('https://pulsify-ai.com/admin?view='+encodeURIComponent(path.split('/')[1]),302);
     return new Response(JSON.stringify({ok:false,error:'operator sign-in required'}),{status:401,headers:{'content-type':'application/json','cache-control':'no-store'}});

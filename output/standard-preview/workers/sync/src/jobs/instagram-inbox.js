@@ -1,4 +1,5 @@
 import { composioExecute, findRows } from "../composio.js";
+import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 
 const TERMINAL = new Set(["call-booked", "won", "dead"]);
 
@@ -91,7 +92,9 @@ export async function syncInstagramInbox(env) {
         JSON.stringify(message.raw),
         now,
       ).run();
-      written += Number(result.meta?.changes || 0);
+      const inserted = Number(result.meta?.changes || 0);
+      written += inserted;
+      if (inserted) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
     }
     await projectConversationToCrm(env, participant, conversationId, normalized);
   }
@@ -203,5 +206,8 @@ async function projectConversationToCrm(env, participant, conversationId, messag
        WHERE excluded.ts > crm_overrides.ts`,
     ).bind(name, JSON.stringify(next), ts, ts, now));
   }
-  await env.DB.batch(statements);
+  const results = await env.DB.batch(statements);
+  if (Number(results?.[0]?.meta?.changes || 0)) {
+    await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => null);
+  }
 }

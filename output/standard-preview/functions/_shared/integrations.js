@@ -68,7 +68,7 @@ export const PROVIDERS = {
   whop: {
     scope: "client",
     configFields: ["contact_email", "contact_name", "company_id"],
-    secretFields: ["api_key", "path_secret"],
+    secretFields: ["api_key", "path_secret", "webhook_secret"],
     pathSecret: true,
     clientConnected(record) {
       return Boolean(record.secrets.path_secret);
@@ -77,7 +77,7 @@ export const PROVIDERS = {
   stripe: {
     scope: "client",
     configFields: ["contact_email", "contact_name", "webhook_description"],
-    secretFields: ["path_secret", "webhook_secret"],
+    secretFields: ["api_key", "path_secret", "webhook_secret"],
     pathSecret: true,
     clientConnected(record) {
       return Boolean(record.secrets.path_secret || record.secrets.webhook_secret);
