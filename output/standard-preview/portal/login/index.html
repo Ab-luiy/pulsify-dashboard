@@ -1,72 +1,98 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script src="/shared/theme.js"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11100f">
+  <meta name="color-scheme" content="dark">
   <title>Sign in · Pulsify</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/shared/pulsify-ui.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/portal/login/auth.css">
-<link rel="stylesheet" href="/shared/shell.css">
-<link rel="stylesheet" href="/portal/login/phase1.css">
 </head>
 <body>
-  <div class="shell">
-<aside class="login-gradient"><p>Your content, clients and growth. Together.</p></aside>
+  <div class="auth-shell">
+    <section class="auth-panel" aria-labelledby="cardTitle">
+      <a class="auth-brand" href="/" aria-label="Pulsify home">
+        <img src="/shared/brand/lockup.svg" alt="Pulsify" width="112" height="32">
+      </a>
 
+      <main class="auth-main">
+        <div class="auth-card">
+          <span class="sr-only" id="cardTitle">Client login</span>
 
-    <section class="auth-wrap">
-      <div class="auth-card">
-        <div class="brand">
-          <span class="dot"></span>
-          <div>
-            <small>Pulsify</small>
-            <strong id="cardTitle">Client login</strong>
-          </div>
-        </div>
-
-        <div id="loginPanel">
-          <h2>Welcome back.</h2>
-          <p>Sign in to your private workspace.</p>
-          <form id="loginForm" class="stack">
-            <label for="email">Email
-              <input id="email" type="email" autocomplete="email" placeholder="name@company.com" required>
-            </label>
-            <label for="password">Password
-              <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
-            </label>
-            <button id="loginButton" type="submit">Sign in</button>
-          </form>
-          <div class="hint" id="loginHint">Forgot your password? Ask your Pulsify contact for a new password setup link.</div>
-        </div>
-
-        <div id="registrationNote" hidden><h2>Your workspace awaits.</h2><p>Open the personal invitation link from your Pulsify team to create your password and complete onboarding.</p><a href="/portal/login" style="color:#bca0e4">Already registered? Sign in</a></div>
-        <div id="setupPanel" hidden>
-          <h2>Set your password</h2>
-          <p>Create the password you will use for this client dashboard.</p>
-          <form id="setupForm" class="stack">
-            <label for="setupPassword">New password
-              <input id="setupPassword" type="password" autocomplete="new-password" minlength="10" placeholder="At least 10 characters" required>
-            </label>
-            <label for="setupCode" id="setupCodeWrap" hidden>Email verification code
-              <input id="setupCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the 6-digit code">
-            </label>
-            <div class="hint" id="setupCodeHint" hidden></div>
-            <div class="button-row">
-              <button class="secondary" id="setupButton" type="submit">Save password and open dashboard</button>
-              <button class="outline" id="resendCodeButton" type="button" hidden>Resend code</button>
+          <section id="loginPanel">
+            <div class="auth-heading">
+              <h1>Welcome back</h1>
+              <p>Don't have an account? <a href="/portal/register">Create one</a></p>
             </div>
-          </form>
-          <button class="toggle" id="backToLogin" type="button">Back to login</button>
-        </div>
+            <form id="loginForm" class="auth-form">
+              <label class="sr-only" for="email">Email address</label>
+              <input id="email" type="email" autocomplete="email" placeholder="Enter an email address" required>
+              <label class="sr-only" for="password">Password</label>
+              <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+              <button id="loginButton" class="primary-button" type="submit">Sign in</button>
+            </form>
+            <div class="divider" aria-hidden="true"><span>Or</span></div>
+            <a class="google-button" href="https://pulsify-ai.com/admin">
+              <svg aria-hidden="true" viewBox="0 0 18 18"><path fill="#4285f4" d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.482h4.844a4.14 4.14 0 0 1-1.797 2.715v2.259h2.909c1.702-1.567 2.684-3.875 2.684-6.615Z"/><path fill="#34a853" d="M9 18c2.43 0 4.468-.806 5.956-2.18l-2.91-2.259c-.805.54-1.835.86-3.046.86-2.344 0-4.329-1.585-5.037-3.714H.956v2.332A9 9 0 0 0 9 18Z"/><path fill="#fbbc05" d="M3.963 10.707A5.41 5.41 0 0 1 3.682 9c0-.592.102-1.168.281-1.707V4.961H.956A9 9 0 0 0 0 9c0 1.452.347 2.827.956 4.039l3.007-2.332Z"/><path fill="#ea4335" d="M9 3.58c1.321 0 2.507.454 3.441 1.346l2.581-2.58C13.464.891 11.427 0 9 0A9 9 0 0 0 .956 4.961l3.007 2.332C4.67 5.165 6.656 3.58 9 3.58Z"/></svg>
+              <span>Operator sign in with Google</span>
+            </a>
+            <button class="more-options" id="moreOptions" type="button" aria-expanded="false" aria-controls="emailCodeOption">More sign-in options</button>
+            <div class="email-code-option" id="emailCodeOption" hidden>
+              <strong>Invitation email code</strong>
+              <p>Open your private password setup link. Pulsify will send a six-digit verification code to the email on the invitation.</p>
+            </div>
+            <p class="recovery-note" id="loginHint">Forgot your password? Ask your Pulsify contact for a new password setup link.</p>
+          </section>
 
-        <div class="message error" id="message" hidden></div>
-      </div>
-      <div class="auth-links"><a href="/portal/register">Create your account</a><a href="https://pulsify-ai.com/admin">Operator sign in</a></div><div class="auth-footer">Pulsify · Private client workspace</div>
+          <section id="registrationNote" hidden>
+            <div class="auth-heading">
+              <h1>Get started with Pulsify</h1>
+              <p>Already have an account? <a href="/portal/login">Sign in</a></p>
+            </div>
+            <div class="invitation-card">
+              <img src="/shared/brand/mark.svg" alt="" width="32" height="32">
+              <strong>Your workspace is private</strong>
+              <p>Open the invitation link from your Pulsify team to verify your email, create a password and complete onboarding.</p>
+            </div>
+            <a class="primary-button button-link" href="/portal/login">Back to sign in</a>
+          </section>
+
+          <section id="setupPanel" hidden>
+            <div class="auth-heading">
+              <h1>Set your password</h1>
+              <p>Secure your private Pulsify workspace.</p>
+            </div>
+            <form id="setupForm" class="auth-form">
+              <label class="sr-only" for="setupPassword">New password</label>
+              <input id="setupPassword" type="password" autocomplete="new-password" minlength="10" placeholder="New password · at least 10 characters" required>
+              <label class="sr-only" for="setupCode" id="setupCodeLabel" hidden>Email verification code</label>
+              <div id="setupCodeWrap" hidden><input id="setupCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the 6-digit code"></div>
+              <p class="recovery-note" id="setupCodeHint" hidden></p>
+              <button class="primary-button" id="setupButton" type="submit">Save password and open dashboard</button>
+              <button class="outline-button" id="resendCodeButton" type="button" hidden>Resend code</button>
+            </form>
+            <button class="more-options" id="backToLogin" type="button">Back to login</button>
+          </section>
+
+          <div class="message error" id="message" role="alert" hidden></div>
+          <p class="legal">By continuing, you agree to our <a href="/terms">Terms</a> and <a href="/privacy">Privacy Policy</a>.</p>
+        </div>
+      </main>
     </section>
+
+    <aside class="auth-image" aria-hidden="true">
+      <picture>
+        <source media="(max-width: 1023px)" srcset="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E">
+        <source media="(min-width: 1024px)" type="image/avif" srcset="/assets/brand/login-hero-1600.avif 1600w, /assets/brand/login-hero-2400.avif 2400w" sizes="calc(100vw - 500px)">
+        <source media="(min-width: 1024px)" type="image/webp" srcset="/assets/brand/login-hero-1600.webp 1600w, /assets/brand/login-hero-2400.webp 2400w" sizes="calc(100vw - 500px)">
+        <img src="/assets/brand/login-hero-1600.jpg" alt="" width="1600" height="1117" loading="lazy" decoding="async">
+      </picture>
+    </aside>
   </div>
 
   <script>
@@ -84,7 +110,6 @@
       $("cardTitle").textContent = "Set password";
       sendSetupCode();
     }
-
     if(location.pathname.includes("register") && !setupToken){$("loginPanel").hidden=true;$("registrationNote").hidden=false;$("cardTitle").textContent="Create your account";}
     $("email").value = sessionStorage.getItem("pulsify_client_login_email") || "";
     $("backToLogin").addEventListener("click", () => {
@@ -93,32 +118,27 @@
       location.href = "/portal/login" + next.search;
     });
     $("resendCodeButton").addEventListener("click", sendSetupCode);
+    $("moreOptions").addEventListener("click", () => {
+      const expanded = $("moreOptions").getAttribute("aria-expanded") === "true";
+      $("moreOptions").setAttribute("aria-expanded", String(!expanded));
+      $("emailCodeOption").hidden = expanded;
+    });
 
     $("loginForm").addEventListener("submit", async (event) => {
       event.preventDefault();
       const button = $("loginButton");
-      const payload = {
-        email: $("email").value.trim(),
-        password: $("password").value,
-      };
+      const payload = { email: $("email").value.trim(), password: $("password").value };
       sessionStorage.setItem("pulsify_client_login_email", payload.email);
       button.disabled = true;
       hideMessage();
       try {
-        const response = await fetch("/api/client-login", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(payload),
-        });
+        const response = await fetch("/api/client-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not log in.");
         sessionStorage.removeItem("pulsify_reel_thoughts");
         location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
-      } catch (error) {
-        showMessage(error.message || "Could not log in.");
-      } finally {
-        button.disabled = false;
-      }
+      } catch (error) { showMessage(error.message || "Could not log in."); }
+      finally { button.disabled = false; }
     });
 
     $("setupForm").addEventListener("submit", async (event) => {
@@ -128,22 +148,14 @@
       hideMessage();
       try {
         const response = await fetch("/api/client-set-password", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({
-            setup_token: setupToken,
-            code: setupState.requiresCode ? $("setupCode").value.trim() : "",
-            password: $("setupPassword").value,
-          }),
+          method: "POST", headers: { "content-type": "application/json" },
+          body: JSON.stringify({ setup_token: setupToken, code: setupState.requiresCode ? $("setupCode").value.trim() : "", password: $("setupPassword").value }),
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this password.");
         location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
-      } catch (error) {
-        showMessage(error.message || "Could not save this password.");
-      } finally {
-        button.disabled = false;
-      }
+      } catch (error) { showMessage(error.message || "Could not save this password."); }
+      finally { button.disabled = false; }
     });
 
     async function sendSetupCode() {
@@ -151,15 +163,12 @@
       $("resendCodeButton").disabled = true;
       hideMessage();
       try {
-        const response = await fetch("/api/client-email-code", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ setup_token: setupToken }),
-        });
+        const response = await fetch("/api/client-email-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ setup_token: setupToken }) });
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not send the email verification code.");
         setupState.requiresCode = Boolean(data.requires_code);
         $("setupCodeWrap").hidden = !setupState.requiresCode;
+        $("setupCodeLabel").hidden = !setupState.requiresCode;
         $("setupCodeHint").hidden = !setupState.requiresCode;
         $("resendCodeButton").hidden = !setupState.requiresCode;
         if (setupState.requiresCode) {
@@ -169,23 +178,12 @@
           $("setupCode").required = false;
           $("setupCode").value = "";
         }
-      } catch (error) {
-        showMessage(error.message || "Could not send the email verification code.");
-      } finally {
-        $("resendCodeButton").disabled = false;
-      }
+      } catch (error) { showMessage(error.message || "Could not send the email verification code."); }
+      finally { $("resendCodeButton").disabled = false; }
     }
 
-    function showMessage(text) {
-      $("message").textContent = text;
-      $("message").hidden = false;
-    }
-
-    function hideMessage() {
-      $("message").hidden = true;
-      $("message").textContent = "";
-    }
+    function showMessage(text) { $("message").textContent = text; $("message").hidden = false; }
+    function hideMessage() { $("message").hidden = true; $("message").textContent = ""; }
   </script>
-
 </body>
 </html>

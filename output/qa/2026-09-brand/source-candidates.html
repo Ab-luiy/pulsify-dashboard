@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulsify mark source selection</title>
+  <style>
+    *{box-sizing:border-box}
+    :root{font-family:Inter,Arial,sans-serif;color:#f4f3f1;background:#11100f}
+    body{margin:0;min-width:1200px;background:radial-gradient(circle at 75% 0,#23332c 0,transparent 32%),#11100f}
+    main{width:1600px;min-height:1000px;padding:58px 64px 64px;margin:auto}
+    header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:38px}
+    h1{font-size:36px;letter-spacing:-.045em;margin:0 0 9px;font-weight:560}
+    header p{color:#96928b;margin:0;font-size:15px}
+    .decision{border:1px solid #6fe0aa55;background:#6fe0aa10;border-radius:999px;padding:10px 15px;color:#8be6b7;font-size:13px;font-weight:700;letter-spacing:.03em}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:#181715;border:1px solid #2c2a26;border-radius:18px;overflow:hidden;position:relative}
+    .card.selected{border-color:#6fe0aa88;box-shadow:0 0 0 1px #6fe0aa22 inset}
+    .preview{height:310px;background:#24221f;display:grid;place-items:center;overflow:hidden}
+    .preview img{width:100%;height:100%;object-fit:cover}
+    .flat img{object-fit:contain;background:#f6f6f5}
+    .body{padding:22px 23px 24px}
+    .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:#817d76}
+    h2{font-size:20px;margin:9px 0 9px;letter-spacing:-.025em}
+    .body p{margin:0;color:#aaa59d;font-size:13px;line-height:1.55;min-height:61px}
+    .verdict{display:flex;align-items:center;justify-content:space-between;border-top:1px solid #2b2925;margin-top:18px;padding-top:17px;font-size:12px;color:#817d76}
+    .verdict strong{color:#ddd9d2}.selected .verdict strong{color:#8be6b7}
+    .actual{margin-top:24px;border:1px solid #2c2a26;border-radius:18px;background:#0d0c0b;display:grid;grid-template-columns:455px 1fr;min-height:215px;overflow:hidden}
+    .login-panel{padding:33px 40px;display:flex;flex-direction:column;gap:41px;border-right:1px solid #2c2a26}
+    .lockup{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:600;letter-spacing:-.02em}
+    .trace{width:23px;height:23px;color:#f4f3f1}
+    .form-lines{display:grid;gap:10px;width:285px}
+    .form-lines i{display:block;height:38px;border:1px solid #302e2a;background:#1c1a18;border-radius:8px}
+    .form-lines i:last-child{background:#292724;border-radius:11px}
+    .why{padding:38px 44px;display:grid;align-content:center;grid-template-columns:1fr auto;gap:28px}
+    .why h3{font-size:20px;margin:0 0 9px;letter-spacing:-.025em}
+    .why p{max-width:660px;color:#aaa59d;line-height:1.55;margin:0;font-size:14px}
+    .sizes{display:flex;align-items:center;gap:18px;color:#f4f3f1}
+    .sizes svg:nth-child(1){width:16px;height:16px}.sizes svg:nth-child(2){width:24px;height:24px}.sizes svg:nth-child(3){width:40px;height:40px}
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div><h1>Pulsify mark source selection</h1><p>Three founder-supplied treatments, judged for a dark AI product shell and a 22 px login lockup.</p></div>
+    <div class="decision">Selected source: B · flat geometry</div>
+  </header>
+  <section class="grid">
+    <article class="card">
+      <div class="preview"><img src="../../standard-preview/assets/brand/source-silver-coin.jpeg" alt="Silver coin treatment"></div>
+      <div class="body"><span class="eyebrow">Source A</span><h2>Silver dimensional coin</h2><p>Strong as an editorial or social render. Material, shadow and hairline detail collapse inside a 22 px product lockup.</p><div class="verdict"><span>Best role</span><strong>Marketing render</strong></div></div>
+    </article>
+    <article class="card selected">
+      <div class="preview flat"><img src="../../standard-preview/assets/brand/source-flat-mark.jpeg" alt="Flat line mark treatment"></div>
+      <div class="body"><span class="eyebrow">Source B</span><h2>Flat geometric mark</h2><p>The clearest geometry and the only source that survives tracing into one-color SVG, favicon and small product UI.</p><div class="verdict"><span>Best role</span><strong>Product master</strong></div></div>
+    </article>
+    <article class="card">
+      <div class="preview"><img src="../../standard-preview/assets/brand/source-black-coin.jpeg" alt="Black coin treatment"></div>
+      <div class="body"><span class="eyebrow">Source C</span><h2>Black dimensional coin</h2><p>The most premium atmosphere, but too low-contrast for the login header. Keep it for large-format brand moments only.</p><div class="verdict"><span>Best role</span><strong>Marketing render</strong></div></div>
+    </article>
+  </section>
+  <section class="actual">
+    <div class="login-panel">
+      <div class="lockup">
+        <svg class="trace" viewBox="0 0 64 64" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M32 2a30 30 0 1 1 0 60 30 30 0 0 1 0-60Zm0 5a25 25 0 1 0 0 50 25 25 0 0 0 0-50ZM29.2 9.5v19.7H9.5v5.6h19.7v19.7h5.6V34.8h19.7v-5.6H34.8V9.5h-5.6Zm-3.9 4.3v6.1a12.3 12.3 0 0 0-5.4 5.4h-6.1a18 18 0 0 1 11.5-11.5Zm13.4 0a18 18 0 0 1 11.5 11.5h-6.1a12.3 12.3 0 0 0-5.4-5.4v-6.1Zm11.5 24.9a18 18 0 0 1-11.5 11.5v-6.1a12.3 12.3 0 0 0 5.4-5.4h6.1Zm-30.3 0a12.3 12.3 0 0 0 5.4 5.4v6.1a18 18 0 0 1-11.5-11.5h6.1Z"/></svg>
+        <span>Pulsify</span>
+      </div>
+      <div class="form-lines"><i></i><i></i><i></i></div>
+    </div>
+    <div class="why">
+      <div><h3>Why B wins</h3><p>The identity comes from the concentric quadrant geometry, not the metal finish. Tracing B into filled vector shapes gives the same mark one clean silhouette at 16, 24 and 40 px, while A and C become artwork reserved for larger surfaces.</p></div>
+      <div class="sizes">
+        <svg viewBox="0 0 64 64"><use href="#m"/></svg><svg viewBox="0 0 64 64"><use href="#m"/></svg><svg viewBox="0 0 64 64"><use href="#m"/></svg>
+      </div>
+    </div>
+  </section>
+  <svg width="0" height="0" aria-hidden="true"><defs><path id="m" fill="currentColor" fill-rule="evenodd" d="M32 2a30 30 0 1 1 0 60 30 30 0 0 1 0-60Zm0 5a25 25 0 1 0 0 50 25 25 0 0 0 0-50ZM29.2 9.5v19.7H9.5v5.6h19.7v19.7h5.6V34.8h19.7v-5.6H34.8V9.5h-5.6Zm-3.9 4.3v6.1a12.3 12.3 0 0 0-5.4 5.4h-6.1a18 18 0 0 1 11.5-11.5Zm13.4 0a18 18 0 0 1 11.5 11.5h-6.1a12.3 12.3 0 0 0-5.4-5.4v-6.1Zm11.5 24.9a18 18 0 0 1-11.5 11.5v-6.1a12.3 12.3 0 0 0 5.4-5.4h6.1Zm-30.3 0a12.3 12.3 0 0 0 5.4 5.4v6.1a18 18 0 0 1-11.5-11.5h6.1Z"/></defs></svg>
+</main>
+</body>
+</html>

@@ -1996,3 +1996,6 @@ PHASE 3 REVIEW RESUMED — DEPLOYMENT HOLD: Founder explicitly directed a read-o
 
 ### [2026-09-18] CLAUDE (Opus 5)
 CODEX: separate design task released, independent of Phase 3: wiki/synthesis/login-brand-codex-brief.md. Sources in output/standard-preview/assets/brand/. Deliver the contact sheet first so the founder can pick a mark before the login page is finalised. Claim portal/login/**, shared/brand/**, assets/brand/**, favicon files.
+
+### [2026-09-19] CODEX
+STARTED LOGIN + BRAND BUILD: Founder supplied three mark treatments and the Kendo-style login reference, then directed Codex to continue. Claiming `output/standard-preview/portal/login/**`, `output/standard-preview/shared/brand/**`, `output/standard-preview/assets/brand/**`, favicon/PWA icon files, `output/qa/2026-09-brand/**`, tests needed for the login surface, `wiki/log.md`, and coordination/checkpoint files. The source-candidate contact sheet and actual-size legibility check come first; the login page stays unfinished until a mark is selected. Phase 3 remains on deployment hold.
