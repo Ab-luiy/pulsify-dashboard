@@ -83,6 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, output/qa/2026-09-phase2/**, .codex-tmp/phase1-dashboard/**, wiki/log.md | CODEX | ACTIVE | Founder requests review remediation: native dashboard mounting, economical polling, Kendo interior components and verified release. |
 | output/standard-preview/index.html, css/entry.css, functions/index.js, PHASE2-INVENTORY.md, migrations/0025*, Phase 2 APIs/Worker/tests, .codex-tmp/phase1-dashboard/index.html, .codex-tmp/phase1-dashboard/tools/crm_sync.py, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE — provider activation pending | Phase 2 spine, D1-backed embedded dashboard, apex gateway and Instagram DM projection shipped. Remaining acceptance requires founder-supplied Worker secrets and three live runs. |
 | Phase 1 dashboard branch, deployment, output/qa/2026-09-phase1/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md | CODEX | DONE | Released 2026-09-17; five live checks pass. CRM admin-key write/audit probe remains pending because the key is unavailable locally. |
 | output/standard-preview/PHASE2-INVENTORY.md, AGENT_CHAT.md | CODEX | DONE — awaiting founder sign-off | Phase 2 task 2.0 inventory complete. No schema, API, Worker, dashboard migration, production mutation, or legacy-source deletion started. |

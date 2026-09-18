@@ -2,7 +2,7 @@
  * Never serve local tooling state, even if a deploy directory is prepared badly.
  */
 import { accessToken, validateAccess, rememberOperator, hasOperator } from './_shared/access.js';
-const adminApis = new Set(['activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision']);
+const adminApis = new Set(['dashboard-generate','transcript','activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision']);
 const mixedApis = new Set(['spine']);
 export async function onRequest(context) {
   const { request, next, env } = context;
