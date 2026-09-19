@@ -1,18 +1,17 @@
 // Outreach notifications. Two triggers the founder asked for:
-//   1. A prospect replies -> Discord "[Name, @handle] replied: ..."
+//   1. A prospect replies -> "[Name, @handle] replied: ..."
 //   2. A prospect saw the message and did not reply within 5 minutes -> "[Name, @handle] seen, no reply"
 // Reply detection comes from the inbox sync. Seen only exists when Meta's
 // messaging_seen webhook reaches us through the Composio hook; ingestSeen
 // parses it tolerantly and the sweep fires the notification after the grace.
-import { sendDiscordAlert } from "../../../../functions/_shared/integrations.js";
+// Delivery: email to the operator addresses (Resend), Discord only if configured.
+import { notifyOperator } from "../../../../functions/_shared/notify-operator.js";
 import { logEvent, upsertOutreach, SEEN_GRACE_MS } from "../../../../functions/_shared/outreach.js";
 
 const label = (name, handle) => `[${name || handle || "Instagram lead"}${handle ? `, @${handle}` : ""}]`;
 
 export async function notifyReply(env, { conversationId, handle, name, text }) {
-  const row = await env.DB.prepare("SELECT reply_notified_at FROM ig_outreach WHERE conversation_id=?").bind(conversationId).first().catch(() => null);
-  // One reply notification per reply: skip when we already told the founder about this exact moment.
-  const sent = await sendDiscordAlert(env, { title: `${label(name, handle)} replied`, lines: [String(text || "(attachment)").slice(0, 300), handle ? `https://instagram.com/${handle}` : ""].filter(Boolean) }, { skipFailureLog: true });
+  const sent = await notifyOperator(env, { title: `${label(name, handle)} replied`, lines: [String(text || "(attachment)").slice(0, 300)], link: handle ? `https://instagram.com/${handle}` : "" });
   await upsertOutreach(env, conversationId, { reply_notified_at: new Date().toISOString() });
   await logEvent(env, { conversationId, kind: "reply", handle, name, text, delivered: sent.ok });
   return sent.ok;
@@ -70,7 +69,7 @@ export async function sweepSeen(env, now = Date.now()) {
   ).bind(cutoff).all()).results || [];
   let sent = 0;
   for (const r of rows) {
-    const ok = (await sendDiscordAlert(env, { title: `${label(r.name, r.handle)} seen your message, no reply after 5 minutes`, lines: [r.handle ? `https://instagram.com/${r.handle}` : ""].filter(Boolean) }, { skipFailureLog: true })).ok;
+    const ok = (await notifyOperator(env, { title: `${label(r.name, r.handle)} seen your message, no reply after 5 minutes`, link: r.handle ? `https://instagram.com/${r.handle}` : "" })).ok;
     await upsertOutreach(env, r.conversation_id, { seen_notified_at: new Date(now).toISOString() });
     await logEvent(env, { conversationId: r.conversation_id, kind: "seen", handle: r.handle, name: r.name, text: "", delivered: ok });
     sent += 1;

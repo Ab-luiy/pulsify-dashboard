@@ -26,6 +26,10 @@ Production acceptance passed on `pulsify-ai.com`: operator provisioning returned
 
 All 29 backend test files and the Pages Functions build pass. Earlier workspace, Phase 1 and Phase 2 browser regressions remain green. Worker code was unchanged by Phase 4.
 
+## Outreach tracker + parity pass: built locally by Claude, NOT deployed (2026-09-19, later)
+
+Priority release. Exact steps and file list are in the AGENT_CHAT.md entry "OUTREACH TRACKER BUILT LOCALLY". Summary: migration 0029, Worker needs RESEND_API_KEY secret and EMAIL_FROM var, deploy Worker then Pages, run the inbox resync until drained, verify the tracker shows the founder's test DM under Inbound.
+
 ## Implementation files
 
 - portal/composition.js: shared canvas story/carousel/thumbnail renderer and PNG export.

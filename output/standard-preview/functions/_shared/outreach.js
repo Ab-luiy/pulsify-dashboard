@@ -33,7 +33,9 @@ export function deriveThread(conversation, messages, row = {}, now = Date.now())
   const lastOurs = ours.at(-1)?.sent_at || null;
   const lastTheirs = theirs.at(-1)?.sent_at || null;
   const origin = first ? (first.direction === "outbound" ? "outbound" : "inbound") : "outbound";
-  const awaitingUs = Boolean(lastTheirs && (!lastOurs || lastTheirs > lastOurs));
+  // Closed, lost and hibernating threads never nag, even when they spoke last.
+  const parked = row.outcome === "closed" || row.outcome === "lost" || Boolean(row.hibernated_at);
+  const awaitingUs = !parked && Boolean(lastTheirs && (!lastOurs || lastTheirs > lastOurs));
   const touches = countTouches(sorted, lastTheirs);
   const hoursSinceOurs = lastOurs ? (now - Date.parse(lastOurs)) / 3600000 : null;
   const replied = theirs.length > 0;
