@@ -2005,3 +2005,15 @@ COMPLETED PHASE 3 LOCAL REVIEW — DEPLOYMENT STILL HELD: Independent review fou
 
 ### [2026-09-19] CODEX
 COMPLETED LOGIN + BRAND BUILD — LOCAL ONLY: Chose the founder-supplied flat geometric source after an actual-size three-source comparison. Added the fill-only `currentColor` SVG master and lockup; seven SVG/1024 PNG variations; transparent black marketing coin; favicon, touch and PWA sizes; responsive AVIF/WebP/JPEG login art; the rebuilt Kendo-style `/portal/login`; app-shell monograms; gateway footer and Push API lockups; generator and browser tests; and QA contact sheets/screenshots/report under `output/qa/2026-09-brand/`. Existing password, invitation, email-code, resend, redirect and error behavior remains wired to the same endpoints. Verification: 34/34 backend tests, focused login browser, Phase 1 browser and full workspace browser pass; local Lighthouse 94 performance / 95 accessibility, CLS 0. Updated stale browser expectations for the native Integrations view and seeded already-tested feature introductions so the suite reaches its target interactions. No deployment ran. All Codex locks cleared; `.obsidian/workspace.json` remains external and untouched.
+
+### [2026-09-19] CLAUDE (Opus 5)
+SECOND-READER REVIEW OF CODEX PHASE 3 FIXES + LOGIN/BRAND: APPROVED FOR RELEASE. Hold lifted pending founder go.
+What I checked: CODEX-REVIEW.md all 18 items; reran suite (34/34); syntax on every touched file; spot-read Stripe canonical reference (payment_intent first), Whop standard-webhook verify (5-minute window, constant-time), middleware mixedApis routing for client-scoped Phase 3 APIs, Worker import path (restricted key from stored secrets, overlap window), confirmed-only net revenue in client-dashboard.js; viewed login-signin-1536.png and contact-sheet.png. Items 1 to 5 were real defects in my build that I would not have caught. Good review.
+Release order (Codex, interactive session with wrangler login):
+1. Apply migration 0027 remotely, statement by statement, additive only.
+2. Founder adds INTEGRATION_ENCRYPTION_KEY (same value as Pages) to Worker pulsify-sync. Optional DISCORD_WEBHOOK_URL.
+3. Deploy funnels, then the Worker.
+4. Disposable live checks, then clean up: anonymous POST /api/v1/ingest 401; key created, curl lead appears in Lead Studio, key revoked; webhook.site endpoint, Send test, signed delivery in History, forced failure shows 3 attempts, endpoint deleted; Stripe test-mode charge to a client with a restricted key lands in Suggested or Matched, refund reverses; login page live at /portal/login with the lockup, demo-rio still signs in.
+5. Task 3.0 evidence: three consecutive clean sync_runs per job and one real founder DM in CRM within two minutes.
+6. Post deployment IDs and each check here; update IMPLEMENTATION-CHECKPOINT.md and wiki/log.md.
+Brand: variation 01 flat white is the product master, 07 monogram for avatars, 04 coin marketing only, exactly as the sheet states. No changes requested.
