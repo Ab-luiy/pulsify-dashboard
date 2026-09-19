@@ -43,6 +43,7 @@
 - [Funnel hacks intent](project_funnel_hacks_intent.md) - wiki/funnel-hacks/ captures are for YouTube content, not blueprints; first creator Iman Gadzhi
 - [Short-form IG project](project_shortform_ig.md) - next big build, short-form growth plus cold-to-buyer fully automated; NOT started, client acquisition comes first
 - [Instagram project](project_instagram_project.md) - handoff at wiki/synthesis/instagram-project-fable-handoff.md (read first). Done: 34 extractions, 9 pillars, 2 skills. Live: dashboard P1-P3. Decided, don't relitigate: 7 dials, proof currency = student results never lifestyle. Left: validation loop on his own IG
+- [Supabase = push channel only; Zernio = IG inbox](project_supabase_realtime.md) - 2026-09-19: no migration, Realtime broadcast with the publishable key only, opaque payloads; Zernio replaced Composio for DMs (read receipts, history merge); gotchas inside
 - [IG DM bridge (Composio)](project_ig_dm_bridge.md) - the whole IG inbox is pullable read-only via Composio, no browser; `npx tsx dm-audit.ts` in the ig-report worktree; watch the two id/fields gotchas
 - [IG follow-up sequence](project_ig_followup_sequence.md) - permission-asking follow-ups get 0 replies, one-word questions get answered; also kills two wrong vault claims (the "42% July rate" and the "validated" cold-dm formula)
 - [Instagram parity priority](project_instagram_parity_priority.md) - IG lead scraping parked (anti-bot), he sources IG manually; YouTube is the active lead engine

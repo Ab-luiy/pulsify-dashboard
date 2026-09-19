@@ -1712,3 +1712,7 @@ Founder re-prioritised mid-session: the Instagram outreach tracker ships before 
 ## [2026-09-19] client-update | Outreach tracker LIVE; Zernio scanned
 
 Claude deployed the tracker, the parity pass and Phase 4 UI (Worker efb914d6, Pages 7f9cf3fc, migration 0029) after the founder logged wrangler in through the browser pane. The Instagram inbox was repaired live: the real bug was Composio returning the sender as `from_`. Tracker shows 40 openers, 3 replies, 38 due follow-ups. Zernio (zernio.com) scanned from its docs: an approved Meta app with hosted Instagram OAuth, inbox API with participant picture, follower context, message direction and readAt, and webhooks including message.read. It is the missing source for "seen", profile pictures and real-time replies. Recommended as the DM source to replace Composio polling; brief to follow.
+
+## [2026-09-19] client-update | Zernio connected, live push via Supabase Realtime
+
+Zernio is the Instagram inbox source (approved Meta app, hosted login, read receipts by webhook, history replayed and merged onto existing threads). Founder rule recorded: keys and API setup are Claude's job; the Resend key never moved because the Worker now relays email through a Pages route with a secret Claude generated. Supabase evaluated: mostly duplicates the Cloudflare stack, so no migration; adopted as a push channel only. Tracker updates now appear within a second of a reply, a read receipt or a manual mark. Next candidate: semantic search over DMs and client brains.
