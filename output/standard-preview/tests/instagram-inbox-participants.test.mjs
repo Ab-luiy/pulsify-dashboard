@@ -35,7 +35,7 @@ function makeEnv() {
 const LIST = { data: { conversations: [{ id: "t1", updated_time: "2026-09-19T12:46:47+0000", participants: null, messages: { data: [{ id: "m1", created_time: "2026-09-19T12:40:00+0000" }, { id: "m2", created_time: "2026-09-19T12:46:47+0000" }] } }] } };
 const MESSAGES = { data: { data: [
   { id: "m2", created_time: "2026-09-19T12:46:47+0000", from: { id: "9999", username: "other.acc" }, to: { data: [{ id: "1784", username: "ab.luiy" }] }, message: "test" },
-  { id: "m1", created_time: "2026-09-19T12:40:00+0000", from: { id: "1784", username: "ab.luiy" }, to: { data: [{ id: "9999", username: "other.acc" }] }, message: "hey" },
+  { id: "m1", created_time: "2026-09-19T12:40:00+0000", from_: { id: "1784", username: "ab.luiy" }, to: { data: [{ id: "9999", username: "other.acc" }] }, message: "hey" },
 ] } };
 const PROFILE = { data: { id: "3608", username: "ab.luiy" } };
 
@@ -58,7 +58,7 @@ test("learnOwnId picks the messaging id from our username, not the Graph id", ()
 });
 
 test("findParticipant resolves the other party from message from/to when participants is null", () => {
-  const messages = MESSAGES.data.data.map((raw) => ({ senderId: raw.from.id, senderName: raw.from.username, direction: raw.from.id === "1784" ? "outbound" : "inbound", raw }));
+  const messages = MESSAGES.data.data.map((raw) => { const f = raw.from || raw.from_; return { senderId: f.id, senderName: f.username, direction: f.id === "1784" ? "outbound" : "inbound", raw }; });
   const p = findParticipant({ participants: null }, "1784", messages);
   assert.deepEqual({ ...p }, { id: "9999", username: "other.acc", name: "other.acc" });
   // Outbound-only thread: recipient becomes the participant.

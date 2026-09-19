@@ -66,7 +66,7 @@ export async function syncInstagramInbox(env, options = {}) {
     // The list call returns message stubs (id, created_time) with no sender.
     // Without from/to every message classifies as inbound and the thread has
     // no handle, so fetch the full messages whenever the stubs lack a sender.
-    if (!messages.length || !messages.some((message) => message?.from || message?.to)) {
+    if (!messages.length || !messages.some((message) => message?.from || message?.from_ || message?.to || message?.to_)) {
       const payload = await executeMessages(env, conversationId);
       messages = findRows(payload);
     }
@@ -166,8 +166,9 @@ async function loadKnownMessages(env, conversationId) {
 export function learnOwnId(messages, ownUsername) {
   if (!ownUsername) return "";
   for (const message of messages) {
-    if (String(message?.from?.username || "").replace(/^@/, "") === ownUsername) return String(message.from.id || "");
-    const to = findRows(message?.to);
+    const from = message?.from || message?.from_ || {};
+    if (String(from.username || "").replace(/^@/, "") === ownUsername) return String(from.id || "");
+    const to = findRows(message?.to || message?.to_);
     const hit = to.find((item) => String(item?.username || "").replace(/^@/, "") === ownUsername);
     if (hit) return String(hit.id || "");
   }
@@ -227,7 +228,7 @@ function normalizeMessage(raw, ownId) {
   const id = String(raw?.id || raw?.message_id || "");
   const sentAt = String(raw?.created_time || raw?.timestamp || raw?.sent_at || "");
   if (!id || !sentAt || Number.isNaN(Date.parse(sentAt))) return null;
-  const sender = raw?.from || raw?.sender || {};
+  const sender = raw?.from || raw?.from_ || raw?.sender || {};
   const senderId = String(sender?.id || raw?.from_id || raw?.sender_id || "");
   return {
     id,
@@ -245,7 +246,7 @@ export function findParticipant(conversation, ownId, messages) {
   const row = participants.find((item) => String(item?.id || "") && String(item?.id || "") !== ownId) || {};
   const inbound = messages.find((message) => message.direction === "inbound" && message.senderId);
   // Outbound-only threads: the other party is the recipient of our message.
-  const recipient = messages.map((message) => findRows(message.raw?.to).find((item) => String(item?.id || "") && String(item?.id || "") !== ownId)).find(Boolean) || {};
+  const recipient = messages.map((message) => findRows(message.raw?.to || message.raw?.to_).find((item) => String(item?.id || "") && String(item?.id || "") !== ownId)).find(Boolean) || {};
   const id = String(row.id || inbound?.senderId || recipient.id || "");
   const username = String(row.username || row.handle || inbound?.senderName || recipient.username || "").replace(/^@/, "");
   const name = String(row.name || recipient.name || username || id || "Instagram lead");
