@@ -7,7 +7,10 @@ import { withOperator } from "../_shared/access.js";
 import { generateOpaqueToken, json, nowIso, str } from "../_shared/common.js";
 import { resolveSpineRead } from "../_shared/spine-auth.js";
 
-export const MAX_AUDIO_BYTES = 25 * 1024 * 1024;
+// The AI binding represents audio as a JavaScript number array. Keep the
+// encoded request bounded well below the 128 MB Worker isolate limit. The
+// browser recorder uses 64 kbps, so a ten-minute note is about 4.8 MB.
+export const MAX_AUDIO_BYTES = 6 * 1024 * 1024;
 const AUDIO_TYPES = new Set(["audio/webm", "audio/mp4", "audio/mpeg", "audio/mp3", "audio/wav", "audio/x-m4a", "audio/ogg", "video/webm"]);
 // Verify the current model id in the Workers AI catalog before changing this.
 export const WHISPER_MODEL = "@cf/openai/whisper";
@@ -37,15 +40,21 @@ async function handlePost({ request, env }) {
   if (!file || typeof file === "string") return json({ ok: false, error: "audio file required" }, 422);
   const mime = str(file.type).toLowerCase().split(";")[0];
   if (!AUDIO_TYPES.has(mime)) return json({ ok: false, error: "unsupported audio type" }, 415);
-  if (file.size > MAX_AUDIO_BYTES) return json({ ok: false, error: "audio must be 25 MB or smaller" }, 413);
+  if (!file.size) return json({ ok: false, error: "audio file is empty" }, 422);
+  if (file.size > MAX_AUDIO_BYTES) return json({ ok: false, error: "audio must be 6 MB or smaller" }, 413);
   const id = `vn_${generateOpaqueToken(10)}`;
   const key = `clients/${access.client}/voice-notes/${id}`;
   const now = nowIso();
   const bytes = await file.arrayBuffer();
   await env.MEDIA.put(key, bytes, { httpMetadata: { contentType: mime } });
-  await env.DB.prepare(
-    "INSERT INTO voice_notes (id, client_id, r2_key, mime, bytes, state, created_at, updated_at) VALUES (?,?,?,?,?,'uploaded',?,?)",
-  ).bind(id, access.client, key, mime, file.size, now, now).run();
+  try {
+    await env.DB.prepare(
+      "INSERT INTO voice_notes (id, client_id, r2_key, mime, bytes, state, created_at, updated_at) VALUES (?,?,?,?,?,'uploaded',?,?)",
+    ).bind(id, access.client, key, mime, file.size, now, now).run();
+  } catch (error) {
+    await env.MEDIA.delete(key).catch(() => null);
+    throw error;
+  }
 
   let transcript = null;
   let error = null;
@@ -69,6 +78,7 @@ async function applyTranscript({ request, env }) {
   try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
   const access = await resolveSpineRead(request, env, "client", str(body.client));
   if (access.error) return access.error;
+  if (access.impersonated) return json({ ok: false, error: "read only while impersonating" }, 403);
   const id = str(body.id);
   const note = await env.DB.prepare("SELECT id FROM voice_notes WHERE id=? AND client_id=?").bind(id, access.client).first();
   if (!note) return json({ ok: false, error: "note not found" }, 404);

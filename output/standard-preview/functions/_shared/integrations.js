@@ -88,7 +88,7 @@ export const PROVIDERS = {
     configFields: ["confirmed", "confirmed_at", "channel_note", "handle"],
     secretFields: [],
     clientConnected(record) {
-      return Boolean(record.config.confirmed);
+      return Boolean(record.config.handle || record.config.confirmed);
     },
   },
   instagram: {

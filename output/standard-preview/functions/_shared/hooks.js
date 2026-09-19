@@ -130,6 +130,7 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
   if (!payment) {
     return recordIgnored(env, integration.client, provider, body, "payment shape not recognized");
   }
+  const customer = provider === "stripe" ? stripeCustomer(body) : whopCustomer(body);
 
   const result = await processNormalizedPayment(env, {
     client: integration.client,
@@ -142,9 +143,10 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
     occurredAt: payment.occurred_at,
     eventId: payment.event_id,
     origin: new URL(requestUrl).origin,
+    customerEmail: customer.email,
+    customerName: customer.name,
   });
   if (result.ok && !result.duplicate && result.payment?.id) {
-    const customer = provider === "stripe" ? stripeCustomer(body) : whopCustomer(body);
     if (customer.email || customer.name) {
       await env.DB.prepare("UPDATE payments SET customer_email=?, customer_name=? WHERE id=?")
         .bind(customer.email, customer.name, result.payment.id).run().catch(() => null);

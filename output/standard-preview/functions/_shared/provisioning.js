@@ -12,8 +12,9 @@ import { welcomeEmail } from "./welcome-email.js";
 
 export const WELCOME_ATTEMPTS = 3;
 const BACKOFF_MS = [500, 1500, 4000];
+const EMAIL_TIMEOUT_MS = 10000;
 
-export async function provisionClient(env, { source, client, email, name, contractRef, origin, actor, sleep = (ms) => new Promise((r) => setTimeout(r, ms)), fetcher = fetch }) {
+export async function provisionClient(env, { source, client, email, name, contractRef, origin, actor, setupLink = "", sleep = (ms) => new Promise((r) => setTimeout(r, ms)), fetcher = fetch }) {
   if (!env?.DB) return { ok: false, error: "no database bound" };
   if (!["docusign", "payment", "operator"].includes(source)) return { ok: false, error: "unknown provisioning source" };
   const normalizedEmail = normalizeEmail(email);
@@ -38,11 +39,9 @@ export async function provisionClient(env, { source, client, email, name, contra
     await env.DB.prepare("UPDATE client_config SET status='onboarding', client_name=COALESCE(client_name, ?), updated_at=? WHERE client=?").bind(clientName, now, clientId).run();
   }
 
-  // Login shell plus one-time setup link (existing helper, rotates any prior link).
-  const setup = await createSetupLink(env, origin || "https://pulsify-ai.com", clientId, normalizedEmail);
-  if (!setup.ok) return { ok: false, error: setup.error };
-
-  // Provisioning record first so a retry after a crash is a no-op.
+  // Claim the client before minting a setup token. Duplicate webhooks can run
+  // concurrently; claiming first prevents a losing request from rotating the
+  // token that the winning request is about to email.
   try {
     await env.DB.prepare(
       "INSERT INTO client_provisioning (client_id, email, source, contract_ref, provisioned_at, provisioned_by) VALUES (?,?,?,?,?,?)",
@@ -51,7 +50,21 @@ export async function provisionClient(env, { source, client, email, name, contra
     return { ok: true, client: clientId, duplicate: true };
   }
 
-  await seedChecklist(env, clientId);
+  // DocuSign already created an encrypted, retryable link atomically. Other
+  // triggers mint one here. Never rotate a caller-supplied link.
+  let setup = setupLink ? { ok: true, link: str(setupLink) } : null;
+  if (!setup) setup = await createSetupLink(env, origin || "https://pulsify-ai.com", clientId, normalizedEmail);
+  if (!setup.ok || !setup.link) {
+    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+    return { ok: false, error: setup.error || "could not create setup link" };
+  }
+
+  try {
+    await seedChecklist(env, clientId);
+  } catch (error) {
+    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+    return { ok: false, error: String(error?.message || error) };
+  }
   await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
     .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => null);
   await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => null);
@@ -72,11 +85,19 @@ export async function sendWelcome(env, { clientId, email, name, setupLink, sleep
   let lastError = "";
   for (let attempt = 1; attempt <= WELCOME_ATTEMPTS; attempt++) {
     try {
-      const response = await fetcher("https://api.resend.com/emails", {
-        method: "POST",
-        headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
-        body: JSON.stringify({ from, to: [email], subject, text, html, headers: { "X-Entity-Ref-ID": `welcome-${clientId}` } }),
-      });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), EMAIL_TIMEOUT_MS);
+      let response;
+      try {
+        response = await fetcher("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json", "idempotency-key": `welcome-${clientId}` },
+          body: JSON.stringify({ from, to: [email], subject, text, html, headers: { "X-Entity-Ref-ID": `welcome-${clientId}` } }),
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timeout);
+      }
       if (response.ok) {
         await env.DB.prepare("UPDATE client_provisioning SET welcome_state='sent', welcome_attempts=?, welcome_sent_at=?, welcome_error=NULL WHERE client_id=?").bind(attempt, nowIso(), clientId).run();
         return { state: "sent", attempt };

@@ -150,6 +150,8 @@ async function insertPayment(env, client, provider, input) {
     recordedBy: `worker:${provider}`,
     note: input.note,
     eventId: `${provider}:${input.id}`,
+    customerEmail: input.email,
+    customerName: input.name,
     skipSideEffects: true,
   });
   if (!result.ok || result.duplicate) return 0;

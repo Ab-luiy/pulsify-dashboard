@@ -1,7 +1,6 @@
 import { json, normalizeEmail, sha256Hex, generateOpaqueToken } from '../_shared/common.js';
 import { seal, unseal } from '../_shared/secret-box.js';
-import { emitEvent } from '../_shared/outbound-webhooks.js';
-import { provisionClient } from '../_shared/provisioning.js';
+import { provisionClient, sendWelcome } from '../_shared/provisioning.js';
 
 // Sandbox by default; set DOCUSIGN_BASE_URL=https://www.docusign.net for production.
 export const docusignBase = (env) => String(env?.DOCUSIGN_BASE_URL || 'https://demo.docusign.net').replace(/\/$/, '');
@@ -15,18 +14,28 @@ async function authenticated(request, raw, secret) {
   return false;
 }
 
-async function deliver(env, row) {
+async function deliver(env, row, origin, signerName = '') {
   if (row.state !== 'pending') return json({ok:true,state:row.state});
   if (Date.parse(row.expires_at) <= Date.now()) {
     await env.DB.prepare("UPDATE contract_provisioning SET state='expired',invitation_cipher=NULL WHERE envelope_id=? AND state='pending'").bind(row.envelope_id).run();
     return json({ok:true,state:'expired',needs_operator:true});
   }
   const link = await unseal(env, row.invitation_cipher, row.envelope_id);
-  const response = await fetch('https://api.resend.com/emails', {
-    method:'POST', headers:{authorization:'Bearer '+env.RESEND_API_KEY,'content-type':'application/json','idempotency-key':'portal-contract-'+row.envelope_id},
-    body:JSON.stringify({from:env.EMAIL_FROM,to:[row.email],subject:'Your Pulsify workspace is ready',text:'Set your password and complete your workspace details:\n'+link+'\n\nThis personal link expires at '+row.expires_at+'.'})
-  });
-  if (!response.ok) return json({ok:false,error:'Workspace created; invitation delivery will retry.'},503);
+  const existing = await env.DB.prepare('SELECT welcome_state FROM client_provisioning WHERE client_id=?').bind(row.client_id).first().catch(()=>null);
+  let welcomeState = existing?.welcome_state || '';
+  if (!existing) {
+    const provisioned = await provisionClient(env, {
+      source:'docusign', client:row.client_id, email:row.email, name:signerName,
+      contractRef:row.envelope_id, origin, actor:'docusign', setupLink:link,
+    });
+    if (!provisioned.ok) return json({ok:false,error:'Workspace created; unified provisioning will retry.'},503);
+    welcomeState = provisioned.welcome_state || '';
+  } else if (welcomeState !== 'sent') {
+    const client = await env.DB.prepare('SELECT client_name FROM client_config WHERE client=?').bind(row.client_id).first().catch(()=>null);
+    const welcome = await sendWelcome(env, {clientId:row.client_id,email:row.email,name:client?.client_name||signerName||'Client',setupLink:link});
+    welcomeState = welcome.state;
+  }
+  if (welcomeState !== 'sent') return json({ok:false,error:'Workspace created; welcome delivery will retry.'},503);
   await env.DB.prepare("UPDATE contract_provisioning SET state='delivered',invitation_cipher=NULL,delivered_at=? WHERE envelope_id=? AND state='pending'").bind(new Date().toISOString(),row.envelope_id).run();
   return json({ok:true,state:'delivered'});
 }
@@ -44,7 +53,7 @@ export async function onRequestPost({request,env}) {
   const summary=event.data?.envelopeSummary,envelope=String(event.data?.envelopeId||'');
   if (!/^[\w-]{8,100}$/.test(envelope) || summary?.status !== 'completed') return json({ok:false,error:'A completed envelope is required.'},422);
   const prior=await env.DB.prepare('SELECT * FROM contract_provisioning WHERE envelope_id=?').bind(envelope).first();
-  if(prior)return deliver(env,prior);
+  if(prior)return deliver(env,prior,new URL(request.url).origin);
   // Only envelopes explicitly marked for portal onboarding can provision access.
   const fields=Array.isArray(summary.customFields?.textCustomFields)?summary.customFields.textCustomFields:[];
   if(!fields.some(f=>f?.name==='pulsify_portal'&&f.value==='true'))return json({ok:true,ignored:true});
@@ -69,10 +78,11 @@ export async function onRequestPost({request,env}) {
     ]);
   }catch{
     const raced=await env.DB.prepare('SELECT * FROM contract_provisioning WHERE envelope_id=?').bind(envelope).first();
-    if(raced)return deliver(env,raced);
+    if(raced)return deliver(env,raced,new URL(request.url).origin,signer.name);
     return json({ok:false,error:'Provisioning could not complete; retry the event.'},503);
   }
-  // Unified provisioning: seeds the checklist, sets onboarding status, sends the welcome email, emits client.provisioned once. Idempotent on client.
-  await provisionClient(env,{source:'docusign',client,email,name:signer.name,contractRef:envelope,origin:new URL(request.url).origin,actor:'docusign'}).catch(()=>null);
-  return deliver(env,{envelope_id:envelope,email,state:'pending',invitation_cipher:cipher,expires_at:expires});
+  // The existing encrypted invitation is the setup link used by the unified
+  // flow. This produces one valid welcome email and preserves the same link
+  // across DocuSign retries.
+  return deliver(env,{envelope_id:envelope,client_id:client,email,state:'pending',invitation_cipher:cipher,expires_at:expires},new URL(request.url).origin,signer.name);
 }

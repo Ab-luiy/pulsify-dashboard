@@ -10,8 +10,9 @@ import {welcomeEmail} from '../functions/_shared/welcome-email.js';
 import {onRequestGet as provisionGet, onRequestPost as provisionPost} from '../functions/api/provision.js';
 import {onRequestGet as checklistGet, onRequestPost as checklistPost} from '../functions/api/checklist.js';
 import {onRequestGet as pipelineGet, onRequestPost as pipelinePost} from '../functions/api/pipeline.js';
-import {onRequestPost as voicePost} from '../functions/api/voice-note.js';
+import {MAX_AUDIO_BYTES, onRequestPost as voicePost} from '../functions/api/voice-note.js';
 import {loadCandidates} from '../functions/_shared/payment-matching.js';
+import {processNormalizedPayment} from '../functions/_shared/payments.js';
 import {rememberOperator} from '../functions/_shared/access.js';
 import {sha256Hex} from '../functions/_shared/common.js';
 
@@ -87,8 +88,10 @@ assert.equal(sql.prepare("SELECT COUNT(*) c FROM webhook_outbox WHERE event='cli
 // ship-it completes on live sequence, and finishing all flips status to client
 sql.prepare("INSERT INTO studio_sequences(client_id,status) VALUES('acme','live')").run();
 sql.prepare("INSERT INTO client_brain(client_id,section,field,value_json,source,updated_at) VALUES('acme','offer','business_explainer','\"Mentorship\"','voice-note','x')").run();
-sql.prepare("INSERT INTO integrations(scope,client_id,provider,config_json,secret_json,created_at,updated_at) VALUES('client','acme','instagram','{\"confirmed\":\"true\",\"handle\":\"acme\"}','{}','x','x'),('client','acme','youtube','{\"confirmed\":\"true\",\"handle\":\"acme\"}','{}','x','x')").run();
-r=await call(checklistGet,op('https://t/api/checklist?client=acme'));const body=await r.json();assert.equal(body.done,8);
+sql.prepare("INSERT INTO integrations(scope,client_id,provider,config_json,secret_json,created_at,updated_at) VALUES('client','acme','instagram','{\"handle\":\"acme\"}','{}','x','x'),('client','acme','youtube','{\"handle\":\"acme\"}','{}','x','x')").run();
+r=await call(checklistGet,op('https://t/api/checklist?client=acme'));let body=await r.json();assert.equal(body.done,7);assert.equal(body.steps.find(s=>s.id==='connect-instagram').state,'skipped');
+sql.prepare("UPDATE integrations SET config_json='{\"confirmed\":\"true\",\"handle\":\"acme\"}' WHERE client_id='acme' AND provider='instagram'").run();
+r=await call(checklistGet,op('https://t/api/checklist?client=acme'));body=await r.json();assert.equal(body.done,8);
 assert.equal(sql.prepare("SELECT status FROM client_config WHERE client='acme'").get().status,'client');
 // client can read and mark its own; cannot touch another client
 r=await checklistGet({request:new Request('https://t/api/checklist?client=acme',{headers:{'x-portal-token':'token-acme'}}),env,data:{}});assert.equal(r.status,200);
@@ -116,6 +119,14 @@ r=await call(pipelineGet,op('https://t/api/pipeline?client=acme&email=lead@x.com
 r=await pipelinePost({request:new Request('https://t/api/pipeline',{method:'POST',headers:{'content-type':'application/json','x-portal-token':'token-acme'},body:JSON.stringify({client:'acme',action:'backfill'})}),env,data:{}});assert.equal(r.status,403);
 console.log('PASS pipeline touches: one row per contact, stage ladder, dedupe, tenant isolation, backfill idempotent, candidates for matching, API scope');
 
+// An already-onboarding client payment records the buyer touch but cannot
+// rotate setup credentials or send another Pulsify welcome.
+const emailCount=emails.length;
+r=await processNormalizedPayment(env,{client:'acme',amountCents:250000,currency:'USD',rail:'stripe',reference:'stripe:phase4-gate',recordedBy:'webhook:stripe',customerEmail:'lead@x.com',customerName:'Lead Person',origin:'https://pulsify-ai.com'});
+assert.equal(r.ok,true);assert.equal(r.side_effects.skipped,true);assert.equal(emails.length,emailCount);
+assert.equal(sql.prepare("SELECT COUNT(*) c FROM pipeline_touches WHERE client_id='acme' AND kind='payment' AND external_id='stripe:phase4-gate'").get().c,1);
+console.log('PASS payment provision gate: non-prospect revenue records a touch without reprovisioning or another welcome');
+
 // ---------- voice note: upload, transcribe, apply to brain ----------
 const fd=new FormData();fd.set('client','acme');fd.set('file',new File([new Uint8Array(1024)],'note.webm',{type:'audio/webm'}));
 r=await voicePost({request:new Request('https://t/api/voice-note',{method:'POST',headers:{'x-portal-token':'token-acme'},body:fd}),env,data:{}});assert.equal(r.status,201);const vn=await r.json();assert.equal(vn.state,'transcribed');assert.match(vn.transcript,/day traders/);
@@ -124,4 +135,6 @@ assert.equal(JSON.parse(sql.prepare("SELECT value_json FROM client_brain WHERE c
 assert.equal(sql.prepare("SELECT source FROM client_brain WHERE client_id='acme' AND section='offer' AND field='business_explainer'").get().source,'voice-note');
 const bad=new FormData();bad.set('client','acme');bad.set('file',new File([new Uint8Array(10)],'x.txt',{type:'text/plain'}));
 r=await voicePost({request:new Request('https://t/api/voice-note',{method:'POST',headers:{'x-portal-token':'token-acme'},body:bad}),env,data:{}});assert.equal(r.status,415);
-console.log('PASS voice note: upload to R2, Whisper transcript, apply to offer and icp with voice-note source, type validation');
+const huge=new FormData();huge.set('client','acme');huge.set('file',new File([new Uint8Array(MAX_AUDIO_BYTES+1)],'huge.webm',{type:'audio/webm'}));
+r=await voicePost({request:new Request('https://t/api/voice-note',{method:'POST',headers:{'x-portal-token':'token-acme'},body:huge}),env,data:{}});assert.equal(r.status,413);
+console.log('PASS voice note: upload to R2, Whisper transcript, apply to offer and icp with voice-note source, type and memory-bound size validation');

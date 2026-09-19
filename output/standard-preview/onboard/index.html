@@ -204,7 +204,7 @@
               <div class="ob-recorder-row">
                 <button type="button" class="ob-rec-btn" id="obRec"><span class="ob-rec-dot"></span><span id="obRecLabel">Start recording</span></button>
                 <span class="ob-timer" id="obTimer">0:00</span>
-                <span class="ob-upload">or <label for="obFile">upload an audio file</label><input id="obFile" type="file" accept="audio/*,video/webm"></span>
+                <span class="ob-upload">or <label for="obFile">upload an audio file</label><input id="obFile" type="file" accept="audio/webm,audio/mp4,audio/mpeg,audio/wav,audio/ogg,video/webm,.m4a,.mp3,.wav,.webm,.ogg"></span>
               </div>
               <p class="ob-status" id="obStatus" role="status">Nothing recorded yet. Skip if you would rather write it on the next question.</p>
               <textarea class="ob-transcript" id="obTranscript" hidden placeholder="Your transcript appears here. Fix anything we misheard before you continue."></textarea>
@@ -212,7 +212,7 @@
               <input id="obNoteId" type="hidden">
             </div>
           </div>
-          <p class="link-note">Nothing is saved until you press Continue. Recording stays private to your workspace.</p>
+          <p class="link-note">The audio is saved privately to your workspace after upload. Your corrected transcript is added to the brain when you press Continue.</p>
           <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next id="obVoiceNext" type="button">Continue</button></div>
         </section>
 

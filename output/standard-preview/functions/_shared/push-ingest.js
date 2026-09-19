@@ -122,6 +122,8 @@ export async function ingest(env, key, record) {
       recordedBy: `push-api:${key.id}`,
       note: record.data.note,
       eventId: `push:${record.data.reference}`,
+      customerEmail: record.data.customer_email,
+      customerName: record.data.customer_name,
       skipSideEffects: true,
     });
     if (!result.ok) return { error: result.error };

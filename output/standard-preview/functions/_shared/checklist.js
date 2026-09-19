@@ -61,7 +61,7 @@ const RULES = {
     || (await exists(env, "SELECT 1 FROM client_brain WHERE client_id=? AND section='offer' AND length(value_json)>4 LIMIT 1", c)),
   "who-you-sell-to": async (env, c) => exists(env, "SELECT 1 FROM client_brain WHERE client_id=? AND section='icp' AND length(value_json)>4 LIMIT 1", c),
   "connect-instagram": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider='instagram' AND json_extract(config_json,'$.confirmed')='true' LIMIT 1", c),
-  "connect-youtube": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider='youtube' AND json_extract(config_json,'$.confirmed')='true' LIMIT 1", c),
+  "connect-youtube": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider='youtube' AND length(COALESCE(json_extract(config_json,'$.handle'),''))>0 LIMIT 1", c),
   "connect-payments": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider IN ('stripe','whop') AND secret_json IS NOT NULL AND length(secret_json)>2 LIMIT 1", c),
   "first-proof": async (env, c) => exists(env, "SELECT 1 FROM proof_items WHERE client_id=? LIMIT 1", c),
   "first-sequence": async (env, c) => exists(env, "SELECT 1 FROM studio_sequences WHERE client_id=? LIMIT 1", c),

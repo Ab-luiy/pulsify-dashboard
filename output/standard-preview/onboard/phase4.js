@@ -10,6 +10,7 @@
   const jsonHeaders = () => ({ "content-type": "application/json", ...authHeaders() });
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const steps = Array.from(document.querySelectorAll("[data-step]"));
+  const MAX_AUDIO_BYTES = 6 * 1024 * 1024;
 
   // ---- progress dots ----
   const dots = document.createElement("div");
@@ -30,6 +31,8 @@
   const setStatus = (text) => { $("obStatus").textContent = text; };
   async function upload(blob, mime) {
     if (!client) { setStatus("This page needs your workspace link to save a recording. Type it on the next question instead."); return; }
+    if (!blob.size) { setStatus("That audio file is empty. Choose another file."); return; }
+    if (blob.size > MAX_AUDIO_BYTES) { setStatus("That audio is over 6 MB. Record here at the optimized quality, or upload a smaller file."); return; }
     setStatus("Transcribing. This takes a few seconds.");
     $("obRec").disabled = true;
     try {
@@ -63,7 +66,7 @@
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mime = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4";
-      recorder = new MediaRecorder(stream, { mimeType: mime });
+      recorder = new MediaRecorder(stream, { mimeType: mime, audioBitsPerSecond: 64000 });
       chunks = [];
       recorder.ondataavailable = (e) => { if (e.data.size) chunks.push(e.data); };
       recorder.onstop = () => {
@@ -93,20 +96,57 @@
   });
   // Continue from the voice step applies the corrected transcript to the brain
   // before the intake's own handler moves on. Capture phase so it runs first.
-  $("obVoiceNext").addEventListener("click", () => {
+  let voicePass = false;
+  $("obVoiceNext").addEventListener("click", async (event) => {
+    if (voicePass) { voicePass = false; return; }
     const id = $("obNoteId").value;
     const transcript = $("obTranscript").value.trim();
     if (!id || !transcript) return;
-    fetch("/api/voice-note?action=apply", { method: "POST", headers: jsonHeaders(), body: JSON.stringify({ client, id, transcript }) }).catch(() => null);
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    $("obVoiceNext").disabled = true;
+    setStatus("Saving your corrected transcript.");
+    try {
+      const response = await fetch("/api/voice-note?action=apply", { method: "POST", headers: jsonHeaders(), body: JSON.stringify({ client, id, transcript }) });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Transcript could not be saved.");
+      voicePass = true;
+      $("obVoiceNext").click();
+    } catch (error) {
+      setStatus(error.message || "Transcript could not be saved. Try again.");
+    } finally {
+      $("obVoiceNext").disabled = false;
+    }
   }, { capture: true });
 
   // ---- connect step: same delegated contract the portal's Integrations view uses ----
-  $("obSaveConnect").addEventListener("click", () => {
-    const save = (provider, handle) => fetch("/api/client-integrations", { method: "POST", headers: jsonHeaders(), body: JSON.stringify({ provider, confirm: true, config: { handle, channel_note: `@${handle}` } }) }).then((r) => r.ok).catch(() => false);
+  let connectPass = false;
+  $("obSaveConnect").addEventListener("click", async (event) => {
+    if (connectPass) { connectPass = false; return; }
+    const save = async (provider, handle) => {
+      const response = await fetch("/api/client-integrations", { method: "POST", headers: jsonHeaders(), body: JSON.stringify({ provider, confirm: false, config: { handle, channel_note: `@${handle}` } }) });
+      if (!response.ok) throw new Error(`${provider} could not be saved`);
+      return true;
+    };
     const ig = $("obIg").value.trim().replace(/^@/, "");
     const yt = $("obYt").value.trim().replace(/^@/, "");
-    if (ig) save("instagram", ig).then((ok) => { if (ok) { $("obIgPill").textContent = "Invite requested"; $("obIgPill").className = "ob-pill ok"; } });
-    if (yt) save("youtube", yt).then((ok) => { if (ok) { $("obYtPill").textContent = "Tracking"; $("obYtPill").className = "ob-pill ok"; } });
+    if (!ig && !yt) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    $("obSaveConnect").disabled = true;
+    try {
+      await Promise.all([ig ? save("instagram", ig) : null, yt ? save("youtube", yt) : null]);
+      if (ig) { $("obIgPill").textContent = "Handle saved"; $("obIgPill").className = "ob-pill ok"; }
+      if (yt) { $("obYtPill").textContent = "Tracking"; $("obYtPill").className = "ob-pill ok"; }
+      connectPass = true;
+      $("obSaveConnect").click();
+    } catch (error) {
+      const errorBox = $("obSaveConnect").closest("[data-step]").querySelector("[data-error]");
+      errorBox.textContent = error.message || "Connections could not be saved. Try again.";
+      errorBox.hidden = false;
+    } finally {
+      $("obSaveConnect").disabled = false;
+    }
   }, { capture: true });
 
   // ---- completion: read the real checklist and hand off into the portal ----

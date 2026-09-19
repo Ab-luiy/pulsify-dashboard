@@ -33,6 +33,8 @@ export async function processNormalizedPayment(env, input) {
   const occurredAt = input.occurredAt || nowIso();
   const recordedBy = str(input.recordedBy || `webhook:${rail}`);
   const amountCents = normalizeAmountCents(input.amountCents, input.amount);
+  const customerEmail = normalizeEmail(input.customerEmail || input.customer_email) || null;
+  const customerName = strOrNull(input.customerName || input.customer_name);
 
   if (!client) return { ok: false, error: "valid client id required" };
   if (amountCents == null) return { ok: false, error: "valid amount required" };
@@ -74,6 +76,8 @@ export async function processNormalizedPayment(env, input) {
       currency,
       recorded_by: recordedBy,
       note: strOrNull(input.note),
+      customer_email: customerEmail,
+      customer_name: customerName,
     },
   });
 
@@ -84,8 +88,8 @@ export async function processNormalizedPayment(env, input) {
 
   // Push API and rematch paths record revenue for clients who are already
   // onboarded. They must never mint a new portal link or send onboarding mail.
-  if (input.customerEmail || input.customer_email) {
-    await recordTouch(env, { client, email: input.customerEmail || input.customer_email, name: input.customerName || input.customer_name, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => null);
+  if (customerEmail) {
+    await recordTouch(env, { client, email: customerEmail, name: customerName, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => null);
   }
   const sideEffects = input.skipSideEffects
     ? { skipped: true, reason: "side effects disabled for this rail" }
@@ -101,10 +105,24 @@ export async function processNormalizedPayment(env, input) {
 async function runPaymentSideEffects(env, payment) {
   const client = cleanId(payment.client);
   const clientRow = await env.DB.prepare(
-    `SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash
+    `SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash, status
        FROM client_config WHERE client=?`,
   ).bind(client).first().catch(() => null);
+  // Payment rails also carry the client's own customer revenue. Only a
+  // Pulsify prospect payment may start Pulsify onboarding; active clients'
+  // revenue must never rotate their portal token or resend a welcome.
   const clientName = clientRow?.client_name || titleCase(client);
+  if (clientRow?.status !== "prospect") {
+    const alert = await sendDiscordAlert(env, {
+      client,
+      title: "Payment recorded",
+      lines: [
+        `${clientName} received ${humanCurrency(payment.amount_cents, payment.currency)} via ${payment.rail}.`,
+        `Reference: ${payment.reference}`,
+      ],
+    });
+    return { skipped: true, reason: "client is not a prospect", client_status: clientRow?.status || null, discord: alert.status };
+  }
   const recipient = await resolvePaymentRecipient(env, client, payment.rail);
   const operatorKit = await getIntegration(env, "operator", "", "kit");
   const draft = await buildOnboardingDraft(operatorKit, payment, {
@@ -135,16 +153,20 @@ async function runPaymentSideEffects(env, payment) {
   // A first payment on a prospect provisions the workspace (idempotent). The
   // status moves to 'onboarding' there; it becomes 'client' when the checklist
   // finishes. Clients already provisioned are untouched.
-  if (recipient?.email) {
-    await provisionClient(env, { source: "payment", client, email: recipient.email, name: recipient.name || clientName, contractRef: payment.reference, origin: payment.origin, actor: payment.recorded_by || "payment" }).catch(async (error) => {
-      await recordFailure(env, client, "client_status", error?.message || String(error));
-    });
-  } else {
-    await env.DB.prepare(
-      `UPDATE client_config SET status='client', updated_at=? WHERE client=?`,
-    ).bind(nowIso(), client).run().catch(async (error) => {
-      await recordFailure(env, client, "client_status", error?.message || String(error));
-    });
+  let provision = { skipped: true, reason: "client is not a prospect" };
+  if (clientRow?.status === "prospect") {
+    if (recipient?.email) {
+      try {
+        provision = await provisionClient(env, { source: "payment", client, email: recipient.email, name: recipient.name || clientName, contractRef: payment.reference, origin: payment.origin, actor: payment.recorded_by || "payment" });
+        if (!provision.ok) await recordFailure(env, client, "client_status", provision.error || "provisioning failed");
+      } catch (error) {
+        provision = { ok: false, error: error?.message || String(error) };
+        await recordFailure(env, client, "client_status", provision.error);
+      }
+    } else {
+      provision = { ok: false, error: "no client contact email found" };
+      await recordFailure(env, client, "client_status", provision.error);
+    }
   }
 
   const alert = await sendDiscordAlert(env, {
@@ -172,7 +194,8 @@ async function runPaymentSideEffects(env, payment) {
       reused: Boolean(clientRow?.portal_token_hash),
       link: draft.links.portal_url || null,
     },
-    client_status: "client",
+    client_status: provision.ok ? "onboarding" : clientRow?.status || null,
+    provision,
     discord: alert.status,
   };
 }
