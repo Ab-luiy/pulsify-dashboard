@@ -4,7 +4,8 @@
   scheduled=false;const root=document.getElementById('wsStage'),view=window.PulsifyWorkspace?.route();if(!root||!view||!state.client)return;
   const config={scope:'client',client:state.client,view,readOnly:!!state.impersonated,headers:authHeaders,go:id=>PulsifyClientShell.go(id)};
   PulsifySurface.enhance(root,config);
-  if(view==='home'&&!root.querySelector('.ps-launch')){
+  if(view==='home'&&!root.querySelector('.ps-launch')&&!window.__pulsifyChecklistInFlight){
+   window.__pulsifyChecklistInFlight=true;
    const connected=provider=>(state.integrations||[]).some(i=>i.provider===provider&&i.connected===true);
    const local={instagram:connected('instagram'),youtube:connected('youtube'),payment:connected('stripe')||connected('whop'),proof:state.proofItems.length>0,sequence:state.studio.rows.length>0,live:state.studio.rows.some(r=>r.status==='published')};
    // Server checklist (Phase 4) is the truth when reachable: it auto-completes from the client's data and its ids map onto the card's steps.
@@ -13,8 +14,8 @@
    const onStep=(id,done)=>{if(!back[id]||state.impersonated)return;fetch('/api/checklist',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json',...authHeaders()},body:JSON.stringify({client:state.client,step:back[id],state:done?'done':'open'})}).catch(()=>{});};
    fetch('/api/checklist?client='+encodeURIComponent(state.client),{credentials:'same-origin',headers:authHeaders()}).then(r=>r.ok?r.json():Promise.reject()).then(data=>{
     const facts={...local};for(const s of data.steps||[]){if(map[s.id]&&s.state==='done')facts[map[s.id]]=true;}
-    if(view===window.PulsifyWorkspace?.route()&&root.isConnected)PulsifySurface.checklist(root,{...config,onStep},facts);
-   }).catch(()=>{PulsifySurface.checklist(root,{...config,onStep},local);});
+    if(view===window.PulsifyWorkspace?.route()&&root.isConnected&&!root.querySelector('.ps-launch'))PulsifySurface.checklist(root,{...config,onStep},facts);
+   }).catch(()=>{if(!root.querySelector('.ps-launch'))PulsifySurface.checklist(root,{...config,onStep},local);}).finally(()=>{window.__pulsifyChecklistInFlight=false;});
   }
  }
  function schedule(){if(scheduled)return;scheduled=true;setTimeout(render,40);}

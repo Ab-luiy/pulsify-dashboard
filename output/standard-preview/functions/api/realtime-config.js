@@ -3,10 +3,10 @@
 // gets its own workspace topic. Only public values leave here.
 import { json } from "../_shared/common.js";
 import { realtimeConfigured } from "../_shared/realtime.js";
-import { operatorIdentity } from "../_shared/access.js";
+import { operatorIdentity, withOperator } from "../_shared/access.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
-export async function onRequestGet({ request, env, data }) {
+async function handleGet({ request, env, data }) {
   if (!realtimeConfigured(env)) return json({ ok: false, off: true });
   const operator = data?.operator || operatorIdentity(request);
   let topic = "";
@@ -19,3 +19,5 @@ export async function onRequestGet({ request, env, data }) {
   if (!topic) return json({ ok: false, error: "unauthorized" }, 401);
   return json({ ok: true, url: env.SUPABASE_URL, key: env.SUPABASE_ANON_KEY, topic }, 200, { "cache-control": "no-store" });
 }
+
+export const onRequestGet = withOperator(handleGet);

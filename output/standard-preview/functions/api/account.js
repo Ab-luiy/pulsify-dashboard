@@ -5,6 +5,7 @@
 // Client writes need a real session or portal token; impersonated sessions are read-only.
 import { json, str, nowIso, sha256Hex, normalizeEmail } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
+import { withOperator } from "../_shared/access.js";
 import { CLIENT_SESSION_COOKIE, createPasswordSalt, hashPassword, parseCookies, resolveClientAccess, verifyPassword, PBKDF2_ITERATIONS } from "../_shared/client-auth.js";
 import { notify } from "../_shared/notifications.js";
 import { emitEvent } from "../_shared/outbound-webhooks.js";
@@ -61,7 +62,7 @@ function cleanNotifications(input, current) {
   return next;
 }
 
-export async function onRequestGet({ request, env }) {
+async function handleGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const operator = resolveOperator(request, env);
   if (!operator.error && request.headers.get("x-pulsify-operator") === "1") return operatorView(env, operator);
@@ -117,7 +118,7 @@ async function operatorView(env, operator) {
   });
 }
 
-export async function onRequestPost({ request, env }) {
+async function handlePost({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   let body = {};
   try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
@@ -217,3 +218,6 @@ async function signOutOthers(env, request, client) {
   const result = await env.DB.prepare("DELETE FROM client_sessions WHERE client_id=? AND token_hash<>?").bind(client, keep).run();
   return Number(result.meta?.changes || 0);
 }
+
+export const onRequestGet = withOperator(handleGet);
+export const onRequestPost = withOperator(handlePost);

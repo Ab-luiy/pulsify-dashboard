@@ -45,6 +45,10 @@ What to build:
 
 Acceptance: screenshots of all three at 1536 and 390 in both themes under `output/qa/2026-09-phase5/`, sort by last interaction verified against the API order, and the founder says it looks better.
 
+## Part D. Website audit findings
+
+The full-site audit at [[website-audit-2026-09-19]] lists 14 ranked findings with an execution order. Two are P1 and go first: `/onboard` returning JSON 401 to impersonated and anonymous visitors, and every unknown path soft-404ing to the operator landing. Three items were fixed during the audit and are already live.
+
 ## Part C. Still open, founder-side, keep asking
 
 - Real Instagram read receipt through Zernio: send a DM from ab.luiy to the other account, open it there, confirm a `message.read` event lands and the tracker marks seen.
