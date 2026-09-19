@@ -44,7 +44,7 @@
         data = await api(`/api/outreach${q ? `?q=${encodeURIComponent(q)}` : ""}`);
         TZ = data.timezone || TZ;
         drawStats(); drawList(); drawActivity();
-        root.querySelector("#ot-updated").textContent = `Updated ${stamp(data.generated_at)} (${TZ.split("/")[1]})`;
+        root.querySelector("#ot-updated").textContent = `${window.PulsifyRealtime?.status() === "live" ? "Live · " : ""}Updated ${stamp(data.generated_at)} (${TZ.split("/")[1]})`;
       } catch (e) {
         root.querySelector("#ot-list").innerHTML = `<p class="int-empty">${esc(e.message)}</p>`;
       }
@@ -162,6 +162,16 @@
     root.querySelector("#ot-q").addEventListener("input", (e) => { clearTimeout(debounce); debounce = setTimeout(() => { q = e.target.value.trim(); load(); }, 150); });
     root.querySelector("#ot-refresh").onclick = load;
     load();
+    // Live push: any change to a thread reloads the list within a second; the
+    // 60 s poll below stays as the fallback when the socket is down.
+    if (window.PulsifyRealtime) {
+      let pending = null;
+      const live = root.querySelector("#ot-updated");
+      const paint = () => { const s = PulsifyRealtime.status(); live.dataset.live = s; live.title = s === "live" ? "Live updates on" : s === "error" ? "Live updates unavailable, polling" : "Connecting live updates"; };
+      document.addEventListener("pulsify:realtime", paint);
+      PulsifyRealtime.on("tracker.changed", () => { clearTimeout(pending); pending = setTimeout(load, 400); });
+      paint();
+    }
     // Timers tick without a network call; data refreshes each minute while the view is on screen.
     timer = setInterval(() => { if (!root.isConnected) { clearInterval(timer); return; } load(); }, 60000);
   }

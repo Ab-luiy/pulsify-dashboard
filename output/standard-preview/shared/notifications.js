@@ -92,6 +92,8 @@
     };
 
     load();
+    // Push channel (Supabase realtime, built by the parallel session): refetch the moment a row lands.
+    if (window.PulsifyRealtime?.on) window.PulsifyRealtime.on("notification", () => load());
     setInterval(() => { if (document.visibilityState === "visible") load(); }, 30000);
     document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") load(); });
     return { load };

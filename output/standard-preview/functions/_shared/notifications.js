@@ -52,6 +52,10 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
   ).bind(id, scope === "client" ? "client" : "operator", str(clientId), str(kind || "system"), severity, str(title).slice(0, 200), str(body).slice(0, 1000) || null, str(link) || null, entity ? JSON.stringify(entity) : null, dedupeKey ? str(dedupeKey) : null, nowIso()).run();
   if (!Number(inserted.meta?.changes || 0)) return null;
   if (discord && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
+  try {
+    const { pushOperator } = await import("./realtime.js");
+    if (scope === "operator" && typeof pushOperator === "function") await pushOperator(env, "notification", { id, kind });
+  } catch { /* push is optional; the 30 s poll still catches it */ }
   return id;
 }
 
@@ -67,7 +71,8 @@ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
   // Client-scoped events also tell the operator; the operator copy links to the client.
   const own = await notify(env, { scope, clientId, ...d, entity: { event, ...data }, dedupeKey: data?.message_id ? `${scope}:${clientId}:${event}:${data.message_id}` : null });
   if (scope === "client" && clientId) {
-    await notify(env, { scope: "operator", clientId, ...d, title: `${clientId}: ${d.title}`, entity: { event, client: clientId, ...data }, discord: false, dedupeKey: data?.message_id ? `operator:${clientId}:${event}:${data.message_id}` : null });
+    const forOperator = describeEvent(event, data, "operator") || d;
+    await notify(env, { scope: "operator", clientId, ...forOperator, title: `${clientId}: ${forOperator.title}`, entity: { event, client: clientId, ...data }, discord: false, dedupeKey: data?.message_id ? `operator:${clientId}:${event}:${data.message_id}` : null });
   }
   return own;
 }

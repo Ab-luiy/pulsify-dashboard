@@ -7,6 +7,7 @@
 // Delivery: the in-house bell for everything; Discord only when a lead replied.
 import { notify } from "../../../../functions/_shared/notifications.js";
 import { logEvent, upsertOutreach, SEEN_GRACE_MS } from "../../../../functions/_shared/outreach.js";
+import { pushOperator } from "../../../../functions/_shared/realtime.js";
 
 const label = (name, handle) => `[${name || handle || "Instagram lead"}${handle ? `, @${handle}` : ""}]`;
 
@@ -72,6 +73,7 @@ export async function sweepSeen(env, now = Date.now()) {
     const ok = Boolean(await notify(env, { scope: "operator", kind: "lead.seen", severity: "warn", title: `${label(r.name, r.handle)} seen your message, no reply after 5 minutes`, body: "", link: "outreach", entity: { conversation_id: r.conversation_id, handle: r.handle }, dedupeKey: `seen:${r.conversation_id}:${r.seen_at}` }));
     await upsertOutreach(env, r.conversation_id, { seen_notified_at: new Date(now).toISOString() });
     await logEvent(env, { conversationId: r.conversation_id, kind: "seen", handle: r.handle, name: r.name, text: "", delivered: ok });
+    await pushOperator(env, "tracker.changed", { conversation_id: r.conversation_id, reason: "left-on-read" });
     sent += 1;
   }
   return sent;

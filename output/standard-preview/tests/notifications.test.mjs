@@ -56,7 +56,7 @@ test('notifyReply from the inbox jobs dedupes against the event row and only Dis
   const feed=await listNotifications(env,{scope:'operator'});
   assert.equal(feed.items[0].title,'[Joe, @joe] replied');
   assert.ok(!fetches.some(u=>u.includes('resend')),'no email ever');
-  sql.prepare("INSERT INTO ig_outreach(conversation_id,operator_email,seen_at,updated_at) VALUES('t1','op',?,?)").run(new Date(Date.now()-10*60000).toISOString(),'x');
+  sql.prepare("INSERT INTO ig_outreach(conversation_id,operator_email,seen_at,updated_at) VALUES('t1','op',?,?) ON CONFLICT(conversation_id) DO UPDATE SET seen_at=excluded.seen_at, seen_notified_at=NULL").run(new Date(Date.now()-10*60000).toISOString(),'x');
   assert.equal(await sweepSeen(env),1);
   assert.equal(await sweepSeen(env),0);
   const seen=(await listNotifications(env,{scope:'operator'})).items.find(i=>i.kind==='lead.seen');

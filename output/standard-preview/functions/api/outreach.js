@@ -7,6 +7,7 @@ import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { deriveThread, loadThreads, logEvent, stats, upsertOutreach } from "../_shared/outreach.js";
+import { pushOperator } from "../_shared/realtime.js";
 
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);
@@ -65,6 +66,7 @@ async function handlePost({ request, env }) {
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
   ).bind(id).first();
   const messages = (await env.DB.prepare("SELECT direction, sent_at, text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC").bind(id).all()).results || [];
+  await pushOperator(env, "tracker.changed", { conversation_id: id, reason: action.split(":")[0] });
   return json({ ok: true, thread: deriveThread(row, messages, row) });
 }
 

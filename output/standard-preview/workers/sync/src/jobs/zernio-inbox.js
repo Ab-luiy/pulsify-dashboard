@@ -5,6 +5,7 @@ import { markSeen, refreshIdentity, resolveConversationId, storeMessage, zernioC
 import { nowIso, str } from "../../../../functions/_shared/common.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 import { notifyReply } from "./outreach-notify.js";
+import { pushOperator } from "../../../../functions/_shared/realtime.js";
 
 // Free plan allows 60 requests a minute; one list call plus one messages call
 // per changed conversation keeps a sweep well inside that.
@@ -40,11 +41,13 @@ export async function handleZernioEvent(env, payload, eventId) {
       await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text, messageId: zm.platformMessageId || zm.id }).catch(() => null);
       await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: zm.platformMessageId || zm.id, conversation_id: conversationId, handle: row?.handle || "", name: row?.name || "", direction: "inbound", text: zm.text, ts: zm.sentAt, source: "instagram" } }).catch(() => null);
     }
+    if (isNew) await pushOperator(env, "tracker.changed", { conversation_id: conversationId, reason: event === "message.received" ? "reply" : "sent" });
     return { ok: true, conversationId, stored: isNew };
   }
   if (event === "message.read") {
     const at = str(payload?.statusAt || payload?.timestamp) || nowIso();
     const changed = await markSeen(env, conversationId, new Date(at).toISOString());
+    if (changed) await pushOperator(env, "tracker.changed", { conversation_id: conversationId, reason: "seen" });
     return { ok: true, conversationId, seen: changed };
   }
   if (event === "message.deleted") {
@@ -85,9 +88,12 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
         if (String(error?.message || "").includes("429")) throw error; // stop the sweep, the next minute retries
         return { messages: [] };
       });
+      let added = 0;
       for (const zm of (msgs.messages || []).slice().reverse()) {
-        if (await storeMessage(env, conversationId, zm, operatorEmail)) written += 1;
+        if (await storeMessage(env, conversationId, zm, operatorEmail)) added += 1;
       }
+      written += added;
+      if (added) await pushOperator(env, "tracker.changed", { conversation_id: conversationId, reason: "sync" });
       await env.DB.prepare("UPDATE zernio_conversation_map SET updated_time=?, synced_at=? WHERE zernio_id=?").bind(str(zc.updatedTime) || null, nowIso(), String(zc.id)).run();
     }
     if (!list.pagination?.hasMore || !list.pagination?.nextCursor) break;
