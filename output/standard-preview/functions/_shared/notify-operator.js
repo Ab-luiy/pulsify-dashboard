@@ -11,6 +11,18 @@ export function operatorAddresses(env) {
 export async function notifyOperator(env, { title, lines = [], link = "" }, fetcher = fetch) {
   const delivered = [];
   const to = operatorAddresses(env);
+  // No Resend key here (the Worker): relay to Pages, which holds it.
+  if (!env.RESEND_API_KEY && env.INTERNAL_NOTIFY_SECRET && env.PAGES_ORIGIN) {
+    try {
+      const r = await fetcher(`${String(env.PAGES_ORIGIN).replace(/\/$/, "")}/api/notify`, {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-internal-secret": env.INTERNAL_NOTIFY_SECRET },
+        body: JSON.stringify({ title, lines, link }),
+      });
+      const d = await r.json().catch(() => ({}));
+      if (r.ok && d.ok) return { ok: true, delivered: d.delivered || ["relay"] };
+    } catch { /* fall through to direct channels */ }
+  }
   if (env.RESEND_API_KEY && env.EMAIL_FROM && to.length) {
     const text = [...lines.filter(Boolean), link, "", "Pulsify outreach tracker"].filter((l) => l !== undefined).join("\n");
     try {
