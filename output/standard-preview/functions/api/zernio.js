@@ -27,7 +27,7 @@ async function handleGet({ request, env }) {
       const { authUrl } = await connectUrl(env, { profileId, redirectUrl: `${url.origin}/api/zernio?action=callback&profileId=${encodeURIComponent(profileId)}` });
       return Response.redirect(authUrl, 302);
     } catch (error) {
-      return Response.redirect(`${url.origin}${CONSOLE}&zernio=error&detail=${encodeURIComponent(String(error?.message || error).slice(0, 120))}`, 302);
+      return Response.redirect(`${url.origin}${CONSOLE}&zernio=error&detail=${encodeURIComponent(String(error?.message || error).slice(0, 300))}`, 302);
     }
   }
 

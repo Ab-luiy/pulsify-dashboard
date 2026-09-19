@@ -38,7 +38,7 @@ export async function ensureProfile(env, fetcher = fetch) {
 // Hosted OAuth: Zernio returns the URL the operator opens to log into Instagram.
 export async function connectUrl(env, { redirectUrl, profileId, fetcher = fetch } = {}) {
   if (!profileId) profileId = await ensureProfile(env, fetcher);
-  const qs = new URLSearchParams({ profileId, redirect_url: redirectUrl, loginMethod: "instagram_login", brandName: "Pulsify" });
+  const qs = new URLSearchParams({ profileId, redirect_url: redirectUrl, loginMethod: "instagram_login" });
   const r = await zernioFetch(env, `/v1/connect/instagram?${qs}`, {}, fetcher);
   return { authUrl: r.authUrl, profileId };
 }
