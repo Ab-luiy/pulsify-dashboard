@@ -23,6 +23,11 @@ class MockDB {
       integrations: seed.integrations || [],
       integration_events: seed.integration_events || [],
       payments: seed.payments || [],
+      client_provisioning: seed.client_provisioning || [],
+      checklist_steps: seed.checklist_steps || [],
+      pipeline_touches: seed.pipeline_touches || [],
+      voice_notes: seed.voice_notes || [],
+      webhook_outbox: seed.webhook_outbox || [],
       client_config: seed.client_config || [],
       client_auth: seed.client_auth || [],
       client_sessions: seed.client_sessions || [],
@@ -327,6 +332,21 @@ class MockStmt {
       return row ? { ...row } : null;
     }
 
+    if (sql.startsWith("INSERT INTO webhook_outbox")) {
+      const [id, scope, clientId, event, payloadJson, isTest, createdAt] = p;
+      if (state.webhook_outbox.some((row) => row.id === id)) throw new Error("UNIQUE constraint failed");
+      state.webhook_outbox.push({
+        id,
+        scope,
+        client_id: clientId,
+        event,
+        payload_json: payloadJson,
+        is_test: isTest,
+        created_at: createdAt,
+      });
+      return { meta: { changes: 1 } };
+    }
+
     if (sql.includes("SELECT email, pass_hash, updated_at FROM client_auth WHERE client_id=?")) {
       const row = state.client_auth.find((item) => item.client_id === p[0]);
       return row ? { ...row } : null;
@@ -393,13 +413,14 @@ class MockStmt {
       return { meta: { changes: 1 } };
     }
 
-    if (sql.includes("SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash FROM client_config")) {
+    if (sql.includes("SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash") && sql.includes("FROM client_config")) {
       const row = state.client_config.find((item) => item.client === p[0]);
       return row
         ? {
             client: row.client,
             client_name: row.client_name || row.client,
             portal_token_hash: row.portal_token_hash || null,
+            status: row.status || null,
           }
         : null;
     }
@@ -738,7 +759,7 @@ async function runPaymentChecks() {
       },
     ],
     client_config: [
-      { client: "beta", client_name: "Beta", status: "prospect", updated_at: "", portal_token_hash: null, kit_api_key: null, kit_tag_id: null },
+      { client: "beta", client_name: "Beta", status: "client", updated_at: "", portal_token_hash: null, kit_api_key: null, kit_tag_id: null },
     ],
   });
 
@@ -782,9 +803,8 @@ async function runPaymentChecks() {
   const secondJson = await readJson(second);
   assert.equal(firstJson.ok, true);
   assert.equal(secondJson.duplicate, true);
-  assert.equal(firstJson.side_effects.email.status, "not_configured");
-  assert.ok(firstJson.side_effects.draft);
-  assert.ok(firstJson.side_effects.portal.link);
+  assert.equal(firstJson.side_effects.skipped, true);
+  assert.equal(firstJson.side_effects.reason, "client is not a prospect");
   assert.equal(env.DB.state.client_config[0].status, "client");
   assert.equal(env.DB.state.payments.length, 1);
   assert.deepEqual(
@@ -796,9 +816,6 @@ async function runPaymentChecks() {
     ),
     [
       "insert_payment:manual-001",
-      "portal_token:beta",
-      "failure:kit_onboarding",
-      "client_status:beta",
     ],
   );
 
@@ -1177,9 +1194,14 @@ async function runClientDeletionChecks() {
   env.DB.state.client_assets.push({ id: 1, client, label: "Throwaway asset" });
   env.DB.state.integrations.push({ scope: "client", client_id: client, provider: "stripe" });
   env.DB.state.email_drafts.push({ id: 1, client, subject: "Throwaway email" });
+  env.DB.state.delivery_failures.push({ id: 1, client, kind: "throwaway", detail: "Delete me" });
   env.DB.state.studio_carousels.push({ id: 1, client_id: client, topic: "Throwaway carousel" });
   env.DB.state.sequence_variants.push({ id: 1, client_id: client, sequence_ref: 1, label: "v1" });
   env.DB.state.page_events.push({ id: 1, client, event: "page_view" });
+  env.DB.state.client_provisioning.push({ client_id: client, email: "delete@example.com" });
+  env.DB.state.checklist_steps.push({ client_id: client, step: "offer-voice-note" });
+  env.DB.state.pipeline_touches.push({ id: 1, client_id: client, contact_email: "lead@example.com" });
+  env.DB.state.voice_notes.push({ id: "voice-delete", client_id: client, r2_key: `clients/${client}/voice-notes/voice-delete` });
   env.DB.state.media.push({
     id: "delete-check-media",
     client,
@@ -1237,6 +1259,10 @@ async function runClientDeletionChecks() {
       call_notes: 1,
       client_assets: 1,
       payments: 1,
+      client_provisioning: 1,
+      checklist_steps: 1,
+      pipeline_touches: 1,
+      voice_notes: 1,
       integrations: 1,
       integration_events: 1,
       delivery_failures: 1,
@@ -1244,6 +1270,7 @@ async function runClientDeletionChecks() {
       page_events: 1,
       media: 1,
       proof_media: 0,
+      voice_media: 0,
     },
   });
 
@@ -1260,7 +1287,8 @@ async function runClientDeletionChecks() {
   for (const table of [
     "client_config", "client_auth", "client_sessions", "client_setup_tokens", "client_email_codes",
     "client_dashboard_content", "studio_sequences", "studio_carousels", "sequence_variants", "sequence_log", "account_snapshots", "client_brain",
-    "proof_items", "content_items", "call_notes", "client_assets", "payments", "integrations",
+    "proof_items", "content_items", "call_notes", "client_assets", "payments", "client_provisioning",
+    "checklist_steps", "pipeline_touches", "voice_notes", "integrations",
     "integration_events", "delivery_failures", "email_drafts", "page_events", "media",
   ]) {
     assert.equal(env.DB.state[table].length, 0, `${table} retained the deleted client`);

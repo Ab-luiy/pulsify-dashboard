@@ -8,27 +8,17 @@ Implement the remaining requirements from both founder portal briefs. The founde
 
 ## Deployment state
 
-Current funnels release: `70e809ea.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0026 are applied remotely. The Phase 2 sync Worker version is `f5a859fc-fe45-40c1-9ffb-06d2540e1fdc` at https://pulsify-sync.abod-louai.workers.dev with schedules paused by `SYNC_ENABLED=false` until its provider secrets are attached. Protected spine endpoints return 401 anonymously.
+Current funnels release: `2735fd6f.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0028 are applied remotely. The current sync Worker version is `ea7c184a-0460-4a2d-8d2e-6f49f574f907` at https://pulsify-sync.abod-louai.workers.dev with `SYNC_ENABLED=true`. Protected endpoints return 401 anonymously.
 
-## Phase 4 (signed-to-live onboarding): built locally by Claude, NOT deployed
+## Phase 4 (signed-to-live onboarding): reviewed, deployed and live-checked
 
-Founder directed Claude to build Phase 4 and Codex to review and deploy later. Brief: wiki/synthesis/phase4-client-onboarding-codex-brief.md. Suite is 36/36 (`node --test tests/*.test.mjs`); onboarding page verified in the built-in browser against mocked APIs (dark theme, 15 steps, recorder -> transcript -> apply, connect step, completion card, mobile width).
+Codex independently reviewed Claude's local build, fixed eight release defects, applied additive migration 0028 statement by statement, and deployed Funnels release `2735fd6f` on 2026-09-19. Evidence: `output/qa/2026-09-phase4/CODEX-REVIEW.md`.
 
-Files (all under output/standard-preview):
-- migrations/0028_onboarding.sql: client_provisioning, checklist_steps, pipeline_touches, voice_notes. Additive only.
-- functions/_shared/provisioning.js: provisionClient (docusign | payment | operator), email-first workspace resolution, setup link, welcome email with 3 retries and delivery_failures on final failure, client.provisioned event. Idempotent per client.
-- functions/_shared/welcome-email.js and shared/email/welcome.md: the welcome copy; module carries the same text as fallback.
-- functions/_shared/checklist.js: 8 fixed steps, seed/load/setStep, auto-complete rules (voice note or offer brain, icp brain, instagram/youtube confirmed flag, stripe/whop secret, proof, sequence, live sequence).
-- functions/_shared/pipeline-touches.js: recordTouch, listContacts (one row per contact, stage Paid > Booked > Applied > Opted in), timeline, backfillFromIntegrationEvents.
-- functions/api/provision.js, checklist.js, pipeline.js, voice-note.js (R2 upload + Workers AI whisper + apply to client_brain).
-- Wiring: docusign-connect.js and payments.js call provisionClient; event.js (application, optin), hooks.js (booking) and payments.js (payment) call recordTouch; payment-matching.js loadCandidates reads pipeline_touches first; _middleware.js routes checklist/pipeline/voice-note as mixed APIs; integrations.js adds `handle` to instagram/youtube configFields; voice-note upload returns r2_key.
-- onboard/index.html + onboard/phase4.css + onboard/phase4.js: dark shell theme, 150 ms step transition, progress dots, in-browser recorder (MediaRecorder or file upload -> POST /api/voice-note -> editable transcript -> POST ?action=apply on Continue), Connect step (Instagram/YouTube handle via /api/client-integrations confirm:true, Skip for now), completion card reads /api/checklist and links into the portal.
-- portal/surface.js + shared/surface.js: launch card now takes server checklist state as facts and posts manual marks back to /api/checklist (onStep hook).
-- portal/workspace-shell.js: Pipeline block on the Leads view from /api/pipeline (stage counts + contact table), manual register kept below.
-- admin/console-view.html + admin/console.js: "Provision now" button on the Dashboard login card -> POST /api/provision.
-- tests/phase4-onboarding.test.mjs.
+The review fixed the DocuSign path sending an invalidated setup link, payment-driven reprovisioning of active clients, missing buyer identity in payment pipeline touches, false Instagram confirmation, navigation racing async saves, Worker memory exposure on large voice files, unbounded email calls, and incomplete client deletion for Phase 4 rows and R2 voice objects. Instagram now waits for tester or sync confirmation; a saved YouTube handle completes its checklist step. Voice input is capped at 6 MiB, which supports the page's ten-minute 64 kbps recording limit.
 
-Release steps (Codex, interactive wrangler session): read-only review first; apply migration 0028 remotely statement by statement; deploy funnels; disposable checks: POST /api/provision for a throwaway client with a real inbox the founder owns (expect setup link + welcome email once, second POST returns duplicate), GET /api/checklist as that client, upload a 5-second audio to /api/voice-note and confirm transcript + brain rows, then delete the throwaway client rows and R2 object. Worker unchanged in Phase 4.
+Production acceptance passed on `pulsify-ai.com`: operator provisioning returned 201, sent one welcome on the first attempt, and returned a duplicate on replay; the new client had 0/8 checklist steps; a 184,996-byte spoken WAV transcribed to 60 characters through Workers AI; applying it wrote offer and ICP brain rows and advanced the checklist to 2/8. The live client-delete endpoint removed the config, auth, setup token, provisioning row, eight checklist rows, three brain rows, voice row, and its R2 object. A direct D1 query confirmed zero disposable Phase 4 rows afterward. Anonymous onboarding and protected Phase 4 API requests return 401.
+
+All 29 backend test files and the Pages Functions build pass. Earlier workspace, Phase 1 and Phase 2 browser regressions remain green. Worker code was unchanged by Phase 4.
 
 ## Implementation files
 
@@ -47,7 +37,7 @@ Release steps (Codex, interactive wrangler session): read-only review first; app
 
 ## Exact next work
 
-1. Attach `YT_API_KEY` and `COMPOSIO_API_KEY` to `pulsify-sync`, set `SYNC_ENABLED=true`, manually run `instagram-inbox`, `youtube` and `leads`, verify one real Instagram DM projects into CRM without regressing terminal stages, and retain evidence from three scheduled runs. `COMPOSIO_WEBHOOK_SECRET` is optional until webhooks are enabled.
+1. Finish provider acceptance on the live Worker: repair the Composio `INSTAGRAM_GET_IG_USER_MEDIA` 404, collect three clean `instagram` and `leads` runs through the Access-authenticated `/run` routes, verify one fresh founder DM projects into CRM within two minutes, and run a real Stripe test-mode charge/refund after a restricted client integration exists. `COMPOSIO_WEBHOOK_SECRET` remains optional until webhooks are enabled.
 2. Continue social OAuth, encrypted token storage/refresh and account consent. The provider cards still record delegated access; the Worker/data spine does not replace OAuth onboarding.
 3. Implement unified founder account/session and separate SDR dashboard handoff without breaking current admin-key/client auth.
 4. Adapt onboarding selections into workspace feature configuration. Existing intake saves client context but does not select modules automatically.
@@ -79,6 +69,8 @@ Release steps (Codex, interactive wrangler session): read-only review first; app
 - Update this checkpoint and audit, log files in AGENT_CHAT.md/wiki/log.md, clear lock, verify status, then run auto-backup.ps1 to brain/main. origin is a different public repo.
 
 ## Resume log
+
+- 2026-09-19 Phase 4 production release: independent review fixed eight defects in provisioning, DocuSign delivery, payments, pipeline identity, social confirmation, onboarding navigation, voice limits and client cleanup. Migration 0028 applied as six independent additive statements. Final Funnels release `2735fd6f` passed disposable provisioning, one-time welcome, duplicate suppression, 8-step checklist, live Workers AI transcription, brain apply, cleanup and direct zero-row verification. Evidence: `output/qa/2026-09-phase4/CODEX-REVIEW.md`.
 
 - 2026-09-19 Phase 3 production release after founder approval and Claude second-read: migration 0027 schema and the shared Pages/Worker encryption secret were already present and were verified without replaying non-idempotent statements or rotating stored encryption. Deployed Funnels `0fec35eb` and final Worker `ea7c184a-0460-4a2d-8d2e-6f49f574f907`. Production passed anonymous Push denial, disposable key ingest/dedupe/CRM/revocation, signed webhook delivery, forced HTTP 500 with exactly three attempts, live login page and `demo-rio` password login with full credential/session restoration. All synthetic rows and the webhook.site token were removed. Acceptance exposed 790 stale Instagram runs: watermarkless history replay exhausted Cloudflare subrequests. The Worker now compares durable remote timestamps, batches messages, caps catch-up, suppresses historical events and times out Composio. It completed a 50-message catch-up, saved state, and now has consecutive clean inbox runs. The post-fix suite passes 35/35. Evidence: `output/qa/2026-09-phase3/LIVE-RELEASE.md`. Remaining provider-owned acceptance: three `instagram` and `leads` runs, one new real DM reaching CRM inside two minutes, and a real Stripe test-mode charge/refund after a client integration is connected.
 

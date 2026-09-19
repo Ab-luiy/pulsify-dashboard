@@ -34,6 +34,10 @@ const CLIENT_TABLES = [
   ["call_notes", "client"],
   ["client_assets", "client"],
   ["payments", "client"],
+  ["client_provisioning", "client_id"],
+  ["checklist_steps", "client_id"],
+  ["pipeline_touches", "client_id"],
+  ["voice_notes", "client_id"],
   ["integrations", "client_id"],
   ["integration_events", "client"],
   ["delivery_failures", "client"],
@@ -256,6 +260,7 @@ async function handle_onRequestDelete({ request, env }) {
 
   const mediaDeleted = await deleteClientMedia(env, client);
   const proofMediaDeleted = await deleteClientProofMedia(env, client);
+  const voiceMediaDeleted = await deleteClientVoiceMedia(env, client);
   const results = await env.DB.batch(
     CLIENT_TABLES.map(([table, column]) =>
       env.DB.prepare(`DELETE FROM ${table} WHERE ${column}=?`).bind(client),
@@ -266,6 +271,7 @@ async function handle_onRequestDelete({ request, env }) {
   );
   deleted.media = mediaDeleted;
   deleted.proof_media = proofMediaDeleted;
+  deleted.voice_media = voiceMediaDeleted;
 
   return json({ ok: true, deleted });
 }
@@ -316,6 +322,18 @@ export async function deleteClientProofMedia(env, client) {
   } while (cursor);
 
   return deleted;
+}
+
+export async function deleteClientVoiceMedia(env, client) {
+  if (!env.MEDIA) return 0;
+  const rows = await env.DB.prepare(
+    "SELECT r2_key FROM voice_notes WHERE client_id=?",
+  ).bind(client).all();
+  const keys = (rows.results || []).map((row) => row?.r2_key).filter(Boolean);
+  for (let offset = 0; offset < keys.length; offset += 1000) {
+    await env.MEDIA.delete(keys.slice(offset, offset + 1000));
+  }
+  return keys.length;
 }
 
 export const onRequestGet = withOperator(handle_onRequestGet);

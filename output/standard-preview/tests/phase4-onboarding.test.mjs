@@ -15,6 +15,7 @@ import {loadCandidates} from '../functions/_shared/payment-matching.js';
 import {processNormalizedPayment} from '../functions/_shared/payments.js';
 import {rememberOperator} from '../functions/_shared/access.js';
 import {sha256Hex} from '../functions/_shared/common.js';
+import {deleteClientVoiceMedia} from '../functions/api/settings.js';
 
 const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
@@ -138,3 +139,15 @@ r=await voicePost({request:new Request('https://t/api/voice-note',{method:'POST'
 const huge=new FormData();huge.set('client','acme');huge.set('file',new File([new Uint8Array(MAX_AUDIO_BYTES+1)],'huge.webm',{type:'audio/webm'}));
 r=await voicePost({request:new Request('https://t/api/voice-note',{method:'POST',headers:{'x-portal-token':'token-acme'},body:huge}),env,data:{}});assert.equal(r.status,413);
 console.log('PASS voice note: upload to R2, Whisper transcript, apply to offer and icp with voice-note source, type and memory-bound size validation');
+
+const deletedVoiceKeys=[];
+const cleanupEnv={
+  MEDIA:{async delete(keys){deletedVoiceKeys.push(...keys)}},
+  DB:{prepare(){return {bind(){return this},async all(){return {results:[
+    {r2_key:'clients/acme/voice-notes/vn_1'},
+    {r2_key:'clients/acme/voice-notes/vn_2'},
+  ]}}}}},
+};
+assert.equal(await deleteClientVoiceMedia(cleanupEnv,'acme'),2);
+assert.deepEqual(deletedVoiceKeys,['clients/acme/voice-notes/vn_1','clients/acme/voice-notes/vn_2']);
+console.log('PASS client cleanup: Phase 4 voice objects are removed from R2 before database rows');
