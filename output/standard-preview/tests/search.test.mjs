@@ -62,3 +62,11 @@ test('API: operator search and status; short query rejected', async()=>{
   assert.equal(s.ready,true);assert.equal(s.indexed.dm.count,2);assert.equal(s.totals.dms,2);
   assert.equal((await searchGet({request:op('https://x/api/search?q=a'),env,data:{}})).status,422);
 });
+
+test('a missing embedding remains pending for retry', async()=>{
+  sql.prepare("INSERT INTO ig_messages(id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at) VALUES('retry','t1','op','inbound','2026-09-03','a message requiring indexing','{}','x')").run();
+  const partial={...env,AI:{async run(){return {data:[]}}}};
+  assert.equal((await indexPending(partial)).indexed,0);
+  assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM search_index_state WHERE source_id='retry'").get().n,0);
+  assert.equal((await indexPending(env)).indexed,1);
+});

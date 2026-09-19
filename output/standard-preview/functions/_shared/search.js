@@ -92,6 +92,7 @@ export async function indexPending(env) {
   if (upserts.length) await env.VECTORIZE.upsert(upserts);
   for (let i = 0; i < docs.length; i += 1) {
     const d = docs[i];
+    if (!upserts.some(vector => vector.id === d.id)) continue;
     await env.DB.prepare(
       "INSERT INTO search_index_state (doc_id, kind, scope, content_hash, indexed_at, source_id) VALUES (?,?,?,?,?,?) ON CONFLICT(doc_id) DO UPDATE SET content_hash=excluded.content_hash, indexed_at=excluded.indexed_at, source_id=excluded.source_id",
     ).bind(d.id, d.kind, d.scope, d.hash || (await sha256Hex(d.text)), now, d.source).run();

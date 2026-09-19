@@ -25,16 +25,11 @@ const JOBS = {
 export default {
   async scheduled(controller, env, ctx) {
     if (env.SYNC_ENABLED !== "true") return;
-    const job = scheduledJob(controller.cron);
-    if (!job) return;
-    ctx.waitUntil(runJob(env, job, () => JOBS[job](env)));
-    if (controller.cron === "* * * * *") {
-      ctx.waitUntil(runJob(env, "webhook-outbox", () => sweepWebhooks(env)));
-      ctx.waitUntil(sweepSeen(env).catch(() => 0));
-      // Zernio sweep rides the same minute; it is a no-op until an account is connected.
-      ctx.waitUntil(runJob(env, "zernio-inbox", () => syncZernioInbox(env)));
-      ctx.waitUntil(runJob(env, "search-index", () => syncSearchIndex(env)));
+    for (const job of scheduledJobs(controller.cron, controller.scheduledTime)) {
+      ctx.waitUntil(runJob(env, job, () => JOBS[job](env)));
     }
+    if (controller.cron === "* * * * *") ctx.waitUntil(sweepSeen(env).catch(() => 0));
+
   },
 
   async fetch(request, env, ctx) {
@@ -79,6 +74,13 @@ export default {
     return new Response("Not found", { status: 404 });
   },
 };
+
+// Webhooks remain immediate. Polling is recovery, not the primary live path.
+export function scheduledJobs(cron, scheduledTime = Date.now()) {
+  if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
+  const minute = new Date(scheduledTime).getUTCMinutes();
+  return ["webhook-outbox", ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : [])];
+}
 
 export function scheduledJob(cron) {
   if (cron === "* * * * *") return "instagram-inbox";

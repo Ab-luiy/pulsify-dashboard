@@ -83,7 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | ACTIVE bugfix scan | Founder: repair bell, integrations and section navigation; keep technical failures out of user notifications. |
+| output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | DONE - deployed; quota recovery unverified | Founder: repair bell, integrations and section navigation; keep technical failures out of user notifications. |
 | output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE - first batch; Phase 5 open | Routing fixes deployed as 6f3fb7aa; remaining review and design in Phase 5 QA report. |
 | output/standard-preview/{index.html,portal/login/**,admin/console-view.html,admin/console.js,admin/phase1.js,tests/**}, output/qa/2026-09-operator-login/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, AGENT_CHAT.md; Cloudflare Access operator app branding/login method | CODEX | DONE - app fixes; Access setting unverified | Auth flash shipped in c688b62e; later Claude unified login supersedes original mode. |
 | output/standard-preview Phase 4 files, output/qa/2026-09-phase4/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Independent Phase 4 review, fixes, migration 0028, Funnels deploy, disposable live checks and cleanup completed 2026-09-19. |
@@ -2110,3 +2110,6 @@ PHASE 5 FIRST BATCH RELEASED: Fixed anonymous onboarding redirect, read-only imp
 
 ### [2026-09-19] CODEX
 STARTED founder bugfix scan. Claiming shell, bell, integrations and affected section/API files plus regression tests. Suppress technical sync failures from user-facing notifications while retaining internal failure records. Reviewing functional section navigation and loading lifecycle before release.
+
+### [2026-09-20] CODEX
+BUGFIX RELEASE: Pages 0249056e on pulsify-ai.com, Worker 72ba99b5-4ea3-45d8-a297-17c3667ca93e, migration 0034 (five read-budget indexes) applied. Repaired bell races/counts/failed writes, client Integrations headers and protected asset paths (moved JS/CSS to shared), cold client selector, retries/read-only controls, stale section renders and leaked Outreach subscriptions. Technical notifications excluded from new writes and historical feeds; technical Discord failure alerts removed, internal records retained. Found production D1 code7500 daily read quota exceeded; reduced search scans 15x, inbox fallback 5x, bell/tracker polling, keeping webhook push immediate. 86/86 backend and 17-section browser regression pass (mock APIs). Live static assets and Worker health200, anonymous protected APIs401. Full authenticated live acceptance remains limited by quota until midnight UTC/03:00 Istanbul; no billing change. Evidence: output/qa/2026-09-phase5/BUGFIX-RELEASE.md, bugfix-live.json, images and test log. Earlier Phase5 deeper review items remain open. Locks released.

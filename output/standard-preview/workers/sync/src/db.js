@@ -17,7 +17,7 @@ export async function runJob(env, job, task) {
     await env.DB.prepare(
       "UPDATE sync_runs SET finished_at=?,status='error',error=? WHERE id=?",
     ).bind(new Date().toISOString(), message, id).run().catch(() => null);
-    await alertFailure(env, job, message);
+    // Diagnostics stay in sync_runs; technical failures never ping the founder.
     await emitEvent(env, { scope: "operator", event: "integration.sync_failed", data: { job, error: message } }).catch(() => null);
     throw error;
   }
@@ -38,13 +38,4 @@ export async function insertMetric(env, { scope = "operator", clientId = "", sou
       (scope,client_id,source,metric,ts,value,value_text,dims_json)
      VALUES(?,?,?,?,?,?,?,?)`,
   ).bind(scope, clientId, source, metric, ts, value, valueText, JSON.stringify(dims || {})).run();
-}
-
-async function alertFailure(env, job, error) {
-  if (!env.DISCORD_WEBHOOK_URL) return;
-  await fetch(env.DISCORD_WEBHOOK_URL, {
-    method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify({ content: `Pulsify sync failed: ${job}\n${error}`.slice(0, 1900) }),
-  }).catch(() => null);
 }

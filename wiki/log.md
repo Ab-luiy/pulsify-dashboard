@@ -1729,3 +1729,7 @@ Full-site scan (routes, auth, probes, browser walk, schema): three bugs fixed li
 ## [2026-09-19] client-update | Phase 5 first audit-fix batch released
 
 Codex shipped onboarding login redirects, read-only impersonation preview, safe login return destinations and branded 404s. Pages 6f3fb7aa serves pulsify-ai.com. Backend suite 83/83 and desktop/mobile login checks pass; production routes verified. Full review and outreach design polish remain open. Evidence: output/qa/2026-09-phase5/REVIEW.md.
+
+## [2026-09-20] decision | User-facing bugs and database read budget
+
+Founder-directed bugfix release deployed as Pages 0249056e and Worker 72ba99b5. Bell and Integrations repaired, shared assets moved outside operator-protected paths, section lifecycle guarded, technical failure notices removed from user-facing channels while diagnostics remain internal. Production D1 reported exhausted daily read allowance; migration0034 indexes and less frequent fallback scans reduce recurrence, immediate DM webhooks unchanged. 86 backend tests and mocked browser section checks pass. Authenticated live recovery remains unverified until allowance reset. Full evidence in output/qa/2026-09-phase5/BUGFIX-RELEASE.md.

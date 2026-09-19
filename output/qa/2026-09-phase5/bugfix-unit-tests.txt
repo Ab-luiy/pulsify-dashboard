@@ -1,14 +1,14 @@
-✔ RS256 validates audience, issuer, expiry, signature, algorithm and cookie (148.5454ms)
-✔ Pages cloned requests retain server-validated identity through context.data (17.0745ms)
-✔ middleware redirects bypass hosts, protects HTML aliases, audits API keys and passes trusted identity to handlers (24.4353ms)
+✔ RS256 validates audience, issuer, expiry, signature, algorithm and cookie (88.0192ms)
+✔ Pages cloned requests retain server-validated identity through context.data (18.6789ms)
+✔ middleware redirects bypass hosts, protects HTML aliases, audits API keys and passes trusted identity to handlers (30.8978ms)
 PASS bootstrap date range: inclusive boundaries, currency separation, auth and invalid ranges. In-memory SQLite.
-✔ tests\bootstrap-range.test.mjs (463.1673ms)
+✔ tests\bootstrap-range.test.mjs (249.7166ms)
 PASS carousel studio: manual prompt, sanitizer, save, lifecycle, isolation, impersonation, admin auth, and additive migration
-✔ tests\carousel-studio.test.mjs (668.2893ms)
+✔ tests\carousel-studio.test.mjs (400.7876ms)
 PASS client brain Phase 2: generator consumes scoped brain context and admin export returns the full markdown package
-✔ tests\client-brain-phase2.test.mjs (444.4951ms)
+✔ tests\client-brain-phase2.test.mjs (331.6503ms)
 PASS client brain: token page and submit write sourced rows, admin read groups all eight sections
-✔ tests\client-brain.test.mjs (659.2424ms)
+✔ tests\client-brain.test.mjs (330.577ms)
 PASS token client overrides body and query client ids
 PASS absent and invalid tokens return 401 with zero writes
 PASS GET returns all providers with masked secrets only
@@ -17,68 +17,68 @@ PASS delegated confirmation controls YouTube connection state
 PASS DELETE is scoped to the token client
 PASS non-live connection test reports stored config state
 RESULT 7 passed, 0 failed
-✔ tests\client-integrations.test.mjs (627.791ms)
+✔ tests\client-integrations.test.mjs (408.9314ms)
 PASS contract onboarding: signed events, account isolation, atomic provision, encrypted invitation, retry, duplicate events and existing accounts. Email mocked.
-✔ tests\contract-provisioning.test.mjs (3020.9594ms)
+✔ tests\contract-provisioning.test.mjs (2421.2454ms)
 PASS copywriter: real SQLite tenant context, denied proof exclusion, auth, validation, daily and burst limits, provider failures. AI output mocked.
-✔ tests\copywriter.test.mjs (720.5039ms)
+✔ tests\copywriter.test.mjs (400.8739ms)
 PASS CRM sync: existing schema, key auth, newest-edit wins, independent maps and timestamp validation. In-memory SQLite only.
-✔ tests\crm-sync.test.mjs (444.7997ms)
-✔ operator can read operator series and write only their own state (111.176ms)
-✔ client session is locked to its own scope (51.0494ms)
-✔ anonymous and client requests cannot read operator leads (4.1508ms)
-✔ data spine migration is additive and idempotent (7.9328ms)
-✔ metric points reject a duplicate observation (3.3417ms)
-✔ Instagram messages require a conversation and valid direction (7.5905ms)
+✔ tests\crm-sync.test.mjs (286.2935ms)
+✔ operator can read operator series and write only their own state (60.164ms)
+✔ client session is locked to its own scope (36.7889ms)
+✔ anonymous and client requests cannot read operator leads (3.5854ms)
+✔ data spine migration is additive and idempotent (16.0595ms)
+✔ metric points reject a duplicate observation (4.2477ms)
+✔ Instagram messages require a conversation and valid direction (3.1028ms)
 PASS email composer: auth, tags, drafts, Kit send, and fail-soft storage
-✔ tests\email-compose.test.mjs (538.8536ms)
-✔ apex serves the product gateway while explicit client previews still render (158.8669ms)
+✔ tests\email-compose.test.mjs (252.9182ms)
+✔ apex serves the product gateway while explicit client previews still render (84.8017ms)
 PASS follow-ups: viewers ranked by engagement and non-viewers excluded
-✔ tests\followups.test.mjs (681.984ms)
+✔ tests\followups.test.mjs (288.4405ms)
 PASS impersonation: mint, one-time exchange, read access, all write blocks, normal writes, expiry, audit, non-escalation, rate limit, and logout
-✔ tests\impersonation.test.mjs (948.4591ms)
-✔ learnOwnId picks the messaging id from our username, not the Graph id (3.3547ms)
-✔ findParticipant resolves the other party from message from/to when participants is null (1.6549ms)
-✔ sync stores the handle and classifies our own message as outbound (337.1629ms)
-✔ resync repairs rows written before the fix without re-emitting or double counting (182.7807ms)
-✔ unchanged Instagram inbox exits after one Composio list call (83.4846ms)
-✔ bootstrap uses durable conversation timestamps instead of replaying all history (18.4954ms)
-✔ describeEvent covers every event the platform emits, stays silent on our own outbound messages (44.8475ms)
-✔ emitEvent writes a bell row; client events also reach the operator; dedupe on message id (83.1427ms)
-✔ notifyReply from the inbox jobs dedupes against the event row and only Discord goes outside (22.3196ms)
-✔ API: operator and client feeds are separate; mark read by id and all; impersonation cannot write (171.4885ms)
-✔ direct notify with a dedupe key is idempotent (6.6928ms)
-✔ technical failures stay out of new notifications and historical feed counts (1.4043ms)
+✔ tests\impersonation.test.mjs (519.6328ms)
+✔ learnOwnId picks the messaging id from our username, not the Graph id (3.2765ms)
+✔ findParticipant resolves the other party from message from/to when participants is null (1.5818ms)
+✔ sync stores the handle and classifies our own message as outbound (123.4942ms)
+✔ resync repairs rows written before the fix without re-emitting or double counting (34.326ms)
+✔ unchanged Instagram inbox exits after one Composio list call (78.0476ms)
+✔ bootstrap uses durable conversation timestamps instead of replaying all history (3.0763ms)
+✔ describeEvent covers every event the platform emits, stays silent on our own outbound messages (52.2027ms)
+✔ emitEvent writes a bell row; client events also reach the operator; dedupe on message id (20.262ms)
+✔ notifyReply from the inbox jobs dedupes against the event row and only Discord goes outside (7.8987ms)
+✔ API: operator and client feeds are separate; mark read by id and all; impersonation cannot write (89.8276ms)
+✔ direct notify with a dedupe key is idempotent (2.8763ms)
+✔ technical failures stay out of new notifications and historical feed counts (2.8771ms)
 PASS operator overview: rollup, health labels, audit event, ADMIN_KEY 401, and campaigns regression
-✔ tests\operator-overview.test.mjs (551.1653ms)
-✔ touches cluster bubbles within an hour and reset after a reply (10.4963ms)
-✔ stage ladder: opener, 2nd, 3rd, 4th, hibernating; follow-up due after 24 h (47.6275ms)
-✔ their reply flips to awaiting us, manual outcome and hibernate override (1.178ms)
-✔ seen with no reply for five minutes is left on read; stats expose it only when seen data exists (2.7321ms)
-✔ stats: reply, ghost and close rates (0.9081ms)
-✔ API list: due follow-ups first, sections and stats present, search works (140.1248ms)
-✔ API actions: sentiment, outcome, hibernate, wake, note; unknown thread 404s (33.7452ms)
-✔ reply notification lands in the bell with [Name, @handle] and logs the event; no email (167.2654ms)
-✔ seen: parsed from a Meta-shaped hook, notified only after 5 silent minutes, once (13.1229ms)
-✔ lookup: operator emails route to Google, everything else gets a password field, nothing leaks (145.2242ms)
-✔ lookup link: same answer for known and unknown, email only sent to a real client, rate limited (60.9144ms)
-✔ account GET as client returns the settings model, impersonation is read-only (8.5426ms)
-✔ account: workspace and notifications save, name updates client_config (27.8061ms)
-✔ account: sign out other devices keeps the current session (6.7023ms)
-✔ account: password change verifies the current one and rotates the hash (590.7044ms)
-✔ account: export streams a JSON file and delete-request only records intent (91.2496ms)
-✔ account as operator: team list, defaults and notifications persist (12.85ms)
-✔ conversations list carries in_crm, counts and search (134.7496ms)
-✔ thread detail returns ordered messages and 404s unknown ids (4.7913ms)
-✔ operator pipeline without client lists contacts across clients with client names (4.7916ms)
-✔ operator shell mounts dashboard views and the dashboard reads the D1 spine (54.1423ms)
-✔ embedded operator views do not paint the sign-in fallback before authentication resolves (6.2019ms)
+✔ tests\operator-overview.test.mjs (390.8135ms)
+✔ touches cluster bubbles within an hour and reset after a reply (8.7383ms)
+✔ stage ladder: opener, 2nd, 3rd, 4th, hibernating; follow-up due after 24 h (23.8909ms)
+✔ their reply flips to awaiting us, manual outcome and hibernate override (0.6161ms)
+✔ seen with no reply for five minutes is left on read; stats expose it only when seen data exists (1.5652ms)
+✔ stats: reply, ghost and close rates (0.7963ms)
+✔ API list: due follow-ups first, sections and stats present, search works (77.1358ms)
+✔ API actions: sentiment, outcome, hibernate, wake, note; unknown thread 404s (20.4708ms)
+✔ reply notification lands in the bell with [Name, @handle] and logs the event; no email (6.663ms)
+✔ seen: parsed from a Meta-shaped hook, notified only after 5 silent minutes, once (5.7262ms)
+✔ lookup: operator emails route to Google, everything else gets a password field, nothing leaks (72.4221ms)
+✔ lookup link: same answer for known and unknown, email only sent to a real client, rate limited (37.1665ms)
+✔ account GET as client returns the settings model, impersonation is read-only (8.1595ms)
+✔ account: workspace and notifications save, name updates client_config (12.0617ms)
+✔ account: sign out other devices keeps the current session (5.8367ms)
+✔ account: password change verifies the current one and rotates the hash (340.9595ms)
+✔ account: export streams a JSON file and delete-request only records intent (10.9172ms)
+✔ account as operator: team list, defaults and notifications persist (3.7724ms)
+✔ conversations list carries in_crm, counts and search (54.4301ms)
+✔ thread detail returns ordered messages and 404s unknown ids (2.4039ms)
+✔ operator pipeline without client lists contacts across clients with client names (4.4109ms)
+✔ operator shell mounts dashboard views and the dashboard reads the D1 spine (15.5826ms)
+✔ embedded operator views do not paint the sign-in fallback before authentication resolves (5.3896ms)
 PASS push api: auth, validation, lead/message -> CRM and Instagram spine, idempotency, metric dedupe, client-scoped payment, outbox events, 30/min limit, 1MB cap
 PASS provider normalization: Stripe event-family dedupe, cumulative refunds, Whop major-unit amounts and nested payment references
 PASS outbound webhooks: https-only, event filter, secret shown once and sealed, tenant isolation, test send, fan-out, signed delivery, 3-attempt backoff, history, patch, delete
 PASS payment matching: exact-email auto, name suggestions, one confirmed per payment, tenant isolation, confirm/unlink/attach with audit, confirmed-only KPIs, refund reverses, client read scope
 PASS scheduled provider import: Stripe and Whop charges/refunds, units, overlap idempotency and rematch
-✔ tests\phase3-revenue-automation.test.mjs (3238.5582ms)
+✔ tests\phase3-revenue-automation.test.mjs (576.5062ms)
 PASS provisioning: three triggers idempotent, one email, one event, status onboarding, new workspace by email, welcome retries and failure record, operator API
 PASS welcome email: template substitution, no leftover placeholders, link rendered
 PASS checklist: 8 seeded, auto-complete from brain/proof/integrations/sequences, skip silent, all-done flips status, tenant scope, validation
@@ -86,46 +86,48 @@ PASS pipeline touches: one row per contact, stage ladder, dedupe, tenant isolati
 PASS payment provision gate: non-prospect revenue records a touch without reprovisioning or another welcome
 PASS voice note: upload to R2, Whisper transcript, apply to offer and icp with voice-note source, type and memory-bound size validation
 PASS client cleanup: Phase 4 voice objects are removed from R2 before database rows
-✔ tests\phase4-onboarding.test.mjs (2933.7231ms)
-✔ unknown client slugs return branded 404 instead of the SPA fallback (209.5208ms)
-✔ inactive clients remain unavailable and protected aliases pass to their own handlers (6.1415ms)
-✔ database failure is not disguised as a successful gateway response (1.1845ms)
+✔ tests\phase4-onboarding.test.mjs (383.3453ms)
+✔ unknown client slugs return branded 404 instead of the SPA fallback (69.4631ms)
+✔ inactive clients remain unavailable and protected aliases pass to their own handlers (2.583ms)
+✔ database failure is not disguised as a successful gateway response (1.6697ms)
 PASS real SQLite: first-client setup, password login, tenant isolation, reset/session revocation, proof upload constraint, email failure and setup-page routing
-✔ tests\portal-readiness.test.mjs (3292.4416ms)
+✔ tests\portal-readiness.test.mjs (705.9692ms)
 PASS proof media: validation, token-scoped R2 upload, proof row, serving, missing 404, and prefix cleanup
-✔ tests\proof-media.test.mjs (2232.8734ms)
+✔ tests\proof-media.test.mjs (289.2956ms)
 PASS pulse feed: ordered merge, client isolation, 401, and token-scoped proof reads and writes
-✔ tests\pulse-feed.test.mjs (1772.6615ms)
-✔ broadcast posts an opaque payload with the publishable key and tolerates failure (111.1989ms)
-✔ realtime-config: operator gets the console topic, anonymous gets 401, unconfigured says off (16.5143ms)
-✔ indexer embeds DMs and brain fields once, skips short texts and empties, re-indexes changed brain (80.8398ms)
-✔ search: meaning match, kind filter, client scope limited to own brain (10.8073ms)
-✔ API: operator search and status; short query rejected (106.0765ms)
+✔ tests\pulse-feed.test.mjs (305.3923ms)
+✔ broadcast posts an opaque payload with the publishable key and tolerates failure (49.9775ms)
+✔ realtime-config: operator gets the console topic, anonymous gets 401, unconfigured says off (7.2661ms)
+✔ indexer embeds DMs and brain fields once, skips short texts and empties, re-indexes changed brain (36.3652ms)
+✔ search: meaning match, kind filter, client scope limited to own brain (4.2256ms)
+✔ API: operator search and status; short query rejected (57.1515ms)
+✔ a missing embedding remains pending for retry (5.8438ms)
 PASS sequence variants: start, capture, isolation, impersonation, logging, resolution, admin auth, portal, and migration
-✔ tests\sequence-variants.test.mjs (1276.0024ms)
-✔ cron schedules map to exactly one sync job (3.4053ms)
-✔ manual runs require operator identity and health is public (276.2802ms)
+✔ tests\sequence-variants.test.mjs (307.0968ms)
+✔ background recovery is bounded; webhook outbox still runs each minute (2.6242ms)
+✔ cron schedules map to exactly one sync job (2.4914ms)
+✔ manual runs require operator identity and health is public (68.912ms)
 PASS view tracking: IP capture, lead attribution, operator preview, redirect, and assets API passed
-✔ tests\view-tracking.test.mjs (1360.4888ms)
-✔ export collects every table that holds the client (15.9675ms)
-✔ archive exports to R2, hides from lists, kills sessions, deletes nothing; restore reverses (139.1755ms)
-✔ API: archive and restore through the operator route; unknown client 404 (279.8469ms)
+✔ tests\view-tracking.test.mjs (284.5065ms)
+✔ export collects every table that holds the client (5.4343ms)
+✔ archive exports to R2, hides from lists, kills sessions, deletes nothing; restore reverses (56.3698ms)
+✔ API: archive and restore through the operator route; unknown client 404 (19.7141ms)
 PASS preference persistence, tenant isolation, invalid keys and authentication
-✔ tests\workspace-preferences.test.mjs (1239.7219ms)
+✔ tests\workspace-preferences.test.mjs (251.8342ms)
 PASS workspace records: persistence, tenant isolation, stale update conflicts, auth, size and schema validation
 PASS all-time summary: direct database counts and tenant isolation
-✔ tests\workspace-records.test.mjs (1483.0219ms)
-✔ HMAC signature: hex of raw body, constant time, rejects bad or missing (152.5089ms)
-✔ a Zernio conversation for a known participant merges onto the existing thread (6.8748ms)
-✔ messages store with platform ids, direction maps, readAt on an outgoing message marks seen (5.6734ms)
-✔ webhook: dedupes on event id, message.received notifies once, message.read marks seen (21.9398ms)
-✔ sweep pulls changed conversations, stores messages, and the Composio job steps aside once connected (173.9696ms)
-✔ tracker reads the merged data: seen threads, pictures, and left-on-read (87.9999ms)
-ℹ tests 84
+✔ tests\workspace-records.test.mjs (248.3242ms)
+✔ HMAC signature: hex of raw body, constant time, rejects bad or missing (12.5309ms)
+✔ a Zernio conversation for a known participant merges onto the existing thread (0.8929ms)
+✔ messages store with platform ids, direction maps, readAt on an outgoing message marks seen (1.0943ms)
+✔ webhook: dedupes on event id, message.received notifies once, message.read marks seen (9.1844ms)
+✔ sweep pulls changed conversations, stores messages, and the Composio job steps aside once connected (47.0721ms)
+✔ tracker reads the merged data: seen threads, pictures, and left-on-read (15.5576ms)
+ℹ tests 86
 ℹ suites 0
-ℹ pass 84
+ℹ pass 86
 ℹ fail 0
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 8230.1349
+ℹ duration_ms 2518.3716

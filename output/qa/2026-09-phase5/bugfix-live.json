@@ -1,0 +1,39 @@
+{
+  "checkedAt": "2026-09-19T21:51:16.196Z",
+  "pages": "0249056e",
+  "worker": "72ba99b5-4ea3-45d8-a297-17c3667ca93e",
+  "results": [
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/portal/login",
+      "status": 200
+    },
+    {
+      "path": "/shared/notifications.js",
+      "status": 200
+    },
+    {
+      "path": "/shared/integrations-view.js",
+      "status": 200
+    },
+    {
+      "path": "/shared/integrations-view.css",
+      "status": 200
+    },
+    {
+      "path": "/api/notifications",
+      "status": 401
+    },
+    {
+      "path": "/api/integrations?scope=operator",
+      "status": 401
+    },
+    {
+      "path": "worker /health",
+      "status": 200
+    }
+  ]
+}

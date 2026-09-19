@@ -2,6 +2,7 @@
  let loading,root,requested='live',header;
  const aliases={youtube:'metrics',dashboard:'live',payments:'sales'};
  function activate(){
+  if(!root||root.hidden||!header)return;
   const id=aliases[requested]||requested;
   root.querySelector('nav.sb-nav [data-tab="'+CSS.escape(id)+'"]')?.click();
   root.classList.toggle('theme-night',document.documentElement.dataset.theme==='dark');

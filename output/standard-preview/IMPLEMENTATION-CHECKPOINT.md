@@ -111,3 +111,8 @@ Priority release. Exact steps and file list are in the AGENT_CHAT.md entry "OUTR
 - 2026-09-09 UI milestone in source: replaced legacy Leads panel with stage filters, focused edit dialog, persisted conversation summaries using existing AI. Extended browser suite passes, including lead reload and admin contract-status panel. Next: migrate 0024/deploy/verify; continue remaining audit items. Social OAuth/imports, founder unified login, adaptable intake, native font assets, archive metadata and remaining account/carousel/operator interiors remain unfinished.
 
 - 2026-09-09 final release checkpoint: 776a4c37 is live with all changes above, including the 16 verified video metadata records. Migrations 0023/0024 applied. Latest live checks passed, temporary session removed. Remaining work is explicitly listed above; the full founder brief is not complete. Shared lock released and final repo backup follows.
+
+
+## 2026-09-20 bugfix release
+
+Pages 0249056e; Worker 72ba99b5; migration0034 applied. Bell, shared Integrations and section lifecycle fixes deployed; 86/86 tests and 17-section mocked browser pass. Production D1 daily reads exhausted (7500); reduced fallback scans, immediate webhook updates retained. Full details and live acceptance limitation: ../qa/2026-09-phase5/BUGFIX-RELEASE.md.

@@ -47,20 +47,25 @@
     const body = root.querySelector("#leads-body");
     let cache = { inbox: null, funnel: null };
 
+    let sequence = 0;
     async function load(force) {
+      const current = ++sequence;
       if (force) cache = { inbox: null, funnel: null };
       body.innerHTML = '<div class="skeleton" style="min-height:220px;border-radius:0"></div>';
       try {
         if (tab === "inbox") {
           if (!cache.inbox) cache.inbox = (await api("/api/spine/conversations")).conversations || [];
+          if (current !== sequence || !root.isConnected) return;
           drawInbox(cache.inbox);
         } else {
           if (!cache.funnel) cache.funnel = (await api("/api/pipeline")).contacts || [];
+          if (current !== sequence || !root.isConnected) return;
           drawFunnel(cache.funnel);
         }
         root.querySelector("#leads-n-inbox").textContent = cache.inbox ? cache.inbox.length : "";
         root.querySelector("#leads-n-funnel").textContent = cache.funnel ? cache.funnel.length : "";
       } catch (e) {
+        if (current !== sequence || !root.isConnected) return;
         body.innerHTML = `<p class="int-empty">${esc(e.message)}</p>`;
       }
     }

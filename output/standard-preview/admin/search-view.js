@@ -31,7 +31,9 @@
     if (ctx.q) { q.value = ctx.q; run(); }
     q.focus();
 
+    let sequence = 0;
     async function run() {
+      const current = ++sequence;
       const text = q.value.trim();
       if (text.length < 2) return;
       const kinds = [...root.querySelectorAll('input[name="kind"]:checked')].map((c) => c.value);
@@ -39,6 +41,7 @@
       root.querySelector("#sr-examples").hidden = true;
       try {
         const d = await api(`/api/search?q=${encodeURIComponent(text)}&kinds=${kinds.join(",")}&limit=20`);
+        if (current !== sequence || !root.isConnected) return;
         const dms = d.hits.filter((h) => h.kind === "dm"), brains = d.hits.filter((h) => h.kind === "brain");
         const group = (title, items, row) => items.length ? `<section class="sr-group"><h2>${esc(title)} <span>${items.length}</span></h2>${items.map(row).join("")}</section>` : "";
         results.innerHTML = d.hits.length
@@ -48,7 +51,7 @@
           : `<p class="int-empty">Nothing close to that yet. If the index is still filling in, try again in a minute.</p>`;
         results.querySelectorAll("[data-thread]").forEach((b) => (b.onclick = () => { sessionStorage.setItem("pulsify:open-thread", b.dataset.thread); window.PulsifyOperatorShell?.go("outreach"); }));
         results.querySelectorAll("[data-brain]").forEach((b) => (b.onclick = () => { sessionStorage.setItem("pulsify:brain-client", b.dataset.brain); window.PulsifyOperatorShell?.go("brain"); }));
-      } catch (e) { results.innerHTML = `<p class="int-empty">${esc(e.message)}</p>`; }
+      } catch (e) { if (current !== sequence || !root.isConnected) return; results.innerHTML = `<p class="int-empty">${esc(e.message)}</p>`; }
     }
   }
 

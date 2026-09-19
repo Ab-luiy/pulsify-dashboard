@@ -194,7 +194,7 @@
 
     load();
     const unsubscribe = window.PulsifyRealtime?.on("notification", () => load());
-    const timer = setInterval(() => { if (document.visibilityState === "visible") load(); }, 30000);
+    const timer = setInterval(() => { if (document.visibilityState === "visible") load(); }, 120000);
     const onVisible = () => { if (document.visibilityState === "visible") load(); };
     document.addEventListener("visibilitychange", onVisible);
     const api = { load, open: openPanel, close, destroy() { destroyed = true; close(); clearInterval(timer); unsubscribe?.(); document.removeEventListener("visibilitychange", onVisible); button.onclick = null; badge.remove(); delete button._pulsifyBell; delete button.dataset.bell; } };

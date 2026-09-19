@@ -71,7 +71,7 @@ const server=http.createServer((req,res)=>{
  await page.screenshot({path:path.join(qa,'bugfix-integrations-desktop.png')});
  await page.setViewportSize({width:390,height:844});await page.locator('.ps-notifications').click();await page.locator('.ps-bell.show').waitFor();
  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'mobile overflow');
- await page.screenshot({path:path.join(qa,'bugfix-bell-mobile.png')});
+ await page.waitForTimeout(200);await page.screenshot({path:path.join(qa,'bugfix-bell-mobile.png')});
  assert.deepEqual(errors,[]);console.log('PASS: all 17 operator sections, bell races/coalescing/failed writes/paged counts, cold Integrations, retry, client credentials, read-only controls, mobile. APIs mocked.');
  }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1;});

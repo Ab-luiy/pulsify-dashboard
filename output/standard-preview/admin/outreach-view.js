@@ -181,7 +181,7 @@
       paint();
     }
     // Timers tick without a network call; data refreshes each minute while the view is on screen.
-    timer = setInterval(() => { if (!root.isConnected) { dispose(); return; } if (document.visibilityState === "visible") load(); }, 60000);
+    timer = setInterval(() => { if (!root.isConnected) { dispose(); return; } if (document.visibilityState === "visible") load(); }, 300000);
     function dispose() { disposed = true; clearInterval(timer); clearTimeout(debounce); clearTimeout(pending); unsubscribe?.(); if (paint) document.removeEventListener("pulsify:realtime", paint); }
     return dispose;
   }
