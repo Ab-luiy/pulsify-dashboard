@@ -44,7 +44,7 @@ export async function connectUrl(env, { redirectUrl, profileId, fetcher = fetch 
 }
 
 export async function listAccounts(env, fetcher = fetch) {
-  const r = await zernioFetch(env, "/v1/accounts?platform=instagram&limit=50", {}, fetcher);
+  const r = await zernioFetch(env, "/v1/accounts?platform=instagram&page=1&limit=50", {}, fetcher);
   return (r.accounts || []).map((a) => ({ id: a._id, username: a.username, displayName: a.displayName, profilePicture: a.profilePicture, followersCount: a.followersCount, isActive: a.isActive, needsReconnection: a.needsReconnection }));
 }
 
