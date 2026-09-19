@@ -2,7 +2,7 @@
 
 Reviewed 2026-09-18 against `wiki/synthesis/phase3-revenue-automation-codex-brief.md`.
 
-Status: local fixes complete, deployment held by founder direction. No production writes, cleanup, or deployment occurred during this review.
+Status: review fixes deployed after founder approval and Claude's second-reader sign-off. Production evidence and remaining provider-owned acceptance are in `LIVE-RELEASE.md`.
 
 ## Material defects found and fixed locally
 
@@ -33,13 +33,6 @@ Status: local fixes complete, deployment held by founder direction. No productio
 - `npx wrangler deploy --dry-run` in `workers/sync`: compiled successfully, 81.98 KiB upload / 21.82 KiB gzip.
 - `git diff --check`: clean.
 
-## Still blocked by the deployment hold
+## Production release
 
-- No local fix in this review has been deployed.
-- No webhook.site endpoint was created, no production test event was sent, and no forced-failure retry was triggered.
-- No live Stripe or Whop test charge/refund was created.
-- No production Push message/metric/payment was sent.
-- No production cleanup was performed for the release-check API key or lead.
-- Task 3.0 still needs production evidence: three consecutive clean `sync_runs` per required job and one real Instagram DM appearing in CRM within two minutes.
-
-The next action is a second review of this local diff, followed by a controlled funnels-first and Worker-second deployment only after the founder lifts the hold. Live checks should then use disposable records and clean them up.
+Funnels deployment `0fec35eb` and final Worker version `ea7c184a-0460-4a2d-8d2e-6f49f574f907` are live. Push ingestion, CRM projection, revocation, signed webhook delivery, three-attempt failure, login and cleanup passed. Live acceptance also exposed and fixed an Instagram historical-replay loop that exhausted Worker subrequests before saving its watermark. See `LIVE-RELEASE.md` for IDs, evidence and the remaining real-DM, Stripe and unscheduled-job checks.

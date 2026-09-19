@@ -18,7 +18,7 @@ test("unchanged Instagram inbox exits after one Composio list call", async () =>
             return { payload_json: JSON.stringify({ ownId: "owner", connectedAccountId: "owner", watermark: "2026-09-17T11:00:00Z" }) };
           },
           async all() {
-            return { results: [{ id: "c1", last_message_at: "2026-09-17T10:00:00Z" }] };
+            return { results: [{ id: "c1", remote_updated_at: "2026-09-17T10:00:00Z" }] };
           },
         };
       },
@@ -45,7 +45,7 @@ test("bootstrap uses durable conversation timestamps instead of replaying all hi
     DB: {
       prepare(sql) {
         if (sql.includes("SELECT payload_json")) return { async first() { return { payload_json: JSON.stringify({ ownId: "owner", connectedAccountId: "owner" }) }; } };
-        if (sql.includes("SELECT id,last_message_at")) return { async all() { return { results: [{ id: "c1", last_message_at: "2026-09-17T10:00:00Z" }] }; } };
+        if (sql.includes("SELECT id,COALESCE")) return { async all() { return { results: [{ id: "c1", remote_updated_at: "2026-09-17T10:00:00Z" }] }; } };
         if (sql.includes("INSERT INTO snapshots")) return { bind() { return { async run() { stateWrites += 1; } }; } };
         throw new Error(`Unexpected SQL: ${sql}`);
       },

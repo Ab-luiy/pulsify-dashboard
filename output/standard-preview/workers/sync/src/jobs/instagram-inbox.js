@@ -125,9 +125,9 @@ export async function syncInstagramInbox(env) {
 
 async function loadKnownConversations(env) {
   const rows = await env.DB.prepare(
-    "SELECT id,last_message_at FROM ig_conversations",
+    "SELECT id,COALESCE(json_extract(payload_json,'$.updated_time'),last_message_at) AS remote_updated_at FROM ig_conversations",
   ).all();
-  return new Map((rows.results || []).map((row) => [String(row.id), comparableTime(row.last_message_at)]));
+  return new Map((rows.results || []).map((row) => [String(row.id), comparableTime(row.remote_updated_at)]));
 }
 
 function comparableTime(value) {

@@ -55,7 +55,7 @@
 
 ## Funnels / landing pages / portal
 
-- [Phase 0 accounts DONE + Phase 1 RELEASED 2026-09-17](project_phase0_accounts_done.md) - accounts in wiki/playbooks/account-registry.md; Phase 1 (Access login, one shell, launcher) live and Claude-verified; Phase 2 complete 2026-09-18; Worker still paused until founder adds 2 secrets; next is Phase 3 per wiki/synthesis/phase3-revenue-automation-codex-brief.md
+- [Phase 0 accounts DONE + Phase 1 RELEASED 2026-09-17](project_phase0_accounts_done.md) - accounts in wiki/playbooks/account-registry.md; Phase 1 (Access login, one shell, launcher) live and Claude-verified; Phases 2 and 3 LIVE 2026-09-19 (revenue matching, webhooks, Push API, new login + brand); next is Phase 4 onboarding per wiki/synthesis/phase4-client-onboarding-codex-brief.md
 
 - [Landing-page standard LOCKED](project_landing_page_standard.md) - the approved Frank build is THE design for every landing page, fill-in only (brief -> 28 tokens -> /admin or /settings), never redesign; wiki/playbooks/landing-page-fill-in-playbook.md
 - [Landing mock source rule](feedback_landing_mock_source.md) - landing pages and the whole standard are Codex-owned; Claude does not build or touch them
