@@ -83,9 +83,24 @@ export async function zernioConnection(env) {
 
 // ---- mapping into the tables the tracker reads ----
 
+const RESERVED = new Set(["direct", "p", "reel", "reels", "stories", "explore", "accounts", "www"]);
+const HANDLE = /^[A-Za-z0-9._]{1,30}$/;
 export function usernameFromUrl(url) {
   const m = /instagram\.com\/([A-Za-z0-9._]+)/.exec(String(url || ""));
-  return m ? m[1] : "";
+  return m && !RESERVED.has(m[1].toLowerCase()) ? m[1] : "";
+}
+// Zernio puts the Instagram handle in participantName and links to the /direct
+// thread, so the name is the handle when it looks like one.
+export function usernameOf(zc) {
+  const explicit = String(zc.participantUsername || "").replace(/^@/, "");
+  if (explicit) return explicit;
+  const fromUrl = usernameFromUrl(zc.url);
+  if (fromUrl) return fromUrl;
+  const name = String(zc.participantName || "").replace(/^@/, "");
+  return HANDLE.test(name) && !name.includes(" ") ? name : "";
+}
+export function pictureOf(zc) {
+  return String(zc.participantPicture || zc.participantPictureUrl || zc.participantAvatar || zc.profilePicture || zc.avatar || "");
 }
 
 // Find or create the ig_conversations row for a Zernio conversation. Match
@@ -114,10 +129,6 @@ export async function resolveConversationId(env, zc, operatorEmail) {
   return conversationId;
 }
 
-export function usernameOf(zc) {
-  return String(zc.participantUsername || usernameFromUrl(zc.url) || "").replace(/^@/, "");
-}
-
 // Refresh identity fields Zernio knows better than we do: handle, name, picture.
 export async function refreshIdentity(env, conversationId, zc) {
   const username = usernameOf(zc);
@@ -129,12 +140,17 @@ export async function refreshIdentity(env, conversationId, zc) {
        participant_id=CASE WHEN participant_id='' THEN ? ELSE participant_id END,
        updated_at=? WHERE id=?`,
   ).bind(username, username, name, name, str(zc.participantId), nowIso(), conversationId).run();
-  if (zc.participantPicture) await upsertOutreach(env, conversationId, { pfp_url: str(zc.participantPicture) });
+  const picture = pictureOf(zc);
+  if (picture) await upsertOutreach(env, conversationId, { pfp_url: picture });
 }
 
 // Store one Zernio message. Returns true when it was new.
 export async function storeMessage(env, conversationId, zm, operatorEmail) {
-  const id = str(zm.platformMessageId) || `z:${str(zm.id)}`;
+  // Zernio's message id is the platform's own id (Graph mid on Instagram), so it
+  // matches what the Composio path stored; only fall back to a prefixed id if
+  // neither looks usable.
+  const id = str(zm.platformMessageId) || str(zm.id) || "";
+  if (!id) return false;
   const direction = zm.direction === "outgoing" ? "outbound" : "inbound";
   const sentAt = str(zm.sentAt || zm.createdAt);
   if (!sentAt) return false;

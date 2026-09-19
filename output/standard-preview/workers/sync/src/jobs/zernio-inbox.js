@@ -6,7 +6,10 @@ import { nowIso, str } from "../../../../functions/_shared/common.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 import { notifyReply } from "./outreach-notify.js";
 
-const MAX_CONVERSATIONS_PER_SWEEP = 25;
+// Free plan allows 60 requests a minute; one list call plus one messages call
+// per changed conversation keeps a sweep well inside that.
+const MAX_CONVERSATIONS_PER_SWEEP = 15;
+const LOCK_MINUTES = 4;
 
 export async function zernioActive(env) {
   if (!zernioConfigured(env)) return false;
@@ -45,7 +48,7 @@ export async function handleZernioEvent(env, payload, eventId) {
     return { ok: true, conversationId, seen: changed };
   }
   if (event === "message.deleted") {
-    const mid = str(zm.platformMessageId) || `z:${str(zm.id)}`;
+    const mid = str(zm.platformMessageId) || str(zm.id);
     await env.DB.prepare("UPDATE ig_messages SET text=COALESCE(text,'') || ' (unsent)' WHERE id=? AND text NOT LIKE '%(unsent)'").bind(mid).run().catch(() => null);
     return { ok: true, conversationId, deleted: mid };
   }
@@ -57,6 +60,11 @@ export async function handleZernioEvent(env, payload, eventId) {
 // moved since we last saw it. Read receipts ride on outgoing messages (readAt).
 export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
   if (!(await zernioActive(env))) return 0;
+  // One sweep at a time: a long replay must not overlap the next cron minute.
+  const running = await env.DB.prepare(
+    "SELECT COUNT(*) AS n FROM sync_runs WHERE job='zernio-inbox' AND status='running' AND started_at>? AND started_at<?",
+  ).bind(new Date(Date.now() - LOCK_MINUTES * 60000).toISOString(), new Date(Date.now() - 5000).toISOString()).first().catch(() => ({ n: 0 }));
+  if (Number(running?.n || 0) > 0) return 0;
   const operatorEmail = env.OPERATOR_EMAIL || "operator";
   const known = new Map(((await env.DB.prepare("SELECT zernio_id, updated_time FROM zernio_conversation_map").all()).results || []).map((r) => [r.zernio_id, r.updated_time || ""]));
   let written = 0, processed = 0, cursor = "";
@@ -65,6 +73,7 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
     if (cursor) qs.set("cursor", cursor);
     const list = await zernioFetch(env, `/v1/inbox/conversations?${qs}`, {}, fetcher);
     const rows = list.data || [];
+    // Unchanged conversations are skipped before any per-thread request is made.
     for (const zc of rows) {
       if (processed >= MAX_CONVERSATIONS_PER_SWEEP) break;
       const prior = known.get(String(zc.id));
@@ -72,7 +81,10 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
       processed += 1;
       const conversationId = await resolveConversationId(env, zc, operatorEmail);
       await refreshIdentity(env, conversationId, zc);
-      const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher).catch(() => ({ messages: [] }));
+      const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher).catch((error) => {
+        if (String(error?.message || "").includes("429")) throw error; // stop the sweep, the next minute retries
+        return { messages: [] };
+      });
       for (const zm of (msgs.messages || []).slice().reverse()) {
         if (await storeMessage(env, conversationId, zm, operatorEmail)) written += 1;
       }

@@ -61,7 +61,7 @@ test('a Zernio conversation for a known participant merges onto the existing thr
 });
 
 test('messages store with platform ids, direction maps, readAt on an outgoing message marks seen', async()=>{
-  const isNew=await storeMessage(env,'composio-1',{id:'zm_1',platformMessageId:'mid-old',direction:'outgoing',text:'opener',sentAt:iso(now-30*H),readAt:iso(now-29*H)},'op');
+  const isNew=await storeMessage(env,'composio-1',{id:'mid-old',direction:'outgoing',text:'opener',sentAt:iso(now-30*H),readAt:iso(now-29*H)},'op');
   assert.equal(isNew,false,'same Graph mid as the Composio row');
   assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM ig_messages WHERE conversation_id='composio-1'").get().n,1);
   assert.equal(sql.prepare("SELECT seen_at FROM ig_outreach WHERE conversation_id='composio-1'").get().seen_at,iso(now-29*H));

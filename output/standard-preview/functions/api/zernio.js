@@ -7,7 +7,7 @@ import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { deleteIntegration } from "../_shared/integrations.js";
-import { connectUrl, ensureProfile, ensureWebhook, listAccounts, recordConnection, zernioConfigured, zernioConnection } from "../_shared/zernio.js";
+import { connectUrl, ensureProfile, ensureWebhook, listAccounts, recordConnection, zernioConfigured, zernioConnection, zernioFetch } from "../_shared/zernio.js";
 
 const CONSOLE = "/admin?view=integrations";
 
@@ -45,6 +45,11 @@ async function handleGet({ request, env }) {
     return Response.redirect(`${url.origin}${CONSOLE}&zernio=connected`, 302);
   }
 
+  if (action === "peek") {
+    // One raw conversation row from Zernio, for checking field names. Operator only.
+    const list = await zernioFetch(env, "/v1/inbox/conversations?platform=instagram&limit=1&sortOrder=desc").catch((e) => ({ error: String(e?.message || e) }));
+    return json({ ok: true, sample: list.data?.[0] || null, error: list.error || null });
+  }
   const connection = await zernioConnection(env);
   let accounts = [];
   let error = null;
