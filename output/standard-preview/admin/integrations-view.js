@@ -125,9 +125,8 @@
       root.querySelector("[data-workspace]")?.addEventListener("change", (event) => render(root, { ...ctx, client: event.target.value }));
       root.querySelector("[data-connect]")?.addEventListener("click", () => connect(active));
       root.querySelector("[data-zernio-webhook]")?.addEventListener("click", async (e) => { e.target.disabled = true; try { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "register-webhook" }) }); } catch (err) { e.target.textContent = err.message.slice(0, 40); return; } await render(root, ctx); });
-      root.querySelector("[data-zernio-disconnect]")?.addEventListener("click", async () => { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "disconnect" }) }); await render(root, ctx); });
-      root.querySelector("[data-disconnect]")?.addEventListener("click", async () => { await api("/api/integrations", { method: "DELETE", body: JSON.stringify({ scope, client, provider: active.id }) }); await render(root, ctx); });
-      root.querySelectorAll("[data-disconnect],[data-zernio-disconnect]").forEach(button => { const action = button.onclick; if (action) button.onclick = async event => { try { await action(event); } catch { button.disabled = false; button.textContent = "Retry disconnect"; } }; });
+      root.querySelector("[data-zernio-disconnect]")?.addEventListener("click", async (event) => { try { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "disconnect" }) }); await render(root, ctx); } catch { event.target.textContent = "Retry disconnect"; } });
+      root.querySelector("[data-disconnect]")?.addEventListener("click", async (event) => { try { await api("/api/integrations", { method: "DELETE", body: JSON.stringify({ scope, client, provider: active.id }) }); await render(root, ctx); } catch { event.target.textContent = "Retry disconnect"; } });
       drawKeys(); drawHooks(); if (client && ctx.operator !== false) drawMatches();
     };
 

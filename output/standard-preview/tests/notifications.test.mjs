@@ -27,7 +27,7 @@ const cl=(url,init)=>new Request(url,{...init,headers:{'x-portal-token':'tok-acm
 const call=(fn,r)=>fn({request:r,env,data:{}});
 
 test('describeEvent covers every event the platform emits, stays silent on our own outbound messages', ()=>{
-  const events=['lead.created','lead.stage_changed','payment.received','payment.matched','payment.unmatched','payment.refunded','client.provisioned','client.checklist_step_completed','content.sequence_published','integration.sync_failed','client.delete_requested'];
+  const events=['lead.created','lead.stage_changed','payment.received','payment.matched','payment.unmatched','payment.refunded','client.provisioned','client.checklist_step_completed','content.sequence_published','client.delete_requested'];
   for(const e of events)assert.ok(describeEvent(e,{name:'Joe',handle:'joe',amount_cents:250000,step:'first-proof',provider:'stripe'},'operator'),e);
   assert.equal(describeEvent('conversation.new_message',{direction:'outbound'}),null);
   const reply=describeEvent('conversation.new_message',{direction:'inbound',name:'Joe',handle:'joe',text:'hey'});
@@ -79,9 +79,19 @@ test('API: operator and client feeds are separate; mark read by id and all; impe
 });
 
 test('direct notify with a dedupe key is idempotent', async()=>{
-  const a=await notify(env,{scope:'operator',kind:'system',title:'Sync failed',dedupeKey:'k1'});
-  const b=await notify(env,{scope:'operator',kind:'system',title:'Sync failed',dedupeKey:'k1'});
+  const a=await notify(env,{scope:'operator',kind:'lead.created',title:'New lead',dedupeKey:'k1'});
+  const b=await notify(env,{scope:'operator',kind:'lead.created',title:'New lead',dedupeKey:'k1'});
   assert.ok(a);assert.equal(b,null);
+});
+
+test('technical failures stay out of new notifications and historical feed counts', async()=>{
+  assert.equal(describeEvent('integration.sync_failed',{error:'database unavailable'}),null);
+  const before=await listNotifications(env,{scope:'operator'});
+  assert.equal(await notify(env,{kind:'system',title:'Sync failed'}),null);
+  sql.prepare("INSERT INTO notifications(id,scope,client_id,kind,severity,title,created_at) VALUES('old-system','operator','','system','error','Sync failed','2026-09-20')").run();
+  const after=await listNotifications(env,{scope:'operator'});
+  assert.equal(after.unread,before.unread);
+  assert.ok(!after.items.some(i=>i.id==='old-system'));
 });
 
 test.after(()=>{globalThis.fetch=realFetch;});
