@@ -21,11 +21,11 @@
   // target view can open the exact record after navigation.
   function origin(item, operator) {
     const e = item.entity || {};
-    if (e.conversation_id) return { view: "outreach", handoff: ["pulsify:open-thread", e.conversation_id], label: e.handle ? `Open @${e.handle}` : "Open conversation" };
+    if (e.conversation_id) return { view: operator ? "outreach" : "leads", handoff: ["pulsify:open-thread", e.conversation_id], label: e.handle ? `Open @${e.handle}` : "Open conversation" };
     if (item.kind === "payment") return { view: item.link || (operator ? "payments" : "revenue"), handoff: e.payment_id ? ["pulsify:open-payment", String(e.payment_id)] : null, label: "Open payment" };
-    if (e.client && operator) return { view: item.kind === "checklist" ? "brain" : "clients", handoff: ["pulsify:brain-client", String(e.client)], label: `Open ${e.name || e.client}` };
+    if (e.client && operator) return { view: "brain", handoff: ["pulsify:brain-client", String(e.client)], label: `Open ${e.name || e.client}` };
     if (item.kind === "system") return { view: "integrations", handoff: null, label: "Open integrations" };
-    return item.link ? { view: item.link, handoff: null, label: "Open" } : null;
+    return item.link ? { view: !operator && ["crm", "outreach"].includes(item.link) ? "leads" : item.link, handoff: null, label: "Open" } : null;
   }
 
   function details(item) {
@@ -44,8 +44,9 @@
   }
 
   function mount(ctx) {
-    const button = document.querySelector(".ps-notifications");
-    if (!button || button.dataset.bell === "1") return;
+    const button = (ctx.container || document).querySelector(".ps-notifications");
+    if (!button) return;
+    if (button._pulsifyBell) return button._pulsifyBell;
     button.dataset.bell = "1";
     const badge = document.createElement("span");
     badge.className = "ps-bell-badge"; badge.hidden = true;
@@ -56,19 +57,30 @@
     let feed = { items: [], unread: 0 };
     let panel = null, tab = "all", expanded = null, limit = 50;
     const seen = new Set();
+    let loading = null, destroyed = false, initialized = false, loadError = false;
 
-    async function load() {
+    function load() {
+      if (destroyed) return Promise.resolve();
+      if (loading) return loading;
+      loading = refresh().finally(() => { loading = null; });
+      return loading;
+    }
+    async function refresh() {
       try {
         const r = await fetch(`/api/notifications${qs(`&limit=${limit}`)}`, { credentials: "same-origin", headers: headers() });
-        if (!r.ok) return;
-        feed = await r.json();
+        if (!r.ok) throw Error("Could not load notifications.");
+        const next = await r.json();
+        if (destroyed) return;
+        feed = { items: Array.isArray(next.items) ? next.items : [], unread: Number(next.unread) || 0 };
+        loadError = false;
         paintBadge();
         for (const item of feed.items) {
-          if (!item.read_at && item.kind === "lead.replied" && !seen.has(item.id) && seen.size) toast(item);
+          if (!item.read_at && item.kind === "lead.replied" && !seen.has(item.id) && initialized) toast(item);
           seen.add(item.id);
         }
+        initialized = true;
         if (panel) drawList();
-      } catch { /* offline, try next tick */ }
+      } catch { loadError = true; if (panel) drawList(); }
     }
     function paintBadge() {
       badge.textContent = feed.unread > 99 ? "99+" : String(feed.unread);
@@ -99,12 +111,14 @@
 
     async function markRead(ids, all = false) {
       try {
-        await fetch(`/api/notifications`, { method: "POST", credentials: "same-origin", headers: headers(), body: JSON.stringify({ client: ctx.client || "", ids, all }) });
+        const response = await fetch(`/api/notifications`, { method: "POST", credentials: "same-origin", headers: headers(), body: JSON.stringify({ client: ctx.client || "", ids, all }) });
+        if (!response.ok) throw Error("Could not mark notifications read.");
+        const result = await response.json();
         for (const it of feed.items) if (all || ids.includes(it.id)) it.read_at = it.read_at || new Date().toISOString();
-        feed.unread = feed.items.filter((i) => !i.read_at).length;
+        feed.unread = all ? 0 : Math.max(0, feed.unread - (Number(result.marked) || 0));
         paintBadge();
         if (panel) drawList();
-      } catch { /* keep local state */ }
+      } catch { if (panel) { let note = panel.querySelector("[data-bell-error]"); if (!note) { note = document.createElement("p"); note.dataset.bellError = ""; note.className = "ps-bell-empty"; panel.append(note); } note.textContent = "Could not save that change. Please retry."; } }
     }
 
     function row(i) {
@@ -121,13 +135,15 @@
     }
 
     function drawList() {
+      if (!panel) return;
       const list = panel.querySelector(".ps-bell-list");
       const items = tab === "unread" ? feed.items.filter((i) => !i.read_at) : feed.items;
       const groups = [["Today", []], ["Yesterday", []], ["Earlier", []]];
       for (const i of items) groups.find((g) => g[0] === dayOf(i.created_at))[1].push(i);
       list.innerHTML = items.length
         ? groups.filter((g) => g[1].length).map((g) => `<p class="ps-bell-day">${g[0]}</p><ul>${g[1].map(row).join("")}</ul>`).join("") + (feed.items.length >= limit ? `<button class="ps-control ps-bell-more" data-more>Show older</button>` : "")
-        : `<p class="ps-bell-empty">${tab === "unread" ? "Nothing unread." : "Nothing yet. Replies, payments, new clients and finished steps show up here."}</p>`;
+        : loadError ? `<p class="ps-bell-empty">Could not load notifications. <button class="ps-control" data-retry>Retry</button></p>` : `<p class="ps-bell-empty">${tab === "unread" ? "Nothing unread." : "Nothing yet. Replies, payments, new clients and finished steps show up here."}</p>`;
+      list.querySelector("[data-retry]")?.addEventListener("click", load);
       panel.querySelector("[data-all]").disabled = !feed.unread;
       panel.querySelectorAll("[data-tab]").forEach((t) => t.classList.toggle("active", t.dataset.tab === tab));
       panel.querySelector("[data-tab=unread] span").textContent = feed.unread ? feed.unread : "";
@@ -156,6 +172,7 @@
     function onOutside(e) { if (panel && !panel.contains(e.target) && !button.contains(e.target)) close(); }
     function onKey(e) { if (e.key === "Escape") close(); }
     function openPanel() {
+      if (panel || destroyed) return;
       panel = document.createElement("div");
       panel.className = "ps-bell";
       panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Notifications");
@@ -169,16 +186,20 @@
       window.addEventListener("resize", place);
       button.setAttribute("aria-expanded", "true");
       drawList();
-      requestAnimationFrame(() => panel.classList.add("show"));
+      const opened = panel;
+      requestAnimationFrame(() => { if (panel === opened) opened.classList.add("show"); });
       load();
     }
     button.onclick = () => (panel ? close() : openPanel());
 
     load();
-    if (window.PulsifyRealtime?.on) window.PulsifyRealtime.on("notification", () => load());
-    setInterval(() => { if (document.visibilityState === "visible") load(); }, 30000);
-    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") load(); });
-    return { load, open: openPanel, close };
+    const unsubscribe = window.PulsifyRealtime?.on("notification", () => load());
+    const timer = setInterval(() => { if (document.visibilityState === "visible") load(); }, 30000);
+    const onVisible = () => { if (document.visibilityState === "visible") load(); };
+    document.addEventListener("visibilitychange", onVisible);
+    const api = { load, open: openPanel, close, destroy() { destroyed = true; close(); clearInterval(timer); unsubscribe?.(); document.removeEventListener("visibilitychange", onVisible); button.onclick = null; badge.remove(); delete button._pulsifyBell; delete button.dataset.bell; } };
+    button._pulsifyBell = api;
+    return api;
   }
 
   window.PulsifyBell = { mount };

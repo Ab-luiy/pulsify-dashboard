@@ -39,15 +39,21 @@
       <div id="ot-activity" class="ot-activity" hidden></div>
       <div id="ot-list" class="ot-list"><div class="skeleton" style="min-height:240px"></div></div>`;
 
+    let disposed = false, sequence = 0;
     async function load() {
+      if (disposed || !root.isConnected) return;
+      const current = ++sequence;
       try {
-        data = await api(`/api/outreach${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+        const fresh = await api(`/api/outreach${q ? `?q=${encodeURIComponent(q)}` : ""}`);
+        if (disposed || current !== sequence) return;
+        data = fresh;
         TZ = data.timezone || TZ;
         drawStats(); drawList(); drawActivity();
         const handoff = sessionStorage.getItem("pulsify:open-thread");
         if (handoff) { sessionStorage.removeItem("pulsify:open-thread"); const t = data.threads.find((x) => x.id === handoff); if (t) { section = bucket(t); root.querySelectorAll("[data-section]").forEach((x) => x.classList.toggle("active", x.dataset.section === section)); drawStats(); drawList(); if (!open.has(handoff)) toggle(handoff); root.querySelector(`#ot-${CSS.escape(handoff)}`)?.scrollIntoView({ block: "center" }); } }
         root.querySelector("#ot-updated").textContent = `${window.PulsifyRealtime?.status() === "live" ? "Live · " : ""}Updated ${stamp(data.generated_at)} (${TZ.split("/")[1]})`;
       } catch (e) {
+        if (disposed || current !== sequence) return;
         root.querySelector("#ot-list").innerHTML = `<p class="int-empty">${esc(e.message)}</p>`;
       }
     }
@@ -156,7 +162,7 @@
       box.hidden = !events.length;
       if (!events.length) return;
       const kindLabel = { reply: "replied", seen: "seen, no reply after 5 min", booked: "booked", closed: "closed", hibernated: "hibernating" };
-      box.innerHTML = `<strong>Recent</strong>${events.slice(0, 8).map((e) => `<span class="ot-event"><b>${esc(e.name || e.handle || "Lead")}${e.handle ? `, @${esc(e.handle)}` : ""}</b> ${esc(kindLabel[e.kind] || e.kind)}${e.text ? `: ${esc(e.text.slice(0, 60))}` : ""} <small>${esc(ago(e.created_at))}${e.delivered_at ? "" : " · not delivered"}</small></span>`).join("")}`;
+      box.innerHTML = `<strong>Recent</strong>${events.slice(0, 8).map((e) => `<span class="ot-event"><b>${esc(e.name || e.handle || "Lead")}${e.handle ? `, @${esc(e.handle)}` : ""}</b> ${esc(kindLabel[e.kind] || e.kind)}${e.text ? `: ${esc(e.text.slice(0, 60))}` : ""} <small>${esc(ago(e.created_at))}</small></span>`).join("")}`;
     }
 
     root.querySelectorAll("[data-section]").forEach((b) => (b.onclick = () => { root.querySelectorAll("[data-section]").forEach((x) => x.classList.toggle("active", x === b)); section = b.dataset.section; drawStats(); drawList(); }));
@@ -166,16 +172,18 @@
     load();
     // Live push: any change to a thread reloads the list within a second; the
     // 60 s poll below stays as the fallback when the socket is down.
+    let pending = null, unsubscribe, paint;
     if (window.PulsifyRealtime) {
-      let pending = null;
       const live = root.querySelector("#ot-updated");
-      const paint = () => { const s = PulsifyRealtime.status(); live.dataset.live = s; live.title = s === "live" ? "Live updates on" : s === "error" ? "Live updates unavailable, polling" : "Connecting live updates"; };
+      paint = () => { const s = PulsifyRealtime.status(); live.dataset.live = s; live.title = s === "live" ? "Live updates on" : s === "error" ? "Live updates unavailable, polling" : "Connecting live updates"; };
       document.addEventListener("pulsify:realtime", paint);
-      PulsifyRealtime.on("tracker.changed", () => { clearTimeout(pending); pending = setTimeout(load, 400); });
+      unsubscribe = PulsifyRealtime.on("tracker.changed", () => { clearTimeout(pending); pending = setTimeout(load, 400); });
       paint();
     }
     // Timers tick without a network call; data refreshes each minute while the view is on screen.
-    timer = setInterval(() => { if (!root.isConnected) { clearInterval(timer); return; } load(); }, 60000);
+    timer = setInterval(() => { if (!root.isConnected) { dispose(); return; } if (document.visibilityState === "visible") load(); }, 60000);
+    function dispose() { disposed = true; clearInterval(timer); clearTimeout(debounce); clearTimeout(pending); unsubscribe?.(); if (paint) document.removeEventListener("pulsify:realtime", paint); }
+    return dispose;
   }
 
   window.PulsifyOutreachView = { render, ago };

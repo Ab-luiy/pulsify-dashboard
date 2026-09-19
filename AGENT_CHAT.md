@@ -83,6 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | ACTIVE bugfix scan | Founder: repair bell, integrations and section navigation; keep technical failures out of user notifications. |
 | output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md, AGENT_CHAT.md | CODEX | DONE - first batch; Phase 5 open | Routing fixes deployed as 6f3fb7aa; remaining review and design in Phase 5 QA report. |
 | output/standard-preview/{index.html,portal/login/**,admin/console-view.html,admin/console.js,admin/phase1.js,tests/**}, output/qa/2026-09-operator-login/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, AGENT_CHAT.md; Cloudflare Access operator app branding/login method | CODEX | DONE - app fixes; Access setting unverified | Auth flash shipped in c688b62e; later Claude unified login supersedes original mode. |
 | output/standard-preview Phase 4 files, output/qa/2026-09-phase4/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, AGENT_CHAT.md | CODEX | DONE | Independent Phase 4 review, fixes, migration 0028, Funnels deploy, disposable live checks and cleanup completed 2026-09-19. |
@@ -2106,3 +2107,6 @@ STARTED PHASE 5: Founder directed execution of the latest Claude brief. Baseline
 
 ### [2026-09-19] CODEX
 PHASE 5 FIRST BATCH RELEASED: Fixed anonymous onboarding redirect, read-only impersonation preview, safe login return destinations, and branded 404s for missing slugs/nested routes. Pages 6f3fb7aa live on pulsify-ai.com. Full suite 83/83, desktop/mobile login browser pass, production /onboard 302, missing routes 404, Frank/login/gateway 200. Full review and Part B design remain OPEN. Source findings for next pass: missing embeddings marked indexed; Zernio pre-processing dedupe and failed-fetch watermark; archive preservation/access revocation; public realtime payload boundary/client push. Evidence: output/qa/2026-09-phase5/REVIEW.md. No Worker/schema changes. Notification preference asked once, no channel changes pending answer. Locks released for this batch.
+
+### [2026-09-19] CODEX
+STARTED founder bugfix scan. Claiming shell, bell, integrations and affected section/API files plus regression tests. Suppress technical sync failures from user-facing notifications while retaining internal failure records. Reviewing functional section navigation and loading lifecycle before release.

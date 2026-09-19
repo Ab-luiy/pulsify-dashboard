@@ -34,7 +34,7 @@ export function describeEvent(event, data = {}, scope = "operator") {
     case "content.sequence_published":
       return { kind: "content", severity: "success", title: `Sequence published: ${data.title || data.id || ""}`, body: "", link: "content" };
     case "integration.sync_failed":
-      return { kind: "system", severity: "error", title: `${data.provider || "A sync"} failed`, body: str(data.error || data.detail).slice(0, 200), link: "integrations" };
+      return null; // Technical failures belong in sync_runs / delivery_failures, not the bell.
     case "client.delete_requested":
       return { kind: "client", severity: "warn", title: `${data.client || "A client"} asked to close their workspace`, body: str(data.reason).slice(0, 200) || "No reason given. Nothing deleted.", link: "clients" };
     default:
@@ -44,7 +44,7 @@ export function describeEvent(event, data = {}, scope = "operator") {
 
 // Write one notification. dedupeKey makes repeated calls a no-op.
 export async function notify(env, { scope = "operator", clientId = "", kind, severity = "info", title, body = "", link = "", entity = null, dedupeKey = null, discord = false }) {
-  if (!env?.DB || !title) return null;
+  if (!env?.DB || !title || kind === "system") return null;
   const id = `ntf_${generateOpaqueToken(10)}`;
   const inserted = await env.DB.prepare(
     `INSERT OR IGNORE INTO notifications (id, scope, client_id, kind, severity, title, body, link, entity_json, dedupe_key, created_at)
@@ -53,8 +53,9 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
   if (!Number(inserted.meta?.changes || 0)) return null;
   if (discord && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
   try {
-    const { pushOperator } = await import("./realtime.js");
-    if (scope === "operator" && typeof pushOperator === "function") await pushOperator(env, "notification", { id, kind });
+    const { pushOperator, pushClient } = await import("./realtime.js");
+    if (scope === "operator" && typeof pushOperator === "function") await pushOperator(env, "notification", { id });
+    else if (scope === "client" && clientId) await pushClient(env, clientId, "notification", { id });
   } catch { /* push is optional; the 30 s poll still catches it */ }
   return id;
 }
@@ -80,7 +81,7 @@ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
 // Operator feed: every operator row (client_id there only says which client it
 // is about). Client feed: rows for that one workspace.
 function where(scope, clientId) {
-  return scope === "operator" ? { sql: "scope='operator'", args: [] } : { sql: "scope='client' AND client_id=?", args: [str(clientId)] };
+  return scope === "operator" ? { sql: "scope='operator' AND kind != 'system'", args: [] } : { sql: "scope='client' AND client_id=? AND kind != 'system'", args: [str(clientId)] };
 }
 
 export async function listNotifications(env, { scope, clientId = "", limit = 50, unreadOnly = false }) {
@@ -89,7 +90,7 @@ export async function listNotifications(env, { scope, clientId = "", limit = 50,
     `SELECT id, client_id, kind, severity, title, body, link, entity_json, created_at, read_at
        FROM notifications WHERE ${w.sql} ${unreadOnly ? "AND read_at IS NULL" : ""}
       ORDER BY created_at DESC LIMIT ?`,
-  ).bind(...w.args, Math.min(200, limit)).all();
+  ).bind(...w.args, Math.max(1, Math.min(200, Math.trunc(Number(limit)) || 50))).all();
   const unread = await env.DB.prepare(`SELECT COUNT(*) AS n FROM notifications WHERE ${w.sql} AND read_at IS NULL`).bind(...w.args).first();
   return { items: (rows.results || []).map((r) => ({ ...r, entity: safeParse(r.entity_json), entity_json: undefined })), unread: Number(unread?.n || 0) };
 }

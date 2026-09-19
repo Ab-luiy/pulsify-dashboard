@@ -312,15 +312,8 @@ export async function recordFailure(env, client, kind, detail, options = {}) {
     return;
   }
 
-  if (options.skipDiscord) return;
-  await sendDiscordAlert(env, {
-    title: "Delivery failure",
-    lines: [
-      `Client: ${client || "unknown"}`,
-      `Kind: ${kind}`,
-      String(detail || "").slice(0, 220),
-    ],
-  }, { skipFailureLog: true });
+  // Keep technical failures in internal diagnostics; never send user alerts.
+
 }
 
 export async function sendDiscordAlert(env, alert, options = {}) {
