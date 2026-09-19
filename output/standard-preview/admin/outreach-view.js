@@ -44,6 +44,8 @@
         data = await api(`/api/outreach${q ? `?q=${encodeURIComponent(q)}` : ""}`);
         TZ = data.timezone || TZ;
         drawStats(); drawList(); drawActivity();
+        const handoff = sessionStorage.getItem("pulsify:open-thread");
+        if (handoff) { sessionStorage.removeItem("pulsify:open-thread"); const t = data.threads.find((x) => x.id === handoff); if (t) { section = bucket(t); root.querySelectorAll("[data-section]").forEach((x) => x.classList.toggle("active", x.dataset.section === section)); drawStats(); drawList(); if (!open.has(handoff)) toggle(handoff); root.querySelector(`#ot-${CSS.escape(handoff)}`)?.scrollIntoView({ block: "center" }); } }
         root.querySelector("#ot-updated").textContent = `${window.PulsifyRealtime?.status() === "live" ? "Live · " : ""}Updated ${stamp(data.generated_at)} (${TZ.split("/")[1]})`;
       } catch (e) {
         root.querySelector("#ot-list").innerHTML = `<p class="int-empty">${esc(e.message)}</p>`;

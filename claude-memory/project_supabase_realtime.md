@@ -13,6 +13,6 @@ Decided 2026-09-19 with the founder: Supabase is NOT a migration target (it dupl
 
 **Also live the same day:** Zernio (zernio.com, approved Meta app) replaced Composio as the Instagram inbox source: hosted Instagram login, `message.read` webhooks, replayed history merged by participant id. Gotchas: message `id` IS the Graph mid; conversation `url` is `/direct/...` so the handle comes from `participantName`; free plan 60 req/min so the sweep locks and stops on 429. A parallel Claude session built an in-house notifications bell (`notifications` table, migration 0031) that should subscribe to the same channel.
 
-**Next candidate use:** pgvector semantic search over DMs and client brains, only if the founder asks.
+**Semantic search (2026-09-19, live):** built on Cloudflare Vectorize (`pulsify-search`) + Workers AI bge-base, NOT Supabase pgvector, to stay keyless. Docs = every DM + every client brain field, hashed ids (Vectorize 64-byte cap), `search_index_state` in D1. Console view "Search" (Ctrl+K), `/api/search`. Do not move it to Supabase.
 
 Related: [[feedback_keys_and_apis_are_mine]], [[project_ig_dm_bridge]], [[project_composio_ig_bridge]]

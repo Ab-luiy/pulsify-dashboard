@@ -25,3 +25,10 @@ SUPABASE_URL = "https://tdriqapogyncrzravqip.supabase.co"
 SUPABASE_ANON_KEY = "sb_publishable_k4c-OkJeFIKgn94yN8Wz0g_phlKeGOz"
 YOUTUBE_HANDLE = "abluiy"
 SYNC_ENABLED = "true"
+
+[[vectorize]]
+binding = "VECTORIZE"
+index_name = "pulsify-search"
+
+[ai]
+binding = "AI"

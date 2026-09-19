@@ -8,6 +8,7 @@ import { sweepWebhooks } from "./jobs/webhook-outbox.js";
 import { syncPayments } from "./jobs/payments.js";
 import { ingestSeen, sweepSeen } from "./jobs/outreach-notify.js";
 import { handleZernioEvent, syncZernioInbox } from "./jobs/zernio-inbox.js";
+import { syncSearchIndex } from "./jobs/search-index.js";
 import { verifySignature } from "../../../functions/_shared/zernio.js";
 
 const JOBS = {
@@ -18,6 +19,7 @@ const JOBS = {
   "webhook-outbox": sweepWebhooks,
   "payment-rematch": syncPayments,
   "zernio-inbox": syncZernioInbox,
+  "search-index": syncSearchIndex,
 };
 
 export default {
@@ -31,6 +33,7 @@ export default {
       ctx.waitUntil(sweepSeen(env).catch(() => 0));
       // Zernio sweep rides the same minute; it is a no-op until an account is connected.
       ctx.waitUntil(runJob(env, "zernio-inbox", () => syncZernioInbox(env)));
+      ctx.waitUntil(runJob(env, "search-index", () => syncSearchIndex(env)));
     }
   },
 
@@ -59,7 +62,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);

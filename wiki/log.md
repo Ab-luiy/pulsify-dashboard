@@ -1716,3 +1716,7 @@ Claude deployed the tracker, the parity pass and Phase 4 UI (Worker efb914d6, Pa
 ## [2026-09-19] client-update | Zernio connected, live push via Supabase Realtime
 
 Zernio is the Instagram inbox source (approved Meta app, hosted login, read receipts by webhook, history replayed and merged onto existing threads). Founder rule recorded: keys and API setup are Claude's job; the Resend key never moved because the Worker now relays email through a Pages route with a secret Claude generated. Supabase evaluated: mostly duplicates the Cloudflare stack, so no migration; adopted as a push channel only. Tracker updates now appear within a second of a reply, a read receipt or a manual mark. Next candidate: semantic search over DMs and client brains.
+
+## [2026-09-19] client-update | Semantic search over DMs and client brains
+
+Live in the console under Growth, Search (Ctrl+K). Ask in plain words; results are the messages and brain fields that mean that, grouped by conversation and client, one click into the tracker thread. Built on Cloudflare Vectorize and Workers AI, no keys and no second database, so Supabase remains a push channel only. Index fills at 50 messages a minute, newest first.
