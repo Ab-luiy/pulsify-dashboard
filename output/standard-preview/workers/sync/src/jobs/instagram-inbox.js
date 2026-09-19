@@ -137,7 +137,7 @@ export async function syncInstagramInbox(env, options = {}) {
       const inserted = Number(result.meta?.changes || 0) && !knownMessages.has(message.id) ? 1 : 0;
       written += inserted;
       if (inserted && !historicalBootstrap && !resync && message.direction === "inbound" && message === normalized.at(-1)) {
-        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text }).catch(() => null);
+        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text, messageId: message.id }).catch(() => null);
       }
       if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
     }

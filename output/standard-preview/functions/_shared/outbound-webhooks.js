@@ -51,6 +51,13 @@ export async function emitEvent(env, { scope = "operator", clientId = "", event,
     `INSERT INTO webhook_outbox (id, scope, client_id, event, payload_json, is_test, created_at)
      VALUES (?,?,?,?,?,?,?)`,
   ).bind(id, scope, clientId, event, JSON.stringify(payload), isTest ? 1 : 0, createdAt).run();
+  // The in-house bell rides on the same event stream. Never blocks the caller.
+  if (!isTest) {
+    try {
+      const { notifyFromEvent } = await import("./notifications.js");
+      await notifyFromEvent(env, { scope, clientId, event, data });
+    } catch { /* notification tables may not exist in a minimal test env */ }
+  }
   return id;
 }
 

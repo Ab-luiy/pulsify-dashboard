@@ -6,7 +6,7 @@
 import { json, str, nowIso, sha256Hex, normalizeEmail } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { CLIENT_SESSION_COOKIE, createPasswordSalt, hashPassword, parseCookies, resolveClientAccess, verifyPassword, PBKDF2_ITERATIONS } from "../_shared/client-auth.js";
-import { notifyOperator } from "../_shared/notify-operator.js";
+import { notify } from "../_shared/notifications.js";
 import { emitEvent } from "../_shared/outbound-webhooks.js";
 import { operatorEmails } from "./login-lookup.js";
 
@@ -203,7 +203,7 @@ export async function onRequestPost({ request, env }) {
     await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
       .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => null);
     await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => null);
-    await notifyOperator(env, { title: `Workspace deletion requested by ${client}`, lines: [`Client: ${client}`, reason ? `Reason: ${reason}` : "No reason given", "Nothing was deleted. Confirm with the client, then remove it from the console."] }).catch(() => null);
+    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => null);
     return json({ ok: true, message: "Request sent. Nothing is deleted until Pulsify confirms with you by email." });
   }
 

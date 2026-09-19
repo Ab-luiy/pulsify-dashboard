@@ -99,14 +99,9 @@
           ${submit("Save workspace", dis)}
         </form>
         <div class="set-row"><div><strong>Workspace id</strong><small><code>${esc(d.workspace.client)}</code> · status ${esc(d.workspace.status || "unknown")}</small></div></div>` },
-      { id: "notifications", title: "Notifications", blurb: "Email from Pulsify. Each one is a real message, not a digest of nothing.", html: `
-        <form data-action="notifications" class="set-form">
-          ${toggle("weekly_report", "Weekly report", d.notifications.weekly_report, "Monday morning: what shipped, what moved, what is next.")}
-          ${toggle("payment_alerts", "Payment alerts", d.notifications.payment_alerts, "A note when a payment lands and matches a lead.")}
-          ${toggle("sequence_reviews", "Sequence reviews", d.notifications.sequence_reviews, "When Pulsify reviews or approves a sequence you drafted.")}
-          ${toggle("product_updates", "Product updates", d.notifications.product_updates, "New things in the workspace. Rare.")}
-          ${submit("Save notifications", dis)}
-        </form>` },
+      { id: "notifications", title: "Notifications", blurb: "Everything lands in the bell at the top of your workspace. No email.", html: `
+        <div class="set-row"><div><strong>In your workspace</strong><small>Payments, launch steps, sequence reviews and messages from Pulsify appear in the bell and stay until you read them.</small></div><span class="int-pill int-pill-ok">On</span></div>
+        <div class="set-row"><div><strong>Email</strong><small>Off. Pulsify does not send notification emails.</small></div><span class="int-pill">Off</span></div>` },
       { id: "connections", title: "Connected accounts", blurb: "Instagram, YouTube, payments and booking live in Integrations.", html: `<div class="set-row"><div><strong>Manage connections</strong><small>Read-only access, revoke any time.</small></div><button type="button" class="ps-control" onclick="window.PulsifyClientShell?.go('access')">Open Integrations</button></div>` },
       { id: "plan", title: "Plan and billing", blurb: "What you are on and what it includes.", html: `<div class="set-row"><div><strong>Your plan</strong><small>Plans, invoices and what each tier unlocks.</small></div><button type="button" class="ps-control" onclick="window.PulsifyClientShell?.go('plans')">View plans</button></div>` },
       { id: "data", title: "Your data", blurb: "It is yours. Take a copy any time.", html: `
@@ -135,14 +130,10 @@
           <div class="set-grid">${field("Timezone", select("timezone", tzOptions, d.defaults.timezone || ""))}${field("Currency", select("currency", d.currencies, d.defaults.currency || "USD"))}</div>
           ${submit("Save defaults")}
         </form>` },
-      { id: "notifications", title: "Notifications", blurb: "Discord alerts go to the webhook set in Integrations.", html: `
-        <form data-action="notifications" class="set-form">
-          ${toggle("discord_payments", "Payments", d.notifications.discord_payments, "Every matched payment and refund.")}
-          ${toggle("discord_failures", "Failures", d.notifications.discord_failures, "Sync errors, delivery failures, webhook retries exhausted.")}
-          ${toggle("weekly_summary", "Weekly summary", d.notifications.weekly_summary, "Monday: clients, pipeline, cash.")}
-          ${submit("Save notifications")}
-        </form>
-        <div class="set-row"><div><strong>Discord webhook</strong><small>Set or test it in Integrations.</small></div><button type="button" class="ps-control" onclick="window.PulsifyOperatorShell?.go('integrations')">Open Integrations</button></div>` },
+      { id: "notifications", title: "Notifications", blurb: "Everything in the bell. One outside ping only: Discord, when a lead replies.", html: `
+        <div class="set-row"><div><strong>In the console</strong><small>Lead replies, seen-no-reply, payments, refunds, new clients, launch steps, sync failures. Bell at the top, badge with the unread count, a toast for replies while you are on the page.</small></div><span class="int-pill int-pill-ok">On</span></div>
+        <div class="set-row"><div><strong>Discord, lead replies only</strong><small>Fires the moment a prospect answers a DM. Needs a Discord webhook saved in Integrations; nothing else is ever sent there.</small></div><button type="button" class="ps-control" onclick="window.PulsifyOperatorShell?.go('integrations')">Set up in Integrations</button></div>
+        <div class="set-row"><div><strong>Email</strong><small>Off.</small></div><span class="int-pill">Off</span></div>` },
     ];
   }
 

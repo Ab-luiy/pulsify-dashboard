@@ -37,8 +37,8 @@ export async function handleZernioEvent(env, payload, eventId) {
     const isNew = await storeMessage(env, conversationId, zm, operatorEmail);
     if (isNew && event === "message.received") {
       const row = await env.DB.prepare("SELECT participant_username AS handle, participant_name AS name FROM ig_conversations WHERE id=?").bind(conversationId).first();
-      await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text }).catch(() => null);
-      await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: zm.platformMessageId || zm.id, conversation_id: conversationId, handle: row?.handle || "", direction: "inbound", text: zm.text, ts: zm.sentAt, source: "instagram" } }).catch(() => null);
+      await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text, messageId: zm.platformMessageId || zm.id }).catch(() => null);
+      await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: zm.platformMessageId || zm.id, conversation_id: conversationId, handle: row?.handle || "", name: row?.name || "", direction: "inbound", text: zm.text, ts: zm.sentAt, source: "instagram" } }).catch(() => null);
     }
     return { ok: true, conversationId, stored: isNew };
   }

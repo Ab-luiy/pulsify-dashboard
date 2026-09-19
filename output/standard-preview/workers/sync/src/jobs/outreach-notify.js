@@ -4,17 +4,17 @@
 // Reply detection comes from the inbox sync. Seen only exists when Meta's
 // messaging_seen webhook reaches us through the Composio hook; ingestSeen
 // parses it tolerantly and the sweep fires the notification after the grace.
-// Delivery: email to the operator addresses (Resend), Discord only if configured.
-import { notifyOperator } from "../../../../functions/_shared/notify-operator.js";
+// Delivery: the in-house bell for everything; Discord only when a lead replied.
+import { notify } from "../../../../functions/_shared/notifications.js";
 import { logEvent, upsertOutreach, SEEN_GRACE_MS } from "../../../../functions/_shared/outreach.js";
 
 const label = (name, handle) => `[${name || handle || "Instagram lead"}${handle ? `, @${handle}` : ""}]`;
 
-export async function notifyReply(env, { conversationId, handle, name, text }) {
-  const sent = await notifyOperator(env, { title: `${label(name, handle)} replied`, lines: [String(text || "(attachment)").slice(0, 300)], link: handle ? `https://instagram.com/${handle}` : "" });
+export async function notifyReply(env, { conversationId, handle, name, text, messageId = "" }) {
+  const id = await notify(env, { scope: "operator", kind: "lead.replied", severity: "success", title: `${label(name, handle)} replied`, body: String(text || "(attachment)").slice(0, 300), link: "outreach", entity: { conversation_id: conversationId, handle }, discord: true, dedupeKey: messageId ? `operator::conversation.new_message:${messageId}` : null });
   await upsertOutreach(env, conversationId, { reply_notified_at: new Date().toISOString() });
-  await logEvent(env, { conversationId, kind: "reply", handle, name, text, delivered: sent.ok });
-  return sent.ok;
+  await logEvent(env, { conversationId, kind: "reply", handle, name, text, delivered: Boolean(id) });
+  return Boolean(id);
 }
 
 // Pull seen signals out of whatever shape the webhook relays. Meta's own
@@ -69,7 +69,7 @@ export async function sweepSeen(env, now = Date.now()) {
   ).bind(cutoff).all()).results || [];
   let sent = 0;
   for (const r of rows) {
-    const ok = (await notifyOperator(env, { title: `${label(r.name, r.handle)} seen your message, no reply after 5 minutes`, link: r.handle ? `https://instagram.com/${r.handle}` : "" })).ok;
+    const ok = Boolean(await notify(env, { scope: "operator", kind: "lead.seen", severity: "warn", title: `${label(r.name, r.handle)} seen your message, no reply after 5 minutes`, body: "", link: "outreach", entity: { conversation_id: r.conversation_id, handle: r.handle }, dedupeKey: `seen:${r.conversation_id}:${r.seen_at}` }));
     await upsertOutreach(env, r.conversation_id, { seen_notified_at: new Date(now).toISOString() });
     await logEvent(env, { conversationId: r.conversation_id, kind: "seen", handle: r.handle, name: r.name, text: "", delivered: ok });
     sent += 1;

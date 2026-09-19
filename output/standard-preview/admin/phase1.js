@@ -6,6 +6,7 @@
  let cacheKey='pulsify:bootstrap:v1:operator',bootstrap=null,frames=new Map(),bootstrapEpoch=0;
  const shell=PulsifyShell.mount({container:shellRoot,workspace:'Pulsify',nav,onView:view,onWorkspace:async client=>{if(!client){shell.go('overview');return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not open client workspace.');location.href=d.url;},signOut:()=>location.href='/portal/login?operator=1&logout=1'});
  window.PulsifyOperatorShell=shell;
+ if(window.PulsifyBell)PulsifyBell.mount({operator:true,go:id=>shell.go(id)});
  function view(id,main){
  if(!owned){owned=document.createElement('section');main.append(owned);}owned.hidden=false;for(const frame of frames.values())frame.hidden=true;PulsifyNativeDashboard.hide();
   if(id==='outreach'&&window.PulsifyOutreachView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyOutreachView.render(holder);return;}
