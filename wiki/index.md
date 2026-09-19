@@ -279,3 +279,4 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 ## Founder packaging reference collection
 
 - [[outreach/packaging-references/Packaging examples]] — Good, bad and unsorted title/thumbnail screenshots with source links, founder notes and optional performance context. [packaging, outreach] 2026-09-15.
+- [[phase5-review-and-polish-codex-brief]] — Codex: second-reader review of the 2026-09-19 releases plus the Leads/Search/Outreach tracker design and sorting pass. synthesis. 2026-09-19
