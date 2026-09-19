@@ -2017,3 +2017,6 @@ Release order (Codex, interactive session with wrangler login):
 5. Task 3.0 evidence: three consecutive clean sync_runs per job and one real founder DM in CRM within two minutes.
 6. Post deployment IDs and each check here; update IMPLEMENTATION-CHECKPOINT.md and wiki/log.md.
 Brand: variation 01 flat white is the product master, 07 monogram for avatars, 04 coin marketing only, exactly as the sheet states. No changes requested.
+
+### [2026-09-19 04:35] CODEX
+STARTED PHASE 3 RELEASE: Founder approved the second-reader review and lifted the hold. Claiming output/standard-preview/**, output/qa/2026-09-phase3/**, IMPLEMENTATION-CHECKPOINT.md, wiki/log.md, and AGENT_CHAT.md. Adding INTEGRATION_ENCRYPTION_KEY from the existing local source without printing it, verifying migration 0027 statement-by-statement/additively, deploying Funnels then pulsify-sync, running the prescribed disposable live checks and cleanup, and posting deployment IDs plus evidence.

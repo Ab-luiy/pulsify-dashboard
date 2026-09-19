@@ -2,6 +2,7 @@ import { composioExecute, findRows } from "../composio.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 
 const TERMINAL = new Set(["call-booked", "won", "dead"]);
+const MAX_CONVERSATIONS_PER_RUN = 12;
 
 export async function syncInstagramInbox(env) {
   const operatorEmail = env.OPERATOR_EMAIL || "operator";
@@ -19,17 +20,30 @@ export async function syncInstagramInbox(env) {
     limit: 100,
   });
   const conversations = findRows(conversationsPayload);
+  const known = await loadKnownConversations(env);
   const watermark = conversations.reduce((latest, row) => {
     const value = String(row.updated_time || "");
     return value > latest ? value : latest;
   }, syncState.watermark || "");
-  const changed = syncState.watermark
-    ? conversations.filter((row) => !row.updated_time || String(row.updated_time) > syncState.watermark)
-    : conversations;
+  // Compare each remote conversation with its durable row. The original
+  // watermark-only bootstrap retried all history whenever a Worker invocation
+  // ended before saveSyncState(), eventually exhausting the subrequest limit.
+  const pending = conversations.filter((row) => {
+    const id = String(row.id || row.conversation_id || "");
+    if (!id) return false;
+    const previous = known.get(id);
+    if (!previous) return true;
+    const updated = comparableTime(row.updated_time);
+    return Boolean(updated && updated > previous);
+  });
+  const changed = pending.slice(0, MAX_CONVERSATIONS_PER_RUN);
   if (!changed.length) {
-    if (!syncState.ownId) await saveSyncState(env, { ownId, connectedAccountId, watermark });
+    if (!syncState.ownId || !syncState.watermark || syncState.watermark !== watermark) {
+      await saveSyncState(env, { ownId, connectedAccountId, watermark });
+    }
     return 0;
   }
+  const historicalBootstrap = !syncState.watermark;
   let written = 0;
 
   for (const rawConversation of changed) {
@@ -77,8 +91,7 @@ export async function syncInstagramInbox(env) {
       now,
     ).run();
 
-    for (const message of normalized) {
-      const result = await env.DB.prepare(
+    const inserts = normalized.map((message) => env.DB.prepare(
         `INSERT OR IGNORE INTO ig_messages(
            id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at
          ) VALUES(?,?,?,?,?,?,?,?)`,
@@ -91,15 +104,35 @@ export async function syncInstagramInbox(env) {
         message.text,
         JSON.stringify(message.raw),
         now,
-      ).run();
+      ));
+    const results = inserts.length ? await env.DB.batch(inserts) : [];
+    for (let index = 0; index < normalized.length; index += 1) {
+      const message = normalized[index];
+      const result = results[index];
       const inserted = Number(result.meta?.changes || 0);
       written += inserted;
-      if (inserted) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
+      if (inserted && !historicalBootstrap) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
     }
-    await projectConversationToCrm(env, participant, conversationId, normalized);
+    await projectConversationToCrm(env, participant, conversationId, normalized, !historicalBootstrap);
   }
-  await saveSyncState(env, { ownId, connectedAccountId, watermark });
+  await saveSyncState(env, {
+    ownId,
+    connectedAccountId,
+    watermark: pending.length > changed.length ? syncState.watermark : watermark,
+  });
   return written;
+}
+
+async function loadKnownConversations(env) {
+  const rows = await env.DB.prepare(
+    "SELECT id,last_message_at FROM ig_conversations",
+  ).all();
+  return new Map((rows.results || []).map((row) => [String(row.id), comparableTime(row.last_message_at)]));
+}
+
+function comparableTime(value) {
+  const ms = Date.parse(String(value || ""));
+  return Number.isFinite(ms) ? new Date(ms).toISOString() : "";
 }
 
 async function loadSyncState(env) {
@@ -166,7 +199,7 @@ function findParticipant(conversation, ownId, messages) {
   return { id, username, name };
 }
 
-async function projectConversationToCrm(env, participant, conversationId, messages) {
+async function projectConversationToCrm(env, participant, conversationId, messages, shouldEmit = true) {
   const outbound = messages.filter((message) => message.direction === "outbound");
   if (!outbound.length) return;
   const name = participant.username || participant.name || participant.id;
@@ -207,7 +240,7 @@ async function projectConversationToCrm(env, participant, conversationId, messag
     ).bind(name, JSON.stringify(next), ts, ts, now));
   }
   const results = await env.DB.batch(statements);
-  if (Number(results?.[0]?.meta?.changes || 0)) {
+  if (shouldEmit && Number(results?.[0]?.meta?.changes || 0)) {
     await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => null);
   }
 }

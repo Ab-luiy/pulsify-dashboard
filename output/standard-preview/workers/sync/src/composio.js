@@ -1,19 +1,31 @@
 const BASE = "https://backend.composio.dev/api/v3/tools/execute";
+export const COMPOSIO_TIMEOUT_MS = 20000;
 
 export async function composioExecute(env, slug, args = {}) {
   if (!env.COMPOSIO_API_KEY) throw new Error("COMPOSIO_API_KEY is not configured");
-  const response = await fetch(`${BASE}/${encodeURIComponent(slug)}`, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": env.COMPOSIO_API_KEY,
-      "user-agent": "Pulsify-Sync/1.0",
-    },
-    body: JSON.stringify({
-      user_id: env.COMPOSIO_USER_ID || "owner",
-      arguments: args,
-    }),
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), COMPOSIO_TIMEOUT_MS);
+  let response;
+  try {
+    response = await fetch(`${BASE}/${encodeURIComponent(slug)}`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": env.COMPOSIO_API_KEY,
+        "user-agent": "Pulsify-Sync/1.0",
+      },
+      body: JSON.stringify({
+        user_id: env.COMPOSIO_USER_ID || "owner",
+        arguments: args,
+      }),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (controller.signal.aborted) throw new Error(`${slug} timed out after ${COMPOSIO_TIMEOUT_MS / 1000}s`);
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
   const body = await response.json().catch(() => ({}));
   if (!response.ok || body.error) {
     throw new Error(`${slug} failed (${response.status}): ${body.error || body.message || "unknown error"}`);
