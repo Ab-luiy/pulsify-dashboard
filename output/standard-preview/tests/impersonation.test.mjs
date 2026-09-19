@@ -425,11 +425,12 @@ async function testEveryWriteRejectsImpersonation() {
 
   const onboard = await onboardRoute.onRequest({
     request: new Request("https://funnels.test/onboard/", { headers: cookie }),
-    env,
+    env: { ...env, ASSETS: { fetch: async () => new Response("<title>Onboarding preview</title>") } },
     params: { path: [] },
     next: () => new Response("next"),
   });
-  assert.equal(onboard.status, 401, "impersonation cannot reach the onboarding surface");
+  assert.equal(onboard.status, 200, "impersonation can preview onboarding without gaining write access");
+  assert.match(await onboard.text(), /Onboarding preview/);
 
   const approve = await studioSequencesApi.onRequestPost({
     request: jsonRequest("https://funnels.test/api/studio-sequences", "POST", { action: "approve", id: 1 }, cookie),

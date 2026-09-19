@@ -222,7 +222,8 @@ async function testOnboardingPageTokenGate() {
     params: { path: [] },
     next: () => new Response("next"),
   });
-  assert.equal(rejected.status, 401);
+  assert.equal(rejected.status, 302);
+  assert.equal(new URL(rejected.headers.get("location")).pathname, "/portal/login");
 
   const accepted = await onboardRoute.onRequest({
     request: new Request(`https://funnels.test/onboard/?t=${token}`),

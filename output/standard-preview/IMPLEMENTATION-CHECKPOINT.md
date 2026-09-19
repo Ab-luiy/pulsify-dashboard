@@ -8,13 +8,15 @@ Implement the remaining requirements from both founder portal briefs. The founde
 
 ## Deployment state
 
-Current funnels release: `2cbac2ca.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0028 are applied remotely. The current sync Worker version is `ea7c184a-0460-4a2d-8d2e-6f49f574f907` at https://pulsify-sync.abod-louai.workers.dev with `SYNC_ENABLED=true`. Protected endpoints return 401 anonymously.
+Current funnels release: `6f3fb7aa.pulsify-funnels.pages.dev`, serving https://pulsify-ai.com. Latest Worker and migrations are described in the later Claude entries in AGENT_CHAT.md (search, Zernio, realtime, notifications, and archive shipped after Phase 4); do not use the old Phase 3 Worker ID as current.
 
-## Operator login routing: production code released, Access save pending
+## Phase 5: first audit-fix batch released
 
-The product-owned Kendo-style split login is now the operator entry surface at `/portal/login?operator=1`. The public gateway, admin auth fallback and sign-out flow all return there. Operator mode hides the client password form and exposes one Google action while preserving Cloudflare Access protection on `/admin`. Funnels release `2cbac2ca` is live on `pulsify-ai.com`; the gateway and operator page return 200 and anonymous `/admin` still redirects to Access.
+Read the latest Phase 5 brief and website audit. Baseline suite was 80/80. First batch fixes anonymous onboarding redirects, read-only impersonation preview, same-site login return paths, and real branded 404s. Backend suite now passes 83/83; the updated email-first login browser regression passes at desktop and phone sizes. Production probes verified /onboard 302 to login, unknown and nested paths 404, and existing landing/login/gateway 200. Evidence and remaining review observations: `output/qa/2026-09-phase5/REVIEW.md`.
 
-Cloudflare's `Pulsify operator console` form is staged with Google as the sole identity provider and instant authentication enabled. The final dashboard Save is pending the required cloud-access confirmation. Until it is saved, Access can still show the generic provider chooser after the branded page. Evidence: `output/qa/2026-09-operator-login/README.md`.
+Phase 5 is not complete: full second-reader review, search/Zernio/archive findings, notifications coalescing, other audit work and the shared Leads/Search/Outreach visual polish remain. The external notification-channel question has been asked once and is awaiting the founder's answer. No deletion of the notification relay or channel change is authorized by silence.
+
+The previous operator auth flash fix shipped as c688b62e and was verified in an authenticated live Clients view. Claude subsequently replaced the login with the unified email-first flow. Google instant-auth configuration is not asserted complete here.
 
 ## Phase 4 (signed-to-live onboarding): reviewed, deployed and live-checked
 

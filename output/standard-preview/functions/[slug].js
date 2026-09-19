@@ -36,18 +36,27 @@ export async function onRequestGet(context) {
     if (await hasStaticAsset(context)) return next();
 
     const client = normalizeClientId(slug, "");
-    if (!client || !env.DB) return next();
+    if (!client) return notFound(context);
+    if (!env.DB) return new Response("Service temporarily unavailable", { status: 503 });
 
     const page = await loadClientPage(env, client, { requireRow: true });
-    if (!page) return next();
+    if (!page) return notFound(context);
     const operatorPreview = new URL(request.url).searchParams.get("operator_preview") === "1";
     if (!page.active && !operatorPreview) return inactivePageResponse();
 
     return renderClientPage(context, client, page);
   } catch (error) {
     console.warn("Pulsify slug render:", error.message);
-    return next();
+    return new Response("Service temporarily unavailable", { status: 503, headers: { "cache-control": "no-store" } });
   }
+}
+
+async function notFound({ env, request }) {
+  const asset = env.ASSETS && await env.ASSETS.fetch(new Request(new URL("/404.html", request.url)));
+  return new Response(asset ? asset.body : "Page not found", {
+    status: 404,
+    headers: { "content-type": asset?.headers.get("content-type") || "text/plain; charset=utf-8", "cache-control": "no-store" },
+  });
 }
 
 function inactivePageResponse() {

@@ -7,12 +7,17 @@ export async function onRequest(context) {
   const access = await resolveClientAccess(context.request, context.env, {
     allowHeaderToken: false,
     allowQueryToken: true,
+    allowImpersonated: ["GET", "HEAD"].includes(context.request.method),
   });
   if (access.error) {
-    return new Response("This onboarding link is invalid or no longer active.", {
-      status: 401,
-      headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" },
-    });
+    if (access.error.status === 401 && ["GET", "HEAD"].includes(context.request.method)) {
+      const destination = new URL(context.request.url);
+      destination.searchParams.delete("t");
+      const login = new URL("/portal/login", destination);
+      login.searchParams.set("next", destination.pathname + destination.search);
+      return new Response(null, { status: 302, headers: { location: login.href, "cache-control": "no-store" } });
+    }
+    return access.error;
   }
 
   return serveAsset(context.env, context.request, "/onboard/index.html");

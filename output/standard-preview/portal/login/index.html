@@ -110,6 +110,15 @@
     const setupToken = params.get("setup") || "";
     const client = params.get("client") || "";
     const operatorMode = params.get("operator") === "1";
+    function loginDestination(fallback) {
+      const next = params.get("next");
+      if (!next) return fallback;
+      try {
+        const target = new URL(next, location.origin);
+        if (target.origin === location.origin && /^\/(?:onboard|portal)(?:\/|$)/.test(target.pathname) && !/^\/portal\/(?:login|register)/.test(target.pathname)) return target.pathname + target.search + target.hash;
+      } catch {}
+      return fallback;
+    }
     const $ = (id) => document.getElementById(id);
     const setupState = { requiresCode: false };
     // A password login must not reuse another client's private-link token.
@@ -176,7 +185,7 @@
             : (data.error || "Could not sign in."));
         }
         sessionStorage.removeItem("pulsify_reel_thoughts");
-        location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
+        location.href = loginDestination(data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`);
       } catch (error) { showMessage(error.message || "Could not sign in."); }
       finally { button.disabled = false; }
     });
@@ -229,7 +238,7 @@
         });
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this password.");
-        location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
+        location.href = loginDestination(data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`);
       } catch (error) { showMessage(error.message || "Could not save this password."); }
       finally { button.disabled = false; }
     });

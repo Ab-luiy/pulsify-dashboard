@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const { chromium } = require('C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 
 const root = path.resolve(__dirname, '..');
-const qa = path.resolve(root, '../qa/2026-09-operator-login');
+const qa = path.resolve(root, '../qa/2026-09-phase5/login');
 fs.mkdirSync(qa, { recursive: true });
 const requests = [];
 
@@ -13,6 +13,10 @@ const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, 'http://127.0.0.1');
   requests.push(url.pathname);
+  if (url.pathname === '/api/login-lookup') {
+    let raw='';req.on('data',c=>raw+=c);req.on('end',()=>{const b=JSON.parse(raw);res.setHeader('content-type','application/json');res.end(JSON.stringify(b.email==='operator@example.test'?{ok:true,kind:'operator',next:'/admin'}:{ok:true,kind:'password'}));});return;
+  }
+  if (url.pathname === '/onboard') {res.setHeader('content-type','text/html');res.end('<h1>Onboarding</h1>');return;}
   if (url.pathname === '/api/client-login' && req.method === 'POST') {
     let raw = '';
     req.on('data', chunk => raw += chunk);
@@ -68,30 +72,36 @@ const server = http.createServer((req, res) => {
 
       await page.goto('http://127.0.0.1:8773/portal/login?operator=1', { waitUntil: 'networkidle' });
       assert.equal(await page.locator('#loginTitle').innerText(), 'Welcome back');
-      assert.equal(await page.locator('#loginForm').isHidden(), true);
-      assert.equal(await page.locator('#loginDivider').isHidden(), true);
-      assert.equal(await page.locator('#operatorGoogleLabel').innerText(), 'Continue with Google');
+      await page.locator('#email').fill('operator@example.test');
+      await page.locator('#continueButton').click();
+      await page.locator('#operatorGoogle').waitFor();
       assert.equal(await page.locator('#operatorGoogle').getAttribute('href'), '/admin');
-      assert.match(await page.locator('#loginHint').innerText(), /approved Pulsify operator accounts/);
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `operator login overflow at ${width}`);
       await page.screenshot({ path: path.join(qa, `login-operator-${width}.png`), fullPage: true });
 
       await page.goto('http://127.0.0.1:8773/portal/register', { waitUntil: 'networkidle' });
-      assert.equal(await page.locator('#registrationNote h1').innerText(), 'Get started with Pulsify');
+      assert.equal(await page.locator('#registrationNote h1').innerText(), 'No account yet?');
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `create-account overflow at ${width}`);
       await page.screenshot({ path: path.join(qa, `login-create-${width}.png`), fullPage: true });
     }
 
     await page.setViewportSize({ width: 1536, height: 960 });
     await page.goto('http://127.0.0.1:8773/portal/login');
-    await page.locator('#moreOptions').click();
-    assert.equal(await page.locator('#emailCodeOption').isVisible(), true);
     await page.locator('#email').fill('demo@example.test');
+    await page.locator('#continueButton').click();
     await page.locator('#password').fill('test-password');
     await page.locator('#loginButton').click();
     await page.waitForURL('**/portal?client=demo-rio');
     assert.match(await page.locator('h1').innerText(), /Demo Rio/);
 
+    for (const next of ['/onboard?client=demo-rio','https://evil.example/','//evil.example/']) {
+      await page.goto('http://127.0.0.1:8773/portal/login?next='+encodeURIComponent(next));
+      await page.locator('#email').fill('demo@example.test');
+      await page.locator('#continueButton').click();
+      await page.locator('#password').fill('test-password');
+      await page.locator('#loginButton').click();
+      await page.waitForURL(next.startsWith('/onboard')?'**/onboard?client=demo-rio':'**/portal?client=demo-rio');
+    }
     await page.setViewportSize({ width: 220, height: 64 });
     await page.goto('http://127.0.0.1:8773/favicon-proof', { waitUntil: 'networkidle' });
     await page.screenshot({ path: path.join(qa, 'favicon-16.png') });
