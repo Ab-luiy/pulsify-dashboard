@@ -1724,3 +1724,8 @@ Live in the console under Growth, Search (Ctrl+K). Ask in plain words; results a
 ## [2026-09-19] client-update | Site audit, workspace archive, test workspaces retired
 
 Full-site scan (routes, auth, probes, browser walk, schema): three bugs fixed live, 14 findings ranked for Codex in wiki/synthesis/website-audit-2026-09-19.md. Built a workspace archive (export to R2 and the vault, hide everywhere, keep every row, restore possible). Retired the duplicate Frank workspace and two test workspaces; frank-wieler is the one live Frank.
+
+
+## [2026-09-19] client-update | Phase 5 first audit-fix batch released
+
+Codex shipped onboarding login redirects, read-only impersonation preview, safe login return destinations and branded 404s. Pages 6f3fb7aa serves pulsify-ai.com. Backend suite 83/83 and desktop/mobile login checks pass; production routes verified. Full review and outreach design polish remain open. Evidence: output/qa/2026-09-phase5/REVIEW.md.
