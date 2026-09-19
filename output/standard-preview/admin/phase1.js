@@ -4,7 +4,7 @@
  const dashboardViews=['live','leads','crm','instagram','youtube','content','payments','health','metrics','plan','income','payouts','cashflow','calendar','dashboard'];
  let owned;
  let cacheKey='pulsify:bootstrap:v1:operator',bootstrap=null,frames=new Map(),bootstrapEpoch=0;
- const shell=PulsifyShell.mount({container:shellRoot,workspace:'Pulsify',nav,onView:view,onWorkspace:async client=>{if(!client){shell.go('overview');return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not open client workspace.');location.href=d.url;},signOut:()=>location.href='/cdn-cgi/access/logout'});
+ const shell=PulsifyShell.mount({container:shellRoot,workspace:'Pulsify',nav,onView:view,onWorkspace:async client=>{if(!client){shell.go('overview');return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not open client workspace.');location.href=d.url;},signOut:()=>location.href='/portal/login?operator=1&logout=1'});
  window.PulsifyOperatorShell=shell;
  function view(id,main){
  if(!owned){owned=document.createElement('section');main.append(owned);}owned.hidden=false;for(const frame of frames.values())frame.hidden=true;PulsifyNativeDashboard.hide();

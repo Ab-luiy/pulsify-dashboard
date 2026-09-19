@@ -8,7 +8,13 @@ Implement the remaining requirements from both founder portal briefs. The founde
 
 ## Deployment state
 
-Current funnels release: `2735fd6f.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0028 are applied remotely. The current sync Worker version is `ea7c184a-0460-4a2d-8d2e-6f49f574f907` at https://pulsify-sync.abod-louai.workers.dev with `SYNC_ENABLED=true`. Protected endpoints return 401 anonymously.
+Current funnels release: `2cbac2ca.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0028 are applied remotely. The current sync Worker version is `ea7c184a-0460-4a2d-8d2e-6f49f574f907` at https://pulsify-sync.abod-louai.workers.dev with `SYNC_ENABLED=true`. Protected endpoints return 401 anonymously.
+
+## Operator login routing: production code released, Access save pending
+
+The product-owned Kendo-style split login is now the operator entry surface at `/portal/login?operator=1`. The public gateway, admin auth fallback and sign-out flow all return there. Operator mode hides the client password form and exposes one Google action while preserving Cloudflare Access protection on `/admin`. Funnels release `2cbac2ca` is live on `pulsify-ai.com`; the gateway and operator page return 200 and anonymous `/admin` still redirects to Access.
+
+Cloudflare's `Pulsify operator console` form is staged with Google as the sole identity provider and instant authentication enabled. The final dashboard Save is pending the required cloud-access confirmation. Until it is saved, Access can still show the generic provider chooser after the branded page. Evidence: `output/qa/2026-09-operator-login/README.md`.
 
 ## Phase 4 (signed-to-live onboarding): reviewed, deployed and live-checked
 
@@ -69,6 +75,8 @@ All 29 backend test files and the Pages Functions build pass. Earlier workspace,
 - Update this checkpoint and audit, log files in AGENT_CHAT.md/wiki/log.md, clear lock, verify status, then run auto-backup.ps1 to brain/main. origin is a different public repo.
 
 ## Resume log
+
+- 2026-09-19 operator login release: routed all operator-owned entry and sign-out paths through `/portal/login?operator=1`, added the founder-approved Google-only operator state to the Kendo-style login, and deployed Funnels `2cbac2ca`. Live custom-domain checks pass and `/admin` remains Access-protected. The Cloudflare application form is prepared for Google-only instant authentication; final Save is pending required confirmation. Evidence: `output/qa/2026-09-operator-login/README.md`.
 
 - 2026-09-19 Phase 4 production release: independent review fixed eight defects in provisioning, DocuSign delivery, payments, pipeline identity, social confirmation, onboarding navigation, voice limits and client cleanup. Migration 0028 applied as six independent additive statements. Final Funnels release `2735fd6f` passed disposable provisioning, one-time welcome, duplicate suppression, 8-step checklist, live Workers AI transcription, brain apply, cleanup and direct zero-row verification. Evidence: `output/qa/2026-09-phase4/CODEX-REVIEW.md`.
 

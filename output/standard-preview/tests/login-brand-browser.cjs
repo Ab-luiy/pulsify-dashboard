@@ -5,7 +5,7 @@ const assert = require('node:assert/strict');
 const { chromium } = require('C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 
 const root = path.resolve(__dirname, '..');
-const qa = path.resolve(root, '../qa/2026-09-brand');
+const qa = path.resolve(root, '../qa/2026-09-operator-login');
 fs.mkdirSync(qa, { recursive: true });
 const requests = [];
 
@@ -65,6 +65,16 @@ const server = http.createServer((req, res) => {
       await page.screenshot({ path: path.join(qa, `login-signin-${width}.png`), fullPage: true });
       if (width === 390) assert.equal(requests.some(item => /login-hero-\d+\.(avif|webp|jpg)$/.test(item)), false, 'mobile downloaded the desktop hero');
       else assert.equal(requests.some(item => /login-hero-\d+\.(avif|webp)$/.test(item)), true, 'desktop did not load a responsive hero');
+
+      await page.goto('http://127.0.0.1:8773/portal/login?operator=1', { waitUntil: 'networkidle' });
+      assert.equal(await page.locator('#loginTitle').innerText(), 'Welcome back');
+      assert.equal(await page.locator('#loginForm').isHidden(), true);
+      assert.equal(await page.locator('#loginDivider').isHidden(), true);
+      assert.equal(await page.locator('#operatorGoogleLabel').innerText(), 'Continue with Google');
+      assert.equal(await page.locator('#operatorGoogle').getAttribute('href'), '/admin');
+      assert.match(await page.locator('#loginHint').innerText(), /approved Pulsify operator accounts/);
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), true, `operator login overflow at ${width}`);
+      await page.screenshot({ path: path.join(qa, `login-operator-${width}.png`), fullPage: true });
 
       await page.goto('http://127.0.0.1:8773/portal/register', { waitUntil: 'networkidle' });
       assert.equal(await page.locator('#registrationNote h1').innerText(), 'Get started with Pulsify');

@@ -629,7 +629,7 @@
 
     if (message) showMessage($("authMessage"), message, "error");
     else hideMessage($("authMessage"));
-    location.href = "https://pulsify-ai.com/admin";
+    location.href = "/portal/login?operator=1";
   }
 
   async function api(url, options = {}) {
