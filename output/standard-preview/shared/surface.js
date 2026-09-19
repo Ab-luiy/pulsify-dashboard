@@ -49,7 +49,7 @@
   card.querySelectorAll('[data-to]').forEach(b=>b.onclick=()=>config.go(b.dataset.to));
   async function save(next){try{await preference(config,'launch-checklist',next);launchValue=next;card.remove();checklist(target,config,facts);}catch(e){card.querySelector('.ps-save-status').textContent=e.message;}}
   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
-  card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;save({...launchValue,completed:(launchValue.completed||[]).includes(id)?launchValue.completed.filter(x=>x!==id):[...(launchValue.completed||[]),id]});});
+  card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
  }
  window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
 })();

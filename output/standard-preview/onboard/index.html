@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/shared/pulsify-ui.css">
+  <link rel="stylesheet" href="/onboard/phase4.css">
   <style>
     :root { color-scheme: light; }
     * { box-sizing: border-box; }
@@ -163,7 +164,7 @@
         <div><strong>Pulsify</strong><span>Client onboarding</span></div>
       </div>
       <div class="progress-track" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
-      <span class="progress-copy" id="progressCopy">1 / 14</span>
+      <span class="progress-copy" id="progressCopy">1 / 15</span>
     </header>
 
     <main class="onboard-main">
@@ -196,11 +197,23 @@
 
         <section class="step" data-step hidden>
           <p class="step-count">Offer</p>
-          <h1>Do you have a voice note that explains your offer?</h1>
-          <p class="step-copy">Paste a Drive, Loom, Dropbox, or other accessible link. This can be a rough explanation.</p>
-          <div class="question-control"><input id="offerVoiceNote" type="url" inputmode="url" placeholder="https://..."></div>
-          <p class="link-note">Leave it blank if you want to explain the direction in writing on the next question.</p>
-          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+          <h1>Record your offer in your own words.</h1>
+          <p class="step-copy">Two minutes. What you sell, who buys it, and why it works. Speak like you would to a friend. We turn it into your brain.</p>
+          <div class="question-control">
+            <div class="ob-recorder" id="obRecorder">
+              <div class="ob-recorder-row">
+                <button type="button" class="ob-rec-btn" id="obRec"><span class="ob-rec-dot"></span><span id="obRecLabel">Start recording</span></button>
+                <span class="ob-timer" id="obTimer">0:00</span>
+                <span class="ob-upload">or <label for="obFile">upload an audio file</label><input id="obFile" type="file" accept="audio/*,video/webm"></span>
+              </div>
+              <p class="ob-status" id="obStatus" role="status">Nothing recorded yet. Skip if you would rather write it on the next question.</p>
+              <textarea class="ob-transcript" id="obTranscript" hidden placeholder="Your transcript appears here. Fix anything we misheard before you continue."></textarea>
+              <input id="offerVoiceNote" type="hidden">
+              <input id="obNoteId" type="hidden">
+            </div>
+          </div>
+          <p class="link-note">Nothing is saved until you press Continue. Recording stays private to your workspace.</p>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next id="obVoiceNext" type="button">Continue</button></div>
         </section>
 
         <section class="step" data-step hidden>
@@ -282,6 +295,19 @@
           <p class="step-copy">Paste one public or shared link per line. Captions, emails, DMs, videos, and voice notes all help. This is optional.</p>
           <div class="question-control"><textarea id="voiceSamples" placeholder="https://..."></textarea></div>
           <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button primary" data-next type="button">Continue</button></div>
+        </section>
+
+        <section class="step" data-step hidden>
+          <p class="step-count">Connect</p>
+          <h1>Connect what you already use.</h1>
+          <p class="step-copy">Read-only. This is how we see what is working. Each of these can also be done later from your workspace.</p>
+          <div class="ob-connect" id="obConnect">
+            <div class="ob-connect-row"><span class="ob-ico">IG</span><div class="grow"><strong>Instagram</strong><small>Give us your handle. We send a tester invite; accept it in Instagram settings and insights start flowing.</small></div><input id="obIg" placeholder="@yourhandle" autocomplete="off"><span class="ob-pill" id="obIgPill">Pending</span></div>
+            <div class="ob-connect-row"><span class="ob-ico">YT</span><div class="grow"><strong>YouTube</strong><small>Your channel handle is enough to start tracking.</small></div><input id="obYt" placeholder="@yourchannel" autocomplete="off"><span class="ob-pill" id="obYtPill">Pending</span></div>
+            <div class="ob-connect-row"><span class="ob-ico">$</span><div class="grow"><strong>Payments</strong><small>Stripe or Whop, read-only key. Set this up from your workspace under Integrations.</small></div><span class="ob-pill">Later</span></div>
+          </div>
+          <div class="step-actions"><button class="button outline" data-back type="button">Back</button><button class="button ghost" data-next type="button">Skip for now</button><button class="button primary" data-next id="obSaveConnect" type="button">Save and continue</button></div>
+          <p class="step-error" data-error hidden></p>
         </section>
 
         <section class="step" data-step hidden>
@@ -688,5 +714,6 @@
       }
     })();
   </script>
+<script src="/onboard/phase4.js"></script>
 </body>
 </html>

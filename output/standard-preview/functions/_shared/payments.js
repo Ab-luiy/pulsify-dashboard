@@ -1,3 +1,5 @@
+import { provisionClient } from "./provisioning.js";
+import { recordTouch } from "./pipeline-touches.js";
 import {
   amountToCents,
   centsToAmount,
@@ -82,6 +84,9 @@ export async function processNormalizedPayment(env, input) {
 
   // Push API and rematch paths record revenue for clients who are already
   // onboarded. They must never mint a new portal link or send onboarding mail.
+  if (input.customerEmail || input.customer_email) {
+    await recordTouch(env, { client, email: input.customerEmail || input.customer_email, name: input.customerName || input.customer_name, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => null);
+  }
   const sideEffects = input.skipSideEffects
     ? { skipped: true, reason: "side effects disabled for this rail" }
     : await runPaymentSideEffects(env, {
@@ -127,11 +132,20 @@ async function runPaymentSideEffects(env, payment) {
 
   const email = await sendOnboardingEmail(env, operatorKit, draft, recipient, payment);
 
-  await env.DB.prepare(
-    `UPDATE client_config SET status='client', updated_at=? WHERE client=?`,
-  ).bind(nowIso(), client).run().catch(async (error) => {
-    await recordFailure(env, client, "client_status", error?.message || String(error));
-  });
+  // A first payment on a prospect provisions the workspace (idempotent). The
+  // status moves to 'onboarding' there; it becomes 'client' when the checklist
+  // finishes. Clients already provisioned are untouched.
+  if (recipient?.email) {
+    await provisionClient(env, { source: "payment", client, email: recipient.email, name: recipient.name || clientName, contractRef: payment.reference, origin: payment.origin, actor: payment.recorded_by || "payment" }).catch(async (error) => {
+      await recordFailure(env, client, "client_status", error?.message || String(error));
+    });
+  } else {
+    await env.DB.prepare(
+      `UPDATE client_config SET status='client', updated_at=? WHERE client=?`,
+    ).bind(nowIso(), client).run().catch(async (error) => {
+      await recordFailure(env, client, "client_status", error?.message || String(error));
+    });
+  }
 
   const alert = await sendDiscordAlert(env, {
     client,

@@ -43,13 +43,23 @@ export async function loadCandidates(env, clientId) {
       }
     }
   }
+  const touches = await env.DB.prepare(
+    "SELECT contact_email, contact_name, kind, ts, amount_cents FROM pipeline_touches WHERE client_id=? AND kind IN ('booking','application','optin') ORDER BY ts DESC LIMIT 500",
+  ).bind(clientId).all().catch(() => ({ results: [] }));
+  const seen = new Set();
+  for (const row of touches.results || []) {
+    if (seen.has(row.contact_email)) continue;
+    seen.add(row.contact_email);
+    candidates.push({ kind: "contact_email", id: row.contact_email, label: str(row.contact_name || row.contact_email), email: row.contact_email, name: str(row.contact_name), handle: "", lastActivity: row.ts, eventKind: row.kind, amountCents: row.amount_cents ?? null });
+  }
   const events = await env.DB.prepare(
     "SELECT external_id, kind, payload_summary_json, ts FROM integration_events WHERE client=? AND kind IN ('booking','application') ORDER BY ts DESC LIMIT 500",
   ).bind(clientId).all().catch(() => ({ results: [] }));
   for (const row of events.results || []) {
     const summary = parseJson(row.payload_summary_json, {});
     const email = normalizeEmail(summary.email || summary.attendee_email || summary.invitee_email);
-    if (!email) continue;
+    if (!email || seen.has(email)) continue;
+    seen.add(email);
     const amountCents = Number(summary.amount_cents ?? (summary.amount != null ? Number(summary.amount) * 100 : NaN));
     candidates.push({ kind: "contact_email", id: email, label: str(summary.name || summary.invitee_name || email), email, name: str(summary.name || summary.invitee_name), handle: "", lastActivity: row.ts, eventKind: row.kind, expectedAmountCents: Number.isFinite(amountCents) ? Math.round(amountCents) : null });
   }

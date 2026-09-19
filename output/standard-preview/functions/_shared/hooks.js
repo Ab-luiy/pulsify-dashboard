@@ -19,6 +19,7 @@ import {
 import { processNormalizedPayment } from "./payments.js";
 import { applyRefund, matchPayment } from "./payment-matching.js";
 import { emitEvent } from "./outbound-webhooks.js";
+import { recordTouch } from "./pipeline-touches.js";
 
 export async function handleHookRequest({ request, env, params }) {
   const provider = str(params.provider).toLowerCase();
@@ -175,6 +176,7 @@ async function recordBooking(env, integration, provider, booking) {
   });
 
   if (!event.duplicate) {
+    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => null);
     await sendDiscordAlert(env, {
       client: integration.client,
       title: "Booking received",

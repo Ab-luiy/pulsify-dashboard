@@ -1,6 +1,6 @@
 # Portal implementation checkpoint
 
-Updated: 2026-09-18. Read this together with NOTES-AUDIT.md, PHASE2-INVENTORY.md and the newest AGENT_CHAT.md entries when resuming. This is shared project state, not a separate agent memory.
+Updated: 2026-09-19. Read this together with NOTES-AUDIT.md, PHASE2-INVENTORY.md and the newest AGENT_CHAT.md entries when resuming. This is shared project state, not a separate agent memory.
 
 ## Current objective
 
@@ -9,6 +9,26 @@ Implement the remaining requirements from both founder portal briefs. The founde
 ## Deployment state
 
 Current funnels release: `70e809ea.pulsify-funnels.pages.dev`. Current dashboard source is commit `51c314f` on `pulsify-dashboard/main`; its custom hostname redirects authenticated users to the native apex view. Canonical entry: https://pulsify-ai.com. The apex shows the operator/client gateway; explicit `?client=` prospect pages remain available. Migrations 0023 through 0026 are applied remotely. The Phase 2 sync Worker version is `f5a859fc-fe45-40c1-9ffb-06d2540e1fdc` at https://pulsify-sync.abod-louai.workers.dev with schedules paused by `SYNC_ENABLED=false` until its provider secrets are attached. Protected spine endpoints return 401 anonymously.
+
+## Phase 4 (signed-to-live onboarding): built locally by Claude, NOT deployed
+
+Founder directed Claude to build Phase 4 and Codex to review and deploy later. Brief: wiki/synthesis/phase4-client-onboarding-codex-brief.md. Suite is 36/36 (`node --test tests/*.test.mjs`); onboarding page verified in the built-in browser against mocked APIs (dark theme, 15 steps, recorder -> transcript -> apply, connect step, completion card, mobile width).
+
+Files (all under output/standard-preview):
+- migrations/0028_onboarding.sql: client_provisioning, checklist_steps, pipeline_touches, voice_notes. Additive only.
+- functions/_shared/provisioning.js: provisionClient (docusign | payment | operator), email-first workspace resolution, setup link, welcome email with 3 retries and delivery_failures on final failure, client.provisioned event. Idempotent per client.
+- functions/_shared/welcome-email.js and shared/email/welcome.md: the welcome copy; module carries the same text as fallback.
+- functions/_shared/checklist.js: 8 fixed steps, seed/load/setStep, auto-complete rules (voice note or offer brain, icp brain, instagram/youtube confirmed flag, stripe/whop secret, proof, sequence, live sequence).
+- functions/_shared/pipeline-touches.js: recordTouch, listContacts (one row per contact, stage Paid > Booked > Applied > Opted in), timeline, backfillFromIntegrationEvents.
+- functions/api/provision.js, checklist.js, pipeline.js, voice-note.js (R2 upload + Workers AI whisper + apply to client_brain).
+- Wiring: docusign-connect.js and payments.js call provisionClient; event.js (application, optin), hooks.js (booking) and payments.js (payment) call recordTouch; payment-matching.js loadCandidates reads pipeline_touches first; _middleware.js routes checklist/pipeline/voice-note as mixed APIs; integrations.js adds `handle` to instagram/youtube configFields; voice-note upload returns r2_key.
+- onboard/index.html + onboard/phase4.css + onboard/phase4.js: dark shell theme, 150 ms step transition, progress dots, in-browser recorder (MediaRecorder or file upload -> POST /api/voice-note -> editable transcript -> POST ?action=apply on Continue), Connect step (Instagram/YouTube handle via /api/client-integrations confirm:true, Skip for now), completion card reads /api/checklist and links into the portal.
+- portal/surface.js + shared/surface.js: launch card now takes server checklist state as facts and posts manual marks back to /api/checklist (onStep hook).
+- portal/workspace-shell.js: Pipeline block on the Leads view from /api/pipeline (stage counts + contact table), manual register kept below.
+- admin/console-view.html + admin/console.js: "Provision now" button on the Dashboard login card -> POST /api/provision.
+- tests/phase4-onboarding.test.mjs.
+
+Release steps (Codex, interactive wrangler session): read-only review first; apply migration 0028 remotely statement by statement; deploy funnels; disposable checks: POST /api/provision for a throwaway client with a real inbox the founder owns (expect setup link + welcome email once, second POST returns duplicate), GET /api/checklist as that client, upload a 5-second audio to /api/voice-note and confirm transcript + brain rows, then delete the throwaway client rows and R2 object. Worker unchanged in Phase 4.
 
 ## Implementation files
 

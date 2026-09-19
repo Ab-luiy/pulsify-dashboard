@@ -14,6 +14,7 @@
  * video activity that happened before the form was submitted.
  */
 
+import { recordTouch } from "./_shared/pipeline-touches.js";
 import {
   getClientKitConfig,
   recordFailure,
@@ -106,6 +107,7 @@ export async function onRequestPost({ request, env }) {
       },
     });
     if (!event.duplicate) {
+      await recordTouch(env, { client, email, name, kind: "application", ts: lead.applied_at || new Date().toISOString(), source: "typeform", externalId, payload: { applied_at: lead.applied_at } }).catch(() => null);
       await sendDiscordAlert(env, {
         client,
         title: "New application",
@@ -176,6 +178,7 @@ export async function onRequestPost({ request, env }) {
       city,
       user_agent: userAgent,
     });
+    await recordTouch(env, { client, email, name: lead.name, kind: "optin", ts: new Date().toISOString(), source: "landing", externalId: `optin:${email}`, payload: { page_id: body.page_id || "optin" } }).catch(() => null);
     return json({ ok: true, kind: "optin", kit: kit.status });
   }
 

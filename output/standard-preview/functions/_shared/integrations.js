@@ -85,7 +85,7 @@ export const PROVIDERS = {
   },
   youtube: {
     scope: "client",
-    configFields: ["confirmed", "confirmed_at", "channel_note"],
+    configFields: ["confirmed", "confirmed_at", "channel_note", "handle"],
     secretFields: [],
     clientConnected(record) {
       return Boolean(record.config.confirmed);
@@ -93,7 +93,7 @@ export const PROVIDERS = {
   },
   instagram: {
     scope: "client",
-    configFields: ["confirmed", "confirmed_at", "channel_note"],
+    configFields: ["confirmed", "confirmed_at", "channel_note", "handle"],
     secretFields: [],
     clientConnected(record) {
       return Boolean(record.config.confirmed);

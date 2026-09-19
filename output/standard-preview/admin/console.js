@@ -451,6 +451,7 @@
     $("settingsForm").addEventListener("submit", saveSettings);
     $("generateDashboardSetupButton").addEventListener("click", () => generateDashboardSetupLink(false));
     $("emailDashboardSetupButton").addEventListener("click", () => generateDashboardSetupLink(true));
+    $("provisionNowButton").addEventListener("click", provisionNow);
     $("addProofImageButton").addEventListener("click", () => addProofRow("proofImageFields", "proof-image-input"));
     $("proofImageFields").addEventListener("click", handleProofListAction);
     $("proofImageFields").addEventListener("input", scheduleDraftPreview);
@@ -2951,6 +2952,41 @@
       $("portalLinkMessage").hidden = false;
     } catch (error) {
       if (state.key) showMessage($("portalLinkMessage"), error.message || "Could not generate a portal link.", "error");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  // Phase 4: manual trigger for the signed-to-live flow. Idempotent on the server.
+  async function provisionNow() {
+    const client = $("clientId").value.trim() || state.client;
+    const email = $("dashboardLoginEmail").value.trim();
+    const name = ($("clientName")?.value || "").trim();
+    if (!client || !email) {
+      showMessage($("dashboardSetupMessage"), "Client and login email are required before provisioning.", "error");
+      return;
+    }
+    const button = $("provisionNowButton");
+    button.disabled = true;
+    hideMessage($("dashboardSetupMessage"));
+    try {
+      const response = await api("/api/provision", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ client, email, name }),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.ok) throw new Error(data.error || "Provisioning did not run.");
+      const welcome = data.welcome?.state || data.welcome_state || "";
+      showMessage(
+        $("dashboardSetupMessage"),
+        data.duplicate
+          ? `Already provisioned as ${data.client || client}. Nothing was re-sent.`
+          : `Provisioned ${data.client || client}. Welcome email: ${welcome || "not attempted"}. Setup link is live for 48 hours.`,
+        data.duplicate ? "neutral" : "success",
+      );
+    } catch (error) {
+      if (state.key) showMessage($("dashboardSetupMessage"), error.message || "Provisioning did not run.", "error");
     } finally {
       button.disabled = false;
     }

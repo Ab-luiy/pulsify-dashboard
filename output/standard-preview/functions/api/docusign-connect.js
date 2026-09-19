@@ -1,7 +1,10 @@
 import { json, normalizeEmail, sha256Hex, generateOpaqueToken } from '../_shared/common.js';
 import { seal, unseal } from '../_shared/secret-box.js';
 import { emitEvent } from '../_shared/outbound-webhooks.js';
+import { provisionClient } from '../_shared/provisioning.js';
 
+// Sandbox by default; set DOCUSIGN_BASE_URL=https://www.docusign.net for production.
+export const docusignBase = (env) => String(env?.DOCUSIGN_BASE_URL || 'https://demo.docusign.net').replace(/\/$/, '');
 const encoder = new TextEncoder();
 async function authenticated(request, raw, secret) {
   const key = await crypto.subtle.importKey('raw', encoder.encode(secret), {name:'HMAC',hash:'SHA-256'}, false, ['verify']);
@@ -69,6 +72,7 @@ export async function onRequestPost({request,env}) {
     if(raced)return deliver(env,raced);
     return json({ok:false,error:'Provisioning could not complete; retry the event.'},503);
   }
-  await emitEvent(env,{scope:'client',clientId:client,event:'client.provisioned',data:{client_id:client,email,envelope_id:envelope}}).catch(()=>null);
+  // Unified provisioning: seeds the checklist, sets onboarding status, sends the welcome email, emits client.provisioned once. Idempotent on client.
+  await provisionClient(env,{source:'docusign',client,email,name:signer.name,contractRef:envelope,origin:new URL(request.url).origin,actor:'docusign'}).catch(()=>null);
   return deliver(env,{envelope_id:envelope,email,state:'pending',invitation_cipher:cipher,expires_at:expires});
 }
