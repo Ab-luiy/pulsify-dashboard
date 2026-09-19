@@ -1720,3 +1720,7 @@ Zernio is the Instagram inbox source (approved Meta app, hosted login, read rece
 ## [2026-09-19] client-update | Semantic search over DMs and client brains
 
 Live in the console under Growth, Search (Ctrl+K). Ask in plain words; results are the messages and brain fields that mean that, grouped by conversation and client, one click into the tracker thread. Built on Cloudflare Vectorize and Workers AI, no keys and no second database, so Supabase remains a push channel only. Index fills at 50 messages a minute, newest first.
+
+## [2026-09-19] client-update | Site audit, workspace archive, test workspaces retired
+
+Full-site scan (routes, auth, probes, browser walk, schema): three bugs fixed live, 14 findings ranked for Codex in wiki/synthesis/website-audit-2026-09-19.md. Built a workspace archive (export to R2 and the vault, hide everywhere, keep every row, restore possible). Retired the duplicate Frank workspace and two test workspaces; frank-wieler is the one live Frank.

@@ -38,6 +38,9 @@ export async function onRequestPost({ request, env }) {
   }
 
   await clearFailedLogins(env, email);
+  // An archived workspace keeps its data but nobody signs into it.
+  const config = await env.DB.prepare("SELECT status FROM client_config WHERE client=?").bind(authRow.client_id).first().catch(() => null);
+  if (config?.status === "archived") return json({ ok: false, error: "This workspace has been archived. Contact Pulsify to reopen it." }, 403);
   const session = await issueClientSession(env, authRow.client_id);
   return json(
     {

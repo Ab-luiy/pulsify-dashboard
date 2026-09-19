@@ -53,7 +53,7 @@ export async function listContactsAll(env, { q = "", limit = 300 } = {}) {
             SUM(t.kind='booking') AS bookings,
             SUM(t.kind='payment') AS payments,
             COALESCE(SUM(CASE WHEN t.kind='payment' THEN t.amount_cents END),0) AS paid_cents,
-            (SELECT client_name FROM client_config c WHERE c.client_id=t.client_id) AS client_name
+            (SELECT client_name FROM client_config c WHERE c.client=t.client_id) AS client_name
        FROM pipeline_touches t
       WHERE (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
       GROUP BY t.client_id, t.contact_email

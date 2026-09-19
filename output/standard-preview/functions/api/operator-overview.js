@@ -19,7 +19,7 @@ async function handle_onRequestGet({ request, env }) {
   try {
     const result = await env.DB.prepare(
       `SELECT client, COALESCE(client_name,client) AS client_name
-         FROM client_config ORDER BY client_name COLLATE NOCASE`,
+         FROM client_config WHERE COALESCE(status,'prospect')<>'archived' ORDER BY client_name COLLATE NOCASE`,
     ).all();
     configs = result.results || [];
   } catch {

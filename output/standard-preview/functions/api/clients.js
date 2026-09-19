@@ -10,7 +10,7 @@ async function handle_onRequestGet({ request, env }) {
     `SELECT client, COALESCE(client_name,client) AS client_name, wistia_media_id,
             typeform_url, kit_tag_id, COALESCE(page_active,1) AS page_active,
             prospect_email, acquisition_token, updated_at
-       FROM client_config ORDER BY client_name COLLATE NOCASE`,
+       FROM client_config WHERE COALESCE(status,'prospect')<>'archived' ORDER BY client_name COLLATE NOCASE`,
   ).all();
   return json({ ok: true, clients: result.results || [] });
 }

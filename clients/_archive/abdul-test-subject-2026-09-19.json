@@ -1,0 +1,132 @@
+{
+  "client": "abdul-test-subject",
+  "exported_at": "2026-09-19T17:58:13.948Z",
+  "tables": {
+    "client_config": [
+      {
+        "client": "abdul-test-subject",
+        "wistia_media_id": null,
+        "typeform_url": null,
+        "kit_tag_id": null,
+        "kit_api_key": null,
+        "updated_at": "2026-07-04T12:49:28.933Z",
+        "client_name": "Abdul",
+        "typeform_webhook_secret": null,
+        "allowed_origin": null,
+        "portal_token_hash": "0fcab276b1d013542e11baa8e8e4528054a5e68937ffaad29887f52163f9bd21",
+        "proof_images_json": null,
+        "template_variant": "canonical",
+        "page_content_json": null,
+        "status": "prospect",
+        "page_active": 1,
+        "prospect_email": null,
+        "acquisition_token": null
+      }
+    ],
+    "operator_events": [
+      {
+        "id": 30,
+        "actor": "abod.louai@gmail.com",
+        "action": "impersonate-use",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"portal\"}",
+        "created_at": "2026-09-19T14:49:18.997Z"
+      },
+      {
+        "id": 29,
+        "actor": "abod.louai@gmail.com",
+        "action": "impersonate-start",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"command-center\"}",
+        "created_at": "2026-09-19T14:49:18.875Z"
+      },
+      {
+        "id": 15,
+        "actor": "abod.louai@gmail.com",
+        "action": "impersonate-use",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"portal\"}",
+        "created_at": "2026-09-19T12:54:41.950Z"
+      },
+      {
+        "id": 14,
+        "actor": "abod.louai@gmail.com",
+        "action": "impersonate-start",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"command-center\"}",
+        "created_at": "2026-09-19T12:54:41.828Z"
+      },
+      {
+        "id": 6,
+        "actor": "admin",
+        "action": "impersonate-use",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"portal\"}",
+        "created_at": "2026-07-18T15:24:19.019Z"
+      },
+      {
+        "id": 5,
+        "actor": "admin",
+        "action": "impersonate-start",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"command-center\"}",
+        "created_at": "2026-07-18T15:24:18.818Z"
+      },
+      {
+        "id": 4,
+        "actor": "admin",
+        "action": "view-client",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"command-center\"}",
+        "created_at": "2026-07-18T15:24:17.643Z"
+      },
+      {
+        "id": 1,
+        "actor": "admin",
+        "action": "view-client",
+        "client": "abdul-test-subject",
+        "detail": "{\"surface\":\"command-center\"}",
+        "created_at": "2026-07-18T15:24:15.650Z"
+      }
+    ],
+    "page_events": [
+      {
+        "id": 37,
+        "client": "abdul-test-subject",
+        "visitor_id": "f1b476de-4fd5-44d8-8d6c-1fa776b0cc3c",
+        "session_id": "2f1ceb3c-cf8e-4b03-8dde-0e30b7fd5fd0",
+        "page_id": "main",
+        "event": "page_view",
+        "email": null,
+        "path": "/",
+        "referrer": "https://pulsify-funnels.pages.dev/admin?client=abdul-test-subject",
+        "utm_json": "{}",
+        "metadata_json": "{\"title\":\"Private Application\",\"screen\":\"2560x1440\"}",
+        "at": "2026-07-04T12:47:26.577Z",
+        "ip": null,
+        "country": null,
+        "city": null,
+        "user_agent": null
+      },
+      {
+        "id": 38,
+        "client": "abdul-test-subject",
+        "visitor_id": "f1b476de-4fd5-44d8-8d6c-1fa776b0cc3c",
+        "session_id": "f5275d44-87e3-40a0-af00-3978a96eaadd",
+        "page_id": "main",
+        "event": "page_view",
+        "email": null,
+        "path": "/",
+        "referrer": "https://pulsify-funnels.pages.dev/admin?client=abdul-test-subject",
+        "utm_json": "{}",
+        "metadata_json": "{\"title\":\"Private Application\",\"screen\":\"2560x1440\"}",
+        "at": "2026-07-04T12:47:31.785Z",
+        "ip": null,
+        "country": null,
+        "city": null,
+        "user_agent": null
+      }
+    ]
+  },
+  "row_count": 11
+}

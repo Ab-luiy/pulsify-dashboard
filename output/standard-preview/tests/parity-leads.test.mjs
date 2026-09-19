@@ -11,11 +11,11 @@ import {rememberOperator} from '../functions/_shared/access.js';
 
 const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
-sql.exec("CREATE TABLE client_config(client_id TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
 for(const t of ['crm_overrides','crm_added','crm_removed'])sql.exec(`CREATE TABLE ${t}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
 for(const n of ['0025_data_spine.sql','0028_onboarding.sql'])sql.exec(mig(n).replace(/ALTER TABLE client_config ADD COLUMN status[^;]*;/,''));
-sql.prepare('INSERT INTO client_config(client_id,client_name,status) VALUES(?,?,?)').run('acme','Acme Trading','client');
-sql.prepare('INSERT INTO client_config(client_id,client_name,status) VALUES(?,?,?)').run('beta','Beta Ecom','client');
+sql.prepare('INSERT INTO client_config(client,client_name,status) VALUES(?,?,?)').run('acme','Acme Trading','client');
+sql.prepare('INSERT INTO client_config(client,client_name,status) VALUES(?,?,?)').run('beta','Beta Ecom','client');
 const env={DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
 const op=(url)=>{const r=new Request(url);rememberOperator(r,{email:'op@test',via:'access'});return r};
 const call=(fn,r)=>fn({request:r,env,data:{}});
