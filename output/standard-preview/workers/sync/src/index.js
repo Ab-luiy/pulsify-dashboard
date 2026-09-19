@@ -6,6 +6,7 @@ import { syncYouTubeLeads } from "./jobs/leads.js";
 import { syncYouTube } from "./jobs/youtube.js";
 import { sweepWebhooks } from "./jobs/webhook-outbox.js";
 import { syncPayments } from "./jobs/payments.js";
+import { ingestSeen, sweepSeen } from "./jobs/outreach-notify.js";
 
 const JOBS = {
   youtube: syncYouTube,
@@ -22,7 +23,10 @@ export default {
     const job = scheduledJob(controller.cron);
     if (!job) return;
     ctx.waitUntil(runJob(env, job, () => JOBS[job](env)));
-    if (controller.cron === "* * * * *") ctx.waitUntil(runJob(env, "webhook-outbox", () => sweepWebhooks(env)));
+    if (controller.cron === "* * * * *") {
+      ctx.waitUntil(runJob(env, "webhook-outbox", () => sweepWebhooks(env)));
+      ctx.waitUntil(sweepSeen(env).catch(() => 0));
+    }
   },
 
   async fetch(request, env, ctx) {
@@ -32,6 +36,10 @@ export default {
       if (!await verifyComposio(request, raw, env.COMPOSIO_WEBHOOK_SECRET)) {
         return json({ ok: false, error: "invalid webhook signature" }, 401);
       }
+      // Read receipts (messaging_seen) ride the same hook when Composio relays them.
+      let payload = null;
+      try { payload = JSON.parse(raw); } catch { payload = null; }
+      if (payload) ctx.waitUntil(ingestSeen(env, payload).catch(() => 0));
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
@@ -40,7 +48,8 @@ export default {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);
       try {
-        return json(await runJob(env, match[1], () => JOBS[match[1]](env)));
+        const resync = match[1] === "instagram-inbox" && url.searchParams.get("resync") === "1";
+        return json(await runJob(env, match[1], () => (resync ? syncInstagramInbox(env, { resync: true }) : JOBS[match[1]](env))));
       } catch (error) {
         return json({ ok: false, job: match[1], error: String(error?.message || error) }, 500);
       }

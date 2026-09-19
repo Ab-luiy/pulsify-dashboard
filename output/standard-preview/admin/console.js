@@ -604,6 +604,8 @@
     } catch (error) {
       state.key = "";
       if (!automatic || error.message === AUTH_MESSAGE) clearStoredKeys();
+      $("shell").hidden = true;
+      $("authScreen").hidden = false;
       showMessage($("authMessage"), error.message || "The console could not be unlocked.", "error");
     } finally {
       button.disabled = false;

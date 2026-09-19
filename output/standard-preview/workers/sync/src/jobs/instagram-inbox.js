@@ -1,19 +1,30 @@
 import { composioExecute, findRows } from "../composio.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
+import { notifyReply } from "./outreach-notify.js";
 
 const TERMINAL = new Set(["call-booked", "won", "dead"]);
 const MAX_CONVERSATIONS_PER_RUN = 12;
 
-export async function syncInstagramInbox(env) {
+// options.resync=true reprocesses every conversation once, used to repair rows
+// written before the participant/direction fix. Bounded by MAX_CONVERSATIONS_PER_RUN
+// per invocation, so a full repair takes several runs; the resync flag is kept in
+// sync state until the backlog is drained.
+export async function syncInstagramInbox(env, options = {}) {
   const operatorEmail = env.OPERATOR_EMAIL || "operator";
   const syncState = await loadSyncState(env);
-  let ownId = String(syncState.ownId || "");
   let connectedAccountId = String(syncState.connectedAccountId || "");
-  if (!ownId) {
+  let ownUsername = String(syncState.ownUsername || "");
+  // Two different ids exist for the same account: the Graph user id from
+  // INSTAGRAM_GET_USER_INFO and the messaging-scoped id that appears in a
+  // message's from/to. Direction must be classified against the messaging id,
+  // which we learn from the first message we see carrying our own username.
+  let ownId = String(syncState.messagingId || "");
+  if (!connectedAccountId || !ownUsername) {
     const profile = await composioExecute(env, "INSTAGRAM_GET_USER_INFO", { ig_user_id: "me" });
-    ownId = String(profile?.id || profile?.data?.id || "");
     connectedAccountId = String(profile?.id || profile?.data?.id || "");
+    ownUsername = String(profile?.username || profile?.data?.username || env.INSTAGRAM_USERNAME || "").replace(/^@/, "");
   }
+  const resync = Boolean(options.resync || syncState.resync);
   const conversationsPayload = await composioExecute(env, "INSTAGRAM_LIST_ALL_CONVERSATIONS", {
     platform: "instagram",
     fields: "id,updated_time,participants,messages",
@@ -31,6 +42,7 @@ export async function syncInstagramInbox(env) {
   const pending = conversations.filter((row) => {
     const id = String(row.id || row.conversation_id || "");
     if (!id) return false;
+    if (resync) return !(syncState.resyncDone || []).includes(id);
     const previous = known.get(id);
     if (!previous) return true;
     const updated = comparableTime(row.updated_time);
@@ -38,11 +50,12 @@ export async function syncInstagramInbox(env) {
   });
   const changed = pending.slice(0, MAX_CONVERSATIONS_PER_RUN);
   if (!changed.length) {
-    if (!syncState.ownId || !syncState.watermark || syncState.watermark !== watermark) {
-      await saveSyncState(env, { ownId, connectedAccountId, watermark });
+    if (resync || !syncState.messagingId || !syncState.watermark || syncState.watermark !== watermark) {
+      await saveSyncState(env, { messagingId: ownId, ownUsername, connectedAccountId, watermark, resync: false, resyncDone: [] });
     }
     return 0;
   }
+  const resyncDone = resync ? [...(syncState.resyncDone || [])] : [];
   const historicalBootstrap = !syncState.watermark;
   let written = 0;
 
@@ -50,13 +63,18 @@ export async function syncInstagramInbox(env) {
     const conversationId = String(rawConversation.id || rawConversation.conversation_id || "");
     if (!conversationId) continue;
     let messages = findRows(rawConversation.messages);
-    if (!messages.length) {
+    // The list call returns message stubs (id, created_time) with no sender.
+    // Without from/to every message classifies as inbound and the thread has
+    // no handle, so fetch the full messages whenever the stubs lack a sender.
+    if (!messages.length || !messages.some((message) => message?.from || message?.to)) {
       const payload = await executeMessages(env, conversationId);
       messages = findRows(payload);
     }
+    if (!ownId) ownId = learnOwnId(messages, ownUsername);
     const normalized = messages.map((message) => normalizeMessage(message, ownId)).filter(Boolean)
       .sort((a, b) => a.sentAt.localeCompare(b.sentAt));
     if (!normalized.length) continue;
+    if (resync) resyncDone.push(conversationId);
 
     const participant = findParticipant(rawConversation, ownId, normalized);
     const now = new Date().toISOString();
@@ -92,9 +110,10 @@ export async function syncInstagramInbox(env) {
     ).run();
 
     const inserts = normalized.map((message) => env.DB.prepare(
-        `INSERT OR IGNORE INTO ig_messages(
+        `INSERT INTO ig_messages(
            id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at
-         ) VALUES(?,?,?,?,?,?,?,?)`,
+         ) VALUES(?,?,?,?,?,?,?,?)
+         ON CONFLICT(id) DO UPDATE SET direction=excluded.direction, text=COALESCE(excluded.text, ig_messages.text), payload_json=excluded.payload_json`,
       ).bind(
         message.id,
         conversationId,
@@ -105,22 +124,54 @@ export async function syncInstagramInbox(env) {
         JSON.stringify(message.raw),
         now,
       ));
+    const knownMessages = await loadKnownMessages(env, conversationId);
     const results = inserts.length ? await env.DB.batch(inserts) : [];
     for (let index = 0; index < normalized.length; index += 1) {
       const message = normalized[index];
       const result = results[index];
-      const inserted = Number(result.meta?.changes || 0);
+      // The upsert reports a change for repaired rows too. Only messages we had
+      // not stored before count as written and fan out as events.
+      const inserted = Number(result.meta?.changes || 0) && !knownMessages.has(message.id) ? 1 : 0;
       written += inserted;
-      if (inserted && !historicalBootstrap) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
+      if (inserted && !historicalBootstrap && !resync && message.direction === "inbound" && message === normalized.at(-1)) {
+        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text }).catch(() => null);
+      }
+      if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
     }
     await projectConversationToCrm(env, participant, conversationId, normalized, !historicalBootstrap);
   }
+  const drained = pending.length <= changed.length;
   await saveSyncState(env, {
-    ownId,
+    messagingId: ownId,
+    ownUsername,
     connectedAccountId,
-    watermark: pending.length > changed.length ? syncState.watermark : watermark,
+    watermark: drained ? watermark : syncState.watermark,
+    resync: resync && !drained,
+    resyncDone: resync && !drained ? resyncDone : [],
   });
   return written;
+}
+
+async function loadKnownMessages(env, conversationId) {
+  try {
+    const rows = await env.DB.prepare("SELECT id FROM ig_messages WHERE conversation_id=?").bind(conversationId).all();
+    return new Set((rows.results || []).map((row) => row.id));
+  } catch {
+    return new Set();
+  }
+}
+
+// The messaging-scoped id for our own account is whichever from/to entry
+// carries our username. Learned once and kept in sync state.
+export function learnOwnId(messages, ownUsername) {
+  if (!ownUsername) return "";
+  for (const message of messages) {
+    if (String(message?.from?.username || "").replace(/^@/, "") === ownUsername) return String(message.from.id || "");
+    const to = findRows(message?.to);
+    const hit = to.find((item) => String(item?.username || "").replace(/^@/, "") === ownUsername);
+    if (hit) return String(hit.id || "");
+  }
+  return "";
 }
 
 async function loadKnownConversations(env) {
@@ -189,13 +240,15 @@ function normalizeMessage(raw, ownId) {
   };
 }
 
-function findParticipant(conversation, ownId, messages) {
+export function findParticipant(conversation, ownId, messages) {
   const participants = findRows(conversation?.participants);
-  const row = participants.find((item) => String(item?.id || "") !== ownId) || {};
-  const inbound = messages.find((message) => message.direction === "inbound");
-  const id = String(row.id || inbound?.senderId || "");
-  const username = String(row.username || row.handle || inbound?.senderName || "").replace(/^@/, "");
-  const name = String(row.name || username || id || "Instagram lead");
+  const row = participants.find((item) => String(item?.id || "") && String(item?.id || "") !== ownId) || {};
+  const inbound = messages.find((message) => message.direction === "inbound" && message.senderId);
+  // Outbound-only threads: the other party is the recipient of our message.
+  const recipient = messages.map((message) => findRows(message.raw?.to).find((item) => String(item?.id || "") && String(item?.id || "") !== ownId)).find(Boolean) || {};
+  const id = String(row.id || inbound?.senderId || recipient.id || "");
+  const username = String(row.username || row.handle || inbound?.senderName || recipient.username || "").replace(/^@/, "");
+  const name = String(row.name || recipient.name || username || id || "Instagram lead");
   return { id, username, name };
 }
 

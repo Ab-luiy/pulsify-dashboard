@@ -4,7 +4,7 @@
 //   POST /api/pipeline {client, action:"backfill"}   operator only, one-time import from integration_events
 import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
-import { backfillFromIntegrationEvents, listContacts, timeline } from "../_shared/pipeline-touches.js";
+import { backfillFromIntegrationEvents, listContacts, listContactsAll, timeline } from "../_shared/pipeline-touches.js";
 import { resolveSpineRead } from "../_shared/spine-auth.js";
 
 async function handleGet({ request, env }) {
@@ -12,6 +12,10 @@ async function handleGet({ request, env }) {
   const url = new URL(request.url);
   const access = await resolveSpineRead(request, env, "client", str(url.searchParams.get("client")));
   if (access.error) return access.error;
+  // Operator with no client: every client's contacts, for the Leads view.
+  if (!access.client && access.role === "operator") {
+    return json({ ok: true, client: null, contacts: await listContactsAll(env, { q: url.searchParams.get("q") || "" }) });
+  }
   if (!access.client) return json({ ok: false, error: "client required" }, 422);
   const email = str(url.searchParams.get("email"));
   if (email) return json({ ok: true, client: access.client, email, touches: await timeline(env, access.client, email) });

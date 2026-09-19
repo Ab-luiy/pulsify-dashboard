@@ -22,42 +22,51 @@
 
       <main class="auth-main">
         <div class="auth-card">
-          <span class="sr-only" id="cardTitle">Client login</span>
+          <span class="sr-only" id="cardTitle">Sign in</span>
 
           <section id="loginPanel">
             <div class="auth-heading">
               <h1 id="loginTitle">Welcome back</h1>
-              <p id="loginSubtitle">Don't have an account? <a href="/portal/register">Create one</a></p>
+              <p id="loginSubtitle">One sign-in for clients and the Pulsify team. <a href="#" id="noAccountLink">No account yet?</a></p>
             </div>
-            <form id="loginForm" class="auth-form">
+
+            <form id="emailForm" class="auth-form">
               <label class="sr-only" for="email">Email address</label>
-              <input id="email" type="email" autocomplete="email" placeholder="Enter an email address" required>
+              <input id="email" type="email" autocomplete="username" placeholder="Enter your email address" required autofocus>
+              <button id="continueButton" class="primary-button" type="submit">Continue</button>
+            </form>
+
+            <div id="operatorStep" hidden>
+              <div class="identity-row"><span id="operatorEmail"></span><button type="button" class="link-button" data-change-email>Change</button></div>
+              <a class="google-button" id="operatorGoogle" href="/admin">
+                <svg aria-hidden="true" viewBox="0 0 18 18"><path fill="#4285f4" d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.482h4.844a4.14 4.14 0 0 1-1.797 2.715v2.259h2.909c1.702-1.567 2.684-3.875 2.684-6.615Z"/><path fill="#34a853" d="M9 18c2.43 0 4.468-.806 5.956-2.18l-2.91-2.259c-.805.54-1.835.86-3.046.86-2.344 0-4.329-1.585-5.037-3.714H.956v2.332A9 9 0 0 0 9 18Z"/><path fill="#fbbc05" d="M3.963 10.707A5.41 5.41 0 0 1 3.682 9c0-.592.102-1.168.281-1.707V4.961H.956A9 9 0 0 0 0 9c0 1.452.347 2.827.956 4.039l3.007-2.332Z"/><path fill="#ea4335" d="M9 3.58c1.321 0 2.507.454 3.441 1.346l2.581-2.58C13.464.891 11.427 0 9 0A9 9 0 0 0 .956 4.961l3.007 2.332C4.67 5.165 6.656 3.58 9 3.58Z"/></svg>
+                <span id="operatorGoogleLabel">Continue with Google</span>
+              </a>
+              <p class="recovery-note" id="operatorHint">This is a Pulsify team account. When Google asks, pick <strong id="operatorHintEmail"></strong>, not another Gmail on this device. You come straight back here signed in.</p>
+            </div>
+
+            <form id="passwordForm" class="auth-form" hidden>
+              <div class="identity-row"><span id="passwordEmail"></span><button type="button" class="link-button" data-change-email>Change</button></div>
               <label class="sr-only" for="password">Password</label>
               <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
               <button id="loginButton" class="primary-button" type="submit">Sign in</button>
+              <button type="button" class="outline-button" id="magicLinkButton">Email me a sign-in link instead</button>
+              <p class="recovery-note" id="passwordHint">First time here, or forgot your password? The sign-in link sets a new one. It works once and expires in 48 hours.</p>
             </form>
-            <div class="divider" id="loginDivider" aria-hidden="true"><span>Or</span></div>
-            <a class="google-button" id="operatorGoogle" href="/admin">
-              <svg aria-hidden="true" viewBox="0 0 18 18"><path fill="#4285f4" d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.482h4.844a4.14 4.14 0 0 1-1.797 2.715v2.259h2.909c1.702-1.567 2.684-3.875 2.684-6.615Z"/><path fill="#34a853" d="M9 18c2.43 0 4.468-.806 5.956-2.18l-2.91-2.259c-.805.54-1.835.86-3.046.86-2.344 0-4.329-1.585-5.037-3.714H.956v2.332A9 9 0 0 0 9 18Z"/><path fill="#fbbc05" d="M3.963 10.707A5.41 5.41 0 0 1 3.682 9c0-.592.102-1.168.281-1.707V4.961H.956A9 9 0 0 0 0 9c0 1.452.347 2.827.956 4.039l3.007-2.332Z"/><path fill="#ea4335" d="M9 3.58c1.321 0 2.507.454 3.441 1.346l2.581-2.58C13.464.891 11.427 0 9 0A9 9 0 0 0 .956 4.961l3.007 2.332C4.67 5.165 6.656 3.58 9 3.58Z"/></svg>
-              <span id="operatorGoogleLabel">Operator sign in with Google</span>
-            </a>
-            <button class="more-options" id="moreOptions" type="button" aria-expanded="false" aria-controls="emailCodeOption">More sign-in options</button>
-            <div class="email-code-option" id="emailCodeOption" hidden>
-              <strong>Invitation email code</strong>
-              <p>Open your private password setup link. Pulsify will send a six-digit verification code to the email on the invitation.</p>
-            </div>
-            <p class="recovery-note" id="loginHint">Forgot your password? Ask your Pulsify contact for a new password setup link.</p>
+
+            <p class="recovery-note" id="loginHint" hidden></p>
           </section>
 
           <section id="registrationNote" hidden>
             <div class="auth-heading">
-              <h1>Get started with Pulsify</h1>
-              <p>Already have an account? <a href="/portal/login">Sign in</a></p>
+              <h1>No account yet?</h1>
+              <p>Pulsify is invite-only. <a href="/portal/login" id="backFromNote">Back to sign in</a></p>
             </div>
             <div class="invitation-card">
               <img src="/shared/brand/mark.svg" alt="" width="32" height="32">
-              <strong>Your workspace is private</strong>
-              <p>Open the invitation link from your Pulsify team to verify your email, create a password and complete onboarding.</p>
+              <strong>Workspaces are created when a contract is signed</strong>
+              <p>Clients: the moment your agreement is signed, a welcome email with a one-time setup link lands in the inbox you signed with. Use that link, set a password, and you are in. Lost it? Enter your email on the sign-in page and choose "Email me a sign-in link".</p>
+              <p>Pulsify team: sign in with the Google account registered for you. There is nothing to create.</p>
             </div>
             <a class="primary-button button-link" href="/portal/login">Back to sign in</a>
           </section>
@@ -112,49 +121,101 @@
       $("cardTitle").textContent = "Set password";
       sendSetupCode();
     }
-    if(location.pathname.includes("register") && !setupToken){$("loginPanel").hidden=true;$("registrationNote").hidden=false;$("cardTitle").textContent="Create your account";}
+    if (location.pathname.includes("register") && !setupToken) showNoAccount();
     if (operatorMode && !setupToken) {
       document.title = "Operator sign in · Pulsify";
-      $("cardTitle").textContent = "Operator login";
-      $("loginTitle").textContent = "Welcome back";
-      $("loginSubtitle").innerHTML = 'Client? <a href="/portal/login">Sign in to your workspace</a>';
-      $("loginForm").hidden = true;
-      $("loginDivider").hidden = true;
-      $("moreOptions").hidden = true;
-      $("emailCodeOption").hidden = true;
-      $("operatorGoogleLabel").textContent = "Continue with Google";
-      $("loginHint").textContent = "Access is restricted to approved Pulsify operator accounts.";
       if (params.get("logout") === "1") finishOperatorSignOut();
     }
-    $("email").value = sessionStorage.getItem("pulsify_client_login_email") || "";
+
+    // Step 1: email. Remembered per browser so a returning person skips straight to their step.
+    const remembered = sessionStorage.getItem("pulsify_client_login_email") || localStorage.getItem("pulsify_login_email") || "";
+    $("email").value = remembered;
+
+    $("noAccountLink").addEventListener("click", (e) => { e.preventDefault(); showNoAccount(); });
+    $("backFromNote").addEventListener("click", (e) => { e.preventDefault(); history.replaceState(null, "", "/portal/login"); $("registrationNote").hidden = true; $("loginPanel").hidden = false; $("cardTitle").textContent = "Sign in"; });
+    document.querySelectorAll("[data-change-email]").forEach((b) => b.addEventListener("click", () => showStep("email")));
+
+    $("emailForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = $("email").value.trim().toLowerCase();
+      if (!email) return;
+      const button = $("continueButton");
+      button.disabled = true;
+      hideMessage();
+      try {
+        const response = await fetch("/api/login-lookup", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not check that email.");
+        try { localStorage.setItem("pulsify_login_email", email); } catch {}
+        sessionStorage.setItem("pulsify_client_login_email", email);
+        if (data.kind === "operator") {
+          $("operatorEmail").textContent = email;
+          $("operatorHintEmail").textContent = data.hint || email;
+          $("operatorGoogle").href = data.next || "/admin";
+          showStep("operator");
+        } else {
+          $("passwordEmail").textContent = email;
+          showStep("password");
+        }
+      } catch (error) { showMessage(error.message || "Could not check that email."); }
+      finally { button.disabled = false; }
+    });
+
+    $("passwordForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("loginButton");
+      const payload = { email: $("email").value.trim().toLowerCase(), password: $("password").value };
+      button.disabled = true;
+      hideMessage();
+      try {
+        const response = await fetch("/api/client-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) {
+          throw new Error(response.status === 401 || response.status === 404 || response.status === 422
+            ? "That email and password do not match a workspace. Workspaces are created when your contract is signed; if you never set a password, use the sign-in link below."
+            : (data.error || "Could not sign in."));
+        }
+        sessionStorage.removeItem("pulsify_reel_thoughts");
+        location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
+      } catch (error) { showMessage(error.message || "Could not sign in."); }
+      finally { button.disabled = false; }
+    });
+
+    $("magicLinkButton").addEventListener("click", async () => {
+      const email = $("email").value.trim().toLowerCase();
+      const button = $("magicLinkButton");
+      button.disabled = true;
+      hideMessage();
+      try {
+        const response = await fetch("/api/login-lookup", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, action: "link" }) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send the link.");
+        $("passwordHint").textContent = data.message;
+        button.textContent = "Link sent";
+      } catch (error) { showMessage(error.message || "Could not send the link."); button.disabled = false; }
+    });
+
+    function showStep(step) {
+      $("emailForm").hidden = step !== "email";
+      $("operatorStep").hidden = step !== "operator";
+      $("passwordForm").hidden = step !== "password";
+      hideMessage();
+      if (step === "email") $("email").focus();
+      if (step === "password") $("password").focus();
+      $("loginTitle").textContent = step === "operator" ? "Welcome back, Pulsify" : "Welcome back";
+    }
+    function showNoAccount() {
+      $("loginPanel").hidden = true;
+      $("registrationNote").hidden = false;
+      $("cardTitle").textContent = "No account yet";
+    }
+
     $("backToLogin").addEventListener("click", () => {
       const next = new URL(location.href);
       next.searchParams.delete("setup");
       location.href = "/portal/login" + next.search;
     });
     $("resendCodeButton").addEventListener("click", sendSetupCode);
-    $("moreOptions").addEventListener("click", () => {
-      const expanded = $("moreOptions").getAttribute("aria-expanded") === "true";
-      $("moreOptions").setAttribute("aria-expanded", String(!expanded));
-      $("emailCodeOption").hidden = expanded;
-    });
-
-    $("loginForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const button = $("loginButton");
-      const payload = { email: $("email").value.trim(), password: $("password").value };
-      sessionStorage.setItem("pulsify_client_login_email", payload.email);
-      button.disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/client-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || "Could not log in.");
-        sessionStorage.removeItem("pulsify_reel_thoughts");
-        location.href = data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`;
-      } catch (error) { showMessage(error.message || "Could not log in."); }
-      finally { button.disabled = false; }
-    });
 
     $("setupForm").addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -200,15 +261,12 @@
     function showMessage(text) { $("message").textContent = text; $("message").hidden = false; }
     function hideMessage() { $("message").hidden = true; $("message").textContent = ""; }
     async function finishOperatorSignOut() {
-      $("operatorGoogle").setAttribute("aria-disabled", "true");
-      $("operatorGoogle").style.pointerEvents = "none";
+      $("loginHint").hidden = false;
       $("loginHint").textContent = "Signing you out…";
       try { await fetch("/cdn-cgi/access/logout", { credentials: "include", cache: "no-store" }); }
       catch { /* Access can finish the cookie clear even when its HTML response is opaque. */ }
-      history.replaceState(null, "", "/portal/login?operator=1");
-      $("loginHint").textContent = "You're signed out. Continue with Google when you're ready to return.";
-      $("operatorGoogle").removeAttribute("aria-disabled");
-      $("operatorGoogle").style.pointerEvents = "";
+      history.replaceState(null, "", "/portal/login");
+      $("loginHint").textContent = "You're signed out. Enter your email to sign back in.";
     }
   </script>
 </body>

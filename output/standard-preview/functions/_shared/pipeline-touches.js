@@ -40,6 +40,28 @@ export async function listContacts(env, clientId, { q = "", limit = 200 } = {}) 
   return (rows.results || []).map((r) => ({ ...r, stage: stageFor(r), latest_kind: latestByEmail.get(r.contact_email)?.kind || null, latest_source: latestByEmail.get(r.contact_email)?.source || null }));
 }
 
+// Operator view: contacts across every client, one row per (client, email).
+export async function listContactsAll(env, { q = "", limit = 300 } = {}) {
+  const like = q ? `%${str(q).toLowerCase().replace(/[\\%_]/g, "\\$&")}%` : null;
+  const rows = await env.DB.prepare(
+    `SELECT t.client_id, t.contact_email,
+            MAX(t.contact_name) AS contact_name,
+            MIN(t.ts) AS first_seen,
+            MAX(t.ts) AS last_seen,
+            SUM(t.kind='application') AS applications,
+            SUM(t.kind='optin') AS optins,
+            SUM(t.kind='booking') AS bookings,
+            SUM(t.kind='payment') AS payments,
+            COALESCE(SUM(CASE WHEN t.kind='payment' THEN t.amount_cents END),0) AS paid_cents,
+            (SELECT client_name FROM client_config c WHERE c.client_id=t.client_id) AS client_name
+       FROM pipeline_touches t
+      WHERE (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
+      GROUP BY t.client_id, t.contact_email
+      ORDER BY last_seen DESC LIMIT ?`,
+  ).bind(like, like, like, Math.min(1000, limit)).all();
+  return (rows.results || []).map((r) => ({ ...r, stage: stageFor(r) }));
+}
+
 export function stageFor(row) {
   if (Number(row.payments) > 0) return "Paid";
   if (Number(row.bookings) > 0) return "Booked";

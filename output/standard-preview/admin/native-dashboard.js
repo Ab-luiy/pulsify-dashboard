@@ -1,6 +1,6 @@
 (() => {
  let loading,root,requested='live',header;
- const aliases={leads:'crm',youtube:'metrics',dashboard:'live',payments:'sales'};
+ const aliases={youtube:'metrics',dashboard:'live',payments:'sales'};
  function activate(){
   const id=aliases[requested]||requested;
   root.querySelector('nav.sb-nav [data-tab="'+CSS.escape(id)+'"]')?.click();

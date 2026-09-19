@@ -3,3 +3,9 @@
 @media(max-width:1023px){.auth-shell{display:block}.auth-image{display:none}.auth-panel{width:100%;min-height:100dvh}.auth-brand{top:32px;left:24px}.auth-main{padding:104px 24px 48px;place-items:center}.auth-card{max-width:396px}}
 @media(max-height:720px) and (min-width:1024px){.auth-brand{top:32px}.auth-main{padding-top:92px;padding-bottom:38px}.legal{margin-top:12px}}
 @media(prefers-reduced-motion:reduce){.auth-card{animation:none}}
+
+.identity-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;margin:0 0 12px;border:1px solid var(--auth-border,#2a2725);border-radius:10px;background:var(--auth-input-bg,#1b1917);font-size:14px;color:var(--auth-text)}
+.identity-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.link-button{border:0;background:none;color:var(--auth-muted,#a09a92);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
+.link-button:hover{color:var(--auth-text)}
+#operatorHint strong{color:var(--auth-text);font-weight:600}
