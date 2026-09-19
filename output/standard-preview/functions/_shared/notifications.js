@@ -72,25 +72,33 @@ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
   return own;
 }
 
+// Operator feed: every operator row (client_id there only says which client it
+// is about). Client feed: rows for that one workspace.
+function where(scope, clientId) {
+  return scope === "operator" ? { sql: "scope='operator'", args: [] } : { sql: "scope='client' AND client_id=?", args: [str(clientId)] };
+}
+
 export async function listNotifications(env, { scope, clientId = "", limit = 50, unreadOnly = false }) {
+  const w = where(scope, clientId);
   const rows = await env.DB.prepare(
-    `SELECT id, kind, severity, title, body, link, entity_json, created_at, read_at
-       FROM notifications WHERE scope=? AND client_id=? ${unreadOnly ? "AND read_at IS NULL" : ""}
+    `SELECT id, client_id, kind, severity, title, body, link, entity_json, created_at, read_at
+       FROM notifications WHERE ${w.sql} ${unreadOnly ? "AND read_at IS NULL" : ""}
       ORDER BY created_at DESC LIMIT ?`,
-  ).bind(scope, str(clientId), Math.min(200, limit)).all();
-  const unread = await env.DB.prepare("SELECT COUNT(*) AS n FROM notifications WHERE scope=? AND client_id=? AND read_at IS NULL").bind(scope, str(clientId)).first();
+  ).bind(...w.args, Math.min(200, limit)).all();
+  const unread = await env.DB.prepare(`SELECT COUNT(*) AS n FROM notifications WHERE ${w.sql} AND read_at IS NULL`).bind(...w.args).first();
   return { items: (rows.results || []).map((r) => ({ ...r, entity: safeParse(r.entity_json), entity_json: undefined })), unread: Number(unread?.n || 0) };
 }
 
 export async function markRead(env, { scope, clientId = "", ids = [], all = false }) {
   const now = nowIso();
+  const w = where(scope, clientId);
   if (all) {
-    const r = await env.DB.prepare("UPDATE notifications SET read_at=? WHERE scope=? AND client_id=? AND read_at IS NULL").bind(now, scope, str(clientId)).run();
+    const r = await env.DB.prepare(`UPDATE notifications SET read_at=? WHERE ${w.sql} AND read_at IS NULL`).bind(now, ...w.args).run();
     return Number(r.meta?.changes || 0);
   }
   let n = 0;
   for (const id of ids.slice(0, 100)) {
-    const r = await env.DB.prepare("UPDATE notifications SET read_at=? WHERE id=? AND scope=? AND client_id=? AND read_at IS NULL").bind(now, str(id), scope, str(clientId)).run();
+    const r = await env.DB.prepare(`UPDATE notifications SET read_at=? WHERE id=? AND ${w.sql} AND read_at IS NULL`).bind(now, str(id), ...w.args).run();
     n += Number(r.meta?.changes || 0);
   }
   return n;

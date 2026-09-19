@@ -15,7 +15,7 @@ const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT)");
 for(const t of ['crm_overrides','crm_added','crm_removed'])sql.exec(`CREATE TABLE ${t}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
-for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0030_zernio.sql']){try{sql.exec(mig(n));}catch(e){}}
+for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0030_zernio.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 const emails=[];const zcalls=[];
 const env={OPERATOR_EMAIL:'abod.louai@gmail.com',RESEND_API_KEY:'re',EMAIL_FROM:'Pulsify <hi@pulsify-ai.com>',ADMIN_KEY:'k',ZERNIO_API_KEY:'sk_test',ZERNIO_WEBHOOK_SECRET:'whsec',INTEGRATION_ENCRYPTION_KEY:Buffer.from(new Uint8Array(32)).toString('base64'),
   DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
@@ -76,9 +76,11 @@ test('webhook: dedupes on event id, message.received notifies once, message.read
   const payload={id:'evt_1',event:'message.received',message:{id:'zm_3',conversationId:'zc_1',platformMessageId:'mid-3',direction:'incoming',text:'tell me more',sentAt:iso(now-10*60000),isRead:false,sender:{id:'9999'}},conversation:{id:'zc_1',platformConversationId:'x',participantId:'9999',participantName:'Other Acc',participantUsername:'other.acc',participantPicture:'https://cdn/pic.jpg',status:'active'},account:{id:'acc_1',accountId:'acc_1',platform:'instagram',username:'ab.luiy'},timestamp:iso(now)};
   const r1=await handleZernioEvent(env,payload,'evt_1');
   assert.equal(r1.stored,true);assert.equal(r1.conversationId,'composio-1');
-  assert.equal(emails.length,1);assert.match(emails[0].subject,/\[Other Acc, @other.acc\] replied/);
+  assert.equal(emails.length,0,'no email');
+  assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM notifications WHERE kind='lead.replied'").get().n,1);
+  assert.match(sql.prepare("SELECT title FROM notifications WHERE kind='lead.replied'").get().title,/\[Other Acc, @other.acc\] replied/);
   const r2=await handleZernioEvent(env,payload,'evt_1');
-  assert.equal(r2.duplicate,true);assert.equal(emails.length,1);
+  assert.equal(r2.duplicate,true);assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM notifications WHERE kind='lead.replied'").get().n,1,'webhook dedupe plus message-id dedupe');
   assert.equal(sql.prepare("SELECT pfp_url FROM ig_outreach WHERE conversation_id='composio-1'").get().pfp_url,'https://cdn/pic.jpg');
   const read={id:'evt_2',event:'message.read',message:{id:'zm_4',conversationId:'zc_2',platformMessageId:'mid-4',direction:'outgoing',text:'hey',sentAt:iso(now-3*H),isRead:true,sender:{id:'me'}},statusAt:iso(now-2*H),conversation:{id:'zc_2',platformConversationId:'y',participantId:'5555',participantName:'New Person',status:'active'},account:{id:'acc_1',platform:'instagram',username:'ab.luiy'},timestamp:iso(now)};
   const r3=await handleZernioEvent(env,read,'evt_2');

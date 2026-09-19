@@ -56,7 +56,7 @@ export async function emitEvent(env, { scope = "operator", clientId = "", event,
     try {
       const { notifyFromEvent } = await import("./notifications.js");
       await notifyFromEvent(env, { scope, clientId, event, data });
-    } catch { /* notification tables may not exist in a minimal test env */ }
+    } catch { /* the bell must never break the caller */ }
   }
   return id;
 }

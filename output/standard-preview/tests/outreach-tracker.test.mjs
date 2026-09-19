@@ -77,7 +77,7 @@ const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT)");
 for(const t of ['crm_overrides','crm_added','crm_removed'])sql.exec(`CREATE TABLE ${t}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
-for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0029_outreach_tracker.sql']){try{sql.exec(mig(n));}catch(e){}}
+for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 const emails=[];
 const env={OPERATOR_EMAIL:'abod.louai@gmail.com',RESEND_API_KEY:'re',EMAIL_FROM:'Pulsify <hi@pulsify-ai.com>',ADMIN_KEY:'k',INTEGRATION_ENCRYPTION_KEY:Buffer.from(new Uint8Array(32)).toString('base64'),
   DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
@@ -120,12 +120,13 @@ test('API actions: sentiment, outcome, hibernate, wake, note; unknown thread 404
   assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM ig_outreach_events WHERE kind IN ('booked','hibernated')").get().n,2);
 });
 
-test('reply notification emails the operator with [Name, @handle] and logs the event', async()=>{
+test('reply notification lands in the bell with [Name, @handle] and logs the event; no email', async()=>{
   emails.length=0;
-  const ok=await notifyReply(env,{conversationId:'waiting',handle:'they.spoke',name:'They Spoke',text:'tell me more'});
+  const ok=await notifyReply(env,{conversationId:'waiting',handle:'they.spoke',name:'They Spoke',text:'tell me more',messageId:'waiting-m1'});
   assert.equal(ok,true);
-  assert.equal(emails.length,1);assert.deepEqual(emails[0].to,['abod.louai@gmail.com']);
-  assert.equal(emails[0].subject,'[They Spoke, @they.spoke] replied');assert.match(emails[0].text,/tell me more/);
+  assert.equal(emails.length,0,'no email');
+  const row=sql.prepare("SELECT title, body, kind, link FROM notifications WHERE scope='operator' ORDER BY created_at DESC LIMIT 1").get();
+  assert.equal(row.title,'[They Spoke, @they.spoke] replied');assert.equal(row.body,'tell me more');assert.equal(row.kind,'lead.replied');assert.equal(row.link,'outreach');
   assert.equal(sql.prepare("SELECT delivered_at IS NOT NULL AS d FROM ig_outreach_events WHERE kind='reply' AND conversation_id='waiting'").get().d,1);
 });
 
@@ -134,10 +135,9 @@ test('seen: parsed from a Meta-shaped hook, notified only after 5 silent minutes
   assert.equal(extractSeen(payload).length,1);
   assert.equal(await ingestSeen(env,payload),1);
   assert.ok(sql.prepare("SELECT seen_at FROM ig_outreach WHERE conversation_id='fresh'").get().seen_at);
-  emails.length=0;
   assert.equal(await sweepSeen(env,NOW-4*60000),0,'inside the grace window nothing fires');
   assert.equal(await sweepSeen(env,NOW),1);
-  assert.match(emails[0].subject,/\[just.sent, @just.sent\] seen your message, no reply after 5 minutes/);
+  assert.match(sql.prepare("SELECT title FROM notifications WHERE kind='lead.seen' ORDER BY created_at DESC LIMIT 1").get().title,/\[just.sent, @just.sent\] seen your message, no reply after 5 minutes/);
   assert.equal(await sweepSeen(env,NOW+60000),0,'never twice');
   const listed=await (await call(outreachGet,op('https://x/api/outreach'))).json();
   assert.equal(listed.stats.outbound.seen_available,true);
