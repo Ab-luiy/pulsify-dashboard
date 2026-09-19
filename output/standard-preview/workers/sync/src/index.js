@@ -7,6 +7,8 @@ import { syncYouTube } from "./jobs/youtube.js";
 import { sweepWebhooks } from "./jobs/webhook-outbox.js";
 import { syncPayments } from "./jobs/payments.js";
 import { ingestSeen, sweepSeen } from "./jobs/outreach-notify.js";
+import { handleZernioEvent, syncZernioInbox } from "./jobs/zernio-inbox.js";
+import { verifySignature } from "../../../functions/_shared/zernio.js";
 
 const JOBS = {
   youtube: syncYouTube,
@@ -15,6 +17,7 @@ const JOBS = {
   leads: syncYouTubeLeads,
   "webhook-outbox": sweepWebhooks,
   "payment-rematch": syncPayments,
+  "zernio-inbox": syncZernioInbox,
 };
 
 export default {
@@ -26,11 +29,24 @@ export default {
     if (controller.cron === "* * * * *") {
       ctx.waitUntil(runJob(env, "webhook-outbox", () => sweepWebhooks(env)));
       ctx.waitUntil(sweepSeen(env).catch(() => 0));
+      // Zernio sweep rides the same minute; it is a no-op until an account is connected.
+      ctx.waitUntil(runJob(env, "zernio-inbox", () => syncZernioInbox(env)));
     }
   },
 
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (request.method === "POST" && url.pathname === "/hooks/zernio") {
+      const raw = await request.text();
+      if (!await verifySignature(raw, env.ZERNIO_WEBHOOK_SECRET, request.headers.get("x-zernio-signature"))) {
+        return json({ ok: false, error: "invalid webhook signature" }, 401);
+      }
+      let payload = null;
+      try { payload = JSON.parse(raw); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
+      if (payload?.event === "webhook.test") return json({ ok: true, test: true });
+      ctx.waitUntil(handleZernioEvent(env, payload, request.headers.get("x-zernio-event-id")).catch(() => null));
+      return json({ ok: true, accepted: true }, 202);
+    }
     if (request.method === "POST" && url.pathname === "/hooks/composio") {
       const raw = await request.text();
       if (!await verifyComposio(request, raw, env.COMPOSIO_WEBHOOK_SECRET)) {
@@ -43,7 +59,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);

@@ -99,6 +99,14 @@ export const PROVIDERS = {
       return Boolean(record.config.confirmed);
     },
   },
+  zernio: {
+    scope: "operator",
+    configFields: ["account_id", "username", "profile_id", "webhook_id", "connected_at"],
+    secretFields: [],
+    operatorConnected(record) {
+      return Boolean(record.config.account_id);
+    },
+  },
   zapier: {
     scope: "client",
     configFields: ["note"],

@@ -29,13 +29,14 @@
       { id: "n8n", name: "n8n", kind: "push", blurb: "Self-hosted workflows on Pulsify events.", features: ["Outbound signed webhooks", "Push API input"] },
     ] },
     { group: "Social", items: [
-      { id: "instagram", name: "Instagram", kind: "deferred", blurb: "Inbox and insights through the tester path today. Native OAuth after Meta verification.", features: ["Inbox to CRM every minute (Composio)", "Reels, posts and story metrics", "Native OAuth: coming soon"] },
+      { id: "zernio", name: "Instagram inbox (Zernio)", kind: "zernio", blurb: "Log into Instagram once through Zernio's approved Meta app. DMs, read receipts, profile pictures and follower context flow into the outreach tracker in real time.", features: ["One-click Instagram login, no Meta review", "Read receipts: seen and left-on-read become real", "Profile pictures and follower count per contact", "Replies arrive by webhook within seconds"] },
+      { id: "instagram", name: "Instagram insights", kind: "deferred", blurb: "Reels, posts and story metrics through the tester path today. Native OAuth after Meta verification.", features: ["Reels, posts and story metrics", "Native OAuth: coming soon"] },
       { id: "youtube", name: "YouTube", kind: "deferred", blurb: "Public channel stats today. Analytics OAuth after Google verification.", features: ["Channel and latest-video stats every 6 hours", "Analytics OAuth: coming soon"] },
     ] },
   ];
   const ALL = CATALOG.flatMap((g) => g.items);
   const CLIENT_ONLY = new Set(["stripe", "whop", "calcom", "calendly"]);
-  const OPERATOR_ONLY = new Set(["discord"]);
+  const OPERATOR_ONLY = new Set(["discord", "zernio"]);
 
   async function api(path, init) {
     const r = await fetch(path, { headers: { "content-type": "application/json", "x-pulsify-operator": "1", ...(init?.headers || {}) }, ...init });
@@ -82,7 +83,10 @@
     try { integrations = (await api(`/api/integrations${qs}`)).integrations || []; } catch { integrations = []; }
     const status = new Map(integrations.map((i) => [i.provider, i]));
     const allowed = (item) => client ? !OPERATOR_ONLY.has(item.id) : !CLIENT_ONLY.has(item.id);
-    const stateOf = (item) => !allowed(item) ? "disconnected" : item.kind === "deferred" ? "soon" : item.kind === "push" ? "connected" : status.get(item.id)?.connected ? "connected" : status.get(item.id) ? "attention" : "disconnected";
+    let zernio = null;
+    if (!client) { try { zernio = await api("/api/zernio"); } catch { zernio = null; } }
+    const zernioNotice = new URLSearchParams(location.search).get("zernio");
+    const stateOf = (item) => !allowed(item) ? "disconnected" : item.kind === "deferred" ? "soon" : item.kind === "push" ? "connected" : item.kind === "zernio" ? (zernio?.connected ? "connected" : zernio?.configured ? "disconnected" : "attention") : status.get(item.id)?.connected ? "connected" : status.get(item.id) ? "attention" : "disconnected";
 
     let active = client ? ALL[0] : ALL.find((item) => allowed(item));
     const draw = () => {
@@ -109,6 +113,8 @@
       root.querySelectorAll("[data-pick]").forEach((b) => (b.onclick = () => { active = ALL.find((i) => i.id === b.dataset.pick); draw(); }));
       root.querySelector("[data-workspace]")?.addEventListener("change", (event) => render(root, { ...ctx, client: event.target.value }));
       root.querySelector("[data-connect]")?.addEventListener("click", () => connect(active));
+      root.querySelector("[data-zernio-webhook]")?.addEventListener("click", async (e) => { e.target.disabled = true; try { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "register-webhook" }) }); } catch (err) { e.target.textContent = err.message.slice(0, 40); return; } await render(root, ctx); });
+      root.querySelector("[data-zernio-disconnect]")?.addEventListener("click", async () => { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "disconnect" }) }); await render(root, ctx); });
       root.querySelector("[data-disconnect]")?.addEventListener("click", async () => { await api("/api/integrations", { method: "DELETE", body: JSON.stringify({ scope, client, provider: active.id }) }); await render(root, ctx); });
       drawKeys(); drawHooks(); if (client) drawMatches();
     };
@@ -117,6 +123,12 @@
       if (ctx.readOnly) return `<span class="int-note">Operator preview is read only. Sign in as the client to change connections.</span>`;
       if (!allowed(item)) return `<span class="int-note">${client ? "This connector belongs to the operator workspace." : "Choose a client workspace above to configure this connector."}</span>`;
       if (item.kind === "deferred") return `<span class="int-note">Available after platform review. The current path already works through the sync Worker.</span>`;
+      if (item.kind === "zernio") {
+        if (!zernio?.configured) return `<span class="int-note">Add <code>ZERNIO_API_KEY</code> to the Pages project and the sync Worker, then reload.</span>`;
+        const notice = zernioNotice === "connected" ? `<span class="int-note">Connected. History is replaying in the background; the tracker fills in over the next few minutes.</span>` : zernioNotice === "error" ? `<span class="int-note">Connection failed: ${esc(new URLSearchParams(location.search).get("detail") || "unknown")}</span>` : "";
+        if (zernio.connected) return `${notice}<span class="int-note">@${esc(zernio.account?.username || "")} connected ${esc(zernio.account?.connected_at ? new Date(zernio.account.connected_at).toLocaleDateString() : "")}. Webhook ${zernio.webhook?.registered ? "registered" : zernio.webhook?.secret_set ? "not registered yet" : "needs ZERNIO_WEBHOOK_SECRET on Pages"}.</span>${zernio.webhook?.registered ? "" : `<button class="ps-control" data-zernio-webhook>Register webhook</button>`}<a class="ps-control" href="/api/zernio?action=connect">Reconnect</a><button class="ps-control" data-zernio-disconnect>Disconnect</button>`;
+        return `${notice}<a class="ps-control int-primary" href="/api/zernio?action=connect">Log in with Instagram</a><span class="int-note">Opens Zernio's Instagram login. First 2 accounts are free on Zernio.</span>`;
+      }
       if (item.kind === "push") return `<a class="ps-control int-primary" href="#int-keys">Create an API key</a><a class="ps-control" href="/docs/push-api" target="_blank" rel="noopener">Docs</a>`;
       return s === "connected" ? `<button class="ps-control" data-connect>Update</button><button class="ps-control" data-disconnect>Disconnect</button>` : `<button class="ps-control int-primary" data-connect>Connect ${esc(item.name)}</button>`;
     };

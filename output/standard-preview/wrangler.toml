@@ -20,3 +20,4 @@ ACCESS_DASHBOARD_AUD = "e2b36b7175a01dc8def8128bb52d160c629185b0196c36d706732220
 OPERATOR_CLIENT_ID = "pulsify"
 OPERATOR_EMAILS = "abod.louai@gmail.com"
 OPERATOR_TIMEZONE = "Europe/Istanbul"
+SYNC_WORKER_URL = "https://pulsify-sync.abod-louai.workers.dev"

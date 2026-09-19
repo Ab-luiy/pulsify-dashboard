@@ -1,6 +1,7 @@
 import { composioExecute, findRows } from "../composio.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 import { notifyReply } from "./outreach-notify.js";
+import { zernioActive } from "./zernio-inbox.js";
 
 const TERMINAL = new Set(["call-booked", "won", "dead"]);
 const MAX_CONVERSATIONS_PER_RUN = 12;
@@ -10,6 +11,8 @@ const MAX_CONVERSATIONS_PER_RUN = 12;
 // per invocation, so a full repair takes several runs; the resync flag is kept in
 // sync state until the backlog is drained.
 export async function syncInstagramInbox(env, options = {}) {
+  // Once Zernio is connected it owns the inbox; two writers would race on the same threads.
+  if (!options.resync && await zernioActive(env)) return 0;
   const operatorEmail = env.OPERATOR_EMAIL || "operator";
   const syncState = await loadSyncState(env);
   let connectedAccountId = String(syncState.connectedAccountId || "");
