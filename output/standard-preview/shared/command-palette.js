@@ -98,7 +98,7 @@
       try {
         const r = await fetch("/api/outreach", { method: "POST", headers: { "content-type": "application/json", "x-pulsify-operator": "1", ...headers() }, body: JSON.stringify({ id, action }) });
         const d = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+        if (!r.ok) throw (window.PulsifyShell?.failure ? PulsifyShell.failure(r.status, d.error) : new Error(d.error || "Could not complete that request. Please retry."));
         status(doneText); setTimeout(close, 500);
         window.dispatchEvent(new CustomEvent("pulsify:outreach-changed", { detail: { id, action } }));
       } catch (e) { status(e.message.slice(0, 60), true); }

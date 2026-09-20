@@ -41,8 +41,15 @@
   async function request(path, init = {}, ctx = {}) {
     const r = await fetch(path, { credentials: "same-origin", ...init, headers: { "content-type": "application/json", ...(ctx.operator === false ? {} : { "x-pulsify-operator": "1" }), ...(ctx.headers?.() || {}), ...(init.headers || {}) } });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+    if (!r.ok) throw (window.PulsifyShell?.failure ? PulsifyShell.failure(r.status, d.error) : new Error(d.error || "Could not complete that request. Please retry."));
     return d;
+  }
+
+  // Loading state shaped like the table that replaces it: one header row, three body rows.
+  function tableSkeleton(cols = 4, rows = 3) {
+    const cell = (w) => `<td><span class="skeleton int-skel" style="width:${w}%"></span></td>`;
+    const widths = [58, 34, 22, 40, 30];
+    return `<table class="int-table-skeleton" aria-hidden="true"><thead><tr>${Array.from({ length: cols }, (_, i) => `<th><span class="skeleton int-skel" style="width:${[36, 28, 22, 30, 24][i % 5]}%"></span></th>`).join("")}</tr></thead><tbody>${Array.from({ length: rows }, () => `<tr>${Array.from({ length: cols }, (_, i) => cell(widths[i % 5])).join("")}</tr>`).join("")}</tbody></table>`;
   }
 
   function pill(state) {
@@ -117,10 +124,10 @@
         <div class="int-strip">${ALL.map((i) => `<button class="int-chip ${i === active ? "active" : ""}" data-pick="${i.id}"><span class="int-dot int-dot-${stateOf(i)}"></span>${esc(i.name)}</button>`).join("")}</div>
         ${CATALOG.map((g) => `<h2>${esc(g.group)}</h2><div class="ps-grid">${g.items.map((i) => `<button class="ps-card int-card" data-pick="${i.id}"><span class="int-icon">${esc(i.name.slice(0, 2))}</span><strong>${esc(i.name)}</strong><small>${esc(i.blurb)}</small>${pill(stateOf(i))}</button>`).join("")}</div>`).join("")}
         <h2>Push API keys</h2><p class="ps-subtitle">Send leads, messages, metrics and payments into Pulsify from Zapier, Make, n8n or your own code. <a href="/docs/push-api" target="_blank" rel="noopener">Read the docs</a>.</p>
-        <div id="int-keys" class="int-table skeleton" style="min-height:64px"></div>
+        <div id="int-keys" class="int-table">${tableSkeleton(4)}</div>
         <h2>Outbound webhooks</h2><p class="ps-subtitle">Signed events delivered to any HTTPS URL. Three attempts with backoff. Verify <code>X-Pulsify-Signature</code>.</p>
-        <div id="int-hooks" class="int-table skeleton" style="min-height:64px"></div>
-        ${client && ctx.operator !== false ? `<h2>Payment matching</h2><p class="ps-subtitle">Confirm which lead each payment belongs to. Only confirmed matches count toward cash collected.</p><div id="int-matches" class="int-table skeleton" style="min-height:64px"></div>` : ""}`;
+        <div id="int-hooks" class="int-table">${tableSkeleton(4)}</div>
+        ${client && ctx.operator !== false ? `<h2>Payment matching</h2><p class="ps-subtitle">Confirm which lead each payment belongs to. Only confirmed matches count toward cash collected.</p><div id="int-matches" class="int-table">${tableSkeleton(5)}</div>` : ""}`;
       root.querySelectorAll("[data-pick]").forEach((b) => (b.onclick = () => { active = ALL.find((i) => i.id === b.dataset.pick); draw(); }));
       root.querySelector("[data-workspace]")?.addEventListener("change", (event) => render(root, { ...ctx, client: event.target.value }));
       root.querySelector("[data-connect]")?.addEventListener("click", () => connect(active));
