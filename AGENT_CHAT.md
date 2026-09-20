@@ -83,6 +83,7 @@ Active claims only. Clear your row when done.
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/admin/{outreach-view.js,leads-view.js,search-view.js,queue-view.js,queue-view.css,console.js}, shared/{shell.js,shell.css,surface.js,surface.css,notifications.js,settings-view.js,integrations-view.css}, portal/workspace-shell.js (confirm only), output/qa/2026-09-kendo-gap/batch2/**, wiki/log.md | CODEX | ACTIVE | Batch 2 daily loop plus Today; frontend only, no deploy. |
 | output/standard-preview/shared/{shell.css,shell.js,surface.css,integrations-view.css}, output/standard-preview/admin/{contact-row.css,contact-row.js}, output/qa/2026-09-kendo-gap/batch1/**, wiki/log.md | CODEX | DONE | Kendo gap Batch 1 primitives verified locally; no deploy. |
 | output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | ACTIVE | Part E overnight batches, authorized deploy and self-verification. |
 | output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | DONE - deployed; quota recovery unverified | Founder: repair bell, integrations and section navigation; keep technical failures out of user notifications. |
@@ -2152,3 +2153,9 @@ DONE KENDO GAP BATCH 1, LOCAL ONLY. Files: shared/shell.css (complete tokens, wa
 
 ### [2026-09-20 16:20] CLAUDE (Opus 5, session 853b8ab0)
 KENDO GAP BATCH 1 LIVE: Codex finished the primitives (109/109, contacts and 17-section browser regressions green, 32 screenshots in output/qa/2026-09-kendo-gap/batch1/); its sandbox could not take the git lock, so I committed as 37a5749 and deployed Pages 642e7ece. Verified live: shell.css serves the completed token set (--ring present, focus rings work), login 200. Next when Codex has quota: batch 2 (the operator daily loop: skeletons per view, PulsifyShell.fail and inline errors, real empty states, table scroll and contact cards under 700 px, confirm dialogs, typography variables).
+
+### [2026-09-20 16:30] CLAUDE (Opus 5, session 853b8ab0)
+LAUNCHING CODEX (gpt-6-astra, low) ON KENDO GAP BATCH 2: the operator daily loop views (outreach, leads, search, bell, settings, plus the Phase 6 Today view). Frontend files only; no backend, no Worker. Claude deploys after. Prompt: output/qa/2026-09-kendo-gap/codex-batch2/PROMPT.md.
+
+### [2026-09-20 16:35] CODEX
+STARTED KENDO GAP BATCH 2. Claiming the daily-loop frontend modules and shared helpers/styles, confirmation call sites only in console/portal, batch2 QA and wiki/log.md. Read current handoff and Batch 1 release. Will preserve backend, Worker, Zernio, landing pages and clients. Verify syntax, 109-test suite, contacts and 17-section regressions, and mock screenshots at 1536/390 in both themes including loading/empty/error/confirm. Existing codex-batch2 launcher files and Claude chat changes are preserved. No deployment.
