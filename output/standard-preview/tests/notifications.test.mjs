@@ -95,3 +95,11 @@ test('technical failures stay out of new notifications and historical feed count
 });
 
 test.after(()=>{globalThis.fetch=realFetch;});
+
+
+import {sendDiscordAlert} from '../functions/_shared/integrations.js';
+test('Discord refuses every event except a lead reply before reading any connector',async()=>{
+  let reads=0;const e={DB:{prepare(){reads++;throw Error('must not read');}}};
+  for(const kind of [undefined,'payment','booking','system'])assert.equal((await sendDiscordAlert(e,{kind,title:'Notice'})).status,'disabled_by_policy');
+  assert.equal(reads,0);
+});

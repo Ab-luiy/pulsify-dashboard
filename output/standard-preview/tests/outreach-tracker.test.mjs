@@ -95,10 +95,10 @@ seed('fresh','just.sent',[msg('outbound',NOW-10*60000,'hey there')]);
 seed('waiting','they.spoke',[msg('outbound',NOW-5*H,'hi'),msg('inbound',NOW-H,'tell me more')]);
 seed('inb','came.to.us',[msg('inbound',NOW-2*H,'saw your reel')]);
 
-test('API list: due follow-ups first, sections and stats present, search works', async()=>{
+test('API list: last interaction first, sections and stats present, search works', async()=>{
   const d=await (await call(outreachGet,op('https://x/api/outreach'))).json();
   assert.equal(d.ok,true);assert.equal(d.timezone,'Europe/Istanbul');
-  assert.equal(d.threads[0].id,'due');assert.equal(d.threads[0].follow_up_due,true);assert.ok(d.threads[0].hours_since_our_message>=29);
+  assert.equal(d.threads[0].id,'fresh');const due=d.threads.find(t=>t.id==='due');assert.equal(due.follow_up_due,true);assert.ok(due.hours_since_our_message>=29);assert.deepEqual(d.threads.map(t=>t.last_message_at),d.threads.map(t=>t.last_message_at).sort().reverse());
   assert.equal(d.threads[1].id,'waiting');assert.equal(d.threads[1].stage,'replied');
   assert.equal(d.threads.find(t=>t.id==='inb').origin,'inbound');
   assert.equal(d.stats.outbound.dms_sent,3);assert.equal(d.stats.outbound.follow_ups_due,1);assert.equal(d.stats.inbound.awaiting_us,1);

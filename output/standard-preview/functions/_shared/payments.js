@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "./side-effect-failure.js";
 import { provisionClient } from "./provisioning.js";
 import { recordTouch } from "./pipeline-touches.js";
 import {
@@ -43,7 +44,7 @@ export async function processNormalizedPayment(env, input) {
   const existing = await env.DB.prepare(
     `SELECT id, client, amount_cents, currency, rail, reference, occurred_at, recorded_by, note
        FROM payments WHERE reference=?`,
-  ).bind(reference).first().catch(() => null);
+  ).bind(reference).first().catch(() => sideEffectFailure(env, "payments_operation_1"));
   if (existing) {
     return { ok: true, duplicate: true, payment: existing, side_effects: { skipped: true } };
   }
@@ -89,7 +90,7 @@ export async function processNormalizedPayment(env, input) {
   // Push API and rematch paths record revenue for clients who are already
   // onboarded. They must never mint a new portal link or send onboarding mail.
   if (customerEmail) {
-    await recordTouch(env, { client, email: customerEmail, name: customerName, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => null);
+    await recordTouch(env, { client, email: customerEmail, name: customerName, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => sideEffectFailure(env, "payments_operation_2"));
   }
   const sideEffects = input.skipSideEffects
     ? { skipped: true, reason: "side effects disabled for this rail" }
@@ -107,7 +108,7 @@ async function runPaymentSideEffects(env, payment) {
   const clientRow = await env.DB.prepare(
     `SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash, status
        FROM client_config WHERE client=?`,
-  ).bind(client).first().catch(() => null);
+  ).bind(client).first().catch(() => sideEffectFailure(env, "payments_operation_3"));
   // Payment rails also carry the client's own customer revenue. Only a
   // Pulsify prospect payment may start Pulsify onboarding; active clients'
   // revenue must never rotate their portal token or resend a welcome.
@@ -219,7 +220,7 @@ async function resolvePaymentRecipient(env, client, rail) {
       `SELECT email, name FROM leads
          WHERE client=? AND email IS NOT NULL AND email!=''
          ORDER BY applied_at DESC, id DESC LIMIT 1`,
-    ).bind(client).first().catch(() => null);
+    ).bind(client).first().catch(() => sideEffectFailure(env, "payments_operation_4"));
     candidates.push({
       email: normalizeEmail(lead?.email),
       name: strOrNull(lead?.name),

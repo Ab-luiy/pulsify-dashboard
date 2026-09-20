@@ -20,92 +20,39 @@
     if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
     return d;
   }
+  const contact = window.PulsifyContact;
   const pill = (label, cls) => `<span class="int-pill ${cls || ""}">${esc(label)}</span>`;
 
   function render(root, ctx = {}) {
-    let tab = ctx.section === "funnel" ? "funnel" : "inbox";
-    let q = "";
-    let filter = "all"; // all | awaiting | new
-    root.innerHTML = `
-      <h1>Leads</h1>
-      <p class="ps-subtitle">Everyone who has reached you. Instagram conversations first, funnel contacts across every client below. The CRM is where you work them; this is where they arrive.</p>
-      <div class="int-table" id="leads-box">
-        <div class="int-tabs">
-          <button data-tab="inbox" class="active">Instagram inbox <span id="leads-n-inbox"></span></button>
-          <button data-tab="funnel">Funnel contacts <span id="leads-n-funnel"></span></button>
-          <span style="flex:1"></span>
-          <input id="leads-q" placeholder="Search handle, name or email" class="leads-search" autocomplete="off">
-          <button class="ps-control" id="leads-refresh">Refresh</button>
-        </div>
-        <div id="leads-filters" class="leads-filters">
-          <button class="leads-chip active" data-filter="all">All</button>
-          <button class="leads-chip" data-filter="awaiting">Waiting on you</button>
-          <button class="leads-chip" data-filter="new">Not in CRM</button>
-        </div>
-        <div id="leads-body"><div class="skeleton" style="min-height:220px;border-radius:0"></div></div>
-      </div>`;
-    const body = root.querySelector("#leads-body");
-    let cache = { inbox: null, funnel: null };
-
-    let sequence = 0;
-    async function load(force) {
-      const current = ++sequence;
-      if (force) cache = { inbox: null, funnel: null };
-      body.innerHTML = '<div class="skeleton" style="min-height:220px;border-radius:0"></div>';
+    let q="", filter=ctx.section === "funnel" ? "funnel" : "all", order="recent", sequence=0, disposed=false;
+    let cache={inbox:[],funnel:[]};
+    root.innerHTML=`<h1>Leads</h1><p class="ps-subtitle">Instagram conversations and funnel contacts, together in order of their last interaction.</p>
+      <div class="contact-toolbar"><input id="leads-q" class="leads-search" placeholder="Search name, handle or email" aria-label="Search leads"><button class="ps-control" id="leads-refresh">Refresh</button>${contact.control("leads-sort","recent",["recent","name"])}</div>
+      <div class="leads-filters">${[["all","All contacts"],["inbox","Instagram"],["funnel","Funnel"],["awaiting","Waiting on you"],["new","Not in CRM"]].map(([key,label])=>`<button class="leads-chip ${filter===key?'active':''}" data-filter="${key}">${label}</button>`).join('')}</div>
+      <div id="leads-body" class="contact-result">${contact.skeleton()}</div>`;
+    const body=root.querySelector('#leads-body');
+    async function load() {
+      const current=++sequence;
+      body.innerHTML=contact.skeleton();
       try {
-        if (tab === "inbox") {
-          if (!cache.inbox) cache.inbox = (await api("/api/spine/conversations")).conversations || [];
-          if (current !== sequence || !root.isConnected) return;
-          drawInbox(cache.inbox);
-        } else {
-          if (!cache.funnel) cache.funnel = (await api("/api/pipeline")).contacts || [];
-          if (current !== sequence || !root.isConnected) return;
-          drawFunnel(cache.funnel);
-        }
-        root.querySelector("#leads-n-inbox").textContent = cache.inbox ? cache.inbox.length : "";
-        root.querySelector("#leads-n-funnel").textContent = cache.funnel ? cache.funnel.length : "";
-      } catch (e) {
-        if (current !== sequence || !root.isConnected) return;
-        body.innerHTML = `<p class="int-empty">${esc(e.message)}</p>`;
-      }
+        const [inbox,funnel]=await Promise.all([api('/api/spine/conversations'),api('/api/pipeline')]);
+        if(disposed || current!==sequence || !root.isConnected)return;
+        cache={inbox:inbox.conversations || [],funnel:funnel.contacts || []};draw();
+      } catch(e) {if(!disposed && current===sequence)body.innerHTML=`<p class="int-empty">${esc(e.message)}</p>`;}
     }
-
-    function matches(text) { return !q || String(text || "").toLowerCase().includes(q); }
-
-    function drawInbox(rows) {
-      let list = rows.filter((c) => matches(`${c.participant_username} ${c.participant_name} ${c.last_text}`));
-      if (filter === "awaiting") list = list.filter((c) => c.last_direction === "inbound");
-      if (filter === "new") list = list.filter((c) => !c.in_crm);
-      root.querySelector("#leads-filters").hidden = false;
-      body.innerHTML = `<table><thead><tr><th>Person</th><th>Last message</th><th>Who spoke last</th><th>Status</th><th>When</th><th></th></tr></thead><tbody>${list.length ? list.map((c) => {
-        const handle = c.participant_username ? `@${c.participant_username}` : (c.participant_name || "Unknown");
-        const missing = !c.participant_username && !c.participant_id;
-        return `<tr data-thread="${esc(c.id)}">
-          <td><strong>${esc(handle)}</strong>${c.participant_name && c.participant_username ? `<small>${esc(c.participant_name)}</small>` : ""}${missing ? '<small class="int-note">Handle not synced yet</small>' : ""}</td>
-          <td class="leads-text">${esc(c.last_text || "")}<small>${c.message_count} message${c.message_count === 1 ? "" : "s"}</small></td>
-          <td>${c.last_direction === "inbound" ? pill("Them", "int-pill-warn") : pill("You", "")}</td>
-          <td>${c.in_crm ? pill("In CRM", "int-pill-ok") : pill("Not in CRM", "")}</td>
-          <td><small>${esc(ago(c.last_message_at))}</small></td>
-          <td class="int-row-actions"><button class="ps-control" data-open="${esc(c.id)}">Open</button>${c.in_crm || missing ? "" : `<button class="ps-control int-primary" data-add="${esc(c.id)}">Add to CRM</button>`}</td>
-        </tr>`;
-      }).join("") : `<tr><td colspan="6" class="int-empty">${rows.length ? "Nothing matches." : "No conversations synced yet. The inbox job runs every minute once Instagram is connected."}</td></tr>`}</tbody></table>`;
-      body.querySelectorAll("[data-open]").forEach((b) => (b.onclick = () => openThread(b.dataset.open)));
-      body.querySelectorAll("[data-add]").forEach((b) => (b.onclick = () => addToCrm(rows.find((c) => c.id === b.dataset.add), b)));
+    function draw() {
+      let rows=[...cache.inbox.map(c=>({...c,source:'Instagram',_original:c,name:c.participant_name || c.participant_username})),...cache.funnel.map(c=>({...c,source:'Funnel',name:c.contact_name || c.contact_email,last_text:c.client_name || c.client_id,last_message_at:c.last_seen}))];
+      rows=rows.filter(c=>(!q || `${c.name} ${c.participant_username || ''} ${c.contact_email || ''} ${c.last_text || ''}`.toLowerCase().includes(q)) &&
+        (filter==='all' || filter==='inbox' && c.source==='Instagram' || filter==='funnel' && c.source==='Funnel' || filter==='awaiting' && c.last_direction==='inbound' || filter==='new' && c.source==='Instagram' && !c.in_crm));
+      body.innerHTML=contact.sort(rows,order).map(c=>{
+        if(c.source==='Instagram')return contact.row(c,{attribute:'data-open',source:c.source,stage:c.in_crm?'In CRM':'New contact'})+
+          `<div class="contact-extra"><span class="contact-source">Instagram</span>${!c.in_crm && (c.participant_username || c.participant_id)?`<button class="ps-control" data-add="${esc(c.id)}">Add to CRM</button>`:''}</div>`;
+        return contact.row(c,{attribute:'data-client',value:c.client_id,source:c.source,stage:c.stage,detail:`Funnel / ${c.paid_cents ? money(c.paid_cents)+' collected' : 'Open client workspace'}`});
+      }).join('') || '<p class="int-empty">No contacts match this view.</p>';
+      body.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openThread(b.dataset.open));
+      body.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>addToCrm(cache.inbox.find(c=>c.id===b.dataset.add),b));
+      body.querySelectorAll('[data-client]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:brain-client',b.dataset.client);window.PulsifyOperatorShell?.go('brain');});
     }
-
-    function drawFunnel(rows) {
-      const list = rows.filter((c) => matches(`${c.contact_email} ${c.contact_name} ${c.client_name}`));
-      root.querySelector("#leads-filters").hidden = true;
-      body.innerHTML = `<table><thead><tr><th>Contact</th><th>Client</th><th>Stage</th><th>Touches</th><th>Paid</th><th>Last seen</th></tr></thead><tbody>${list.length ? list.map((c) => `<tr>
-          <td><strong>${esc(c.contact_name || c.contact_email)}</strong>${c.contact_name ? `<small>${esc(c.contact_email)}</small>` : ""}</td>
-          <td>${esc(c.client_name || c.client_id)}</td>
-          <td>${pill(c.stage, c.stage === "Paid" ? "int-pill-ok" : c.stage === "Booked" ? "int-pill-warn" : "")}</td>
-          <td><small>${[["applied", c.applications], ["opted in", c.optins], ["booked", c.bookings], ["paid", c.payments]].filter(([, n]) => n > 0).map(([k, n]) => `${n} ${k}`).join(" · ")}</small></td>
-          <td>${c.paid_cents ? money(c.paid_cents) : ""}</td>
-          <td><small>${esc(ago(c.last_seen))}</small></td>
-        </tr>`).join("") : `<tr><td colspan="6" class="int-empty">${rows.length ? "Nothing matches." : "No funnel contacts yet. Applications, opt-ins, bookings and payments land here as clients connect their funnels."}</td></tr>`}</tbody></table>`;
-    }
-
     async function openThread(id) {
       const d = document.createElement("dialog");
       d.className = "ps-popover int-dialog leads-thread";
@@ -136,20 +83,20 @@
         // Same record shape the inbox job writes for outreach threads.
         await api("/api/crm-sync", { method: "POST", body: JSON.stringify({ added: { [name]: { n: c.participant_name || name, h: c.participant_username || name, niche: "", dms: c.message_count || 0, stage: "new-lead", src: "instagram", igConversationId: c.id, _ts: ts } } }) });
         c.in_crm = true;
-        drawInbox(cache.inbox);
+        draw();
       } catch (e) {
         button.disabled = false;
         button.textContent = e.message.slice(0, 40);
       }
     }
 
-    root.querySelectorAll("[data-tab]").forEach((t) => (t.onclick = () => { root.querySelectorAll("[data-tab]").forEach((x) => x.classList.toggle("active", x === t)); tab = t.dataset.tab; load(); }));
-    root.querySelectorAll("[data-filter]").forEach((f) => (f.onclick = () => { root.querySelectorAll("[data-filter]").forEach((x) => x.classList.toggle("active", x === f)); filter = f.dataset.filter; load(); }));
-    let debounce;
-    root.querySelector("#leads-q").addEventListener("input", (e) => { clearTimeout(debounce); debounce = setTimeout(() => { q = e.target.value.trim().toLowerCase(); load(); }, 120); });
-    root.querySelector("#leads-refresh").onclick = () => load(true);
-    load();
-  }
 
-  window.PulsifyLeadsView = { render };
+    root.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;root.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));draw();});
+    root.querySelector('#leads-q').oninput=e=>{q=e.target.value.trim().toLowerCase();draw();};
+    root.querySelector('#leads-sort').onchange=e=>{order=e.target.value;draw();};
+    root.querySelector('#leads-refresh').onclick=load;
+    load();
+    return ()=>{disposed=true;sequence++;};
+  }
+  window.PulsifyLeadsView={render};
 })();

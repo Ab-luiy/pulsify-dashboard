@@ -11,12 +11,13 @@
  cleanup?.();cleanup=null;
  if(id==='clients')id='home';
  if(!owned){owned=document.createElement('section');main.append(owned);}owned.hidden=false;for(const frame of frames.values())frame.hidden=true;PulsifyNativeDashboard.hide();
+  if(id==='home'&&window.PulsifyClientsView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyClientsView.render(holder,{refresh:bootstrapLoad});return;}
   if(id==='search'&&window.PulsifySearchView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifySearchView.render(holder,{});return;}
   if(id==='outreach'&&window.PulsifyOutreachView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyOutreachView.render(holder);return;}
-  if(id==='leads'&&window.PulsifyLeadsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyLeadsView.render(holder,{});return;}
+  if(id==='leads'&&window.PulsifyLeadsView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyLeadsView.render(holder,{});return;}
   if(id==='payments'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:bootstrap?.clients?.[0]?.client||'',clients:bootstrap?.clients||[],section:'payments'});return;}
   if(dashboardViews.includes(id)){
-   owned.hidden=true;PulsifyNativeDashboard.show(id,main).catch(()=>{});return;
+   owned.replaceChildren();owned.hidden=true;PulsifyNativeDashboard.show(id,main).catch(()=>{});return;
   }
   if(id==='overview'){renderOverview();return;}if(id==='integrations'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:'',clients:bootstrap?.clients||[]});return;}if(id==='settings'){const holder=document.createElement('div');owned.replaceChildren(holder);if(window.PulsifySettingsView)PulsifySettingsView.render(holder,{role:'operator'});else renderSettings(holder);return;}
   owned.hidden=true;const handoff=sessionStorage.getItem('pulsify:brain-client');if(handoff){sessionStorage.removeItem('pulsify:brain-client');const old=frames.get(id);if(old){old.remove();frames.delete(id);}}let frame=frames.get(id);if(!frame){frame=document.createElement('iframe');frame.className='ps-frame';frame.title='Pulsify '+id;frame.src='/admin/console-view.html?view='+encodeURIComponent(id)+(handoff?'&client='+encodeURIComponent(handoff):'');frames.set(id,frame);main.append(frame);frame.addEventListener('load',()=>frame.contentWindow?.postMessage({type:'pulsify-theme',mode:localStorage.getItem('theme')||'dark'},location.origin));}frame.hidden=false;

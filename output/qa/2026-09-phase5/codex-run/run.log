@@ -6580,3 +6580,1586 @@ s=s.replace(thread,'');s=s.replace('          <div class=\"ot-actions\">',thread
 f=p/'functions/_shared/outreach.js';s=f.read_text().replace('.sort(sortForWork);','.sort((a,b) => String(b.last_message_at || \"\").localeCompare(String(a.last_message_at || \"\")));');f.write_text(s)
 '@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
  succeeded in 402ms:
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'admin/leads-view.js';s=f.read_text();a=s.index('    async function openThread');b=s.index('    root.querySelectorAll(\"[data-tab]\")',a);helpers=s[a:b].replace('drawInbox(cache.inbox);','draw();')
+head=s[:s.index('  function render')].replace('  const pill =','  const contact = window.PulsifyContact;\\n  const pill =')
+s=head+'''  function render(root, ctx = {}) {
+    let q=\"\", filter=ctx.section === \"funnel\" ? \"funnel\" : \"all\", order=\"recent\", sequence=0, disposed=false;
+    let cache={inbox:[],funnel:[]};
+    root.innerHTML="'`<h1>Leads</h1><p class="ps-subtitle">Instagram conversations and funnel contacts, together in order of their last interaction.</p>
+      <div class="contact-toolbar"><input id="leads-q" class="leads-search" placeholder="Search name, handle or email" aria-label="Search leads"><button class="ps-control" id="leads-refresh">Refresh</button>${contact.control("leads-sort","recent",["recent","name"])}</div>
+      <div class="leads-filters">${[["all","All contacts"],["inbox","Instagram"],["funnel","Funnel"],["awaiting","Waiting on you"],["new","Not in CRM"]].map(([key,label])=>`<button class="leads-chip ${filter===key?'"'active':''}\" data-filter=\""'${key}">${label}</button>`).join('"'')}</div>
+      <div id=\"leads-body\" class=\"contact-result\">"'${contact.skeleton()}</div>`;
+    const body=root.querySelector('"'#leads-body');
+    async function load() {
+      const current=++sequence;
+      body.innerHTML=contact.skeleton();
+      try {
+        const [inbox,funnel]=await Promise.all([api('/api/spine/conversations'),api('/api/pipeline')]);
+        if(disposed || current"'!==sequence || !root.isConnected)return;
+        cache={inbox:inbox.conversations || [],funnel:funnel.contacts || []};draw();
+      } catch(e) {if(!disposed && current===sequence)body.innerHTML=`<p class="int-empty">${esc(e.message)}</p>`;}
+    }
+    function draw() {
+      let rows=[...cache.inbox.map(c=>({...c,source:'"'Instagram',_original:c,name:c.participant_name || c.participant_username})),...cache.funnel.map(c=>({...c,source:'Funnel',name:c.contact_name || c.contact_email,last_text:c.client_name || c.client_id,last_message_at:c.last_seen}))];
+      rows=rows.filter(c=>("'!q || `${c.name} ${c.participant_username || '"''} "'${c.contact_email || '"''} "'${c.last_text || '"''}"'`.toLowerCase().includes(q)) &&
+        (filter==='"'all' || filter==='inbox' && c.source==='Instagram' || filter==='funnel' && c.source==='Funnel' || filter==='awaiting' && c.last_direction==='inbound' || filter==='new' && c.source==='Instagram' && "'!c.in_crm));
+      body.innerHTML=contact.sort(rows,order).map(c=>{
+        if(c.source==='"'Instagram')return contact.row(c,{attribute:'data-open',source:c.source,stage:c.in_crm?'In CRM':'New contact'})+
+          "'`<div class="contact-extra"><span class="contact-source">Instagram</span>${!c.in_crm && (c.participant_username || c.participant_id)?`<button class="ps-control" data-add="${esc(c.id)}">Add to CRM</button>`:'"''}</div>"'`;
+        return contact.row(c,{attribute:'"'data-client',value:c.client_id,source:c.source,stage:c.stage,detail:"'`Funnel · ${c.paid_cents ? money(c.paid_cents)+'"' collected' : 'Open client workspace'}"'`});
+      }).join('"'') || '<p class=\"int-empty\">No contacts match this view.</p>';
+      body.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openThread(b.dataset.open));
+      body.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>addToCrm(cache.inbox.find(c=>c.id===b.dataset.add),b));
+      body.querySelectorAll('[data-client]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:brain-client',b.dataset.client);window.PulsifyOperatorShell?.go('brain');});
+    }
+'''+helpers+'''
+    root.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;root.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));draw();});
+    root.querySelector('#leads-q').oninput=e=>{q=e.target.value.trim().toLowerCase();draw();};
+    root.querySelector('#leads-sort').onchange=e=>{order=e.target.value;draw();};
+    root.querySelector('#leads-refresh').onclick=load;
+    load();
+    return ()=>{disposed=true;sequence++;};
+  }
+  window.PulsifyLeadsView={render};
+})();
+''';f.write_text(s)
+f=p/'admin/search-view.js';s=f.read_text();s=s.replace('  const EXAMPLES', '  const contact=window.PulsifyContact;\\n  const EXAMPLES');s=s.replace('    root.innerHTML =', '    let sequence = 0, order=\"recent\", hits=[], took=0;\\n    root.innerHTML =',1);s=s.replace('      <div id=\"sr-results\"', '      <div class=\"contact-toolbar\"><span class=\"int-note\">Matches grouped by person</span>"'${contact.control("sr-sort","recent",["recent","name"])}</div>'"\\n      <div id=\"sr-results\"');s=s.replace('    let sequence = 0;','    root.querySelector(\"#sr-sort\").onchange=e=>{order=e.target.value;draw();};');s=s.replace('results.innerHTML = \\'<div class=\"skeleton\" style=\"min-height:160px;border-radius:12px\"></div>\\';','results.innerHTML = contact.skeleton();')
+a=s.index('        const dms = d.hits.filter');b=s.index('      } catch (e)',a)
+s=s[:a]+'''        hits=d.hits || [];took=d.took_ms;draw();
+'''+s[b:]
+a=s.index('\\n  }\\n\\n  // Ctrl+K')
+s=s[:a]+'''
+    function draw() {
+      const groups=new Map();
+      for(const h of hits){const key=h.kind==='dm'?'dm:'+h.conversation_id:'brain:'+h.client_id;if("'!groups.has(key))groups.set(key,[]);groups.get(key).push(h);}
+      const people=[...groups.values()].map(items=>{
+        const latest=contact.sort(items)[0],best=[...items].sort((a,b)=>b.score-a.score)[0];
+        return {...latest,name:latest.name || latest.client_name || latest.handle,items,snippet:best.snippet,score:best.score};
+      });
+      results.innerHTML=people.length?`<div class="contact-result">${contact.sort(people,order).map(h=>contact.row(h,{attribute:h.kind==='"'dm'?'data-thread':'data-brain',value:h.kind==='dm'?h.conversation_id:h.client_id,source:h.kind==='dm'?'Instagram':'Client brain',stage:"'`${Math.round(h.score*100)}% match`,detail:`${h.kind==='"'dm'?'Instagram':'Client brain'} · "'${h.items.length} matching ${h.items.length===1?'"'passage':'passages'}"'`})+(h.items.length>1?`<div class="contact-extra"><details><summary>${h.items.length-1} more matching passages</summary>${h.items.filter(x=>x.snippet!==h.snippet).map(x=>`<p>${esc(x.snippet)}</p>`).join('"'')}</details></div>"'`:'"'')).join('')}</div><p class=\"int-note\">"'${hits.length} matches across ${people.length} contacts · ${took} ms</p>`:'"'<p class=\"int-empty\">No matching conversations or brain fields yet.</p>';
+      results.querySelectorAll('[data-thread]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:open-thread',b.dataset.thread);window.PulsifyOperatorShell?.go('outreach');});
+      results.querySelectorAll('[data-brain]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:brain-client',b.dataset.brain);window.PulsifyOperatorShell?.go('brain');});
+    }
+'''+s[a:];f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+node --check output/standard-preview/admin/contact-row.js
+node --check output/standard-preview/admin/outreach-view.js
+node --check output/standard-preview/admin/leads-view.js
+node --check output/standard-preview/admin/search-view.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 662ms:
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'node tests/bugfix-browser.cjs' in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content functions/api/hooks/[[path]].js -LiteralPath functions/api/hooks/[[path]].js -ErrorAction SilentlyContinue; rg -n 'unknown client|catch|recordFailure' functions/_shared/hooks.js functions/_shared/provisioning.js functions/api/account.js; rg -n 'document.title|client_name|Loading workspace' portal/*.js; rg -n 'owned|dashboard' admin/phase1.js; Get-Content functions/api/workspace-archive.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 13094ms:
+PASS: all 17 operator sections, bell races/coalescing/failed writes/paged counts, cold Integrations, retry, client credentials, read-only controls, mobile. APIs mocked.
+
+ succeeded in 579ms:
+Get-Content : A positional parameter cannot be found that accepts argument 'functions/api/hooks/[[path]].js'.
+At line:2 char:1
++ Get-Content functions/api/hooks/[[path]].js -LiteralPath functions/ap ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Get-Content], ParameterBindingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+functions/_shared/provisioning.js:9:import { recordFailure } from "./integrations.js";
+functions/_shared/provisioning.js:49:  } catch {
+functions/_shared/provisioning.js:58:    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+functions/_shared/provisioning.js:64:  } catch (error) {
+functions/_shared/provisioning.js:65:    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+functions/_shared/provisioning.js:69:    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => null);
+functions/_shared/provisioning.js:70:  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => null);
+functions/_shared/provisioning.js:80:    await recordFailure(env, clientId, "welcome_email", "RESEND_API_KEY or EMAIL_FROM missing");
+functions/_shared/provisioning.js:106:    } catch (error) {
+functions/_shared/provisioning.js:113:  await recordFailure(env, clientId, "welcome_email", lastError);
+functions/_shared/provisioning.js:126:  } catch {
+functions/api/account.js:20:  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => null);
+functions/api/account.js:22:  try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+functions/api/account.js:30:  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => null);
+functions/api/account.js:32:  try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+functions/api/account.js:82:    env.DB.prepare("SELECT COUNT(*) AS n FROM client_brain WHERE client_id=?").bind(client).first().catch(() => ({ n: 0 })),
+functions/api/account.js:83:    env.DB.prepare("SELECT COUNT(*) AS n FROM workspace_records WHERE client_id=?").bind(client).first().catch(() => ({ n: 0 })),
+functions/api/account.js:84:    env.DB.prepare("SELECT COUNT(*) AS n FROM proof_items WHERE client_id=?").bind(client).first().catch(() => ({ n: 0 })),
+functions/api/account.js:105:    env.DB.prepare("SELECT COUNT(*) AS n, MAX(created_at) AS last FROM operator_events WHERE action='admin-key-use'").first().catch(() => ({ n: 0, last: null })),
+functions/api/account.js:124:  try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
+functions/api/account.js:191:      env.DB.prepare("SELECT section, field, value_json, source, updated_at FROM client_brain WHERE client_id=? ORDER BY section, field").bind(client).all().catch(() => ({ results: [] })),
+functions/api/account.js:192:      env.DB.prepare("SELECT id, kind, title, data, updated_at FROM workspace_records WHERE client_id=? ORDER BY updated_at DESC LIMIT 2000").bind(client).all().catch(() => ({ results: [] })),
+functions/api/account.js:193:      env.DB.prepare("SELECT * FROM proof_items WHERE client_id=? ORDER BY created_at DESC LIMIT 500").bind(client).all().catch(() => ({ results: [] })),
+functions/api/account.js:205:      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => null);
+functions/api/account.js:206:    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => null);
+functions/api/account.js:207:    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => null);
+functions/_shared/hooks.js:14:  recordFailure,
+functions/_shared/hooks.js:40:      await recordFailure(env, "unknown", `hook_${provider}`, "unknown client or invalid webhook path");
+functions/_shared/hooks.js:41:      return json({ ok: true, recorded: false, reason: "unknown client" });
+functions/_shared/hooks.js:51:        await recordFailure(env, integration.client, "stripe_signature", "invalid Stripe signature");
+functions/_shared/hooks.js:58:        await recordFailure(env, integration.client, "whop_signature", "invalid Whop signature");
+functions/_shared/hooks.js:78:  } catch (error) {
+functions/_shared/hooks.js:80:    await recordFailure(env, cleanId(params.client, "unknown"), `hook_${provider}`, detail);
+functions/_shared/hooks.js:121:        .bind(provider, refund.event_id).run().catch(() => null);
+functions/_shared/hooks.js:152:        .bind(customer.email, customer.name, result.payment.id).run().catch(() => null);
+functions/_shared/hooks.js:155:    await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => null);
+functions/_shared/hooks.js:181:    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => null);
+functions/_shared/hooks.js:207:  await recordFailure(env, client, `hook_${provider}`, reason);
+functions/_shared/hooks.js:388:  catch { keyBytes = new TextEncoder().encode(encoded); }
+rg: portal/*.js: IO error for operation on portal/*.js: The filename, directory name, or volume label syntax is incorrect. (os error 123)
+4: const dashboardViews=['live','crm','instagram','youtube','content','payments','health','metrics','plan','income','payouts','cashflow','calendar','dashboard'];
+5: let owned, cleanup;
+13: if(!owned){owned=document.createElement('section');main.append(owned);}owned.hidden=false;for(const frame of frames.values())frame.hidden=true;PulsifyNativeDashboard.hide();
+14:  if(id==='search'&&window.PulsifySearchView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifySearchView.render(holder,{});return;}
+15:  if(id==='outreach'&&window.PulsifyOutreachView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyOutreachView.render(holder);return;}
+16:  if(id==='leads'&&window.PulsifyLeadsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyLeadsView.render(holder,{});return;}
+17:  if(id==='payments'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:bootstrap?.clients?.[0]?.client||'',clients:bootstrap?.clients||[],section:'payments'});return;}
+18:  if(dashboardViews.includes(id)){
+19:   owned.hidden=true;PulsifyNativeDashboard.show(id,main).catch(()=>{});return;
+21:  if(id==='overview'){renderOverview();return;}if(id==='integrations'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:'',clients:bootstrap?.clients||[]});return;}if(id==='settings'){const holder=document.createElement('div');owned.replaceChildren(holder);if(window.PulsifySettingsView)PulsifySettingsView.render(holder,{role:'operator'});else renderSettings(holder);return;}
+22:  owned.hidden=true;const handoff=sessionStorage.getItem('pulsify:brain-client');if(handoff){sessionStorage.removeItem('pulsify:brain-client');const old=frames.get(id);if(old){old.remove();frames.delete(id);}}let frame=frames.get(id);if(!frame){frame=document.createElement('iframe');frame.className='ps-frame';frame.title='Pulsify '+id;frame.src='/admin/console-view.html?view='+encodeURIComponent(id)+(handoff?'&client='+encodeURIComponent(handoff):'');frames.set(id,frame);main.append(frame);frame.addEventListener('load',()=>frame.contentWindow?.postMessage({type:'pulsify-theme',mode:localStorage.getItem('theme')||'dark'},location.origin));}frame.hidden=false;
+26: function renderOverview(){const main=owned;main.innerHTML='<h1>Your workspace</h1><p class="ps-subtitle">Open a client, pick up delivery, or check the business.</p>';
+29:  main.innerHTML+='<div class="ps-kpis">'+[['Clients',summary.client_count??clients.length,'Configured workspaces'],['Needs attention',summary.at_risk_count??0,'From client health records'],['Collected',collected,bootstrap.selected?bootstrap.selected.from+' to '+bootstrap.selected.to:'All recorded payments'],['Pages',clients.filter(c=>c.page_active).length,'Active landing pages']].map(([l,v,n])=>`<div class="ps-kpi"><small>${esc(l)}</small><b>${esc(v)}</b><small>${esc(n)}</small></div>`).join('')+'</div><h2>Client workspaces</h2><div class="ps-grid">'+(clients.length?clients.map(c=>card(c.client_name||c.client,'Open the client workspace','client:'+c.client,'people')).join(''):card('Add your first client','Set up their workspace and landing page','view:clients','people'))+'</div><h2>Growth and operations</h2><div class="ps-grid">'+[['Lead Studio','Review leads and build prospect assets','crm'],['Campaigns','Applications and page activity','campaigns'],['Integrations','Manage connected services','integrations'],['Business dashboard','Metrics, income and planning','dashboard'],['Email','Compose and review drafts','email'],['Client work','Open the delivery queue','delivery']].map(([l,n,v])=>card(l,n,'view:'+v)).join('')+'</div><h2>Live pages</h2><div class="ps-grid">'+clients.filter(c=>c.page_active).map(c=>`<a class="ps-card" href="https://pulsify-ai.com/${encodeURIComponent(c.client)}" target="_blank" rel="noopener">${icon('arrow')}<strong>${esc(c.client_name||c.client)}</strong><small>Live landing page · opens in a new tab</small></a>`).join('')+clients.filter(c=>c.acquisition_token).map(c=>`<a class="ps-card" href="https://pulsify-ai.com/${encodeURIComponent(c.client)}?lead=${encodeURIComponent(c.acquisition_token)}" target="_blank" rel="noopener">${icon('arrow')}<strong>${esc(c.client_name||c.client)} acquisition</strong><small>Acquisition page · opens in a new tab</small></a>`).join('')+'</div><h2>Dashboard views</h2><div class="ps-grid">'+['metrics','crm','instagram','content','plan','payments','income','payouts','cashflow','calendar','health'].map(v=>card(v==='cashflow'?'Cash flow':v[0].toUpperCase()+v.slice(1),'Open the dashboard view','view:'+v,'chart')).join('')+'</div>';
+32: async function bootstrapLoad(){const epoch=++bootstrapEpoch,range=window.PulsifyRange;cacheKey='pulsify:bootstrap:v1:operator'+(range?':'+range.from+'_'+range.to:'');try{const r=await fetch('/api/operator-bootstrap'+(range?'?from='+range.from+'&to='+range.to:''));if(!r.ok)throw Error('Could not load the workspace. Sign in and retry.');const fresh=await r.json();if(epoch!==bootstrapEpoch)return;bootstrap=fresh;shell.setUser(bootstrap.operator?.email||'');shell.setClients(bootstrap.clients||[]);write(cacheKey,bootstrap);if(owned&&!owned.hidden&&owned.querySelector('h1')?.textContent==='Your workspace')renderOverview();}catch(e){const note=document.createElement('p');note.className='ps-error';note.textContent=e.message;shell.main.prepend(note);}}
+35: window.addEventListener('pulsify:range',()=>{const r=window.PulsifyRange;bootstrap=read('pulsify:bootstrap:v1:operator:'+r.from+'_'+r.to,null);if(owned&&!owned.hidden&&owned.querySelector('h1')?.textContent==='Your workspace')renderOverview();bootstrapLoad();});
+// Operator: archive, restore and list archived workspaces.
+//   GET  /api/workspace-archive                 archived workspaces with their exports
+//   GET  /api/workspace-archive?client=&export=1  the current full export as a download (any status)
+//   POST /api/workspace-archive {client, action:"archive"|"restore"}
+import { withOperator } from "../_shared/access.js";
+import { json, str } from "../_shared/common.js";
+import { resolveOperator } from "../_shared/spine-auth.js";
+import { archiveWorkspace, exportWorkspace, listArchives, restoreWorkspace } from "../_shared/archive.js";
+
+async function handleGet({ request, env }) {
+  const denied = resolveOperator(request, env);
+  if (denied.error) return denied.error;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  const url = new URL(request.url);
+  const client = str(url.searchParams.get("client"));
+  if (client && url.searchParams.get("export") === "1") {
+    const bundle = await exportWorkspace(env, client);
+    return new Response(JSON.stringify(bundle, null, 2), { headers: { "content-type": "application/json", "content-disposition": `attachment; filename="pulsify-workspace-${client}.json"`, "cache-control": "no-store" } });
+  }
+  return json({ ok: true, archived: await listArchives(env) });
+}
+
+async function handlePost({ request, env }) {
+  const denied = resolveOperator(request, env);
+  if (denied.error) return denied.error;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  let body = {};
+  try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
+  const action = str(body.action);
+  const client = str(body.client);
+  if (!client) return json({ ok: false, error: "client required" }, 422);
+  if (action === "archive") {
+    const r = await archiveWorkspace(env, client, denied.operatorEmail);
+    if (!r.ok) return json(r, 404);
+    const { bundle, ...rest } = r;
+    return json(rest);
+  }
+  if (action === "restore") {
+    const r = await restoreWorkspace(env, client, denied.operatorEmail);
+    return json(r, r.ok ? 200 : 404);
+  }
+  return json({ ok: false, error: "action must be archive or restore" }, 422);
+}
+
+export const onRequestGet = withOperator(handleGet);
+export const onRequestPost = withOperator(handlePost);
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'title|client_name' portal -g '*.js' | Select-Object -First 20; rg -n 'client-card|renderClients|clientsGrid|clients-grid|Archive' admin/console.js; rg -n 'notify-operator|INTERNAL_NOTIFY_SECRET|api/notify' functions workers tests --glob '"'!*.txt'"'; rg -n 'recordFailure' functions/_shared/integrations.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 936ms:
+portal\journeys.js:14:  {id:'reference-start-here',kind:'reference',title:'Niksetting · New here?',data:{channel:'instagram',type:'start-here',image:'/portal/references/story-1.png',slides:Array.from({length:18},(_,i)=>i+1),notes:'Founder-captured reference: 18 slides. Lessons alternate with proof before the closing invitation. Study the structure; use your own words and student results.'}},
+portal\journeys.js:15:  {id:'reference-proof',kind:'reference',title:'Niksetting · Proof interludes',data:{channel:'instagram',type:'credibility',image:'/portal/references/story-3.png',slides:[3,5,7],notes:'Three proof panels from the New here? sequence. Each receipt supports the lesson before it. These are creator claims, not Pulsify client results.'}},
+portal\journeys.js:16:  {id:'reference-breakdown',kind:'reference',title:'Niksetting · Lesson structure',data:{channel:'instagram',type:'breakdown',image:'/portal/references/story-2.png',slides:[2,4,6],notes:'A lesson heading, an audience problem, then a reframing statement. Adapt the teaching structure using real work and student evidence.'}},
+portal\journeys.js:17:  ...[1,2,3].map(i=>({id:'reference-thumb-'+i,kind:'reference',title:'Supplied thumbnail reference '+i,data:{channel:'youtube',image:'/portal/references/thumbnail-'+i+'.jpg',notes:'Founder-supplied visual reference from the thumbnail archive. Study image treatment and subject readability. Original published title is not catalogued.'}}))
+portal\journeys.js:21: const h=(title,description,kicker='YOUR WORKSPACE')=>`<div class="jx-head"><small>${esc(kicker)}</small><h2>${esc(title)}</h2><p>${esc(description)}</p></div>`;
+portal\journeys.js:22: const card=(title,description,action,symbol='copy',extra='')=>`<button class="jx-card ${extra}" data-jx="${esc(action)}"><span class="jx-symbol">${svg(symbol)}</span><strong>${esc(title)}</strong><p>${esc(description)}</p><span class="jx-arrow">↗</span></button>`;
+portal\journeys.js:25: function modal(title,body){dialog.innerHTML=`<header><h3>${esc(title)}</h3><button class="jx-button secondary" id="jxClose" aria-label="Close">×</button></header>${body}<p class="jx-status" id="jxStatus" role="status"></p>`;dialog.querySelector('#jxClose').onclick=closeModal;if(!dialog.open)dialog.showModal();draftDirty=false;dialog.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',()=>draftDirty=true));}
+portal\journeys.js:31: async function save(kind,title,data,existing){if(state.impersonated)throw Error('Operator preview is read-only.');const response=await fetch('/api/workspace-records',{method:'POST',credentials:'same-origin',headers:{...authHeaders(),'content-type':'application/json'},body:JSON.stringify({kind,title,data,id:existing?.id,updated_at:existing?.updated_at,client:state.client})});const result=await response.json();if(!response.ok||!result.ok)throw Error(result.error||'Could not save.');const row={id:result.id,kind,title,data,updated_at:result.updated_at};records=records.filter(r=>r.id!==row.id);records.unshift(row);draftDirty=false;return row;}
+portal\journeys.js:36: function referenceCard(r){return `<button class="jx-card ${r.data.channel==='instagram'?'story':''}" data-jx="reference:${r.id}">${safeImage(r.data.image)?`<img src="${esc(r.data.image)}" alt="${esc(r.title)}" loading="lazy">`:''}<strong>${esc(r.title)}</strong><p>${esc(r.data.notes||'Saved reference')}</p></button>`;}
+portal\journeys.js:39: function addReference(channel){const images=state.proofItems.filter(p=>safeImage(p.url));modal('Add a real reference',`<form id="jxReferenceForm"><label>Title<input name="title" required maxlength="250"></label>${channel==='youtube'?'<label>YouTube video URL<input name="url" type="url" required placeholder="https://www.youtube.com/watch?v=..."></label>':`<label>Image from your uploads<select name="image" required><option value="">Choose an image</option>${images.map(p=>`<option value="${esc(p.url)}">${esc(p.claim||'Image '+p.id)}</option>`).join('')}</select></label><p class="jx-note">Upload reference screenshots in the Media library first. File them here with a description.</p>`}<label>What makes it work?<textarea name="notes" required></textarea></label><button class="jx-button" type="submit">Save reference</button></form>`);$('jxReferenceForm').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target);saving(e.submitter,async()=>{let image=f.get('image'),url='';if(channel==='youtube'){url=f.get('url');const u=new URL(url);let id;if(['youtube.com','www.youtube.com','m.youtube.com'].includes(u.hostname))id=u.searchParams.get('v');if(u.hostname==='youtu.be')id=u.pathname.slice(1);if(!/^[\w-]{11}$/.test(id||''))throw Error('Use a YouTube watch URL or youtu.be video link.');image=`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;}await save('reference',f.get('title'),{channel,type:currentType,image,url,notes:f.get('notes')});dialog.close();channel==='youtube'?youtube('gallery'):gallery(currentType);});};}
+portal\journeys.js:40: function youtube(mode='home'){view=mode;$('panel-youtube').innerHTML=h('Give the idea a bigger stage.','Build the concept, title and thumbnail together.','YOUTUBE')+(mode==='home'?`<div class="jx-grid">${card('Create long form','Pick a format and develop the full video package.','yt-types','youtube')}${card('Thumbnail gallery','Separate editable layouts from real video references.','yt-gallery','copy')}${card('My video projects','Continue a saved brief, title or outline.','yt-projects','tracker')}</div>`:trail([['YouTube','yt'],[mode==='types'?'Choose a format':mode==='gallery'?'Thumbnail gallery':'Your projects']])) ;if(mode==='types')$('panel-youtube').innerHTML+=`<div class="jx-grid">${ytTypes.map(([title,note],i)=>card(title,note,'yt-new:'+i,'youtube')).join('')}</div>`;
+portal\journeys.js:41: if(mode==='gallery')$('panel-youtube').innerHTML+=`<div class="jx-toolbar"><button class="jx-button" data-jx="add-yt-reference">Add real video</button></div><h3>Layout templates</h3><div class="jx-grid">${ytTypes.map(([title,note],i)=>`<button class="jx-card" data-jx="yt-new:${i}"><div class="jx-swatch" style="aspect-ratio:16/9;background:${['#3c3451','#244842','#663c43'][i]}"><span>THUMBNAIL LAYOUT</span><b>${['ONE BIG IDEA','THE PROCESS<br>BEHIND THE RESULT','OLD BELIEF.<br>NEW EVIDENCE.'][i]}</b></div><strong>${title}</strong><p>${note}</p></button>`).join('')}</div><h3 class="jx-section">Real video packaging</h3>${records.some(r=>r.kind==='reference'&&r.data.channel==='youtube')?`<div class="jx-grid">${records.filter(r=>r.kind==='reference'&&r.data.channel==='youtube').map(referenceCard).join('')}</div>`:empty('Add a real video URL and its title to keep the actual thumbnail alongside your packaging notes.')}`;
+portal\journeys.js:43: function recordGrid(kind){const list=records.filter(r=>r.kind===kind);return list.length?`<div class="jx-grid">${list.map(r=>card(r.title,r.data.format||r.data.purpose||'Saved draft','record:'+r.id,kind==='youtube'?'youtube':'copy')).join('')}</div>`:empty(loadError||(!loaded?'Loading saved work…':'No saved drafts yet. Your first project will appear here.'));}
+portal\journeys.js:44: function videoEditor(type,existing){ytType=type;const data=existing?.data||{},spec=ytTypes[type]||ytTypes[0];modal(existing?'Edit video package':'Create long form',`<form id="jxVideo"><p class="jx-kicker">${esc(spec[0])}</p><label>1. The idea<input name="title" required maxlength="250" value="${esc(existing?.title||'')}" placeholder="What should the viewer walk away with?"></label><label>2. Working title<input name="headline" value="${esc(data.headline||'')}" placeholder="Choose or adapt a title below"></label><div class="jx-note">${spec[2].map(title=>`<button type="button" class="jx-link" data-title="${esc(title)}">${esc(title)}</button><br>`).join('')}</div><label>3. Thumbnail direction<textarea name="thumbnail" placeholder="One focal point. A real image. A few readable words.">${esc(data.thumbnail||'')}</textarea></label><label>4. Opening hook<textarea name="hook" placeholder="Lead with the outcome, question or tension.">${esc(data.hook||'')}</textarea></label><label>5. Video outline<textarea name="outline" placeholder="Opening → evidence → demonstration → takeaway → next step">${esc(data.outline||'')}</textarea></label><button class="jx-button" type="submit">Save video package</button></form>`);dialog.querySelectorAll('[data-title]').forEach(b=>b.onclick=()=>{$('jxVideo').elements.headline.value=b.dataset.title;draftDirty=true;});$('jxVideo').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target);saving(e.submitter,async()=>{await save('youtube',f.get('title'),{format:spec[0],type,...Object.fromEntries(f)},existing);dialog.close();youtube('projects');});};}
+portal\journeys.js:46: function copyEditor(purpose,existing){const d=existing?.data||{};modal(purpose,`<form id="jxCopy"><label>Project name<input name="title" required maxlength="250" value="${esc(existing?.title||'')}"></label><label>Brief / source material<textarea name="brief" placeholder="Audience, objective, facts, or pasted conversation">${esc(d.brief||'')}</textarea></label><div class="jx-toolbar"><button class="jx-button secondary" type="button" id="jxPrompt">Copy AI brief</button><button class="jx-button secondary" type="button" id="jxContext">Download my brand context</button></div><label>Finished copy / summary<textarea name="output" style="min-height:220px" placeholder="Write here or paste your AI’s finished output">${esc(d.output||'')}</textarea></label><button class="jx-button" type="submit">Save writing</button></form><p class="jx-note">Use your own AI with the brief and your brand context. No messages or emails are sent from this editor.</p>`);$('jxContext').onclick=()=>$('downloadContextButton').click();$('jxPrompt').onclick=async()=>{const brief=$('jxCopy').elements.brief.value;const prompt=`Using the attached Pulsify client context, help me create ${purpose}. Use only supplied facts, preserve my voice and flag missing evidence. ${purpose==='DM summary'?'Summarize intent, objections, commitments and the next follow-up. Never invent missing messages.':''}\n\n${brief}`;status(await copyText(prompt)?'AI brief copied. Attach your downloaded brand context.':'Clipboard unavailable. Select and copy the brief manually.');};$('jxCopy').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target);saving(e.submitter,async()=>{await save('copy',f.get('title'),{purpose,brief:f.get('brief'),output:f.get('output')},existing);dialog.close();copywriter();});};}
+portal\journeys.js:47: function leads(){const rows=records.filter(r=>r.kind==='lead');$('panel-leads').innerHTML=h('Keep every conversation moving.','A private lead register with DM context and the next follow-up.','LEADS & DMS')+`<div class="jx-toolbar"><button class="jx-button" data-jx="lead-new">Add lead</button><button class="jx-button secondary" data-jx="copy-new:DM summary">Summarize a conversation</button><button class="jx-button secondary" data-jx="refresh">Refresh</button></div><p class="jx-note">Manual register. Instagram inbox sync is not connected to this workspace. Paste conversation notes to keep context; nothing is sent automatically.</p>${loadError?empty(loadError):''}<div class="jx-board">${['New','Conversation','Call booked','Closed'].map(stage=>`<section class="jx-column"><h3>${stage} · ${rows.filter(r=>r.data.stage===stage).length}</h3>${rows.filter(r=>r.data.stage===stage).map(r=>card(r.title,[r.data.handle,r.data.followup?'Follow up '+r.data.followup:'No follow-up date',r.data.next].filter(Boolean).join(' · '),'record:'+r.id,'leads')).join('')}</section>`).join('')}</div>`;}
+portal\journeys.js:48: function leadEditor(existing){const d=existing?.data||{};modal(existing?'Update lead':'Add lead',`<form id="jxLead"><label>Name<input name="title" required maxlength="250" value="${esc(existing?.title||'')}"></label><label>Instagram handle<input name="handle" value="${esc(d.handle||'')}" placeholder="@handle"></label><label>Stage<select name="stage">${['New','Conversation','Call booked','Closed'].map(s=>`<option ${d.stage===s?'selected':''}>${s}</option>`).join('')}</select></label><label>Next follow-up<input type="date" name="followup" value="${esc(d.followup||'')}"></label><label>Next action<input name="next" value="${esc(d.next||'')}"></label><label>Conversation notes<textarea name="notes">${esc(d.notes||'')}</textarea></label><button type="submit" class="jx-button">Save lead</button></form>`);$('jxLead').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target);saving(e.submitter,async()=>{await save('lead',f.get('title'),Object.fromEntries(f),existing);dialog.close();leads();});};}
+portal\journeys.js:49: function tracker(){const leads=records.filter(r=>r.kind==='lead'),sequences=state.performance.rows||[];$('panel-tracker').innerHTML=h('The full picture.','Totals across saved records. No estimates or generated activity.','ALL-TIME TRACKER')+`<div class="jx-stats">${[['Story projects',state.studio.rows.length],['Video packages',records.filter(r=>r.kind==='youtube').length],['Registered leads',leads.length],['Calls booked',leads.filter(r=>r.data.stage==='Call booked').length],['Closed leads',leads.filter(r=>r.data.stage==='Closed').length],['Measured sequences',sequences.length],['Proof images',state.proofItems.length],['Saved writing',records.filter(r=>r.kind==='copy').length]].map(([title,n])=>`<div class="jx-stat"><small>${title}</small><b>${n}</b><small>Saved in this workspace</small></div>`).join('')}</div><div class="jx-toolbar"><button class="jx-button" data-jx="performance">Open retention & metrics</button><button class="jx-button secondary" data-jx="revenue">View all recorded payments</button></div><p class="jx-note">Lead totals describe current stages, not historical stage transitions. Social metrics are manually recorded until the account import is connected.</p>`;}
+portal\journeys.js:52: document.addEventListener('click',e=>{const b=e.target.closest('[data-jx]');if(!b)return;const a=b.dataset.jx;if(a==='ig')instagram();else if(a==='types')types();else if(a.startsWith('type:'))gallery(a.slice(5));else if(a==='scratch')startStory();else if(a.startsWith('template:'))startStory(Number(a.slice(9)));else if(a==='yt')youtube();else if(a==='yt-types')youtube('types');else if(a==='yt-gallery')youtube('gallery');else if(a==='yt-projects')youtube('projects');else if(a.startsWith('yt-new:'))videoEditor(Number(a.slice(7)));else if(a.startsWith('copy-new:'))copyEditor(a.slice(9));else if(a==='lead-new')leadEditor();else if(a==='add-story-reference')addReference('instagram');else if(a==='add-yt-reference')addReference('youtube');else if(a==='refresh'){b.disabled=true;load().then(leads).finally(()=>b.disabled=false);}else if(a.startsWith('record:')){const r=records.find(r=>r.id===a.slice(7));if(r?.kind==='youtube')videoEditor(r.data.type,r);if(r?.kind==='copy')copyEditor(r.data.purpose,r);if(r?.kind==='lead')leadEditor(r);}else if(a.startsWith('reference:')){const r=records.find(r=>r.id===a.slice(10));if(r)modal(r.title,`${safeImage(r.data.image)?`<img src="${esc(r.data.image)}" alt="${esc(r.title)}">`:''}<p>${esc(r.data.notes||'')}</p>${r.data.channel==='youtube'&&/^https:\/\/(www\.)?(youtube\.com|youtu\.be)\//.test(r.data.url||'')?`<a class="jx-button" href="${esc(r.data.url)}" target="_blank" rel="noopener noreferrer">Watch source video</a>`:''}`);}else openTab(a);});
+portal\journeys.js:53: const launch=document.createElement('section');launch.className='jx-section';launch.innerHTML=`<div class="jx-grid two">${card('Instagram','Stories, reels, conversations and the next connection.','instagram','instagram','jx-channel')}${card('YouTube','Long-form ideas, titles and thumbnail packaging.','youtube','youtube','jx-channel youtube')}</div>`;$('panel-home').prepend(launch);
+4394:          <button type="button" data-asset-action="archive" data-asset-token="${esc(asset.token)}">Archive</button>
+functions\_shared\notify-operator.js:15:  if (!env.RESEND_API_KEY && env.INTERNAL_NOTIFY_SECRET && env.PAGES_ORIGIN) {
+functions\_shared\notify-operator.js:17:      const r = await fetcher(`${String(env.PAGES_ORIGIN).replace(/\/$/, "")}/api/notify`, {
+functions\_shared\notify-operator.js:19:        headers: { "content-type": "application/json", "x-internal-secret": env.INTERNAL_NOTIFY_SECRET },
+functions\api\notify.js:2:// already holds RESEND_API_KEY. Authenticated with INTERNAL_NOTIFY_SECRET
+functions\api\notify.js:4://   POST /api/notify  {title, lines[], link}   header x-internal-secret
+functions\api\notify.js:6:import { notifyOperator } from "../_shared/notify-operator.js";
+functions\api\notify.js:16:  if (!sameSecret(request.headers.get("x-internal-secret") || "", env.INTERNAL_NOTIFY_SECRET || "")) {
+300:export async function recordFailure(env, client, kind, detail, options = {}) {
+334:        await recordFailure(env, alert.client || "operator", "discord", detail, { skipDiscord: true });
+341:      await recordFailure(
+
+codex
+The three contact views now share one row component and loading skeleton. Outreach defaults to last interaction, with separate sort choices retained for inbound and outbound; follow-ups are pinned only when that sort is selected. Leads combines Instagram and funnel contacts with source filters, and Search groups matches by person. The existing 17-section browser regression passes; I’m checking populated layouts at both sizes and themes next.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('node:fs'),http=require('node:http'),path=require('node:path'),assert=require('node:assert/strict');
+const {chromium}=require('C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=path.resolve(__dirname,'..'),qa=path.resolve(root,'../qa/2026-09-phase5/contacts');fs.mkdirSync(qa,{recursive:true});
+const server=http.createServer((req,res)=>{const file=path.resolve(root,'.'+new URL(req.url,'http://localhost').pathname);if("'!file.startsWith(root+path.sep)||!fs.existsSync(file)||fs.statSync(file).isDirectory()){res.writeHead(404);res.end();return;}res.setHeader('"'content-type',({'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml'})[path.extname(file)]||'application/octet-stream');res.end(fs.readFileSync(file));});
+(async()=>{await new Promise(r=>server.listen(8777,'127.0.0.1',r));const browser=await chromium.launch({headless:true,executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe'});
+try{
+const now=Date.now(),iso=h=>new Date(now-h*3600000).toISOString();
+const threads=[['t1','Alex Morgan','alex.trades',2,'outbound','That makes sense. Can you send the breakdown?',false],['t2','Jordan Lee','jordan.ecom',38,'outbound','I put together the example we spoke about.',true],['t3','Sam Rivera','sam.rivera',6,'outbound','Thanks for sharing that video.',false],['t4','Taylor Brooks','taylor.fx',1,'inbound','How does the mentorship work?',false],['t5','Casey Williams','casey.shop',8,'inbound','Could we look at the numbers together?',false]].map(([id,name,handle,h,origin,last_text,due])=>({id,name,handle,last_text,origin,last_message_at:iso(h),first_message_at:iso(100),last_our_message_at:iso(h),last_their_message_at:iso(h+1),last_direction:due?'outbound':'inbound',follow_up_due:due,hours_since_our_message:h,awaiting_us:"'!due,stage:due?'"'opener':'replied',stage_label:due?'Follow-up due':'Replied',our_messages:3,their_messages:2,notes:''}));
+const stats={outbound:{dms_sent:3,messages_sent:9,follow_ups_due:1,replies:2,reply_rate:66.7,positive:1,negative:0,ghosted:0,ghost_rate:0},inbound:{conversations:2,awaiting_us:2,answered:0,positive:1,negative:0},pipeline:{appointments_booked:1,closed:0,close_rate:0}};
+const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.route('**/api/**',async route=>{const u=new URL(route.request().url());let d={ok:true,rows:[]};
+if(u.pathname==='/api/operator-bootstrap')d={ok:true,clients:[],overview:{summary:{}},operator:{email:'qa@example.test'}};
+else if(u.pathname==='/api/outreach')d=u.searchParams.has('id')?{messages:[{direction:'outbound',text:'I put together the breakdown for you.',sent_at:iso(4)},{direction:'inbound',text:'That makes sense. Can you send it over?',sent_at:iso(2)}]}:{threads,stats,events:[],generated_at:iso(0),timezone:'Europe/Istanbul'};
+else if(u.pathname==='/api/spine/conversations')d={conversations:threads.map(t=>({...t,participant_username:t.handle,participant_name:t.name,message_count:5,in_crm:t.id==='t1'}))};
+else if(u.pathname==='/api/pipeline')d={contacts:[{client_id:'sample',client_name:'Sample coaching',contact_name:'Avery Scott',contact_email:'avery@example.test',stage:'Booked',last_seen:iso(3),bookings:1,paid_cents:0}]};
+else if(u.pathname==='/api/search')d=u.searchParams.has('status')?{ready:true,indexed:{dm:{count:50}},totals:{dms:50}}:{hits:[...threads.slice(0,3).map(t=>({kind:'dm',conversation_id:t.id,name:t.name,handle:t.handle,snippet:t.last_text,sent_at:t.last_message_at,score:.87,direction:'inbound'})),{kind:'dm',conversation_id:'t1',name:'Alex Morgan',handle:'alex.trades',snippet:'I want a clearer plan for my next month.',sent_at:iso(5),score:.76}],took_ms:42};
+else if(u.pathname==='/api/notifications')d={items:[],unread:0};
+await route.fulfill({json:d});});
+for(const theme of ['dark','light'])for(const width of [1536,390]){
+await page.setViewportSize({width,height:1000});await page.goto('http://127.0.0.1:8777/admin.html?view=outreach');await page.locator('[data-toggle=\"t1\"]').waitFor();await page.evaluate(t=>{document.documentElement.dataset.theme=t;localStorage.setItem('theme',t);},theme);
+assert.deepEqual(await page.locator('#ot-list [data-toggle]').evaluateAll(es=>es.map(x=>x.dataset.toggle)),['t1','t3','t2']);
+await page.locator('#ot-sort').selectOption('due');assert.equal(await page.locator('#ot-list [data-toggle]').first().getAttribute('data-toggle'),'t2');
+await page.locator('[data-section=\"inbound\"]').click();assert.equal(await page.locator('#ot-sort').inputValue(),'recent');await page.locator('[data-section=\"outbound\"]').click();assert.equal(await page.locator('#ot-sort').inputValue(),'due');await page.locator('#ot-sort').selectOption('recent');
+await page.screenshot({path:path.join(qa,"'`outreach-${theme}-${width}.png`),fullPage:true});await page.locator('"'[data-toggle=\"t1\"]').click();await page.locator('.ot-messages').waitFor();assert.equal(await page.locator('#ot-t1 .ot-detail').evaluate(e=>e.firstElementChild.className),'ot-thread');await page.screenshot({path:path.join(qa,"'`outreach-expanded-${theme}-${width}.png`),fullPage:true});
+await page.evaluate(()=>PulsifyOperatorShell.go('"'leads'));await page.locator('#leads-body [data-open=\"t1\"]').waitFor();assert.equal(await page.locator('#leads-body .contact-row').count(),6);await page.screenshot({path:path.join(qa,"'`leads-${theme}-${width}.png`),fullPage:true});
+await page.evaluate(()=>PulsifyOperatorShell.go('"'search'));await page.locator('#sr-q').fill('mentorship');await page.locator('#sr-form').evaluate(f=>f.requestSubmit());await page.locator('#sr-results [data-thread=\"t1\"]').waitFor();assert.equal(await page.locator('#sr-results [data-thread=\"t1\"]').count(),1);await page.screenshot({path:path.join(qa,"'`search-${theme}-${width}.png`),fullPage:true});
+assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'"'no viewport overflow');
+}
+assert.deepEqual(errors,[]);console.log('PASS shared contacts: 16 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.');
+}finally{await browser.close();server.close();}})().catch(e=>{console.error(e);process.exitCode=1;server.close();});
+'@ | Set-Content tests/phase5-contacts-browser.cjs -Encoding UTF8
+node tests/phase5-contacts-browser.cjs" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 7027ms:
+PASS shared contacts: 16 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Add-Content admin/contact-row.css '.ot-detail[hidden],.ot-activity[hidden]{display:none"'!important}.leads-filters{flex-wrap:wrap}.leads-filters .leads-chip{white-space:nowrap;border-radius:6px}.contact-result .contact-row{border-bottom:0}.contact-extra{border-bottom:1px solid hsl(var(--border))}'"'
+@'
+from pathlib import Path
+p=Path('.')
+f=p/'tests/phase5-contacts-browser.cjs';s=f.read_text();s=s.replace('await page.screenshot({','await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(200);await page.screenshot({');s=s.replace(\"await page.locator('[data-toggle=\\\"t1\\\"]').click();\",\"assert.equal(await page.locator('#ot-t1 .ot-detail').isVisible(),false);await page.locator('[data-toggle=\\\"t1\\\"]').click();\");f.write_text(s)
+f=p/'admin/contact-row.js';s=f.read_text();s=s.replace(\"?'?':expanded?'?':'+'\", \"?'Open':expanded?'-':'+'\");f.write_text(s)
+for file in ['admin/leads-view.js','admin/search-view.js']:
+ f=p/file;s=f.read_text().replace('Funnel ? ', 'Funnel / ').replace(\"'Client brain'} ? \",\"'Client brain'} / \").replace(' contacts ? ', ' contacts / ');f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+node tests/phase5-contacts-browser.cjs
+node --test tests/*.test.mjs > ../qa/2026-09-phase5/batch2-tests.txt 2>&1; Get-Content ../qa/2026-09-phase5/batch2-tests.txt -Tail 9" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 11947ms:
+PASS shared contacts: 16 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'fresh',
+    expected: 'due',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Select-String ../qa/2026-09-phase5/batch2-tests.txt -Pattern 'test at|fresh|due' -Context 0,2; rg -n 'due|fresh' tests/outreach-tracker.test.mjs; rg -n 'clientName|client_name|document.title' portal/app.js portal/shell.js portal/index.html | Select-Object -Last 15; rg -n 'clients|clientGrid|clientList' admin/console.js | Select-Object -First 25; Get-Content functions/_shared/integrations.js | Select-Object -Skip 295 -First 27; Get-Content functions/_middleware.js -TotalCount 125" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 504ms:
+
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:55:✔ stage ladder: opener, 2nd, 
+3rd, 4th, hibernating; follow-up due after 24 h (23.3863ms)
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:56:✔ their reply flips to awaiting 
+us, manual outcome and hibernate override (1.4699ms)
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:57:✔ seen with no reply for five 
+minutes is left on read; stats expose it only when seen data exists (1.3296ms)
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:59:✖ API list: due follow-ups 
+first, sections and stats present, search works (57.0172ms)
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:60:✔ API actions: sentiment, 
+outcome, hibernate, wake, note; unknown thread 404s (21.3496ms)
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:61:✔ reply notification lands in 
+the bell with [Name, @handle] and logs the event; no email (7.1825ms)
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:141:test at 
+tests\outreach-tracker.test.mjs:98:1
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:142:✖ API list: due follow-ups 
+first, sections and stats present, search works (57.0172ms)
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:143:  AssertionError 
+[ERR_ASSERTION]: Expected values to be strictly equal:
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:144:  
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:145:  'fresh' !== 'due'
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:146:  
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:147:      at 
+TestContext.<anonymous> 
+(file:///C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/tests/outreach-tracker.test.mjs:101:10)
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:152:    actual: 'fresh',
+> C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:153:    expected: 'due',
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:154:    operator: 'strictEqual',
+  C:\Users\Abdullah\Desktop\Pulsify-Brain\output\qa\2026-09-phase5\batch2-tests.txt:155:    diff: 'simple'
+24:test('stage ladder: opener, 2nd, 3rd, 4th, hibernating; follow-up due after 24 h', ()=>{
+26:  assert.equal(t.stage,'touch-1');assert.equal(t.stage_label,'Opener sent');assert.equal(t.follow_up_due,false);assert.equal(t.origin,'outbound');
+28:  assert.equal(t.follow_up_due,true);assert.equal(t.hours_since_our_message,25);
+31:  assert.equal(t.stage,'touch-4');assert.equal(t.stage_label,'4th message sent');assert.equal(t.follow_up_due,false,'no fifth touch is asked for');
+38:  assert.equal(t.stage,'replied');assert.equal(t.awaiting_us,true);assert.equal(t.replied,true);assert.equal(t.follow_up_due,false);
+40:  assert.equal(t.stage,'booked');assert.equal(t.follow_up_due,false);
+44:  assert.equal(inbound.origin,'inbound');assert.equal(inbound.follow_up_due,false,'inbound threads never get outbound cadence');
+72:  assert.equal(order[0],'b','waiting on us before the rest; no follow-ups due here since d is booked');
+93:seed('due','late.reply',[msg('outbound',NOW-30*H,'opener')]);
+94:seed('fresh','just.sent',[msg('outbound',NOW-10*60000,'hey there')]);
+98:test('API list: due follow-ups first, sections and stats present, search works', async()=>{
+101:  assert.equal(d.threads[0].id,'due');assert.equal(d.threads[0].follow_up_due,true);assert.ok(d.threads[0].hours_since_our_message>=29);
+104:  assert.equal(d.stats.outbound.dms_sent,3);assert.equal(d.stats.outbound.follow_ups_due,1);assert.equal(d.stats.inbound.awaiting_us,1);
+115:  r=await (await post({id:'due',action:'hibernate'})).json();assert.equal(r.thread.stage,'hibernating');assert.equal(r.thread.follow_up_due,false);
+116:  r=await (await post({id:'due',action:'wake'})).json();assert.equal(r.thread.follow_up_due,true);
+117:  r=await (await post({id:'due',action:'note',text:'runs a futures course'})).json();assert.equal(r.thread.notes,'runs a futures course');
+119:  assert.equal((await post({id:'due',action:'outcome:weird'})).status,422);
+134:  const payload={object:'instagram',entry:[{messaging:[{sender:{id:'p-fresh'},recipient:{id:'1784'},timestamp:String(NOW-6*60000),read:{mid:'fresh-m0'}}]}]};
+137:  assert.ok(sql.prepare("SELECT seen_at FROM ig_outreach WHERE conversation_id='fresh'").get().seen_at);
+144:  assert.equal(listed.threads.find(t=>t.id==='fresh').left_on_read,true);
+rg: portal/app.js: The system cannot find the file specified. (os error 2)
+rg: portal/shell.js: The system cannot find the file specified. (os error 2)
+portal/index.html:55:            <div class="client-name" id="clientName">Loading</div>
+51:    clients: ["Client setup", "Clients"],
+62:    clients: [],
+177:    clients: ["client_id", "client_name", "landing_design", "wistia", "typeform_link", "typeform_secret", "kit_key", "kit_tag", "origin", "proof", "portal"],
+356:        target.replaceChildren();const line=document.createElement('p');line.textContent=data.configured?'Configuration present. Test a completed contract before using this with clients.':'Setup required: '+data.missing.join(', ');target.append(line);
+588:      const response = await fetch("/api/clients");
+596:      state.clients = data.clients || [];
+597:      window.dispatchEvent(new CustomEvent("pulsify:operator-ready", {detail:{clients:state.clients}}));
+653:    if (state.client && state.clients.some((client) => client.client === state.client)) return;
+654:    state.client = state.clients[0]?.client || "";
+659:    if (!state.clients.length && !state.client) {
+660:      select.innerHTML = '<option value="">No clients configured</option>';
+663:      const options = [...state.clients];
+674:    $("clientsEmpty").hidden = !noClient;
+682:    $("homeClientsEmpty").hidden = state.clients.length > 0;
+693:      ...state.clients.map((client) =>
+697:    select.value = state.clients.some((client) => client.client === state.client) ? state.client : "";
+701:    const active = state.clients.find((client) => client.client === state.client);
+710:    const active = state.clients.find((client) => client.client === state.client);
+772:      state.clients = state.clients.filter((item) => item.client !== client);
+773:      state.client = state.clients[0]?.client || "";
+837:    const response = await api("/api/clients");
+839:    if (!response.ok) throw new Error(data.error || "Could not refresh clients.");
+840:    state.clients = data.clients || [];
+841:    if (preferredClient && state.clients.some((client) => client.client === preferredClient)) state.client = preferredClient;
+861:    if (state.route !== "clients") closeLivePreview();
+      ORDER BY ts DESC LIMIT 1`,
+  ).bind(str(provider).toLowerCase(), client ? cleanId(client) : "").first();
+}
+
+export async function recordFailure(env, client, kind, detail, options = {}) {
+  try {
+    if (!env.DB) return;
+    await env.DB.prepare(
+      "INSERT INTO delivery_failures (client,kind,detail,at) VALUES (?,?,?,?)",
+    ).bind(
+      cleanId(client, "unknown"),
+      str(kind).slice(0, 120),
+      detail == null ? null : String(detail).slice(0, 500),
+      nowIso(),
+    ).run();
+  } catch {
+    return;
+  }
+
+  // Keep technical failures in internal diagnostics; never send user alerts.
+
+}
+
+export async function sendDiscordAlert(env, alert, options = {}) {
+  const discord = await getIntegration(env, "operator", "", "discord");
+  const url = discord?.secrets?.webhook_url;
+  if (!url) return { ok: false, status: "not_configured" };
+/**
+ * Never serve local tooling state, even if a deploy directory is prepared badly.
+ */
+import { accessToken, validateAccess, rememberOperator, hasOperator } from './_shared/access.js';
+const adminApis = new Set(['dashboard-generate','transcript','activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','zernio','notifications','realtime-config','search','workspace-archive']);
+const mixedApis = new Set(['spine','integrations','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','zernio','notifications','realtime-config','search']);
+export async function onRequest(context) {
+  const { request, next, env } = context;
+  const path = new URL(request.url).pathname.toLowerCase();
+  const blocked =
+    path.startsWith("/.wrangler") ||
+    path.startsWith("/.git") ||
+    path.startsWith("/.dev.vars") ||
+    path.startsWith("/tests/") ||
+    path.startsWith("/migrations/");
+
+  if (blocked) {
+    return new Response("Not found", {
+      status: 404,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+        "cache-control": "no-store",
+      },
+    });
+  }
+  const url = new URL(request.url), api = path.startsWith('/api/');
+  const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
+  if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin?view='+legacyView[1],302);
+  const consolePage = ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));
+  let operator = await validateAccess(accessToken(request), api ? [env.ACCESS_AUD,env.ACCESS_DASHBOARD_AUD] : env.ACCESS_AUD);
+  if (operator && !['GET','HEAD','OPTIONS'].includes(request.method)) {
+    const origin = request.headers.get('origin');
+    if ((origin && origin !== url.origin) || request.headers.get('sec-fetch-site') === 'cross-site') return new Response('Forbidden',{status:403});
+  }
+  if (!operator && api && hasOperator(request,env)) {
+    operator = {email:'automation',via:'key'};
+    try {
+      await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?, 'admin-key-use', NULL, ?, ?)")
+        .bind('automation',JSON.stringify({method:request.method,path:url.pathname}),new Date().toISOString()).run();
+    } catch { return new Response('Audit unavailable',{status:503}); }
+  }
+  // A client session remains tenant-scoped even when the founder also has an
+  // Access cookie. Only operator requests opt into the mixed API admin branch.
+  if (operator && !consolePage && !adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]) && request.headers.get('x-pulsify-operator') !== '1' && operator.via !== 'key') operator = null;
+  if (operator) { context.data.operator = operator; rememberOperator(request,operator); }
+  if ((consolePage || (api && adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]))) && !operator) {
+    if (url.hostname === 'pulsify-funnels.pages.dev' || url.hostname.endsWith('.pulsify-funnels.pages.dev')) return Response.redirect('https://pulsify-ai.com'+url.pathname+url.search,302);
+    if (consolePage && !path.startsWith('/admin')) return Response.redirect('https://pulsify-ai.com/admin?view='+encodeURIComponent(path.split('/')[1]),302);
+    return new Response(JSON.stringify({ok:false,error:'operator sign-in required'}),{status:401,headers:{'content-type':'application/json','cache-control':'no-store'}});
+  }
+  const response = await next();
+  if (!operator) return response;
+  const headers = new Headers(response.headers);
+  headers.set('cache-control','no-store');
+  headers.delete('access-control-allow-origin');
+  return new Response(response.body,{status:response.status,headers});
+}
+
+
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'tests/outreach-tracker.test.mjs';s=f.read_text().replace('API list: due follow-ups first','API list: last interaction first').replace(\"assert.equal(d.threads[0].id,'due');assert.equal(d.threads[0].follow_up_due,true);assert.ok(d.threads[0].hours_since_our_message>=29);\", \"assert.equal(d.threads[0].id,'fresh');const due=d.threads.find(t=>t.id==='due');assert.equal(due.follow_up_due,true);assert.ok(due.hours_since_our_message>=29);assert.deepEqual(d.threads.map(t=>t.last_message_at),d.threads.map(t=>t.last_message_at).sort().reverse());\");f.write_text(s)
+f=p/'admin/contact-row.css';s=f.read_text()+'\\n.sr-examples[hidden]{display:none"'!important}'"\\n';f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+Add-Content AGENT_CHAT.md -Encoding UTF8 @'
+
+### [2026-09-20 06:48] CODEX
+PART E BATCH 2 LOCAL BUILD: shared admin/contact-row.js + CSS and layout-matched skeleton now used by Outreach, Leads and Search; last interaction is the API and UI default; outbound/inbound retain independent sort choices; due pinning opt-in; chat/actions/note order; combined Leads with source filters; Search groups by person with quiet scores. Mock browser pass verifies order against returned dates, independent sections and grouping at 1536/390 in dark/light, 16 captures in output/qa/2026-09-phase5/contacts. Visual review caught old CSS overriding hidden details; fixed and added assertion. Updated old API test that required due-first ordering to the founder's new recency rule. Existing 17-section browser pass also green. Deployment remains blocked by session permissions. Founder visual acceptance remains pending, not claimed.
+'@
+rg -n 'document.title|client_name' output/standard-preview/portal -g '*.js' -g '*.html' | Select-String 'document.title|state.clientName' | Select-Object -First 12
+rg --files output/qa | Select-String 'schema|baseline|export'
+rg -n 'CREATE TABLE.*(client_config|leads|crm_added|asset_clicks|watch_events)' output/standard-preview .codex-tmp -g '*.sql' -g '*.js' -g '*.mjs' --glob '"'!**/node_modules/**'"' --glob '"'!**/pip-temp/**'"' | Select-Object -First 25" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 697ms:
+
+output/standard-preview/portal\phase1.js:10: const 
+clientName=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;
+output/standard-preview/portal\phase1.js:17: function refreshIdentity(){const name=state.clientName||state.client_name|
+|document.getElementById('wsClient')?.textContent||client;if(state.impersonated){shell.banner(name,()=>{const 
+exit=document.getElementById('impersonationExit');if(exit)exit.click();else fetch('/api/client-logout',{method:'POST'})
+.then(()=>location.href='https://pulsify-ai.com/admin');});shell.setClients([{client,client_name:name}]);}root.querySel
+ector('.ps-switch').textContent=name;}
+output/standard-preview/portal\login\index.html:135:      document.title = "Operator sign in · Pulsify";
+output/standard-preview\tests\copywriter.test.mjs:7:sql.exec(`CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT);
+output/standard-preview\tests\contract-provisioning.test.mjs:8:sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT)');
+output/standard-preview\tests\notifications.test.mjs:17:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+output/standard-preview\tests\zernio-bridge.test.mjs:16:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT)");
+output/standard-preview\tests\workspace-records.test.mjs:8:sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
+output/standard-preview\tests\workspace-preferences.test.mjs:7:sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
+output/standard-preview\tests\workspace-archive.test.mjs:14:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT DEFAULT 'prospect',updated_at TEXT,page_active INTEGER DEFAULT 1,wistia_media_id TEXT,typeform_url TEXT,kit_tag_id TEXT,prospect_email TEXT,acquisition_token TEXT,portal_token_hash TEXT)");
+output/standard-preview\tests\search.test.mjs:13:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT)");
+output/standard-preview\tests\portal-readiness.test.mjs:15:sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
+output/standard-preview\tests\portal-readiness.test.mjs:19:sql.exec("CREATE TABLE client_email_codes(client_id TEXT,email TEXT,purpose TEXT); INSERT INTO client_config VALUES('qa','QA',NULL),('other','Other',NULL)");
+output/standard-preview\tests\phase4-onboarding.test.mjs:22:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+output/standard-preview\tests\phase3-revenue-automation.test.mjs:21:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+output/standard-preview\tests\phase3-revenue-automation.test.mjs:22:sql.exec("CREATE TABLE crm_added(name TEXT PRIMARY KEY,data TEXT,ts INTEGER,sts INTEGER,updated_at TEXT)");
+output/standard-preview\tests\parity-leads.test.mjs:14:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+output/standard-preview\tests\parity-account-login.test.mjs:14:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+output/standard-preview\tests\outreach-tracker.test.mjs:78:sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT)");
+output/standard-preview\migrations\0025_data_spine.sql:44:CREATE TABLE IF NOT EXISTS yt_leads (
+output/standard-preview\migrations\0025_data_spine.sql:56:CREATE TABLE IF NOT EXISTS yt_leads_meta (
+
+
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'document.title|clientName =' output/standard-preview -g '*.js' --glob '"'!admin/dashboard*'"' --glob '"'!tests/**'"' | Select-Object -First 22; Get-Content output/standard-preview/admin/phase1.js -TotalCount 25; rg -n 'catch\\(\\(\\) => null\\)|catch\\(\\(\\)=>null\\)' output/standard-preview/functions/api/crm-sync.js output/standard-preview/functions/_shared/payments.js output/standard-preview/workers/sync/src/jobs/*.js; Get-Content output/standard-preview/functions/_shared/provisioning.js -TotalCount 78; Get-Content output/standard-preview/functions/api/account.js -TotalCount 40" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 432ms:
+output/standard-preview\shared\shell.js:18:  function sync(id,label){active=id;container.querySelector('.ps-header-title').textContent=label||title(id);document.title=(label||title(id))+' — '+(options.workspace||'Pulsify')+' | Pulsify';container.querySelectorAll('[data-view]').forEach(b=>{const selected=b.dataset.view===id;b.classList.toggle('active',selected);if(selected)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});write(key,{view:id,clientId:options.clientId||null});main.classList.remove('view-enter');void main.offsetWidth;main.classList.add('view-enter');}
+output/standard-preview\shared\notifications.js:89:      document.title = document.title.replace(/^\(\d+\+?\) /, "");
+output/standard-preview\shared\notifications.js:90:      if (feed.unread) document.title = `(${badge.textContent}) ${document.title}`;
+output/standard-preview\functions\_shared\payments.js:114:  const clientName = clientRow?.client_name || titleCase(client);
+output/standard-preview\functions\_shared\provisioning.js:35:  const clientName = str(name).slice(0, 160) || cfg?.client_name || titleCase(clientId);
+output/standard-preview\admin\console.js:714:    deleteState.clientName = active.client_name || active.client;
+output/standard-preview\admin\console.js:736:    deleteState.clientName = "";
+output/standard-preview\admin\console.js:3184:    const clientName = String(parsed.client_name || "").trim() || slug;
+output/standard-preview\admin\native-dashboard.js:13:  document.title=title+' | Pulsify';
+output/standard-preview\js\funnel-integrations.js:483:        title: document.title,
+output/standard-preview\functions\api\generate.js:130:  const clientName = String(parsed.client_name || "").trim() || titleCase(clientSlug);
+(() => {
+ const {icon,esc,read,write}=PulsifyShell;const shellRoot=document.getElementById('shell');const stash=document.createElement('div');stash.hidden=true;document.body.append(stash);
+ const nav=[{label:'',items:[['overview','Overview','grid'],['home','Clients','people'],['leads','Leads','people']]},{label:'Growth',items:[['search','Search'],['outreach','Outreach tracker'],['crm','CRM'],['instagram','Instagram'],['youtube','YouTube'],['content','Content']]},{label:'Delivery',items:[['delivery','Client work'],['brain','Client brain'],['campaigns','Acquisition pages'],['email','Email']]},{label:'Workspace',items:[['integrations','Integrations'],['payments','Payments'],['health','Health'],['settings','Settings']]}].map(g=>({...g,items:g.items.map(([id,label,icon])=>({id,label,icon}))}));
+ const dashboardViews=['live','crm','instagram','youtube','content','payments','health','metrics','plan','income','payouts','cashflow','calendar','dashboard'];
+ let owned, cleanup;
+ let cacheKey='pulsify:bootstrap:v1:operator',bootstrap=null,frames=new Map(),bootstrapEpoch=0;
+ const shell=PulsifyShell.mount({container:shellRoot,workspace:'Pulsify',nav,onView:view,onWorkspace:async client=>{if(!client){shell.go('overview');return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not open client workspace.');location.href=d.url;},signOut:()=>location.href='/portal/login?operator=1&logout=1'});
+ window.PulsifyOperatorShell=shell;
+ if(window.PulsifyBell)PulsifyBell.mount({operator:true,go:id=>shell.go(id)});
+ function view(id,main){
+ cleanup?.();cleanup=null;
+ if(id==='clients')id='home';
+ if(!owned){owned=document.createElement('section');main.append(owned);}owned.hidden=false;for(const frame of frames.values())frame.hidden=true;PulsifyNativeDashboard.hide();
+  if(id==='search'&&window.PulsifySearchView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifySearchView.render(holder,{});return;}
+  if(id==='outreach'&&window.PulsifyOutreachView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyOutreachView.render(holder);return;}
+  if(id==='leads'&&window.PulsifyLeadsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyLeadsView.render(holder,{});return;}
+  if(id==='payments'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:bootstrap?.clients?.[0]?.client||'',clients:bootstrap?.clients||[],section:'payments'});return;}
+  if(dashboardViews.includes(id)){
+   owned.hidden=true;PulsifyNativeDashboard.show(id,main).catch(()=>{});return;
+  }
+  if(id==='overview'){renderOverview();return;}if(id==='integrations'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:'',clients:bootstrap?.clients||[]});return;}if(id==='settings'){const holder=document.createElement('div');owned.replaceChildren(holder);if(window.PulsifySettingsView)PulsifySettingsView.render(holder,{role:'operator'});else renderSettings(holder);return;}
+  owned.hidden=true;const handoff=sessionStorage.getItem('pulsify:brain-client');if(handoff){sessionStorage.removeItem('pulsify:brain-client');const old=frames.get(id);if(old){old.remove();frames.delete(id);}}let frame=frames.get(id);if(!frame){frame=document.createElement('iframe');frame.className='ps-frame';frame.title='Pulsify '+id;frame.src='/admin/console-view.html?view='+encodeURIComponent(id)+(handoff?'&client='+encodeURIComponent(handoff):'');frames.set(id,frame);main.append(frame);frame.addEventListener('load',()=>frame.contentWindow?.postMessage({type:'pulsify-theme',mode:localStorage.getItem('theme')||'dark'},location.origin));}frame.hidden=false;
+ }
+ function renderSettings(target){target.innerHTML='<h1>Settings</h1><p class="ps-subtitle">Preferences for this device.</p><section class="ps-settings"><h2 style="margin-top:0">Appearance</h2><p>Choose how your workspace looks.</p><div class="ps-segments">'+['light','dark','system'].map(t=>'<button class="ps-control" data-theme-mode="'+t+'">'+t[0].toUpperCase()+t.slice(1)+'</button>').join('')+'</div></section>';const update=()=>target.querySelectorAll('[data-theme-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeMode===(localStorage.getItem('theme')||'dark'))));target.querySelectorAll('[data-theme-mode]').forEach(b=>b.onclick=()=>{PulsifyTheme.apply(b.dataset.themeMode);update();});update();}
+ function card(label,note,action,symbol='grid'){return`<button class="ps-card" data-action="${esc(action)}">${icon(symbol)}<strong>${esc(label)}</strong><small>${esc(note)}</small></button>`;}
+rg: output/standard-preview/workers/sync/src/jobs/*.js: The filename, directory name, or volume label syntax is incorrect. (os error 123)
+output/standard-preview/functions/_shared/payments.js:46:  ).bind(reference).first().catch(() => null);
+output/standard-preview/functions/_shared/payments.js:92:    await recordTouch(env, { client, email: customerEmail, name: customerName, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => null);
+output/standard-preview/functions/_shared/payments.js:110:  ).bind(client).first().catch(() => null);
+output/standard-preview/functions/_shared/payments.js:222:    ).bind(client).first().catch(() => null);
+output/standard-preview/functions/api/crm-sync.js:21:    const prior=await env.DB.prepare('SELECT data,ts FROM crm_overrides WHERE name=?').bind(name).first().catch(()=>null);
+output/standard-preview/functions/api/crm-sync.js:27:    const prior=await env.DB.prepare('SELECT ts FROM crm_added WHERE name=?').bind(name).first().catch(()=>null);
+output/standard-preview/functions/api/crm-sync.js:35: for(const event of stageEvents)await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:event}).catch(()=>null);
+output/standard-preview/functions/api/crm-sync.js:36: for(const event of leadEvents)await emitEvent(env,{scope:'operator',event:'lead.created',data:event}).catch(()=>null);
+// One provisioning function, three triggers: a completed DocuSign envelope,
+// a confirmed payment for a prospect, or the operator's "Provision now".
+// Idempotent on client id. Creates the workspace and login shell if missing,
+// seeds the checklist, sends the welcome email through Resend with retries,
+// sets status to onboarding, and emits client.provisioned once.
+import { cleanId, generateOpaqueToken, normalizeEmail, nowIso, sha256Hex, str, titleCase } from "./common.js";
+import { createSetupLink } from "./client-auth.js";
+import { seedChecklist } from "./checklist.js";
+import { recordFailure } from "./integrations.js";
+import { emitEvent } from "./outbound-webhooks.js";
+import { welcomeEmail } from "./welcome-email.js";
+
+export const WELCOME_ATTEMPTS = 3;
+const BACKOFF_MS = [500, 1500, 4000];
+const EMAIL_TIMEOUT_MS = 10000;
+
+export async function provisionClient(env, { source, client, email, name, contractRef, origin, actor, setupLink = "", sleep = (ms) => new Promise((r) => setTimeout(r, ms)), fetcher = fetch }) {
+  if (!env?.DB) return { ok: false, error: "no database bound" };
+  if (!["docusign", "payment", "operator"].includes(source)) return { ok: false, error: "unknown provisioning source" };
+  const normalizedEmail = normalizeEmail(email);
+  if (!normalizedEmail) return { ok: false, error: "valid email required" };
+  let clientId = cleanId(client, "");
+  const now = nowIso();
+
+  // Existing login for this email always wins; never create a second workspace.
+  const byEmail = await env.DB.prepare("SELECT client_id FROM client_auth WHERE email=?").bind(normalizedEmail).first();
+  if (byEmail?.client_id) clientId = cleanId(byEmail.client_id);
+  if (!clientId) clientId = "client-" + (await sha256Hex(normalizedEmail)).slice(0, 24);
+
+  const already = await env.DB.prepare("SELECT client_id, welcome_state FROM client_provisioning WHERE client_id=?").bind(clientId).first();
+  if (already) return { ok: true, client: clientId, duplicate: true, welcome_state: already.welcome_state };
+
+  // Workspace row: create if missing, otherwise move it to onboarding.
+  const cfg = await env.DB.prepare("SELECT client, client_name, status FROM client_config WHERE client=?").bind(clientId).first();
+  const clientName = str(name).slice(0, 160) || cfg?.client_name || titleCase(clientId);
+  if (!cfg) {
+    await env.DB.prepare("INSERT INTO client_config (client, client_name, status, updated_at) VALUES (?,?,?,?)").bind(clientId, clientName, "onboarding", now).run();
+  } else {
+    await env.DB.prepare("UPDATE client_config SET status='onboarding', client_name=COALESCE(client_name, ?), updated_at=? WHERE client=?").bind(clientName, now, clientId).run();
+  }
+
+  // Claim the client before minting a setup token. Duplicate webhooks can run
+  // concurrently; claiming first prevents a losing request from rotating the
+  // token that the winning request is about to email.
+  try {
+    await env.DB.prepare(
+      "INSERT INTO client_provisioning (client_id, email, source, contract_ref, provisioned_at, provisioned_by) VALUES (?,?,?,?,?,?)",
+    ).bind(clientId, normalizedEmail, source, str(contractRef) || null, now, str(actor) || source).run();
+  } catch {
+    return { ok: true, client: clientId, duplicate: true };
+  }
+
+  // DocuSign already created an encrypted, retryable link atomically. Other
+  // triggers mint one here. Never rotate a caller-supplied link.
+  let setup = setupLink ? { ok: true, link: str(setupLink) } : null;
+  if (!setup) setup = await createSetupLink(env, origin || "https://pulsify-ai.com", clientId, normalizedEmail);
+  if (!setup.ok || !setup.link) {
+    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+    return { ok: false, error: setup.error || "could not create setup link" };
+  }
+
+  try {
+    await seedChecklist(env, clientId);
+  } catch (error) {
+    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+    return { ok: false, error: String(error?.message || error) };
+  }
+  await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => null);
+  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => null);
+
+  const welcome = await sendWelcome(env, { clientId, email: normalizedEmail, name: clientName, setupLink: setup.link, sleep, fetcher });
+  return { ok: true, client: clientId, duplicate: false, setup_link: setup.link, welcome_state: welcome.state };
+}
+
+export async function sendWelcome(env, { clientId, email, name, setupLink, sleep, fetcher = fetch }) {
+  const from = str(env.EMAIL_FROM);
+  if (!env.RESEND_API_KEY || !from) {
+// Settings backend for both shells.
+//   GET  /api/account                    everything the Settings page shows, for the caller's role
+//   POST /api/account {action, ...}      client:   password | signout-others | workspace | notifications | export | delete-request
+//                                        operator: defaults | notifications
+// Client writes need a real session or portal token; impersonated sessions are read-only.
+import { json, str, nowIso, sha256Hex, normalizeEmail } from "../_shared/common.js";
+import { resolveOperator } from "../_shared/spine-auth.js";
+import { withOperator } from "../_shared/access.js";
+import { CLIENT_SESSION_COOKIE, createPasswordSalt, hashPassword, parseCookies, resolveClientAccess, verifyPassword, PBKDF2_ITERATIONS } from "../_shared/client-auth.js";
+import { notify } from "../_shared/notifications.js";
+import { emitEvent } from "../_shared/outbound-webhooks.js";
+import { operatorEmails } from "./login-lookup.js";
+
+const TIMEZONES = new Set(Intl.supportedValuesOf ? Intl.supportedValuesOf("timeZone") : []);
+const CURRENCIES = new Set(["USD", "EUR", "GBP", "CAD", "AUD", "AED", "SAR", "CHF", "SEK", "NOK", "DKK", "PLN", "NZD", "SGD", "ZAR", "INR", "BRL", "MXN", "JPY"]);
+const NOTIFICATION_KEYS = ["weekly_report", "payment_alerts", "sequence_reviews", "product_updates"];
+const DEFAULT_NOTIFICATIONS = { weekly_report: true, payment_alerts: true, sequence_reviews: true, product_updates: false };
+
+async function pref(env, client, key, fallback) {
+  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => null);
+  if (!row) return fallback;
+  try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+}
+async function setPref(env, client, key, value) {
+  await env.DB.prepare(
+    "INSERT INTO workspace_preferences(client_id,key,value_json,updated_at) VALUES(?,?,?,?) ON CONFLICT(client_id,key) DO UPDATE SET value_json=excluded.value_json,updated_at=excluded.updated_at",
+  ).bind(client, key, JSON.stringify(value), nowIso()).run();
+}
+async function operatorPref(env, email, key, fallback) {
+  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => null);
+  if (!row) return fallback;
+  try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+}
+async function setOperatorPref(env, email, key, value) {
+  await env.DB.prepare(
+    "INSERT INTO operator_state(operator_email,key,value_json,updated_at) VALUES(?,?,?,?) ON CONFLICT(operator_email,key) DO UPDATE SET value_json=excluded.value_json,updated_at=excluded.updated_at",
+  ).bind(email, key, JSON.stringify(value), nowIso()).run();
+}
+
+function cleanWorkspace(input, current) {
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'clientName|document.title' output/standard-preview/js/client-dashboard.js; rg --files output/standard-preview/js | Select-Object -First 20; rg -n 'plan|income|payouts|cashflow|calendar|health' output/standard-preview/admin/native-dashboard.js; Get-Content output/standard-preview/_redirects; Get-Content output/standard-preview/functions/api/crm-sync.js -TotalCount 45; rg -n 'catch.*null' output/standard-preview/workers/sync/src/jobs -g '*.js'" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 625ms:
+rg: output/standard-preview/js/client-dashboard.js: IO error for operation on output/standard-preview/js/client-dashboard.js: The system cannot find the file specified. (os error 2)
+output/standard-preview/js\vsl-track.js
+output/standard-preview/js\script.js
+output/standard-preview/js\provision-prompt.js
+output/standard-preview/js\funnel-integrations.js
+11:  const labels={crm:['Outreach pipeline','Review leads, follow up and keep the next step clear.'],metrics:['YouTube','Track your channel and published videos.'],instagram:['Instagram','Review reach, content and conversations.'],content:['Content','Manage the work you are preparing and publishing.'],sales:['Payments','Review recorded sales and collections.'],live:['Business overview','Your recorded activity and results.'],plan:['Plan','Track progress against your operating plan.'],income:['Income','Review your recorded income.'],payouts:['Payouts','Track recorded payouts.'],cashflow:['Cash flow','Review money in and money out.'],calendar:['Calendar','See your scheduled work.'],health:['Health','Track your personal log.']};
+Get-Content : Cannot find path 'C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview\_redirects' because it 
+does not exist.
+At line:2 char:252
++ ... -dashboard.js; Get-Content output/standard-preview/_redirects; Get-Co ...
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\Abdull...view\_redirects:String) [Get-Content], ItemNotFoundEx 
+   ception
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.GetContentCommand
+ 
+import { withOperator } from '../_shared/access.js';
+import {checkAdmin,json} from '../_shared/common.js';
+import {emitEvent} from '../_shared/outbound-webhooks.js';
+const tables={overrides:'crm_overrides',added:'crm_added',removed:'crm_removed'};
+async function handle_onRequestGet({request,env}){
+ const denied=checkAdmin(request,env);if(denied)return denied;
+ return snapshot(env,0);
+}
+async function handle_onRequestPost({request,env}){
+ const denied=checkAdmin(request,env);if(denied)return denied;
+ const raw=await request.text();if(raw.length>5*1024*1024)return json({ok:false,error:'Sync payload too large'},413);
+ let body;try{body=JSON.parse(raw);}catch{return json({ok:false,error:'Invalid JSON'},400);}
+ if(!body||typeof body!=='object'||Array.isArray(body))return json({ok:false,error:'Invalid payload'},422);
+ const serverTs=Date.now(),statements=[],stageEvents=[],leadEvents=[];
+ for(const [kind,table]of Object.entries(tables)){
+  const rows=body[kind]||{};if(typeof rows!=='object'||Array.isArray(rows))return json({ok:false,error:'Invalid records'},422);
+  for(const [name,value]of Object.entries(rows)){
+   if(!name||name.length>300||!value||typeof value!=='object'||Array.isArray(value))return json({ok:false,error:'Invalid record'},422);
+   const ts=Number(value._ts)||1;if(!Number.isFinite(ts)||ts<0||ts>serverTs+300000)return json({ok:false,error:'Invalid record timestamp'},422);
+   if(kind==='overrides'){
+    const prior=await env.DB.prepare('SELECT data,ts FROM crm_overrides WHERE name=?').bind(name).first().catch(()=>null);
+    let priorData={};try{priorData=JSON.parse(prior?.data||'{}');}catch{}
+    const from=priorData.status||priorData.stage||null,to=value.status||value.stage||null;
+    if(ts>Number(prior?.ts||0)&&to&&to!==from)stageEvents.push({name,from,to});
+   }
+   if(kind==='added'){
+    const prior=await env.DB.prepare('SELECT ts FROM crm_added WHERE name=?').bind(name).first().catch(()=>null);
+    if(!prior&&ts>0)leadEvents.push({name,source:value.source||value.src||'crm-sync'});
+   }
+   statements.push(env.DB.prepare(`INSERT INTO ${table}(name,data,ts,sts,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET data=excluded.data,ts=excluded.ts,sts=excluded.sts,updated_at=excluded.updated_at WHERE excluded.ts > ${table}.ts`).bind(name,JSON.stringify(value),ts,serverTs,new Date(serverTs).toISOString()));
+  }
+ }
+ if(statements.length>3000)return json({ok:false,error:'Too many records'},422);
+ for(let start=0;start<statements.length;start+=100)await env.DB.batch(statements.slice(start,start+100));
+ for(const event of stageEvents)await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:event}).catch(()=>null);
+ for(const event of leadEvents)await emitEvent(env,{scope:'operator',event:'lead.created',data:event}).catch(()=>null);
+ return snapshot(env,Math.max(0,Number(body.since)||0));
+}
+async function snapshot(env,since){
+ const serverTs=Date.now(),state={};
+ for(const[kind,table]of Object.entries(tables)){
+  const result=await env.DB.prepare(`SELECT name,data FROM ${table} WHERE sts>=?`).bind(since).all();
+  state[kind]=Object.fromEntries((result.results||[]).map(row=>[row.name,JSON.parse(row.data)]));
+ }
+ return json({ok:true,state,serverTs});
+output/standard-preview/workers/sync/src/jobs\zernio-inbox.js:26:    const seen = await env.DB.prepare("SELECT id FROM zernio_events WHERE id=?").bind(id).first().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\zernio-inbox.js:48:      await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text, messageId: zm.platformMessageId || zm.id }).catch(() => null);
+output/standard-preview/workers/sync/src/jobs\zernio-inbox.js:49:      await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: zm.platformMessageId || zm.id, conversation_id: conversationId, handle: row?.handle || "", name: row?.name || "", direction: "inbound", text: zm.text, ts: zm.sentAt, source: "instagram" } }).catch(() => null);
+output/standard-preview/workers/sync/src/jobs\zernio-inbox.js:62:    await env.DB.prepare("UPDATE ig_messages SET text=COALESCE(text,'') || ' (unsent)' WHERE id=? AND text NOT LIKE '%(unsent)'").bind(mid).run().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\payments.js:50:    const result = await matchPayment(env, payment).catch(() => null);
+output/standard-preview/workers/sync/src/jobs\payments.js:93:        .bind(item.id).run().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\payments.js:134:        .bind(item.id).run().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\payments.js:173:  ).bind(client, provider).first().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\instagram-inbox.js:140:        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text, messageId: message.id }).catch(() => null);
+output/standard-preview/workers/sync/src/jobs\instagram-inbox.js:142:      if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
+output/standard-preview/workers/sync/src/jobs\instagram-inbox.js:196:  ).first().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\instagram-inbox.js:266:  ).bind(name).first().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\instagram-inbox.js:301:    await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => null);
+output/standard-preview/workers/sync/src/jobs\outreach-notify.js:48:      const m = await env.DB.prepare("SELECT conversation_id FROM ig_messages WHERE id=?").bind(s.mid).first().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\outreach-notify.js:52:      const c = await env.DB.prepare("SELECT id FROM ig_conversations WHERE participant_id=? ORDER BY last_message_at DESC LIMIT 1").bind(s.senderId).first().catch(() => null);
+output/standard-preview/workers/sync/src/jobs\webhook-outbox.js:8:  await env.DB.prepare("DELETE FROM api_key_usage WHERE bucket < ?").bind(cutoff).run().catch(() => null);
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'node C:/Users/Abdullah/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/bin/wrangler.js d1 export pulsify-portal --remote --no-data --output=../qa/2026-09-phase5/production-schema.sql' in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ exited 1 in 1618ms:
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mFailed to write to log file Error: EPERM: operation not permitted, open 'C:\Users\Abdullah\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-09-20_03-48-30_353.log'[0m
+
+      at async open (node:internal/fs/promises:640:25)
+      at async writeFile (node:internal/fs/promises:1257:14)
+      at async C:\Users\Abdullah\AppData\Local\npm-cache\_npx\32026684e21afda6\node_modules\wrangler\wrangler-dist\cli.js:63296:7
+      at async Mutex.runWith (C:\Users\Abdullah\AppData\Local\npm-cache\_npx\32026684e21afda6\node_modules\miniflare\dist\src\index.js:55603:16)
+      at async appendToDebugLogFile (C:\Users\Abdullah\AppData\Local\npm-cache\_npx\32026684e21afda6\node_modules\wrangler\wrangler-dist\cli.js:63293:3) {
+    errno: -4048,
+    code: 'EPERM',
+    syscall: 'open',
+    path: 'C:\\Users\\Abdullah\\AppData\\Roaming\\xdg.config\\.wrangler\\logs\\wrangler-2026-09-20_03-48-30_353.log'
+  }
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mWould have written: [0m
+
+  --- 2026-09-20T03:48:30.647Z debug
+  🪵  Writing logs to "C:\Users\Abdullah\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-09-20_03-48-30_353.log"
+  ---
+  
+
+
+
+ ⛅️ wrangler 4.135.0
+────────────────────
+Resource location: remote 
+
+? ⚠️ This process may take some time, during which your D1 database will be unavailable to serve queries.
+  Ok to proceed?
+🤖 Using fallback value in non-interactive context: yes
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mIn a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN environment variable for wrangler to work. Please go to https://developers.cloudflare.com/fundamentals/api/get-started/create-token/ for instructions on how to create an api token, and assign its value to CLOUDFLARE_API_TOKEN.[0m
+
+  
+  To continue without logging in, rerun this command with `--temporary`. Wrangler will use a temporary account and print a claim URL.
+
+
+🪵  Logs were written to "C:\Users\Abdullah\AppData\Roaming\xdg.config\.wrangler\logs\wrangler-2026-09-20_03-48-30_353.log"
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'document.title|clientName\\s*=' output/standard-preview/portal -g '*' --glob '"'!references/**'"'; Get-Content output/standard-preview/admin/native-dashboard.js -TotalCount 60; Get-Content output/standard-preview/portal/phase1.js -TotalCount 23; rg --files output/standard-preview | Select-String 'portal\\.js|client\\.js'" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 418ms:
+output/standard-preview/portal\login\index.html:135:      document.title = "Operator sign in · Pulsify";
+output/standard-preview/portal\phase1.js:10: const clientName=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;
+(() => {
+ let loading,root,requested='live',header;
+ const aliases={youtube:'metrics',dashboard:'live',payments:'sales'};
+ function activate(){
+  if(!root||root.hidden||!header)return;
+  const id=aliases[requested]||requested;
+  root.querySelector('nav.sb-nav [data-tab="'+CSS.escape(id)+'"]')?.click();
+  root.classList.toggle('theme-night',document.documentElement.dataset.theme==='dark');
+  root.classList.toggle('theme-track',document.documentElement.dataset.theme!=='dark');
+  window.PulsifySurface?.enhance(root,{scope:'operator',view:id,go:v=>PulsifyOperatorShell.go(v)});
+  const labels={crm:['Outreach pipeline','Review leads, follow up and keep the next step clear.'],metrics:['YouTube','Track your channel and published videos.'],instagram:['Instagram','Review reach, content and conversations.'],content:['Content','Manage the work you are preparing and publishing.'],sales:['Payments','Review recorded sales and collections.'],live:['Business overview','Your recorded activity and results.'],plan:['Plan','Track progress against your operating plan.'],income:['Income','Review your recorded income.'],payouts:['Payouts','Track recorded payouts.'],cashflow:['Cash flow','Review money in and money out.'],calendar:['Calendar','See your scheduled work.'],health:['Health','Track your personal log.']};
+  const [title,note]=labels[id]||[requested,''];header.querySelector('h1').textContent=title;header.querySelector('p').textContent=note;
+  document.title=title+' | Pulsify';
+  if(id==='crm')loadUnmatched();
+ }
+ async function loadUnmatched(){
+  const box=root?.querySelector('#psUnmatchedInbox');if(!box||box.dataset.loaded==='loading')return;box.dataset.loaded='loading';
+  try{const response=await fetch('/api/spine/conversations?unmatched=1');const data=await response.json();if(!response.ok)throw Error(data.error||'Could not load unmatched conversations.');const rows=data.conversations||[];box.dataset.loaded='ready';box.innerHTML='<div class="panel-head"><div><h2>Unmatched Instagram inbox</h2><div class="panel-note">Conversations that have not been projected into a CRM lead yet.</div></div><span class="ps-badge">'+rows.length+'</span></div><div class="table-wrap"><table><thead><tr><th>Handle</th><th>Last message</th><th>Direction</th><th>Updated</th></tr></thead><tbody>'+(rows.length?rows.map(row=>'<tr><td>@'+PulsifyShell.esc(row.participant_username||row.participant_id||row.participant_name||'unknown')+'</td><td>'+PulsifyShell.esc(row.last_text||'')+'</td><td>'+PulsifyShell.esc(row.last_direction||'')+'</td><td>'+PulsifyShell.esc(row.last_message_at||'')+'</td></tr>').join(''):'<tr><td colspan="4">No unmatched conversations.</td></tr>')+'</tbody></table></div>';}catch(error){box.dataset.loaded='error';box.innerHTML='<p class="ps-error"></p>';box.firstChild.textContent=error.message;}
+ }
+ async function load(main){
+  root=document.createElement('section');root.className='native-dashboard phase1-dashboard';main.append(root);
+  root.innerHTML='<div class="ps-kpis">'+Array.from({length:8},()=>'<div class="ps-kpi skeleton" style="min-height:156px"></div>').join('')+'</div>';
+  const response=await fetch('/admin/dashboard.html');if(!response.ok)throw Error('Could not load the dashboard.');
+  const template=document.createElement('template');template.innerHTML=await response.text();
+  const scripts=[...template.content.querySelectorAll('script:not([type]),script[type="text/javascript"]')];
+  scripts.forEach(s=>s.remove());root.replaceChildren(template.content);
+  const legacyHeader=root.querySelector('.page-head');if(legacyHeader)legacyHeader.hidden=true;
+  header=document.createElement('div');header.className='ps-page-header';header.innerHTML='<div><h1></h1><p></p></div><button class="ps-control">Refresh</button>';root.prepend(header);header.querySelector('button').onclick=()=>{window.crmSyncNow?.();window.PulsifyDashboardRefresh?.();};
+  const crm=root.querySelector('#tab-crm .grid');if(crm){const partners=crm.querySelector('#clients')?.closest('.card'),prompts=crm.querySelector('.prompt-vault-card');for(const [node,title] of [[partners,'Client relationships'],[prompts,'Research and asset prompts']]){if(!node)continue;const details=document.createElement('details');details.className='ps-secondary-panel';const summary=document.createElement('summary');summary.textContent=title;details.append(summary,node);crm.append(details);}}
+  const crmCard=root.querySelector('#crmBoard')?.closest('.card');if(crmCard){const details=document.createElement('details');details.className='ps-secondary-panel';details.innerHTML='<summary>Pipeline breakdown and import notes</summary>';for(const selector of ['#crmNote','.crm-intel','.pipeline-box']){const node=crmCard.querySelector(selector);if(node)details.append(node);}crmCard.append(details);}
+  if(crm){const unmatched=document.createElement('section');unmatched.id='psUnmatchedInbox';unmatched.className='card';unmatched.innerHTML='<div class="skeleton" style="min-height:120px"></div>';crm.append(unmatched);}
+  // Trusted, same-origin build artifact; execute once after its DOM is mounted.
+  for(const old of scripts){const script=document.createElement('script');script.textContent=old.textContent;root.append(script);}
+  root.addEventListener('click',e=>{const jump=e.target.closest('[data-jump-tab]');if(jump)PulsifyOperatorShell.go(jump.dataset.jumpTab==='live'?'dashboard':jump.dataset.jumpTab);});
+  const observer=new MutationObserver(changes=>{if(changes.some(c=>[...c.addedNodes].some(n=>n.nodeType===1&&n.matches('.kpi,.kpi-row'))))PulsifySurface.enhance(root,{scope:'operator',view:aliases[requested]||requested,go:v=>PulsifyOperatorShell.go(v)});});observer.observe(root,{childList:true,subtree:true});
+  activate();
+ }
+ window.PulsifyNativeDashboard={show(id,main){requested=id;if(root)root.hidden=false;if(!loading)loading=load(main).catch(error=>{root.innerHTML='<p class="ps-error"></p>';root.firstChild.textContent=error.message;loading=null;throw error;});return loading.then(activate);},hide(){if(root)root.hidden=true;}};
+ window.addEventListener('pulsify:theme',()=>{if(root)activate();});
+})();
+(() => {
+ const session=window.PulsifySession;
+ if(session?.client){try{const cached=JSON.parse(localStorage.getItem('pulsify:analytics:v1:'+session.client));if(cached?.client===session.client)renderDashboard({...cached,impersonated:session.impersonated});}catch{}}
+ function start(){
+ const legacy=document.querySelector('.ws-shell');if(!legacy||!window.PulsifyWorkspace)return;
+ const root=document.createElement('div');document.body.append(root);
+ const nav=[{label:'',items:[['home','Overview'],['content','Content'],['plans','Plans'],['todos','To-dos'],['team','Team']]},{label:'Growth',items:[['instagram','Instagram'],['youtube','YouTube'],['copy','Copywriter'],['performance','Performance'],['leads','Leads']]},{label:'Workspace',items:[['revenue','Payments'],['media','Media library'],['access','Integrations'],['settings','Settings']]}].map(g=>({...g,items:g.items.map(([id,label])=>({id,label}))}));
+ let shell;const stash=document.createElement('div');stash.hidden=true;document.body.append(stash);
+ const client=state.client||new URLSearchParams(location.search).get('client')||'client';
+ const clientName=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;
+ shell=PulsifyShell.mount({container:root,workspace:clientName,operator:!!state.impersonated,clients:[{client,client_name:clientName}],clientId:client,user:client,nav,initial:window.PulsifyWorkspace.route(),onView:id=>{if(id==='settings'){stash.append(legacy);if(window.PulsifySettingsView){const holder=document.createElement('div');shell.main.replaceChildren(holder);PulsifySettingsView.render(holder,{role:'client',headers:()=>(typeof authHeaders==='function'?authHeaders():{}),signOut:()=>document.getElementById('wsLogout').click(),onWorkspaceName:name=>{const el=document.getElementById('wsClient');if(el)el.textContent=name;}});}else shell.settings();return;}shell.main.replaceChildren(legacy);PulsifyWorkspace.go(id,{replace:true,force:true});},canLeave:()=>PulsifyWorkspace.canLeave?.()!==false,onWorkspace:async id=>{if(!state.impersonated||id===client)return;if(!id){location.href='https://pulsify-ai.com/admin';return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client:id})});const data=await r.json();if(!r.ok)throw Error(data.error||'Could not open client workspace');location.href=data.url;},signOut:()=>document.getElementById('wsLogout').click()});
+ window.PulsifyClientShell=shell;
+ if(window.PulsifyBell)PulsifyBell.mount({client,headers:()=>(typeof authHeaders==='function'?authHeaders():{}),go:id=>shell.go(id)});
+ const back=document.getElementById('wsBack');back.className='ps-control';root.querySelector('.ps-header-title').before(back);
+ PulsifyTheme.apply();
+ window.addEventListener('pulsify:client-view',e=>shell.sync(e.detail.view,e.detail.title));
+ function refreshIdentity(){const name=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;if(state.impersonated){shell.banner(name,()=>{const exit=document.getElementById('impersonationExit');if(exit)exit.click();else fetch('/api/client-logout',{method:'POST'}).then(()=>location.href='https://pulsify-ai.com/admin');});shell.setClients([{client,client_name:name}]);}root.querySelector('.ps-switch').textContent=name;}
+ refreshIdentity();window.addEventListener('pulsify:client-ready',refreshIdentity);
+ if(state.impersonated)fetch('/api/clients').then(r=>r.ok?r.json():Promise.reject()).then(data=>shell.setClients(data.clients||[{client,client_name:clientName}])).catch(()=>{});
+ new MutationObserver(refreshIdentity).observe(document.getElementById('wsClient'),{childList:true,characterData:true,subtree:true});
+ }
+ if(state.client)start();else {const observer=new MutationObserver(()=>{if(state.client){observer.disconnect();start();}});observer.observe(document.getElementById('wsClient'),{childList:true,subtree:true});}
+})();
+
+codex
+The populated screenshots exposed a CSS bug that kept collapsed chat details visible; that is fixed and covered by a browser assertion. All 16 desktop/mobile, dark/light captures are saved. For the audit, the production schema export is blocked because Wrangler cannot use authentication in this session. I’ll leave that item documented rather than invent a baseline schema. The legacy dashboard is still loaded by the native views, so deleting it would break them.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content shared/shell.js -Tail 12; rg -n 'clientName|Loading workspace' portal/index.html js -g '*.js' -g '*.html'; rg -n 'clientName|Loading workspace' portal -g '*.html'; rg --files | Select-String 'workspace.js|dashboard.js|portal.js'; Get-Content functions/_shared/payments.js -TotalCount 20" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 442ms:
+   function render(){p.querySelector('.ps-presets').innerHTML=presets.map(n=>`<button data-preset="${n}" aria-pressed="${selected===n}">${n}</button>`).join('');p.querySelector('.ps-presets').querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=b.dataset.preset;chosen=range(selected,custom);render();});p.querySelector('.ps-calendars').innerHTML=[-1,0].map(offset=>{const m=new Date(month.getFullYear(),month.getMonth()+offset,1),blank=(m.getDay()+6)%7,count=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();return`<div class="ps-calendar"><div style="display:flex;justify-content:space-between;align-items:center"><button class="ps-control" data-month="-1" aria-label="Previous month">â€¹</button><strong>${m.toLocaleDateString('en',{month:'short',year:'numeric'})}</strong><button class="ps-control" data-month="1" aria-label="Next month">â€º</button></div><div class="ps-calendar-grid">${['M','T','W','T','F','S','S'].map(n=>'<span>'+n+'</span>').join('')}${'<span></span>'.repeat(blank)}${Array.from({length:count},(_,i)=>{const value=date(new Date(m.getFullYear(),m.getMonth(),i+1));return`<button data-day="${value}" aria-label="${value}" class="${value>=chosen.from&&value<=chosen.to?'selected':''}">${i+1}</button>`;}).join('')}</div></div>`;}).join('');p.querySelectorAll('[data-month]').forEach(b=>b.onclick=()=>{month.setMonth(month.getMonth()+Number(b.dataset.month));render();});p.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{selected='Custom';if(!selectingEnd){chosen={from:b.dataset.day,to:b.dataset.day};selectingEnd=true;}else{chosen.to=b.dataset.day;if(chosen.from>chosen.to)[chosen.from,chosen.to]=[chosen.to,chosen.from];selectingEnd=false;}render();});p.querySelector('.ps-range-footer span').textContent='Selected range: '+chosen.from+' to '+chosen.to;}
+   render();p.querySelector('[data-cancel]').onclick=close;p.querySelector('[data-update]').onclick=()=>{currentPreset=selected;custom=chosen;write('pulsify:range:'+uid,selected);write('pulsify:custom-range:'+uid,custom);rangeLabel();close();};
+  };
+  window.addEventListener('popstate',e=>{if(e.state?.psView)go(e.state.psView,{push:false});});
+  const params=new URLSearchParams(location.search),initial=params.get('view')||locationState.view||options.initial||flat[0]?.id;
+  params.delete('view');history.replaceState({psView:initial},'',location.pathname+(params.size?'?'+params.toString():''));
+  const api={main,go,sync,setClients(list){clients=list;},setUser(value){profile=value;},settings(){main.innerHTML='<h1>Settings</h1><p class="ps-subtitle">Preferences for this device.</p><section class="ps-settings"><h2 style="margin-top:0">Appearance</h2><p>Choose how your workspace looks.</p><div class="ps-segments">'+['light','dark','system'].map(t=>`<button class="ps-control" data-theme-mode="${t}" aria-pressed="false">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')+'</div></section>';const apply=()=>main.querySelectorAll('[data-theme-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.themeMode===(localStorage.getItem('theme')||'dark'))));main.querySelectorAll('[data-theme-mode]').forEach(b=>b.onclick=()=>{PulsifyTheme.apply(b.dataset.themeMode);apply();});apply();},banner(name,exit){let b=container.querySelector('.ps-banner');if(!b){b=document.createElement('div');b.className='ps-banner';container.querySelector('.ps-header').after(b);}b.innerHTML='<span>Viewing as '+esc(name)+'.</span><button>Exit</button>';b.querySelector('button').onclick=exit;}};
+  // Call after the adapter has stored the returned object.
+  queueMicrotask(()=>go(initial,{push:false}));return api;
+ }
+ window.PulsifyShell={mount,icon,esc,read,write,range};
+})();
+portal/index.html:55:            <div class="client-name" id="clientName">Loading</div>
+portal\index.html:55:            <div class="client-name" id="clientName">Loading</div>
+
+admin\workspace.js
+admin\native-dashboard.js
+portal\media-workspace.js
+functions\api\client-dashboard.js
+import { provisionClient } from "./provisioning.js";
+import { recordTouch } from "./pipeline-touches.js";
+import {
+  amountToCents,
+  centsToAmount,
+  cleanId,
+  escapeHtml,
+  humanCurrency,
+  normalizeEmail,
+  nowIso,
+  str,
+  strOrNull,
+  titleCase,
+} from "./common.js";
+import {
+  DEFAULT_ONBOARDING_DOC_URL,
+  DEFAULT_ONBOARDING_FORM_URL,
+  ensureClientConfigRow,
+  getIntegration,
+  recordFailure,
+
+
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'client_name|title' functions/api/client-dashboard.js | Select-Object -First 15; Get-Content functions/_shared/client-auth.js -TotalCount 16; rg -n 'clientName|document.title|Loading workspace' portal -g '*.js' -g '*.html' shared -g '*.js' | Select-Object -Last 20; Get-Content functions/_shared/hooks.js -TotalCount 50; Get-Content portal/index.html -Tail 18" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 398ms:
+16:      `SELECT client, COALESCE(client_name, client) AS client_name
+33:      `SELECT id, title, stage, platform, url, notes, scheduled_for, updated_at
+60:    client_name: configRow?.client_name || client,
+import {
+  cleanId,
+  constantTimeEqual,
+  generateOpaqueToken,
+  json,
+  normalizeEmail,
+  nowIso,
+  sha256Hex,
+} from "./common.js";
+
+export const CLIENT_SESSION_COOKIE = "pulsify_client_session";
+export const PBKDF2_ITERATIONS = 100000;
+const SESSION_TTL_DAYS = 30;
+const SETUP_TOKEN_TTL_HOURS = 72;
+const FAILED_LOGIN_LIMIT = 5;
+const FAILED_LOGIN_WINDOW_MINUTES = 15;
+portal\index.html:55:            <div class="client-name" id="clientName">Loading</div>
+portal\legacy.js:332:      $("clientName").textContent = data.client_name || data.client;
+portal\legacy.js:333:      if (data.client === "demo-rio") $("clientName").textContent = "Founder test workspace";
+portal\phase1.js:10: const clientName=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;
+portal\phase1.js:11: shell=PulsifyShell.mount({container:root,workspace:clientName,operator:!!state.impersonated,clients:[{client,client_name:clientName}],clientId:client,user:client,nav,initial:window.PulsifyWorkspace.route(),onView:id=>{if(id==='settings'){stash.append(legacy);if(window.PulsifySettingsView){const holder=document.createElement('div');shell.main.replaceChildren(holder);PulsifySettingsView.render(holder,{role:'client',headers:()=>(typeof authHeaders==='function'?authHeaders():{}),signOut:()=>document.getElementById('wsLogout').click(),onWorkspaceName:name=>{const el=document.getElementById('wsClient');if(el)el.textContent=name;}});}else shell.settings();return;}shell.main.replaceChildren(legacy);PulsifyWorkspace.go(id,{replace:true,force:true});},canLeave:()=>PulsifyWorkspace.canLeave?.()!==false,onWorkspace:async id=>{if(!state.impersonated||id===client)return;if(!id){location.href='https://pulsify-ai.com/admin';return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client:id})});const data=await r.json();if(!r.ok)throw Error(data.error||'Could not open client workspace');location.href=data.url;},signOut:()=>document.getElementById('wsLogout').click()});
+portal\phase1.js:17: function refreshIdentity(){const name=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;if(state.impersonated){shell.banner(name,()=>{const exit=document.getElementById('impersonationExit');if(exit)exit.click();else fetch('/api/client-logout',{method:'POST'}).then(()=>location.href='https://pulsify-ai.com/admin');});shell.setClients([{client,client_name:name}]);}root.querySelector('.ps-switch').textContent=name;}
+portal\phase1.js:19: if(state.impersonated)fetch('/api/clients').then(r=>r.ok?r.json():Promise.reject()).then(data=>shell.setClients(data.clients||[{client,client_name:clientName}])).catch(()=>{});
+portal\login\index.html:135:      document.title = "Operator sign in · Pulsify";
+shared\notifications.js:89:      document.title = document.title.replace(/^\(\d+\+?\) /, "");
+shared\notifications.js:90:      if (feed.unread) document.title = `(${badge.textContent}) ${document.title}`;
+shared\shell.js:18:  function sync(id,label){active=id;container.querySelector('.ps-header-title').textContent=label||title(id);document.title=(label||title(id))+' — '+(options.workspace||'Pulsify')+' | Pulsify';container.querySelectorAll('[data-view]').forEach(b=>{const selected=b.dataset.view===id;b.classList.toggle('active',selected);if(selected)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});write(key,{view:id,clientId:options.clientId||null});main.classList.remove('view-enter');void main.offsetWidth;main.classList.add('view-enter');}
+portal\studio-app.js:120:    $('sxStage').innerHTML=`<div class="sx-preview-noise"></div><div class="sx-preview-progress">${Array.from({length:count},(_,i)=>`<i class="${i<=ui.slide?'filled':''}"></i>`).join('')}</div><div class="sx-preview-brand"><span>${esc((state.client||'P').slice(0,1).toUpperCase())}</span>${esc($('clientName').textContent)}<small>PREVIEW</small></div><div class="sx-preview-copy">${slide?(ui.project.format==='story'?((slide.text_pills||[]).map(text=>`<p>${esc(text)}</p>`).join('')||'<div class="sx-preview-placeholder">Your words<br>go here.<small>Edit the copy in the details panel.</small></div>'):`${slide.headline?`<h4>${esc(slide.headline)}</h4>`:'<div class="sx-preview-placeholder">A point<br>worth making.</div>'}${slide.body?`<p>${esc(slide.body)}</p>`:''}${slide.cta?`<strong class="sx-preview-cta">${esc(slide.cta)}</strong>`:''}`):`<p>${esc(ui.output.raw_text||'Import your copy to get started.')}</p>`}</div><div class="sx-preview-footer"><span>${esc(slide?.job||slide?.role||'Your perspective')}</span><b>${String(ui.slide+1).padStart(2,'0')}</b></div>`;
+portal\workspace-shell.js:13: root.innerHTML=`<aside class="ws-rail"><div class="ws-mark"><img src="/assets/brand/variations/07-monogram.svg" alt="Pulsify"></div>${Object.keys(routes).map(k=>`<button data-go="${k}" data-group="${k}" aria-label="${groupNames[k]}" title="${groupNames[k]}">${icon(k)}</button>`).join('')}<div class="ws-rail-footer"><button id="wsTheme" aria-label="Switch theme" title="Switch theme">${icon('moon')}</button></div></aside><aside class="ws-menu"><div class="ws-menu-brand">Pulsify</div><div class="ws-account"><small>CLIENT WORKSPACE</small><strong id="wsClient">Loading workspace</strong></div><div class="ws-menu-label" id="wsMenuLabel">WORKSPACE</div><nav id="wsSubnav" aria-label="Section navigation"></nav><div class="ws-menu-label">ACCOUNT</div><button id="wsLogout">Log out</button></aside><div class="ws-workspace"><header class="ws-topbar"><button class="ws-back" id="wsBack" aria-label="Go back">${icon('arrow')} Back</button><div class="ws-crumb" id="wsCrumb">Workspace / Overview</div><span class="ws-top-status" id="wsTopStatus">Private workspace</span></header><div class="ws-content"><div id="wsHeading"></div><div id="wsStage" class="ws-slide-panel"></div></div></div><div class="ws-toast" id="wsToast" role="status" hidden></div>`;
+import {
+  cleanId,
+  constantTimeEqual,
+  json,
+  normalizeEmail,
+  numberOrNull,
+  nowIso,
+  str,
+  strOrNull,
+} from "./common.js";
+import {
+  buildWebhookUrl,
+  getIntegration,
+  recordFailure,
+  recordIntegrationEvent,
+  resolveIntegrationBySecret,
+  sendDiscordAlert,
+} from "./integrations.js";
+import { processNormalizedPayment } from "./payments.js";
+import { applyRefund, matchPayment } from "./payment-matching.js";
+import { emitEvent } from "./outbound-webhooks.js";
+import { recordTouch } from "./pipeline-touches.js";
+
+export async function handleHookRequest({ request, env, params }) {
+  const provider = str(params.provider).toLowerCase();
+  const pathSecret = str(params.secret || "");
+
+  try {
+    const raw = await request.text();
+    const body = raw ? JSON.parse(raw) : {};
+    let integration = null;
+    if (pathSecret) integration = await resolveIntegrationBySecret(env, provider, pathSecret);
+
+    if (!integration && provider === "stripe") {
+      const hintedClient = extractStripeClientHint(body);
+      if (hintedClient) integration = await getIntegration(env, "client", hintedClient, "stripe");
+    }
+
+    if (!integration) {
+      await recordFailure(env, "unknown", `hook_${provider}`, "unknown client or invalid webhook path");
+      return json({ ok: true, recorded: false, reason: "unknown client" });
+    }
+
+    if (provider === "stripe" && integration.secrets.webhook_secret) {
+      const verified = await verifyStripeSignature(
+        request.headers.get("Stripe-Signature"),
+        raw,
+        integration.secrets.webhook_secret,
+      );
+      if (!verified) {
+      <button class="outline" id="closeRetestDialogButton" type="button" aria-label="Close retest">Close</button>
+    </div>
+    <div class="retest-dialog-body">
+      <div class="retest-diagnostic" id="retestDiagnostic"></div>
+      <div class="retest-diagnostic"><strong>Current hook.</strong> <span class="retest-old-hook" id="retestOldHook"></span></div>
+      <label for="retestNewHookInput">New hook to test
+        <textarea id="retestNewHookInput" maxlength="1000"></textarea>
+      </label>
+      <div class="retest-method"><strong>How the retest works.</strong> Run the new hook on the next posting. Keep every other slide identical. Log completion after 48 hours, then resolve the higher completion as the winner.</div>
+      <div class="retest-dialog-error" id="retestDialogError" role="alert"></div>
+    </div>
+    <div class="retest-dialog-foot">
+      <span class="panel-note">The original stays in the lineage.</span>
+      <button id="launchRetestButton" type="button">Launch retest</button>
+    </div>
+  </dialog>
+</body>
+</html>
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'shared/shell.js';s=f.read_text().replace('const api={main,go,sync,','const api={main,go,sync,setWorkspace(value){options.workspace=value;document.title=(container.querySelector(\".ps-header-title\").textContent || \"Workspace\")+\" | \"+value+\" | Pulsify\";},');f.write_text(s)
+f=p/'portal/phase1.js';s=f.read_text();s=s.replace(\" const clientName=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;\", \" const humanName=()=>{const n=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent;return n && n"'!==client && !/''^Loading/i.test(n)?n:client.replace(/[-_]+/g,'"' ').replace(/\\\\b\\\\w/g,c=>c.toUpperCase());};\\n const clientName=humanName();\");s=s.replace(\"const name=state.clientName||state.client_name||document.getElementById('wsClient')?.textContent||client;\",'const name=humanName();shell.setWorkspace(name);');f.write_text(s)
+f=p/'admin/phase1.js';s=f.read_text().replace('owned.hidden=true;PulsifyNativeDashboard.show','owned.replaceChildren();owned.hidden=true;PulsifyNativeDashboard.show').replace('PulsifyLeadsView.render(holder,{});','cleanup=PulsifyLeadsView.render(holder,{});');f.write_text(s)
+f=p/'functions/_middleware.js';s=f.read_text().replace(\"  const legacyView =\", \"  if (/"'^'"\\\\/client(?:\\\\.html)?\\\\/?"'$/.test(path) && ['"'GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);\\n  const legacyView =\");f.write_text(s)
+f=p/'functions/_shared/hooks.js';s=f.read_text().replace('"'`hook_${provider}`, "unknown client or invalid webhook path"'"','\"webhook_unknown_secret\", "'`Unmatched ${provider} webhook configuration`'"');f.write_text(s)
+(p/'functions/_shared/side-effect-failure.js').write_text('''import { recordFailure } from \"./integrations.js\";
+// Diagnostics contain the operation, never raw provider errors, payloads or credentials.
+export async function sideEffectFailure(env, operation) {
+  await recordFailure(env, \"operator\", operation, \"Operation failed; retry or inspect the related integration.\");
+  return null;
+}
+''')
+files=['functions/api/account.js','functions/api/crm-sync.js','functions/_shared/provisioning.js','functions/_shared/payments.js','functions/_shared/hooks.js']+[str(f.relative_to(p)).replace('\\\\','/') for f in (p/'workers/sync/src/jobs').glob('*.js')]
+import re
+for rel in files:
+ f=p/rel;s=f.read_text();count=[0]
+ def sub(m):
+  count[0]+=1
+  return '.catch(() => sideEffectFailure(env, \"'+f.stem.replace('-','_')+'_operation_'+str(count[0])+'\"))'
+ s=re.sub(r'\\.catch\\(\\(\\)\\s*=>\\s*null\\)',sub,s)
+ if count[0]:
+  imp='./side-effect-failure.js' if '/_shared/' in rel else '../_shared/side-effect-failure.js' if rel.startswith('functions/') else '../../../../functions/_shared/side-effect-failure.js'
+  s='import { sideEffectFailure } from \"'+imp+'\";\\n'+s;f.write_text(s)
+# A failed DB insert is only a duplicate when a durable claim actually exists.
+f=p/'functions/_shared/provisioning.js';s=f.read_text().replace('  } catch {\\n    return { ok: true, client: clientId, duplicate: true };','  } catch (error) {\\n    const existing = await env.DB.prepare(\"SELECT client_id FROM client_provisioning WHERE client_id=?\").bind(clientId).first();\\n    if ("'!existing) throw error;'"\\n    return { ok: true, client: clientId, duplicate: true };');f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 439ms:
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+(() => {
+  const {esc}=PulsifyShell;
+  async function api(url,body){const r=await fetch(url,{headers:{'content-type':'application/json','x-pulsify-operator':'1'},...(body?{method:'POST',body:JSON.stringify(body)}:{})});const d=await r.json();if("'!r.ok)throw Error(d.error || '"'Could not save workspace');return d;}
+  function render(root,{refresh=()=>{}}={}){
+    let archived=false,sequence=0,disposed=false;
+    root.innerHTML='<h1>Clients</h1><p class=\"ps-subtitle\">Open a workspace, manage its setup, or keep a completed project in the archive.</p><div class=\"contact-toolbar\"><div class=\"ps-segments\"><button class=\"ps-control\" data-filter=\"active\" aria-pressed=\"true\">Active</button><button class=\"ps-control\" data-filter=\"archived\" aria-pressed=\"false\">Archived</button></div><button class=\"ps-control\" data-setup=\"\">Add client</button></div><div data-workspaces class=\"ps-grid\"></div><p role=\"status\" data-status></p>';
+    const box=root.querySelector('[data-workspaces]'),status=root.querySelector('[data-status]');
+    async function load(){const current=++sequence;box.innerHTML=PulsifyContact.skeleton(3);try{const d=await api(archived?'/api/workspace-archive':'/api/clients');if(disposed||current"'!==sequence)return;const rows=archived?d.archived:d.clients;box.innerHTML=(rows||[]).map(c=>`<section class="ps-card"><strong>${esc(c.client_name||c.client)}</strong><small>${archived?'"'Archived workspace':esc(c.status||'Workspace')}</small><div class=\"int-actions\">"'${archived?`<button class="ps-control" data-restore="${esc(c.client)}">Restore</button>`:`<button class="ps-control" data-preview="${esc(c.client)}">Open workspace</button><button class="ps-control" data-setup="${esc(c.client)}">Setup</button><button class="ps-control" data-archive="${esc(c.client)}">Archive</button>`}<a class="ps-control" href="/api/workspace-archive?client=${encodeURIComponent(c.client)}&export=1">Download export</a></div></section>`).join('"'')||'<p class=\"int-empty\">No '+(archived?'archived':'active')+' workspaces.</p>';bind();}catch(e){if(current===sequence)box.innerHTML='<p class=\"ps-error\">'+esc(e.message)+'</p>';}}
+    function setup(client){const frame=document.createElement('iframe');frame.className='ps-frame';frame.title='Client setup';frame.src='/admin/console-view.html?view=clients'+(client?'&client='+encodeURIComponent(client):'');root.replaceChildren(frame);}
+    async function change(client,action){status.textContent='Saving workspace...';try{await api('/api/workspace-archive',{client,action});status.textContent=action==='archive'?'Workspace archived. Its data is preserved.':'Workspace restored. Previous login links remain revoked.';await load();refresh();}catch(e){status.textContent=e.message;}}
+    function confirmArchive(client){const dialog=document.createElement('dialog');dialog.className='ps-popover int-dialog';dialog.innerHTML='<h2>Archive this workspace?</h2><p>Save an export, hide the page and revoke client access. You can restore the workspace later.</p><div class=\"int-actions\"><button class=\"ps-control\" data-cancel>Cancel</button><button class=\"ps-control\" data-confirm>Archive workspace</button></div>';document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());dialog.querySelector('[data-cancel]').onclick=()=>dialog.close();dialog.querySelector('[data-confirm]').onclick=()=>{dialog.close();change(client,'archive');};dialog.showModal();}
+    function bind(){root.querySelectorAll('[data-setup]').forEach(b=>b.onclick=()=>setup(b.dataset.setup));root.querySelectorAll('[data-archive]').forEach(b=>b.onclick=()=>confirmArchive(b.dataset.archive));root.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>change(b.dataset.restore,'restore'));root.querySelectorAll('[data-preview]').forEach(b=>b.onclick=async()=>{b.disabled=true;try{const d=await api('/api/impersonate',{client:b.dataset.preview});location.href=d.url;}catch(e){status.textContent=e.message;b.disabled=false;}});}
+    root.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{archived=b.dataset.filter==='archived';root.querySelectorAll('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));load();});bind();load();
+    return ()=>{disposed=true;sequence++;};
+  }
+  window.PulsifyClientsView={render};
+})();
+'@ | Set-Content output/standard-preview/admin/clients-view.js -Encoding UTF8
+@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'admin.html';s=f.read_text().replace('<script src=\"/admin/leads-view.js\">','<script src=\"/admin/clients-view.js\"></script><script src=\"/admin/leads-view.js\">');f.write_text(s)
+f=p/'admin/phase1.js';s=f.read_text().replace(\"  if(id==='search'\", \"  if(id==='home'&&window.PulsifyClientsView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyClientsView.render(holder,{refresh:bootstrapLoad});return;}\\n  if(id==='search'\",1);f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+node --test tests/*.test.mjs > ../qa/2026-09-phase5/batch3-tests.txt 2>&1" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ exited 1 in 661ms:
+out-file : Could not find a part of the path 'C:\Users\Abdullah\Desktop\qa\2026-09-phase5\batch3-tests.txt'.
+At line:27 char:1
++ node --test tests/*.test.mjs > ../qa/2026-09-phase5/batch3-tests.txt  ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OpenError: (:) [Out-File], DirectoryNotFoundException
+    + FullyQualifiedErrorId : FileOpenFailure,Microsoft.PowerShell.Commands.OutFileCommand
+ 
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'node --test tests/*.test.mjs > ../qa/2026-09-phase5/batch3-tests.txt 2>&1; Get-Content ../qa/2026-09-phase5/batch3-tests.txt -Tail 12; node tests/bugfix-browser.cjs; node tests/phase5-contacts-browser.cjs' in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "git diff --numstat; rg -n 'sendDiscordAlert|sendEmail|notifyOperator' output/standard-preview/functions/_shared/hooks.js output/standard-preview/functions/_shared/payments.js output/standard-preview/workers/sync/src/jobs/outreach-notify.js; rg -n 'html' output/standard-preview/functions/index.js | Select-Object -First 5; rg -n 'optin.html' output/standard-preview/functions -g '*.js'" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 631ms:
+warning: in the working copy of 'AGENT_CHAT.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'output/qa/2026-09-phase5/codex-run/run.log', LF will be replaced by CRLF the next time Git touches it
+3	0	AGENT_CHAT.md
+-	-	output/qa/2026-09-phase5/bugfix-integrations-desktop.png
+1079	0	output/qa/2026-09-phase5/codex-run/run.log
+1	1	output/standard-preview/admin.html
+3	0	output/standard-preview/admin/contact-row.css
+1	1	output/standard-preview/admin/contact-row.js
+35	88	output/standard-preview/admin/leads-view.js
+3	2	output/standard-preview/admin/phase1.js
+18	11	output/standard-preview/admin/search-view.js
+1	0	output/standard-preview/functions/_middleware.js
+6	5	output/standard-preview/functions/_shared/hooks.js
+5	4	output/standard-preview/functions/_shared/payments.js
+8	5	output/standard-preview/functions/_shared/provisioning.js
+6	5	output/standard-preview/functions/api/account.js
+5	4	output/standard-preview/functions/api/crm-sync.js
+3	2	output/standard-preview/portal/phase1.js
+1	1	output/standard-preview/shared/shell.js
+2	2	output/standard-preview/tests/outreach-tracker.test.mjs
+6	5	output/standard-preview/workers/sync/src/jobs/instagram-inbox.js
+3	2	output/standard-preview/workers/sync/src/jobs/outreach-notify.js
+5	4	output/standard-preview/workers/sync/src/jobs/payments.js
+2	1	output/standard-preview/workers/sync/src/jobs/webhook-outbox.js
+5	4	output/standard-preview/workers/sync/src/jobs/zernio-inbox.js
+output/standard-preview/functions/_shared/hooks.js:18:  sendDiscordAlert,
+output/standard-preview/functions/_shared/hooks.js:183:    await sendDiscordAlert(env, {
+output/standard-preview/functions/_shared/payments.js:23:  sendDiscordAlert,
+output/standard-preview/functions/_shared/payments.js:117:    const alert = await sendDiscordAlert(env, {
+output/standard-preview/functions/_shared/payments.js:173:  const alert = await sendDiscordAlert(env, {
+output/standard-preview/functions\[slug].js:17:  "optin.html",
+
+codex
+The audit changes pass all 90 backend tests. Client workspace names now have a readable fallback, switching to dashboard views clears the previous view, `/client` redirects to the portal, and previously silent failures write internal diagnostics without raw error text. Archive/restore controls are built locally. The production baseline and the bare-domain decision remain recorded as open items.
+ succeeded in 26862ms:
+✔ sweep pulls changed conversations, stores messages, and the Composio job steps aside once connected (29.7709ms)
+✔ tracker reads the merged data: seen threads, pictures, and left-on-read (16.4723ms)
+✔ failed webhook processing leaves event retryable (1.2516ms)
+✔ failed sweep fetch does not advance even a newly mapped conversation watermark (2.3868ms)
+ℹ tests 90
+ℹ suites 0
+ℹ pass 90
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2372.0529
+locator.waitFor: Timeout 8000ms exceeded.
+Call log:
+[2m  - waiting for locator('iframe:not([hidden])').contentFrame().locator('#shell') to be visible[22m
+
+    at C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview\tests\bugfix-browser.cjs:62:145 {
+  log: [
+    "  - waiting for locator('iframe:not([hidden])').contentFrame().locator('#shell') to be visible"
+  ],
+  name: 'TimeoutError'
+}
+PASS shared contacts: 16 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content functions/_shared/payments.js -Encoding UTF8 | Select-Object -Skip 102 -First 97; Get-Content functions/_shared/hooks.js -Encoding UTF8 | Select-Object -Skip 169 -First 30; rg -n 'sendDiscordAlert\\(' functions workers/sync/src -g '*.js'; Get-Content tests/phase5-routing.test.mjs -TotalCount 40; Get-Content tests/bugfix-browser.cjs | Select-Object -Last 30; Get-Content functions/api/workspace-archive.js -Tail 28" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 471ms:
+  return { ok: true, duplicate: false, payment, side_effects: sideEffects };
+}
+
+async function runPaymentSideEffects(env, payment) {
+  const client = cleanId(payment.client);
+  const clientRow = await env.DB.prepare(
+    `SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash, status
+       FROM client_config WHERE client=?`,
+  ).bind(client).first().catch(() => sideEffectFailure(env, "payments_operation_3"));
+  // Payment rails also carry the client's own customer revenue. Only a
+  // Pulsify prospect payment may start Pulsify onboarding; active clients'
+  // revenue must never rotate their portal token or resend a welcome.
+  const clientName = clientRow?.client_name || titleCase(client);
+  if (clientRow?.status !== "prospect") {
+    const alert = await sendDiscordAlert(env, {
+      client,
+      title: "Payment recorded",
+      lines: [
+        `${clientName} received ${humanCurrency(payment.amount_cents, payment.currency)} via ${payment.rail}.`,
+        `Reference: ${payment.reference}`,
+      ],
+    });
+    return { skipped: true, reason: "client is not a prospect", client_status: clientRow?.status || null, discord: alert.status };
+  }
+  const recipient = await resolvePaymentRecipient(env, client, payment.rail);
+  const operatorKit = await getIntegration(env, "operator", "", "kit");
+  const draft = await buildOnboardingDraft(operatorKit, payment, {
+    client,
+    clientName,
+    recipient,
+    origin: payment.origin,
+    hasPortalToken: Boolean(clientRow?.portal_token_hash),
+  });
+
+  let portal = null;
+  if (!clientRow?.portal_token_hash || draft.needs_fresh_portal_link) {
+    portal = await mintPortalToken(env, client, payment.origin);
+    if (portal.ok) {
+      draft.links.portal_url = portal.link;
+      draft.html = renderOnboardingHtml({
+        ...draft,
+        links: draft.links,
+      });
+      draft.text = renderOnboardingText(draft);
+    } else {
+      await recordFailure(env, client, "portal_token", portal.error || "could not mint portal token");
+    }
+  }
+
+  const email = await sendOnboardingEmail(env, operatorKit, draft, recipient, payment);
+
+  // A first payment on a prospect provisions the workspace (idempotent). The
+  // status moves to 'onboarding' there; it becomes 'client' when the checklist
+  // finishes. Clients already provisioned are untouched.
+  let provision = { skipped: true, reason: "client is not a prospect" };
+  if (clientRow?.status === "prospect") {
+    if (recipient?.email) {
+      try {
+        provision = await provisionClient(env, { source: "payment", client, email: recipient.email, name: recipient.name || clientName, contractRef: payment.reference, origin: payment.origin, actor: payment.recorded_by || "payment" });
+        if (!provision.ok) await recordFailure(env, client, "client_status", provision.error || "provisioning failed");
+      } catch (error) {
+        provision = { ok: false, error: error?.message || String(error) };
+        await recordFailure(env, client, "client_status", provision.error);
+      }
+    } else {
+      provision = { ok: false, error: "no client contact email found" };
+      await recordFailure(env, client, "client_status", provision.error);
+    }
+  }
+
+  const alert = await sendDiscordAlert(env, {
+    client,
+    title: "Payment recorded",
+    lines: [
+      `${clientName} paid ${humanCurrency(payment.amount_cents, payment.currency)} via ${payment.rail}.`,
+      `Reference: ${payment.reference}`,
+      email.status === "sent" ? "Onboarding email queued in Kit." : "Onboarding email fell back to operator draft.",
+    ],
+  });
+
+  return {
+    email,
+    draft: email.status === "sent" ? null : {
+      to: recipient.email || null,
+      subject: draft.subject,
+      preview_text: draft.preview_text,
+      html: draft.html,
+      text: draft.text,
+      links: draft.links,
+    },
+    portal: portal || {
+      ok: Boolean(clientRow?.portal_token_hash),
+      reused: Boolean(clientRow?.portal_token_hash),
+      link: draft.links.portal_url || null,
+    },
+    client_status: provision.ok ? "onboarding" : clientRow?.status || null,
+    provision,
+    client: integration.client,
+    externalId: booking.event_id,
+    payloadSummary: {
+      client: integration.client,
+      email: booking.email,
+      name: booking.name,
+      starts_at: booking.starts_at,
+      status: booking.status,
+    },
+  });
+
+  if (!event.duplicate) {
+    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => sideEffectFailure(env, "hooks_operation_4"));
+    await sendDiscordAlert(env, {
+      client: integration.client,
+      title: "Booking received",
+      lines: [
+        `${integration.client} booked via ${provider}.`,
+        booking.name || booking.email || "No attendee name supplied.",
+        booking.starts_at ? `Start: ${booking.starts_at}` : null,
+      ].filter(Boolean),
+    });
+  }
+
+  return json({ ok: true, recorded: !event.duplicate, duplicate: Boolean(event.duplicate) });
+}
+
+async function recordIgnored(env, client, provider, body, reason) {
+  await recordIntegrationEvent(env, {
+    provider,
+functions\event.js:111:      await sendDiscordAlert(env, {
+functions\event.js:558:    await sendDiscordAlert(env, {
+functions\a\[token].js:59:    await sendDiscordAlert(env, {
+functions\_shared\hooks.js:183:    await sendDiscordAlert(env, {
+functions\_shared\notifications.js:66:  return sendDiscordAlert(env, { title, lines: [body].filter(Boolean) }, { skipFailureLog: true });
+functions\_shared\integrations.js:319:export async function sendDiscordAlert(env, alert, options = {}) {
+functions\_shared\integrations.js:354:  return sendDiscordAlert(env, {
+functions\_shared\notify-operator.js:38:    const d = await sendDiscordAlert(env, { title, lines: [...lines, link].filter(Boolean) }, { skipFailureLog: true });
+functions\_shared\payments.js:117:    const alert = await sendDiscordAlert(env, {
+functions\_shared\payments.js:173:  const alert = await sendDiscordAlert(env, {
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {onRequestGet} from '../functions/[slug].js';
+
+const context = (slug, row = null) => ({
+  request: new Request('https://pulsify-ai.com/' + slug), params: {slug},
+  next: () => new Response('gateway', {status:200}),
+  env: {
+    DB: {prepare(){return {bind(){return this},async first(){return row}}}},
+    ASSETS: {async fetch(req){return new Response(new URL(req.url).pathname === '/404.html' ? '<h1>Page not found</h1>' : '<h1>gateway</h1>', {headers:{'content-type':'text/html'}})}}
+  }
+});
+test('unknown client slugs return branded 404 instead of the SPA fallback', async()=>{
+  const r=await onRequestGet(context('missing-client'));
+  assert.equal(r.status,404);assert.match(await r.text(),/Page not found/);
+});
+test('inactive clients remain unavailable and protected aliases pass to their own handlers', async()=>{
+  assert.equal((await onRequestGet(context('archived',{page_active:0}))).status,404);
+  assert.equal(await (await onRequestGet(context('admin'))).text(),'gateway');
+});
+test('database failure is not disguised as a successful gateway response', async()=>{
+  const c=context('missing-client');c.env.DB=null;
+  assert.equal((await onRequestGet(c)).status,503);
+});
+ await page.keyboard.press('Escape');
+ slowBell=true;const before=notificationGets;
+ await page.evaluate(async()=>{const bell=PulsifyBell.mount({operator:true});await Promise.all([bell.load(),bell.load(),bell.load()]);});
+ assert.equal(notificationGets-before,1,'overlapping loads coalesce');slowBell=false;
+ // A cold direct visit must still have a client selector before bootstrap completes.
+ slowBootstrap=true;await page.goto('http://127.0.0.1:8775/admin.html?view=integrations');
+ await page.locator('[data-workspace]').waitFor();assert.equal(await page.locator('[data-workspace] option[value="qa"]').count(),1);
+ await page.locator('[data-workspace]').selectOption('qa');await page.locator('[data-connect]').waitFor();
+ await page.locator('[data-connect]').click();await page.locator('dialog[open]').waitFor();await page.locator('[data-cancel]').click();
+ // Failure must offer retry, never falsely display disconnected services.
+ failIntegrations=true;await page.evaluate(()=>PulsifyOperatorShell.go('integrations'));await page.locator('[data-retry]').waitFor();
+ failIntegrations=false;await page.locator('[data-retry]').click();await page.locator('.int-hero-actions').waitFor();
+ for(const view of ['overview','leads','search','outreach','crm','instagram','youtube','content','integrations','payments','health','settings','home','brain','delivery','campaigns','email']){
+  await page.evaluate(v=>PulsifyOperatorShell.go(v),view);
+  if(['home','brain','delivery','campaigns','email'].includes(view))await page.locator('iframe:not([hidden])').contentFrame().locator('#shell').waitFor();
+  else await page.waitForTimeout(150);
+  await page.locator('.ps-notifications').click();await page.locator('.ps-bell.show').waitFor();await page.keyboard.press('Escape');
+ }
+ // Client integrations must use client credentials, with no operator-only payment tools.
+ await page.evaluate(async()=>{PulsifyOperatorShell.go('overview');const r=document.createElement('div');document.querySelector('.ps-main').replaceChildren(r);await PulsifyIntegrationsView.render(r,{client:'qa',operator:false,headers:()=>({'x-portal-token':'test-token'}),readOnly:true});});
+ assert.equal(await page.locator('#int-matches').count(),0);
+ const last=requests.filter(x=>x.path==='/api/integrations').at(-1);assert.equal(last.headers['x-pulsify-operator'],undefined);assert.equal(last.headers['x-portal-token'],'test-token');
+ assert.equal(await page.locator('[data-newhook]').isDisabled(),true);
+ await page.screenshot({path:path.join(qa,'bugfix-integrations-desktop.png')});
+ await page.setViewportSize({width:390,height:844});await page.locator('.ps-notifications').click();await page.locator('.ps-bell.show').waitFor();
+ assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),true,'mobile overflow');
+ await page.waitForTimeout(200);await page.screenshot({path:path.join(qa,'bugfix-bell-mobile.png')});
+ assert.deepEqual(errors,[]);console.log('PASS: all 17 operator sections, bell races/coalescing/failed writes/paged counts, cold Integrations, retry, client credentials, read-only controls, mobile. APIs mocked.');
+ }finally{await browser.close();server.close();}
+})().catch(e=>{console.error(e);server.close();process.exitCode=1;});
+  }
+  return json({ ok: true, archived: await listArchives(env) });
+}
+
+async function handlePost({ request, env }) {
+  const denied = resolveOperator(request, env);
+  if (denied.error) return denied.error;
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  let body = {};
+  try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
+  const action = str(body.action);
+  const client = str(body.client);
+  if (!client) return json({ ok: false, error: "client required" }, 422);
+  if (action === "archive") {
+    const r = await archiveWorkspace(env, client, denied.operatorEmail);
+    if (!r.ok) return json(r, 404);
+    const { bundle, ...rest } = r;
+    return json(rest);
+  }
+  if (action === "restore") {
+    const r = await restoreWorkspace(env, client, denied.operatorEmail);
+    return json(r, r.ok ? 200 : 404);
+  }
+  return json({ ok: false, error: "action must be archive or restore" }, 422);
+}
+
+export const onRequestGet = withOperator(handleGet);
+export const onRequestPost = withOperator(handlePost);
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'tests/bugfix-browser.cjs';s=f.read_text().replace(\"['home','brain','delivery','campaigns','email'].includes(view)\",\"['brain','delivery','campaigns','email'].includes(view)\");s=s.replace(\"  else await page.waitForTimeout(150);\",\"  else if(view==='home')await page.locator('[data-archive=\\\"qa\\\"]').waitFor();\\n  else await page.waitForTimeout(150);\");f.write_text(s)
+f=p/'tests/phase5-routing.test.mjs';s=f.read_text()+'''
+
+import {onRequest as middleware} from '../functions/_middleware.js';
+test('retired client surface redirects to authenticated portal',async()=>{
+  for(const path of ['/client','/client.html']){
+    const r=await middleware({request:new Request('https://pulsify-ai.com'+path),env:{},data:{},next:()=>new Response('old')});
+    assert.equal(r.status,302);assert.equal(r.headers.get('location'),'https://pulsify-ai.com/portal');
+  }
+});
+''';f.write_text(s)
+f=p/'tests/workspace-archive.test.mjs';s=f.read_text()+'''
+
+import {resolveTokenAccess} from '../functions/_shared/client-auth.js';
+import {sha256Hex} from '../functions/_shared/common.js';
+test('archived status rejects a private link even if a stale hash survived',async()=>{
+  sql.prepare(\"UPDATE client_config SET status='archived',portal_token_hash=? WHERE client='keep'\").run(await sha256Hex('stale-private-link'));
+  assert.equal(await resolveTokenAccess(new Request('https://test/api/account',{headers:{'x-portal-token':'stale-private-link'}}),env),null);
+});
+test('failed archive export leaves state and access untouched',async()=>{
+  sql.prepare(\"UPDATE client_config SET status='client',portal_token_hash='still-valid' WHERE client='keep'\").run();
+  await assert.rejects(archiveWorkspace({...env,MEDIA:{async put(){throw Error('unavailable')}}},'keep'),/unavailable/);
+  assert.equal(sql.prepare(\"SELECT portal_token_hash FROM client_config WHERE client='keep'\").get().portal_token_hash,'still-valid');
+  assert.equal(sql.prepare(\"SELECT status FROM client_config WHERE client='keep'\").get().status,'client');
+});
+''';f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+Add-Content AGENT_CHAT.md -Encoding UTF8 @'
+
+### [2026-09-20 06:53] CODEX
+PART E BATCH 3 LOCAL AUDIT PASS: #1/#2 previously shipped; #5 already coalesced; #6 humanized client names and live shell-title refresh; #10 clear native-view DOM. #7 production schema export attempted with installed Wrangler: no usable noninteractive Cloudflare auth in this session, so baseline explicitly blocked, no invented schema/migration. #4 already done, clients untouched. #8 standardized webhook_unknown_secret diagnostics; #11 added secret-safe internal failure reporting at silent-null sites in account, CRM, provisioning, payments, hooks and Worker jobs; distinguished a real provisioning insert failure from a duplicate claim. #3 /client and /client.html now redirect to /portal; optin remains a registered landing template and was not touched. #13 keep admin/dashboard.html: native-dashboard.js fetches and executes it for CRM, Instagram, YouTube, Content, Plan, Income, Payouts, Cash flow, Calendar and Health; deleting it breaks current views. #14 bare-domain purpose requires founder decision, left unchanged. #9 native Clients cards now expose archive confirmation, export download, Archived filter and Restore, with setup and preview retained. Local backend green before new audit regressions; final suite/browser follow. Deploy remains blocked.
+'@" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 538ms:
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "rg -n 'sendDiscordAlert|testDiscord|discord' tests -g '*.mjs' | Select-Object -First 40; Get-Content functions/_shared/integrations.js -Encoding UTF8 | Select-Object -Skip 319 -First 49; Get-Content functions/api/account.js -Encoding UTF8 | Select-Object -Skip 185 -First 22; Get-Content functions/api/login-lookup.js -Encoding UTF8" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 454ms:
+tests\client-integrations.test.mjs:323:  for (const provider of ["unknown-provider", "discord"]) {
+tests\i1-checks.mjs:833:        provider: "discord",
+tests\i1-checks.mjs:835:        secret_json: JSON.stringify({ webhook_url: "https://discord.test" }),
+tests\i1-checks.mjs:878:  assert.equal(data.integrations.some((row) => row.provider === "discord"), false);
+tests\notifications.test.mjs:22:globalThis.fetch=async(url,init)=>{fetches.push(String(url));if(String(url).includes('discord'))return new Response('',{status:204});return new Response('{}',{status:200});};
+tests\notifications.test.mjs:34:  assert.equal(reply.kind,'lead.replied');assert.equal(reply.discord,true);assert.equal(reply.title,'Joe, @joe replied');
+  const discord = await getIntegration(env, "operator", "", "discord");
+  const url = discord?.secrets?.webhook_url;
+  if (!url) return { ok: false, status: "not_configured" };
+
+  const content = formatDiscordMessage(alert);
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ content }),
+    });
+    if (!response.ok) {
+      const detail = `discord_${response.status}: ${await safeText(response)}`;
+      if (!options.skipFailureLog) {
+        await recordFailure(env, alert.client || "operator", "discord", detail, { skipDiscord: true });
+      }
+      return { ok: false, status: `http_${response.status}` };
+    }
+    return { ok: true, status: "sent" };
+  } catch (error) {
+    if (!options.skipFailureLog) {
+      await recordFailure(
+        env,
+        alert.client || "operator",
+        "discord",
+        `network_error: ${error?.message || error}`,
+        { skipDiscord: true },
+      );
+    }
+    return { ok: false, status: "network_error" };
+  }
+}
+
+export async function sendDiscordTest(env) {
+  return sendDiscordAlert(env, {
+    title: "Integrations test",
+    lines: ["Discord webhook received the Pulsify test ping."],
+  });
+}
+
+export async function sendKitTest(env, record) {
+  if (!record?.secrets?.api_key) {
+    return { ok: false, status: "not_configured", error: "Kit API key not configured" };
+  }
+
+  try {
+    const response = await fetch("https://api.kit.com/v4/tags?per_page=5", {
+      headers: { "X-Kit-Api-Key": record.secrets.api_key },
+    });
+    await setPref(env, client, "notification-settings", next);
+    return json({ ok: true, notifications: next });
+  }
+
+  if (action === "export") {
+    const [brain, records, proof, config] = await Promise.all([
+      env.DB.prepare("SELECT section, field, value_json, source, updated_at FROM client_brain WHERE client_id=? ORDER BY section, field").bind(client).all().catch(() => ({ results: [] })),
+      env.DB.prepare("SELECT id, kind, title, data, updated_at FROM workspace_records WHERE client_id=? ORDER BY updated_at DESC LIMIT 2000").bind(client).all().catch(() => ({ results: [] })),
+      env.DB.prepare("SELECT * FROM proof_items WHERE client_id=? ORDER BY created_at DESC LIMIT 500").bind(client).all().catch(() => ({ results: [] })),
+      env.DB.prepare("SELECT client, client_name, status FROM client_config WHERE client=?").bind(client).first(),
+    ]);
+    const bundle = { exported_at: nowIso(), workspace: config, brain: brain.results, records: records.results, proof: proof.results };
+    return new Response(JSON.stringify(bundle, null, 2), {
+      headers: { "content-type": "application/json", "content-disposition": `attachment; filename="pulsify-${client}-export.json"`, "cache-control": "no-store" },
+    });
+  }
+
+  if (action === "delete-request") {
+    const reason = str(body.reason).slice(0, 500);
+    await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => sideEffectFailure(env, "account_operation_3"));
+    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => sideEffectFailure(env, "account_operation_4"));
+// One login for everyone. The page asks for an email first and this endpoint
+// says what happens next.
+//   POST /api/login-lookup {email}                -> {kind:"operator"|"password", hint}
+//   POST /api/login-lookup {email, action:"link"} -> emails a one-time sign-in link when the
+//                                                    email belongs to a client; the response
+//                                                    is identical either way (no enumeration).
+// Operator emails come from OPERATOR_EMAILS (comma separated) or OPERATOR_EMAIL.
+import { json, normalizeEmail, str } from "../_shared/common.js";
+import { createSetupLink } from "../_shared/client-auth.js";
+
+const LINKS_PER_EMAIL_PER_HOUR = 3;
+
+export function operatorEmails(env) {
+  return String(env?.OPERATOR_EMAILS || env?.OPERATOR_EMAIL || "")
+    .split(",").map((e) => normalizeEmail(e)).filter(Boolean);
+}
+
+export async function onRequestPost({ request, env }) {
+  let body = {};
+  try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
+  const email = normalizeEmail(body.email);
+  if (!email) return json({ ok: false, error: "Enter a valid email address." }, 422);
+  const operators = operatorEmails(env);
+  const action = str(body.action);
+
+  if (action === "link") {
+    // Never say whether the email has a workspace. Do the work if it does.
+    const generic = { ok: true, sent: true, message: "If that email has a Pulsify workspace, a one-time sign-in link is on its way. It works once and expires in 48 hours." };
+    if (!env.DB || !env.RESEND_API_KEY || !env.EMAIL_FROM) return json(generic);
+    try {
+      if (!(await allowLink(env, email))) return json(generic);
+      const row = await env.DB.prepare("SELECT client_id FROM client_auth WHERE email=?").bind(email).first();
+      if (!row) return json(generic);
+      const link = await createSetupLink(env, new URL(request.url).origin, row.client_id, email);
+      if (!link.ok) return json(generic);
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+        body: JSON.stringify({
+          from: env.EMAIL_FROM,
+          to: [email],
+          subject: "Your Pulsify sign-in link",
+          text: [
+            "Here is your one-time link to set a password and open your workspace:",
+            link.link,
+            "",
+            "It works once and expires in 48 hours. If you did not ask for this, ignore it; nothing changes until the link is used.",
+            "",
+            "Abdul",
+            "Pulsify",
+          ].join("\n"),
+        }),
+      }).catch(() => null);
+    } catch { /* same answer regardless */ }
+    return json(generic);
+  }
+
+  if (operators.includes(email)) {
+    return json({ ok: true, kind: "operator", hint: email, next: "/admin" });
+  }
+  // Clients and unknown emails both get the password field. The failure
+  // message after a wrong password explains how workspaces are created.
+  return json({ ok: true, kind: "password" });
+}
+
+async function allowLink(env, email) {
+  const bucket = new Date().toISOString().slice(0, 13);
+  const key = `login-link:${email}`;
+  try {
+    await env.DB.prepare(
+      "INSERT INTO api_key_usage (key_id, bucket, count) VALUES (?,?,1) ON CONFLICT(key_id, bucket) DO UPDATE SET count=count+1",
+    ).bind(key, bucket).run();
+    const row = await env.DB.prepare("SELECT count FROM api_key_usage WHERE key_id=? AND bucket=?").bind(key, bucket).first();
+    return (row?.count || 0) <= LINKS_PER_EMAIL_PER_HOUR;
+  } catch {
+    return true;
+  }
+}
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+for rel in ['functions/_shared/notify-operator.js','functions/api/notify.js']:
+ (p/rel).unlink()
+f=p/'functions/_shared/integrations.js';s=f.read_text().replace('export async function sendDiscordAlert(env, alert, options = {}) {','export async function sendDiscordAlert(env, alert, options = {}) {\\n  if (alert.kind "'!== "lead.replied") return { ok: false, status: "disabled_by_policy" };'"');f.write_text(s)
+f=p/'functions/_shared/notifications.js';s=f.read_text().replace('if (discord && scope === \"operator\")','if (discord && kind === \"lead.replied\" && scope === \"operator\")').replace('{ title, lines: [body].filter(Boolean) }','{ kind: \"lead.replied\", title, lines: [body].filter(Boolean) }');f.write_text(s)
+f=p/'tests/notifications.test.mjs';s=f.read_text()+'''
+
+import {sendDiscordAlert} from '../functions/_shared/integrations.js';
+test('Discord refuses every event except a lead reply before reading any connector',async()=>{
+  let reads=0;const e={DB:{prepare(){reads++;throw Error('must not read');}}};
+  for(const kind of [undefined,'payment','booking','system'])assert.equal((await sendDiscordAlert(e,{kind,title:'Notice'})).status,'disabled_by_policy');
+  assert.equal(reads,0);
+});
+''';f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+Add-Content AGENT_CHAT.md -Encoding UTF8 @'
+
+### [2026-09-20 06:55] CODEX
+PART E BATCH 4 LOCAL COMPLETE: deleted functions/_shared/notify-operator.js and functions/api/notify.js; no INTERNAL_NOTIFY_SECRET reads remain in source. Central Discord delivery now refuses all events except lead.replied, preventing old payment/booking/activity call sites from sending outside alerts; notify also requires that kind, and still needs the saved Integrations webhook. Bell remains the notification channel. Transactional client sign-in/setup/onboarding emails are not operator notifications and remain functional. No Discord webhook/account or secret created. Regression checks follow in final suite. Deployment still blocked.
+'@
+rg -n 'INTERNAL_NOTIFY_SECRET|notify-operator|/api/notify' output/standard-preview/functions output/standard-preview/workers --glob '"'!**/.wrangler/**'"'" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ exited 1 in 502ms:

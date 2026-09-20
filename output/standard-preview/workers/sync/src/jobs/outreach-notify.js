@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
 // Outreach notifications. Two triggers the founder asked for:
 //   1. A prospect replies -> "[Name, @handle] replied: ..."
 //   2. A prospect saw the message and did not reply within 5 minutes -> "[Name, @handle] seen, no reply"
@@ -45,11 +46,11 @@ export async function ingestSeen(env, payload) {
   for (const s of signals) {
     let conversationId = null;
     if (s.mid) {
-      const m = await env.DB.prepare("SELECT conversation_id FROM ig_messages WHERE id=?").bind(s.mid).first().catch(() => null);
+      const m = await env.DB.prepare("SELECT conversation_id FROM ig_messages WHERE id=?").bind(s.mid).first().catch(() => sideEffectFailure(env, "outreach_notify_operation_1"));
       conversationId = m?.conversation_id || null;
     }
     if (!conversationId && s.senderId) {
-      const c = await env.DB.prepare("SELECT id FROM ig_conversations WHERE participant_id=? ORDER BY last_message_at DESC LIMIT 1").bind(s.senderId).first().catch(() => null);
+      const c = await env.DB.prepare("SELECT id FROM ig_conversations WHERE participant_id=? ORDER BY last_message_at DESC LIMIT 1").bind(s.senderId).first().catch(() => sideEffectFailure(env, "outreach_notify_operation_2"));
       conversationId = c?.id || null;
     }
     if (!conversationId) continue;

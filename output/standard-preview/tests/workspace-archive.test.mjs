@@ -69,3 +69,17 @@ test('archive fails closed without storage and restores unpublished client statu
   const row=sql.prepare("SELECT status,page_active FROM client_config WHERE client='keep'").get();
   assert.equal(row.status,'client');assert.equal(row.page_active,0);
 });
+
+
+import {resolveTokenAccess} from '../functions/_shared/client-auth.js';
+import {sha256Hex} from '../functions/_shared/common.js';
+test('archived status rejects a private link even if a stale hash survived',async()=>{
+  sql.prepare("UPDATE client_config SET status='archived',portal_token_hash=? WHERE client='keep'").run(await sha256Hex('stale-private-link'));
+  assert.equal(await resolveTokenAccess(new Request('https://test/api/account',{headers:{'x-portal-token':'stale-private-link'}}),env),null);
+});
+test('failed archive export leaves state and access untouched',async()=>{
+  sql.prepare("UPDATE client_config SET status='client',portal_token_hash='still-valid' WHERE client='keep'").run();
+  await assert.rejects(archiveWorkspace({...env,MEDIA:{async put(){throw Error('unavailable')}}},'keep'),/unavailable/);
+  assert.equal(sql.prepare("SELECT portal_token_hash FROM client_config WHERE client='keep'").get().portal_token_hash,'still-valid');
+  assert.equal(sql.prepare("SELECT status FROM client_config WHERE client='keep'").get().status,'client');
+});

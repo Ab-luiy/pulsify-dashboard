@@ -24,6 +24,7 @@ export async function onRequest(context) {
     });
   }
   const url = new URL(request.url), api = path.startsWith('/api/');
+  if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin?view='+legacyView[1],302);
   const consolePage = ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));

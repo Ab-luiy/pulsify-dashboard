@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "./side-effect-failure.js";
 // One provisioning function, three triggers: a completed DocuSign envelope,
 // a confirmed payment for a prospect, or the operator's "Provision now".
 // Idempotent on client id. Creates the workspace and login shell if missing,
@@ -46,7 +47,9 @@ export async function provisionClient(env, { source, client, email, name, contra
     await env.DB.prepare(
       "INSERT INTO client_provisioning (client_id, email, source, contract_ref, provisioned_at, provisioned_by) VALUES (?,?,?,?,?,?)",
     ).bind(clientId, normalizedEmail, source, str(contractRef) || null, now, str(actor) || source).run();
-  } catch {
+  } catch (error) {
+    const existing = await env.DB.prepare("SELECT client_id FROM client_provisioning WHERE client_id=?").bind(clientId).first();
+    if (!existing) throw error;
     return { ok: true, client: clientId, duplicate: true };
   }
 
@@ -55,19 +58,19 @@ export async function provisionClient(env, { source, client, email, name, contra
   let setup = setupLink ? { ok: true, link: str(setupLink) } : null;
   if (!setup) setup = await createSetupLink(env, origin || "https://pulsify-ai.com", clientId, normalizedEmail);
   if (!setup.ok || !setup.link) {
-    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_1"));
     return { ok: false, error: setup.error || "could not create setup link" };
   }
 
   try {
     await seedChecklist(env, clientId);
   } catch (error) {
-    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
+    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_2"));
     return { ok: false, error: String(error?.message || error) };
   }
   await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
-    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => null);
-  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => null);
+    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => sideEffectFailure(env, "provisioning_operation_3"));
+  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => sideEffectFailure(env, "provisioning_operation_4"));
 
   const welcome = await sendWelcome(env, { clientId, email: normalizedEmail, name: clientName, setupLink: setup.link, sleep, fetcher });
   return { ok: true, client: clientId, duplicate: false, setup_link: setup.link, welcome_state: welcome.state };

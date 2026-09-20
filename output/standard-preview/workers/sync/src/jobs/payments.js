@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
 // Every 30 minutes: import provider payments/refunds, then rematch anything
 // that arrived before its lead. Provider pulls overlap the prior successful
 // window; payment references and refund event ids make the overlap safe.
@@ -47,7 +48,7 @@ export async function rematchPayments(env) {
   ).all();
   let touched = 0;
   for (const payment of rows.results || []) {
-    const result = await matchPayment(env, payment).catch(() => null);
+    const result = await matchPayment(env, payment).catch(() => sideEffectFailure(env, "payments_operation_1"));
     if (result && (result.confirmed || result.suggested)) touched += 1;
   }
   return touched;
@@ -90,7 +91,7 @@ async function importStripe(env, connection, fetcher) {
     );
     if (!applied.ok) {
       await env.DB.prepare("DELETE FROM integration_events WHERE provider='stripe' AND kind='refund' AND external_id=?")
-        .bind(item.id).run().catch(() => null);
+        .bind(item.id).run().catch(() => sideEffectFailure(env, "payments_operation_2"));
     }
     if (applied.ok && !applied.duplicate) touched += 1;
   }
@@ -131,7 +132,7 @@ async function importWhop(env, connection, fetcher) {
     const applied = await applyRefund(env, connection.client, `whop:${item.payment?.id || ""}`, majorToCents(item.amount), { mode: "increment" });
     if (!applied.ok) {
       await env.DB.prepare("DELETE FROM integration_events WHERE provider='whop' AND kind='refund' AND external_id=?")
-        .bind(item.id).run().catch(() => null);
+        .bind(item.id).run().catch(() => sideEffectFailure(env, "payments_operation_3"));
     }
     if (applied.ok && !applied.duplicate) touched += 1;
   }
@@ -170,7 +171,7 @@ async function insertPayment(env, client, provider, input) {
 async function importSince(env, client, provider) {
   const row = await env.DB.prepare(
     "SELECT MAX(occurred_at) AS latest FROM payments WHERE client=? AND rail=?",
-  ).bind(client, provider).first().catch(() => null);
+  ).bind(client, provider).first().catch(() => sideEffectFailure(env, "payments_operation_4"));
   const latest = Date.parse(row?.latest || "");
   return new Date(Number.isFinite(latest) ? latest - 86400000 : Date.now() - 90 * 86400000).toISOString();
 }

@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
 import { composioExecute, findRows } from "../composio.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 import { notifyReply } from "./outreach-notify.js";
@@ -137,9 +138,9 @@ export async function syncInstagramInbox(env, options = {}) {
       const inserted = Number(result.meta?.changes || 0) && !knownMessages.has(message.id) ? 1 : 0;
       written += inserted;
       if (inserted && !historicalBootstrap && !resync && message.direction === "inbound" && message === normalized.at(-1)) {
-        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text, messageId: message.id }).catch(() => null);
+        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text, messageId: message.id }).catch(() => sideEffectFailure(env, "instagram_inbox_operation_1"));
       }
-      if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
+      if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => sideEffectFailure(env, "instagram_inbox_operation_2"));
     }
     await projectConversationToCrm(env, participant, conversationId, normalized, !historicalBootstrap);
   }
@@ -193,7 +194,7 @@ function comparableTime(value) {
 async function loadSyncState(env) {
   const row = await env.DB.prepare(
     "SELECT payload_json FROM snapshots WHERE scope='operator' AND client_id='' AND source='instagram' AND kind='inbox-sync-state'",
-  ).first().catch(() => null);
+  ).first().catch(() => sideEffectFailure(env, "instagram_inbox_operation_3"));
   try { return JSON.parse(row?.payload_json || "{}"); } catch { return {}; }
 }
 
@@ -263,7 +264,7 @@ async function projectConversationToCrm(env, participant, conversationId, messag
   if (!name) return;
   const existing = await env.DB.prepare(
     "SELECT data FROM crm_overrides WHERE name=?",
-  ).bind(name).first().catch(() => null);
+  ).bind(name).first().catch(() => sideEffectFailure(env, "instagram_inbox_operation_4"));
   let current = {};
   try { current = JSON.parse(existing?.data || "{}"); } catch { current = {}; }
   if (TERMINAL.has(current.status)) return;
@@ -298,6 +299,6 @@ async function projectConversationToCrm(env, participant, conversationId, messag
   }
   const results = await env.DB.batch(statements);
   if (shouldEmit && Number(results?.[0]?.meta?.changes || 0)) {
-    await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => null);
+    await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => sideEffectFailure(env, "instagram_inbox_operation_5"));
   }
 }

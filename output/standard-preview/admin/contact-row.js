@@ -35,7 +35,7 @@
       <span class="contact-person"><strong>${esc(n)}</strong><small>${esc(handle && !handle.includes('@')?'@'+handle:handle || source)}</small></span>
       <span class="contact-preview"><span>${esc(r.last_text || r.snippet || '(attachment)')}</span><small>${esc(detail || (r.last_direction==='outbound' || r.direction==='outbound'?'You spoke last':'They spoke last'))}</small></span>
       <span class="contact-meta"><time datetime="${esc(last(r) || '')}">${esc(ago(last(r)))}</time><span class="contact-stage">${esc(stage || r.stage_label || r.stage || source)}</span></span>
-      <span class="contact-chevron ot-chevron" aria-hidden="true">${expanded===undefined?'?':expanded?'?':'+'}</span>
+      <span class="contact-chevron ot-chevron" aria-hidden="true">${expanded===undefined?'Open':expanded?'-':'+'}</span>
     </button>`;
   }
   function skeleton(count=6) {

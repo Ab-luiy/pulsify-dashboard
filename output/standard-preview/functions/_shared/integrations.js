@@ -317,6 +317,7 @@ export async function recordFailure(env, client, kind, detail, options = {}) {
 }
 
 export async function sendDiscordAlert(env, alert, options = {}) {
+  if (alert.kind !== "lead.replied") return { ok: false, status: "disabled_by_policy" };
   const discord = await getIntegration(env, "operator", "", "discord");
   const url = discord?.secrets?.webhook_url;
   if (!url) return { ok: false, status: "not_configured" };

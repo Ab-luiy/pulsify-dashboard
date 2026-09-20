@@ -22,3 +22,12 @@ test('database failure is not disguised as a successful gateway response', async
   const c=context('missing-client');c.env.DB=null;
   assert.equal((await onRequestGet(c)).status,503);
 });
+
+
+import {onRequest as middleware} from '../functions/_middleware.js';
+test('retired client surface redirects to authenticated portal',async()=>{
+  for(const path of ['/client','/client.html']){
+    const r=await middleware({request:new Request('https://pulsify-ai.com'+path),env:{},data:{},next:()=>new Response('old')});
+    assert.equal(r.status,302);assert.equal(r.headers.get('location'),'https://pulsify-ai.com/portal');
+  }
+});

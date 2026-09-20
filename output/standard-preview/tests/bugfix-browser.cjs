@@ -59,7 +59,8 @@ const server=http.createServer((req,res)=>{
  failIntegrations=false;await page.locator('[data-retry]').click();await page.locator('.int-hero-actions').waitFor();
  for(const view of ['overview','leads','search','outreach','crm','instagram','youtube','content','integrations','payments','health','settings','home','brain','delivery','campaigns','email']){
   await page.evaluate(v=>PulsifyOperatorShell.go(v),view);
-  if(['home','brain','delivery','campaigns','email'].includes(view))await page.locator('iframe:not([hidden])').contentFrame().locator('#shell').waitFor();
+  if(['brain','delivery','campaigns','email'].includes(view))await page.locator('iframe:not([hidden])').contentFrame().locator('#shell').waitFor();
+  else if(view==='home')await page.locator('[data-archive="qa"]').waitFor();
   else await page.waitForTimeout(150);
   await page.locator('.ps-notifications').click();await page.locator('.ps-bell.show').waitFor();await page.keyboard.press('Escape');
  }

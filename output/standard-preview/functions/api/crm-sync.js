@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "../_shared/side-effect-failure.js";
 import { withOperator } from '../_shared/access.js';
 import {checkAdmin,json} from '../_shared/common.js';
 import {emitEvent} from '../_shared/outbound-webhooks.js';
@@ -18,13 +19,13 @@ async function handle_onRequestPost({request,env}){
    if(!name||name.length>300||!value||typeof value!=='object'||Array.isArray(value))return json({ok:false,error:'Invalid record'},422);
    const ts=Number(value._ts)||1;if(!Number.isFinite(ts)||ts<0||ts>serverTs+300000)return json({ok:false,error:'Invalid record timestamp'},422);
    if(kind==='overrides'){
-    const prior=await env.DB.prepare('SELECT data,ts FROM crm_overrides WHERE name=?').bind(name).first().catch(()=>null);
+    const prior=await env.DB.prepare('SELECT data,ts FROM crm_overrides WHERE name=?').bind(name).first().catch(() => sideEffectFailure(env, "crm_sync_operation_1"));
     let priorData={};try{priorData=JSON.parse(prior?.data||'{}');}catch{}
     const from=priorData.status||priorData.stage||null,to=value.status||value.stage||null;
     if(ts>Number(prior?.ts||0)&&to&&to!==from)stageEvents.push({name,from,to});
    }
    if(kind==='added'){
-    const prior=await env.DB.prepare('SELECT ts FROM crm_added WHERE name=?').bind(name).first().catch(()=>null);
+    const prior=await env.DB.prepare('SELECT ts FROM crm_added WHERE name=?').bind(name).first().catch(() => sideEffectFailure(env, "crm_sync_operation_2"));
     if(!prior&&ts>0)leadEvents.push({name,source:value.source||value.src||'crm-sync'});
    }
    statements.push(env.DB.prepare(`INSERT INTO ${table}(name,data,ts,sts,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET data=excluded.data,ts=excluded.ts,sts=excluded.sts,updated_at=excluded.updated_at WHERE excluded.ts > ${table}.ts`).bind(name,JSON.stringify(value),ts,serverTs,new Date(serverTs).toISOString()));
@@ -32,8 +33,8 @@ async function handle_onRequestPost({request,env}){
  }
  if(statements.length>3000)return json({ok:false,error:'Too many records'},422);
  for(let start=0;start<statements.length;start+=100)await env.DB.batch(statements.slice(start,start+100));
- for(const event of stageEvents)await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:event}).catch(()=>null);
- for(const event of leadEvents)await emitEvent(env,{scope:'operator',event:'lead.created',data:event}).catch(()=>null);
+ for(const event of stageEvents)await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:event}).catch(() => sideEffectFailure(env, "crm_sync_operation_3"));
+ for(const event of leadEvents)await emitEvent(env,{scope:'operator',event:'lead.created',data:event}).catch(() => sideEffectFailure(env, "crm_sync_operation_4"));
  return snapshot(env,Math.max(0,Number(body.since)||0));
 }
 async function snapshot(env,since){

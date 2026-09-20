@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "../_shared/side-effect-failure.js";
 // Settings backend for both shells.
 //   GET  /api/account                    everything the Settings page shows, for the caller's role
 //   POST /api/account {action, ...}      client:   password | signout-others | workspace | notifications | export | delete-request
@@ -17,7 +18,7 @@ const NOTIFICATION_KEYS = ["weekly_report", "payment_alerts", "sequence_reviews"
 const DEFAULT_NOTIFICATIONS = { weekly_report: true, payment_alerts: true, sequence_reviews: true, product_updates: false };
 
 async function pref(env, client, key, fallback) {
-  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => null);
+  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => sideEffectFailure(env, "account_operation_1"));
   if (!row) return fallback;
   try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
 }
@@ -27,7 +28,7 @@ async function setPref(env, client, key, value) {
   ).bind(client, key, JSON.stringify(value), nowIso()).run();
 }
 async function operatorPref(env, email, key, fallback) {
-  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => null);
+  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => sideEffectFailure(env, "account_operation_2"));
   if (!row) return fallback;
   try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
 }
@@ -202,9 +203,9 @@ async function handlePost({ request, env }) {
   if (action === "delete-request") {
     const reason = str(body.reason).slice(0, 500);
     await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
-      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => null);
-    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => null);
-    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => null);
+      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => sideEffectFailure(env, "account_operation_3"));
+    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => sideEffectFailure(env, "account_operation_4"));
+    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => sideEffectFailure(env, "account_operation_5"));
     return json({ ok: true, message: "Request sent. Nothing is deleted until Pulsify confirms with you by email." });
   }
 

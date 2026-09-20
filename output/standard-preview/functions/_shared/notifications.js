@@ -51,7 +51,7 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
      VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(id, scope === "client" ? "client" : "operator", str(clientId), str(kind || "system"), severity, str(title).slice(0, 200), str(body).slice(0, 1000) || null, str(link) || null, entity ? JSON.stringify(entity) : null, dedupeKey ? str(dedupeKey) : null, nowIso()).run();
   if (!Number(inserted.meta?.changes || 0)) return null;
-  if (discord && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
+  if (discord && kind === "lead.replied" && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
   try {
     const { pushOperator, pushClient } = await import("./realtime.js");
     if (scope === "operator" && typeof pushOperator === "function") await pushOperator(env, "notification", { id });
@@ -63,7 +63,7 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
 // The one outside channel: Discord, and only when a lead replied.
 async function discordLeadReply(env, { title, body }) {
   const { sendDiscordAlert } = await import("./integrations.js");
-  return sendDiscordAlert(env, { title, lines: [body].filter(Boolean) }, { skipFailureLog: true });
+  return sendDiscordAlert(env, { kind: "lead.replied", title, lines: [body].filter(Boolean) }, { skipFailureLog: true });
 }
 
 export async function notifyFromEvent(env, { scope, clientId, event, data }) {

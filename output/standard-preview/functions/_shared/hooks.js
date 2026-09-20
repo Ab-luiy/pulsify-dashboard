@@ -1,3 +1,4 @@
+import { sideEffectFailure } from "./side-effect-failure.js";
 import {
   cleanId,
   constantTimeEqual,
@@ -37,7 +38,7 @@ export async function handleHookRequest({ request, env, params }) {
     }
 
     if (!integration) {
-      await recordFailure(env, "unknown", `hook_${provider}`, "unknown client or invalid webhook path");
+      await recordFailure(env, "unknown", "webhook_unknown_secret", `Unmatched ${provider} webhook configuration`);
       return json({ ok: true, recorded: false, reason: "unknown client" });
     }
 
@@ -118,7 +119,7 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
     );
     if (!applied.ok) {
       await env.DB.prepare("DELETE FROM integration_events WHERE provider=? AND kind='refund' AND external_id=?")
-        .bind(provider, refund.event_id).run().catch(() => null);
+        .bind(provider, refund.event_id).run().catch(() => sideEffectFailure(env, "hooks_operation_1"));
     }
     return json({ ok: true, refund: applied });
   }
@@ -149,10 +150,10 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
   if (result.ok && !result.duplicate && result.payment?.id) {
     if (customer.email || customer.name) {
       await env.DB.prepare("UPDATE payments SET customer_email=?, customer_name=? WHERE id=?")
-        .bind(customer.email, customer.name, result.payment.id).run().catch(() => null);
+        .bind(customer.email, customer.name, result.payment.id).run().catch(() => sideEffectFailure(env, "hooks_operation_2"));
     }
     await emitEvent(env, { scope: "client", clientId: integration.client, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: payment.amount_cents, currency: payment.currency, reference: payment.reference, source: provider } });
-    await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => null);
+    await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => sideEffectFailure(env, "hooks_operation_3"));
   }
   return json({
     ok: true,
@@ -178,7 +179,7 @@ async function recordBooking(env, integration, provider, booking) {
   });
 
   if (!event.duplicate) {
-    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => null);
+    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => sideEffectFailure(env, "hooks_operation_4"));
     await sendDiscordAlert(env, {
       client: integration.client,
       title: "Booking received",
