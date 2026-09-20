@@ -21,10 +21,9 @@ export async function zernioActive(env) {
 
 // ---- webhook ----
 export async function handleZernioEvent(env, payload, eventId) {
-  const operatorEmail = env.OPERATOR_EMAIL || "operator";
   const id = str(eventId || payload?.id);
   if (id) {
-    const seen = await env.DB.prepare("SELECT id FROM zernio_events WHERE id=?").bind(id).first().catch(() => sideEffectFailure(env, "zernio_inbox_operation_1"));
+    const seen = await env.DB.prepare("SELECT id FROM zernio_events WHERE id=?").bind(id).first();
     if (seen) return { ok: true, duplicate: true };
 
   }
@@ -60,7 +59,7 @@ async function processZernioEvent(env, payload) {
   }
   if (event === "message.deleted") {
     const mid = str(zm.platformMessageId) || str(zm.id);
-    await env.DB.prepare("UPDATE ig_messages SET text=COALESCE(text,'') || ' (unsent)' WHERE id=? AND text NOT LIKE '%(unsent)'").bind(mid).run().catch(() => sideEffectFailure(env, "zernio_inbox_operation_4"));
+    await env.DB.prepare("UPDATE ig_messages SET text=COALESCE(text,'') || ' (unsent)' WHERE id=? AND text NOT LIKE '%(unsent)'").bind(mid).run();
     return { ok: true, conversationId, deleted: mid };
   }
   return { ok: true, conversationId, ignored: event };

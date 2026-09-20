@@ -70,3 +70,12 @@ test('a missing embedding remains pending for retry', async()=>{
   assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM search_index_state WHERE source_id='retry'").get().n,0);
   assert.equal((await indexPending(env)).indexed,1);
 });
+
+
+test('archived workspace brain is hidden even while its vector remains preserved',async()=>{
+  sql.prepare("UPDATE client_config SET status='archived' WHERE client='acme'").run();
+  assert.equal((await search(env,{q:'prop firm',scope:'operator'})).some(h=>h.client_id==='acme'),false);
+  assert.equal((await search(env,{q:'prop firm',scope:'acme'})).length,0);
+  sql.prepare("UPDATE client_brain SET value_json='\"new archived private field\"' WHERE client_id='acme'").run();
+  assert.equal((await pendingBrainDocs(env)).length,0);
+});

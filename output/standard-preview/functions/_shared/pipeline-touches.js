@@ -55,7 +55,8 @@ export async function listContactsAll(env, { q = "", limit = 300 } = {}) {
             COALESCE(SUM(CASE WHEN t.kind='payment' THEN t.amount_cents END),0) AS paid_cents,
             (SELECT client_name FROM client_config c WHERE c.client=t.client_id) AS client_name
        FROM pipeline_touches t
-      WHERE (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
+      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=t.client_id AND c.status='archived')
+        AND (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
       GROUP BY t.client_id, t.contact_email
       ORDER BY last_seen DESC LIMIT ?`,
   ).bind(like, like, like, Math.min(1000, limit)).all();

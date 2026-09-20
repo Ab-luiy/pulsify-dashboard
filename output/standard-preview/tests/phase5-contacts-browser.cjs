@@ -7,6 +7,7 @@ try{
 const now=Date.now(),iso=h=>new Date(now-h*3600000).toISOString();
 const threads=[['t1','Alex Morgan','alex.trades',2,'outbound','That makes sense. Can you send the breakdown?',false],['t2','Jordan Lee','jordan.ecom',38,'outbound','I put together the example we spoke about.',true],['t3','Sam Rivera','sam.rivera',6,'outbound','Thanks for sharing that video.',false],['t4','Taylor Brooks','taylor.fx',1,'inbound','How does the mentorship work?',false],['t5','Casey Williams','casey.shop',8,'inbound','Could we look at the numbers together?',false]].map(([id,name,handle,h,origin,last_text,due])=>({id,name,handle,last_text,origin,last_message_at:iso(h),first_message_at:iso(100),last_our_message_at:iso(h),last_their_message_at:iso(h+1),last_direction:due?'outbound':'inbound',follow_up_due:due,hours_since_our_message:h,awaiting_us:!due,stage:due?'opener':'replied',stage_label:due?'Follow-up due':'Replied',our_messages:3,their_messages:2,notes:''}));
 const stats={outbound:{dms_sent:3,messages_sent:9,follow_ups_due:1,replies:2,reply_rate:66.7,positive:1,negative:0,ghosted:0,ghost_rate:0},inbound:{conversations:2,awaiting_us:2,answered:0,positive:1,negative:0},pipeline:{appointments_booked:1,closed:0,close_rate:0}};
+let isArchived=false;const client={client:'sample',client_name:'Sample coaching',status:'client'};
 const page=await browser.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
 await page.route('**/api/**',async route=>{const u=new URL(route.request().url());let d={ok:true,rows:[]};
 if(u.pathname==='/api/operator-bootstrap')d={ok:true,clients:[],overview:{summary:{}},operator:{email:'qa@example.test'}};
@@ -14,6 +15,8 @@ else if(u.pathname==='/api/outreach')d=u.searchParams.has('id')?{messages:[{dire
 else if(u.pathname==='/api/spine/conversations')d={conversations:threads.map(t=>({...t,participant_username:t.handle,participant_name:t.name,message_count:5,in_crm:t.id==='t1'}))};
 else if(u.pathname==='/api/pipeline')d={contacts:[{client_id:'sample',client_name:'Sample coaching',contact_name:'Avery Scott',contact_email:'avery@example.test',stage:'Booked',last_seen:iso(3),bookings:1,paid_cents:0}]};
 else if(u.pathname==='/api/search')d=u.searchParams.has('status')?{ready:true,indexed:{dm:{count:50}},totals:{dms:50}}:{hits:[...threads.slice(0,3).map(t=>({kind:'dm',conversation_id:t.id,name:t.name,handle:t.handle,snippet:t.last_text,sent_at:t.last_message_at,score:.87,direction:'inbound'})),{kind:'dm',conversation_id:'t1',name:'Alex Morgan',handle:'alex.trades',snippet:'I want a clearer plan for my next month.',sent_at:iso(5),score:.76}],took_ms:42};
+else if(u.pathname==='/api/clients')d={clients:isArchived?[]:[client]};
+else if(u.pathname==='/api/workspace-archive'){if(route.request().method()==='POST'){isArchived=route.request().postDataJSON().action==='archive';d={ok:true};}else d={archived:isArchived?[client]:[]};}
 else if(u.pathname==='/api/notifications')d={items:[],unread:0};
 await route.fulfill({json:d});});
 for(const theme of ['dark','light'])for(const width of [1536,390]){
@@ -26,5 +29,14 @@ await page.evaluate(()=>PulsifyOperatorShell.go('leads'));await page.locator('#l
 await page.evaluate(()=>PulsifyOperatorShell.go('search'));await page.locator('#sr-q').fill('mentorship');await page.locator('#sr-form').evaluate(f=>f.requestSubmit());await page.locator('#sr-results [data-thread="t1"]').waitFor();assert.equal(await page.locator('#sr-results [data-thread="t1"]').count(),1);await page.evaluate(()=>scrollTo(0,0));await page.waitForTimeout(200);await page.screenshot({path:path.join(qa,`search-${theme}-${width}.png`),fullPage:true});
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'no viewport overflow');
 }
-assert.deepEqual(errors,[]);console.log('PASS shared contacts: 16 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.');
+await page.evaluate(()=>PulsifyOperatorShell.go('home'));await page.locator('[data-archive="sample"]').waitFor();
+await page.locator('[data-archive="sample"]').click();await page.locator('dialog [data-cancel]').click();assert.equal(isArchived,false);
+await page.locator('[data-archive="sample"]').click();await page.locator('dialog [data-confirm]').click();await page.getByText('No active workspaces.').waitFor();assert.equal(isArchived,true);
+await page.locator('[data-filter="archived"]').click();await page.locator('[data-restore="sample"]').waitFor();
+assert.match(await page.locator('a:has-text("Download export")').getAttribute('href'),/workspace-archive\?client=sample&export=1/);
+await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(qa,'clients-archived-mobile.png'),fullPage:true});
+await page.locator('[data-restore="sample"]').click();await page.getByText('No archived workspaces.').waitFor();assert.equal(isArchived,false);
+await page.locator('[data-filter="active"]').click();await page.locator('[data-setup="sample"]').waitFor();
+await page.locator('[data-setup="sample"]').click();assert.match(await page.locator('iframe[title="Client setup"]').getAttribute('src'),/view=clients&client=sample/);
+assert.deepEqual(errors,[]);console.log('PASS shared contacts and archive/restore controls: 17 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.');
 }finally{await browser.close();server.close();}})().catch(e=>{console.error(e);process.exitCode=1;server.close();});

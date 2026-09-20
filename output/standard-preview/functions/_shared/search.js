@@ -48,7 +48,8 @@ export async function pendingBrainDocs(env, limit = BATCH) {
     `SELECT b.id, b.client_id, b.section, b.field, b.value_json, b.updated_at,
             (SELECT client_name FROM client_config c WHERE c.client=b.client_id) AS client_name
        FROM client_brain b
-      WHERE length(b.value_json)>4 ORDER BY b.updated_at DESC LIMIT 500`,
+      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=b.client_id AND c.status='archived')
+        AND length(b.value_json)>4 ORDER BY b.updated_at DESC LIMIT 500`,
   ).all()).results || [];
   const out = [];
   for (const r of rows) {
@@ -111,5 +112,15 @@ export async function search(env, { q, scope = "operator", kinds = ["dm", "brain
     ? { kind: kinds.length === 1 ? kinds[0] : { $in: kinds } }
     : { kind: "brain", scope };
   const res = await env.VECTORIZE.query(vector, { topK: Math.min(50, topK), filter, returnMetadata: "all" });
-  return (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));
+  const hits = (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));
+  const visible = [];
+  const states = new Map();
+  for (const hit of hits) {
+    if (hit.kind === "brain") {
+      if (!states.has(hit.client_id)) states.set(hit.client_id, await env.DB.prepare("SELECT status FROM client_config WHERE client=?").bind(hit.client_id).first());
+      if (!states.get(hit.client_id) || states.get(hit.client_id).status === "archived") continue;
+    }
+    visible.push(hit);
+  }
+  return visible;
 }

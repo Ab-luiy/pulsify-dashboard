@@ -20,7 +20,7 @@ async function handleGet({ request, env }) {
   return json({ ok: true, archived: await listArchives(env) });
 }
 
-async function handlePost({ request, env }) {
+async function performPost({ request, env }) {
   const denied = resolveOperator(request, env);
   if (denied.error) return denied.error;
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -43,4 +43,7 @@ async function handlePost({ request, env }) {
 }
 
 export const onRequestGet = withOperator(handleGet);
-export const onRequestPost = withOperator(handlePost);
+export const onRequestPost = withOperator(async context => {
+  try { return await performPost(context); }
+  catch { return json({ok:false,error:"Workspace change could not be completed. Check archive storage and retry."},503); }
+});

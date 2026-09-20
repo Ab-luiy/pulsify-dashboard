@@ -8165,3 +8165,1663 @@ rg -n 'INTERNAL_NOTIFY_SECRET|notify-operator|/api/notify' output/standard-previ
  exited 1 in 502ms:
 codex
 The notification relay and its secret reads are removed. Discord delivery now rejects every event except a lead reply, including older payment and booking alert calls. Client sign-in and onboarding emails remain functional. I’m running the final checks and attempting the authorized API probes; production verification will remain clearly separate from the local results.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('node:fs'),path=require('node:path');
+(async()=>{const root=path.resolve(__dirname,'../../..'),env=fs.readFileSync(path.join(root,'.env'),'utf8');const match=env.match(/"'^FUNNELS_ADMIN_KEY'"\\s*=\\s*(.+)"'$/m);if(!match)throw Error('"'Admin key unavailable');const key=match[1].trim().replace(/"'^['"'\"]|['\"]"'$/g,'"'');const rows=[];for(const endpoint of ['/api/clients','/api/outreach','/api/notifications','/api/search?status=1','/api/workspace-archive']){try{const r=await fetch('https://pulsify-ai.com'+endpoint,{headers:{'x-admin-key':key,'x-pulsify-operator':'1'},signal:AbortSignal.timeout(12000)});const body=await r.json().catch(()=>({}));rows.push({path:endpoint,status:r.status,ok:body.ok===true,rows:body.clients?.length??body.threads?.length??body.items?.length??body.archived?.length??null});}catch(e){rows.push({path:endpoint,status:'blocked',code:e.cause?.code||e.code||e.name});}}fs.writeFileSync(path.join(root,'output/qa/2026-09-phase5/overnight-live.json'),JSON.stringify(rows,null,2));console.log(JSON.stringify(rows));})().catch(()=>{console.error('Live probes blocked: required local credential file could not be read. No credential output.');process.exitCode=1;});
+'@ | Set-Content tests/phase5-live-probes.cjs -Encoding UTF8
+node tests/phase5-live-probes.cjs
+node --test tests/*.test.mjs > ../qa/2026-09-phase5/final-tests.txt 2>&1; Get-Content ../qa/2026-09-phase5/final-tests.txt -Tail 10
+node tests/bugfix-browser.cjs" in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 15405ms:
+[{"path":"/api/clients","status":"blocked","code":"EACCES"},{"path":"/api/outreach","status":"blocked","code":"EACCES"},{"path":"/api/notifications","status":"blocked","code":"EACCES"},{"path":"/api/search?status=1","status":"blocked","code":"EACCES"},{"path":"/api/workspace-archive","status":"blocked","code":"EACCES"}]
+✔ failed webhook processing leaves event retryable (0.9916ms)
+✔ failed sweep fetch does not advance even a newly mapped conversation watermark (2.1404ms)
+ℹ tests 94
+ℹ suites 0
+ℹ pass 94
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2520.1998
+PASS: all 17 operator sections, bell races/coalescing/failed writes/paged counts, cold Integrations, retry, client credentials, read-only controls, mobile. APIs mocked.
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git log -6 --oneline; git status --short; Get-Content output/standard-preview/tests/notifications.test.mjs -TotalCount 30; Get-Content output/standard-preview/functions/_shared/archive.js -Encoding UTF8; Get-Content output/standard-preview/admin/search-view.js -Encoding UTF8' in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 421ms:
+f897a5e auto: checkpoint 2026-09-20 06:52:56
+035a61e auto: checkpoint 2026-09-20 06:52:40
+cb920e9 auto: checkpoint 2026-09-20 06:44:08
+85f0b2a auto: checkpoint 2026-09-20 06:42:32
+08fb9de auto: checkpoint 2026-09-20 06:35:37
+9e19bd9 auto: checkpoint 2026-09-20 00:52:05
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+ M output/qa/2026-09-phase5/bugfix-integrations-desktop.png
+ M output/qa/2026-09-phase5/codex-run/run.log
+// In-house notifications: events become bell rows, dedupe on message id,
+// client events copy to the operator, API scopes, mark-read, and the only
+// outside channel being Discord for a lead reply. No email anywhere.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {DatabaseSync} from 'node:sqlite';
+import {readFileSync} from 'node:fs';
+import {describeEvent, notify, listNotifications, markRead} from '../functions/_shared/notifications.js';
+import {emitEvent} from '../functions/_shared/outbound-webhooks.js';
+import {onRequestGet as notifGet, onRequestPost as notifPost} from '../functions/api/notifications.js';
+import {notifyReply, sweepSeen} from '../workers/sync/src/jobs/outreach-notify.js';
+import {rememberOperator} from '../functions/_shared/access.js';
+import {sha256Hex} from '../functions/_shared/common.js';
+
+const sql=new DatabaseSync(':memory:');
+const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
+sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
+sql.prepare("INSERT INTO client_config VALUES('acme','Acme','client','x',?)").run(await sha256Hex('tok-acme'));
+const fetches=[];
+const realFetch=globalThis.fetch;
+globalThis.fetch=async(url,init)=>{fetches.push(String(url));if(String(url).includes('discord'))return new Response('',{status:204});return new Response('{}',{status:200});};
+const env={OPERATOR_EMAIL:'abod.louai@gmail.com',RESEND_API_KEY:'re',EMAIL_FROM:'x',ADMIN_KEY:'k',INTEGRATION_ENCRYPTION_KEY:Buffer.from(new Uint8Array(32)).toString('base64'),
+  DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
+const op=(url,init)=>{const r=new Request(url,{...init,headers:{'x-pulsify-operator':'1','content-type':'application/json',...(init?.headers||{})}});rememberOperator(r,{email:'abod.louai@gmail.com',via:'access'});return r};
+const cl=(url,init)=>new Request(url,{...init,headers:{'x-portal-token':'tok-acme','content-type':'application/json',...(init?.headers||{})}});
+const call=(fn,r)=>fn({request:r,env,data:{}});
+
+test('describeEvent covers every event the platform emits, stays silent on our own outbound messages', ()=>{
+  const events=['lead.created','lead.stage_changed','payment.received','payment.matched','payment.unmatched','payment.refunded','client.provisioned','client.checklist_step_completed','content.sequence_published','client.delete_requested'];
+// Workspace archive. Archiving hides a workspace everywhere (lists, landing
+// page, portal login) and freezes it; nothing is deleted. Every row that
+// belongs to the workspace is exported first to R2 under
+// archive/workspaces/<client>/<timestamp>.json so it can be inspected or
+// restored later. Restore flips the status back; the export stays.
+import { cleanId, nowIso, str } from "./common.js";
+
+// Tables keyed by client, with the column that holds it. Discovered from the
+// live schema at call time so new tables are never missed.
+async function clientTables(env) {
+  const rows = (await env.DB.prepare(
+    "SELECT m.name AS tbl, p.name AS col FROM sqlite_master m JOIN pragma_table_info(m.name) p WHERE m.type='table' AND m.name NOT LIKE 'sqlite_%' AND m.name NOT LIKE '_cf%' AND p.name IN ('client_id','client') ORDER BY m.name",
+  ).all()).results || [];
+  const seen = new Map();
+  for (const r of rows) if (!seen.has(r.tbl)) seen.set(r.tbl, r.col);
+  return [...seen.entries()];
+}
+
+export async function exportWorkspace(env, clientId) {
+  const client = cleanId(clientId);
+  if (!client) throw new Error("valid client id required");
+  const tables = await clientTables(env);
+  const bundle = { client, exported_at: nowIso(), tables: {} };
+  for (const [tbl, col] of tables) {
+    {
+      const rows = (await env.DB.prepare(`SELECT * FROM ${tbl} WHERE ${col}=?`).bind(client).all()).results || [];
+      if (rows.length) bundle.tables[tbl] = rows;
+    }
+  }
+  bundle.row_count = Object.values(bundle.tables).reduce((n, rows) => n + rows.length, 0);
+  return bundle;
+}
+
+export async function archiveWorkspace(env, clientId, actor = "operator") {
+  const client = cleanId(clientId);
+  const config = await env.DB.prepare("SELECT client, client_name, status, page_active FROM client_config WHERE client=?").bind(client).first();
+  if (!config) return { ok: false, error: "unknown client" };
+  if (config.status === "archived") return { ok: true, already: true, client };
+  if (!env.MEDIA) throw new Error("Archive storage is unavailable; workspace unchanged");
+  const bundle = await exportWorkspace(env, client);
+  const stamp = nowIso().replace(/[:.]/g, "-");
+  const key = `archive/workspaces/${client}/${stamp}.json`;
+  await env.MEDIA.put(key, JSON.stringify(bundle, null, 2), { httpMetadata: { contentType: "application/json" } });
+  await env.DB.batch([
+    env.DB.prepare("UPDATE client_config SET status='archived', page_active=0, portal_token_hash=NULL, updated_at=? WHERE client=?").bind(nowIso(), client),
+    env.DB.prepare("DELETE FROM client_sessions WHERE client_id=?").bind(client),
+    env.DB.prepare("DELETE FROM client_setup_tokens WHERE client_id=?").bind(client),
+    env.DB.prepare("DELETE FROM impersonation_sessions WHERE client_id=?").bind(client),
+    env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+      .bind(str(actor), "workspace-archived", client, JSON.stringify({ export_key: key, rows: bundle.row_count, previous_status: config.status, previous_page_active: config.page_active }), nowIso()),
+  ]);
+  return { ok: true, client, export_key: key, rows: bundle.row_count, bundle };
+}
+
+export async function restoreWorkspace(env, clientId, actor = "operator") {
+  const client = cleanId(clientId);
+  const config = await env.DB.prepare("SELECT client, status FROM client_config WHERE client=?").bind(client).first();
+  if (!config) return { ok: false, error: "unknown client" };
+  if (config.status !== "archived") return { ok: true, already: true, client };
+  const event = await env.DB.prepare("SELECT detail FROM operator_events WHERE client=? AND action='workspace-archived' ORDER BY id DESC LIMIT 1").bind(client).first();
+  const prior = JSON.parse(event?.detail || "{}");
+  let status = prior.previous_status, pageActive = prior.previous_page_active;
+  if (pageActive == null && prior.export_key && env.MEDIA) {
+    const object = await env.MEDIA.get(prior.export_key);
+    const bundle = object ? await object.json() : null;
+    const original = bundle?.tables?.client_config?.[0];
+    status = original?.status ?? status;
+    pageActive = original?.page_active;
+  }
+  if (!status || status === "archived" || pageActive == null) throw new Error("Archive prior state unavailable; workspace unchanged");
+  await env.DB.batch([
+    env.DB.prepare("UPDATE client_config SET status=?, page_active=?, updated_at=? WHERE client=?").bind(status, pageActive, nowIso(), client),
+    env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+      .bind(str(actor), "workspace-restored", client, "{}", nowIso()),
+  ]);
+  return { ok: true, client };
+}
+
+export async function listArchives(env) {
+  const rows = (await env.DB.prepare(
+    "SELECT client, client_name, updated_at FROM client_config WHERE status='archived' ORDER BY updated_at DESC",
+  ).all()).results || [];
+  const out = [];
+  for (const r of rows) {
+    let exports = [];
+    if (env.MEDIA) {
+      const listed = await env.MEDIA.list({ prefix: `archive/workspaces/${r.client}/` }).catch(() => ({ objects: [] }));
+      exports = (listed.objects || []).map((o) => ({ key: o.key, size: o.size, uploaded: o.uploaded })).sort((a, b) => String(b.key).localeCompare(String(a.key)));
+    }
+    out.push({ ...r, exports });
+  }
+  return out;
+}
+// Semantic search across DMs and client brains. Ask in plain words
+// ("who mentioned prop firm payouts", "clients selling to day traders"); the
+// answer is the messages and brain fields that mean that, not just contain it.
+// Ctrl+K anywhere in the console opens this view with the box focused.
+(() => {
+  const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const ago = (iso) => { if (!iso) return ""; const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000); if (s < 3600) return `${Math.max(1, Math.floor(s / 60))} min ago`; if (s < 86400) return `${Math.floor(s / 3600)} h ago`; return `${Math.floor(s / 86400)} d ago`; };
+  async function api(path) {
+    const r = await fetch(path, { headers: { "x-pulsify-operator": "1" } });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+    return d;
+  }
+  const contact=window.PulsifyContact;
+  const EXAMPLES = ["who mentioned blowing an account", "anyone asking about pricing", "clients who sell to dropshippers", "people who said they would think about it", "offers built around a signal service"];
+
+  function render(root, ctx = {}) {
+    let sequence = 0, order="recent", hits=[], took=0;
+    root.innerHTML = `
+      <h1>Search</h1><p class="ps-subtitle">Ask in plain words. This finds what people meant across every DM and every client brain, not just the exact words.</p>
+      <form class="sr-form" id="sr-form"><input id="sr-q" class="sr-input" placeholder="who mentioned prop firm payouts" autocomplete="off" autofocus><button class="ps-control int-primary" type="submit">Search</button></form>
+      <div class="sr-filters"><label class="leads-chip active"><input type="checkbox" name="kind" value="dm" checked hidden>DMs</label><label class="leads-chip active"><input type="checkbox" name="kind" value="brain" checked hidden>Client brains</label><small id="sr-status" class="int-note"></small></div>
+      <div class="sr-examples" id="sr-examples">${EXAMPLES.map((e) => `<button class="ps-control" data-example="${esc(e)}">${esc(e)}</button>`).join("")}</div>
+      <div class="contact-toolbar"><span class="int-note">Matches grouped by person</span>${contact.control("sr-sort","recent",["recent","name"])}</div>
+      <div id="sr-results" class="sr-results"></div>`;
+    const q = root.querySelector("#sr-q"), results = root.querySelector("#sr-results"), status = root.querySelector("#sr-status");
+    root.querySelectorAll(".sr-filters label").forEach((l) => l.addEventListener("click", (e) => { e.preventDefault(); const c = l.querySelector("input"); c.checked = !c.checked; l.classList.toggle("active", c.checked); if (q.value.trim()) run(); }));
+    root.querySelectorAll("[data-example]").forEach((b) => (b.onclick = () => { q.value = b.dataset.example; run(); }));
+    root.querySelector("#sr-form").addEventListener("submit", (e) => { e.preventDefault(); run(); });
+    api("/api/search?status=1").then((s) => {
+      const dm = s.indexed?.dm?.count || 0, br = s.indexed?.brain?.count || 0;
+      status.textContent = s.ready ? `${dm} of ${s.totals?.dms || 0} messages and ${br} of ${s.totals?.brain || 0} brain fields indexed${dm < (s.totals?.dms || 0) ? ", filling in" : ""}` : "Search index is not bound yet.";
+    }).catch(() => {});
+    if (ctx.q) { q.value = ctx.q; run(); }
+    q.focus();
+
+    root.querySelector("#sr-sort").onchange=e=>{order=e.target.value;draw();};
+    async function run() {
+      const current = ++sequence;
+      const text = q.value.trim();
+      if (text.length < 2) return;
+      const kinds = [...root.querySelectorAll('input[name="kind"]:checked')].map((c) => c.value);
+      results.innerHTML = contact.skeleton();
+      root.querySelector("#sr-examples").hidden = true;
+      try {
+        const d = await api(`/api/search?q=${encodeURIComponent(text)}&kinds=${kinds.join(",")}&limit=20`);
+        if (current !== sequence || !root.isConnected) return;
+        hits=d.hits || [];took=d.took_ms;draw();
+      } catch (e) { if (current !== sequence || !root.isConnected) return; results.innerHTML = `<p class="int-empty">${esc(e.message)}</p>`; }
+    }
+    function draw() {
+      const groups=new Map();
+      for(const h of hits){const key=h.kind==='dm'?'dm:'+h.conversation_id:'brain:'+h.client_id;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(h);}
+      const people=[...groups.values()].map(items=>{
+        const latest=contact.sort(items)[0],best=[...items].sort((a,b)=>b.score-a.score)[0];
+        return {...latest,name:latest.name || latest.client_name || latest.handle,items,snippet:best.snippet,score:best.score};
+      });
+      results.innerHTML=people.length?`<div class="contact-result">${contact.sort(people,order).map(h=>contact.row(h,{attribute:h.kind==='dm'?'data-thread':'data-brain',value:h.kind==='dm'?h.conversation_id:h.client_id,source:h.kind==='dm'?'Instagram':'Client brain',stage:`${Math.round(h.score*100)}% match`,detail:`${h.kind==='dm'?'Instagram':'Client brain'} / ${h.items.length} matching ${h.items.length===1?'passage':'passages'}`})+(h.items.length>1?`<div class="contact-extra"><details><summary>${h.items.length-1} more matching passages</summary>${h.items.filter(x=>x.snippet!==h.snippet).map(x=>`<p>${esc(x.snippet)}</p>`).join('')}</details></div>`:'')).join('')}</div><p class="int-note">${hits.length} matches across ${people.length} contacts / ${took} ms</p>`:'<p class="int-empty">No matching conversations or brain fields yet.</p>';
+      results.querySelectorAll('[data-thread]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:open-thread',b.dataset.thread);window.PulsifyOperatorShell?.go('outreach');});
+      results.querySelectorAll('[data-brain]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:brain-client',b.dataset.brain);window.PulsifyOperatorShell?.go('brain');});
+    }
+
+  }
+
+  // Ctrl+K / Cmd+K from anywhere in the console.
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); window.PulsifyOperatorShell?.go("search"); setTimeout(() => document.getElementById("sr-q")?.focus(), 150); }
+  });
+
+  window.PulsifySearchView = { render };
+})();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content functions/_shared/pipeline-touches.js -Encoding UTF8 | Select-Object -Last 80; Get-Content functions/_shared/search.js -Encoding UTF8 | Select-Object -Skip 113 -First 25; Get-Content functions/_shared/client-auth.js -Encoding UTF8 | Select-Object -Skip 225 -First 55; Get-Content functions/api/client-set-password.js -TotalCount 65; Get-Content functions/api/clients.js -TotalCount 50; git diff 08fb9de -- output/standard-preview/functions/_shared/provisioning.js output/standard-preview/functions/_shared/payments.js output/standard-preview/functions/_shared/hooks.js output/standard-preview/functions/api/account.js output/standard-preview/functions/api/crm-sync.js' in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 419ms:
+export async function listContacts(env, clientId, { q = "", limit = 200 } = {}) {
+  const client = cleanId(clientId, "");
+  const like = q ? `%${str(q).toLowerCase().replace(/[\\%_]/g, "\\$&")}%` : null;
+  const rows = await env.DB.prepare(
+    `SELECT contact_email,
+            MAX(contact_name) AS contact_name,
+            MIN(ts) AS first_seen,
+            MAX(ts) AS last_seen,
+            SUM(kind='application') AS applications,
+            SUM(kind='optin') AS optins,
+            SUM(kind='booking') AS bookings,
+            SUM(kind='payment') AS payments,
+            COALESCE(SUM(CASE WHEN kind='payment' THEN amount_cents END),0) AS paid_cents
+       FROM pipeline_touches
+      WHERE client_id=? AND (? IS NULL OR LOWER(contact_email) LIKE ? OR LOWER(COALESCE(contact_name,'')) LIKE ?)
+      GROUP BY contact_email
+      ORDER BY last_seen DESC LIMIT ?`,
+  ).bind(client, like, like, like, Math.min(500, limit)).all();
+  const latest = await env.DB.prepare(
+    `SELECT t.contact_email, t.kind, t.ts, t.source FROM pipeline_touches t
+      WHERE t.client_id=? AND t.ts = (SELECT MAX(ts) FROM pipeline_touches x WHERE x.client_id=t.client_id AND x.contact_email=t.contact_email)`,
+  ).bind(client).all();
+  const latestByEmail = new Map((latest.results || []).map((r) => [r.contact_email, r]));
+  return (rows.results || []).map((r) => ({ ...r, stage: stageFor(r), latest_kind: latestByEmail.get(r.contact_email)?.kind || null, latest_source: latestByEmail.get(r.contact_email)?.source || null }));
+}
+
+// Operator view: contacts across every client, one row per (client, email).
+export async function listContactsAll(env, { q = "", limit = 300 } = {}) {
+  const like = q ? `%${str(q).toLowerCase().replace(/[\\%_]/g, "\\$&")}%` : null;
+  const rows = await env.DB.prepare(
+    `SELECT t.client_id, t.contact_email,
+            MAX(t.contact_name) AS contact_name,
+            MIN(t.ts) AS first_seen,
+            MAX(t.ts) AS last_seen,
+            SUM(t.kind='application') AS applications,
+            SUM(t.kind='optin') AS optins,
+            SUM(t.kind='booking') AS bookings,
+            SUM(t.kind='payment') AS payments,
+            COALESCE(SUM(CASE WHEN t.kind='payment' THEN t.amount_cents END),0) AS paid_cents,
+            (SELECT client_name FROM client_config c WHERE c.client=t.client_id) AS client_name
+       FROM pipeline_touches t
+      WHERE (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
+      GROUP BY t.client_id, t.contact_email
+      ORDER BY last_seen DESC LIMIT ?`,
+  ).bind(like, like, like, Math.min(1000, limit)).all();
+  return (rows.results || []).map((r) => ({ ...r, stage: stageFor(r) }));
+}
+
+export function stageFor(row) {
+  if (Number(row.payments) > 0) return "Paid";
+  if (Number(row.bookings) > 0) return "Booked";
+  if (Number(row.applications) > 0) return "Applied";
+  if (Number(row.optins) > 0) return "Opted in";
+  return "New";
+}
+
+export async function timeline(env, clientId, email) {
+  const rows = await env.DB.prepare(
+    "SELECT kind, ts, source, amount_cents, payload_json FROM pipeline_touches WHERE client_id=? AND contact_email=? ORDER BY ts DESC LIMIT 100",
+  ).bind(cleanId(clientId, ""), normalizeEmail(email)).all();
+  return (rows.results || []).map((r) => ({ ...r, payload: parseJson(r.payload_json, {}), payload_json: undefined }));
+}
+
+// One-time backfill from integration_events into pipeline_touches. Idempotent
+// through the unique external id. Returns the number inserted.
+export async function backfillFromIntegrationEvents(env, clientId = null) {
+  const rows = await env.DB.prepare(
+    `SELECT id, provider, kind, client, external_id, payload_summary_json, ts FROM integration_events
+      WHERE kind IN ('application','optin','booking','payment') ${clientId ? "AND client=?" : ""} ORDER BY id`,
+  ).bind(...(clientId ? [cleanId(clientId, "")] : [])).all();
+  let inserted = 0;
+  for (const row of rows.results || []) {
+    const summary = parseJson(row.payload_summary_json, {});
+    const email = normalizeEmail(summary.email || summary.attendee_email || summary.invitee_email || summary.customer_email);
+    if (!email || !row.client) continue;
+    const result = await recordTouch(env, { client: row.client, email, name: summary.name || summary.invitee_name || summary.customer_name, kind: row.kind, ts: row.ts, source: row.provider, externalId: row.external_id || `ie:${row.id}`, amountCents: summary.amount_cents, payload: summary });
+    if (result.inserted) inserted += 1;
+  }
+  return inserted;
+}
+  return (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));
+}
+    "SELECT client_id FROM client_auth WHERE email=?",
+  ).bind(normalizedEmail).first();
+  if (existingByEmail && cleanId(existingByEmail.client_id) !== safeClient) {
+    return { ok: false, error: "this email is already assigned to another client" };
+  }
+
+  const existing = await env.DB.prepare(
+    `SELECT client_id, pass_hash, pass_salt, iterations, created_at
+       FROM client_auth WHERE client_id=?`,
+  ).bind(safeClient).first();
+
+  const createdAt = existing?.created_at || nowIso();
+  await env.DB.prepare(
+    `INSERT INTO client_auth (client_id, email, pass_hash, pass_salt, iterations, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?)
+     ON CONFLICT(client_id) DO UPDATE SET
+       email=excluded.email,
+       pass_hash=excluded.pass_hash,
+       pass_salt=excluded.pass_salt,
+       iterations=excluded.iterations,
+       updated_at=excluded.updated_at`,
+  ).bind(
+    safeClient,
+    normalizedEmail,
+    existing?.pass_hash || null,
+    existing?.pass_salt || null,
+    Number(existing?.iterations || PBKDF2_ITERATIONS),
+    createdAt,
+    nowIso(),
+  ).run();
+
+  await env.DB.prepare(
+    "DELETE FROM client_setup_tokens WHERE client_id=?",
+  ).bind(safeClient).run();
+
+  const token = generateOpaqueToken(32);
+  const tokenHash = await sha256Hex(token);
+  const expiresAt = isoHoursFromNow(SETUP_TOKEN_TTL_HOURS);
+  await env.DB.prepare(
+    `INSERT INTO client_setup_tokens (token_hash, client_id, email, expires_at, created_at)
+     VALUES (?, ?, ?, ?, ?)`,
+  ).bind(tokenHash, safeClient, normalizedEmail, expiresAt, nowIso()).run();
+
+  return {
+    ok: true,
+    client: safeClient,
+    email: normalizedEmail,
+    link: `${origin}/portal/register?client=${encodeURIComponent(safeClient)}&setup=${encodeURIComponent(token)}`,
+    expires_at: expiresAt,
+    note: "Shown once. Generating a new setup link turns off the previous one.",
+  };
+}
+
+export async function consumeSetupToken(env, token) {
+  const tokenHash = await sha256Hex(token);
+import { json } from "../_shared/common.js";
+import {
+  PBKDF2_ITERATIONS,
+  consumeSetupToken,
+  createPasswordSalt,
+  invalidateSetupTokensForClient,
+  issueClientSession,
+  hashPassword,
+  rejectImpersonatedSession,
+} from "../_shared/client-auth.js";
+import { deleteSetupCode, verifySetupCode } from "./client-email-code.js";
+
+export async function onRequestPost({ request, env }) {
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  const impersonationError = await rejectImpersonatedSession(request, env);
+  if (impersonationError) return impersonationError;
+
+  const body = await request.json().catch(() => ({}));
+  const setupToken = String(body.setup_token || "");
+  const password = String(body.password || "");
+  const code = String(body.code || "");
+  if (!setupToken || !password) {
+    return json({ ok: false, error: "setup token and password are required" }, 422);
+  }
+  if (password.length < 10) {
+    return json({ ok: false, error: "password must be at least 10 characters" }, 422);
+  }
+
+  const setup = await consumeSetupToken(env, setupToken);
+  if (!setup) {
+    return json({ ok: false, error: "this setup link is invalid or expired" }, 401);
+  }
+  if (env.RESEND_API_KEY) {
+    if (!code) {
+      return json({ ok: false, error: "email verification code is required" }, 422);
+    }
+    const verification = await verifySetupCode(env, setup, code);
+    if (!verification.ok) {
+      return json({ ok: false, error: verification.error }, 401);
+    }
+  }
+
+  const salt = createPasswordSalt();
+  const priorAuth = await env.DB.prepare('SELECT pass_hash FROM client_auth WHERE client_id=?').bind(setup.client_id).first();
+  const passHash = await hashPassword(password, salt, PBKDF2_ITERATIONS);
+  const now = new Date().toISOString();
+
+  await env.DB.prepare(
+    `UPDATE client_auth
+        SET email=?,
+            pass_hash=?,
+            pass_salt=?,
+            iterations=?,
+            updated_at=?
+      WHERE client_id=?`,
+  ).bind(
+    setup.email,
+    passHash,
+    salt,
+    PBKDF2_ITERATIONS,
+    now,
+    setup.client_id,
+  ).run();
+
+  await invalidateSetupTokensForClient(env, setup.client_id);
+import { withOperator } from '../_shared/access.js';
+import { hasOperator } from '../_shared/access.js';
+async function handle_onRequestGet({ request, env }) {
+  if (!hasOperator(request, env)) {
+    return json({ ok: false, error: "unauthorized" }, 401);
+  }
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+
+  const result = await env.DB.prepare(
+    `SELECT client, COALESCE(client_name,client) AS client_name, wistia_media_id,
+            typeform_url, kit_tag_id, COALESCE(page_active,1) AS page_active,
+            prospect_email, acquisition_token, updated_at
+       FROM client_config WHERE COALESCE(status,'prospect')<>'archived' ORDER BY client_name COLLATE NOCASE`,
+  ).all();
+  return json({ ok: true, clients: result.results || [] });
+}
+
+function json(object, status = 200) {
+  return new Response(JSON.stringify(object), {
+    status,
+    headers: {
+      "content-type": "application/json",
+      "access-control-allow-origin": "*",
+      "cache-control": "no-store",
+    },
+  });
+}
+
+export const onRequestGet = withOperator(handle_onRequestGet);
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff 08fb9de -- output/standard-preview/functions output/standard-preview/workers/sync/src' in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 128ms:
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+diff --git a/output/standard-preview/functions/_middleware.js b/output/standard-preview/functions/_middleware.js
+index acdd363..f17c550 100644
+--- a/output/standard-preview/functions/_middleware.js
++++ b/output/standard-preview/functions/_middleware.js
+@@ -24,6 +24,7 @@ export async function onRequest(context) {
+     });
+   }
+   const url = new URL(request.url), api = path.startsWith('/api/');
++  if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
+   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
+   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin?view='+legacyView[1],302);
+   const consolePage = ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));
+diff --git a/output/standard-preview/functions/_shared/archive.js b/output/standard-preview/functions/_shared/archive.js
+index 5f1536c..52755b1 100644
+--- a/output/standard-preview/functions/_shared/archive.js
++++ b/output/standard-preview/functions/_shared/archive.js
+@@ -22,10 +22,10 @@ export async function exportWorkspace(env, clientId) {
+   const tables = await clientTables(env);
+   const bundle = { client, exported_at: nowIso(), tables: {} };
+   for (const [tbl, col] of tables) {
+-    try {
++    {
+       const rows = (await env.DB.prepare(`SELECT * FROM ${tbl} WHERE ${col}=?`).bind(client).all()).results || [];
+       if (rows.length) bundle.tables[tbl] = rows;
+-    } catch { /* a table without that column shape; skip */ }
++    }
+   }
+   bundle.row_count = Object.values(bundle.tables).reduce((n, rows) => n + rows.length, 0);
+   return bundle;
+@@ -33,19 +33,22 @@ export async function exportWorkspace(env, clientId) {
+ 
+ export async function archiveWorkspace(env, clientId, actor = "operator") {
+   const client = cleanId(clientId);
+-  const config = await env.DB.prepare("SELECT client, client_name, status FROM client_config WHERE client=?").bind(client).first();
++  const config = await env.DB.prepare("SELECT client, client_name, status, page_active FROM client_config WHERE client=?").bind(client).first();
+   if (!config) return { ok: false, error: "unknown client" };
+   if (config.status === "archived") return { ok: true, already: true, client };
++  if (!env.MEDIA) throw new Error("Archive storage is unavailable; workspace unchanged");
+   const bundle = await exportWorkspace(env, client);
+   const stamp = nowIso().replace(/[:.]/g, "-");
+   const key = `archive/workspaces/${client}/${stamp}.json`;
+-  if (env.MEDIA) await env.MEDIA.put(key, JSON.stringify(bundle, null, 2), { httpMetadata: { contentType: "application/json" } });
+-  await env.DB.prepare("UPDATE client_config SET status='archived', page_active=0, updated_at=? WHERE client=?").bind(nowIso(), client).run();
+-  // Any open client session or setup link for this workspace stops working.
+-  await env.DB.prepare("DELETE FROM client_sessions WHERE client_id=?").bind(client).run().catch(() => null);
+-  await env.DB.prepare("DELETE FROM client_setup_tokens WHERE client_id=?").bind(client).run().catch(() => null);
+-  await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+-    .bind(str(actor), "workspace-archived", client, JSON.stringify({ export_key: key, rows: bundle.row_count, previous_status: config.status }), nowIso()).run().catch(() => null);
++  await env.MEDIA.put(key, JSON.stringify(bundle, null, 2), { httpMetadata: { contentType: "application/json" } });
++  await env.DB.batch([
++    env.DB.prepare("UPDATE client_config SET status='archived', page_active=0, portal_token_hash=NULL, updated_at=? WHERE client=?").bind(nowIso(), client),
++    env.DB.prepare("DELETE FROM client_sessions WHERE client_id=?").bind(client),
++    env.DB.prepare("DELETE FROM client_setup_tokens WHERE client_id=?").bind(client),
++    env.DB.prepare("DELETE FROM impersonation_sessions WHERE client_id=?").bind(client),
++    env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
++      .bind(str(actor), "workspace-archived", client, JSON.stringify({ export_key: key, rows: bundle.row_count, previous_status: config.status, previous_page_active: config.page_active }), nowIso()),
++  ]);
+   return { ok: true, client, export_key: key, rows: bundle.row_count, bundle };
+ }
+ 
+@@ -54,9 +57,22 @@ export async function restoreWorkspace(env, clientId, actor = "operator") {
+   const config = await env.DB.prepare("SELECT client, status FROM client_config WHERE client=?").bind(client).first();
+   if (!config) return { ok: false, error: "unknown client" };
+   if (config.status !== "archived") return { ok: true, already: true, client };
+-  await env.DB.prepare("UPDATE client_config SET status='prospect', page_active=1, updated_at=? WHERE client=?").bind(nowIso(), client).run();
+-  await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+-    .bind(str(actor), "workspace-restored", client, "{}", nowIso()).run().catch(() => null);
++  const event = await env.DB.prepare("SELECT detail FROM operator_events WHERE client=? AND action='workspace-archived' ORDER BY id DESC LIMIT 1").bind(client).first();
++  const prior = JSON.parse(event?.detail || "{}");
++  let status = prior.previous_status, pageActive = prior.previous_page_active;
++  if (pageActive == null && prior.export_key && env.MEDIA) {
++    const object = await env.MEDIA.get(prior.export_key);
++    const bundle = object ? await object.json() : null;
++    const original = bundle?.tables?.client_config?.[0];
++    status = original?.status ?? status;
++    pageActive = original?.page_active;
++  }
++  if (!status || status === "archived" || pageActive == null) throw new Error("Archive prior state unavailable; workspace unchanged");
++  await env.DB.batch([
++    env.DB.prepare("UPDATE client_config SET status=?, page_active=?, updated_at=? WHERE client=?").bind(status, pageActive, nowIso(), client),
++    env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
++      .bind(str(actor), "workspace-restored", client, "{}", nowIso()),
++  ]);
+   return { ok: true, client };
+ }
+ 
+diff --git a/output/standard-preview/functions/_shared/client-auth.js b/output/standard-preview/functions/_shared/client-auth.js
+index 1ee8494..ff00e3a 100644
+--- a/output/standard-preview/functions/_shared/client-auth.js
++++ b/output/standard-preview/functions/_shared/client-auth.js
+@@ -357,7 +357,7 @@ export async function resolveSessionAccess(request, env) {
+     `SELECT s.client_id, s.expires_at, s.created_by, c.client_name
+        FROM impersonation_sessions s
+        LEFT JOIN client_config c ON c.client=s.client_id
+-      WHERE s.token_hash=? AND s.consumed_at IS NOT NULL AND s.expires_at>?`,
++      WHERE s.token_hash=? AND s.consumed_at IS NOT NULL AND s.expires_at>? AND COALESCE(c.status,'')<>'archived'`,
+   ).bind(hash, nowIso()).first().catch(() => null);
+   if (impersonation) {
+     return {
+@@ -374,7 +374,7 @@ export async function resolveSessionAccess(request, env) {
+     `SELECT s.client_id, s.expires_at, c.client_name
+        FROM client_sessions s
+        LEFT JOIN client_config c ON c.client=s.client_id
+-      WHERE s.token_hash=? AND s.expires_at>?`,
++      WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(c.status,'')<>'archived'`,
+   ).bind(hash, nowIso()).first();
+   if (!row) return null;
+ 
+@@ -399,7 +399,7 @@ export async function resolveTokenAccess(request, env, options = {}) {
+   const row = await env.DB.prepare(
+     `SELECT client, COALESCE(client_name, client) AS client_name
+        FROM client_config
+-      WHERE portal_token_hash=?`,
++      WHERE portal_token_hash=? AND COALESCE(status,'')<>'archived'`,
+   ).bind(hash).first();
+   if (!row) return null;
+ 
+diff --git a/output/standard-preview/functions/_shared/hooks.js b/output/standard-preview/functions/_shared/hooks.js
+index 317fe2f..0914ffd 100644
+--- a/output/standard-preview/functions/_shared/hooks.js
++++ b/output/standard-preview/functions/_shared/hooks.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "./side-effect-failure.js";
+ import {
+   cleanId,
+   constantTimeEqual,
+@@ -37,7 +38,7 @@ export async function handleHookRequest({ request, env, params }) {
+     }
+ 
+     if (!integration) {
+-      await recordFailure(env, "unknown", `hook_${provider}`, "unknown client or invalid webhook path");
++      await recordFailure(env, "unknown", "webhook_unknown_secret", `Unmatched ${provider} webhook configuration`);
+       return json({ ok: true, recorded: false, reason: "unknown client" });
+     }
+ 
+@@ -118,7 +119,7 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
+     );
+     if (!applied.ok) {
+       await env.DB.prepare("DELETE FROM integration_events WHERE provider=? AND kind='refund' AND external_id=?")
+-        .bind(provider, refund.event_id).run().catch(() => null);
++        .bind(provider, refund.event_id).run().catch(() => sideEffectFailure(env, "hooks_operation_1"));
+     }
+     return json({ ok: true, refund: applied });
+   }
+@@ -149,10 +150,10 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
+   if (result.ok && !result.duplicate && result.payment?.id) {
+     if (customer.email || customer.name) {
+       await env.DB.prepare("UPDATE payments SET customer_email=?, customer_name=? WHERE id=?")
+-        .bind(customer.email, customer.name, result.payment.id).run().catch(() => null);
++        .bind(customer.email, customer.name, result.payment.id).run().catch(() => sideEffectFailure(env, "hooks_operation_2"));
+     }
+     await emitEvent(env, { scope: "client", clientId: integration.client, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: payment.amount_cents, currency: payment.currency, reference: payment.reference, source: provider } });
+-    await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => null);
++    await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => sideEffectFailure(env, "hooks_operation_3"));
+   }
+   return json({
+     ok: true,
+@@ -178,7 +179,7 @@ async function recordBooking(env, integration, provider, booking) {
+   });
+ 
+   if (!event.duplicate) {
+-    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => null);
++    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => sideEffectFailure(env, "hooks_operation_4"));
+     await sendDiscordAlert(env, {
+       client: integration.client,
+       title: "Booking received",
+diff --git a/output/standard-preview/functions/_shared/integrations.js b/output/standard-preview/functions/_shared/integrations.js
+index a884619..8117abb 100644
+--- a/output/standard-preview/functions/_shared/integrations.js
++++ b/output/standard-preview/functions/_shared/integrations.js
+@@ -317,6 +317,7 @@ export async function recordFailure(env, client, kind, detail, options = {}) {
+ }
+ 
+ export async function sendDiscordAlert(env, alert, options = {}) {
++  if (alert.kind !== "lead.replied") return { ok: false, status: "disabled_by_policy" };
+   const discord = await getIntegration(env, "operator", "", "discord");
+   const url = discord?.secrets?.webhook_url;
+   if (!url) return { ok: false, status: "not_configured" };
+diff --git a/output/standard-preview/functions/_shared/notifications.js b/output/standard-preview/functions/_shared/notifications.js
+index 2bff9ca..4642d49 100644
+--- a/output/standard-preview/functions/_shared/notifications.js
++++ b/output/standard-preview/functions/_shared/notifications.js
+@@ -51,7 +51,7 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
+      VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
+   ).bind(id, scope === "client" ? "client" : "operator", str(clientId), str(kind || "system"), severity, str(title).slice(0, 200), str(body).slice(0, 1000) || null, str(link) || null, entity ? JSON.stringify(entity) : null, dedupeKey ? str(dedupeKey) : null, nowIso()).run();
+   if (!Number(inserted.meta?.changes || 0)) return null;
+-  if (discord && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
++  if (discord && kind === "lead.replied" && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
+   try {
+     const { pushOperator, pushClient } = await import("./realtime.js");
+     if (scope === "operator" && typeof pushOperator === "function") await pushOperator(env, "notification", { id });
+@@ -63,7 +63,7 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
+ // The one outside channel: Discord, and only when a lead replied.
+ async function discordLeadReply(env, { title, body }) {
+   const { sendDiscordAlert } = await import("./integrations.js");
+-  return sendDiscordAlert(env, { title, lines: [body].filter(Boolean) }, { skipFailureLog: true });
++  return sendDiscordAlert(env, { kind: "lead.replied", title, lines: [body].filter(Boolean) }, { skipFailureLog: true });
+ }
+ 
+ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
+diff --git a/output/standard-preview/functions/_shared/notify-operator.js b/output/standard-preview/functions/_shared/notify-operator.js
+deleted file mode 100644
+index 203253d..0000000
+--- a/output/standard-preview/functions/_shared/notify-operator.js
++++ /dev/null
+@@ -1,42 +0,0 @@
+-// Operator notifications. Email through Resend to every operator address is
+-// the channel that actually exists. Discord is used only when a webhook was
+-// configured in Integrations. Returns which channels delivered.
+-import { sendDiscordAlert } from "./integrations.js";
+-import { normalizeEmail } from "./common.js";
+-
+-export function operatorAddresses(env) {
+-  return String(env?.OPERATOR_EMAILS || env?.OPERATOR_EMAIL || "").split(",").map((e) => normalizeEmail(e)).filter(Boolean);
+-}
+-
+-export async function notifyOperator(env, { title, lines = [], link = "" }, fetcher = fetch) {
+-  const delivered = [];
+-  const to = operatorAddresses(env);
+-  // No Resend key here (the Worker): relay to Pages, which holds it.
+-  if (!env.RESEND_API_KEY && env.INTERNAL_NOTIFY_SECRET && env.PAGES_ORIGIN) {
+-    try {
+-      const r = await fetcher(`${String(env.PAGES_ORIGIN).replace(/\/$/, "")}/api/notify`, {
+-        method: "POST",
+-        headers: { "content-type": "application/json", "x-internal-secret": env.INTERNAL_NOTIFY_SECRET },
+-        body: JSON.stringify({ title, lines, link }),
+-      });
+-      const d = await r.json().catch(() => ({}));
+-      if (r.ok && d.ok) return { ok: true, delivered: d.delivered || ["relay"] };
+-    } catch { /* fall through to direct channels */ }
+-  }
+-  if (env.RESEND_API_KEY && env.EMAIL_FROM && to.length) {
+-    const text = [...lines.filter(Boolean), link, "", "Pulsify outreach tracker"].filter((l) => l !== undefined).join("\n");
+-    try {
+-      const r = await fetcher("https://api.resend.com/emails", {
+-        method: "POST",
+-        headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
+-        body: JSON.stringify({ from: env.EMAIL_FROM, to, subject: title, text }),
+-      });
+-      if (r.ok) delivered.push("email");
+-    } catch { /* fall through */ }
+-  }
+-  try {
+-    const d = await sendDiscordAlert(env, { title, lines: [...lines, link].filter(Boolean) }, { skipFailureLog: true });
+-    if (d.ok) delivered.push("discord");
+-  } catch { /* optional channel */ }
+-  return { ok: delivered.length > 0, delivered };
+-}
+diff --git a/output/standard-preview/functions/_shared/outreach.js b/output/standard-preview/functions/_shared/outreach.js
+index f5ee776..d5593e8 100644
+--- a/output/standard-preview/functions/_shared/outreach.js
++++ b/output/standard-preview/functions/_shared/outreach.js
+@@ -157,7 +157,7 @@ export async function loadThreads(env, { q = "", now = Date.now() } = {}) {
+   return conversations
+     .map((c) => deriveThread(c, byThread.get(c.id) || [], c, now))
+     .filter((t) => t.our_messages + t.their_messages > 0)
+-    .sort(sortForWork);
++    .sort((a,b) => String(b.last_message_at || "").localeCompare(String(a.last_message_at || "")));
+ }
+ 
+ export async function upsertOutreach(env, conversationId, patch, operatorEmail = "operator") {
+diff --git a/output/standard-preview/functions/_shared/payments.js b/output/standard-preview/functions/_shared/payments.js
+index af1cdb8..cda11d5 100644
+--- a/output/standard-preview/functions/_shared/payments.js
++++ b/output/standard-preview/functions/_shared/payments.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "./side-effect-failure.js";
+ import { provisionClient } from "./provisioning.js";
+ import { recordTouch } from "./pipeline-touches.js";
+ import {
+@@ -43,7 +44,7 @@ export async function processNormalizedPayment(env, input) {
+   const existing = await env.DB.prepare(
+     `SELECT id, client, amount_cents, currency, rail, reference, occurred_at, recorded_by, note
+        FROM payments WHERE reference=?`,
+-  ).bind(reference).first().catch(() => null);
++  ).bind(reference).first().catch(() => sideEffectFailure(env, "payments_operation_1"));
+   if (existing) {
+     return { ok: true, duplicate: true, payment: existing, side_effects: { skipped: true } };
+   }
+@@ -89,7 +90,7 @@ export async function processNormalizedPayment(env, input) {
+   // Push API and rematch paths record revenue for clients who are already
+   // onboarded. They must never mint a new portal link or send onboarding mail.
+   if (customerEmail) {
+-    await recordTouch(env, { client, email: customerEmail, name: customerName, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => null);
++    await recordTouch(env, { client, email: customerEmail, name: customerName, kind: "payment", ts: occurredAt, source: rail, externalId: reference, amountCents, payload: { reference, currency } }).catch(() => sideEffectFailure(env, "payments_operation_2"));
+   }
+   const sideEffects = input.skipSideEffects
+     ? { skipped: true, reason: "side effects disabled for this rail" }
+@@ -107,7 +108,7 @@ async function runPaymentSideEffects(env, payment) {
+   const clientRow = await env.DB.prepare(
+     `SELECT client, COALESCE(client_name, client) AS client_name, portal_token_hash, status
+        FROM client_config WHERE client=?`,
+-  ).bind(client).first().catch(() => null);
++  ).bind(client).first().catch(() => sideEffectFailure(env, "payments_operation_3"));
+   // Payment rails also carry the client's own customer revenue. Only a
+   // Pulsify prospect payment may start Pulsify onboarding; active clients'
+   // revenue must never rotate their portal token or resend a welcome.
+@@ -219,7 +220,7 @@ async function resolvePaymentRecipient(env, client, rail) {
+       `SELECT email, name FROM leads
+          WHERE client=? AND email IS NOT NULL AND email!=''
+          ORDER BY applied_at DESC, id DESC LIMIT 1`,
+-    ).bind(client).first().catch(() => null);
++    ).bind(client).first().catch(() => sideEffectFailure(env, "payments_operation_4"));
+     candidates.push({
+       email: normalizeEmail(lead?.email),
+       name: strOrNull(lead?.name),
+diff --git a/output/standard-preview/functions/_shared/provisioning.js b/output/standard-preview/functions/_shared/provisioning.js
+index c443a12..10c8f06 100644
+--- a/output/standard-preview/functions/_shared/provisioning.js
++++ b/output/standard-preview/functions/_shared/provisioning.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "./side-effect-failure.js";
+ // One provisioning function, three triggers: a completed DocuSign envelope,
+ // a confirmed payment for a prospect, or the operator's "Provision now".
+ // Idempotent on client id. Creates the workspace and login shell if missing,
+@@ -46,7 +47,9 @@ export async function provisionClient(env, { source, client, email, name, contra
+     await env.DB.prepare(
+       "INSERT INTO client_provisioning (client_id, email, source, contract_ref, provisioned_at, provisioned_by) VALUES (?,?,?,?,?,?)",
+     ).bind(clientId, normalizedEmail, source, str(contractRef) || null, now, str(actor) || source).run();
+-  } catch {
++  } catch (error) {
++    const existing = await env.DB.prepare("SELECT client_id FROM client_provisioning WHERE client_id=?").bind(clientId).first();
++    if (!existing) throw error;
+     return { ok: true, client: clientId, duplicate: true };
+   }
+ 
+@@ -55,19 +58,19 @@ export async function provisionClient(env, { source, client, email, name, contra
+   let setup = setupLink ? { ok: true, link: str(setupLink) } : null;
+   if (!setup) setup = await createSetupLink(env, origin || "https://pulsify-ai.com", clientId, normalizedEmail);
+   if (!setup.ok || !setup.link) {
+-    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
++    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_1"));
+     return { ok: false, error: setup.error || "could not create setup link" };
+   }
+ 
+   try {
+     await seedChecklist(env, clientId);
+   } catch (error) {
+-    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
++    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_2"));
+     return { ok: false, error: String(error?.message || error) };
+   }
+   await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+-    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => null);
+-  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => null);
++    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => sideEffectFailure(env, "provisioning_operation_3"));
++  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => sideEffectFailure(env, "provisioning_operation_4"));
+ 
+   const welcome = await sendWelcome(env, { clientId, email: normalizedEmail, name: clientName, setupLink: setup.link, sleep, fetcher });
+   return { ok: true, client: clientId, duplicate: false, setup_link: setup.link, welcome_state: welcome.state };
+diff --git a/output/standard-preview/functions/_shared/realtime.js b/output/standard-preview/functions/_shared/realtime.js
+index 713f764..490aff3 100644
+--- a/output/standard-preview/functions/_shared/realtime.js
++++ b/output/standard-preview/functions/_shared/realtime.js
+@@ -10,13 +10,24 @@ export function realtimeConfigured(env) {
+   return Boolean(env?.SUPABASE_URL && env?.SUPABASE_ANON_KEY);
+ }
+ 
++const reasons = new Set(["reply", "sent", "seen", "sync", "left-on-read", "sentiment", "outcome", "note", "hibernate", "wake", "reset"]);
++export function signalPayload(payload = {}) {
++  const safe = {};
++  for (const key of ["id", "conversation_id"]) {
++    const value = payload?.[key];
++    if (typeof value === "string" && /^[A-Za-z0-9_:.=-]{1,200}$/.test(value)) safe[key] = value;
++  }
++  if (reasons.has(payload?.reason)) safe.reason = payload.reason;
++  return safe;
++}
++
+ export async function broadcast(env, topic, event, payload = {}, fetcher = fetch) {
+   if (!realtimeConfigured(env)) return { ok: false, skipped: true };
+   try {
+     const r = await fetcher(`${String(env.SUPABASE_URL).replace(/\/$/, "")}/realtime/v1/api/broadcast`, {
+       method: "POST",
+       headers: { apikey: env.SUPABASE_ANON_KEY, authorization: `Bearer ${env.SUPABASE_ANON_KEY}`, "content-type": "application/json" },
+-      body: JSON.stringify({ messages: [{ topic, event, payload: { ...payload, at: new Date().toISOString() } }] }),
++      body: JSON.stringify({ messages: [{ topic, event, payload: { ...signalPayload(payload), at: new Date().toISOString() } }] }),
+     });
+     return { ok: r.status === 202 || r.ok, status: r.status };
+   } catch (error) {
+diff --git a/output/standard-preview/functions/_shared/side-effect-failure.js b/output/standard-preview/functions/_shared/side-effect-failure.js
+new file mode 100644
+index 0000000..06a9c31
+--- /dev/null
++++ b/output/standard-preview/functions/_shared/side-effect-failure.js
+@@ -0,0 +1,6 @@
++import { recordFailure } from "./integrations.js";
++// Diagnostics contain the operation, never raw provider errors, payloads or credentials.
++export async function sideEffectFailure(env, operation) {
++  await recordFailure(env, "operator", operation, "Operation failed; retry or inspect the related integration.");
++  return null;
++}
+diff --git a/output/standard-preview/functions/_shared/zernio.js b/output/standard-preview/functions/_shared/zernio.js
+index 8e28136..aeedad4 100644
+--- a/output/standard-preview/functions/_shared/zernio.js
++++ b/output/standard-preview/functions/_shared/zernio.js
+@@ -125,7 +125,7 @@ export async function resolveConversationId(env, zc, operatorEmail) {
+   }
+   await env.DB.prepare(
+     "INSERT INTO zernio_conversation_map(zernio_id,conversation_id,account_id,updated_time,synced_at) VALUES(?,?,?,?,?) ON CONFLICT(zernio_id) DO UPDATE SET conversation_id=excluded.conversation_id,account_id=excluded.account_id,synced_at=excluded.synced_at",
+-  ).bind(zid, conversationId, str(zc.accountId), str(zc.updatedTime) || null, nowIso()).run();
++  ).bind(zid, conversationId, str(zc.accountId), null, nowIso()).run();
+   return conversationId;
+ }
+ 
+diff --git a/output/standard-preview/functions/api/account.js b/output/standard-preview/functions/api/account.js
+index 82971ca..2292391 100644
+--- a/output/standard-preview/functions/api/account.js
++++ b/output/standard-preview/functions/api/account.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../_shared/side-effect-failure.js";
+ // Settings backend for both shells.
+ //   GET  /api/account                    everything the Settings page shows, for the caller's role
+ //   POST /api/account {action, ...}      client:   password | signout-others | workspace | notifications | export | delete-request
+@@ -17,7 +18,7 @@ const NOTIFICATION_KEYS = ["weekly_report", "payment_alerts", "sequence_reviews"
+ const DEFAULT_NOTIFICATIONS = { weekly_report: true, payment_alerts: true, sequence_reviews: true, product_updates: false };
+ 
+ async function pref(env, client, key, fallback) {
+-  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => null);
++  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => sideEffectFailure(env, "account_operation_1"));
+   if (!row) return fallback;
+   try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+ }
+@@ -27,7 +28,7 @@ async function setPref(env, client, key, value) {
+   ).bind(client, key, JSON.stringify(value), nowIso()).run();
+ }
+ async function operatorPref(env, email, key, fallback) {
+-  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => null);
++  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => sideEffectFailure(env, "account_operation_2"));
+   if (!row) return fallback;
+   try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+ }
+@@ -202,9 +203,9 @@ async function handlePost({ request, env }) {
+   if (action === "delete-request") {
+     const reason = str(body.reason).slice(0, 500);
+     await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+-      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => null);
+-    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => null);
+-    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => null);
++      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => sideEffectFailure(env, "account_operation_3"));
++    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => sideEffectFailure(env, "account_operation_4"));
++    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => sideEffectFailure(env, "account_operation_5"));
+     return json({ ok: true, message: "Request sent. Nothing is deleted until Pulsify confirms with you by email." });
+   }
+ 
+diff --git a/output/standard-preview/functions/api/crm-sync.js b/output/standard-preview/functions/api/crm-sync.js
+index 2b9c9f3..29aa73c 100644
+--- a/output/standard-preview/functions/api/crm-sync.js
++++ b/output/standard-preview/functions/api/crm-sync.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../_shared/side-effect-failure.js";
+ import { withOperator } from '../_shared/access.js';
+ import {checkAdmin,json} from '../_shared/common.js';
+ import {emitEvent} from '../_shared/outbound-webhooks.js';
+@@ -18,13 +19,13 @@ async function handle_onRequestPost({request,env}){
+    if(!name||name.length>300||!value||typeof value!=='object'||Array.isArray(value))return json({ok:false,error:'Invalid record'},422);
+    const ts=Number(value._ts)||1;if(!Number.isFinite(ts)||ts<0||ts>serverTs+300000)return json({ok:false,error:'Invalid record timestamp'},422);
+    if(kind==='overrides'){
+-    const prior=await env.DB.prepare('SELECT data,ts FROM crm_overrides WHERE name=?').bind(name).first().catch(()=>null);
++    const prior=await env.DB.prepare('SELECT data,ts FROM crm_overrides WHERE name=?').bind(name).first().catch(() => sideEffectFailure(env, "crm_sync_operation_1"));
+     let priorData={};try{priorData=JSON.parse(prior?.data||'{}');}catch{}
+     const from=priorData.status||priorData.stage||null,to=value.status||value.stage||null;
+     if(ts>Number(prior?.ts||0)&&to&&to!==from)stageEvents.push({name,from,to});
+    }
+    if(kind==='added'){
+-    const prior=await env.DB.prepare('SELECT ts FROM crm_added WHERE name=?').bind(name).first().catch(()=>null);
++    const prior=await env.DB.prepare('SELECT ts FROM crm_added WHERE name=?').bind(name).first().catch(() => sideEffectFailure(env, "crm_sync_operation_2"));
+     if(!prior&&ts>0)leadEvents.push({name,source:value.source||value.src||'crm-sync'});
+    }
+    statements.push(env.DB.prepare(`INSERT INTO ${table}(name,data,ts,sts,updated_at) VALUES(?,?,?,?,?) ON CONFLICT(name) DO UPDATE SET data=excluded.data,ts=excluded.ts,sts=excluded.sts,updated_at=excluded.updated_at WHERE excluded.ts > ${table}.ts`).bind(name,JSON.stringify(value),ts,serverTs,new Date(serverTs).toISOString()));
+@@ -32,8 +33,8 @@ async function handle_onRequestPost({request,env}){
+  }
+  if(statements.length>3000)return json({ok:false,error:'Too many records'},422);
+  for(let start=0;start<statements.length;start+=100)await env.DB.batch(statements.slice(start,start+100));
+- for(const event of stageEvents)await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:event}).catch(()=>null);
+- for(const event of leadEvents)await emitEvent(env,{scope:'operator',event:'lead.created',data:event}).catch(()=>null);
++ for(const event of stageEvents)await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:event}).catch(() => sideEffectFailure(env, "crm_sync_operation_3"));
++ for(const event of leadEvents)await emitEvent(env,{scope:'operator',event:'lead.created',data:event}).catch(() => sideEffectFailure(env, "crm_sync_operation_4"));
+  return snapshot(env,Math.max(0,Number(body.since)||0));
+ }
+ async function snapshot(env,since){
+diff --git a/output/standard-preview/functions/api/notify.js b/output/standard-preview/functions/api/notify.js
+deleted file mode 100644
+index cd8767a..0000000
+--- a/output/standard-preview/functions/api/notify.js
++++ /dev/null
+@@ -1,26 +0,0 @@
+-// Internal relay: the Worker hands operator notifications to Pages, which
+-// already holds RESEND_API_KEY. Authenticated with INTERNAL_NOTIFY_SECRET
+-// (generated by Claude, installed on both sides, never typed by a person).
+-//   POST /api/notify  {title, lines[], link}   header x-internal-secret
+-import { json, str } from "../_shared/common.js";
+-import { notifyOperator } from "../_shared/notify-operator.js";
+-
+-function sameSecret(a, b) {
+-  if (!a || !b || a.length !== b.length) return false;
+-  let diff = 0;
+-  for (let i = 0; i < a.length; i += 1) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+-  return diff === 0;
+-}
+-
+-export async function onRequestPost({ request, env }) {
+-  if (!sameSecret(request.headers.get("x-internal-secret") || "", env.INTERNAL_NOTIFY_SECRET || "")) {
+-    return json({ ok: false, error: "unauthorized" }, 401);
+-  }
+-  let body = {};
+-  try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
+-  const title = str(body.title).slice(0, 200);
+-  if (!title) return json({ ok: false, error: "title required" }, 422);
+-  const lines = Array.isArray(body.lines) ? body.lines.map((l) => str(l).slice(0, 500)).filter(Boolean).slice(0, 20) : [];
+-  const result = await notifyOperator(env, { title, lines, link: str(body.link).slice(0, 300) });
+-  return json({ ok: result.ok, delivered: result.delivered });
+-}
+diff --git a/output/standard-preview/workers/sync/src/jobs/instagram-inbox.js b/output/standard-preview/workers/sync/src/jobs/instagram-inbox.js
+index 59819ce..c6f6640 100644
+--- a/output/standard-preview/workers/sync/src/jobs/instagram-inbox.js
++++ b/output/standard-preview/workers/sync/src/jobs/instagram-inbox.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
+ import { composioExecute, findRows } from "../composio.js";
+ import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
+ import { notifyReply } from "./outreach-notify.js";
+@@ -137,9 +138,9 @@ export async function syncInstagramInbox(env, options = {}) {
+       const inserted = Number(result.meta?.changes || 0) && !knownMessages.has(message.id) ? 1 : 0;
+       written += inserted;
+       if (inserted && !historicalBootstrap && !resync && message.direction === "inbound" && message === normalized.at(-1)) {
+-        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text, messageId: message.id }).catch(() => null);
++        await notifyReply(env, { conversationId, handle: participant.username, name: participant.name, text: message.text, messageId: message.id }).catch(() => sideEffectFailure(env, "instagram_inbox_operation_1"));
+       }
+-      if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => null);
++      if (inserted && !historicalBootstrap && !resync) await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: message.id, conversation_id: conversationId, handle: participant.username || participant.id, direction: message.direction, text: message.text, ts: message.sentAt, source: "instagram" } }).catch(() => sideEffectFailure(env, "instagram_inbox_operation_2"));
+     }
+     await projectConversationToCrm(env, participant, conversationId, normalized, !historicalBootstrap);
+   }
+@@ -193,7 +194,7 @@ function comparableTime(value) {
+ async function loadSyncState(env) {
+   const row = await env.DB.prepare(
+     "SELECT payload_json FROM snapshots WHERE scope='operator' AND client_id='' AND source='instagram' AND kind='inbox-sync-state'",
+-  ).first().catch(() => null);
++  ).first().catch(() => sideEffectFailure(env, "instagram_inbox_operation_3"));
+   try { return JSON.parse(row?.payload_json || "{}"); } catch { return {}; }
+ }
+ 
+@@ -263,7 +264,7 @@ async function projectConversationToCrm(env, participant, conversationId, messag
+   if (!name) return;
+   const existing = await env.DB.prepare(
+     "SELECT data FROM crm_overrides WHERE name=?",
+-  ).bind(name).first().catch(() => null);
++  ).bind(name).first().catch(() => sideEffectFailure(env, "instagram_inbox_operation_4"));
+   let current = {};
+   try { current = JSON.parse(existing?.data || "{}"); } catch { current = {}; }
+   if (TERMINAL.has(current.status)) return;
+@@ -298,6 +299,6 @@ async function projectConversationToCrm(env, participant, conversationId, messag
+   }
+   const results = await env.DB.batch(statements);
+   if (shouldEmit && Number(results?.[0]?.meta?.changes || 0)) {
+-    await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => null);
++    await emitEvent(env, { scope: "operator", event: "lead.created", data: { name: participant.name || name, handle: participant.username || name, source: "instagram", conversation_id: conversationId } }).catch(() => sideEffectFailure(env, "instagram_inbox_operation_5"));
+   }
+ }
+diff --git a/output/standard-preview/workers/sync/src/jobs/outreach-notify.js b/output/standard-preview/workers/sync/src/jobs/outreach-notify.js
+index 4662fc8..28f8f27 100644
+--- a/output/standard-preview/workers/sync/src/jobs/outreach-notify.js
++++ b/output/standard-preview/workers/sync/src/jobs/outreach-notify.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
+ // Outreach notifications. Two triggers the founder asked for:
+ //   1. A prospect replies -> "[Name, @handle] replied: ..."
+ //   2. A prospect saw the message and did not reply within 5 minutes -> "[Name, @handle] seen, no reply"
+@@ -45,11 +46,11 @@ export async function ingestSeen(env, payload) {
+   for (const s of signals) {
+     let conversationId = null;
+     if (s.mid) {
+-      const m = await env.DB.prepare("SELECT conversation_id FROM ig_messages WHERE id=?").bind(s.mid).first().catch(() => null);
++      const m = await env.DB.prepare("SELECT conversation_id FROM ig_messages WHERE id=?").bind(s.mid).first().catch(() => sideEffectFailure(env, "outreach_notify_operation_1"));
+       conversationId = m?.conversation_id || null;
+     }
+     if (!conversationId && s.senderId) {
+-      const c = await env.DB.prepare("SELECT id FROM ig_conversations WHERE participant_id=? ORDER BY last_message_at DESC LIMIT 1").bind(s.senderId).first().catch(() => null);
++      const c = await env.DB.prepare("SELECT id FROM ig_conversations WHERE participant_id=? ORDER BY last_message_at DESC LIMIT 1").bind(s.senderId).first().catch(() => sideEffectFailure(env, "outreach_notify_operation_2"));
+       conversationId = c?.id || null;
+     }
+     if (!conversationId) continue;
+diff --git a/output/standard-preview/workers/sync/src/jobs/payments.js b/output/standard-preview/workers/sync/src/jobs/payments.js
+index c4916d0..53a7b58 100644
+--- a/output/standard-preview/workers/sync/src/jobs/payments.js
++++ b/output/standard-preview/workers/sync/src/jobs/payments.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
+ // Every 30 minutes: import provider payments/refunds, then rematch anything
+ // that arrived before its lead. Provider pulls overlap the prior successful
+ // window; payment references and refund event ids make the overlap safe.
+@@ -47,7 +48,7 @@ export async function rematchPayments(env) {
+   ).all();
+   let touched = 0;
+   for (const payment of rows.results || []) {
+-    const result = await matchPayment(env, payment).catch(() => null);
++    const result = await matchPayment(env, payment).catch(() => sideEffectFailure(env, "payments_operation_1"));
+     if (result && (result.confirmed || result.suggested)) touched += 1;
+   }
+   return touched;
+@@ -90,7 +91,7 @@ async function importStripe(env, connection, fetcher) {
+     );
+     if (!applied.ok) {
+       await env.DB.prepare("DELETE FROM integration_events WHERE provider='stripe' AND kind='refund' AND external_id=?")
+-        .bind(item.id).run().catch(() => null);
++        .bind(item.id).run().catch(() => sideEffectFailure(env, "payments_operation_2"));
+     }
+     if (applied.ok && !applied.duplicate) touched += 1;
+   }
+@@ -131,7 +132,7 @@ async function importWhop(env, connection, fetcher) {
+     const applied = await applyRefund(env, connection.client, `whop:${item.payment?.id || ""}`, majorToCents(item.amount), { mode: "increment" });
+     if (!applied.ok) {
+       await env.DB.prepare("DELETE FROM integration_events WHERE provider='whop' AND kind='refund' AND external_id=?")
+-        .bind(item.id).run().catch(() => null);
++        .bind(item.id).run().catch(() => sideEffectFailure(env, "payments_operation_3"));
+     }
+     if (applied.ok && !applied.duplicate) touched += 1;
+   }
+@@ -170,7 +171,7 @@ async function insertPayment(env, client, provider, input) {
+ async function importSince(env, client, provider) {
+   const row = await env.DB.prepare(
+     "SELECT MAX(occurred_at) AS latest FROM payments WHERE client=? AND rail=?",
+-  ).bind(client, provider).first().catch(() => null);
++  ).bind(client, provider).first().catch(() => sideEffectFailure(env, "payments_operation_4"));
+   const latest = Date.parse(row?.latest || "");
+   return new Date(Number.isFinite(latest) ? latest - 86400000 : Date.now() - 90 * 86400000).toISOString();
+ }
+diff --git a/output/standard-preview/workers/sync/src/jobs/webhook-outbox.js b/output/standard-preview/workers/sync/src/jobs/webhook-outbox.js
+index c9a3189..3f87e93 100644
+--- a/output/standard-preview/workers/sync/src/jobs/webhook-outbox.js
++++ b/output/standard-preview/workers/sync/src/jobs/webhook-outbox.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
+ // Every minute: fan out new outbox events into per-endpoint deliveries, then
+ // deliver everything that is due. Retries are scheduled by deliverDue itself.
+ import { deliverDue, fanOut } from "../../../../functions/_shared/outbound-webhooks.js";
+@@ -5,7 +6,7 @@ import { deliverDue, fanOut } from "../../../../functions/_shared/outbound-webho
+ export async function sweepWebhooks(env) {
+   // Housekeeping: rate-limit buckets are only meaningful for one minute.
+   const cutoff = new Date(Date.now() - 2 * 3600 * 1000).toISOString().slice(0, 16);
+-  await env.DB.prepare("DELETE FROM api_key_usage WHERE bucket < ?").bind(cutoff).run().catch(() => null);
++  await env.DB.prepare("DELETE FROM api_key_usage WHERE bucket < ?").bind(cutoff).run().catch(() => sideEffectFailure(env, "webhook_outbox_operation_1"));
+   const created = await fanOut(env);
+   const result = await deliverDue(env);
+   return created + result.delivered;
+diff --git a/output/standard-preview/workers/sync/src/jobs/zernio-inbox.js b/output/standard-preview/workers/sync/src/jobs/zernio-inbox.js
+index a00f250..6c21ec1 100644
+--- a/output/standard-preview/workers/sync/src/jobs/zernio-inbox.js
++++ b/output/standard-preview/workers/sync/src/jobs/zernio-inbox.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../../../../functions/_shared/side-effect-failure.js";
+ // Zernio inbox: webhook handler (real time) plus a sweep (every minute, catches
+ // anything a webhook missed and pulls read receipts). Writes into the same
+ // ig_conversations / ig_messages / ig_outreach rows the tracker reads.
+@@ -23,10 +24,17 @@ export async function handleZernioEvent(env, payload, eventId) {
+   const operatorEmail = env.OPERATOR_EMAIL || "operator";
+   const id = str(eventId || payload?.id);
+   if (id) {
+-    const seen = await env.DB.prepare("SELECT id FROM zernio_events WHERE id=?").bind(id).first().catch(() => null);
++    const seen = await env.DB.prepare("SELECT id FROM zernio_events WHERE id=?").bind(id).first().catch(() => sideEffectFailure(env, "zernio_inbox_operation_1"));
+     if (seen) return { ok: true, duplicate: true };
+-    await env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at) VALUES(?,?,?)").bind(id, str(payload?.event), nowIso()).run().catch(() => null);
++
+   }
++  const result = await processZernioEvent(env, payload);
++  if (id) await env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at) VALUES(?,?,?)").bind(id, str(payload?.event), nowIso()).run();
++  return result;
++}
++
++async function processZernioEvent(env, payload) {
++  const operatorEmail = env.OPERATOR_EMAIL || "operator";
+   const event = str(payload?.event);
+   const zc = payload?.conversation || {};
+   const zm = payload?.message || {};
+@@ -38,8 +46,8 @@ export async function handleZernioEvent(env, payload, eventId) {
+     const isNew = await storeMessage(env, conversationId, zm, operatorEmail);
+     if (isNew && event === "message.received") {
+       const row = await env.DB.prepare("SELECT participant_username AS handle, participant_name AS name FROM ig_conversations WHERE id=?").bind(conversationId).first();
+-      await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text, messageId: zm.platformMessageId || zm.id }).catch(() => null);
+-      await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: zm.platformMessageId || zm.id, conversation_id: conversationId, handle: row?.handle || "", name: row?.name || "", direction: "inbound", text: zm.text, ts: zm.sentAt, source: "instagram" } }).catch(() => null);
++      await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text, messageId: zm.platformMessageId || zm.id }).catch(() => sideEffectFailure(env, "zernio_inbox_operation_2"));
++      await emitEvent(env, { scope: "operator", event: "conversation.new_message", data: { message_id: zm.platformMessageId || zm.id, conversation_id: conversationId, handle: row?.handle || "", name: row?.name || "", direction: "inbound", text: zm.text, ts: zm.sentAt, source: "instagram" } }).catch(() => sideEffectFailure(env, "zernio_inbox_operation_3"));
+     }
+     if (isNew) await pushOperator(env, "tracker.changed", { conversation_id: conversationId, reason: event === "message.received" ? "reply" : "sent" });
+     return { ok: true, conversationId, stored: isNew };
+@@ -52,7 +60,7 @@ export async function handleZernioEvent(env, payload, eventId) {
+   }
+   if (event === "message.deleted") {
+     const mid = str(zm.platformMessageId) || str(zm.id);
+-    await env.DB.prepare("UPDATE ig_messages SET text=COALESCE(text,'') || ' (unsent)' WHERE id=? AND text NOT LIKE '%(unsent)'").bind(mid).run().catch(() => null);
++    await env.DB.prepare("UPDATE ig_messages SET text=COALESCE(text,'') || ' (unsent)' WHERE id=? AND text NOT LIKE '%(unsent)'").bind(mid).run().catch(() => sideEffectFailure(env, "zernio_inbox_operation_4"));
+     return { ok: true, conversationId, deleted: mid };
+   }
+   return { ok: true, conversationId, ignored: event };
+@@ -84,10 +92,8 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
+       processed += 1;
+       const conversationId = await resolveConversationId(env, zc, operatorEmail);
+       await refreshIdentity(env, conversationId, zc);
+-      const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher).catch((error) => {
+-        if (String(error?.message || "").includes("429")) throw error; // stop the sweep, the next minute retries
+-        return { messages: [] };
+-      });
++      const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher);
++      if (!Array.isArray(msgs.messages)) throw new Error("Zernio messages response is incomplete");
+       let added = 0;
+       for (const zm of (msgs.messages || []).slice().reverse()) {
+         if (await storeMessage(env, conversationId, zm, operatorEmail)) added += 1;
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'functions/_shared/archive.js';s=f.read_text().replace('    {\\n      const rows', '    const rows').replace('      if (rows.length) bundle.tables[tbl] = rows;\\n    }', '    if (rows.length) bundle.tables[tbl] = rows;');f.write_text(s)
+f=p/'workers/sync/src/jobs/zernio-inbox.js';s=f.read_text().replace('  const operatorEmail = env.OPERATOR_EMAIL || \"operator\";\\n  const id', '  const id',1).replace('.first().catch(() => sideEffectFailure(env, \"zernio_inbox_operation_1\"))','.first()').replace('.run().catch(() => sideEffectFailure(env, \"zernio_inbox_operation_4\"))','.run()');f.write_text(s)
+f=p/'functions/_shared/pipeline-touches.js';s=f.read_text().replace('      WHERE (? IS NULL OR LOWER(t.contact_email)', \"      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=t.client_id AND c.status='archived')\\n        AND (? IS NULL OR LOWER(t.contact_email)\");f.write_text(s)
+f=p/'functions/_shared/search.js';s=f.read_text().replace('      WHERE length(b.value_json)>4',\"      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=b.client_id AND c.status='archived')\\n        AND length(b.value_json)>4\");s=s.replace('  return (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));', '''  const hits = (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));
+  const visible = [];
+  const states = new Map();
+  for (const hit of hits) {
+    if (hit.kind === \"brain\") {
+      if ("'!states.has(hit.client_id)) states.set(hit.client_id, await env.DB.prepare("SELECT status FROM client_config WHERE client=?").bind(hit.client_id).first());
+      if (!states.get(hit.client_id) || states.get(hit.client_id).status === "archived") continue;
+    }
+    visible.push(hit);
+  }
+  return visible;'"''');f.write_text(s)
+f=p/'functions/api/workspace-archive.js';s=f.read_text().replace('async function handlePost(', 'async function performPost(');s=s.replace('export const onRequestPost = withOperator(handlePost);','''export const onRequestPost = withOperator(async context => {
+  try { return await performPost(context); }
+  catch { return json({ok:false,error:\"Workspace change could not be completed. Check archive storage and retry.\"},503); }
+});''');f.write_text(s)
+f=p/'tests/search.test.mjs';s=f.read_text()+'''
+
+test('archived workspace brain is hidden even while its vector remains preserved',async()=>{
+  sql.prepare(\"UPDATE client_config SET status='archived' WHERE client='acme'\").run();
+  assert.equal((await search(env,{q:'prop firm',scope:'operator'})).some(h=>h.client_id==='acme'),false);
+  assert.equal((await search(env,{q:'prop firm',scope:'acme'})).length,0);
+  sql.prepare(\"UPDATE client_brain SET value_json='\\\\\"new archived private field\\\\\"' WHERE client_id='acme'\").run();
+  assert.equal((await pendingBrainDocs(env)).length,0);
+});
+''';f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 389ms:
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+f=p/'tests/phase5-contacts-browser.cjs';s=f.read_text();s=s.replace(\"const page=await browser.newPage(),errors=[];\", \"let isArchived=false;const client={client:'sample',client_name:'Sample coaching',status:'client'};\\nconst page=await browser.newPage(),errors=[];\")
+s=s.replace(\"else if(u.pathname==='/api/notifications')\", \"else if(u.pathname==='/api/clients')d={clients:isArchived?[]:[client]};\\nelse if(u.pathname==='/api/workspace-archive'){if(route.request().method()==='POST'){isArchived=route.request().postDataJSON().action==='archive';d={ok:true};}else d={archived:isArchived?[client]:[]};}\\nelse if(u.pathname==='/api/notifications')\")
+s=s.replace(\"assert.deepEqual(errors,[]);console.log\", \"\"\"await page.evaluate(()=>PulsifyOperatorShell.go('home'));await page.locator('[data-archive=\"sample\"]').waitFor();
+await page.locator('[data-archive=\"sample\"]').click();await page.locator('dialog [data-cancel]').click();assert.equal(isArchived,false);
+await page.locator('[data-archive=\"sample\"]').click();await page.locator('dialog [data-confirm]').click();await page.getByText('No active workspaces.').waitFor();assert.equal(isArchived,true);
+await page.locator('[data-filter=\"archived\"]').click();await page.locator('[data-restore=\"sample\"]').waitFor();
+assert.match(await page.locator('a:has-text(\"Download export\")').getAttribute('href'),/workspace-archive\\\\?client=sample&export=1/);
+await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(qa,'clients-archived-mobile.png'),fullPage:true});
+await page.locator('[data-restore=\"sample\"]').click();await page.getByText('No archived workspaces.').waitFor();assert.equal(isArchived,false);
+await page.locator('[data-filter=\"active\"]').click();await page.locator('[data-setup=\"sample\"]').waitFor();
+await page.locator('[data-setup=\"sample\"]').click();assert.match(await page.locator('iframe[title=\"Client setup\"]').getAttribute('src'),/view=clients&client=sample/);
+assert.deepEqual(errors,[]);console.log\"\"\")
+s=s.replace('PASS shared contacts: 16 screenshots','PASS shared contacts and archive/restore controls: 17 screenshots');f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -
+node --test tests/*.test.mjs > ../qa/2026-09-phase5/final-tests.txt 2>&1" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ exited 1 in 488ms:
+out-file : Could not find a part of the path 'C:\Users\Abdullah\Desktop\qa\2026-09-phase5\final-tests.txt'.
+At line:19 char:1
++ node --test tests/*.test.mjs > ../qa/2026-09-phase5/final-tests.txt 2 ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OpenError: (:) [Out-File], DirectoryNotFoundException
+    + FullyQualifiedErrorId : FileOpenFailure,Microsoft.PowerShell.Commands.OutFileCommand
+ 
+
+codex
+All five authenticated API probes were blocked by network permission errors (`EACCES`), so I cannot verify production recovery or claim a release. Final review also found that archived workspaces could still appear in funnel contacts and Search; those reads now exclude them. I’m checking archive/restore UI behavior and the expanded regression suite before writing the final handoff.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'node --test tests/*.test.mjs > ../qa/2026-09-phase5/final-tests.txt 2>&1; Get-Content ../qa/2026-09-phase5/final-tests.txt -Tail 12; node tests/phase5-contacts-browser.cjs' in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 12794ms:
+✔ sweep pulls changed conversations, stores messages, and the Composio job steps aside once connected (40.9178ms)
+✔ tracker reads the merged data: seen threads, pictures, and left-on-read (16.6711ms)
+✔ failed webhook processing leaves event retryable (1.1486ms)
+✔ failed sweep fetch does not advance even a newly mapped conversation watermark (1.8245ms)
+ℹ tests 95
+ℹ suites 0
+ℹ pass 95
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2407.3929
+PASS shared contacts and archive/restore controls: 17 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'git diff 08fb9de -- output/standard-preview/functions/_shared/provisioning.js output/standard-preview/functions/api/account.js output/standard-preview/functions/_shared/realtime.js output/standard-preview/functions/_shared/side-effect-failure.js output/standard-preview/functions/_shared/search.js output/standard-preview/functions/_shared/pipeline-touches.js; git diff --check 08fb9de -- output/standard-preview' in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 250ms:
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+diff --git a/output/standard-preview/functions/_shared/pipeline-touches.js b/output/standard-preview/functions/_shared/pipeline-touches.js
+index 62827fe..8ec4b5e 100644
+--- a/output/standard-preview/functions/_shared/pipeline-touches.js
++++ b/output/standard-preview/functions/_shared/pipeline-touches.js
+@@ -55,7 +55,8 @@ export async function listContactsAll(env, { q = "", limit = 300 } = {}) {
+             COALESCE(SUM(CASE WHEN t.kind='payment' THEN t.amount_cents END),0) AS paid_cents,
+             (SELECT client_name FROM client_config c WHERE c.client=t.client_id) AS client_name
+        FROM pipeline_touches t
+-      WHERE (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
++      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=t.client_id AND c.status='archived')
++        AND (? IS NULL OR LOWER(t.contact_email) LIKE ? OR LOWER(COALESCE(t.contact_name,'')) LIKE ?)
+       GROUP BY t.client_id, t.contact_email
+       ORDER BY last_seen DESC LIMIT ?`,
+   ).bind(like, like, like, Math.min(1000, limit)).all();
+diff --git a/output/standard-preview/functions/_shared/provisioning.js b/output/standard-preview/functions/_shared/provisioning.js
+index c443a12..10c8f06 100644
+--- a/output/standard-preview/functions/_shared/provisioning.js
++++ b/output/standard-preview/functions/_shared/provisioning.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "./side-effect-failure.js";
+ // One provisioning function, three triggers: a completed DocuSign envelope,
+ // a confirmed payment for a prospect, or the operator's "Provision now".
+ // Idempotent on client id. Creates the workspace and login shell if missing,
+@@ -46,7 +47,9 @@ export async function provisionClient(env, { source, client, email, name, contra
+     await env.DB.prepare(
+       "INSERT INTO client_provisioning (client_id, email, source, contract_ref, provisioned_at, provisioned_by) VALUES (?,?,?,?,?,?)",
+     ).bind(clientId, normalizedEmail, source, str(contractRef) || null, now, str(actor) || source).run();
+-  } catch {
++  } catch (error) {
++    const existing = await env.DB.prepare("SELECT client_id FROM client_provisioning WHERE client_id=?").bind(clientId).first();
++    if (!existing) throw error;
+     return { ok: true, client: clientId, duplicate: true };
+   }
+ 
+@@ -55,19 +58,19 @@ export async function provisionClient(env, { source, client, email, name, contra
+   let setup = setupLink ? { ok: true, link: str(setupLink) } : null;
+   if (!setup) setup = await createSetupLink(env, origin || "https://pulsify-ai.com", clientId, normalizedEmail);
+   if (!setup.ok || !setup.link) {
+-    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
++    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_1"));
+     return { ok: false, error: setup.error || "could not create setup link" };
+   }
+ 
+   try {
+     await seedChecklist(env, clientId);
+   } catch (error) {
+-    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => null);
++    await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_2"));
+     return { ok: false, error: String(error?.message || error) };
+   }
+   await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+-    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => null);
+-  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => null);
++    .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => sideEffectFailure(env, "provisioning_operation_3"));
++  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => sideEffectFailure(env, "provisioning_operation_4"));
+ 
+   const welcome = await sendWelcome(env, { clientId, email: normalizedEmail, name: clientName, setupLink: setup.link, sleep, fetcher });
+   return { ok: true, client: clientId, duplicate: false, setup_link: setup.link, welcome_state: welcome.state };
+diff --git a/output/standard-preview/functions/_shared/realtime.js b/output/standard-preview/functions/_shared/realtime.js
+index 713f764..490aff3 100644
+--- a/output/standard-preview/functions/_shared/realtime.js
++++ b/output/standard-preview/functions/_shared/realtime.js
+@@ -10,13 +10,24 @@ export function realtimeConfigured(env) {
+   return Boolean(env?.SUPABASE_URL && env?.SUPABASE_ANON_KEY);
+ }
+ 
++const reasons = new Set(["reply", "sent", "seen", "sync", "left-on-read", "sentiment", "outcome", "note", "hibernate", "wake", "reset"]);
++export function signalPayload(payload = {}) {
++  const safe = {};
++  for (const key of ["id", "conversation_id"]) {
++    const value = payload?.[key];
++    if (typeof value === "string" && /^[A-Za-z0-9_:.=-]{1,200}$/.test(value)) safe[key] = value;
++  }
++  if (reasons.has(payload?.reason)) safe.reason = payload.reason;
++  return safe;
++}
++
+ export async function broadcast(env, topic, event, payload = {}, fetcher = fetch) {
+   if (!realtimeConfigured(env)) return { ok: false, skipped: true };
+   try {
+     const r = await fetcher(`${String(env.SUPABASE_URL).replace(/\/$/, "")}/realtime/v1/api/broadcast`, {
+       method: "POST",
+       headers: { apikey: env.SUPABASE_ANON_KEY, authorization: `Bearer ${env.SUPABASE_ANON_KEY}`, "content-type": "application/json" },
+-      body: JSON.stringify({ messages: [{ topic, event, payload: { ...payload, at: new Date().toISOString() } }] }),
++      body: JSON.stringify({ messages: [{ topic, event, payload: { ...signalPayload(payload), at: new Date().toISOString() } }] }),
+     });
+     return { ok: r.status === 202 || r.ok, status: r.status };
+   } catch (error) {
+diff --git a/output/standard-preview/functions/_shared/search.js b/output/standard-preview/functions/_shared/search.js
+index a3b699f..f30dc71 100644
+--- a/output/standard-preview/functions/_shared/search.js
++++ b/output/standard-preview/functions/_shared/search.js
+@@ -48,7 +48,8 @@ export async function pendingBrainDocs(env, limit = BATCH) {
+     `SELECT b.id, b.client_id, b.section, b.field, b.value_json, b.updated_at,
+             (SELECT client_name FROM client_config c WHERE c.client=b.client_id) AS client_name
+        FROM client_brain b
+-      WHERE length(b.value_json)>4 ORDER BY b.updated_at DESC LIMIT 500`,
++      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=b.client_id AND c.status='archived')
++        AND length(b.value_json)>4 ORDER BY b.updated_at DESC LIMIT 500`,
+   ).all()).results || [];
+   const out = [];
+   for (const r of rows) {
+@@ -111,5 +112,15 @@ export async function search(env, { q, scope = "operator", kinds = ["dm", "brain
+     ? { kind: kinds.length === 1 ? kinds[0] : { $in: kinds } }
+     : { kind: "brain", scope };
+   const res = await env.VECTORIZE.query(vector, { topK: Math.min(50, topK), filter, returnMetadata: "all" });
+-  return (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));
++  const hits = (res?.matches || []).map((m) => ({ id: m.id, score: Math.round(m.score * 1000) / 1000, ...(m.metadata || {}) }));
++  const visible = [];
++  const states = new Map();
++  for (const hit of hits) {
++    if (hit.kind === "brain") {
++      if (!states.has(hit.client_id)) states.set(hit.client_id, await env.DB.prepare("SELECT status FROM client_config WHERE client=?").bind(hit.client_id).first());
++      if (!states.get(hit.client_id) || states.get(hit.client_id).status === "archived") continue;
++    }
++    visible.push(hit);
++  }
++  return visible;
+ }
+diff --git a/output/standard-preview/functions/_shared/side-effect-failure.js b/output/standard-preview/functions/_shared/side-effect-failure.js
+new file mode 100644
+index 0000000..06a9c31
+--- /dev/null
++++ b/output/standard-preview/functions/_shared/side-effect-failure.js
+@@ -0,0 +1,6 @@
++import { recordFailure } from "./integrations.js";
++// Diagnostics contain the operation, never raw provider errors, payloads or credentials.
++export async function sideEffectFailure(env, operation) {
++  await recordFailure(env, "operator", operation, "Operation failed; retry or inspect the related integration.");
++  return null;
++}
+diff --git a/output/standard-preview/functions/api/account.js b/output/standard-preview/functions/api/account.js
+index 82971ca..2292391 100644
+--- a/output/standard-preview/functions/api/account.js
++++ b/output/standard-preview/functions/api/account.js
+@@ -1,3 +1,4 @@
++import { sideEffectFailure } from "../_shared/side-effect-failure.js";
+ // Settings backend for both shells.
+ //   GET  /api/account                    everything the Settings page shows, for the caller's role
+ //   POST /api/account {action, ...}      client:   password | signout-others | workspace | notifications | export | delete-request
+@@ -17,7 +18,7 @@ const NOTIFICATION_KEYS = ["weekly_report", "payment_alerts", "sequence_reviews"
+ const DEFAULT_NOTIFICATIONS = { weekly_report: true, payment_alerts: true, sequence_reviews: true, product_updates: false };
+ 
+ async function pref(env, client, key, fallback) {
+-  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => null);
++  const row = await env.DB.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key=?").bind(client, key).first().catch(() => sideEffectFailure(env, "account_operation_1"));
+   if (!row) return fallback;
+   try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+ }
+@@ -27,7 +28,7 @@ async function setPref(env, client, key, value) {
+   ).bind(client, key, JSON.stringify(value), nowIso()).run();
+ }
+ async function operatorPref(env, email, key, fallback) {
+-  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => null);
++  const row = await env.DB.prepare("SELECT value_json FROM operator_state WHERE operator_email=? AND key=?").bind(email, key).first().catch(() => sideEffectFailure(env, "account_operation_2"));
+   if (!row) return fallback;
+   try { return { ...fallback, ...JSON.parse(row.value_json) }; } catch { return fallback; }
+ }
+@@ -202,9 +203,9 @@ async function handlePost({ request, env }) {
+   if (action === "delete-request") {
+     const reason = str(body.reason).slice(0, 500);
+     await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+-      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => null);
+-    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => null);
+-    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => null);
++      .bind(`client:${client}`, "workspace-delete-request", client, JSON.stringify({ reason }), nowIso()).run().catch(() => sideEffectFailure(env, "account_operation_3"));
++    await emitEvent(env, { scope: "operator", event: "client.delete_requested", data: { client, reason } }).catch(() => sideEffectFailure(env, "account_operation_4"));
++    await notify(env, { scope: "operator", clientId: client, kind: "client", severity: "warn", title: `${client} asked to close their workspace`, body: reason || "No reason given. Nothing was deleted; confirm with them first.", link: "clients" }).catch(() => sideEffectFailure(env, "account_operation_5"));
+     return json({ ok: true, message: "Request sent. Nothing is deleted until Pulsify confirms with you by email." });
+   }
+ 
+warning: unable to access 'C:\Users\Abdullah/.config/git/ignore': Permission denied
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Content functions/api/spine/conversations.js -Encoding UTF8; Get-Content functions/_shared/outreach.js -Encoding UTF8 | Select-Object -First 90; Get-Content admin/contact-row.js -Encoding UTF8; Get-Content admin/clients-view.js -Encoding UTF8' in C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview
+ succeeded in 383ms:
+// Instagram inbox for the operator Leads view.
+//   GET /api/spine/conversations?q=&unmatched=1     threads, newest first, with in_crm flag
+//   GET /api/spine/conversations?id=<thread>        one thread with its messages
+import { withOperator } from "../../_shared/access.js";
+import { json, parseJson, str } from "../../_shared/common.js";
+import { resolveSpineRead } from "../../_shared/spine-auth.js";
+
+async function handleGet({ request, env }) {
+  if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
+  const access = await resolveSpineRead(request, env, "operator", "");
+  if (access.error) return access.error;
+  const url = new URL(request.url);
+  const id = str(url.searchParams.get("id"));
+  if (id) return thread(env, id);
+
+  const unmatched = url.searchParams.get("unmatched") === "1";
+  const q = str(url.searchParams.get("q")).toLowerCase();
+  const like = q ? `%${q.replace(/[\\%_]/g, "\\$&")}%` : null;
+  // A thread is "in CRM" when the handle exists as an added lead or carries an override.
+  const inCrm = `EXISTS (
+      SELECT 1 FROM crm_added a
+       WHERE a.name=COALESCE(NULLIF(c.participant_username,''),NULLIF(c.participant_id,''),c.participant_name)
+    ) OR EXISTS (
+      SELECT 1 FROM crm_overrides o
+       WHERE o.name=COALESCE(NULLIF(c.participant_username,''),NULLIF(c.participant_id,''),c.participant_name)
+    )`;
+  const where = [
+    unmatched ? `NOT (${inCrm})` : null,
+    like ? `(LOWER(COALESCE(c.participant_username,'')) LIKE ? ESCAPE '\\' OR LOWER(COALESCE(c.participant_name,'')) LIKE ? ESCAPE '\\')` : null,
+  ].filter(Boolean);
+  const rows = await env.DB.prepare(
+    `SELECT c.id,c.participant_id,c.participant_username,c.participant_name,c.first_message_at,c.last_message_at,c.last_direction,c.payload_json,
+            (SELECT m.text FROM ig_messages m WHERE m.conversation_id=c.id ORDER BY m.sent_at DESC LIMIT 1) AS last_text,
+            (SELECT COUNT(*) FROM ig_messages m WHERE m.conversation_id=c.id) AS message_count,
+            (SELECT COUNT(*) FROM ig_messages m WHERE m.conversation_id=c.id AND m.direction='inbound') AS inbound_count,
+            (${inCrm}) AS in_crm
+       FROM ig_conversations c
+       ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
+      ORDER BY c.last_message_at DESC LIMIT 200`,
+  ).bind(...(like ? [like, like] : [])).all();
+  return json({
+    ok: true,
+    conversations: (rows.results || []).map((row) => ({
+      ...row,
+      in_crm: Boolean(row.in_crm),
+      payload: parseJson(row.payload_json, {}),
+      payload_json: undefined,
+    })),
+  });
+}
+
+async function thread(env, id) {
+  const conversation = await env.DB.prepare(
+    "SELECT id,participant_id,participant_username,participant_name,first_message_at,last_message_at,last_direction FROM ig_conversations WHERE id=?",
+  ).bind(id).first();
+  if (!conversation) return json({ ok: false, error: "thread not found" }, 404);
+  const messages = await env.DB.prepare(
+    "SELECT id,direction,sent_at,text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC LIMIT 500",
+  ).bind(id).all();
+  return json({ ok: true, conversation, messages: messages.results || [] });
+}
+
+export const onRequestGet = withOperator(handleGet);
+// Outreach tracker logic. Pure functions over a thread's messages plus the
+// human-set row from ig_outreach. Used by the API and the Worker.
+import { nowIso, str } from "./common.js";
+
+export const TOUCH_WINDOW_MS = 60 * 60 * 1000;      // bubbles within an hour are one touch
+export const FOLLOW_UP_HOURS = 24;                  // next touch is due after this
+export const MAX_TOUCHES = 4;                       // opener + 3 follow-ups, then move on
+export const SEEN_GRACE_MS = 5 * 60 * 1000;         // seen with no reply for 5 minutes
+
+export const TOUCH_LABELS = ["No message yet", "Opener sent", "2nd message sent", "3rd message sent", "4th message sent"];
+
+// Cluster our messages into touches: a touch is a run of outbound messages
+// with no inbound in between and gaps under TOUCH_WINDOW_MS.
+export function countTouches(messages, since = null) {
+  let touches = 0;
+  let lastOut = null;
+  for (const m of messages) {
+    if (since && m.sent_at <= since) continue;
+    if (m.direction !== "outbound") { lastOut = null; continue; }
+    const t = Date.parse(m.sent_at);
+    if (!lastOut || t - lastOut > TOUCH_WINDOW_MS) touches += 1;
+    lastOut = t;
+  }
+  return touches;
+}
+
+// Everything the tracker shows for one thread.
+export function deriveThread(conversation, messages, row = {}, now = Date.now()) {
+  const sorted = [...messages].sort((a, b) => a.sent_at.localeCompare(b.sent_at));
+  const first = sorted[0] || null;
+  const ours = sorted.filter((m) => m.direction === "outbound");
+  const theirs = sorted.filter((m) => m.direction === "inbound");
+  const lastOurs = ours.at(-1)?.sent_at || null;
+  const lastTheirs = theirs.at(-1)?.sent_at || null;
+  const origin = first ? (first.direction === "outbound" ? "outbound" : "inbound") : "outbound";
+  // Closed, lost and hibernating threads never nag, even when they spoke last.
+  const parked = row.outcome === "closed" || row.outcome === "lost" || Boolean(row.hibernated_at);
+  const awaitingUs = !parked && Boolean(lastTheirs && (!lastOurs || lastTheirs > lastOurs));
+  const touches = countTouches(sorted, lastTheirs);
+  const hoursSinceOurs = lastOurs ? (now - Date.parse(lastOurs)) / 3600000 : null;
+  const replied = theirs.length > 0;
+  const seen = row.seen_at || null;
+
+  let stage;
+  if (row.outcome === "closed") stage = "closed";
+  else if (row.outcome === "booked") stage = "booked";
+  else if (row.outcome === "lost") stage = "lost";
+  else if (row.hibernated_at) stage = "hibernating";
+  else if (awaitingUs) stage = "replied";
+  else if (origin === "outbound" && touches >= MAX_TOUCHES && hoursSinceOurs !== null && hoursSinceOurs >= FOLLOW_UP_HOURS) stage = "hibernating";
+  else stage = `touch-${Math.min(touches, MAX_TOUCHES)}`;
+
+  const followUpDue = !row.outcome && !row.hibernated_at && !awaitingUs && origin === "outbound"
+    && touches > 0 && touches < MAX_TOUCHES && hoursSinceOurs !== null && hoursSinceOurs >= FOLLOW_UP_HOURS;
+  const ghosted = origin === "outbound" && !replied && stage === "hibernating";
+  // Left on read: seen, then silence for the grace period, no reply after the seen moment.
+  const leftOnRead = Boolean(seen && !theirs.some((m) => m.sent_at > seen) && now - Date.parse(seen) >= SEEN_GRACE_MS);
+
+  return {
+    id: conversation.id,
+    handle: conversation.participant_username || "",
+    name: conversation.participant_name || conversation.participant_username || "Instagram lead",
+    participant_id: conversation.participant_id || "",
+    pfp_url: row.pfp_url || null,
+    origin,
+    stage,
+    stage_label: stage.startsWith("touch-") ? TOUCH_LABELS[Number(stage.slice(6))] : ({ replied: "They replied", booked: "Appointment booked", closed: "Closed", lost: "Lost", hibernating: "Hibernating" })[stage],
+    touches,
+    our_messages: ours.length,
+    their_messages: theirs.length,
+    first_message_at: first?.sent_at || conversation.first_message_at || null,
+    last_message_at: sorted.at(-1)?.sent_at || conversation.last_message_at || null,
+    last_our_message_at: lastOurs,
+    last_their_message_at: lastTheirs,
+    last_text: sorted.at(-1)?.text || "",
+    hours_since_our_message: hoursSinceOurs === null ? null : Math.floor(hoursSinceOurs),
+    awaiting_us: awaitingUs,
+    follow_up_due: followUpDue,
+    replied,
+    ghosted,
+    seen_at: seen,
+    left_on_read: leftOnRead,
+    sentiment: row.sentiment || null,
+    outcome: row.outcome || null,
+    hibernated_at: row.hibernated_at || null,
+    notes: row.notes || "",
+  };
+}
+
+// Sort for the working list: due follow-ups first (most overdue first), then
+// Shared contact anatomy, ordering and loading state for operator contact views.
+(() => {
+  const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const time = v => Number.isFinite(Date.parse(v)) ? Date.parse(v) : 0;
+  const last = r => r.last_message_at || r.last_seen || r.sent_at || r.updated_at;
+  const name = r => r.name || r.participant_name || r.contact_name || r.client_name || r.handle || r.contact_email || "Unknown contact";
+  const rate = r => r.our_messages ? Math.min(100, 100 * (r.their_messages || 0) / r.our_messages) : 0;
+  const sorts = [["recent","Last interaction"],["due","Follow-up due"],["reply","Reply rate"],["name","Name"]];
+  function sort(rows, mode = "recent") {
+    return [...rows].sort((a,b) => {
+      if (mode === "name") return name(a).localeCompare(name(b)) || time(last(b))-time(last(a));
+      if (mode === "reply") return rate(b)-rate(a) || time(last(b))-time(last(a));
+      if (mode === "due") {
+        const due = Number(Boolean(b.follow_up_due))-Number(Boolean(a.follow_up_due));
+        if (due) return due;
+        if (a.follow_up_due && b.follow_up_due) return (b.hours_since_our_message || 0)-(a.hours_since_our_message || 0);
+      }
+      return time(last(b))-time(last(a)) || name(a).localeCompare(name(b));
+    });
+  }
+  function control(id, value = "recent", modes = sorts.map(x=>x[0])) {
+    return `<label class="contact-sort" for="${esc(id)}">Sort by <select class="ps-control" id="${esc(id)}">${sorts.filter(([key])=>modes.includes(key)).map(([key,label])=>`<option value="${key}" ${value===key?'selected':''}>${label}</option>`).join("")}</select></label>`;
+  }
+  function ago(value) {
+    const t=time(value); if (!t) return "No interaction yet";
+    const m=Math.max(0,Math.floor((Date.now()-t)/60000));
+    return m<1?'Just now':m<60?`${m}m ago`:m<1440?`${Math.floor(m/60)}h ago`:new Intl.DateTimeFormat('en',{month:'short',day:'numeric'}).format(new Date(t));
+  }
+  function row(r, {attribute="data-contact", value=r.id, expanded, source="Instagram", stage="", detail=""}={}) {
+    const n=name(r), handle=r.handle || r.participant_username || r.contact_email || '';
+    const initials=n.split(/[\s._-]+/).slice(0,2).map(w=>w[0] || '').join('').toUpperCase();
+    const picture=/^https:\/\//.test(r.pfp_url || '') ? r.pfp_url : '';
+    return `<button type="button" class="contact-row" ${attribute}="${esc(value)}" ${expanded===undefined?'':`aria-expanded="${expanded}"`}>
+      <span class="contact-avatar">${picture?`<img src="${esc(picture)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:esc(initials)}</span>
+      <span class="contact-person"><strong>${esc(n)}</strong><small>${esc(handle && !handle.includes('@')?'@'+handle:handle || source)}</small></span>
+      <span class="contact-preview"><span>${esc(r.last_text || r.snippet || '(attachment)')}</span><small>${esc(detail || (r.last_direction==='outbound' || r.direction==='outbound'?'You spoke last':'They spoke last'))}</small></span>
+      <span class="contact-meta"><time datetime="${esc(last(r) || '')}">${esc(ago(last(r)))}</time><span class="contact-stage">${esc(stage || r.stage_label || r.stage || source)}</span></span>
+      <span class="contact-chevron ot-chevron" aria-hidden="true">${expanded===undefined?'Open':expanded?'-':'+'}</span>
+    </button>`;
+  }
+  function skeleton(count=6) {
+    return `<div class="contact-loading" role="status" aria-label="Loading contacts">${Array.from({length:count},()=>'<div class="contact-row contact-skeleton" aria-hidden="true"><span class="contact-avatar skeleton"></span><span class="contact-person"><i class="skeleton"></i><i class="skeleton"></i></span><span class="contact-preview"><i class="skeleton"></i><i class="skeleton"></i></span><span class="contact-meta"><i class="skeleton"></i><i class="skeleton"></i></span></div>').join('')}</div>`;
+  }
+  window.PulsifyContact = {esc, sort, control, row, skeleton, ago};
+})();
+(() => {
+  const {esc}=PulsifyShell;
+  async function api(url,body){const r=await fetch(url,{headers:{'content-type':'application/json','x-pulsify-operator':'1'},...(body?{method:'POST',body:JSON.stringify(body)}:{})});const d=await r.json();if(!r.ok)throw Error(d.error || 'Could not save workspace');return d;}
+  function render(root,{refresh=()=>{}}={}){
+    let archived=false,sequence=0,disposed=false;
+    root.innerHTML='<h1>Clients</h1><p class="ps-subtitle">Open a workspace, manage its setup, or keep a completed project in the archive.</p><div class="contact-toolbar"><div class="ps-segments"><button class="ps-control" data-filter="active" aria-pressed="true">Active</button><button class="ps-control" data-filter="archived" aria-pressed="false">Archived</button></div><button class="ps-control" data-setup="">Add client</button></div><div data-workspaces class="ps-grid"></div><p role="status" data-status></p>';
+    const box=root.querySelector('[data-workspaces]'),status=root.querySelector('[data-status]');
+    async function load(){const current=++sequence;box.innerHTML=PulsifyContact.skeleton(3);try{const d=await api(archived?'/api/workspace-archive':'/api/clients');if(disposed||current!==sequence)return;const rows=archived?d.archived:d.clients;box.innerHTML=(rows||[]).map(c=>`<section class="ps-card"><strong>${esc(c.client_name||c.client)}</strong><small>${archived?'Archived workspace':esc(c.status||'Workspace')}</small><div class="int-actions">${archived?`<button class="ps-control" data-restore="${esc(c.client)}">Restore</button>`:`<button class="ps-control" data-preview="${esc(c.client)}">Open workspace</button><button class="ps-control" data-setup="${esc(c.client)}">Setup</button><button class="ps-control" data-archive="${esc(c.client)}">Archive</button>`}<a class="ps-control" href="/api/workspace-archive?client=${encodeURIComponent(c.client)}&export=1">Download export</a></div></section>`).join('')||'<p class="int-empty">No '+(archived?'archived':'active')+' workspaces.</p>';bind();}catch(e){if(current===sequence)box.innerHTML='<p class="ps-error">'+esc(e.message)+'</p>';}}
+    function setup(client){const frame=document.createElement('iframe');frame.className='ps-frame';frame.title='Client setup';frame.src='/admin/console-view.html?view=clients'+(client?'&client='+encodeURIComponent(client):'');root.replaceChildren(frame);}
+    async function change(client,action){status.textContent='Saving workspace...';try{await api('/api/workspace-archive',{client,action});status.textContent=action==='archive'?'Workspace archived. Its data is preserved.':'Workspace restored. Previous login links remain revoked.';await load();refresh();}catch(e){status.textContent=e.message;}}
+    function confirmArchive(client){const dialog=document.createElement('dialog');dialog.className='ps-popover int-dialog';dialog.innerHTML='<h2>Archive this workspace?</h2><p>Save an export, hide the page and revoke client access. You can restore the workspace later.</p><div class="int-actions"><button class="ps-control" data-cancel>Cancel</button><button class="ps-control" data-confirm>Archive workspace</button></div>';document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove());dialog.querySelector('[data-cancel]').onclick=()=>dialog.close();dialog.querySelector('[data-confirm]').onclick=()=>{dialog.close();change(client,'archive');};dialog.showModal();}
+    function bind(){root.querySelectorAll('[data-setup]').forEach(b=>b.onclick=()=>setup(b.dataset.setup));root.querySelectorAll('[data-archive]').forEach(b=>b.onclick=()=>confirmArchive(b.dataset.archive));root.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>change(b.dataset.restore,'restore'));root.querySelectorAll('[data-preview]').forEach(b=>b.onclick=async()=>{b.disabled=true;try{const d=await api('/api/impersonate',{client:b.dataset.preview});location.href=d.url;}catch(e){status.textContent=e.message;b.disabled=false;}});}
+    root.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{archived=b.dataset.filter==='archived';root.querySelectorAll('[data-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));load();});bind();load();
+    return ()=>{disposed=true;sequence++;};
+  }
+  window.PulsifyClientsView={render};
+})();
+
+ERROR: You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at 11:32 AM.
+ERROR: You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at 11:32 AM.
+tokens used
+234,555

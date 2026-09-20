@@ -22,10 +22,8 @@ export async function exportWorkspace(env, clientId) {
   const tables = await clientTables(env);
   const bundle = { client, exported_at: nowIso(), tables: {} };
   for (const [tbl, col] of tables) {
-    {
-      const rows = (await env.DB.prepare(`SELECT * FROM ${tbl} WHERE ${col}=?`).bind(client).all()).results || [];
-      if (rows.length) bundle.tables[tbl] = rows;
-    }
+    const rows = (await env.DB.prepare(`SELECT * FROM ${tbl} WHERE ${col}=?`).bind(client).all()).results || [];
+    if (rows.length) bundle.tables[tbl] = rows;
   }
   bundle.row_count = Object.values(bundle.tables).reduce((n, rows) => n + rows.length, 0);
   return bundle;
