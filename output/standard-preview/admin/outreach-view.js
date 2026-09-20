@@ -5,6 +5,9 @@
 (() => {
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const contact = window.PulsifyContact;
+  const warm=new Map(), threadCache=new Map();
+  const statsSkeleton=()=>Array.from({length:8},()=>'<div class="ot-stat"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div>').join('');
+  const messagesSkeleton=()=>'<div class="ps-message-skeleton">'+'<div class="skeleton"></div>'.repeat(3)+'</div>';
   let TZ = "Europe/Istanbul";
   // The founder's spec: minutes 1-59, then hours 1-24, then days.
   function ago(iso, now = Date.now()) {
@@ -25,31 +28,33 @@
   async function api(path, init) {
     const r = await fetch(path, { headers: { "content-type": "application/json", "x-pulsify-operator": "1" }, ...init });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+    if (!r.ok) throw PulsifyShell.failure(r.status);
     return d;
   }
   const STAGE_CLASS = { replied: "ot-stage-replied", booked: "ot-stage-ok", closed: "ot-stage-ok", lost: "ot-stage-off", hibernating: "ot-stage-off" };
 
   function render(root) {
     const orders = {outbound:"recent",inbound:"recent",hibernating:"recent",won:"recent"};
-    let data = null, section = "outbound", q = "", open = new Set(), timer = null;
+    let data = warm.get('') || null, section = "outbound", q = "", open = new Set(), timer = null;
     root.innerHTML = `
       <div class="ot-head"><div><h1>Outreach tracker</h1><p class="ps-subtitle">Your conversations, ordered by the last interaction. Open a contact to read the chat and choose the next step.</p></div>
-      <div class="ot-head-actions"><input id="ot-q" class="leads-search" placeholder="Search name or handle" autocomplete="off"><button class="ps-control" id="ot-refresh">Refresh</button></div></div>
-      <div id="ot-stats" class="ot-stats"><div class="skeleton" style="min-height:120px;grid-column:1/-1"></div></div>
+      <div class="ot-head-actions"><input id="ot-q" class="ps-input leads-search" aria-label="Search outreach" placeholder="Search name or handle" autocomplete="off"><button class="ps-control" id="ot-refresh">Refresh</button></div></div>
+      <div id="ot-stats" class="ot-stats">${data ? "" : statsSkeleton()}</div>
       <div class="int-tabs ot-tabs"><button data-section="outbound" class="active">Outbound <span id="ot-n-out"></span></button><button data-section="inbound">Inbound <span id="ot-n-in"></span></button><button data-section="hibernating">Hibernating <span id="ot-n-hib"></span></button><button data-section="won">Booked and closed <span id="ot-n-won"></span></button><span style="flex:1"></span><small id="ot-updated" class="int-note"></small></div>
       <div class="contact-toolbar"><span class="int-note" id="ot-order-note">Most recent interaction first</span>${contact.control("ot-sort")}</div>
       <div id="ot-activity" class="ot-activity" hidden></div>
-      <div id="ot-list" class="ot-list">${contact.skeleton()}</div>`;
+      <div id="ot-list" class="ot-list">${data ? "" : contact.skeleton()}</div>`;
 
     let disposed = false, sequence = 0;
     async function load() {
       if (disposed || !root.isConnected) return;
       const current = ++sequence;
+      root.querySelector("#ot-feedback")?.remove();
+      const saved=warm.get(q);if(saved){data=saved;drawStats();drawList();drawActivity();}
       try {
         const fresh = await api(`/api/outreach${q ? `?q=${encodeURIComponent(q)}` : ""}`);
         if (disposed || current !== sequence) return;
-        data = fresh;
+        data = fresh;warm.set(q,fresh);
         TZ = data.timezone || TZ;
         drawStats(); drawList(); drawActivity();
         const handoff = sessionStorage.getItem("pulsify:open-thread");
@@ -57,11 +62,13 @@
         root.querySelector("#ot-updated").textContent = `${window.PulsifyRealtime?.status() === "live" ? "Live · " : ""}Updated ${stamp(data.generated_at)} (${TZ.split("/")[1]})`;
       } catch (e) {
         if (disposed || current !== sequence) return;
-        root.querySelector("#ot-list").innerHTML = `<p class="int-empty">${esc(e.message)}</p>`;
+        if(!data){root.querySelector("#ot-list").replaceChildren();root.querySelector("#ot-stats").replaceChildren();}
+        const note=PulsifyShell.inlineError(root.querySelector("#ot-list"),e,load);note.id="ot-feedback";
       }
     }
 
     function drawStats() {
+      if(!data)return;
       const s = data.stats, o = s.outbound, i = s.inbound, p = s.pipeline;
       const cell = (label, value, note, cls = "") => `<div class="ot-stat ${cls}"><small>${esc(label)}</small><b>${esc(String(value))}</b>${note ? `<small>${esc(note)}</small>` : ""}</div>`;
       root.querySelector("#ot-stats").innerHTML = section === "inbound"
@@ -76,6 +83,7 @@
     }
 
     function drawList() {
+      if(!data)return;
       const all = data.threads;
       const counts = { outbound: 0, inbound: 0, hibernating: 0, won: 0 };
       for (const t of all) counts[bucket(t)] += 1;
@@ -88,7 +96,8 @@
       const empty = { outbound: "No outbound conversations yet. Open a DM from your phone and it shows up here within a minute.", inbound: "Nobody has messaged you first yet.", hibernating: "Nobody is hibernating. Four touches with no reply, or a manual move, puts them here.", won: "No appointments or closes marked yet. Use the buttons on a contact." }[section];
       root.querySelector("#ot-list").innerHTML = list.length
         ? orders[section] !== "due" ? group(section === "won" ? "Booked and closed" : section[0].toUpperCase()+section.slice(1), list) : group("Follow ups", due, "24 hours have passed since your last message") + group("Waiting on you", waiting, "They spoke last") + group(section === "outbound" ? "Everyone else" : section === "inbound" ? "Answered" : section === "won" ? "Booked and closed" : "Hibernating", rest)
-        : `<p class="int-empty">${esc(empty)}</p>`;
+        : "";
+      if(!list.length)root.querySelector('#ot-list').replaceChildren(PulsifySurface.empty('message-circle',q?'No matching conversations':'No conversations in this section',q?'Try another name or clear the search.':empty,q?'Clear search':section==='outbound' || section==='inbound'?'Open Instagram':'Review outbound',()=>{if(q){q='';root.querySelector('#ot-q').value='';load();}else if(section==='outbound' || section==='inbound')window.open('https://www.instagram.com/direct/inbox/','_blank','noopener');else root.querySelector('[data-section="outbound"]').click();}));
       root.querySelectorAll("[data-toggle]").forEach((b) => (b.onclick = () => toggle(b.dataset.toggle)));
       root.querySelectorAll("[data-act]").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); act(b.dataset.id, b.dataset.act, b); }));
       root.querySelectorAll("[data-note]").forEach((f) => f.addEventListener("submit", (e) => { e.preventDefault(); act(f.dataset.note, "note", f.querySelector("button"), { text: f.querySelector("textarea").value }); }));
@@ -105,7 +114,7 @@
       return `<article class="ot-card ${t.follow_up_due ? "due" : ""} ${open.has(t.id) ? "open" : ""}" id="ot-${esc(t.id)}">
         ${contact.row(t,{attribute:"data-toggle",expanded:open.has(t.id),stage:t.stage_label,detail:timerLine})}
         <div class="ot-detail" ${open.has(t.id) ? "" : "hidden"}>
-          <div class="ot-thread" data-thread="${esc(t.id)}"><div class="skeleton" style="min-height:80px"></div></div>
+          <div class="ot-thread" data-thread="${esc(t.id)}">${threadCache.get(t.id) || messagesSkeleton()}</div>
           <div class="ot-actions">
             <span class="ot-actions-label">Reply</span>
             <button class="ps-control ${t.sentiment === "positive" ? "active" : ""}" data-id="${esc(t.id)}" data-act="sentiment:${t.sentiment === "positive" ? "clear" : "positive"}">Positive</button>
@@ -119,19 +128,23 @@
             ${t.handle ? `<a class="ps-control" href="https://instagram.com/${encodeURIComponent(t.handle)}" target="_blank" rel="noopener">Open on Instagram</a>` : ""}
           </div>
 
-          <form class="ot-note" data-note="${esc(t.id)}"><textarea rows="2" placeholder="Note for yourself: what they do, what they said, next angle">${esc(t.notes)}</textarea><button class="ps-control" type="submit">Save note</button></form>
+          <form class="ot-note" data-note="${esc(t.id)}"><textarea class="ps-input" rows="2" placeholder="Note for yourself: what they do, what they said, next angle">${esc(t.notes)}</textarea><button class="ps-control" type="submit">Save note</button></form>
         </div>
       </article>`;
     }
 
     async function fillThread(id) {
-      const box = root.querySelector(`[data-thread="${id}"]`);
+      const box = root.querySelector(`[data-thread="${CSS.escape(id)}"]`);
       if (!box) return;
+      if(threadCache.has(id))box.innerHTML=threadCache.get(id);
       try {
         const { messages } = await api(`/api/outreach?id=${encodeURIComponent(id)}`);
-        box.innerHTML = `<div class="ot-messages">${messages.map((m) => `<div class="ot-msg ${m.direction}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : "Them"} · ${esc(ago(m.sent_at))} · ${esc(stamp(m.sent_at))}</small></div>`).join("") || '<p class="int-empty">No messages stored.</p>'}</div>`;
+        if(disposed || !box.isConnected)return;
+        box.innerHTML = `<div class="ot-messages">${messages.map((m) => `<div class="ot-msg ${m.direction}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : "Them"} · ${esc(ago(m.sent_at))} · ${esc(stamp(m.sent_at))}</small></div>`).join("")}</div>`;
+        if(!messages.length)box.querySelector(".ot-messages").append(PulsifySurface.empty("message-circle","No messages stored","Open Instagram to read this conversation.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));
+        if(messages.length)threadCache.set(id,box.innerHTML);
         box.querySelector(".ot-messages").scrollTop = 1e9;
-      } catch (e) { box.innerHTML = `<p class="int-empty">${esc(e.message)}</p>`; }
+      } catch (e) { if(!box.isConnected)return;if(!threadCache.has(id))box.replaceChildren();PulsifyShell.inlineError(box,e,()=>fillThread(id)); }
     }
 
     function toggle(id) {
@@ -146,15 +159,16 @@
     }
 
     async function act(id, action, button, extra = {}) {
-      button.disabled = true;
+      PulsifyShell.pending(button);
+      button.parentElement.querySelector(".ps-inline-error")?.remove();
       try {
         const { thread } = await api("/api/outreach", { method: "POST", body: JSON.stringify({ id, action, ...extra }) });
         const idx = data.threads.findIndex((t) => t.id === id);
         if (idx >= 0) data.threads[idx] = thread;
-        data.stats = null;
+        warm.clear();
         data = await api(`/api/outreach${q ? `?q=${encodeURIComponent(q)}` : ""}`);
         drawStats(); drawList();
-      } catch (e) { button.disabled = false; button.textContent = e.message.slice(0, 30); }
+      } catch (e) { PulsifyShell.inlineError(button.parentElement,e,()=>act(id,action,button,extra)); } finally {PulsifyShell.pending(button,false);}
     }
 
     function drawActivity() {

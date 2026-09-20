@@ -1,6 +1,20 @@
 (() => {
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const preferences=new Map();
+ function empty(icon,title,note,actionLabel,onAction){
+  const card=document.createElement('div');card.className='ps-surface-empty';
+  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
+  card.querySelector('button').onclick=onAction;return card;
+ }
+ function confirm(title,body,confirmLabel='Continue'){
+  const previous=document.activeElement;
+  return new Promise(resolve=>{
+   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
+   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
+   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
+   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
+  });
+ }
  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
  async function preference(config,key,value){
   const operator=config.scope==='operator';
@@ -51,5 +65,5 @@
   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
  }
- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
 })();

@@ -17,66 +17,76 @@
   async function api(path, init) {
     const r = await fetch(path, { headers: { "content-type": "application/json", "x-pulsify-operator": "1", ...(init?.headers || {}) }, ...init });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(d.error || `HTTP ${r.status}`);
+    if (!r.ok) throw PulsifyShell.failure(r.status);
     return d;
   }
   const contact = window.PulsifyContact;
+  let warm = null;
+  const threadCache = new Map();
   const pill = (label, cls) => `<span class="int-pill ${cls || ""}">${esc(label)}</span>`;
 
   function render(root, ctx = {}) {
     let q="", filter=ctx.section === "funnel" ? "funnel" : "all", order="recent", sequence=0, disposed=false;
-    let cache={inbox:[],funnel:[]};
+    let cache=warm || {inbox:[],funnel:[]}, loaded=Boolean(warm);
     root.innerHTML=`<h1>Leads</h1><p class="ps-subtitle">Instagram conversations and funnel contacts, together in order of their last interaction.</p>
-      <div class="contact-toolbar"><input id="leads-q" class="leads-search" placeholder="Search name, handle or email" aria-label="Search leads"><button class="ps-control" id="leads-refresh">Refresh</button>${contact.control("leads-sort","recent",["recent","name"])}</div>
+      <div class="contact-toolbar"><input id="leads-q" class="ps-input leads-search" placeholder="Search name, handle or email" aria-label="Search leads"><button class="ps-control" id="leads-refresh">Refresh</button>${contact.control("leads-sort","recent",["recent","name"])}</div>
       <div class="leads-filters">${[["all","All contacts"],["inbox","Instagram"],["funnel","Funnel"],["awaiting","Waiting on you"],["new","Not in CRM"]].map(([key,label])=>`<button class="leads-chip ${filter===key?'active':''}" data-filter="${key}">${label}</button>`).join('')}</div>
-      <div id="leads-body" class="contact-result">${contact.skeleton()}</div>`;
+      <div id="leads-body" class="contact-result">${loaded ? "" : contact.skeleton(6)}</div>`;
     const body=root.querySelector('#leads-body');
     async function load() {
       const current=++sequence;
-      body.innerHTML=contact.skeleton();
+      if(!loaded) body.innerHTML=contact.skeleton(6);
+      root.querySelector("#leads-feedback")?.remove();
       try {
         const [inbox,funnel]=await Promise.all([api('/api/spine/conversations'),api('/api/pipeline')]);
         if(disposed || current!==sequence || !root.isConnected)return;
-        cache={inbox:inbox.conversations || [],funnel:funnel.contacts || []};draw();
-      } catch(e) {if(!disposed && current===sequence)body.innerHTML=`<p class="int-empty">${esc(e.message)}</p>`;}
+        cache={inbox:inbox.conversations || [],funnel:funnel.contacts || []};warm=cache;loaded=true;draw();
+      } catch(e) {if(!disposed && current===sequence){if(!loaded)body.replaceChildren();const note=PulsifyShell.inlineError(body,e,load);note.id="leads-feedback";}}
     }
     function draw() {
+      if(!loaded)return;
       let rows=[...cache.inbox.map(c=>({...c,source:'Instagram',_original:c,name:c.participant_name || c.participant_username})),...cache.funnel.map(c=>({...c,source:'Funnel',name:c.contact_name || c.contact_email,last_text:c.client_name || c.client_id,last_message_at:c.last_seen}))];
       rows=rows.filter(c=>(!q || `${c.name} ${c.participant_username || ''} ${c.contact_email || ''} ${c.last_text || ''}`.toLowerCase().includes(q)) &&
         (filter==='all' || filter==='inbox' && c.source==='Instagram' || filter==='funnel' && c.source==='Funnel' || filter==='awaiting' && c.last_direction==='inbound' || filter==='new' && c.source==='Instagram' && !c.in_crm));
       body.innerHTML=contact.sort(rows,order).map(c=>{
         if(c.source==='Instagram')return contact.row(c,{attribute:'data-open',source:c.source,stage:c.in_crm?'In CRM':'New contact'})+
           `<div class="contact-extra"><span class="contact-source">Instagram</span>${!c.in_crm && (c.participant_username || c.participant_id)?`<button class="ps-control" data-add="${esc(c.id)}">Add to CRM</button>`:''}</div>`;
-        return contact.row(c,{attribute:'data-client',value:c.client_id,source:c.source,stage:c.stage,detail:`Funnel / ${c.paid_cents ? money(c.paid_cents)+' collected' : 'Open client workspace'}`});
-      }).join('') || '<p class="int-empty">No contacts match this view.</p>';
+        return contact.row(c,{attribute:'data-client',value:c.client_id,source:c.source,stage:c.stage,detail:`Funnel / ${c.paid_cents ? money(c.paid_cents)+' collected' : 'No payment matched'}`})+(!c.paid_cents?'<div class="contact-extra"><button class="ps-button ghost" data-payment>Match a payment</button></div>':'');
+      }).join('');
+      if(!rows.length){const filtered=q || !['all','inbox','funnel'].includes(filter);body.replaceChildren(PulsifySurface.empty('users',filtered?'No matching contacts':'No contacts yet',filtered?'Try another name or clear the filters.':'Connect a source to bring conversations and funnel contacts here.',filtered?'Clear filters':'Open Integrations',()=>{if(filtered){q='';filter='all';root.querySelector('#leads-q').value='';root.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));draw();}else window.PulsifyOperatorShell?.go('integrations');}));}
+      body.querySelectorAll('[data-payment]').forEach(b=>b.onclick=()=>window.PulsifyOperatorShell?.go('payments'));
       body.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openThread(b.dataset.open));
       body.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>addToCrm(cache.inbox.find(c=>c.id===b.dataset.add),b));
       body.querySelectorAll('[data-client]').forEach(b=>b.onclick=()=>{sessionStorage.setItem('pulsify:brain-client',b.dataset.client);window.PulsifyOperatorShell?.go('brain');});
     }
     async function openThread(id) {
       const d = document.createElement("dialog");
-      d.className = "ps-popover int-dialog leads-thread";
-      d.innerHTML = '<div class="skeleton" style="min-height:200px"></div>';
+      d.className = "ps-dialog int-dialog leads-thread";
+      d.innerHTML = '<div class="ps-message-skeleton" aria-label="Loading conversation">'+ '<div class="skeleton"></div>'.repeat(3)+'</div>';
       document.body.append(d);
       d.addEventListener("close", () => d.remove());
       d.showModal();
       try {
-        const { conversation: c, messages } = await api(`/api/spine/conversations?id=${encodeURIComponent(id)}`);
+        const payload = threadCache.get(id) || await api(`/api/spine/conversations?id=${encodeURIComponent(id)}`);
+        if(!d.open)return;threadCache.set(id,payload);const {conversation:c,messages=[]}=payload;
         const handle = c.participant_username ? `@${c.participant_username}` : (c.participant_name || "Unknown");
         d.innerHTML = `<div class="leads-thread-head"><div><h2>${esc(handle)}</h2><small class="int-note">${messages.length} messages · first ${esc(ago(c.first_message_at))} · last ${esc(ago(c.last_message_at))}</small></div><div class="int-row-actions">${c.participant_username ? `<a class="ps-control" href="https://instagram.com/${encodeURIComponent(c.participant_username)}" target="_blank" rel="noopener">Open on Instagram</a>` : ""}<button class="ps-control" data-close>Close</button></div></div>
           <div class="leads-messages">${messages.map((m) => `<div class="leads-msg ${m.direction}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : esc(handle)} · ${esc(new Date(m.sent_at).toLocaleString())}</small></div>`).join("")}</div>
           <p class="int-note">Replying from here is not on yet. Open the thread on Instagram to answer.</p>`;
+        if(!messages.length)d.querySelector(".leads-messages").replaceChildren(PulsifySurface.empty("message-circle","No messages stored","Read the conversation on Instagram.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));
         d.querySelector("[data-close]").onclick = () => d.close();
         d.querySelector(".leads-messages").scrollTop = 1e9;
       } catch (e) {
-        d.innerHTML = `<p class="int-empty">${esc(e.message)}</p><div class="int-actions"><button class="ps-control" data-close>Close</button></div>`;
+        d.innerHTML = `<div class="int-actions"><button class="ps-control" data-close>Close</button></div>`;
+        PulsifyShell.inlineError(d,e,()=>{d.close();openThread(id);});
         d.querySelector("[data-close]").onclick = () => d.close();
       }
     }
 
     async function addToCrm(c, button) {
       if (!c) return;
-      button.disabled = true;
+      PulsifyShell.pending(button);
+      button.parentElement.querySelector(".ps-inline-error")?.remove();
       const name = c.participant_username || c.participant_id;
       const ts = Date.now();
       try {

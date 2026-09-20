@@ -59,5 +59,18 @@
   // Call after the adapter has stored the returned object.
   queueMicrotask(()=>go(initial,{push:false}));return api;
  }
- window.PulsifyShell={mount,icon,esc,read,write,range};
+ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
+ function fail(status,fallback='Could not complete that request. Please retry.'){
+  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
+ }
+ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
+ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
+ function inlineError(target,error,retry){
+  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
+  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
+  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
+  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
+  target.append(note);return note;
+ }
+ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
 })();

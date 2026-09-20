@@ -15,7 +15,7 @@
   async function api(path, init) {
     const r = await fetch(path, { headers: { "content-type": "application/json", "x-pulsify-operator": "1" }, ...init });
     const d = await r.json().catch(() => ({}));
-    if (!r.ok || d.ok === false) throw new Error(d.error || `HTTP ${r.status}`);
+    if (!r.ok || d.ok === false) throw PulsifyShell.failure(r.status);
     return d;
   }
   async function copyText(text) {
@@ -25,10 +25,11 @@
       document.body.append(ta); ta.select(); const ok = document.execCommand("copy"); ta.remove(); return ok;
     } catch { return false; }
   }
+  let warmThreads=null,warmQueue=null;
   const STAGE_CLASS = { replied: "qv-stage-replied", booked: "qv-stage-ok", closed: "qv-stage-ok", lost: "qv-stage-off", hibernating: "qv-stage-off" };
 
   function render(root) {
-    let threads = null, queue = null, threadsError = "", queueError = "";
+    let threads = warmThreads, queue = warmQueue, threadsError = null, queueError = null;
     const open = new Set();
     let focused = null; // id of the keyboard-focused row
     let addNote = ""; // last "added" confirmation, survives the re-render
@@ -37,11 +38,11 @@
     root.innerHTML = `
       <div class="qv-head">
         <div><h1>Today</h1><p class="ps-subtitle">${esc(today())}. Follow-ups first, then new openers. Copy the text, send it from your phone, mark it sent.</p></div>
-        <div class="qv-counters" id="qv-counters">${counterSkeleton()}</div>
+        <div class="qv-counters" id="qv-counters">${threads || queue ? "" : counterSkeleton()}</div>
       </div>
-      <section class="qv-section" id="qv-followups"><h2>Follow ups due <span></span><small>24 hours have passed since your last message</small></h2><div class="qv-list">${followSkeleton()}</div></section>
-      <section class="qv-section" id="qv-openers"><h2>Openers <span></span><small>Ready drafts. Edit, copy, send, mark sent.</small></h2><div class="qv-list">${openerSkeleton()}</div></section>
-      <section class="qv-section" id="qv-add"><h2>Add to today<small>Pick from the candidates or add someone by hand</small></h2><div class="qv-list">${candidateSkeleton()}</div></section>
+      <section class="qv-section" id="qv-followups"><h2>Follow ups due <span></span><small>24 hours have passed since your last message</small></h2><div class="qv-list">${threads ? "" : followSkeleton()}</div></section>
+      <section class="qv-section" id="qv-openers"><h2>Openers <span></span><small>Ready drafts. Edit, copy, send, mark sent.</small></h2><div class="qv-list">${queue ? "" : openerSkeleton()}</div></section>
+      <section class="qv-section" id="qv-add"><h2>Add to today<small>Pick from the candidates or add someone by hand</small></h2><div class="qv-list">${queue ? "" : candidateSkeleton()}</div></section>
       <p class="qv-keys" id="qv-keys">Keys: j and k move, Enter opens, c copies the draft, s marks it sent.</p>`;
 
     const $ = (sel) => root.querySelector(sel);
@@ -51,8 +52,8 @@
       if (disposed || !root.isConnected) return;
       const current = ++seq;
       const jobs = [];
-      if (what !== "queue") jobs.push(api("/api/outreach").then((d) => { if (current !== seq) return; threads = d.threads || []; threadsError = ""; }).catch((e) => { if (current !== seq) return; threadsError = e.message; threads = threads || []; }).then(() => { if (current === seq) { drawFollowups(); drawCounters(); } }));
-      if (what !== "threads") jobs.push(api("/api/outreach-queue?view=today").then((d) => { if (current !== seq) return; queue = d; queueError = ""; }).catch((e) => { if (current !== seq) return; queueError = e.message; queue = queue || { cap: 25, sent_today: 0, queued: [], candidates: [] }; }).then(() => { if (current === seq) { drawOpeners(); drawAdd(); drawCounters(); } }));
+      if (what !== "queue") jobs.push(api("/api/outreach").then((d) => { if (disposed || current !== seq) return; threads = d.threads || []; warmThreads=threads;threadsError = null; }).catch((e) => { if (disposed || current !== seq) return; threadsError = e; }).then(() => { if (!disposed && current === seq) { drawFollowups(); drawCounters(); } }));
+      if (what !== "threads") jobs.push(api("/api/outreach-queue?view=today").then((d) => { if (disposed || current !== seq) return; queue = d;warmQueue=queue;queueError = null; }).catch((e) => { if (disposed || current !== seq) return; queueError = e; }).then(() => { if (!disposed && current === seq) { drawOpeners(); drawAdd(); drawCounters(); } }));
       await Promise.all(jobs);
     }
 
@@ -74,8 +75,8 @@
       const list = due();
       $("#qv-followups h2 span").textContent = list.length ? list.length : "";
       const box = $("#qv-followups .qv-list");
-      if (threadsError) { box.innerHTML = `<p class="qv-empty">${esc(threadsError)}</p>`; return; }
-      if (!list.length) { box.innerHTML = `<p class="qv-empty">Nobody is due a follow-up. Every open thread was touched in the last 24 hours.</p>`; return; }
+      if (threadsError) {if(!threads)box.replaceChildren();PulsifyShell.inlineError(box,threadsError,()=>load("threads"));return;}
+      if (!list.length) {box.replaceChildren(PulsifySurface.empty("check","No follow-ups due","Review your conversations or start an opener below.","Review outreach",()=>window.PulsifyOperatorShell?.go("outreach")));return;}
       box.innerHTML = list.map((t) => `
         <article class="qv-row qv-follow ${focused === t.id ? "focus" : ""}" data-row="${esc(t.id)}" data-kind="follow" tabindex="-1">
           ${avatar(t)}
@@ -93,14 +94,14 @@
     }
 
     async function threadAct(id, action, button) {
-      button.disabled = true; button.textContent = action === "hibernate" ? "Hibernating" : "Booking";
+      PulsifyShell.pending(button);button.parentElement.querySelector(".ps-inline-error")?.remove();
       try {
         await api("/api/outreach", { method: "POST", body: JSON.stringify({ id, action }) });
         // Either way the thread leaves the due list, so drop it now and refresh behind.
         threads = (threads || []).filter((t) => t.id !== id);
         drawFollowups(); drawCounters();
         load("threads");
-      } catch (e) { button.disabled = false; button.textContent = e.message.slice(0, 40); }
+      } catch (e) {PulsifyShell.inlineError(button.parentElement,e,()=>threadAct(id,action,button));}finally{PulsifyShell.pending(button,false);}
     }
 
     // Section 2: openers.
@@ -108,11 +109,14 @@
       const list = queued(), finished = done();
       $("#qv-openers h2 span").textContent = list.length ? list.length : "";
       const box = $("#qv-openers .qv-list");
-      if (queueError) { box.innerHTML = `<p class="qv-empty">${esc(queueError)}</p>`; return; }
-      if (!list.length && !finished.length) { box.innerHTML = `<p class="qv-empty">Nothing queued for today. Add someone below and the draft is written for you.</p>`; return; }
-      box.innerHTML = list.map(openerCard).join("") + (finished.length ? `<details class="qv-done"><summary>Done today <span>${finished.length}</span></summary>${finished.map(doneRow).join("")}</details>` : "") + (!list.length ? `<p class="qv-empty">Today's queue is cleared. Add more below if you have the cap for it.</p>` : "");
+      if (queueError) {if(!queue)box.replaceChildren();PulsifyShell.inlineError(box,queueError,()=>load("queue"));return;}
+      if (!list.length && !finished.length) {box.replaceChildren(queueEmpty());return;}
+      box.innerHTML = list.map(openerCard).join("") + (finished.length ? `<details class="qv-done"><summary>Done today <span>${finished.length}</span></summary>${finished.map(doneRow).join("")}</details>` : "") + "";
+      if(!list.length)box.append(queueEmpty());
       wireOpeners(box);
     }
+
+    function queueEmpty(){return PulsifySurface.empty("list-check","Nothing queued for today","Add a candidate or enter a handle below.","Add someone",()=>{$("#qv-manual input")?.focus();$("#qv-add").scrollIntoView({block:"start",behavior:"smooth"});});}
 
     function draftMeta(r) {
       const n = words(r.draft);
@@ -133,11 +137,11 @@
           <span class="qv-chevron" aria-hidden="true">${isOpen ? "−" : "+"}</span>
         </div>
         <div class="qv-detail" ${isOpen ? "" : "hidden"}>
-          ${r.needs_detail ? `<label class="qv-field"><span>One specific detail</span><input class="qv-input" data-detail="${esc(r.id)}" value="${esc(r.detail || "")}" placeholder="A video, a post, a line they said. The draft is built around it."><small>Saves when you leave the field, then the draft is written.</small></label>` : ""}
-          <label class="qv-field"><span>Draft</span><textarea class="qv-input qv-draft" data-draft="${esc(r.id)}" rows="4" placeholder="${r.needs_detail ? "Add the detail above first." : "Write the opener here."}">${esc(r.draft || "")}</textarea><span class="qv-draft-foot">${draftMeta(r)}<small class="qv-saved" data-saved="${esc(r.id)}"></small></span></label>
+          ${r.needs_detail ? `<label class="qv-field"><span>One specific detail</span><input class="ps-input qv-input" data-detail="${esc(r.id)}" value="${esc(r.detail || "")}" placeholder="A video, a post, a line they said. The draft is built around it."><small>Saves when you leave the field, then the draft is written.</small></label>` : ""}
+          <label class="qv-field"><span>Draft</span><textarea class="ps-input qv-input qv-draft" data-draft="${esc(r.id)}" rows="4" placeholder="${r.needs_detail ? "Add the detail above first." : "Write the opener here."}">${esc(r.draft || "")}</textarea><span class="qv-draft-foot">${draftMeta(r)}<small class="qv-saved" data-saved="${esc(r.id)}"></small></span></label>
           ${r.gap || r.link ? `<p class="qv-brief">${r.gap ? `<span>Gap: ${esc(r.gap)}</span>` : ""}${r.link ? `<a href="${esc(r.link)}" target="_blank" rel="noopener">${esc(r.link.replace(/^https?:\/\//, "").slice(0, 60))}</a>` : ""}</p>` : ""}
           <div class="qv-actions">
-            <button class="ps-control qv-primary" data-id="${esc(r.id)}" data-act="copy" ${r.draft ? "" : "disabled"}>Copy draft</button>
+            <button class="ps-button primary qv-primary" data-id="${esc(r.id)}" data-act="copy" ${r.draft ? "" : "disabled"}>Copy draft</button>
             <button class="ps-control" data-id="${esc(r.id)}" data-act="draft">Regenerate</button>
             <a class="ps-control" href="${igUrl(r.handle)}" target="_blank" rel="noopener">Open on Instagram</a>
             <span style="flex:1"></span>
@@ -173,9 +177,9 @@
 
     async function saveField(id, field, value) {
       const r = row(id); if (!r || (r[field] || "") === value) return;
-      r[field] = value;
+      const previous=r[field];r[field] = value;
       try { await api("/api/outreach-queue", { method: "POST", body: JSON.stringify({ action: "update", id, [field]: value }) }); status(id, "Saved"); }
-      catch (e) { status(id, e.message.slice(0, 40), "err"); }
+      catch (e) {r[field]=previous;PulsifyShell.inlineError(root.querySelector(`[data-row="${CSS.escape(id)}"] .qv-detail`),e,()=>saveField(id,field,value));return;}
       const card = root.querySelector(`[data-row="${CSS.escape(id)}"] .qv-opener-row`);
       if (card && field === "draft") { card.querySelector(".qv-last span").textContent = value.split("\n")[0]; const w = card.querySelector(".qv-last .qv-words"); if (w) w.outerHTML = draftMeta(r); const copy = root.querySelector(`[data-row="${CSS.escape(id)}"] [data-act="copy"]`); if (copy) copy.disabled = !value.trim(); }
     }
@@ -184,12 +188,12 @@
       const r = row(id); if (!r) return;
       value = value.trim();
       if ((r.detail || "") === value) return;
-      r.detail = value;
+      const previous=r.detail; r.detail = value;
       try {
         await api("/api/outreach-queue", { method: "POST", body: JSON.stringify({ action: "update", id, detail: value }) });
         if (value) { status(id, "Writing the draft"); await api("/api/outreach-queue", { method: "POST", body: JSON.stringify({ action: "draft", id }) }); }
         await load("queue");
-      } catch (e) { status(id, e.message.slice(0, 40), "err"); }
+      } catch (e) {r.detail=previous;PulsifyShell.inlineError(root.querySelector(`[data-row="${CSS.escape(id)}"] .qv-detail`),e,()=>saveDetail(id,value));}
     }
 
     async function queueAct(id, action, button) {
@@ -199,7 +203,7 @@
         const text = ta ? ta.value : r?.draft || "";
         if (!text.trim()) return;
         const ok = await copyText(text);
-        const label = button.textContent; button.textContent = ok ? "Copied" : "Copy failed"; button.classList.add("done");
+        const label = button.textContent;if(!ok){PulsifyShell.inlineError(button.parentElement,PulsifyShell.failure(400,"Could not copy. Select the draft and copy it manually."));return;} button.textContent = "Copied"; button.classList.add("done");
         setTimeout(() => { button.textContent = label; button.classList.remove("done"); }, 2000);
         return;
       }
@@ -210,24 +214,26 @@
         await api("/api/outreach-queue", { method: "POST", body: JSON.stringify({ action, id }) });
         if (action === "sent" || action === "skip") { if (r) { r.status = action === "sent" ? "sent" : "skipped"; open.delete(id); if (queue && action === "sent") queue.sent_today = (queue.sent_today || 0) + 1; } moveFocusAfter(id); drawOpeners(); drawCounters(); }
         await load("queue");
-      } catch (e) { button.disabled = false; button.textContent = e.message.slice(0, 40); }
+      } catch (e) {PulsifyShell.inlineError(button.parentElement,e,()=>queueAct(id,action,button));}finally{PulsifyShell.pending(button,false);}
     }
 
     // Section 3: add to today.
     function drawAdd() {
       const box = $("#qv-add .qv-list");
+      if(queueError && !queue){box.replaceChildren();PulsifyShell.inlineError(box,queueError,()=>load("queue"));return;}
       const cands = (queue?.candidates || []).filter((c) => !(queue?.queued || []).some((r) => handle(r.handle).toLowerCase() === handle(c.handle).toLowerCase()));
       const sourceLabel = { crm: "CRM", yt_leads: "YouTube", manual: "Manual" };
       box.innerHTML = `
-        ${queueError ? "" : cands.length ? `<div class="qv-chips">${cands.map((c) => `<div class="qv-chip"><span class="qv-avatar small">${esc(initials(c))}</span><div class="qv-chip-text"><strong>${esc(c.name || c.handle)}</strong><small>@${esc(handle(c.handle))}${c.niche ? ` · ${esc(c.niche)}` : ""}</small></div>${c.tier ? `<span class="int-pill">Tier ${esc(c.tier)}</span>` : ""}<span class="qv-source">${esc(sourceLabel[c.source] || c.source || "")}</span><button class="ps-control" data-add-handle="${esc(c.handle)}" data-add-source="${esc(c.source || "")}" data-add-name="${esc(c.name || "")}" data-add-niche="${esc(c.niche || "")}">Add</button></div>`).join("")}</div>` : `<p class="qv-empty">No candidates waiting. New CRM leads and tier A and B YouTube leads with a handle show up here.</p>`}
+        ${queueError ? "" : cands.length ? `<div class="qv-chips">${cands.map((c) => `<div class="qv-chip"><span class="qv-avatar small">${esc(initials(c))}</span><div class="qv-chip-text"><strong>${esc(c.name || c.handle)}</strong><small>@${esc(handle(c.handle))}${c.niche ? ` · ${esc(c.niche)}` : ""}</small></div>${c.tier ? `<span class="int-pill">Tier ${esc(c.tier)}</span>` : ""}<span class="qv-source">${esc(sourceLabel[c.source] || c.source || "")}</span><button class="ps-control" data-add-handle="${esc(c.handle)}" data-add-source="${esc(c.source || "")}" data-add-name="${esc(c.name || "")}" data-add-niche="${esc(c.niche || "")}">Add</button></div>`).join("")}</div>` : `<div data-candidates-empty></div>`}
         <form class="qv-manual" id="qv-manual">
-          <label class="qv-field"><span>Handle</span><input class="qv-input" name="handle" required placeholder="@handle" autocomplete="off"></label>
-          <label class="qv-field"><span>Name</span><input class="qv-input" name="name" placeholder="First name" autocomplete="off"></label>
-          <label class="qv-field qv-wide"><span>One specific detail</span><input class="qv-input" name="detail" placeholder="A video, a post, a line they said" autocomplete="off"></label>
-          <label class="qv-field"><span>Link</span><input class="qv-input" name="link" placeholder="https://" autocomplete="off"></label>
-          <div class="qv-manual-foot"><button class="ps-control qv-primary" type="submit">Add to today</button><small class="qv-saved" id="qv-manual-status">${esc(addNote)}</small></div>
+          <label class="qv-field"><span>Handle</span><input class="ps-input qv-input" name="handle" required placeholder="@handle" autocomplete="off"></label>
+          <label class="qv-field"><span>Name</span><input class="ps-input qv-input" name="name" placeholder="First name" autocomplete="off"></label>
+          <label class="qv-field qv-wide"><span>One specific detail</span><input class="ps-input qv-input" name="detail" placeholder="A video, a post, a line they said" autocomplete="off"></label>
+          <label class="qv-field"><span>Link</span><input class="ps-input qv-input" name="link" placeholder="https://" autocomplete="off"></label>
+          <div class="qv-manual-foot"><button class="ps-button primary qv-primary" type="submit">Add to today</button><small class="qv-saved" id="qv-manual-status">${esc(addNote)}</small></div>
         </form>`;
       box.querySelectorAll("[data-add-handle]").forEach((b) => (b.onclick = () => add({ handle: b.dataset.addHandle, source: b.dataset.addSource, name: b.dataset.addName, niche: b.dataset.addNiche }, b)));
+      box.querySelector("[data-candidates-empty]")?.append(PulsifySurface.empty("users","No candidates waiting","Add a contact by handle to write their first draft.","Add by handle",()=>$("#qv-manual input")?.focus()));
       const form = $("#qv-manual");
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -238,13 +244,13 @@
     }
 
     async function add(payload, button, note) {
-      button.disabled = true; const label = button.textContent; button.textContent = "Adding";
+      PulsifyShell.pending(button);button.parentElement.querySelector(".ps-inline-error")?.remove();
       try {
         await api("/api/outreach-queue", { method: "POST", body: JSON.stringify({ action: "add", ...payload }) });
         addNote = `@${payload.handle} added to today`;
         await load("queue");
         setTimeout(() => { addNote = ""; const el = $("#qv-manual-status"); if (el) el.textContent = ""; }, 2500);
-      } catch (e) { button.disabled = false; button.textContent = label; if (note) { note.textContent = e.message.slice(0, 60); note.className = "qv-saved err"; } else button.textContent = e.message.slice(0, 30); }
+      } catch (e) {PulsifyShell.inlineError(button.parentElement,e,()=>add(payload,button,note));}finally{PulsifyShell.pending(button,false);}
     }
 
     // Expand and collapse.
@@ -298,7 +304,7 @@
     const onChanged = () => { clearTimeout(pending); pending = setTimeout(() => load(), 300); };
     window.addEventListener("pulsify:outreach-changed", onChanged);
     timer = setInterval(() => { if (!root.isConnected) { dispose(); return; } if (document.visibilityState === "visible") load(); }, 120000);
-    function dispose() { disposed = true; clearInterval(timer); clearTimeout(pending); unsubscribe?.(); document.removeEventListener("keydown", onKey); window.removeEventListener("pulsify:outreach-changed", onChanged); }
+    function dispose() { disposed = true;seq++; clearInterval(timer); clearTimeout(pending); unsubscribe?.(); document.removeEventListener("keydown", onKey); window.removeEventListener("pulsify:outreach-changed", onChanged); }
     return dispose;
   }
 

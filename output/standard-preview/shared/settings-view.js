@@ -3,6 +3,7 @@
 // /api/account and shows its result inline; nothing saves silently.
 (() => {
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const cache=new Map();
   const when = (iso) => (iso ? new Date(iso).toLocaleString() : "never");
 
   async function render(root, ctx) {
@@ -10,14 +11,21 @@
     const headers = () => ({ "content-type": "application/json", ...(role === "operator" ? { "x-pulsify-operator": "1" } : {}), ...(ctx.headers ? ctx.headers() : {}) });
     const api = async (init) => {
       const r = await fetch("/api/account", { credentials: "same-origin", headers: headers(), ...init });
-      if (init?.method === "POST" && r.headers.get("content-disposition")) return r;
+      if (r.ok && init?.method === "POST" && r.headers.get("content-disposition")) return r;
       const d = await r.json().catch(() => ({}));
-      if (!r.ok || d.ok === false) throw new Error(d.error || `HTTP ${r.status}`);
+      if (!r.ok || d.ok === false) throw PulsifyShell.failure(r.status);
       return d;
     };
-    root.innerHTML = '<h1>Settings</h1><p class="ps-subtitle">Your account, your workspace, and how Pulsify talks to you.</p><div class="set-layout"><nav class="set-nav skeleton" style="min-height:200px"></nav><div class="set-body"><div class="skeleton" style="min-height:400px"></div></div></div>';
-    let data;
-    try { data = await api(); } catch (e) { root.querySelector(".set-body").innerHTML = `<p class="ps-error">${esc(e.message)}</p>`; return; }
+    const key=JSON.stringify([role,headers()]);
+    const titles=role==='operator'?['Appearance','Account','Team access','Security','Client defaults','Notifications']:['Appearance','Account','Security and sessions','Workspace','Notifications','Connected accounts','Plan and billing','Your data','Close workspace'];
+    root.innerHTML = '<h1>Settings</h1><p class="ps-subtitle">Your account, your workspace, and how Pulsify talks to you.</p><div class="set-layout"><nav class="set-nav"></nav><div class="set-body"></div></div>';
+    let data=cache.get(key);
+    if(!data){
+      root.querySelector('.set-nav').innerHTML=titles.map(t=>'<span class="set-nav-item">'+esc(t)+'</span>').join('');
+      root.querySelector('.set-body').innerHTML=titles.map(t=>'<section class="set-section set-loading" aria-label="Loading '+esc(t)+'"><div class="set-head"><div class="skeleton"></div><div class="skeleton"></div></div>'+Array.from({length:3},()=>'<div class="set-row"><div class="skeleton"></div><div class="skeleton"></div></div>').join('')+'</section>').join('');
+      try { data = await api();cache.set(key,data); } catch (e) {if(root.isConnected){root.querySelector('.set-body').replaceChildren();PulsifyShell.inlineError(root.querySelector('.set-body'),e,()=>render(root,ctx));}return;}
+    }
+    if(!root.isConnected)return;
     const ro = Boolean(data.read_only);
     const sections = role === "operator" ? operatorSections(data) : clientSections(data, ro);
     root.querySelector(".set-nav").className = "set-nav";
@@ -25,6 +33,7 @@
     root.querySelector(".set-body").innerHTML = appearance() + sections.map((s) => `<section class="set-section" id="set-${s.id}"><div class="set-head"><h2>${esc(s.title)}</h2><p>${esc(s.blurb)}</p></div>${s.html}</section>`).join("");
     if (ro) root.querySelector(".set-body").insertAdjacentHTML("afterbegin", '<p class="set-readonly">Operator preview. Settings are read-only while viewing as this client.</p>');
 
+    const teamEmpty=root.querySelector('[data-team-empty]');if(teamEmpty)teamEmpty.append(PulsifySurface.empty('users','No operators listed','Review the access policy to manage who can open this console.','Open access settings',()=>window.open('https://one.dash.cloudflare.com/','_blank','noopener')));
     // Appearance
     const applyTheme = () => root.querySelectorAll("[data-theme-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.themeMode === (localStorage.getItem("theme") || "dark"))));
     root.querySelectorAll("[data-theme-mode]").forEach((b) => (b.onclick = () => { window.PulsifyTheme?.apply(b.dataset.themeMode); applyTheme(); }));
@@ -40,17 +49,20 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         if (ro) return;
+        const confirmation=form.querySelector("[data-confirm]");
+        if(confirmation && !await PulsifySurface.confirm("Request workspace deletion?",confirmation.dataset.confirm,"Send request"))return;
         const status = form.querySelector(".set-status");
         const button = form.querySelector("button[type=submit]");
         const fd = new FormData(form);
         const payload = { action: form.dataset.action };
         for (const [k, v] of fd.entries()) payload[k] = v;
         form.querySelectorAll("input[type=checkbox]").forEach((c) => { payload[c.name] = c.checked; });
-        if (form.dataset.action === "password" && payload.next !== payload.confirm) { status.textContent = "The two new passwords do not match."; status.className = "set-status err"; return; }
+        if (form.dataset.action === "password" && payload.next !== payload.confirm) { status.textContent = "The two new passwords do not match."; status.className = "set-status ps-inline-error"; return; }
         delete payload.confirm;
         button.disabled = true; status.textContent = "Saving…"; status.className = "set-status";
         try {
           const r = await api({ method: "POST", body: JSON.stringify(payload) });
+          cache.delete(key);
           if (r instanceof Response) {
             const blob = await r.blob(); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = (r.headers.get("content-disposition") || "").split('filename="')[1]?.replace('"', "") || "export.json"; a.click();
             status.textContent = "Export downloaded."; status.className = "set-status ok";
@@ -60,10 +72,9 @@
             if (form.dataset.action === "workspace" && payload.name && ctx.onWorkspaceName) ctx.onWorkspaceName(payload.name);
           }
         } catch (err) { status.textContent = err.message; status.className = "set-status err"; }
-        finally { button.disabled = false; }
+        finally { PulsifyShell.pending(button,false); }
       });
     });
-    root.querySelectorAll("[data-confirm]").forEach((b) => b.addEventListener("click", (e) => { if (!confirm(b.dataset.confirm)) { e.preventDefault(); e.stopImmediatePropagation(); } }, true));
     root.querySelector("[data-signout-all]")?.addEventListener("click", () => ctx.signOut?.());
   }
 
@@ -120,7 +131,7 @@
       { id: "account", title: "Account", blurb: "You, on this console.", html: `
         <div class="set-row"><div><strong>${esc(d.account.email || "Signed in")}</strong><small>Signed in through Cloudflare Access with Google.</small></div><a class="ps-control" href="/portal/login?operator=1&logout=1">Sign out</a></div>` },
       { id: "team", title: "Team access", blurb: "Who can open this console.", html: `
-        <ul class="set-list">${(d.team.operators || []).map((e) => `<li><strong>${esc(e)}</strong><small>Operator</small></li>`).join("") || "<li><small>No operator emails configured.</small></li>"}</ul>
+        <ul class="set-list">${(d.team.operators || []).map((e) => `<li><strong>${esc(e)}</strong><small>Operator</small></li>`).join("") || "<li data-team-empty></li>"}</ul>
         <p class="set-muted">Adding someone takes two steps and neither is self-serve yet: add their Google email to the Access policy in Cloudflare Zero Trust, then to <code>OPERATOR_EMAILS</code> in wrangler.toml so the sign-in page recognises them.</p>` },
       { id: "security", title: "Security", blurb: "What protects the console and the automations.", html: `
         <div class="set-row"><div><strong>Cloudflare Access</strong><small>Google identity in front of ${d.security.access_protected_paths.map(esc).join(", ")}.</small></div><span class="int-pill int-pill-ok">Active</span></div>
