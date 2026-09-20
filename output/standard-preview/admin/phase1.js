@@ -1,7 +1,7 @@
 (() => {
  const {icon,esc,read,write}=PulsifyShell;const shellRoot=document.getElementById('shell');const stash=document.createElement('div');stash.hidden=true;document.body.append(stash);
  const nav=[{label:'',items:[['overview','Overview','grid'],['home','Clients','people'],['leads','Leads','people']]},{label:'Growth',items:[['queue','Today'],['search','Search'],['outreach','Outreach tracker'],['crm','CRM'],['instagram','Instagram'],['youtube','YouTube'],['content','Content']]},{label:'Delivery',items:[['delivery','Client work'],['brain','Client brain'],['campaigns','Acquisition pages'],['email','Email']]},{label:'Workspace',items:[['integrations','Integrations'],['payments','Payments'],['health','Health'],['settings','Settings']]}].map(g=>({...g,items:g.items.map(([id,label,icon])=>({id,label,icon}))}));
- const dashboardViews=['live','crm','instagram','youtube','content','payments','health','metrics','plan','income','payouts','cashflow','calendar','dashboard'];
+ const dashboardViews=['live','crm','instagram','youtube','payments','health','metrics','plan','income','payouts','cashflow','calendar','dashboard'];
  let owned, cleanup;
  let cacheKey='pulsify:bootstrap:v1:operator',bootstrap=null,frames=new Map(),bootstrapEpoch=0;
  const shell=PulsifyShell.mount({container:shellRoot,workspace:'Pulsify',nav,onView:view,onWorkspace:async client=>{if(!client){shell.go('overview');return;}const r=await fetch('/api/impersonate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({client})});const d=await r.json();if(!r.ok)throw Error(d.error||'Could not open client workspace.');location.href=d.url;},signOut:()=>location.href='/portal/login?operator=1&logout=1'});
@@ -17,6 +17,7 @@
   if(id==='search'&&window.PulsifySearchView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifySearchView.render(holder,{});return;}
   if(id==='outreach'&&window.PulsifyOutreachView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyOutreachView.render(holder);return;}
   if(id==='leads'&&window.PulsifyLeadsView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyLeadsView.render(holder,{});return;}
+  if(id==='content'&&window.PulsifyContentView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyContentView.render(holder);return;}
   if(id==='payments'&&window.PulsifyIntegrationsView){const holder=document.createElement('div');owned.replaceChildren(holder);PulsifyIntegrationsView.render(holder,{client:bootstrap?.clients?.[0]?.client||'',clients:bootstrap?.clients||[],section:'payments'});return;}
   if(dashboardViews.includes(id)){
    owned.replaceChildren();owned.hidden=true;PulsifyNativeDashboard.show(id,main).catch(()=>{});return;
