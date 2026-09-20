@@ -13,6 +13,7 @@ sql.prepare('INSERT INTO client_brain VALUES(1,?,?,?,?,?,?)').run('a','voice','t
 sql.prepare('INSERT INTO client_brain VALUES(2,?,?,?,?,?,?)').run('b','voice','tone','"PRIVATE TENANT B"','test','2026-09-08');
 sql.prepare('INSERT INTO proof_items VALUES(1,?,?,?,?,?,?)').run('a','image','','DO NOT USE THIS DENIED CLAIM','denied','2026-09-08');
 let captured,fail=false;
+sql.exec("ALTER TABLE client_config ADD COLUMN status TEXT DEFAULT 'prospect'");
 const env={DB:{prepare(query){let args=[];const p={bind(...v){args=v;return p},async first(){return sql.prepare(query).get(...args)||null},async all(){return {results:sql.prepare(query).all(...args)}},async run(){const r=sql.prepare(query).run(...args);return {meta:{changes:r.changes}}}};return p}},AI:{async run(model,input){captured={model,input};if(fail)throw Error('upstream failed');return {response:'A useful draft.'};}}};
 const request=(body,token='token-a',query='')=>new Request('https://test/api/copywriter'+query,{method:'POST',headers:{'content-type':'application/json','x-portal-token':token},body:JSON.stringify(body)});
 const call=(body={brief:'Teach one lesson',format:'Reel'},token,query)=>onRequestPost({env,request:request(body,token,query)});

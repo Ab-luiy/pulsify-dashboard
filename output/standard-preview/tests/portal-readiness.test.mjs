@@ -17,6 +17,7 @@ for (const file of ['0011_client_dashboard_auth.sql','0014_client_brain.sql']) {
   sql.exec(readFileSync(new URL('../migrations/'+file,import.meta.url),'utf8'));
 }
 sql.exec("CREATE TABLE client_email_codes(client_id TEXT,email TEXT,purpose TEXT); INSERT INTO client_config VALUES('qa','QA',NULL),('other','Other',NULL)");
+sql.exec("ALTER TABLE client_config ADD COLUMN status TEXT DEFAULT 'prospect'");
 const DB = {
   prepare(query) {
     let values=[];

@@ -115,3 +115,19 @@ test('tracker reads the merged data: seen threads, pictures, and left-on-read', 
 });
 
 test.after(()=>{globalThis.fetch=realFetch;});
+
+
+test('failed webhook processing leaves event retryable',async()=>{
+  const payload={event:'message.read',conversation:{id:'zc_1'},statusAt:'invalid'};
+  await assert.rejects(handleZernioEvent(env,payload,'retry-event'));
+  assert.equal(sql.prepare("SELECT id FROM zernio_events WHERE id='retry-event'").get(),undefined);
+  await handleZernioEvent(env,{...payload,statusAt:iso(now)},'retry-event');
+  assert.ok(sql.prepare("SELECT id FROM zernio_events WHERE id='retry-event'").get());
+});
+
+test('failed sweep fetch does not advance even a newly mapped conversation watermark',async()=>{
+  const conversation={id:'retry-sweep',accountId:'acc_1',participantId:'retry-person',updatedTime:iso(now)};
+  const fetcher=async url=>String(url).includes('/messages?')?Response.json({error:'upstream'},{status:500}):Response.json({data:[conversation],pagination:{hasMore:false}});
+  await assert.rejects(syncZernioInbox(env,{fetcher}),/500/);
+  assert.equal(sql.prepare("SELECT updated_time FROM zernio_conversation_map WHERE zernio_id='retry-sweep'").get().updated_time,null);
+});

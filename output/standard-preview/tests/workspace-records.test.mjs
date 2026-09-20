@@ -8,6 +8,7 @@ const sql=new DatabaseSync(':memory:');
 sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
 sql.exec(readFileSync(new URL('../migrations/0021_workspace_records.sql',import.meta.url),'utf8'));
 sql.prepare('INSERT INTO client_config VALUES(?,?,?),(?,?,?)').run('a','A',await sha256Hex('token-a'),'b','B',await sha256Hex('token-b'));
+sql.exec("ALTER TABLE client_config ADD COLUMN status TEXT DEFAULT 'prospect'");
 const env={DB:{prepare(query){let args=[];const p={bind(...v){args=v;return p},async first(){return sql.prepare(query).get(...args)||null},async all(){return {results:sql.prepare(query).all(...args)}},async run(){const r=sql.prepare(query).run(...args);return {meta:{changes:r.changes}}}};return p}}};
 const req=(body,token='token-a')=>new Request('https://test/api/workspace-records',{method:'POST',headers:{'content-type':'application/json','x-portal-token':token},body:JSON.stringify(body)});
 const body={kind:'lead',title:'QA lead',data:{stage:'New',notes:'User-entered text <script>'}};

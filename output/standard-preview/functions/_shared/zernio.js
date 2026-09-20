@@ -125,7 +125,7 @@ export async function resolveConversationId(env, zc, operatorEmail) {
   }
   await env.DB.prepare(
     "INSERT INTO zernio_conversation_map(zernio_id,conversation_id,account_id,updated_time,synced_at) VALUES(?,?,?,?,?) ON CONFLICT(zernio_id) DO UPDATE SET conversation_id=excluded.conversation_id,account_id=excluded.account_id,synced_at=excluded.synced_at",
-  ).bind(zid, conversationId, str(zc.accountId), str(zc.updatedTime) || null, nowIso()).run();
+  ).bind(zid, conversationId, str(zc.accountId), null, nowIso()).run();
   return conversationId;
 }
 

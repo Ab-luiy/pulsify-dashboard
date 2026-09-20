@@ -357,7 +357,7 @@ export async function resolveSessionAccess(request, env) {
     `SELECT s.client_id, s.expires_at, s.created_by, c.client_name
        FROM impersonation_sessions s
        LEFT JOIN client_config c ON c.client=s.client_id
-      WHERE s.token_hash=? AND s.consumed_at IS NOT NULL AND s.expires_at>?`,
+      WHERE s.token_hash=? AND s.consumed_at IS NOT NULL AND s.expires_at>? AND COALESCE(c.status,'')<>'archived'`,
   ).bind(hash, nowIso()).first().catch(() => null);
   if (impersonation) {
     return {
@@ -374,7 +374,7 @@ export async function resolveSessionAccess(request, env) {
     `SELECT s.client_id, s.expires_at, c.client_name
        FROM client_sessions s
        LEFT JOIN client_config c ON c.client=s.client_id
-      WHERE s.token_hash=? AND s.expires_at>?`,
+      WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(c.status,'')<>'archived'`,
   ).bind(hash, nowIso()).first();
   if (!row) return null;
 
@@ -399,7 +399,7 @@ export async function resolveTokenAccess(request, env, options = {}) {
   const row = await env.DB.prepare(
     `SELECT client, COALESCE(client_name, client) AS client_name
        FROM client_config
-      WHERE portal_token_hash=?`,
+      WHERE portal_token_hash=? AND COALESCE(status,'')<>'archived'`,
   ).bind(hash).first();
   if (!row) return null;
 

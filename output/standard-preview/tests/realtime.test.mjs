@@ -39,3 +39,12 @@ test('realtime-config: operator gets the console topic, anonymous gets 401, unco
   const off=await (await configGet({request:new Request('https://x/api/realtime-config'),env:{},data:{}})).json();
   assert.equal(off.off,true);
 });
+
+
+test('broadcast drops readable data, nested values and unknown reasons',async()=>{
+  let sent;
+  await broadcast({SUPABASE_URL:'https://test',SUPABASE_ANON_KEY:'public'},'pulsify:operator','notification',
+    {id:'ntf_123',conversation_id:{text:'private'},reason:'a private message',text:'secret',email:'private@example.test',body:'private'},
+    async(u,i)=>{sent=JSON.parse(i.body).messages[0].payload;return new Response('',{status:202});});
+  assert.deepEqual(Object.keys(sent).sort(),['at','id']);
+});

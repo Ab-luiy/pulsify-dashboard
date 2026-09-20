@@ -10,13 +10,24 @@ export function realtimeConfigured(env) {
   return Boolean(env?.SUPABASE_URL && env?.SUPABASE_ANON_KEY);
 }
 
+const reasons = new Set(["reply", "sent", "seen", "sync", "left-on-read", "sentiment", "outcome", "note", "hibernate", "wake", "reset"]);
+export function signalPayload(payload = {}) {
+  const safe = {};
+  for (const key of ["id", "conversation_id"]) {
+    const value = payload?.[key];
+    if (typeof value === "string" && /^[A-Za-z0-9_:.=-]{1,200}$/.test(value)) safe[key] = value;
+  }
+  if (reasons.has(payload?.reason)) safe.reason = payload.reason;
+  return safe;
+}
+
 export async function broadcast(env, topic, event, payload = {}, fetcher = fetch) {
   if (!realtimeConfigured(env)) return { ok: false, skipped: true };
   try {
     const r = await fetcher(`${String(env.SUPABASE_URL).replace(/\/$/, "")}/realtime/v1/api/broadcast`, {
       method: "POST",
       headers: { apikey: env.SUPABASE_ANON_KEY, authorization: `Bearer ${env.SUPABASE_ANON_KEY}`, "content-type": "application/json" },
-      body: JSON.stringify({ messages: [{ topic, event, payload: { ...payload, at: new Date().toISOString() } }] }),
+      body: JSON.stringify({ messages: [{ topic, event, payload: { ...signalPayload(payload), at: new Date().toISOString() } }] }),
     });
     return { ok: r.status === 202 || r.ok, status: r.status };
   } catch (error) {

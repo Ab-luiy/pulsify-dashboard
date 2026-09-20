@@ -25,8 +25,15 @@ export async function handleZernioEvent(env, payload, eventId) {
   if (id) {
     const seen = await env.DB.prepare("SELECT id FROM zernio_events WHERE id=?").bind(id).first().catch(() => null);
     if (seen) return { ok: true, duplicate: true };
-    await env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at) VALUES(?,?,?)").bind(id, str(payload?.event), nowIso()).run().catch(() => null);
+
   }
+  const result = await processZernioEvent(env, payload);
+  if (id) await env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at) VALUES(?,?,?)").bind(id, str(payload?.event), nowIso()).run();
+  return result;
+}
+
+async function processZernioEvent(env, payload) {
+  const operatorEmail = env.OPERATOR_EMAIL || "operator";
   const event = str(payload?.event);
   const zc = payload?.conversation || {};
   const zm = payload?.message || {};
@@ -84,10 +91,8 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
       processed += 1;
       const conversationId = await resolveConversationId(env, zc, operatorEmail);
       await refreshIdentity(env, conversationId, zc);
-      const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher).catch((error) => {
-        if (String(error?.message || "").includes("429")) throw error; // stop the sweep, the next minute retries
-        return { messages: [] };
-      });
+      const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher);
+      if (!Array.isArray(msgs.messages)) throw new Error("Zernio messages response is incomplete");
       let added = 0;
       for (const zm of (msgs.messages || []).slice().reverse()) {
         if (await storeMessage(env, conversationId, zm, operatorEmail)) added += 1;
