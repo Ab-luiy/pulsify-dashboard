@@ -1733,3 +1733,7 @@ Codex shipped onboarding login redirects, read-only impersonation preview, safe 
 ## [2026-09-20] decision | User-facing bugs and database read budget
 
 Founder-directed bugfix release deployed as Pages 0249056e and Worker 72ba99b5. Bell and Integrations repaired, shared assets moved outside operator-protected paths, section lifecycle guarded, technical failure notices removed from user-facing channels while diagnostics remain internal. Production D1 reported exhausted daily read allowance; migration0034 indexes and less frequent fallback scans reduce recurrence, immediate DM webhooks unchanged. 86 backend tests and mocked browser section checks pass. Authenticated live recovery remains unverified until allowance reset. Full evidence in output/qa/2026-09-phase5/BUGFIX-RELEASE.md.
+
+## [2026-09-20] client-update | Phase 5 polish and Phase 6 outreach product live
+
+Overnight, four engineers in parallel: Codex (gpt-6-astra, low) executed Phase 5 Part E locally until its usage cap; two Claude builders in isolated worktrees shipped the Phase 6 outreach queue (formula-driven DM drafts, candidates from CRM and YouTube leads, auto-reconcile against Zernio threads) and the Today view plus a Ctrl+K command palette in both shells; a reviewer wrote the Kendo gap review (nine P1 findings, four-batch order). Claude merged, tested (109/109) and deployed. Briefs: wiki/synthesis/phase6-outreach-product-brief.md, wiki/synthesis/kendo-gap-review-2026-09-20.md.

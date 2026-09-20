@@ -281,3 +281,5 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 - [[outreach/packaging-references/Packaging examples]] — Good, bad and unsorted title/thumbnail screenshots with source links, founder notes and optional performance context. [packaging, outreach] 2026-09-15.
 - [[phase5-review-and-polish-codex-brief]] — Codex: second-reader review of the 2026-09-19 releases plus the Leads/Search/Outreach tracker design and sorting pass. synthesis. 2026-09-19
 - [[website-audit-2026-09-19]] — full-site scan: 3 fixed live, 14 ranked findings with Codex execution order. synthesis. 2026-09-19
+- [[phase6-outreach-product-brief]] — Phase 6: the Today queue, formula drafts, command palette; team and file ownership. synthesis, 2026-09-20
+- [[kendo-gap-review-2026-09-20]] — file-level list of what still reads as html next to Kendo, ranked, with a four-batch fix order. synthesis, 2026-09-20
