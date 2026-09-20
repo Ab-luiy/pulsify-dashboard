@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/api/clients",
+    "status": "blocked",
+    "code": "EACCES"
+  },
+  {
+    "path": "/api/outreach",
+    "status": "blocked",
+    "code": "EACCES"
+  },
+  {
+    "path": "/api/notifications",
+    "status": "blocked",
+    "code": "EACCES"
+  },
+  {
+    "path": "/api/search?status=1",
+    "status": "blocked",
+    "code": "EACCES"
+  },
+  {
+    "path": "/api/workspace-archive",
+    "status": "blocked",
+    "code": "EACCES"
+  }
+]

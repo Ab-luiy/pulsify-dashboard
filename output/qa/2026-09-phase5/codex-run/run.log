@@ -8163,3 +8163,5 @@ PART E BATCH 4 LOCAL COMPLETE: deleted functions/_shared/notify-operator.js and 
 '@
 rg -n 'INTERNAL_NOTIFY_SECRET|notify-operator|/api/notify' output/standard-preview/functions output/standard-preview/workers --glob '"'!**/.wrangler/**'"'" in C:\Users\Abdullah\Desktop\Pulsify-Brain
  exited 1 in 502ms:
+codex
+The notification relay and its secret reads are removed. Discord delivery now rejects every event except a lead reply, including older payment and booking alert calls. Client sign-in and onboarding emails remain functional. I’m running the final checks and attempting the authorized API probes; production verification will remain clearly separate from the local results.
