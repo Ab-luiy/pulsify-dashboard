@@ -6451,3 +6451,1151 @@ textarea.qv-input{height:auto;min-height:96px;padding:10px 12px;resize:vertical;
 
 exec
 "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "Get-Content -Encoding UTF8 output/standard-preview/admin/queue-view.js | Select-Object -Skip 225 -First 25; Get-Content output/standard-preview/admin/console.js | Select-Object -Skip 1968 -First 25; Get-Content output/standard-preview/admin/console.js | Select-Object -Skip 3180 -First 18; Get-Content output/standard-preview/admin/console.js | Select-Object -Skip 3354 -First 15; rg -n 'surface|shell' output/standard-preview/admin/console-view.html; Get-Content output/standard-preview/shared/surface.css" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 572ms:
+          <label class="qv-field qv-wide"><span>One specific detail</span><input class="qv-input" name="detail" placeholder="A video, a post, a line they said" autocomplete="off"></label>
+          <label class="qv-field"><span>Link</span><input class="qv-input" name="link" placeholder="https://" autocomplete="off"></label>
+          <div class="qv-manual-foot"><button class="ps-control qv-primary" type="submit">Add to today</button><small class="qv-saved" id="qv-manual-status">${esc(addNote)}</small></div>
+        </form>`;
+      box.querySelectorAll("[data-add-handle]").forEach((b) => (b.onclick = () => add({ handle: b.dataset.addHandle, source: b.dataset.addSource, name: b.dataset.addName, niche: b.dataset.addNiche }, b)));
+      const form = $("#qv-manual");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const f = new FormData(form), payload = { handle: handle(f.get("handle")), source: "manual", name: String(f.get("name") || "").trim(), detail: String(f.get("detail") || "").trim(), link: String(f.get("link") || "").trim() };
+        if (!payload.handle) return;
+        await add(payload, form.querySelector("button"), $("#qv-manual-status"));
+      });
+    }
+
+    async function add(payload, button, note) {
+      button.disabled = true; const label = button.textContent; button.textContent = "Adding";
+      try {
+        await api("/api/outreach-queue", { method: "POST", body: JSON.stringify({ action: "add", ...payload }) });
+        addNote = `@${payload.handle} added to today`;
+        await load("queue");
+        setTimeout(() => { addNote = ""; const el = $("#qv-manual-status"); if (el) el.textContent = ""; }, 2500);
+      } catch (e) { button.disabled = false; button.textContent = label; if (note) { note.textContent = e.message.slice(0, 60); note.className = "qv-saved err"; } else button.textContent = e.message.slice(0, 30); }
+    }
+
+    // Expand and collapse.
+    if (wizardState.step === 1) {
+      requestWizardClose();
+      return;
+    }
+    wizardState.step -= 1;
+    renderWizardStep();
+  }
+
+  async function requestWizardClose() {
+    if (wizardState.busy) return;
+    if (wizardState.created) {
+      if (confirm("Save and finish later? Everything already saved will be kept.")) await closeWizardAndRefresh();
+      return;
+    }
+    const identity = validateWizardIdentity();
+    if (identity.valid && confirm("Save this client and finish later?")) {
+      if (await createWizardClient(false)) await closeWizardAndRefresh();
+      return;
+    }
+    if (confirm("Close without adding a client?")) closeClientWizard();
+  }
+
+  function closeClientWizard() {
+    $("clientWizard").hidden = true;
+    $("shell").inert = false;
+      });
+    }
+    const templateVariant = parsed.template_variant === "variant-02" ? "variant-02" : "canonical";
+    const clientName = String(parsed.client_name || "").trim() || slug;
+    const button = $("createPageButton");
+    button.disabled = true;
+    try {
+      let existing = null;
+      const check = await api(`/api/settings?client=${encodeURIComponent(slug)}`);
+      if (check.ok) existing = (await check.json().catch(() => ({}))).config || null;
+      if (existing && !confirm(`"${slug}" already has a saved page. Overwrite it?`)) return;
+      const response = await api("/api/settings", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          client: slug,
+          client_name: clientName,
+          template_variant: templateVariant,
+    $("deliverySubmitButton").textContent = "Save changes";
+    $("deliveryCancelButton").hidden = false;
+    $("deliveryForm").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  async function deleteDeliveryItem(id) {
+    if (!confirm("Delete this item? This cannot be undone.")) return;
+    hideMessage($("deliveryMessage"));
+    try {
+      const response = await api("/api/client-data", {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ client: state.client, type: deliveryState.type, id }),
+      });
+      const data = await response.json().catch(() => ({}));
+15:<link rel="stylesheet" href="/shared/shell.css">
+17:<style>body{margin:0}#shell{display:block;min-height:0}.rail{display:none!important}#shell>.main{margin:0;padding:24px;max-width:none}.topbar{position:static}</style></head>
+21:  <div class="shell" id="shell" hidden>
+416:              <p>These four sections feed the P1 client dashboard shell. Use valid JSON or leave a box blank to keep that section empty.</p>
+/* Shared interiors. The existing shell owns the light and warm-dark tokens. */
+.ps-page-header,.ws-heading{display:flex;align-items:start;justify-content:space-between;gap:20px;margin-bottom:28px}
+.ps-page-header h1,.ws-heading h1{font-size:28px;line-height:36px;letter-spacing:-.025em;font-weight:500;margin:0}
+.ps-page-header p,.ws-heading p{font-size:14px;line-height:20px;color:hsl(var(--muted-foreground));max-width:64ch}
+.ps-metric-grid{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:1px!important;border:1px solid hsl(var(--border));border-radius:12px;overflow:hidden;background:hsl(var(--border));margin:20px 0}
+.ps-metric{position:relative;min-width:0;min-height:156px!important;display:flex!important;flex-direction:column;gap:10px;padding:20px!important;margin:0!important;border:0!important;border-radius:0!important;background:hsl(var(--card))!important;box-shadow:none!important;cursor:pointer;transition:background-color var(--dur) var(--ease);font-variant-numeric:tabular-nums}
+.ps-metric:hover{background:hsl(var(--muted))!important;transform:none!important}
+.ps-metric:before,.ps-metric:after{display:none!important}
+.ps-metric small,.ps-metric .k{font-size:12px!important;line-height:18px;color:hsl(var(--muted-foreground))!important;letter-spacing:0!important;text-transform:none!important}
+.ps-metric b,.ps-metric .v,.ps-metric .kpi-value{font-size:28px!important;line-height:1.15!important;letter-spacing:-.035em!important;font-weight:500!important;color:hsl(var(--foreground))!important;text-shadow:none!important}
+.ps-metric .ps-metric-footer{margin-top:auto;font-size:12px;color:hsl(var(--muted-foreground));display:flex;justify-content:space-between;gap:8px}
+.ps-metric-handle{position:absolute;right:8px;top:8px;border:0;border-radius:5px;background:hsl(var(--muted));color:hsl(var(--foreground));opacity:0;padding:4px 7px;cursor:grab}
+.ps-metric:hover .ps-metric-handle,.ps-metric:focus-within .ps-metric-handle{opacity:1}
+.ps-metric[hidden]{display:none!important}.ps-grid-tools{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+.ps-surface-empty{padding:36px 24px;border:1px dashed hsl(var(--border));border-radius:12px;text-align:center;background:hsl(var(--card));display:grid;justify-items:center;gap:12px}
+.ps-surface-empty .ps-empty-icon{display:grid;place-items:center;width:56px;height:56px;background:hsl(var(--primary)/.1);color:hsl(var(--primary));border-radius:16px;font-size:24px}
+.ps-surface-empty h3,.ps-surface-empty p{margin:0}.ps-surface-empty p{color:hsl(var(--muted-foreground));max-width:48ch;font-size:14px;line-height:1.6}
+.ps-surface-dialog{width:min(460px,calc(100vw - 32px));padding:0;border:1px solid hsl(var(--border));border-radius:12px;background:hsl(var(--card));color:hsl(var(--foreground));box-shadow:var(--shadow-elev-2);max-height:90vh;overflow:auto}
+.ps-surface-dialog::backdrop{background:hsl(var(--overlay)/.7);backdrop-filter:blur(4px)}
+.ps-surface-dialog[open]{animation:ps-dialog-enter var(--dur) var(--ease)}
+@keyframes ps-dialog-enter{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.ps-intro-art{height:176px;display:grid;place-items:center;background:linear-gradient(0deg,hsl(var(--card)),transparent),radial-gradient(hsl(var(--highlight)/.2) 1px,transparent 1px),linear-gradient(135deg,hsl(var(--primary)/.25),hsl(var(--muted)));background-size:auto,16px 16px,auto}
+.ps-intro-art span{display:grid;place-items:center;width:64px;height:64px;border:1px solid hsl(var(--highlight)/.2);border-radius:18px;background:hsl(var(--highlight)/.07);backdrop-filter:blur(12px);font-size:28px}
+.ps-dialog-body{padding:24px}.ps-dialog-body h2{font-size:22px;font-weight:500;margin:0 0 12px}.ps-dialog-body p{font-size:14px;line-height:1.6;color:hsl(var(--muted-foreground))}.ps-dialog-body ul{padding:0;list-style:none;margin:24px 0}.ps-dialog-body li{padding:8px 0;font-size:14px}.ps-dialog-body li:before{content:'';display:inline-block;vertical-align:middle;width:16px;height:16px;background:hsl(var(--primary));mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4 10-10'/%3E%3C/svg%3E") center/contain no-repeat;margin-right:10px}.ps-dialog-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.ps-launch{border:1px solid hsl(var(--border));border-radius:12px;background:hsl(var(--card));margin:0 0 28px;overflow:hidden}.ps-launch-head{padding:20px;display:flex;justify-content:space-between;gap:20px;align-items:center}.ps-launch h2{font-size:18px;margin:0 0 7px;font-weight:500}.ps-launch small{color:hsl(var(--muted-foreground))}.ps-launch progress{width:100%;height:6px;accent-color:hsl(var(--primary));display:block;border:0}.ps-launch summary{cursor:pointer;list-style:none;padding:16px 20px;display:flex;align-items:center;gap:12px;border-top:1px solid hsl(var(--border));font-size:14px}.ps-launch summary:after{content:'';width:16px;height:16px;flex:none;margin-left:auto;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform var(--dur) var(--ease)}.ps-launch .ps-step-check{width:32px;height:32px;border:1px solid hsl(var(--border));border-radius:50%;display:grid;place-items:center;flex-shrink:0;color:hsl(var(--muted-foreground))}.ps-launch [data-complete="true"] .ps-step-check{background:hsl(var(--primary)/.12);color:hsl(var(--primary));border-color:transparent}.ps-launch-detail{padding:0 20px 20px 64px}.ps-launch-detail p{font-size:14px;line-height:1.6;color:hsl(var(--muted-foreground))}.ps-launch-detail button{margin-right:8px}.ps-save-status{font-size:12px;color:hsl(var(--muted-foreground));padding:0 20px 12px}
+.native-dashboard{--text:hsl(var(--foreground));--text-dim:hsl(var(--muted-foreground));--text-muted:hsl(var(--muted-foreground));--bg:hsl(var(--background));--card-bg:hsl(var(--card));--surface:hsl(var(--card));--line:hsl(var(--border));color:hsl(var(--foreground));font-family:Inter,system-ui,sans-serif;min-width:0}
+.native-dashboard[hidden]{display:none!important}.native-dashboard .app{display:block!important;margin:0!important;padding:0!important;max-width:none!important}.native-dashboard .sidebar,.native-dashboard .scroll-progress,.native-dashboard .theme-select{display:none!important}.native-dashboard .main{padding:0!important;margin:0!important;min-width:0}.native-dashboard header{position:static!important}.native-dashboard .tab-panel{animation:none!important}.native-dashboard .panel,.native-dashboard .card,.native-dashboard .intel-box{background:hsl(var(--card))!important;border-color:hsl(var(--border))!important;box-shadow:none!important}.native-dashboard table{font-variant-numeric:tabular-nums}.native-dashboard th{position:sticky;top:0;background:hsl(var(--card));z-index:1}.native-dashboard th:first-child,.native-dashboard td:first-child{position:sticky;left:0;background:hsl(var(--card))}.native-dashboard .section-title{font-weight:500!important;letter-spacing:-.02em!important}
+@media(max-width:1100px){.ps-metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+@media(max-width:520px){.ps-metric-grid{grid-template-columns:minmax(0,1fr)!important}.ps-metric{min-height:156px!important}.ps-page-header,.ws-heading{flex-direction:column}.ps-launch-detail{padding-left:20px}.native-dashboard{overflow-x:clip}.ps-metric-handle{opacity:1}}
+.native-dashboard>.app>.content{padding:0!important;margin:0!important;min-width:0}.native-dashboard .page-head[hidden]{display:none!important}.ps-secondary-panel{grid-column:1/-1;border:1px solid hsl(var(--border));border-radius:10px;margin-top:12px;overflow:hidden}.ps-secondary-panel>summary{cursor:pointer;padding:16px 20px;font-size:14px;color:hsl(var(--muted-foreground))}.ps-launch details[hidden]{display:none}.ps-launch-more{padding:12px 20px;border-top:1px solid hsl(var(--border))}.ps-launch summary{padding:10px 20px}.ps-launch progress::-webkit-progress-bar{background:hsl(var(--muted))}.ps-launch progress::-webkit-progress-value{background:hsl(var(--primary))}
+.native-dashboard input,.native-dashboard select,.native-dashboard textarea{min-width:0;max-width:100%;box-sizing:border-box}.native-dashboard .drawer:not(.open){visibility:hidden}.native-dashboard .grid>*{min-width:0}.native-dashboard .kanban{max-width:100%;overflow-x:auto}
+.native-dashboard .asset-drawer:not(.open){visibility:hidden;box-shadow:none}.ps-metric>strong{font-size:28px;line-height:1.15;font-weight:500;letter-spacing:-.035em}.ps-metric>span{font-size:12px;color:hsl(var(--muted-foreground))}.ps-metric:has(>strong){min-height:156px}
+@media(prefers-reduced-motion:reduce){.ps-surface-dialog[open]{animation:none}}
+
+.ps-launch details[open]>summary:after{transform:rotate(180deg)}
+/* SVG masks replace decorative legacy glyphs without changing surface renderers. */
+.ps-metric-handle{font-size:0}.ps-metric-handle:after{content:'';display:block;width:16px;height:16px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 4h.01M9 12h.01M9 20h.01M15 4h.01M15 12h.01M15 20h.01'/%3E%3C/svg%3E") center/contain no-repeat}
+.ps-intro-art>span{font-size:0}.ps-intro-art>span:after{content:'';width:28px;height:28px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m12 3 3 6 6 3-6 3-3 6-3-6-6-3 6-3Z'/%3E%3C/svg%3E") center/contain no-repeat}
+
+.ps-launch [data-complete=true] .ps-step-check{font-size:0}.ps-launch [data-complete=true] .ps-step-check:after{content:'';width:16px;height:16px;background:currentColor;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12 4 4 10-10'/%3E%3C/svg%3E") center/contain no-repeat}
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'New-Item -ItemType Directory -Force output/qa/2026-09-kendo-gap/batch2 | Out-Null; Get-Content -Encoding UTF8 claude-memory/feedback_dashboard_quality_bar.md; Get-Content -Encoding UTF8 claude-memory/feedback_never_guess.md; Get-Content -Encoding UTF8 wiki/index.md | Select-Object -Last 90' in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 415ms:
+---
+name: Dashboard quality bar — premium, beat Airtable
+description: The standard to operate at on the HTA dashboard / any CRM-style product work
+type: feedback
+originSessionId: e323a8a0-779b-4634-af98-cb5c3fef5fbb
+---
+On dashboard / CRM-style work, operate as a million-dollar-company-grade CRM professional. The target is to beat Airtable and beat polished "high-level" dashboards — not match them.
+
+**Why:** The user repeatedly flagged clutter, low-contrast/squint-y text, and "dead-ass" static feel as unacceptable, and stated this is a product they'd "buy for a lot of money." It will be shown to paying clients.
+
+**How to apply:**
+- Default to genuinely premium: strong visual hierarchy, real contrast (no dim text on glass), dynamic/draggable interactions, motion, aesthetic polish. Never ship flat or generic.
+- Declutter aggressively — regroup related things, move scaffolding into its own section, delete what doesn't earn its place. The user gave standing permission to reorganize boldly.
+- Drag-and-drop kanban is the preferred interaction model for pipelines (CRM leads, content production). Confirmed validated approach.
+- "Take your time, do it right" > fast-but-cringe, specifically for this product. (Distinct from the general "speed is the motto" default — that still holds for ops/markdown work, not for this flagship dashboard.)
+- 2026-06-23 CRM redesign pass (user called the prior version "pale and cheap… looks like a one-shot prompt"). Concrete bar that landed: charts must be BIG + INTERACTIVE + animated (the donut now hovers to highlight a slice/dim others + updates the center; entrance ring animation) with on-brand Mirage colors (NOT the old neon `#d4ff3a` palette — chartColors is now coral/magenta/violet/pink/indigo/teal/amber); filters as clickable CHIPS (tier/source) + a segmented Board/Table toggle, not a row of dropdowns; lead cards = gradient avatar + name/handle + metadata pills + tier-accent border/hover (not flat text rows); secondary panels (e.g. Priority retargets) collapse into a `<details>` so they don't clutter; sidebar nav grouped under labels (Command / Lead engine / Content & growth / Revenue / Wellness) + reordered (lead engine near top) + active = filled gradient pill. This is the look to MATCH or beat going forward; don't regress to flat/pale.
+- 2026-06-23 follow-up pass: user wants a NEON / flashy-ish, GLOWING aesthetic (not flat). Applied: fonts swapped to **Clash Display** (display) + **Satoshi** (body) via Fontshare — user explicitly called Inter/Sora "generic and stupid", so do NOT default back to those; JetBrains Mono kept for data. KPI metric cards = glowing neon stat cards (gradient top-accent bar, Clash Display numbers with colored `text-shadow` glow, hover halo) — the plain text-number version was rejected. Section boxes (intel-box / toolbar / collapse) carry a magenta glow halo; donut center number + section headings glow. Donut/chart center text must be sized so it does NOT touch the ring (reduced to ~16px in the 100-unit viewBox). Keep glow tasteful-but-visible ("neon-ish", not garish).
+---
+name: feedback_never_guess
+description: "Hard standing rule across ALL tasks: never guess and never produce work before researching what the vault already has — ask or verify instead"
+metadata:
+  node_type: memory
+  type: feedback
+  originSessionId: 2d8b8f35-6451-42fa-8d53-67efd83adee9
+  modified: 2026-07-21T13:21:49.624Z
+---
+
+2026-07-06: the founder gave a hard, universal instruction after I guessed at landing-page URLs (tried bare pulsify-funnels.pages.dev then ?client=frank, both wrong) instead of asking him for the actual link. He was frustrated: "can you like never ever guess in your life again across all and any tasks."
+
+**The rule (applies to EVERYTHING, not just this task):** never guess. When I don't have a concrete value — a URL, a file path, a name, a number, a fact, which page/asset he means — I ask him for it or verify it from a real source. I do not produce a plausible-looking guess and present it as if it might be right. Guessing wastes his time and erodes trust.
+
+**Why:** a guess that looks confident is worse than saying "I don't have this, send it to me." He would rather give me the exact input than watch me fire blind attempts. This compounds the existing standards: no invented facts/claims about people ([[feedback_flag_gaps_no_heavy_claims]]), verify before completion, flag gaps instead of filling them.
+
+**How to apply:** if a task needs a specific artifact/value I don't hold, my first move is to ask for it or look it up — not to try candidates. One direct "paste me the link / what's the exact X" beats three wrong guesses. Also: don't over-explain or hedge when I don't know; just say I don't have it and ask.
+
+## 2026-07-21 escalation: research the vault BEFORE producing, every time
+
+Same principle, harder form. His words: "Never in your fucking life guess the work before you conduct your full research on what we have and what we dont."
+
+What triggered it: on the FITFO prospect job I produced ~35 YouTube titles from memory without loading the `titles-thumbnails-generator` skill, which exists precisely so titles are never written from memory. Every hard rule got broken (Title Case instead of lowercase, no parenthetical kicker, no dollar figure, none of the 5 formulas, wrong output block). I also designed a hosted artifact he never asked for, and my whole thesis (put the payout screenshot in the thumbnail) turned out to violate `packaging-rules` rule 5 and `concepts/trust-recession`. Three rejected attempts before I read our own standards.
+
+**The rule:** before generating ANY deliverable, do the research pass first — load the matching skill, read the relevant wiki pages, read the applied examples in the vault, and check PRODUCT.md/DESIGN.md when the surface is visual. Only then produce. "It's just a few titles" is exactly when this fails, because we have a documented standard for nearly everything and my defaults contradict it.
+
+**How to apply:** treat "what do we already have on this?" as a mandatory first tool call, not an optional nicety. Grep the vault for the topic. Check `wiki/content-engine/`, `wiki/frameworks/`, `wiki/people/`, and applied batches like `pulsify-content-niche-batches-2026-06`. Name what I found and what's missing before writing. Related: [[feedback_codex_builds_claude_specs]], [[feedback_flag_gaps_no_heavy_claims]], [[feedback_humanizer_copy]].
+| [[synthesis/soowei-goh-extractions/01-3m-yr-organic-content-strategy]] | SooWei's A-to-Z: buyer mirror form, TOF/MOF/BOF by business need, ICP-vs-dream-follower Venn, show marketing, UTM-attributed MOF, 7-person team at 23x | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/02-personal-branding-conversation]] | Interview: pay-to-compress-time, four pillars, flat tire test, specialist-over-journalist offers, Maya 0->226K/mo on 15K followers, window-closing prediction | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/03-408k-personal-brand-with-ai]] | THE AI operating system: Claude agents (ideation/objections/packaging/clipping), 6-metric idea scoring, pay-me-three-times ascension, $64K->$572K client case, Trackio attribution | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/04-psychology-four-stages]] | Four trust stages (admirable/likable/credible/trustable), three one-of-one mechanisms, FULL buyer-mirror question list, paywall arbitrage, anti-materialism play at 200K views | 2026-07-11 |
+| [[synthesis/soowei-goh-extractions/05-industry-predictions-blueprint]] | The three predictions: sales calls die, lifestyle marketing dies, value content dies to AI (missions survive); freebie challenge funnel, client documentaries, the middle squeeze | 2026-07-11 |
+| [[synthesis/cross-creator-synthesis]] | THE verdict layer: 18 corroborated laws, 7 contested dials with defaults, single-source registers, and the fusion thesis (Niksetting craft on SooWei OS with Pulsify proof currency) | 2026-07-11 |
+| [[synthesis/portal-content-studio-spec]] | FULL client-dashboard spec (founder-directed): login, 8 sections (revenue/content/metrics/team/momentum/plans/to-dos/content-studio), complete two-creator metrics inventory, 4 Codex build phases - fire gated on founder go | 2026-07-12 |
+| [[synthesis/instagram-project-fable-handoff]] | THE handoff: what's done (34 extractions, 9 pillars, 2 skills), what's live (dashboard P1-P3), what's decided (7 ratified dials, proof currency), what's left in build order; the page the next model reads first | 2026-07-12 |
+
+---
+
+## Prompts
+
+| Page | Summary | Created |
+|---|---|---|
+| [[raw-sources/prompts/landing-page-design-prompt]] | Claude design prompt — structure and layout pass for high-ticket mentorship landing pages; copy written separately | 2026-05-24 |
+| [[raw-sources/prompts/landing-page-design-prompt-auto]] | Automated version of the landing page design prompt — paste client overview.md and all variables resolve automatically, no manual placeholder filling | 2026-05-24 |
+| [[raw-sources/prompts/prospect-profile-synthesis-prompt]] | Step 6 of prospect-research-sop — paste all scraped content, Claude outputs a full Creator Profile (tone, mechanism, proof, offer, gaps) ready to feed any asset | 2026-05-24 |
+| [[raw-sources/prompts/lead-research-intake-command]] | Deprecated — replaced by outreach-asset-prompt; was over-engineered for cold prospects | 2026-05-24 |
+| [[raw-sources/prompts/outreach-asset-prompt]] | Lean outreach asset prompt — lead + problem + Perplexity transcripts in, personalized VSL / DM / landing page / email / Loom script out; voice guard added 2026-06-09 | 2026-05-24 |
+| [[raw-sources/prompts/_voice-guard]] | Shared final-pass module — the copy-voice-guide compressed into 9 checks; pasted into every prompt so the guard travels outside this repo | 2026-06-09 |
+| [[raw-sources/prompts/client-diagnosis-prompt]] | Week 1 diagnosis doc generator (also runs pre-sale on scraped prospect data) — three evidence-backed bottlenecks + attack order, one page | 2026-06-09 |
+| [[raw-sources/prompts/client-vsl-writer-prompt]] | Client VSL script writer — 6-step Haynes structure in the client's voice off the Brand Brain, with hook variants and recording notes | 2026-06-09 |
+| [[raw-sources/prompts/precall-email-sequence-prompt]] | Hammer-them pre-call sequence builder — 12-18 emails over 48-72h from four-quadrant call data, plus confirmation-page breakout video list | 2026-06-09 |
+| [[raw-sources/prompts/youtube-script-prompt]] | Content Engine scripting subroutine — approved angle + voice data in, timestamped script with hook variants, Miro/B-roll cues, shoot sheet out | 2026-06-09 |
+| [[raw-sources/prompts/sales-precall-brief-prompt]] | Sales Co-pilot pre-call brief — 5-line WANT/NEED/LEAD WITH/AVOID/CLOSE ON format plus qualification read, money line, demo pick | 2026-06-09 |
+| [[raw-sources/prompts/weekly-client-report-prompt]] | Ops Replacement Monday report drafter — deltas table, $100k tracker, shipped/shipping, dated client-side asks | 2026-06-09 |
+
+---
+
+## Funnel hacks
+
+| Page | Summary | Created |
+|---|---|---|
+| [[funnel-hacks/README]] | Pulsify's funnel-hacking operation — attention-to-conversion teardowns of big-name biz-op coaches, end to end | 2026-05-15 |
+| [[funnel-hacks/capture-sop]] | Step-by-step protocol Claude follows when hacking a creator: attention layer, funnel layer, content breakdown, output | 2026-05-15 |
+| [[funnel-hacks/creator-template]] | Blank template each creator capture starts from — overview, attention-layer, funnel-layer, content-breakdown, miro-board, assets | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/overview]] | Iman Gadzhi capture — $28,800 Quantum Mastermind sold on $0 funnel ad spend; my read + proposed YouTube angles | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/attention-layer]] | Iman Gadzhi attention layer — YouTube (474 vids), no Shorts, IG topology, TikTok, fan clip economy, paid ads | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/funnel-layer]] | Iman Gadzhi funnel — landing page, application+call, no VSL/opt-in/webinar, no paid coaching ads | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/content-breakdown]] | Iman Gadzhi content — pillars, title formulas, authority signals, platform-role split | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/miro-board]] | Iman Gadzhi A-to-Z cold-to-closed map (mermaid) | 2026-05-15 |
+| [[funnel-hacks/creators/iman-gadzhi/screenshot-brief]] | Manual screenshot checklist for the Iman Gadzhi attention layer | 2026-05-15 |
+
+---
+
+## Glossary
+
+| Page | Summary | Created |
+|---|---|---|
+| [[glossary/core-terms]] | Definitions for every recurring term across the wiki: BOF, CAPI, disposition, hammer them, TOF, VSL, and more | 2026-05-02 |
+
+---
+
+## Raw sources (read-only)
+
+All source files live in `raw-sources/`. Wiki pages synthesize and link back to them — the raw files are never modified.
+
+| Source | Type | Wiki pages derived from it |
+|---|---|---|
+| `raw-sources/icp/PULSIFY ICP - FULL AVATAR + 28-POINT DEEP DIVE.pdf` | ICP | [[people/marcus-avatar]] |
+| `raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md` | Transcript | [[people/ayman-arab]], [[concepts/content-funnel-tof-mof-bof]], [[content-engine/content-pillars]], [[content-engine/packaging-rules]] |
+| `raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md` | Transcript | [[people/alexei]], [[concepts/micro-niche-youtube]], [[concepts/trust-recession]], [[concepts/unique-mechanism]], [[concepts/content-funnel-tof-mof-bof]], [[content-engine/packaging-rules]] |
+| `raw-sources/frameworks/Call-Funnel-Framework-Jeremy-Haynes.md` | Framework | [[people/jeremy-haynes]], [[frameworks/call-funnel-framework]], [[concepts/hammer-them-strategy]] |
+| `raw-sources/frameworks/VSL-Frameworks-Jeremy-Haynes.md` | Framework | [[people/jeremy-haynes]], [[frameworks/vsl-framework]], [[concepts/hammer-them-strategy]] |
+| `raw-sources/frameworks/Webinar_Frameworks_Compressed.pdf` | Framework | [[people/jeremy-haynes]], [[frameworks/webinar-framework]] |
+| `raw-sources/sops/Offer-Funnel-Content SOP.pdf` | SOP | [[concepts/profile-funnel]], [[concepts/unique-mechanism]], [[concepts/pulsify-order-of-operations]], [[playbooks/offer-creation]], [[content-engine/content-pillars]] |
+| `raw-sources/sops/Lead Sourcing & Outreach SOP.pdf` | SOP | [[playbooks/lead-sourcing-outreach]] |
+| `raw-sources/sops/PULSIFY CLIENT SCALING SOP.pdf` | SOP | [[playbooks/client-scaling]] |
+| `raw-sources/sops/Client Onboarding SOP.pdf` | SOP | No wiki page created — source contains only a Google Forms link, no extractable content |
+| `raw-sources/scripts/AI-Outreach-Framework-Grant-Garcia.md` | Outreach framework | [[playbooks/ai-outreach-grant-method]], [[playbooks/pulse-system-outreach]] |
+| `raw-sources/scripts/AI-Launch-Prompt-Pack-Grant-Garcia.md` | Prompt pack | [[frameworks/ai-launch-prompt-pack]], [[playbooks/pulse-system-outreach]] |
+| `raw-sources/instagram-dm-audit/` | Private IG inbox snapshots, 2026-08-24 and 2026-08-26 | [[clients/_pipeline/ig-inbox-audit-2026-08-24]], [[clients/_pipeline/ig-inbox-audit-2026-08-26]], [[playbooks/ig-followup-sequence]] |
+| `raw-sources/scripts/Ben-Bader-Emails.md` | Email swipe file | Copywriting skill (ben-bader-style.md reference) |
+| `raw-sources/frameworks/VSL-Framework-Luke-Alexander.md` | VSL framework | Copywriting skill (vsl-framework.md reference) |
+| `raw-sources/vsls/imperium-agency-vsl-transcript.md` | VSL transcript | [[synthesis/vsl-patterns/imperium-agency-vsl-analysis]] |
+| `raw-sources/inspiration/vsl-operator-study-source-list.md` | External research registry | [[people/daniel-fazio]], [[people/serge-gatari]], [[people/jordan-platten]], [[synthesis/operator-vsl-study-map]], [[synthesis/ai-infrastructure-positioning-patterns]], [[frameworks/agency-scaling-vsl-architecture]], [[synthesis/peripheral-operator-reference-map]] |
+| `raw-sources/inspiration/daniel-fazio-get-clients-challenge-transcript-notes.md` | Transcript-derived notes | [[synthesis/vsl-patterns/daniel-fazio-get-clients-challenge-analysis]], [[people/daniel-fazio]] |
+| `raw-sources/inspiration/serge-gatari-ai-infrastructure-transcript-notes.md` | Transcript-derived notes | [[synthesis/vsl-patterns/serge-gatari-ai-infrastructure-vsl-analysis]], [[people/serge-gatari]], [[synthesis/ai-infrastructure-positioning-patterns]] |
+| `raw-sources/inspiration/jordan-platten-agencies-dying-interview-notes.md` | Transcript-derived notes | [[synthesis/jordan-platten-agency-systems-patterns]], [[people/jordan-platten]] |
+| `raw-sources/inspiration/jeremy-haynes-inner-circle-page-notes.md` | Sales page notes | [[synthesis/jeremy-haynes-inner-circle-page-analysis]], [[people/jeremy-haynes]], [[frameworks/vsl-framework]] |
+| `raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` | Approved live funnel capture | [[synthesis/prospect-funnel-reference-library]], [[synthesis/vsl-pattern-lab]], [[playbooks/pulse-system-outreach]] |
+
+## Founder packaging reference collection
+
+- [[outreach/packaging-references/Packaging examples]] — Good, bad and unsorted title/thumbnail screenshots with source links, founder notes and optional performance context. [packaging, outreach] 2026-09-15.
+- [[phase5-review-and-polish-codex-brief]] — Codex: second-reader review of the 2026-09-19 releases plus the Leads/Search/Outreach tracker design and sorting pass. synthesis. 2026-09-19
+- [[website-audit-2026-09-19]] — full-site scan: 3 fixed live, 14 ranked findings with Codex execution order. synthesis. 2026-09-19
+- [[phase6-outreach-product-brief]] — Phase 6: the Today queue, formula drafts, command palette; team and file ownership. synthesis, 2026-09-20
+- [[kendo-gap-review-2026-09-20]] — file-level list of what still reads as html next to Kendo, ranked, with a four-batch fix order. synthesis, 2026-09-20
+
+apply patch
+patch: completed
+C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview\shared\shell.js
+C:\Users\Abdullah\Desktop\Pulsify-Brain\output\standard-preview\shared\surface.js
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+base=Path('output/standard-preview')
+for name in ['admin/leads-view.js','admin/outreach-view.js','admin/search-view.js','admin/queue-view.js','shared/settings-view.js']:
+ p=base/name;s=p.read_text(encoding='utf-8');s=s.replace('throw new Error(d.error || "'`HTTP ${r.status}`)'"', 'throw PulsifyShell.failure(r.status)');p.write_text(s,encoding='utf-8')
+p=base/'shared/shell.css';s=p.read_text(encoding='utf-8');s=s.replace(':root{',':root{--text-h2:500 18px/26px;--text-h3:500 16px/22px;--text-label:500 11px/16px;--text-micro:10px;',1)
+s+='''
+/* Batch 2: shared daily-loop feedback and type scale. */
+.ps-shell{letter-spacing:-.01em}
+.ps-shell h2,.set-head h2,.ps-bell-head h2{font:var(--text-h2) Inter,system-ui;letter-spacing:-.01em}
+.ps-inline-error{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;box-sizing:border-box;padding:10px 12px;margin:8px 0;color:hsl(var(--destructive));background:hsl(var(--destructive)/.06);border:1px solid hsl(var(--destructive)/.2);border-radius:var(--radius);font:400 12px/18px Inter,system-ui;overflow-wrap:anywhere}
+.ps-inline-error>span:last-of-type{flex:1;min-width:120px}.ps-inline-error .ps-icon{flex:none}
+.ps-error{display:flex;align-items:center;gap:10px;background:hsl(var(--card));border-radius:var(--radius);padding:16px}
+.ps-button.pending,.ps-control.pending{opacity:.7;cursor:wait}
+.ps-message-skeleton{display:grid;gap:12px;padding:12px}.ps-message-skeleton>div{width:72%;height:62px;border-radius:12px}.ps-message-skeleton>div:nth-child(even){justify-self:end;width:62%}
+.set-loading .set-row{min-height:76px;gap:20px}.set-loading .set-row>.skeleton{width:42%;height:36px}.set-loading .set-head>.skeleton{width:40%;height:20px}.set-loading .set-head>.skeleton+div{width:65%;height:12px;margin-top:10px}
+.ps-bell-loading{display:grid;gap:16px;padding:16px}.ps-bell-loading .ps-bell-row{pointer-events:none}.ps-bell-loading .ps-bell-text{display:grid;gap:8px}.ps-bell-loading .skeleton{min-height:12px}.ps-bell-loading .ps-bell-ico{height:32px}
+''';p.write_text(s,encoding='utf-8')
+p=base/'shared/integrations-view.css';s=p.read_text(encoding='utf-8').replace('background:hsl(var(--card));overflow:hidden}', 'background:hsl(var(--card));overflow:auto}')
+import re
+for selector in ['.int-hero h2','.int-form h2','.leads-thread-head h2','.ot-group h2','.sr-group h2']:
+ pattern=re.escape(selector)+r'\\{["'^}]*'"\\}'
+ def sub(m):return re.sub(r'font:["'^;}]+(?:!important)?;'"', 'font:var(--text-h2) Inter,system-ui;',m[0])
+ s=re.sub(pattern,sub,s)
+s+='''
+.int-table{max-width:100%;overflow:auto}.int-table table{min-width:640px}.int-table th:first-child,.int-table td:first-child{position:sticky;left:0;background:hsl(var(--card));z-index:1}.int-table th:first-child{z-index:2}
+.leads-filters,.sr-filters{flex-wrap:wrap}.sr-input{min-width:0}.ot-stat .skeleton{height:11px;width:65%}.ot-stat .skeleton:nth-child(2){height:28px;width:38%;margin:8px 0}.ot-stat .skeleton:last-child{width:90%}
+.contact-extra:has(.ps-inline-error){flex-wrap:wrap}.ot-note:has(.ps-inline-error){flex-wrap:wrap}.ot-note textarea{min-width:0}
+@media(max-width:700px){.leads-thread-head{flex-direction:column}.leads-thread-head .int-row-actions{flex-wrap:wrap}.ot-head-actions{width:100%}.ot-head-actions input{min-width:0;flex:1}.ot-group h2{flex-wrap:wrap}.ot-note{flex-wrap:wrap}.ot-note textarea{flex-basis:100%}.sr-filters small{margin-left:0;flex-basis:100%}}
+''';p.write_text(s,encoding='utf-8')
+p=base/'shared/surface.css';s=p.read_text(encoding='utf-8');s=s.replace('font-size:22px;font-weight:500;margin:0 0 12px','font:var(--text-h2) Inter,system-ui;margin:0 0 12px').replace('font-size:18px;margin:0 0 7px;font-weight:500','font:var(--text-h2) Inter,system-ui;margin:0 0 7px');s+='\\n.ps-surface-empty h3{font:var(--text-h3) Inter,system-ui}.ps-surface-empty .ps-button{max-width:100%}\\n';p.write_text(s,encoding='utf-8')
+p=base/'admin/queue-view.css';s=p.read_text(encoding='utf-8');s=s.replace('font:600 13px Inter,system-ui"'!important'"','font:var(--text-h2) Inter,system-ui').replace('#e0b05055','hsl(var(--warning)/.33)').replace('#e0b050','hsl(var(--warning))').replace('#cf7a6a','hsl(var(--destructive))').replace('@media(max-width:600px)','@media(max-width:700px)')
+s=re.sub(r'\\.qv-input\\{["'^}]+'"\\}\\n\\.qv-input:focus\\{["'^}]+'"\\}\\n','',s)
+s=re.sub(r'\\.qv-primary["'^'"\\n]+\\n','',s)
+s+='\\n.qv-done-row{flex-wrap:wrap}.qv-manual-foot{flex-wrap:wrap}.qv-saved.ps-inline-error{font-size:12px}.qv-counters{max-width:100%}.qv-chips{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}\\n';p.write_text(s,encoding='utf-8')
+'@ | python -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ exited 1 in 3296ms:
+python : The term 'python' is not recognized as the name of a cmdlet, function, script file, or operable program. 
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:37 char:6
++ '@ | python -
++      ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (python:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command 'Get-Command py,node -ErrorAction SilentlyContinue | Select-Object Name,Source; Get-ChildItem C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python -ErrorAction SilentlyContinue | Select-Object Name; rg --files output/qa/2026-09-kendo-gap/batch1' in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 388ms:
+
+output/qa/2026-09-kendo-gap/batch1\settings-light-390.png
+output/qa/2026-09-kendo-gap/batch1\settings-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\settings-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\settings-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\run-regression.cjs
+output/qa/2026-09-kendo-gap/batch1\review-sheet-light.png
+output/qa/2026-09-kendo-gap/batch1\review-sheet-dark.png
+output/qa/2026-09-kendo-gap/batch1\leads-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\overview-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\integrations-light-390.png
+output/qa/2026-09-kendo-gap/batch1\outreach-light-390.png
+output/qa/2026-09-kendo-gap/batch1\integrations-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\outreach-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\integrations-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\outreach-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\integrations-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\outreach-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\dialog-light-390.png
+output/qa/2026-09-kendo-gap/batch1\node-tests.log
+output/qa/2026-09-kendo-gap/batch1\dialog-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\dialog-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\leads-light-390.png
+output/qa/2026-09-kendo-gap/batch1\dialog-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\leads-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\date-menu-light-390.png
+output/qa/2026-09-kendo-gap/batch1\leads-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\date-menu-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\date-menu-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\phase2-browser.log
+output/qa/2026-09-kendo-gap/batch1\account-menu-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\overview-light-390.png
+output/qa/2026-09-kendo-gap/batch1\overview-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\overview-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\primitive-checks.json
+output/qa/2026-09-kendo-gap/batch1\phase5-contacts.log
+output/qa/2026-09-kendo-gap/batch1\account-menu-light-390.png
+output/qa/2026-09-kendo-gap/batch1\primitives-browser.cjs
+output/qa/2026-09-kendo-gap/batch1\README.md
+output/qa/2026-09-kendo-gap/batch1\bugfix-browser.log
+output/qa/2026-09-kendo-gap/batch1\account-menu-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\account-menu-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\date-menu-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\search-light-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\search-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\search-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\search-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-light-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-expanded-light-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-expanded-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-expanded-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-expanded-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\outreach-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\leads-light-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\leads-light-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\leads-dark-390.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\leads-dark-1536.png
+output/qa/2026-09-kendo-gap/batch1\regression\phase5-contacts-browser\clients-archived-mobile.png
+output/qa/2026-09-kendo-gap/batch1\regression\bugfix-browser\bugfix-integrations-desktop.png
+output/qa/2026-09-kendo-gap/batch1\regression\bugfix-browser\bugfix-bell-mobile.png
+Name               Source                          
+----               ------                          
+py.exe             C:\WINDOWS\py.exe               
+node.exe           C:\Program Files\nodejs\node.exe
+DLLs                                               
+include                                            
+Lib                                                
+libs                                               
+Scripts                                            
+tcl                                                
+LICENSE.txt                                        
+python.exe                                         
+python3.dll                                        
+python312.dll                                      
+pythonw.exe                                        
+vcruntime140.dll                                   
+vcruntime140_1.dll                                 
+
+
+
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+import re
+base=Path('output/standard-preview')
+for name in ['admin/leads-view.js','admin/outreach-view.js','admin/search-view.js','admin/queue-view.js','shared/settings-view.js']:
+ p=base/name;s=p.read_text(encoding='utf-8').replace('throw new Error(d.error || "'`HTTP ${r.status}`)'"', 'throw PulsifyShell.failure(r.status)');p.write_text(s,encoding='utf-8')
+p=base/'shared/shell.css';s=p.read_text(encoding='utf-8').replace(':root{',':root{--text-h2:500 18px/26px;--text-h3:500 16px/22px;--text-label:500 11px/16px;--text-micro:10px;',1)
+s+='''
+/* Batch 2: shared daily-loop feedback and type scale. */
+.ps-shell{letter-spacing:-.01em}
+.ps-shell h2,.set-head h2,.ps-bell-head h2{font:var(--text-h2) Inter,system-ui;letter-spacing:-.01em}
+.ps-inline-error{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;box-sizing:border-box;padding:10px 12px;margin:8px 0;color:hsl(var(--destructive));background:hsl(var(--destructive)/.06);border:1px solid hsl(var(--destructive)/.2);border-radius:var(--radius);font:400 12px/18px Inter,system-ui;overflow-wrap:anywhere}
+.ps-inline-error>span:last-of-type{flex:1;min-width:120px}.ps-inline-error .ps-icon{flex:none}
+.ps-error{display:flex;align-items:center;gap:10px;background:hsl(var(--card));border-radius:var(--radius);padding:16px}
+.ps-button.pending,.ps-control.pending{opacity:.7;cursor:wait}
+.ps-message-skeleton{display:grid;gap:12px;padding:12px}.ps-message-skeleton>div{width:72%;height:62px;border-radius:12px}.ps-message-skeleton>div:nth-child(even){justify-self:end;width:62%}
+.set-loading .set-row{min-height:76px;gap:20px}.set-loading .set-row>.skeleton{width:42%;height:36px}.set-loading .set-head>.skeleton{width:40%;height:20px}.set-loading .set-head>.skeleton+div{width:65%;height:12px;margin-top:10px}
+.ps-bell-loading{display:grid;gap:16px;padding:16px}.ps-bell-loading .ps-bell-row{pointer-events:none}.ps-bell-loading .ps-bell-text{display:grid;gap:8px}.ps-bell-loading .skeleton{min-height:12px}.ps-bell-loading .ps-bell-ico{height:32px}
+''';p.write_text(s,encoding='utf-8')
+p=base/'shared/integrations-view.css';s=p.read_text(encoding='utf-8')
+for selector in ['.int-hero h2','.int-form h2','.leads-thread-head h2','.ot-group h2','.sr-group h2']:
+ s=re.sub(re.escape(selector)+r'\\{["'^}]*'"\\}',lambda m:re.sub(r'font:["'^;}]+;'"', 'font:var(--text-h2) Inter,system-ui;',m[0]),s)
+s+='''
+.int-table{max-width:100%;overflow:auto}.int-table table{min-width:640px}.int-table th:first-child,.int-table td:first-child{position:sticky;left:0;background:hsl(var(--card));z-index:1}.int-table th:first-child{z-index:2}
+.leads-filters,.sr-filters{flex-wrap:wrap}.sr-input{min-width:0}.ot-stat .skeleton{height:11px;width:65%}.ot-stat .skeleton:nth-child(2){height:28px;width:38%;margin:8px 0}.ot-stat .skeleton:last-child{width:90%}
+.contact-extra:has(.ps-inline-error){flex-wrap:wrap}.ot-note:has(.ps-inline-error){flex-wrap:wrap}.ot-note textarea{min-width:0}
+@media(max-width:700px){.leads-thread-head{flex-direction:column}.leads-thread-head .int-row-actions{flex-wrap:wrap}.ot-head-actions{width:100%}.ot-head-actions input{min-width:0;flex:1}.ot-group h2{flex-wrap:wrap}.ot-note{flex-wrap:wrap}.ot-note textarea{flex-basis:100%}.sr-filters small{margin-left:0;flex-basis:100%}}
+''';p.write_text(s,encoding='utf-8')
+p=base/'shared/surface.css';s=p.read_text(encoding='utf-8').replace('font-size:22px;font-weight:500;margin:0 0 12px','font:var(--text-h2) Inter,system-ui;margin:0 0 12px').replace('font-size:18px;margin:0 0 7px;font-weight:500','font:var(--text-h2) Inter,system-ui;margin:0 0 7px');s+='\\n.ps-surface-empty h3{font:var(--text-h3) Inter,system-ui}.ps-surface-empty .ps-button{max-width:100%}\\n';p.write_text(s,encoding='utf-8')
+p=base/'admin/queue-view.css';s=p.read_text(encoding='utf-8').replace('font:600 13px Inter,system-ui"'!important'"','font:var(--text-h2) Inter,system-ui').replace('#e0b05055','hsl(var(--warning)/.33)').replace('#e0b050','hsl(var(--warning))').replace('#cf7a6a','hsl(var(--destructive))').replace('@media(max-width:600px)','@media(max-width:700px)');s=re.sub(r'\\.qv-input\\{["'^}]+'"\\}\\n\\.qv-input:focus\\{["'^}]+'"\\}\\n','',s);s=re.sub(r'\\.qv-primary["'^'"\\n]+\\n','',s);s+='\\n.qv-done-row{flex-wrap:wrap}.qv-manual-foot{flex-wrap:wrap}.qv-saved.ps-inline-error{font-size:12px}.qv-counters{max-width:100%}.qv-chips{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}\\n';p.write_text(s,encoding='utf-8')
+'@ | py -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ exited 1 in 321ms:
+No installed Python found!
+
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('fs'),base='output/standard-preview/';const edit=(p,fn)=>fs.writeFileSync(base+p,fn(fs.readFileSync(base+p,'utf8')));
+for(const p of ['admin/leads-view.js','admin/outreach-view.js','admin/search-view.js','admin/queue-view.js','shared/settings-view.js'])edit(p,s=>s.replaceAll('throw new Error(d.error || "'`HTTP ${r.status}`)'"','throw PulsifyShell.failure(r.status)'));
+edit('shared/shell.css',s=>s.replace(':root{',':root{--text-h2:500 18px/26px;--text-h3:500 16px/22px;--text-label:500 11px/16px;--text-micro:10px;')+"'`
+/* Batch 2: shared daily-loop feedback and type scale. */
+.ps-shell{letter-spacing:-.01em}
+.ps-shell h2,.set-head h2,.ps-bell-head h2{font:var(--text-h2) Inter,system-ui;letter-spacing:-.01em}
+.ps-inline-error{display:flex;align-items:center;gap:8px;flex-wrap:wrap;width:100%;box-sizing:border-box;padding:10px 12px;margin:8px 0;color:hsl(var(--destructive));background:hsl(var(--destructive)/.06);border:1px solid hsl(var(--destructive)/.2);border-radius:var(--radius);font:400 12px/18px Inter,system-ui;overflow-wrap:anywhere}
+.ps-inline-error>span:last-of-type{flex:1;min-width:120px}.ps-inline-error .ps-icon{flex:none}
+.ps-error{display:flex;align-items:center;gap:10px;background:hsl(var(--card));border-radius:var(--radius);padding:16px}
+.ps-button.pending,.ps-control.pending{opacity:.7;cursor:wait}
+.ps-message-skeleton{display:grid;gap:12px;padding:12px}.ps-message-skeleton>div{width:72%;height:62px;border-radius:12px}.ps-message-skeleton>div:nth-child(even){justify-self:end;width:62%}
+.set-loading .set-row{min-height:76px;gap:20px}.set-loading .set-row>.skeleton{width:42%;height:36px}.set-loading .set-head>.skeleton{width:40%;height:20px}.set-loading .set-head>.skeleton+div{width:65%;height:12px;margin-top:10px}
+.ps-bell-loading{display:grid;gap:16px;padding:16px}.ps-bell-loading .ps-bell-row{pointer-events:none}.ps-bell-loading .ps-bell-text{display:grid;gap:8px}.ps-bell-loading .skeleton{min-height:12px}.ps-bell-loading .ps-bell-ico{height:32px}
+`);
+edit('"'shared/integrations-view.css',s=>s.replace(/(\\.(?:int-hero|int-form|leads-thread-head|ot-group|sr-group) h2\\{["'^}]*?)font:[''^;]+;/g,'"'"'$1font:var(--text-h2) Inter,system-ui;'"')+"'`
+.int-table{max-width:100%;overflow:auto}.int-table table{min-width:640px}.int-table th:first-child,.int-table td:first-child{position:sticky;left:0;background:hsl(var(--card));z-index:1}.int-table th:first-child{z-index:2}
+.leads-filters,.sr-filters{flex-wrap:wrap}.sr-input{min-width:0}.ot-stat .skeleton{height:11px;width:65%}.ot-stat .skeleton:nth-child(2){height:28px;width:38%;margin:8px 0}.ot-stat .skeleton:last-child{width:90%}
+.contact-extra:has(.ps-inline-error){flex-wrap:wrap}.ot-note:has(.ps-inline-error){flex-wrap:wrap}.ot-note textarea{min-width:0}
+@media(max-width:700px){.leads-thread-head{flex-direction:column}.leads-thread-head .int-row-actions{flex-wrap:wrap}.ot-head-actions{width:100%}.ot-head-actions input{min-width:0;flex:1}.ot-group h2{flex-wrap:wrap}.ot-note{flex-wrap:wrap}.ot-note textarea{flex-basis:100%}.sr-filters small{margin-left:0;flex-basis:100%}}
+`);
+edit('"'shared/surface.css',s=>s.replace('font-size:22px;font-weight:500;margin:0 0 12px','font:var(--text-h2) Inter,system-ui;margin:0 0 12px').replace('font-size:18px;margin:0 0 7px;font-weight:500','font:var(--text-h2) Inter,system-ui;margin:0 0 7px')+'\\n.ps-surface-empty h3{font:var(--text-h3) Inter,system-ui}.ps-surface-empty .ps-button{max-width:100%}\\n');
+edit('admin/queue-view.css',s=>s.replace('font:600 13px Inter,system-ui"'!important'"','font:var(--text-h2) Inter,system-ui').replaceAll('#e0b05055','hsl(var(--warning)/.33)').replaceAll('#e0b050','hsl(var(--warning))').replaceAll('#cf7a6a','hsl(var(--destructive))').replace('@media(max-width:600px)','@media(max-width:700px)').replace(/\\.qv-input\\{["'^}]+'"\\}\\s*\\.qv-input:focus\\{["'^}]+'"\\}/,'').replace(/\\.qv-primary["'^'"\\n]+\\n/g,'')+'\\n.qv-done-row{flex-wrap:wrap}.qv-manual-foot{flex-wrap:wrap}.qv-saved.ps-inline-error{font-size:12px}.qv-counters{max-width:100%}.qv-chips{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}\\n');
+'@ | node -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 381ms:
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+codex
+The shared error, empty-state and confirmation helpers are in place. I’m wiring them into the six views, including retry paths that preserve loaded data and failed writes that leave both the button label and the user’s input intact.
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('fs'),base='output/standard-preview/';const edit=(p,fn)=>fs.writeFileSync(base+p,fn(fs.readFileSync(base+p,'utf8')));
+edit('admin/leads-view.js',s=>s.replace('  const contact = window.PulsifyContact;','  const contact = window.PulsifyContact;\\n  let warm = null;\\n  const threadCache = new Map();').replace('let cache={inbox:[],funnel:[]};','let cache=warm || {inbox:[],funnel:[]}, loaded=Boolean(warm);').replace('class=\"leads-search\"','class=\"ps-input leads-search\"').replace('"'${contact.skeleton()}</div>`'"','"'${loaded ? "" : contact.skeleton(6)}</div>`'"').replace('      body.innerHTML=contact.skeleton();','      if("'!loaded) body.innerHTML=contact.skeleton(6);'"\\n      root.querySelector(\"#leads-feedback\")?.remove();').replace('cache={inbox:inbox.conversations || [],funnel:funnel.contacts || []};draw();','cache={inbox:inbox.conversations || [],funnel:funnel.contacts || []};warm=cache;loaded=true;draw();').replace('if("'!disposed && current===sequence)body.innerHTML=`<p class="int-empty">${esc(e.message)}</p>`;'"','if("'!disposed && current===sequence){if(!loaded)body.replaceChildren();const note=PulsifyShell.inlineError(body,e,load);note.id="leads-feedback";}'"').replace('    function draw() {','    function draw() {\\n      if("'!loaded)return;'"').replace(\"}).join('') || '<p class=\\\"int-empty\\\">No contacts match this view.</p>';\","'`}).join('"'');
+      if("'!rows.length){const filtered=q || !['"'all','inbox','funnel'].includes(filter);body.replaceChildren(PulsifySurface.empty('users',filtered?'No matching contacts':'No contacts yet',filtered?'Try another name or clear the filters.':'Connect a source to bring conversations and funnel contacts here.',filtered?'Clear filters':'Open Integrations',()=>{if(filtered){q='';filter='all';root.querySelector('#leads-q').value='';root.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));draw();}else window.PulsifyOperatorShell?.go('integrations');}));}"'`)
+.replace("detail:`Funnel / ${c.paid_cents ? money(c.paid_cents)+'"' collected' : 'Open client workspace'}"'`});","detail:`Funnel / ${c.paid_cents ? money(c.paid_cents)+'"' collected' : 'No payment matched'}"'`})+(!c.paid_cents?'"'<div class=\\\"contact-extra\\\"><button class=\\\"ps-button ghost\\\" data-payment>Match a payment</button></div>':'');\")
+.replace(\"      body.querySelectorAll('[data-open]')\",\"      body.querySelectorAll('[data-payment]').forEach(b=>b.onclick=()=>window.PulsifyOperatorShell?.go('payments'));\\n      body.querySelectorAll('[data-open]')\")
+.replace('d.className = \"ps-popover int-dialog leads-thread\";','d.className = \"ps-dialog int-dialog leads-thread\";')
+.replace(\"d.innerHTML = '<div class=\\\"skeleton\\\" style=\\\"min-height:200px\\\"></div>';\",\"d.innerHTML = '<div class=\\\"ps-message-skeleton\\\" aria-label=\\\"Loading conversation\\\">'+ '<div class=\\\"skeleton\\\"></div>'.repeat(3)+'</div>';\")
+.replace('const { conversation: c, messages } = await api("'`/api/spine/conversations?id=${encodeURIComponent(id)}`);'"','const payload = threadCache.get(id) || await api("'`/api/spine/conversations?id=${encodeURIComponent(id)}`);'"\\n        if("'!d.open)return;threadCache.set(id,payload);const {conversation:c,messages=[]}=payload;'"')
+.replace('        d.querySelector(\"[data-close]\").onclick = () => d.close();','        if("'!messages.length)d.querySelector(".leads-messages").replaceChildren(PulsifySurface.empty("message-circle","No messages stored","Read the conversation on Instagram.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));'"\\n        d.querySelector(\"[data-close]\").onclick = () => d.close();')
+.replace('d.innerHTML = "'`<p class="int-empty">${esc(e.message)}</p><div class="int-actions"><button class="ps-control" data-close>Close</button></div>`;'"','d.innerHTML = "'`<div class="int-actions"><button class="ps-control" data-close>Close</button></div>`;'"\\n        PulsifyShell.inlineError(d,e,()=>{d.close();openThread(id);});')
+// Remove accidental empty-message insertion in catch; messages is only available in success.
+.replace('        if("'!messages.length)d.querySelector(".leads-messages").replaceChildren(PulsifySurface.empty("message-circle","No messages stored","Read the conversation on Instagram.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));'"\\n        d.querySelector(\"[data-close]\").onclick = () => d.close();\\n      }','        d.querySelector(\"[data-close]\").onclick = () => d.close();\\n      }')
+.replace('      button.disabled = true;','      PulsifyShell.pending(button);\\n      button.parentElement.querySelector(\".ps-inline-error\")?.remove();')
+.replace('        button.disabled = false;\\n        button.textContent = e.message.slice(0, 40);','        PulsifyShell.inlineError(button.parentElement,e,()=>addToCrm(c,button));\\n      } finally { PulsifyShell.pending(button,false);')
+.replace('    load();\\n    return','    if(loaded)draw();\\n    load();\\n    return'));
+edit('admin/search-view.js',s=>s.replace('  const contact=window.PulsifyContact;','  const contact=window.PulsifyContact;\\n  const cache=new Map();').replace('let sequence = 0, order=\"recent\", hits=[], took=0;','let sequence = 0, order=\"recent\", hits=[], took=0, disposed=false;').replace('class=\"sr-input\"','class=\"ps-input sr-input\" aria-label=\"Search conversations and client brains\"').replace('    api(\"/api/search?status=1\").then((s) => {','    function loadStatus(){return api(\"/api/search?status=1\").then((s) => {\\n      if(disposed || "'!root.isConnected)return;status.parentElement.querySelector(".ps-inline-error")?.remove();'"').replace('    }).catch(() => {});','    }).catch(e=>{if("'!disposed)PulsifyShell.inlineError(status.parentElement,e,loadStatus);});}'"\\n    loadStatus();').replace('      if (text.length < 2) return;','      if (text.length < 2) { showEmpty(true);return; }').replace('      results.innerHTML = contact.skeleton();','      const key=JSON.stringify([text,kinds]);const saved=cache.get(key);\\n      if(saved){hits=saved.hits || [];took=saved.took_ms;draw();}else results.innerHTML = contact.skeleton(3);\\n      PulsifyShell.pending(root.querySelector(\"#sr-form button\"));').replace('if (current "'!== sequence || !root.isConnected)'"', 'if (disposed || current "'!== sequence || !root.isConnected)'"').replace('hits=d.hits || [];took=d.took_ms;draw();','cache.set(key,d);if(cache.size>30)cache.delete(cache.keys().next().value);hits=d.hits || [];took=d.took_ms;draw();').replace('results.innerHTML = "'`<p class="int-empty">${esc(e.message)}</p>`; }'"','if("'!saved)results.replaceChildren();PulsifyShell.inlineError(results,e,run); } finally {if(current===sequence)PulsifyShell.pending(root.querySelector("#sr-form button"),false);}'"')
+.replace(\"'<p class=\\\"int-empty\\\">No matching conversations or brain fields yet.</p>'\", \"''\")
+.replace(\"      results.querySelectorAll('[data-thread]')\", \"      if("'!people.length)showEmpty();'"\\n      results.querySelectorAll('[data-thread]')\")
+.replace('    function draw() {',"'`    function showEmpty(initial=false){results.replaceChildren(PulsifySurface.empty('"'search',initial?'Find a conversation':'No matching conversations or brain fields',initial?'Ask about something a lead said or a client offers.':'Try different words or another source.','Try one of these',()=>{root.querySelector('#sr-examples').hidden=false;root.querySelector('[data-example]')?.focus();}));}
+    function draw() {"'`)
+.replace('"'    if (ctx.q)', '    showEmpty(true);\\n    if (ctx.q)')
+.replace('\\n  }\\n\\n  // Ctrl+K','\\n    return ()=>{disposed=true;sequence++;};\\n  }\\n\\n  // Ctrl+K'));
+'@ | node -
+node --check output/standard-preview/admin/leads-view.js
+node --check output/standard-preview/admin/search-view.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 439ms:
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('fs'),p='output/standard-preview/admin/outreach-view.js';let s=fs.readFileSync(p,'utf8');
+s=s.replace('  let TZ =','  const warm=new Map(), threadCache=new Map();\\n  const statsSkeleton=()=>Array.from({length:8},()=>\\'<div class=\"ot-stat\"><div class=\"skeleton\"></div><div class=\"skeleton\"></div><div class=\"skeleton\"></div></div>\\').join(\\'\\');\\n  const messagesSkeleton=()=>\\'<div class=\"ps-message-skeleton\">\\'+\\'<div class=\"skeleton\"></div>\\'.repeat(3)+\\'</div>\\';\\n  let TZ =').replace('let data = null, section','let data = warm.get(\\'\\') || null, section').replace('class=\"leads-search\"','class=\"ps-input leads-search\" aria-label=\"Search outreach\"').replace('<div class=\"skeleton\" style=\"min-height:120px;grid-column:1/-1\"></div>','"'${data ? "" : statsSkeleton()}'"').replace('"'${contact.skeleton()}</div>`'"','"'${data ? "" : contact.skeleton()}</div>`'"');
+s=s.replace('      const current = ++sequence;','      const current = ++sequence;\\n      root.querySelector(\"#ot-feedback\")?.remove();\\n      const saved=warm.get(q);if(saved){data=saved;drawStats();drawList();drawActivity();}').replace('        data = fresh;','        data = fresh;warm.set(q,fresh);').replace('root.querySelector(\"#ot-list\").innerHTML = "'`<p class="int-empty">${esc(e.message)}</p>`;'"','if("'!data){root.querySelector("#ot-list").replaceChildren();root.querySelector("#ot-stats").replaceChildren();}'"\\n        const note=PulsifyShell.inlineError(root.querySelector(\"#ot-list\"),e,load);note.id=\"ot-feedback\";');
+s=s.replace('      const s = data.stats,','      if("'!data)return;'"\\n      const s = data.stats,').replace('      const all = data.threads;','      if("'!data)return;'"\\n      const all = data.threads;');
+s=s.replace(': "'`<p class="int-empty">${esc(empty)}</p>`;'"',"'`: "";
+      if(!list.length)root.querySelector('"'#ot-list').replaceChildren(PulsifySurface.empty('message-circle',q?'No matching conversations':'No conversations in this section',q?'Try another name or clear the search.':empty,q?'Clear search':section==='outbound' || section==='inbound'?'Open Instagram':'Review outbound',()=>{if(q){q='';root.querySelector('#ot-q').value='';load();}else if(section==='outbound' || section==='inbound')window.open('https://www.instagram.com/direct/inbox/','_blank','noopener');else root.querySelector('[data-section=\"outbound\"]').click();}));"'`);
+s=s.replace('"'<div class=\"skeleton\" style=\"min-height:80px\"></div>','"'${threadCache.get(t.id) || messagesSkeleton()}'"').replace('<textarea rows=\"2\"','<textarea class=\"ps-input\" rows=\"2\"');
+s=s.replace('const box = root.querySelector("'`[data-thread="${id}"]`);'"','const box = root.querySelector("'`[data-thread="${CSS.escape(id)}"]`);'"').replace('      if ("'!box) return;'"','      if ("'!box) return;'"\\n      if(threadCache.has(id))box.innerHTML=threadCache.get(id);');
+s=s.replace('        box.innerHTML = "'`<div class="ot-messages">'"','        if(disposed || "'!box.isConnected)return;'"\\n        box.innerHTML = "'`<div class="ot-messages">'"').replace(\" || '<p class=\\\"int-empty\\\">No messages stored.</p>'\",'');
+s=s.replace('        box.querySelector(\".ot-messages\").scrollTop = 1e9;','        if("'!messages.length)box.querySelector(".ot-messages").append(PulsifySurface.empty("message-circle","No messages stored","Open Instagram to read this conversation.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));'"\\n        if(messages.length)threadCache.set(id,box.innerHTML);\\n        box.querySelector(\".ot-messages\").scrollTop = 1e9;');
+s=s.replace('} catch (e) { box.innerHTML = "'`<p class="int-empty">${esc(e.message)}</p>`; }'"','} catch (e) { if("'!box.isConnected)return;if(!threadCache.has(id))box.replaceChildren();PulsifyShell.inlineError(box,e,()=>fillThread(id)); }'"');
+s=s.replace('      button.disabled = true;','      PulsifyShell.pending(button);\\n      button.parentElement.querySelector(\".ps-inline-error\")?.remove();').replace('        data.stats = null;','        warm.clear();').replace('} catch (e) { button.disabled = false; button.textContent = e.message.slice(0, 30); }','} catch (e) { PulsifyShell.inlineError(button.parentElement,e,()=>act(id,action,button,extra)); } finally {PulsifyShell.pending(button,false);}');
+s=s.replace('    load();\\n    // Live push','    if(data){drawStats();drawList();drawActivity();}\\n    load();\\n    // Live push');fs.writeFileSync(p,s);
+'@ | node -
+node --check output/standard-preview/admin/outreach-view.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 398ms:
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('fs'),p='output/standard-preview/shared/settings-view.js';let s=fs.readFileSync(p,'utf8');
+s=s.replace('  const when =','  const cache=new Map();\\n  const when =');
+s=s.replace('    root.innerHTML = \\'<h1>Settings</h1>',"'`    const key=JSON.stringify([role,headers()]);
+    const titles=role==='"'operator'?['Appearance','Account','Team access','Security','Client defaults','Notifications']:['Appearance','Account','Security and sessions','Workspace','Notifications','Connected accounts','Plan and billing','Your data','Close workspace'];
+    root.innerHTML = '<h1>Settings</h1>"'`);
+s=s.replace('"'<nav class=\"set-nav skeleton\" style=\"min-height:200px\"></nav><div class=\"set-body\"><div class=\"skeleton\" style=\"min-height:400px\"></div></div>','<nav class=\"set-nav\"></nav><div class=\"set-body\"></div>');
+s=s.replace('    let data;\\n    try { data = await api(); } catch (e) { root.querySelector(\".set-body\").innerHTML = "'`<p class="ps-error">${esc(e.message)}</p>`; return; }'"',"'`    let data=cache.get(key);
+    if(!data){
+      root.querySelector('"'.set-nav').innerHTML=titles.map(t=>'<span class=\"set-nav-item\">'+esc(t)+'</span>').join('');
+      root.querySelector('.set-body').innerHTML=titles.map(t=>'<section class=\"set-section set-loading\" aria-label=\"Loading '+esc(t)+'\"><div class=\"set-head\"><div class=\"skeleton\"></div><div class=\"skeleton\"></div></div>'+Array.from({length:3},()=>'<div class=\"set-row\"><div class=\"skeleton\"></div><div class=\"skeleton\"></div></div>').join('')+'</section>').join('');
+      try { data = await api();cache.set(key,data); } catch (e) {if(root.isConnected){root.querySelector('.set-body').replaceChildren();PulsifyShell.inlineError(root.querySelector('.set-body'),e,()=>render(root,ctx));}return;}
+    }
+    if("'!root.isConnected)return;`);
+s=s.replace('"'        if (ro) return;','        if (ro) return;\\n        const confirmation=form.querySelector(\"[data-confirm]\");\\n        if(confirmation && "'!await PulsifySurface.confirm("Request workspace deletion?",confirmation.dataset.confirm,"Send request"))return;'"');
+s=s.replace('status.className = \"set-status err\"','status.className = \"set-status ps-inline-error\"').replace('button.disabled = true; status.textContent = \"Saving…\";', 'PulsifyShell.pending(button); status.textContent = \"\";');
+s=s.replace('          if (r instanceof Response)', '          cache.delete(key);\\n          if (r instanceof Response)');
+s=s.replace('status.textContent = err.message; status.className = \"set-status ps-inline-error\";','status.textContent = err.pulsify?err.message:PulsifyShell.fail(0); status.className = \"set-status ps-inline-error\";');
+s=s.replace('finally { button.disabled = false; }','finally { PulsifyShell.pending(button,false); }');
+s=s.replace(/    root.querySelectorAll\\(\"\\[data-confirm\\]\"\\).+\\n/,'');
+s=s.replace('      if (init?.method === \"POST\" && r.headers.get(\"content-disposition\"))','      if (r.ok && init?.method === \"POST\" && r.headers.get(\"content-disposition\"))');
+s=s.replace('|| \"<li><small>No operator emails configured.</small></li>\"','|| \"<li data-team-empty></li>\"');
+s=s.replace('    // Appearance',"'`    const teamEmpty=root.querySelector('"'[data-team-empty]');if(teamEmpty)teamEmpty.append(PulsifySurface.empty('users','No operators listed','Review the access policy to manage who can open this console.','Open access settings',()=>window.open('https://one.dash.cloudflare.com/','_blank','noopener')));
+    // Appearance"'`);fs.writeFileSync(p,s);
+'"'@ | node -
+node --check output/standard-preview/shared/settings-view.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 426ms:
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+const fs=require('fs'),p='output/standard-preview/admin/queue-view.js';let s=fs.readFileSync(p,'utf8');
+s=s.replace('  const STAGE_CLASS', '  let warmThreads=null,warmQueue=null;\\n  const STAGE_CLASS').replace('let threads = null, queue = null, threadsError = \"\", queueError = \"\";','let threads = warmThreads, queue = warmQueue, threadsError = null, queueError = null;');
+s=s.replaceAll('class=\"qv-input','class=\"ps-input qv-input').replaceAll('ps-control qv-primary','ps-button primary qv-primary');
+s=s.replace('"'${counterSkeleton()}'"','"'${threads || queue ? "" : counterSkeleton()}'"').replace('"'${followSkeleton()}'"','"'${threads ? "" : followSkeleton()}'"').replace('"'${openerSkeleton()}'"','"'${queue ? "" : openerSkeleton()}'"').replace('"'${candidateSkeleton()}'"','"'${queue ? "" : candidateSkeleton()}'"');
+s=s.replace('if (current "'!== seq) return; threads = d.threads || []; threadsError = "";'"','if (disposed || current "'!== seq) return; threads = d.threads || []; warmThreads=threads;threadsError = null;'"').replace('if (current "'!== seq) return; threadsError = e.message; threads = threads || [];'"','if (disposed || current "'!== seq) return; threadsError = e;'"');
+s=s.replace('if (current "'!== seq) return; queue = d; queueError = "";'"','if (disposed || current "'!== seq) return; queue = d;warmQueue=queue;queueError = null;'"').replace('if (current "'!== seq) return; queueError = e.message; queue = queue || { cap: 25, sent_today: 0, queued: [], candidates: [] };'"','if (disposed || current "'!== seq) return; queueError = e;'"');
+s=s.replaceAll('if (current === seq)', 'if ("'!disposed && current === seq)'"');
+s=s.replace('if (threadsError) { box.innerHTML = "'`<p class="qv-empty">${esc(threadsError)}</p>`; return; }'"','if (threadsError) {if("'!threads)box.replaceChildren();PulsifyShell.inlineError(box,threadsError,()=>load("threads"));return;}'"');
+s=s.replace('if ("'!list.length) { box.innerHTML = `<p class="qv-empty">Nobody is due a follow-up. Every open thread was touched in the last 24 hours.</p>`; return; }'"','if ("'!list.length) {box.replaceChildren(PulsifySurface.empty("check","No follow-ups due","Review your conversations or start an opener below.","Review outreach",()=>window.PulsifyOperatorShell?.go("outreach")));return;}'"');
+s=s.replace('button.disabled = true; button.textContent = action === \"hibernate\" ? \"Hibernating\" : \"Booking\";','PulsifyShell.pending(button);button.parentElement.querySelector(\".ps-inline-error\")?.remove();');
+s=s.replace('} catch (e) { button.disabled = false; button.textContent = e.message.slice(0, 40); }','} catch (e) {PulsifyShell.inlineError(button.parentElement,e,()=>threadAct(id,action,button));}finally{PulsifyShell.pending(button,false);}',1);
+s=s.replace('if (queueError) { box.innerHTML = "'`<p class="qv-empty">${esc(queueError)}</p>`; return; }'"','if (queueError) {if("'!queue)box.replaceChildren();PulsifyShell.inlineError(box,queueError,()=>load("queue"));return;}'"');
+s=s.replace('if ("'!list.length && !finished.length) { box.innerHTML = `<p class="qv-empty">Nothing queued for today. Add someone below and the draft is written for you.</p>`; return; }'"','if ("'!list.length && !finished.length) {box.replaceChildren(queueEmpty());return;}'"');
+s=s.replace('("'!list.length ? `<p class="qv-empty">Today'"\\'s queue is cleared. Add more below if you have the cap for it.</p>"'` : "")'"','\"\"').replace('      wireOpeners(box);','      if("'!list.length)box.append(queueEmpty());'"\\n      wireOpeners(box);');
+s=s.replace('    function draftMeta(r)', '    function queueEmpty(){return PulsifySurface.empty(\"list-check\",\"Nothing queued for today\",\"Add a candidate or enter a handle below.\",\"Add someone\",()=>{"'$("#qv-manual input")?.focus();$("#qv-add").scrollIntoView({block:"start",behavior:"smooth"});});}'"\\n\\n    function draftMeta(r)');
+s=s.replace('      r[field] = value;','      const previous=r[field];r[field] = value;');
+s=s.replace('catch (e) { status(id, e.message.slice(0, 40), \"err\"); }','catch (e) {r[field]=previous;PulsifyShell.inlineError(root.querySelector("'`[data-row="${CSS.escape(id)}"] .qv-detail`),e,()=>saveField(id,field,value));return;}'"',1);
+s=s.replace('      r.detail = value;','      const previous=r.detail; r.detail = value;');
+s=s.replace('} catch (e) { status(id, e.message.slice(0, 40), \"err\"); }','} catch (e) {r.detail=previous;PulsifyShell.inlineError(root.querySelector("'`[data-row="${CSS.escape(id)}"] .qv-detail`),e,()=>saveDetail(id,value));}'"');
+s=s.replace('const label = button.textContent; button.textContent = ok ? \"Copied\" : \"Copy failed\"; button.classList.add(\"done\");','const label = button.textContent;if("'!ok){PulsifyShell.inlineError(button.parentElement,PulsifyShell.failure(400,"Could not copy. Select the draft and copy it manually."));return;} button.textContent = "Copied"; button.classList.add("done");'"');
+s=s.replace('      button.disabled = true;\\n      const busy = { draft: \"Writing\", sent: \"Marking\", skip: \"Skipping\", requeue: \"Requeueing\" }[action];\\n      if (busy) button.textContent = busy;','      PulsifyShell.pending(button);button.parentElement.querySelector(\".ps-inline-error\")?.remove();');
+s=s.replace('} catch (e) { button.disabled = false; button.textContent = e.message.slice(0, 40); }','} catch (e) {PulsifyShell.inlineError(button.parentElement,e,()=>queueAct(id,action,button));}finally{PulsifyShell.pending(button,false);}');
+s=s.replace('      const cands =','      if(queueError && "'!queue){box.replaceChildren();PulsifyShell.inlineError(box,queueError,()=>load("queue"));return;}'"\\n      const cands =');
+s=s.replace('<p class=\"qv-empty\">No candidates waiting. New CRM leads and tier A and B YouTube leads with a handle show up here.</p>','<div data-candidates-empty></div>');
+s=s.replace('      const form = "'$("#qv-manual");'"','      box.querySelector(\"[data-candidates-empty]\")?.append(PulsifySurface.empty(\"users\",\"No candidates waiting\",\"Add a contact by handle to write their first draft.\",\"Add by handle\",()=>"'$("#qv-manual input")?.focus()));'"\\n      const form = "'$("#qv-manual");'"');
+s=s.replace('button.disabled = true; const label = button.textContent; button.textContent = \"Adding\";','PulsifyShell.pending(button);button.parentElement.querySelector(\".ps-inline-error\")?.remove();');
+s=s.replace('} catch (e) { button.disabled = false; button.textContent = label; if (note) { note.textContent = e.message.slice(0, 60); note.className = \"qv-saved err\"; } else button.textContent = e.message.slice(0, 30); }','} catch (e) {PulsifyShell.inlineError(button.parentElement,e,()=>add(payload,button,note));}finally{PulsifyShell.pending(button,false);}');
+s=s.replace('    load();\\n    // Live push','    if(threads){drawFollowups();drawCounters();}if(queue){drawOpeners();drawAdd();drawCounters();}\\n    load();\\n    // Live push').replace('function dispose() { disposed = true;','function dispose() { disposed = true;seq++;');fs.writeFileSync(p,s);
+'@ | node -
+node --check output/standard-preview/admin/queue-view.js" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 424ms:
+diff --git a/output/standard-preview/shared/shell.js b/output/standard-preview/shared/shell.js
+index 956c522936f5ee76385dbadf8717fd3414020c33..c53eff99b53852752e2cadf384964308448d9db7
+--- a/output/standard-preview/shared/shell.js
++++ b/output/standard-preview/shared/shell.js
+@@ -59,5 +59,18 @@
+   // Call after the adapter has stored the returned object.
+   queueMicrotask(()=>go(initial,{push:false}));return api;
+  }
+- window.PulsifyShell={mount,icon,esc,read,write,range};
++ // Only authored fallback copy reaches the UI; API error bodies can contain diagnostics.
++ function fail(status,fallback='Could not complete that request. Please retry.'){
++  return ({401:'Your session ended. Sign in again.',403:'You do not have access to this.',404:'That record is gone.',409:'This changed elsewhere. Refresh and try again.',429:'Too many requests. Wait a moment.'})[status] || (status>=500?'Pulsify is having trouble. Retry in a minute.':status===0?'Could not connect. Check your connection and retry.':fallback);
++ }
++ function failure(status,fallback){const error=new Error(fail(status,fallback));error.pulsify=true;error.status=status;return error;}
++ function pending(control,value=true){if(!control)return;control.classList.toggle('pending',value);control.setAttribute('aria-busy',String(value));if('disabled' in control)control.disabled=value;}
++ function inlineError(target,error,retry){
++  if(!target)return;target.querySelector(':scope > .ps-inline-error')?.remove();
++  const note=document.createElement('div');note.className='ps-inline-error';note.setAttribute('role','alert');
++  note.innerHTML=icon('bell')+'<span></span>';note.querySelector(':scope > span:last-child').textContent=error?.pulsify?error.message:fail(0);
++  if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
++  target.append(note);return note;
++ }
++ window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
+ })();
+diff --git a/output/standard-preview/shared/surface.js b/output/standard-preview/shared/surface.js
+index 8d978b3d8d31e457cc291293d3c11ad885fdc192..50f7b465bacc596c323a62ad24323387c964d480
+--- a/output/standard-preview/shared/surface.js
++++ b/output/standard-preview/shared/surface.js
+@@ -1,6 +1,20 @@
+ (() => {
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const preferences=new Map();
++ function empty(icon,title,note,actionLabel,onAction){
++  const card=document.createElement('div');card.className='ps-surface-empty';
++  card.innerHTML='<span class="ps-empty-icon" aria-hidden="true">'+window.PulsifyShell.icon(icon)+'</span><h3>'+esc(title)+'</h3><p>'+esc(note)+'</p><button type="button" class="ps-button primary">'+esc(actionLabel)+'</button>';
++  card.querySelector('button').onclick=onAction;return card;
++ }
++ function confirm(title,body,confirmLabel='Continue'){
++  const previous=document.activeElement;
++  return new Promise(resolve=>{
++   const d=dialog(title,body,'<div class="ps-dialog-actions"><button class="ps-button" data-cancel autofocus>Cancel</button><button class="ps-button primary" data-confirm>'+esc(confirmLabel)+'</button></div>');
++   const id='ps-confirm-'+Math.random().toString(36).slice(2);d.querySelector('h2').id=id;d.setAttribute('aria-labelledby',id);d.querySelector('.ps-dialog-body > p').id=id+'-body';d.setAttribute('aria-describedby',id+'-body');
++   d.querySelector('[data-cancel]').onclick=()=>d.close('cancel');d.querySelector('[data-confirm]').onclick=()=>d.close('confirm');
++   d.addEventListener('close',()=>{if(previous?.isConnected)previous.focus({preventScroll:true});resolve(d.returnValue==='confirm');},{once:true});d.querySelector('[data-cancel]').focus();
++  });
++ }
+  function notice(message){let n=document.getElementById('psSurfaceNotice');if(!n){n=document.createElement('p');n.id='psSurfaceNotice';n.className='ps-error';n.setAttribute('role','status');document.querySelector('.ps-main')?.prepend(n);}if(n)n.textContent=message;}
+  async function preference(config,key,value){
+   const operator=config.scope==='operator';
+@@ -51,5 +65,5 @@
+   card.querySelector('[data-dismiss]').onclick=()=>save({...launchValue,dismissed:true});
+   card.querySelectorAll('[data-complete-step]').forEach(b=>b.onclick=()=>{const id=b.dataset.completeStep;const done=!(launchValue.completed||[]).includes(id);if(config.onStep)config.onStep(id,done);save({...launchValue,completed:done?[...(launchValue.completed||[]),id]:launchValue.completed.filter(x=>x!==id)});});
+  }
+- window.PulsifySurface={enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
++ window.PulsifySurface={empty,confirm,enhance,intro,checklist,dialog,gate(reason,go){const d=dialog('This action needs a different plan',reason,'<div class="ps-dialog-actions"><button class="ps-control" data-no>Not now</button><button class="ps-control" data-plans>View plans</button></div>');d.querySelector('[data-no]').onclick=()=>d.close();d.querySelector('[data-plans]').onclick=()=>{d.close();go('plans');};}};
+ })();
+
+ERROR: You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at 8:57 PM.
+ERROR: You’ve hit your usage limit. Upgrade to Pro (https://chatgpt.com/explore/pro), visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at 8:57 PM.
+tokens used
+145,993
