@@ -45,6 +45,18 @@ async function handleGet({ request, env }) {
     return Response.redirect(`${url.origin}${CONSOLE}&zernio=connected`, 302);
   }
 
+  if (action === "webhook-logs") {
+    // Zernio's own delivery log for our subscription, newest first. Operator only.
+    const logs = await zernioFetch(env, "/v1/webhooks/logs?limit=50").catch((e) => ({ error: String(e?.message || e) }));
+    return json({ ok: true, logs: logs.logs || logs.data || logs, error: logs.error || null });
+  }
+  if (action === "thread") {
+    // Zernio's view of one conversation's messages, including readAt and deliveryStatus.
+    const id = str(url.searchParams.get("id"));
+    const accountId = str(url.searchParams.get("account"));
+    const r = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(id)}/messages?accountId=${encodeURIComponent(accountId)}&limit=20&sortOrder=desc`).catch((e) => ({ error: String(e?.message || e) }));
+    return json({ ok: true, messages: (r.messages || []).map((m) => ({ id: m.id, direction: m.direction, sentAt: m.sentAt, deliveryStatus: m.deliveryStatus, deliveredAt: m.deliveredAt, readAt: m.readAt, text: String(m.message || "").slice(0, 40) })), error: r.error || null });
+  }
   if (action === "peek") {
     // One raw conversation row from Zernio, for checking field names. Operator only.
     const list = await zernioFetch(env, "/v1/inbox/conversations?platform=instagram&limit=1&sortOrder=desc").catch((e) => ({ error: String(e?.message || e) }));
