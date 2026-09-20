@@ -157,7 +157,7 @@ export async function loadThreads(env, { q = "", now = Date.now() } = {}) {
   return conversations
     .map((c) => deriveThread(c, byThread.get(c.id) || [], c, now))
     .filter((t) => t.our_messages + t.their_messages > 0)
-    .sort(sortForWork);
+    .sort((a,b) => String(b.last_message_at || "").localeCompare(String(a.last_message_at || "")));
 }
 
 export async function upsertOutreach(env, conversationId, patch, operatorEmail = "operator") {

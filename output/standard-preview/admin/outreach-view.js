@@ -4,6 +4,7 @@
 // Sending happens on the phone; this only tracks.
 (() => {
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const contact = window.PulsifyContact;
   let TZ = "Europe/Istanbul";
   // The founder's spec: minutes 1-59, then hours 1-24, then days.
   function ago(iso, now = Date.now()) {
@@ -30,14 +31,16 @@
   const STAGE_CLASS = { replied: "ot-stage-replied", booked: "ot-stage-ok", closed: "ot-stage-ok", lost: "ot-stage-off", hibernating: "ot-stage-off" };
 
   function render(root) {
+    const orders = {outbound:"recent",inbound:"recent",hibernating:"recent",won:"recent"};
     let data = null, section = "outbound", q = "", open = new Set(), timer = null;
     root.innerHTML = `
-      <div class="ot-head"><div><h1>Outreach tracker</h1><p class="ps-subtitle">Every Instagram conversation as a contact. Follow-ups due sit on top. Send from your phone; this keeps the score.</p></div>
+      <div class="ot-head"><div><h1>Outreach tracker</h1><p class="ps-subtitle">Your conversations, ordered by the last interaction. Open a contact to read the chat and choose the next step.</p></div>
       <div class="ot-head-actions"><input id="ot-q" class="leads-search" placeholder="Search name or handle" autocomplete="off"><button class="ps-control" id="ot-refresh">Refresh</button></div></div>
       <div id="ot-stats" class="ot-stats"><div class="skeleton" style="min-height:120px;grid-column:1/-1"></div></div>
       <div class="int-tabs ot-tabs"><button data-section="outbound" class="active">Outbound <span id="ot-n-out"></span></button><button data-section="inbound">Inbound <span id="ot-n-in"></span></button><button data-section="hibernating">Hibernating <span id="ot-n-hib"></span></button><button data-section="won">Booked and closed <span id="ot-n-won"></span></button><span style="flex:1"></span><small id="ot-updated" class="int-note"></small></div>
+      <div class="contact-toolbar"><span class="int-note" id="ot-order-note">Most recent interaction first</span>${contact.control("ot-sort")}</div>
       <div id="ot-activity" class="ot-activity" hidden></div>
-      <div id="ot-list" class="ot-list"><div class="skeleton" style="min-height:240px"></div></div>`;
+      <div id="ot-list" class="ot-list">${contact.skeleton()}</div>`;
 
     let disposed = false, sequence = 0;
     async function load() {
@@ -77,12 +80,14 @@
       const counts = { outbound: 0, inbound: 0, hibernating: 0, won: 0 };
       for (const t of all) counts[bucket(t)] += 1;
       root.querySelector("#ot-n-out").textContent = counts.outbound; root.querySelector("#ot-n-in").textContent = counts.inbound; root.querySelector("#ot-n-hib").textContent = counts.hibernating; root.querySelector("#ot-n-won").textContent = counts.won;
-      const list = all.filter((t) => bucket(t) === section);
+      const list = contact.sort(all.filter((t) => bucket(t) === section), orders[section]);
+      root.querySelector("#ot-sort").value = orders[section];
+      root.querySelector("#ot-order-note").textContent = orders[section] === "recent" ? "Most recent interaction first" : orders[section] === "reply" ? "Received / sent messages, capped at 100%" : "Order applies to this section";
       const due = list.filter((t) => t.follow_up_due), waiting = list.filter((t) => !t.follow_up_due && t.awaiting_us), rest = list.filter((t) => !t.follow_up_due && !t.awaiting_us);
       const group = (title, items, note) => items.length ? `<div class="ot-group"><h2>${esc(title)} <span>${items.length}</span>${note ? `<small>${esc(note)}</small>` : ""}</h2>${items.map(card).join("")}</div>` : "";
       const empty = { outbound: "No outbound conversations yet. Open a DM from your phone and it shows up here within a minute.", inbound: "Nobody has messaged you first yet.", hibernating: "Nobody is hibernating. Four touches with no reply, or a manual move, puts them here.", won: "No appointments or closes marked yet. Use the buttons on a contact." }[section];
       root.querySelector("#ot-list").innerHTML = list.length
-        ? group("Follow ups", due, "24 hours have passed since your last message") + group("Waiting on you", waiting, "They spoke last") + group(section === "outbound" ? "Everyone else" : section === "inbound" ? "Answered" : section === "won" ? "Booked and closed" : "Hibernating", rest)
+        ? orders[section] !== "due" ? group(section === "won" ? "Booked and closed" : section[0].toUpperCase()+section.slice(1), list) : group("Follow ups", due, "24 hours have passed since your last message") + group("Waiting on you", waiting, "They spoke last") + group(section === "outbound" ? "Everyone else" : section === "inbound" ? "Answered" : section === "won" ? "Booked and closed" : "Hibernating", rest)
         : `<p class="int-empty">${esc(empty)}</p>`;
       root.querySelectorAll("[data-toggle]").forEach((b) => (b.onclick = () => toggle(b.dataset.toggle)));
       root.querySelectorAll("[data-act]").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); act(b.dataset.id, b.dataset.act, b); }));
@@ -98,14 +103,9 @@
           ? `Your last message ${ago(t.last_our_message_at)}${t.follow_up_due ? ` · ${t.hours_since_our_message} hours have passed` : ""}`
           : "";
       return `<article class="ot-card ${t.follow_up_due ? "due" : ""} ${open.has(t.id) ? "open" : ""}" id="ot-${esc(t.id)}">
-        <div class="ot-row" data-toggle="${esc(t.id)}">
-          ${avatar(t)}
-          <div class="ot-who"><strong>${esc(t.name)}</strong><small>${t.handle ? `@${esc(t.handle)}` : "handle syncing"} · ${t.origin === "outbound" ? "you opened" : "they opened"} ${ago(t.first_message_at)}</small></div>
-          <div class="ot-last"><span>${esc(t.last_text || "(attachment)")}</span><small>${esc(timerLine)}</small></div>
-          <div class="ot-meta"><span class="int-pill ${stageCls}">${esc(t.stage_label)}</span>${t.sentiment ? `<span class="int-pill ${t.sentiment === "positive" ? "int-pill-ok" : "int-pill-warn"}">${t.sentiment}</span>` : ""}${t.seen_at ? `<span class="int-pill">seen ${esc(ago(t.seen_at))}</span>` : ""}<small>${t.our_messages} sent · ${t.their_messages} received</small></div>
-          <span class="ot-chevron">${open.has(t.id) ? "−" : "+"}</span>
-        </div>
+        ${contact.row(t,{attribute:"data-toggle",expanded:open.has(t.id),stage:t.stage_label,detail:timerLine})}
         <div class="ot-detail" ${open.has(t.id) ? "" : "hidden"}>
+          <div class="ot-thread" data-thread="${esc(t.id)}"><div class="skeleton" style="min-height:80px"></div></div>
           <div class="ot-actions">
             <span class="ot-actions-label">Reply</span>
             <button class="ps-control ${t.sentiment === "positive" ? "active" : ""}" data-id="${esc(t.id)}" data-act="sentiment:${t.sentiment === "positive" ? "clear" : "positive"}">Positive</button>
@@ -118,7 +118,7 @@
             ${t.hibernated_at ? `<button class="ps-control" data-id="${esc(t.id)}" data-act="wake">Wake up</button>` : `<button class="ps-control" data-id="${esc(t.id)}" data-act="hibernate">Hibernate</button>`}
             ${t.handle ? `<a class="ps-control" href="https://instagram.com/${encodeURIComponent(t.handle)}" target="_blank" rel="noopener">Open on Instagram</a>` : ""}
           </div>
-          <div class="ot-thread" data-thread="${esc(t.id)}"><div class="skeleton" style="min-height:80px"></div></div>
+
           <form class="ot-note" data-note="${esc(t.id)}"><textarea rows="2" placeholder="Note for yourself: what they do, what they said, next angle">${esc(t.notes)}</textarea><button class="ps-control" type="submit">Save note</button></form>
         </div>
       </article>`;
@@ -140,6 +140,7 @@
       if (!el) return;
       el.classList.toggle("open", open.has(id));
       el.querySelector(".ot-detail").hidden = !open.has(id);
+      el.querySelector("[data-toggle]").setAttribute("aria-expanded", String(open.has(id)));
       el.querySelector(".ot-chevron").textContent = open.has(id) ? "−" : "+";
       if (open.has(id)) fillThread(id);
     }
@@ -168,6 +169,7 @@
     root.querySelectorAll("[data-section]").forEach((b) => (b.onclick = () => { root.querySelectorAll("[data-section]").forEach((x) => x.classList.toggle("active", x === b)); section = b.dataset.section; drawStats(); drawList(); }));
     let debounce;
     root.querySelector("#ot-q").addEventListener("input", (e) => { clearTimeout(debounce); debounce = setTimeout(() => { q = e.target.value.trim(); load(); }, 150); });
+    root.querySelector("#ot-sort").onchange = e => { orders[section] = e.target.value; if(data) drawList(); };
     root.querySelector("#ot-refresh").onclick = load;
     load();
     // Live push: any change to a thread reloads the list within a second; the

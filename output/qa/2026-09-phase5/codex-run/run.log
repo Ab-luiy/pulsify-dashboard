@@ -6519,3 +6519,64 @@ PART E BATCH 1 LOCAL COMPLETE, DEPLOY BLOCKED. 90/90 suite passes. Changed archi
  succeeded in 435ms:
 codex
 Deployment is blocked by this session’s permissions: npm cannot reach the registry, and the installed Wrangler cannot bundle the Worker because directory access is denied. I’ve logged the failures; nothing has deployed. I’m continuing with the local UI work and verification so the changes are ready for release.
+exec
+"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe" -Command "@'
+from pathlib import Path
+p=Path('output/standard-preview')
+(p/'admin/contact-row.js').write_text('''// Shared contact anatomy, ordering and loading state for operator contact views.
+(() => {
+  const esc = v => String(v ?? \"\").replace(/[&<>\"']/g, c => ({\"&\":\"&amp;\",\"<\":\"&lt;\",\">\":\"&gt;\",'\"':\"&quot;\",\"'\":\"&#39;\"}[c]));
+  const time = v => Number.isFinite(Date.parse(v)) ? Date.parse(v) : 0;
+  const last = r => r.last_message_at || r.last_seen || r.sent_at || r.updated_at;
+  const name = r => r.name || r.participant_name || r.contact_name || r.client_name || r.handle || r.contact_email || \"Unknown contact\";
+  const rate = r => r.our_messages ? Math.min(100, 100 * (r.their_messages || 0) / r.our_messages) : 0;
+  const sorts = [[\"recent\",\"Last interaction\"],[\"due\",\"Follow-up due\"],[\"reply\",\"Reply rate\"],[\"name\",\"Name\"]];
+  function sort(rows, mode = \"recent\") {
+    return [...rows].sort((a,b) => {
+      if (mode === \"name\") return name(a).localeCompare(name(b)) || time(last(b))-time(last(a));
+      if (mode === \"reply\") return rate(b)-rate(a) || time(last(b))-time(last(a));
+      if (mode === \"due\") {
+        const due = Number(Boolean(b.follow_up_due))-Number(Boolean(a.follow_up_due));
+        if (due) return due;
+        if (a.follow_up_due && b.follow_up_due) return (b.hours_since_our_message || 0)-(a.hours_since_our_message || 0);
+      }
+      return time(last(b))-time(last(a)) || name(a).localeCompare(name(b));
+    });
+  }
+  function control(id, value = \"recent\", modes = sorts.map(x=>x[0])) {
+    return "'`<label class="contact-sort" for="${esc(id)}">Sort by <select class="ps-control" id="${esc(id)}">${sorts.filter(([key])=>modes.includes(key)).map(([key,label])=>`<option value="${key}" ${value===key?'"'selected':''}>"'${label}</option>`).join("")}</select></label>`;
+  }
+  function ago(value) {
+    const t=time(value); if (!t) return "No interaction yet";
+    const m=Math.max(0,Math.floor((Date.now()-t)/60000));
+    return m<1?'"'Just now':m<60?"'`${m}m ago`:m<1440?`${Math.floor(m/60)}h ago`:new Intl.DateTimeFormat('"'en',{month:'short',day:'numeric'}).format(new Date(t));
+  }
+  function row(r, {attribute=\"data-contact\", value=r.id, expanded, source=\"Instagram\", stage=\"\", detail=\"\"}={}) {
+    const n=name(r), handle=r.handle || r.participant_username || r.contact_email || '';
+    const initials=n.split(/[\\\\s._-]+/).slice(0,2).map(w=>w[0] || '').join('').toUpperCase();
+    const picture=/"'^https:'"\\\\/\\\\//.test(r.pfp_url || '') ? r.pfp_url : '';
+    return "'`<button type="button" class="contact-row" ${attribute}="${esc(value)}" ${expanded===undefined?'"'':"'`aria-expanded="${expanded}"`}>
+      <span class="contact-avatar">${picture?`<img src="${esc(picture)}" alt="" loading="lazy" referrerpolicy="no-referrer">`:esc(initials)}</span>
+      <span class="contact-person"><strong>${esc(n)}</strong><small>${esc(handle && !handle.includes('"'@')?'@'+handle:handle || source)}</small></span>
+      <span class=\"contact-preview\"><span>"'${esc(r.last_text || r.snippet || '"'(attachment)')}</span><small>"'${esc(detail || (r.last_direction==='"'outbound' || r.direction==='outbound'?'You spoke last':'They spoke last'))}</small></span>
+      <span class=\"contact-meta\"><time datetime=\""'${esc(last(r) || '"'')}\">"'${esc(ago(last(r)))}</time><span class="contact-stage">${esc(stage || r.stage_label || r.stage || source)}</span></span>
+      <span class="contact-chevron ot-chevron" aria-hidden="true">${expanded===undefined?'"'↗':expanded?'−':'+'}</span>
+    </button>"'`;
+  }
+  function skeleton(count=6) {
+    return `<div class="contact-loading" role="status" aria-label="Loading contacts">${Array.from({length:count},()=>'"'<div class=\"contact-row contact-skeleton\" aria-hidden=\"true\"><span class=\"contact-avatar skeleton\"></span><span class=\"contact-person\"><i class=\"skeleton\"></i><i class=\"skeleton\"></i></span><span class=\"contact-preview\"><i class=\"skeleton\"></i><i class=\"skeleton\"></i></span><span class=\"contact-meta\"><i class=\"skeleton\"></i><i class=\"skeleton\"></i></span></div>').join('')}</div>"'`;
+  }
+  window.PulsifyContact = {esc, sort, control, row, skeleton, ago};
+})();
+'"''')
+(p/'admin/contact-row.css').write_text('''.contact-sort{display:flex;align-items:center;gap:8px;color:hsl(var(--muted-foreground));font-size:12px;white-space:nowrap}.contact-sort select{min-width:150px}.contact-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0}.contact-row{width:100%;display:grid;grid-template-columns:42px minmax(140px,.85fr) minmax(180px,1.6fr) minmax(108px,.55fr) 16px;align-items:center;gap:16px;padding:18px 20px;border:0;border-bottom:1px solid hsl(var(--border));background:hsl(var(--card));color:hsl(var(--foreground));text-align:left;font:inherit;cursor:pointer;transition:background-color 150ms cubic-bezier(.16,1,.3,1)}.contact-row:hover{background:hsl(var(--card-raised))}.contact-row:focus-visible{outline:2px solid hsl(var(--muted-foreground));outline-offset:-3px}.contact-avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:hsl(var(--muted));color:hsl(var(--muted-foreground));font-size:12px;font-weight:600;overflow:hidden}.contact-avatar img{width:100%;height:100%;object-fit:cover}.contact-person,.contact-preview,.contact-meta{display:grid;gap:6px;min-width:0}.contact-person strong{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.contact-person small,.contact-preview small,.contact-meta time{font-size:12px;color:hsl(var(--muted-foreground));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.contact-preview>span{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.contact-meta{justify-items:end}.contact-stage{font-size:11px;border:1px solid hsl(var(--border));padding:3px 7px;border-radius:5px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.contact-chevron{color:hsl(var(--muted-foreground));font-size:17px}.contact-skeleton{cursor:default;min-height:91px}.contact-skeleton i{display:block;height:10px;width:85%;border-radius:4px}.contact-skeleton i+ i{width:55%;height:8px}.contact-skeleton .contact-meta{width:100%}.contact-loading{overflow:hidden;border:1px solid hsl(var(--border));border-radius:10px}.ot-card{overflow:hidden}.ot-card .contact-row{border-bottom:0}.ot-list .ot-card{margin-bottom:0;border-radius:0;border-width:0 0 1px}.ot-list .ot-group{border:1px solid hsl(var(--border));border-radius:10px;overflow:hidden}.ot-group>h2{padding:16px 20px;margin:0"'!important;background:hsl(var(--card-raised));font-size:12px!important}.ot-detail .ot-thread{margin:0 0 16px}.contact-result{border:1px solid hsl(var(--border));border-radius:10px;overflow:hidden}.contact-result .contact-row:last-child{border-bottom:0}.contact-extra{padding:0 20px 14px 78px;background:hsl(var(--card));display:flex;gap:8px;flex-wrap:wrap}.contact-extra p{font-size:12px;color:hsl(var(--muted-foreground));margin:0}.contact-source{font-size:11px;color:hsl(var(--muted-foreground))}@media(max-width:700px){.contact-row{grid-template-columns:36px minmax(0,1fr) 88px;gap:10px;padding:16px 12px}.contact-avatar{width:36px;height:36px}.contact-person{grid-column:2}.contact-meta{grid-column:3;grid-row:1}.contact-preview{grid-column:2/4;grid-row:2}.contact-chevron{display:none}.contact-preview>span{font-size:13px}.contact-extra{padding-left:58px}.contact-toolbar{flex-wrap:wrap}.contact-sort{margin-left:auto}.ot-head-actions{flex-wrap:wrap}.contact-skeleton{min-height:117px}.contact-skeleton .contact-preview{width:100%}}
+'"''')
+f=p/'admin.html';s=f.read_text().replace('<script src=\"/admin/leads-view.js\">','<link rel=\"stylesheet\" href=\"/admin/contact-row.css\"><script src=\"/admin/contact-row.js\"></script><script src=\"/admin/leads-view.js\">');f.write_text(s)
+f=p/'admin/outreach-view.js';s=f.read_text();s=s.replace('  let TZ =','  const contact = window.PulsifyContact;\\n  let TZ =');s=s.replace('    let data = null,','    const orders = {outbound:\"recent\",inbound:\"recent\",hibernating:\"recent\",won:\"recent\"};\\n    let data = null,');s=s.replace('Every Instagram conversation as a contact. Follow-ups due sit on top. Send from your phone; this keeps the score.','Your conversations, ordered by the last interaction. Open a contact to read the chat and choose the next step.');s=s.replace('<div id=\"ot-activity\"','<div class=\"contact-toolbar\"><span class=\"int-note\" id=\"ot-order-note\">Most recent interaction first</span>"'${contact.control("ot-sort")}</div>'"\\n      <div id=\"ot-activity\"');s=s.replace('<div class=\"skeleton\" style=\"min-height:240px\"></div>','"'${contact.skeleton()}'"');s=s.replace('      const list = all.filter((t) => bucket(t) === section);','      const list = contact.sort(all.filter((t) => bucket(t) === section), orders[section]);\\n      root.querySelector(\"#ot-sort\").value = orders[section];\\n      root.querySelector(\"#ot-order-note\").textContent = orders[section] === \"recent\" ? \"Most recent interaction first\" : orders[section] === \"reply\" ? \"Received / sent messages, capped at 100%\" : \"Order applies to this section\";');s=s.replace('? group(\"Follow ups\", due,', '? orders[section] "'!== "due" ? group(section === "won" ? "Booked and closed" : section[0].toUpperCase()+section.slice(1), list) : group("Follow ups", due,'"')
+a=s.index('        <div class=\"ot-row\"');b=s.index('        <div class=\"ot-detail\"',a);s=s[:a]+'''        "'${contact.row(t,{attribute:"data-toggle",expanded:open.has(t.id),stage:t.stage_label,detail:timerLine})}
+'"'''+s[b:]
+thread='          <div class=\"ot-thread\" data-thread=\""'${esc(t.id)}"><div class="skeleton" style="min-height:80px"></div></div>'"'
+s=s.replace(thread,'');s=s.replace('          <div class=\"ot-actions\">',thread+'\\n          <div class=\"ot-actions\">');s=s.replace('      el.querySelector(\".ot-chevron\").textContent', '      el.querySelector(\"[data-toggle]\").setAttribute(\"aria-expanded\", String(open.has(id)));\\n      el.querySelector(\".ot-chevron\").textContent');s=s.replace('    root.querySelector(\"#ot-refresh\").onclick = load;','    root.querySelector(\"#ot-sort\").onchange = e => { orders[section] = e.target.value; if(data) drawList(); };\\n    root.querySelector(\"#ot-refresh\").onclick = load;');f.write_text(s)
+f=p/'functions/_shared/outreach.js';s=f.read_text().replace('.sort(sortForWork);','.sort((a,b) => String(b.last_message_at || \"\").localeCompare(String(a.last_message_at || \"\")));');f.write_text(s)
+'@ | & C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe -" in C:\Users\Abdullah\Desktop\Pulsify-Brain
+ succeeded in 402ms:
