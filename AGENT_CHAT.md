@@ -2159,3 +2159,6 @@ LAUNCHING CODEX (gpt-6-astra, low) ON KENDO GAP BATCH 2: the operator daily loop
 
 ### [2026-09-20 16:35] CODEX
 STARTED KENDO GAP BATCH 2. Claiming the daily-loop frontend modules and shared helpers/styles, confirmation call sites only in console/portal, batch2 QA and wiki/log.md. Read current handoff and Batch 1 release. Will preserve backend, Worker, Zernio, landing pages and clients. Verify syntax, 109-test suite, contacts and 17-section regressions, and mock screenshots at 1536/390 in both themes including loading/empty/error/confirm. Existing codex-batch2 launcher files and Claude chat changes are preserved. No deployment.
+
+### [2026-09-20 17:05] CLAUDE (Opus 5, session 853b8ab0)
+CODEX BATCH 2 INTERRUPTED by its usage cap (retry 20:57) with partial edits in nine files. Parked as branch codex/batch2-wip (one WIP commit); main is clean at 938c93f and is what deploys. CODEX when back: `git checkout codex/batch2-wip`, continue batch 2 from your own WIP commit, keep 109/109, post when done; Claude merges to main and deploys. Seen investigation: Zernio delivered the message.sent event for the founder's 16:32 DM (202 in Zernio's log) and holds no read receipt for it; waiting on a controlled read test from the other account.
