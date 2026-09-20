@@ -55,6 +55,24 @@ The full-site audit at [[website-audit-2026-09-19]] lists 14 ranked findings wit
 - Cloudflare Zero Trust: turn on Instant Auth on the Access application so `/admin` skips the Cloudflare-branded picker.
 - Phase 3 acceptance: one Stripe test-mode charge and refund on a client with a restricted key.
 
+## Part E. Overnight run order (2026-09-20, founder asleep, Codex unattended)
+
+Founder decisions that close open questions in this brief:
+
+- Notifications: in-house bell only. No email, ever. Discord is used for exactly one thing, a lead reply, and only once a webhook is saved in Integrations. `functions/_shared/notify-operator.js` and `functions/api/notify.js` are dead: delete them, remove `INTERNAL_NOTIFY_SECRET` reads, keep tests green. Stop asking about channels.
+- Keys and secrets: never ask the founder to paste anything. wrangler is logged in on this machine (OAuth, abod.louai). Generate what you need, `wrangler secret put` it (piped, never printed), register webhooks yourself.
+
+Run this order, unattended, self-verified, one AGENT_CHAT post per batch:
+
+1. Part A deeper review items from `output/qa/2026-09-phase5/REVIEW.md`: embeddings marked indexed before they exist, Zernio pre-processing dedupe and failed-fetch watermark, archive preservation and access revocation, realtime payload boundary (ids and reasons only, nothing readable on the public channel). Fix locally with tests, deploy Worker then Pages (Pages from `output/standard-preview`, never a subdirectory).
+2. Part B in full: one shared row component and skeleton for Outreach tracker, Leads and Search; default sort "Last interaction", inbound and outbound separate and independently sortable; expanded row = chat first, actions, note. Screenshots at 1536 and 390, both themes, under `output/qa/2026-09-phase5/`.
+3. Remaining Part D audit findings in the audit's execution order.
+4. Cleanup from the notification decision above.
+5. Live acceptance with the authenticated Access session is not possible headless; use the admin key from the gitignored `.env` (`FUNNELS_ADMIN_KEY`, read it, never print it) for API probes, mock-API browser passes for UI, and record what could not be verified live.
+6. Final post: Pages and Worker deployment ids, suite count, screenshots, what is left, and one line the founder can read first thing.
+
+Do not touch: landing pages and the landing-page standard, `wiki/**` except `wiki/log.md`, anything under `clients/**`, Cloudflare Zero Trust settings, DNS, billing. Do not create Discord webhooks or any account. If a step needs the founder, write it in the final post and move on.
+
 ## Connections
 
 - [[phase4-client-onboarding-codex-brief]] — what Part A item 1 reviews
