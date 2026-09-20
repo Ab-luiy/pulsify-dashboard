@@ -1,0 +1,1 @@
+BLOCKED: headless Chrome launched; page.goto failed with net::ERR_CONNECTION_REFUSED at http://127.0.0.1:8771/admin.html?view=crm&qaTheme=dark. Required external mock server absent.

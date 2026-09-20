@@ -1737,3 +1737,7 @@ Founder-directed bugfix release deployed as Pages 0249056e and Worker 72ba99b5. 
 ## [2026-09-20] client-update | Phase 5 polish and Phase 6 outreach product live
 
 Overnight, four engineers in parallel: Codex (gpt-6-astra, low) executed Phase 5 Part E locally until its usage cap; two Claude builders in isolated worktrees shipped the Phase 6 outreach queue (formula-driven DM drafts, candidates from CRM and YouTube leads, auto-reconcile against Zernio threads) and the Today view plus a Ctrl+K command palette in both shells; a reviewer wrote the Kendo gap review (nine P1 findings, four-batch order). Claude merged, tested (109/109) and deployed. Briefs: wiki/synthesis/phase6-outreach-product-brief.md, wiki/synthesis/kendo-gap-review-2026-09-20.md.
+
+## [2026-09-20] client-update | Kendo gap Batch 1 primitives
+
+Codex implemented only the six authorized shell/contact primitive files: complete dark/light tokens and bridge, button/input/tab aliases with working focus, anchored shell menus, centered dialog aliases, SVG icons and sliding nav pill. No deploy or view/backend changes. Suite 109/109; Phase 5 contacts and 17-section browser regressions pass. Twenty required mock view captures plus menu/dialog checks under output/qa/2026-09-kendo-gap/batch1/. Older Phase 2 browser test blocked by its absent port-8771 mock server. Later gap-review batches remain open.

@@ -1,0 +1,170 @@
+[
+  {
+    "theme": "dark",
+    "width": 1536,
+    "focus": {
+      "border": "rgb(161, 156, 145)",
+      "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px",
+      "height": "40px",
+      "ring": "40 8% 60%"
+    },
+    "computed": {
+      "fields": [
+        {
+          "height": "40px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "36px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "80px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        }
+      ],
+      "button": {
+        "height": "36px",
+        "background": "rgb(43, 41, 38)",
+        "shadow": "rgba(0, 0, 0, 0.4) 0px 1px 2px 0px",
+        "duration": "0.15s",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      "bridge": "hsl(156 64% 60%)"
+    }
+  },
+  {
+    "theme": "dark",
+    "width": 390,
+    "focus": {
+      "border": "rgb(161, 156, 145)",
+      "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px",
+      "height": "40px",
+      "ring": "40 8% 60%"
+    },
+    "computed": {
+      "fields": [
+        {
+          "height": "40px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "36px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "80px",
+          "shadow": "rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.3) 0px 1px 2px 0px, rgba(161, 156, 145, 0.25) 0px 0px 0px 3px"
+        }
+      ],
+      "button": {
+        "height": "36px",
+        "background": "rgb(43, 41, 38)",
+        "shadow": "rgba(0, 0, 0, 0.4) 0px 1px 2px 0px",
+        "duration": "0.15s",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      "bridge": "hsl(156 64% 60%)"
+    }
+  },
+  {
+    "theme": "light",
+    "width": 1536,
+    "focus": {
+      "border": "rgb(124, 118, 106)",
+      "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px",
+      "height": "40px",
+      "ring": "40 8% 45%"
+    },
+    "computed": {
+      "fields": [
+        {
+          "height": "40px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "36px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "80px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        }
+      ],
+      "button": {
+        "height": "36px",
+        "background": "rgb(46, 43, 41)",
+        "shadow": "rgba(0, 0, 0, 0.15) 0px 1px 2px 0px",
+        "duration": "0.15s",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      "bridge": "hsl(156 72% 35%)"
+    }
+  },
+  {
+    "theme": "light",
+    "width": 390,
+    "focus": {
+      "border": "rgb(124, 118, 106)",
+      "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px",
+      "height": "40px",
+      "ring": "40 8% 45%"
+    },
+    "computed": {
+      "fields": [
+        {
+          "height": "40px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "36px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "40px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        },
+        {
+          "height": "80px",
+          "shadow": "rgba(56, 51, 46, 0.1) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.08) 0px 1px 2px 0px, rgba(124, 118, 106, 0.25) 0px 0px 0px 3px"
+        }
+      ],
+      "button": {
+        "height": "36px",
+        "background": "rgb(46, 43, 41)",
+        "shadow": "rgba(0, 0, 0, 0.15) 0px 1px 2px 0px",
+        "duration": "0.15s",
+        "easing": "cubic-bezier(0.16, 1, 0.3, 1)"
+      },
+      "bridge": "hsl(156 72% 35%)"
+    }
+  }
+]
