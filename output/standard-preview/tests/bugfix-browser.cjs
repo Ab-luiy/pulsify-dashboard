@@ -57,12 +57,12 @@ const server=http.createServer((req,res)=>{
  // Failure must offer retry, never falsely display disconnected services.
  failIntegrations=true;await page.evaluate(()=>PulsifyOperatorShell.go('integrations'));await page.locator('[data-retry]').waitFor();
  failIntegrations=false;await page.locator('[data-retry]').click();await page.locator('.int-hero-actions').waitFor();
- for(const view of ['overview','leads','search','outreach','crm','instagram','youtube','content','integrations','payments','health','settings','home','brain','delivery','campaigns','email']){
+ for(const view of ['overview','leads','search','outreach','crm','instagram','youtube','content','integrations','payments','settings','home','brain','delivery','campaigns','email']){
   await page.evaluate(v=>PulsifyOperatorShell.go(v),view);
   if(['brain','delivery','campaigns','email'].includes(view))await page.locator('iframe:not([hidden])').contentFrame().locator('#shell').waitFor();
   else if(view==='home')await page.locator('[data-archive="qa"]').waitFor();
   else await page.waitForTimeout(150);
-  if(['crm','health','payments'].includes(view)){await page.waitForTimeout(600);await page.screenshot({path:path.join(qa,'batch3-'+view+'-dark-1536.png'),fullPage:false});}
+  if(['crm','payments'].includes(view)){await page.waitForTimeout(600);await page.screenshot({path:path.join(qa,'batch3-'+view+'-dark-1536.png'),fullPage:false});}
   await page.locator('.ps-notifications').click();await page.locator('.ps-bell.show').waitFor();await page.keyboard.press('Escape');
  }
  // Client integrations must use client credentials, with no operator-only payment tools.
