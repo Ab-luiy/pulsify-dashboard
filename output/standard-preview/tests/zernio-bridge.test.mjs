@@ -118,10 +118,12 @@ test.after(()=>{globalThis.fetch=realFetch;});
 
 
 test('failed webhook processing leaves event retryable',async()=>{
-  const payload={event:'message.read',conversation:{id:'zc_1'},statusAt:'invalid'};
-  await assert.rejects(handleZernioEvent(env,payload,'retry-event'));
+  // An invalid statusAt is tolerated (event time is used); a real failure mid-processing must leave the event unrecorded.
+  const payload={event:'message.read',conversation:{id:'zc_1'},statusAt:iso(now)};
+  const broken={...env,DB:{...env.DB,prepare(q){if(q.includes('ig_outreach'))throw new Error('db down');return env.DB.prepare(q);}}};
+  await assert.rejects(handleZernioEvent(broken,payload,'retry-event'));
   assert.equal(sql.prepare("SELECT id FROM zernio_events WHERE id='retry-event'").get(),undefined);
-  await handleZernioEvent(env,{...payload,statusAt:iso(now)},'retry-event');
+  await handleZernioEvent(env,payload,'retry-event');
   assert.ok(sql.prepare("SELECT id FROM zernio_events WHERE id='retry-event'").get());
 });
 

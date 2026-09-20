@@ -28,7 +28,11 @@ export async function handleZernioEvent(env, payload, eventId) {
 
   }
   const result = await processZernioEvent(env, payload);
-  if (id) await env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at) VALUES(?,?,?)").bind(id, str(payload?.event), nowIso()).run();
+  if (id) {
+    // Keep the raw payload (capped) so a delivery can be inspected later; fall back if the column is missing.
+    await env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at,payload_json) VALUES(?,?,?,?)").bind(id, str(payload?.event), nowIso(), JSON.stringify(payload).slice(0, 4000)).run()
+      .catch(() => env.DB.prepare("INSERT OR IGNORE INTO zernio_events(id,event,received_at) VALUES(?,?,?)").bind(id, str(payload?.event), nowIso()).run());
+  }
   return result;
 }
 
@@ -52,10 +56,16 @@ async function processZernioEvent(env, payload) {
     return { ok: true, conversationId, stored: isNew };
   }
   if (event === "message.read") {
-    const at = str(payload?.statusAt || payload?.timestamp) || nowIso();
-    const changed = await markSeen(env, conversationId, new Date(at).toISOString());
+    // Meta reports reads as a watermark (the time of the last message read),
+    // so statusAt can equal the send time. The moment the person actually
+    // opened it is the event timestamp; use that unless statusAt is later.
+    const sentAt = Date.parse(zm?.sentAt || zm?.createdAt || "") || 0;
+    const statusAt = Date.parse(payload?.statusAt || "") || 0;
+    const eventAt = Date.parse(payload?.timestamp || "") || Date.now();
+    const at = new Date(statusAt > sentAt + 60000 ? statusAt : eventAt).toISOString();
+    const changed = await markSeen(env, conversationId, at);
     if (changed) await pushOperator(env, "tracker.changed", { conversation_id: conversationId, reason: "seen" });
-    return { ok: true, conversationId, seen: changed };
+    return { ok: true, conversationId, seen: changed, seen_at: at };
   }
   if (event === "message.deleted") {
     const mid = str(zm.platformMessageId) || str(zm.id);
