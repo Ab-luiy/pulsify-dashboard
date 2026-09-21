@@ -59,7 +59,7 @@ const server=http.createServer((req,res)=>{
  failIntegrations=false;await page.locator('[data-retry]').click();await page.locator('.int-hero-actions').waitFor();
  for(const view of ['overview','leads','search','outreach','crm','instagram','youtube','content','integrations','payments','settings','home','brain','delivery','campaigns','email']){
   await page.evaluate(v=>PulsifyOperatorShell.go(v),view);
-  if(['brain','delivery','campaigns','email'].includes(view))await page.locator('iframe:not([hidden])').contentFrame().locator('#shell').waitFor();
+  if(['brain','delivery','campaigns','email'].includes(view)){await page.locator('.ps-main h1').first().waitFor();assert.equal(await page.locator('iframe[src*="console-view"]:not([hidden])').count(),0,view+' renders natively');}
   else if(view==='home')await page.locator('[data-archive="qa"]').waitFor();
   else await page.waitForTimeout(150);
   if(['crm','payments'].includes(view)){await page.waitForTimeout(600);await page.screenshot({path:path.join(qa,'batch3-'+view+'-dark-1536.png'),fullPage:false});}

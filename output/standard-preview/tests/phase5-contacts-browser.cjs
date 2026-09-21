@@ -37,6 +37,6 @@ assert.match(await page.locator('a:has-text("Download export")').getAttribute('h
 await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:path.join(qa,'clients-archived-mobile.png'),fullPage:true});
 await page.locator('[data-restore="sample"]').click();await page.getByText('No archived workspaces.').waitFor();assert.equal(isArchived,false);
 await page.locator('[data-filter="active"]').click();await page.locator('[data-setup="sample"]').waitFor();
-await page.locator('[data-setup="sample"]').click();assert.match(await page.locator('iframe[title="Client setup"]').getAttribute('src'),/view=clients&client=sample/);
+await page.locator('[data-setup="sample"]').click();await page.locator('h1:has-text("Client setup")').waitFor();assert.equal(await page.locator('iframe[src*="console-view"]').count(),0,'setup renders natively, no console iframe');
 assert.deepEqual(errors,[]);console.log('PASS shared contacts and archive/restore controls: 17 screenshots, recency, due opt-in, independent sections, chat first, mixed-source leads, grouped search, both themes and widths. APIs mocked.');
 }finally{await browser.close();server.close();}})().catch(e=>{console.error(e);process.exitCode=1;server.close();});
