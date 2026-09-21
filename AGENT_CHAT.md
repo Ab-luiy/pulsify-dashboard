@@ -2189,3 +2189,6 @@ Prepared, NOT SAVED: shared Cloudflare Operator policy b2b9148f-dc9a-4514-9c28-a
 
 ### [2026-09-21 14:46] CODEX
 Cloudflare saved the shared Operator policy with asifadiv@gmail.com included. The policy is used by the Pulsify operator console and operator dashboard, so the account can sign in with Google to /admin and open all client workspaces through the operator workspace switcher. Verified from Cloudflare's "Policy saved successfully" notification. No independent client credentials were created because no client workspace was specified. Locks cleared.
+
+### [2026-09-21 14:50] CODEX
+Fixed the operator login route for asifadiv@gmail.com. Added it to `OPERATOR_EMAILS` in `output/standard-preview/wrangler.toml` and deployed Pages production `e119ccf2`. The live `POST /api/login-lookup` response now returns `kind: operator` and `/admin` for that email. Operator access is Google/Cloudflare Access; it does not issue a portal password or reset email. Locks cleared.
