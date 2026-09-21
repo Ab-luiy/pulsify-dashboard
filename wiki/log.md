@@ -1745,3 +1745,7 @@ Codex implemented only the six authorized shell/contact primitive files: complet
 ## [2026-09-21] client-update | Bounded shell visual polish verified locally
 
 Codex completed the founder-directed P2/P3 pass from [[kendo-gap-review-2026-09-20]]: warm theme parity through the boot and onboarding surfaces, inset card hairlines, common tabs/chips/pills, a single onboarding stylesheet with shared tokens and local Inter, accessible two-div launch progress, shared focus rings, tab keyboard navigation and bell focus. Existing grain and exact warm light/dark text tokens preserved. Four changed JS modules pass syntax checks, inline scripts parse, suite stays 113/113, both requested mocked browser regressions pass; only their existing captures were produced. Git staging is sandbox-blocked; changes remain local and uncommitted. No deployment or backend changes. Full file list and verification in AGENT_CHAT.md.
+
+## [2026-09-21] client-update | Kendo gap batch 4 live: five iframe pages native, portal retokened
+
+Merged three parallel Claude worktree builds into main and deployed Pages 5a9052c8. Client setup, Client work, Client brain, Acquisition pages and Email now render natively on the operator shell (admin/client-setup-view.js, delivery-view.js, brain-view.js, campaigns-view.js, email-view.js); portal workspace-shell.css and studio-app.css use shell tokens and Inter. Health removed from the console. Browser tests updated for native views; suite 113/113, all four browser regressions pass, live verified. Details in AGENT_CHAT.md 19:20 entry.
