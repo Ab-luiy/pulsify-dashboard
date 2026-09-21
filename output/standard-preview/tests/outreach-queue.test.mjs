@@ -93,7 +93,7 @@ test('handles: normalized from @, URLs and payload keys', ()=>{
 const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 for(const t of ['crm_overrides','crm_added','crm_removed'])sql.exec(`CREATE TABLE ${t}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
-for(const n of ['0025_data_spine.sql','0035_outreach_queue.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
+for(const n of ['0025_data_spine.sql','0029_outreach_tracker.sql','0035_outreach_queue.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 const env={ADMIN_KEY:'k',OPERATOR_TIMEZONE:'UTC',
   DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
 const op=(url,init)=>{const r=new Request(url,init);rememberOperator(r,{email:'abod.louai@gmail.com',via:'access'});return r};
@@ -129,6 +129,12 @@ seedThread('c-old','already.dmd',[{direction:'outbound',sent_at:iso(NOW-72*H),te
 seedThread('c-thread','In.Thread',[{direction:'outbound',sent_at:iso(NOW-48*H),text:'opener'}]);
 
 test('candidates: CRM new-leads first, then yt_leads by tier and score; threads, instagram-sourced, staged and removed leads are excluded', async()=>{
+  assert.deepEqual(await candidates(env,{limit:50}),[],'unreviewed imports never enter Today');
+  for(const name of ['Joe Trader','Sam Ecom','The Cashflow Academy','Burak Harmandar','Links Only']) {
+    const existing=sql.prepare('SELECT data FROM crm_overrides WHERE name=?').get(name);
+    const data={...JSON.parse(existing?.data||'{}'),vetting:'approved'};
+    sql.prepare('INSERT OR REPLACE INTO crm_overrides(name,data,ts,sts,updated_at) VALUES(?,?,?,?,?)').run(name,JSON.stringify(data),2,2,new Date().toISOString());
+  }
   const list=await candidates(env,{limit:50});
   const handles=list.map(c=>c.handle);
   assert.deepEqual(handles.slice(0,2),['trader.joe','ecom.sam'],'CRM first, handle normalized');
@@ -260,4 +266,12 @@ test('API: full flow from candidates to replied', async()=>{
   assert.equal((await post({action:'add',handle:'bad handle!'})).status,422);
   assert.equal((await post({action:'sent'})).status,422);
   assert.equal((await call(queuePost,op('https://x/api/outreach-queue',{method:'POST',body:'{'}))).status,400);
+});
+
+
+test('Today removes an already queued prospect immediately after dropping them',async()=>{
+ const r=await addToQueue(env,{handle:'review.drop',source:'manual',name:'Review Drop'});
+ crm('crm_added','Review Drop',{n:'Review Drop',h:'review.drop',vetting:'dropped'});
+ const today=await listToday(env);
+ assert.ok(!today.queued.some(x=>x.id===r.item.id));
 });

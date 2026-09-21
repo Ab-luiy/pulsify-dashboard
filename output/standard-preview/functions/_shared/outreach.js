@@ -1,5 +1,6 @@
 // Outreach tracker logic. Pure functions over a thread's messages plus the
 // human-set row from ig_outreach. Used by the API and the Worker.
+import { prospectCutoff, bookingEvidence } from "./prospect-policy.js";
 import { nowIso, str } from "./common.js";
 
 export const TOUCH_WINDOW_MS = 60 * 60 * 1000;      // bubbles within an hour are one touch
@@ -34,27 +35,30 @@ export function deriveThread(conversation, messages, row = {}, now = Date.now())
   const lastTheirs = theirs.at(-1)?.sent_at || null;
   const origin = first ? (first.direction === "outbound" ? "outbound" : "inbound") : "outbound";
   // Closed, lost and hibernating threads never nag, even when they spoke last.
-  const parked = row.outcome === "closed" || row.outcome === "lost" || Boolean(row.hibernated_at);
+  const stale = Boolean(sorted.at(-1)?.sent_at && sorted.at(-1).sent_at < prospectCutoff("recent", now));
+  const parked = stale || row.outcome === "closed" || row.outcome === "lost" || Boolean(row.hibernated_at);
   const awaitingUs = !parked && Boolean(lastTheirs && (!lastOurs || lastTheirs > lastOurs));
   const touches = countTouches(sorted, lastTheirs);
   const hoursSinceOurs = lastOurs ? (now - Date.parse(lastOurs)) / 3600000 : null;
   const replied = theirs.length > 0;
-  const seen = row.seen_at || null;
+  const receipts = ours.map(m => { try { return JSON.parse(m.payload_json || '{}').readAt; } catch { return null; } }).filter(Boolean);
+  const seen = [row.seen_at, ...receipts].filter(Boolean).sort().at(-1) || null;
+  const latestSeen = Boolean(seen && lastOurs && Date.parse(seen) >= Date.parse(lastOurs));
 
   let stage;
   if (row.outcome === "closed") stage = "closed";
   else if (row.outcome === "booked") stage = "booked";
   else if (row.outcome === "lost") stage = "lost";
-  else if (row.hibernated_at) stage = "hibernating";
+  else if (row.hibernated_at || stale) stage = "hibernating";
   else if (awaitingUs) stage = "replied";
   else if (origin === "outbound" && touches >= MAX_TOUCHES && hoursSinceOurs !== null && hoursSinceOurs >= FOLLOW_UP_HOURS) stage = "hibernating";
   else stage = `touch-${Math.min(touches, MAX_TOUCHES)}`;
 
-  const followUpDue = !row.outcome && !row.hibernated_at && !awaitingUs && origin === "outbound"
+  const followUpDue = !stale && !row.outcome && !row.hibernated_at && !awaitingUs && origin === "outbound"
     && touches > 0 && touches < MAX_TOUCHES && hoursSinceOurs !== null && hoursSinceOurs >= FOLLOW_UP_HOURS;
   const ghosted = origin === "outbound" && !replied && stage === "hibernating";
   // Left on read: seen, then silence for the grace period, no reply after the seen moment.
-  const leftOnRead = Boolean(seen && !theirs.some((m) => m.sent_at > seen) && now - Date.parse(seen) >= SEEN_GRACE_MS);
+  const leftOnRead = Boolean(latestSeen && (!lastTheirs || lastTheirs < lastOurs) && !theirs.some((m) => m.sent_at > seen) && now - Date.parse(seen) >= SEEN_GRACE_MS);
 
   return {
     id: conversation.id,
@@ -79,10 +83,13 @@ export function deriveThread(conversation, messages, row = {}, now = Date.now())
     replied,
     ghosted,
     seen_at: seen,
+    latest_message_seen: latestSeen,
+    booking_evidence: bookingEvidence(sorted),
     left_on_read: leftOnRead,
     sentiment: row.sentiment || null,
     outcome: row.outcome || null,
     hibernated_at: row.hibernated_at || null,
+    inactive_reason: stale ? "No activity in two months" : row.hibernated_at ? "Dropped by you" : null,
     notes: row.notes || "",
   };
 }
@@ -100,8 +107,9 @@ export function sortForWork(a, b) {
 const pct = (n, d) => (d ? Math.round((n / d) * 1000) / 10 : null);
 
 export function stats(threads) {
-  const out = threads.filter((t) => t.origin === "outbound");
-  const inb = threads.filter((t) => t.origin === "inbound");
+  const active = threads.filter(t => !t.hibernated_at && t.outcome !== "lost");
+  const out = active.filter((t) => t.origin === "outbound");
+  const inb = active.filter((t) => t.origin === "inbound");
   const seenKnown = out.filter((t) => t.seen_at).length;
   const outReplied = out.filter((t) => t.replied).length;
   const booked = threads.filter((t) => t.outcome === "booked" || t.outcome === "closed").length;
@@ -132,6 +140,7 @@ export function stats(threads) {
     },
     pipeline: {
       appointments_booked: booked,
+      booking_signals: threads.filter(t => !t.outcome && t.booking_evidence).length,
       closed,
       close_rate: pct(closed, booked),
       close_rate_of_replies: pct(closed, outReplied + inb.filter((t) => t.our_messages > 0).length),
@@ -140,18 +149,19 @@ export function stats(threads) {
 }
 
 // Load every thread with its messages and tracker row, derive, sort.
-export async function loadThreads(env, { q = "", now = Date.now() } = {}) {
+export async function loadThreads(env, { q = "", period = "year", now = Date.now() } = {}) {
   const like = q ? `%${str(q).toLowerCase()}%` : null;
   const conversations = (await env.DB.prepare(
     `SELECT c.id,c.participant_id,c.participant_username,c.participant_name,c.first_message_at,c.last_message_at,
             o.pfp_url,o.sentiment,o.outcome,o.hibernated_at,o.notes,o.seen_at
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id
-      WHERE (? IS NULL OR LOWER(COALESCE(c.participant_username,'')) LIKE ? OR LOWER(COALESCE(c.participant_name,'')) LIKE ?)
+      WHERE c.last_message_at >= ? AND (? IS NULL OR LOWER(COALESCE(c.participant_username,'')) LIKE ? OR LOWER(COALESCE(c.participant_name,'')) LIKE ?)
       ORDER BY c.last_message_at DESC LIMIT 500`,
-  ).bind(like, like, like).all()).results || [];
+  ).bind(prospectCutoff(period, now), like, like, like).all()).results || [];
   const messages = (await env.DB.prepare(
-    "SELECT conversation_id, direction, sent_at, text FROM ig_messages ORDER BY sent_at ASC",
-  ).all()).results || [];
+    `SELECT m.conversation_id, m.direction, m.sent_at, m.text, m.payload_json FROM ig_messages m
+     JOIN ig_conversations c ON c.id=m.conversation_id WHERE c.last_message_at>=? ORDER BY m.sent_at ASC`,
+  ).bind(prospectCutoff(period, now)).all()).results || [];
   const byThread = new Map();
   for (const m of messages) { if (!byThread.has(m.conversation_id)) byThread.set(m.conversation_id, []); byThread.get(m.conversation_id).push(m); }
   return conversations

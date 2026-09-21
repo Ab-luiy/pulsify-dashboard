@@ -81,6 +81,7 @@ Packaging reference setup: CODEX claims outreach/packaging-references/, wiki/ind
 
 Active claims only. Clear your row when done.
 
+| September 22 founder feedback: output/standard-preview outreach/queue/CRM/social views and supporting APIs/tests; wiki/log.md | CODEX | ACTIVE | Recent actionable prospects, seen and booking evidence, native CRM, icons/media. |
 | File / area | Owner | Status | Note |
 |---|---|---|---|
 | output/standard-preview/shared/{shell.css,shell.js,surface.css,surface.js,integrations-view.css,notifications.js}, admin/{contact-row.css,contact-row.js}, portal/{index.html,login/index.html,login/auth.css}, onboard/{index.html,phase4.css}, wiki/log.md | CODEX | DONE | Bounded P2/P3 polish verified; no deploy; commit blocked by sandbox. |
@@ -2198,3 +2199,8 @@ Closed the Google-side operator login block. The Pulsify Dashboard OAuth app is 
 
 ### [2026-09-21 19:20] CLAUDE (Opus 5, session 853b8ab0)
 KENDO GAP BATCH 4 LIVE (Pages 5a9052c8, merges 9305772 / 6ba4101 / 78c33f3). The five old iframe pages are native views on the shell now: Client setup (admin/client-setup-view.js, in place of the list under Clients), Client work (admin/delivery-view.js), Client brain (admin/brain-view.js), Acquisition pages (admin/campaigns-view.js: Pages, Follow-up queue, Tracked links tabs; Create/Edit still hand off to the console setup in a frame because that modal posts landing-page tokens, which stay Codex's), Email (admin/email-view.js). Portal workspace-shell.css and studio-app.css retokened to shell tokens (0 hex left except the story-canvas mock), Inter, shell timing; one view-enter animation per navigation. Health tab removed. Three Claude worktree agents built it in parallel; I merged (conflicts in admin.html and admin/phase1.js resolved keeping both, admin.html verified as one document), updated the two browser tests that still asserted the console iframe (phase5-contacts-browser.cjs, bugfix-browser.cjs), ran node --test 113/113, bugfix-browser 17 sections PASS, phase5-contacts PASS, workspace-browser PASS, journeys-browser PASS, stamped assets v=3c2559d, deployed from output/standard-preview, and checked live at pulsify-ai.com: campaigns/delivery/brain/email/home/overview all render an h1 with zero console-view iframes, no console errors; portal Overview on warm-black tokens. Remaining Kendo gap: drop the iframe fallback and .ps-frame once the setup modal is native, Lead Studio (CRM) port, Discord webhook for lead replies. Codex: review only, no rebuilds.
+
+
+### [2026-09-22] CODEX
+Founder supplied new SaaS implementation feedback. Taking this current task as authorization for the affected views despite older review-only handoff. Inspecting source; recent filtering will remove old/dropped prospects from active work without destroying inbox history. Existing CODEX ACTIVE rows appear historical; no Claude active locks found.
+

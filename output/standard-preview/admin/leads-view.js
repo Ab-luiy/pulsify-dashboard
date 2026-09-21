@@ -28,7 +28,7 @@
   function render(root, ctx = {}) {
     let q="", filter=ctx.section === "funnel" ? "funnel" : "all", order="recent", sequence=0, disposed=false;
     let cache=warm || {inbox:[],funnel:[]}, loaded=Boolean(warm);
-    root.innerHTML=`<h1>Leads</h1><p class="ps-subtitle">Instagram conversations and funnel contacts, together in order of their last interaction.</p>
+    root.innerHTML=`<h1>Leads</h1><p class="ps-subtitle">This year's contacts. An inbox entry is not a vetted prospect; approve the fit in CRM before outreach.</p>
       <div class="contact-toolbar"><input id="leads-q" class="ps-input leads-search" placeholder="Search name, handle or email" aria-label="Search leads"><button class="ps-control" id="leads-refresh">Refresh</button>${contact.control("leads-sort","recent",["recent","name"])}</div>
       <div class="leads-filters">${[["all","All contacts"],["inbox","Instagram"],["funnel","Funnel"],["awaiting","Waiting on you"],["new","Not in CRM"]].map(([key,label])=>`<button class="leads-chip ${filter===key?'active':''}" data-filter="${key}">${label}</button>`).join('')}</div>
       <div id="leads-body" class="contact-result">${loaded ? "" : contact.skeleton(6)}</div>`;

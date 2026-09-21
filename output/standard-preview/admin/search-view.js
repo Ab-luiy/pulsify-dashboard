@@ -18,7 +18,7 @@
   function render(root, ctx = {}) {
     let sequence = 0, order="recent", hits=[], took=0, disposed=false;
     root.innerHTML = `
-      <h1>Search</h1><p class="ps-subtitle">Ask in plain words. This finds what people meant across every DM and every client brain, not just the exact words.</p>
+      <h1>Find conversations</h1><p class="ps-subtitle">Find a past conversation when you remember the topic but not the name. Search DMs or client notes, then open the source.</p>
       <form class="sr-form" id="sr-form"><input id="sr-q" class="ps-input sr-input" aria-label="Search conversations and client brains" placeholder="who mentioned prop firm payouts" autocomplete="off" autofocus><button class="ps-control int-primary" type="submit">Search</button></form>
       <div class="sr-filters"><label class="leads-chip active"><input type="checkbox" name="kind" value="dm" checked hidden>DMs</label><label class="leads-chip active"><input type="checkbox" name="kind" value="brain" checked hidden>Client brains</label><small id="sr-status" class="int-note"></small></div>
       <div class="sr-examples" id="sr-examples">${EXAMPLES.map((e) => `<button class="ps-control" data-example="${esc(e)}">${esc(e)}</button>`).join("")}</div>

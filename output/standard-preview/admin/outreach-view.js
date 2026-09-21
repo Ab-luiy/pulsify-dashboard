@@ -37,10 +37,10 @@
     const orders = {outbound:"recent",inbound:"recent",hibernating:"recent",won:"recent"};
     let data = warm.get('') || null, section = "outbound", q = "", open = new Set(), timer = null;
     root.innerHTML = `
-      <div class="ot-head"><div><h1>Outreach tracker</h1><p class="ps-subtitle">Your conversations, ordered by the last interaction. Open a contact to read the chat and choose the next step.</p></div>
+      <div class="ot-head"><div><h1>Outreach tracker</h1><p class="ps-subtitle">This year's conversations and results. Dropped prospects stay in the archive. Open a contact to read the chat and choose the next step.</p></div>
       <div class="ot-head-actions"><input id="ot-q" class="ps-input leads-search" aria-label="Search outreach" placeholder="Search name or handle" autocomplete="off"><button class="ps-control" id="ot-refresh">Refresh</button></div></div>
       <div id="ot-stats" class="ot-stats">${data ? "" : statsSkeleton()}</div>
-      <div class="int-tabs ot-tabs"><button data-section="outbound" class="active">Outbound <span id="ot-n-out"></span></button><button data-section="inbound">Inbound <span id="ot-n-in"></span></button><button data-section="hibernating">Hibernating <span id="ot-n-hib"></span></button><button data-section="won">Booked and closed <span id="ot-n-won"></span></button><span style="flex:1"></span><small id="ot-updated" class="int-note"></small></div>
+      <div class="int-tabs ot-tabs"><button data-section="outbound" class="active">Outbound <span id="ot-n-out"></span></button><button data-section="inbound">Inbound <span id="ot-n-in"></span></button><button data-section="hibernating">Archived / dropped <span id="ot-n-hib"></span></button><button data-section="won">Booked and closed <span id="ot-n-won"></span></button><span style="flex:1"></span><small id="ot-updated" class="int-note"></small></div>
       <div class="contact-toolbar"><span class="int-note" id="ot-order-note">Most recent interaction first</span>${contact.control("ot-sort")}</div>
       <div id="ot-activity" class="ot-activity" hidden></div>
       <div id="ot-list" class="ot-list">${data ? "" : contact.skeleton()}</div>`;
@@ -73,7 +73,7 @@
       const cell = (label, value, note, cls = "") => `<div class="ot-stat ${cls}"><small>${esc(label)}</small><b>${esc(String(value))}</b>${note ? `<small>${esc(note)}</small>` : ""}</div>`;
       root.querySelector("#ot-stats").innerHTML = section === "inbound"
         ? cell("Inbound conversations", i.conversations, "They messaged first") + cell("Waiting on you", i.awaiting_us, "Their last message is unanswered", i.awaiting_us ? "ot-stat-warn" : "") + cell("Answered", i.answered, "You replied at least once") + cell("Positive", i.positive, "Marked by you") + cell("Negative", i.negative, "Marked by you") + cell("Appointments booked", p.appointments_booked, "All sections") + cell("Closed", p.closed, "All sections") + cell("Close rate", pct(p.close_rate), "Closed / booked")
-        : cell("DMs sent", o.dms_sent, `${o.messages_sent} messages across them`) + cell("Follow-ups due", o.follow_ups_due, "24 h passed, no reply", o.follow_ups_due ? "ot-stat-warn" : "") + cell("Replies", o.replies, `${pct(o.reply_rate)} reply rate`) + cell("Positive / negative", `${o.positive} / ${o.negative}`, "Marked by you") + cell("Ghosted", o.ghosted, `${pct(o.ghost_rate)} ghost rate · 4 touches, silence`) + cell("Appointments booked", p.appointments_booked, "All sections") + cell("Close rate", pct(p.close_rate), "Closed / booked") + cell("Open rate", o.seen_available ? pct(o.open_rate) : "n/a", o.seen_available ? `${o.left_on_read} left on read` : "Needs Meta read receipts. Not available yet.", "ot-stat-muted");
+        : cell("DMs sent", o.dms_sent, `${o.messages_sent} messages across them`) + cell("Follow-ups due", o.follow_ups_due, "24 h passed, no reply", o.follow_ups_due ? "ot-stat-warn" : "") + cell("Replies", o.replies, `${pct(o.reply_rate)} reply rate`) + cell("Positive / negative", `${o.positive} / ${o.negative}`, "Marked by you") + cell("Ghosted", o.ghosted, `${pct(o.ghost_rate)} ghost rate · 4 touches, silence`) + cell("Appointments booked", p.appointments_booked, "All sections") + cell("Close rate", pct(p.close_rate), "Closed / booked") + cell("Open rate", o.seen_available ? pct(o.open_rate) : "n/a", o.seen_available ? `${o.left_on_read} latest DMs left on read - recorded receipts / sent threads` : "No read receipt received yet", "ot-stat-muted");
     }
 
     function bucket(t) {
@@ -115,16 +115,18 @@
         ${contact.row(t,{attribute:"data-toggle",expanded:open.has(t.id),stage:t.stage_label,detail:timerLine})}
         <div class="ot-detail" ${open.has(t.id) ? "" : "hidden"}>
           <div class="ot-thread" data-thread="${esc(t.id)}">${threadCache.get(t.id) || messagesSkeleton()}</div>
+          ${t.booking_evidence && !t.outcome ? `<div class="ps-card"><strong>Possible appointment: ${esc(t.booking_evidence.kind)}</strong><p>${esc(t.booking_evidence.text)}</p><small>Detected from the conversation. Confirm Booked below when agreed.</small></div>` : ""}
+          <p class="int-note">${t.latest_message_seen ? 'Latest DM seen' : t.seen_at ? 'Earlier DM seen; latest receipt pending' : 'No read receipt yet'}${t.seen_at ? ' - '+esc(stamp(t.seen_at)) : ''}</p>
           <div class="ot-actions">
             <span class="ot-actions-label">Reply</span>
             <button class="ps-control ${t.sentiment === "positive" ? "active" : ""}" data-id="${esc(t.id)}" data-act="sentiment:${t.sentiment === "positive" ? "clear" : "positive"}">Positive</button>
             <button class="ps-control ${t.sentiment === "negative" ? "active" : ""}" data-id="${esc(t.id)}" data-act="sentiment:${t.sentiment === "negative" ? "clear" : "negative"}">Negative</button>
-            <span class="ot-actions-label">Outcome</span>
+            <span class="ot-actions-label">Outcome</span><button class="ps-control" data-id="${esc(t.id)}" data-act="review-booking">AI booking review</button>
             <button class="ps-control ${t.outcome === "booked" ? "active" : ""}" data-id="${esc(t.id)}" data-act="outcome:${t.outcome === "booked" ? "clear" : "booked"}">Booked</button>
             <button class="ps-control ${t.outcome === "closed" ? "active" : ""}" data-id="${esc(t.id)}" data-act="outcome:${t.outcome === "closed" ? "clear" : "closed"}">Closed</button>
             <button class="ps-control ${t.outcome === "lost" ? "active" : ""}" data-id="${esc(t.id)}" data-act="outcome:${t.outcome === "lost" ? "clear" : "lost"}">Lost</button>
             <span style="flex:1"></span>
-            ${t.hibernated_at ? `<button class="ps-control" data-id="${esc(t.id)}" data-act="wake">Wake up</button>` : `<button class="ps-control" data-id="${esc(t.id)}" data-act="hibernate">Hibernate</button>`}
+            ${t.hibernated_at ? `<button class="ps-control" data-id="${esc(t.id)}" data-act="wake">Restore prospect</button>` : `<button class="ps-control" data-id="${esc(t.id)}" data-act="hibernate">Drop prospect</button>`}
             ${t.handle ? `<a class="ps-control" href="https://instagram.com/${encodeURIComponent(t.handle)}" target="_blank" rel="noopener">Open on Instagram</a>` : ""}
           </div>
 
@@ -154,7 +156,7 @@
       el.classList.toggle("open", open.has(id));
       el.querySelector(".ot-detail").hidden = !open.has(id);
       el.querySelector("[data-toggle]").setAttribute("aria-expanded", String(open.has(id)));
-      el.querySelector(".ot-chevron").textContent = open.has(id) ? "−" : "+";
+      const chevron=el.querySelector(".contact-chevron, .ot-chevron"); if(chevron)chevron.innerHTML=PulsifyShell.icon(open.has(id)?"chevron-down":"chevron-right");
       if (open.has(id)) fillThread(id);
     }
 
@@ -162,7 +164,9 @@
       PulsifyShell.pending(button);
       button.parentElement.querySelector(".ps-inline-error")?.remove();
       try {
-        const { thread } = await api("/api/outreach", { method: "POST", body: JSON.stringify({ id, action, ...extra }) });
+        const result = await api("/api/outreach", { method: "POST", body: JSON.stringify({ id, action, ...extra }) });
+        if(action==='review-booking'){const review=result.review;const card=button.closest('.ot-detail');let panel=card.querySelector('[data-booking-review]');if(!panel){panel=document.createElement('div');panel.className='ps-card';panel.dataset.bookingReview='1';card.prepend(panel);}panel.innerHTML=`<strong>${esc(review.kind||'No appointment evidence found')}</strong><p>${esc(review.text||review.reason||'')}</p><small>${review.source==='ai'?'AI review with matching conversation evidence':'Keyword review; AI unavailable'}. Confirm Booked only when the appointment is agreed.</small>`;return;}
+        const {thread}=result;
         const idx = data.threads.findIndex((t) => t.id === id);
         if (idx >= 0) data.threads[idx] = thread;
         warm.clear();

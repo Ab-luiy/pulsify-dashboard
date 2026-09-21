@@ -1,6 +1,7 @@
 // Instagram inbox for the operator Leads view.
 //   GET /api/spine/conversations?q=&unmatched=1     threads, newest first, with in_crm flag
 //   GET /api/spine/conversations?id=<thread>        one thread with its messages
+import { prospectCutoff } from "../../_shared/prospect-policy.js";
 import { withOperator } from "../../_shared/access.js";
 import { json, parseJson, str } from "../../_shared/common.js";
 import { resolveSpineRead } from "../../_shared/spine-auth.js";
@@ -25,6 +26,7 @@ async function handleGet({ request, env }) {
        WHERE o.name=COALESCE(NULLIF(c.participant_username,''),NULLIF(c.participant_id,''),c.participant_name)
     )`;
   const where = [
+    "c.last_message_at>=?",
     unmatched ? `NOT (${inCrm})` : null,
     like ? `(LOWER(COALESCE(c.participant_username,'')) LIKE ? ESCAPE '\\' OR LOWER(COALESCE(c.participant_name,'')) LIKE ? ESCAPE '\\')` : null,
   ].filter(Boolean);
@@ -37,7 +39,7 @@ async function handleGet({ request, env }) {
        FROM ig_conversations c
        ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
       ORDER BY c.last_message_at DESC LIMIT 200`,
-  ).bind(...(like ? [like, like] : [])).all();
+  ).bind(prospectCutoff(), ...(like ? [like, like] : [])).all();
   return json({
     ok: true,
     conversations: (rows.results || []).map((row) => ({

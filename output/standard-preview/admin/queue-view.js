@@ -37,10 +37,10 @@
 
     root.innerHTML = `
       <div class="qv-head">
-        <div><h1>Today</h1><p class="ps-subtitle">${esc(today())}. Follow-ups first, then new openers. Copy the text, send it from your phone, mark it sent.</p></div>
+        <div><h1>Today</h1><p class="ps-subtitle">${esc(today())}. Recent conversations only (last two months). Replies and follow-ups first, then approved openers. Copy the text, send it from your phone, mark it sent.</p></div>
         <div class="qv-counters" id="qv-counters">${threads || queue ? "" : counterSkeleton()}</div>
       </div>
-      <section class="qv-section" id="qv-followups"><h2>Follow ups due <span></span><small>24 hours have passed since your last message</small></h2><div class="qv-list">${threads ? "" : followSkeleton()}</div></section>
+      <section class="qv-section" id="qv-followups"><h2>Replies and follow-ups <span></span><small>Reply to them, or follow up after 24 hours</small></h2><div class="qv-list">${threads ? "" : followSkeleton()}</div></section>
       <section class="qv-section" id="qv-openers"><h2>Openers <span></span><small>Ready drafts. Edit, copy, send, mark sent.</small></h2><div class="qv-list">${queue ? "" : openerSkeleton()}</div></section>
       <section class="qv-section" id="qv-add"><h2>Add to today<small>Pick from the candidates or add someone by hand</small></h2><div class="qv-list">${queue ? "" : candidateSkeleton()}</div></section>
       <p class="qv-keys" id="qv-keys">Keys: j and k move, Enter opens, c copies the draft, s marks it sent.</p>`;
@@ -52,12 +52,12 @@
       if (disposed || !root.isConnected) return;
       const current = ++seq;
       const jobs = [];
-      if (what !== "queue") jobs.push(api("/api/outreach").then((d) => { if (disposed || current !== seq) return; threads = d.threads || []; warmThreads=threads;threadsError = null; }).catch((e) => { if (disposed || current !== seq) return; threadsError = e; }).then(() => { if (!disposed && current === seq) { drawFollowups(); drawCounters(); } }));
+      if (what !== "queue") jobs.push(api("/api/outreach?period=recent").then((d) => { if (disposed || current !== seq) return; threads = d.threads || []; warmThreads=threads;threadsError = null; }).catch((e) => { if (disposed || current !== seq) return; threadsError = e; }).then(() => { if (!disposed && current === seq) { drawFollowups(); drawCounters(); } }));
       if (what !== "threads") jobs.push(api("/api/outreach-queue?view=today").then((d) => { if (disposed || current !== seq) return; queue = d;warmQueue=queue;queueError = null; }).catch((e) => { if (disposed || current !== seq) return; queueError = e; }).then(() => { if (!disposed && current === seq) { drawOpeners(); drawAdd(); drawCounters(); } }));
       await Promise.all(jobs);
     }
 
-    const due = () => (threads || []).filter((t) => t.follow_up_due).sort((a, b) => (b.hours_since_our_message || 0) - (a.hours_since_our_message || 0));
+    const due = () => (threads || []).filter((t) => (t.follow_up_due || t.awaiting_us) && !t.outcome && !t.hibernated_at && t.stage !== "hibernating").sort((a, b) => (b.hours_since_our_message || 0) - (a.hours_since_our_message || 0));
     const queued = () => (queue?.queued || []).filter((r) => r.status === "queued").sort((a, b) => (a.position ?? 0) - (b.position ?? 0));
     const done = () => (queue?.queued || []).filter((r) => r.status !== "queued");
 
@@ -66,7 +66,7 @@
       const dueCount = threads ? due().length : null;
       const cap = queue?.cap ?? 25, sent = queue?.sent_today ?? 0, left = Math.max(0, cap - sent);
       $("#qv-counters").innerHTML = `
-        <div class="qv-counter ${dueCount ? "warn" : ""}"><small>Follow-ups due</small>${dueCount === null ? '<div class="skeleton qv-sk-num"></div>' : `<b>${dueCount}</b>`}<small>${dueCount === null ? "Loading" : dueCount === 1 ? "One person waiting on you" : dueCount ? "People waiting on you" : "Nobody waiting on you"}</small></div>
+        <div class="qv-counter ${dueCount ? "warn" : ""}"><small>Actions due</small>${dueCount === null ? '<div class="skeleton qv-sk-num"></div>' : `<b>${dueCount}</b>`}<small>${dueCount === null ? "Loading" : dueCount === 1 ? "One person waiting on you" : dueCount ? "People waiting on you" : "Nobody waiting on you"}</small></div>
         <div class="qv-counter"><small>Openers left today</small>${queue ? `<b>${left}<em> of ${cap}</em></b>` : '<div class="skeleton qv-sk-num"></div>'}<small>${queue ? `${sent} sent so far` : "Loading"}</small></div>`;
     }
 

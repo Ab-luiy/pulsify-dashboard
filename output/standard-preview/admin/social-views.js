@@ -98,10 +98,12 @@
   const pill = (ok, label) => `<span class="int-pill ${ok ? "int-pill-ok" : "int-pill-warn"}">${esc(label)}</span>`;
   const asOf = (iso) => (iso ? `<p class="sv-asof int-note">Data as of ${esc(stamp(iso))} (Istanbul)</p>` : "");
   function media(item, alt) {
-    const uri = item.thumbnailDataUri || item.thumbnail_url || item.media_url || "";
+    const direct = item.thumbnailDataUri || item.thumbnail_url || item.thumbnailUrl || item.thumbnail || item.media_url || "";
+    const key=item.id||item.permalink;
+    const uri=direct&&/^data:image\//.test(direct)?direct:key?'/api/spine/instagram-image?id='+encodeURIComponent(key):direct;
     if (!uri) return `<span class="sv-thumb sv-thumb-empty">${PulsifyShell.icon("image")}</span>`;
     if (uri.startsWith("data:video") || /\.mp4(\?|$)/.test(uri)) return `<video class="sv-thumb" src="${esc(uri)}" muted playsinline preload="auto" aria-label="${esc(alt)}"></video>`;
-    return `<img class="sv-thumb" src="${esc(uri)}" alt="${esc(alt)}" loading="lazy">`;
+    return `<img class="sv-thumb" src="${esc(uri)}" alt="${esc(alt)}" loading="lazy" referrerpolicy="no-referrer" data-media-fallback>`;
   }
   const link = (href, inner, cls = "") => (href ? `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener">${inner}</a>` : `<span class="${cls}">${inner}</span>`);
 
@@ -119,6 +121,7 @@
         return;
       }
       body.innerHTML = draw(data);
+      body.querySelectorAll('[data-media-fallback]').forEach(img=>{img.addEventListener('error',()=>{const fallback=document.createElement('span');fallback.className='sv-thumb sv-thumb-empty';fallback.innerHTML=PulsifyShell.icon('image');fallback.title='Preview unavailable. Open the post on Instagram.';img.replaceWith(fallback);},{once:true});});
       body.querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => window.PulsifyOperatorShell?.go(b.dataset.go)));
     }
     async function load() {
@@ -150,7 +153,11 @@
   // audience (countries and age), cadence notes.
   function drawInstagram({ kinds, metrics, capturedAt }) {
     const p = kinds.profile || {}, a = kinds.account || {}, c = kinds.content || {}, cad = kinds.cadence || {}, aud = kinds.audience || {};
-    const reels = Array.isArray(kinds.reels) ? kinds.reels : [], posts = Array.isArray(kinds.posts) ? kinds.posts : [], stories = Array.isArray(kinds.stories) ? kinds.stories : [];
+    const current = Array.isArray(kinds.media) ? kinds.media : [];
+    const merge = (old, fresh) => {const map=new Map((Array.isArray(old)?old:[]).map(x=>[x.id||x.permalink,x]));for(const x of fresh){const key=x.id||x.permalink;map.set(key,{...map.get(key),...x});}return [...map.values()];};
+    const reels = merge(kinds.reels,current.filter(x=>x.media_product_type==='REELS'||x.media_type==='VIDEO'));
+    const posts = merge(kinds.posts,current.filter(x=>x.media_product_type!=='REELS'&&x.media_type!=='VIDEO'));
+    const stories = Array.isArray(kinds.stories) ? kinds.stories : [];
     const rs = kinds["reels-summary"] || {}, ps = kinds["posts-summary"] || {}, ss = kinds["stories-summary"] || {};
     const followers = latest(metrics.followers) ?? num(p.followers), mediaCount = latest(metrics.media_count) ?? num(p.mediaCount);
     const reach30 = latest(metrics.reach_30d) ?? num(a.reach30d), views30 = latest(metrics.views_30d) ?? num(a.views30d);
@@ -167,7 +174,7 @@
       { label: "Save rate", value: saveRate === null ? null : saveRate.toFixed(1) + "%", note: "Saves over reel reach" },
     ];
     const handle = p.username ? "@" + p.username : "";
-    const avatar = p.profilePicture ? `<img class="sv-avatar" src="${esc(p.profilePicture)}" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sv-avatar',textContent:'${esc((p.username || "?").slice(0, 2).toUpperCase())}'}))">` : `<span class="sv-avatar">${esc((p.username || "?").slice(0, 2).toUpperCase())}</span>`;
+    const avatar = p.profilePicture ? `<img class="sv-avatar" src="/api/spine/instagram-image?id=profile" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sv-avatar',textContent:'${esc((p.username || "?").slice(0, 2).toUpperCase())}'}))">` : `<span class="sv-avatar">${esc((p.username || "?").slice(0, 2).toUpperCase())}</span>`;
     const profile = Object.keys(p).length ? `<section class="sv-profile">${avatar}<div class="sv-profile-id"><div class="sv-profile-handle">${handle ? link("https://instagram.com/" + encodeURIComponent(p.username), esc(handle)) : "No handle in the last pull"}${p.accountType ? `<span class="int-pill">${esc(String(p.accountType).toLowerCase().replace(/_/g, " "))}</span>` : ""}</div>${p.biography ? `<p class="sv-bio">${esc(p.biography)}</p>` : ""}${p.website ? link(p.website, esc(String(p.website).replace(/^https?:\/\//, "")), "sv-site") : ""}</div></section>` : "";
 
     const reelCount = num(rs.count ?? c.reelsCount);

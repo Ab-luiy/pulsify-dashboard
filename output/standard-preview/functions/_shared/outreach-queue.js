@@ -4,6 +4,7 @@
 // carry an Instagram handle. Sent and replied are reconciled from the
 // Instagram inbox tables by handle, so the operator never has to mark a
 // DM sent by hand once Zernio has synced it.
+import { prospectCutoff } from "./prospect-policy.js";
 import { generateOpaqueToken, nowIso, parseJson, str } from "./common.js";
 import { composeDraft, gradeDraft, needsDetail } from "./dm-draft.js";
 
@@ -78,6 +79,7 @@ export async function candidates(env, { limit = 50 } = {}) {
     if (removed.has(row.name)) continue;
     const base = parseJson(row.data, {});
     const data = { ...base, ...(overrides.get(row.name) || {}) };
+    if (data.vetting !== "approved") continue;
     const stage = str(data.status || data.stage).toLowerCase();
     if (stage && stage !== "new-lead") continue;
     const src = str(data.src || data.source || data._source).toLowerCase();
@@ -97,6 +99,8 @@ export async function candidates(env, { limit = 50 } = {}) {
   const scored = [];
   for (const row of leads) {
     const payload = parseJson(row.payload_json, {});
+    const review = overrides.get(payload.n || payload.name) || {};
+    if (review.vetting !== "approved" || removed.has(payload.n || payload.name) || ["lost","archived","disqualified"].includes(review.status)) continue;
     const handle = extractInstagramHandle(payload);
     if (!handle) continue;
     const tier = str(row.tier || payload.tier);
@@ -262,6 +266,25 @@ function dayKey(iso, timeZone) {
   }
 }
 
+
+// Recheck existing queue entries too: dropping a prospect takes effect immediately.
+async function eligibleQueue(env, rows) {
+  const added = await all(env, "SELECT name,data FROM crm_added");
+  const overrides = new Map((await all(env,"SELECT name,data FROM crm_overrides")).map(r=>[r.name,parseJson(r.data,{})]));
+  const removed = new Set((await all(env,"SELECT name FROM crm_removed")).map(r=>r.name));
+  const leads = await all(env,"SELECT payload_json FROM yt_leads");
+  const approvals = new Set(), blocked = new Set();
+  const register=(name,base)=>{const r={...base,...overrides.get(name)},h=extractInstagramHandle({...r,handle:r.h||r.ig||r.handle});if(!h)return;
+    if(removed.has(name)||r.vetting==='dropped'||['lost','hibernating','archived','disqualified','not-fit'].includes(r.status||r.stage))blocked.add(h);
+    else if(r.vetting==='approved')approvals.add(h);
+  };
+  for(const r of added)register(r.name,parseJson(r.data,{}));
+  for(const r of leads){const p=parseJson(r.payload_json,{});register(p.n||p.name,p);}
+  const parked=await all(env,"SELECT c.participant_username AS handle FROM ig_conversations c JOIN ig_outreach o ON o.conversation_id=c.id WHERE o.hibernated_at IS NOT NULL OR o.outcome IN ('lost','closed','booked')");
+  for(const r of parked)blocked.add(normalizeHandle(r.handle));
+  return rows.filter(r=>!blocked.has(r.handle)&&(r.source==='manual'||approvals.has(r.handle)));
+}
+
 // The queue as the Today view reads it. Follow-ups come from /api/outreach,
 // so follow_ups_note stays null here; the frontend merges the two.
 export async function listToday(env, { cap = DEFAULT_CAP, now = nowIso() } = {}) {
@@ -271,12 +294,12 @@ export async function listToday(env, { cap = DEFAULT_CAP, now = nowIso() } = {})
   const recent = await all(env, "SELECT sent_at FROM outreach_queue WHERE status IN ('sent','replied') AND sent_at IS NOT NULL AND sent_at>=?", new Date(Date.parse(now) - 48 * 3600000).toISOString());
   const sentToday = recent.filter((r) => dayKey(r.sent_at, timeZone) === today).length;
   const remaining = Math.max(0, limit - sentToday);
-  const rows = await all(env, "SELECT * FROM outreach_queue WHERE status='queued' ORDER BY position ASC, created_at ASC LIMIT ?", limit);
-  const total = await env.DB.prepare("SELECT COUNT(*) AS n FROM outreach_queue WHERE status='queued'").first();
+  const rows = await all(env, "SELECT * FROM outreach_queue WHERE status='queued' AND updated_at>=? ORDER BY position ASC, created_at ASC LIMIT ?", prospectCutoff("recent", Date.parse(now)), 5000);
+  const eligible = await eligibleQueue(env, rows);
   return {
     follow_ups_note: null,
-    queued: rows.map(presentItem),
-    queued_total: Number(total?.n || 0),
+    queued: eligible.slice(0, limit).map(presentItem),
+    queued_total: eligible.length,
     sent_today: sentToday,
     remaining,
     cap: limit,

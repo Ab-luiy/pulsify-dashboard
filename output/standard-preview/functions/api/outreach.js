@@ -8,6 +8,7 @@ import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { deriveThread, loadThreads, logEvent, stats, upsertOutreach } from "../_shared/outreach.js";
 import { pushOperator } from "../_shared/realtime.js";
+import { reviewBooking } from "../_shared/booking-review.js";
 
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);
@@ -21,10 +22,10 @@ async function handleGet({ request, env }) {
          FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
     ).bind(id).first();
     if (!conversation) return json({ ok: false, error: "thread not found" }, 404);
-    const messages = (await env.DB.prepare("SELECT id, direction, sent_at, text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC LIMIT 1000").bind(id).all()).results || [];
+    const messages = (await env.DB.prepare("SELECT id, direction, sent_at, text, payload_json FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC LIMIT 1000").bind(id).all()).results || [];
     return json({ ok: true, thread: deriveThread(conversation, messages, conversation), messages });
   }
-  const threads = await loadThreads(env, { q: url.searchParams.get("q") || "" });
+  const threads = await loadThreads(env, { q: url.searchParams.get("q") || "", period: url.searchParams.get("period") === "recent" ? "recent" : "year" });
   const events = (await env.DB.prepare("SELECT id, conversation_id, kind, handle, name, text, created_at, delivered_at FROM ig_outreach_events ORDER BY created_at DESC LIMIT 30").all().catch(() => ({ results: [] }))).results || [];
   return json({ ok: true, threads, stats: stats(threads), events, timezone: env.OPERATOR_TIMEZONE || "Europe/Istanbul", generated_at: new Date().toISOString() });
 }
@@ -41,6 +42,12 @@ async function handlePost({ request, env }) {
   if (!conversation) return json({ ok: false, error: "thread not found" }, 404);
   const actor = denied.operatorEmail;
   const meta = { conversationId: id, handle: conversation.participant_username, name: conversation.participant_name };
+
+  if (action === 'review-booking') {
+    const messages = (await env.DB.prepare('SELECT direction,sent_at,text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at DESC LIMIT 80').bind(id).all()).results || [];
+    try { return json({ok:true,review:await reviewBooking(env,messages.reverse())}); }
+    catch { return json({ok:false,error:'Booking review unavailable. Try again.'},502); }
+  }
 
   if (action.startsWith("sentiment:")) {
     const value = action.slice(10);
@@ -65,7 +72,7 @@ async function handlePost({ request, env }) {
     `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
   ).bind(id).first();
-  const messages = (await env.DB.prepare("SELECT direction, sent_at, text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC").bind(id).all()).results || [];
+  const messages = (await env.DB.prepare("SELECT direction, sent_at, text, payload_json FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC").bind(id).all()).results || [];
   await pushOperator(env, "tracker.changed", { conversation_id: id, reason: action.split(":")[0] });
   return json({ ok: true, thread: deriveThread(row, messages, row) });
 }
