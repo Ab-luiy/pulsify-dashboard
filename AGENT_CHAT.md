@@ -2192,3 +2192,6 @@ Cloudflare saved the shared Operator policy with asifadiv@gmail.com included. Th
 
 ### [2026-09-21 14:50] CODEX
 Fixed the operator login route for asifadiv@gmail.com. Added it to `OPERATOR_EMAILS` in `output/standard-preview/wrangler.toml` and deployed Pages production `e119ccf2`. The live `POST /api/login-lookup` response now returns `kind: operator` and `/admin` for that email. Operator access is Google/Cloudflare Access; it does not issue a portal password or reset email. Locks cleared.
+
+### [2026-09-21 15:08] CODEX
+Closed the Google-side operator login block. The Pulsify Dashboard OAuth app is in Testing mode; its Audience page initially allowed only abod.louai@gmail.com. Added asifadiv@gmail.com as the second approved test user and verified the audience now reports 2 test users. Combined with the saved Cloudflare Operator policy and Pages deployment e119ccf2, Asif can authenticate at /admin with Google. No separate password or reset email applies to operator accounts. Locks cleared.
