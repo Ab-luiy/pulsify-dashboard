@@ -1,0 +1,115 @@
+/* Acquisition pages. Tokens come from shared/shell.css; this file only shapes the rows, the queue table and the activity dialog. */
+.cp-head{flex-wrap:wrap}
+.cp-head .ps-subtitle{margin-bottom:0;max-width:64ch}
+.cp-head-actions{display:flex;gap:8px;flex:none}
+.cp-kpis{margin:0 0 20px}
+.cp-tabs{margin-bottom:16px}
+.cp-body{min-width:0}
+.cp-main[hidden]{display:none}
+/* Toolbar: filter chips left, sort or count right */
+.cp-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 14px}
+.cp-filters{padding:0;border:0;flex-wrap:wrap}
+.cp-toggles{display:flex;gap:16px;flex-wrap:wrap}
+.cp-toggle{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:hsl(var(--muted-foreground));cursor:pointer}
+.cp-toggle input{width:16px;height:16px;margin:0;accent-color:hsl(var(--primary))}
+/* Page rows: one bordered list, contact-row anatomy */
+.cp-list{border:1px solid hsl(var(--border));border-radius:12px;background:hsl(var(--card));box-shadow:var(--shadow-elev-1);overflow:hidden}
+.cp-list:has(>.ps-surface-empty){border:0;box-shadow:none;background:transparent;overflow:visible}
+.cp-row{display:grid;grid-template-columns:40px minmax(150px,1.3fr) minmax(150px,.9fr) repeat(3,minmax(96px,.65fr)) minmax(80px,.5fr) minmax(0,auto);align-items:center;gap:16px;padding:16px 20px;border-bottom:1px solid hsl(var(--border)/.7);transition:background-color var(--dur) var(--ease)}
+.cp-row:last-child{border-bottom:0}
+.cp-row:hover{background:hsl(var(--card-raised))}
+.cp-row.is-inactive .cp-page strong,.cp-row.is-inactive .cp-metric b{color:hsl(var(--muted-foreground))}
+.cp-avatar{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:hsl(var(--muted));color:hsl(var(--muted-foreground));font:600 12px Inter,system-ui;letter-spacing:.02em}
+.cp-page,.cp-metric,.cp-when{display:grid;gap:4px;min-width:0}
+.cp-page strong{font:600 14px/20px Inter,system-ui;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-page small,.cp-when small{font-size:12px;line-height:16px;color:hsl(var(--muted-foreground));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cp-metric small{font-size:12px;line-height:15px;color:hsl(var(--muted-foreground));display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cp-pills{display:flex;gap:6px;flex-wrap:wrap;min-width:0}
+.cp-metric b{font:500 18px/22px Inter,system-ui;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cp-when time{font-size:13px;font-variant-numeric:tabular-nums}
+.cp-track{display:block;height:3px;border-radius:2px;background:hsl(var(--muted));overflow:hidden;margin-top:2px}
+.cp-track i{display:block;height:100%;background:hsl(var(--primary));border-radius:2px;transition:width var(--dur) var(--ease)}
+.cp-actions{justify-content:flex-end;flex-wrap:nowrap;justify-self:end}
+.cp-actions .ps-control{min-height:32px;padding:5px 10px;font-size:12.5px}
+.cp-copied{color:hsl(var(--primary))}
+/* Skeleton rows keep the finished row's grid */
+.cp-loading{pointer-events:none}
+.cp-row-skeleton{min-height:73px}
+.cp-row-skeleton i{display:block;height:10px;width:80%;border-radius:4px}
+.cp-row-skeleton i+i{width:55%;height:8px}
+.cp-row-skeleton .cp-pills i{width:64px;height:20px;border-radius:999px}
+/* Queue and links tables share the shell table rules */
+.cp-table td strong{display:block;font-weight:600}
+.cp-table td small{display:block;color:hsl(var(--muted-foreground));font-size:11px;margin-top:2px}
+.cp-table .int-pill+small{margin-top:5px}
+.cp-link{color:hsl(var(--foreground));text-decoration:none;border-bottom:1px solid hsl(var(--border));transition:border-color var(--dur) var(--ease)}
+.cp-link:hover{border-color:hsl(var(--foreground))}
+.cp-destination{display:inline-block;max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:bottom}
+.cp-watch{display:grid;gap:3px;min-width:96px}
+.cp-watch>span{font-variant-numeric:tabular-nums}
+.cp-watch small{color:hsl(var(--muted-foreground));font-size:11px}
+/* Tracked link form */
+.cp-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) minmax(0,.8fr) auto;gap:12px;align-items:end;padding:18px;margin-bottom:20px;border:1px solid hsl(var(--border));border-radius:12px;background:hsl(var(--card));box-shadow:var(--shadow-elev-1)}
+.cp-form-head{grid-column:1/-1;display:grid;gap:3px}
+.cp-form-head strong{font:500 15px Inter,system-ui}
+.cp-form-head small{color:hsl(var(--muted-foreground));font-size:12.5px}
+.cp-field{display:grid;gap:6px;min-width:0;font:var(--text-label) Inter,system-ui;color:hsl(var(--muted-foreground))}
+.cp-field .ps-input{width:100%}
+.cp-submit .ps-button{width:100%;white-space:nowrap}
+.cp-form-feedback{grid-column:1/-1}.cp-form-feedback:empty{display:none}.cp-form-feedback .ps-inline-error,.cp-form-feedback p{margin:0}
+.cp-result{display:grid;gap:8px;padding:14px;border:1px solid hsl(var(--primary)/.35);border-radius:10px;background:hsl(var(--primary)/.06)}
+.cp-result strong{font:500 13px Inter,system-ui}
+.cp-result-row{display:flex;gap:8px;align-items:center}
+.cp-result-row .ps-input{flex:1;height:36px;font-size:13px}
+/* Setup hand-off frame */
+.cp-frame-bar{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.cp-frame{height:calc(100dvh - 148px);border:1px solid hsl(var(--border));border-radius:12px}
+/* Activity dialog */
+.cp-activity{width:min(780px,calc(100vw - 32px))}
+.cp-activity-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.cp-activity-head h2{margin:0 0 4px;font:var(--text-h2) Inter,system-ui}
+.cp-activity-kpis{margin:0 0 16px}
+.cp-activity-kpis .ps-kpi{min-height:0;padding:14px 16px}
+.cp-activity-kpis .ps-kpi b{font-size:22px;margin:8px 0 4px}
+.cp-viewers{display:grid;gap:10px;max-height:52vh;overflow:auto;padding:2px}
+.cp-viewer{border:1px solid hsl(var(--border));border-radius:10px;padding:14px 16px;background:hsl(var(--background))}
+.cp-viewer-skeleton{display:grid;gap:10px;min-height:88px}
+.cp-viewer-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.cp-viewer-head strong{display:block;font:600 14px Inter,system-ui;overflow-wrap:anywhere}
+.cp-viewer-head small{color:hsl(var(--muted-foreground));font-size:11px}
+.cp-viewer-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px 16px;margin:0}
+.cp-viewer-metrics div{min-width:0}
+.cp-viewer-metrics dt{font:var(--text-label) Inter,system-ui;color:hsl(var(--muted-foreground));text-transform:uppercase;letter-spacing:.06em}
+.cp-viewer-metrics dd{margin:3px 0 0;font-size:13px;font-variant-numeric:tabular-nums;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* Narrow desktop: the row drops the attributed and applications columns into the page cell. */
+@media(max-width:1200px){
+ .cp-row{grid-template-columns:40px minmax(150px,1.4fr) minmax(140px,.9fr) repeat(2,minmax(84px,.6fr)) auto;gap:14px}
+ .cp-row>.cp-metric:nth-of-type(3),.cp-row .cp-when{display:none}
+ .cp-form{grid-template-columns:repeat(2,minmax(0,1fr))}.cp-submit{grid-column:1/-1}
+}
+/* Phones: rows become cards, actions wrap under them. */
+@media(max-width:700px){
+ .cp-head-actions{width:100%}.cp-head-actions>*{flex:1}
+ .cp-kpis{margin-bottom:16px}
+ .cp-row{grid-template-columns:36px minmax(0,1fr);grid-template-rows:auto;gap:8px 12px;padding:14px 14px 12px}
+ .cp-avatar{width:36px;height:36px;grid-row:1}
+ .cp-page{grid-column:2}
+ .cp-pills{grid-column:2}
+ .cp-row .cp-metric,.cp-row .cp-when{display:grid;grid-column:2}
+ .cp-row .cp-when{grid-template-columns:auto 1fr;align-items:baseline;gap:6px}
+ .cp-row .cp-metric{grid-template-columns:auto 1fr;align-items:baseline;gap:2px 8px}
+ .cp-row .cp-metric b{font-size:15px}
+ .cp-row .cp-metric .cp-track{grid-column:1/-1}
+ .cp-actions{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap;margin-top:4px}
+ .cp-actions .ps-control{flex:1 1 auto}
+ .cp-row-skeleton{min-height:150px}
+ .cp-form{grid-template-columns:1fr;padding:14px}.cp-submit>span{display:none}
+ .cp-toolbar{align-items:flex-start;flex-direction:column}
+ .cp-destination{max-width:180px}
+ .cp-frame{height:calc(100dvh - 170px)}
+ .cp-activity-head{flex-direction:column}
+ .cp-activity-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cp-viewer-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .cp-viewers{max-height:none}
+}
+@media(prefers-reduced-motion:reduce){.cp-row,.cp-track i,.cp-link{transition:none!important}}

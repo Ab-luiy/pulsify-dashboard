@@ -20,6 +20,7 @@
   if(id==='outreach'&&window.PulsifyOutreachView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyOutreachView.render(holder);return;}
   if(id==='leads'&&window.PulsifyLeadsView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyLeadsView.render(holder,{});return;}
   if(id==='delivery'&&window.PulsifyDeliveryView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyDeliveryView.render(holder,{clients:bootstrap?.clients||[]});return;}
+  if(id==='campaigns'&&window.PulsifyCampaignsView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyCampaignsView.render(holder,{clients:bootstrap?.clients||[]});return;}
   if(id==='content'&&window.PulsifyContentView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyContentView.render(holder);return;}
   if(id==='metrics')id='youtube';
   if(id==='instagram'&&window.PulsifyInstagramView){const holder=document.createElement('div');owned.replaceChildren(holder);cleanup=PulsifyInstagramView.render(holder);return;}
