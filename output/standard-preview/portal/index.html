@@ -2,45 +2,45 @@
 <html lang="en">
 <head>
 <script>try{const theme=localStorage.getItem("theme")||"dark";document.documentElement.dataset.theme=theme==="light"||(theme==="system"&&!matchMedia("(prefers-color-scheme: dark)").matches)?"light":"dark"}catch{document.documentElement.dataset.theme="dark"}</script>
-<script src="/shared/theme.js?v=9c40129"></script>
+<script src="/shared/theme.js?v=3c2559d"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pulsify client dashboard</title>
   <link rel="preload" href="/shared/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/shared/pulsify-ui.css?v=9c40129">
-  <link rel="stylesheet" href="/portal/legacy.css?v=9c40129">
-  <link rel="stylesheet" href="/portal/studio-app.css?v=9c40129">
-<link rel="stylesheet" href="/portal/journeys.css?v=9c40129">
-<link rel="stylesheet" href="/portal/workspace-shell.css?v=9c40129">
-<link rel="stylesheet" href="/shared/shell.css?v=9c40129">
-<link rel="stylesheet" href="/portal/phase1.css?v=9c40129">
-<link rel="stylesheet" href="/shared/integrations-view.css?v=9c40129">
-<link rel="stylesheet" href="/shared/command-palette.css?v=9c40129">
-<link rel="stylesheet" href="/shared/surface.css?v=9c40129"><style>
+  <link rel="stylesheet" href="/shared/pulsify-ui.css?v=3c2559d">
+  <link rel="stylesheet" href="/portal/legacy.css?v=3c2559d">
+  <link rel="stylesheet" href="/portal/studio-app.css?v=3c2559d">
+<link rel="stylesheet" href="/portal/journeys.css?v=3c2559d">
+<link rel="stylesheet" href="/portal/workspace-shell.css?v=3c2559d">
+<link rel="stylesheet" href="/shared/shell.css?v=3c2559d">
+<link rel="stylesheet" href="/portal/phase1.css?v=3c2559d">
+<link rel="stylesheet" href="/shared/integrations-view.css?v=3c2559d">
+<link rel="stylesheet" href="/shared/command-palette.css?v=3c2559d">
+<link rel="stylesheet" href="/shared/surface.css?v=3c2559d"><style>
   .ps-boot{position:fixed;inset:0;z-index:2000;display:grid;grid-template-columns:254px 1fr;background:hsl(var(--background));color:hsl(var(--foreground));font-family:Inter,system-ui,sans-serif}.ps-boot~*:not(script){visibility:hidden!important}
   .ps-boot-side{border-right:1px solid hsl(var(--border));padding:24px}.ps-boot-side strong{font-size:15px}.ps-boot-side i{display:block;width:76%;height:34px;margin-top:34px;border-radius:7px;background:hsl(var(--muted))}
   .ps-boot-main{padding:72px 32px}.ps-boot-main small{color:hsl(var(--primary));font-size:12px;font-weight:700;letter-spacing:.08em}.ps-boot-main h1{font-size:28px;line-height:36px;letter-spacing:-.025em;font-weight:500;margin:12px 0 8px}.ps-boot-main p{color:hsl(var(--muted-foreground));margin:0 0 34px}.ps-boot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:hsl(var(--border));border:1px solid hsl(var(--border));border-radius:12px;overflow:hidden}.ps-boot-grid i{display:block;height:156px;background:hsl(var(--card))}
   @media(max-width:700px){.ps-boot{display:block}.ps-boot-side{display:none}.ps-boot-main{padding:72px 16px}.ps-boot-grid{grid-template-columns:1fr}.ps-boot-grid i:not(:first-child){display:none}}
   html[data-theme=light] .ps-boot{background:#faf9f7;color:#1f1f1f}html[data-theme=light] .ps-boot-side{border-color:#e3e0da}html[data-theme=light] .ps-boot-side i{background:#eeece7}html[data-theme=light] .ps-boot-main small{color:#198a5a}html[data-theme=light] .ps-boot-main p{color:#6e6a63}html[data-theme=light] .ps-boot-grid{background:#e3e0da;border-color:#e3e0da}html[data-theme=light] .ps-boot-grid i{background:#fff}
-</style><script defer src="/portal/legacy.js?v=9c40129"></script>
-<script defer src="/portal/studio-app.js?v=9c40129"></script>
-<script defer src="/portal/journeys.js?v=9c40129"></script>
-<script defer src="/portal/composition.js?v=9c40129"></script>
-<script defer src="/portal/media-workspace.js?v=9c40129"></script>
-<script defer src="/portal/composition-editor.js?v=9c40129"></script>
-<script defer src="/portal/workspace-content.js?v=9c40129"></script>
-<script defer src="/portal/story-templates.js?v=9c40129"></script>
-<script defer src="/portal/thumbnail-designer.js?v=9c40129"></script>
-<script defer src="/shared/integrations-view.js?v=9c40129"></script>
-<script defer src="/shared/settings-view.js?v=9c40129"></script>
-<script defer src="/shared/realtime.js?v=9c40129"></script>
-<script defer src="/shared/notifications.js?v=9c40129"></script>
-<script defer src="/portal/workspace-shell.js?v=9c40129"></script>
-<script defer src="/shared/shell.js?v=9c40129"></script>
-<script defer src="/shared/command-palette.js?v=9c40129"></script>
-<script defer src="/shared/surface.js?v=9c40129"></script>
-<script defer src="/portal/surface.js?v=9c40129"></script>
-<script defer src="/portal/phase1.js?v=9c40129"></script>
+</style><script defer src="/portal/legacy.js?v=3c2559d"></script>
+<script defer src="/portal/studio-app.js?v=3c2559d"></script>
+<script defer src="/portal/journeys.js?v=3c2559d"></script>
+<script defer src="/portal/composition.js?v=3c2559d"></script>
+<script defer src="/portal/media-workspace.js?v=3c2559d"></script>
+<script defer src="/portal/composition-editor.js?v=3c2559d"></script>
+<script defer src="/portal/workspace-content.js?v=3c2559d"></script>
+<script defer src="/portal/story-templates.js?v=3c2559d"></script>
+<script defer src="/portal/thumbnail-designer.js?v=3c2559d"></script>
+<script defer src="/shared/integrations-view.js?v=3c2559d"></script>
+<script defer src="/shared/settings-view.js?v=3c2559d"></script>
+<script defer src="/shared/realtime.js?v=3c2559d"></script>
+<script defer src="/shared/notifications.js?v=3c2559d"></script>
+<script defer src="/portal/workspace-shell.js?v=3c2559d"></script>
+<script defer src="/shared/shell.js?v=3c2559d"></script>
+<script defer src="/shared/command-palette.js?v=3c2559d"></script>
+<script defer src="/shared/surface.js?v=3c2559d"></script>
+<script defer src="/portal/surface.js?v=3c2559d"></script>
+<script defer src="/portal/phase1.js?v=3c2559d"></script>
 </head>
 <body>
   <div class="ps-boot" aria-label="Loading your workspace"><aside class="ps-boot-side"><strong>Pulsify</strong><i></i><i></i><i></i></aside><main class="ps-boot-main"><small>OVERVIEW</small><h1>Your workspace</h1><p>Loading your work and recorded results.</p><div class="ps-boot-grid"><i></i><i></i><i></i><i></i></div></main></div>

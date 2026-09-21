@@ -1,19 +1,19 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script src="/shared/theme.js?v=9c40129"></script>
+  <script src="/shared/theme.js?v=3c2559d"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pulsify operator console</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/shared/pulsify-ui.css?v=9c40129">
-  <link rel="stylesheet" href="/admin/console.css?v=9c40129">
-<link rel="stylesheet" href="/portal/journeys.css?v=9c40129">
-<link rel="stylesheet" href="/admin/workspace.css?v=9c40129">
-<link rel="stylesheet" href="/shared/shell.css?v=9c40129">
-<link rel="stylesheet" href="/admin/phase1.css?v=9c40129">
+  <link rel="stylesheet" href="/shared/pulsify-ui.css?v=3c2559d">
+  <link rel="stylesheet" href="/admin/console.css?v=3c2559d">
+<link rel="stylesheet" href="/portal/journeys.css?v=3c2559d">
+<link rel="stylesheet" href="/admin/workspace.css?v=3c2559d">
+<link rel="stylesheet" href="/shared/shell.css?v=3c2559d">
+<link rel="stylesheet" href="/admin/phase1.css?v=3c2559d">
 <style>body{margin:0}#shell{display:block;min-height:0}.rail{display:none!important}#shell>.main{margin:0;padding:24px;max-width:none}.topbar{position:static}</style></head>
 <body>
   <section class="auth-screen" id="authScreen" hidden><div class="auth-card"><h1>Operator sign in</h1><p>Opening your workspace.</p><a class="button" id="unlockButton" href="/portal/login?operator=1">Sign in</a><div id="authMessage" role="alert" hidden></div><button id="authThemeButton" hidden>Theme</button></div></section>
@@ -1202,8 +1202,8 @@
 
   <div class="toast-region" id="toastRegion" aria-live="polite" aria-atomic="true"></div>
 
-  <script src="/js/provision-prompt.js?v=9c40129"></script>
-  <script src="/admin/console.js?v=9c40129"></script>
+  <script src="/js/provision-prompt.js?v=3c2559d"></script>
+  <script src="/admin/console.js?v=3c2559d"></script>
   
 <script>window.PulsifyOperator.navigate(new URLSearchParams(location.search).get("view")||"home");window.addEventListener("message",e=>{if(e.origin!==location.origin)return;if(e.data?.type==="pulsify-theme")PulsifyTheme.apply(e.data.mode);if(e.data?.type==="pulsify-view")PulsifyOperator.navigate(e.data.view);});</script>
 </body>
