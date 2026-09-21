@@ -163,7 +163,9 @@
     }
     function close() {
       if (!panel) return;
+      const restoreFocus = panel.contains(document.activeElement);
       panel.remove(); panel = null; expanded = null;
+      if (restoreFocus) button.focus();
       button.setAttribute("aria-expanded", "false");
       document.removeEventListener("mousedown", onOutside, true);
       document.removeEventListener("keydown", onKey);
@@ -176,7 +178,7 @@
       panel = document.createElement("div");
       panel.className = "ps-bell";
       panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Notifications");
-      panel.innerHTML = `<div class="ps-bell-head"><h2>Notifications</h2><div class="ps-bell-tabs"><button data-tab="all" class="active">All</button><button data-tab="unread">Unread <span></span></button></div><button class="ps-control" data-all>Mark all read</button></div><div class="ps-bell-list"></div>`;
+      panel.innerHTML = `<div class="ps-bell-head"><h2>Notifications</h2><div class="ps-bell-tabs ps-segments"><button data-tab="all" class="active">All</button><button data-tab="unread">Unread <span></span></button></div><button class="ps-control" data-all>Mark all read</button></div><div class="ps-bell-list"></div>`;
       document.body.append(panel);
       place();
       panel.querySelector("[data-all]").onclick = () => markRead([], true);
@@ -186,6 +188,7 @@
       window.addEventListener("resize", place);
       button.setAttribute("aria-expanded", "true");
       drawList();
+      panel.querySelector("[data-tab].active")?.focus();
       const opened = panel;
       requestAnimationFrame(() => { if (panel === opened) opened.classList.add("show"); });
       load();

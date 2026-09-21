@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>try{const theme=localStorage.getItem("theme")||"dark";document.documentElement.dataset.theme=theme==="light"||(theme==="system"&&!matchMedia("(prefers-color-scheme: dark)").matches)?"light":"dark"}catch{document.documentElement.dataset.theme="dark"}</script>
 <script src="/shared/theme.js?v=9c40129"></script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,9 +17,9 @@
 <link rel="stylesheet" href="/shared/integrations-view.css?v=9c40129">
 <link rel="stylesheet" href="/shared/command-palette.css?v=9c40129">
 <link rel="stylesheet" href="/shared/surface.css?v=9c40129"><style>
-  .ps-boot{position:fixed;inset:0;z-index:2000;display:grid;grid-template-columns:254px 1fr;background:#0f0e0d;color:#f5f2ed;font-family:Inter,system-ui,sans-serif}.ps-boot~*:not(script){visibility:hidden!important}
-  .ps-boot-side{border-right:1px solid #302d2a;padding:24px}.ps-boot-side strong{font-size:15px}.ps-boot-side i{display:block;width:76%;height:34px;margin-top:34px;border-radius:7px;background:#292624}
-  .ps-boot-main{padding:72px 32px}.ps-boot-main small{color:#47d995;font-size:12px;font-weight:700;letter-spacing:.08em}.ps-boot-main h1{font-size:28px;line-height:36px;letter-spacing:-.025em;font-weight:500;margin:12px 0 8px}.ps-boot-main p{color:#aaa39a;margin:0 0 34px}.ps-boot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#302d2a;border:1px solid #302d2a;border-radius:12px;overflow:hidden}.ps-boot-grid i{display:block;height:156px;background:#181614}
+  .ps-boot{position:fixed;inset:0;z-index:2000;display:grid;grid-template-columns:254px 1fr;background:hsl(var(--background));color:hsl(var(--foreground));font-family:Inter,system-ui,sans-serif}.ps-boot~*:not(script){visibility:hidden!important}
+  .ps-boot-side{border-right:1px solid hsl(var(--border));padding:24px}.ps-boot-side strong{font-size:15px}.ps-boot-side i{display:block;width:76%;height:34px;margin-top:34px;border-radius:7px;background:hsl(var(--muted))}
+  .ps-boot-main{padding:72px 32px}.ps-boot-main small{color:hsl(var(--primary));font-size:12px;font-weight:700;letter-spacing:.08em}.ps-boot-main h1{font-size:28px;line-height:36px;letter-spacing:-.025em;font-weight:500;margin:12px 0 8px}.ps-boot-main p{color:hsl(var(--muted-foreground));margin:0 0 34px}.ps-boot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:hsl(var(--border));border:1px solid hsl(var(--border));border-radius:12px;overflow:hidden}.ps-boot-grid i{display:block;height:156px;background:hsl(var(--card))}
   @media(max-width:700px){.ps-boot{display:block}.ps-boot-side{display:none}.ps-boot-main{padding:72px 16px}.ps-boot-grid{grid-template-columns:1fr}.ps-boot-grid i:not(:first-child){display:none}}
 </style><script defer src="/portal/legacy.js?v=9c40129"></script>
 <script defer src="/portal/studio-app.js?v=9c40129"></script>

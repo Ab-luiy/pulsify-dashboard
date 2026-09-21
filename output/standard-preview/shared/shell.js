@@ -77,5 +77,28 @@
   if(retry){const button=document.createElement('button');button.type='button';button.className='ps-button ghost';button.textContent=error?.status===401?'Sign in again':'Retry';button.onclick=()=>{if(error?.status===401){location.href='/portal/login'+(document.querySelector('.ps-shell')?.querySelector('[data-view="queue"]')?'?operator=1':'');return;}note.remove();retry();};note.append(button);}
   target.append(note);return note;
  }
+ // Adapt legacy tab classes at the shell boundary, including dynamically mounted views.
+ const tabGroups='.ps-tabs,.int-tabs,.ot-tabs,.ps-bell-tabs';
+ function syncTabs(){
+  const groups=new Set(document.querySelectorAll(tabGroups));
+  document.querySelectorAll('button[data-section]').forEach(b=>groups.add(b.parentElement));
+  groups.forEach(group=>{
+   group.setAttribute('role','tablist');
+   const tabs=[...group.children].filter(b=>b.matches('button'));
+   const active=tabs.find(b=>b.classList.contains('active'))||tabs[0];
+   tabs.forEach(b=>{b.setAttribute('role','tab');b.setAttribute('aria-selected',String(b===active));b.tabIndex=b===active?0:-1;});
+  });
+ }
+ document.addEventListener('keydown',e=>{
+  if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;
+  const button=e.target.closest('button[role=tab]');if(!button)return;
+  const tabs=[...button.parentElement.children].filter(b=>b.matches('button[role=tab]')&&!b.disabled&&!b.hidden);
+  const i=tabs.indexOf(button);if(i<0)return;e.preventDefault();
+  const next=tabs[e.key==='Home'?0:e.key==='End'?tabs.length-1:(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];
+  next.focus();next.click();syncTabs();
+ });
+ const tabObserver=new MutationObserver(syncTabs);
+ tabObserver.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+ syncTabs();
  window.PulsifyShell={mount,icon,esc,read,write,range,fail,failure,pending,inlineError};
 })();

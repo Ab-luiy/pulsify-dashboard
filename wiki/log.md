@@ -1741,3 +1741,7 @@ Overnight, four engineers in parallel: Codex (gpt-6-astra, low) executed Phase 5
 ## [2026-09-20] client-update | Kendo gap Batch 1 primitives
 
 Codex implemented only the six authorized shell/contact primitive files: complete dark/light tokens and bridge, button/input/tab aliases with working focus, anchored shell menus, centered dialog aliases, SVG icons and sliding nav pill. No deploy or view/backend changes. Suite 109/109; Phase 5 contacts and 17-section browser regressions pass. Twenty required mock view captures plus menu/dialog checks under output/qa/2026-09-kendo-gap/batch1/. Older Phase 2 browser test blocked by its absent port-8771 mock server. Later gap-review batches remain open.
+
+## [2026-09-21] client-update | Bounded shell visual polish verified locally
+
+Codex completed the founder-directed P2/P3 pass from [[kendo-gap-review-2026-09-20]]: warm theme parity through the boot and onboarding surfaces, inset card hairlines, common tabs/chips/pills, a single onboarding stylesheet with shared tokens and local Inter, accessible two-div launch progress, shared focus rings, tab keyboard navigation and bell focus. Existing grain and exact warm light/dark text tokens preserved. Four changed JS modules pass syntax checks, inline scripts parse, suite stays 113/113, both requested mocked browser regressions pass; only their existing captures were produced. Git staging is sandbox-blocked; changes remain local and uncommitted. No deployment or backend changes. Full file list and verification in AGENT_CHAT.md.
