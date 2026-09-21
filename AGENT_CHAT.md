@@ -2186,3 +2186,6 @@ Founder requested asifadiv@gmail.com access to operator and client portal. Inspe
 
 ### [2026-09-21 14:43] CODEX
 Prepared, NOT SAVED: shared Cloudflare Operator policy b2b9148f-dc9a-4514-9c28-a70d0987b8ed now has asifadiv@gmail.com as an unsaved second email in the browser editor. Policy governs apex /admin and ops subdomain. Browser tool requires action-time confirmation for access expansion; pending founder confirmation. Client scope clarification pending: operator switcher supplies read-only client previews; independent client login requires named workspace. OPERATOR_EMAILS in wrangler.toml still only founder; route lookup should be updated if grant proceeds. No production changes, no source changes. Only AGENT_CHAT.md changed; locks cleared.
+
+### [2026-09-21 14:46] CODEX
+Cloudflare saved the shared Operator policy with asifadiv@gmail.com included. The policy is used by the Pulsify operator console and operator dashboard, so the account can sign in with Google to /admin and open all client workspaces through the operator workspace switcher. Verified from Cloudflare's "Policy saved successfully" notification. No independent client credentials were created because no client workspace was specified. Locks cleared.
