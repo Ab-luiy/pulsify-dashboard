@@ -121,3 +121,5 @@ textarea.ps-input,textarea.set-input,.int-form textarea,.ot-note textarea{height
 .ps-message-skeleton{display:grid;gap:12px;padding:12px}.ps-message-skeleton>div{width:72%;height:62px;border-radius:12px}.ps-message-skeleton>div:nth-child(even){justify-self:end;width:62%}
 .set-loading .set-row{min-height:76px;gap:20px}.set-loading .set-row>.skeleton{width:42%;height:36px}.set-loading .set-head>.skeleton{width:40%;height:20px}.set-loading .set-head>.skeleton+div{width:65%;height:12px;margin-top:10px}
 .ps-bell-loading{display:grid;gap:16px;padding:16px}.ps-bell-loading .ps-bell-row{pointer-events:none}.ps-bell-loading .ps-bell-text{display:grid;gap:8px}.ps-bell-loading .skeleton{min-height:12px}.ps-bell-loading .ps-bell-ico{height:32px}
+
+.ps-menu-link{display:block;text-align:left;padding:5px 8px;border-radius:4px;font-size:12px;color:inherit;text-decoration:none}.ps-menu-link:hover{background:hsl(var(--muted))}
