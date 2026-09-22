@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-22: outreach/resources/qualified-audience-board/ — native board with original screenshots.
+
 CODEX DONE 2026-09-17: outreach/resources/trading-packaging-board/, wiki/log.md. Building real-reference packaging asset and editable HTML; source screenshots unchanged.
 
 CODEX DONE 2026-09-15: outreach/packaging-references/Packaging examples.md, outreach/packaging-references/Packaging review.md, wiki/log.md. Reviewing founder screenshots; preserving original PNGs.
@@ -2207,3 +2209,7 @@ Founder supplied new SaaS implementation feedback. Taking this current task as a
 ### [2026-09-22] CODEX
 Founder feedback implemented: native CRM (approved/unreviewed/dropped, board/list, review notes, drag and accessible stage selection), recent two-month Today actions, current-year tracker/inbox/CRM, inactive older outbound archived from active sections, existing queue eligibility rechecked against drop/approval, real receipt status and stale-seen correction, keyword appointment evidence plus on-demand AI review with validated quotes and honest fallback, Overview icons, Search renamed Find conversations. No inbox history deleted or DM sent. Independent read-only agent review found four defects (queued drops, stage precedence, restore, media enrichment merge); fixed all. No Claude cross-call. Existing automated backup checkpointed application changes during verification.
 Files: output/standard-preview/admin/{crm-view.js,crm-view.css,phase1.js,queue-view.js,outreach-view.js,leads-view.js,search-view.js,social-views.js}, admin.html, functions/_shared/{outreach.js,outreach-queue.js,prospect-policy.js,booking-review.js}, functions/api/{outreach.js,spine/conversations.js,spine/instagram-image.js}, tests/{outreach-queue.test.mjs,prospect-policy.test.mjs,prospect-browser.cjs}; QA screenshots in output/qa/2026-09-prospects and refreshed regression screenshots in output/qa/2026-09-phase5. Added wiki/log.md entry. Restored 21 original matching thumbnail images from canonical dashboard backup plus fresh Zernio profile picture into protected R2 cache. Live verifies 22 images 200, 5 old story previews unavailable, anonymous image 401; recent conversations 97, current-year 282, active outbound 80. 119/119 backend tests, 17-section browser regression and focused approval/drop/mobile/media flow pass. AI response parser hardened after first live failure; final release a97bfaa5 returned 200/source=ai on a real thread, with no appointment signal. Review release report for exact status. Current task locks cleared.
+`n### [2026-09-22] CODEX`nBuilding founder-approved content board with original screenshot crops and headline Building a qualified audience. No AI-generated thumbnails.
+
+### [2026-09-22] CODEX
+Completed outreach/resources/qualified-audience-board/build.cjs, board.html and qualified-audience.png. Exact founder headline, existing approved copy, embedded original trading/ecom PNG bytes with CSS crops only. Editable text and save button. Headless Chrome render visually checked; source images not modified. Locks cleared.
