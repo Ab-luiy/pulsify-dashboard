@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-22: outreach/resources/qualified-audience-board/ — visual refinement v2.
+
 CODEX DONE 2026-09-22: outreach/resources/qualified-audience-board/ — native board with original screenshots.
 
 CODEX DONE 2026-09-17: outreach/resources/trading-packaging-board/, wiki/log.md. Building real-reference packaging asset and editable HTML; source screenshots unchanged.
@@ -2213,3 +2215,6 @@ Files: output/standard-preview/admin/{crm-view.js,crm-view.css,phase1.js,queue-v
 
 ### [2026-09-22] CODEX
 Completed outreach/resources/qualified-audience-board/build.cjs, board.html and qualified-audience.png. Exact founder headline, existing approved copy, embedded original trading/ecom PNG bytes with CSS crops only. Editable text and save button. Headless Chrome render visually checked; source images not modified. Locks cleared.
+
+### [2026-09-22] CODEX
+Visual refinement delivered as build-v2.cjs, board-v2.html, qualified-audience-v2.png. Embedded Inter font, lighter dotted canvas, larger headline, aligned spacing, restrained CTA quote rules, improved original screenshot sizing and handwritten note wrapping. Original v1 preserved; approved copy and original screenshot bytes retained. Chrome export visually verified. Locks cleared.
