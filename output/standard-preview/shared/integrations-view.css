@@ -43,7 +43,7 @@
 .int-events{border:1px solid hsl(var(--border));border-radius:8px;padding:8px 12px;margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
 .int-events legend{font-size:12px;color:hsl(var(--muted-foreground));padding:0 4px}
 .int-check{display:flex;align-items:center;gap:8px;font:13px Inter,system-ui!important;color:inherit!important;margin:2px 0!important}
-.int-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:20px}
+.int-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;margin-top:20px}.int-actions>:is(button,a){white-space:nowrap}
 .int-msg{color:hsl(var(--destructive));font-size:13px;margin:12px 0 0}
 @media(max-width:900px){.int-hero{grid-template-columns:1fr}.int-events{grid-template-columns:1fr}.int-row-actions{flex-wrap:wrap;justify-content:flex-start}}
 /* Leads view */
@@ -72,7 +72,7 @@
 .ot-tabs{margin-bottom:14px}
 .ot-activity{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:10px 14px;border:1px solid hsl(var(--border));border-radius:10px;background:hsl(var(--card));margin-bottom:14px;font-size:12px}
 .ot-activity strong{color:hsl(var(--muted-foreground));font-weight:600;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
-.ot-event{white-space:nowrap}.ot-event small{color:hsl(var(--muted-foreground))}
+.ot-event{display:inline-block;max-width:100%;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:bottom}.ot-event small{color:hsl(var(--muted-foreground))}
 .ot-group{margin-bottom:22px}
 .ot-group h2{display:flex;align-items:baseline;gap:8px;font:var(--text-h2) Inter,system-ui;letter-spacing:.02em;margin:0 0 8px!important;color:hsl(var(--foreground))}
 .ot-group h2 span{color:hsl(var(--muted-foreground));font-weight:500}.ot-group h2 small{color:hsl(var(--muted-foreground));font-weight:400;font-size:12px}

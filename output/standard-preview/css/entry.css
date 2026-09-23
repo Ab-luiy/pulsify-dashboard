@@ -19,6 +19,8 @@
 html {
   min-width: 320px;
   background: var(--bg);
+  /* The access panel's glow frame sits outside the page gutter by design. */
+  overflow-x: clip;
 }
 
 body {

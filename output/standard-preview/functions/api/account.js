@@ -171,10 +171,10 @@ async function handlePost({ request, env }) {
     const current = await pref(env, client, "workspace-settings", { timezone: "", currency: "USD", website: "" });
     const cleaned = cleanWorkspace(body, current);
     if (cleaned.error) return json({ ok: false, error: cleaned.error }, 422);
+    const name = body.name !== undefined ? str(body.name).slice(0, 80) : null;
+    if (name !== null && name.length < 2) return json({ ok: false, error: "Workspace name is too short." }, 422);
     await setPref(env, client, "workspace-settings", cleaned.value);
-    if (body.name !== undefined) {
-      const name = str(body.name).slice(0, 80);
-      if (name.length < 2) return json({ ok: false, error: "Workspace name is too short." }, 422);
+    if (name !== null) {
       await env.DB.prepare("UPDATE client_config SET client_name=?, updated_at=? WHERE client=?").bind(name, nowIso(), client).run();
     }
     return json({ ok: true, workspace: cleaned.value });
@@ -190,7 +190,7 @@ async function handlePost({ request, env }) {
   if (action === "export") {
     const [brain, records, proof, config] = await Promise.all([
       env.DB.prepare("SELECT section, field, value_json, source, updated_at FROM client_brain WHERE client_id=? ORDER BY section, field").bind(client).all().catch(() => ({ results: [] })),
-      env.DB.prepare("SELECT id, kind, title, data, updated_at FROM workspace_records WHERE client_id=? ORDER BY updated_at DESC LIMIT 2000").bind(client).all().catch(() => ({ results: [] })),
+      env.DB.prepare("SELECT id, kind, title, data_json, updated_at FROM workspace_records WHERE client_id=? ORDER BY updated_at DESC LIMIT 2000").bind(client).all().catch(() => ({ results: [] })),
       env.DB.prepare("SELECT * FROM proof_items WHERE client_id=? ORDER BY created_at DESC LIMIT 500").bind(client).all().catch(() => ({ results: [] })),
       env.DB.prepare("SELECT client, client_name, status FROM client_config WHERE client=?").bind(client).first(),
     ]);

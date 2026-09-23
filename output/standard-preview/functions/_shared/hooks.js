@@ -33,8 +33,11 @@ export async function handleHookRequest({ request, env, params }) {
     if (pathSecret) integration = await resolveIntegrationBySecret(env, provider, pathSecret);
 
     if (!integration && provider === "stripe") {
+      // The body names the client, so only a signed request may use this path.
+      // Without a stored signing secret the claim is unverifiable.
       const hintedClient = extractStripeClientHint(body);
-      if (hintedClient) integration = await getIntegration(env, "client", hintedClient, "stripe");
+      const hinted = hintedClient ? await getIntegration(env, "client", hintedClient, "stripe") : null;
+      if (hinted?.secrets?.webhook_secret) integration = hinted;
     }
 
     if (!integration) {
@@ -78,7 +81,7 @@ export async function handleHookRequest({ request, env, params }) {
     return json({ ok: true, recorded: true, kind: "raw" });
   } catch (error) {
     const detail = error?.message || String(error);
-    await recordFailure(env, cleanId(params.client, "unknown"), `hook_${provider}`, detail);
+    await recordFailure(env, "unknown", `hook_${provider}`, detail);
     return json({ ok: true, recorded: false, reason: "logged" });
   }
 }
@@ -351,15 +354,15 @@ function extractStripeClientHint(body) {
 
 async function verifyStripeSignature(header, payload, secret) {
   if (!header || !secret) return false;
-  const parts = Object.fromEntries(
-    String(header)
-      .split(",")
-      .map((piece) => piece.split("=").map((item) => item.trim()))
-      .filter((pair) => pair.length === 2),
-  );
-  const timestamp = parts.t;
-  const signature = parts.v1;
-  if (!timestamp || !signature) return false;
+  // Stripe sends one t= and one v1= per active secret (several during rotation).
+  const pairs = String(header)
+    .split(",")
+    .map((piece) => piece.split("=").map((item) => item.trim()))
+    .filter((pair) => pair.length === 2);
+  const timestamp = pairs.find(([name]) => name === "t")?.[1];
+  const signatures = pairs.filter(([name]) => name === "v1").map(([, value]) => value);
+  if (!timestamp || !signatures.length) return false;
+  if (!Number.isFinite(Number(timestamp)) || Math.abs(Date.now() / 1000 - Number(timestamp)) > 300) return false;
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -374,7 +377,7 @@ async function verifyStripeSignature(header, payload, secret) {
     new TextEncoder().encode(`${timestamp}.${payload}`),
   );
   const expected = [...new Uint8Array(signed)].map((b) => b.toString(16).padStart(2, "0")).join("");
-  return constantTimeEqual(expected, signature);
+  return signatures.some((signature) => constantTimeEqual(expected, signature));
 }
 
 async function verifyStandardWebhook(request, payload, secret) {

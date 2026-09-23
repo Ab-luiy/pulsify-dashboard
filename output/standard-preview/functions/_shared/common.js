@@ -101,8 +101,9 @@ export function numberOrNull(value) {
 }
 
 export function amountToCents(value) {
+  // `amount` is always major units (dollars), matching the Push API. Callers
+  // that already hold cents pass amount_cents instead.
   if (value == null || value === "") return null;
-  if (typeof value === "number" && Number.isInteger(value)) return value;
   const number = Number(value);
   return Number.isFinite(number) ? Math.round(number * 100) : null;
 }

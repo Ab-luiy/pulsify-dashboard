@@ -1,6 +1,6 @@
 import { sendDiscordAlert } from "../_shared/integrations.js";
 
-const FALLBACK_URL = "https://pulsify-funnels.pages.dev/";
+const FALLBACK_URL = "https://pulsify-ai.com/";
 
 export async function onRequestGet(context) {
   const { request, env, params } = context;

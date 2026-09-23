@@ -112,16 +112,19 @@ export async function ingest(env, key, record) {
   const id = `ing_${generateOpaqueToken(10)}`;
 
   if (record.kind === "payment") {
+    // payments.reference is globally unique, so a client key's references are
+    // namespaced; two clients may both send "inv_1".
+    const reference = clientId ? `push:${clientId}:${record.data.reference}` : `push:${record.data.reference}`;
     const result = await processNormalizedPayment(env, {
       client: clientId || operatorClientId(env),
-      reference: `push:${record.data.reference}`,
+      reference,
       amountCents: record.data.amount_cents,
       currency: record.data.currency,
       rail: "push-api",
       occurredAt: record.data.occurred_at,
       recordedBy: `push-api:${key.id}`,
       note: record.data.note,
-      eventId: `push:${record.data.reference}`,
+      eventId: reference,
       customerEmail: record.data.customer_email,
       customerName: record.data.customer_name,
       skipSideEffects: true,

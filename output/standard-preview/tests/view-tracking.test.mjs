@@ -4,7 +4,7 @@ import * as eventApi from "../functions/event.js";
 import * as redirectApi from "../functions/a/[token].js";
 import * as assetsApi from "../functions/api/assets.js";
 
-const FALLBACK_URL = "https://pulsify-funnels.pages.dev/";
+const FALLBACK_URL = "https://pulsify-ai.com/";
 
 class MockDB {
   constructor(seed = {}) {

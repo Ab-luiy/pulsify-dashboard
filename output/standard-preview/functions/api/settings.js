@@ -43,6 +43,27 @@ const CLIENT_TABLES = [
   ["delivery_failures", "client"],
   ["email_drafts", "client"],
   ["page_events", "client"],
+  // Prospect PII, keys and per-client spine rows. Operator rows use client_id=''
+  // so a client id can never match them.
+  ["leads", "client"],
+  ["watch_events", "client"],
+  ["asset_links", "client"],
+  ["asset_events", "client"],
+  ["client_media_order", "client_id"],
+  ["copywriter_usage", "client_id"],
+  ["impersonation_sessions", "client_id"],
+  ["payment_matches", "client_id"],
+  ["workspace_preferences", "client_id"],
+  ["workspace_records", "client_id"],
+  ["api_keys", "client_id"],
+  ["webhook_endpoints", "client_id"],
+  ["webhook_outbox", "client_id"],
+  ["metric_points", "client_id"],
+  ["ingest_records", "client_id"],
+  ["notifications", "client_id"],
+  ["snapshots", "client_id"],
+  ["stories", "client_id"],
+  ["contract_provisioning", "client_id"],
 ];
 
 async function handle_onRequestGet({ request, env }) {
@@ -261,6 +282,9 @@ async function handle_onRequestDelete({ request, env }) {
   const mediaDeleted = await deleteClientMedia(env, client);
   const proofMediaDeleted = await deleteClientProofMedia(env, client);
   const voiceMediaDeleted = await deleteClientVoiceMedia(env, client);
+  await env.DB.prepare(
+    "DELETE FROM webhook_deliveries WHERE endpoint_id IN (SELECT id FROM webhook_endpoints WHERE client_id=?)",
+  ).bind(client).run().catch(() => null);
   const results = await env.DB.batch(
     CLIENT_TABLES.map(([table, column]) =>
       env.DB.prepare(`DELETE FROM ${table} WHERE ${column}=?`).bind(client),

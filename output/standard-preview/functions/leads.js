@@ -177,7 +177,7 @@ async function resolveAccess(request, env, url) {
   if (portalToken) {
     const hash = await sha256Hex(portalToken.trim());
     const row = await env.DB.prepare(
-      "SELECT client FROM client_config WHERE portal_token_hash=?",
+      "SELECT client FROM client_config WHERE portal_token_hash=? AND COALESCE(status,'')<>'archived'",
     ).bind(hash).first();
     if (!row) {
       return { error: json({ ok: false, error: "invalid or expired portal link" }, 401) };

@@ -34,7 +34,7 @@ html[data-theme=dark]{--ring:40 8% 60%;--destructive:0 84% 66%;--success:142 65%
 .set-inline .set-actions{margin:0}
 
 .set-status{font-size:12px;color:hsl(var(--muted-foreground))}.set-status.ok{color:hsl(var(--primary))}.set-status.err{color:hsl(var(--destructive))}
-.set-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.set-list li strong{font:500 14px Inter,system-ui}
+.set-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}.set-list li{display:flex;align-items:baseline;justify-content:space-between;gap:12px;min-width:0}.set-list li strong{font:500 14px Inter,system-ui;min-width:0;overflow-wrap:anywhere}.set-list li small{flex:none;color:hsl(var(--muted-foreground));font-size:12px}
 .set-danger .set-primary{background:hsl(var(--destructive));color:hsl(var(--destructive-foreground))}
 .set-readonly{padding:10px 14px;border:1px solid hsl(var(--border));border-radius:8px;background:hsl(var(--muted)/.5);font-size:12px;color:hsl(var(--muted-foreground))}
 code{font:12px ui-monospace,SFMono-Regular,Menlo,monospace;background:hsl(var(--muted));border-radius:4px;padding:1px 5px}
@@ -131,3 +131,5 @@ textarea.ps-input,textarea.set-input,.int-form textarea,.ot-note textarea{height
 .ps-bell-tabs button span:not(:empty){color:hsl(var(--muted-foreground));font-variant-numeric:tabular-nums}
 
 .ps-popover:not(.ps-menu):hover{box-shadow:var(--shadow-card-hover)}
+/* Inline text links inside views: brand colour instead of the browser default. */
+.ps-main a:not([class]){color:hsl(var(--primary));text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}.ps-main a:not([class]):hover{filter:brightness(1.15)}

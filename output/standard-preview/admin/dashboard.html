@@ -1269,8 +1269,9 @@
     margin-top: 18px;
   }
   .affirmation {
-    border: 1px solid rgba(255,255,255,0.10);
-    background: rgba(255,255,255,0.045);
+    /* Tint from the text colour so the card edge survives both themes. */
+    border: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+    background: color-mix(in srgb, currentColor 4%, transparent);
     border-radius: var(--dashboard-radius-sm);
     padding: 11px 12px;
     min-height: 78px;
@@ -1290,13 +1291,13 @@
   }
   .plan-vector {
     position: relative;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid color-mix(in srgb, currentColor 10%, transparent);
     border-radius: var(--dashboard-radius-sm);
     min-height: 220px;
     overflow: hidden;
     padding: 22px;
     background:
-      linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
+      linear-gradient(160deg, color-mix(in srgb, currentColor 4%, transparent), color-mix(in srgb, currentColor 1%, transparent));
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -4629,7 +4630,7 @@
 
 <aside class="sidebar">
   <div class="brand">
-    <div class="brand-mark"><img src="assets/pulsify-logo.png" alt="Pulsify" /></div>
+    <div class="brand-mark"><img src="/assets/brand/variations/07-monogram.svg" alt="Pulsify" /></div>
     <div class="brand-text">
       <span class="name">Pulsify</span>
       <span class="media">Media</span>

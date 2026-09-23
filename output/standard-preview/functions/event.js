@@ -23,16 +23,26 @@ import {
 } from "./_shared/integrations.js";
 import { normalizeEmail } from "./_shared/common.js";
 
+const MAX_EVENT_BYTES = 65536;
+
 export async function onRequestPost({ request, env }) {
   const ip = request.headers.get("cf-connecting-ip") || null;
   const country = (request.cf && request.cf.country) || request.headers.get("cf-ipcountry") || null;
   const city = (request.cf && request.cf.city) || null;
   const userAgent = request.headers.get("user-agent") || null;
+  // Public endpoint: every field lands in D1, so cap the payload.
+  if (Number(request.headers.get("content-length") || 0) > MAX_EVENT_BYTES) {
+    return json({ ok: false, error: "payload too large" }, 413);
+  }
   const raw = await request.text();
+  if (raw.length > MAX_EVENT_BYTES) return json({ ok: false, error: "payload too large" }, 413);
   let body;
   try {
     body = JSON.parse(raw);
   } catch {
+    return json({ ok: false, error: "bad json" }, 400);
+  }
+  if (!body || typeof body !== "object" || Array.isArray(body)) {
     return json({ ok: false, error: "bad json" }, 400);
   }
 
@@ -59,7 +69,7 @@ export async function onRequestPost({ request, env }) {
     }
 
     const answers = parseTypeformAnswers(formResponse.answers || []);
-    const email = firstValue(answers, ["email", "email_address"]) || hidden.email || null;
+    const email = normalizeEmail(firstValue(answers, ["email", "email_address"])) || normalizeEmail(hidden.email) || null;
     const name = firstValue(answers, ["first_name", "name", "full_name"]) || null;
     const phone = firstValue(answers, ["phone", "phone_number"]) || null;
     const visitorId = hidden.visitor_id || body.visitor_id || null;

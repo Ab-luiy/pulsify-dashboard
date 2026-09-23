@@ -23,7 +23,7 @@
   }
   const stamp = (iso) => (iso ? new Intl.DateTimeFormat("en-GB", { timeZone: TZ, day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(iso)) : "");
   const initials = (t) => (t.name || t.handle || "?").replace(/^@/, "").split(/[\s._-]+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "?";
-  const avatar = (t) => t.pfp_url ? `<img class="ot-avatar" src="${esc(t.pfp_url)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ot-avatar',textContent:'${esc(initials(t))}'}))">` : `<span class="ot-avatar">${esc(initials(t))}</span>`;
+  const avatar = (t) => t.pfp_url ? `<img class="ot-avatar" src="${esc(t.pfp_url)}" alt="" loading="lazy" data-initials="${esc(initials(t))}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ot-avatar',textContent:this.dataset.initials}))">` : `<span class="ot-avatar">${esc(initials(t))}</span>`;
   const pct = (v) => (v === null || v === undefined ? "n/a" : `${v}%`);
   async function api(path, init) {
     const r = await fetch(path, { headers: { "content-type": "application/json", "x-pulsify-operator": "1" }, ...init });
@@ -142,7 +142,7 @@
       try {
         const { messages } = await api(`/api/outreach?id=${encodeURIComponent(id)}`);
         if(disposed || !box.isConnected)return;
-        box.innerHTML = `<div class="ot-messages">${messages.map((m) => `<div class="ot-msg ${m.direction}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : "Them"} · ${esc(ago(m.sent_at))} · ${esc(stamp(m.sent_at))}</small></div>`).join("")}</div>`;
+        box.innerHTML = `<div class="ot-messages">${messages.map((m) => `<div class="ot-msg ${esc(m.direction)}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : "Them"} · ${esc(ago(m.sent_at))} · ${esc(stamp(m.sent_at))}</small></div>`).join("")}</div>`;
         if(!messages.length)box.querySelector(".ot-messages").append(PulsifySurface.empty("message-circle","No messages stored","Open Instagram to read this conversation.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));
         if(messages.length)threadCache.set(id,box.innerHTML);
         box.querySelector(".ot-messages").scrollTop = 1e9;

@@ -7,12 +7,13 @@ const mixedApis = new Set(['spine','integrations','payment-matches','webhooks','
 export async function onRequest(context) {
   const { request, next, env } = context;
   const path = new URL(request.url).pathname.toLowerCase();
+  // Any dot-segment (build caches, tool state), internal notes, configs and
+  // source-only folders. The deploy dir is the repo folder, so fail closed here.
   const blocked =
-    path.startsWith("/.wrangler") ||
-    path.startsWith("/.git") ||
-    path.startsWith("/.dev.vars") ||
-    path.startsWith("/tests/") ||
-    path.startsWith("/migrations/");
+    /\/\.(?!well-known\/)/.test(path) ||
+    /^\/(tests|migrations|workers|scripts|tools)(\/|$)/.test(path) ||
+    /\.(md|toml|py|cjs|mjs|sql|sh|log)$/.test(path) ||
+    path === "/.assetsignore";
 
   if (blocked) {
     return new Response("Not found", {

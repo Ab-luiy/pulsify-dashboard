@@ -71,7 +71,7 @@
         if(!d.open)return;threadCache.set(id,payload);const {conversation:c,messages=[]}=payload;
         const handle = c.participant_username ? `@${c.participant_username}` : (c.participant_name || "Unknown");
         d.innerHTML = `<div class="leads-thread-head"><div><h2>${esc(handle)}</h2><small class="int-note">${messages.length} messages · first ${esc(ago(c.first_message_at))} · last ${esc(ago(c.last_message_at))}</small></div><div class="int-row-actions">${c.participant_username ? `<a class="ps-control" href="https://instagram.com/${encodeURIComponent(c.participant_username)}" target="_blank" rel="noopener">Open on Instagram</a>` : ""}<button class="ps-control" data-close>Close</button></div></div>
-          <div class="leads-messages">${messages.map((m) => `<div class="leads-msg ${m.direction}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : esc(handle)} · ${esc(new Date(m.sent_at).toLocaleString())}</small></div>`).join("")}</div>
+          <div class="leads-messages">${messages.map((m) => `<div class="leads-msg ${esc(m.direction)}"><p>${esc(m.text || "(attachment)")}</p><small>${m.direction === "outbound" ? "You" : esc(handle)} · ${esc(new Date(m.sent_at).toLocaleString())}</small></div>`).join("")}</div>
           <p class="int-note">Replying from here is not on yet. Open the thread on Instagram to answer.</p>`;
         if(!messages.length)d.querySelector(".leads-messages").replaceChildren(PulsifySurface.empty("message-circle","No messages stored","Read the conversation on Instagram.","Open Instagram",()=>window.open("https://www.instagram.com/direct/inbox/","_blank","noopener")));
         d.querySelector("[data-close]").onclick = () => d.close();

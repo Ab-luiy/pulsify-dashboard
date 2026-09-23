@@ -7,7 +7,7 @@
   const TZ = "Europe/Istanbul";
   const today = () => new Intl.DateTimeFormat("en-GB", { timeZone: TZ, weekday: "long", day: "numeric", month: "long" }).format(new Date());
   const initials = (t) => (t.name || t.handle || "?").replace(/^@/, "").split(/[\s._-]+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "?";
-  const avatar = (t) => t.pfp_url ? `<img class="qv-avatar" src="${esc(t.pfp_url)}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'qv-avatar',textContent:'${esc(initials(t))}'}))">` : `<span class="qv-avatar">${esc(initials(t))}</span>`;
+  const avatar = (t) => t.pfp_url ? `<img class="qv-avatar" src="${esc(t.pfp_url)}" alt="" loading="lazy" data-initials="${esc(initials(t))}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'qv-avatar',textContent:this.dataset.initials}))">` : `<span class="qv-avatar">${esc(initials(t))}</span>`;
   const handle = (h) => String(h || "").replace(/^@/, "").trim();
   const igUrl = (h) => `https://instagram.com/${encodeURIComponent(handle(h))}`;
   const words = (s) => String(s || "").trim().split(/\s+/).filter(Boolean).length;

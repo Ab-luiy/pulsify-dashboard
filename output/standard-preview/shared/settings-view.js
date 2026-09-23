@@ -4,7 +4,7 @@
 (() => {
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const cache=new Map();
-  const when = (iso) => (iso ? new Date(iso).toLocaleString() : "never");
+  const when = (iso) => (iso ? new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : "never");
 
   async function render(root, ctx) {
     const role = ctx.role === "operator" ? "operator" : "client";
@@ -80,14 +80,14 @@
 
   const field = (label, inner, hint) => `<label class="set-field"><span>${esc(label)}</span>${inner}${hint ? `<small>${esc(hint)}</small>` : ""}</label>`;
   const toggle = (name, label, checked, hint) => `<label class="set-toggle"><input type="checkbox" name="${name}" ${checked ? "checked" : ""}><span><strong>${esc(label)}</strong>${hint ? `<small>${esc(hint)}</small>` : ""}</span></label>`;
-  const select = (name, options, value) => `<select name="${name}" class="set-input">${options.map((o) => `<option value="${esc(o)}" ${o === value ? "selected" : ""}>${esc(o || "Not set")}</option>`).join("")}</select>`;
+  const select = (name, options, value, label = (o) => o || "Not set") => `<select name="${name}" class="set-input">${options.map((o) => `<option value="${esc(o)}" ${o === value ? "selected" : ""}>${esc(label(o))}</option>`).join("")}</select>`;
   const submit = (label, extra = "") => `<div class="set-actions"><button type="submit" class="ps-control set-primary" ${extra}>${esc(label)}</button><span class="set-status" role="status"></span></div>`;
 
   function appearance() {
     const density = (() => { try { return localStorage.getItem("pulsify:density") || "comfortable"; } catch { return "comfortable"; } })();
     return `<section class="set-section" id="set-appearance"><div class="set-head"><h2>Appearance</h2><p>How this device shows your workspace. Saved on this browser only.</p></div>
       <div class="set-row"><div><strong>Theme</strong><small>Dark is the default. System follows your device.</small></div><div class="ps-segments">${["light", "dark", "system"].map((t) => `<button class="ps-control" data-theme-mode="${t}" aria-pressed="false">${t[0].toUpperCase() + t.slice(1)}</button>`).join("")}</div></div>
-      <div class="set-row"><div><strong>Density</strong><small>Comfortable keeps room to breathe. Compact fits more on screen.</small></div>${select("density", ["comfortable", "compact"], density).replace("<select", '<select data-density style="max-width:200px"')}</div></section>`;
+      <div class="set-row"><div><strong>Density</strong><small>Comfortable keeps room to breathe. Compact fits more on screen.</small></div>${select("density", ["comfortable", "compact"], density, (o) => o[0].toUpperCase() + o.slice(1)).replace("<select", '<select data-density style="max-width:200px"')}</div></section>`;
   }
 
   function clientSections(d, ro) {

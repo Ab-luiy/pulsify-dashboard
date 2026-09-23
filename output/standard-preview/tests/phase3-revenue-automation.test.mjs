@@ -77,7 +77,7 @@ sql.prepare("INSERT INTO ig_conversations(id,operator_email,connected_account_id
 sql.prepare("INSERT INTO ig_messages(id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at) VALUES(?,?,?,?,?,?,?,?)").run('msg_unmatched','conv_unmatched','op@test','inbound','2026-09-18T00:02:00.000Z','Interested','{}','2026-09-18T00:02:00.000Z');
 r=await call(conversationsGet,op('https://t/api/spine/conversations?unmatched=1'));const unmatched=await r.json();assert.deepEqual(unmatched.conversations.map(row=>row.id),['conv_unmatched']);
 r=await push(clientKey,{kind:'payment',data:{amount:1500,currency:'usd',reference:'inv_1',customer_email:'Buyer@Example.com',customer_name:'Buyer One'}});assert.equal(r.status,201);
-const pay=sql.prepare("SELECT client,amount_cents,customer_email FROM payments WHERE reference='push:inv_1'").get();assert.equal(pay.client,'acme');assert.equal(pay.amount_cents,150000);assert.equal(pay.customer_email,'buyer@example.com');
+const pay=sql.prepare("SELECT client,amount_cents,customer_email FROM payments WHERE reference='push:acme:inv_1'").get();assert.equal(pay.client,'acme');assert.equal(pay.amount_cents,150000);assert.equal(pay.customer_email,'buyer@example.com');
 assert.equal(sql.prepare("SELECT COUNT(*) c FROM webhook_outbox WHERE event IN ('lead.created','payment.received')").get().c,2);
 assert.equal(sql.prepare("SELECT portal_token_hash FROM client_config WHERE client='acme'").get().portal_token_hash,await sha256Hex('token-acme'));
 // rate limit
@@ -130,7 +130,7 @@ const now=new Date().toISOString();
 sql.prepare("INSERT INTO workspace_records VALUES(?,?,?,?,?,?,?)").run('rec1','acme','lead','Buyer One',JSON.stringify({email:'buyer@example.com'}),now,now);
 sql.prepare("INSERT INTO workspace_records VALUES(?,?,?,?,?,?,?)").run('rec2','acme','lead','Jane Someone',JSON.stringify({email:'jane@example.com'}),now,now);
 sql.prepare("INSERT INTO workspace_records VALUES(?,?,?,?,?,?,?)").run('rec3','other','lead','Buyer One',JSON.stringify({email:'buyer@example.com'}),now,now);
-const payment=sql.prepare("SELECT id,client,customer_email,customer_name,occurred_at FROM payments WHERE reference='push:inv_1'").get();
+const payment=sql.prepare("SELECT id,client,customer_email,customer_name,occurred_at FROM payments WHERE reference='push:acme:inv_1'").get();
 let m=await matchPayment(env,payment);assert.deepEqual(m,{suggested:0,confirmed:1});
 const confirmed=sql.prepare("SELECT target_id,target_kind,decided_by FROM payment_matches WHERE payment_id=? AND status='confirmed'").get(payment.id);
 assert.equal(confirmed.target_id,'rec1');assert.equal(confirmed.decided_by,'auto');
