@@ -1,6 +1,15 @@
 # PropelAuth client sign-in
 
-The Pages app now supports PropelAuth OAuth2 with PKCE. It stays disabled until the provider account exists and the Cloudflare variables are set. The current client password/link login and operator Cloudflare Access login remain available. The login page keeps the approved Pulsify background and layout.
+The Pages app now supports PropelAuth OAuth2 with PKCE. It remains disabled until a linked client has passed a real sign-in test. The current client password/link login and operator Cloudflare Access login remain available. The existing Pulsify login page keeps its approved background and layout.
+
+## Current state, 2026-09-23
+
+- The founder created the Pulsify Cloud Project. Production Auth URL: `https://auth.pulsify-ai.com`. Cloudflare DNS has the provider's TXT verification record and a DNS-only `auth` CNAME to `ext.propelauth.com`; PropelAuth verified the domain and HTTPS responds.
+- Production sign-up is invite-only and requires confirmed email. Test sign-up is also invite-only and requires confirmed email. The production frontend origin is limited to `https://pulsify-ai.com`, with login/logout fallback at `/portal/login`.
+- A production OAuth client exists with redirect URI `https://pulsify-ai.com/api/propelauth/callback`. Its public Client ID is stored in the Pages production `PROPELAUTH_CLIENT_ID` secret. The one-time client secret was not copied or used; PKCE does not require it.
+- `PROPELAUTH_AUTH_URL`, `PROPELAUTH_CLIENT_ID`, `PROPELAUTH_CALLBACK_URL`, and `PROPELAUTH_ENABLED=0` are installed on the `pulsify-funnels` Pages production environment. Migration `0037_propelauth_identities.sql` was applied and the table verified in remote D1. Pages deployment `8aede0d6` includes the dormant auth routes. Live `/api/propelauth/config` reports `enabled:false`; `/api/propelauth/start` returns 503; existing `/portal/login` returns 200.
+- PropelAuth hosted login has a split layout and the Pulsify dark palette. The white Pulsify lockup, monogram favicon, and monochrome login hero were uploaded from `assets/brand/variations/05-lockup-white.png`, `assets/brand/variations/07-monogram.png`, and `assets/brand/login-hero-1600.jpg`. The live `https://auth.pulsify-ai.com/en/login` page was visually inspected after saving and shows the logo, dark form and hero image. The provider's free-plan footer remains green.
+- No client users or organizations have been linked. Keep `PROPELAUTH_ENABLED=0` until a real invited client is tested end to end. Operator Cloudflare Access is unchanged.
 
 ## Provider setup
 
@@ -27,4 +36,4 @@ Use parameter binding or a carefully reviewed SQL file when executing this again
 - Confirm that an unlinked user, a user removed from the PropelAuth organization, and a user with a different client hint cannot sign in. Confirm that the operator Google path and existing password/link paths still work.
 - Set `PROPELAUTH_ENABLED=1` in the target Pages environment only after its database links and OAuth callback have been tested. The new button then appears on the client password step. Revert to `0` to hide it immediately without affecting existing login paths.
 
-This is a client login addition. It does not replace Cloudflare Access for operators or automatically migrate existing passwords/accounts. The live provider login cannot be accepted until the founder creates the PropelAuth account and supplies its Auth URL and Client ID through Cloudflare configuration.
+This is a client login addition. It does not replace Cloudflare Access for operators or automatically migrate existing passwords/accounts. The production provider configuration, DNS, branding and database schema are installed. Linked-client acceptance remains before enabling the button.

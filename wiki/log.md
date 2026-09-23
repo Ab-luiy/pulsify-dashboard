@@ -1770,3 +1770,7 @@ Founder handed the frontend migration to Claude (Claude executes code end to end
 ## [2026-09-23] decision | PropelAuth client login foundation
 
 Added an optional PropelAuth OAuth2/PKCE sign-in path for client workspaces, with explicit user-and-organization identity links to prevent cross-client access. The existing Pulsify login design, client password/link sign-in, and operator Cloudflare Access remain active. The new path stays disabled until a PropelAuth account, credentials, D1 links, and end-to-end acceptance are in place. Setup and activation steps are in `output/standard-preview/docs/PROPELAUTH-SETUP.md`.
+
+## [2026-09-23] client-update | PropelAuth production setup prepared
+
+Connected the PropelAuth Cloud Project to `auth.pulsify-ai.com` with verified Cloudflare DNS and HTTPS. Production registration is invite-only with email confirmation; the OAuth client redirects to the same-origin callback. Uploaded the Pulsify lockup, monogram and existing monochrome login hero, and visually checked the live hosted login. Applied the additive identity migration to remote D1, installed the Pages production configuration with `PROPELAUTH_ENABLED=0`, and deployed the dormant auth routes. Existing client and operator login remain in service. No client identities are linked; an invited-client end-to-end test is required before activation. Full backend suite passed 137/137 and the login browser check passed. Configuration and acceptance steps are recorded in `output/standard-preview/docs/PROPELAUTH-SETUP.md`.
