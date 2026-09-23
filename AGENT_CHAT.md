@@ -88,6 +88,7 @@ Active claims only. Clear your row when done.
 | September 22 founder feedback: output/standard-preview outreach/queue/CRM/social views and supporting APIs/tests; wiki/log.md | CODEX | DONE | Released; 119 tests and browser flows pass. See output/qa/2026-09-prospects/RELEASE.md for limitations. |
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| C:/Users/Abdullah/Desktop/pulsify-saas/**, output/standard-preview/functions/_middleware.js, output/standard-preview/tests/access.test.mjs, claude-memory/project_nextjs_migration.md, wiki/log.md, AGENT_CHAT.md | CODEX | ACTIVE | Founder-authorized SaaS setup; private frontend repository and gated /app preview. |
 | output/standard-preview/shared/{shell.css,shell.js,surface.css,surface.js,integrations-view.css,notifications.js}, admin/{contact-row.css,contact-row.js}, portal/{index.html,login/index.html,login/auth.css}, onboard/{index.html,phase4.css}, wiki/log.md | CODEX | DONE | Bounded P2/P3 polish verified; no deploy; commit blocked by sandbox. |
 | output/standard-preview/admin/{outreach-view.js,leads-view.js,search-view.js,queue-view.js,queue-view.css,console.js}, shared/{shell.js,shell.css,surface.js,surface.css,notifications.js,settings-view.js,integrations-view.css}, portal/workspace-shell.js (confirm only), output/qa/2026-09-kendo-gap/batch2/**, wiki/log.md | CODEX | ACTIVE | Batch 2 daily loop plus Today; frontend only, no deploy. |
 | output/standard-preview/shared/{shell.css,shell.js,surface.css,integrations-view.css}, output/standard-preview/admin/{contact-row.css,contact-row.js}, output/qa/2026-09-kendo-gap/batch1/**, wiki/log.md | CODEX | DONE | Kendo gap Batch 1 primitives verified locally; no deploy. |
@@ -2231,3 +2232,14 @@ FOUNDER TASK SHIPPED (bell, integrations, delivery). All live on Pages + pulsify
 - Integrations: shared/integrations-view.js rebuilt as rows. functions/_shared/autoconnect.js (POST /api/integrations {action:'autoconnect'}) registers Stripe/Whop/Cal.com/Calendly webhooks from one key. YouTube via Zernio (/api/zernio?action=connect&platform=youtube), youtube_account_id in the zernio integration config; worker youtube/instagram jobs pull Zernio insights.
 - Delivery: functions/_shared/delivery-automation.js + llm.js + /api/automations (X-Automation-Secret, new secret AUTOMATION_SECRET on both Pages and worker). Migration 0036_automation_runs applied by --file (the D1 migrations tracker is out of sync; never run `migrations apply` blind).
 - Production has no ANTHROPIC_API_KEY/GEMINI_API_KEY: studio AI runs in manual mode; automations use Workers AI until a key is added.
+
+### [2026-09-23 12:26] CODEX
+STARTED founder-authorized SaaS setup while Claude is on timeout. Claim: new sibling Pulsify-SaaS repo, AGENT_CHAT.md and wiki/log.md for coordination. Building React/Next/TypeScript/Tailwind/shadcn foundation, CI and client-AI access contract; no live route replacement during setup. Claude review deferred per founder.
+| Pulsify-SaaS new sibling repo; AGENT_CHAT.md; wiki/log.md | CODEX | ACTIVE | Initial frontend and client AI foundation setup, local verification and handoff. |
+
+### [2026-09-23 12:34] CODEX
+Expanding claim to output/standard-preview/functions/_middleware.js and a focused test for secure /app preview routing. This is needed before the exported Next app can be copied into the existing Pages origin and use same-origin APIs.
+| output/standard-preview/functions/_middleware.js and tests/next-app-gate.test.mjs | CODEX | ACTIVE | Protect Next preview path with current operator Access validation. |
+
+### [2026-09-23 12:43] CODEX
+Claiming output/standard-preview/app/** for the additive Next preview export. Existing route is absent. Will verify static contents and operator gate before any deploy; current /admin stays intact.

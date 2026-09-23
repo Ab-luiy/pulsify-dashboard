@@ -28,7 +28,8 @@ export async function onRequest(context) {
   if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin?view='+legacyView[1],302);
-  const consolePage = ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));
+  const appPage = path === '/app' || path.startsWith('/app/');
+  const consolePage = appPage || ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));
   let operator = await validateAccess(accessToken(request), api ? [env.ACCESS_AUD,env.ACCESS_DASHBOARD_AUD] : env.ACCESS_AUD);
   if (operator && !['GET','HEAD','OPTIONS'].includes(request.method)) {
     const origin = request.headers.get('origin');
@@ -47,6 +48,7 @@ export async function onRequest(context) {
   if (operator) { context.data.operator = operator; rememberOperator(request,operator); }
   if ((consolePage || (api && adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]))) && !operator) {
     if (url.hostname === 'pulsify-funnels.pages.dev' || url.hostname.endsWith('.pulsify-funnels.pages.dev')) return Response.redirect('https://pulsify-ai.com'+url.pathname+url.search,302);
+    if (appPage && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin',302);
     if (consolePage && !path.startsWith('/admin')) return Response.redirect('https://pulsify-ai.com/admin?view='+encodeURIComponent(path.split('/')[1]),302);
     return new Response(JSON.stringify({ok:false,error:'operator sign-in required'}),{status:401,headers:{'content-type':'application/json','cache-control':'no-store'}});
   }

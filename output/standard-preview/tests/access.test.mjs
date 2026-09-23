@@ -28,8 +28,12 @@ test('middleware redirects bypass hosts, protects HTML aliases, audits API keys 
  const env={ACCESS_AUD:'console',ADMIN_KEY:'automation-test',DB:{prepare(){return{bind(){return{run:async()=>{events++;}};}};}}};let events=0;
  async function invoke(url,headers={},method='GET'){const request=new Request(url,{headers,method});const data={};return onRequest({request,env,data,next:async()=>Response.json({operator:data.operator,denied:!!checkAdmin(request,env),identity:operatorIdentity(request)})});}
  for(const path of ['/admin','/admin.html','/settings','/integrations','/campaigns']){const r=await invoke('https://pulsify-funnels.pages.dev'+path);assert.equal(r.status,302);assert.equal(r.headers.get('location'),path.startsWith('/admin')?'https://pulsify-ai.com'+path:'https://pulsify-ai.com/admin?view='+path.slice(1));}
+ assert.equal((await invoke('https://pulsify-funnels.pages.dev/app')).headers.get('location'),'https://pulsify-ai.com/app');
+ assert.equal((await invoke('https://pulsify-ai.com/app')).headers.get('location'),'https://pulsify-ai.com/admin');
  assert.equal((await invoke('https://pulsify-ai.com/api/clients')).status,401);
  const valid=await token();const r=await invoke('https://pulsify-ai.com/api/clients',{'Cf-Access-Jwt-Assertion':valid});assert.equal(r.status,200);const d=await r.json();assert.equal(d.operator.email,'operator@example.test');assert.equal(d.denied,false);
+ assert.equal((await invoke('https://pulsify-ai.com/app',{'Cf-Access-Jwt-Assertion':valid})).status,200);
+ assert.equal((await invoke('https://pulsify-ai.com/app/_next/static/example.js',{'Cf-Access-Jwt-Assertion':valid})).status,200);
  const key=await invoke('https://pulsify-funnels.pages.dev/api/crm-sync',{'x-admin-key':'automation-test'},'POST');assert.equal(key.status,200);assert.equal((await key.json()).operator.via,'key');assert.equal(events,1);
  assert.equal((await invoke('https://pulsify-funnels.pages.dev/admin',{'x-admin-key':'automation-test'})).status,302);
  assert.equal((await invoke('https://pulsify-ai.com/api/settings',{'Cf-Access-Jwt-Assertion':valid,origin:'https://evil.test'},'POST')).status,403);
