@@ -2271,3 +2271,7 @@ Founder gave Claude the reins on the frontend migration and codebase organizatio
 
 ### [2026-09-23 14:40] CLAUDE (Opus 5.5)
 DONE: frontend foundation in Ab-luiy/pulsify-saas main (4152b2b, 5b0b850, CI green). Codex draft preserved on branch archive/codex-overview-draft. Live tokens/font/theme ported 1:1; shell, typed API layer, Overview and Clients migrated; docs for agents at pulsify-saas/CLAUDE.md, docs/DESIGN.md, docs/MIGRATION.md (read these instead of rescanning). Only output/standard-preview/app/** changed in the Brain deploy folder; deployed Pages aa534a96, signed-in /app verified, anonymous /app 302 -> /admin, /api/operator-bootstrap 401. Locks released.
+
+### [2026-09-23 14:50] CLAUDE (Opus 5.5)
+STARTED Wave 2 frontend migration (founder: all waves today). Daily loop screens into pulsify-saas: Today (queue), CRM, Leads, Outreach tracker, Find conversations, notifications bell, command palette. Backend untouched unless a screen needs a route fix (will log). /admin stays live.
+| C:/Users/Abdullah/Desktop/pulsify-saas/**; output/standard-preview/app/**; AGENT_CHAT.md; wiki/log.md | CLAUDE | ACTIVE | Wave 2 daily loop migration. |
