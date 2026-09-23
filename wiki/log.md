@@ -1778,3 +1778,7 @@ Connected the PropelAuth Cloud Project to `auth.pulsify-ai.com` with verified Cl
 ## [2026-09-23] client-update | Additional client login methods prepared
 
 Founder chose Google, email/password, magic link, and optional 2FA. PropelAuth email/password remains enabled; magic-link login was enabled and verified on the live hosted page. One-use links and the human-confirmation interstitial remain on. Authenticator-app 2FA is available for users to activate through their hosted account page. Created a dedicated Google OAuth web client with production and test PropelAuth callback URLs, but Google login remains disabled: its credential was not installed, and the Google consent app remains in Testing status while public privacy/terms URLs are missing. Existing client login and `PROPELAUTH_ENABLED=0` remain unchanged. Details in `output/standard-preview/docs/PROPELAUTH-SETUP.md`.
+
+## [2026-09-23] client-update | Google login connected for testing
+
+With founder approval, installed a new dedicated Google OAuth client secret in PropelAuth and enabled the Google hosted-login button. The live button reaches Google's account chooser with the correct production callback and basic profile/email scopes. Retired the original unused secret. The Google consent app is still in Testing with only two test users; public privacy and terms links are absent, so Google cannot yet be offered to clients broadly. No end-to-end invited-client login was run, and the Pages `PROPELAUTH_ENABLED=0` switch remains off. Updated the setup handoff and account registry.

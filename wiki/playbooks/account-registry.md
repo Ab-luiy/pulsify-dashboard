@@ -36,6 +36,8 @@ They look like typos of each other. They are three separate Google accounts.
 
 ## Secrets inventory on the `pulsify-funnels` Pages project (names only, 2026-09-17)
 
+2026-09-23 client-login addition: Google Cloud project `pulsify-dashboard-496614` also owns OAuth web client `Pulsify client login via PropelAuth` (`689048215822-m68avqr93s5v38tmoc8ht9dktkt5rcr6.apps.googleusercontent.com`). Its two redirects point to PropelAuth's production/test Google callbacks, not the existing Portal or Cloudflare Access callbacks. A new client secret was entered directly into the Pulsify PropelAuth project; no secret value is stored in this vault. The original unused secret was disabled. Google consent remains in Testing with two test users, so the hosted Google button is not client-ready. See `output/standard-preview/docs/PROPELAUTH-SETUP.md`.
+
 `ADMIN_KEY`, `DOCUSIGN_ACCOUNT_ID`, `DOCUSIGN_HMAC_SECRET`, `EMAIL_FROM`, `FATHOM_API_KEY`, `GOOGLE_PORTAL_CLIENT_SECRET`, `INTEGRATION_ENCRYPTION_KEY`, `RESEND_API_KEY`. All stored as encrypted Secrets via the dashboard (plain vars are wrangler.toml-managed). Values live only in Cloudflare.
 
 ## Secrets on Worker `pulsify-sync` (names only, 2026-09-18)
