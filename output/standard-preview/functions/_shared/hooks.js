@@ -22,8 +22,9 @@ import { applyRefund, matchPayment } from "./payment-matching.js";
 import { emitEvent } from "./outbound-webhooks.js";
 import { recordTouch } from "./pipeline-touches.js";
 import { notify } from "./notifications.js";
+import { briefBooking } from "./delivery-automation.js";
 
-export async function handleHookRequest({ request, env, params }) {
+export async function handleHookRequest({ request, env, params, waitUntil }) {
   const provider = str(params.provider).toLowerCase();
   const pathSecret = str(params.secret || "");
 
@@ -66,7 +67,7 @@ export async function handleHookRequest({ request, env, params }) {
     }
 
     if (provider === "calcom" || provider === "calendly") {
-      return handleBookingHook(env, provider, integration, body);
+      return handleBookingHook(env, provider, integration, body, waitUntil);
     }
     if (provider === "whop" || provider === "stripe") {
       return handlePaymentHook(env, provider, integration, body, request.url);
@@ -87,7 +88,7 @@ export async function handleHookRequest({ request, env, params }) {
   }
 }
 
-function handleBookingHook(env, provider, integration, body) {
+function handleBookingHook(env, provider, integration, body, waitUntil) {
   const booking = provider === "calcom"
     ? normalizeCalBooking(body)
     : normalizeCalendlyBooking(body);
@@ -96,7 +97,7 @@ function handleBookingHook(env, provider, integration, body) {
     return recordIgnored(env, integration.client, provider, body, "booking shape not recognized");
   }
 
-  return recordBooking(env, integration, provider, booking);
+  return recordBooking(env, integration, provider, booking, waitUntil);
 }
 
 async function handlePaymentHook(env, provider, integration, body, requestUrl) {
@@ -167,7 +168,7 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
   });
 }
 
-async function recordBooking(env, integration, provider, booking) {
+async function recordBooking(env, integration, provider, booking, waitUntil) {
   const event = await recordIntegrationEvent(env, {
     provider,
     kind: "booking",
@@ -196,6 +197,10 @@ async function recordBooking(env, integration, provider, booking) {
       entity: { client: integration.client, email: booking.email, name: booking.name || "", provider, starts_at: booking.starts_at },
       dedupeKey: `booking:${provider}:${booking.event_id}`,
     }).catch(() => null);
+    // Brief the call right away; the Worker's sweep retries anything missed.
+    if (!cancelled && typeof waitUntil === "function") {
+      waitUntil(briefBooking(env, { clientId: integration.client, eventId: booking.event_id, email: booking.email, name: booking.name, startsAt: booking.starts_at, provider }).catch(() => null));
+    }
     await sendDiscordAlert(env, {
       client: integration.client,
       title: "Booking received",
@@ -258,7 +263,7 @@ function normalizeCalendlyBooking(body) {
     event_id: eventId,
     email: normalizeEmail(invitee?.email || payload?.email),
     name: strOrNull(invitee?.name || payload?.name),
-    starts_at: strOrNull(payload?.start_time || payload?.startTime || body?.created_at),
+    starts_at: strOrNull(payload?.scheduled_event?.start_time || payload?.start_time || payload?.startTime || body?.created_at),
     status: strOrNull(event || payload?.status),
   };
 }

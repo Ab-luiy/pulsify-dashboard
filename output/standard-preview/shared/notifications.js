@@ -39,6 +39,7 @@
     "content.review": { icon: "review", label: "Review", group: "clients" },
     application: { icon: "form", label: "Application", group: "funnel" },
     booking: { icon: "calendar", label: "Booked call", group: "funnel" },
+    brief: { icon: "form", label: "Pre-call brief", group: "funnel" },
     digest: { icon: "list", label: "Today", group: "all" },
     system: { icon: "alert", label: "System", group: "all" },
   };

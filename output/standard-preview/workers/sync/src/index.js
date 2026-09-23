@@ -30,6 +30,9 @@ export default {
     }
     if (controller.cron === "* * * * *") ctx.waitUntil(sweepSeen(env).catch(() => 0));
     if (controller.cron === "0 5 * * *") ctx.waitUntil(followUpDigest(env).catch(() => 0));
+    // Delivery automations run on Pages (Fathom and model keys live there).
+    if (controller.cron === "*/30 * * * *") ctx.waitUntil(Promise.all([runAutomation(env, "precall-briefs"), runAutomation(env, "fathom")]));
+    if (controller.cron === "0 6 * * 1") ctx.waitUntil(runAutomation(env, "weekly-reports"));
 
   },
 
@@ -115,4 +118,18 @@ function json(value, status = 200) {
     status,
     headers: { "content-type": "application/json", "cache-control": "no-store" },
   });
+}
+
+export async function runAutomation(env, job, fetcher = fetch) {
+  if (!env.AUTOMATION_SECRET || !env.PAGES_ORIGIN) return { ok: false, skipped: "automation not configured" };
+  try {
+    const r = await fetcher(`${String(env.PAGES_ORIGIN).replace(/\/$/, "")}/api/automations`, {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-automation-secret": env.AUTOMATION_SECRET },
+      body: JSON.stringify({ job }),
+    });
+    return await r.json().catch(() => ({ ok: r.ok }));
+  } catch (error) {
+    return { ok: false, error: String(error?.message || error) };
+  }
 }

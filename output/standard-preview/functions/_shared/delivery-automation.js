@@ -177,7 +177,7 @@ async function weekNumbers(env, clientId, from, to) {
     q("SELECT COUNT(*) AS n FROM pipeline_touches WHERE client_id=? AND kind='booking' AND ts>=? AND ts<?", clientId, from, to),
     q("SELECT COUNT(DISTINCT COALESCE(visitor_id,session_id)) AS n FROM page_events WHERE client=? AND event='page_view' AND at>=? AND at<?", clientId, from, to),
     q("SELECT COUNT(*) AS n FROM watch_events WHERE client=? AND event='play' AND at>=? AND at<?", clientId, from, to),
-    q("SELECT COUNT(*) AS n FROM content_items WHERE client=? AND COALESCE(updated_at, created_at)>=? AND COALESCE(updated_at, created_at)<?", clientId, from, to),
+    q("SELECT COUNT(*) AS n FROM content_items WHERE client=? AND updated_at>=? AND updated_at<?", clientId, from, to),
     q("SELECT COUNT(*) AS n FROM studio_sequences WHERE client_id=? AND status IN ('approved','published') AND updated_at>=? AND updated_at<?", clientId, from, to),
   ]);
   return {
@@ -202,7 +202,7 @@ export async function draftWeeklyReports(env, { now = Date.now(), fetcher = fetc
         weekNumbers(env, c.client, prevFrom, from),
         env.DB.prepare("SELECT COALESCE(SUM(amount_cents - COALESCE(refunded_cents,0)),0) AS c FROM payments WHERE client=?").bind(c.client).first().catch(() => null),
         env.DB.prepare("SELECT provisioned_at FROM client_provisioning WHERE client_id=?").bind(c.client).first().catch(() => null),
-        env.DB.prepare("SELECT title, stage FROM content_items WHERE client=? AND COALESCE(updated_at, created_at)>=? ORDER BY COALESCE(updated_at, created_at) DESC LIMIT 8").bind(c.client, from).all().catch(() => ({ results: [] })),
+        env.DB.prepare("SELECT title, stage FROM content_items WHERE client=? AND updated_at>=? ORDER BY updated_at DESC LIMIT 8").bind(c.client, from).all().catch(() => ({ results: [] })),
       ]);
       const weekN = prov?.provisioned_at ? Math.max(1, Math.ceil((now - Date.parse(prov.provisioned_at)) / (7 * DAY))) : null;
       const facts = `Client: ${c.name}
