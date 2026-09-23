@@ -23,7 +23,7 @@
   }
   const stamp = (iso) => (iso ? new Intl.DateTimeFormat("en-GB", { timeZone: TZ, day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }).format(new Date(iso)) : "");
   const initials = (t) => (t.name || t.handle || "?").replace(/^@/, "").split(/[\s._-]+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("") || "?";
-  const avatar = (t) => t.pfp_url ? `<img class="ot-avatar" src="${esc(t.pfp_url)}" alt="" loading="lazy" data-initials="${esc(initials(t))}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ot-avatar',textContent:this.dataset.initials}))">` : `<span class="ot-avatar">${esc(initials(t))}</span>`;
+  const avatar = (t) => t.pfp_url ? `<img class="ot-avatar" src="/api/spine/instagram-image?id=${encodeURIComponent("pfp:" + t.id)}" alt="" loading="lazy" data-initials="${esc(initials(t))}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'ot-avatar',textContent:this.dataset.initials}))">` : `<span class="ot-avatar">${esc(initials(t))}</span>`;
   const pct = (v) => (v === null || v === undefined ? "n/a" : `${v}%`);
   async function api(path, init) {
     const r = await fetch(path, { headers: { "content-type": "application/json", "x-pulsify-operator": "1" }, ...init });
@@ -112,7 +112,7 @@
           ? `Your last message ${ago(t.last_our_message_at)}${t.follow_up_due ? ` · ${t.hours_since_our_message} hours have passed` : ""}`
           : "";
       return `<article class="ot-card ${t.follow_up_due ? "due" : ""} ${open.has(t.id) ? "open" : ""}" id="ot-${esc(t.id)}">
-        ${contact.row(t,{attribute:"data-toggle",expanded:open.has(t.id),stage:t.stage_label,detail:timerLine})}
+        ${contact.row({...t,avatar_src:"/api/spine/instagram-image?id="+encodeURIComponent("pfp:"+t.id)},{attribute:"data-toggle",expanded:open.has(t.id),stage:t.stage_label,detail:timerLine})}
         <div class="ot-detail" ${open.has(t.id) ? "" : "hidden"}>
           <div class="ot-thread" data-thread="${esc(t.id)}">${threadCache.get(t.id) || messagesSkeleton()}</div>
           ${t.booking_evidence && !t.outcome ? `<div class="ps-card"><strong>Possible appointment: ${esc(t.booking_evidence.kind)}</strong><p>${esc(t.booking_evidence.text)}</p><small>Detected from the conversation. Confirm Booked below when agreed.</small></div>` : ""}
@@ -177,7 +177,9 @@
 
     function drawActivity() {
       const box = root.querySelector("#ot-activity");
-      const events = data.events || [];
+      // Same rule as the bell: activity from outreach threads only, not strangers' inbound DMs.
+      const origins = new Map((data.threads || []).map((t) => [t.id, t.origin]));
+      const events = (data.events || []).filter((e) => origins.get(e.conversation_id) === "outbound");
       box.hidden = !events.length;
       if (!events.length) return;
       const kindLabel = { reply: "replied", seen: "seen, no reply after 5 min", booked: "booked", closed: "closed", hibernated: "hibernating" };

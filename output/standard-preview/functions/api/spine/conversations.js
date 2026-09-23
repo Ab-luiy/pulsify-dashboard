@@ -35,6 +35,7 @@ async function handleGet({ request, env }) {
             (SELECT m.text FROM ig_messages m WHERE m.conversation_id=c.id ORDER BY m.sent_at DESC LIMIT 1) AS last_text,
             (SELECT COUNT(*) FROM ig_messages m WHERE m.conversation_id=c.id) AS message_count,
             (SELECT COUNT(*) FROM ig_messages m WHERE m.conversation_id=c.id AND m.direction='inbound') AS inbound_count,
+            (SELECT m.direction FROM ig_messages m WHERE m.conversation_id=c.id ORDER BY m.sent_at ASC LIMIT 1) AS first_direction,
             (${inCrm}) AS in_crm
        FROM ig_conversations c
        ${where.length ? `WHERE ${where.join(" AND ")}` : ""}
@@ -45,6 +46,8 @@ async function handleGet({ request, env }) {
     conversations: (rows.results || []).map((row) => ({
       ...row,
       in_crm: Boolean(row.in_crm),
+      // Who opened the thread: outbound = our outreach, inbound = they wrote first.
+      origin: row.first_direction === "outbound" ? "outbound" : "inbound",
       payload: parseJson(row.payload_json, {}),
       payload_json: undefined,
     })),

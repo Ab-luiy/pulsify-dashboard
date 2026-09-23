@@ -2,6 +2,7 @@ import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
+import { clientLabel, notify } from "../_shared/notifications.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import {
   buildCarouselPrompt,
@@ -210,6 +211,7 @@ async function submitCarousel(env, access, body) {
   await env.DB.prepare(
     `UPDATE studio_carousels SET status='review', review_note=NULL, updated_at=? WHERE id=?`,
   ).bind(nowIso(), id).run();
+  await notify(env, { scope: "operator", clientId: access.client, kind: "content.review", severity: "info", title: `${await clientLabel(env, access.client)} sent a carousel for review`, body: String(row.topic || "").slice(0, 160), link: "home", entity: { client: access.client, carousel_id: id }, dedupeKey: `review:carousel:${id}:${Date.now()}` }).catch(() => null);
   return json({ ok: true, status: "review" });
 }
 

@@ -135,7 +135,7 @@ export async function ingest(env, key, record) {
         .bind(record.data.customer_email, record.data.customer_name, result.payment.id).run().catch(() => null);
     }
     if (!result.duplicate) {
-      await emitEvent(env, { scope, clientId, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: record.data.amount_cents, currency: record.data.currency, reference: record.data.reference, source: "push-api" } });
+      await emitEvent(env, { scope, clientId, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: record.data.amount_cents, currency: record.data.currency, reference: record.data.reference, source: "push-api", customer_name: record.data.customer_name, customer_email: record.data.customer_email } });
     }
     return { id: `pay_${result.payment.id}`, duplicate: Boolean(result.duplicate) };
   }

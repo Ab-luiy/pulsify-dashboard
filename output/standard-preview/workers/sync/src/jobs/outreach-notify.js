@@ -7,14 +7,32 @@ import { sideEffectFailure } from "../../../../functions/_shared/side-effect-fai
 // parses it tolerantly and the sweep fires the notification after the grace.
 // Delivery: the in-house bell for everything; Discord only when a lead replied.
 import { notify } from "../../../../functions/_shared/notifications.js";
-import { logEvent, upsertOutreach, SEEN_GRACE_MS } from "../../../../functions/_shared/outreach.js";
+import { loadThreads, logEvent, stats, upsertOutreach, SEEN_GRACE_MS } from "../../../../functions/_shared/outreach.js";
 import { pushOperator } from "../../../../functions/_shared/realtime.js";
+import { dmPolicy } from "../../../../functions/_shared/notify-policy.js";
 
-const label = (name, handle) => `[${name || handle || "Instagram lead"}${handle ? `, @${handle}` : ""}]`;
+const display = (name, handle) => name || (handle ? `@${handle}` : "Instagram lead");
 
+// A DM only reaches the bell when dmPolicy says so (outreach replies and
+// approved prospects). The tracker log keeps every reply regardless.
 export async function notifyReply(env, { conversationId, handle, name, text, messageId = "" }) {
-  const id = await notify(env, { scope: "operator", kind: "lead.replied", severity: "success", title: `${label(name, handle)} replied`, body: String(text || "(attachment)").slice(0, 300), link: "outreach", entity: { conversation_id: conversationId, handle }, discord: true, dedupeKey: messageId ? `operator::conversation.new_message:${messageId}` : null });
-  await upsertOutreach(env, conversationId, { reply_notified_at: new Date().toISOString() });
+  const policy = await dmPolicy(env, { conversationId, handle }).catch(() => ({ notify: false, origin: "inbound", reason: "policy error" }));
+  let id = null;
+  if (policy.notify) {
+    const outreach = policy.origin === "outbound";
+    id = await notify(env, {
+      scope: "operator",
+      kind: "lead.replied",
+      severity: "success",
+      title: outreach ? `${display(name, handle)} replied to your outreach` : `${display(name, handle)} sent you a DM`,
+      body: String(text || "(attachment)").slice(0, 300),
+      link: "outreach",
+      entity: { conversation_id: conversationId, handle, name: name || "", origin: policy.origin, avatar: true },
+      discord: true,
+      dedupeKey: messageId ? `operator::conversation.new_message:${messageId}` : null,
+    });
+    await upsertOutreach(env, conversationId, { reply_notified_at: new Date().toISOString() });
+  }
   await logEvent(env, { conversationId, kind: "reply", handle, name, text, delivered: Boolean(id) });
   return Boolean(id);
 }
@@ -71,11 +89,38 @@ export async function sweepSeen(env, now = Date.now()) {
   ).bind(cutoff).all()).results || [];
   let sent = 0;
   for (const r of rows) {
-    const ok = Boolean(await notify(env, { scope: "operator", kind: "lead.seen", severity: "warn", title: `${label(r.name, r.handle)} seen your message, no reply after 5 minutes`, body: "", link: "outreach", entity: { conversation_id: r.conversation_id, handle: r.handle }, dedupeKey: `seen:${r.conversation_id}:${r.seen_at}` }));
+    // Left-on-read only matters for prospects we reached out to.
+    const policy = await dmPolicy(env, { conversationId: r.conversation_id, handle: r.handle }).catch(() => ({ notify: false }));
+    const ok = policy.notify && policy.origin === "outbound" && Boolean(await notify(env, { scope: "operator", kind: "lead.seen", severity: "warn", title: `${display(r.name, r.handle)} saw your message and hasn't replied`, body: "Seen more than 5 minutes ago, no reply yet.", link: "outreach", entity: { conversation_id: r.conversation_id, handle: r.handle, name: r.name || "", origin: "outbound", avatar: true }, dedupeKey: `seen:${r.conversation_id}:${r.seen_at}` }));
     await upsertOutreach(env, r.conversation_id, { seen_notified_at: new Date(now).toISOString() });
     await logEvent(env, { conversationId: r.conversation_id, kind: "seen", handle: r.handle, name: r.name, text: "", delivered: ok });
     await pushOperator(env, "tracker.changed", { conversation_id: r.conversation_id, reason: "left-on-read" });
     sent += 1;
   }
   return sent;
+}
+
+// Once a day (the 05:00 UTC cron, 08:00 Istanbul): one summary of the day's
+// outreach work instead of a ping per thread. Same numbers as the tracker.
+export async function followUpDigest(env, now = Date.now()) {
+  const threads = await loadThreads(env, { period: "recent", now });
+  const outbound = stats(threads).outbound || {};
+  const due = Number(outbound.follow_ups_due || 0);
+  const waiting = threads.filter((t) => t.awaiting_us && t.origin === "outbound");
+  if (!due && !waiting.length) return 0;
+  const parts = [];
+  if (due) parts.push(`${due} follow-up${due === 1 ? "" : "s"} due`);
+  if (waiting.length) parts.push(`${waiting.length} repl${waiting.length === 1 ? "y" : "ies"} waiting on you`);
+  const names = waiting.slice(0, 3).map((t) => t.name || `@${t.handle}`).join(", ");
+  const id = await notify(env, {
+    scope: "operator",
+    kind: "digest",
+    severity: "info",
+    title: `Today: ${parts.join(", ")}`,
+    body: names ? `Waiting on you: ${names}${waiting.length > 3 ? ` and ${waiting.length - 3} more` : ""}` : "Open Today to work through them.",
+    link: "queue",
+    entity: { follow_ups_due: due, replies_waiting: waiting.length },
+    dedupeKey: `digest:${new Date(now).toISOString().slice(0, 10)}`,
+  });
+  return id ? 1 : 0;
 }

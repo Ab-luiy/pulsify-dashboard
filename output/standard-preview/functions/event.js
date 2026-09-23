@@ -22,6 +22,7 @@ import {
   sendDiscordAlert,
 } from "./_shared/integrations.js";
 import { normalizeEmail } from "./_shared/common.js";
+import { notify } from "./_shared/notifications.js";
 
 const MAX_EVENT_BYTES = 65536;
 
@@ -118,6 +119,17 @@ export async function onRequestPost({ request, env }) {
     });
     if (!event.duplicate) {
       await recordTouch(env, { client, email, name, kind: "application", ts: lead.applied_at || new Date().toISOString(), source: "typeform", externalId, payload: { applied_at: lead.applied_at } }).catch(() => null);
+      await notify(env, {
+        scope: "operator",
+        clientId: client,
+        kind: "application",
+        severity: "success",
+        title: `${name || email} applied on ${cfg?.client_name || client}'s page`,
+        body: [lead.revenue ? `Revenue: ${lead.revenue}` : "", lead.situation ? String(lead.situation).slice(0, 200) : ""].filter(Boolean).join(" · "),
+        link: "campaigns",
+        entity: { client, email, name: name || "", source: "typeform" },
+        dedupeKey: externalId ? `application:${client}:${externalId}` : null,
+      }).catch(() => null);
       await sendDiscordAlert(env, {
         client,
         title: "New application",

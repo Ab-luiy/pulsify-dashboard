@@ -162,7 +162,7 @@ async function insertPayment(env, client, provider, input) {
     scope: "client",
     clientId: client,
     event: "payment.received",
-    data: { payment_id: result.payment.id, amount_cents: Number(input.amountCents), currency: input.currency, reference: result.payment.reference, source: provider },
+    data: { payment_id: result.payment.id, amount_cents: Number(input.amountCents), currency: input.currency, reference: result.payment.reference, source: provider, customer_name: input.name || null, customer_email: input.email || null, occurred_at: result.payment.occurred_at },
   });
   await matchPayment(env, { ...result.payment, customer_email: input.email, customer_name: input.name });
   return 1;

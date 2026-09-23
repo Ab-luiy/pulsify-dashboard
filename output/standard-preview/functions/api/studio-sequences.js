@@ -3,6 +3,7 @@ import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { emitEvent } from "../_shared/outbound-webhooks.js";
+import { clientLabel, notify } from "../_shared/notifications.js";
 
 async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -103,6 +104,7 @@ async function handle_onRequestPost({ request, env }) {
           SET status='review', review_note=NULL, updated_at=?
         WHERE id=?`,
     ).bind(new Date().toISOString(), id).run();
+    await notify(env, { scope: "operator", clientId: client, kind: "content.review", severity: "info", title: `${await clientLabel(env, client)} sent a story sequence for review`, body: String(output.title || output.topic || "").slice(0, 160), link: "home", entity: { client, sequence_id: id }, dedupeKey: `review:sequence:${id}:${Date.now()}` }).catch(() => null);
     return json({ ok: true, status: "review" });
   }
 

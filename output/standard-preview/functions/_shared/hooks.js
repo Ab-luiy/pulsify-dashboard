@@ -21,6 +21,7 @@ import { processNormalizedPayment } from "./payments.js";
 import { applyRefund, matchPayment } from "./payment-matching.js";
 import { emitEvent } from "./outbound-webhooks.js";
 import { recordTouch } from "./pipeline-touches.js";
+import { notify } from "./notifications.js";
 
 export async function handleHookRequest({ request, env, params }) {
   const provider = str(params.provider).toLowerCase();
@@ -155,7 +156,7 @@ async function handlePaymentHook(env, provider, integration, body, requestUrl) {
       await env.DB.prepare("UPDATE payments SET customer_email=?, customer_name=? WHERE id=?")
         .bind(customer.email, customer.name, result.payment.id).run().catch(() => sideEffectFailure(env, "hooks_operation_2"));
     }
-    await emitEvent(env, { scope: "client", clientId: integration.client, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: payment.amount_cents, currency: payment.currency, reference: payment.reference, source: provider } });
+    await emitEvent(env, { scope: "client", clientId: integration.client, event: "payment.received", data: { payment_id: result.payment.id, amount_cents: payment.amount_cents, currency: payment.currency, reference: payment.reference, source: provider, customer_name: customer.name, customer_email: customer.email } });
     await matchPayment(env, { ...result.payment, customer_email: customer.email, customer_name: customer.name }).catch(() => sideEffectFailure(env, "hooks_operation_3"));
   }
   return json({
@@ -183,6 +184,18 @@ async function recordBooking(env, integration, provider, booking) {
 
   if (!event.duplicate) {
     await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => sideEffectFailure(env, "hooks_operation_4"));
+    const cancelled = /cancel/i.test(String(booking.status || ""));
+    await notify(env, {
+      scope: "operator",
+      clientId: integration.client,
+      kind: "booking",
+      severity: cancelled ? "warn" : "success",
+      title: `${booking.name || booking.email || "Someone"} ${cancelled ? "cancelled a call" : "booked a call"}`,
+      body: booking.starts_at ? new Date(booking.starts_at).toUTCString().replace(":00 GMT", " UTC") : "",
+      link: "campaigns",
+      entity: { client: integration.client, email: booking.email, name: booking.name || "", provider, starts_at: booking.starts_at },
+      dedupeKey: `booking:${provider}:${booking.event_id}`,
+    }).catch(() => null);
     await sendDiscordAlert(env, {
       client: integration.client,
       title: "Booking received",

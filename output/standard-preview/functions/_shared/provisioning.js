@@ -70,7 +70,7 @@ export async function provisionClient(env, { source, client, email, name, contra
   }
   await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
     .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => sideEffectFailure(env, "provisioning_operation_3"));
-  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => sideEffectFailure(env, "provisioning_operation_4"));
+  await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, name: clientName, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => sideEffectFailure(env, "provisioning_operation_4"));
 
   const welcome = await sendWelcome(env, { clientId, email: normalizedEmail, name: clientName, setupLink: setup.link, sleep, fetcher });
   return { ok: true, client: clientId, duplicate: false, setup_link: setup.link, welcome_state: welcome.state };

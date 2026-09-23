@@ -10,37 +10,64 @@ const who = (d) => d?.name && d?.handle ? `${d.name}, @${d.handle}` : d?.handle 
 
 // Event -> what the bell shows. link is a shell route (view[:section]) the
 // notification opens. Return null to stay silent for an event.
+//
+// Policy (founder, 2026-09-23): the bell carries things other people did that
+// need the founder: a real DM, money, a signature, a client action, a funnel
+// application or booking. Anything the founder did himself (stage moves,
+// manual matches) and automatic bookkeeping stays silent.
 export function describeEvent(event, data = {}, scope = "operator") {
+  const customer = data.customer_name || data.customer_email || "";
   switch (event) {
     case "conversation.new_message":
-      if (data.direction !== "inbound") return null;
-      return { kind: "lead.replied", severity: "success", title: `${who(data)} replied`, body: str(data.text).slice(0, 200) || "(attachment)", link: "outreach", discord: true };
+      // Instagram DMs are announced by the inbox sync through dmPolicy, which
+      // filters spam and requests. Only other channels (Push API) land here.
+      if (data.direction !== "inbound" || data.source === "instagram") return null;
+      return { kind: "lead.replied", severity: "success", title: `${who(data)} sent a message`, body: str(data.text).slice(0, 200) || "(attachment)", link: "outreach", discord: true };
     case "lead.created":
-      return { kind: "lead.created", severity: "info", title: `New lead ${who(data)}`, body: data.source ? `Source: ${data.source}` : "", link: "leads" };
     case "lead.stage_changed":
-      return { kind: "lead.stage", severity: "info", title: `${data.name || "Lead"} moved to ${data.to || "a new stage"}`, body: data.from ? `From ${data.from}` : "", link: "crm" };
-    case "payment.received":
-      return { kind: "payment", severity: "success", title: `Payment ${money(data.amount_cents, data.currency)} from ${who(data)}`, body: data.provider ? `Via ${data.provider}` : "", link: scope === "client" ? "revenue" : "payments" };
     case "payment.matched":
-      return { kind: "payment", severity: "success", title: `Payment matched to ${data.target_label || who(data)}`, body: money(data.amount_cents, data.currency), link: scope === "client" ? "revenue" : "payments" };
     case "payment.unmatched":
-      return { kind: "payment", severity: "warn", title: `Payment ${money(data.amount_cents, data.currency)} needs a lead`, body: "No confident match. Link it by hand.", link: scope === "client" ? "revenue" : "payments" };
-    case "payment.refunded":
-      return { kind: "payment", severity: "warn", title: `Refund ${money(data.refunded_cents || data.amount_cents, data.currency)}`, body: who(data), link: scope === "client" ? "revenue" : "payments" };
-    case "client.provisioned":
-      return { kind: "client", severity: "success", title: `${data.name || data.client || "A client"} is provisioned`, body: `Source: ${data.source || "operator"}. Welcome email ${data.welcome_state || "pending"}.`, link: "clients" };
-    case "client.checklist_step_completed":
-      return { kind: "checklist", severity: "success", title: `Launch step done: ${str(data.step).replace(/-/g, " ")}`, body: data.by ? `By ${data.by}` : "", link: "home" };
-    case "content.sequence_published":
-      return { kind: "content", severity: "success", title: `Sequence published: ${data.title || data.id || ""}`, body: "", link: "content" };
     case "integration.sync_failed":
-      return null; // Technical failures belong in sync_runs / delivery_failures, not the bell.
+      return null;
+    case "payment.received":
+      // Imports backfill history; only fresh money is news.
+      if (data.occurred_at && Date.now() - Date.parse(data.occurred_at) > 3 * 86400000) return null;
+      return { kind: "payment", severity: "success", title: `${money(data.amount_cents, data.currency)} received${customer ? ` from ${customer}` : ""}`, body: data.source || data.provider ? `Via ${titleWord(data.source || data.provider)}` : "", link: scope === "client" ? "revenue" : "payments" };
+    case "payment.refunded":
+      return { kind: "payment", severity: "warn", title: `Refund of ${money(data.refunded_cents || data.amount_cents, data.currency)}`, body: customer, link: scope === "client" ? "revenue" : "payments" };
+    case "client.provisioned": {
+      if (scope === "operator" && data.source === "operator") return null;
+      const name = data.name || data.client_id || data.client || "A client";
+      const title = data.source === "docusign" ? `${name} signed the contract` : data.source === "payment" ? `${name} paid and their workspace is ready` : `${name}'s workspace is ready`;
+      return { kind: "client", severity: "success", title, body: data.email ? `Login: ${data.email}` : "", link: "clients" };
+    }
+    case "client.checklist_step_completed":
+      // Steps the operator ticked himself are not news to him.
+      if (scope === "operator" && data.by && !/^(client:|system$)/.test(str(data.by))) return null;
+      return { kind: "checklist", severity: "success", title: `Launch step done: ${str(data.step).replace(/-/g, " ")}`, body: "", link: "home" };
+    case "content.sequence_published":
+      // The operator approves sequences; only the client hears about it.
+      if (scope === "operator") return null;
+      return { kind: "content", severity: "success", title: "Your sequence was approved", body: "", link: "content" };
     case "client.delete_requested":
       return { kind: "client", severity: "warn", title: `${data.client || "A client"} asked to close their workspace`, body: str(data.reason).slice(0, 200) || "No reason given. Nothing deleted.", link: "clients" };
     default:
       return null;
   }
 }
+
+const titleWord = (value) => { const v = str(value); return v ? v[0].toUpperCase() + v.slice(1) : ""; };
+
+// Display name for a client id; falls back to the id.
+export async function clientLabel(env, clientId) {
+  if (!clientId || !env?.DB) return str(clientId);
+  const row = await env.DB.prepare("SELECT client_name FROM client_config WHERE client=?").bind(str(clientId)).first().catch(() => null);
+  return str(row?.client_name) || str(clientId);
+}
+
+// Kinds the bell no longer shows. Old rows stay in the table but are hidden
+// from the feed and the unread count.
+export const RETIRED_KINDS = ["lead.stage", "lead.created", "suppressed"];
 
 // Write one notification. dedupeKey makes repeated calls a no-op.
 export async function notify(env, { scope = "operator", clientId = "", kind, severity = "info", title, body = "", link = "", entity = null, dedupeKey = null, discord = false }) {
@@ -72,8 +99,8 @@ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
   // Client-scoped events also tell the operator; the operator copy links to the client.
   const own = await notify(env, { scope, clientId, ...d, entity: { event, ...data }, dedupeKey: data?.message_id ? `${scope}:${clientId}:${event}:${data.message_id}` : null });
   if (scope === "client" && clientId) {
-    const forOperator = describeEvent(event, data, "operator") || d;
-    await notify(env, { scope: "operator", clientId, ...forOperator, title: `${clientId}: ${forOperator.title}`, entity: { event, client: clientId, ...data }, discord: false, dedupeKey: data?.message_id ? `operator:${clientId}:${event}:${data.message_id}` : null });
+    const forOperator = describeEvent(event, data, "operator");
+    if (forOperator) await notify(env, { scope: "operator", clientId, ...forOperator, title: `${await clientLabel(env, clientId)}: ${forOperator.title}`, entity: { event, client: clientId, ...data }, discord: false, dedupeKey: data?.message_id ? `operator:${clientId}:${event}:${data.message_id}` : null });
   }
   return own;
 }
@@ -81,7 +108,8 @@ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
 // Operator feed: every operator row (client_id there only says which client it
 // is about). Client feed: rows for that one workspace.
 function where(scope, clientId) {
-  return scope === "operator" ? { sql: "scope='operator' AND kind != 'system'", args: [] } : { sql: "scope='client' AND client_id=? AND kind != 'system'", args: [str(clientId)] };
+  const hidden = `kind NOT IN ('system',${RETIRED_KINDS.map((k) => `'${k}'`).join(",")})`;
+  return scope === "operator" ? { sql: `scope='operator' AND ${hidden}`, args: [] } : { sql: `scope='client' AND client_id=? AND ${hidden}`, args: [str(clientId)] };
 }
 
 export async function listNotifications(env, { scope, clientId = "", limit = 50, unreadOnly = false }) {

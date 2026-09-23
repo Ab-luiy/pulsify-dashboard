@@ -9,12 +9,14 @@ import {describeEvent, notify, listNotifications, markRead} from '../functions/_
 import {emitEvent} from '../functions/_shared/outbound-webhooks.js';
 import {onRequestGet as notifGet, onRequestPost as notifPost} from '../functions/api/notifications.js';
 import {notifyReply, sweepSeen} from '../workers/sync/src/jobs/outreach-notify.js';
+import {setMute} from '../functions/_shared/notify-policy.js';
 import {rememberOperator} from '../functions/_shared/access.js';
 import {sha256Hex} from '../functions/_shared/common.js';
 
 const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
+sql.exec("CREATE TABLE crm_overrides(name TEXT PRIMARY KEY,data TEXT,ts INTEGER,sts INTEGER,updated_at TEXT)");
 for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 sql.prepare("INSERT INTO client_config VALUES('acme','Acme','client','x',?)").run(await sha256Hex('tok-acme'));
 const fetches=[];
@@ -26,20 +28,35 @@ const op=(url,init)=>{const r=new Request(url,{...init,headers:{'x-pulsify-opera
 const cl=(url,init)=>new Request(url,{...init,headers:{'x-portal-token':'tok-acme','content-type':'application/json',...(init?.headers||{})}});
 const call=(fn,r)=>fn({request:r,env,data:{}});
 
-test('describeEvent covers every event the platform emits, stays silent on our own outbound messages', ()=>{
-  const events=['lead.created','lead.stage_changed','payment.received','payment.matched','payment.unmatched','payment.refunded','client.provisioned','client.checklist_step_completed','content.sequence_published','client.delete_requested'];
-  for(const e of events)assert.ok(describeEvent(e,{name:'Joe',handle:'joe',amount_cents:250000,step:'first-proof',provider:'stripe'},'operator'),e);
+test('describeEvent: only what someone else did reaches the bell; the founder\'s own moves stay silent', ()=>{
+  for(const [e,d] of [['lead.created',{}],['lead.stage_changed',{name:'Joe',to:'booked'}],['payment.matched',{}],['payment.unmatched',{}],['integration.sync_failed',{}]])
+    assert.equal(describeEvent(e,d,'operator'),null,e);
+  assert.equal(describeEvent('content.sequence_published',{},'operator'),null,'the operator approved it himself');
+  assert.ok(describeEvent('content.sequence_published',{},'client'),'the client hears about it');
+  assert.equal(describeEvent('client.provisioned',{name:'Acme',source:'operator'},'operator'),null,'Provision now is his own click');
+  assert.equal(describeEvent('client.provisioned',{name:'Acme',source:'docusign',email:'a@x.com'},'operator').title,'Acme signed the contract');
+  assert.equal(describeEvent('client.provisioned',{name:'Acme',source:'payment'},'operator').title,'Acme paid and their workspace is ready');
+  assert.equal(describeEvent('client.checklist_step_completed',{step:'first-proof',by:'abod.louai@gmail.com'},'operator'),null);
+  assert.ok(describeEvent('client.checklist_step_completed',{step:'first-proof',by:'client:acme'},'operator'));
+  assert.ok(describeEvent('client.checklist_step_completed',{step:'first-proof',by:'system'},'operator'));
+  assert.equal(describeEvent('payment.received',{amount_cents:250000,currency:'USD',customer_name:'Buyer',source:'stripe'},'operator').title,'$2,500 received from Buyer');
+  assert.equal(describeEvent('payment.received',{amount_cents:100,occurred_at:new Date(Date.now()-10*86400000).toISOString()},'operator'),null,'backfilled history is not news');
+  assert.ok(describeEvent('payment.refunded',{refunded_cents:500},'operator'));
+  assert.ok(describeEvent('client.delete_requested',{client:'acme'},'operator'));
   assert.equal(describeEvent('conversation.new_message',{direction:'outbound'}),null);
-  const reply=describeEvent('conversation.new_message',{direction:'inbound',name:'Joe',handle:'joe',text:'hey'});
-  assert.equal(reply.kind,'lead.replied');assert.equal(reply.discord,true);assert.equal(reply.title,'Joe, @joe replied');
+  assert.equal(describeEvent('conversation.new_message',{direction:'inbound',source:'instagram',name:'Joe',handle:'joe',text:'hey'}),null,'Instagram DMs go through dmPolicy');
+  const push=describeEvent('conversation.new_message',{direction:'inbound',name:'Joe',handle:'joe',text:'hey'});
+  assert.equal(push.kind,'lead.replied');assert.equal(push.title,'Joe, @joe sent a message');
 });
 
-test('emitEvent writes a bell row; client events also reach the operator; dedupe on message id', async()=>{
-  await emitEvent(env,{scope:'client',clientId:'acme',event:'payment.received',data:{amount_cents:250000,currency:'USD',name:'Buyer',email:'b@x.com',provider:'stripe'}});
+test('emitEvent writes a bell row; client events also reach the operator under the client name; dedupe on message id', async()=>{
+  await emitEvent(env,{scope:'client',clientId:'acme',event:'payment.received',data:{amount_cents:250000,currency:'USD',customer_name:'Buyer',customer_email:'b@x.com',source:'stripe'}});
   const clientFeed=await listNotifications(env,{scope:'client',clientId:'acme'});
-  assert.equal(clientFeed.unread,1);assert.match(clientFeed.items[0].title,/\$2,500 from Buyer/);assert.equal(clientFeed.items[0].link,'revenue');
+  assert.equal(clientFeed.unread,1);assert.match(clientFeed.items[0].title,/\$2,500 received from Buyer/);assert.equal(clientFeed.items[0].link,'revenue');
   const opFeed=await listNotifications(env,{scope:'operator'});
-  assert.equal(opFeed.unread,1);assert.match(opFeed.items[0].title,/^acme: Payment/);assert.equal(opFeed.items[0].link,'payments');
+  assert.equal(opFeed.unread,1);assert.match(opFeed.items[0].title,/^Acme: \$2,500 received/);assert.equal(opFeed.items[0].link,'payments');
+  await emitEvent(env,{scope:'operator',event:'lead.stage_changed',data:{name:'Joe',from:'new',to:'booked'}});
+  assert.equal((await listNotifications(env,{scope:'operator'})).unread,1,'stage moves are silent');
   await emitEvent(env,{scope:'operator',event:'conversation.new_message',data:{message_id:'m1',direction:'inbound',name:'Joe',handle:'joe',text:'hey'}});
   await emitEvent(env,{scope:'operator',event:'conversation.new_message',data:{message_id:'m1',direction:'inbound',name:'Joe',handle:'joe',text:'hey'}});
   assert.equal((await listNotifications(env,{scope:'operator'})).unread,2,'same message id notifies once');
@@ -47,21 +64,42 @@ test('emitEvent writes a bell row; client events also reach the operator; dedupe
   assert.equal((await listNotifications(env,{scope:'operator'})).unread,2,'our own messages are silent');
 });
 
-test('notifyReply from the inbox jobs dedupes against the event row and only Discord goes outside', async()=>{
-  sql.prepare("INSERT INTO ig_conversations(id,operator_email,connected_account_id,participant_id,participant_username,participant_name,first_message_at,last_message_at,last_direction,payload_json,created_at,updated_at) VALUES('t1','op','1','9','joe','Joe','x','x','inbound','{}','x','x')").run();
+test('DM policy: outreach replies and approved prospects ping; requests, dropped and muted stay silent', async()=>{
+  const conv=(id,handle,name)=>sql.prepare("INSERT INTO ig_conversations(id,operator_email,connected_account_id,participant_id,participant_username,participant_name,first_message_at,last_message_at,last_direction,payload_json,created_at,updated_at) VALUES(?,'op','1',?,?,?,'x','x','inbound','{}','x','x')").run(id,id,handle,name);
+  const msg=(id,c,dir,at)=>sql.prepare("INSERT INTO ig_messages(id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at) VALUES(?,?,'op',?,?,'x','{}','x')").run(id,c,dir,at);
+  const crm=(handle,vetting)=>sql.prepare("INSERT INTO crm_overrides(name,data,ts,sts,updated_at) VALUES(?,?,?,?,'x') ON CONFLICT(name) DO UPDATE SET data=excluded.data,ts=excluded.ts").run(handle,JSON.stringify({vetting}),Date.now(),Date.now());
+  const opTitles=async()=>(await listNotifications(env,{scope:'operator',limit:100})).items.map(i=>i.title);
+  // Inbound stranger (Instagram's Requests pile): silent.
+  conv('t1','joe','Joe');msg('in-1','t1','inbound','2026-09-01T10:00:00Z');
   fetches.length=0;
-  const ok=await notifyReply(env,{conversationId:'t1',handle:'joe',name:'Joe',text:'hey',messageId:'m1'});
-  assert.equal(ok,false,'already notified for m1 by the event');
-  await notifyReply(env,{conversationId:'t1',handle:'joe',name:'Joe',text:'second',messageId:'m3'});
-  const feed=await listNotifications(env,{scope:'operator'});
-  assert.equal(feed.items[0].title,'[Joe, @joe] replied');
+  assert.equal(await notifyReply(env,{conversationId:'t1',handle:'joe',name:'Joe',text:'Hello',messageId:'in-1'}),false);
+  assert.ok(!(await opTitles()).some(t=>t.startsWith('Joe sent you a DM')));
+  // Same person once approved in the CRM: pings, tagged inbound.
+  crm('joe','approved');
+  assert.equal(await notifyReply(env,{conversationId:'t1',handle:'joe',name:'Joe',text:'second',messageId:'in-2'}),true);
+  let row=(await listNotifications(env,{scope:'operator'})).items.find(i=>i.title==='Joe sent you a DM');
+  assert.equal(row.entity.origin,'inbound');assert.equal(row.entity.avatar,true);
+  // A reply to outreach we started: pings, tagged outbound.
+  conv('t2','byron','Byron');msg('out-1','t2','outbound','2026-08-22T14:30:00Z');msg('in-3','t2','inbound','2026-09-22T11:59:00Z');
+  assert.equal(await notifyReply(env,{conversationId:'t2',handle:'byron',name:'Byron',text:'send it over',messageId:'in-3'}),true);
+  row=(await listNotifications(env,{scope:'operator'})).items.find(i=>i.title==='Byron replied to your outreach');
+  assert.equal(row.entity.origin,'outbound');
+  // Muted and dropped senders stay quiet even on outreach threads.
+  await setMute(env,'byron',true);
+  assert.equal(await notifyReply(env,{conversationId:'t2',handle:'byron',name:'Byron',text:'again',messageId:'in-4'}),false);
+  await setMute(env,'byron',false);
+  crm('byron','dropped');
+  assert.equal(await notifyReply(env,{conversationId:'t2',handle:'byron',name:'Byron',text:'again',messageId:'in-5'}),false);
+  crm('byron','approved');
   assert.ok(!fetches.some(u=>u.includes('resend')),'no email ever');
-  sql.prepare("INSERT INTO ig_outreach(conversation_id,operator_email,seen_at,updated_at) VALUES('t1','op',?,?) ON CONFLICT(conversation_id) DO UPDATE SET seen_at=excluded.seen_at, seen_notified_at=NULL").run(new Date(Date.now()-10*60000).toISOString(),'x');
-  assert.equal(await sweepSeen(env),1);
-  assert.equal(await sweepSeen(env),0);
-  const seen=(await listNotifications(env,{scope:'operator'})).items.find(i=>i.kind==='lead.seen');
-  assert.match(seen.title,/seen your message, no reply after 5 minutes/);
-  assert.ok(!fetches.some(u=>u.includes('resend')));
+  // Left on read: only for outreach threads, once.
+  const seenAt=new Date(Date.now()-10*60000).toISOString();
+  msg('out-2','t2','outbound',new Date(Date.now()-60*60000).toISOString());
+  for(const c of ['t1','t2'])sql.prepare("INSERT INTO ig_outreach(conversation_id,operator_email,seen_at,updated_at) VALUES(?,'op',?,'x') ON CONFLICT(conversation_id) DO UPDATE SET seen_at=excluded.seen_at, seen_notified_at=NULL").run(c,seenAt);
+  await sweepSeen(env);
+  assert.equal(await sweepSeen(env),0,'each seen moment notifies once');
+  const seen=(await listNotifications(env,{scope:'operator',limit:100})).items.filter(i=>i.kind==='lead.seen');
+  assert.equal(seen.length,1);assert.match(seen[0].title,/^Byron saw your message/);
 });
 
 test('API: operator and client feeds are separate; mark read by id and all; impersonation cannot write', async()=>{

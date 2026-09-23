@@ -29,7 +29,7 @@
   function row(r, {attribute="data-contact", value=r.id, expanded, source="Instagram", stage="", detail=""}={}) {
     const n=name(r), handle=r.handle || r.participant_username || r.contact_email || '';
     const initials=n.split(/[\s._-]+/).slice(0,2).map(w=>w[0] || '').join('').toUpperCase();
-    const picture=/^https:\/\//.test(r.pfp_url || '') ? r.pfp_url : '';
+    const picture=/^\/api\/spine\/instagram-image\?/.test(r.avatar_src || '') ? r.avatar_src : /^https:\/\//.test(r.pfp_url || '') ? r.pfp_url : '';
     return `<button type="button" class="contact-row" ${attribute}="${esc(value)}" ${expanded===undefined?'':`aria-expanded="${expanded}"`}>
       <span class="contact-avatar">${picture?`<img src="${esc(picture)}" alt="" loading="lazy" referrerpolicy="no-referrer" data-initials="${esc(initials)}" onerror="this.replaceWith(this.dataset.initials)">`:esc(initials)}</span>
       <span class="contact-person"><strong>${esc(n)}</strong><small>${esc(handle && !handle.includes('@')?'@'+handle:handle || source)}</small></span>

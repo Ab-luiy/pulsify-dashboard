@@ -8,3 +8,5 @@
 .contact-row[aria-expanded=true] .contact-chevron:not(:has(svg)):after{transform:rotate(90deg)}
 
 .ot-card:hover{box-shadow:var(--shadow-card-hover)}.contact-loading:hover{box-shadow:var(--shadow-card-hover)}
+.contact-origin{font:600 10px/1 Inter,system-ui;letter-spacing:.04em;text-transform:uppercase;padding:4px 7px;border-radius:5px;background:hsl(var(--muted));color:hsl(var(--muted-foreground))}.contact-origin.out{background:hsl(var(--success)/.14);color:hsl(var(--success))}.contact-origin.in{background:hsl(var(--chart-1)/.18);color:hsl(var(--chart-1))}
+.contact-extra{align-items:center}.contact-origin{align-self:center}

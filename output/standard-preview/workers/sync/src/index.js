@@ -6,7 +6,7 @@ import { syncYouTubeLeads } from "./jobs/leads.js";
 import { syncYouTube } from "./jobs/youtube.js";
 import { sweepWebhooks } from "./jobs/webhook-outbox.js";
 import { syncPayments } from "./jobs/payments.js";
-import { ingestSeen, sweepSeen } from "./jobs/outreach-notify.js";
+import { followUpDigest, ingestSeen, sweepSeen } from "./jobs/outreach-notify.js";
 import { handleZernioEvent, syncZernioInbox } from "./jobs/zernio-inbox.js";
 import { syncSearchIndex } from "./jobs/search-index.js";
 import { verifySignature } from "../../../functions/_shared/zernio.js";
@@ -29,6 +29,7 @@ export default {
       ctx.waitUntil(runJob(env, job, () => JOBS[job](env)));
     }
     if (controller.cron === "* * * * *") ctx.waitUntil(sweepSeen(env).catch(() => 0));
+    if (controller.cron === "0 5 * * *") ctx.waitUntil(followUpDigest(env).catch(() => 0));
 
   },
 

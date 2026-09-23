@@ -120,13 +120,13 @@ test('API actions: sentiment, outcome, hibernate, wake, note; unknown thread 404
   assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM ig_outreach_events WHERE kind IN ('booked','hibernated')").get().n,2);
 });
 
-test('reply notification lands in the bell with [Name, @handle] and logs the event; no email', async()=>{
+test('reply to outreach lands in the bell with the person and logs the event; no email', async()=>{
   emails.length=0;
   const ok=await notifyReply(env,{conversationId:'waiting',handle:'they.spoke',name:'They Spoke',text:'tell me more',messageId:'waiting-m1'});
   assert.equal(ok,true);
   assert.equal(emails.length,0,'no email');
   const row=sql.prepare("SELECT title, body, kind, link FROM notifications WHERE scope='operator' ORDER BY created_at DESC LIMIT 1").get();
-  assert.equal(row.title,'[They Spoke, @they.spoke] replied');assert.equal(row.body,'tell me more');assert.equal(row.kind,'lead.replied');assert.equal(row.link,'outreach');
+  assert.equal(row.title,'They Spoke replied to your outreach');assert.equal(row.body,'tell me more');assert.equal(row.kind,'lead.replied');assert.equal(row.link,'outreach');
   assert.equal(sql.prepare("SELECT delivered_at IS NOT NULL AS d FROM ig_outreach_events WHERE kind='reply' AND conversation_id='waiting'").get().d,1);
 });
 
@@ -137,7 +137,7 @@ test('seen: parsed from a Meta-shaped hook, notified only after 5 silent minutes
   assert.ok(sql.prepare("SELECT seen_at FROM ig_outreach WHERE conversation_id='fresh'").get().seen_at);
   assert.equal(await sweepSeen(env,NOW-4*60000),0,'inside the grace window nothing fires');
   assert.equal(await sweepSeen(env,NOW),1);
-  assert.match(sql.prepare("SELECT title FROM notifications WHERE kind='lead.seen' ORDER BY created_at DESC LIMIT 1").get().title,/\[just.sent, @just.sent\] seen your message, no reply after 5 minutes/);
+  assert.match(sql.prepare("SELECT title FROM notifications WHERE kind='lead.seen' ORDER BY created_at DESC LIMIT 1").get().title,/^(just\.sent|@just\.sent) saw your message and hasn't replied$/);
   assert.equal(await sweepSeen(env,NOW+60000),0,'never twice');
   const listed=await (await call(outreachGet,op('https://x/api/outreach'))).json();
   assert.equal(listed.stats.outbound.seen_available,true);

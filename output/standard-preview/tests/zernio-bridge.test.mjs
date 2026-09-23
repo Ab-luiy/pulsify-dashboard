@@ -78,7 +78,7 @@ test('webhook: dedupes on event id, message.received notifies once, message.read
   assert.equal(r1.stored,true);assert.equal(r1.conversationId,'composio-1');
   assert.equal(emails.length,0,'no email');
   assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM notifications WHERE kind='lead.replied'").get().n,1);
-  assert.match(sql.prepare("SELECT title FROM notifications WHERE kind='lead.replied'").get().title,/\[Other Acc, @other.acc\] replied/);
+  assert.match(sql.prepare("SELECT title FROM notifications WHERE kind='lead.replied'").get().title,/^Other Acc replied to your outreach$/);
   const r2=await handleZernioEvent(env,payload,'evt_1');
   assert.equal(r2.duplicate,true);assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM notifications WHERE kind='lead.replied'").get().n,1,'webhook dedupe plus message-id dedupe');
   assert.equal(sql.prepare("SELECT pfp_url FROM ig_outreach WHERE conversation_id='composio-1'").get().pfp_url,'https://cdn/pic.jpg');
