@@ -1759,3 +1759,7 @@ Full platform review and fixes deployed (server source and internal docs were pu
 
 ## [2026-09-23] client-update | Private Next.js setup for SaaS migration
 Codex created the private Ab-luiy/pulsify-saas repository with React, Next.js, TypeScript, Tailwind, shadcn, Playwright and GitHub Actions. Its first operator Overview reads the existing same-origin bootstrap API; the current Pages middleware reserves /app for authenticated operators. The backend remains in the brain repo. A client-assistant contract records tenant isolation, reviewed service knowledge, usage and approval boundaries; no chat is live. Local frontend checks, GitHub CI and the existing 131-test backend suite pass. The additive /app preview deployed as Pages 2b126e25; anonymous access checks pass, authenticated live browser acceptance and Claude review remain pending. The existing /admin remains the default UI.
+
+## [2026-09-23] client-update | Authenticated /app route repaired
+
+The new Next.js preview initially returned 404 after operator sign-in because the existing one-segment client funnel route treated `app` as a client slug. Reserved `app` in the route handler so requests pass to the deployed static export. Added a route regression test; backend suite passes 132/132. Deployed Pages 468673fc and verified the authenticated `/app/` workspace and client data render live. Anonymous requests still redirect to `/admin`; the old console and portal login remain reachable. Claude review remains pending.

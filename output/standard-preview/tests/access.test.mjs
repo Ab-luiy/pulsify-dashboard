@@ -4,6 +4,7 @@ import {validateAccess,accessToken,ISSUER,operatorIdentity} from '../functions/_
 import {onRequest} from '../functions/_middleware.js';
 import {checkAdmin} from '../functions/_shared/common.js';
 import {onRequestGet as clientsHandler} from '../functions/api/clients.js';
+import {onRequestGet as slugHandler} from '../functions/[slug].js';
 const pair=await crypto.subtle.generateKey({name:'RSASSA-PKCS1-v1_5',modulusLength:2048,publicExponent:new Uint8Array([1,0,1]),hash:'SHA-256'},true,['sign','verify']);
 const jwk={...await crypto.subtle.exportKey('jwk',pair.publicKey),kid:'test-key',alg:'RS256'};
 const encode=o=>Buffer.from(JSON.stringify(o)).toString('base64url');
@@ -23,6 +24,13 @@ test('Pages cloned requests retain server-validated identity through context.dat
  const response=await onRequest({request,env,data,next:()=>clientsHandler({request:new Request(request.clone()),env,data})});
  assert.equal(response.status,200);assert.equal(data.operator.email,'operator@example.test');
  assert.equal((await clientsHandler({request:new Request('https://pulsify-ai.com/api/clients',{headers:{'x-pulsify-operator':'1','x-operator-email':'fake@test'}}),env,data:{}})).status,401);
+});
+test('the app route passes through client-slug routing to static assets',async()=>{
+ let called=false;
+ const response=await slugHandler({request:new Request('https://pulsify-ai.com/app/'),params:{slug:'app'},env:{},next:()=>{called=true;return new Response('<h1>App</h1>',{headers:{'content-type':'text/html'}});}});
+ assert.equal(called,true);
+ assert.equal(response.status,200);
+ assert.match(await response.text(),/App/);
 });
 test('middleware redirects bypass hosts, protects HTML aliases, audits API keys and passes trusted identity to handlers',async()=>{
  const env={ACCESS_AUD:'console',ADMIN_KEY:'automation-test',DB:{prepare(){return{bind(){return{run:async()=>{events++;}};}};}}};let events=0;

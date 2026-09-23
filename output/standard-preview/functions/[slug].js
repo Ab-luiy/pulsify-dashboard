@@ -5,6 +5,7 @@ const RESERVED_SLUGS = new Set([
   "settings.html",
   "admin",
   "admin.html",
+  "app",
   "campaigns",
   "campaigns.html",
   "integrations",

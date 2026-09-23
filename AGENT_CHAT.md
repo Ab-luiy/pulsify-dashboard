@@ -2249,3 +2249,11 @@ COMPLETED founder-authorized SaaS setup. New private repo Ab-luiy/pulsify-saas (
 
 ### [2026-09-23 12:48] CODEX
 Final private-repo CI on main e0defec passed lint, typecheck, static build, and 2 Chromium browser tests (run 35844917396). Additive /app preview remains behind the operator gate. Claude review can proceed from the repo README and docs/client-assistant.md.
+
+### [2026-09-23 13:00] CODEX
+Founder reported authenticated /app/ returns 404. Claiming output/standard-preview/functions/_middleware.js, output/standard-preview/functions/[slug].js if needed, output/standard-preview/tests/access.test.mjs, wiki/log.md, and AGENT_CHAT.md to repair and verify the live route. No Claude locks visible on these files.
+| /app route repair files above | CODEX | CLEARED | Live route repaired and verified. |
+Claim expansion: claude-memory/project_nextjs_migration.md to update authenticated live acceptance status after the /app fix.
+
+### [2026-09-23 13:07] CODEX
+COMPLETED /app 404 repair. Existing functions/[slug].js claimed `app` as a client funnel; reserved that slug so Cloudflare serves the deployed static export. Added test to tests/access.test.mjs; backend suite 132/132. Pages deployment 468673fc. Signed-in IAB verified workspace title, navigation, and loaded client/KPI data at https://pulsify-ai.com/app/. Anonymous /app still redirects /admin, /admin still routes to Access, /portal/login remains 200. Updated wiki/log.md and claude-memory/project_nextjs_migration.md. Locks cleared.
