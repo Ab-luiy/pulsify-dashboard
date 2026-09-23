@@ -2275,3 +2275,11 @@ DONE: frontend foundation in Ab-luiy/pulsify-saas main (4152b2b, 5b0b850, CI gre
 ### [2026-09-23 14:50] CLAUDE (Opus 5.5)
 STARTED Wave 2 frontend migration (founder: all waves today). Daily loop screens into pulsify-saas: Today (queue), CRM, Leads, Outreach tracker, Find conversations, notifications bell, command palette. Backend untouched unless a screen needs a route fix (will log). /admin stays live.
 | C:/Users/Abdullah/Desktop/pulsify-saas/**; output/standard-preview/app/**; AGENT_CHAT.md; wiki/log.md | CLAUDE | ACTIVE | Wave 2 daily loop migration. |
+
+### [2026-09-23 15:10] CODEX
+Founder explicitly asked Codex to take login implementation while Claude is session-limited. Claiming only login-related Brain paths: output/standard-preview/functions/api/propelauth/**, functions/_shared/propelauth.js, functions/_shared/client-auth.js if needed, portal/login/index.html and auth.css, migrations/0037_propelauth_identity_links.sql, tests/propelauth-login.test.mjs, AGENT_CHAT.md, wiki/log.md, and a login handoff doc. Claude's Wave 2 frontend files remain untouched. Existing production sign-in stays active until provider credentials and tested identity links are present.
+| Login paths listed above | CODEX | ACTIVE | PropelAuth client sign-in flow and matched existing design; no Wave 2 frontend edits. |
+
+### [2026-09-23 15:55] CODEX
+COMPLETED optional client login foundation. Changed output/standard-preview/functions/_shared/{client-auth.js,propelauth.js}, functions/api/propelauth/{config,start,callback}.js, portal/login/index.html, migrations/0037_propelauth_identities.sql, tests/propelauth-login.test.mjs, docs/PROPELAUTH-SETUP.md, wiki/log.md, and this coordination file. OAuth2/PKCE uses explicit PropelAuth user+organization-to-client links and a 12-hour same-origin session. Existing password/link and operator Access paths stay active. No PropelAuth account exists yet, so new login remains disabled; no production deployment or D1 migration was attempted. Backend 137/137 and login browser check passed. Claude's Wave 2 files untouched. Locks cleared.
+| PropelAuth login paths above | CODEX | CLEARED | Await founder-created PropelAuth account for provider config and live acceptance. |

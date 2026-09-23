@@ -45,6 +45,8 @@
 
             <form id="passwordForm" class="auth-form" hidden>
               <div class="identity-row"><span id="passwordEmail"></span><button type="button" class="link-button" data-change-email>Change</button></div>
+              <a id="propelSignIn" class="primary-button" href="/api/propelauth/start" hidden>Continue with secure sign-in</a>
+              <div id="propelDivider" class="divider" hidden><span>Or use your current password</span></div>
               <label class="sr-only" for="password">Password</label>
               <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
               <button id="loginButton" class="primary-button" type="submit">Sign in</button>
@@ -118,6 +120,16 @@
     }
     const $ = (id) => document.getElementById(id);
     const setupState = { requiresCode: false };
+    let propelEnabled = false;
+    fetch("/api/propelauth/config", { cache: "no-store" })
+      .then((response) => response.ok ? response.json() : null)
+      .then((config) => { propelEnabled = Boolean(config?.enabled); $("propelSignIn").hidden = !propelEnabled; $("propelDivider").hidden = !propelEnabled; })
+      .catch(() => {});
+    if (!setupToken && params.has("auth_error")) {
+      const failure = params.get("auth_error");
+      showMessage(failure === "unlinked" ? "This sign-in is not linked to a Pulsify workspace yet. Contact your Pulsify team." : "Secure sign-in did not finish. Try again or use your current password.");
+      history.replaceState(null, "", "/portal/login");
+    }
     // A password login must not reuse another client's private-link token.
     sessionStorage.removeItem("pulsify_portal_token");
 
@@ -161,6 +173,12 @@
           showStep("operator");
         } else {
           $("passwordEmail").textContent = email;
+          const secure = new URL("/api/propelauth/start", location.origin);
+          if (client) secure.searchParams.set("client", client);
+          if (params.get("next")) secure.searchParams.set("next", params.get("next"));
+          $("propelSignIn").href = secure.pathname + secure.search;
+          $("propelSignIn").hidden = !propelEnabled;
+          $("propelDivider").hidden = !propelEnabled;
           showStep("password");
         }
       } catch (error) { showMessage(error.message || "Could not check that email."); }

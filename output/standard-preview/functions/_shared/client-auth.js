@@ -88,11 +88,11 @@ export function rateLimitPayload(count) {
   };
 }
 
-export async function issueClientSession(env, clientId) {
+export async function issueClientSession(env, clientId, { ttlSeconds = SESSION_TTL_DAYS * 24 * 60 * 60 } = {}) {
   const token = generateOpaqueToken(32);
   const tokenHash = await sha256Hex(token);
   const createdAt = nowIso();
-  const expiresAt = isoDaysFromNow(SESSION_TTL_DAYS);
+  const expiresAt = new Date(Date.now() + ttlSeconds * 1000).toISOString();
 
   await env.DB.prepare(
     `INSERT INTO client_sessions (token_hash, client_id, expires_at, created_at)
@@ -107,7 +107,7 @@ export async function issueClientSession(env, clientId) {
       httpOnly: true,
       sameSite: "Lax",
       secure: true,
-      maxAge: SESSION_TTL_DAYS * 24 * 60 * 60,
+      maxAge: ttlSeconds,
     }),
   };
 }
