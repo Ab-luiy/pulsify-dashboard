@@ -28,7 +28,10 @@ export async function onRequest(context) {
   if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin?view='+legacyView[1],302);
-  const appPage = path === '/app' || path.startsWith('/app/');
+  // The client portal (/app/portal) authenticates clients in functions/app/portal/[[path]].js,
+  // and hashed build assets under /app/_next/static are shared by both surfaces.
+  const clientSurface = /^\/app\/portal(\/|$)/.test(path) || path.startsWith('/app/_next/static/');
+  const appPage = (path === '/app' || path.startsWith('/app/')) && !clientSurface;
   const consolePage = appPage || ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));
   let operator = await validateAccess(accessToken(request), api ? [env.ACCESS_AUD,env.ACCESS_DASHBOARD_AUD] : env.ACCESS_AUD);
   if (operator && !['GET','HEAD','OPTIONS'].includes(request.method)) {
