@@ -1,5 +1,6 @@
 import { composioExecute, findRows } from "../composio.js";
 import { insertMetric, upsertSnapshot } from "../db.js";
+import { zernioConfigured, zernioConnection, zernioFetch } from "../../../../functions/_shared/zernio.js";
 
 const ACCOUNT_METRICS = ["reach", "views", "follower_count", "accounts_engaged", "total_interactions", "profile_links_taps"];
 
@@ -44,6 +45,21 @@ export async function syncInstagram(env) {
         value: Number(point.value || 0),
       });
     }
+  }
+  // 30-day account totals. Instagram only reports views as a total, so the
+  // time-series call above returns nothing for it; Zernio's insights do.
+  if (zernioConfigured(env)) {
+    try {
+      const connection = await zernioConnection(env);
+      if (connection.connected && connection.account_id) {
+        const insights = await zernioFetch(env, `/v1/analytics/instagram/account-insights?accountId=${encodeURIComponent(connection.account_id)}`);
+        const totals = insights?.metrics || {};
+        for (const [name, metric] of [["reach", "reach_30d"], ["views", "views_30d"], ["accounts_engaged", "accounts_engaged_30d"], ["total_interactions", "interactions_30d"]]) {
+          const value = Number(totals[name]?.total);
+          if (Number.isFinite(value)) await insertMetric(env, { source: "instagram", metric, ts: capturedAt, value });
+        }
+      }
+    } catch { /* insights are an extra; the rest of the sync stands */ }
   }
   for (const story of stories) {
     const id = String(story.id || "");

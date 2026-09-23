@@ -1,4 +1,6 @@
 import { insertMetric, upsertSnapshot } from "../db.js";
+import { zernioConfigured, zernioFetch } from "../../../../functions/_shared/zernio.js";
+import { getIntegration } from "../../../../functions/_shared/integrations.js";
 
 const API = "https://www.googleapis.com/youtube/v3";
 
@@ -56,6 +58,26 @@ export async function syncYouTube(env) {
     ctrAvailable: false,
     note: "YouTube Analytics OAuth is required for retention, watch time, and CTR.",
   };
+  // Channel analytics through the Zernio YouTube connection, when there is one.
+  if (zernioConfigured(env)) {
+    try {
+      const accountId = (await getIntegration(env, "operator", "", "zernio"))?.config?.youtube_account_id;
+      if (accountId) {
+        const insights = await zernioFetch(env, `/v1/analytics/youtube/channel-insights?accountId=${encodeURIComponent(accountId)}`);
+        const metrics = insights?.metrics || {};
+        const total = (name) => { const v = Number(metrics[name]?.total); return Number.isFinite(v) ? v : null; };
+        Object.assign(analytics, {
+          connected: true,
+          watchTimeAvailable: total("estimatedMinutesWatched") !== null,
+          retentionAvailable: total("averageViewDuration") !== null,
+          metrics: Object.fromEntries(Object.entries(metrics).map(([k, v]) => [k, Number(v?.total)]).filter(([, v]) => Number.isFinite(v))),
+          dateRange: insights?.dateRange || null,
+          note: "Connected through Zernio. Data runs 2 to 3 days behind YouTube.",
+        });
+        if (total("views") !== null) await insertMetric(env, { source: "youtube", metric: "views_30d", ts: capturedAt, value: total("views") });
+      }
+    } catch (error) { analytics.note = `Analytics connection error: ${String(error?.message || error).slice(0, 160)}`; }
+  }
   await Promise.all([
     upsertSnapshot(env, { source: "youtube", kind: "channel", capturedAt, payload: channelSnapshot }),
     upsertSnapshot(env, { source: "youtube", kind: "latest-video", capturedAt, payload: latestVideo }),
