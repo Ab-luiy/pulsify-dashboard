@@ -6,7 +6,7 @@
 
 - [Keys and APIs are mine](feedback_keys_and_apis_are_mine.md) - HARD 2026-09-19: never ask the founder to handle keys, secrets or API setup; create, install (wrangler, piped) and connect them myself; engineer around the one block (typing his credential into a field) with OAuth flows and relays
 - [Never guess](feedback_never_guess.md) - HARD universal rule: never guess a URL, path, name, value or fact; ask the founder or verify from a real source
-- [Codex builds, Claude thinks/specs/reviews](feedback_codex_builds_claude_specs.md) - reaffirmed 2026-07-30, permanent: Claude owns strategy, research, planning, specs, copy judgment, review; Codex owns coding, tests, automations, site builds, deploys
+- [Codex builds, Claude thinks/specs/reviews](feedback_codex_builds_claude_specs.md) - OVERRIDDEN 2026-09-23: Claude executes code A-Z for now; old split was Claude owns strategy, research, planning, specs, copy judgment, review; Codex owns coding, tests, automations, site builds, deploys
 - [Speed is the motto](feedback_speed_is_the_motto.md) - default to the fastest shippable move; don't ask permission when the path is obvious; markdown over apps, ship now refine later
 - [TLDR in bold](feedback_tldr_bold.md) - end every structured reply with a bold TLDR of what I need from him or my recommendation
 - [Plain speech, no slop](feedback_plain_speech.md) - talk like a person, not a strategy deck; no vault jargon (wound, pillar, register, doctrine, TOF/MOF) in chat, no stacked headers and tables; lead with the point; he spent months asking me what I meant
@@ -73,6 +73,8 @@
 - [Fable handoff brief](project_fable_handoff.md) - wiki/synthesis/fable-handoff-2026-07-04.md; core rule = new builds gate on "does this start a conversation this week"
 
 ## Dashboard / CRM / leads
+
+- [Next.js migration](project_nextjs_migration.md) - 2026-09-23: move the live SaaS to React + Next.js + TS gradually, Claude builds; baseline sizes and verified pricing inside
 
 - [Lead Studio (CRM)](project_lead_studio.md) - enlarge a lead -> editable info plus asset gen plus Creator-profile flow plus per-lead asset history; /generate prefers Gemini, manual Copy-prompt fallback always free; asset-type expansion PARKED
 - [CRM cross-browser sync](project_crm_cross_browser_sync.md) - lead edits sync via pulsify-funnels D1 /api/crm-sync (per-lead _ts merge); agents use tools/crm_sync.py with FUNNELS_ADMIN_KEY; he must paste ADMIN_KEY once per browser

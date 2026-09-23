@@ -13,6 +13,7 @@ import {
   validateProvider,
 } from "../_shared/integrations.js";
 import { hasOwn, json, str } from "../_shared/common.js";
+import { autoConnect } from "../_shared/autoconnect.js";
 import { resolveSpineRead } from "../_shared/spine-auth.js";
 
 async function scopeFor(request, env, url, body) {
@@ -87,6 +88,12 @@ async function handle_onRequestPost({ request, env }) {
   const checked = validateProvider(provider, scope);
   if (checked.error) return adminJsonError(checked.error);
   if (scope === "client" && !client) return adminJsonError("valid client id required");
+
+  // {action:"autoconnect", provider, api_key}: one key in, webhook registered on the provider's side.
+  if (str(body.action) === "autoconnect") {
+    const result = await autoConnect(env, { scope, client, provider, apiKey: body.api_key, origin: new URL(request.url).origin });
+    return json(result, result.ok ? 200 : 422);
+  }
 
   const result = await upsertIntegration(env, {
     scope,

@@ -5,38 +5,38 @@
 (() => {
   const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const money = (cents, cur = "USD") => new Intl.NumberFormat("en-US", { style: "currency", currency: cur || "USD" }).format((cents || 0) / 100);
-  const when = (iso) => (iso ? new Date(iso).toLocaleString() : "never");
+  const when = (iso) => (iso ? new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "never");
 
-  // Catalog. kind drives the connect dialog. Deferred = coming soon.
+  // Catalog. kind drives the action:
+  //   zernio / zernio_youtube  one sign-in through Zernio's approved apps
+  //   onekey                   paste one key; Pulsify registers its own webhook
+  //   api_key_team             paste a key or webhook URL
+  //   push / team_social       informational rows
   const CATALOG = [
-    { group: "Payments and revenue", items: [
-      { id: "stripe", name: "Stripe", kind: "webhook_in", blurb: "Match Stripe payments to the lead that closed them.", features: ["Restricted read-only key", "Signed webhooks", "Refunds reverse cash collected", "Ranked lead matching"], fields: [["api_key", "Restricted read-only key", true], ["webhook_secret", "Webhook signing secret", true], ["path_secret", "Endpoint path secret", true]] },
-      { id: "whop", name: "Whop", kind: "webhook_in", blurb: "Match Whop payments to the lead that closed them.", features: ["Company API key", "Signed payment and refund events", "Ranked lead matching"], fields: [["api_key", "Company API key", true], ["webhook_secret", "Webhook signing secret", true], ["path_secret", "Endpoint path secret", true]] },
+    { group: "Social", note: "Sign in once. Messages, read receipts and analytics sync on their own.", items: [
+      { id: "zernio", name: "Instagram", color: "#e1306c", kind: "zernio", blurb: "DMs, read receipts, profile pictures and account insights in one sign-in." },
+      { id: "youtube", name: "YouTube", color: "#ff0033", kind: "zernio_youtube", blurb: "Channel analytics, daily views and audience through one Google sign-in." },
     ] },
-    { group: "Email", items: [
-      { id: "kit", name: "Kit", kind: "api_key_team", blurb: "Tag buyers and start sequences after opt-in and payment.", features: ["Subscriber creation", "Tagging", "Onboarding broadcast"], fields: [["api_key", "Kit v4 API key", true], ["tag_id", "Tag id", false]] },
+    { group: "Payments", note: "Paste one key. Pulsify registers its own webhook and imports the last 90 days.", items: [
+      { id: "stripe", name: "Stripe", color: "#635bff", kind: "onekey", blurb: "Payments and refunds, matched to the lead that closed them.", keyLabel: "Restricted key (rk_live_...)", link: "https://dashboard.stripe.com/apikeys", guide: ["In Stripe, open Developers, API keys, then Create restricted key.", "Set Webhook Endpoints to Write. Set Charges, Payment Intents, Checkout Sessions, Invoices and Refunds to Read.", "Copy the key that starts with rk_live_ and paste it here."] },
+      { id: "whop", name: "Whop", color: "#ff6243", kind: "onekey", blurb: "Payments and refunds, matched to the lead that closed them.", keyLabel: "Company API key", guide: ["In your Whop company dashboard, open the developer settings and create a company API key.", "Give it permission to manage webhooks and read payments.", "Paste the key here."] },
     ] },
-    { group: "Booking and applications", items: [
-      { id: "calcom", name: "Cal.com", kind: "webhook_in", blurb: "Booked calls flow into the pipeline.", features: ["Booking created and cancelled", "Email attribution"], fields: [["path_secret", "Endpoint path secret", true]] },
-      { id: "calendly", name: "Calendly", kind: "webhook_in", blurb: "Booked calls flow into the pipeline.", features: ["Booking created and cancelled", "Email attribution"], fields: [["path_secret", "Endpoint path secret", true]] },
+    { group: "Bookings", note: "Booked and cancelled calls land in the pipeline and the bell.", items: [
+      { id: "calendly", name: "Calendly", color: "#006bff", kind: "onekey", blurb: "Booked and cancelled calls, attributed to the lead.", keyLabel: "Personal access token", guide: ["In Calendly, open Integrations, then API and webhooks.", "Generate a personal access token and paste it here.", "Webhooks need a paid Calendly plan (Standard or above)."] },
+      { id: "calcom", name: "Cal.com", color: "#111827", kind: "onekey", blurb: "Booked, rescheduled and cancelled calls, attributed to the lead.", keyLabel: "API key (cal_live_...)", guide: ["In Cal.com, open Settings, Developer, API keys.", "Create a key with no expiry and paste it here."] },
     ] },
-    { group: "Notifications", items: [
-      { id: "discord", name: "Discord", kind: "api_key_team", blurb: "Optional Discord alerts when a lead replies.", features: ["Lead reply alerts", "Business activity stays in your bell"], fields: [["webhook_url", "Discord webhook URL", true]] },
+    { group: "Email and alerts", note: "", items: [
+      { id: "kit", name: "Kit", color: "#fb6970", kind: "api_key_team", blurb: "Tag buyers and start sequences after opt-in and payment.", fields: [["api_key", "Kit v4 API key", true], ["tag_id", "Tag id (optional)", false]] },
+      { id: "discord", name: "Discord", color: "#5865f2", kind: "api_key_team", blurb: "A Discord ping when a prospect replies. Everything else stays in the bell.", fields: [["webhook_url", "Discord channel webhook URL", true]] },
     ] },
-    { group: "Automation", items: [
-      { id: "zapier", name: "Zapier", kind: "push", blurb: "Trigger Zaps from Pulsify events and push anything in.", features: ["Outbound signed webhooks", "Push API input", "Thousands of app actions"] },
-      { id: "make", name: "Make", kind: "push", blurb: "Trigger scenarios from Pulsify events.", features: ["Outbound signed webhooks", "Push API input"] },
-      { id: "n8n", name: "n8n", kind: "push", blurb: "Self-hosted workflows on Pulsify events.", features: ["Outbound signed webhooks", "Push API input"] },
-    ] },
-    { group: "Social", items: [
-      { id: "zernio", name: "Instagram inbox (Zernio)", kind: "zernio", blurb: "Log into Instagram once through Zernio's approved Meta app. DMs, read receipts, profile pictures and follower context flow into the outreach tracker in real time.", features: ["One-click Instagram login, no Meta review", "Read receipts: seen and left-on-read become real", "Profile pictures and follower count per contact", "Replies arrive by webhook within seconds"] },
-      { id: "instagram", name: "Instagram insights", kind: "deferred", blurb: "Reels, posts and story metrics through the tester path today. Native OAuth after Meta verification.", features: ["Reels, posts and story metrics", "Native OAuth: coming soon"] },
-      { id: "youtube", name: "YouTube", kind: "deferred", blurb: "Public channel stats today. Analytics OAuth after Google verification.", features: ["Channel and latest-video stats every 6 hours", "Analytics OAuth: coming soon"] },
+    { group: "Automations", note: "", items: [
+      { id: "automations", name: "Zapier, Make and n8n", color: "#ff4f00", kind: "push", blurb: "Trigger workflows from Pulsify events and push anything in, with the tools below." },
     ] },
   ];
   const ALL = CATALOG.flatMap((g) => g.items);
   const CLIENT_ONLY = new Set(["stripe", "whop", "calcom", "calendly"]);
-  const OPERATOR_ONLY = new Set(["discord", "zernio"]);
+  const OPERATOR_ONLY = new Set(["discord", "zernio", "youtube"]);
+  const initials = (name) => name.replace(/[^A-Za-z ]/g, "").split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
 
   async function request(path, init = {}, ctx = {}) {
     const r = await fetch(path, { credentials: "same-origin", ...init, headers: { "content-type": "application/json", ...(ctx.operator === false ? {} : { "x-pulsify-operator": "1" }), ...(ctx.headers?.() || {}), ...(init.headers || {}) } });
@@ -53,7 +53,7 @@
   }
 
   function pill(state) {
-    const map = { connected: ["Connected", "ok"], attention: ["Needs attention", "warn"], disconnected: ["Not connected", "off"], soon: ["Coming soon", "off"] };
+    const map = { connected: ["Connected", "ok"], attention: ["Needs attention", "warn"], disconnected: ["Not connected", "off"], soon: ["Coming soon", "off"], available: ["Available", "off"], team: ["Set up by Pulsify", "off"] };
     const [label, cls] = map[state] || map.disconnected;
     return `<span class="int-pill int-pill-${cls}">${label}</span>`;
   }
@@ -86,7 +86,7 @@
     const current = () => renders.get(root) === version && root.isConnected;
     const api = (path, init) => request(path, init, ctx);
     const errorIn = (box, retry) => { box.classList.remove("skeleton"); box.innerHTML = `<p class="int-empty">Could not load this section. <button class="ps-control" data-retry>Retry</button></p>`; box.querySelector("[data-retry]").onclick = retry; };
-    root.innerHTML = `<h1>Integrations</h1><p class="ps-subtitle">Connect the tools you already run on. Payments, bookings and automations flow into Pulsify automatically.</p><div class="int-hero skeleton" style="height:220px"></div><div class="ps-grid" style="margin-top:24px">${Array.from({ length: 6 }, () => '<div class="ps-card skeleton"></div>').join("")}</div>`;
+    root.innerHTML = `<h1>Integrations</h1><p class="ps-subtitle">Sign in once per service. Payments, bookings and conversations then flow into Pulsify on their own.</p><div class="int-list">${Array.from({ length: 5 }, () => '<div class="int-row skeleton" style="height:72px;margin-bottom:8px"></div>').join("")}</div>`;
     const client = ctx.client || "";
     let clients = Array.isArray(ctx.clients) ? ctx.clients : [];
     if (ctx.operator !== false && !clients.length) {
@@ -102,59 +102,106 @@
     const allowed = (item) => client ? !OPERATOR_ONLY.has(item.id) : !CLIENT_ONLY.has(item.id);
     let zernio = null;
     if (!client) { try { zernio = await api("/api/zernio"); } catch { zernio = null; } }
-    const zernioNotice = new URLSearchParams(location.search).get("zernio");
-    const stateOf = (item) => !allowed(item) ? "disconnected" : item.kind === "deferred" ? "soon" : item.kind === "push" ? "connected" : item.kind === "zernio" ? (zernio?.connected ? "connected" : zernio?.configured ? "disconnected" : "attention") : status.get(item.id)?.connected ? "connected" : status.get(item.id) ? "attention" : "disconnected";
 
-    let active = client ? ALL[0] : ALL.find((item) => allowed(item));
+    const notice = (() => {
+      const q = new URLSearchParams(location.search);
+      const z = q.get("zernio");
+      if (z === "connected") return "Instagram connected. History is replaying in the background; the tracker fills in over the next few minutes.";
+      if (z === "youtube-connected") return "YouTube connected. Channel analytics appear on the YouTube page within a few minutes.";
+      if (z === "error") return `Connection failed: ${q.get("detail") || "unknown error"}`;
+      return "";
+    })();
+    const youtubeConnected = Boolean(status.get("zernio")?.config?.youtube_account_id);
+    const stateFor = (item) => {
+      if (!allowed(item)) return client ? "team" : "disconnected";
+      if (item.kind === "push") return "available";
+      if (item.kind === "zernio") return zernio?.connected ? "connected" : zernio?.configured ? "disconnected" : "attention";
+      if (item.kind === "zernio_youtube") return youtubeConnected ? "connected" : "disconnected";
+      const record = status.get(item.id);
+      return record?.connected ? "connected" : record ? "attention" : "disconnected";
+    };
+    const detailFor = (item, state) => {
+      const record = status.get(item.id);
+      if (item.kind === "zernio" && zernio?.connected) return `Connected as @${zernio.account?.username || ""}${zernio.webhook?.registered ? "" : ". Live updates are not registered yet"}`;
+      if (item.kind === "zernio" && zernio && !zernio.configured) return "Zernio key missing on the server";
+      if (item.kind === "zernio_youtube" && youtubeConnected) return `Connected${status.get("zernio")?.config?.youtube_channel ? ` as ${status.get("zernio").config.youtube_channel}` : ""}`;
+      if (state === "team") return client ? "Your Pulsify team manages this connection" : "";
+      if (!record) return "";
+      if (state === "connected") return record.config?.connected_via === "one-key" ? `Connected ${record.config.connected_at ? new Date(record.config.connected_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : ""}${record.last_event_ts ? `, last event ${new Date(record.last_event_ts).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}` : ", waiting for the first event"}` : "Connected";
+      return "Saved but incomplete. Reconnect to finish setup.";
+    };
+    const actionFor = (item, state) => {
+      if (ctx.readOnly) return `<span class="int-note">Read only</span>`;
+      if (!allowed(item)) return client ? "" : `<span class="int-note">Pick a client above</span>`;
+      if (item.kind === "push") return `<a class="ps-control" href="#int-dev">Open developer tools</a>`;
+      if (item.kind === "zernio") {
+        if (!zernio?.configured) return "";
+        if (zernio.connected) return `${zernio.webhook?.registered ? "" : `<button class="ps-control" data-zernio-webhook>Turn on live updates</button>`}<a class="ps-control ghost" href="/api/zernio?action=connect">Reconnect</a><button class="ps-control ghost" data-zernio-disconnect>Disconnect</button>`;
+        return `<a class="ps-control int-primary" href="/api/zernio?action=connect">Connect Instagram</a>`;
+      }
+      if (item.kind === "zernio_youtube") return youtubeConnected ? `<a class="ps-control ghost" href="/api/zernio?action=connect&platform=youtube">Reconnect</a>` : zernio?.configured ? `<a class="ps-control int-primary" href="/api/zernio?action=connect&platform=youtube">Connect with Google</a>` : "";
+      return state === "connected"
+        ? `<button class="ps-control ghost" data-connect="${item.id}">Update</button><button class="ps-control ghost" data-disconnect="${item.id}">Disconnect</button>`
+        : `<button class="ps-control int-primary" data-connect="${item.id}">${state === "attention" ? "Finish setup" : "Connect"}</button>`;
+    };
+    const rowFor = (item) => {
+      const state = stateFor(item);
+      const detail = detailFor(item, state);
+      return `<li class="int-row" data-item="${item.id}">
+        <span class="int-logo" style="--brand:${item.color}">${esc(initials(item.name))}</span>
+        <div class="int-row-text"><strong>${esc(item.name)}</strong><small>${esc(item.blurb)}</small></div>
+        <div class="int-row-state">${pill(state)}${detail ? `<small>${esc(detail)}</small>` : ""}</div>
+        <div class="int-row-cta">${actionFor(item, state)}</div>
+      </li>`;
+    };
+
     const draw = () => {
       if (!current()) return;
-      const s = stateOf(active);
+      const connectedCount = ALL.filter((i) => allowed(i) && stateFor(i) === "connected").length;
+      const usable = ALL.filter((i) => allowed(i) && i.kind !== "push").length;
       root.innerHTML = `
-        <h1>Integrations</h1><p class="ps-subtitle">Connect the tools you already run on. Payments, bookings and automations flow into Pulsify automatically.</p>
-        ${clients.length ? `<label class="int-scope">Workspace<select data-workspace><option value="">Pulsify operator</option>${clients.map((row) => `<option value="${esc(row.client)}" ${row.client === client ? "selected" : ""}>${esc(row.client_name || row.client)}</option>`).join("")}</select></label>` : ""}
-        <section class="int-hero">
-          <div class="int-hero-main">
-            <span class="int-eyebrow">${esc(CATALOG.find((g) => g.items.includes(active)).group)}</span>
-            <div class="int-hero-title"><span class="int-icon">${esc(active.name.slice(0, 2))}</span><h2>${esc(active.name)}</h2>${pill(s)}</div>
-            <p>${esc(active.blurb)}</p>
-            <div class="int-hero-actions">${heroAction(active, s)}</div>
-          </div>
-          <div class="int-hero-side"><ul>${active.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul></div>
-        </section>
-        <div class="int-strip">${ALL.map((i) => `<button class="int-chip ${i === active ? "active" : ""}" data-pick="${i.id}"><span class="int-dot int-dot-${stateOf(i)}"></span>${esc(i.name)}</button>`).join("")}</div>
-        ${CATALOG.map((g) => `<h2>${esc(g.group)}</h2><div class="ps-grid">${g.items.map((i) => `<button class="ps-card int-card" data-pick="${i.id}"><span class="int-icon">${esc(i.name.slice(0, 2))}</span><strong>${esc(i.name)}</strong><small>${esc(i.blurb)}</small>${pill(stateOf(i))}</button>`).join("")}</div>`).join("")}
-        <h2>Push API keys</h2><p class="ps-subtitle">Send leads, messages, metrics and payments into Pulsify from Zapier, Make, n8n or your own code. <a href="/docs/push-api" target="_blank" rel="noopener">Read the docs</a>.</p>
-        <div id="int-keys" class="int-table">${tableSkeleton(4)}</div>
-        <h2>Outbound webhooks</h2><p class="ps-subtitle">Signed events delivered to any HTTPS URL. Three attempts with backoff. Verify <code>X-Pulsify-Signature</code>.</p>
-        <div id="int-hooks" class="int-table">${tableSkeleton(4)}</div>
-        ${client && ctx.operator !== false ? `<h2>Payment matching</h2><p class="ps-subtitle">Confirm which lead each payment belongs to. Only confirmed matches count toward cash collected.</p><div id="int-matches" class="int-table">${tableSkeleton(5)}</div>` : ""}`;
-      root.querySelectorAll("[data-pick]").forEach((b) => (b.onclick = () => { active = ALL.find((i) => i.id === b.dataset.pick); draw(); }));
+        <div class="int-head"><div><h1>Integrations</h1><p class="ps-subtitle">${client ? "The tools this workspace runs on." : "Sign in once per service. Payments, bookings and conversations then flow into Pulsify on their own."}</p></div>
+        ${clients.length ? `<label class="int-scope"><span>Workspace</span><select class="ps-control" data-workspace><option value="">Pulsify (you)</option>${clients.map((row) => `<option value="${esc(row.client)}" ${row.client === client ? "selected" : ""}>${esc(row.client_name || row.client)}</option>`).join("")}</select></label>` : ""}</div>
+        <p class="int-summary"><b>${connectedCount}</b> of ${usable} connected${client ? "" : " for your workspace"}</p>
+        ${notice ? `<p class="int-notice">${esc(notice)}</p>` : ""}
+        <div class="int-list">${CATALOG.map((g) => {
+          const items = g.items.filter((i) => allowed(i) || (!client && CLIENT_ONLY.has(i.id)) || (client && ["zernio", "youtube"].includes(i.id)));
+          return items.length ? `<section class="int-group"><h2>${esc(g.group)}</h2>${g.note ? `<p class="int-group-note">${esc(g.note)}</p>` : ""}<ul>${items.map(rowFor).join("")}</ul></section>` : "";
+        }).join("")}</div>
+        ${client && ctx.operator !== false ? `<h2>Payment matching</h2><p class="ps-subtitle">Confirm which lead each payment belongs to. Only confirmed matches count toward cash collected.</p><div id="int-matches" class="int-table">${tableSkeleton(5)}</div>` : ""}
+        <section id="int-dev" class="int-dev">
+          <h2>Developer tools</h2><p class="ps-subtitle">For Zapier, Make, n8n or your own code. <a href="/docs/push-api" target="_blank" rel="noopener">Read the docs</a>.</p>
+          <h3>Push API keys</h3><p class="int-group-note">Send leads, messages, metrics and payments into Pulsify.</p>
+          <div id="int-keys" class="int-table">${tableSkeleton(4)}</div>
+          <h3>Outbound webhooks</h3><p class="int-group-note">Signed events delivered to any HTTPS URL. Three attempts with backoff. Verify <code>X-Pulsify-Signature</code>.</p>
+          <div id="int-hooks" class="int-table">${tableSkeleton(4)}</div>
+        </section>`;
       root.querySelector("[data-workspace]")?.addEventListener("change", (event) => render(root, { ...ctx, client: event.target.value }));
-      root.querySelector("[data-connect]")?.addEventListener("click", () => connect(active));
+      root.querySelectorAll("[data-connect]").forEach((b) => b.addEventListener("click", () => connect(ALL.find((i) => i.id === b.dataset.connect))));
       root.querySelector("[data-zernio-webhook]")?.addEventListener("click", async (e) => { e.target.disabled = true; try { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "register-webhook" }) }); } catch (err) { e.target.textContent = err.message.slice(0, 40); return; } await render(root, ctx); });
-      root.querySelector("[data-zernio-disconnect]")?.addEventListener("click", async (event) => { try { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "disconnect" }) }); await render(root, ctx); } catch { event.target.textContent = "Retry disconnect"; } });
-      root.querySelector("[data-disconnect]")?.addEventListener("click", async (event) => { try { await api("/api/integrations", { method: "DELETE", body: JSON.stringify({ scope, client, provider: active.id }) }); await render(root, ctx); } catch { event.target.textContent = "Retry disconnect"; } });
+      root.querySelector("[data-zernio-disconnect]")?.addEventListener("click", async (event) => { if (!confirm("Disconnect Instagram? The inbox stops syncing until you connect again.")) return; try { await api("/api/zernio", { method: "POST", body: JSON.stringify({ action: "disconnect" }) }); await render(root, ctx); } catch { event.target.textContent = "Retry disconnect"; } });
+      root.querySelectorAll("[data-disconnect]").forEach((b) => b.addEventListener("click", async (event) => { const item = ALL.find((i) => i.id === b.dataset.disconnect); if (!confirm(`Disconnect ${item.name}? New events stop arriving until you connect again.`)) return; try { await api("/api/integrations", { method: "DELETE", body: JSON.stringify({ scope, client, provider: item.id }) }); await render(root, ctx); } catch { event.target.textContent = "Retry disconnect"; } }));
       drawKeys(); drawHooks(); if (client && ctx.operator !== false) drawMatches();
     };
 
-    const heroAction = (item, s) => {
-      if (ctx.readOnly) return `<span class="int-note">Operator preview is read only. Sign in as the client to change connections.</span>`;
-      if (!allowed(item)) return `<span class="int-note">${client ? "This connector belongs to the operator workspace." : "Choose a client workspace above to configure this connector."}</span>`;
-      if (item.kind === "deferred") return `<span class="int-note">Available after platform review. The current path already works through the sync Worker.</span>`;
-      if (item.kind === "zernio") {
-        if (!zernio?.configured) return `<span class="int-note">Add <code>ZERNIO_API_KEY</code> to the Pages project and the sync Worker, then reload.</span>`;
-        const notice = zernioNotice === "connected" ? `<span class="int-note">Connected. History is replaying in the background; the tracker fills in over the next few minutes.</span>` : zernioNotice === "error" ? `<span class="int-note">Connection failed: ${esc(new URLSearchParams(location.search).get("detail") || "unknown")}</span>` : "";
-        if (zernio.connected) return `${notice}<span class="int-note">@${esc(zernio.account?.username || "")} connected ${esc(zernio.account?.connected_at ? new Date(zernio.account.connected_at).toLocaleDateString() : "")}. Webhook ${zernio.webhook?.registered ? "registered" : zernio.webhook?.secret_set ? "not registered yet" : "needs ZERNIO_WEBHOOK_SECRET on Pages"}.</span>${zernio.webhook?.registered ? "" : `<button class="ps-control" data-zernio-webhook>Register webhook</button>`}<a class="ps-control" href="/api/zernio?action=connect">Reconnect</a><button class="ps-control" data-zernio-disconnect>Disconnect</button>`;
-        return `${notice}<a class="ps-control int-primary" href="/api/zernio?action=connect">Log in with Instagram</a><span class="int-note">Opens Zernio's Instagram login. First 2 accounts are free on Zernio.</span>`;
-      }
-      if (item.kind === "push") return `<a class="ps-control int-primary" href="#int-keys">Create an API key</a><a class="ps-control" href="/docs/push-api" target="_blank" rel="noopener">Docs</a>`;
-      return s === "connected" ? `<button class="ps-control" data-connect>Update</button><button class="ps-control" data-disconnect>Disconnect</button>` : `<button class="ps-control int-primary" data-connect>Connect ${esc(item.name)}</button>`;
-    };
-
     const connect = (item) => {
-      const fields = (item.fields || []).map(([k, label, secret]) => `<label>${esc(label)}<input name="${k}" type="${secret ? "password" : "text"}" autocomplete="off" ${secret ? "" : ""}></label>`).join("");
-      const hint = item.kind === "webhook_in" ? `<p class="int-note">Webhook URL for ${esc(item.name)}: <code>${esc(location.origin)}/api/hooks/${item.id}/{path secret}</code>. Paste the same path secret below.</p>` : "";
-      dialog(`Connect ${item.name}`, hint + fields, async (fd, d) => {
+      if (item.kind === "onekey") {
+        const steps = `<ol class="int-steps">${item.guide.map((g) => `<li>${esc(g)}</li>`).join("")}</ol>${item.link ? `<p class="int-note"><a href="${esc(item.link)}" target="_blank" rel="noopener">Open ${esc(item.name)} in a new tab</a></p>` : ""}`;
+        const d = dialog(`Connect ${item.name}`, `${steps}<label>${esc(item.keyLabel)}<input name="api_key" type="password" autocomplete="off" required spellcheck="false"></label><p class="int-note">Pulsify checks the key, registers its own webhook in ${esc(item.name)} and stores the signing secret. Nothing else to copy.</p>`, async (fd, dlg) => {
+          const button = dlg.querySelector("button[type=submit]");
+          button.disabled = true; button.textContent = "Connecting...";
+          try {
+            const r = await api(`/api/integrations${qs}`, { method: "POST", body: JSON.stringify({ scope, client, provider: item.id, action: "autoconnect", api_key: String(fd.get("api_key") || "").trim() }) });
+            dlg.querySelector("form").innerHTML = `<h2>${esc(item.name)} connected</h2><p>${r.account ? `${esc(r.account)}. ` : ""}Webhook registered. New ${item.id === "calendly" || item.id === "calcom" ? "bookings" : "payments"} arrive within seconds${item.id === "stripe" || item.id === "whop" ? ", and the last 90 days import on the next sync" : ""}.</p><div class="int-actions"><button type="button" class="ps-control int-primary" data-done>Done</button></div>`;
+            dlg.querySelector("[data-done]").onclick = () => dlg.close();
+            dlg.addEventListener("close", () => render(root, ctx), { once: true });
+          } catch (err) { button.disabled = false; button.textContent = "Connect"; throw err; }
+        });
+        d.querySelector("button[type=submit]").textContent = "Connect";
+        return;
+      }
+      const fields = (item.fields || []).map(([k, label, secret]) => `<label>${esc(label)}<input name="${k}" type="${secret ? "password" : "text"}" autocomplete="off"></label>`).join("");
+      dialog(`Connect ${item.name}`, fields, async (fd, d) => {
         const config = {}; const secrets = {};
         for (const [k, , secret] of item.fields || []) { const v = String(fd.get(k) || "").trim(); if (!v) continue; (secret ? secrets : config)[k] = v; }
         await api(`/api/integrations${qs}`, { method: "POST", body: JSON.stringify({ scope, client, provider: item.id, config, secrets }) });

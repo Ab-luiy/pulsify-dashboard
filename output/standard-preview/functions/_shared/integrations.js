@@ -49,8 +49,8 @@ export const PROVIDERS = {
   },
   calcom: {
     scope: "client",
-    configFields: ["contact_email", "contact_name", "booking_url", "booking_note"],
-    secretFields: ["api_key", "path_secret"],
+    configFields: ["contact_email", "contact_name", "booking_url", "booking_note", "webhook_id", "connected_via", "connected_at"],
+    secretFields: ["api_key", "path_secret", "webhook_secret"],
     pathSecret: true,
     clientConnected(record) {
       return Boolean(record.secrets.path_secret);
@@ -58,8 +58,8 @@ export const PROVIDERS = {
   },
   calendly: {
     scope: "client",
-    configFields: ["contact_email", "contact_name", "booking_url", "booking_note"],
-    secretFields: ["path_secret"],
+    configFields: ["contact_email", "contact_name", "booking_url", "booking_note", "webhook_uri", "connected_via", "connected_at"],
+    secretFields: ["api_key", "path_secret", "webhook_secret"],
     pathSecret: true,
     clientConnected(record) {
       return Boolean(record.secrets.path_secret);
@@ -67,7 +67,7 @@ export const PROVIDERS = {
   },
   whop: {
     scope: "client",
-    configFields: ["contact_email", "contact_name", "company_id"],
+    configFields: ["contact_email", "contact_name", "company_id", "webhook_id", "connected_via", "connected_at"],
     secretFields: ["api_key", "path_secret", "webhook_secret"],
     pathSecret: true,
     clientConnected(record) {
@@ -76,7 +76,7 @@ export const PROVIDERS = {
   },
   stripe: {
     scope: "client",
-    configFields: ["contact_email", "contact_name", "webhook_description"],
+    configFields: ["contact_email", "contact_name", "webhook_description", "webhook_endpoint_id", "livemode", "connected_via", "connected_at"],
     secretFields: ["api_key", "path_secret", "webhook_secret"],
     pathSecret: true,
     clientConnected(record) {
@@ -101,7 +101,7 @@ export const PROVIDERS = {
   },
   zernio: {
     scope: "operator",
-    configFields: ["account_id", "username", "profile_id", "webhook_id", "connected_at"],
+    configFields: ["account_id", "username", "profile_id", "webhook_id", "connected_at", "youtube_account_id", "youtube_channel"],
     secretFields: [],
     operatorConnected(record) {
       return Boolean(record.config.account_id);

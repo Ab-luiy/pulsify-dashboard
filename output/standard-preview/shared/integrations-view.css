@@ -121,3 +121,30 @@
 .int-table-skeleton th .int-skel{height:10px}
 
 .int-hero:hover{box-shadow:var(--shadow-card-hover)}.int-table:hover{box-shadow:var(--shadow-card-hover)}.ot-card:hover{box-shadow:var(--shadow-card-hover)}.sr-hit:hover{box-shadow:var(--shadow-card-hover)}
+/* Integrations v2 (2026-09-23): one row per service, honest status, one action. */
+.int-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.int-head .ps-subtitle{margin-bottom:0}
+.int-scope{display:grid;gap:6px;font-size:12px;color:hsl(var(--muted-foreground))}
+.int-scope select{min-width:220px;height:38px;padding:0 12px}
+.int-summary{margin:20px 0 4px;font-size:13px;color:hsl(var(--muted-foreground))}
+.int-summary b{color:hsl(var(--foreground));font-weight:600}
+.int-notice{margin:12px 0;padding:10px 14px;border-radius:var(--radius);background:hsl(var(--primary)/.1);color:hsl(var(--foreground));font-size:13px}
+.int-list{display:grid;gap:28px;margin-top:20px}
+.int-group h2{margin:0 0 4px}
+.int-group-note{margin:0 0 12px;font-size:13px;color:hsl(var(--muted-foreground))}
+.int-group ul{list-style:none;margin:0;padding:0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-elev-1);background:hsl(var(--card))}
+.int-row{display:grid;grid-template-columns:44px minmax(0,1fr) minmax(170px,260px) auto;align-items:center;gap:16px;padding:16px 18px}
+.int-group li+li{border-top:1px solid hsl(var(--border))}
+.int-logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--brand);color:#fff;font:700 14px Inter,system-ui;letter-spacing:.02em;box-shadow:inset 0 0 0 1px rgb(255 255 255/.12)}
+.int-row-text{display:grid;gap:3px;min-width:0}
+.int-row-text strong{font:600 14px Inter,system-ui}
+.int-row-text small{font-size:12.5px;line-height:1.45;color:hsl(var(--muted-foreground))}
+.int-row-state{display:grid;justify-items:start;gap:5px}
+.int-row-state small{font-size:12px;color:hsl(var(--muted-foreground))}
+.int-row-state .int-pill{position:static}
+.int-row-cta{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.int-row-cta .ps-control{white-space:nowrap}
+.int-dev{margin-top:40px;padding-top:8px;border-top:1px solid hsl(var(--border))}
+.int-dev h3{margin:24px 0 4px;font:600 14px Inter,system-ui}
+.int-steps{margin:0 0 14px;padding-left:20px;display:grid;gap:6px;font-size:13px;line-height:1.5;color:hsl(var(--foreground)/.9)}
+@media(max-width:900px){.int-row{grid-template-columns:44px minmax(0,1fr);row-gap:10px}.int-row-state{grid-column:2}.int-row-cta{grid-column:2;justify-content:flex-start}}

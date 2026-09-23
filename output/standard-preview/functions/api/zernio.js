@@ -6,7 +6,7 @@
 import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
-import { deleteIntegration } from "../_shared/integrations.js";
+import { deleteIntegration, getIntegration, upsertIntegration } from "../_shared/integrations.js";
 import { connectUrl, ensureProfile, ensureWebhook, listAccounts, recordConnection, zernioConfigured, zernioConnection, zernioFetch } from "../_shared/zernio.js";
 
 const CONSOLE = "/admin?view=integrations";
@@ -22,9 +22,10 @@ async function handleGet({ request, env }) {
   }
 
   if (action === "connect") {
+    const platform = str(url.searchParams.get("platform")) === "youtube" ? "youtube" : "instagram";
     try {
       const profileId = await ensureProfile(env);
-      const { authUrl } = await connectUrl(env, { profileId, redirectUrl: `${url.origin}/api/zernio?action=callback&profileId=${encodeURIComponent(profileId)}` });
+      const { authUrl } = await connectUrl(env, { profileId, platform, redirectUrl: `${url.origin}/api/zernio?action=callback&platform=${platform}&profileId=${encodeURIComponent(profileId)}` });
       return Response.redirect(authUrl, 302);
     } catch (error) {
       return Response.redirect(`${url.origin}${CONSOLE}&zernio=error&detail=${encodeURIComponent(String(error?.message || error).slice(0, 300))}`, 302);
@@ -36,6 +37,11 @@ async function handleGet({ request, env }) {
     const username = str(url.searchParams.get("username"));
     const profileId = str(url.searchParams.get("profileId"));
     if (!accountId) return Response.redirect(`${url.origin}${CONSOLE}&zernio=error&detail=no-account`, 302);
+    if (str(url.searchParams.get("platform")) === "youtube") {
+      // YouTube rides on the same Zernio profile; remember which account it is.
+      await upsertIntegration(env, { scope: "operator", client: "", provider: "zernio", config: { youtube_account_id: accountId, youtube_channel: username || "" }, secrets: {}, origin: url.origin });
+      return Response.redirect(`${url.origin}${CONSOLE}&zernio=youtube-connected`, 302);
+    }
     let webhookId = "";
     try {
       const secret = env.ZERNIO_WEBHOOK_SECRET || "";
@@ -56,6 +62,18 @@ async function handleGet({ request, env }) {
     const accountId = str(url.searchParams.get("account"));
     const r = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(id)}/messages?accountId=${encodeURIComponent(accountId)}&limit=20&sortOrder=desc`).catch((e) => ({ error: String(e?.message || e) }));
     return json({ ok: true, messages: (r.messages || []).map((m) => ({ id: m.id, direction: m.direction, sentAt: m.sentAt, deliveryStatus: m.deliveryStatus, deliveredAt: m.deliveredAt, readAt: m.readAt, text: String(m.message || "").slice(0, 40) })), error: r.error || null });
+  }
+  if (action === "insights") {
+    // Account-level analytics straight from Zernio (instagram or youtube). Operator only.
+    const platform = str(url.searchParams.get("platform")) === "youtube" ? "youtube" : "instagram";
+    const connection = await zernioConnection(env);
+    const stored = platform === "youtube" ? (await getIntegration(env, "operator", "", "zernio"))?.config?.youtube_account_id : "";
+    const yt = platform === "youtube" && !stored ? await zernioFetch(env, "/v1/accounts?platform=youtube&page=1&limit=10").catch(() => ({})) : null;
+    const account = platform === "instagram" ? { id: connection.account_id } : { id: stored || (yt?.accounts || [])[0]?._id };
+    if (!account?.id) return json({ ok: false, platform, error: `no ${platform} account connected in Zernio` }, 404);
+    const path = platform === "youtube" ? "/v1/analytics/youtube/channel-insights" : "/v1/analytics/instagram/account-insights";
+    const r = await zernioFetch(env, `${path}?accountId=${encodeURIComponent(account.id)}`).catch((e) => ({ error: String(e?.message || e) }));
+    return json({ ok: !r.error, platform, insights: r.error ? null : r, error: r.error || null });
   }
   if (action === "peek") {
     // One raw conversation row from Zernio, for checking field names. Operator only.

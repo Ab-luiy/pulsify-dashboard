@@ -52,11 +52,11 @@ const server=http.createServer((req,res)=>{
  // A cold direct visit must still have a client selector before bootstrap completes.
  slowBootstrap=true;await page.goto('http://127.0.0.1:8775/admin.html?view=integrations');
  await page.locator('[data-workspace]').waitFor();assert.equal(await page.locator('[data-workspace] option[value="qa"]').count(),1);
- await page.locator('[data-workspace]').selectOption('qa');await page.locator('[data-connect]').waitFor();
- await page.locator('[data-connect]').click();await page.locator('dialog[open]').waitFor();await page.locator('[data-cancel]').click();
+ await page.locator('[data-workspace]').selectOption('qa');await page.locator('[data-connect="stripe"]').waitFor();
+ await page.locator('[data-connect="stripe"]').click();await page.locator('dialog[open] input[name="api_key"]').waitFor();await page.locator('[data-cancel]').click();
  // Failure must offer retry, never falsely display disconnected services.
  failIntegrations=true;await page.evaluate(()=>PulsifyOperatorShell.go('integrations'));await page.locator('[data-retry]').waitFor();
- failIntegrations=false;await page.locator('[data-retry]').click();await page.locator('.int-hero-actions').waitFor();
+ failIntegrations=false;await page.locator('[data-retry]').click();await page.locator('.int-list [data-item="stripe"]').waitFor();
  for(const view of ['overview','leads','search','outreach','crm','instagram','youtube','content','integrations','payments','settings','home','brain','delivery','campaigns','email']){
   await page.evaluate(v=>PulsifyOperatorShell.go(v),view);
   if(['brain','delivery','campaigns','email'].includes(view)){await page.locator('.ps-main h1').first().waitFor();assert.equal(await page.locator('iframe[src*="console-view"]:not([hidden])').count(),0,view+' renders natively');}
