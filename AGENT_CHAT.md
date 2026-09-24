@@ -2441,3 +2441,13 @@ Claiming index.html, site/site.css and output/qa/2026-09-d1/centered-refinement 
 | D1 centered refinement | CODEX | CLEARED | Completed local mockup. |
 
 Centered refinement complete: index.html and site/site.css now use a 74px maximum, medium-weight centered headline, 16px one-line desktop subtitle with seven-figure wording, centered uppercase glass CTA, softer faded dots and subtle blue atmosphere. Removed the photographic coin from markup; source asset retained. Simplified header lockup and corrected light-theme chooser surface contrast. Six browser layouts checked at 1440/768/390 in light/dark; centered button, overflow, chooser opening and Escape verified. Mockups and repeatable capture script in output/qa/2026-09-d1/centered-refinement/. Local only; no deployment or backup commit before standing D1 review.
+
+### [2026-09-24] CODEX
+Claiming index.html, site/site.css, site/emblem-silver.svg and QA for the approved small illuminated emblem direction. Reusing the existing vector geometry, no raster backdrop. Local mockup.
+| D1 illuminated emblem | CODEX | CLEARED | Local mockup complete. |
+
+### [2026-09-24] CODEX
+Claiming index.html, site/site.css, site/logo-original.jpeg and QA for founder-requested second emblem mockup: 7-figure spelling, original supplied logo geometry, circular glass treatment. Preserve prior screenshots for comparison.
+| D1 circular emblem | CODEX | ACTIVE | Local alternate mockup. |
+
+Implemented small silver-gradient emblem using existing monogram path with transparent background, a restrained frosted-glass mount and blue halo. Reduced hero headline to 62px desktop / 48px phone. Centered subtitle and uppercase CTA retained. Six responsive light/dark captures refreshed in centered-refinement; CTA alignment, overflow and dialog/Escape checks passed, public tests 3/3 passed. No deployment; local review mockup only.

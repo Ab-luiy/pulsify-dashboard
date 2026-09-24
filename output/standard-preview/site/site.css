@@ -263,7 +263,11 @@ body::before {
 .hero { padding: 24px 24px 68px; text-align: center; }
 .hero-inner { width: 100%; min-height: 0; display: block; }
 .hero-copy { padding: 0; }
-.hero h1 { font-size: clamp(54px, 5.2vw, 74px); font-weight: 500; line-height: 1.1; letter-spacing: -.055em; text-shadow: none; }
+.hero h1 { font-size: clamp(48px, 4.3vw, 62px); font-weight: 500; line-height: 1.1; letter-spacing: -.055em; text-shadow: none; }
+.hero-emblem { position: relative; isolation: isolate; display: grid; place-items: center; width: 104px; height: 104px; margin: 0 auto 30px; border-radius: 29px; background: linear-gradient(145deg, #dbe8ff16, #759aff06 55%, #ffffff09); box-shadow: inset 0 1px 0 #ffffff4a, inset 0 -1px 0 #ffffff0a, 0 0 0 1px #c1d6ff12, 0 20px 50px #00000045; backdrop-filter: blur(18px); }
+.hero-emblem::before { content: ''; position: absolute; z-index: -1; inset: -75px; border-radius: 50%; background: radial-gradient(circle, #5b83ec24, #4967bc09 48%, transparent 70%); pointer-events: none; }
+.hero-emblem::after { content: ''; position: absolute; inset: 1px; border-radius: 28px; background: linear-gradient(150deg, #ffffff10, transparent 38%, #ffffff02 65%, transparent); pointer-events: none; }
+.hero-emblem img { width: 64px; height: 64px; opacity: .9; filter: drop-shadow(0 2px 1px #00000080); }
 .hero p { max-width: none; margin: 20px auto 0; font-size: 16px; font-weight: 400; line-height: 1.6; letter-spacing: -.015em; text-wrap: balance; }
 .hero .hero-button {
   margin-top: 34px; min-height: 46px; padding: 0 28px; border-radius: 12px;
@@ -275,6 +279,8 @@ body::before {
 .hero .hero-button:hover { background-color: var(--glass); transform: translateY(-1px); }
 .site-footer { min-height: 72px; font-size: 12px; opacity: .8; }
 @media (prefers-color-scheme: light) {
+  .hero-emblem { background: linear-gradient(145deg, #ffffffd9, #e4ebf7a0); box-shadow: inset 0 1px 0 #ffffff, 0 0 0 1px #8a9bbc26, 0 18px 42px #314f7d14; }
+  .hero-emblem img { filter: brightness(.65) drop-shadow(0 1px 0 #ffffff); }
   dialog.chooser { background: linear-gradient(145deg, #ffffffcc, #ffffff80), var(--surface); }
   .hero .hero-button { box-shadow: inset 0 1px 0 #ffffff, inset 0 0 0 1px #17181b12, 0 8px 24px #17181b0d; }
 }
@@ -283,10 +289,35 @@ body::before {
   .hero { padding: 24px 24px 64px; }
   .hero-inner { min-height: 0; }
   .hero-copy { padding: 0; }
-  .hero h1 { font-size: 56px; }
+  .hero h1 { font-size: 48px; }
+  .hero-emblem { width: 92px; height: 92px; border-radius: 26px; margin-bottom: 27px; }
+  .hero-emblem img { width: 58px; height: 58px; }
   .hero p { max-width: 300px; font-size: 15px; margin-top: 18px; }
   .hero .hero-button { margin-top: 30px; }
   .site-footer { width: calc(100% - 48px); }
+}
+
+/* Alternate: original artwork suspended in circular glass. */
+.hero-emblem {
+  width: 106px; height: 106px; border-radius: 50%; margin-bottom: 30px;
+  background: radial-gradient(circle at 30% 16%, #d8e6ff1c, transparent 58%), linear-gradient(160deg, #14223970, #080d1690);
+  box-shadow: inset 0 1px 0 #e1edff66, inset 0 -1px 0 #5c82ca26, 0 0 0 1px #b6cbff18, 0 14px 36px #00000045, 0 0 48px #487adc0a;
+}
+.hero-emblem::before { inset: -100px; background: radial-gradient(ellipse, #547dd929, #365da90a 42%, transparent 69%); }
+.hero-emblem::after { inset: 8px; border-radius: 50%; background: linear-gradient(145deg, #ffffff05, transparent 55%); box-shadow: inset 0 0 0 1px #d2e2ff0c; }
+.emblem-art {
+  display: block; width: 65px; height: 65px; border-radius: 50%;
+  background: url('/site/logo-original.jpeg') center / 230% auto no-repeat;
+  filter: invert(1); mix-blend-mode: screen; opacity: .82;
+}
+.hero .hero-button { border-radius: 999px; padding-inline: 31px; background: linear-gradient(170deg, #c6dbff1c, #bdceee05), color-mix(in srgb, var(--surface) 50%, transparent); }
+@media (prefers-color-scheme: light) {
+  .hero-emblem { background: radial-gradient(circle at 30% 16%, #fff, #e3ebf780); box-shadow: inset 0 1px 0 #fff, inset 0 -1px 0 #5c82ca26, 0 0 0 1px #6782ab22, 0 14px 36px #314f7d10; }
+  .emblem-art { filter: none; mix-blend-mode: multiply; opacity: .65; }
+}
+@media (max-width: 600px) {
+  .hero-emblem { width: 94px; height: 94px; }
+  .emblem-art { width: 58px; height: 58px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
