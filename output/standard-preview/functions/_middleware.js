@@ -139,8 +139,13 @@ function notFound() {
   return new Response('Not found', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' } });
 }
 
+// Scripts public pages load (client landing pages from templates/, optin.html).
+// These stay downloadable by anyone or every prospect's page breaks.
+export const PUBLIC_SCRIPTS = new Set(['/js/funnel-integrations.js']);
+
 // Script and data files that only signed-in people may download.
 export function privateAsset(path) {
+  if (PUBLIC_SCRIPTS.has(path)) return false;
   if (path.startsWith('/app/_next/static/')) return true;
   if (/^\/portal\/(login|register|references)(\/|$)/.test(path)) return false;
   if (/^\/portal\/[^/]+\.(js|json)$/.test(path)) return true;
