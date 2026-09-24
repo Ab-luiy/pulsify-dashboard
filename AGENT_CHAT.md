@@ -2450,6 +2450,33 @@ Claiming index.html, site/site.css, site/emblem-silver.svg and QA for the approv
 Claiming index.html, site/site.css, site/logo-original.jpeg and QA for founder-requested second emblem mockup: 7-figure spelling, original supplied logo geometry, circular glass treatment. Preserve prior screenshots for comparison.
 | D1 circular emblem | CODEX | CLEARED | Local alternate mockup complete. |
 
+### [2026-09-24] CODEX
+Claiming index.html, site/site.css and typography QA for authorized text polish: preserve circular logo unchanged, refine wordmark spacing/finish, subtitle Build your 7-figure audience, quieter uppercase CTA typography. Local mockup.
+| D1 typography polish | CODEX | CLEARED | Text-only mockup complete. |
+
+### [2026-09-24] CODEX
+Claiming index.html, site/site.css and premium-composition QA for founder-requested richer design. Logo and its styling remain untouched. Add restrained product context, stronger editorial hierarchy and improved glass CTA; local mockup only.
+| D1 premium composition | CODEX | CLEARED | Local mockup ready. |
+
+### [2026-09-24] CODEX
+Claiming homepage and site.css plus quiet-light QA: founder rejected feature panels. Remove all added panels, preserve logo, restore sparse centered layout with subtle light and glass refinement.
+| D1 quiet light | CODEX | CLEARED | Removed feature panels; local minimal mockup ready. |
+
+### [2026-09-24] CODEX
+Claiming homepage and CSS plus oversized-emblem QA for founder experiment: dramatically enlarged same circular emblem behind the Pulsify wordmark, drop shadow separation, centered slogan and button below. Preserve previous mockups. Local only.
+| D1 oversized emblem | CODEX | CLEARED | Local scale experiment complete. |
+
+Enlarged existing circular emblem to 440px desktop / responsive phone stage; placed shadowed Pulsify wordmark over center, exact requested title-case slogan and uppercase glass CTA beneath. Original logo artwork retained; lowered opacity for text separation. Six browser layouts pass alignment/overflow/modal checks; desktop and phone inspected. Screenshots preserved in oversized-emblem. Local only, no deployment or backup commit before review.
+
+### [2026-09-24] CODEX
+| D1 reflective wordmark: index.html, site/site.css, reflective-wordmark QA | CODEX | CLEARED | Title below emblem, tight slogan spacing, silver-blue reflective typography and blue halo. CTA preserved. Six responsive/theme layouts pass overflow, alignment and chooser/Escape checks; desktop visually inspected. Local only; no deployment or backup commit under D1 review gate. |
+
+Removed all three rejected panels. Preserved logo, centered copy and CTA; introduced restrained background light and button hover reflection. Six-layout browser checks pass (centering, no overflow, chooser/Escape); desktop screenshot reviewed. QA in quiet-light. No deployment or backup commit under standing local review scope.
+
+Expanded mockup complete: unchanged circular logo, centered hero and CTA, richer glass button lighting and three compact product context panels for content, conversations and client delivery. Homepage-scoped styles, no new routes or data behaviors. Six responsive/theme checks pass and public tests 3/3 pass. Desktop and mobile visually inspected; screenshots in premium-composition. Local only, no deployment or backup commit before standing D1 review.
+
+Text polish complete: slightly more open wordmark tracking, medium weight with restrained pearl finish, subtitle Build your 7-figure audience, smaller spaced uppercase CTA. Circular logo asset and all emblem CSS unchanged. Six layouts in typography-polish pass centered CTA, overflow and modal/Escape checks; desktop/mobile visually inspected. Local mockup only, no deploy or backup commit pending standing D1 review.
+
 Circular emblem variant uses founder-supplied original monochrome JPEG, rendered with CSS crop/blending to retain its geometry, in a circular glass mount with restrained halo. CTA now capsule-shaped; subtitle and description use 7-figure. Prior centered-refinement screenshots preserved; new six-layout QA and mockups in circular-emblem. No overflow, centered CTA, dialog/Escape pass; public tests 3/3 pass. Local only, no deployment/backup before D1 review.
 
 Implemented small silver-gradient emblem using existing monogram path with transparent background, a restrained frosted-glass mount and blue halo. Reduced hero headline to 62px desktop / 48px phone. Centered subtitle and uppercase CTA retained. Six responsive light/dark captures refreshed in centered-refinement; CTA alignment, overflow and dialog/Escape checks passed, public tests 3/3 passed. No deployment; local review mockup only.
