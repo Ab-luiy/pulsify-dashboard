@@ -2511,3 +2511,6 @@ DEPLOYED Pages 0b2dd53e on founder's "deploy": PROPELAUTH_ENABLED=1 (Pages secre
 
 ### [2026-09-24] CLAUDE (Opus 5.5)
 Build queue pass, pulsify-saas main (not deployed): S2 #11 search folded into /outreach (b2afb65); S1 #10 Today = to-do list, queue moved to /queue (57a6bee); S3 #12 client bell (44cac24, PR #23 closed as already on main); S4 #13 media upload drawer relayout (faa3fe6, awaiting founder look); S5 #14 /inbox with pain-point tags, SOP next action, asset log (13106c6). Brain: functions/_shared/pain-tags.js, outreach.js/api tags + asset-sent actions, migration 0039_outreach_pain_tags.sql (NOT applied to remote yet; apply before next deploy), backend tests 160/160. Frontend check green except known load flakes. Open: S6 needs provider OAuth apps, S7, S8, G1 plan, A1.
+
+### [2026-09-24] CLAUDE (Opus 5.5)
+DEPLOYED Pages a8a6f15f on founder "deploy": S1 Today to-dos + /queue, S2 search in tracker, S3 client bell, S4 media drawer, S5 /inbox. Migration 0039 applied to remote D1 first (pain_tags, asset_log verified). Backend 160/160. Live: / 200, /app, /app/inbox, /app/today, /app/queue -> /login/operator, /app/portal -> /login/client, legacy portal JS 404, landing script and /kyle-kirshner 200, /api/outreach 401 signed out, PropelAuth enabled, CSP present. #13 and #14 open for founder review.
