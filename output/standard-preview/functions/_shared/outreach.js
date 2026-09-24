@@ -2,6 +2,7 @@
 // human-set row from ig_outreach. Used by the API and the Worker.
 import { prospectCutoff, bookingEvidence } from "./prospect-policy.js";
 import { nowIso, str } from "./common.js";
+import { readAssetLog, readTags } from "./pain-tags.js";
 
 export const TOUCH_WINDOW_MS = 60 * 60 * 1000;      // bubbles within an hour are one touch
 export const FOLLOW_UP_HOURS = 24;                  // next touch is due after this
@@ -91,6 +92,8 @@ export function deriveThread(conversation, messages, row = {}, now = Date.now())
     hibernated_at: row.hibernated_at || null,
     inactive_reason: stale ? "No activity in two months" : row.hibernated_at ? "Dropped by you" : null,
     notes: row.notes || "",
+    pain_tags: readTags(row.pain_tags),
+    asset_log: readAssetLog(row.asset_log),
   };
 }
 
@@ -153,7 +156,7 @@ export async function loadThreads(env, { q = "", period = "year", now = Date.now
   const like = q ? `%${str(q).toLowerCase()}%` : null;
   const conversations = (await env.DB.prepare(
     `SELECT c.id,c.participant_id,c.participant_username,c.participant_name,c.first_message_at,c.last_message_at,
-            o.pfp_url,o.sentiment,o.outcome,o.hibernated_at,o.notes,o.seen_at
+            o.pfp_url,o.sentiment,o.outcome,o.hibernated_at,o.notes,o.seen_at,o.pain_tags,o.asset_log
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id
       WHERE c.last_message_at >= ? AND (? IS NULL OR LOWER(COALESCE(c.participant_username,'')) LIKE ? OR LOWER(COALESCE(c.participant_name,'')) LIKE ?)
       ORDER BY c.last_message_at DESC LIMIT 500`,
@@ -171,7 +174,7 @@ export async function loadThreads(env, { q = "", period = "year", now = Date.now
 }
 
 export async function upsertOutreach(env, conversationId, patch, operatorEmail = "operator") {
-  const fields = { pfp_url: undefined, sentiment: undefined, outcome: undefined, hibernated_at: undefined, notes: undefined, seen_at: undefined, seen_notified_at: undefined, reply_notified_at: undefined };
+  const fields = { pfp_url: undefined, sentiment: undefined, outcome: undefined, hibernated_at: undefined, notes: undefined, seen_at: undefined, seen_notified_at: undefined, reply_notified_at: undefined, pain_tags: undefined, asset_log: undefined };
   const keys = Object.keys(fields).filter((k) => patch[k] !== undefined);
   const now = nowIso();
   await env.DB.prepare(

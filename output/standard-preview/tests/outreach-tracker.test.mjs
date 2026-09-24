@@ -77,7 +77,7 @@ const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT)");
 for(const t of ['crm_overrides','crm_added','crm_removed'])sql.exec(`CREATE TABLE ${t}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
-for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
+for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql','0039_outreach_pain_tags.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 const emails=[];
 const env={OPERATOR_EMAIL:'abod.louai@gmail.com',RESEND_API_KEY:'re',EMAIL_FROM:'Pulsify <hi@pulsify-ai.com>',ADMIN_KEY:'k',INTEGRATION_ENCRYPTION_KEY:Buffer.from(new Uint8Array(32)).toString('base64'),
   DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
@@ -118,6 +118,25 @@ test('API actions: sentiment, outcome, hibernate, wake, note; unknown thread 404
   assert.equal((await post({id:'nope',action:'wake'})).status,404);
   assert.equal((await post({id:'due',action:'outcome:weird'})).status,422);
   assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM ig_outreach_events WHERE kind IN ('booked','hibernated')").get().n,2);
+});
+
+test('inbox tags and asset log: catalog in the list, known ids only, strength clamped, log appends', async()=>{
+  const post=(body)=>call(outreachPost,op('https://x/api/outreach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}));
+  const list=await (await call(outreachGet,op('https://x/api/outreach'))).json();
+  assert.ok(list.pain_tag_catalog.some(t=>t.id==='bad-funnel'&&t.pillar==='funnel'));
+  assert.equal(list.ready_assets.content.length,2);
+  assert.deepEqual(list.threads.find(t=>t.id==='fresh').pain_tags,[]);
+  let r=await (await post({id:'fresh',action:'tags',tags:[{id:'bad-funnel',strength:9},{id:'made-up',strength:2},{id:'bad-funnel',strength:1},{id:'no-youtube'}]})).json();
+  assert.deepEqual(r.thread.pain_tags,[{id:'bad-funnel',strength:3},{id:'no-youtube',strength:2}]);
+  r=await (await post({id:'fresh',action:'asset-sent',entry:{kind:'ready',tag:'bad-funnel',asset:'funnel-01'}})).json();
+  assert.equal(r.thread.asset_log.length,1);assert.equal(r.thread.asset_log[0].asset,'funnel-01');assert.ok(r.thread.asset_log[0].at);
+  r=await (await post({id:'fresh',action:'asset-sent',entry:{kind:'personal',tag:'no-youtube'}})).json();
+  assert.deepEqual(r.thread.asset_log.map(e=>e.kind),['ready','personal']);
+  assert.equal((await post({id:'fresh',action:'asset-sent',entry:{kind:'ready',tag:'bad-funnel',asset:'nope'}})).status,422);
+  assert.equal((await post({id:'fresh',action:'asset-sent',entry:{kind:'personal',tag:'made-up'}})).status,422);
+  const one=await (await call(outreachGet,op('https://x/api/outreach?id=fresh'))).json();
+  assert.equal(one.thread.pain_tags.length,2);assert.equal(one.thread.asset_log.length,2);
+  r=await (await post({id:'fresh',action:'tags',tags:[]})).json();assert.deepEqual(r.thread.pain_tags,[]);
 });
 
 test('reply to outreach lands in the bell with the person and logs the event; no email', async()=>{

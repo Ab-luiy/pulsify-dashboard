@@ -2,13 +2,16 @@
 //   GET  /api/outreach?q=            threads (derived, sorted for work) + stats + recent events
 //   GET  /api/outreach?id=<thread>   one thread with full message history
 //   POST /api/outreach {id, action}  sentiment:positive|negative|clear, outcome:booked|closed|lost|clear,
-//                                    hibernate, wake, note {text}
+//                                    hibernate, wake, note {text},
+//                                    tags {tags:[{id,strength}]}, asset-sent {entry:{kind,tag,asset?}}
+// The list response also carries pain_tag_catalog and ready_assets for the inbox (ticket #14).
 import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { deriveThread, loadThreads, logEvent, stats, upsertOutreach } from "../_shared/outreach.js";
 import { pushOperator } from "../_shared/realtime.js";
 import { reviewBooking } from "../_shared/booking-review.js";
+import { cleanAssetEntry, cleanTags, PAIN_TAGS, READY_ASSETS, readAssetLog } from "../_shared/pain-tags.js";
 
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);
@@ -18,7 +21,7 @@ async function handleGet({ request, env }) {
   const id = str(url.searchParams.get("id"));
   if (id) {
     const conversation = await env.DB.prepare(
-      `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at
+      `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at, o.pain_tags, o.asset_log
          FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
     ).bind(id).first();
     if (!conversation) return json({ ok: false, error: "thread not found" }, 404);
@@ -27,7 +30,7 @@ async function handleGet({ request, env }) {
   }
   const threads = await loadThreads(env, { q: url.searchParams.get("q") || "", period: url.searchParams.get("period") === "recent" ? "recent" : "year" });
   const events = (await env.DB.prepare("SELECT id, conversation_id, kind, handle, name, text, created_at, delivered_at FROM ig_outreach_events ORDER BY created_at DESC LIMIT 30").all().catch(() => ({ results: [] }))).results || [];
-  return json({ ok: true, threads, stats: stats(threads), events, timezone: env.OPERATOR_TIMEZONE || "Europe/Istanbul", generated_at: new Date().toISOString() });
+  return json({ ok: true, threads, stats: stats(threads), events, pain_tag_catalog: PAIN_TAGS, ready_assets: READY_ASSETS, timezone: env.OPERATOR_TIMEZONE || "Europe/Istanbul", generated_at: new Date().toISOString() });
 }
 
 async function handlePost({ request, env }) {
@@ -65,11 +68,18 @@ async function handlePost({ request, env }) {
     await upsertOutreach(env, id, { hibernated_at: null }, actor);
   } else if (action === "note") {
     await upsertOutreach(env, id, { notes: str(body.text).slice(0, 2000) }, actor);
+  } else if (action === "tags") {
+    await upsertOutreach(env, id, { pain_tags: JSON.stringify(cleanTags(body.tags)) }, actor);
+  } else if (action === "asset-sent") {
+    const entry = cleanAssetEntry(body.entry, new Date().toISOString());
+    if (!entry) return json({ ok: false, error: "bad asset entry" }, 422);
+    const current = await env.DB.prepare("SELECT asset_log FROM ig_outreach WHERE conversation_id=?").bind(id).first();
+    await upsertOutreach(env, id, { asset_log: JSON.stringify([...readAssetLog(current?.asset_log), entry].slice(-50)) }, actor);
   } else {
     return json({ ok: false, error: "unknown action" }, 422);
   }
   const row = await env.DB.prepare(
-    `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at
+    `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at, o.pain_tags, o.asset_log
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
   ).bind(id).first();
   const messages = (await env.DB.prepare("SELECT direction, sent_at, text, payload_json FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC").bind(id).all()).results || [];
