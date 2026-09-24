@@ -83,7 +83,8 @@ response=await onRequest({env:assetEnv,params:{path:'references/story-1.png'},re
 assert.equal(response.status,200,'authenticated clients can read reference images');
 sql.prepare('UPDATE client_config SET portal_token_hash=? WHERE client=?').run(await sha256Hex('qa-private-link'),'qa');
 response=await onRequest({env:assetEnv,params:{path:''},request:new Request('https://qa.test/portal?t=qa-private-link&client=qa')});
-assert.equal(response.status,200);
+assert.equal(response.status,302,'private link signs in and forwards to the new portal');
+assert.equal(response.headers.get('location'),'https://qa.test/app/portal?client=qa');
 const privateCookie=response.headers.get('set-cookie').split(';')[0];
 assert.equal((await resolveClientAccess(new Request('https://qa.test/portal?client=qa',{headers:{cookie:privateCookie}}),env)).client,'qa','private-link refresh remains authenticated after URL token removal');
 sql.exec("CREATE TABLE studio_sequences(id INTEGER PRIMARY KEY,client_id TEXT,status TEXT,output_json TEXT,review_note TEXT,updated_at TEXT); INSERT INTO studio_sequences(id,client_id,status) VALUES(1,'qa','draft'),(2,'other','draft'),(3,'qa','approved')");

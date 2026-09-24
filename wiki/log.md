@@ -1790,3 +1790,7 @@ Founder said deploy. Pages c50692d4 puts the full React/Next.js rebuild live at 
 ## [2026-09-24] lint | Parity audit of the rebuilt app
 
 Seven read-only audits compared every legacy screen (operator console and client portal) with its Next.js port. Every screen was a faithful match; the few real gaps (links still bouncing to /admin, a Leads empty-state crash, missing profile photos on queued openers, five unmapped old portal deep links) were fixed and deployed as Pages 70dca4f7 with 429 browser and 142 backend tests passing. Legacy /admin and /portal remain the defaults until cutover.
+
+## [2026-09-24] decision | Switched over to the new app
+
+Founder said switch over. /admin and /portal now forward to the Next.js app at /app and /app/portal, including old ?view= and #hash links, previews and private client links. Verified live. Legacy files stay on disk one cycle as a rollback, then get deleted. Codex login (PropelAuth) still off.

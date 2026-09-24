@@ -9,7 +9,7 @@ import { resolveOperator } from "../_shared/spine-auth.js";
 import { deleteIntegration, getIntegration, upsertIntegration } from "../_shared/integrations.js";
 import { connectUrl, ensureProfile, ensureWebhook, listAccounts, recordConnection, zernioConfigured, zernioConnection, zernioFetch } from "../_shared/zernio.js";
 
-const CONSOLE = "/admin?view=integrations";
+const CONSOLE = "/app/integrations";
 
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);

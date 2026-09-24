@@ -339,7 +339,7 @@ async function testMintExchangeReadAndAudit() {
     next: () => new Response("next"),
   });
   assert.equal(exchangeResponse.status, 302);
-  assert.equal(exchangeResponse.headers.get("location"), "https://funnels.test/portal?client=alpha");
+  assert.equal(exchangeResponse.headers.get("location"), "https://funnels.test/app/portal?client=alpha");
   assert.equal(exchangeResponse.headers.get("referrer-policy"), "no-referrer");
   const sessionCookie = exchangeResponse.headers.get("set-cookie");
   assert.match(sessionCookie, new RegExp(`^${CLIENT_SESSION_COOKIE}=`));

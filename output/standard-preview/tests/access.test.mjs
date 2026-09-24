@@ -35,7 +35,7 @@ test('the app route passes through client-slug routing to static assets',async()
 test('middleware redirects bypass hosts, protects HTML aliases, audits API keys and passes trusted identity to handlers',async()=>{
  const env={ACCESS_AUD:'console',ADMIN_KEY:'automation-test',DB:{prepare(){return{bind(){return{run:async()=>{events++;}};}};}}};let events=0;
  async function invoke(url,headers={},method='GET'){const request=new Request(url,{headers,method});const data={};return onRequest({request,env,data,next:async()=>Response.json({operator:data.operator,denied:!!checkAdmin(request,env),identity:operatorIdentity(request)})});}
- for(const path of ['/admin','/admin.html','/settings','/integrations','/campaigns']){const r=await invoke('https://pulsify-funnels.pages.dev'+path);assert.equal(r.status,302);assert.equal(r.headers.get('location'),path.startsWith('/admin')?'https://pulsify-ai.com'+path:'https://pulsify-ai.com/admin?view='+path.slice(1));}
+ for(const path of ['/admin','/admin.html','/settings','/integrations','/campaigns']){const r=await invoke('https://pulsify-funnels.pages.dev'+path);assert.equal(r.status,302);assert.equal(r.headers.get('location'),path.startsWith('/admin')?'https://pulsify-ai.com'+path:'https://pulsify-ai.com/app/'+path.slice(1));}
  assert.equal((await invoke('https://pulsify-funnels.pages.dev/app')).headers.get('location'),'https://pulsify-ai.com/app');
  assert.equal((await invoke('https://pulsify-ai.com/app')).headers.get('location'),'https://pulsify-ai.com/admin');
  assert.equal((await invoke('https://pulsify-ai.com/api/clients')).status,401);
@@ -49,4 +49,16 @@ test('middleware redirects bypass hosts, protects HTML aliases, audits API keys 
  assert.equal((await invoke('https://pulsify-ai.com/api/client-login',{},'POST')).status,200);
  assert.equal((await invoke('https://pulsify-ai.com/api/api-keys')).status,200);
  assert.equal((await invoke('https://pulsify-ai.com/api/integrations')).status,200);
+});
+
+test('cutover: a signed-in operator on /admin lands on the matching new page',async()=>{
+ const env={ACCESS_AUD:'console',DB:{prepare(){return{bind(){return{run:async()=>{}};}};}}};
+ const valid=await token();
+ async function go(url){return onRequest({request:new Request(url,{headers:{'Cf-Access-Jwt-Assertion':valid}}),env,data:{},next:async()=>new Response('legacy')});}
+ assert.equal((await go('https://pulsify-ai.com/admin')).headers.get('location'),'https://pulsify-ai.com/app/');
+ assert.equal((await go('https://pulsify-ai.com/admin?view=crm')).headers.get('location'),'https://pulsify-ai.com/app/crm');
+ assert.equal((await go('https://pulsify-ai.com/admin?view=queue')).headers.get('location'),'https://pulsify-ai.com/app/today');
+ assert.equal((await go('https://pulsify-ai.com/admin?view=cashflow')).headers.get('location'),'https://pulsify-ai.com/app/dashboard?tab=cashflow');
+ assert.equal((await go('https://pulsify-ai.com/admin.html?view=nonsense')).headers.get('location'),'https://pulsify-ai.com/app/');
+ assert.equal(await (await go('https://pulsify-ai.com/admin/console.js')).text(),'legacy','legacy assets stay reachable for rollback');
 });

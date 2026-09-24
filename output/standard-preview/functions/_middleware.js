@@ -27,7 +27,7 @@ export async function onRequest(context) {
   const url = new URL(request.url), api = path.startsWith('/api/');
   if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
-  if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin?view='+legacyView[1],302);
+  if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/app/'+legacyView[1],302);
   // The client portal (/app/portal) authenticates clients in functions/app/portal/[[path]].js,
   // and hashed build assets under /app/_next/static are shared by both surfaces.
   const clientSurface = /^\/app\/portal(\/|$)/.test(path) || path.startsWith('/app/_next/static/');
@@ -49,6 +49,12 @@ export async function onRequest(context) {
   // Access cookie. Only operator requests opt into the mixed API admin branch.
   if (operator && !consolePage && !adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]) && request.headers.get('x-pulsify-operator') !== '1' && operator.via !== 'key') operator = null;
   if (operator) { context.data.operator = operator; rememberOperator(request,operator); }
+  // Cutover 2026-09-24: the operator console is the Next.js app at /app. The
+  // legacy console page (and any old /admin?view=<id> link in emails, alerts or
+  // bookmarks) forwards to the matching new page. Legacy assets stay reachable.
+  if (operator && operator.via !== 'key' && ['GET','HEAD'].includes(request.method) && /^\/admin(?:\.html)?\/?$/.test(path)) {
+    return Response.redirect(url.origin + appPathForView(url.searchParams.get('view') || ''), 302);
+  }
   if ((consolePage || (api && adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]))) && !operator) {
     if (url.hostname === 'pulsify-funnels.pages.dev' || url.hostname.endsWith('.pulsify-funnels.pages.dev')) return Response.redirect('https://pulsify-ai.com'+url.pathname+url.search,302);
     if (appPage && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin',302);
@@ -61,4 +67,16 @@ export async function onRequest(context) {
   headers.set('cache-control','no-store');
   headers.delete('access-control-allow-origin');
   return new Response(response.body,{status:response.status,headers});
+}
+
+const VIEW_ROUTES = {
+  overview:'/app/', home:'/app/clients', clients:'/app/clients', leads:'/app/leads', queue:'/app/today', today:'/app/today',
+  search:'/app/search', outreach:'/app/outreach', crm:'/app/crm', instagram:'/app/instagram', youtube:'/app/youtube', metrics:'/app/youtube',
+  content:'/app/content', delivery:'/app/delivery', brain:'/app/brain', campaigns:'/app/campaigns', email:'/app/email',
+  integrations:'/app/integrations', payments:'/app/payments', settings:'/app/settings', dashboard:'/app/dashboard',
+  live:'/app/dashboard?tab=live', plan:'/app/dashboard?tab=plan', income:'/app/dashboard?tab=income', payouts:'/app/dashboard?tab=payouts',
+  cashflow:'/app/dashboard?tab=cashflow', calendar:'/app/dashboard?tab=calendar', sales:'/app/dashboard?tab=sales',
+};
+export function appPathForView(view) {
+  return VIEW_ROUTES[String(view).split(':')[0].toLowerCase()] || '/app/';
 }

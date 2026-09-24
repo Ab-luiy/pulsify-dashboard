@@ -33,7 +33,8 @@ async function serveDashboard({ request, env }) {
         },
       });
     }
-    const destination = new URL("/portal", request.url);
+    // Cutover: previews open the Next.js portal directly.
+    const destination = new URL("/app/portal", request.url);
     destination.searchParams.set("client", session.client);
     return new Response(null, {
       status: 302,
@@ -57,17 +58,17 @@ async function serveDashboard({ request, env }) {
     if (client) loginUrl.searchParams.set("client", client);
     return Response.redirect(loginUrl, 302);
   }
-  let response = await serveAsset(env, request, "/portal/index.html");
-  if (response.ok && (response.headers.get('content-type') || '').includes('text/html')) {
-    const session = JSON.stringify({client:access.client,client_name:access.client_name,impersonated:Boolean(access.impersonated)}).replace(/</g,'\\u003c');
-    const html = await response.text();
-    response = new Response(html.replace('<head>','<head><script>window.PulsifySession='+session+';</script>'),{status:response.status,headers:response.headers});
-  }
-  if (access.auth_mode === "token" && response.ok) {
+  // Cutover 2026-09-24: the client portal is the Next.js app at /app/portal,
+  // which re-checks the session itself (functions/app/portal/[[path]].js).
+  // Old hash links (#instagram/types) are carried over for the new page to map.
+  const destination = new URL("/app/portal", request.url);
+  destination.searchParams.set("client", access.client);
+  const headers = new Headers({ location: destination.toString(), "cache-control": "no-store", "referrer-policy": "no-referrer" });
+  if (access.auth_mode === "token") {
     const session = await issueClientSession(env, access.client);
-    response.headers.set("set-cookie", session.cookie);
+    headers.append("set-cookie", session.cookie);
   }
-  return response;
+  return new Response(null, { status: 302, headers });
 }
 
 async function serveLogin({ request, env }) {
@@ -80,7 +81,7 @@ async function serveLogin({ request, env }) {
     allowImpersonated: true,
   });
   if (!access.error) {
-    const destination = new URL("/portal", request.url);
+    const destination = new URL("/app/portal", request.url);
     destination.searchParams.set("client", access.client);
     return Response.redirect(destination, 302);
   }
