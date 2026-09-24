@@ -2345,3 +2345,7 @@ COMPLETED scout-share capture foundation. Added output/standard-preview/function
 
 ### [2026-09-24] CLAUDE (Opus 5.5)
 Picked up the cloud session's branch claude/eager-noether-do2efo (pulsify-saas). Took: node sync-preview.mjs (release is now cross-platform), CI actions v5, PageHeader toolbar max-w-full, Exit preview -> /app/, signed-out portal ErrorState -> /portal/login. Did NOT take: repointing sign-in/out to /login/client, /login/operator, /api/operator-logout, because none exist (404 live, not in either repo). Sentry was already finished by Codex (org pulsify-37, deploy 573a0366). Backend 148/148, affected browser suites green, deployed Pages 70e1f1e3; anonymous gates unchanged.
+
+### [2026-09-24] CLAUDE (Opus 5.5)
+STEP 0 of LOCAL-CLAUDE-BRIEF: merging brain claude/auth-and-home (operator PropelAuth sessions, code lock, branded home/login, privacy/terms drafts, headers) into main. Found a blocker in review: privateAsset() 404s /js/funnel-integrations.js for signed-out visitors, which every live landing page (templates, optin.html) loads; fixing by exempting that file with a test. No deploy until founder says deploy.
+| output/standard-preview/functions/**, _headers, index.html, login/**, site/**, privacy.html, terms.html, migrations/0038*, tests/** | CLAUDE | ACTIVE | Auth-and-home merge + review fixes. |
