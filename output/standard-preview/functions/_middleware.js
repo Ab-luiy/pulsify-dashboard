@@ -3,6 +3,8 @@
  */
 import * as Sentry from '@sentry/cloudflare';
 import { accessToken, validateAccess, rememberOperator, hasOperator } from './_shared/access.js';
+import { resolveOperatorSession } from './_shared/operator-session.js';
+import { resolveClientAccess } from './_shared/client-auth.js';
 
 // The Pages SDK runs before the access gate so route exceptions are captured.
 // Keep telemetry limited to exception type and code location: client data,
@@ -56,12 +58,26 @@ export async function pulsifyMiddleware(context) {
   if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/app/'+legacyView[1],302);
+  // The old combined sign-in's operator mode now has its own branded page.
+  if (path === '/portal/login' && url.searchParams.get('operator') === '1' && ['GET','HEAD'].includes(request.method)) {
+    return Response.redirect(url.origin + (url.searchParams.get('logout') === '1' ? '/api/operator-logout' : '/login/operator'), 302);
+  }
   // The client portal (/app/portal) authenticates clients in functions/app/portal/[[path]].js,
   // and hashed build assets under /app/_next/static are shared by both surfaces.
   const clientSurface = /^\/app\/portal(\/|$)/.test(path) || path.startsWith('/app/_next/static/');
   const appPage = (path === '/app' || path.startsWith('/app/')) && !clientSurface;
   const consolePage = appPage || ['/admin','/integrations','/settings','/campaigns'].some(p => path.startsWith(p));
+  // Operators sign in through PropelAuth (functions/_shared/operator-session.js).
+  // A Cloudflare Access token is still honoured for the ops dashboard and API keys.
   let operator = await validateAccess(accessToken(request), api ? [env.ACCESS_AUD,env.ACCESS_DASHBOARD_AUD] : env.ACCESS_AUD);
+  if (!operator) operator = await resolveOperatorSession(request, env);
+  // App code is only served to someone signed in: the Next.js build, and the
+  // legacy console and portal scripts kept for rollback. Everyone else gets a
+  // plain 404, so the code cannot be downloaded from the public site.
+  if (privateAsset(path) && !operator) {
+    const client = await resolveClientAccess(request, env, { allowHeaderToken: false, allowQueryToken: false, allowImpersonated: true, clientHint: '' });
+    if (client.error || operatorOnlyAsset(path)) return notFound();
+  }
   if (operator && !['GET','HEAD','OPTIONS'].includes(request.method)) {
     const origin = request.headers.get('origin');
     if ((origin && origin !== url.origin) || request.headers.get('sec-fetch-site') === 'cross-site') return new Response('Forbidden',{status:403});
@@ -85,8 +101,12 @@ export async function pulsifyMiddleware(context) {
   }
   if ((consolePage || (api && adminApis.has(path.split('/')[2]) && !mixedApis.has(path.split('/')[2]))) && !operator) {
     if (url.hostname === 'pulsify-funnels.pages.dev' || url.hostname.endsWith('.pulsify-funnels.pages.dev')) return Response.redirect('https://pulsify-ai.com'+url.pathname+url.search,302);
-    if (appPage && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/admin',302);
-    if (consolePage && !path.startsWith('/admin')) return Response.redirect('https://pulsify-ai.com/admin?view='+encodeURIComponent(path.split('/')[1]),302);
+    // Signed-out operators land on the branded sign-in, never a third-party screen.
+    if (appPage && ['GET','HEAD'].includes(request.method)) return Response.redirect(operatorLogin(url.pathname + url.search),302);
+    if (consolePage && ['GET','HEAD'].includes(request.method)) {
+      const target = path.startsWith('/admin') ? appPathForView(url.searchParams.get('view') || '') : appPathForView(path.split('/')[1]);
+      return Response.redirect(operatorLogin(target),302);
+    }
     return new Response(JSON.stringify({ok:false,error:'operator sign-in required'}),{status:401,headers:{'content-type':'application/json','cache-control':'no-store'}});
   }
   const response = await next();
@@ -107,4 +127,29 @@ const VIEW_ROUTES = {
 };
 export function appPathForView(view) {
   return VIEW_ROUTES[String(view).split(':')[0].toLowerCase()] || '/app/';
+}
+
+function operatorLogin(next) {
+  const login = new URL('/login/operator', 'https://pulsify-ai.com');
+  if (next && next !== '/app/' && next !== '/app') login.searchParams.set('next', next);
+  return login.toString();
+}
+
+function notFound() {
+  return new Response('Not found', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' } });
+}
+
+// Script and data files that only signed-in people may download.
+export function privateAsset(path) {
+  if (path.startsWith('/app/_next/static/')) return true;
+  if (/^\/portal\/(login|register|references)(\/|$)/.test(path)) return false;
+  if (/^\/portal\/[^/]+\.(js|json)$/.test(path)) return true;
+  if (/^\/shared\/[^/]+\.js$/.test(path)) return path !== '/shared/theme.js';
+  if (/^\/onboard\/[^/]+\.js$/.test(path)) return true;
+  return path.startsWith('/js/') || path.startsWith('/admin/');
+}
+
+// Of those, the ones that belong to the operator console only.
+export function operatorOnlyAsset(path) {
+  return path.startsWith('/js/') || path.startsWith('/admin/');
 }

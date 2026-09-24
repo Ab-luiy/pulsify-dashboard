@@ -16,9 +16,10 @@ export async function onRequest({ request, env }) {
   const isDocument = !/\.[a-z0-9]+$/i.test(url.pathname) || url.pathname.endsWith(".html");
   if (access.error) {
     if (!isDocument) return new Response("Not found", { status: 404, headers: { "cache-control": "no-store" } });
-    const login = new URL("/portal/login", url);
+    const login = new URL("/login/client", url);
     const client = url.searchParams.get("client");
     if (client) login.searchParams.set("client", client);
+    if (url.pathname !== "/app/portal" && url.pathname !== "/app/portal/") login.searchParams.set("next", url.pathname);
     return Response.redirect(login.toString(), 302);
   }
 

@@ -49,7 +49,8 @@ test('start issues a bounded PKCE flow and blocks arbitrary return URLs',async()
   assert.ok(authorize.searchParams.get('code_challenge'));
   assert.match(response.headers.get('set-cookie'),/HttpOnly; Secure; SameSite=Lax/);
   const flow=JSON.parse(decodeURIComponent(cookie.split('=').slice(1).join('=')));
-  assert.equal(flow.next,'/portal');
+  assert.equal(flow.next,'/app/portal');
+  assert.equal(flow.as,'client');
   assert.equal(flow.client,'client-a');
   assert.equal((await startPropelAuth({request:new Request('https://pulsify-ai.com/api/propelauth/start?client=..%2Fadmin'),env})).status,400);
 });
