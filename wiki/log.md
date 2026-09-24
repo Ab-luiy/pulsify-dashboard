@@ -1804,3 +1804,6 @@ Built allowlisted Instagram profile-share capture into the outreach queue, with 
 
 ## [2026-09-24] client-update | Build queue deploy (S1-S5)
 Deployed the Today to-do list, Outreach queue page, search inside the tracker, client notification bell, media upload relayout and the new operator inbox with pain-point tags and next action (pulsify-saas #10-#14). Migration 0039 added outreach pain_tags and asset_log. Tag catalog maps to wiki/playbooks/prospect-asset-library.md.
+
+## [2026-09-24] decision | Client integrations parked until the first paid client
+Founder parked client sign-in integrations (pulsify-saas #15) until a client signs and pays. Plan on unpark: Zernio profile per client for Instagram and YouTube (6 USD per connected account per month for accounts 3 to 10, docs.zernio.com/pricing), own OAuth apps for Kit, Calendly or Cal.com and Stripe. Own Google app stays a fallback because its consent screen is in Testing (7-day refresh tokens, test users only). Redirect added to the Pulsify Portal OAuth client; account registry updated.

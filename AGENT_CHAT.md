@@ -2514,3 +2514,6 @@ Build queue pass, pulsify-saas main (not deployed): S2 #11 search folded into /o
 
 ### [2026-09-24] CLAUDE (Opus 5.5)
 DEPLOYED Pages a8a6f15f on founder "deploy": S1 Today to-dos + /queue, S2 search in tracker, S3 client bell, S4 media drawer, S5 /inbox. Migration 0039 applied to remote D1 first (pain_tags, asset_log verified). Backend 160/160. Live: / 200, /app, /app/inbox, /app/today, /app/queue -> /login/operator, /app/portal -> /login/client, legacy portal JS 404, landing script and /kyle-kirshner 200, /api/outreach 401 signed out, PropelAuth enabled, CSP present. #13 and #14 open for founder review.
+
+### [2026-09-24] CLAUDE (Opus 5.5)
+S6 #15 PARKED by founder until the first client signs and pays (moved to Later, plan in the ticket comment). Added redirect https://pulsify-ai.com/api/oauth/youtube/callback to the Google "Pulsify Portal" OAuth client via the in-app browser; no scopes added, endpoint not built. Registry line updated. Nothing deployed.

@@ -66,6 +66,7 @@
 - [Funnel view-tracking](project_funnel_view_tracking.md) - per-prospect watch drill-down (/admin -> View activity), off-page asset tracking via /a/{token} redirect links, IP/geo on events; live on pulsify-funnels
 - [Operator console + wizard](project_operator_console.md) - /admin unifies all 4 admin pages plus the 8-step add-client wizard, both live
 - [Admin key access](project_admin_key_access.md) - ROTATED 2026-09-17: key lives in gitignored .env as FUNNELS_ADMIN_KEY (vault root + dashboard checkouts) and in Cloudflare; read it from the file, never print it, never ask him; /api/crm-sync currently 401s any admin key until Codex redeploys/fixes
+- [Client integrations PARKED](project_client_integrations_parked.md) - 2026-09-24: client sign-in integrations (#15) wait until the first client signs AND pays; then Zernio per-client for IG/YouTube (~$12/mo per client), own OAuth for Kit/Calendly/Stripe
 - [Integrations hub I1 live](project_integrations_hub_i1.md) - /integrations UI, D1 integrations/payments, Mark-paid onboarding trigger, webhooks, Discord alerts, all live; RULE: non-null getters delete !cfg gates; user-side = Kit key + Discord webhook
 - [Two-portal reskin](project_portal_reskin.md) - live operator design is MIRAGE; client client.html Atelier design finished but never deployed
 - [Flagship QA (Fable pass)](project_flagship_qa_2026_07_02.md) - wiki/synthesis/flagship-qa-2026-07-02.md; open: bare domain renders Frank, settings POST wipes absent fields; 7 standing rules incl. Kit-requires-webhook-secret
