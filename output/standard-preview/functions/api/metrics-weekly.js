@@ -14,7 +14,7 @@ async function handle_onRequestGet({ request, env }) {
          FROM account_snapshots
         WHERE client_id=?
         ORDER BY taken_on DESC, id DESC
-        LIMIT 2`,
+        LIMIT 26`,
     ).bind(access.client).all(),
     env.DB.prepare(
       `SELECT COALESCE(SUM(amount_cents), 0) AS total_cents
@@ -36,6 +36,8 @@ async function handle_onRequestGet({ request, env }) {
 
   const latest = rows[0] || null;
   const prior = rows[1] || null;
+  // Up to 26 snapshots, oldest first, for the follower chart (pulsify-saas #17).
+  const history = rows.map((row) => ({ taken_on: row.taken_on, followers: row.followers })).reverse();
   const paymentsTotalCents = Number(paymentRow?.total_cents || 0);
 
   return json({
@@ -44,6 +46,7 @@ async function handle_onRequestGet({ request, env }) {
     auth_mode: access.auth_mode,
     latest,
     prior,
+    history,
     report: buildWeeklyReport(latest, prior, paymentsTotalCents),
   });
 }
