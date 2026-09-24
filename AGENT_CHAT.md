@@ -2396,3 +2396,48 @@ REFERENCE-LED D1 REFINEMENT DONE. The concurrent clean-menu version removed Clau
 ### [2026-09-24 17:39] CODEX
 Starting ticket #13 media-library expanded panel. Claiming sibling C:/Users/Abdullah/Desktop/pulsify-saas/src/features/portal-youtube/{media-screen.tsx,parts.tsx} and any targeted QA captures. No D1 files touched while another CODEX active lock is present. Keep upload data behavior unchanged; relayout panel only.
 | pulsify-saas/src/features/portal-youtube/{media-screen.tsx,parts.tsx} | CODEX | ACTIVE | #13 expanded upload panel relayout. |
+
+### [2026-09-24 17:46] CODEX
+#13 visual QA capture claimed under output/qa/2026-09-media-panel/**. Existing media tests and a temporary screenshot harness passed; copying reviewed desktop/phone captures in dark/light, then removing the temporary harness from pulsify-saas/tests.
+| output/qa/2026-09-media-panel/** | CODEX | ACTIVE | #13 reviewed screenshots. |
+
+### [2026-09-24 17:48] CODEX
+#13 media upload panel relayout ready in draft PR https://github.com/Ab-luiy/pulsify-saas/pull/22 (commit 5eaba2c on codex/media-library-panel). Changed sibling src/features/portal-youtube/{media-screen.tsx,parts.tsx}: widened upload-only drawer, two-column selector/queue desktop, stacked phone layout, clear queue count and batch caption, action after queue. Existing behavior unchanged. ESLint, typecheck, four focused media tests, and a four-layout visual capture pass; no horizontal overflow at 390px. QA: output/qa/2026-09-media-panel/{media-panel-dark-desktop.png,media-panel-dark-phone.png,media-panel-light-desktop.png,media-panel-light-phone.png,contact-sheet.jpg}. Claude review and founder approval pending; no deploy. Temporary screenshot spec removed. Locks released.
+| pulsify-saas/src/features/portal-youtube/{media-screen.tsx,parts.tsx}; output/qa/2026-09-media-panel/** | CODEX | DONE | Draft PR #22 awaiting review and approval. |
+
+### [2026-09-24 17:55] CODEX
+Founder refinement on D1: headline becomes the single word "Pulsify", existing monogram blends behind it as a large background mark, subheadline becomes "Your one stop for building a 7 figure audience", square grid becomes a Figma-style dot field, and the top-right status widget is removed across home and sign-in pages. Claiming output/standard-preview/{index.html,login/operator/index.html,login/client/index.html,site/site.css} and output/qa/2026-09-d1/brand-hero/**. No deploy pending the standing review gate.
+| D1 brand-hero files and QA above | CODEX | ACTIVE | Founder-directed hero and background refinement. |
+
+### [2026-09-24 18:00] CODEX
+D1 BRAND HERO REFINEMENT DONE. Home headline is now the single bold word "Pulsify" with the existing /assets/brand/variations/07-monogram.svg enlarged, rotated slightly and blended behind it as a low-opacity watermark. Subheadline is exactly "Your one stop for building a 7 figure audience." Replaced the square net with a 28px Figma-style dot field in both themes and removed the top-right Command center/Secure access widget from home, operator sign-in and client sign-in. Chooser/auth behavior and URLs unchanged. Captures: output/qa/2026-09-d1/brand-hero/{dark,light}-{desktop,phone}-{home,chooser,operator,client-error}.png. Required tests 3/3 pass; 390px overflow checks pass. No deploy or auto-backup under the standing D1 review gate. Existing .obsidian/workspace.json and unrelated media-panel QA untouched.
+| D1 brand-hero files and QA above | CODEX | CLEARED | Founder-directed hero complete; ready for review. |
+
+### [2026-09-24 17:50] CODEX
+Starting #12 visual portion only. Claiming sibling pulsify-saas/src/components/shell/app-header.tsx, src/features/portal/portal-shell.tsx, tests/portal.spec.ts and targeted shell test/QA if needed. Move sign-out into a power icon at the right header corner; Claude's client notification bell logic remains a separate unfinished part of the same ticket.
+| pulsify-saas/src/components/shell/app-header.tsx; src/features/portal/portal-shell.tsx; tests/portal.spec.ts | CODEX | ACTIVE | #12 power-button sign-out placement. |
+
+### [2026-09-24 18:08] CODEX
+Founder requested a premium D1 renovation using the supplied logo renders: remove the remaining structural lines, reduce hero wordmark scale, create a real glass CTA, avoid Typeform-like centered minimalism, and upgrade the top-left lockup. Choosing the dark 3D coin render Gemini_Generated_Image_dzqkdydzqkdydzqk.jpeg as the hero material asset. Claiming output/standard-preview/{index.html,login/operator/index.html,login/client/index.html,site/site.css,site/pulsify-coin-dark.jpeg} and output/qa/2026-09-d1/cinematic-glass/**. No deploy pending standing review gate.
+| D1 cinematic-glass files and QA above | CODEX | ACTIVE | Premium asymmetric renovation with supplied 3D asset. |
+
+### [2026-09-24 17:54] CODEX
+#12 sign-out icon placement ready in draft PR https://github.com/Ab-luiy/pulsify-saas/pull/23 (commit 6ae1381, codex/power-signout). Changed sibling src/components/shell/app-header.tsx, src/features/portal/portal-shell.tsx, tests/portal.spec.ts. Both headers now show a labeled power icon in the right corner; existing logout URL/client cleanup preserved; account menus no longer duplicate it. Typecheck, lint, client sign-out, mobile overflow and operator no-console-warning checks pass. Full shell suite first surfaced Base UI nativeButton warning, fixed and affected checks reran green. Client bell logic remains Claude-owned and #12 stays open. No deploy. Locks released.
+| pulsify-saas/src/components/shell/app-header.tsx; src/features/portal/portal-shell.tsx; tests/portal.spec.ts | CODEX | DONE | Draft PR #23, bell logic pending. |
+
+### [2026-09-24 17:55] CODEX
+#9 coordination correction: observed another CODEX ACTIVE lock at 17:38 with a newer founder-supplied command-center reference. My 17:36 editorial split draft is superseded; I will not touch the D1 files or present that draft for review. Corrected issue #9 comment; the active session owns D1 completion.
+
+
+### [2026-09-24 17:56] CODEX
+Codex ticket audit after #13/#12: #9 is under another CODEX ACTIVE D1 lock; this session will not overlap it. #10 Today action layout waits on Claude's action data/behavior; #12 client bell still waits on Claude's client-scoped notification logic; #14 inbox UI waits on Claude's pain-point/next-action model and API; #16 brain/onboarding design waits on Claude's onboarding port/data; #17 charts/tracker design waits on Claude's live endpoints, with current dashboard baseline explicitly frozen on 2026-05-16. These are multi-owner tickets and remain open. Draft PRs #22/#23 contain the independently buildable work. No deployment or merge.
+
+### [2026-09-24 18:18] CODEX
+D1 CINEMATIC GLASS RENOVATION DONE. Selected the founder-supplied dark 3D coin render and copied it to output/standard-preview/site/pulsify-coin-dark.jpeg. Rebuilt the home away from the Typeform-like centered composition: smaller left-aligned Pulsify wordmark/copy, cinematic feathered 3D coin on the right, no visible image container, no page-frame/header/footer lines, and the existing Figma-style dot field retained. CTA is now layered glass with blur, inset highlights, depth and directional affordance. Upgraded the top-left lockup into a compact glass identity capsule with a beveled monogram well and restrained hover lift; applied consistently to both sign-in pages. Chooser and sign-in surfaces were retuned as borderless glass with inset highlights instead of outlined cards. Dark/light and 1440x900/390x844 captures pass with no horizontal overflow: output/qa/2026-09-d1/cinematic-glass/{dark,light}-{desktop,phone}-{home,chooser,operator,client-error}.png. Required public tests 3/3 pass. No deploy or auto-backup under the standing D1 review gate. Existing .obsidian/workspace.json and unrelated media-panel QA untouched.
+| D1 cinematic-glass files and QA above | CODEX | CLEARED | Premium founder-directed renovation ready for review. |
+
+### [2026-09-24] CODEX
+Claiming index.html, site/site.css and output/qa/2026-09-d1/centered-refinement for founder's latest correction: restrained centered typography, one-line desktop subtitle, uppercase centered CTA, remove photographic coin and simplify glass treatment. Local mockup only.
+| D1 centered refinement | CODEX | CLEARED | Completed local mockup. |
+
+Centered refinement complete: index.html and site/site.css now use a 74px maximum, medium-weight centered headline, 16px one-line desktop subtitle with seven-figure wording, centered uppercase glass CTA, softer faded dots and subtle blue atmosphere. Removed the photographic coin from markup; source asset retained. Simplified header lockup and corrected light-theme chooser surface contrast. Six browser layouts checked at 1440/768/390 in light/dark; centered button, overflow, chooser opening and Escape verified. Mockups and repeatable capture script in output/qa/2026-09-d1/centered-refinement/. Local only; no deployment or backup commit before standing D1 review.
