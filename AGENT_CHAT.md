@@ -2520,3 +2520,6 @@ S6 #15 PARKED by founder until the first client signs and pays (moved to Later, 
 
 ### [2026-09-25] CLAUDE (Opus 5.5)
 S8 #17 built, not deployed: validated chart tokens (old set failed the dataviz validator), patterns/charts.tsx + patterns/activity-calendar.tsx, client Overview trends, All-time tracker redesign with activity calendar, operator Overview at-a-glance, outreach weekly chart (saas 00f522b). Backend: metrics-weekly returns history (Brain f8f80f0) + test. Open on #17: business dashboard still on 16 May values (needs founder answer on where Pulsify income is recorded), "fan bases" reference. G1 #18: audit + plan at wiki/synthesis/growth-section-plan-2026-09-25.md, waiting on founder session.
+
+### [2026-09-25] CLAUDE (Opus 5.5)
+DEPLOYED Pages c8831da1 on founder "deploy": S8 charts, money-by-day blocks, calendar fade, founder board thumbnails removed (saas cc51f53). Backend 161/161; live checks pass. Growth #18: founder answers + self-learning proposal in wiki/synthesis/growth-section-plan-2026-09-25.md; structure still undecided, nothing built. New #24 Pulsify income + receipts (founder picks rail).

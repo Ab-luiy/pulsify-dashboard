@@ -53,6 +53,31 @@ Until client integrations unpark (first paid client, ticket #15), results stay m
 4. **Formats in v1.** Recommendation: story sequences, reels and YouTube packaging first; carousels once the carousel framework page exists (the spec's own gate); email and DM later.
 5. **Review gate.** The spec defaults to operator review before "ready to post". Keep it on?
 
+## Founder answers (2026-09-25)
+
+From the founder's voice reply the same day. These override the recommendations above where they differ.
+
+- **Scope.** The client portal Growth section. It is the service delivery, the fulfillment, and it is the top priority. It is a long project he wants to work on as its own focused stream.
+- **Structure.** Undecided between the four-page loop and fixing pages one by one. The method he did set: take one thing, lock it in, then enhance it again and again.
+- **Leads.** Belong with sales and the CRM, because leads are about making money. Not settled whether that is next to Payments; the grouping is "sales".
+- **The AI.** The 30 requests per day cap is a bottleneck: a client should be able to keep prompting against our data. Output has to be generated from our backend, our data and our files. It has to teach itself and learn, with memory, so he eventually never touches it. He does not want to build our own AI model. "Shooting for the sky": he wants to know what is possible.
+- **Formats first.** Story sequences, reels and YouTube. YouTube is packaging: title and thumbnail, with far more examples and angles than the portal has today.
+- **Thumbnails.** His 24 "Founder board" versions were duplicates and are removed from the archive (done, pulsify-saas cc51f53). 21 creator references remain.
+- **Review gate.** On. He reviews drafts before anything is marked ready to post.
+
+## What "teaches itself" can mean without building our own AI
+
+A proposal for the planning session, not a decision. Nothing here needs a model of our own or retraining one. The model stays a hosted one; what learns is the data around it.
+
+1. **Knowledge it reads every time.** The vault's frameworks and extractions (story sequences, the title and thumbnail patterns, the reel formats) plus the client's brain, searched per request so each draft is built from the relevant pieces. The platform already has a meaning-based search over DMs and client brains (Cloudflare Vectorize, behind the Outreach tracker's "Search what they said"), so the building block exists.
+2. **Memory per client.** Every brief, draft, edit, approval, rejection and posted result is kept.
+3. **The review gate is the teacher.** What the founder approves becomes an example the next draft is shown. What he rejects, with a one-line reason, becomes a rule the next draft follows.
+4. **Results close the loop.** Pieces that performed (completion, DMs, views) rise to the top of the examples; pieces that leaked drop. Until client integrations unpark (ticket #15), results come from manual entry.
+5. **A checker before the founder sees anything.** A second pass grades each draft against the framework and the voice rules, the way the prospect-doc checker does, and rewrites what fails.
+6. **Usage priced as a budget.** Replace the flat per-day request cap with a monthly allowance per client sized to the offer. Model choice and cost are to be priced in the session, from the provider's published rates.
+
+Honest limits: it only gets better as fast as examples and results arrive, so the first client's first weeks are thin; it cannot read Instagram story results on its own until data flows in.
+
 ## Connections
 
 - [[synthesis/client-dashboard-redesign-spec-2026-07-12]]: the loop and the Studio zones this proposal follows.
