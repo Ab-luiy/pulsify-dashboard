@@ -2471,6 +2471,12 @@ Enlarged existing circular emblem to 440px desktop / responsive phone stage; pla
 ### [2026-09-24] CODEX
 | D1 reflective wordmark: index.html, site/site.css, reflective-wordmark QA | CODEX | CLEARED | Title below emblem, tight slogan spacing, silver-blue reflective typography and blue halo. CTA preserved. Six responsive/theme layouts pass overflow, alignment and chooser/Escape checks; desktop visually inspected. Local only; no deployment or backup commit under D1 review gate. |
 
+### [2026-09-24] CODEX
+| D1 final polish: site/site.css and final-polish QA | CODEX | CLEARED | Original artwork enlarged 12%; surrounding decorative rings removed, soft halo retained. Minor wordmark/slogan tracking refinement; CTA unchanged. Six responsive/theme browser layouts pass overflow, centering and chooser/Escape; desktop inspected. Local mockup only, no deployment or backup commit under D1 review gate. Existing .obsidian/workspace.json untouched. |
+
+### [2026-09-24] CODEX
+| D1 illuminated rings: site/site.css and illuminated-rings QA | CODEX | CLEARED | Restored rings with directional glass rim highlight and soft blue depth. Original artwork, typography, spacing and button preserved. Six-layout browser checks pass; desktop inspected. First capture hit transient ERR_NO_BUFFER_SPACE; retry passed. Local mockup only, no deploy or backup commit under review gate. |
+
 Removed all three rejected panels. Preserved logo, centered copy and CTA; introduced restrained background light and button hover reflection. Six-layout browser checks pass (centering, no overflow, chooser/Escape); desktop screenshot reviewed. QA in quiet-light. No deployment or backup commit under standing local review scope.
 
 Expanded mockup complete: unchanged circular logo, centered hero and CTA, richer glass button lighting and three compact product context panels for content, conversations and client delivery. Homepage-scoped styles, no new routes or data behaviors. Six responsive/theme checks pass and public tests 3/3 pass. Desktop and mobile visually inspected; screenshots in premium-composition. Local only, no deployment or backup commit before standing D1 review.
