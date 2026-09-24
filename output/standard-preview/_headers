@@ -1,4 +1,21 @@
+# Security headers for every static file (pages, app code, images).
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), payment=(), usb=(), interest-cohort=(), camera=(self), microphone=(self)
+  Strict-Transport-Security: max-age=31536000
 
+# Public site pages run with no inline code and no third-party requests.
+/
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'
+/index.html
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'
+/login/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'
+  Cache-Control: no-cache
+/site/*
+  Cache-Control: no-cache
 
 # App code must revalidate on every load (ETag makes the hit cheap). Without this,
 # browsers kept scripts for four hours after a deploy.

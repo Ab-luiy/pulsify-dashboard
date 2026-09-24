@@ -73,6 +73,10 @@ class MockStatement {
       this.db.proof.push({ id, client_id: clientId, kind, url, claim, permission, created_at: createdAt });
       return { meta: { changes: 1, last_row_id: id } };
     }
+    if (this.sql.startsWith("INSERT INTO client_sessions")) {
+      this.db.sessions = [...(this.db.sessions || []), this.values];
+      return { meta: { changes: 1 } };
+    }
     if (this.sql.startsWith("DELETE FROM client_brain")) {
       const [clientId, section, field] = this.values;
       const before = this.db.brain.length;
@@ -223,7 +227,7 @@ async function testOnboardingPageTokenGate() {
     next: () => new Response("next"),
   });
   assert.equal(rejected.status, 302);
-  assert.equal(new URL(rejected.headers.get("location")).pathname, "/portal/login");
+  assert.equal(new URL(rejected.headers.get("location")).pathname, "/login/client");
 
   const accepted = await onboardRoute.onRequest({
     request: new Request(`https://funnels.test/onboard/?t=${token}`),
@@ -233,6 +237,8 @@ async function testOnboardingPageTokenGate() {
   });
   assert.equal(accepted.status, 200);
   assert.match(await accepted.text(), /Onboarding/);
+  // The private link also signs the visitor in, so the page's scripts load.
+  assert.match(accepted.headers.get("set-cookie") || "", /pulsify_client_session=.+HttpOnly/);
 }
 
 try {

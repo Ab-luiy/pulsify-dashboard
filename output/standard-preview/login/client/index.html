@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Client sign in · Pulsify</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#100f0d">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preload" href="/shared/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/site/site.css">
+  <script src="/site/site.js" defer></script>
+</head>
+<body data-audience="client">
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Pulsify home">
+      <img src="/assets/brand/variations/07-monogram.svg" alt="" width="28" height="28">
+      <span>Pulsify</span>
+    </a>
+  </header>
+
+  <main class="auth">
+    <section class="auth-card" aria-labelledby="title">
+      <p class="kicker">Client</p>
+      <h1 id="title">Sign in to your workspace</h1>
+      <p class="lead">Your content, plans and growth in one place.</p>
+      <p class="notice" data-notice role="status" hidden></p>
+      <a class="button full" data-continue href="/api/propelauth/start?as=client">Continue</a>
+      <span class="alt"><a data-password href="/portal/login">Use your Pulsify password instead</a></span>
+      <p class="switch">On the Pulsify team? <a href="/login/operator">Operator sign in</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+  </footer>
+</body>
+</html>

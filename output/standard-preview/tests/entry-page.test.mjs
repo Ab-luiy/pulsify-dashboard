@@ -39,7 +39,11 @@ test("apex serves the product gateway while explicit client previews still rende
   assert.match(await response.text(), /Pulsify — Private Application/);
 
   const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
-  assert.match(html, /Operator workspace/);
-  assert.match(html, /Client portal/);
+  // Home: headline, Get started, and the Operator or Client pop-up.
+  assert.match(html, /Get started/);
+  assert.match(html, /href="\/login\/operator"/);
+  assert.match(html, /href="\/login\/client"/);
   assert.doesNotMatch(html, /VSL|private breakdown|training-frame/i);
+  // No inline code and no third-party requests (the page runs under a strict CSP).
+  assert.doesNotMatch(html, /<script>|<style|style="|fonts\.googleapis|https?:\/\//i);
 });

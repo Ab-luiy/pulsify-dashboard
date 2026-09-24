@@ -45,25 +45,50 @@ async function viaMiddleware(url) {
   return middleware({ request, env: envWith({ signedIn: false }), data: {}, next: async () => new Response("passed", { status: 200 }) });
 }
 
-test("middleware leaves the client portal and shared build assets to their own checks", async () => {
+test("middleware leaves the client portal pages to their own check", async () => {
   assert.equal((await viaMiddleware("https://pulsify-ai.com/app/portal")).status, 200);
   assert.equal((await viaMiddleware("https://pulsify-ai.com/app/portal/instagram")).status, 200);
-  assert.equal((await viaMiddleware("https://pulsify-ai.com/app/_next/static/chunks/a.js")).status, 200);
 });
 
-test("middleware still keeps the operator app behind Access", async () => {
-  for (const path of ["/app", "/app/", "/app/crm", "/app/clients/setup", "/app/portalx", "/app/__next._tree.txt"]) {
+test("app code is only downloadable by a signed-in client or operator", async () => {
+  const asset = "https://pulsify-ai.com/app/_next/static/chunks/a.js";
+  assert.equal((await viaMiddleware(asset)).status, 404);
+  const signedIn = await middleware({
+    request: new Request(asset, { headers: { cookie: "pulsify_client_session=good" } }),
+    env: envWith({ signedIn: true }), data: {}, next: async () => new Response("code"),
+  });
+  assert.equal(signedIn.status, 200);
+  for (const path of ["/portal/legacy.js", "/portal/workspace-shell.js", "/shared/shell.js", "/onboard/phase4.js", "/js/provision-prompt.js"]) {
+    assert.equal((await viaMiddleware("https://pulsify-ai.com" + path)).status, 404, path);
+  }
+  for (const path of ["/portal/login/auth.css", "/shared/theme.js", "/css/entry.css", "/assets/brand/variations/05-lockup-white.svg"]) {
+    assert.equal((await viaMiddleware("https://pulsify-ai.com" + path)).status, 200, path);
+  }
+  // A client session does not unlock operator-only console scripts.
+  const clientOnConsole = await middleware({
+    request: new Request("https://pulsify-ai.com/js/provision-prompt.js", { headers: { cookie: "pulsify_client_session=good" } }),
+    env: envWith({ signedIn: true }), data: {}, next: async () => new Response("code"),
+  });
+  assert.equal(clientOnConsole.status, 404);
+});
+
+test("signed-out operators are sent to the branded operator sign-in", async () => {
+  for (const [path, next] of [["/app", null], ["/app/", null], ["/app/crm", "/app/crm"], ["/app/clients/setup", "/app/clients/setup"], ["/app/portalx", "/app/portalx"]]) {
     const response = await viaMiddleware("https://pulsify-ai.com" + path);
     assert.equal(response.status, 302, path);
-    assert.equal(response.headers.get("location"), "https://pulsify-ai.com/admin", path);
+    const location = new URL(response.headers.get("location"));
+    assert.equal(location.origin + location.pathname, "https://pulsify-ai.com/login/operator", path);
+    assert.equal(location.searchParams.get("next"), next, path);
   }
+  const legacy = await viaMiddleware("https://pulsify-ai.com/admin?view=crm");
+  assert.equal(legacy.headers.get("location"), "https://pulsify-ai.com/login/operator?next=%2Fapp%2Fcrm");
 });
 
 test("anonymous portal documents go to the client login, payloads 404", async () => {
   const env = envWith({ signedIn: false });
   const page = await portal({ request: new Request("https://pulsify-ai.com/app/portal?client=demo-rio"), env });
   assert.equal(page.status, 302);
-  assert.equal(page.headers.get("location"), "https://pulsify-ai.com/portal/login?client=demo-rio");
+  assert.equal(page.headers.get("location"), "https://pulsify-ai.com/login/client?client=demo-rio");
   const payload = await portal({ request: new Request("https://pulsify-ai.com/app/portal/__next._tree.txt"), env });
   assert.equal(payload.status, 404);
 });
@@ -85,5 +110,5 @@ test("a client cannot open another client's portal by changing ?client=", async 
   const request = new Request("https://pulsify-ai.com/app/portal?client=kai-trades", { headers: { cookie: "pulsify_client_session=good" } });
   const response = await portal({ request, env });
   assert.equal(response.status, 302);
-  assert.match(response.headers.get("location"), /\/portal\/login\?client=kai-trades$/);
+  assert.match(response.headers.get("location"), /\/login\/client\?client=kai-trades$/);
 });

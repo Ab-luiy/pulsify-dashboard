@@ -43,12 +43,23 @@ test('the app route passes through client-slug routing to static assets',async()
  assert.equal(response.status,200);
  assert.match(await response.text(),/App/);
 });
+test('privacy and terms pass through client-slug routing and are public',async()=>{
+ for(const slug of ['privacy','terms']){
+  let called=false;
+  const response=await slugHandler({request:new Request(`https://pulsify-ai.com/${slug}`),params:{slug},env:{},next:()=>{called=true;return new Response(`<h1>${slug}</h1>`,{headers:{'content-type':'text/html'}});}});
+  assert.equal(called,true);
+  assert.equal(response.status,200);
+  const data={};
+  const gated=await onRequest({request:new Request(`https://pulsify-ai.com/${slug}`),env:{ACCESS_AUD:'console'},data,next:async()=>new Response('ok')});
+  assert.equal(gated.status,200,`/${slug} must not require sign-in`);
+ }
+});
 test('middleware redirects bypass hosts, protects HTML aliases, audits API keys and passes trusted identity to handlers',async()=>{
  const env={ACCESS_AUD:'console',ADMIN_KEY:'automation-test',DB:{prepare(){return{bind(){return{run:async()=>{events++;}};}};}}};let events=0;
  async function invoke(url,headers={},method='GET'){const request=new Request(url,{headers,method});const data={};return onRequest({request,env,data,next:async()=>Response.json({operator:data.operator,denied:!!checkAdmin(request,env),identity:operatorIdentity(request)})});}
  for(const path of ['/admin','/admin.html','/settings','/integrations','/campaigns']){const r=await invoke('https://pulsify-funnels.pages.dev'+path);assert.equal(r.status,302);assert.equal(r.headers.get('location'),path.startsWith('/admin')?'https://pulsify-ai.com'+path:'https://pulsify-ai.com/app/'+path.slice(1));}
  assert.equal((await invoke('https://pulsify-funnels.pages.dev/app')).headers.get('location'),'https://pulsify-ai.com/app');
- assert.equal((await invoke('https://pulsify-ai.com/app')).headers.get('location'),'https://pulsify-ai.com/admin');
+ assert.equal((await invoke('https://pulsify-ai.com/app')).headers.get('location'),'https://pulsify-ai.com/login/operator');
  assert.equal((await invoke('https://pulsify-ai.com/api/clients')).status,401);
  const valid=await token();const r=await invoke('https://pulsify-ai.com/api/clients',{'Cf-Access-Jwt-Assertion':valid});assert.equal(r.status,200);const d=await r.json();assert.equal(d.operator.email,'operator@example.test');assert.equal(d.denied,false);
  assert.equal((await invoke('https://pulsify-ai.com/app',{'Cf-Access-Jwt-Assertion':valid})).status,200);
