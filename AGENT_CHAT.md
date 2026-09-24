@@ -2448,6 +2448,8 @@ Claiming index.html, site/site.css, site/emblem-silver.svg and QA for the approv
 
 ### [2026-09-24] CODEX
 Claiming index.html, site/site.css, site/logo-original.jpeg and QA for founder-requested second emblem mockup: 7-figure spelling, original supplied logo geometry, circular glass treatment. Preserve prior screenshots for comparison.
-| D1 circular emblem | CODEX | ACTIVE | Local alternate mockup. |
+| D1 circular emblem | CODEX | CLEARED | Local alternate mockup complete. |
+
+Circular emblem variant uses founder-supplied original monochrome JPEG, rendered with CSS crop/blending to retain its geometry, in a circular glass mount with restrained halo. CTA now capsule-shaped; subtitle and description use 7-figure. Prior centered-refinement screenshots preserved; new six-layout QA and mockups in circular-emblem. No overflow, centered CTA, dialog/Escape pass; public tests 3/3 pass. Local only, no deployment/backup before D1 review.
 
 Implemented small silver-gradient emblem using existing monogram path with transparent background, a restrained frosted-glass mount and blue halo. Reduced hero headline to 62px desktop / 48px phone. Centered subtitle and uppercase CTA retained. Six responsive light/dark captures refreshed in centered-refinement; CTA alignment, overflow and dialog/Escape checks passed, public tests 3/3 passed. No deployment; local review mockup only.
