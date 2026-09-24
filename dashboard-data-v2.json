@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-24T04:51:56.486250+00:00",
+  "lastUpdated": "2026-09-24T09:39:32.128Z",
   "youtube": {
     "channel": {
       "name": "AB Luiy",
@@ -33,7 +33,7 @@
     "updatedAt": "2026-09-24T04:51:56.486250+00:00"
   },
   "instagram": {
-    "updatedAt": "2026-09-23T09:40:23.301Z",
+    "updatedAt": "2026-09-24T09:39:32.056Z",
     "profile": {
       "id": "36083631624614340",
       "username": "ab.luiy",
@@ -41,10 +41,10 @@
       "biography": "non larping, moonwalking, money talking.\n$alotof6figs generated for coaches/consultants.",
       "website": "https://youtube.com/@abluiy",
       "accountType": "MEDIA_CREATOR",
-      "followers": 466,
+      "followers": 448,
       "following": 557,
       "mediaCount": 8,
-      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=n8fwmnUXpjkQ7kNvwHSdmZZ&_nc_oc=AdpP5qyPvZ7FUmqU15VqjQ5Z3KNPBRm-wDLsvEL6QDHolf7F-ETzKHheyPzgRv0GxAE&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=cd-v8JZpEpXJDR-883FeaQ&_nc_tpa=Q5bMBQLjrg89XHePem0ook3R4UFW6NdEsvSjsiXC4x4cNzMane_XUqwhwsFReklH2pTT2_9zzzWlRV4u&oh=00_AQLzkIf5fMO-a63eni_yzeEeSBqE42797OIa6wgeLGL1yw&oe=6AB9568E"
+      "profilePicture": "https://scontent-iad3-1.cdninstagram.com/v/t51.82787-19/745964194_17934792813318951_7176998100662287669_n.jpg?stp=dst-jpg_s206x206_tt6&_nc_cat=110&ccb=7-5&_nc_sid=bf7eb4&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLnd3dy42NzYuQzMifQ%3D%3D&_nc_ohc=BtwF0dthbJsQ7kNvwHiMJnc&_nc_oc=AdqChJp0YZsFLwEvCxefmf-R6ESYiDfQr-0rvoB0eLFE1HU8GxGUn4BqiS7Qypxfvoc&_nc_zt=24&_nc_ht=scontent-iad3-1.cdninstagram.com&edm=AP4hL3IEAAAA&_nc_gid=eBAH-zEuaVrlYyta3XWcvg&_nc_tpa=Q5bMBQI53ntRew5M_6h9Zdw8VKDZoZ6CDrA_BGH0trwuDpCMo9hBIbw5UEAQ-X7-IujKShQGsI3zE9Xk&oh=00_AQKYaiMU3-vcJOAWE_aztTUPng9K9IENCyMBjnhhMxAQfA&oe=6ABAA80E"
     },
     "content": {
       "reelsCount": 15,
@@ -55,7 +55,7 @@
       "totalShares": 11,
       "avgReach": 139,
       "avgViews": 165,
-      "avgWatchMs": 8797,
+      "avgWatchMs": 8810,
       "avgHook": 26,
       "reachByPost": [
         {
@@ -160,20 +160,19 @@
           "date": "2026-09-07T11:45:19+0000",
           "reach": 57,
           "views": 81,
-          "hook": 40,
+          "hook": 41,
           "caption": "To all my fellow shiny object syndromers this one goes out t"
         }
       ]
     },
     "account": {
-      "reach30d": 100,
+      "reach30d": 96,
       "views30d": 0,
-      "newFollowers30d": 14,
+      "newFollowers30d": 13,
       "accountsEngaged30d": 0,
       "totalInteractions30d": 0,
       "profileLinkTaps30d": 0,
       "reachSeries": [
-        4,
         5,
         0,
         0,
@@ -202,10 +201,10 @@
         0,
         1,
         0,
+        0,
         0
       ],
       "followerSeries": [
-        1,
         0,
         0,
         0,
@@ -234,6 +233,7 @@
         1,
         1,
         0,
+        0,
         0
       ],
       "viewsSeries": [],
@@ -260,7 +260,7 @@
           "shares": 1,
           "saved": 9,
           "totalInteractions": 18,
-          "avgWatchTimeMs": 15556
+          "avgWatchTimeMs": 15519
         },
         "saveRate": 0.03272727272727273,
         "shareRate": 0.0036363636363636364,
@@ -329,12 +329,12 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 4,
-          "avgWatchTimeMs": 13950
+          "avgWatchTimeMs": 14168
         },
         "saveRate": 0,
         "shareRate": 0,
         "engagementRate": 0.07017543859649122,
-        "hookScore": 40,
+        "hookScore": 41,
         "diagnosis": "Middle of the pack — test a different hook, angle, or opening visual.",
         "rank": 4
       },
@@ -467,7 +467,7 @@
           "shares": 0,
           "saved": 0,
           "totalInteractions": 2,
-          "avgWatchTimeMs": 5941
+          "avgWatchTimeMs": 5953
         },
         "saveRate": 0,
         "shareRate": 0,
@@ -786,7 +786,7 @@
     }
   },
   "content": {
-    "igFollowers": 466,
+    "igFollowers": 448,
     "igReach30d": 2091,
     "igReelsShipped": 8
   }
