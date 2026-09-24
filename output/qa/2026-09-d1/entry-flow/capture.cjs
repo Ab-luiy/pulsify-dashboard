@@ -1,0 +1,18 @@
+const fs=require('node:fs'),path=require('node:path'),http=require('node:http'),assert=require('node:assert/strict');
+const {chromium}=require('C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=path.resolve(__dirname,'../../../standard-preview');
+let enabled=true;
+const server=http.createServer((req,res)=>{let p=new URL(req.url,'http://localhost').pathname;if(p==='/')p='/index.html';if(p==='/api/propelauth/config'){res.setHeader('Content-Type','application/json');return res.end(JSON.stringify({enabled}));}let f=path.join(root,p);if(fs.existsSync(f)&&fs.statSync(f).isDirectory())f=path.join(f,'index.html');if(!fs.existsSync(f)){res.writeHead(404);return res.end();}res.setHeader('Content-Type',({'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.woff2':'font/woff2'})[path.extname(f)]||'application/octet-stream');fs.createReadStream(f).pipe(res);});
+(async()=>{await new Promise(r=>server.listen(0,'127.0.0.1',r));const browser=await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});const base=`http://127.0.0.1:${server.address().port}`;try{
+for(const theme of ['dark','light'])for(const [size,width,height] of [['desktop',1440,900],['phone',390,844]]){
+const page=await browser.newPage({viewport:{width,height},colorScheme:theme});
+const capture=async name=>{await page.evaluate(()=>document.fonts.ready);assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await page.screenshot({path:path.join(__dirname,`${theme}-${size}-${name}.png`),fullPage:true});};
+await page.goto(base);await capture('home');await page.locator('[data-open-chooser]').click();await capture('chooser');assert(await page.locator('dialog').isVisible());await page.keyboard.press('Escape');assert(!await page.locator('dialog').isVisible());assert(await page.locator('[data-open-chooser]').evaluate(e=>e===document.activeElement));
+for(const audience of ['operator','client']){
+await page.locator('[data-open-chooser]').click();await page.locator(`.choice[href="/login/${audience}"]`).click();assert(new URL(page.url()).pathname===`/login/${audience}`);await capture(audience);
+await page.goto(`${base}/login/${audience}?auth_error=failed&next=%2Fportal&client=demo`);assert.equal(await page.locator('[data-notice]').textContent(),'Sign-in did not complete. Try again.');const href=await page.locator('[data-continue]').getAttribute('href');assert(href.includes(`as=${audience}`));assert(href.includes('next=%2Fportal'));if(audience==='client')assert((await page.locator('[data-password]').getAttribute('href')).includes('client=demo'));await capture(`${audience}-error`);await page.goto(base);
+}
+enabled=false;await page.goto(`${base}/login/client`);await page.locator('[data-continue][hidden]').waitFor({state:'attached'});assert(await page.locator('[data-password]').isVisible());await capture('client-fallback');await page.goto(`${base}/login/operator`);await page.locator('[data-continue][aria-disabled="true"]').waitFor();assert.equal(await page.locator('[data-continue]').getAttribute('href'),null);await capture('operator-unavailable');enabled=true;
+await page.goto(`${base}/login/client?signed_out=1`);assert.equal(await page.locator('[data-notice]').textContent(),'You are signed out.');await page.close();
+}console.log('All four theme/viewport combinations passed: chooser routes, Escape/focus restoration, errors, signed-out state, return parameters and disabled-auth/password fallback.');
+}finally{await browser.close();server.close();}})().catch(e=>{console.error(e);server.close();process.exitCode=1;});
