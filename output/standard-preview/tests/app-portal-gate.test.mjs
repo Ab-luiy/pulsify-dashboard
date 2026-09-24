@@ -2,7 +2,7 @@
 // the server, operator console under /app stays behind Cloudflare Access.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { onRequest as middleware } from "../functions/_middleware.js";
+import { pulsifyMiddleware as middleware } from "../functions/_middleware.js";
 import { onRequest as portal } from "../functions/app/portal/[[path]].js";
 
 const html = "<!doctype html><html><head><title>Portal</title></head><body>portal</body></html>";

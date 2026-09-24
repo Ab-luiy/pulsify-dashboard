@@ -1,10 +1,36 @@
 /**
  * Never serve local tooling state, even if a deploy directory is prepared badly.
  */
+import * as Sentry from '@sentry/cloudflare';
 import { accessToken, validateAccess, rememberOperator, hasOperator } from './_shared/access.js';
+
+// The Pages SDK runs before the access gate so route exceptions are captured.
+// Keep telemetry limited to exception type and code location: client data,
+// request URLs, headers, cookies, messages, and local variables stay out.
+export const onRequest = [
+  Sentry.sentryPagesPlugin(({ env }) => ({
+    dsn: env.SENTRY_DSN || 'https://4a337e96f046d06f3b1694535af48a50@o4512140396724224.ingest.de.sentry.io/4512140568821840',
+    tracesSampleRate: 0,
+    beforeSend(event) {
+      delete event.user;
+      delete event.request;
+      delete event.breadcrumbs;
+      delete event.extra;
+      delete event.contexts;
+      event.tags = { service: 'pulsify-pages' };
+      if (event.message) event.message = 'Unhandled Cloudflare Pages exception';
+      for (const value of event.exception?.values || []) {
+        value.value = 'Unhandled Cloudflare Pages exception';
+        for (const frame of value.stacktrace?.frames || []) delete frame.vars;
+      }
+      return event;
+    },
+  })),
+  pulsifyMiddleware,
+];
 const adminApis = new Set(['dashboard-generate','transcript','activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','outreach-queue','zernio','notifications','realtime-config','search','workspace-archive']);
 const mixedApis = new Set(['spine','integrations','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','outreach-queue','zernio','notifications','realtime-config','search']);
-export async function onRequest(context) {
+export async function pulsifyMiddleware(context) {
   const { request, next, env } = context;
   const path = new URL(request.url).pathname.toLowerCase();
   // Any dot-segment (build caches, tool state), internal notes, configs and
@@ -13,6 +39,8 @@ export async function onRequest(context) {
     /\/\.(?!well-known\/)/.test(path) ||
     /^\/(tests|migrations|workers|scripts|tools)(\/|$)/.test(path) ||
     /\.(md|toml|py|cjs|mjs|sql|sh|log)$/.test(path) ||
+    path === '/package.json' || path === '/package-lock.json' ||
+    path.startsWith('/node_modules/') || path.startsWith('/_worker.bundle/') ||
     path === "/.assetsignore";
 
   if (blocked) {

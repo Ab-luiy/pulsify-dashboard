@@ -1794,3 +1794,7 @@ Seven read-only audits compared every legacy screen (operator console and client
 ## [2026-09-24] decision | Switched over to the new app
 
 Founder said switch over. /admin and /portal now forward to the Next.js app at /app and /app/portal, including old ?view= and #hash links, previews and private client links. Verified live. Legacy files stay on disk one cycle as a rollback, then get deleted. Codex login (PropelAuth) still off.
+
+## [2026-09-24] client-update | Sentry production monitoring activated
+
+Completed the founder's Sentry setup after Claude's session limit. The EU organization has separate browser and Cloudflare Pages projects, high-priority email issue rules, sensitive-field scrubbing, and IP storage prevention. The Next.js browser monitor and Pages middleware now send production exceptions to the right projects; synthetic events from both runtimes were received and then resolved. Browser reporting strips URL queries/fragments and is limited to the production hostname by default. Pages reports exception type and code location while omitting request and client context. Deployed Pages 573a0366, confirmed signed-in /app and anonymous route gates, and blocked tooling package files from static serving. Source maps are not uploaded yet. Operating details are in `output/standard-preview/docs/SENTRY-SETUP.md`; ownership is in `wiki/playbooks/account-registry.md`.

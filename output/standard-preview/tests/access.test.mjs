@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {validateAccess,accessToken,ISSUER,operatorIdentity} from '../functions/_shared/access.js';
-import {onRequest} from '../functions/_middleware.js';
+import {onRequest as middlewareChain,pulsifyMiddleware as onRequest} from '../functions/_middleware.js';
 import {checkAdmin} from '../functions/_shared/common.js';
 import {onRequestGet as clientsHandler} from '../functions/api/clients.js';
 import {onRequestGet as slugHandler} from '../functions/[slug].js';
@@ -10,6 +10,17 @@ const jwk={...await crypto.subtle.exportKey('jwk',pair.publicKey),kid:'test-key'
 const encode=o=>Buffer.from(JSON.stringify(o)).toString('base64url');
 async function token(changes={},head={}){const data=encode({alg:'RS256',kid:'test-key',...head})+'.'+encode({aud:['console'],iss:ISSUER,exp:Date.now()/1000+600,email:'operator@example.test',...changes});return data+'.'+Buffer.from(await crypto.subtle.sign('RSASSA-PKCS1-v1_5',pair.privateKey,Buffer.from(data))).toString('base64url');}
 const fetcher=async()=>Response.json({keys:[jwk],public_certs:[{kid:jwk.kid,cert:'test representation'}]});
+test('Sentry wraps the existing access gate first',()=>{
+ assert.equal(middlewareChain.length,2);
+ assert.equal(typeof middlewareChain[0],'function');
+ assert.equal(middlewareChain[1],onRequest);
+});
+test('Pages dependency manifests and bundles are not publicly served',async()=>{
+ for(const path of ['/package.json','/package-lock.json','/node_modules/@sentry/cloudflare/package.json','/_worker.bundle/index.js']){
+  const r=await onRequest({request:new Request('https://pulsify-ai.com'+path),env:{},data:{},next:()=>new Response('asset')});
+  assert.equal(r.status,404,path);
+ }
+});
 test('RS256 validates audience, issuer, expiry, signature, algorithm and cookie',async()=>{
  const valid=await token();assert.deepEqual(await validateAccess(valid,'console',{fetcher}),{email:'operator@example.test',via:'access'});
  for(const change of [{aud:['wrong']},{iss:'https://evil.test'},{exp:0},{nbf:Date.now()/1000+300},{email:null}])assert.equal(await validateAccess(await token(change),'console',{fetcher}),null);

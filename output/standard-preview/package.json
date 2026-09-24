@@ -1,0 +1,8 @@
+{
+  "name": "pulsify-pages-backend",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@sentry/cloudflare": "^11.0.0"
+  }
+}

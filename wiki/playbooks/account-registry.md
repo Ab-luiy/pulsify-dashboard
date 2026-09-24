@@ -3,7 +3,7 @@ type: playbook
 tags: [funnel, scaling]
 sources: [[Cloudflare dashboard 2026-09-17]], [[Meta Accounts Centre 2026-09-17]]
 created: 2026-09-17
-updated: 2026-09-17
+updated: 2026-09-24
 ---
 
 # Account registry: which email owns what
@@ -33,6 +33,7 @@ They look like typos of each other. They are three separate Google accounts.
 | Resend: domain `pulsify-ai.com` Verified 2026-09-17, region us-east-1, DKIM + SPF CNAMEs (`send`, `rsend` -> forge.rmta.net) + DMARC p=none in Cloudflare DNS. API key "pulsify-funnels" (sending access only) stored as `RESEND_API_KEY` on the pulsify-funnels Pages project. Sender address: `hello@pulsify-ai.com`. Receiving is off | `abod.louai@gmail.com` | 2026-09-17, Resend dashboard |
 | DocuSign **developer sandbox** (demo.docusign.net, account "Pulsify", display id 50558014, API Account ID `e99c7d55-a532-4732-a356-787ade631958`). Connect config "Pulsify portal provisioning" (id 22319453, Active): REST v2.1 JSON, SIM, Envelope Signed/Completed, include Custom Fields + Recipients, HMAC on, URL `https://pulsify-ai.com/api/docusign-connect`. Secrets on pulsify-funnels: `DOCUSIGN_ACCOUNT_ID`, `DOCUSIGN_HMAC_SECRET`, `INTEGRATION_ENCRYPTION_KEY`, `EMAIL_FROM` (= `Pulsify <hello@pulsify-ai.com>`). **Demo envelopes are not valid contracts**; real client contracts need a paid DocuSign plan and the Connect config repeated there | `abod.louai@gmail.com` | 2026-09-17 |
 | Fathom: API client "Pulsify portal" generated 2026-09-17 under the founder's Fathom user (settings show the free premium preview expired; API access was available anyway). Stored as `FATHOM_API_KEY` on pulsify-funnels. Fathom MCP is also connected to this Claude environment for reading meetings | founder's Fathom login | 2026-09-17 |
+| Sentry: organization `pulsify-37`, EU data region; projects `javascript-nextjs` for the browser app and `pulsify-backend` for Cloudflare Pages. High-priority issue emails and organization scrubbing are on. Setup and operations: `output/standard-preview/docs/SENTRY-SETUP.md`. | `abod.louai@gmail.com` | 2026-09-24, Sentry dashboard and test events |
 
 ## Secrets inventory on the `pulsify-funnels` Pages project (names only, 2026-09-17)
 
