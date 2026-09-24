@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pulsify</title>
   <meta name="description" content="Your one stop for selling info and building a 7 figure audience.">
-  <meta name="theme-color" content="#100f0d">
+  <meta name="theme-color" content="#08090b">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/shared/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -18,6 +18,7 @@
       <img src="/assets/brand/variations/07-monogram.svg" alt="" width="28" height="28">
       <span>Pulsify</span>
     </a>
+    <span class="system-state"><span aria-hidden="true"></span>Command center</span>
   </header>
 
   <main class="hero">
@@ -30,21 +31,21 @@
 
   <footer class="site-footer">
     <span>© Pulsify</span>
-    <a href="/privacy">Privacy</a>
-    <a href="/terms">Terms</a>
+    <span class="footer-links"><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span>
   </footer>
 
   <dialog class="chooser" aria-labelledby="chooser-title">
     <button class="close" type="button" data-close-chooser aria-label="Close">×</button>
+    <p class="kicker">Choose a workspace</p>
     <h2 id="chooser-title">Sign in to Pulsify</h2>
-    <p class="hint">Choose how you work with us.</p>
-    <a class="choice" href="/login/client">
+    <p class="hint">Use the workspace built for you.</p>
+    <a class="choice choice-primary" href="/login/client">
       <span><strong>Client</strong><small>Your workspace, content and growth</small></span>
-      <span aria-hidden="true">→</span>
+      <span aria-hidden="true">↗</span>
     </a>
     <a class="choice" href="/login/operator">
       <span><strong>Operator</strong><small>The Pulsify team</small></span>
-      <span aria-hidden="true">→</span>
+      <span aria-hidden="true">↗</span>
     </a>
   </dialog>
 </body>
