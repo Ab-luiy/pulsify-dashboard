@@ -1807,3 +1807,6 @@ Deployed the Today to-do list, Outreach queue page, search inside the tracker, c
 
 ## [2026-09-24] decision | Client integrations parked until the first paid client
 Founder parked client sign-in integrations (pulsify-saas #15) until a client signs and pays. Plan on unpark: Zernio profile per client for Instagram and YouTube (6 USD per connected account per month for accounts 3 to 10, docs.zernio.com/pricing), own OAuth apps for Kit, Calendly or Cal.com and Stripe. Own Google app stays a fallback because its consent screen is in Testing (7-day refresh tokens, test users only). Redirect added to the Pulsify Portal OAuth client; account registry updated.
+
+## [2026-09-25] query | Growth section audit and plan
+Audited every client portal Growth route from screenshots and code and wrote [[synthesis/growth-section-plan-2026-09-25]]: the section is a toolbox of card menus, the same job lives in two or three places, the next step is buried, reel ideas vanish with the browser tab. Proposed a rebuild as the weekly loop (This week, Create, Library, Results) and listed five founder decisions, flagging the July contradiction on who runs the AI. Nothing built; pulsify-saas #18 waits on the founder session.

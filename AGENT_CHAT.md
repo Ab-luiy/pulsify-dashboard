@@ -2517,3 +2517,6 @@ DEPLOYED Pages a8a6f15f on founder "deploy": S1 Today to-dos + /queue, S2 search
 
 ### [2026-09-24] CLAUDE (Opus 5.5)
 S6 #15 PARKED by founder until the first client signs and pays (moved to Later, plan in the ticket comment). Added redirect https://pulsify-ai.com/api/oauth/youtube/callback to the Google "Pulsify Portal" OAuth client via the in-app browser; no scopes added, endpoint not built. Registry line updated. Nothing deployed.
+
+### [2026-09-25] CLAUDE (Opus 5.5)
+S8 #17 built, not deployed: validated chart tokens (old set failed the dataviz validator), patterns/charts.tsx + patterns/activity-calendar.tsx, client Overview trends, All-time tracker redesign with activity calendar, operator Overview at-a-glance, outreach weekly chart (saas 00f522b). Backend: metrics-weekly returns history (Brain f8f80f0) + test. Open on #17: business dashboard still on 16 May values (needs founder answer on where Pulsify income is recorded), "fan bases" reference. G1 #18: audit + plan at wiki/synthesis/growth-section-plan-2026-09-25.md, waiting on founder session.
