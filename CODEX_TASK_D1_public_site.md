@@ -1,4 +1,5 @@
 # CODEX_TASK_D1_public_site
+Ticket: https://github.com/Ab-luiy/pulsify-saas/issues/9
 Owner: Codex (design). Reviewer: local Claude. Approver: founder.
 
 Goal: Redesign the public home page and the two sign-in pages from the working placeholders so Pulsify's front door looks premium, minimal and native.
