@@ -7,6 +7,7 @@ import { nowIso, str } from "../../../../functions/_shared/common.js";
 import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 import { notifyReply } from "./outreach-notify.js";
 import { pushOperator } from "../../../../functions/_shared/realtime.js";
+import { captureScoutShare } from "../../../../functions/_shared/lead-share.js";
 
 // Free plan allows 60 requests a minute; one list call plus one messages call
 // per changed conversation keeps a sweep well inside that.
@@ -47,6 +48,10 @@ async function processZernioEvent(env, payload) {
 
   if (event === "message.received" || event === "message.sent") {
     const isNew = await storeMessage(env, conversationId, zm, operatorEmail);
+    if (isNew && event === "message.received") {
+      const share = await captureScoutShare(env, { senderHandle: zc.participantUsername || zc.participantName, message: zm, messageId: zm.platformMessageId || zm.id });
+      if (share.captured) await pushOperator(env, "queue.changed", { reason: "scout-share", count: share.captured });
+    }
     if (isNew && event === "message.received") {
       const row = await env.DB.prepare("SELECT participant_username AS handle, participant_name AS name FROM ig_conversations WHERE id=?").bind(conversationId).first();
       await notifyReply(env, { conversationId, handle: row?.handle || zc.participantUsername, name: row?.name || zc.participantName, text: zm.text, messageId: zm.platformMessageId || zm.id }).catch(() => sideEffectFailure(env, "zernio_inbox_operation_2"));
@@ -105,7 +110,13 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
       if (!Array.isArray(msgs.messages)) throw new Error("Zernio messages response is incomplete");
       let added = 0;
       for (const zm of (msgs.messages || []).slice().reverse()) {
-        if (await storeMessage(env, conversationId, zm, operatorEmail)) added += 1;
+        if (await storeMessage(env, conversationId, zm, operatorEmail)) {
+          added += 1;
+          if (zm.direction !== "outgoing") {
+            const share = await captureScoutShare(env, { senderHandle: zc.participantUsername || zc.participantName, message: zm, messageId: zm.platformMessageId || zm.id });
+            if (share.captured) await pushOperator(env, "queue.changed", { reason: "scout-share", count: share.captured });
+          }
+        }
       }
       written += added;
       if (added) await pushOperator(env, "tracker.changed", { conversation_id: conversationId, reason: "sync" });
