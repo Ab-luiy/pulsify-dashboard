@@ -74,6 +74,7 @@
 
 ## Dashboard / CRM / leads
 
+- [Ticket board](project_ticket_board.md) - 2026-09-24: all SaaS work is GitHub Issues on Ab-luiy/pulsify-saas (#2-#21), owner labels, one ticket at a time; check `gh issue list` first
 - [Next.js migration](project_nextjs_migration.md) - 2026-09-23: move the live SaaS to React + Next.js + TS gradually, Claude builds; baseline sizes and verified pricing inside
 
 - [Lead Studio (CRM)](project_lead_studio.md) - enlarge a lead -> editable info plus asset gen plus Creator-profile flow plus per-lead asset history; /generate prefers Gemini, manual Copy-prompt fallback always free; asset-type expansion PARKED
