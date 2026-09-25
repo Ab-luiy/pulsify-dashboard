@@ -1,6 +1,7 @@
 import { json } from '../_shared/common.js';
 import { resolveClientAccess } from '../_shared/client-auth.js';
-const kinds = new Set(['youtube','lead','copy','reference']);
+// 'idea' = a captured reel thought (pulsify-saas overnight fix 2026-09-25; it used to live only in the browser tab).
+const kinds = new Set(['youtube','lead','copy','reference','idea']);
 export async function onRequestGet({request,env}) {
  const access=await resolveClientAccess(request,env,{allowHeaderToken:true,allowImpersonated:true});
  if(access.error)return access.error;

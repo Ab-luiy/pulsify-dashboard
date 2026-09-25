@@ -7,6 +7,10 @@ import {sha256Hex} from '../functions/_shared/common.js';
 const sql=new DatabaseSync(':memory:');
 sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
 sql.exec(readFileSync(new URL('../migrations/0021_workspace_records.sql',import.meta.url),'utf8'));
+// 0040 rebuilds the table to allow kind 'idea'; a row written before it must survive with its data.
+sql.prepare("INSERT INTO workspace_records VALUES('pre-1','a','copy','Kept draft','{\"x\":1}','2026-09-01T00:00:00Z','2026-09-01T00:00:00Z')").run();
+sql.exec(readFileSync(new URL('../migrations/0040_workspace_records_idea.sql',import.meta.url),'utf8'));
+{const kept=sql.prepare("SELECT * FROM workspace_records WHERE id='pre-1'").get();if(!kept||kept.title!=='Kept draft'||kept.data_json!=='{\"x\":1}')throw new Error('0040 lost a row');sql.prepare("DELETE FROM workspace_records WHERE id='pre-1'").run();}
 sql.prepare('INSERT INTO client_config VALUES(?,?,?),(?,?,?)').run('a','A',await sha256Hex('token-a'),'b','B',await sha256Hex('token-b'));
 sql.exec("ALTER TABLE client_config ADD COLUMN status TEXT DEFAULT 'prospect'");
 const env={DB:{prepare(query){let args=[];const p={bind(...v){args=v;return p},async first(){return sql.prepare(query).get(...args)||null},async all(){return {results:sql.prepare(query).all(...args)}},async run(){const r=sql.prepare(query).run(...args);return {meta:{changes:r.changes}}}};return p}}};
@@ -20,6 +24,8 @@ r=await onRequestGet({env,request:new Request('https://test/api/workspace-record
 assert.equal((await onRequestGet({env,request:new Request('https://test/api/workspace-records?client=b',{headers:{'x-portal-token':'token-a'}})})).status,403);
 assert.equal((await onRequestPost({env,request:req(body,'invalid')})).status,401);
 assert.equal((await onRequestPost({env,request:req({...body,kind:'admin'})})).status,422);
+// Reel ideas are saved as kind 'idea' so they outlive the browser tab (pulsify-saas overnight fix 2026-09-25).
+{const idea=await onRequestPost({env,request:req({kind:'idea',title:'closed a skeptical client',data:{text:'closed a skeptical client',angle:'A win to credibility',sequenceId:40,formats:['a','b']}})});assert.equal(idea.status,201);const listed=await (await onRequestGet({env,request:new Request('https://test/api/workspace-records',{headers:{'x-portal-token':'token-a'}})})).json();assert.ok(listed.rows.some(row=>row.kind==='idea'&&row.data.sequenceId===40));}
 assert.equal((await onRequestPost({env,request:req(null)})).status,422);
 assert.equal((await onRequestPost({env,request:req({...body,data:{notes:'x'.repeat(100001)}})})).status,413);
 console.log('PASS workspace records: persistence, tenant isolation, stale update conflicts, auth, size and schema validation');
