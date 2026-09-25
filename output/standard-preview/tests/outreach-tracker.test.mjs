@@ -164,3 +164,20 @@ test('seen: parsed from a Meta-shaped hook, notified only after 5 silent minutes
 });
 
 test.after(()=>{globalThis.fetch=realFetch;});
+
+test('suggest-tags: known ids only, quote must be the prospect verbatim, never saved', async()=>{
+  const {suggestTags}=await import('../functions/_shared/tag-suggest.js');
+  const msgs=[{direction:'outbound',text:'loved your breakdown'},{direction:'inbound',text:'honestly my funnel is a mess, the link in bio goes nowhere'},{direction:'inbound',text:'and I never started a youtube channel'}];
+  const fake=(response)=>async()=>({response});
+  let r=await suggestTags({AI:{}},msgs,fake({suggestions:[{id:'bad-funnel',strength:3,quote:'my funnel is a mess'},{id:'no-youtube',strength:9,quote:'never started a youtube channel'},{id:'made-up',strength:2,quote:'mess'},{id:'weak-packaging',strength:2,quote:'my thumbnails are bad'}]}));
+  assert.deepEqual(r.suggestions,[{id:'bad-funnel',strength:3,quote:'my funnel is a mess'},{id:'no-youtube',strength:3,quote:'never started a youtube channel'}]);
+  r=await suggestTags({AI:{}},msgs,fake({suggestions:[{id:'bad-funnel',quote:'loved your breakdown'}]}));
+  assert.deepEqual(r.suggestions,[],'our own outbound words are not evidence');
+  r=await suggestTags({},msgs);assert.equal(r.available,false);
+  r=await suggestTags({AI:{}},[{direction:'outbound',text:'hey'}],fake({suggestions:[]}));assert.match(r.reason,/not written/);
+  const before=sql.prepare("SELECT pain_tags FROM ig_outreach WHERE conversation_id='waiting'").get();
+  const post=(body)=>call(outreachPost,op('https://x/api/outreach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}));
+  const res=await (await post({id:'waiting',action:'suggest-tags'})).json();
+  assert.equal(res.ok,true);assert.equal(res.available,false,'no AI binding in tests');
+  assert.deepEqual(sql.prepare("SELECT pain_tags FROM ig_outreach WHERE conversation_id='waiting'").get(),before,'nothing saved');
+});

@@ -5,6 +5,7 @@
 //                                    hibernate, wake, note {text},
 //                                    tags {tags:[{id,strength}]}, asset-sent {entry:{kind,tag,asset?}}
 // The list response also carries pain_tag_catalog and ready_assets for the inbox (ticket #14).
+//   POST {id, action:"suggest-tags"} -> {suggestions:[{id,strength,quote}]}  AI read of their messages, never saved
 import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
@@ -12,6 +13,7 @@ import { deriveThread, loadThreads, logEvent, stats, upsertOutreach } from "../_
 import { pushOperator } from "../_shared/realtime.js";
 import { reviewBooking } from "../_shared/booking-review.js";
 import { cleanAssetEntry, cleanTags, PAIN_TAGS, READY_ASSETS, readAssetLog } from "../_shared/pain-tags.js";
+import { suggestTags } from "../_shared/tag-suggest.js";
 
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);
@@ -50,6 +52,11 @@ async function handlePost({ request, env }) {
     const messages = (await env.DB.prepare('SELECT direction,sent_at,text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at DESC LIMIT 80').bind(id).all()).results || [];
     try { return json({ok:true,review:await reviewBooking(env,messages.reverse())}); }
     catch { return json({ok:false,error:'Booking review unavailable. Try again.'},502); }
+  }
+
+  if (action === "suggest-tags") {
+    const messages = (await env.DB.prepare("SELECT direction, sent_at, text FROM ig_messages WHERE conversation_id=? ORDER BY sent_at DESC LIMIT 120").bind(id).all()).results || [];
+    return json({ ok: true, ...(await suggestTags(env, messages.reverse())) });
   }
 
   if (action.startsWith("sentiment:")) {
