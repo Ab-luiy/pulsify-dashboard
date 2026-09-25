@@ -72,12 +72,30 @@ test('stats: reply, ghost and close rates', ()=>{
   assert.equal(order[0],'b','waiting on us before the rest; no follow-ups due here since d is booked');
 });
 
+test('only leads count (#27): friends never nag, inbound stays out of the numbers until counted', ()=>{
+  const spoke=[msg('outbound',T0),msg('inbound',T0+H,'haha yeah')];
+  const friend=deriveThread(conv,spoke,{relation:'personal'},T0+2*H);
+  assert.equal(friend.relation,'personal');assert.equal(friend.is_lead,false);assert.equal(friend.stage,'personal');assert.equal(friend.stage_label,'Not a lead');
+  assert.equal(friend.awaiting_us,false,'a friend never waits on you');assert.equal(friend.their_turn,true,'the fact stays visible');
+  const quiet=deriveThread(conv,[msg('outbound',T0)],{relation:'personal'},T0+30*H);
+  assert.equal(quiet.follow_up_due,false,'no follow-up cadence for a friend');
+  const pitch=deriveThread(conv,[msg('inbound',T0,'I can grow your page')],{},T0+2*H);
+  assert.equal(pitch.relation,'inbound');assert.equal(pitch.is_lead,false);assert.equal(pitch.awaiting_us,false);assert.equal(pitch.their_turn,true);assert.equal(pitch.stage,'replied');
+  const counted=deriveThread(conv,[msg('inbound',T0,'how do I start')],{relation:'lead'},T0+2*H);
+  assert.equal(counted.is_lead,true);assert.equal(counted.awaiting_us,true);
+  const lead=deriveThread(conv,spoke,{},T0+2*H);
+  assert.equal(lead.relation,'lead');assert.equal(lead.is_lead,true);assert.equal(lead.awaiting_us,true);
+  const s=stats([lead,friend,pitch,counted]);
+  assert.equal(s.outbound.dms_sent,2,'leads only: the outbound lead and the counted inbound');
+  assert.equal(s.inbound.conversations,1);assert.equal(s.inbound.awaiting_us,1);
+});
+
 // ---- database-backed: API and notifications ----
 const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT)");
 for(const t of ['crm_overrides','crm_added','crm_removed'])sql.exec(`CREATE TABLE ${t}(name TEXT PRIMARY KEY,data TEXT NOT NULL,ts INTEGER NOT NULL,sts INTEGER NOT NULL,updated_at TEXT NOT NULL)`);
-for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql','0039_outreach_pain_tags.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
+for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0031_notifications.sql','0039_outreach_pain_tags.sql','0041_outreach_relation.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 const emails=[];
 const env={OPERATOR_EMAIL:'abod.louai@gmail.com',RESEND_API_KEY:'re',EMAIL_FROM:'Pulsify <hi@pulsify-ai.com>',ADMIN_KEY:'k',INTEGRATION_ENCRYPTION_KEY:Buffer.from(new Uint8Array(32)).toString('base64'),
   DB:{prepare(q){let a=[];const p={bind(...v){a=v;return p},async first(){return sql.prepare(q).get(...a)||null},async all(){return {results:sql.prepare(q).all(...a)}},async run(){const r=sql.prepare(q).run(...a);return {meta:{changes:r.changes}}}};return p},async batch(l){const o=[];for(const s of l)o.push(await s.run());return o}}};
@@ -161,6 +179,22 @@ test('seen: parsed from a Meta-shaped hook, notified only after 5 silent minutes
   const listed=await (await call(outreachGet,op('https://x/api/outreach'))).json();
   assert.equal(listed.stats.outbound.seen_available,true);
   assert.equal(listed.threads.find(t=>t.id==='fresh').left_on_read,true);
+});
+
+test('relation action (#27): not a lead, count as a lead, clear; friends never reach the bell', async()=>{
+  const post=(body)=>call(outreachPost,op('https://x/api/outreach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)}));
+  let r=await (await post({id:'waiting',action:'relation:personal'})).json();
+  assert.equal(r.thread.relation,'personal');assert.equal(r.thread.awaiting_us,false);assert.equal(r.thread.stage,'personal');
+  const listed=await (await call(outreachGet,op('https://x/api/outreach?fresh=1'))).json();
+  assert.equal(listed.threads.find(t=>t.id==='waiting').is_lead,false);
+  assert.equal(await notifyReply(env,{conversationId:'waiting',handle:'they.spoke',name:'They Spoke',text:'lol',messageId:'waiting-friend'}),false,'no ping for a friend');
+  r=await (await post({id:'inb',action:'relation:lead'})).json();
+  assert.equal(r.thread.relation,'lead');assert.equal(r.thread.awaiting_us,true);
+  r=await (await post({id:'waiting',action:'relation:clear'})).json();
+  assert.equal(r.thread.relation,'lead');
+  r=await (await post({id:'inb',action:'relation:clear'})).json();
+  assert.equal(r.thread.relation,'inbound');
+  assert.equal((await post({id:'inb',action:'relation:boss'})).status,422);
 });
 
 test.after(()=>{globalThis.fetch=realFetch;});

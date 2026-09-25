@@ -17,7 +17,7 @@ const sql=new DatabaseSync(':memory:');
 const mig=n=>readFileSync(new URL('../migrations/'+n,import.meta.url),'utf8');
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT,portal_token_hash TEXT)");
 sql.exec("CREATE TABLE crm_overrides(name TEXT PRIMARY KEY,data TEXT,ts INTEGER,sts INTEGER,updated_at TEXT)");
-for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0039_outreach_pain_tags.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
+for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0025_data_spine.sql','0027_revenue_automation.sql','0029_outreach_tracker.sql','0039_outreach_pain_tags.sql','0041_outreach_relation.sql','0031_notifications.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';')){if(st.trim())try{sql.exec(st);}catch(e){}}
 sql.prepare("INSERT INTO client_config VALUES('acme','Acme','client','x',?)").run(await sha256Hex('tok-acme'));
 const fetches=[];
 const realFetch=globalThis.fetch;

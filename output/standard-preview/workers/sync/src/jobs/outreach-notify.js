@@ -106,7 +106,8 @@ export async function followUpDigest(env, now = Date.now()) {
   const threads = await loadThreads(env, { period: "recent", now });
   const outbound = stats(threads).outbound || {};
   const due = Number(outbound.follow_ups_due || 0);
-  const waiting = threads.filter((t) => t.awaiting_us && t.origin === "outbound");
+  // awaiting_us is already leads only (friends and uncounted inbound never wait).
+  const waiting = threads.filter((t) => t.awaiting_us);
   if (!due && !waiting.length) return 0;
   const parts = [];
   if (due) parts.push(`${due} follow-up${due === 1 ? "" : "s"} due`);
