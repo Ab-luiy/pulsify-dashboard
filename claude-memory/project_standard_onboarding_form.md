@@ -1,6 +1,6 @@
 ---
 name: project-standard-onboarding-form
-description: "The client onboarding form is ONE standard form in the new app at /app/portal/onboarding (pulsify-saas #16, 2026-09-25); it writes straight into the client brain; legacy /onboard only redirects there"
+description: "LIVE 2026-09-25. The client onboarding form is ONE standard form in the new app at /app/portal/onboarding (pulsify-saas #16, 2026-09-25); it writes straight into the client brain; legacy /onboard only redirects there"
 metadata:
   node_type: memory
   type: project
