@@ -15,6 +15,21 @@ import { reviewBooking } from "../_shared/booking-review.js";
 import { cleanAssetEntry, cleanTags, PAIN_TAGS, READY_ASSETS, readAssetLog } from "../_shared/pain-tags.js";
 import { suggestTags } from "../_shared/tag-suggest.js";
 
+// The list reads every stored message (4,150 rows on 2026-09-25) to derive the
+// threads. Several pages ask for it (Overview, Today, Inbox, tracker, dashboard),
+// so the computed list is kept in the data centre's cache for 20 seconds and
+// shared; any action below clears it at once. Keys are internal URLs, never
+// reachable from outside, and the browser still gets no-store.
+const LIST_TTL = 20;
+const listKey = (period, q) => new Request(`https://outreach-cache.pulsify.internal/list?period=${period}&q=${encodeURIComponent(q)}`);
+const listCache = () => (typeof caches !== "undefined" && caches.default ? caches.default : null);
+
+async function clearListCache() {
+  const cache = listCache();
+  if (!cache) return;
+  await Promise.all(["year", "recent"].map((period) => cache.delete(listKey(period, "")).catch(() => false)));
+}
+
 async function handleGet({ request, env }) {
   const denied = resolveOperator(request, env);
   if (denied.error) return denied.error;
@@ -30,9 +45,18 @@ async function handleGet({ request, env }) {
     const messages = (await env.DB.prepare("SELECT id, direction, sent_at, text, payload_json FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC LIMIT 1000").bind(id).all()).results || [];
     return json({ ok: true, thread: deriveThread(conversation, messages, conversation), messages });
   }
-  const threads = await loadThreads(env, { q: url.searchParams.get("q") || "", period: url.searchParams.get("period") === "recent" ? "recent" : "year" });
+  const q = url.searchParams.get("q") || "";
+  const period = url.searchParams.get("period") === "recent" ? "recent" : "year";
+  const cache = listCache();
+  const key = listKey(period, q);
+  // ?fresh=1 (sent right after a "tracker.changed" push or Refresh) skips the shared copy.
+  const hit = cache && url.searchParams.get("fresh") !== "1" ? await cache.match(key).catch(() => null) : null;
+  if (hit) return new Response(hit.body, { status: 200, headers: { "content-type": "application/json", "cache-control": "no-store", "x-outreach-cache": "hit" } });
+  const threads = await loadThreads(env, { q, period });
   const events = (await env.DB.prepare("SELECT id, conversation_id, kind, handle, name, text, created_at, delivered_at FROM ig_outreach_events ORDER BY created_at DESC LIMIT 30").all().catch(() => ({ results: [] }))).results || [];
-  return json({ ok: true, threads, stats: stats(threads), events, pain_tag_catalog: PAIN_TAGS, ready_assets: READY_ASSETS, timezone: env.OPERATOR_TIMEZONE || "Europe/Istanbul", generated_at: new Date().toISOString() });
+  const body = JSON.stringify({ ok: true, threads, stats: stats(threads), events, pain_tag_catalog: PAIN_TAGS, ready_assets: READY_ASSETS, timezone: env.OPERATOR_TIMEZONE || "Europe/Istanbul", generated_at: new Date().toISOString() });
+  if (cache) await cache.put(key, new Response(body, { headers: { "content-type": "application/json", "cache-control": `max-age=${LIST_TTL}` } })).catch(() => null);
+  return new Response(body, { status: 200, headers: { "content-type": "application/json", "cache-control": "no-store" } });
 }
 
 async function handlePost({ request, env }) {
@@ -90,6 +114,7 @@ async function handlePost({ request, env }) {
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
   ).bind(id).first();
   const messages = (await env.DB.prepare("SELECT direction, sent_at, text, payload_json FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC").bind(id).all()).results || [];
+  await clearListCache();
   await pushOperator(env, "tracker.changed", { conversation_id: id, reason: action.split(":")[0] });
   return json({ ok: true, thread: deriveThread(row, messages, row) });
 }

@@ -181,3 +181,19 @@ test('suggest-tags: known ids only, quote must be the prospect verbatim, never s
   assert.equal(res.ok,true);assert.equal(res.available,false,'no AI binding in tests');
   assert.deepEqual(sql.prepare("SELECT pain_tags FROM ig_outreach WHERE conversation_id='waiting'").get(),before,'nothing saved');
 });
+
+test('list cache: shared for 20 s, ?fresh=1 skips it, any action clears it', async()=>{
+  const store=new Map();
+  globalThis.caches={default:{async match(req){return store.has(req.url)?new Response(store.get(req.url)):undefined},async put(req,res){store.set(req.url,await res.text())},async delete(req){return store.delete(req.url)}}};
+  try{
+    const get=(url)=>call(outreachGet,op(url));
+    let r=await get('https://x/api/outreach');assert.equal(r.headers.get('x-outreach-cache'),null);assert.equal(r.headers.get('cache-control'),'no-store');
+    r=await get('https://x/api/outreach');assert.equal(r.headers.get('x-outreach-cache'),'hit');assert.equal(r.headers.get('cache-control'),'no-store');
+    r=await get('https://x/api/outreach?fresh=1');assert.equal(r.headers.get('x-outreach-cache'),null,'fresh bypasses the copy');
+    assert.equal(store.size,1);
+    await call(outreachPost,op('https://x/api/outreach',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:'due',action:'note',text:'cache test'})}));
+    assert.equal(store.size,0,'an action clears the shared list');
+    r=await (await get('https://x/api/outreach')).json();
+    assert.equal(r.threads.find(t=>t.id==='due').notes,'cache test','the next read is fresh');
+  }finally{delete globalThis.caches;}
+});
