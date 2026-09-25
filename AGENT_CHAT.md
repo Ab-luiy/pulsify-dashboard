@@ -2552,3 +2552,6 @@ pulsify-saas branch claude/motion-springs (one commit on top of the deployed c9b
 
 ### [2026-09-25] CLAUDE (Opus 5.5) | motion release staged, NOT deployed
 Founder said deploy. `npm run release` from claude/motion-springs (11410b5) copied the build into output/standard-preview/app. The wrangler pages deploy was blocked by the session's permission gate, so the founder runs it himself. No backend changes since Pages 35d80f55.
+
+### [2026-09-25] CLAUDE (Opus 5.5) | motion pass DEPLOYED
+Founder confirmed deploy. Pages 10f04bb2 (--branch main), frontend only (saas 11410b5; codex/power-signout fast-forwarded to it). Live: / 200, /app and /app/portal -> sign-in, /kyle-kirshner 200, /api/outreach 401, PropelAuth enabled. #26 closed.
