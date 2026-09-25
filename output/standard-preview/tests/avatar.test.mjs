@@ -46,14 +46,14 @@ const upload = (owner, file, headers = {}) => {
 const png = new File([new Uint8Array([137, 80, 78, 71, 1, 2, 3])], "me.png", { type: "image/png" });
 
 test("operator picture: upload, read, delete", async () => {
-  assert.equal((await call(avatarGet, op(new Request("https://x/api/avatar?owner=operator")))).status, 404);
+  assert.equal((await call(avatarGet, op(new Request("https://x/api/avatar?owner=operator")))).status, 204, "no picture yet: empty, not an error");
   const saved = await call(avatarPost, op(upload("operator", png)));
   assert.equal(saved.status, 200);
   const read = await call(avatarGet, op(new Request("https://x/api/avatar?owner=operator")));
   assert.equal(read.status, 200);
   assert.equal(read.headers.get("content-type"), "image/png");
   await call(avatarDelete, op(new Request("https://x/api/avatar?owner=operator", { method: "DELETE" })));
-  assert.equal((await call(avatarGet, op(new Request("https://x/api/avatar?owner=operator")))).status, 404);
+  assert.equal((await call(avatarGet, op(new Request("https://x/api/avatar?owner=operator")))).status, 204);
 });
 
 test("client picture needs their session; wrong types and sizes are refused", async () => {

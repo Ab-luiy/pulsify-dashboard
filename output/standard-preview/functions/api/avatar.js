@@ -1,7 +1,7 @@
 // Profile pictures (pulsify-saas #31/#32, founder 2026-09-25): the operator's
 // and each client workspace's own picture, kept in R2 and served same-origin
 // (the app's CSP only allows our own images).
-//   GET    /api/avatar?owner=operator|client   the picture, or 404
+//   GET    /api/avatar?owner=operator|client   the picture, or 204 when there is none
 //   POST   /api/avatar  multipart {owner, file}  png, jpeg or webp, 2 MB at most
 //   DELETE /api/avatar?owner=operator|client
 // The operator side needs the operator identity; the client side needs the
@@ -28,11 +28,12 @@ async function keyFor(request, env, owner) {
 const ownerOf = (value) => (str(value) === "operator" ? "operator" : "client");
 
 async function get({ request, env }) {
-  if (!env.MEDIA) return new Response("Not found", { status: 404 });
+  if (!env.MEDIA) return new Response(null, { status: 204 });
   const found = await keyFor(request, env, ownerOf(new URL(request.url).searchParams.get("owner")));
   if (found.error) return found.error;
   const stored = await env.MEDIA.get(found.key);
-  if (!stored) return new Response("Not found", { status: 404, headers: { "cache-control": "private, no-store" } });
+  // No picture yet: an empty answer, not a 404, so the sidebar's check does not log an error on every page.
+  if (!stored) return new Response(null, { status: 204, headers: { "cache-control": "private, no-store" } });
   return new Response(stored.body, { headers: { "content-type": stored.httpMetadata?.contentType || "image/jpeg", "cache-control": "private, max-age=300" } });
 }
 
