@@ -37,7 +37,6 @@
       title: "Legacy + infrastructure",
       note: "Reference builds and infrastructure controls.",
       entries: [
-        { name: "Legacy Frank mock", note: "Original standalone Frank page", url: "https://frank-wieler.pages.dev" },
         { name: "Cloudflare dashboard", note: "Pulsify Pages and infrastructure", url: "https://dash.cloudflare.com/437f6dfbb738a4267395bd5da251494a" },
         { name: "Brain repo", note: "Private Pulsify operating repository", url: "https://github.com/Ab-luiy/pulsify-brain" },
       ],

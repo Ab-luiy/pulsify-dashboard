@@ -163,7 +163,7 @@
   </main>
 
   <script>
-    const state={key:sessionStorage.getItem("pulsify_admin_key")||"",clients:[],client:new URLSearchParams(location.search).get("client")||"frank"};
+    const state={key:sessionStorage.getItem("pulsify_admin_key")||"",clients:[],client:new URLSearchParams(location.search).get("client")||""};
     const $=id=>document.getElementById(id);
     $("adminKey").value=state.key;
     $("unlock").onclick=unlock; $("adminKey").addEventListener("keydown",e=>{if(e.key==="Enter")unlock()});

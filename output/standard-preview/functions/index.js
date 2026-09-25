@@ -2,7 +2,7 @@
  * THE PICKER + CONTENT RENDER — Cloudflare Pages Function, route "/".
  *
  * "/" and "/?client=..." keep the original query-param behavior. Clean
- * client paths such as "/frank-wieler" use functions/[slug].js but share the
+ * client paths such as "/kyle-kirshner" use functions/[slug].js but share the
  * same template + token render pipeline.
  */
 

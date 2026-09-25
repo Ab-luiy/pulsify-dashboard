@@ -26,9 +26,9 @@ const conv=(id,handle,dir,text,at)=>{
   sql.prepare("INSERT INTO ig_messages(id,conversation_id,operator_email,direction,sent_at,text,payload_json,created_at) VALUES(?,?,?,?,?,?,?,?)").run('m-'+id,id,'op',dir,at,text,'{}',at);
 };
 conv('t1','other.acc','inbound','test',now);
-conv('t2','frank.w','outbound','sent you the doc','2026-09-18T10:00:00.000Z');
+conv('t2','rowan.w','outbound','sent you the doc','2026-09-18T10:00:00.000Z');
 conv('t3','','inbound','','2026-09-17T10:00:00.000Z');
-sql.prepare("INSERT INTO crm_added(name,data,ts,sts,updated_at) VALUES('frank.w','{}',1,1,'x')").run();
+sql.prepare("INSERT INTO crm_added(name,data,ts,sts,updated_at) VALUES('rowan.w','{}',1,1,'x')").run();
 
 test('conversations list carries in_crm, counts and search', async()=>{
   const r=await call(conversationsGet,op('https://x/api/spine/conversations'));
@@ -39,7 +39,7 @@ test('conversations list carries in_crm, counts and search', async()=>{
   assert.equal(t1.in_crm,false);assert.equal(t2.in_crm,true);
   assert.equal(t1.message_count,1);assert.equal(t1.inbound_count,1);
   assert.equal(d.conversations[0].id,'t1','newest first');
-  const s=await (await call(conversationsGet,op('https://x/api/spine/conversations?q=frank'))).json();
+  const s=await (await call(conversationsGet,op('https://x/api/spine/conversations?q=rowan'))).json();
   assert.deepEqual(s.conversations.map(c=>c.id),['t2']);
   const u=await (await call(conversationsGet,op('https://x/api/spine/conversations?unmatched=1'))).json();
   assert.deepEqual(u.conversations.map(c=>c.id).sort(),['t1','t3']);

@@ -15,7 +15,7 @@ const SHORT='scaling on break even roas';
 
 // ---- drafts ----
 test('draft: five beats in order, lowercase, commas and periods only', ()=>{
-  const text=buildDraft({handle:'frank', detail:SHORT, link:'pulsify-ai.com/frank'});
+  const text=buildDraft({handle:'rowan', detail:SHORT, link:'pulsify-ai.com/rowan'});
   const opener=OPENERS.find(o=>text.startsWith(o));
   assert.ok(opener,'opens with one of the approved openers');
   const afterOpener=text.slice(opener.length+1);
@@ -23,7 +23,7 @@ test('draft: five beats in order, lowercase, commas and periods only', ()=>{
   assert.ok(REACTIONS.some(r=>afterOpener.includes(', '+r+'.')),'plain reaction after the detail');
   assert.ok(text.includes('also noticed'),'gap beat present');
   assert.ok(text.includes("it's 100% yours"),'ownership close present');
-  assert.ok(text.endsWith('lmk what you think pulsify-ai.com/frank'),'link rides on the close');
+  assert.ok(text.endsWith('lmk what you think pulsify-ai.com/rowan'),'link rides on the close');
   assert.equal(text,text.toLowerCase());
   assert.doesNotMatch(text,/[!\u2013\u2014\u2018\u2019\u201c\u201d]/);
   const words=countWords(text);
@@ -31,7 +31,7 @@ test('draft: five beats in order, lowercase, commas and periods only', ()=>{
 });
 
 test('draft: seed rotates the opener and reaction across a batch, and is stable per handle', ()=>{
-  const handles=['trader.joe','ecom.sam','fba.kim','nq.nox','_acetrades_','frank.w','alex.c','maya.fx'];
+  const handles=['trader.joe','ecom.sam','fba.kim','nq.nox','_acetrades_','rowan.w','alex.c','maya.fx'];
   const openers=new Set(), reactions=new Set();
   for(const h of handles){const d=composeDraft({handle:h,detail:SHORT});openers.add(d.opener_index);reactions.add(d.reaction_index);}
   assert.ok(openers.size>=2,'openers vary');
@@ -49,11 +49,11 @@ test('draft: missing detail ships the canonical beats with a visible placeholder
 });
 
 test('draft: long detail takes the tightest rung and grade flags the overrun; custom gap replaces the default', ()=>{
-  const d=composeDraft({handle:'frank',detail:DETAIL});
+  const d=composeDraft({handle:'rowan',detail:DETAIL});
   assert.equal(d.level,2);
   assert.ok(d.words>45);
   assert.ok(gradeDraft(d.text).issues.some(i=>i.startsWith('over 45 words')));
-  const custom=buildDraft({handle:'frank',detail:SHORT,gap:'also noticed your bio link just goes to a linktree'});
+  const custom=buildDraft({handle:'rowan',detail:SHORT,gap:'also noticed your bio link just goes to a linktree'});
   assert.ok(custom.includes('also noticed your bio link just goes to a linktree, so i'));
   assert.ok(!custom.includes(DEFAULT_GAP));
 });

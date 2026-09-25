@@ -61,10 +61,10 @@ const push=(key,body,extra={})=>ingestPost({request:new Request('https://t/api/v
 assert.equal((await push('pk_bogus',{kind:'lead',data:{name:'x'}})).status,401);
 assert.equal((await push(created.secret,'{bad')).status,400);
 assert.equal((await push(created.secret,{kind:'nope',data:{}})).status,422);
-r=await push(created.secret,{kind:'lead',external_id:'ig:frankw',data:{name:'Frank Wieler',handle:'@frankw',email:'Frank@Example.com',source:'zapier',tags:['dropshipping']}});
+r=await push(created.secret,{kind:'lead',external_id:'ig:rowanw',data:{name:'Rowan Hale',handle:'@rowanw',email:'Rowan@Example.com',source:'zapier',tags:['dropshipping']}});
 assert.equal(r.status,201);const lead=await r.json();assert.equal(lead.kind,'lead');
-r=await push(created.secret,{kind:'lead',external_id:'ig:frankw',data:{name:'Frank Wieler'}});assert.equal(r.status,200);assert.equal((await r.json()).duplicate,true);
-const crmRow=sql.prepare('SELECT data FROM crm_added WHERE name=?').get('Frank Wieler');assert.ok(crmRow);const crm=JSON.parse(crmRow.data);assert.equal(crm.h,'frankw');assert.equal(crm.stage,'New');assert.equal(crm.email,'frank@example.com');
+r=await push(created.secret,{kind:'lead',external_id:'ig:rowanw',data:{name:'Rowan Hale'}});assert.equal(r.status,200);assert.equal((await r.json()).duplicate,true);
+const crmRow=sql.prepare('SELECT data FROM crm_added WHERE name=?').get('Rowan Hale');assert.ok(crmRow);const crm=JSON.parse(crmRow.data);assert.equal(crm.h,'rowanw');assert.equal(crm.stage,'New');assert.equal(crm.email,'rowan@example.com');
 r=await push(created.secret,{kind:'metric',data:{source:'kit',metric:'subscribers',value:120,ts:'2026-09-18T00:00:00.000Z'}});assert.equal(r.status,201);
 r=await push(created.secret,{kind:'metric',data:{source:'kit',metric:'subscribers',value:120,ts:'2026-09-18T00:00:00.000Z'}});assert.equal(r.status,200);assert.equal((await r.json()).duplicate,true);
 assert.equal(sql.prepare("SELECT COUNT(*) c FROM metric_points WHERE source='kit'").get().c,1);

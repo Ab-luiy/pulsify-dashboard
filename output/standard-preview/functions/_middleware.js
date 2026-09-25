@@ -139,7 +139,7 @@ function notFound() {
   return new Response('Not found', { status: 404, headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store' } });
 }
 
-// Scripts public pages load (client landing pages from templates/, optin.html).
+// Scripts public pages load (client landing pages from templates/).
 // These stay downloadable by anyone or every prospect's page breaks.
 export const PUBLIC_SCRIPTS = new Set(['/js/funnel-integrations.js']);
 

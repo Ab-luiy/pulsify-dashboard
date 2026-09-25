@@ -2,7 +2,7 @@
  * Pulsify landing-page integration layer.
  *
  * Add these attributes to <body>:
- *   data-client="frank"      (fallback default; a "?client=" URL param overrides it)
+ *   data-client="client-id"  (fallback default; a "?client=" URL param overrides it)
  *   data-page-id="main"
  *   data-api-origin=""       (optional; blank means same origin)
  *

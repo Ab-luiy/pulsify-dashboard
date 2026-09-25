@@ -8,7 +8,7 @@ import { join } from "node:path";
 import { privateAsset } from "../functions/_middleware.js";
 
 function publicPages() {
-  const pages = ["index.html", "optin.html", "privacy.html", "terms.html", "login/operator/index.html", "login/client/index.html", "portal/login/index.html"];
+  const pages = ["index.html", "privacy.html", "terms.html", "login/operator/index.html", "login/client/index.html", "portal/login/index.html"];
   for (const name of readdirSync("templates")) {
     const file = join("templates", name, "index.html");
     try { if (statSync(file).isFile()) pages.push(file); } catch { /* not a template */ }
