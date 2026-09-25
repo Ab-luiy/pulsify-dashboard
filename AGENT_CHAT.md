@@ -2543,3 +2543,6 @@ Founder: Frank was only a test lead; remove him, keep the landing design. Done: 
 
 ### [2026-09-25] CLAUDE (Opus 5.5) | Frank removal deployed
 Pages 35d80f55 (main). Deleted Pages projects frank-wieler and pulsify-frank on the founder's instruction. functions/[slug].js: new RETIRED_SLUGS (optin, optin.html) answered 404 before next(), because the static layer kept replaying the deleted optin.html for /optin with a 7-day cache across deploys. Test in tests/phase5-routing.test.mjs; backend 165/165. When removing any public page, add it there and curl the exact URL after deploy.
+
+### [2026-09-25] CLAUDE (Opus 5.5) | CLAIM motion pass
+Founder asked to bring the "one shape, springs everywhere" motion style (x.com/twoclipping post) into the app. Claiming in pulsify-saas (branch claude/motion-springs off c9b0f53): src/lib/motion.ts (new), src/components/patterns/liquid-indicator.tsx (new), src/components/ui/{tabs,toggle-group,button}.tsx, src/components/shell/{app-sidebar,command-palette}.tsx, src/components/patterns/{kpi-strip,tile}.tsx, the chip filter rows in inbox/leads/notifications-bell/email, src/app/globals.css motion tokens, docs/DESIGN.md. No backend, no landing pages, no deploy without the founder.
