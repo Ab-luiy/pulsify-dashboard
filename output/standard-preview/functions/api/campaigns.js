@@ -33,7 +33,7 @@ async function handle_onRequestGet({ request, env }) {
 
   const since7d = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
-  const [visitsByClient, watchByClient, leadsByClient, failuresByClient] = await Promise.all([
+  const [visitsByClient, watchByClient, leadsByClient, failuresByClient, placeByClient] = await Promise.all([
     safeAll(
       env,
       `SELECT client,
@@ -66,12 +66,19 @@ async function handle_onRequestGet({ request, env }) {
          FROM delivery_failures WHERE at >= ? GROUP BY client`,
       [since7d],
     ),
+    // Where the latest page view came from (pulsify-saas #34: "last seen 6 h ago, Lisbon").
+    safeAll(
+      env,
+      `SELECT p.client, p.city, p.country FROM page_events p
+         JOIN (SELECT client, MAX(id) AS id FROM page_events WHERE event='page_view' GROUP BY client) last ON last.id = p.id`,
+    ),
   ]);
 
   const visitsMap = toMap(visitsByClient);
   const watchMap = toMap(watchByClient);
   const leadsMap = toMap(leadsByClient);
   const failuresMap = toMap(failuresByClient);
+  const placeMap = toMap(placeByClient);
 
   // Aggregate tables may reference clients that have since been removed from
   // client_config (or vice versa) — union every client id we've seen so the
@@ -134,6 +141,8 @@ async function handle_onRequestGet({ request, env }) {
         unique_ips: uniqueIps,
         page_views: pageViews,
         last_visit_at: visits.last_visit_at || null,
+        last_city: placeMap.get(client)?.city || null,
+        last_country: placeMap.get(client)?.country || null,
       },
       video: {
         plays,
