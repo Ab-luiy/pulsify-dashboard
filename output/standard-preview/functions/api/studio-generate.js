@@ -22,7 +22,9 @@ export async function onRequestPost({ request, env }) {
   const triggerWord = String(body.trigger_word || "").trim();
   const proofLines = normalizeLines(body.proof_lines);
   const slideCount = clampSlideCount(body.slide_count);
-  const forceManual = Boolean(body.manual_mode);
+  // One switch: with ANTHROPIC_API_KEY set every draft is written by Opus; without it the
+  // client gets the same prompt to run in their own AI and pastes the answer back.
+  const forceManual = !env.ANTHROPIC_API_KEY;
 
   if (!type && !intent) {
     return json({ ok: false, error: "type or intent is required" }, 422);
@@ -34,6 +36,7 @@ export async function onRequestPost({ request, env }) {
   const client = cleanId(access.client);
   const clientContext = await loadClientContext(env, client);
   const brainContext = buildGeneratorBrainContext(clientContext.brain);
+  const learning = await loadReviewLearning(env, client, type);
   const effectiveTriggerWord = triggerWord || brainContext.trigger_words[0] || "";
   const effectiveProofLines = uniqueLines([...proofLines, ...brainContext.proof_lines]);
   const promptInput = {
@@ -47,6 +50,8 @@ export async function onRequestPost({ request, env }) {
     triggerWord: effectiveTriggerWord,
     proofLines: effectiveProofLines,
     slideCount,
+    examples: learning.examples,
+    rules: learning.rules,
   };
   const prompt = buildSequencePrompt(promptInput);
   const manualPrompt = buildManualPrompt(promptInput);
@@ -64,9 +69,13 @@ export async function onRequestPost({ request, env }) {
       updated_at: brainContext.updated_at,
       truncated: brainContext.truncated,
     },
+    learning: {
+      example_ids: learning.exampleIds,
+      rules_used: learning.rules.length,
+    },
   };
 
-  if (forceManual || (!env.GEMINI_API_KEY && !env.ANTHROPIC_API_KEY)) {
+  if (forceManual) {
     const manualOutput = buildManualSequenceOutput(promptInput);
     const rowId = await insertSequence(env, {
       client,
@@ -91,12 +100,10 @@ export async function onRequestPost({ request, env }) {
     });
   }
 
-  const provider = env.GEMINI_API_KEY ? "gemini" : "anthropic";
+  const provider = "anthropic";
   let rawText = "";
   try {
-    rawText = provider === "gemini"
-      ? await callGemini(prompt, env.GEMINI_API_KEY)
-      : await callAnthropic(prompt, env.ANTHROPIC_API_KEY);
+    rawText = await callAnthropic(prompt, env.ANTHROPIC_API_KEY);
   } catch (error) {
     return json({
       ok: false,
@@ -225,34 +232,36 @@ async function insertSequence(env, input) {
   return Number(result.meta?.last_row_id || 0);
 }
 
-async function callGemini(prompt, apiKey) {
-  const response = await fetch(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-goog-api-key": apiKey,
-      },
-      body: JSON.stringify({
-        contents: [
-          { role: "user", parts: [{ text: prompt.system }] },
-          { role: "user", parts: [{ text: prompt.user }] },
-        ],
-        generationConfig: {
-          temperature: 0.5,
-          responseMimeType: "application/json",
-        },
-      }),
-    },
-  );
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${(await response.text()).slice(0, 400)}`);
+// What the review gate taught: the client's approved sequences (same type first) are shown as
+// examples, and every active rejection reason for this client or for all clients is a rule.
+async function loadReviewLearning(env, client, type) {
+  const [exampleRows, ruleRows] = await Promise.all([
+    env.DB.prepare(
+      `SELECT id, type, topic, output_json
+         FROM studio_sequences
+        WHERE client_id=? AND status='approved'
+        ORDER BY CASE WHEN type=? THEN 0 ELSE 1 END, updated_at DESC
+        LIMIT 3`,
+    ).bind(client, type || "").all().catch(() => ({ results: [] })),
+    env.DB.prepare(
+      `SELECT rule
+         FROM studio_feedback
+        WHERE active=1 AND (scope='all' OR client_id=?)
+        ORDER BY CASE WHEN scope='all' THEN 0 ELSE 1 END, created_at DESC
+        LIMIT 20`,
+    ).bind(client).all().catch(() => ({ results: [] })),
+  ]);
+  const examples = [];
+  const exampleIds = [];
+  for (const row of exampleRows.results || []) {
+    const output = parseJson(row.output_json, null);
+    const slides = Array.isArray(output?.slides) ? output.slides.filter((slide) => (slide?.text_pills || []).some(Boolean)) : [];
+    if (!slides.length) continue;
+    examples.push({ type: row.type || output.type || "", topic: row.topic || "", slides });
+    exampleIds.push(Number(row.id));
   }
-  const data = await response.json();
-  const text = (data?.candidates?.[0]?.content?.parts || []).map((part) => part?.text || "").join("");
-  if (!text) throw new Error("Gemini returned no text");
-  return text;
+  const rules = [...new Set((ruleRows.results || []).map((row) => String(row.rule || "").trim()).filter(Boolean))];
+  return { examples, exampleIds, rules };
 }
 
 async function callAnthropic(prompt, apiKey) {
@@ -264,9 +273,10 @@ async function callAnthropic(prompt, apiKey) {
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify({
-      model: "claude-sonnet-5",
-      max_tokens: 4000,
-      system: prompt.system,
+      model: "claude-opus-5-5",
+      max_tokens: 16000,
+      // The method block is identical on every call, so it is cached and billed at the read rate.
+      system: [{ type: "text", text: prompt.system, cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: prompt.user }],
     }),
   });
@@ -274,7 +284,8 @@ async function callAnthropic(prompt, apiKey) {
     throw new Error(`${response.status}: ${(await response.text()).slice(0, 400)}`);
   }
   const data = await response.json();
-  const text = (data?.content || []).map((block) => block?.text || "").join("");
+  if (data?.stop_reason === "refusal") throw new Error("Anthropic declined this request");
+  const text = (data?.content || []).filter((block) => block?.type === "text").map((block) => block.text || "").join("");
   if (!text) throw new Error("Anthropic returned no text");
   return text;
 }

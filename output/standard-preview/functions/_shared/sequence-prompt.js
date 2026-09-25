@@ -1,3 +1,5 @@
+import { SEQUENCE_REFERENCE } from "./sequence-reference.js";
+
 const TYPE_MENU = [
   "value-driven",
   "credibility",
@@ -75,6 +77,8 @@ export function buildSequencePrompt({
   triggerWord,
   proofLines,
   slideCount,
+  examples,
+  rules,
 }) {
   const safeGoal = normalizeGoal(goal);
   const safeCount = clampSlideCount(slideCount);
@@ -117,7 +121,14 @@ export function buildSequencePrompt({
     "Respect the do-not list. Proof with denied permission cannot be used. Proof with unknown permission can be suggested as a draft artifact but must be flagged for confirmation before publishing.",
     "Required output JSON shape:",
     '{"type":"","mapped_from_intent":"","slides":[{"n":1,"job":"","text_pills":[],"emphasis":"","photo":{"primary":"","alternative":""},"interactive":"none","design":{"annotation":[{"type":"red-underline","target":"pain line"}],"image_class":{"type":"proof-screenshot","artifact":"student Stripe dashboard showing $50k"},"treatment":{"text":"pill-box","alignment":"left"},"chips":[]}}],"hooks":["",""],"why_order":"","posting_note":""}',
+    "Everything you need is in this message. Do not ask questions; write the sequence.",
+    "If no trigger word is supplied and the goal needs one, write [TRIGGER WORD] where it goes and say in posting_note that the client must choose it. Never invent one.",
+    "Only put words in quotation marks when they appear verbatim in the client brain or proof lines.",
+    "Approved examples, when supplied, are sequences the Pulsify team signed off for this client: match their voice, pill length and level of specificity, never their exact words. Team rules, when supplied, are corrections from past reviews and override your defaults.",
     "Respond with JSON only.",
+    "",
+    "REFERENCE MATERIAL. This is the method you are executing; it outranks your general instincts.",
+    SEQUENCE_REFERENCE,
   ].join("\n");
 
   const user = [
@@ -133,10 +144,29 @@ export function buildSequencePrompt({
     proofBlock.length
       ? `Proof lines:\n- ${proofBlock.join("\n- ")}`
       : "Proof lines: none supplied. Do not invent proof or numbers.",
+    formatRules(rules),
+    formatExamples(examples),
     "Return the sequence in the required JSON only.",
-  ].join("\n\n");
+  ].filter(Boolean).join("\n\n");
 
   return { system, user };
+}
+
+function formatRules(rules) {
+  const lines = (Array.isArray(rules) ? rules : []).map((rule) => String(rule || "").trim()).filter(Boolean);
+  return lines.length ? `Team rules from past reviews (follow every one):\n- ${lines.join("\n- ")}` : "";
+}
+
+function formatExamples(examples) {
+  const list = (Array.isArray(examples) ? examples : []).filter((example) => Array.isArray(example?.slides) && example.slides.length);
+  if (!list.length) return "";
+  const blocks = list.map((example, index) => {
+    const slides = example.slides
+      .map((slide, position) => `  ${position + 1}. ${(slide.text_pills || []).map((pill) => String(pill || "").trim()).filter(Boolean).join(" / ")}`)
+      .join("\n");
+    return `Example ${index + 1} (${example.type || "sequence"}: ${example.topic || "untitled"}):\n${slides}`;
+  });
+  return `Approved examples for this client (write like these):\n${blocks.join("\n\n")}`;
 }
 
 export function buildManualPrompt(input) {

@@ -63,6 +63,14 @@ async function handle_onRequestPost({ request, env }) {
     if (!Number(result.meta?.changes || 0)) {
       return json({ ok: false, error: "sequence not found" }, 404);
     }
+    if (status === "rejected" && sequence?.client_id) {
+      // The reason outlives review_note (cleared on resubmit): it becomes a rule for future drafts.
+      const timestamp = new Date().toISOString();
+      await env.DB.prepare(
+        `INSERT INTO studio_feedback (client_id, sequence_id, rule, scope, active, created_at, updated_at)
+         VALUES (?, ?, ?, ?, 1, ?, ?)`,
+      ).bind(sequence.client_id, id, note.slice(0, 600), body.apply_to_all ? "all" : "client", timestamp, timestamp).run();
+    }
     if (status === "approved" && sequence?.client_id) {
       await emitEvent(env, { scope: "client", clientId: sequence.client_id, event: "content.sequence_published", data: { sequence_id: id, status } }).catch(() => null);
     }
@@ -104,7 +112,7 @@ async function handle_onRequestPost({ request, env }) {
           SET status='review', review_note=NULL, updated_at=?
         WHERE id=?`,
     ).bind(new Date().toISOString(), id).run();
-    await notify(env, { scope: "operator", clientId: client, kind: "content.review", severity: "info", title: `${await clientLabel(env, client)} sent a story sequence for review`, body: String(output.title || output.topic || "").slice(0, 160), link: "home", entity: { client, sequence_id: id }, dedupeKey: `review:sequence:${id}:${Date.now()}` }).catch(() => null);
+    await notify(env, { scope: "operator", clientId: client, kind: "content.review", severity: "info", title: `${await clientLabel(env, client)} sent a story sequence for review`, body: String(output.title || output.topic || "").slice(0, 160), link: "reviews", entity: { client, sequence_id: id }, dedupeKey: `review:sequence:${id}:${Date.now()}` }).catch(() => null);
     return json({ ok: true, status: "review" });
   }
 
