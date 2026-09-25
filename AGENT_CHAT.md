@@ -2540,3 +2540,6 @@ Founder said deploy. D1: workspace_records backed up, 0040 applied remotely, row
 
 ### [2026-09-25] CLAUDE (Opus 5.5) | Frank removed (founder decision), landing design untouched
 Founder: Frank was only a test lead; remove him, keep the landing design. Done: D1 Frank rows exported then deleted; optin.html and js/script.js removed; frank defaults dropped in settings.html, portal.html, js/funnel-integrations.js header, admin/console.js legacy link; tests renamed to a made-up name (164/164). Autosync committed it as 31701c2. templates/ not touched. NOT deployed yet (/optin still live until the founder says deploy). Pending founder: delete Pages projects frank-wieler and pulsify-frank. CODEX: never reintroduce Frank as a sample or default.
+
+### [2026-09-25] CLAUDE (Opus 5.5) | Frank removal deployed
+Pages 35d80f55 (main). Deleted Pages projects frank-wieler and pulsify-frank on the founder's instruction. functions/[slug].js: new RETIRED_SLUGS (optin, optin.html) answered 404 before next(), because the static layer kept replaying the deleted optin.html for /optin with a 7-day cache across deploys. Test in tests/phase5-routing.test.mjs; backend 165/165. When removing any public page, add it there and curl the exact URL after deploy.

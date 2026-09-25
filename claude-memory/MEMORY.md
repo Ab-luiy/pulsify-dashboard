@@ -52,7 +52,7 @@
 
 - [FITFO / Carlos DEAD](project_fitfo_carlos_deal.md) - ghosted on the contract, never signed, NOT a client and never usable as social proof
 - [Nick / @niicksfx is THE case study](project_nick_case_study.md) - $10-20k to $50k/mo with a confirmed video testimonial, plus the YouTube packaging before/after (53 -> 446 views) pulled off his live channel; the founder's recalled numbers don't match, always use the real ones
-- [Frank was only a test lead](project_frank_creator_profile.md) - 2026-09-25: not a client or test figure, removed from pages/DB/code; never use him as a sample again; his student result is his proof, not ours; old Pages projects still await the founder's call
+- [Frank was only a test lead](project_frank_creator_profile.md) - 2026-09-25: not a client or test figure, removed from pages/DB/code; never use him as a sample again; his student result is his proof, not ours; old sites deleted; removed-page 7-day cache gotcha inside
 - [Onboarding form (Typeform)](project_onboarding_form.md) - post-close buyer-psychology questionnaire (why-buy / almost-didn't / which video converted); TRIGGER = he names a signed client and I run the full onboarding; INCOMPLETE
 
 ## Funnels / landing pages / portal
