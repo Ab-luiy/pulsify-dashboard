@@ -15,7 +15,7 @@ const SHORT='scaling on break even roas';
 
 // ---- drafts ----
 test('draft: five beats in order, lowercase, commas and periods only', ()=>{
-  const text=buildDraft({handle:'rowan', detail:SHORT, link:'pulsify-ai.com/rowan'});
+  const text=buildDraft({handle:'rowan', seed:1, detail:SHORT, link:'pulsify-ai.com/rowan'});
   const opener=OPENERS.find(o=>text.startsWith(o));
   assert.ok(opener,'opens with one of the approved openers');
   const afterOpener=text.slice(opener.length+1);

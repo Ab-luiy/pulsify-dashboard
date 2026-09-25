@@ -34,7 +34,7 @@ test('export collects every table that holds the client', async()=>{
 
 test('archive exports to R2, hides from lists, kills sessions, deletes nothing; restore reverses', async()=>{
   const before=await (await clientsGet({request:op('https://x/api/clients'),env,data:{}})).json();
-  assert.deepEqual(before.clients.map(c=>c.client).sort(),['rowan','keep']);
+  assert.deepEqual(before.clients.map(c=>c.client).sort(),['keep','rowan']);
   const r=await archiveWorkspace(env,'rowan','op@test');
   assert.equal(r.ok,true);assert.match(r.export_key,/^archive\/workspaces\/rowan\//);
   assert.ok(r2.has(r.export_key));assert.ok(JSON.parse(r2.get(r.export_key)).tables.client_brain);
