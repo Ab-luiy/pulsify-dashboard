@@ -37,7 +37,7 @@ const setup=await createSetupLink(env,'https://qa.test','qa','qa@example.test');
 const token=new URL(setup.link).searchParams.get('setup');
 let response=await setPassword({env,request:post('/api/client-set-password',{setup_token:token,password:'a-long-test-password'})});
 assert.equal(response.status,200);
-assert.match((await response.clone().json()).redirect,/^\/onboard\?/,'initial registration opens intake');
+assert.match((await response.clone().json()).redirect,/^\/app\/portal\/onboarding\?client=qa$/,'initial registration opens the onboarding form');
 const oldCookie=response.headers.get('set-cookie').split(';')[0];
 assert.match(response.headers.get('set-cookie'),/HttpOnly/);
 assert.match(response.headers.get('set-cookie'),/Secure/);
