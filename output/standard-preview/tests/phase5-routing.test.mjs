@@ -18,6 +18,12 @@ test('inactive clients remain unavailable and protected aliases pass to their ow
   assert.equal((await onRequestGet(context('archived',{page_active:0}))).status,404);
   assert.equal(await (await onRequestGet(context('admin'))).text(),'gateway');
 });
+test('retired /optin answers not found even while the static layer still has the old page', async()=>{
+  for(const slug of ['optin','optin.html','OPTIN']){
+    const r=await onRequestGet(context(slug));
+    assert.equal(r.status,404);assert.equal(await r.text(),'<h1>Page not found</h1>');
+  }
+});
 test('database failure is not disguised as a successful gateway response', async()=>{
   const c=context('missing-client');c.env.DB=null;
   assert.equal((await onRequestGet(c)).status,503);

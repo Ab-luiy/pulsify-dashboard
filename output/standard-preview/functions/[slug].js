@@ -20,8 +20,6 @@ const RESERVED_SLUGS = new Set([
   "portal.html",
   "client",
   "client.html",
-  "optin",
-  "optin.html",
   "api",
   "a",
   "templates",
@@ -35,10 +33,15 @@ const RESERVED_SLUGS = new Set([
   "index.html",
 ]);
 
+// Pages that were taken down. Answered here, never handed to the static layer:
+// Cloudflare kept replaying the removed Frank opt-in page for /optin (2026-09-25).
+const RETIRED_SLUGS = new Set(["optin", "optin.html"]);
+
 export async function onRequestGet(context) {
   const { request, env, next, params } = context;
   try {
     const slug = getSlug(params);
+    if (RETIRED_SLUGS.has(slug.toLowerCase())) return notFound(context);
     if (!slug || RESERVED_SLUGS.has(slug.toLowerCase())) return next();
     if (await hasStaticAsset(context)) return next();
 
