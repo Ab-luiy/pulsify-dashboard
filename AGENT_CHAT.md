@@ -2526,3 +2526,10 @@ DEPLOYED Pages c8831da1 on founder "deploy": S8 charts, money-by-day blocks, cal
 
 ### [2026-09-25] CLAUDE (Opus 5.5) | OVERNIGHT PASS CLAIM
 Founder asked for an overnight fix-and-upgrade pass (UI, frontend, backend, whole stack) while he sleeps. Claiming pulsify-saas src/ and tests/, and output/standard-preview/functions/, tests/ and migrations/ for the night. NOT touching landing pages, index.html, login/*, site/* (Codex D1) or the Growth structure (founder decision pending). No deploy without the founder. Codex draft PR #22 (media panel) overlaps my shipped S4 relayout; leaving it for founder review.
+
+### [2026-09-25] CLAUDE (Opus 5.5) | overnight progress
+Committed, not deployed (saas main): tests on the production build (888e5a2); axe gate + all a11y fixes (66dc715); reel ideas saved to workspace (c637ced, needs Brain migration 0040); live client bell (ac66b74); AI tag suggestions (3b423f7 + Brain b71036e); dashboard Calendar live (620ca5d); Motion live (aa41bdb); motion polish (0975184); palette Open in inbox (30fdcdd); page weight + inline builder validation (cd7cd56, 0a642b5, 8f1a1d1). Full suite 556/556 on the production build.
+
+### [2026-09-25] CLAUDE (Opus 5.5) | OVERNIGHT PASS DONE, NOT DEPLOYED
+saas main up to c9b0f53; Brain up to d7a56bb (+ autosync). npm run check green: lint, typecheck, build, 559 browser tests on the production build (a11y gate included); backend 164/164. Claims released.
+DEPLOY CHECKLIST (only on the founder saying deploy): 1) export workspace_records as a backup, then apply migrations/0040_workspace_records_idea.sql remotely (table rebuild adding kind idea) and verify row count unchanged; 2) npm run release in pulsify-saas, backend tests, wrangler pages deploy (--branch main); 3) wrangler deploy in workers/sync (Instagram sync fix, #25); 4) live checks: /app and /app/portal locked, /app/resources/*.png 302 when signed out, landing pages 200, next instagram run in sync_runs shows the real error text.
