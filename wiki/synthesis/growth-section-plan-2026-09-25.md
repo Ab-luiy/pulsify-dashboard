@@ -65,6 +65,12 @@ From the founder's voice reply the same day. These override the recommendations 
 - **Thumbnails.** His 24 "Founder board" versions were duplicates and are removed from the archive (done, pulsify-saas cc51f53). 21 creator references remain.
 - **Review gate.** On. He reviews drafts before anything is marked ready to post.
 
+## Planning session decisions (2026-09-25)
+
+- **Structure is not the first job.** Asked whether the four-page layout was cosmetic or a delivery improvement, the founder agreed it is mostly cosmetic on its own. What improves delivery is underneath the pages: draft quality, a computed "make this next" answer, and approvals and results feeding back into the next draft. The structure question is parked until one format works end to end.
+- **First thing to lock in: story sequence draft quality.** The bar is drafts the founder approves as they are instead of rewriting. Chosen because the review gate (draft, review, approve or reject with a required note) already exists for sequences in `functions/api/studio-sequences.js`, so the learning signal has somewhere to come from.
+- Still open, in order: which hosted model runs it and how usage is budgeted; how approvals, rejections and posted results feed back.
+
 ## What "teaches itself" can mean without building our own AI
 
 A proposal for the planning session, not a decision. Nothing here needs a model of our own or retraining one. The model stays a hosted one; what learns is the data around it.

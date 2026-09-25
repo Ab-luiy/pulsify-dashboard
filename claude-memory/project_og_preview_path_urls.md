@@ -1,6 +1,6 @@
 ---
 name: project_og_preview_path_urls
-description: "OG preview cards + clean path lead URLs live on pulsify-funnels (2026-07-09); Frank's sendable link is /frank-wieler"
+description: "OG preview cards + clean path lead URLs live on pulsify-funnels (2026-07-09); Frank's /frank-wieler link was removed 2026-09-25 (he was only a test lead)"
 metadata: 
   node_type: memory
   type: project

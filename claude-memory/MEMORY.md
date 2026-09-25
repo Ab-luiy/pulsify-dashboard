@@ -52,17 +52,17 @@
 
 - [FITFO / Carlos DEAD](project_fitfo_carlos_deal.md) - ghosted on the contract, never signed, NOT a client and never usable as social proof
 - [Nick / @niicksfx is THE case study](project_nick_case_study.md) - $10-20k to $50k/mo with a confirmed video testimonial, plus the YouTube packaging before/after (53 -> 446 views) pulled off his live channel; the founder's recalled numbers don't match, always use the real ones
-- [Frank Wieler creator profile](project_frank_creator_profile.md) - real student-interview proof: student hit ~$1M rev / ~$100K MRR via subscription dropshipping; raw-sources/client-raw/frank-wieler/profile.md
+- [Frank was only a test lead](project_frank_creator_profile.md) - 2026-09-25: not a client or test figure, removed from pages/DB/code; never use him as a sample again; his student result is his proof, not ours; old Pages projects still await the founder's call
 - [Onboarding form (Typeform)](project_onboarding_form.md) - post-close buyer-psychology questionnaire (why-buy / almost-didn't / which video converted); TRIGGER = he names a signed client and I run the full onboarding; INCOMPLETE
 
 ## Funnels / landing pages / portal
 
 - [Phase 0 accounts DONE + Phase 1 RELEASED 2026-09-17](project_phase0_accounts_done.md) - accounts in wiki/playbooks/account-registry.md; Phase 1 (Access login, one shell, launcher) live and Claude-verified; Phases 2 and 3 LIVE 2026-09-19 (revenue matching, webhooks, Push API, new login + brand); next is Phase 4 onboarding per wiki/synthesis/phase4-client-onboarding-codex-brief.md
 
-- [Landing-page standard LOCKED](project_landing_page_standard.md) - the approved Frank build is THE design for every landing page, fill-in only (brief -> 28 tokens -> /admin or /settings), never redesign; wiki/playbooks/landing-page-fill-in-playbook.md
+- [Landing-page standard LOCKED](project_landing_page_standard.md) - the canonical template (templates/canonical + variant-02) is THE design for every landing page, fill-in only (brief -> 28 tokens -> /admin or /settings), never redesign; wiki/playbooks/landing-page-fill-in-playbook.md
 - [Landing mock source rule](feedback_landing_mock_source.md) - landing pages and the whole standard are Codex-owned; Claude does not build or touch them
 - [Funnel->portal pipeline](project_funnel_portal_pipeline.md) - landing page (Wistia VSL + Typeform) -> Cloudflare pipe (output/portal-pipe/) -> client dashboard + Kit email; scaffolded, NOT deployed; blockers are user-side accounts
-- [OG previews + path URLs](project_og_preview_path_urls.md) - /{lead-slug} URLs and link-paste preview cards LIVE on pulsify-funnels; Frank's send link is pulsify-funnels.pages.dev/frank-wieler
+- [OG previews + path URLs](project_og_preview_path_urls.md) - /{lead-slug} URLs and link-paste preview cards LIVE on pulsify-funnels; Frank's link removed 2026-09-25
 - [Funnel view-tracking](project_funnel_view_tracking.md) - per-prospect watch drill-down (/admin -> View activity), off-page asset tracking via /a/{token} redirect links, IP/geo on events; live on pulsify-funnels
 - [Operator console + wizard](project_operator_console.md) - /admin unifies all 4 admin pages plus the 8-step add-client wizard, both live
 - [Admin key access](project_admin_key_access.md) - ROTATED 2026-09-17: key lives in gitignored .env as FUNNELS_ADMIN_KEY (vault root + dashboard checkouts) and in Cloudflare; read it from the file, never print it, never ask him; /api/crm-sync currently 401s any admin key until Codex redeploys/fixes
