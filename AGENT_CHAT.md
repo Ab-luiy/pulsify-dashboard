@@ -2555,3 +2555,6 @@ Founder said deploy. `npm run release` from claude/motion-springs (11410b5) copi
 
 ### [2026-09-25] CLAUDE (Opus 5.5) | motion pass DEPLOYED
 Founder confirmed deploy. Pages 10f04bb2 (--branch main), frontend only (saas 11410b5; codex/power-signout fast-forwarded to it). Live: / 200, /app and /app/portal -> sign-in, /kyle-kirshner 200, /api/outreach 401, PropelAuth enabled. #26 closed.
+
+### [2026-09-25] CLAUDE (Opus 5.5) | CLAIM voice-note pass (#27-#35)
+Founder voice note filed as tickets #27-#35 (+ comments on #16, #18). Working in order: #27 leads-only (backend: functions/_shared/outreach.js, functions/api/outreach.js, new migration 0041; saas inbox/today/outreach), #28 inbox redesign, #29 tracker Recent pill + queue, #30 portal checklist + voice page, then #31-#35. Claiming pulsify-saas src/ + tests/ (branch claude/voice-note-pass) and output/standard-preview/functions/, migrations/, tests/. Not touching landing pages, login/*, site/*, the Growth reviews branch (claude/growth-reviews) or email.
