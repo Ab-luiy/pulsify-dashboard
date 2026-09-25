@@ -18,6 +18,8 @@ Founder, 2026-09-25 voice reply: the client portal Growth section (Instagram, Yo
 - Formats first: story sequences, reels, YouTube packaging (title + thumbnail) with many more examples and angles.
 - Review gate ON: he reviews drafts before "ready to post".
 - Leads belong with sales/CRM, not content growth.
-- Structure (four-page weekly loop vs fixing pages one by one) is still undecided; don't build either until he picks.
+- Structure parked (layout alone is cosmetic). First lock-in = story sequence draft quality, bar = drafts he approves without rewriting.
+- Model = Opus 5.5 once a client pays upfront. Until then NO API spend: bring-your-own AI with a paste-back (client runs our package in their own ChatGPT/Claude, pastes the draft into his review queue). He rejected Workers AI, Gemini and in-house drafting: the app exists to delegate, done-with-you.
+- Open: how approvals, rejections and results feed back.
 - His 24 "Founder board" thumbnails were removed from the archive (duplicates, "ugly"); never re-add them.
 Related: [[project_client_integrations_parked]], [[project-ticket-board]], [[project_dashboard_product_vision]].

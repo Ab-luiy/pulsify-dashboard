@@ -1828,3 +1828,6 @@ Founder: Frank Wieler was only a real lead we ran the landing-page tests on, not
 
 ## [2026-09-25] decision | Frank removal deployed, old Frank sites deleted
 Founder said deploy and delete both old Frank sites. Pages 0000d6a1 then 35d80f55 on main; Pages projects frank-wieler and pulsify-frank deleted (all their URLs, old versions included, no longer resolve). /optin kept serving the removed Frank page from a 7-day Cloudflare static-layer cache that survived the deploy, so functions/[slug].js now answers retired paths (RETIRED_SLUGS: optin, optin.html) with a 404 before the static layer; test added, backend 165/165. Live: /optin 404, homepage and landing pages 200, app locked when signed out, no page mentions Frank.
+
+## [2026-09-25] decision | Growth AI: Opus 5.5 later, bring-your-own AI now
+Baseline showed the portal generates no story sequences (no Gemini or Anthropic key in production; the prompt never shows an example). A local side-by-side picked Opus 5.5 over Sonnet 5. Founder chose no API spend until a client pays upfront: until then the client runs our assembled package in their own ChatGPT or Claude and pastes the draft back into the review queue, done-with-you. Workers AI, Gemini and in-house drafting rejected. Recorded in [[synthesis/growth-section-plan-2026-09-25]].
