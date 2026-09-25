@@ -16,13 +16,21 @@ export async function syncInstagram(env) {
     until: Math.floor(Date.now() / 1000),
   }).catch(() => ({}));
   const account = normalizeInsights(insightsPayload);
+  // The posts call failed every day from 2026-09-19 (404) and, being first to
+  // throw, stopped the profile, follower and insight saves too. It is now
+  // non-fatal: everything else saves, the last good media snapshot is kept, and
+  // the run is still marked failed with the real reason.
+  let mediaError = null;
   const mediaPayload = await composioExecute(env, "INSTAGRAM_GET_IG_USER_MEDIA", {
     ig_user_id: "me",
     fields: "id,caption,media_type,media_product_type,permalink,thumbnail_url,media_url,timestamp",
     since: Math.floor((Date.now() - 90 * 86400000) / 1000),
     limit: 100,
+  }).catch((error) => {
+    mediaError = error;
+    return null;
   });
-  const media = findRows(mediaPayload);
+  const media = mediaPayload ? findRows(mediaPayload) : [];
   const storiesPayload = await composioExecute(env, "INSTAGRAM_GET_IG_USER_STORIES", {
     ig_user_id: "me",
   }).catch(() => ({}));
@@ -31,7 +39,7 @@ export async function syncInstagram(env) {
   await Promise.all([
     upsertSnapshot(env, { source: "instagram", kind: "profile", capturedAt, payload: profile }),
     upsertSnapshot(env, { source: "instagram", kind: "account", capturedAt, payload: account }),
-    upsertSnapshot(env, { source: "instagram", kind: "media", capturedAt, payload: media }),
+    ...(mediaError ? [] : [upsertSnapshot(env, { source: "instagram", kind: "media", capturedAt, payload: media })]),
     insertMetric(env, { source: "instagram", metric: "followers", ts: capturedAt, value: profile.followers }),
     insertMetric(env, { source: "instagram", metric: "media_count", ts: capturedAt, value: profile.mediaCount }),
   ]);
@@ -71,6 +79,7 @@ export async function syncInstagram(env) {
          captured_at=excluded.captured_at,payload_json=excluded.payload_json`,
     ).bind(id, capturedAt, JSON.stringify({ ...story, capturedAt })).run();
   }
+  if (mediaError) throw new Error(`Profile, followers and insights saved; posts failed: ${mediaError.message}`);
   return 3 + stories.length;
 }
 

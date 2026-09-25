@@ -28,7 +28,9 @@ export async function composioExecute(env, slug, args = {}) {
   }
   const body = await response.json().catch(() => ({}));
   if (!response.ok || body.error) {
-    throw new Error(`${slug} failed (${response.status}): ${body.error || body.message || "unknown error"}`);
+    const reason = body.error ?? body.message ?? "unknown error";
+    const text = typeof reason === "string" ? reason : JSON.stringify(reason);
+    throw new Error(`${slug} failed (${response.status}): ${text.slice(0, 500)}`);
   }
   return body.data ?? body;
 }
