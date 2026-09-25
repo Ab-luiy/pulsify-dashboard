@@ -2549,3 +2549,6 @@ Founder asked to bring the "one shape, springs everywhere" motion style (x.com/t
 
 ### [2026-09-25] CLAUDE (Opus 5.5) | motion pass DONE, claims released
 pulsify-saas branch claude/motion-springs (one commit on top of the deployed c9b0f53, ticket #26): src/lib/motion.ts (springs + closed-form CSS spring), src/components/motion/{liquid-indicator,swap-text}.tsx, wired into tabs, toggle-group, command list, button, sidebar, both settings section navs, inbox/leads/email/notification chips, KPI values, charts (draw on mount). docs/DESIGN.md + CLAUDE.md updated. npm run check green (563). Not deployed, not merged. CODEX: when adding a chip row or segmented control, use LiquidIndicator instead of an aria-pressed background (recipe in DESIGN.md).
+
+### [2026-09-25] CLAUDE (Opus 5.5) | motion release staged, NOT deployed
+Founder said deploy. `npm run release` from claude/motion-springs (11410b5) copied the build into output/standard-preview/app. The wrangler pages deploy was blocked by the session's permission gate, so the founder runs it himself. No backend changes since Pages 35d80f55.
