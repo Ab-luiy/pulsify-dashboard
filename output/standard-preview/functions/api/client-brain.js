@@ -60,16 +60,19 @@ export const FIELD_DEFINITIONS = {
     field("has_proof", "Has student proof or case studies", "boolean"),
     field("items", "Proof links and the claims they support", "proof-list"),
   ],
+  // The client's onboarding form answers the facts they already know (where
+  // traffic lands, audience sizes, cadence, email platform); routing, trigger
+  // words and lead magnets stay operator work (pulsify-saas #16).
   funnel: [
     field("trigger_words", "Trigger words", "list", true),
-    field("link_in_bio", "Link-in-bio destination", "url", true),
+    field("link_in_bio", "Link-in-bio destination", "url"),
     field("lead_magnets", "Lead magnets", "list", true),
-    field("email_platform_tags", "Email platform and tags", "textarea", true),
-    field("booking_link", "Booking link", "url", true),
+    field("email_platform_tags", "Email platform and tags", "textarea"),
+    field("booking_link", "Booking link", "url"),
     field("dm_routing", "DM routing", "textarea", true),
-    field("platforms_audience", "Platforms and audience sizes", "textarea", true),
-    field("posting_cadence", "Posting cadence targets", "textarea", true),
-    field("current_funnel_links", "Current funnel links", "list", true),
+    field("platforms_audience", "Platforms and audience sizes", "textarea"),
+    field("posting_cadence", "Posting cadence targets", "textarea"),
+    field("current_funnel_links", "Current funnel links", "list"),
   ],
   donot: [
     field("claims", "Claims they cannot make", "textarea", true),
@@ -97,6 +100,12 @@ const CLIENT_FIELDS = new Map([
   ["voice.sample_links", "client-form"],
   ["proof.has_proof", "client-form"],
   ["proof.items", "client-form"],
+  ["funnel.link_in_bio", "client-form"],
+  ["funnel.booking_link", "client-form"],
+  ["funnel.current_funnel_links", "client-form"],
+  ["funnel.platforms_audience", "client-form"],
+  ["funnel.posting_cadence", "client-form"],
+  ["funnel.email_platform_tags", "client-form"],
 ]);
 
 async function handle_onRequestGet({ request, env }) {
@@ -163,6 +172,7 @@ async function handle_onRequestPost({ request, env }) {
   if (access.error) return access.error;
   const body = await request.json().catch(() => ({}));
   if (body.action === "update-proof") return updateClientProof(body, env, access.client);
+  if (body.action === "add-proof") return addClientProof(body, env, access.client);
   return saveClientSubmission(body, env, access.client);
 }
 
@@ -252,6 +262,34 @@ async function updateClientProof(body, env, client) {
   }
 
   return json({ ok: true, client, proof_item: { id, claim } });
+}
+
+// The onboarding form adds video links to the proof vault. It only ever adds:
+// the full-list submission (proof_items) deletes and rewrites every row, which
+// would wipe proof the client uploaded elsewhere and reset granted permissions.
+// Uploaded images already have their row (media-upload.js). A link the vault
+// already holds is skipped, so pressing Finish twice adds nothing twice.
+async function addClientProof(body, env, client) {
+  if (body.client && cleanId(body.client) !== client) {
+    return json({ ok: false, error: "unauthorized" }, 403);
+  }
+  const requested = normalizeProofItems(Array.isArray(body.items) ? body.items.slice(0, 20) : [], true)
+    .filter((item) => /^https?:\/\//i.test(item.url) || item.url.startsWith("/m/"))
+    // The table only takes link kinds (0014_client_brain.sql).
+    .map((item) => ({ ...item, kind: item.kind === "image" ? "image-link" : item.kind }));
+  if (!requested.length) return json({ ok: false, error: "add at least one proof link" }, 422);
+
+  const existing = await env.DB.prepare("SELECT url FROM proof_items WHERE client_id=?").bind(client).all();
+  const known = new Set((existing.results || []).map((row) => row.url));
+  const items = requested.filter((item) => !known.has(item.url) && known.add(item.url));
+  const now = nowIso();
+  if (items.length) {
+    await env.DB.batch(items.map((item) => env.DB.prepare(
+      `INSERT INTO proof_items (client_id, kind, url, claim, permission, created_at)
+       VALUES (?, ?, ?, ?, ?, ?)`,
+    ).bind(client, item.kind, item.url, item.claim, item.permission, now)));
+  }
+  return json({ ok: true, client, added: items.length, skipped: requested.length - items.length });
 }
 
 async function saveOperatorField(request, env) {
@@ -344,7 +382,7 @@ export function groupBrainRows(rows) {
     return {
       key: section,
       label: sectionLabel(section),
-      operator_only: section === "funnel",
+      operator_only: FIELD_DEFINITIONS[section].every((definition) => definition.operator_only),
       fields,
       gaps: fields.filter((entry) => entry.gap).length,
     };

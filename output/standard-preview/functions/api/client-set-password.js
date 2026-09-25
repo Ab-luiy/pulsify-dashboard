@@ -71,7 +71,7 @@ export async function onRequestPost({ request, env }) {
     {
       ok: true,
       client: setup.client_id,
-      redirect: `${priorAuth?.pass_hash ? '/portal' : '/onboard'}?client=${encodeURIComponent(setup.client_id)}`,
+      redirect: `${priorAuth?.pass_hash ? '/portal' : '/app/portal/onboarding'}?client=${encodeURIComponent(setup.client_id)}`,
     },
     200,
     { "set-cookie": session.cookie },
