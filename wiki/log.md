@@ -1831,3 +1831,6 @@ Founder said deploy and delete both old Frank sites. Pages 0000d6a1 then 35d80f5
 
 ## [2026-09-25] decision | Growth AI: Opus 5.5 later, bring-your-own AI now
 Baseline showed the portal generates no story sequences (no Gemini or Anthropic key in production; the prompt never shows an example). A local side-by-side picked Opus 5.5 over Sonnet 5. Founder chose no API spend until a client pays upfront: until then the client runs our assembled package in their own ChatGPT or Claude and pastes the draft back into the review queue, done-with-you. Workers AI, Gemini and in-house drafting rejected. Recorded in [[synthesis/growth-section-plan-2026-09-25]].
+
+## [2026-09-26] decision | Growth formats: reels out, the YouTube video comes first
+Founder correction to the Growth plan: "we're not working on reels." The formats are YouTube videos and their packaging, story sequences, and carousels (the least leverage of the set, kept because the pieces are built together). The most important thing to dial in is creating a YouTube video end to end, not only its title and thumbnail. He started making a real video with Claude the same day; the steps locked in on it become the method the portal hands clients. The story sequence build already under way was not stopped. Recorded in [[synthesis/growth-section-plan-2026-09-25]] and the Growth memory.
