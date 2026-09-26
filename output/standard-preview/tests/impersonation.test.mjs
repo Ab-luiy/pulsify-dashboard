@@ -16,6 +16,7 @@ import * as studioGenerateApi from "../functions/api/studio-generate.js";
 import * as studioSequencesApi from "../functions/api/studio-sequences.js";
 import * as todoApi from "../functions/api/client-dashboard-todo.js";
 import * as onboardRoute from "../functions/onboard/[[path]].js";
+import { onRequest as appPortalGate } from "../functions/app/portal/[[path]].js";
 import * as portalRoute from "../functions/portal/[[path]].js";
 import { CLIENT_SESSION_COOKIE } from "../functions/_shared/client-auth.js";
 
@@ -423,14 +424,27 @@ async function testEveryWriteRejectsImpersonation() {
 
   for (const [label, call] of cases) await assertReadOnly(await call(), label);
 
+  // The form lives in the app now (pulsify-saas #16): the old link moves there,
+  // and the app's portal gate serves the preview. Writes stay refused (above).
   const onboard = await onboardRoute.onRequest({
     request: new Request("https://funnels.test/onboard/", { headers: cookie }),
-    env: { ...env, ASSETS: { fetch: async () => new Response("<title>Onboarding preview</title>") } },
+    env,
     params: { path: [] },
     next: () => new Response("next"),
   });
-  assert.equal(onboard.status, 200, "impersonation can preview onboarding without gaining write access");
-  assert.match(await onboard.text(), /Onboarding preview/);
+  assert.equal(onboard.status, 302);
+  assert.equal(new URL(onboard.headers.get("location")).pathname, "/app/portal/onboarding");
+  const preview = await appPortalGate({
+    request: new Request("https://funnels.test/app/portal/onboarding", { headers: cookie }),
+    env: {
+      ...env,
+      ASSETS: { fetch: async () => new Response("<html><head></head><body>Onboarding preview</body></html>", { headers: { "content-type": "text/html" } }) },
+    },
+  });
+  assert.equal(preview.status, 200, "impersonation can preview onboarding without gaining write access");
+  const html = await preview.text();
+  assert.match(html, /Onboarding preview/);
+  assert.match(html, /"impersonated":true/);
 
   const approve = await studioSequencesApi.onRequestPost({
     request: jsonRequest("https://funnels.test/api/studio-sequences", "POST", { action: "approve", id: 1 }, cookie),

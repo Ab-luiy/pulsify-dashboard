@@ -3,7 +3,11 @@ import { sideEffectFailure } from "../_shared/side-effect-failure.js";
 //   GET  /api/account                    everything the Settings page shows, for the caller's role
 //   POST /api/account {action, ...}      client:   password | signout-others | workspace | notifications | export | delete-request
 //                                        operator: defaults | notifications
-// Client writes need a real session or portal token; impersonated sessions are read-only.
+//                                        both:     routing {channels} | channel {channel, webhook_url} | channel-test {channel}
+// Client writes need a real session or portal token. The operator previewing a
+// workspace (impersonated session) may change its workspace, notification and
+// routing settings (founder 2026-09-25, "god access"), each logged to
+// operator_events; the client's own password, sessions and deletion stay theirs.
 import { json, str, nowIso, sha256Hex, normalizeEmail } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { withOperator } from "../_shared/access.js";
@@ -11,6 +15,7 @@ import { CLIENT_SESSION_COOKIE, createPasswordSalt, hashPassword, parseCookies, 
 import { notify } from "../_shared/notifications.js";
 import { emitEvent } from "../_shared/outbound-webhooks.js";
 import { operatorEmails } from "./login-lookup.js";
+import { channelState, saveChannels, saveHook, sendTest } from "../_shared/notify-routing.js";
 
 const TIMEZONES = new Set(Intl.supportedValuesOf ? Intl.supportedValuesOf("timeZone") : []);
 const CURRENCIES = new Set(["USD", "EUR", "GBP", "CAD", "AUD", "AED", "SAR", "CHF", "SEK", "NOK", "DKK", "PLN", "NZD", "SGD", "ZAR", "INR", "BRL", "MXN", "JPY"]);
@@ -92,6 +97,7 @@ async function clientView(env, access) {
     workspace: { client, name: config?.client_name || client, status: config?.status || "", ...workspace },
     sessions: { active: Number(sessions?.n || 0), oldest: sessions?.oldest || null },
     notifications,
+    routing: await channelState(env, "client", client),
     data: { brain_fields: Number(brain?.n || 0), records: Number(records?.n || 0), proof_items: Number(proof?.n || 0) },
     timezones: TIMEZONES.size ? [...TIMEZONES] : [],
     currencies: [...CURRENCIES],
@@ -114,6 +120,7 @@ async function operatorView(env, operator) {
     security: { admin_key_uses: Number(keyUse?.n || 0), admin_key_last_used: keyUse?.last || null, access_protected_paths: ["/admin", "/integrations", "/settings", "/campaigns", "ops.pulsify-ai.com"] },
     defaults,
     notifications,
+    routing: await channelState(env, "operator"),
     timezones: TIMEZONES.size ? [...TIMEZONES] : [],
     currencies: [...CURRENCIES],
   });
@@ -142,12 +149,23 @@ async function handlePost({ request, env }) {
       await setOperatorPref(env, email, "notifications", next);
       return json({ ok: true, notifications: next });
     }
+    const routed = await routingAction(env, "operator", "", action, body);
+    if (routed) return routed;
     return json({ ok: false, error: "unknown action" }, 422);
   }
 
-  const access = await resolveClientAccess(request, env, { allowHeaderToken: true, allowImpersonated: false });
+  const access = await resolveClientAccess(request, env, { allowHeaderToken: true, allowImpersonated: true });
   if (access.error) return access.error;
   const client = access.client;
+  if (access.impersonated) {
+    if (!OPERATOR_PREVIEW_ACTIONS.has(action)) return json({ ok: false, error: "read only while impersonating" }, 403);
+    await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
+      .bind("operator-preview", `settings:${action}`, client, JSON.stringify({ fields: Object.keys(body).filter((key) => key !== "action" && key !== "webhook_url") }), nowIso())
+      .run().catch(() => sideEffectFailure(env, "account_operation_6"));
+  }
+
+  const routed = await routingAction(env, "client", client, action, body);
+  if (routed) return routed;
 
   if (action === "password") {
     const current = str(body.current), next = str(body.next);
@@ -210,6 +228,29 @@ async function handlePost({ request, env }) {
   }
 
   return json({ ok: false, error: "unknown action" }, 422);
+}
+
+// What the operator may change while previewing a client's workspace. The rest
+// (password, their sessions, closing the workspace) belongs to the client alone.
+const OPERATOR_PREVIEW_ACTIONS = new Set(["workspace", "notifications", "routing", "channel", "channel-test", "export"]);
+
+// Notification routing, same for both scopes (functions/_shared/notify-routing.js).
+async function routingAction(env, scope, client, action, body) {
+  if (action === "routing") {
+    const channels = await saveChannels(env, scope, client, body.channels || {});
+    return json({ ok: true, routing: await channelState(env, scope, client), channels });
+  }
+  if (action === "channel") {
+    const saved = await saveHook(env, scope, client, str(body.channel), body.clear === true ? "" : str(body.webhook_url));
+    if (saved.error) return json({ ok: false, error: saved.error }, 422);
+    return json({ ok: true, routing: await channelState(env, scope, client) });
+  }
+  if (action === "channel-test") {
+    const status = await sendTest(env, scope, client, str(body.channel));
+    if (status !== "sent") return json({ ok: false, error: status === "not_configured" ? "That channel is not set up yet." : "The test did not go through. Check the webhook and try again.", status }, 422);
+    return json({ ok: true, status, message: "Test sent." });
+  }
+  return null;
 }
 
 // Delete every session for this client except the one making the request.

@@ -3,13 +3,14 @@
 //   GET  /api/outreach?id=<thread>   one thread with full message history
 //   POST /api/outreach {id, action}  sentiment:positive|negative|clear, outcome:booked|closed|lost|clear,
 //                                    hibernate, wake, note {text},
-//                                    tags {tags:[{id,strength}]}, asset-sent {entry:{kind,tag,asset?}}
+//                                    tags {tags:[{id,strength}]}, asset-sent {entry:{kind,tag,asset?}},
+//                                    relation:personal|lead|clear (ticket #27: who counts as a lead)
 // The list response also carries pain_tag_catalog and ready_assets for the inbox (ticket #14).
 //   POST {id, action:"suggest-tags"} -> {suggestions:[{id,strength,quote}]}  AI read of their messages, never saved
 import { withOperator } from "../_shared/access.js";
 import { json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
-import { deriveThread, loadThreads, logEvent, stats, upsertOutreach } from "../_shared/outreach.js";
+import { deriveThread, loadThreads, logEvent, RELATION_OVERRIDES, stats, upsertOutreach } from "../_shared/outreach.js";
 import { pushOperator } from "../_shared/realtime.js";
 import { reviewBooking } from "../_shared/booking-review.js";
 import { cleanAssetEntry, cleanTags, PAIN_TAGS, READY_ASSETS, readAssetLog } from "../_shared/pain-tags.js";
@@ -38,7 +39,7 @@ async function handleGet({ request, env }) {
   const id = str(url.searchParams.get("id"));
   if (id) {
     const conversation = await env.DB.prepare(
-      `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at, o.pain_tags, o.asset_log
+      `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at, o.pain_tags, o.asset_log, o.relation
          FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
     ).bind(id).first();
     if (!conversation) return json({ ok: false, error: "thread not found" }, 404);
@@ -92,6 +93,10 @@ async function handlePost({ request, env }) {
     if (!["booked", "closed", "lost", "clear"].includes(value)) return json({ ok: false, error: "bad outcome" }, 422);
     await upsertOutreach(env, id, { outcome: value === "clear" ? null : value, hibernated_at: null }, actor);
     if (value === "booked" || value === "closed") await logEvent(env, { ...meta, kind: value, delivered: true });
+  } else if (action.startsWith("relation:")) {
+    const value = action.slice(9);
+    if (![...RELATION_OVERRIDES, "clear"].includes(value)) return json({ ok: false, error: "bad relation" }, 422);
+    await upsertOutreach(env, id, { relation: value === "clear" ? null : value }, actor);
   } else if (action === "hibernate") {
     await upsertOutreach(env, id, { hibernated_at: new Date().toISOString() }, actor);
     await logEvent(env, { ...meta, kind: "hibernated", delivered: true });
@@ -110,7 +115,7 @@ async function handlePost({ request, env }) {
     return json({ ok: false, error: "unknown action" }, 422);
   }
   const row = await env.DB.prepare(
-    `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at, o.pain_tags, o.asset_log
+    `SELECT c.*, o.pfp_url, o.sentiment, o.outcome, o.hibernated_at, o.notes, o.seen_at, o.pain_tags, o.asset_log, o.relation
        FROM ig_conversations c LEFT JOIN ig_outreach o ON o.conversation_id=c.id WHERE c.id=?`,
   ).bind(id).first();
   const messages = (await env.DB.prepare("SELECT direction, sent_at, text, payload_json FROM ig_messages WHERE conversation_id=? ORDER BY sent_at ASC").bind(id).all()).results || [];

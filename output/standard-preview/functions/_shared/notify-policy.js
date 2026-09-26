@@ -4,8 +4,10 @@
 // Graph API or Zernio, so the policy uses what we can prove from the thread:
 //   outbound  we sent the first message -> a reply to our outreach, always worth a ping
 //   inbound   they wrote first -> only when the founder approved them in the CRM
-// A dropped prospect or a muted sender never pings. Everything stays in the
-// inbox and the tracker either way; this only decides the bell.
+// A dropped prospect or a muted sender never pings, and neither does a
+// conversation marked "not a lead" (ig_outreach.relation, ticket #27); one
+// marked as a lead always does. Everything stays in the inbox and the tracker
+// either way; this only decides the bell.
 import { parseJson, str } from "./common.js";
 
 const MUTES_KEY = "notification-mutes";
@@ -52,15 +54,23 @@ export async function setMute(env, handle, muted) {
   return handles;
 }
 
+export async function conversationRelation(env, conversationId) {
+  const row = await env.DB.prepare("SELECT relation FROM ig_outreach WHERE conversation_id=?").bind(conversationId).first().catch(() => null);
+  return row?.relation === "personal" || row?.relation === "lead" ? row.relation : "";
+}
+
 // Decide whether a DM in this conversation should reach the bell.
 export async function dmPolicy(env, { conversationId, handle }) {
   const h = str(handle).replace(/^@/, "").toLowerCase();
-  const [origin, vetting, mutes] = await Promise.all([
+  const [origin, vetting, mutes, relation] = await Promise.all([
     conversationOrigin(env, conversationId),
     crmVetting(env, h),
     loadMutes(env),
+    conversationRelation(env, conversationId),
   ]);
+  if (relation === "personal") return { notify: false, origin, vetting, reason: "not a lead" };
   if (h && mutes.has(h)) return { notify: false, origin, vetting, reason: "muted" };
+  if (relation === "lead") return { notify: true, origin, vetting, reason: "counted as a lead" };
   if (vetting === "dropped") return { notify: false, origin, vetting, reason: "dropped" };
   if (origin === "outbound") return { notify: true, origin, vetting, reason: "outreach reply" };
   if (vetting === "approved") return { notify: true, origin, vetting, reason: "approved prospect" };

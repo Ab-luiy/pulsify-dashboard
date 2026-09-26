@@ -54,6 +54,7 @@
 - [Nick / @niicksfx is THE case study](project_nick_case_study.md) - $10-20k to $50k/mo with a confirmed video testimonial, plus the YouTube packaging before/after (53 -> 446 views) pulled off his live channel; the founder's recalled numbers don't match, always use the real ones
 - [Frank was only a test lead](project_frank_creator_profile.md) - 2026-09-25: not a client or test figure, removed from pages/DB/code; never use him as a sample again; his student result is his proof, not ours; old sites deleted; removed-page 7-day cache gotcha inside
 - [Onboarding form (Typeform)](project_onboarding_form.md) - post-close buyer-psychology questionnaire (why-buy / almost-didn't / which video converted); TRIGGER = he names a signed client and I run the full onboarding; INCOMPLETE
+- [Standard onboarding form (#16)](project_standard_onboarding_form.md) - LIVE 2026-09-25: ONE standard form at /app/portal/onboarding writes straight into the brain; legacy /onboard redirects; Finish = proof.has_proof from the client; never send the full proof_items list from the form
 
 ## Funnels / landing pages / portal
 

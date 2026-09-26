@@ -184,7 +184,10 @@ async function testClientSubmitAndOperatorRead() {
   assert.equal(identity.fields.find((field) => field.key === "name").source, "client-form");
   assert.equal(icp.fields.find((field) => field.key === "avatar").operator_only, true);
   assert.equal(icp.fields.find((field) => field.key === "avatar").gap, true);
-  assert.ok(funnel.fields.every((field) => field.operator_only && field.gap));
+  assert.ok(funnel.fields.every((field) => field.gap));
+  // The onboarding form answers the funnel facts the client knows; routing stays operator work.
+  assert.equal(funnel.fields.find((field) => field.key === "link_in_bio").operator_only, false);
+  assert.equal(funnel.fields.find((field) => field.key === "trigger_words").operator_only, true);
   assert.equal(readBody.proof_items.length, 1);
   assert.ok(readBody.summary.gaps > 0);
 
@@ -215,30 +218,20 @@ async function testTokenCannotCrossClients() {
 }
 
 async function testOnboardingPageTokenGate() {
+  // The form moved into the app (pulsify-saas #16). The old link keeps its
+  // query, and the app's portal gate checks the token and signs the visitor in.
   const token = "client-token-alpha";
-  const env = {
-    DB: new MockDB({ configs: [{ client: "alpha", client_name: "Alpha Coach", portal_token_hash: await sha256Hex(token) }] }),
-    ASSETS: { fetch: async () => new Response("<!doctype html><title>Onboarding</title>", { status: 200 }) },
-  };
-  const rejected = await onboardRoute.onRequest({
-    request: new Request("https://funnels.test/onboard/"),
-    env,
+  const moved = await onboardRoute.onRequest({
+    request: new Request(`https://funnels.test/onboard/?client=alpha&t=${token}`),
+    env: {},
     params: { path: [] },
     next: () => new Response("next"),
   });
-  assert.equal(rejected.status, 302);
-  assert.equal(new URL(rejected.headers.get("location")).pathname, "/login/client");
-
-  const accepted = await onboardRoute.onRequest({
-    request: new Request(`https://funnels.test/onboard/?t=${token}`),
-    env,
-    params: { path: [] },
-    next: () => new Response("next"),
-  });
-  assert.equal(accepted.status, 200);
-  assert.match(await accepted.text(), /Onboarding/);
-  // The private link also signs the visitor in, so the page's scripts load.
-  assert.match(accepted.headers.get("set-cookie") || "", /pulsify_client_session=.+HttpOnly/);
+  assert.equal(moved.status, 302);
+  const location = new URL(moved.headers.get("location"));
+  assert.equal(location.pathname, "/app/portal/onboarding");
+  assert.equal(location.searchParams.get("t"), token);
+  assert.equal(location.searchParams.get("client"), "alpha");
 }
 
 try {

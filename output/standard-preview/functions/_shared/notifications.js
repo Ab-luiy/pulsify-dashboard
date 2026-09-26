@@ -70,7 +70,9 @@ export async function clientLabel(env, clientId) {
 export const RETIRED_KINDS = ["lead.stage", "lead.created", "suppressed"];
 
 // Write one notification. dedupeKey makes repeated calls a no-op.
-export async function notify(env, { scope = "operator", clientId = "", kind, severity = "info", title, body = "", link = "", entity = null, dedupeKey = null, discord = false }) {
+// `outside: false` keeps a row in the bell only (the operator's copy of a
+// client event); otherwise notification routing decides email, Discord, Slack.
+export async function notify(env, { scope = "operator", clientId = "", kind, severity = "info", title, body = "", link = "", entity = null, dedupeKey = null, outside = true }) {
   if (!env?.DB || !title || kind === "system") return null;
   const id = `ntf_${generateOpaqueToken(10)}`;
   const inserted = await env.DB.prepare(
@@ -78,19 +80,19 @@ export async function notify(env, { scope = "operator", clientId = "", kind, sev
      VALUES (?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(id, scope === "client" ? "client" : "operator", str(clientId), str(kind || "system"), severity, str(title).slice(0, 200), str(body).slice(0, 1000) || null, str(link) || null, entity ? JSON.stringify(entity) : null, dedupeKey ? str(dedupeKey) : null, nowIso()).run();
   if (!Number(inserted.meta?.changes || 0)) return null;
-  if (discord && kind === "lead.replied" && scope === "operator") await discordLeadReply(env, { title, body }).catch(() => null);
+  if (outside) {
+    // Email, Discord and Slack per the Settings switches (pulsify-saas #32). Best effort, never blocks the bell.
+    try {
+      const { routeOutside } = await import("./notify-routing.js");
+      await routeOutside(env, { scope: scope === "client" ? "client" : "operator", clientId: str(clientId), kind: str(kind), title, body });
+    } catch { /* routing is optional */ }
+  }
   try {
     const { pushOperator, pushClient } = await import("./realtime.js");
     if (scope === "operator" && typeof pushOperator === "function") await pushOperator(env, "notification", { id });
     else if (scope === "client" && clientId) await pushClient(env, clientId, "notification", { id });
   } catch { /* push is optional; the 30 s poll still catches it */ }
   return id;
-}
-
-// The one outside channel: Discord, and only when a lead replied.
-async function discordLeadReply(env, { title, body }) {
-  const { sendDiscordAlert } = await import("./integrations.js");
-  return sendDiscordAlert(env, { kind: "lead.replied", title, lines: [body].filter(Boolean) }, { skipFailureLog: true });
 }
 
 export async function notifyFromEvent(env, { scope, clientId, event, data }) {
@@ -100,7 +102,7 @@ export async function notifyFromEvent(env, { scope, clientId, event, data }) {
   const own = await notify(env, { scope, clientId, ...d, entity: { event, ...data }, dedupeKey: data?.message_id ? `${scope}:${clientId}:${event}:${data.message_id}` : null });
   if (scope === "client" && clientId) {
     const forOperator = describeEvent(event, data, "operator");
-    if (forOperator) await notify(env, { scope: "operator", clientId, ...forOperator, title: `${await clientLabel(env, clientId)}: ${forOperator.title}`, entity: { event, client: clientId, ...data }, discord: false, dedupeKey: data?.message_id ? `operator:${clientId}:${event}:${data.message_id}` : null });
+    if (forOperator) await notify(env, { scope: "operator", clientId, ...forOperator, title: `${await clientLabel(env, clientId)}: ${forOperator.title}`, entity: { event, client: clientId, ...data }, outside: false, dedupeKey: data?.message_id ? `operator:${clientId}:${event}:${data.message_id}` : null });
   }
   return own;
 }

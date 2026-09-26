@@ -233,12 +233,13 @@ export async function onRequestPost({ request, env }) {
 
   if (body.kind === "page" || body.event_type === "page_event") {
     const pageMetadata = eventMetadata(body.metadata, Boolean(attributedEmail));
+    const pageEvent = body.event || "page_view";
     await savePageEvent(env, {
       client,
       visitor_id: body.visitor_id || null,
       session_id: body.session_id || null,
       page_id: body.page_id || "main",
-      event: body.event || "page_view",
+      event: pageEvent,
       email: normalizeEmail(body.email) || attributedEmail,
       path: body.path || null,
       referrer: body.referrer || null,
@@ -249,6 +250,9 @@ export async function onRequestPost({ request, env }) {
       city,
       user_agent: userAgent,
     });
+    if (pageEvent === "page_view") {
+      await notifyPageView(env, { client, cfg, email: normalizeEmail(body.email) || attributedEmail, visitor: body.visitor_id || body.session_id || ip, city, country }).catch(() => null);
+    }
     return json({ ok: true, kind: "page" });
   }
 
@@ -458,6 +462,28 @@ async function saveWatch(env, w) {
     w.watch_seconds, w.unique_seconds, w.playback_rate, w.muted, w.metadata_json,
     w.ip, w.country, new Date().toISOString(),
   ).run();
+}
+
+// Founder 2026-09-25 (pulsify-saas #34): tell him when someone opens a
+// prospect's page. One bell row per visitor per page per day, so a refresh or
+// a second tab does not ping again. Operator previews record nothing, so they
+// never reach here.
+export async function notifyPageView(env, { client, cfg, email, visitor, city, country }) {
+  const who = email || "Someone";
+  const page = cfg?.client_name || client;
+  const place = [city, country].filter(Boolean).join(", ");
+  const day = new Date().toISOString().slice(0, 10);
+  return notify(env, {
+    scope: "operator",
+    clientId: client,
+    kind: "page.viewed",
+    severity: "info",
+    title: `${who} opened ${page}'s page`,
+    body: place ? `From ${place}` : "",
+    link: "campaigns",
+    entity: { client, email: email || null, city: city || null, country: country || null },
+    dedupeKey: `page_view:${client}:${visitor || "anon"}:${day}`,
+  });
 }
 
 async function savePageEvent(env, e) {
