@@ -13,7 +13,7 @@ sql.exec(`CREATE TABLE client_config(client TEXT PRIMARY KEY, client_name TEXT, 
 CREATE TABLE client_dashboard_content(client_id TEXT, section TEXT, json TEXT);
 CREATE TABLE client_brain(id INTEGER, client_id TEXT, section TEXT, field TEXT, value_json TEXT, source TEXT, updated_at TEXT);
 CREATE TABLE proof_items(id INTEGER, client_id TEXT, kind TEXT, url TEXT, claim TEXT, permission TEXT, created_at TEXT);`);
-for (const file of ["0012_client_dashboard_studio.sql", "0041_studio_feedback.sql"]) {
+for (const file of ["0012_client_dashboard_studio.sql", "0042_studio_feedback.sql"]) {
   sql.exec(readFileSync(new URL(`../migrations/${file}`, import.meta.url), "utf8"));
 }
 sql.prepare("INSERT INTO client_config(client, client_name, portal_token_hash, page_content_json) VALUES (?,?,?,'{}'),(?,?,?,'{}')")
