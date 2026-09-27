@@ -74,7 +74,8 @@ From the founder's voice reply the same day. These override the recommendations 
 - **Model: Opus 5.5 once a client pays.** A local side-by-side on one brief (same prompt with the skill, framework, worked example and voice guide added) had Opus 5.5 hold one reframe, label peak and revenue figures honestly and flag its own unconfirmed facts; Sonnet 5 split the reframe, garbled source quotes and used a "not X, you're Y" line. Opus still made two factual slips the review gate must catch. Published rates: Opus 5.5 $4 in / $20 out per million tokens, Sonnet 5 $2 / $10; estimated about 12 cents a draft on Opus. The test brief used a lead who must not be used as a sample again; the drafts were never saved.
 - **Until then: bring your own AI with a paste-back.** No API spend until a client pays upfront. The portal assembles the full package (method, example sequences, voice rules, client brain), the client runs it in their own ChatGPT or Claude, pastes the answer back, and it enters the founder's review queue like any draft, so approvals and rejections still feed the learning loop. Built so switching Generate to Opus 5.5 on our key is one setting. Rejected: Cloudflare Workers AI and Gemini (quality), Pulsify writing drafts in-house (the app exists to delegate; the service is done-with-you).
 - **Approvals become examples.** Every draft the founder approves is kept as a good example; the next package for that client shows their approved sequences and tells the AI to write like them.
-- Still open: how far a rejection note spreads (that client only, or every client), and how posted results rank the examples.
+- **Rejection reasons become rules.** Default: that client only; the operator can apply one to every client, narrow it back or remove it on the Reviews screen (founder left this to Claude, 2026-09-25).
+- **Deployed 2026-09-27** (Pages 46d8b892). Still open: how posted results rank the examples.
 
 ## Founder correction (2026-09-26)
 
