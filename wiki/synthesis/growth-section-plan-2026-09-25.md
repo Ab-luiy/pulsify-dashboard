@@ -3,7 +3,7 @@ type: synthesis
 tags: [content, funnel, scaling]
 sources: [[synthesis/client-dashboard-redesign-spec-2026-07-12]], [[synthesis/portal-content-studio-spec]], [[synthesis/pulsify-portal-master-architecture]], [[playbooks/ig-followup-sequence]]
 created: 2026-09-25
-updated: 2026-09-25
+updated: 2026-09-26
 ---
 
 # Growth section: audit and plan (draft for the founder session)
@@ -62,6 +62,7 @@ From the founder's voice reply the same day. These override the recommendations 
 - **Leads.** Belong with sales and the CRM, because leads are about making money. Not settled whether that is next to Payments; the grouping is "sales".
 - **The AI.** The 30 requests per day cap is a bottleneck: a client should be able to keep prompting against our data. Output has to be generated from our backend, our data and our files. It has to teach itself and learn, with memory, so he eventually never touches it. He does not want to build our own AI model. "Shooting for the sky": he wants to know what is possible.
 - **Formats first.** Story sequences, reels and YouTube. YouTube is packaging: title and thumbnail, with far more examples and angles than the portal has today.
+  > ⚠️ Superseded 2026-09-26: reels are out and YouTube means the whole video, not only packaging. See "Founder correction (2026-09-26)" below.
 - **Thumbnails.** His 24 "Founder board" versions were duplicates and are removed from the archive (done, pulsify-saas cc51f53). 21 creator references remain.
 - **Review gate.** On. He reviews drafts before anything is marked ready to post.
 
@@ -74,6 +75,13 @@ From the founder's voice reply the same day. These override the recommendations 
 - **Until then: bring your own AI with a paste-back.** No API spend until a client pays upfront. The portal assembles the full package (method, example sequences, voice rules, client brain), the client runs it in their own ChatGPT or Claude, pastes the answer back, and it enters the founder's review queue like any draft, so approvals and rejections still feed the learning loop. Built so switching Generate to Opus 5.5 on our key is one setting. Rejected: Cloudflare Workers AI and Gemini (quality), Pulsify writing drafts in-house (the app exists to delegate; the service is done-with-you).
 - **Approvals become examples.** Every draft the founder approves is kept as a good example; the next package for that client shows their approved sequences and tells the AI to write like them.
 - Still open: how far a rejection note spreads (that client only, or every client), and how posted results rank the examples.
+
+## Founder correction (2026-09-26)
+
+- **Reels are out.** "We're not working on reels." No reels work in Growth unless he reopens it.
+- **The formats are** YouTube videos and their packaging, story sequences, and carousels. Carousels are the "least leveragable" of the set but stay in it, because "it's all the elements built together."
+- **The most important thing to dial in is creating a YouTube video**, the whole video, not only the title and thumbnail. He started making a real one with Claude the same day; each step that gets locked in on that video becomes the method the portal hands clients, the same take-one-thing-and-lock-it-in approach he set on 2026-09-25.
+- The story sequence build chosen as the first lock-in on 2026-09-25 was already under way in its own session. He did not say to stop it.
 
 ## What "teaches itself" can mean without building our own AI
 
