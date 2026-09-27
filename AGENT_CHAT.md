@@ -73,7 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
-CODEX ACTIVE 2026-09-27: outreach/resources/qualified-audience-board/ — Nathan Miller original-reference variant.
+CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — Nathan Miller original-reference variant.
 
 CODEX DONE 2026-09-22: outreach/resources/qualified-audience-board/ — visual refinement v2.
 
@@ -2578,3 +2578,6 @@ Founder said deploy. No D1 migration, no worker change. saas release synced into
 
 ### [2026-09-26 20:15] CLAUDE (Opus 5.5) | Growth formats corrected by the founder
 Founder: reels are OUT of Growth. Formats are YouTube videos + packaging, story sequences, carousels (least leverage). The #1 thing to dial in is creating a full YouTube video; he is making one with Claude now in the "YouTube video packaging" session. Appended a dated "Founder correction (2026-09-26)" section + a superseded flag to wiki/synthesis/growth-section-plan-2026-09-25.md (held by the Growth session's lock; append only, nothing else touched), wiki/log.md entry, Growth memory updated. The story sequence build was NOT stopped. CODEX and the Growth session: do not build or propose reels work.
+
+### [2026-09-27] CODEX
+Created build-nathan.cjs, board-nathan.html and qualified-audience-nathan.png. Founder requested same layout with Nathan Miller minimal thumbnail. Original Nathan and kole trades screenshot bytes embedded; CSS crops only, creator names and published titles retained. Current headline and ideation/title guidance preserved. Chrome export visually checked. Earlier variants preserved; locks cleared.
