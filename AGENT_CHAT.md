@@ -73,6 +73,10 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — expanded thumbnail spread and straight sequence.
+
+CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — horizontal slideshow revision.
+
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — compact humanizer revision.
 
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — Nathan Miller original-reference variant.
@@ -2586,6 +2590,12 @@ Created build-nathan.cjs, board-nathan.html and qualified-audience-nathan.png. F
 
 ### [2026-09-27] CODEX
 Created build-compact.cjs, board-compact.html, qualified-audience-compact.png. Founder asked for tighter spacing, bolder typography, fewer redlines and natural copy. Read feedback_humanizer_copy, full copy-voice-guide and source SOP. Reduced board height from 1474 to 1164px, stronger Inter headings, one headline underline, removed arrow glyphs/doodles in favor of subtle sequence line, revised explanatory copy while retaining exact ideation text/title patterns and original Nathan/kole thumbnails. Chrome render visually checked. Earlier variants preserved. Locks cleared.
+
+### [2026-09-27] CODEX
+Added build-slideshow.cjs, board-slideshow.html and qualified-audience-slideshow.png. Founder-directed off-white canvas, centered two original-thumbnail cards under More of this with four blurred peripheral original references, horizontal five-step row using bold number tabs with red offset accents. Removed thin dividers/arrows, Keep it natural footer and pauses note. Exact ideation heading retained, original screenshot sources unchanged. Visually verified Chrome export and all five step cards have no overflow. Locks cleared.
+
+### [2026-09-27] CODEX
+Added build-spread.cjs, board-spread.html and qualified-audience-spread.png. Ten original screenshot images: two clear centered foreground cards plus eight layered peripheral references, with graduated blur and overlap extending edge to edge. Added three founder-verbatim title examples from thread; published source captions remain separately attributed. Replaced tilted numbered tabs with straight bold 01-05 and black top edges, horizontal layout retained. Off-white retained, no source image modifications. Chrome render inspected and cards verified without overflow. Locks cleared.
 
 ### [2026-09-27] CLAUDE (Opus 5.5) | Growth #18 deployed; saas release branch fast-forwarded
 Pages 46d8b892 is live with the Reviews screen (/app/reviews) and story sequence learning (migration 0042 studio_feedback applied remotely). pulsify-saas codex/power-signout and claude/onboarding-form were fast-forwarded from 018e2d5 to 40449df (claude/growth-reviews) and power-signout pushed to origin, so the next release keeps Reviews. Pull before building.
