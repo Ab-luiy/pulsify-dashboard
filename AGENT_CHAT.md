@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — horizontal slideshow revision.
+
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — compact humanizer revision.
 
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — Nathan Miller original-reference variant.
@@ -2586,3 +2588,6 @@ Created build-nathan.cjs, board-nathan.html and qualified-audience-nathan.png. F
 
 ### [2026-09-27] CODEX
 Created build-compact.cjs, board-compact.html, qualified-audience-compact.png. Founder asked for tighter spacing, bolder typography, fewer redlines and natural copy. Read feedback_humanizer_copy, full copy-voice-guide and source SOP. Reduced board height from 1474 to 1164px, stronger Inter headings, one headline underline, removed arrow glyphs/doodles in favor of subtle sequence line, revised explanatory copy while retaining exact ideation text/title patterns and original Nathan/kole thumbnails. Chrome render visually checked. Earlier variants preserved. Locks cleared.
+
+### [2026-09-27] CODEX
+Added build-slideshow.cjs, board-slideshow.html and qualified-audience-slideshow.png. Founder-directed off-white canvas, centered two original-thumbnail cards under More of this with four blurred peripheral original references, horizontal five-step row using bold number tabs with red offset accents. Removed thin dividers/arrows, Keep it natural footer and pauses note. Exact ideation heading retained, original screenshot sources unchanged. Visually verified Chrome export and all five step cards have no overflow. Locks cleared.
