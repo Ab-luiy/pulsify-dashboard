@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX ACTIVE 2026-09-27: outreach/resources/qualified-audience-board/ — Nathan Miller original-reference variant.
+
 CODEX DONE 2026-09-22: outreach/resources/qualified-audience-board/ — visual refinement v2.
 
 CODEX DONE 2026-09-22: outreach/resources/qualified-audience-board/ — native board with original screenshots.
