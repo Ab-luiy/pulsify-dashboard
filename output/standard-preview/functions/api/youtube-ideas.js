@@ -27,6 +27,7 @@ async function handlePost({ request, env }) {
   const prompt = buildIdeasPrompt({
     clientName: config?.client_name || access.client_name || client,
     clientBrain: brainContext.prompt_text,
+    proofLines: brainContext.proof_lines,
     answers,
   });
   const brainUsed = { used: brainContext.used, fields_used: brainContext.fields_used };

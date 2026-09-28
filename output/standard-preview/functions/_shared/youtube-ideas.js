@@ -24,7 +24,7 @@ export function normalizeAnswers(value) {
     .slice(0, MAX_ANSWERS);
 }
 
-export function buildIdeasPrompt({ clientName, clientBrain, answers }) {
+export function buildIdeasPrompt({ clientName, clientBrain, proofLines, answers }) {
   const system = [
     "You are Pulsify's YouTube ideation partner for coaches and creators who sell mentorships.",
     "You turn the creator's own answers into video ideas they can film. The creator decides; you suggest.",
@@ -48,6 +48,7 @@ export function buildIdeasPrompt({ clientName, clientBrain, answers }) {
   const user = [
     `Creator: ${String(clientName || "Unknown creator").trim() || "Unknown creator"}`,
     `Creator brain (their onboarding answers):\n${String(clientBrain || "").trim() || "Nothing saved yet. Work from the answers only."}`,
+    proofLines?.length ? `Verified proof they can show (permission granted):\n- ${proofLines.join("\n- ")}` : "Verified proof: none saved. Do not invent results.",
     `Their ideation answers:\n${answers.map((entry) => `- [${entry.id || "answer"}] ${entry.question}\n  ${entry.answer}`).join("\n")}`,
     "Return nine ideas, three per bucket, in the required JSON only.",
   ].join("\n\n");

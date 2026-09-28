@@ -44,6 +44,18 @@ const BUNDLES = [
       { file: "wiki/content-engine/packaging-rules.md", title: "Packaging rules: four-word title, content angle formula, hook, thumbnail", transform: methodPage },
     ],
   },
+  {
+    out: "youtube-packaging-reference.js",
+    name: "YOUTUBE_PACKAGING_REFERENCE",
+    sources: [
+      { file: "wiki/content-engine/packaging-rules.md", title: "Packaging rules: four-word title, face on camera, thumbnail rules", transform: methodPage },
+      {
+        file: "wiki/content-engine/thumbnail-layout-patterns.md",
+        title: "Thumbnail layout patterns A to D and the text treatment rule (canonical where older guidance disagrees)",
+        transform: methodPage,
+      },
+    ],
+  },
 ];
 
 for (const bundle of BUNDLES) {
