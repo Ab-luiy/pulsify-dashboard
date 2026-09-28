@@ -104,6 +104,16 @@ First build: the YouTube flow, starting with ideation. His ideation questions, o
 
 > ⚠️ Contradiction: the founder said there are no bottom-of-funnel videos (the bottom is the landing page and VSL). [[concepts/content-funnel-tof-mof-bof]] lists bottom-of-funnel videos (client interviews, mini-VSLs). Resolution: founder call, flagged to him 2026-09-28; the ideation screen tags ideas TOF or MOF only until he rules.
 
+### The guided new-video flow as built (2026-09-28, not deployed)
+
+Three steps in the client portal, each asking what an operator would ask, each running on the client brain and granted proof, each with the BYO-AI copy-paste fallback until the Anthropic key and the same Opus 5.5 switch after:
+
+1. **Ideation** (/portal/youtube/new): his ten questions as cards with onboarding answers as tap-to-use hints; ideas in pain point, limiting belief and breakdown, tagged funnel stage, format, mindset and proof to show. Method: micro niche YouTube, funnel stages, packaging rules.
+2. **Title and thumbnail** (/portal/youtube/title): what the video proves, which of the four layouts; five title and thumbnail pairs; live checks from the vault (under 60 characters, no question marks, no exclamation marks, thumbnail adds what the title doesn't say, yellow-bar headline on board thumbnails only, quiet text elsewhere, every number showable on screen). Where the titles skill and [[content-engine/thumbnail-layout-patterns]] disagree on thumbnail text, the layout page wins, as that page itself says.
+3. **Build the video** (/portal/youtube/build): why they should believe you, what they walk away with, what viewers do next; three openings (the promise, why you, reason to stay) and one outline in problem, struggle, discovery, result with board, screen, camera or student cues and the section that pays off the opening's loop; checks for warm-up openers, length, missing beats, unresolved loops and a hard pitch on a top-of-funnel video.
+
+Not built yet: a shoot sheet, the editing standard (a vault gap), YouTube drafts in the founder's Reviews queue, and learning from approved YouTube packages the way story sequences learn.
+
 ## What "teaches itself" can mean without building our own AI
 
 A proposal for the planning session, not a decision. Nothing here needs a model of our own or retraining one. The model stays a hosted one; what learns is the data around it.

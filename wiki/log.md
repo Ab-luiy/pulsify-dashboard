@@ -1843,3 +1843,6 @@ Founder rejected the automated-looking carousel output. Carousels will ask the c
 
 ## [2026-09-28] decision | The portal is a guided operator; YouTube ideation first
 Founder chose the guided operator model for Growth: each SOP becomes steps in the app that ask what an operator would ask, the AI suggests from the client brain and our method, the client picks, the founder reviews. Card-based, premium, powered by the onboarding answers. First build is the YouTube flow starting with his ideation questions, results sorted into pain point, limiting belief and breakdown. Flagged the bottom-of-funnel video contradiction. Recorded in [[synthesis/growth-section-plan-2026-09-25]].
+
+## [2026-09-28] client-update | Guided new-video flow built (not deployed)
+Built the YouTube guided flow in the client portal on branch claude/growth-youtube: ideation (founder questions with onboarding hints, ideas in three buckets), title and thumbnail (five pairs, live checks from packaging rules and thumbnail layout patterns), build the video (three openings and a problem, struggle, discovery, result outline with checks). New endpoints /api/youtube-ideas, /api/youtube-titles, /api/youtube-build share the Opus switch and the copy-paste fallback. Details in [[synthesis/growth-section-plan-2026-09-25]].
