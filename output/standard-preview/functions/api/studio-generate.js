@@ -6,6 +6,7 @@ import {
 } from "../_shared/sequence-prompt.js";
 import { cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
+import { callAnthropic, parseModelJson } from "../_shared/anthropic.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 
 export async function onRequestPost({ request, env }) {
@@ -262,45 +263,6 @@ async function loadReviewLearning(env, client, type) {
   }
   const rules = [...new Set((ruleRows.results || []).map((row) => String(row.rule || "").trim()).filter(Boolean))];
   return { examples, exampleIds, rules };
-}
-
-async function callAnthropic(prompt, apiKey) {
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: "claude-opus-5-5",
-      max_tokens: 16000,
-      // The method block is identical on every call, so it is cached and billed at the read rate.
-      system: [{ type: "text", text: prompt.system, cache_control: { type: "ephemeral" } }],
-      messages: [{ role: "user", content: prompt.user }],
-    }),
-  });
-  if (!response.ok) {
-    throw new Error(`${response.status}: ${(await response.text()).slice(0, 400)}`);
-  }
-  const data = await response.json();
-  if (data?.stop_reason === "refusal") throw new Error("Anthropic declined this request");
-  const text = (data?.content || []).filter((block) => block?.type === "text").map((block) => block.text || "").join("");
-  if (!text) throw new Error("Anthropic returned no text");
-  return text;
-}
-
-function parseModelJson(rawText) {
-  const text = String(rawText || "").trim()
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/```\s*$/i, "")
-    .trim();
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start === -1 || end === -1 || end < start) {
-    throw new Error("No JSON object found.");
-  }
-  return JSON.parse(text.slice(start, end + 1));
 }
 
 function sanitizeSequenceOutput(value, fallback) {
