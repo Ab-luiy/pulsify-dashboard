@@ -1840,3 +1840,6 @@ Deployed Pages 46d8b892 (brain main e5833388). Story sequence prompts now carry 
 
 ## [2026-09-27] decision | Carousel plan: built on the client's own photos
 Founder rejected the automated-looking carousel output. Carousels will ask the client for a specific photo set (for example two scenery, several of the client, several of their work), write each slide in stages and place the right photo behind each, then go through Reviews. Pattern comes from the captured Niksetting carousels, and the flow must work with plain phone photos. Built after the YouTube video. Recorded in [[synthesis/growth-section-plan-2026-09-25]].
+
+## [2026-09-28] decision | The portal is a guided operator; YouTube ideation first
+Founder chose the guided operator model for Growth: each SOP becomes steps in the app that ask what an operator would ask, the AI suggests from the client brain and our method, the client picks, the founder reviews. Card-based, premium, powered by the onboarding answers. First build is the YouTube flow starting with his ideation questions, results sorted into pain point, limiting belief and breakdown. Flagged the bottom-of-funnel video contradiction. Recorded in [[synthesis/growth-section-plan-2026-09-25]].

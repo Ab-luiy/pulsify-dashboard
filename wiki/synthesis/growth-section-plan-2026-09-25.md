@@ -96,6 +96,14 @@ The current carousel output looks automated and the founder rejected it. Carouse
 
 Two constraints from the founder. The slide structure and photo pattern come from reading the Niksetting carousels already captured in [[content-engine/carousel-breakdowns/README]] (and any others he adds), applied as documented. And the flow has to work for clients without a photographer or great photos: phone photos must be enough, so the photo ask stays simple and the design carries plain pictures. Order: YouTube video first, then this.
 
+## The portal is a guided operator (founder decision 2026-09-28)
+
+Asked whether the portal should track data, generate assets or create content, and whether the method should live as SOP docs or in the app, the founder chose the guided operator: every SOP becomes steps inside the app, each step asks the questions an operator would ask, the AI suggests options built from the client's brain and our method, the client picks, and the founder reviews before anything ships. Push-button automation looks generic; SOP docs alone are a course. It must look premium and card-based, and it runs on what onboarding collects (voice notes, offer, delivery, students and their results): "we take all that information to ask them back what they want to create on."
+
+First build: the YouTube flow, starting with ideation. His ideation questions, one at a time: what have you solved; a common mistake in your niche; what you struggled with and fixed; what took longest to figure out; can it be broken down on a Miro board (is it mindset-heavy, do you need to show proof of work and how); does it break a limiting belief; is it wide or niche; the video you wish someone had made. Then "here are your ideation results", sorted into pain point, limiting belief and breakdown, then title and thumbnail, build, shoot sheet and review. Remaking a winning concept on a new problem in a new format is part of it. Formats: Miro board, face to camera, both, student call, group coaching call, in-person student video.
+
+> ⚠️ Contradiction: the founder said there are no bottom-of-funnel videos (the bottom is the landing page and VSL). [[concepts/content-funnel-tof-mof-bof]] lists bottom-of-funnel videos (client interviews, mini-VSLs). Resolution: founder call, flagged to him 2026-09-28; the ideation screen tags ideas TOF or MOF only until he rules.
+
 ## What "teaches itself" can mean without building our own AI
 
 A proposal for the planning session, not a decision. Nothing here needs a model of our own or retraining one. The model stays a hosted one; what learns is the data around it.
