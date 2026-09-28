@@ -5,12 +5,14 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 8cdf0eab-2371-4d57-9a93-643476c0c576
-  modified: 2026-09-28T18:58:36.272Z
+  modified: 2026-09-28T19:40:13.431Z
 ---
 
 Founder brain-dump 2026-09-28 in the Growth planning session (#18). Nothing here is built or decided unless marked.
 
-**Open question he raised:** is the client portal for tracking data, generating assets, or creating content, and should our method be SOP docs or systemized in the app? His instinct: content always needs a human operator step; AI guides, an operator decides. Claude recommended "SOP it on his real video first, then turn each SOP step into a guided screen with AI suggestions and his review" (guided operator, not push-button automation, not static docs). Awaiting his answer.
+**Decided 2026-09-28: the portal is a guided operator.** Each SOP becomes steps in the app: ask what an operator would ask, AI suggests from the client brain + our method, client picks, founder reviews. Must look premium and card-based, powered by onboarding answers. He approved it after seeing a mockup.
+
+**Built 2026-09-28, NOT deployed:** YouTube guided ideation at /app/portal/youtube/new (branch claude/growth-youtube in Pulsify-Brain and pulsify-saas; backend /api/youtube-ideas). His 10 questions one at a time, onboarding answers as tap-to-use hints, ideas in pain / belief / breakdown cards, pick opens the package wizard on the title step, unfinished ideation resumes from video projects. BYO-AI copy/paste until the Anthropic key; same Opus switch as sequences.
 
 **YouTube flow he specified:** ideation -> title -> build the video. Ideation asks the client questions: what have you solved, common mistake in your niche, what you struggled with and fixed, what took longest to figure out, can it be broken down on a Miro board (5.1 mindset-heavy? 5.2 do you need to show proof of work, presentably?), is it mindset, does it break a limiting belief, wide or niche, the video you wish someone had made. Then "here are your ideation results", then the title. Also: recreate a winning concept on a different problem in a different format. Formats: Miro board, face to camera, both, student call, group coaching call, in-person student video.
 
