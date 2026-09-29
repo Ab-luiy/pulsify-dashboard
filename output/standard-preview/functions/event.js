@@ -488,16 +488,29 @@ export async function notifyPageView(env, { client, cfg, email, visitor, city, c
 
 async function savePageEvent(env, e) {
   if (!env.DB) return;
+  // Plain copies of the two tags cash-by-video looks up (pulsify-saas #36).
+  const utm = parseUtm(e.utm_json);
   await env.DB.prepare(
     `INSERT INTO page_events (
       client,visitor_id,session_id,page_id,event,email,path,referrer,utm_json,metadata_json,
-      ip,country,city,user_agent,at
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      ip,country,city,user_agent,utm_source,utm_content,at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(
     e.client, e.visitor_id, e.session_id, e.page_id, e.event, e.email, e.path,
     e.referrer, e.utm_json, e.metadata_json, e.ip, e.country, e.city, e.user_agent,
+    utm.utm_source ? String(utm.utm_source).toLowerCase().slice(0, 64) : null,
+    utm.utm_content ? String(utm.utm_content).slice(0, 128) : null,
     new Date().toISOString(),
   ).run();
+}
+
+function parseUtm(value) {
+  try {
+    const parsed = JSON.parse(value || "{}");
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
 }
 
 function parseTypeformAnswers(items) {

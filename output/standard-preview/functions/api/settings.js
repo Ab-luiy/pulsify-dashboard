@@ -49,6 +49,7 @@ const CLIENT_TABLES = [
   ["watch_events", "client"],
   ["asset_links", "client"],
   ["asset_events", "client"],
+  ["yt_videos", "client_id"],
   ["client_media_order", "client_id"],
   ["copywriter_usage", "client_id"],
   ["impersonation_sessions", "client_id"],
