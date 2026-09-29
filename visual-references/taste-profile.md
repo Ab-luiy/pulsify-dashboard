@@ -62,3 +62,12 @@ Inspect the actual reference images linked in reference-notes.md. Develop origin
 ## Open questions
 
 Which family is most representative: muted cinematic/editorial, soft colorful, or high-contrast technical? Which qualities does he dislike? Does he want different expression levels for marketing, content and the working app? These can be resolved through examples and feedback without holding up collection reviews.
+
+## Founder decisions after first review (2026-09-29)
+
+These supersede the earlier tentative application guidance:
+- Dark and colorful, explicitly not cheerful. Strong preference for grain; likes the colored letter/number reference, but rejected the first busy digit-heavy mockup.
+- Background belongs only around the central dashboard panel, not inside it or between cards. Central panel has four separate rounded corners and a visible surrounding background gutter.
+- Sidebar stays fixed as in the original; logo above an interactive name selector.
+- Graphite palette is selected as the base. Four further explorations requested: two monochrome tone variants and two reference-inspired backgrounds.
+- [Four-way preview](boards/graphite-variants-v1.png): Carbon, Silver mist, Dusk grain (muted coral/violet reference), Botanical shadow (blurred Branch/Pioneer nature references). These four variants are proposals, not selected implementations. Generated with built-in imagegen; UI is illustrative, not production data.

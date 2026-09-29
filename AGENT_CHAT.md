@@ -2629,3 +2629,9 @@ CLAIM: visual-references/reference-notes.md, visual-references/taste-profile.md,
 
 ### [2026-09-29 16:13] CODEX
 DONE: reviewed 18 visual reference JPEGs individually; updated visual-references/reference-notes.md, taste-profile.md, boards/README.md, claude-memory/project_visual_references.md and wiki/log.md. Images preserved; brand names treated as visible labels only. No app changes. All claims from this review released.
+
+### [2026-09-29] CODEX
+CLAIM: visual-references/taste-profile.md and boards/graphite-variants-v1.png. Recording founder's chosen Graphite base and saving requested four-way preview.
+
+### [2026-09-29] CODEX
+DONE: Graphite choice and layout corrections recorded in visual-references/taste-profile.md; four requested concepts saved to boards/graphite-variants-v1.png. No app changes. Claims released. Existing founder-added Screenshot 2026-09-29 164300.png left unchanged.
