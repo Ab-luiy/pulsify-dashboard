@@ -7,6 +7,7 @@ import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { callAnthropic, parseModelJson } from "../_shared/anthropic.js";
+import { loadVideoLearning } from "../_shared/content-learning.js";
 import { buildIdeasPrompt, normalizeAnswers, sanitizeIdeas } from "../_shared/youtube-ideas.js";
 
 async function handlePost({ request, env }) {
@@ -19,15 +20,17 @@ async function handlePost({ request, env }) {
   if (answers.length < 3) return json({ ok: false, error: "Answer at least three questions first." }, 422);
 
   const client = cleanId(access.client);
-  const [config, brain] = await Promise.all([
+  const [config, brain, learning] = await Promise.all([
     env.DB.prepare("SELECT COALESCE(client_name, client) AS client_name FROM client_config WHERE client=?").bind(client).first(),
     loadClientBrainData(env, client),
+    loadVideoLearning(env, client),
   ]);
   const brainContext = buildGeneratorBrainContext(brain);
   const prompt = buildIdeasPrompt({
     clientName: config?.client_name || access.client_name || client,
     clientBrain: brainContext.prompt_text,
     proofLines: brainContext.proof_lines,
+    learning,
     answers,
   });
   const brainUsed = { used: brainContext.used, fields_used: brainContext.fields_used };

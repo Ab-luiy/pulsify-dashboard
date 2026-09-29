@@ -6,6 +6,7 @@ import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { callAnthropic, parseModelJson } from "../_shared/anthropic.js";
+import { loadVideoLearning } from "../_shared/content-learning.js";
 import { normalizeAnswers } from "../_shared/youtube-ideas.js";
 import { LAYOUTS, buildTitlesPrompt, normalizeIdea, sanitizePairs } from "../_shared/youtube-titles.js";
 
@@ -20,15 +21,17 @@ async function handlePost({ request, env }) {
   const layout = Object.hasOwn(LAYOUTS, body.layout) ? body.layout : "";
 
   const client = cleanId(access.client);
-  const [config, brain] = await Promise.all([
+  const [config, brain, learning] = await Promise.all([
     env.DB.prepare("SELECT COALESCE(client_name, client) AS client_name FROM client_config WHERE client=?").bind(client).first(),
     loadClientBrainData(env, client),
+    loadVideoLearning(env, client),
   ]);
   const brainContext = buildGeneratorBrainContext(brain);
   const prompt = buildTitlesPrompt({
     clientName: config?.client_name || access.client_name || client,
     clientBrain: brainContext.prompt_text,
     proofLines: brainContext.proof_lines,
+    learning,
     idea,
     answers: normalizeAnswers(body.answers),
     layout,
