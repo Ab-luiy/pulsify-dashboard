@@ -1875,3 +1875,6 @@ Founder chose the guided operator model for Growth: each SOP becomes steps in th
 
 ## [2026-09-28] client-update | Guided new-video flow built (not deployed)
 Built the YouTube guided flow in the client portal on branch claude/growth-youtube: ideation (founder questions with onboarding hints, ideas in three buckets), title and thumbnail (five pairs, live checks from packaging rules and thumbnail layout patterns), build the video (three openings and a problem, struggle, discovery, result outline with checks). New endpoints /api/youtube-ideas, /api/youtube-titles, /api/youtube-build share the Opus switch and the copy-paste fallback. Details in [[synthesis/growth-section-plan-2026-09-25]].
+
+## [2026-09-29] client-update | Review gate and learning for YouTube packages (not deployed)
+Clients can send a finished YouTube package to the founder's Reviews page; approvals become examples in the ideation, title and build prompts, send-back reasons become rules shared with story sequences. New table content_reviews (migration 0044, after another session's 0043). Details in [[synthesis/growth-section-plan-2026-09-25]].

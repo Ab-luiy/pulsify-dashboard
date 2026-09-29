@@ -112,7 +112,9 @@ Three steps in the client portal, each asking what an operator would ask, each r
 2. **Title and thumbnail** (/portal/youtube/title): what the video proves, which of the four layouts; five title and thumbnail pairs; live checks from the vault (under 60 characters, no question marks, no exclamation marks, thumbnail adds what the title doesn't say, yellow-bar headline on board thumbnails only, quiet text elsewhere, every number showable on screen). Where the titles skill and [[content-engine/thumbnail-layout-patterns]] disagree on thumbnail text, the layout page wins, as that page itself says.
 3. **Build the video** (/portal/youtube/build): why they should believe you, what they walk away with, what viewers do next; three openings (the promise, why you, reason to stay) and one outline in problem, struggle, discovery, result with board, screen, camera or student cues and the section that pays off the opening's loop; checks for warm-up openers, length, missing beats, unresolved loops and a hard pitch on a top-of-funnel video.
 
-Not built yet: a shoot sheet, the editing standard (a vault gap), YouTube drafts in the founder's Reviews queue, and learning from approved YouTube packages the way story sequences learn.
+**The review gate for YouTube (built 2026-09-29, not deployed).** The build step ends with "Send to my team for review" or "Save as a draft". A sent package is snapshotted server-side (content_reviews, migration 0044) and lands on the founder's Reviews page beside story sequences. Approved packages become examples in all three YouTube steps; a send-back reason becomes a rule. Rules are shared across formats, on the reading that a correction like "never call revenue profit" holds for every piece of that client's content. Video projects show In review, Approved or Changes requested, and the reason appears on the title and build steps.
+
+Not built yet: a shoot sheet and the editing standard (a vault gap).
 
 ## What "teaches itself" can mean without building our own AI
 
