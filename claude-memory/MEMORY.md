@@ -107,3 +107,7 @@
 - [Brain online backup](project_brain_online_backup.md) - the whole brain syncs both ways with private repo Ab-luiy/pulsify-brain: SessionStart pulls, Stop pushes, hourly task; new device = clone plus ./setup-autosync.ps1 plus recreate .env; see RESTORE.md
 - [Cloudflare MCP + skills](project_cloudflare_mcp_setup.md) - LIVE 2026-08-13: 13 skills plus all 5 MCP servers connected; api/builds/observability are read-only, bindings has full access (D1 writes - treat as dangerous); OAuth needs a TTY so only he can run `claude mcp login`
 - [Health tracker workflow](project_health_tracker.md) - Health tab logs calories and macros; he dictates meals or sends photos and I log via Chrome automation; cut 110 to 80kg, 1800 kcal, OMAD
+
+## Visual references
+
+- [Founder visual taste library](project_visual_references.md) - shared visual-references/ folder; images in inbox, reference notes, growing taste profile and boards; read before aesthetic work.

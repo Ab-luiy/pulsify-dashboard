@@ -1858,3 +1858,7 @@ Founder: "the UTM tracking is insane, we need that ASAP." Built and deployed per
 
 ## [2026-09-29] ingest | Founder's 52 InfoOS screenshots mapped
 Founder dropped 52 screenshots into `raw-sources/inspiration/dustin-varano-infoos/screenshots/` and asked us to replicate the design sense and find every element we lack. 51 map to the video (table added to the folder README); one is an unrelated personal chat, excluded. Enlarged the four angled next-version shots and read the fix-card math: dollars at stake = extra people at target rate x existing downstream conversion x average order value, no AI. Added a "What the founder's screenshots added" section to [[synthesis/dustin-varano-video-as-brief]]: the design moves, the fix-card math, the list of elements we don't have, and what we have that he doesn't.
+
+## [2026-09-29] decision | Shared visual taste library
+
+Founder requested a single folder for pictures, brands, backgrounds, colors, gradients and concepts he likes, to help Claude, Codex and other AI develop a coherent Pulsify aesthetic. Created visual-references/ with inbox, reference notes, a starting taste profile and boards. Linked existing collections without moving originals; added shared memory discovery. No images analyzed and no app design changed. Founder explicitly chose InfoOS option A (adapt useful design ideas into our current look).

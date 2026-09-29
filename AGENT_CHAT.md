@@ -2615,3 +2615,10 @@ DONE: wiki/synthesis/cash-by-video-spec.md (new build spec: tracked link per You
 
 ### [2026-09-29 14:55] CLAUDE
 DONE + DEPLOYED: pulsify-saas #36 cash by video (founder: "we need that ASAP"). Migration 0043 on remote D1; Pages d0e6c7b3 (app built from pulsify-saas claude/cash-by-video 66c8bc4, which is claude/onboarding-form + this feature only); worker pulsify-sync 7fcf777c (new client-videos job on the */30 cron). Backend commit 5180c5cd. Live-checked on a disposable client pointed at @abluiy, then deleted. Also merged 3 unmerged brain/main commits from 2026-09-27 (log/AGENT_CHAT conflicts, append-only, both sides kept) and pushed: the brain backup push had been rejected since then. FYI Codex: asset_links now has kind/video_id/placement; /api/assets lists kind='asset' only; page_events has utm_source/utm_content; the growth-youtube branch is NOT in the released app.
+
+### [2026-09-29 16:06] CODEX
+CLAIM: visual-references/**, claude-memory/project_visual_references.md, claude-memory/MEMORY.md, wiki/index.md (append), wiki/log.md (append). Founder requested a shared visual taste library. No app edits. Lock: CODEX ACTIVE for these files.
+
+
+### [2026-09-29 16:07] CODEX
+DONE: visual-references/{README.md,reference-notes.md,taste-profile.md,inbox/README.md,boards/README.md}, claude-memory/project_visual_references.md, memory index, wiki index and log. Created founder-requested shared visual taste library; original references preserved, no product changes. The claim above is released; all locks for this task cleared.

@@ -293,3 +293,7 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 - [[website-audit-2026-09-19]] — full-site scan: 3 fixed live, 14 ranked findings with Codex execution order. synthesis. 2026-09-19
 - [[phase6-outreach-product-brief]] — Phase 6: the Today queue, formula drafts, command palette; team and file ownership. synthesis, 2026-09-20
 - [[kendo-gap-review-2026-09-20]] — file-level list of what still reads as html next to Kendo, ranked, with a four-batch fix order. synthesis, 2026-09-20
+
+## Visual reference library
+
+- [[visual-references/README]] - Founder's shared image and brand inspiration library, with reference notes and an evidence-based taste profile. [design, brand] 2026-09-29.
