@@ -3,7 +3,7 @@ type: concept
 tags: [content, copywriting, voice, outreach, vsl, email, ai-tells, humanizer]
 sources: [[raw-sources/prompts/outreach-asset-prompt]], [[content-engine/packaging-rules]]
 created: 2026-06-01
-updated: 2026-06-01
+updated: 2026-09-29
 ---
 
 # Copy voice guide — AI tells to avoid
@@ -82,6 +82,8 @@ Before any DM, script, email, or page goes out, scan for these eight — they co
 ## How Pulsify uses this
 
 This is now the default voice for everything the AI drafts. When generating any asset through [[raw-sources/prompts/outreach-asset-prompt]] or any other route, apply these rules in the final pass before output. When linting the wiki, flag prose pages that violate them. When a sales asset deliberately breaks a rule for effect, that is allowed once and on purpose — the ban is on the reflex, not the considered choice.
+
+Added 2026-09-29 ([[synthesis/dustin-varano-the-keys]]): the fastest fix for templated AI copy is better examples, not more instructions. Give the model 2-3 real pieces in the exact format being written, then read the draft out loud; if it still sounds templated, swap in better examples instead of editing line by line.
 
 ## Connections
 

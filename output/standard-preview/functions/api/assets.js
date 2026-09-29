@@ -44,7 +44,10 @@ async function handle_onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const clientParam = url.searchParams.get("client");
   const client = clientParam == null ? null : cleanId(clientParam);
-  const where = client == null ? "WHERE l.archived=0" : "WHERE l.archived=0 AND l.client=?";
+  // Per-video YouTube links (kind='video') live on the client's Videos by cash view, not here.
+  const where = client == null
+    ? "WHERE l.archived=0 AND COALESCE(l.kind,'asset')='asset'"
+    : "WHERE l.archived=0 AND COALESCE(l.kind,'asset')='asset' AND l.client=?";
   const statement = env.DB.prepare(
     `SELECT
        l.token,l.label,l.target_url,l.lead_email,l.client,l.created_at,

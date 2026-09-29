@@ -3,7 +3,7 @@ type: framework
 tags: [content, instagram, story-sequences, funnel]
 sources: [[wiki/synthesis/niksetting-extractions/07-story-sequences-7-frameworks]], [[wiki/synthesis/niksetting-extractions/06-200k-months-amer-case-study]], [[wiki/synthesis/niksetting-extractions/21b-masterclass-part-2]], [[wiki/synthesis/niksetting-extractions/21c-masterclass-part-3]], [[wiki/synthesis/niksetting-extractions/21d-masterclass-part-4]], [[wiki/synthesis/niksetting-extractions/04-conversion-content-five-assets]], [[wiki/synthesis/cross-creator-synthesis]]
 created: 2026-07-11
-updated: 2026-07-11
+updated: 2026-09-29
 ---
 
 # The story sequence system
@@ -116,6 +116,8 @@ The default conversion sequence shape (from the Amer case, [[synthesis/niksettin
 - Slides 1-3 of the 9-slide frame are the least specified part of the source material; the generator should treat them as flexible (pattern interrupt + proof/value) until our own data says more.
 - Cadence numbers are the source's, not yet ours; first 30 days on Pulsify's own profile are the calibration run.
 - The visual layer (what winning slides actually look like) awaits the founder's screenshot ingestion.
+
+- Candidate variant, not canon (added 2026-09-29, single source: Dustin Varano, [[synthesis/dustin-varano-the-keys]]): the "Decoded Result", a credibility sequence built on ONE result instead of stacked wins. Slide 1 states the result plainly ("$6,000 paid in full off one YouTube video, here's what went into every part"), then one slide per component that produced it, in the order it happened, each naming the component and why it worked. Calm and analytical tone, raw photo with native text and a drop shadow, a low-pressure keyword-reply CTA. Worth a side-by-side test against type 2 (result stacking) before it enters the canon. His own example leans on luxury backdrops; the Pulsify version would use work screenshots.
 
 ## Source trail
 

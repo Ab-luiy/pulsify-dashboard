@@ -39,6 +39,7 @@ class MockDB {
       snapshots: seed.snapshots || [],
       stories: seed.stories || [],
       contract_provisioning: seed.contract_provisioning || [],
+      yt_videos: seed.yt_videos || [],
       integration_events: seed.integration_events || [],
       payments: seed.payments || [],
       client_provisioning: seed.client_provisioning || [],
@@ -277,7 +278,7 @@ class MockStmt {
     if (sql.startsWith("INSERT INTO page_events")) {
       const [
         client, visitorId, sessionId, pageId, event, email, path, referrer,
-        utmJson, metadataJson, ip, country, city, userAgent, at,
+        utmJson, metadataJson, ip, country, city, userAgent, utmSource, utmContent, at,
       ] = p;
       const row = {
         id: state.page_events.length + 1,
@@ -295,6 +296,8 @@ class MockStmt {
         country,
         city,
         user_agent: userAgent,
+        utm_source: utmSource,
+        utm_content: utmContent,
         at,
       };
       state.page_events.push(row);
@@ -1290,6 +1293,7 @@ async function runClientDeletionChecks() {
       watch_events: 0,
       asset_links: 0,
       asset_events: 0,
+      yt_videos: 0,
       client_media_order: 0,
       copywriter_usage: 0,
       impersonation_sessions: 0,

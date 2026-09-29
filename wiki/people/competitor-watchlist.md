@@ -29,7 +29,7 @@ These are the operators Marcus-stage prospects are weighing Pulsify against, or 
 | Mason Bowstead — [@masonibowstead](https://www.instagram.com/masonibowstead/) | partial — referenced in founder page (podcast appearance); no dedicated page yet | — |
 | Max Hauschka — [@maxxinhouse](https://www.instagram.com/maxxinhouse/) | pending ingest | flagged by founder for "no risk reversal" positioning model |
 | Sawyer Kvertz — [@sawyerkvertz](https://www.instagram.com/sawyerkvertz/) | pending ingest | — |
-| Varano (Dustin) — [@varano](https://www.instagram.com/varano/) | pending ingest | — |
+| Varano (Dustin) — [@varano](https://www.instagram.com/varano/) | ingested — [[people/dustin-varano]]; InfoOS at [[synthesis/dustin-varano-infoos-teardown]], The Keys at [[synthesis/dustin-varano-the-keys]] | sources: `raw-sources/inspiration/dustin-varano-infoos/`, `raw-sources/inspiration/dustin-varano-the-keys-notes.md` |
 
 ## How to ingest one
 

@@ -3,7 +3,7 @@ type: playbook
 tags: [offer, pricing, mechanism, avatar, high-ticket, mid-ticket]
 sources: [[raw-sources/sops/Offer-Funnel-Content SOP.pdf]]
 created: 2026-05-02
-updated: 2026-05-02
+updated: 2026-09-29
 ---
 
 # Offer creation
@@ -119,6 +119,8 @@ Offer creation is the bottleneck in the majority of day-one client audits. When 
 Pulsify builds the offer collaboratively with the client: the client provides the delivery model and the result data; Pulsify provides the mechanism naming, the positioning statement, and the pricing strategy.
 
 Once the offer is complete, it becomes the anchor for every downstream page, script, and sequence. The VSL is built around it. The Profile Funnel bio references it. The hammer them content is built from its objections and questions.
+
+Added 2026-09-29, cross-check from Dustin Varano ([[synthesis/dustin-varano-the-keys]]): his ICP rule is to build for people already winning, not beginners (fewer headaches, higher close rates, more PIFs, premium pricing), which matches our own targeting of coaches already doing $10-35k a month. His offer breakdown runs nine sections (buyer, transformation, timeframe, named system, evidence, pricing, the funnel from opt-in to post-call automations, false beliefs with headline angles, compliance), a useful completeness check against the offer architecture above. His intake also pulls the client's social posts and comment sections to capture voice and objections, and uses 3-5 voice memos when a client has no social presence.
 
 ## Connections
 

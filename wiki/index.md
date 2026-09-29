@@ -16,6 +16,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[people/marcus-avatar]] | Full 28-point ICP profile for "Ambitious Stalled Marcus" — Pulsify's primary prospect | 2026-05-02 |
 | [[people/alexei]] | CEO of Info Accelerator, $58K/month from 4,500 subs — the proof-of-concept for Pulsify's micro niche thesis | 2026-05-02 |
 | [[people/ayman-arab]] | $100K+/month YouTube operator — source of three content types, packaging rules, and tracking framework | 2026-05-02 |
+| [[people/dustin-varano]] | Info operator (flywheel VSL, InfoOS software, 1:1 mentorship to operators); everything sourced to his video and lead magnet, revenue claims unverified | 2026-09-29 |
 | [[people/jeremy-haynes]] | Call funnel architect — source of hammer them, VSL framework, webinar framework, and financial modeling | 2026-05-02 |
 | [[people/daniel-fazio]] | Client Ascension / Olympia operator source for agency offer packaging, VSL/call funnel assets, and staged scaling logic | 2026-05-09 |
 | [[people/serge-gatari]] | AI infrastructure positioning source: do not sell tools or agents, sell installed growth infrastructure | 2026-05-09 |
@@ -34,6 +35,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[concepts/profile-funnel]] | Pulsify's default conversion mechanism, REWRITTEN 2026-07-12 with full slide-level mechanics from the originator's corpus: 3-second bio, trigger words, start-here, DM rules, 24h-7d cycle | 2026-05-02 |
 | [[concepts/unique-mechanism]] | The named proprietary methodology that differentiates every coach's offer; must exist before anything else is built | 2026-05-02 |
 | [[concepts/hammer-them-strategy]] | 15–20 retargeting pieces + 6 emails/day pre-call → 60–70%+ show rates | 2026-05-02 |
+| [[concepts/flywheel-vsl]] | One 1-6 hour YouTube video teaching the whole model, all other videos link to it; Dustin Varano's method, Pulsify version drops the lifestyle hook; untested with clients | 2026-09-29 |
 | [[concepts/content-funnel-tof-mof-bof]] | Three-layer content funnel: attract, nurture, convert — every video has a specific job | 2026-05-02 |
 | [[concepts/micro-niche-youtube]] | Go one level deeper than the obvious niche on YouTube; $800–$1,200 per 100 views | 2026-05-02 |
 | [[concepts/trust-recession]] | The 2025–2026 market condition where prospects have been burned enough that lifestyle proof no longer converts | 2026-05-02 |
@@ -201,6 +203,10 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[synthesis/soowei-goh-extractions/05-industry-predictions-blueprint]] | The three predictions: sales calls die, lifestyle marketing dies, value content dies to AI (missions survive); freebie challenge funnel, client documentaries, the middle squeeze | 2026-07-11 |
 | [[synthesis/cross-creator-synthesis]] | THE verdict layer: 18 corroborated laws, 7 contested dials with defaults, single-source registers, and the fusion thesis (Niksetting craft on SooWei OS with Pulsify proof currency) | 2026-07-11 |
 | [[synthesis/portal-content-studio-spec]] | FULL client-dashboard spec (founder-directed): login, 8 sections (revenue/content/metrics/team/momentum/plans/to-dos/content-studio), complete two-creator metrics inventory, 4 Codex build phases - fire gated on founder go | 2026-07-12 |
+| [[synthesis/dustin-varano-the-keys]] | Dustin Varano's 13-SOP lead magnet folded in as extra knowledge: what each key adds, where it now lives, where it contradicts Pulsify (lifestyle hook, funnel-layer labels), unverified algorithm claims | 2026-09-29 |
+| [[synthesis/cash-by-video-spec]] | Build spec (ticket #36): tracked link per YouTube video, client portal ranks videos by cash collected; credit rules, six build pieces, limits, done-when | 2026-09-29 |
+| [[synthesis/dustin-varano-video-as-brief]] | Dustin Varano's InfoOS video read from 1:52 as a brief to Pulsify, in his order: each instruction, where we stand in code, what we apply with our twist; adds the student-call delivery lessons (call-day result stories, pre-sold trigger for a VSL page, forecasts) and a 5-step build order | 2026-09-29 |
+| [[synthesis/dustin-varano-infoos-teardown]] | Screen-by-screen inventory of Dustin Varano's InfoOS (tracking, Ask OS, funnels, analytics, Close CRM sync, sales team forms, commissions, AI fix list) mapped to take now / take with a sales team / skip for the Pulsify portal | 2026-09-29 |
 | [[synthesis/growth-section-plan-2026-09-25]] | Audit of the client portal Growth section (menus not a loop, duplicated jobs, buried next step, lost reel ideas) and a proposed rebuild as This week, Create, Library, Results; five founder decisions incl. who runs the AI | 2026-09-25 |
 | [[synthesis/instagram-project-fable-handoff]] | THE handoff: what's done (34 extractions, 9 pillars, 2 skills), what's live (dashboard P1-P3), what's decided (7 ratified dials, proof currency), what's left in build order; the page the next model reads first | 2026-07-12 |
 
@@ -277,6 +283,8 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 | `raw-sources/inspiration/jordan-platten-agencies-dying-interview-notes.md` | Transcript-derived notes | [[synthesis/jordan-platten-agency-systems-patterns]], [[people/jordan-platten]] |
 | `raw-sources/inspiration/jeremy-haynes-inner-circle-page-notes.md` | Sales page notes | [[synthesis/jeremy-haynes-inner-circle-page-analysis]], [[people/jeremy-haynes]], [[frameworks/vsl-framework]] |
 | `raw-sources/inspiration/prospect-funnel-reference-library-2026-06-30.md` | Approved live funnel capture | [[synthesis/prospect-funnel-reference-library]], [[synthesis/vsl-pattern-lab]], [[playbooks/pulse-system-outreach]] |
+| `raw-sources/inspiration/dustin-varano-the-keys-notes.md` | Lead magnet notes (13 SOPs, paraphrased) | [[synthesis/dustin-varano-the-keys]], [[concepts/flywheel-vsl]], [[people/dustin-varano]] |
+| `raw-sources/inspiration/dustin-varano-infoos/` | Video screen captures (22 frames + README), full auto-caption transcript, founder screenshot drop folder | [[synthesis/dustin-varano-infoos-teardown]], [[synthesis/dustin-varano-video-as-brief]], [[people/competitor-watchlist]] |
 
 ## Founder packaging reference collection
 
@@ -285,3 +293,7 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 - [[website-audit-2026-09-19]] — full-site scan: 3 fixed live, 14 ranked findings with Codex execution order. synthesis. 2026-09-19
 - [[phase6-outreach-product-brief]] — Phase 6: the Today queue, formula drafts, command palette; team and file ownership. synthesis, 2026-09-20
 - [[kendo-gap-review-2026-09-20]] — file-level list of what still reads as html next to Kendo, ranked, with a four-batch fix order. synthesis, 2026-09-20
+
+## Visual reference library
+
+- [[visual-references/README]] - Founder's shared image and brand inspiration library, with reference notes and an evidence-based taste profile. [design, brand] 2026-09-29.

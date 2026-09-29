@@ -3,7 +3,7 @@ type: playbook
 tags: [delivery, sop, onboarding, client, pulse-system]
 sources: [[wiki/concepts/pulse-system-mechanism]], [[wiki/playbooks/pulsify-offer-v1]]
 created: 2026-05-10
-updated: 2026-05-10
+updated: 2026-09-29
 ---
 
 # Pulsify delivery SOP
@@ -171,6 +171,10 @@ Per [[playbooks/exam-mode-autonomous-ops]]:
 | Wistia / VSL host | VSL hosting and analytics |
 | Stripe / payment processor | revenue source of truth |
 | Claude project | the client's Brand Brain and agent |
+
+## Call-to-SOP rule (added 2026-09-29)
+
+From Dustin Varano ([[synthesis/dustin-varano-the-keys]]): any question answered on a client call that no existing SOP or playbook covers becomes one the same day. Pull the transcript (Fathom), extract each question and the answer actually given, write one standalone page per topic in the vault format, and fill only obvious gaps without inventing. Plus a weekly pass across all calls. This is the vault's own ingest habit applied to delivery calls.
 
 ## Connections
 

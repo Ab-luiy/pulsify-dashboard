@@ -68,6 +68,8 @@
 - [Operator console + wizard](project_operator_console.md) - /admin unifies all 4 admin pages plus the 8-step add-client wizard, both live
 - [Admin key access](project_admin_key_access.md) - ROTATED 2026-09-17: key lives in gitignored .env as FUNNELS_ADMIN_KEY (vault root + dashboard checkouts) and in Cloudflare; read it from the file, never print it, never ask him; /api/crm-sync currently 401s any admin key until Codex redeploys/fixes
 - [Growth = service delivery, TOP priority](project_growth_service_delivery.md) - 2026-09-25: client portal Growth is the fulfillment; self-learning AI on our data (no own model, no 30/day cap), review gate on; 2026-09-26 REELS OUT, #1 = creating a full YouTube video, then story sequences, carousels last; structure undecided; plan in wiki/synthesis/growth-section-plan-2026-09-25.md
+- [Cash by video LIVE (#36)](project_cash_by_video.md) - 2026-09-29: per-video description + pinned-comment links, portal /portal/youtube/cash ranks videos by cash; first-touch credit, confirmed payments only; open: founder's own channel first, flywheel link decision
+- [Growth voice note 2026-09-28](project_growth_voice_note_2026_09_28.md) - portal purpose undecided (guided operator recommended), his YouTube ideation questions + formats, BOF contradiction, backlog incl. landing builder, Miro, Joel Kaplan reels SOP, Dustin Varano InfoOS teardown (done, wiki/synthesis), webinars, walkthrough video
 - [Client integrations PARKED](project_client_integrations_parked.md) - 2026-09-24: client sign-in integrations (#15) wait until the first client signs AND pays; then Zernio per-client for IG/YouTube (~$12/mo per client), own OAuth for Kit/Calendly/Stripe
 - [Integrations hub I1 live](project_integrations_hub_i1.md) - /integrations UI, D1 integrations/payments, Mark-paid onboarding trigger, webhooks, Discord alerts, all live; RULE: non-null getters delete !cfg gates; user-side = Kit key + Discord webhook
 - [Two-portal reskin](project_portal_reskin.md) - live operator design is MIRAGE; client client.html Atelier design finished but never deployed
@@ -105,3 +107,7 @@
 - [Brain online backup](project_brain_online_backup.md) - the whole brain syncs both ways with private repo Ab-luiy/pulsify-brain: SessionStart pulls, Stop pushes, hourly task; new device = clone plus ./setup-autosync.ps1 plus recreate .env; see RESTORE.md
 - [Cloudflare MCP + skills](project_cloudflare_mcp_setup.md) - LIVE 2026-08-13: 13 skills plus all 5 MCP servers connected; api/builds/observability are read-only, bindings has full access (D1 writes - treat as dangerous); OAuth needs a TTY so only he can run `claude mcp login`
 - [Health tracker workflow](project_health_tracker.md) - Health tab logs calories and macros; he dictates meals or sends photos and I log via Chrome automation; cut 110 to 80kg, 1800 kcal, OMAD
+
+## Visual references
+
+- [Founder visual taste library](project_visual_references.md) - shared visual-references/ folder; images in inbox, reference notes, growing taste profile and boards; read before aesthetic work.

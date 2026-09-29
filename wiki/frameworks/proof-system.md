@@ -3,7 +3,7 @@ type: framework
 tags: [content, sales, positioning, instagram]
 sources: [[wiki/synthesis/niksetting-extractions/21d-masterclass-part-4]], [[wiki/synthesis/niksetting-extractions/06-200k-months-amer-case-study]], [[wiki/synthesis/soowei-goh-extractions/05-industry-predictions-blueprint]], [[wiki/synthesis/soowei-goh-extractions/03-408k-personal-brand-with-ai]], [[wiki/synthesis/cross-creator-synthesis]]
 created: 2026-07-12
-updated: 2026-07-12
+updated: 2026-09-29
 ---
 
 # The proof system
@@ -38,6 +38,8 @@ Testimonial collection "will be the most important system in your business." Pro
 3. **Interior notes:** the coach records the before-state (the first sales call, the pain) when it happens — the documentary's raw material.
 4. **Community moments as proof:** retreats, awards, milestone rituals — filmed by default; one retreat = an evergreen proof asset (4-5 interviews per event). **Pulsify version:** milestone rituals in student communities (funded-pass walls, first-10K-month shoutouts), never watch-buying trends.
 5. **Referral capture at proof moments:** the "who do you know" ask lands best right after a win is packaged.
+
+6. **Same-day capture (added 2026-09-29, single source: Dustin Varano).** The testimonial window is the moment of the win; the emotion cools within days. Watch DMs, group chats and calls for win moments and check in around known milestones. Reference a specific line from where they started (the call recording's summary is the objective "before", stronger than our own claim), get the client to state the timeframe themselves, and record a 5-10 minute interview segment at the end of a normal call the same day. Ask again at every new milestone. Placement rule from the same source: proof works hardest right after the lesson that produced it, never on a separate wins slide ([[concepts/flywheel-vsl]]). Source: [[synthesis/dustin-varano-the-keys]].
 
 ## Deployment surfaces
 

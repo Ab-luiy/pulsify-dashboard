@@ -1,0 +1,279 @@
+{
+  "schema_version": "1.0",
+  "name": "Bakers Studio liquid gradients / Pulsify study",
+  "review_date": "2026-09-29",
+  "source": {
+    "url": "https://x.com/studiobakers/status/2102349193881006288",
+    "account": "studiobakers",
+    "post_text": "animated liquid gradients",
+    "brand_visible": "handhold",
+    "linked_site": "https://handhold.io",
+    "attribution": "Reference by Bakers Studio; original project files and renderer unknown"
+  },
+  "inspection": {
+    "method": "All three downloaded source clips sampled at 0, 2, 4, 6, 8, 10 seconds; full-resolution 4-second frame inspected for texture; metadata and approximate color quantization extracted locally.",
+    "limits": [
+      "Frame sampling supports broad motion structure, not precise easing or every transition.",
+      "Original shader, noise implementation, blur radius and exact brand colors are unknown.",
+      "No claim that source clips loop seamlessly; first/last frame differences are nonzero.",
+      "Reference is gradient motion, not evidence of glass UI implementation."
+    ]
+  },
+  "media": [
+    {
+      "file": "source-2102349049072656384.mp4",
+      "fps": 60.0,
+      "frames": 670.0,
+      "duration_seconds": 11.166666666666666,
+      "width": 2160.0,
+      "height": 3052.0,
+      "sample_times": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "file": "source-2102349051048148994.mp4",
+      "fps": 60.0,
+      "frames": 670.0,
+      "duration_seconds": 11.166666666666666,
+      "width": 2160.0,
+      "height": 3052.0,
+      "sample_times": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
+    },
+    {
+      "file": "source-2102349051610206208.mp4",
+      "fps": 60.0,
+      "frames": 670.0,
+      "duration_seconds": 11.166666666666666,
+      "width": 2160.0,
+      "height": 3052.0,
+      "sample_times": [
+        0,
+        2,
+        4,
+        6,
+        8,
+        10
+      ]
+    }
+  ],
+  "visual_observations": {
+    "composition": "Full-bleed portrait fields with large curved bands and bulbous areas continuing beyond frame; fixed small top logo and footer in source.",
+    "geometry": [
+      "broad S-curves",
+      "narrow light seams between wider color fields",
+      "local pinching and widening",
+      "few large shapes rather than many small blobs"
+    ],
+    "edges": "Soft diffused transitions with enough local contrast to reveal the folds.",
+    "depth": "Impression of defocused liquid or translucent folded material; no hard 3D geometry.",
+    "texture": "Fine low-contrast grain visible in enlarged frames; not coarse stone, clouds or scratches.",
+    "palette_families": [
+      {
+        "id": "2102349051610206208",
+        "description": "mint, vivid green, aqua and pale cream"
+      },
+      {
+        "id": "2102349051048148994",
+        "description": "warm yellow/gold, sky blue, muted blue-gray and cream"
+      },
+      {
+        "id": "2102349049072656384",
+        "description": "coral/orange, warm peach, soft yellow and cream"
+      }
+    ]
+  },
+  "palette_measurements": [
+    {
+      "file": "source-2102349049072656384.mp4",
+      "palette_method": "6-color median-cut on central 80 percent at t=4s, resized 240x340; approximate compressed-pixel colors, not brand tokens",
+      "palette": [
+        {
+          "hex": "#eedab7",
+          "fraction": 0.207
+        },
+        {
+          "hex": "#eddbc6",
+          "fraction": 0.192
+        },
+        {
+          "hex": "#ebe9de",
+          "fraction": 0.169
+        },
+        {
+          "hex": "#ebe6da",
+          "fraction": 0.165
+        },
+        {
+          "hex": "#ece3d3",
+          "fraction": 0.144
+        },
+        {
+          "hex": "#efc5a7",
+          "fraction": 0.123
+        }
+      ],
+      "first_last_mean_absolute_rgb_difference_0_255": 12.65
+    },
+    {
+      "file": "source-2102349051048148994.mp4",
+      "palette_method": "6-color median-cut on central 80 percent at t=4s, resized 240x340; approximate compressed-pixel colors, not brand tokens",
+      "palette": [
+        {
+          "hex": "#f1cc77",
+          "fraction": 0.194
+        },
+        {
+          "hex": "#eae8dd",
+          "fraction": 0.19
+        },
+        {
+          "hex": "#a6c3d1",
+          "fraction": 0.171
+        },
+        {
+          "hex": "#ece3ce",
+          "fraction": 0.15
+        },
+        {
+          "hex": "#ded4bc",
+          "fraction": 0.15
+        },
+        {
+          "hex": "#e2e4db",
+          "fraction": 0.144
+        }
+      ],
+      "first_last_mean_absolute_rgb_difference_0_255": 33.46
+    },
+    {
+      "file": "source-2102349051610206208.mp4",
+      "palette_method": "6-color median-cut on central 80 percent at t=4s, resized 240x340; approximate compressed-pixel colors, not brand tokens",
+      "palette": [
+        {
+          "hex": "#b4f0d9",
+          "fraction": 0.21
+        },
+        {
+          "hex": "#8ef4d3",
+          "fraction": 0.203
+        },
+        {
+          "hex": "#5ef9c2",
+          "fraction": 0.158
+        },
+        {
+          "hex": "#a0f3d6",
+          "fraction": 0.157
+        },
+        {
+          "hex": "#c9eedc",
+          "fraction": 0.143
+        },
+        {
+          "hex": "#ddece1",
+          "fraction": 0.129
+        }
+      ],
+      "first_last_mean_absolute_rgb_difference_0_255": 35.8
+    }
+  ],
+  "motion_observations": {
+    "evidence_times_seconds": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+    ],
+    "behavior": "Large color boundaries bend and displace continuously across sampled states; bands widen, narrow and curl while static branding stays anchored.",
+    "green": "Pale curved seam and saturated green regions migrate and bend, alternately opening larger light areas and closing them.",
+    "blue_yellow": "Diagonal blue channel and pale seam sweep into larger curved contours as warm yellow areas expand and contract.",
+    "coral": "Broad pale center is reshaped by coral edge bands and soft warm lobes.",
+    "not_established": [
+      "exact velocity field",
+      "exact easing",
+      "whether grain animates independently",
+      "seamless-loop period",
+      "source authoring tool"
+    ]
+  },
+  "pulsify_adaptation": {
+    "status": "proposed execution recipe; Graphite base and perimeter-only placement confirmed by founder",
+    "palette": {
+      "near_black": "#101112",
+      "charcoal": "#242628",
+      "graphite": "#55595D",
+      "silver": "#A9ADB0",
+      "off_white": "#F1F2F2"
+    },
+    "layout": {
+      "sidebar": "fixed solid dark, flush left; logo above interactive name",
+      "main_panel": "opaque charcoal, independent four rounded corners",
+      "background": "only around main panel on all four sides, including sidebar-to-panel gutter; never through internal card gaps"
+    },
+    "material": "Use the source ribbon deformation and delicate grain, recolored to charcoal/silver. Keep silver peaks restrained for a dark theme.",
+    "motion": "Slow ambient continuous deformation, no visible start-stop bounce or scene cuts; section variants change seed/orientation while keeping palette.",
+    "excluded": [
+      "source logos and footer copy",
+      "bright source palettes automatically replacing Graphite",
+      "coarse crunchy grain",
+      "scattered digit confetti",
+      "glow around every card"
+    ]
+  },
+  "reproduction_starting_points": {
+    "status": "engineering estimates to test, not extracted source parameters",
+    "preferred_method": "procedural shader for controllable continuous motion; raster generation for still keyframes only",
+    "construction": [
+      "start with low-frequency smooth scalar field",
+      "domain-warp its coordinates with two smoothly varying fields",
+      "map field values through a compact palette ramp to create broad ribbons and light seams",
+      "add fine low-amplitude grain after color interpolation",
+      "mask rendered result to dashboard surround"
+    ],
+    "suggested_ranges": {
+      "major_shapes": 3,
+      "warp_amplitude_normalized": [
+        0.08,
+        0.22
+      ],
+      "grain_luminance_amplitude": [
+        0.01,
+        0.025
+      ],
+      "ambient_cycle_seconds": [
+        24,
+        40
+      ],
+      "render_fps_cap": 30
+    },
+    "accessibility_performance": [
+      "static frame under prefers-reduced-motion",
+      "pause rendering when hidden",
+      "do not animate text or dashboard metrics with background",
+      "check contrast on all glass controls",
+      "test GPU cost on representative devices"
+    ],
+    "loop": "Use periodic time coordinates if a seamless loop is required; verify first/last frame continuity."
+  },
+  "generation_prompts": {
+    "source_style_still": "Original abstract full-bleed liquid color study: a few broad flowing ribbons, softly pinched S-curves, diffused light seams, smooth large color fields and extremely fine analog grain. Defocused translucent material, rich local color with generous calm areas. No logo, words, UI, hard edges, stars, scratches or noisy cloud texture.",
+    "pulsify_graphite_still": "Original dark Graphite liquid background, broad charcoal and smoky silver ribbons bending softly through near-black, narrow diffused gray light seams and delicate fine film grain. Gentle material depth, low contrast overall, no marble veins, no rock texture, no text, no logos, no bright rainbow or metallic chrome. Intended only for the outer surround of a solid dark dashboard.",
+    "motion_brief": "Continuously bend and stretch broad liquid bands through slow smooth domain deformation. Shapes evolve rather than translating as a rigid wallpaper. Keep grain delicate and luminance calm. Use a static fallback for reduced motion. This is a proposed original adaptation, not the recovered source animation."
+  },
+  "usage": "Use JSON together with source frames, not as a substitute for seeing them. Generate original assets; retain source attribution in reference library."
+}

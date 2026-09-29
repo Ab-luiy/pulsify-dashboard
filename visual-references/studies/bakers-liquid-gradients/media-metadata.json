@@ -1,0 +1,50 @@
+[
+  {
+    "file": "source-2102349049072656384.mp4",
+    "fps": 60.0,
+    "frames": 670.0,
+    "duration_seconds": 11.166666666666666,
+    "width": 2160.0,
+    "height": 3052.0,
+    "sample_times": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+    ]
+  },
+  {
+    "file": "source-2102349051048148994.mp4",
+    "fps": 60.0,
+    "frames": 670.0,
+    "duration_seconds": 11.166666666666666,
+    "width": 2160.0,
+    "height": 3052.0,
+    "sample_times": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+    ]
+  },
+  {
+    "file": "source-2102349051610206208.mp4",
+    "fps": 60.0,
+    "frames": 670.0,
+    "duration_seconds": 11.166666666666666,
+    "width": 2160.0,
+    "height": 3052.0,
+    "sample_times": [
+      0,
+      2,
+      4,
+      6,
+      8,
+      10
+    ]
+  }
+]

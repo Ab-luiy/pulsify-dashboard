@@ -3,7 +3,7 @@ type: concept
 tags: [youtube, content, niche, audience, micro-niche, alexei]
 sources: [[raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md]]
 created: 2026-05-02
-updated: 2026-05-02
+updated: 2026-09-29
 ---
 
 # Micro niche YouTube
@@ -108,6 +108,8 @@ Production stack:
 - Miro board ($300–$400/month VA builds them)
 - Laptop camera or OBS Studio
 - No villa, no production crew, no editors required at launch
+
+Added 2026-09-29 from [[synthesis/dustin-varano-the-keys]]: Dustin Varano's Miro method is the most detailed build process on file. Outline first in pillars, bullets and sub-bullets; open the board with a real result; mostly real screenshots and simple diagrams with one-line notes to film from ("if the text is longer than the visual, it's wrong"); each testimonial placed right after the method that produced it; one hard CTA at the end. His longest format, the [[concepts/flywheel-vsl]], is a single multi-hour Miro video. He reports the same low-view logic as this page: niche, technical videos only get clicked by people already in the model, and YouTube learns to show them to more of the same.
 
 ## How Pulsify uses this
 

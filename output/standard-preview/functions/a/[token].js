@@ -10,7 +10,7 @@ export async function onRequestGet(context) {
   let link;
   try {
     link = await env.DB.prepare(
-      `SELECT token, client, label, target_url, lead_email
+      `SELECT token, client, label, target_url, lead_email, kind, video_id, placement
          FROM asset_links
         WHERE token=? AND archived=0
         LIMIT 1`,
@@ -25,7 +25,24 @@ export async function onRequestGet(context) {
   if (typeof context.waitUntil === "function") context.waitUntil(trackingTask);
   else await trackingTask;
 
+  if (link.kind === "video") return redirect(videoTarget(request, link));
   return redirect(isHttpUrl(link.target_url) ? link.target_url : FALLBACK_URL);
+}
+
+// Cash by video (pulsify-saas #36): a video link lands on the client's page
+// wearing the four tags the landing tracker records. Anything already on the
+// target's query string is kept.
+export function videoTarget(request, link) {
+  const client = String(link.client || "").replace(/[^a-z0-9_-]/gi, "");
+  const base = isHttpUrl(link.target_url)
+    ? link.target_url
+    : client ? `${new URL(request.url).origin}/${client}` : FALLBACK_URL;
+  const url = new URL(base);
+  url.searchParams.set("utm_source", "youtube");
+  url.searchParams.set("utm_medium", link.placement || "description");
+  url.searchParams.set("utm_campaign", client || "pulsify");
+  url.searchParams.set("utm_content", link.video_id || "channel");
+  return url.toString();
 }
 
 async function recordOpen(env, request, link) {
@@ -54,6 +71,9 @@ async function recordOpen(env, request, link) {
   } catch {
     // Tracking must never block the prospect's redirect.
   }
+
+  // Video links can be clicked hundreds of times a day; they never ping.
+  if (link.kind === "video") return;
 
   try {
     await sendDiscordAlert(env, {

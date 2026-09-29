@@ -3,7 +3,7 @@ type: concept
 tags: [content, youtube, conversion, funnel]
 sources: [[raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md]], [[raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md]]
 created: 2026-05-02
-updated: 2026-05-02
+updated: 2026-09-29
 ---
 
 # Content funnel — TOF, MOF, BOF
@@ -106,6 +106,13 @@ Per Ayman: use Trakyo (trakyo.io; transcribed as "Trackio") to track calls booke
 - **Clicks high but calls not booking** → BOF content is missing or weak
 - **Calls booking but not converting** → offer or funnel needs attention (not a content problem)
 - **No tracking at all** → you're flying blind; this is the default state for most creators
+- Pulsify is building this tracking into the client portal: [[synthesis/cash-by-video-spec]] (ticket #36) ranks every video by cash collected, not views.
+
+## Outside view: Dustin Varano's layer model (added 2026-09-29)
+
+Logged as extra context, not adopted. Dustin's layers: TOF = lifestyle vlogs (most views, weakest leads), MOF = one multi-hour "flywheel" video that does the pre-selling ([[concepts/flywheel-vsl]]), BOF = in-depth breakdowns for people who already understand the model, plus a separate proof layer (testimonials, case studies).
+
+> ⚠️ Contradiction: this page defines TOF as searchable how-tos and belief shifts and puts in-depth breakdowns in MOF. Dustin puts lifestyle vlogs in TOF and in-depth breakdowns in BOF. Resolution: keep this page's definitions; Pulsify does not post lifestyle content. The useful parts of his model are the linking rule (every supporting video points to one anchor video) and his agreement with the 400-vs-2,000-view point above: niche, low-view breakdowns bring the highest-intent viewers. Source: [[synthesis/dustin-varano-the-keys]].
 
 ## Connections
 

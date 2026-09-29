@@ -96,6 +96,13 @@ Active claims only. Clear your row when done.
 | September 22 founder feedback: output/standard-preview outreach/queue/CRM/social views and supporting APIs/tests; wiki/log.md | CODEX | DONE | Released; 119 tests and browser flows pass. See output/qa/2026-09-prospects/RELEASE.md for limitations. |
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| wiki/synthesis/infoos-placement-map.md (new), wiki/index.md, wiki/log.md (append) | CLAUDE | DONE | wiki/synthesis/infoos-placement-map.md written (index/log not updated, usage limit). Locks cleared. |
+| raw-sources/inspiration/dustin-varano-infoos/README.md, wiki/synthesis/dustin-varano-video-as-brief.md, wiki/log.md (append) | CLAUDE | DONE | 52 screenshots mapped in the README, design and missing-element findings added to the brief page. Docs only. Locks cleared. |
+| raw-sources/inspiration/dustin-varano-infoos/{screenshots/ (new, founder drop folder), transcript.txt (new)}, wiki/synthesis/dustin-varano-video-as-brief.md (new), wiki/synthesis/dustin-varano-infoos-teardown.md, wiki/people/dustin-varano.md, wiki/index.md, wiki/log.md (append) | CLAUDE | DONE | InfoOS video read as a brief (new synthesis page), transcript saved, screenshot folder created, links/index/log updated. Docs only, no code. Locks cleared. |
+| output/standard-preview/{migrations/0043_cash_by_video.sql, functions/_shared/video-cash.js (new), functions/api/video-cash.js (new), functions/event.js, functions/a/[token].js, functions/api/assets.js, functions/api/settings.js, workers/sync/src/{index.js,jobs/client-videos.js}, tests/{cash-by-video.test.mjs,i1-checks.mjs}}; pulsify-saas branch claude/cash-by-video (src/features/portal-youtube/**, src/lib/api/video-cash.ts, src/lib/queries.ts, src/app/portal/youtube/cash/**, tests) | CLAUDE | DONE - deployed | #36 cash by video live: Pages d0e6c7b3, worker 7fcf777c, migration 0043. Locks cleared. |
+| raw-sources/inspiration/dustin-varano-the-keys-notes.md (new), wiki/synthesis/dustin-varano-the-keys.md (new), wiki/concepts/flywheel-vsl.md (new), wiki/people/dustin-varano.md (new), wiki/concepts/{content-funnel-tof-mof-bof,micro-niche-youtube}.md, wiki/frameworks/{proof-system,story-sequence-system}.md, wiki/playbooks/{prospect-signed-onboarding,pulsify-contract-template-v1,offer-creation,format-invention-pipeline,pulsify-delivery-sop}.md, wiki/content-engine/copy-voice-guide.md, wiki/synthesis/cash-by-video-spec.md, wiki/people/competitor-watchlist.md, wiki/index.md, wiki/log.md | CLAUDE | DONE | The Keys folded into the vault (4 new pages, 11 enriched), index and log updated. Locks cleared. |
+| wiki/synthesis/cash-by-video-spec.md (new), wiki/synthesis/dustin-varano-infoos-teardown.md, wiki/index.md, wiki/log.md (append) | CLAUDE | DONE | Cash-by-video spec written, ticket pulsify-saas #36 created. No code. Locks cleared. |
+| wiki/synthesis/dustin-varano-infoos-teardown.md (new), raw-sources/inspiration/dustin-varano-infoos/** (new), wiki/index.md, wiki/log.md (append), wiki/people/competitor-watchlist.md | CLAUDE | DONE | Dustin Varano InfoOS teardown written (wiki/synthesis/dustin-varano-infoos-teardown.md), 22 frames + README saved, index/log/watchlist updated. Docs only, no code. Locks cleared. |
 | output/standard-preview/functions/{_shared/anthropic.js,_shared/youtube-ideas.js,_shared/youtube-reference.js,_shared/youtube-packaging-reference.js,_shared/youtube-titles.js,_shared/sequence-reference.js,api/youtube-ideas.js,api/youtube-titles.js,api/studio-generate.js}, tools/build-method-references.mjs, tests/youtube-ideas.test.mjs, tests/youtube-titles.test.mjs; pulsify-saas src/features/portal-youtube/**, src/app/portal/youtube/{new,title}/**, src/lib/api/portal-youtube.ts, tests (portal-youtube*, a11y) | CLAUDE | ACTIVE | Growth #18: YouTube guided ideation and title step (branch claude/growth-youtube in both repos). No deploy without founder go. |
 | wiki/synthesis/growth-section-plan-2026-09-25.md, wiki/log.md (append only); output/standard-preview/functions/{_shared/sequence-prompt.js,_shared/sequence-reference.js,api/studio-generate.js,api/studio-sequences.js,api/studio-feedback.js}, migrations/0041_*, tools/build-sequence-reference.mjs, tests/sequence-learning.test.mjs; pulsify-saas src/features/{reviews/**,portal-instagram/**}, src/lib/api/{reviews,portal-instagram}.ts, src/app/reviews/**, src/components/shell/nav.ts, tests for these | CLAUDE | DONE - deployed 46d8b892 | Growth #18 build: story sequence package (method + approved examples + rejection rules), operator review queue, Opus 5.5 switch. No deploy without founder go. |
 | `C:/Users/Abdullah/Desktop/pulsify-saas/src/{lib/monitoring.ts,components/providers.tsx}`, frontend tests; `output/standard-preview/functions/_middleware.js`, backend Sentry setup and tests, `wrangler.toml`, `.assetsignore`, `.gitignore`, `docs/SENTRY-SETUP.md`; `AGENT_CHAT.md`, `wiki/log.md`, `wiki/playbooks/account-registry.md` | CODEX | DONE | Sentry browser and Pages monitoring activated, verified, documented, and deployed; locks cleared. |
@@ -2600,3 +2607,38 @@ Added build-spread.cjs, board-spread.html and qualified-audience-spread.png. Ten
 
 ### [2026-09-27] CLAUDE (Opus 5.5) | Growth #18 deployed; saas release branch fast-forwarded
 Pages 46d8b892 is live with the Reviews screen (/app/reviews) and story sequence learning (migration 0042 studio_feedback applied remotely). pulsify-saas codex/power-signout and claude/onboarding-form were fast-forwarded from 018e2d5 to 40449df (claude/growth-reviews) and power-signout pushed to origin, so the next release keeps Reviews. Pull before building.
+
+### [2026-09-29 04:10] CLAUDE
+DONE: founder asked for a teardown of Dustin Varano's InfoOS video. Added wiki/synthesis/dustin-varano-infoos-teardown.md (feature inventory mapped to take now / with a sales team / skip), raw-sources/inspiration/dustin-varano-infoos/ (22 frames + README), rows in wiki/index.md, wiki/log.md append, Varano row in wiki/people/competitor-watchlist.md. No code, no deploy. FYI for any portal build: the funnel-builder part conflicts with the locked landing-page standard and waits on the founder.
+
+### [2026-09-29 05:05] CLAUDE
+DONE: wiki/synthesis/cash-by-video-spec.md (new build spec: tracked link per YouTube video, portal ranks videos by cash), link added in wiki/synthesis/dustin-varano-infoos-teardown.md, rows in wiki/index.md, wiki/log.md append. Ticket pulsify-saas #36, owner Claude. Build will touch output/standard-preview/{migrations,functions/event.js,functions/a/[token].js,functions/api,workers/sync} and pulsify-saas portal-youtube; no landing page or tracker script changes.
+
+### [2026-09-29 14:55] CLAUDE
+DONE + DEPLOYED: pulsify-saas #36 cash by video (founder: "we need that ASAP"). Migration 0043 on remote D1; Pages d0e6c7b3 (app built from pulsify-saas claude/cash-by-video 66c8bc4, which is claude/onboarding-form + this feature only); worker pulsify-sync 7fcf777c (new client-videos job on the */30 cron). Backend commit 5180c5cd. Live-checked on a disposable client pointed at @abluiy, then deleted. Also merged 3 unmerged brain/main commits from 2026-09-27 (log/AGENT_CHAT conflicts, append-only, both sides kept) and pushed: the brain backup push had been rejected since then. FYI Codex: asset_links now has kind/video_id/placement; /api/assets lists kind='asset' only; page_events has utm_source/utm_content; the growth-youtube branch is NOT in the released app.
+
+### [2026-09-29 16:06] CODEX
+CLAIM: visual-references/**, claude-memory/project_visual_references.md, claude-memory/MEMORY.md, wiki/index.md (append), wiki/log.md (append). Founder requested a shared visual taste library. No app edits. Lock: CODEX ACTIVE for these files.
+
+
+### [2026-09-29 16:07] CODEX
+DONE: visual-references/{README.md,reference-notes.md,taste-profile.md,inbox/README.md,boards/README.md}, claude-memory/project_visual_references.md, memory index, wiki index and log. Created founder-requested shared visual taste library; original references preserved, no product changes. The claim above is released; all locks for this task cleared.
+
+### [2026-09-29 16:11] CODEX
+CLAIM: visual-references/reference-notes.md, visual-references/taste-profile.md, visual-references/boards/README.md, claude-memory/project_visual_references.md, wiki/log.md (append). Reviewing all 18 founder images in boards; originals remain unchanged. CODEX ACTIVE.
+
+
+### [2026-09-29 16:13] CODEX
+DONE: reviewed 18 visual reference JPEGs individually; updated visual-references/reference-notes.md, taste-profile.md, boards/README.md, claude-memory/project_visual_references.md and wiki/log.md. Images preserved; brand names treated as visible labels only. No app changes. All claims from this review released.
+
+### [2026-09-29] CODEX
+CLAIM: visual-references/taste-profile.md and boards/graphite-variants-v1.png. Recording founder's chosen Graphite base and saving requested four-way preview.
+
+### [2026-09-29] CODEX
+DONE: Graphite choice and layout corrections recorded in visual-references/taste-profile.md; four requested concepts saved to boards/graphite-variants-v1.png. No app changes. Claims released. Existing founder-added Screenshot 2026-09-29 164300.png left unchanged.
+
+### [2026-09-29] CODEX
+CLAIM: visual-references/studies/bakers-liquid-gradients/**, visual-references/reference-notes.md (append), visual-references/taste-profile.md (append), wiki/log.md (append). Founder requested video/reference analysis and reusable JSON profile. Source videos and sampled frames for analysis, no app changes.
+
+### [2026-09-29] CODEX
+DONE: visual-references/studies/bakers-liquid-gradients/ (three source videos, frame sheets, metadata, palette measurements, JSON profile, README and reproducible scripts); appended reference-notes.md, taste-profile.md, wiki/log.md. JSON parsed successfully, all three timelines visually inspected. No app edits. All study claims released.
