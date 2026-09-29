@@ -79,6 +79,7 @@ Needs the founder's call: the funnel builder. Import HTML plus an AI editor that
 - [[synthesis/client-dashboard-redesign-spec-2026-07-12]] — earlier Action Engine thinking this validates
 - [[synthesis/landing-page-standard]] — the rule the funnel builder would collide with
 - [[people/competitor-watchlist]] — Varano row updated to point here
+- [[synthesis/dustin-varano-video-as-brief]] — the chronological action version of this page, plus the student call
 - [[people/jeremy-haynes]] — leads our funnel doctrine; InfoOS is one operator's tooling, not a funnel framework
 
 ## Open questions / gaps

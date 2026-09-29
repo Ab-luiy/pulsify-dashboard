@@ -30,6 +30,7 @@ Reference for his structures (flywheel video, proof placement, per-video cash tr
 
 - [[synthesis/dustin-varano-the-keys]] — his 13 SOPs and what we took
 - [[synthesis/dustin-varano-infoos-teardown]] — his software, screen by screen
+- [[synthesis/dustin-varano-video-as-brief]] — the same video read as a brief to us, with the student-call delivery lessons and a build order
 - [[concepts/flywheel-vsl]] — his signature content format
 - [[people/competitor-watchlist]] — where he sits among the operators we track
 
