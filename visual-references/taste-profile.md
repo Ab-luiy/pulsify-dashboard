@@ -75,3 +75,12 @@ These supersede the earlier tentative application guidance:
 ## Motion reference (2026-09-29)
 
 Founder requested analysis of Bakers Studio's animated liquid gradients. [Reusable JSON](studies/bakers-liquid-gradients/visual-profile.json) and [study](studies/bakers-liquid-gradients/README.md). Observed shape deformation and fine grain provide a stronger reference than the coarse texture of earlier mockups. Graphite stays selected; recoloring the source motion into graphite is a proposal. Exact source implementation is unknown.
+
+## Confirmed by the founder: the homepage draft look (2026-09-30)
+
+First direct "yes" on a finished Pulsify surface. Of the homepage draft (`output/home-draft/`, preview `output/qa/2026-09-home-draft/pulsify-home-draft.html`) he said: "this looks so clean", "the design looks heat, i fking love it". What that page does, so it can be repeated:
+- Near-black base (#0b0c0d) with charcoal cards (#17181b), hairline light borders instead of heavy shadows, silver-white pill buttons with near-black text.
+- Colour only in the atmosphere: a muted coral (#8a4b3f) and violet (#4d3f68) dusk glow with a slate floor, fine grain over it, placed around the product and behind headlines, never inside data panels. This is the Dusk grain variant applied on the Graphite base.
+- Inter throughout, large tight display headlines (negative tracking), one headline plus one grey sentence per section, generous spacing.
+- The product shown running inside device frames; status colour (green, amber, blue) kept to small pills and numbers.
+He also said to save it for when there is a landing page and not to replace the current main page now.
