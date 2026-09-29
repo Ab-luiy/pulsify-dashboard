@@ -1,0 +1,95 @@
+[
+  {
+    "file": "source-2102349049072656384.mp4",
+    "palette_method": "6-color median-cut on central 80 percent at t=4s, resized 240x340; approximate compressed-pixel colors, not brand tokens",
+    "palette": [
+      {
+        "hex": "#eedab7",
+        "fraction": 0.207
+      },
+      {
+        "hex": "#eddbc6",
+        "fraction": 0.192
+      },
+      {
+        "hex": "#ebe9de",
+        "fraction": 0.169
+      },
+      {
+        "hex": "#ebe6da",
+        "fraction": 0.165
+      },
+      {
+        "hex": "#ece3d3",
+        "fraction": 0.144
+      },
+      {
+        "hex": "#efc5a7",
+        "fraction": 0.123
+      }
+    ],
+    "first_last_mean_absolute_rgb_difference_0_255": 12.65
+  },
+  {
+    "file": "source-2102349051048148994.mp4",
+    "palette_method": "6-color median-cut on central 80 percent at t=4s, resized 240x340; approximate compressed-pixel colors, not brand tokens",
+    "palette": [
+      {
+        "hex": "#f1cc77",
+        "fraction": 0.194
+      },
+      {
+        "hex": "#eae8dd",
+        "fraction": 0.19
+      },
+      {
+        "hex": "#a6c3d1",
+        "fraction": 0.171
+      },
+      {
+        "hex": "#ece3ce",
+        "fraction": 0.15
+      },
+      {
+        "hex": "#ded4bc",
+        "fraction": 0.15
+      },
+      {
+        "hex": "#e2e4db",
+        "fraction": 0.144
+      }
+    ],
+    "first_last_mean_absolute_rgb_difference_0_255": 33.46
+  },
+  {
+    "file": "source-2102349051610206208.mp4",
+    "palette_method": "6-color median-cut on central 80 percent at t=4s, resized 240x340; approximate compressed-pixel colors, not brand tokens",
+    "palette": [
+      {
+        "hex": "#b4f0d9",
+        "fraction": 0.21
+      },
+      {
+        "hex": "#8ef4d3",
+        "fraction": 0.203
+      },
+      {
+        "hex": "#5ef9c2",
+        "fraction": 0.158
+      },
+      {
+        "hex": "#a0f3d6",
+        "fraction": 0.157
+      },
+      {
+        "hex": "#c9eedc",
+        "fraction": 0.143
+      },
+      {
+        "hex": "#ddece1",
+        "fraction": 0.129
+      }
+    ],
+    "first_last_mean_absolute_rgb_difference_0_255": 35.8
+  }
+]

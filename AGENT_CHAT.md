@@ -2635,3 +2635,9 @@ CLAIM: visual-references/taste-profile.md and boards/graphite-variants-v1.png. R
 
 ### [2026-09-29] CODEX
 DONE: Graphite choice and layout corrections recorded in visual-references/taste-profile.md; four requested concepts saved to boards/graphite-variants-v1.png. No app changes. Claims released. Existing founder-added Screenshot 2026-09-29 164300.png left unchanged.
+
+### [2026-09-29] CODEX
+CLAIM: visual-references/studies/bakers-liquid-gradients/**, visual-references/reference-notes.md (append), visual-references/taste-profile.md (append), wiki/log.md (append). Founder requested video/reference analysis and reusable JSON profile. Source videos and sampled frames for analysis, no app changes.
+
+### [2026-09-29] CODEX
+DONE: visual-references/studies/bakers-liquid-gradients/ (three source videos, frame sheets, metadata, palette measurements, JSON profile, README and reproducible scripts); appended reference-notes.md, taste-profile.md, wiki/log.md. JSON parsed successfully, all three timelines visually inspected. No app edits. All study claims released.

@@ -71,3 +71,7 @@ These supersede the earlier tentative application guidance:
 - Sidebar stays fixed as in the original; logo above an interactive name selector.
 - Graphite palette is selected as the base. Four further explorations requested: two monochrome tone variants and two reference-inspired backgrounds.
 - [Four-way preview](boards/graphite-variants-v1.png): Carbon, Silver mist, Dusk grain (muted coral/violet reference), Botanical shadow (blurred Branch/Pioneer nature references). These four variants are proposals, not selected implementations. Generated with built-in imagegen; UI is illustrative, not production data.
+
+## Motion reference (2026-09-29)
+
+Founder requested analysis of Bakers Studio's animated liquid gradients. [Reusable JSON](studies/bakers-liquid-gradients/visual-profile.json) and [study](studies/bakers-liquid-gradients/README.md). Observed shape deformation and fine grain provide a stronger reference than the coarse texture of earlier mockups. Graphite stays selected; recoloring the source motion into graphite is a proposal. Exact source implementation is unknown.

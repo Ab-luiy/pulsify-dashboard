@@ -1866,3 +1866,7 @@ Founder requested a single folder for pictures, brands, backgrounds, colors, gra
 ## [2026-09-29] query | First visual taste review
 
 Inspected all 18 founder-supplied JPEGs in visual-references/boards/. Catalogued each in reference-notes.md and updated taste-profile.md with evidence-linked observations, competing color families and proposed Pulsify applications. Strong repeated pattern: sharp simple foreground over soft textured atmosphere. Preferences remain interpretations pending founder feedback; originals unchanged and no product design changes.
+
+## [2026-09-29] query | Animated liquid gradient reference profile
+
+At founder request, inspected Bakers Studio X post 2102349193881006288 and sampled all three 11.167-second videos. Saved original references, timestamped frame sheets, approximate palette measurements and visual-profile.json under visual-references/studies/bakers-liquid-gradients/. Source observations and proposed Graphite reproduction settings are separated. No original shader recovered, no app changes.

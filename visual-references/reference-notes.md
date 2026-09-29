@@ -101,3 +101,7 @@ Repeated evidence: texture; broad organic color transitions; crisp foreground ov
 Competing directions: organic/natural softness, editorial/classical typography, and geometric/technical pattern. They can share spacing and typography without all appearing in every composition. Several images are variants of one design family, so 18 images are not 18 independent votes for a preference.
 
 No single favorite hue, font, logo direction or light/dark preference is established. Exact font families and gradient construction methods cannot be determined from these pictures alone.
+
+## Bakers Studio animated liquid gradients
+
+Founder-supplied post: https://x.com/studiobakers/status/2102349193881006288. Three videos sampled throughout. [Study and JSON profile](studies/bakers-liquid-gradients/README.md). Broad deforming ribbons, soft light seams and fine grain; mint/aqua, blue/yellow and coral/cream variants. Graphite adaptation is separately proposed; source palettes are not approved replacements.
