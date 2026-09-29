@@ -1,27 +1,64 @@
 # Pulsify taste profile
 
-Updated: 2026-09-29. Starting profile; no new images analyzed yet.
+Updated: 2026-09-29. First review: 18 founder-supplied images, all inspected. [Individual notes and originals](reference-notes.md).
 
-## Confirmed direction
+## Confirmed by the founder
 
-- Founder wants a single collection of pictures, brands, backgrounds and other visual inspiration so Claude, Codex or another AI can learn his taste.
-- Pay attention to colors, gradients, concepts and the overall aesthetic, then translate recurring preferences into a coherent Pulsify direction.
-- Founder chose option A for the InfoOS work: bring useful design ideas into Pulsify's current look. This is not an approval to reproduce InfoOS's whole appearance.
+A shared visual collection should help us learn his taste in colors, gradients, concepts and aesthetics and apply it coherently to Pulsify. He selected these images as references. Individual favorite details and dislikes remain unspecified.
 
-Source: founder's direct instructions in the 2026-09-29 Codex conversation. Related context: [[wiki/synthesis/dustin-varano-video-as-brief]] and [[wiki/synthesis/infoos-placement-map]].
+InfoOS option A is confirmed: bring useful ideas into Pulsify's current look. It does not approve a wholesale reskin.
 
-## What remains unknown
+## Working interpretation
 
-Preferred palette, gradient style, background treatment, typography, photographic style and acceptable decorative intensity. Mentioning gradients is an interest to explore, not confirmation of a particular gradient.
+**Simple, crisp composition with atmospheric texture and tangible depth.** This is the reviewer's synthesis, not yet a founder-confirmed style definition.
 
-## Evidence-based observations
+Strong recurring evidence:
+- Grain, print-like texture and halftone make color feel less sterile: Archon, the three pastel demos, daisies, Pioneer and Otherwise.
+- Soft background / sharp foreground contrast: Branch, Pioneer, pastel demos, ghost icon and Otherwise.
+- Few main elements, large breathing room, one clear focal point. Rich backgrounds do much of the expressive work.
+- Color feels like light, fabric, atmosphere or blurred photography. Gradients are broad, irregular and layered; some are photographic rather than gradients at all.
+- Depth comes from frosted/translucent surfaces, edge lighting, shadows or material shading: Agentcard, ghost icon, Branch, Pioneer, Otherwise.
+- Several references show a whole identity repeated across surfaces: Redline and Agentic Fabriq especially.
 
-None yet. Add observations here with links to the actual images in reference-notes.md. Mark each as founder-confirmed or tentative. Record dislikes and surface-specific exceptions alongside likes.
+Moderate evidence:
+- Large editorial serif headlines with practical sans supporting text: Agentcard, Branch, Redline, Otherwise. Archon and Pioneer show that all-sans also belongs in the collection.
+- Nature and organic forms: flowers, dusk, blurred botanical shapes, flowing color. Architectural imagery is a separate recurring family.
+- Technical geometric pattern: Agentic Fabriq, Otherwise's halftone and letter patterns. A useful secondary direction, not the dominant rule.
 
-## Applying the profile
+## Color relationships
 
-Separate the shared brand character from the needs of each surface. A content background can be expressive while an analytics screen remains readable.
+No final Pulsify palette is selected. These are observed families, not sampled hex values:
+- Cream / charcoal plus muted blue-gray or dusty rose: Branch and Pioneer dusk.
+- Mint / teal / pale green: ghost icon and mint demo.
+- Lavender / blue / milky white, sometimes peach: pastel demos.
+- Golden yellow / sky blue / deep green: sunflower and Pioneer flower references.
+- Black / silver / acid lime: Agentcard.
+- Red / black / bone: Redline.
+- Black / navy / electric cyan: Agentic Fabriq.
+- Coral / pink / violet with pale lemon or charcoal: Otherwise.
 
-The current SaaS design document uses warm neutrals, restrained green and Inter, and excludes decorative gradients and glows. Older dashboard memory requested neon and different fonts. Those are dated, conflicting directions, not a single current preference. Use the current implementation as the baseline; use new references and explicit feedback to resolve future changes.
+The commonality is deliberate color grouping and contrast, not a specific hue. Do not combine all these palettes into a rainbow brand.
 
-For another AI: read this profile and reference-notes.md, inspect the cited images, then create original options using the selected qualities. Explain which references informed each option. Do not invent founder preferences or reproduce a reference brand's identity wholesale.
+## Proposed use in Pulsify
+
+Proposal, not implementation approval:
+- Keep product navigation, forms, charts and numbers clear and stable.
+- Give brand introductions, product demonstrations, video covers and selected onboarding moments more atmosphere: an original textured background, a clear focal object, generous spacing.
+- Explore serif display type on brand/editorial surfaces while keeping functional UI type practical.
+- Use one selected palette and a small set of repeatable textures/motifs across outputs.
+- Preserve meaning for success/warning/error colors; decoration must not compete with data.
+- Prototype one representative composition before spreading a direction across the product.
+
+The current SaaS docs/DESIGN.md excludes decorative gradients and glows. This collection is evidence to explore a controlled extension, not permission to change that file or silently override it. Older neon dashboard memory also does not settle the decision. Landing pages retain their separate locked design standard.
+
+## What to avoid in interpretations
+
+Do not assume he wants every pictured logo, mascot, font or color. Do not turn grain into noise behind small text, glass into illegible panels, or atmospheric backgrounds into decoration on every card. Do not transplant another brand's distinctive identity.
+
+## Portable brief for another AI
+
+Inspect the actual reference images linked in reference-notes.md. Develop original Pulsify concepts using simple foreground composition, atmospheric or tactile backgrounds, broad soft color transitions, controlled texture and strong hierarchy. Choose one coherent color family per concept. Pair expressive display typography with readable functional text where appropriate. Explain the references behind the choices. Treat this profile as a working hypothesis until founder feedback confirms it.
+
+## Open questions
+
+Which family is most representative: muted cinematic/editorial, soft colorful, or high-contrast technical? Which qualities does he dislike? Does he want different expression levels for marketing, content and the working app? These can be resolved through examples and feedback without holding up collection reviews.
