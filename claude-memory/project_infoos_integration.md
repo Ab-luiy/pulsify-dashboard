@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: e0f85de8-f3a4-4484-ae1e-b5a76817c2d8
-  modified: 2026-09-29T22:39:23.475Z
+  modified: 2026-09-29T23:03:40.278Z
 ---
 
 Founder rule 2026-09-29: when an operator on YouTube shows their info-offer software, copy it and add our twist. First target: Dustin Varano's InfoOS ([[synthesis/dustin-varano-video-as-brief]], screens mapped in raw-sources/inspiration/dustin-varano-infoos/README.md).
@@ -21,7 +21,7 @@ Build order: 1 cash by video (#36), 2 client home fix list (dollars at stake = e
 
 Status 2026-09-29: item 1 (#36) and item 2 (#37, client Overview "Your funnel", backend functions/_shared/funnel-health.js) are LIVE (Pages 1c1a5500); the tracker's "engagement" event (active seconds, scroll, full passes, proof seconds) is live too, feeding item 3. His own funnel is not on our tracker yet (YouTube -> IG -> DM -> call), so "his funnel first" is blocked on a page he can send YouTube traffic to; asked him where his YouTube links should go.
 
-2026-09-30: he picked option A tentatively ("until we decide if it's shippable"). Draft homepage (#38) at output/home-draft/, kept OUTSIDE output/standard-preview so no deploy publishes it; preview file output/qa/2026-09-home-draft/pulsify-home-draft.html. Waiting on him: shippable?, Nick named publicly?, placement (replace Codex's D1 root entry page, or its own path for YouTube links). Don't wire tracking or deploy until he says so.
+2026-09-30: he picked option A tentatively, saw the draft homepage (#38, output/home-draft/, preview output/qa/2026-09-home-draft/pulsify-home-draft.html) and LOVED the design ("looks heat, i fking love it") but said SAVE it: only for when we have a landing page, don't replace the current main page now. Ticket #38 parked (milestone Later). So "his funnel first" is still blocked (no page on our tracker). The look is recorded as confirmed taste in visual-references/taste-profile.md. He floated bringing this look into the dashboard and client dashboard ("unless you want to..."); asked him to confirm before touching the app.
 
 He pasted a Kage "NotchPop" landing-page design language and said "you figure this out". My reading: it is the design language for Pulsify's own homepage (pulsify-ai.com root is a 2KB stub), showing the portal running in desktop mockups. No pricing card (outbound footing: never show price, see [[feedback_inbound_outbound_footing]]); never reuse NotchPop names/copy/imagery.
 
