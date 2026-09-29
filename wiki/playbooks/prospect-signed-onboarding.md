@@ -3,7 +3,7 @@ type: playbook
 tags: [funnel, sales, outreach]
 sources: [[wiki/synthesis/outreach-to-client-pipeline-roadmap]], [[wiki/synthesis/funnel-portal-pipeline]], [[wiki/synthesis/landing-page-standard]]
 created: 2026-07-01
-updated: 2026-07-01
+updated: 2026-09-29
 ---
 
 # Prospect signed: the onboarding checklist
@@ -51,6 +51,8 @@ The whole point of the architecture is that signing a client requires no rebuild
    A number in a spreadsheet does not sell. A before-and-after image does, and it is unrecoverable once the account has grown. Every hour of delay makes it less true.
 
    The same rule applies to prospects the moment they reply, since the assets we build for them become case studies if they sign.
+
+9. **Show visible progress inside 24 hours.** Added 2026-09-29 from Dustin Varano's onboarding protocol ([[synthesis/dustin-varano-the-keys]]). The client only sees the front-end numbers, so doubt starts early. Before the first day ends, ship at least one visible thing: a story sequence live, one broken thing fixed and named to them (a dead link, a bad CTA, missing tracking), or one finished asset they can hold. From the same source, worth doing on the onboarding call itself: record it; get the contract signed live and early; get every photo, video, testimonial and screenshot into one shared Drive while on the call; audit their tools and get access with each tool explained; keep one browser profile per client; get their warm list but hold it until the offer is ready; set a 30-day goal, a 90-day goal and their own definition of winning, and write them into `clients/{name}/progress.md`.
 
 ## Open questions / gaps
 

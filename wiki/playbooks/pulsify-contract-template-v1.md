@@ -3,7 +3,7 @@ type: playbook
 tags: [contract, offer, legal, template, pulse-system]
 sources: [[wiki/playbooks/pulsify-offer-v1]], [[raw-sources/contracts/nick-furr-pulsifymedia-msa]], [[raw-sources/contracts/jacob-thomas-pulsifymedia-msa]]
 created: 2026-05-15
-updated: 2026-05-15
+updated: 2026-09-29
 ---
 
 # Pulsify contract template v1
@@ -224,6 +224,8 @@ Date: _________________________________             Date: ______________________
 - **Performance share on continuation past 12 months.** v1 has no cap. If a client crosses 12 months in continuation, the Operator is doing unbounded free work. Founder accepts this risk as of 2026-05-10 ([[playbooks/pulsify-offer-v1#open-questions--gaps]]). Revisit when the first stress event arrives.
 - **Counter-signature authority.** Pulsifymedia LTD signer name and title not yet locked in template. Add when finalized.
 - **No NDA-only variant.** Some prospects ask for an NDA before a sales call. Worth drafting a 1-page NDA standalone if it becomes a recurring ask.
+
+- Dispute protection (added 2026-09-29, source [[synthesis/dustin-varano-the-keys]]): section IV already makes fees non-refundable. Two clauses Dustin Varano uses that this template lacks: an acknowledgment that the client waives initiating a chargeback or payment dispute, and a no-guarantee-of-income clause. He admits chargeback rights can't be fully waived; the value is written proof the terms were knowingly accepted, which processors weigh in disputes. He pairs it with recording every client call for the life of the engagement and submitting the recordings, the signed agreement and a deliverables log as evidence. Needs a lawyer's review before adding, and the income clause must not contradict the performance guarantee in section III.
 
 ## Source trail
 

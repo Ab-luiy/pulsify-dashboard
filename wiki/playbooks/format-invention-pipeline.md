@@ -3,7 +3,7 @@ type: playbook
 tags: [content, systems, instagram]
 sources: [[wiki/synthesis/niksetting-extractions/01-viral-format-invention-process]], [[wiki/synthesis/niksetting-extractions/05-honest-opinion-selling-information]], [[wiki/synthesis/soowei-goh-extractions/03-408k-personal-brand-with-ai]], [[wiki/synthesis/cross-creator-synthesis]]
 created: 2026-07-12
-updated: 2026-07-12
+updated: 2026-09-29
 ---
 
 # The format invention pipeline
@@ -68,6 +68,8 @@ Track per format: birth date, performance trend, and the 3-6 month review. At re
 1. **Per client:** the ladder prescribes today's formats; this pipeline schedules their replacements. Client dashboards carry the format birth dates and the review clock.
 2. **Pulsify-native formats:** our own inventions (vault-build BTS, receipt-walls, student-proof formats) run through the full pipeline — cross-industry research included — so our content never reads as a Niksetting clone.
 3. **AI division of labor (ratified):** machines do research scans, outlier detection, clipping, and analysis; the founder does taste, state, and the verbal strategy. Intention stays human — that is the moat.
+
+Extra input, added 2026-09-29 ([[synthesis/dustin-varano-the-keys]]): when feeding competitor content into ideation, feed only their outliers (top 5-10 pieces by views relative to that account's own average), plus a folder of the client's own offer, ICP docs, past content and testimonials. Then keep the format that brings in cash, not the one with the most views ([[synthesis/cash-by-video-spec]]). This sits beside the pipeline above and changes none of its stages.
 
 ## Connections
 
