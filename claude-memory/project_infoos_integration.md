@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: e0f85de8-f3a4-4484-ae1e-b5a76817c2d8
-  modified: 2026-09-29T15:24:34.216Z
+  modified: 2026-09-29T22:39:23.475Z
 ---
 
 Founder rule 2026-09-29: when an operator on YouTube shows their info-offer software, copy it and add our twist. First target: Dustin Varano's InfoOS ([[synthesis/dustin-varano-video-as-brief]], screens mapped in raw-sources/inspiration/dustin-varano-infoos/README.md).
@@ -20,6 +20,8 @@ Decisions 2026-09-29 (answers to my three yes/no + look question):
 Build order: 1 cash by video (#36), 2 client home fix list (dollars at stake = extra people at target rate x existing downstream close rate x AOV, no AI), 3 leads feed with score/AI read/journey, 4 calls calendar + post-call form + call-day story nudge, 5 payment plans + plain-words payment logging, 6 Ask box, monthly report, 7 sales team/commissions when a client has a team.
 
 Status 2026-09-29: item 1 (#36) and item 2 (#37, client Overview "Your funnel", backend functions/_shared/funnel-health.js) are LIVE (Pages 1c1a5500); the tracker's "engagement" event (active seconds, scroll, full passes, proof seconds) is live too, feeding item 3. His own funnel is not on our tracker yet (YouTube -> IG -> DM -> call), so "his funnel first" is blocked on a page he can send YouTube traffic to; asked him where his YouTube links should go.
+
+2026-09-30: he picked option A tentatively ("until we decide if it's shippable"). Draft homepage (#38) at output/home-draft/, kept OUTSIDE output/standard-preview so no deploy publishes it; preview file output/qa/2026-09-home-draft/pulsify-home-draft.html. Waiting on him: shippable?, Nick named publicly?, placement (replace Codex's D1 root entry page, or its own path for YouTube links). Don't wire tracking or deploy until he says so.
 
 He pasted a Kage "NotchPop" landing-page design language and said "you figure this out". My reading: it is the design language for Pulsify's own homepage (pulsify-ai.com root is a 2KB stub), showing the portal running in desktop mockups. No pricing card (outbound footing: never show price, see [[feedback_inbound_outbound_footing]]); never reuse NotchPop names/copy/imagery.
 
