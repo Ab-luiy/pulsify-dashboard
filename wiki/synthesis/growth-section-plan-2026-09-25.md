@@ -84,6 +84,18 @@ From the founder's voice reply the same day. These override the recommendations 
 - **The most important thing to dial in is creating a YouTube video**, the whole video, not only the title and thumbnail. He started making a real one with Claude the same day; each step that gets locked in on that video becomes the method the portal hands clients, the same take-one-thing-and-lock-it-in approach he set on 2026-09-25.
 - The story sequence build chosen as the first lock-in on 2026-09-25 was already under way in its own session. He did not say to stop it.
 
+## Carousel plan (founder direction 2026-09-27, build after the YouTube video)
+
+The current carousel output looks automated and the founder rejected it. Carousels get built on the client's own photos instead of templates:
+
+1. The client picks a topic.
+2. The portal asks for a specific photo set, for example nine: two scenery shots, a few of the client (desk, call, walking, close-up) and a few of their work or results.
+3. The client uploads them into the portal's media library.
+4. The AI writes each slide in stages (hook, intro, buildup, value, CTA) and assigns each photo to the slide whose copy it fits.
+5. The finished carousel goes to the Reviews queue like story sequences, and approvals and rejection reasons teach it the same way.
+
+Two constraints from the founder. The slide structure and photo pattern come from reading the Niksetting carousels already captured in [[content-engine/carousel-breakdowns/README]] (and any others he adds), applied as documented. And the flow has to work for clients without a photographer or great photos: phone photos must be enough, so the photo ask stays simple and the design carries plain pictures. Order: YouTube video first, then this.
+
 ## What "teaches itself" can mean without building our own AI
 
 A proposal for the planning session, not a decision. Nothing here needs a model of our own or retraining one. The model stays a hosted one; what learns is the data around it.
