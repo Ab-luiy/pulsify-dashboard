@@ -29,7 +29,7 @@ export async function onRequestGet({ request, env }) {
     env.DB.prepare(
       `SELECT event, path, page_id, at AS ts
          FROM page_events
-        WHERE client=? AND at>=?
+        WHERE client=? AND at>=? AND event <> 'engagement'
         ORDER BY at DESC, id DESC
         LIMIT ?`,
     ).bind(client, cutoff, SOURCE_LIMIT),

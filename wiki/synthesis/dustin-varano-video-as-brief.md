@@ -140,12 +140,15 @@ The founder captured 51 screens from the video (mapped in `raw-sources/inspirati
 
 ## How Pulsify uses this
 
-Build order, ranked by whether it helps land or deliver for a small creator this month:
-1. Finish cash by video and run it on the founder's own channel (in progress).
-2. Four new page signals, the intent score and the richer opt-in alert.
-3. Call-day story nudge.
-4. Post-call form with the pre-sold question.
-5. Fix list with do-the-fix buttons, then the Ask box, then the monthly report.
+Founder decisions 2026-09-29: look A (his design moves in our own look, no reskin), yes to changing the tracker script, yes to forecasts for signed clients, yes to running everything on his own funnel first. His funnel had no page on our tracker (it runs YouTube -> Instagram -> DM -> call), so a Pulsify homepage on our tracker comes first for that.
+
+Build order after the screenshots (item 2 moved up because it is arithmetic on data we already collect):
+1. Cash by video. Live 2026-09-29 (pulsify-saas #36).
+2. Client home fix list with the dollar math, health score, last 24 hours vs normal, worth per step. Built 2026-09-29 (pulsify-saas #37, `functions/_shared/funnel-health.js`).
+3. Four new page signals, the intent score and the richer opt-in alert.
+4. Call-day story nudge.
+5. Post-call form with the pre-sold question.
+6. Do-the-fix buttons on every fix card, then the Ask box, then the monthly report.
 
 Waits for a client with a sales team: closer assignment, team forms beyond post-call, compliance, commissions, per-setter links. Skipped: Kit tab, agent personas, the page builder (unless the standard reopens).
 
