@@ -126,6 +126,18 @@ Apply: drop the agent names. Each fix card carries the dollars at stake, the fix
 ### 54:26-end The pitch
 1:1 only, application form, vets everyone himself, lead magnet. Covered in [[synthesis/dustin-varano-the-keys]].
 
+## What the founder's screenshots added (2026-09-29)
+
+The founder captured 51 screens from the video (mapped in `raw-sources/inspiration/dustin-varano-infoos/README.md`) and asked us to replicate the design sense and take every element we lack.
+
+**The design moves.** Near-black canvas with a faint grid texture; cards one shade lighter with hairline borders and no heavy shadow; a clean sans for UI plus a serif italic for the logo, section titles ("Pipeline", "Post-Call Outcomes", "September 2026", "Post-Set Form") and the Ask empty state; tiny uppercase labels over big numbers; color only on numbers that mean something (green money, amber warning, red bad); every block has a title and one plain line saying what it shows; one filter bar on every data page (range preset, dates, source filter, reset, "Updated at", Refresh) whose range carries across tabs; tinted status pills; honest microcopy ("Double-check anything important", "AI writes the words; InfoOS computes the numbers", "computed from the numbers beside it, never generated"). The next version moves to a light theme close to ours.
+
+**The fix-card math (readable in the next-version screens).** Each card: tag (risk or opportunity), owner section, the step and its rate ("Page Visit to Opt-In View: 39.9%"), "7,498 people stop here. Reaching the 45.0% target would add 9 deals", then "How: 634 more people through this step, converted at your existing downstream rates, at $4,850 AOV", the dollar figure, and a "See where they drop" button. So the dollars at stake are arithmetic: extra people at the target rate, times the existing conversion from that step to a close, times average order value. No AI in the number. Risk cards use the same idea ("$117,270 sold but not collected: 67.3% collected, 43 of 74 deals on a plan"; "52 confirmed calls never happened: at your close rate those seats were worth $25,659").
+
+**Elements we don't have.** Home: health score graded against targets and weighted by money, sold-but-not-collected, today vs 29-day average with a "normal day" band, step grades (A to C per funnel step, square-root scaled funnel), field-by-field application drop-off, where booked calls went (won, didn't buy, no-show, cancelled, rescheduled), value per visitor, lead, application, booked call and show. Leads: a live visitor feed including anonymous visitors, warm/hot score with its reasons listed, AI read that ends in an instruction, field-level journey with button text, return-visitor merge, email and phone checks. Funnels: page-flow view per funnel, segmented thank-you pages by answer, dedicated no-show and post-booking pages. Calls: colored calls calendar with outcome legend, upcoming calls with a confirmed flag, day popover opening the call link. Lead drawer: source chip, payment type (PIF, plan, in-house finance, Fanbasis), plan progress bar (collected of total), post-close tasks (contract, onboard, expiry). Chrome: Censor toggle that blurs private data for screen recording, plain-English integration errors, time-zone "inherited, not set" warning, recent-changes log. Team tools and commissions as described above.
+
+**We have and he doesn't.** The whole front half of the business: YouTube creation and thumbnails, story sequences, copywriter, the client brain, onboarding. His app is backend only. Bringing his backend into ours makes ours the full content, offer and funnel system.
+
 ## How Pulsify uses this
 
 Build order, ranked by whether it helps land or deliver for a small creator this month:
