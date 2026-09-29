@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 8cdf0eab-2371-4d57-9a93-643476c0c576
-  modified: 2026-09-28T19:40:13.431Z
+  modified: 2026-09-29T00:41:23.231Z
 ---
 
 Founder brain-dump 2026-09-28 in the Growth planning session (#18). Nothing here is built or decided unless marked.
@@ -22,7 +22,7 @@ Founder brain-dump 2026-09-28 in the Growth planning session (#18). Nothing here
 - VSL landing page builder with editable elements, templates or blank, client custom domains hosted by us. Conflicts with [[project_landing_page_standard]] (fill-in only, Codex-owned design) - needs his explicit call.
 - Miro board builder feature (for the Miro-board video format).
 - Reels, only when reopened: SOP Joel Kaplan's 5-a-day posting (order of the 5, formats, topics, posting times, rotation). Claude does not know his content; research it then.
-- REMINDER: he will watch Dustin Varano's YouTube walkthrough of his program app and report features worth taking. Ask him what he saw.
+- DONE 2026-09-29: I watched Dustin Varano's InfoOS walkthrough myself (transcript + frames). Full feature inventory and take/skip calls in wiki/synthesis/dustin-varano-infoos-teardown.md; top take is ranking videos by cash collected, not views. Nothing picked to build yet.
 - Webinars later ("everybody's printing with webinars"); vault doctrine says webinars only with budget and audience size.
 - Onboarding walkthrough: a motion-graphic product tour video, premium, own style (not an Apple copy), built after Growth screens settle.
 - Reboot his YouTube channel at the same time as building the product; the real video we make is both.
