@@ -55,10 +55,11 @@ export async function visitorAggregates(env, client, set) {
                 SELECT visitor_id, referrer, utm_source, utm_content, utm_json,
                        ROW_NUMBER() OVER (PARTITION BY visitor_id ORDER BY at, id) AS rn
                   FROM page_events WHERE ${scope} AND event='page_view') WHERE rn=1`, scoped()),
+    // Where they are: the latest event that carries a location (any event, since every one records it).
     all(env, `SELECT visitor_id, country, city, lat, lng, user_agent, at FROM (
                 SELECT visitor_id, country, city, lat, lng, user_agent, at,
-                       ROW_NUMBER() OVER (PARTITION BY visitor_id ORDER BY at DESC, id DESC) AS rn
-                  FROM page_events WHERE ${scope} AND event='page_view') WHERE rn=1`, scoped()),
+                       ROW_NUMBER() OVER (PARTITION BY visitor_id ORDER BY (country IS NULL), at DESC, id DESC) AS rn
+                  FROM page_events WHERE ${scope}) WHERE rn=1`, scoped()),
     all(env, `SELECT visitor_id,
                      MAX(CAST(json_extract(metadata_json,'$.active_seconds') AS REAL)) AS active,
                      MAX(CAST(json_extract(metadata_json,'$.max_scroll') AS REAL)) AS scroll,
@@ -206,7 +207,8 @@ function callState(bookings, outcomes, now) {
   const outcome = [...outcomes].sort((a, b) => String(b.call_at || b.created_at).localeCompare(String(a.call_at || a.created_at)))[0] || null;
   const booking = latestActive || latestBooking;
   if (outcome && (!booking || !booking.starts_at || String(outcome.call_at || "") >= String(booking.starts_at) || outcome.booking_ref === booking.ref)) {
-    const base = { call_at: outcome.call_at || booking?.starts_at || null, booking_ref: outcome.booking_ref, outcome_id: outcome.id, join_url: booking?.join_url || null };
+    // A call logged by hand may have no date: the day the form was filed stands in for it.
+    const base = { call_at: outcome.call_at || booking?.starts_at || outcome.created_at || null, booking_ref: outcome.booking_ref, outcome_id: outcome.id, join_url: booking?.join_url || null };
     if (outcome.attended === "no_show") return { ...base, state: "no_show" };
     if (outcome.attended === "cancelled") return { ...base, state: "cancelled" };
     if (outcome.attended === "rescheduled") {
@@ -683,6 +685,12 @@ async function loadJourney(env, client, person, rows) {
   });
   for (const w of watchRows) trimmed.push({ kind: "watch", at: w.started, percent: Math.round(Number(w.pct || 0)), duration_seconds: w.duration ? Math.round(w.duration) : null });
   const mine = new Set(person.emails);
+  // Opt-ins and applications arrive both as page events and as pipeline touches; keep one.
+  const touchKinds = new Set(rows.touches.filter((t) => mine.has(t.email)).map((t) => t.kind));
+  for (let i = trimmed.length - 1; i >= 0; i -= 1) {
+    const kind = trimmed[i].kind;
+    if ((kind === "optin" && touchKinds.has("optin")) || (kind === "form_submit" && touchKinds.has("application"))) trimmed.splice(i, 1);
+  }
   for (const t of rows.touches) {
     if (!mine.has(t.email)) continue;
     const payload = parseJson(t.payload_json, {});

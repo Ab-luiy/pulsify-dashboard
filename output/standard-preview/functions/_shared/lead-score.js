@@ -440,7 +440,7 @@ function solve(A, b) {
 
 // ---------- the next move ----------
 
-const shortDate = (iso) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+const shortDate = (iso) => (Number.isFinite(Date.parse(iso || "")) ? new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }) : "the call");
 const ago = (iso, now) => {
   const days = Math.floor((now - Date.parse(iso)) / DAY);
   if (days <= 0) return "today";
@@ -457,7 +457,7 @@ export function nextStep(person, scored, now) {
     return { tone: "done", text: "Bought. Ask for their result story the day it lands." };
   }
   if (person.qualified === false || call.result === "unqualified") return { tone: "none", text: "Answers don't qualify. No call needed." };
-  if (call.state === "not_closed") return { tone: "act", text: `Heard the offer on ${shortDate(call.call_at)} and didn't buy. Follow up within 48 hours.` };
+  if (call.state === "not_closed") return { tone: "act", text: `Heard the offer ${call.call_at ? `on ${shortDate(call.call_at)} ` : ""}and didn't buy. Follow up within 48 hours.` };
   if (call.state === "follow_up") return { tone: "act", text: `Follow up: asked for time after the call on ${shortDate(call.call_at)}.` };
   if (call.state === "no_show") return { tone: "act", text: "Missed the call. Send the booking link again today." };
   if (call.state === "cancelled") return { tone: "act", text: "Cancelled the call. Rebook them today." };

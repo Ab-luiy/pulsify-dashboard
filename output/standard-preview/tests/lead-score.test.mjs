@@ -312,6 +312,16 @@ assert.equal(sql.prepare("SELECT client_id FROM lead_outcomes WHERE email='cara@
 res = await outcomeDelete({ request: new Request(`https://pulsify-ai.com/api/lead-outcomes?id=${outcomeId}`, { method: "DELETE", headers: { "x-portal-token": "token-other" } }), env });
 assert.equal(res.status, 404, "cannot delete another workspace's form");
 
+// A call logged by hand with no date reads as the day it was filed, never 1 January.
+res = await post(outcomePost, { email: "eve@example.com", attended: "showed", result: "not_closed" });
+assert.equal(res.status, 200);
+const eveAfter = (await loadPipeline(env, "acme", { now: NOW })).people.find((p) => p.email === "eve@example.com");
+assert.equal(eveAfter.status, "not_closed");
+assert.doesNotMatch(eveAfter.next.text, /Jan 1/);
+const eveJourney = (await loadPerson(env, "acme", "eve@example.com", { now: NOW })).journey;
+assert.equal(eveJourney.filter((e) => e.kind === "optin").length, 1, "an opt-in shows once in the journey");
+sql.prepare("DELETE FROM lead_outcomes WHERE email='eve@example.com'").run();
+
 // ---------- confirmed calls ----------
 res = await post(flagPost, { booking_ref: "book-ann", confirmed: true });
 assert.equal(res.status, 200);
