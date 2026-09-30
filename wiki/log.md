@@ -1903,3 +1903,7 @@ Founder picked the Candle vibe, asked to move from design to a sellable product,
 
 ## [2026-09-30] client-update | New look live: the homepage's colours inside the app
 Founder: "you nailed the design, can we just get more colors and call that the day." Added colour in more of the homepage's places (glow across the full top including the sidebar, soft corner glows on the side cards, fix rows in their funnel stage's colour) and released. Pages 6cca1a98: default look `home`, the calmer funnel section, operator Client funnels page, operator read access for funnel health and cash by video. Live checks pass. The YouTube video flow is still unreleased, waiting on the founder.
+
+## [2026-09-30] client-update | Blue replaces coral; left panel coloured
+Founder: "instead of red we want a blue shade similar to it" and "the left panel is uncolored". Coral moved to a blue of the same softness everywhere (glows, key-card corner, first funnel stage); the left side now runs blue into violet into slate top to bottom, sidebar labels brightened there. Released Pages e7f7432e (saas ba3759e). Design closed; back to the sell-ready specs.
+
