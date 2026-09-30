@@ -64,6 +64,7 @@ Moved to one shared module (`src/features/funnel/funnel-view.tsx`) used by the c
 - Glass performance on older machines is unmeasured.
 - Chart colours were validated on white cards; off-white is close but needs a validator re-run before release.
 - The operator Payments and Integrations pages are client-agnostic, so fix actions there open the page, not the client's row.
+- Toasts sit bottom-right and, inside the floating panel, can cover action buttons in that corner until they fade (found by the Reviews test). Moving the toaster to bottom-centre or top-right is a small follow-up.
 
 ## Source trail
 
