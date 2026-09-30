@@ -1920,3 +1920,6 @@ Founder asked for a simpler island with defaults. Approved after screenshots and
 ## [2026-09-30] decision | Operator console gets the island menu
 Founder asked for the island on the operator console too. Shipped: no sidebar anywhere now. Operator shortcuts are Overview, Today, Clients and Leads (a default, swap on request); the workspace switcher moved to the top of the open island. Released as Pages 5561e091.
 
+## [2026-09-30] decision | Background glow covers the whole window
+Founder saw dark bands left and right on a wide desktop screen. The page glow was tied to the content column (max 1800px); it now spans the full window in both shells. Released as Pages 5504f49c.
+
