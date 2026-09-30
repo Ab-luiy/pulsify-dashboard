@@ -84,3 +84,8 @@ First direct "yes" on a finished Pulsify surface. Of the homepage draft (`output
 - Inter throughout, large tight display headlines (negative tracking), one headline plus one grey sentence per section, generous spacing.
 - The product shown running inside device frames; status colour (green, amber, blue) kept to small pills and numbers.
 He also said to save it for when there is a landing page and not to replace the current main page now.
+
+## Confirmed direction for the app: calm, cozy, dim-lit (2026-09-30)
+
+After four palette rounds on the dashboard he said: "not crazy saturation, i need it to be a calm and cozy vibe that just feels like a dim lit room." Rejected along the way: colour confined to a thin gutter, three competing colour groups on one screen, muted dusk variants without enough warmth, and (by his instruction before it was shown) high saturation. What he is asking for: warm low light (lamp, candle, brass), warm near-black or warm linen bases, low saturation, soft film grain, gentle tonal steps. Five palettes built on that brief in `output/qa/2026-09-30-cozy/`.
+
