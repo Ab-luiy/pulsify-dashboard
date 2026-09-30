@@ -1917,3 +1917,6 @@ Founder asked to drop the left panel for a Dynamic Island style menu at the top 
 ## [2026-09-30] decision | Island menu gets four shortcuts
 Founder asked for a simpler island with defaults. Approved after screenshots and a screen recording: the closed island carries Overview, YouTube, Instagram and To-dos one tap away, the current page shows its name, and the arrow opens the full menu. Picked those four because YouTube and Instagram are the delivery work and Overview and To-dos are where clients check in; no click data yet, so revisit once there is. Released as Pages be716de5.
 
+## [2026-09-30] decision | Operator console gets the island menu
+Founder asked for the island on the operator console too. Shipped: no sidebar anywhere now. Operator shortcuts are Overview, Today, Clients and Leads (a default, swap on request); the workspace switcher moved to the top of the open island. Released as Pages 5561e091.
+

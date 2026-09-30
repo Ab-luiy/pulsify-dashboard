@@ -2676,3 +2676,7 @@ Locked founder-approved asset in build-final.cjs, board-final.html, qualified-au
 
 ### [2026-09-30] CODEX
 Built packaging do/dont preview in outreach/resources/packaging-dos-donts/{build.cjs,board.html,packaging-dos-donts.png}. Original Nathan Miller, natural trading speaker, and two TradingLab crops with short annotations grounded in Packaging review.md and packaging-rules.md. Founder title example retained in applied section. No analytics/sales claims; high-reach references critiqued for claim style only. Off-white canvas and bold typography. Chrome render visually inspected, source screenshot files unchanged. Locks cleared.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages 5561e091 from pulsify-saas claude/graphite-preview 6fcd0c9. Operator console now uses the same island menu (founder: "put it on the operator console too"): shortcuts Overview, Today, Clients, Leads (SHORTCUTS in src/components/shell/app-shell.tsx), four columns open, workspace switcher at the top of the open island, page edge to edge, header keeps search, date range, bell, light switch. app-sidebar.tsx and sidebar-footer.tsx removed. The island's arrow button is now 'Open menu' in BOTH shells (Acquisition pages has an 'All pages' filter). FYI all agents: there is no sidebar any more; tests reach menu links with button 'Open menu' first. Live: portal verified via kyle-kirshner preview; operator console needs Access sign-in, bundle verified, founder to eyeball.
+
