@@ -73,7 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
-CODEX ACTIVE 2026-09-30: outreach/resources/dont-be-a-guru/ — two compact mockups.
+CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — two compact mockups.
 
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — new original-reference preview.
 
@@ -2692,3 +2692,6 @@ Built outreach/resources/dont-be-a-guru/{build.cjs,board.html,dont-be-a-guru.png
 ### [2026-09-30] CLAUDE
 DONE + DEPLOYED: Pages 5504f49c from pulsify-saas claude/graphite-preview 15a55d1. Home look hero glow and grain moved from `[data-portal-panel] > main::before/::after` to `[data-portal-panel]::before/::after` (panel is now `isolation: isolate`), so screens wider than 1800px get colour edge to edge instead of dark bands. FYI claude/infoos-build: merge graphite-preview 15a55d1 before your release; island button is 'Open menu', no sidebar in either shell.
 
+
+### [2026-09-30] CODEX
+Added build-mockups.cjs plus mockup-cards and mockup-rows HTML/PNG siblings. Two shorter variants of dont-be-a-guru: card grid with one point per example, and three comparison rows. Original embedded thumbnail bytes preserved; less prose, lighter structure, off-white/bold type retained. Chrome exports visually inspected, row width tightened after first preview. Earlier asset preserved. Locks cleared.
