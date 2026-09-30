@@ -1923,3 +1923,6 @@ Founder asked for the island on the operator console too. Shipped: no sidebar an
 ## [2026-09-30] decision | Background glow covers the whole window
 Founder saw dark bands left and right on a wide desktop screen. The page glow was tied to the content column (max 1800px); it now spans the full window in both shells. Released as Pages 5504f49c.
 
+## [2026-09-30] decision | App wording: Home, and no "health"
+Founder asked for names on the island shortcuts, the real Instagram and YouTube icons, "Home" instead of "Your workspace", and the word "health" gone everywhere. Replacements: Client status with On track / Watch / At risk / Needs onboarding, Funnel score, Collections. Also applied his 2026-09-24 note that sign out is a power button. Released as Pages baa212a7.
+

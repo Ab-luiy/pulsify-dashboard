@@ -2695,3 +2695,7 @@ DONE + DEPLOYED: Pages 5504f49c from pulsify-saas claude/graphite-preview 15a55d
 
 ### [2026-09-30] CODEX
 Added build-mockups.cjs plus mockup-cards and mockup-rows HTML/PNG siblings. Two shorter variants of dont-be-a-guru: card grid with one point per example, and three comparison rows. Original embedded thumbnail bytes preserved; less prose, lighter structure, off-white/bold type retained. Chrome exports visually inspected, row width tightened after first preview. Earlier asset preserved. Locks cleared.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages baa212a7 from pulsify-saas claude/graphite-preview 69c6523. Founder wording round: island shortcuts show names (current only below 768px), new icons (Home house, Today sun, Leads user-plus, To-dos list, tracker clock, Instagram/YouTube marks via NavIcon type in src/components/shell/nav.ts), Sign out is a power button. "Overview"/"Your workspace" -> "Home". No "health" in anything people read: Client status (On track / Watch / At risk / Needs onboarding), Funnel score, Collections, sequence "healthy" -> "on track" (src/lib/sequence-status.ts). API and code names unchanged. FYI claude/infoos-build: merge 69c6523 before release; nav link "Overview" is now "Home" in tests.
+
