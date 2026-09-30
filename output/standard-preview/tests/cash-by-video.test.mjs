@@ -318,6 +318,15 @@ assert.equal(body.client, "acme");
 assert.equal(body.range, "30d");
 assert.equal(body.videos[0].video_id, "videoAAAAAA");
 
+// Operators read any client's videos by name (operator console, ticket #36 follow-up).
+env.ADMIN_KEY = "admin-test-key";
+res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?client=acme&range=30d", { headers: { "x-admin-key": "admin-test-key" } }), env });
+assert.equal(res.status, 200);
+assert.deepEqual((await res.json()).videos.map((row) => row.video_id), body.videos.map((row) => row.video_id), "operator sees the client's own ranking");
+res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash", { headers: { "x-admin-key": "admin-test-key" } }), env });
+assert.equal(res.status, 422, "operator must name a client");
+delete env.ADMIN_KEY;
+
 // ---------- worker schedule ----------
 assert.deepEqual(scheduledJobs("*/30 * * * *"), ["payment-rematch", "client-videos"]);
 assert.deepEqual(scheduledJobs("15 */6 * * *"), ["youtube"]);

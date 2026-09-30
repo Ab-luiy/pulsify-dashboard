@@ -223,4 +223,18 @@ assert.equal(body.range, "90d");
 res = await funnelHealthGet({ request: new Request("https://pulsify-ai.com/api/funnel-health?range=bogus", { headers: { "x-portal-token": "token-acme" } }), env });
 assert.equal((await res.json()).range, "30d", "unknown range falls back to 30 days");
 
+// Operators read any client by name; the name must exist.
+env.ADMIN_KEY = "admin-test-key";
+const asOperator = (query) => funnelHealthGet({ request: new Request(`https://pulsify-ai.com/api/funnel-health${query}`, { headers: { "x-admin-key": "admin-test-key" } }), env });
+res = await asOperator("?client=acme&range=all");
+assert.equal(res.status, 200);
+assert.equal((await res.json()).steps[0].count, 400, "operator sees the same report as the client");
+res = await asOperator("?client=steady");
+assert.equal((await res.json()).client, "steady");
+assert.equal((await asOperator("")).status, 422, "operator must name a client");
+assert.equal((await asOperator("?client=nobody")).status, 404, "unknown client");
+res = await funnelHealthGet({ request: new Request("https://pulsify-ai.com/api/funnel-health?client=acme", { headers: { "x-admin-key": "wrong-key-value" } }), env });
+assert.equal(res.status, 401, "a wrong admin key is not an operator");
+delete env.ADMIN_KEY;
+
 console.log("funnel-health: all checks passed");
