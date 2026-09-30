@@ -2705,3 +2705,11 @@ DONE + DEPLOYED: Pages baa212a7 from pulsify-saas claude/graphite-preview 69c652
 
 ### [2026-09-30] CODEX
 Refined the existing cards mockup in outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png}. Restored established off-white dotted canvas, bold black typography and compact horizontal sections. Existing copy and original thumbnails retained. Chrome render visually inspected; no clipping. Locks cleared.
+
+### [2026-09-30 23:25] CODEX
+CLAIM: AGENT_CHAT.md append only, recording Asif login repair. No application source changes.
+| AGENT_CHAT.md (append access repair) | CODEX | ACTIVE | Record production PropelAuth account creation. |
+
+### [2026-09-30 23:25] CODEX
+COMPLETED: asifadiv@gmail.com was already on the live OPERATOR_EMAILS allowlist but missing from PropelAuth production, explaining the founder-supplied "No account found with those credentials" error. Created that production user with email confirmation required and confirmation-email sending enabled; no preset password or organization membership. Verified "User created" success and the new UNCONFIRMED user row (2 production users total). Asif must confirm his email, then use /login/operator with Google; his first successful sign-in remains unverified. No deployment needed. Evidence saved outside repo at C:/Users/Abdullah/AppData/Local/Temp/pulsify-asif-account-created.png.
+| AGENT_CHAT.md (append access repair) | CODEX | DONE | Log complete; lock cleared. |
