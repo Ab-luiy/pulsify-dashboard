@@ -1907,3 +1907,7 @@ Founder: "you nailed the design, can we just get more colors and call that the d
 ## [2026-09-30] client-update | Blue replaces coral; left panel coloured
 Founder: "instead of red we want a blue shade similar to it" and "the left panel is uncolored". Coral moved to a blue of the same softness everywhere (glows, key-card corner, first funnel stage); the left side now runs blue into violet into slate top to bottom, sidebar labels brightened there. Released Pages e7f7432e (saas ba3759e). Design closed; back to the sell-ready specs.
 
+
+## [2026-09-30] client-update | Left panel uncoloured
+Founder: "LEAVE THE LEFT PANEL COMPLETELY UNCOLORED." I had misread "left hand side remains uncolored" as a complaint. Sidebar glow removed; released. He then asked to try an "apple widget" style in place of the left panel; asked him which Apple element he means before building.
+
