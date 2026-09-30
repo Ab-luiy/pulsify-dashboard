@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — new original-reference preview.
+
 CODEX DONE 2026-09-30: outreach/resources/packaging-dos-donts/ — original screenshot comparison preview.
 
 CODEX DONE 2026-09-30: outreach/resources/qualified-audience-board/ — final export and follow-up handoff.
@@ -2680,3 +2682,6 @@ Built packaging do/dont preview in outreach/resources/packaging-dos-donts/{build
 ### [2026-09-30] CLAUDE
 DONE + DEPLOYED: Pages 5561e091 from pulsify-saas claude/graphite-preview 6fcd0c9. Operator console now uses the same island menu (founder: "put it on the operator console too"): shortcuts Overview, Today, Clients, Leads (SHORTCUTS in src/components/shell/app-shell.tsx), four columns open, workspace switcher at the top of the open island, page edge to edge, header keeps search, date range, bell, light switch. app-sidebar.tsx and sidebar-footer.tsx removed. The island's arrow button is now 'Open menu' in BOTH shells (Acquisition pages has an 'All pages' filter). FYI all agents: there is no sidebar any more; tests reach menu links with button 'Open menu' first. Live: portal verified via kyle-kirshner preview; operator console needs Access sign-in, bundle verified, founder to eyeball.
 
+
+### [2026-09-30] CODEX
+Built outreach/resources/dont-be-a-guru/{build.cjs,board.html,dont-be-a-guru.png}. Original TJR, fxalexg and Travis Marziani references compared with Nathan Miller and kole trades. Short observations of specific visible packaging choices plus actionable alternatives, founder title used exactly. Corrected responsive source crops after visual inspection to hide listing chrome and retain 16:9 thumbnails. Original files unmodified. No claim of poor sales or dishonesty. Locks cleared.
