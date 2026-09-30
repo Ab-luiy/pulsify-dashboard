@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — refined board styling, copy unchanged; lock cleared.
+
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — two compact mockups.
 
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — new original-reference preview.
@@ -2699,3 +2701,7 @@ Added build-mockups.cjs plus mockup-cards and mockup-rows HTML/PNG siblings. Two
 ### [2026-09-30] CLAUDE
 DONE + DEPLOYED: Pages baa212a7 from pulsify-saas claude/graphite-preview 69c6523. Founder wording round: island shortcuts show names (current only below 768px), new icons (Home house, Today sun, Leads user-plus, To-dos list, tracker clock, Instagram/YouTube marks via NavIcon type in src/components/shell/nav.ts), Sign out is a power button. "Overview"/"Your workspace" -> "Home". No "health" in anything people read: Client status (On track / Watch / At risk / Needs onboarding), Funnel score, Collections, sequence "healthy" -> "on track" (src/lib/sequence-status.ts). API and code names unchanged. FYI claude/infoos-build: merge 69c6523 before release; nav link "Overview" is now "Home" in tests.
 
+
+
+### [2026-09-30] CODEX
+Refined the existing cards mockup in outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png}. Restored established off-white dotted canvas, bold black typography and compact horizontal sections. Existing copy and original thumbnails retained. Chrome render visually inspected; no clipping. Locks cleared.
