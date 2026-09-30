@@ -1914,3 +1914,6 @@ Founder: "LEAVE THE LEFT PANEL COMPLETELY UNCOLORED." I had misread "left hand s
 ## [2026-09-30] decision | Client portal menu becomes a top island
 Founder asked to drop the left panel for a Dynamic Island style menu at the top of the screen, with the page filling the window, in the motion of the post he shared on 2026-09-25 (one shape that morphs, content swaps with a short blur). Built and released: black pill at the top centre shows the current page, hover or tap springs it open into the full menu, Escape or a pick closes it. Operator console keeps its sidebar until he approves the same there. Screens in output/qa/2026-09-30-island/.
 
+## [2026-09-30] decision | Island menu gets four shortcuts
+Founder asked for a simpler island with defaults. Approved after screenshots and a screen recording: the closed island carries Overview, YouTube, Instagram and To-dos one tap away, the current page shows its name, and the arrow opens the full menu. Picked those four because YouTube and Instagram are the delivery work and Overview and To-dos are where clients check in; no click data yet, so revisit once there is. Released as Pages be716de5.
+
