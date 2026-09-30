@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-30: outreach/resources/packaging-dos-donts/ — original screenshot comparison preview.
+
 CODEX DONE 2026-09-30: outreach/resources/qualified-audience-board/ — final export and follow-up handoff.
 
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — expanded thumbnail spread and straight sequence.
@@ -2671,3 +2673,6 @@ DONE + DEPLOYED: Pages be716de5 from pulsify-saas claude/graphite-preview 30824a
 
 ### [2026-09-30] CODEX
 Locked founder-approved asset in build-final.cjs, board-final.html, qualified-audience-final.png and FINAL.md. Minor final label/edge polish, original thumbnails and approved layout retained. Chrome render inspected, five steps have no overflow. Recorded Day 2 attachment copy and next packaging do/dont asset brief. Existing output/qa/2026-09-30-operator-island belongs to separate work and was not edited. Locks cleared.
+
+### [2026-09-30] CODEX
+Built packaging do/dont preview in outreach/resources/packaging-dos-donts/{build.cjs,board.html,packaging-dos-donts.png}. Original Nathan Miller, natural trading speaker, and two TradingLab crops with short annotations grounded in Packaging review.md and packaging-rules.md. Founder title example retained in applied section. No analytics/sales claims; high-reach references critiqued for claim style only. Off-white canvas and bold typography. Chrome render visually inspected, source screenshot files unchanged. Locks cleared.
