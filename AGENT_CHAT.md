@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX ACTIVE 2026-09-30: outreach/resources/dont-be-a-guru/ — two compact mockups.
+
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — new original-reference preview.
 
 CODEX DONE 2026-09-30: outreach/resources/packaging-dos-donts/ — original screenshot comparison preview.
