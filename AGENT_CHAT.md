@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+CODEX DONE 2026-09-30: outreach/resources/qualified-audience-board/ — final export and follow-up handoff.
+
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — expanded thumbnail spread and straight sequence.
 
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — horizontal slideshow revision.
@@ -2666,3 +2668,6 @@ DONE + DEPLOYED: Pages b870544d from pulsify-saas claude/graphite-preview 09bdd2
 ### [2026-09-30] CLAUDE
 DONE + DEPLOYED: Pages be716de5 from pulsify-saas claude/graphite-preview 30824a9. Founder approved ("ship it") the simpler island: the closed pill carries four shortcuts (Overview, YouTube, Instagram, To-dos; SHORTCUTS in src/features/portal/portal-shell.tsx), the current page shows its name, the highlight slides between them, any other page joins the pill while open. The arrow button 'All pages' opens the full menu; hover-open removed. Phones place the island left so the bell stays visible. Tests: open the menu with button 'All pages' (tests/portal.spec.ts). Live check on kyle-kirshner: 4 shortcuts, 16 links open, exit preview works.
 
+
+### [2026-09-30] CODEX
+Locked founder-approved asset in build-final.cjs, board-final.html, qualified-audience-final.png and FINAL.md. Minor final label/edge polish, original thumbnails and approved layout retained. Chrome render inspected, five steps have no overflow. Recorded Day 2 attachment copy and next packaging do/dont asset brief. Existing output/qa/2026-09-30-operator-island belongs to separate work and was not edited. Locks cleared.
