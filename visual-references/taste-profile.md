@@ -89,3 +89,8 @@ He also said to save it for when there is a landing page and not to replace the 
 
 After four palette rounds on the dashboard he said: "not crazy saturation, i need it to be a calm and cozy vibe that just feels like a dim lit room." Rejected along the way: colour confined to a thin gutter, three competing colour groups on one screen, muted dusk variants without enough warmth, and (by his instruction before it was shown) high saturation. What he is asking for: warm low light (lamp, candle, brass), warm near-black or warm linen bases, low saturation, soft film grain, gentle tonal steps. Five palettes built on that brief in `output/qa/2026-09-30-cozy/`.
 
+
+## The rule for colour inside the app (founder, 2026-09-30)
+
+"When you made Pulsify's landing page you used colors pretty well and knew where to place them... apply the same concept into the design inside... the color inside has to match the homepage, it can either turn a darker shade or a different kind that matches." Lesson after six rejected rounds: the problem was placement, not palette. Copy the homepage's placement: the coral, violet and slate glow with grain behind the page title, fading before the content; content cards in plain charcoal on top; one soft coral corner on the key card (the proof card); the funnel shape as the coloured 'art' zone in the same hues; a quieter glow at the bottom of the page; silver-white buttons; small status pills. Never: colour squeezed into a gutter, colour filling the whole window, gradients filling whole cards, palettes that don't come from the homepage. Implemented as the `home` look on pulsify-saas `claude/graphite-preview`.
+
