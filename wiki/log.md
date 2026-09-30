@@ -1911,3 +1911,6 @@ Founder: "instead of red we want a blue shade similar to it" and "the left panel
 ## [2026-09-30] client-update | Left panel uncoloured
 Founder: "LEAVE THE LEFT PANEL COMPLETELY UNCOLORED." I had misread "left hand side remains uncolored" as a complaint. Sidebar glow removed; released. He then asked to try an "apple widget" style in place of the left panel; asked him which Apple element he means before building.
 
+## [2026-09-30] decision | Client portal menu becomes a top island
+Founder asked to drop the left panel for a Dynamic Island style menu at the top of the screen, with the page filling the window, in the motion of the post he shared on 2026-09-25 (one shape that morphs, content swaps with a short blur). Built and released: black pill at the top centre shows the current page, hover or tap springs it open into the full menu, Escape or a pick closes it. Operator console keeps its sidebar until he approves the same there. Screens in output/qa/2026-09-30-island/.
+
