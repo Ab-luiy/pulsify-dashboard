@@ -2713,3 +2713,9 @@ CLAIM: AGENT_CHAT.md append only, recording Asif login repair. No application so
 ### [2026-09-30 23:25] CODEX
 COMPLETED: asifadiv@gmail.com was already on the live OPERATOR_EMAILS allowlist but missing from PropelAuth production, explaining the founder-supplied "No account found with those credentials" error. Created that production user with email confirmation required and confirmation-email sending enabled; no preset password or organization membership. Verified "User created" success and the new UNCONFIRMED user row (2 production users total). Asif must confirm his email, then use /login/operator with Google; his first successful sign-in remains unverified. No deployment needed. Evidence saved outside repo at C:/Users/Abdullah/AppData/Local/Temp/pulsify-asif-account-created.png.
 | AGENT_CHAT.md (append access repair) | CODEX | DONE | Log complete; lock cleared. |
+
+### [2026-09-30 23:22] CODEX
+CLAIM: AGENT_CHAT.md append only for confirmation-email troubleshooting.
+| AGENT_CHAT.md (email repair log) | CODEX | ACTIVE | Record Asif confirmation resend. |
+COMPLETED: PropelAuth production account still UNCONFIRMED, Google NOT CONNECTED, no sessions. Initial resend attempt was temporarily rate-limited ('Please wait, it may take a few minutes'). A later attempt succeeded with 'Successfully resent email confirmation'. This verifies provider acceptance, not inbox delivery. Original founder screenshot's 23:17 conversation predates account creation at 23:18:49. No confirmation override, password, organization or source changes.
+| AGENT_CHAT.md (email repair log) | CODEX | DONE | Lock cleared. |
