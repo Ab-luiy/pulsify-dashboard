@@ -16,6 +16,12 @@ import { onRequestGet as visitorsGet } from "../functions/api/lead-visitors.js";
 import { onRequestPost as outcomePost, onRequestDelete as outcomeDelete } from "../functions/api/lead-outcomes.js";
 import { onRequestPost as flagPost } from "../functions/api/call-flags.js";
 import { normalizeCalBooking, normalizeCalendlyBooking } from "../functions/_shared/hooks.js";
+import { onRequestGet as callsGet } from "../functions/api/lead-calls.js";
+import { onRequestGet as analyticsGet } from "../functions/api/funnel-analytics.js";
+import { onRequestGet as linksGet, onRequestPost as linksPost, onRequestDelete as linksDelete } from "../functions/api/tracked-links.js";
+import { onRequestGet as qualifyGet, onRequestPut as qualifyPut } from "../functions/api/lead-qualify.js";
+import { onRequestGet as pagesGet, onRequestPost as pagesPost } from "../functions/api/pages.js";
+import { onRequestGet as linkRedirect } from "../functions/a/[token].js";
 
 const sql = new DatabaseSync(":memory:");
 const mig = (name) => readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8");
@@ -42,6 +48,8 @@ sql.exec(mig("0028_onboarding.sql"));
 sql.exec(mig("0031_notifications.sql"));
 sql.exec(mig("0043_cash_by_video.sql"));
 sql.exec(mig("0045_lead_score.sql"));
+sql.exec("ALTER TABLE client_config ADD COLUMN template_variant TEXT DEFAULT 'canonical'; ALTER TABLE client_config ADD COLUMN page_content_json TEXT; ALTER TABLE client_config ADD COLUMN page_active INTEGER DEFAULT 1; ALTER TABLE client_config ADD COLUMN proof_images_json TEXT;");
+sql.exec(mig("0046_links_team.sql"));
 
 const env = {
   DB: {
@@ -312,6 +320,20 @@ assert.equal(res.status, 404);
 res = await post(flagPost, { booking_ref: "book-ann", confirmed: true }, { "x-portal-token": "token-other" });
 assert.equal(res.status, 404, "cannot confirm another workspace's call");
 
+// ---------- calls ----------
+res = await get(callsGet, `/api/lead-calls?month=${ahead(4).slice(0, 7)}`, { "x-portal-token": "token-acme" });
+assert.equal(res.status, 200);
+body = await res.json();
+const annCall = [...body.calls, ...body.upcoming].find((c) => c.booking_ref === "book-ann");
+assert.equal(annCall.state, "closed", "the post-call form says how the call went");
+assert.equal(annCall.confirmed, true);
+assert.equal(annCall.join_url, "https://meet.example/ann");
+res = await get(callsGet, `/api/lead-calls?month=${ago(2).slice(0, 7)}`, { "x-portal-token": "token-acme" });
+body = await res.json();
+assert.equal(body.calls.find((c) => c.booking_ref === "book-cara").state, "cancelled");
+assert.ok(body.stats.held_30d >= 0);
+assert.equal((await get(callsGet, "/api/lead-calls", { "x-portal-token": "token-other" }).then((r) => r.json())).calls.some((c) => c.booking_ref === "book-ann"), false, "calls stay in their workspace");
+
 // ---------- the hot-lead alert ----------
 // Fay: applied an hour ago after watching the whole video from YouTube and coming back. Nobody has called.
 page("acme", "fay-1", "page_view", ago(2), { utm: { utm_source: "youtube", utm_content: "vid111" } });
@@ -371,6 +393,83 @@ const skipper = scorePerson(synthetic[1].person, fitted, NOW);
 assert.ok(watcher.score > skipper.score);
 const few = fitModel(base, synthetic.slice(0, 10), NOW);
 assert.equal(few.fitted.applied, false, "too few outcomes keeps the starting weights");
+
+// ---------- performance: funnel analytics ----------
+env.ADMIN_KEY = "admin-test-key";
+res = await get(analyticsGet, "/api/funnel-analytics?range=30d", { "x-portal-token": "token-acme" });
+assert.equal(res.status, 200);
+body = await res.json();
+assert.ok(body.tiles.visitors >= 10);
+assert.ok(body.tiles.applications >= 3);
+assert.equal(body.tiles.application_rate, body.tiles.applications / body.tiles.visitors);
+const yt = body.sources.find((s) => s.source === "youtube");
+assert.ok(yt && yt.visitors >= 2 && yt.applications >= 1, "YouTube visitors and what they turned into");
+assert.ok(body.globe.some((p) => Math.round(p.lat) === 30), "Austin on the globe");
+assert.ok(body.video.viewers >= 2);
+assert.equal(body.video.retention[0].share, 1, "everyone who played is at the start");
+assert.ok(body.video.retention.at(-1).share > 0, "somebody finished");
+const budget = body.questions.find((q) => q.key === "budget");
+assert.ok(budget.answers.some((a) => a.value === "Under $1k" && a.disqualify), "the rule shows on its answer");
+assert.equal(body.qualification.rules_set, true);
+assert.equal((await get(analyticsGet, "/api/funnel-analytics", { "x-portal-token": "token-other" }).then((r) => r.json())).tiles.applications, 0, "numbers stay in their workspace");
+
+// ---------- applications: qualifying answers ----------
+const put = (handler, payload, headers = { "x-portal-token": "token-acme" }) => handler({
+  request: new Request("https://pulsify-ai.com/api/x", { method: "PUT", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(payload) }),
+  env,
+});
+res = await put(qualifyPut, { questions: { budget: { disqualify: ["Under $1k", "Under $1k", ""] }, empty: { disqualify: [] } } });
+assert.equal(res.status, 200);
+assert.deepEqual((await res.json()).rules, { questions: { budget: { disqualify: ["Under $1k"] } } }, "duplicates and empty rules dropped");
+res = await get(qualifyGet, "/api/lead-qualify?client=acme", { "x-admin-key": "admin-test-key" });
+assert.deepEqual((await res.json()).rules.questions.budget.disqualify, ["Under $1k"]);
+
+// ---------- links ----------
+res = await post(linksPost, { label: "" });
+assert.equal(res.status, 422, "a link needs a name");
+res = await post(linksPost, { label: "Instagram bio", source: "instagram", placement: "bio" });
+assert.equal(res.status, 201);
+const link = await res.json();
+assert.match(link.url, /\/a\/[a-z0-9]+$/);
+const hop = await linkRedirect({ request: new Request(link.url), env, params: { token: link.token } });
+const landed = new URL(hop.headers.get("location"));
+assert.equal(landed.pathname, "/acme");
+assert.equal(landed.searchParams.get("utm_source"), "instagram");
+assert.equal(landed.searchParams.get("utm_medium"), "bio");
+assert.equal(landed.searchParams.get("utm_content"), `l-${link.token}`);
+// A person who came through the link and bought counts toward it.
+page("acme", "gil-1", "page_view", ago(1), { utm: { utm_source: "instagram", utm_medium: "bio", utm_content: `l-${link.token}` } });
+lead("acme", "gil@example.com", "gil-1", ago(1));
+touch("acme", "gil@example.com", "application", ago(1), "app-gil");
+pay("acme", "gil@example.com", 100000, ago(0));
+res = await get(linksGet, "/api/lead-pipeline", { "x-portal-token": "token-acme" });
+body = await res.json();
+const row = body.links.find((l) => l.token === link.token);
+assert.equal(row.clicks, 1);
+assert.equal(row.visitors, 1);
+assert.equal(row.applications, 1);
+assert.equal(row.cash_cents, 100000);
+assert.equal((await get(linksGet, "/api/tracked-links", { "x-portal-token": "token-other" }).then((r) => r.json())).links.length, 0);
+res = await linksDelete({ request: new Request(`https://pulsify-ai.com/api/tracked-links?token=${link.token}`, { method: "DELETE", headers: { "x-portal-token": "token-other" } }), env });
+assert.equal(res.status, 404, "cannot remove another workspace's link");
+res = await linksDelete({ request: new Request(`https://pulsify-ai.com/api/tracked-links?token=${link.token}`, { method: "DELETE", headers: { "x-portal-token": "token-acme" } }), env });
+assert.equal(res.status, 200);
+
+// ---------- pages and the builder ----------
+res = await get(pagesGet, "/api/pages?range=30d", { "x-portal-token": "token-acme" });
+body = await res.json();
+assert.equal(body.page.url.endsWith("/acme"), true);
+assert.ok(body.page.tokens.includes("HEADLINE_LINE_ONE"));
+assert.ok(body.pages[0].visitors >= 5);
+assert.equal(body.flow[0].key, "visit");
+res = await post(pagesPost, { page_content: { HEADLINE_LINE_ONE: "Trade calmer,", NOT_A_TOKEN: "x", HERO_CTA: "" }, wistia_media_id: "abc123xyz0" });
+assert.equal(res.status, 200);
+const saved = JSON.parse(sql.prepare("SELECT page_content_json FROM client_config WHERE client='acme'").get().page_content_json);
+assert.deepEqual(saved, { HEADLINE_LINE_ONE: "Trade calmer," }, "only template words save; an empty field goes back to the default");
+res = await post(pagesPost, { typeform_url: "https://evil.example/form" });
+assert.equal(res.status, 422, "only Typeform links");
+res = await post(pagesPost, { wistia_media_id: "<script>" });
+assert.equal(res.status, 422);
 
 delete env.ADMIN_KEY;
 console.log("lead-score: all checks passed");
