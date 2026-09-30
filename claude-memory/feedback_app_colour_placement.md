@@ -13,3 +13,5 @@ Inside the app, use the homepage draft's colours (coral #8a4b3f, violet #4d3f68,
 **Why:** founder, 2026-09-30, after rejecting six rounds (gutter glow, liquid glass/dusk/bloom/spotlight, six reference palettes, grain palettes, cozy palettes, Candle): "when you made pulsify's landing page you used colors pretty well and knew where to place them. why can't you apply the same concept into the design inside? the color inside has to match the homepage." He also wants calm and dim, never high saturation.
 
 **How to apply:** before any colour work in the app, open output/home-draft/home.css and copy placement first, palette second. Implemented as the `home` look (pulsify-saas claude/graphite-preview). Related: [[project_infoos_integration]], [[project_visual_references]].
+
+Update 2026-09-30: the client portal no longer has a left panel at all; the menu is a black Dynamic Island at the top centre and the page runs edge to edge (founder asked for it, released as Pages b870544d). Operator console still has the uncoloured sidebar.
