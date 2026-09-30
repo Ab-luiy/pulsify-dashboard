@@ -184,8 +184,8 @@ async function recordBooking(env, integration, provider, booking, waitUntil) {
   });
 
   if (!event.duplicate) {
-    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status } }).catch(() => sideEffectFailure(env, "hooks_operation_4"));
     const cancelled = /cancel/i.test(String(booking.status || ""));
+    await recordTouch(env, { client: integration.client, email: booking.email, name: booking.name, kind: "booking", ts: booking.starts_at || nowIso(), source: provider, externalId: booking.event_id, payload: { starts_at: booking.starts_at, status: booking.status, booked_at: cancelled ? null : booking.booked_at || nowIso(), cancelled_at: cancelled ? booking.booked_at || nowIso() : null, join_url: booking.join_url || null } }).catch(() => sideEffectFailure(env, "hooks_operation_4"));
     await notify(env, {
       scope: "operator",
       clientId: integration.client,
@@ -230,25 +230,30 @@ async function recordIgnored(env, client, provider, body, reason) {
   return json({ ok: true, recorded: false, reason });
 }
 
-function normalizeCalBooking(body) {
+export function normalizeCalBooking(body) {
   const payload = body?.payload || body?.data || body;
   const type = str(body?.triggerEvent || body?.eventType || body?.type || payload?.type).toLowerCase();
   if (!type.includes("booking")) return null;
 
-  const attendee = payload?.attendee || payload?.booking?.attendees?.[0] || {};
-  const eventId = str(payload?.id || payload?.booking?.id || body?.id || body?.eventId);
+  const attendee = payload?.attendee || payload?.attendees?.[0] || payload?.booking?.attendees?.[0] || {};
+  const eventId = str(payload?.uid || payload?.id || payload?.booking?.id || body?.id || body?.eventId);
   if (!eventId) return null;
+  const status = strOrNull(type.includes("cancel") ? type : payload?.status || type);
+  // A cancellation names the same booking; its own id keeps it from being dropped as a duplicate.
+  const cancelled = /cancel/i.test(String(status || ""));
 
   return {
-    event_id: eventId,
+    event_id: cancelled ? `${eventId}#canceled` : eventId,
     email: normalizeEmail(attendee?.email || payload?.email),
     name: strOrNull(attendee?.name || payload?.name),
     starts_at: strOrNull(payload?.startTime || payload?.startsAt || payload?.start_time),
-    status: strOrNull(payload?.status || type),
+    status,
+    booked_at: strOrNull(body?.createdAt || payload?.createdAt || payload?.created_at),
+    join_url: strOrNull(payload?.metadata?.videoCallUrl || payload?.videoCallData?.url || (/^https?:/.test(String(payload?.location || "")) ? payload.location : null)),
   };
 }
 
-function normalizeCalendlyBooking(body) {
+export function normalizeCalendlyBooking(body) {
   const event = body?.event || body?.event_type || body?.type || "";
   const payload = body?.payload || body;
   if (!String(event).toLowerCase().includes("invitee") && !String(event).toLowerCase().includes("event")) {
@@ -258,13 +263,18 @@ function normalizeCalendlyBooking(body) {
   const invitee = payload?.invitee || body?.invitee || {};
   const eventId = str(payload?.event || invitee?.uri || payload?.uri || body?.id);
   if (!eventId) return null;
+  const status = strOrNull(event || payload?.status);
+  // invitee.canceled carries the same event URI as invitee.created; give it its own id.
+  const cancelled = /cancel/i.test(String(status || "")) || payload?.status === "canceled";
 
   return {
-    event_id: eventId,
+    event_id: cancelled ? `${eventId}#canceled` : eventId,
     email: normalizeEmail(invitee?.email || payload?.email),
     name: strOrNull(invitee?.name || payload?.name),
     starts_at: strOrNull(payload?.scheduled_event?.start_time || payload?.start_time || payload?.startTime || body?.created_at),
-    status: strOrNull(event || payload?.status),
+    status: cancelled ? "canceled" : status,
+    booked_at: strOrNull(cancelled ? payload?.updated_at || body?.created_at : payload?.created_at || body?.created_at),
+    join_url: strOrNull(payload?.scheduled_event?.location?.join_url || payload?.join_url),
   };
 }
 

@@ -494,7 +494,13 @@
   // for this page load, so readers take the largest per visitor.
   function trackEngagement() {
     const IDLE_MS = 30000;
+    // One id per page load, so running totals from two loads in one tab are never merged.
+    const loadId = Math.random().toString(36).slice(2, 12);
     let activeMs = 0;
+    // Rage clicks (three or more fast clicks on one spot): a sign something on the page looks
+    // clickable and isn't. Shown on the lead, not used in the score.
+    let rageClicks = 0;
+    let burst = [];
     let proofMs = 0;
     let lastTick = performance.now();
     let lastInput = lastTick;
@@ -518,6 +524,12 @@
     for (const type of ["pointermove", "pointerdown", "keydown", "wheel", "touchstart"]) {
       addEventListener(type, onInput, { passive: true });
     }
+    addEventListener("pointerdown", (event) => {
+      const at = performance.now();
+      burst = burst.filter((c) => at - c.at < 800 && Math.hypot(c.x - event.clientX, c.y - event.clientY) < 40);
+      burst.push({ at, x: event.clientX, y: event.clientY });
+      if (burst.length === 3) rageClicks += 1;
+    }, { passive: true });
     addEventListener("scroll", () => {
       onInput();
       const room = document.documentElement.scrollHeight - innerHeight;
@@ -547,8 +559,10 @@
         max_scroll: Math.round(maxScroll * 100),
         full_scrolls: fullScrolls,
         proof_seconds: Math.round(proofMs / 1000),
+        rage_clicks: rageClicks,
+        load_id: loadId,
       };
-      const key = JSON.stringify(metadata);
+      const key = JSON.stringify({ ...metadata, load_id: undefined });
       if (key === sentKey || (!metadata.active_seconds && !metadata.max_scroll)) return;
       sentKey = key;
       window.PulsifyFunnel.track("engagement", metadata);

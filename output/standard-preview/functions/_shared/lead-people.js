@@ -26,7 +26,7 @@ const recentVisitors = (since, limit) => ({
   params: (client) => [client, since],
 });
 
-const listVisitors = (ids) => ({
+export const listVisitors = (ids) => ({
   sql: ids.map(() => "SELECT ? AS visitor_id").join(" UNION ALL ") || "SELECT NULL AS visitor_id WHERE 0",
   params: () => ids,
 });
@@ -37,7 +37,7 @@ async function all(env, sql, params) {
 }
 
 /** Per-browser aggregates for one set of browsers. */
-async function visitorAggregates(env, client, set) {
+export async function visitorAggregates(env, client, set) {
   const scope = `client=? AND visitor_id IN (${set.sql})`;
   const scoped = () => [client, ...set.params(client)];
   const [stats, first, last, loads, tags, watch] = await Promise.all([
@@ -89,7 +89,7 @@ async function visitorAggregates(env, client, set) {
 }
 
 /** Everything per client that is keyed by email rather than browser. */
-async function clientRows(env, client) {
+export async function clientRows(env, client, now = Date.now()) {
   const [edges, touches, leads, payments, outcomes, flags, videos, prefs, models, anon, video] = await Promise.all([
     all(env, `SELECT visitor_id, lower(email) AS email FROM page_events WHERE client=? AND visitor_id IS NOT NULL AND email IS NOT NULL AND email<>'' GROUP BY visitor_id, lower(email)
               UNION SELECT visitor_id, lower(email) FROM leads WHERE client=? AND visitor_id IS NOT NULL AND email IS NOT NULL AND email<>''
@@ -114,7 +114,7 @@ async function clientRows(env, client) {
       `SELECT COUNT(DISTINCT visitor_id) AS matured FROM page_events
         WHERE client=? AND event='page_view' AND visitor_id IS NOT NULL AND at < ? AND at >= ?
           AND (email IS NULL OR email='')`,
-    ).bind(client, new Date(Date.now() - 30 * DAY).toISOString(), new Date(Date.now() - 365 * DAY).toISOString()).first().catch(() => null),
+    ).bind(client, new Date(now - 30 * DAY).toISOString(), new Date(now - 365 * DAY).toISOString()).first().catch(() => null),
     env.DB.prepare(
       `SELECT (SELECT wistia_media_id FROM client_config WHERE client=?) AS media,
               (SELECT 1 FROM watch_events WHERE client=? LIMIT 1) AS watched`,
@@ -232,7 +232,7 @@ function callState(bookings, outcomes, now) {
  * `onlyKnown` drops browsers with no email; `visitorScope` keeps components that
  * contain one of these browsers.
  */
-function assemble(client, byVisitor, rows, now, { onlyKnown = false, visitorScope = null } = {}) {
+export function assemble(client, byVisitor, rows, now, { onlyKnown = false, visitorScope = null } = {}) {
   const uf = unionFind();
   for (const id of byVisitor.keys()) uf.find(`v:${id}`);
   for (const edge of rows.edges) if (edge.visitor_id && edge.email) uf.union(`v:${edge.visitor_id}`, `e:${edge.email}`);
@@ -567,7 +567,7 @@ function summarize(person, model, present, hasVideo, now) {
 
 export async function loadPipeline(env, clientId, { now = Date.now() } = {}) {
   const client = cleanId(clientId, "");
-  const [rows, byVisitor] = await Promise.all([clientRows(env, client), visitorAggregates(env, client, KNOWN_VISITORS)]);
+  const [rows, byVisitor] = await Promise.all([clientRows(env, client, now), visitorAggregates(env, client, KNOWN_VISITORS)]);
   const people = assemble(client, byVisitor, rows, now, { onlyKnown: true });
   const present = presentSteps(rows, people);
   const model = storedModel(rows, present, now) || liveModel(rows, people, present, now);
@@ -580,7 +580,7 @@ export async function loadPipeline(env, clientId, { now = Date.now() } = {}) {
 export async function loadVisitors(env, clientId, { since, limit = 200, now = Date.now() } = {}) {
   const client = cleanId(clientId, "");
   const set = recentVisitors(since, limit);
-  const [rows, byVisitor] = await Promise.all([clientRows(env, client), visitorAggregates(env, client, set)]);
+  const [rows, byVisitor] = await Promise.all([clientRows(env, client, now), visitorAggregates(env, client, set)]);
   // Known people among these browsers pull in their other browsers too.
   const scope = new Set(byVisitor.keys());
   const extra = new Set();

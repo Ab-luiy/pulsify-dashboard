@@ -80,20 +80,29 @@ export const STAGE_START = {
 };
 
 // Behaviour, compared with others at the same step. x is 0..1. mean = starting
-// assumption for the average person, replaced by the client's own people.
+// assumption for the average person, replaced by the client's own people. The watching
+// signals (video, time, proof, scroll, button) move together, so their starting weights
+// are split between them rather than each counted in full.
 export const BEHAVIOUR = [
-  { key: "vsl", w: 1.2, mean: 0.3, sigma: 0.5 },
-  { key: "vsl_done", w: 0.3, mean: 0.1, sigma: 0.4 },
-  { key: "active", w: 0.6, mean: 0.3, sigma: 0.4 },
-  { key: "returned", w: 0.8, mean: 0.1, sigma: 0.5 },
-  { key: "proof", w: 0.3, mean: 0.3, sigma: 0.3 },
-  { key: "scroll", w: 0.2, mean: 0.4, sigma: 0.3 },
-  { key: "cta", w: 0.3, mean: 0.2, sigma: 0.3 },
-  { key: "youtube", w: 0.5, mean: 0.2, sigma: 0.5 },
-  { key: "multi_video", w: 0.4, mean: 0.03, sigma: 0.4 },
+  { key: "vsl", w: 0.8, mean: 0.3, sigma: 0.5 },
+  { key: "vsl_done", w: 0.2, mean: 0.1, sigma: 0.4 },
+  { key: "active", w: 0.4, mean: 0.3, sigma: 0.4 },
+  { key: "returned", w: 0.6, mean: 0.1, sigma: 0.5 },
+  { key: "proof", w: 0.2, mean: 0.3, sigma: 0.3 },
+  { key: "scroll", w: 0.1, mean: 0.4, sigma: 0.3 },
+  { key: "cta", w: 0.2, mean: 0.2, sigma: 0.3 },
+  { key: "youtube", w: 0.4, mean: 0.2, sigma: 0.5 },
+  { key: "multi_video", w: 0.3, mean: 0.03, sigma: 0.4 },
   { key: "phone", w: 0.2, mean: 0.3, sigma: 0.3 },
   { key: "bad_email", w: -1.0, mean: 0.03, sigma: 0.5 },
 ];
+
+// Until a client's own outcomes are fitted, behaviour moves the odds at most 2.0 in
+// log-odds either way (about 7x). That is the documented size of being pre-sold: Jeremy
+// Haynes' close rate goes from 20-30% to 40-60% with a pre-frame and show rate from
+// 40-50% to 60-70% with hammer them (wiki/frameworks/call-funnel-framework.md), about
+// +1.1 and +0.8 in log-odds.
+export const BEHAVIOUR_CAP = 2.0;
 
 // What happened. Not centred: they apply only when true.
 export const STATES = [
@@ -298,11 +307,13 @@ export function scorePerson(person, model, now) {
   };
   const f = features(person);
   const means = model.means?.[stage] || {};
-  for (const b of BEHAVIOUR) {
-    const w = model.weights[b.key] ?? b.w;
+  const behaviour = BEHAVIOUR.map((b) => {
     const m = means[b.key] ?? b.mean;
-    add(b.key, w * (f[b.key] - m), { value: f[b.key], typical: Math.round(m * 100) / 100 });
-  }
+    return { key: b.key, c: (model.weights[b.key] ?? b.w) * (f[b.key] - m), value: f[b.key], typical: Math.round(m * 100) / 100 };
+  });
+  const sum = behaviour.reduce((total, b) => total + b.c, 0);
+  const scale = !model.fitted?.applied && Math.abs(sum) > BEHAVIOUR_CAP ? BEHAVIOUR_CAP / Math.abs(sum) : 1;
+  for (const b of behaviour) add(b.key, b.c * scale, { value: b.value, typical: b.typical });
   const st = states(person);
   for (const s of STATES) if (st[s.key]) add(s.key, model.weights[s.key] ?? s.w);
   const weeks = idleWeeks(person, now);

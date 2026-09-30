@@ -10,6 +10,7 @@ import { followUpDigest, ingestSeen, sweepSeen } from "./jobs/outreach-notify.js
 import { handleZernioEvent, syncZernioInbox } from "./jobs/zernio-inbox.js";
 import { syncSearchIndex } from "./jobs/search-index.js";
 import { syncClientVideosJob } from "./jobs/client-videos.js";
+import { refreshLeadModelsJob } from "./jobs/lead-models.js";
 import { verifySignature } from "../../../functions/_shared/zernio.js";
 
 const JOBS = {
@@ -22,6 +23,7 @@ const JOBS = {
   "zernio-inbox": syncZernioInbox,
   "search-index": syncSearchIndex,
   "client-videos": syncClientVideosJob,
+  "lead-models": refreshLeadModelsJob,
 };
 
 export default {
@@ -63,7 +65,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);
@@ -86,7 +88,8 @@ export function scheduledJobs(cron, scheduledTime = Date.now()) {
   if (cron === "*/30 * * * *") return ["payment-rematch", "client-videos"];
   if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
   const minute = new Date(scheduledTime).getUTCMinutes();
-  return ["webhook-outbox", ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : [])];
+  // The lead score refit gets a minute of its own (one client per run, CPU-light).
+  return ["webhook-outbox", ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : []), ...(minute % 10 === 3 ? ["lead-models"] : [])];
 }
 
 export function scheduledJob(cron) {

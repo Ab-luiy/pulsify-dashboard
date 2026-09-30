@@ -23,13 +23,22 @@ import {
 } from "./_shared/integrations.js";
 import { normalizeEmail } from "./_shared/common.js";
 import { notify } from "./_shared/notifications.js";
+import { checkHotLead } from "./_shared/lead-alerts.js";
 
 const MAX_EVENT_BYTES = 65536;
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   const ip = request.headers.get("cf-connecting-ip") || null;
   const country = (request.cf && request.cf.country) || request.headers.get("cf-ipcountry") || null;
   const city = (request.cf && request.cf.city) || null;
+  // Where the visit came from on the map, for the visitor globe (InfoOS build).
+  const lat = finite(request.cf && request.cf.latitude);
+  const lng = finite(request.cf && request.cf.longitude);
+  // Re-score a known lead after the moments that can make them hot (never blocks the response).
+  const later = (task) => {
+    const run = task().catch(() => null);
+    if (typeof waitUntil === "function") waitUntil(run);
+  };
   const userAgent = request.headers.get("user-agent") || null;
   // Public endpoint: every field lands in D1, so cap the payload.
   if (Number(request.headers.get("content-length") || 0) > MAX_EVENT_BYTES) {
@@ -154,7 +163,10 @@ export async function onRequestPost({ request, env }) {
       country,
       city,
       user_agent: userAgent,
+      lat,
+      lng,
     });
+    later(() => checkHotLead(env, client, { email }));
     return json({ ok: true, kind: "application", kit: kit.status });
   }
 
@@ -199,8 +211,11 @@ export async function onRequestPost({ request, env }) {
       country,
       city,
       user_agent: userAgent,
+      lat,
+      lng,
     });
     await recordTouch(env, { client, email, name: lead.name, kind: "optin", ts: new Date().toISOString(), source: "landing", externalId: `optin:${email}`, payload: { page_id: body.page_id || "optin" } }).catch(() => null);
+    later(() => checkHotLead(env, client, { email }));
     return json({ ok: true, kind: "optin", kit: kit.status });
   }
 
@@ -228,6 +243,9 @@ export async function onRequestPost({ request, env }) {
     };
     await saveWatch(env, watch);
     await maybeAlertHotWatch(env, cfg, watch);
+    if (["ended", "percent_75", "percent_90", "exit"].includes(watch.event)) {
+      later(() => checkHotLead(env, client, { email: watch.email, visitorId: watch.visitor_id }));
+    }
     return json({ ok: true, kind: "watch" });
   }
 
@@ -249,9 +267,14 @@ export async function onRequestPost({ request, env }) {
       country,
       city,
       user_agent: userAgent,
+      lat,
+      lng,
     });
     if (pageEvent === "page_view") {
       await notifyPageView(env, { client, cfg, email: normalizeEmail(body.email) || attributedEmail, visitor: body.visitor_id || body.session_id || ip, city, country }).catch(() => null);
+    }
+    if (pageEvent === "engagement" || pageEvent === "form_start") {
+      later(() => checkHotLead(env, client, { email: normalizeEmail(body.email) || attributedEmail, visitorId: body.visitor_id || null }));
     }
     return json({ ok: true, kind: "page" });
   }
@@ -493,13 +516,15 @@ async function savePageEvent(env, e) {
   await env.DB.prepare(
     `INSERT INTO page_events (
       client,visitor_id,session_id,page_id,event,email,path,referrer,utm_json,metadata_json,
-      ip,country,city,user_agent,utm_source,utm_content,at
-    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+      ip,country,city,user_agent,utm_source,utm_content,lat,lng,at
+    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(
     e.client, e.visitor_id, e.session_id, e.page_id, e.event, e.email, e.path,
     e.referrer, e.utm_json, e.metadata_json, e.ip, e.country, e.city, e.user_agent,
     utm.utm_source ? String(utm.utm_source).toLowerCase().slice(0, 64) : null,
     utm.utm_content ? String(utm.utm_content).slice(0, 128) : null,
+    e.lat ?? null,
+    e.lng ?? null,
     new Date().toISOString(),
   ).run();
 }
