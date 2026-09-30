@@ -15,6 +15,7 @@
 - [Humanizer copy standard](feedback_humanizer_copy.md) - all copy avoids AI tells: no "not X, it's Y", no em-dash overuse, no bold-first bullets, no rule-of-three padding, no curly quotes or arrow glyphs
 - [Claude writes copy](feedback_claude_writes_copy.md) - all client-facing copy is Claude-written in-session; Gemini key is fallback only
 - [Fable-grade quality directive](feedback_fable_grade_quality.md) - everything shipped matches Fable 5 quality whatever model executes; seven-gate standard in AGENT_CHAT.md
+- [App colour = homepage placement](feedback_app_colour_placement.md) - HARD 2026-09-30: inside the app use the homepage draft's colours in the homepage's places (glow behind titles, charcoal content, coral corner, funnel as art); placement was the miss across six rejected rounds; calm, never saturated
 - [Dashboard quality bar](feedback_dashboard_quality_bar.md) - dashboard/CRM work is million-dollar-grade, beats Airtable; premium, decluttered; slow beats cringe-but-fast
 - [Price objection = smokescreen](feedback_price_objection_smokescreen.md) - 2026-07-28 HARD doctrine: price objections are smokescreens, upfront fee non-negotiable; hold vault positions even when he already committed the other way
 - [Agent cross-call protocol](project_agent_cross_call_protocol.md) - Claude<->Codex headless cross-calls live; quotas via `python tools/quota.py`, gate session>70% / weekly>85%. NOTE: the vault memory sync once clobbered this index; the topic files survive, rebuild lines from them
