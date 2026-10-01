@@ -74,7 +74,7 @@ body {
   background-size: auto, 28px 28px, auto;
   background-position: center, center, center;
   color: var(--foreground);
-  font: 400 15px/1.5 Geist, Inter, system-ui, sans-serif;
+  font: 400 15px/1.5 Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 body::before {
@@ -124,7 +124,7 @@ a { color: inherit; }
   color: var(--button-foreground);
   box-shadow: inset 0 1px 0 #ffffff66, inset 0 -1px 0 #00000042, 0 18px 55px #00000052, 0 0 0 1px #ffffff12;
   backdrop-filter: blur(22px) saturate(150%);
-  font: 600 14px/1 Geist, Inter, system-ui, sans-serif;
+  font: 600 14px/1 Inter, system-ui, sans-serif;
   text-decoration: none;
   cursor: pointer;
   transition: transform 180ms var(--ease), opacity 180ms var(--ease), box-shadow 180ms var(--ease);
@@ -491,14 +491,9 @@ dialog.chooser { width: min(450px, calc(100vw - 32px)); padding: 36px; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* Type (founder, 2026-10-01: "change the fonts and the typography"). Geist for reading and
-   controls, Instrument Serif for the few big words. Self-hosted: the site CSP allows fonts from
-   'self' only. Licences sit next to the files in shared/fonts. */
-@font-face { font-family: Geist; src: url('/shared/fonts/geist-latin.woff2') format('woff2'); font-weight: 100 900; font-display: swap; }
-@font-face { font-family: 'Instrument Serif'; src: url('/shared/fonts/instrument-serif-latin.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Instrument Serif'; src: url('/shared/fonts/instrument-serif-latin-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
-body { font-family: Geist, Inter, system-ui, sans-serif; font-feature-settings: "ss01"; }
-.legal h1 { font-family: 'Instrument Serif', Georgia, serif; font-size: 42px; font-weight: 400; letter-spacing: -.01em; }
+/* Type (founder, 2026-10-01): Inter, as on the landing pages; headings heavy and tight like the
+   landing-page headlines. */
+.legal h1 { font-weight: 800; letter-spacing: -.045em; }
 
 /* Homepage matches the sign-in and the dashboard (founder, 2026-10-01), turned up a notch the
    same day ("amplify it a little, add some faint changes"): graphite page, a stronger coral,
@@ -512,7 +507,6 @@ body.public-home {
   --surface: #141518; --surface-strong: #1b1c20; --surface-hover: #1b1c20;
   --line: rgb(255 255 255 / .08); --accent: #a3a5aa; --ring: #a3a5aa; --visual-fade: #0b0c0d;
   --glass: rgb(255 255 255 / .05); --glass-strong: rgb(255 255 255 / .09);
-  --serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background: #0b0c0d; color: #f1f1ee;
 }
@@ -558,9 +552,10 @@ body.public-home .emblem-art { filter: invert(1); mix-blend-mode: screen; opacit
 }
 @keyframes home-orbit { to { transform: rotate(1turn); } }
 
-/* Wordmark in the serif, tagline set small and spaced, both in warm silver. */
+/* Wordmark set like the landing-page headlines (heavy Inter, tight), tagline small and spaced,
+   both in warm silver. */
 body.public-home.oversized-emblem .hero h1 {
-  font-family: var(--serif); font-weight: 400; font-size: clamp(76px, 8.4vw, 124px); line-height: .95; letter-spacing: -.025em;
+  font-family: Inter, system-ui, sans-serif; font-weight: 800; font-size: clamp(68px, 7.4vw, 108px); line-height: .95; letter-spacing: -.058em;
   background-image: linear-gradient(172deg, #fbfaf7 10%, #e6e3dc 38%, #a9a7a3 54%, #f2efe9 62%, #c9c6c0 82%, #8f8d8a 100%);
   filter: drop-shadow(0 2px 1px rgb(0 0 0 / .35)) drop-shadow(0 8px 28px rgb(150 80 64 / .2));
 }
@@ -575,7 +570,7 @@ body.public-home .hero p::after { background: linear-gradient(90deg, rgb(255 255
 body.public-home .hero .hero-button {
   min-height: 48px; min-width: 0; margin-top: 34px; padding: 0 26px 0 30px; gap: 10px; border-radius: 999px; overflow: visible;
   background: linear-gradient(180deg, #fbfaf6, #e6e4de); color: #0c0d0e; backdrop-filter: none;
-  font: 560 15px/1 Geist, Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: -.005em; text-transform: none;
+  font: 600 15px/1 Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: -.005em; text-transform: none;
   box-shadow: 0 1px 0 rgb(255 255 255 / .6) inset, 0 0 0 1px rgb(255 255 255 / .1), 0 14px 34px -14px rgb(0 0 0 / .95), 0 0 46px -6px rgb(150 80 64 / .35);
 }
 body.public-home .hero .hero-button::after { content: "→" / ""; font-size: 16px; transition: transform 220ms var(--ease); }
@@ -590,7 +585,7 @@ body.public-home .hero-button::before { content: none; }
 .public-home .hero p { animation: home-rise 900ms var(--ease) 280ms backwards; }
 .public-home .hero .hero-button { animation: home-rise 900ms var(--ease) 380ms backwards; }
 
-.public-home .brand-word { font-weight: 560; letter-spacing: -.02em; }
+.public-home .brand-word { font-weight: 700; letter-spacing: -.03em; }
 .public-home .site-footer { letter-spacing: .01em; }
 
 /* The Continue-as pop-up is the sign-in card */
@@ -600,19 +595,19 @@ body.public-home dialog.chooser {
   backdrop-filter: none; border-radius: 26px;
 }
 body.public-home dialog.chooser::backdrop { background: rgb(8 9 11 / .72); backdrop-filter: blur(6px); }
-body.public-home .chooser h2 { font-family: var(--serif); font-size: 38px; font-weight: 400; letter-spacing: -.01em; line-height: 1.05; color: #f1f1ee; }
+body.public-home .chooser h2 { font-size: 30px; font-weight: 800; letter-spacing: -.045em; line-height: 1.1; color: #f1f1ee; }
 body.public-home .chooser .kicker { color: #8d8f95; font-weight: 500; letter-spacing: .24em; }
 body.public-home .chooser .entry-emblem { background: rgb(255 255 255 / .04); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .1); }
 body.public-home .choice, body.public-home .choice-primary { border-radius: 16px; background: #1b1c20; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
 body.public-home .choice-primary { background: radial-gradient(circle at 100% 0%, rgb(150 80 64 / .26), transparent 60%), #1b1c20; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
 body.public-home .choice:hover { background-color: #202126; }
-body.public-home .choice strong { font-weight: 560; }
+body.public-home .choice strong { font-weight: 600; }
 body.public-home .choice span[aria-hidden] { color: #a3a5aa; transition: transform 200ms var(--ease); }
 body.public-home .choice:hover span[aria-hidden] { transform: translate(2px, -2px); color: #f1f1ee; }
 body.public-home .close:hover { background: rgb(255 255 255 / .08); }
 
 @media (max-width: 600px) {
-  body.public-home.oversized-emblem .hero h1 { font-size: 76px; }
+  body.public-home.oversized-emblem .hero h1 { font-size: 66px; }
   body.public-home.oversized-emblem .hero p { font-size: 11px; letter-spacing: .2em; }
   body.public-home.oversized-emblem .hero p { max-width: none; white-space: nowrap; }
   body.public-home .hero p::before, body.public-home .hero p::after { content: none; }
