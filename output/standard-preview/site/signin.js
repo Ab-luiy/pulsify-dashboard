@@ -12,6 +12,10 @@
   const setupToken = params.get("setup") || "";
   const nextRaw = params.get("next") || "";
   let mode = location.pathname.includes("/operator") || params.get("operator") === "1" ? "operator" : "client";
+  // The homepage reads this to send a returning visitor straight to their side (founder, 2026-10-01).
+  function remember(side) {
+    try { localStorage.setItem("pulsify:side", side === "operator" ? "operator" : "client"); } catch { /* private window */ }
+  }
   const finePointer = window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   // Where a finished client sign-in may land: their portal or onboarding, never the sign-in pages.
@@ -162,6 +166,7 @@
     const result = await post("/api/client-login", { email, password });
     if (result.ok) {
       $("#password").value = "";
+      remember("client");
       location.replace(destination(result.data.client));
       return;
     }
@@ -277,6 +282,7 @@
     if (result.ok) {
       $("#setupPassword").value = "";
       const target = typeof result.data.redirect === "string" && result.data.redirect.startsWith("/") && !result.data.redirect.startsWith("//") ? result.data.redirect : "/app/portal";
+      remember("client");
       location.replace(target);
       return;
     }
@@ -314,6 +320,7 @@
       show("teamcode");
       return;
     }
+    remember("operator");
     location.replace(result.data.redirect || "/app/");
   });
 
@@ -329,6 +336,7 @@
     const result = await post("/api/operator-auth", { action: "verify", challenge, code });
     busy(button, false, "", "Verify and sign in");
     if (result.ok) {
+      remember("operator");
       location.replace(result.data.redirect || "/app/");
       return;
     }
@@ -362,7 +370,25 @@
     expired: "The sign-in took too long. Try again.",
     failed: "Sign-in did not complete. Try again.",
     unavailable: "Sign-in is unavailable right now. Try again shortly.",
+    archived: "This workspace has been archived. Contact Pulsify to reopen it.",
+    team_account: "That Google account is on the Pulsify team. Use the Team tab to sign in.",
+    unverified: "Google has not confirmed that email address yet. Confirm it with Google, or sign in with your password.",
+    cancelled: "Google sign-in was cancelled. Try again, or use your email.",
   };
+
+  // Continue with Google: shown only when the backend has Google set up. The server decides who
+  // gets in by the Google-verified email; see functions/_shared/google-auth.js.
+  for (const link of $$("[data-google-as]")) {
+    const start = new URL("/api/google/start", location.origin);
+    start.searchParams.set("as", link.dataset.googleAs);
+    if (nextRaw) start.searchParams.set("next", nextRaw);
+    link.href = start.pathname + start.search;
+    link.addEventListener("click", () => remember(link.dataset.googleAs));
+  }
+  fetch("/api/google/config", { cache: "no-store", credentials: "same-origin" })
+    .then((response) => response.json())
+    .then((config) => { if (config && config.enabled) for (const el of $$("[data-google]")) el.hidden = false; })
+    .catch(() => {});
   const teamContinue = $("#teamContinue");
   const start = new URL("/api/propelauth/start", location.origin);
   start.searchParams.set("as", "operator");
@@ -385,10 +411,16 @@
   // ---------- start ----------
 
   const authError = params.get("auth_error");
+  const authNotice = params.get("auth_notice");
   let initial = setupToken ? "setup" : location.pathname.includes("/register") || params.get("view") === "request" ? "request" : home();
   show(initial, { focus: !authError });
   if (authError) {
     say(MESSAGES[authError] || MESSAGES.failed, true);
+    history.replaceState(null, "", location.pathname);
+  } else if (authNotice === "requested") {
+    // A Google address with no workspace yet: the server filed an access request for it.
+    $("#requestedText").textContent = "Your request is in. We will email you as soon as your workspace is approved.";
+    show("requested");
     history.replaceState(null, "", location.pathname);
   } else if (params.get("signed_out") === "1") {
     say("You are signed out.");

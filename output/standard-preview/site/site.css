@@ -490,3 +490,172 @@ dialog.chooser { width: min(450px, calc(100vw - 32px)); padding: 36px; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* Type (founder, 2026-10-01): Inter, as on the landing pages; headings heavy and tight like the
+   landing-page headlines. */
+.legal h1 { font-weight: 800; letter-spacing: -.045em; }
+
+/* Homepage matches the sign-in and the dashboard (founder, 2026-10-01), turned up a notch the
+   same day ("amplify it a little, add some faint changes"): graphite page, a stronger coral,
+   violet and slate glow that drifts slowly, visible grain, a soft vignette, a faint orbit around
+   the emblem, a charcoal card with one coral corner, silver pill button. Always dark, like
+   signin.css, so the light-scheme rules above do not apply to the homepage. */
+html:has(.public-home) { background: #0b0c0d; color-scheme: dark; }
+body.public-home {
+  color-scheme: dark;
+  --background: #0b0c0d; --foreground: #f1f1ee; --muted-foreground: #a3a5aa;
+  --surface: #141518; --surface-strong: #1b1c20; --surface-hover: #1b1c20;
+  --line: rgb(255 255 255 / .08); --accent: #a3a5aa; --ring: #a3a5aa; --visual-fade: #0b0c0d;
+  --glass: rgb(255 255 255 / .05); --glass-strong: rgb(255 255 255 / .09);
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background: #0b0c0d; color: #f1f1ee;
+}
+body.public-home::before { content: none; }
+
+.public-home .si-atmos { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; box-shadow: inset 0 0 220px 40px rgb(0 0 0 / .55); }
+.public-home .si-atmos::before {
+  content: ""; position: absolute; left: 50%; top: -16%; width: min(1320px, 160vw); height: 92vh; transform: translateX(-50%); filter: blur(38px);
+  background:
+    radial-gradient(ellipse 40% 52% at 34% 46%, rgb(150 80 64 / .62), transparent 70%),
+    radial-gradient(ellipse 38% 50% at 68% 38%, rgb(86 68 120 / .66), transparent 70%),
+    radial-gradient(ellipse 62% 58% at 50% 64%, rgb(47 58 74 / .66), transparent 74%);
+  animation: home-drift 26s ease-in-out infinite alternate;
+}
+.public-home .si-atmos::after {
+  content: ""; position: absolute; inset: 0; background-image: var(--grain); opacity: .12; mix-blend-mode: screen;
+  -webkit-mask-image: linear-gradient(#000 0%, #000 60%, transparent 95%); mask-image: linear-gradient(#000 0%, #000 60%, transparent 95%);
+}
+.public-home .si-atmos i { position: absolute; left: 50%; bottom: -20%; width: min(1000px, 130vw); height: 44vh; transform: translateX(-50%); filter: blur(40px); background: radial-gradient(ellipse 50% 50% at 50% 50%, rgb(86 68 120 / .3), rgb(47 58 74 / .2) 45%, transparent 72%); }
+@keyframes home-drift {
+  0% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-48%) translateY(1.5%) scale(1.04); }
+  100% { transform: translateX(-52%) translateY(-1%) scale(1.02); }
+}
+.public-home .site-header, .public-home .hero, .public-home .site-footer { position: relative; z-index: 1; }
+
+/* Emblem: artwork unchanged, its halo and rim lose the blue, and a faint orbit turns round it. */
+body.public-home .hero-emblem {
+  background: radial-gradient(ellipse at 26% 12%, rgb(255 255 255 / .1), transparent 60%), linear-gradient(155deg, rgb(255 255 255 / .05), rgb(255 255 255 / .01) 58%, rgb(255 255 255 / .03));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .24), inset 0 -1px 0 rgb(255 255 255 / .06), 0 0 0 1px rgb(255 255 255 / .07), 0 24px 70px rgb(0 0 0 / .4);
+}
+body.public-home .hero-emblem::before { background: radial-gradient(ellipse at 50% 52%, rgb(150 80 64 / .22), rgb(86 68 120 / .14) 40%, transparent 67%); }
+body.public-home .hero-emblem::after { background: conic-gradient(from 215deg, rgb(255 255 255 / .02), rgb(255 255 255 / .14) 65deg, rgb(255 255 255 / .42) 103deg, rgb(255 255 255 / .05) 155deg, rgb(255 255 255 / .02) 240deg, rgb(255 255 255 / .18) 290deg, rgb(255 255 255 / .02)); }
+body.public-home .emblem-art { filter: invert(1); mix-blend-mode: screen; opacity: .7; }
+.public-home .brand-stage::before,
+.public-home .brand-stage::after { content: ""; position: absolute; z-index: -2; border-radius: 50%; pointer-events: none; }
+.public-home .brand-stage::before { inset: -9%; border: 1px solid rgb(255 255 255 / .05); -webkit-mask-image: linear-gradient(#000 30%, transparent 92%); mask-image: linear-gradient(#000 30%, transparent 92%); }
+.public-home .brand-stage::after {
+  inset: -9%; padding: 1px;
+  background: conic-gradient(from 0deg, transparent 0deg, rgb(232 190 170 / .35) 40deg, transparent 90deg, transparent 200deg, rgb(190 175 230 / .28) 240deg, transparent 290deg);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: home-orbit 48s linear infinite;
+}
+@keyframes home-orbit { to { transform: rotate(1turn); } }
+
+/* Wordmark set like the landing-page headlines (heavy Inter, tight), tagline small and spaced,
+   both in warm silver. */
+body.public-home.oversized-emblem .hero h1 {
+  font-family: Inter, system-ui, sans-serif; font-weight: 800; font-size: clamp(68px, 7.4vw, 108px); line-height: .95; letter-spacing: -.058em;
+  background-image: linear-gradient(172deg, #fbfaf7 10%, #e6e3dc 38%, #a9a7a3 54%, #f2efe9 62%, #c9c6c0 82%, #8f8d8a 100%);
+  filter: drop-shadow(0 2px 1px rgb(0 0 0 / .35)) drop-shadow(0 8px 28px rgb(150 80 64 / .2));
+}
+body.public-home.oversized-emblem .hero p {
+  margin-top: 18px; color: #b3b1ac; font-size: 12.5px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase;
+}
+body.public-home .hero p::before,
+body.public-home .hero p::after { content: ""; display: inline-block; width: 28px; height: 1px; margin: 0 14px; vertical-align: middle; background: linear-gradient(90deg, transparent, rgb(255 255 255 / .28)); }
+body.public-home .hero p::after { background: linear-gradient(90deg, rgb(255 255 255 / .28), transparent); }
+
+/* Get started: the silver pill, as on sign-in, with an arrow that steps forward on hover */
+body.public-home .hero .hero-button {
+  min-height: 48px; min-width: 0; margin-top: 34px; padding: 0 26px 0 30px; gap: 10px; border-radius: 999px; overflow: visible;
+  background: linear-gradient(180deg, #fbfaf6, #e6e4de); color: #0c0d0e; backdrop-filter: none;
+  font: 600 15px/1 Inter, ui-sans-serif, system-ui, sans-serif; letter-spacing: -.005em; text-transform: none;
+  box-shadow: 0 1px 0 rgb(255 255 255 / .6) inset, 0 0 0 1px rgb(255 255 255 / .1), 0 14px 34px -14px rgb(0 0 0 / .95), 0 0 46px -6px rgb(150 80 64 / .35);
+}
+body.public-home .hero .hero-button::after { content: "→" / ""; font-size: 16px; transition: transform 220ms var(--ease); }
+body.public-home .hero .hero-button:hover { background: #fff; transform: translateY(-1px); box-shadow: 0 1px 0 rgb(255 255 255 / .6) inset, 0 0 0 1px rgb(255 255 255 / .14), 0 18px 40px -14px rgb(0 0 0 / .95), 0 0 60px -4px rgb(150 80 64 / .45); }
+body.public-home .hero .hero-button:hover::after { transform: translateX(3px); }
+body.public-home .hero-button::before { content: none; }
+
+/* A soft rise on load, one piece after another */
+@keyframes home-rise { from { opacity: 0; transform: translateY(10px); filter: blur(4px); } }
+.public-home .brand-stage { animation: home-rise 900ms var(--ease) 60ms backwards; }
+.public-home .hero h1 { animation: home-rise 900ms var(--ease) 180ms backwards; }
+.public-home .hero p { animation: home-rise 900ms var(--ease) 280ms backwards; }
+.public-home .hero .hero-button { animation: home-rise 900ms var(--ease) 380ms backwards; }
+
+.public-home .brand-word { font-weight: 700; letter-spacing: -.03em; }
+.public-home .site-footer { letter-spacing: .01em; }
+
+/* The Continue-as pop-up is the sign-in card */
+body.public-home dialog.chooser {
+  background: radial-gradient(circle at 100% 0%, rgb(150 80 64 / .24), transparent 44%), radial-gradient(circle at 0% 100%, rgb(86 68 120 / .16), transparent 46%), #141518;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08), 0 1px 0 rgb(255 255 255 / .06) inset, 0 40px 90px -36px rgb(0 0 0 / .9);
+  backdrop-filter: none; border-radius: 26px;
+}
+body.public-home dialog.chooser::backdrop { background: rgb(8 9 11 / .72); backdrop-filter: blur(6px); }
+body.public-home .chooser h2 { font-size: 30px; font-weight: 800; letter-spacing: -.045em; line-height: 1.1; color: #f1f1ee; }
+body.public-home .chooser .kicker { color: #8d8f95; font-weight: 500; letter-spacing: .24em; }
+body.public-home .chooser .entry-emblem { background: rgb(255 255 255 / .04); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .1); }
+/* The split (founder, 2026-10-01: "change the way the sign in splits are"): two doors side by
+   side. Client is the warm side (coral), Team the cool side (violet), the same as on sign-in. */
+body.public-home dialog.chooser { width: min(580px, calc(100vw - 32px)); }
+body.public-home .chooser h2 { margin-bottom: 26px; }
+.public-home .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+body.public-home .choice {
+  --tint: 150 80 64;
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 0;
+  min-height: 212px; margin: 0; padding: 20px 20px 18px; border-radius: 20px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(120% 90% at 0% 0%, rgb(var(--tint) / .2), transparent 60%), #1a1b1f;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08), inset 0 1px 0 rgb(255 255 255 / .05);
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), background-color 220ms var(--ease);
+}
+body.public-home .choice-team { --tint: 86 68 120; }
+body.public-home .choice::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(120% 100% at 0% 0%, rgb(var(--tint) / .32), transparent 65%);
+  transition: opacity 260ms var(--ease);
+}
+body.public-home .choice:hover, body.public-home .choice:focus-visible {
+  transform: translateY(-3px); background-color: #1d1e23;
+  box-shadow: inset 0 0 0 1px rgb(var(--tint) / .55), inset 0 1px 0 rgb(255 255 255 / .08), 0 22px 44px -22px rgb(0 0 0 / .9), 0 0 40px -14px rgb(var(--tint) / .7);
+}
+body.public-home .choice:hover::before, body.public-home .choice:focus-visible::before { opacity: 1; }
+body.public-home .choice .choice-icon {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: #f1f1ee;
+  background: linear-gradient(160deg, rgb(var(--tint) / .55), rgb(var(--tint) / .2));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .18), inset 0 0 0 1px rgb(255 255 255 / .06), 0 8px 20px -8px rgb(var(--tint) / .8);
+}
+.public-home .choice-text { display: block; margin-top: 22px; }
+body.public-home .choice strong { font-size: 17px; font-weight: 700; letter-spacing: -.03em; }
+body.public-home .choice small { margin-top: 6px; font-size: 13px; line-height: 1.45; color: #a3a5aa; }
+body.public-home .choice .choice-go {
+  margin-top: auto; padding-top: 18px; display: inline-flex; align-items: center; gap: 6px;
+  color: #d9d7d2; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+}
+.public-home .choice-go i { font-style: normal; letter-spacing: 0; transition: transform 220ms var(--ease); }
+body.public-home .choice:hover .choice-go i { transform: translateX(3px); }
+body.public-home .close:hover { background: rgb(255 255 255 / .08); }
+
+@media (max-width: 600px) {
+  body.public-home.oversized-emblem .hero h1 { font-size: 66px; }
+  body.public-home.oversized-emblem .hero p { font-size: 11px; letter-spacing: .2em; }
+  body.public-home.oversized-emblem .hero p { max-width: none; white-space: nowrap; }
+  body.public-home .hero p::before, body.public-home .hero p::after { content: none; }
+  .public-home .si-atmos { box-shadow: inset 0 0 120px 20px rgb(0 0 0 / .5); }
+  .public-home .choices { grid-template-columns: 1fr; gap: 10px; }
+  body.public-home .choice { min-height: 0; display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: 14px; padding: 16px; }
+  .public-home .choice-text { margin-top: 0; }
+  body.public-home .choice .choice-go { margin-top: 0; padding-top: 0; font-size: 0; }
+  .public-home .choice-go i { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .public-home .si-atmos::before, .public-home .brand-stage::after, .public-home .brand-stage, .public-home .hero h1, .public-home .hero p, .public-home .hero .hero-button { animation: none !important; }
+}
+
+/* Returning visitor (option 2): the quiet link to the other side under the button */
+.public-home .hero-switch { margin-top: 18px; color: #8d8f95; font-size: 13.5px; animation: home-rise 900ms var(--ease) 460ms backwards; }
+.public-home .hero-switch a { color: #d9d7d2; text-underline-offset: 3px; text-decoration-color: rgb(217 215 210 / .45); }
+.public-home .hero-switch a:hover { color: #fff; text-decoration-color: currentColor; }
+@media (prefers-reduced-motion: reduce) { .public-home .hero-switch { animation: none !important; } }
