@@ -66,3 +66,9 @@ They look like typos of each other. They are three separate Google accounts.
 - Cloudflare dashboard, 2026-09-17, account title "Abod.louai@gmail.com's Account".
 - Meta Accounts Centre, Profiles and personal details, 2026-09-17.
 - AGENT_CHAT.md line 440, `wrangler login` as abod.louai@gmail.com.
+
+## Direct Google sign-in (2026-10-01)
+
+Founder created the dedicated web OAuth client **Pulsify sign-in**, ID `689048215822-2k36h0kv20qrhjq5lb4knvn2h462ep7u.apps.googleusercontent.com`, in the existing project `pulsify-dashboard-496614` owned by `abod.louai@gmail.com`. Its redirect is exactly `https://pulsify-ai.com/api/google/callback`. The public ID is `GOOGLE_CLIENT_ID` in the Pages wrangler.toml; its secret is encrypted as `GOOGLE_CLIENT_SECRET` in Cloudflare Pages `pulsify-funnels`. No secret value is in the vault or chat. This login asks for `openid email profile`; existing client/team email lists still decide access. The old Cloudflare Access, YouTube Portal and PropelAuth clients remain separate.
+
+The OAuth branding now links to the public homepage, privacy and terms pages and has no logo. The prior Testing-only decision above is superseded by the founder's October 1 request to enable production Google sign-in. Production status and live acceptance are recorded in the session log after verification.

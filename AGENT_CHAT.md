@@ -2747,3 +2747,8 @@ CLAIM: Google sign-in setup from founder's Part 2 instructions. Google project a
 ### [2026-10-01] CODEX
 Google setup prepared, awaiting browser-policy confirmation for persistent OAuth credential creation and consent publishing. Verified project pulsify-dashboard-496614 and owner abod.louai@gmail.com; app Pulsify, existing pulsify-ai.com authorized domain, External/Testing, no logo. Saved homepage https://pulsify-ai.com, privacy /privacy and terms /terms in Branding (success toast). Prepared unsaved Web client Pulsify sign-in with redirect https://pulsify-ai.com/api/google/callback; no credential created, secret handled or deployment performed. Browser form kept for continuation. Concurrent session reconciled main with brain/main while this task ran. Other session has generated app output and receipt endpoint/CSS in progress; do not deploy or sweep those into this task. Local file touched by this task: AGENT_CHAT.md only. Remaining configuration/wiki locks cleared until approval.
 | Google OAuth setup, output/standard-preview/wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md | CODEX | DONE | Preparation complete; pending confirmation, locks cleared. |
+
+### [2026-10-01] CODEX
+CLAIM resumed Google sign-in setup. Founder created dedicated OAuth client; installing its secret into pulsify-funnels and public ID in wrangler.toml. Claim wrangler.toml, account-registry.md, wiki/log.md, docs/ACCESS.md and AGENT_CHAT append. Untracked receipt files belong to concurrent work and will not be deployed from primary checkout; deploy from a clean snapshot of committed main.
+| Google setup configuration and account registry | CODEX | ACTIVE | Public client ID, encrypted secret, production publishing and login verification. |
+
