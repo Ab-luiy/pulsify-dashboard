@@ -81,7 +81,7 @@ export async function dueVideoClients(env, { now = Date.now(), clientId = null, 
        LEFT JOIN client_config c ON c.client = i.client_id
       WHERE i.scope = 'client' AND i.provider = 'youtube'
         AND COALESCE(json_extract(i.config_json, '$.handle'), '') <> ''
-        AND COALESCE(c.status, '') <> 'archived'
+        AND COALESCE(c.status, '') NOT IN ('archived', 'demo')
         AND (? IS NULL OR i.client_id = ?)`,
   ).bind(clientId, clientId).all();
   return (rows.results || []).filter((row) => {

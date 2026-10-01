@@ -48,7 +48,7 @@ export async function pendingBrainDocs(env, limit = BATCH) {
     `SELECT b.id, b.client_id, b.section, b.field, b.value_json, b.updated_at,
             (SELECT client_name FROM client_config c WHERE c.client=b.client_id) AS client_name
        FROM client_brain b
-      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=b.client_id AND c.status='archived')
+      WHERE NOT EXISTS (SELECT 1 FROM client_config c WHERE c.client=b.client_id AND c.status IN ('archived','demo'))
         AND length(b.value_json)>4 ORDER BY b.updated_at DESC LIMIT 500`,
   ).all()).results || [];
   const out = [];

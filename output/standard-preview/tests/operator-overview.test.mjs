@@ -146,6 +146,10 @@ async function testRollupAndHealthLabels() {
   assert.equal(body.summary.total_collected_cents, 400000);
   assert.deepEqual(body.clients.map((row) => row.client), ["risk", "watch", "new", "healthy"]);
   assert.equal(db.queries.length, 9, "rollup query count must stay fixed as client count grows");
+  // The example workspace (status "demo") is never counted: the clients query leaves it out, so its made-up
+  // numbers cannot reach the totals, the status chart or cash by client.
+  const clientQuery = db.queries.find((sql) => sql.includes("FROM client_config"));
+  assert.match(clientQuery, /NOT IN \('archived','demo'\)/);
 
   const healthy = body.clients.find((row) => row.client === "healthy");
   assert.equal(healthy.collected.total_cents, 250000);

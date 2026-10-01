@@ -148,7 +148,7 @@ async function writeSnapshots(env, client, people, model, now) {
 export async function refreshPooled(env, now = Date.now()) {
   const current = await env.DB.prepare("SELECT fitted_at FROM lead_models WHERE client_id=''").first();
   if (current && Date.parse(current.fitted_at) > now - POOLED_REFRESH_MS) return false;
-  const rows = await env.DB.prepare("SELECT client_id, model_json FROM lead_models WHERE client_id<>''").all();
+  const rows = await env.DB.prepare("SELECT client_id, model_json FROM lead_models WHERE client_id<>'' AND client_id NOT IN (SELECT client FROM client_config WHERE status='demo')").all();
   const models = (rows.results || []).map((r) => { try { return JSON.parse(r.model_json); } catch { return null; } }).filter(Boolean);
   const stages = {};
   for (const step of LADDER) {

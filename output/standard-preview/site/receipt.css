@@ -1,0 +1,15 @@
+:root { color-scheme: light dark; --bg: #f1eee8; --card: #faf8f4; --ink: #1d1c1a; --muted: #6b6760; --line: #e2ded5; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0b0c0d; --card: #17181b; --ink: #efeee9; --muted: #9a9a9f; --line: #26272b; } }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px; background: var(--bg); color: var(--ink); font: 15px/1.5 Inter, system-ui, sans-serif; }
+.card { width: 100%; max-width: 480px; padding: 32px; border-radius: 16px; background: var(--card); border: 1px solid var(--line); }
+.eyebrow { margin: 0 0 8px; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 0 0 8px; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; }
+.lead { margin: 0 0 24px; color: var(--muted); }
+dl { margin: 0; }
+dl div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid var(--line); }
+dt { color: var(--muted); }
+dd { margin: 0; text-align: right; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }
+code { font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.foot { margin: 24px 0 0; font-size: 12.5px; color: var(--muted); }
+@media print { body { background: #fff; color: #000; } .card { border: 0; } }

@@ -11,7 +11,7 @@ async function handle_onRequestGet(context){
  let selected=null;
  if(from||to){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(from||'')||!/^\d{4}-\d{2}-\d{2}$/.test(to||'')||from>to)return json({ok:false,error:'Invalid date range'},422);
-  const result=await context.env.DB.prepare('SELECT currency, SUM(amount_cents) AS amount_cents FROM payments WHERE substr(occurred_at,1,10)>=? AND substr(occurred_at,1,10)<=? GROUP BY currency').bind(from,to).all();
+  const result=await context.env.DB.prepare('SELECT currency, SUM(amount_cents) AS amount_cents FROM payments WHERE substr(occurred_at,1,10)>=? AND substr(occurred_at,1,10)<=? AND client NOT IN (SELECT client FROM client_config WHERE status=\'demo\') GROUP BY currency').bind(from,to).all();
   selected={from,to,collected_by_currency:Object.fromEntries((result.results||[]).map(r=>[r.currency||'unknown',Number(r.amount_cents||0)]))};
  }
  return json({ok:true,operator:operatorIdentity(context.request),overview:await a.json(),clients:(await b.json()).clients,selected,spine,version:2});

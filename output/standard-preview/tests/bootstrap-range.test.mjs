@@ -2,7 +2,8 @@ import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {onRequestGet} from '../functions/api/operator-bootstrap.js';
 const db=new DatabaseSync(':memory:');
-db.exec("CREATE TABLE payments(currency TEXT,amount_cents INTEGER,occurred_at TEXT); INSERT INTO payments VALUES ('USD',10000,'2026-09-01'),('USD',20000,'2026-09-17T22:00:00Z'),('USD',99000,'2026-08-31'),('EUR',4000,'2026-09-12')");
+db.exec("CREATE TABLE client_config(client TEXT,status TEXT); INSERT INTO client_config VALUES ('acme','client'),('demo-example','demo')");
+db.exec("CREATE TABLE payments(client TEXT,currency TEXT,amount_cents INTEGER,occurred_at TEXT); INSERT INTO payments VALUES ('acme','USD',10000,'2026-09-01'),('acme','USD',20000,'2026-09-17T22:00:00Z'),('acme','USD',99000,'2026-08-31'),('acme','EUR',4000,'2026-09-12'),('demo-example','USD',777700,'2026-09-05')");
 const env={ADMIN_KEY:'test',DB:{prepare(sql){let args=[];return{bind(...values){args=values;return this;},async all(){return {results:sql.startsWith('SELECT currency, SUM')?db.prepare(sql).all(...args):[]};}};}}};
 async function invoke(query,key='test'){return onRequestGet({env,request:new Request('https://test/api/operator-bootstrap'+query,{headers:{'x-admin-key':key}})});}
 assert.equal((await invoke('?from=2026-09-01&to=2026-09-17','bad')).status,401);

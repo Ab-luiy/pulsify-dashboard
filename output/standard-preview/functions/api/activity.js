@@ -9,15 +9,15 @@ async function handle_onRequestGet({ request, env }) {
   const [eventResult, paymentResult, failureResult] = await Promise.all([
     env.DB.prepare(
       `SELECT provider, kind, client, payload_summary_json, ts
-         FROM integration_events ORDER BY ts DESC LIMIT 50`,
+         FROM integration_events WHERE client IS NULL OR client NOT IN (SELECT client FROM client_config WHERE status='demo') ORDER BY ts DESC LIMIT 50`,
     ).all(),
     env.DB.prepare(
       `SELECT client, amount_cents, currency, rail, occurred_at, created_at
-         FROM payments ORDER BY occurred_at DESC LIMIT 20`,
+         FROM payments WHERE client NOT IN (SELECT client FROM client_config WHERE status='demo') ORDER BY occurred_at DESC LIMIT 20`,
     ).all(),
     env.DB.prepare(
       `SELECT client, kind, detail, at
-         FROM delivery_failures ORDER BY at DESC LIMIT 20`,
+         FROM delivery_failures WHERE client IS NULL OR client NOT IN (SELECT client FROM client_config WHERE status='demo') ORDER BY at DESC LIMIT 20`,
     ).all(),
   ]);
 

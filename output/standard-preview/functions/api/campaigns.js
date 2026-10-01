@@ -24,7 +24,7 @@ async function handle_onRequestGet({ request, env }) {
               COALESCE(template_variant,'canonical') AS template_variant,
               wistia_media_id, page_content_json, COALESCE(page_active,1) AS page_active,
               prospect_email, acquisition_token, updated_at
-         FROM client_config ORDER BY client_name COLLATE NOCASE`,
+         FROM client_config WHERE COALESCE(status,'') <> 'demo' ORDER BY client_name COLLATE NOCASE`,
     ).all();
     configs = result.results || [];
   } catch {

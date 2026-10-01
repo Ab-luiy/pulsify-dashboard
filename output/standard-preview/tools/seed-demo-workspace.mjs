@@ -35,7 +35,7 @@ const out = [];
 const statements = [];
 
 // 1. Wipe the example rows only.
-for (const [table, column] of [["page_events", "client"], ["watch_events", "client"], ["leads", "client"], ["pipeline_touches", "client_id"], ["payment_matches", "client_id"], ["payments", "client"], ["yt_videos", "client_id"], ["asset_links", "client"], ["client_brain", "client_id"], ["lead_models", "client_id"]]) {
+for (const [table, column] of [["page_events", "client"], ["watch_events", "client"], ["leads", "client"], ["pipeline_touches", "client_id"], ["payment_matches", "client_id"], ["payments", "client"], ["yt_videos", "client_id"], ["asset_links", "client"], ["client_brain", "client_id"], ["lead_models", "client_id"], ["integrations", "client_id"], ["asset_events", "client"]]) {
   statements.push(`DELETE FROM ${table} WHERE ${column}=${q(CLIENT)};`);
 }
 statements.push(`DELETE FROM client_config WHERE client=${q(CLIENT)};`);
@@ -109,9 +109,16 @@ for (const video of VIDEOS) {
   const views = Math.round(2000 + rnd() * 9000);
   statements.push(insert("yt_videos", { client_id: CLIENT, video_id: video.id, channel_id: "demo-channel", title: video.title, published_at: iso(NOW - video.days * DAY), thumbnail_url: null, duration_seconds: 600 + Math.round(rnd() * 600), views, likes: Math.round(views * 0.04), comments: Math.round(views * 0.006), synced_at: iso(NOW) }));
   for (const placement of ["description", "pinned_comment"]) {
-    statements.push(insert("asset_links", { token: `demo${video.id.slice(-4)}${placement === "description" ? "d" : "c"}`, client: CLIENT, label: `${video.title} (${placement.replace("_", " ")})`, target_url: "https://pulsify-ai.com/demo-example", created_at: iso(NOW - video.days * DAY), archived: 0, kind: "video", video_id: video.id, placement }));
+    const token = `demo${video.id.slice(-4)}${placement === "description" ? "d" : "c"}`;
+    // Clicks on the tracked link, in proportion to how well the video did.
+    const clicks = Math.round((placement === "description" ? 60 : 25) * video.weight * 2.5) + 6;
+    for (let n = 0; n < clicks; n++) statements.push(insert("asset_events", { token, client: CLIENT, at: iso(NOW - video.days * DAY + Math.floor(rnd() * video.days * DAY)) }));
+    statements.push(insert("asset_links", { token, client: CLIENT, label: `${video.title} (${placement.replace("_", " ")})`, target_url: "https://pulsify-ai.com/demo-example", created_at: iso(NOW - video.days * DAY), archived: 0, kind: "video", video_id: video.id, placement }));
   }
 }
+
+// A made-up channel handle so Videos by cash shows the videos. The sync skips status 'demo', so it never looks this up.
+statements.push(insert("integrations", { scope: "client", client_id: CLIENT, provider: "youtube", config_json: JSON.stringify({ handle: "@exampletradingco" }), created_at: iso(NOW), updated_at: iso(NOW) }));
 
 // 6. A finished onboarding, so Home shows the working product instead of the first-run card.
 const brain = [

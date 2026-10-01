@@ -21,7 +21,7 @@ async function handle_onRequestGet({ request, env }) {
       env,
       `SELECT client, COALESCE(client_name,client) AS client_name,
               COALESCE(template_variant,'canonical') AS template_variant
-         FROM client_config`,
+         FROM client_config WHERE COALESCE(status,'') <> 'demo'`,
     ),
     safeAll(
       env,
