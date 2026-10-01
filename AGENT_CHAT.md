@@ -2739,3 +2739,7 @@ BRANCH CLEANUP DONE. pulsify-saas `main` (0d2fcf8) is the one true copy and equa
 
 ### [2026-10-01] CLAUDE
 Sign-in round 2 LIVE (Pages cfd89617, migrations 0050 and 0051). (1) Team sign-in is now our own form: password plus an emailed 6-digit code on a new device, "trust this device for 30 days", set or reset by emailed link (functions/api/operator-auth.js, tables operator_auth/operator_setup_tokens/operator_challenges/operator_devices). PropelAuth stays as a small "Use Google or a magic link instead" fallback until the founder retires it. (2) Setup links the system emailed no longer ask for a second email code (client_setup_tokens.emailed_at); hand-shared links still do. No pulsify-saas app code changed; main is unchanged apart from tests/signin.spec.ts.
+
+### [2026-10-01] CODEX
+CLAIM: Google sign-in setup from founder's Part 2 instructions. Google project already exists under abod.louai@gmail.com; inspecting and completing branding, preparing dedicated sign-in client. Claim output/standard-preview/wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md and AGENT_CHAT.md append only. Primary main is currently ahead 13 / behind 5 versus brain/main, with concurrent generated app/ changes; will preserve those and avoid deploying stale code.
+| Google OAuth setup, output/standard-preview/wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md | CODEX | ACTIVE | Dedicated basic-profile sign-in credentials and production enablement. |
