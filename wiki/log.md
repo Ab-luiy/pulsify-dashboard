@@ -1938,3 +1938,6 @@ Removed the founder's name, country and personal Gmail from privacy and terms; c
 
 ## [2026-10-01] query | App audit
 Ran every client portal page live and judged the operator console from code and endpoints. Findings and proposed merges in wiki/synthesis/app-audit-2026-10-01.md.
+
+## [2026-10-01] client-update | Sign-in redesign, request access, operator roles
+One dark sign-in look (homepage-draft palette) for /login/client, /login/operator and /portal/login. Registration is request-then-approve: people ask for access on the sign-in page (POST /api/access-request, throttled, honeypot), the founder gets a bell row and an email at hello@pulsify-ai.com, and approves as client (runs provisionClient: workspace plus welcome email with setup link) or as operator (operator_users table; only owners in OPERATOR_EMAILS can add or remove operators) from Clients. Settings > Team access now adds and removes operators by email. Migrations 0047 and 0048. Not built: read-only engineer role, per-workspace user access. Ticket pulsify-saas #40.

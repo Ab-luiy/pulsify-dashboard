@@ -15,6 +15,7 @@ import { CLIENT_SESSION_COOKIE, createPasswordSalt, hashPassword, parseCookies, 
 import { notify } from "../_shared/notifications.js";
 import { emitEvent } from "../_shared/outbound-webhooks.js";
 import { operatorEmails } from "./login-lookup.js";
+import { listOperators } from "../_shared/access-requests.js";
 import { channelState, saveChannels, saveHook, sendTest } from "../_shared/notify-routing.js";
 
 const TIMEZONES = new Set(Intl.supportedValuesOf ? Intl.supportedValuesOf("timeZone") : []);
@@ -116,7 +117,7 @@ async function operatorView(env, operator) {
     role: "operator",
     timezone: defaults.timezone || env.OPERATOR_TIMEZONE || "Europe/Istanbul",
     account: { email, via: operator.via || "access" },
-    team: { operators: operatorEmails(env) },
+    team: { operators: [...new Set([...operatorEmails(env), ...(await listOperators(env)).map((o) => o.email)])] },
     security: { admin_key_uses: Number(keyUse?.n || 0), admin_key_last_used: keyUse?.last || null, access_protected_paths: ["/admin", "/integrations", "/settings", "/campaigns", "ops.pulsify-ai.com"] },
     defaults,
     notifications,

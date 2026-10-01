@@ -1,6 +1,6 @@
 import { cleanId, constantTimeEqual, generateOpaqueToken } from './common.js';
 import { issueClientSession, parseCookies } from './client-auth.js';
-import { isOperatorEmail, issueOperatorSession } from './operator-session.js';
+import { isOperatorEmailDb, issueOperatorSession } from './operator-session.js';
 
 const FLOW_COOKIE = '__Host-pulsify_propelauth_flow';
 const FLOW_SECONDS = 600;
@@ -101,7 +101,7 @@ export async function finishPropelAuth({request,env},{fetcher=fetch}={}) {
     if (!user || typeof user.user_id !== 'string' || !user.email_confirmed || user.enabled !== true || user.locked) return fail('unlinked');
     if (audience === 'operator') {
       // Only founder-approved addresses become operators; everyone else is refused.
-      if (!isOperatorEmail(env,user.email)) return fail('not_operator');
+      if (!(await isOperatorEmailDb(env,user.email))) return fail('not_operator');
       const session = await issueOperatorSession(env,{email:user.email,providerUserId:user.user_id});
       try {
         await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?, 'operator-sign-in', NULL, ?, ?)")

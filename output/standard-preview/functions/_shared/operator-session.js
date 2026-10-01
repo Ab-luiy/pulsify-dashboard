@@ -18,6 +18,18 @@ export function isOperatorEmail(env, email) {
   return Boolean(normalized) && operatorEmails(env).has(normalized);
 }
 
+/** Same check plus operators the founder added from the console (operator_users). Env owners skip the query. */
+export async function isOperatorEmailDb(env, email) {
+  const normalized = normalizeEmail(email);
+  if (!normalized) return false;
+  if (operatorEmails(env).has(normalized)) return true;
+  if (!env?.DB) return false;
+  try {
+    const row = await env.DB.prepare('SELECT 1 AS ok FROM operator_users WHERE email = ? AND removed_at IS NULL').bind(normalized).first();
+    return Boolean(row);
+  } catch { return false; }
+}
+
 function cookie(value, maxAge) {
   return `${OPERATOR_COOKIE}=${value}; Path=/; Max-Age=${maxAge}; HttpOnly; Secure; SameSite=Lax`;
 }
@@ -50,7 +62,7 @@ export async function resolveOperatorSession(request, env) {
       `SELECT email, expires_at FROM operator_sessions
         WHERE token_hash = ? AND revoked_at IS NULL`,
     ).bind(await sha256Hex(token)).first();
-    if (!row || Date.parse(row.expires_at) <= Date.now() || !isOperatorEmail(env, row.email)) return null;
+    if (!row || Date.parse(row.expires_at) <= Date.now() || !(await isOperatorEmailDb(env, row.email))) return null;
     return { email: row.email, via: 'session' };
   } catch {
     return null;

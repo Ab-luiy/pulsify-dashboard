@@ -7,6 +7,7 @@
 // Operator emails come from OPERATOR_EMAILS (comma separated) or OPERATOR_EMAIL.
 import { json, normalizeEmail, str } from "../_shared/common.js";
 import { createSetupLink } from "../_shared/client-auth.js";
+import { isOperatorEmailDb } from "../_shared/operator-session.js";
 
 const LINKS_PER_EMAIL_PER_HOUR = 3;
 
@@ -55,7 +56,7 @@ export async function onRequestPost({ request, env }) {
     return json(generic);
   }
 
-  if (operators.includes(email)) {
+  if (operators.includes(email) || await isOperatorEmailDb(env, email)) {
     return json({ ok: true, kind: "operator", hint: email, next: "/admin" });
   }
   // Clients and unknown emails both get the password field. The failure
