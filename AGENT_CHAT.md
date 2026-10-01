@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png} | CODEX | DONE | 2026-10-01: layout refined; lock cleared. |
+
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — refined board styling, copy unchanged; lock cleared.
 
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — two compact mockups.
@@ -2719,3 +2721,7 @@ CLAIM: AGENT_CHAT.md append only for confirmation-email troubleshooting.
 | AGENT_CHAT.md (email repair log) | CODEX | ACTIVE | Record Asif confirmation resend. |
 COMPLETED: PropelAuth production account still UNCONFIRMED, Google NOT CONNECTED, no sessions. Initial resend attempt was temporarily rate-limited ('Please wait, it may take a few minutes'). A later attempt succeeded with 'Successfully resent email confirmation'. This verifies provider acceptance, not inbox delivery. Original founder screenshot's 23:17 conversation predates account creation at 23:18:49. No confirmation override, password, organization or source changes.
 | AGENT_CHAT.md (email repair log) | CODEX | DONE | Lock cleared. |
+
+
+### [2026-10-01] CODEX
+Refined existing packaging board in outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png}: aligned five thumbnail crops to a consistent three-column grid, tightened typography and spacing, removed lower card shadows/panels and kept the existing off-white dotted canvas. Original image bytes and copy unchanged, verified against mockup-cards.html. Chrome render inspected; no card overflow. Locks cleared.
