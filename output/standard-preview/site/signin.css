@@ -221,3 +221,15 @@ a.primary-button[aria-disabled="true"] { opacity: .5; cursor: not-allowed; trans
 .check input { width: 18px; height: 18px; padding: 0; accent-color: #efeee9; box-shadow: none; flex: none; }
 .si-card .switch a { color: var(--ink-2); text-underline-offset: 3px; }
 .si-card .switch a:hover { color: var(--ink); }
+
+/* Continue with Google (founder, 2026-10-01). Google's dark button: near-black fill, grey edge,
+   the four-colour G, so it reads as Google's and never competes with the silver Sign in pill.
+   Hidden until /api/google/config says Google is set up. */
+.google-block { display: grid; gap: 18px; margin: 0 0 20px; }
+.si-card .google-button {
+  min-height: 48px; background: #131314; color: #e3e3e3; font-weight: 500; letter-spacing: 0;
+  box-shadow: inset 0 0 0 1px rgb(142 145 143 / .55), 0 10px 24px -14px rgb(0 0 0 / .9);
+}
+.si-card .google-button:hover { background: #1c1d1f; color: #fff; box-shadow: inset 0 0 0 1px rgb(142 145 143 / .8), 0 12px 28px -14px rgb(0 0 0 / .95); }
+.si-card .google-button svg { left: 20px; width: 19px; height: 19px; }
+.google-block .divider { margin: 0; }

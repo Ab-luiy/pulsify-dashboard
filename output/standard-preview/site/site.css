@@ -653,3 +653,9 @@ body.public-home .close:hover { background: rgb(255 255 255 / .08); }
 @media (prefers-reduced-motion: reduce) {
   .public-home .si-atmos::before, .public-home .brand-stage::after, .public-home .brand-stage, .public-home .hero h1, .public-home .hero p, .public-home .hero .hero-button { animation: none !important; }
 }
+
+/* Returning visitor (option 2): the quiet link to the other side under the button */
+.public-home .hero-switch { margin-top: 18px; color: #8d8f95; font-size: 13.5px; animation: home-rise 900ms var(--ease) 460ms backwards; }
+.public-home .hero-switch a { color: #d9d7d2; text-underline-offset: 3px; text-decoration-color: rgb(217 215 210 / .45); }
+.public-home .hero-switch a:hover { color: #fff; text-decoration-color: currentColor; }
+@media (prefers-reduced-motion: reduce) { .public-home .hero-switch { animation: none !important; } }

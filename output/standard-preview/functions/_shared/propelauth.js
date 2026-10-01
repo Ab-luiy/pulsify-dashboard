@@ -26,7 +26,7 @@ export function flowCookie(value, maxAge = FLOW_SECONDS) {
 // Where a finished sign-in may land. Clients: their portal or onboarding.
 // Operators: the console under /app (never the client portal). Anything else,
 // including absolute or protocol-relative URLs, falls back to the default.
-function safeDestination(raw, audience = 'client') {
+export function safeDestination(raw, audience = 'client') {
   const fallback = audience === 'operator' ? '/app/' : '/app/portal';
   if (typeof raw !== 'string' || !raw.startsWith('/') || raw.startsWith('//') || raw.includes('\\')) return fallback;
   try {
