@@ -1,10 +1,27 @@
 import { constantTimeEqual, json, normalizeEmail, nowIso, sha256Hex } from "../_shared/common.js";
 import { consumeSetupToken, rejectImpersonatedSession } from "../_shared/client-auth.js";
+import { sameOrigin } from "../_shared/auth-guard.js";
 
 const CODE_TTL_MINUTES = 10;
 const MAX_ATTEMPTS = 5;
 
+// A setup page asks for a code each time it loads, so cap how many emails one link can trigger.
+const CODES_PER_LINK_PER_HOUR = 5;
+
+async function allowCode(env, setupToken) {
+  const bucket = new Date().toISOString().slice(0, 13);
+  const key = `setup-code:${(await sha256Hex(setupToken)).slice(0, 24)}`;
+  try {
+    await env.DB.prepare("INSERT INTO api_key_usage (key_id, bucket, count) VALUES (?,?,1) ON CONFLICT(key_id, bucket) DO UPDATE SET count=count+1").bind(key, bucket).run();
+    const row = await env.DB.prepare("SELECT count FROM api_key_usage WHERE key_id=? AND bucket=?").bind(key, bucket).first();
+    return (row?.count || 0) <= CODES_PER_LINK_PER_HOUR;
+  } catch {
+    return true;
+  }
+}
+
 export async function onRequestPost({ request, env }) {
+  if (!sameOrigin(request)) return json({ ok: false, error: "Forbidden" }, 403);
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const impersonationError = await rejectImpersonatedSession(request, env);
   if (impersonationError) return impersonationError;
@@ -20,6 +37,9 @@ export async function onRequestPost({ request, env }) {
 
   if (!env.RESEND_API_KEY) {
     return json({ ok: true, requires_code: false, sent: false });
+  }
+  if (!(await allowCode(env, setupToken))) {
+    return json({ ok: false, error: "Too many codes requested for this link. Wait an hour, or ask for a new link." }, 429);
   }
   if (!env.EMAIL_FROM) {
     return json({ ok: false, error: "EMAIL_FROM is not configured" }, 500);
@@ -64,17 +84,6 @@ export async function onRequestPost({ request, env }) {
     email,
     expires_at: expiresAt,
     max_attempts: MAX_ATTEMPTS,
-  });
-}
-
-export async function onRequestOptions() {
-  return new Response(null, {
-    headers: {
-      "access-control-allow-origin": "*",
-      "access-control-allow-methods": "POST, OPTIONS",
-      "access-control-allow-headers": "content-type",
-      "access-control-max-age": "86400",
-    },
   });
 }
 

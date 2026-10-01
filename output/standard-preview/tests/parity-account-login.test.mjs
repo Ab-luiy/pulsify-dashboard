@@ -17,7 +17,7 @@ sql.exec("CREATE TABLE client_setup_tokens(token_hash TEXT,client_id TEXT,email 
 sql.exec("CREATE TABLE client_sessions(token_hash TEXT PRIMARY KEY,client_id TEXT,expires_at TEXT,created_at TEXT)");
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");
 sql.exec("CREATE TABLE proof_items(id INTEGER PRIMARY KEY,client_id TEXT,created_at TEXT)");
-sql.exec("CREATE TABLE client_login_attempts(email TEXT,attempted_at TEXT)");
+sql.exec("CREATE TABLE client_login_attempts(email TEXT,attempted_at TEXT,ip_hash TEXT)");
 for(const n of ['0008_integrations_hub.sql','0014_client_brain.sql','0015_operator_events.sql','0021_workspace_records.sql','0025_data_spine.sql','0026_workspace_preferences.sql','0027_revenue_automation.sql']){
   try{sql.exec(mig(n).replace(/ALTER TABLE client_config ADD COLUMN status[^;]*;/,''));}catch(e){}
 }
