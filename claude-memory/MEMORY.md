@@ -114,3 +114,4 @@
 ## Visual references
 
 - [Founder visual taste library](project_visual_references.md) - shared visual-references/ folder; images in inbox, reference notes, growing taste profile and boards; read before aesthetic work.
+- [No personal details on public pages](feedback_no_personal_details_public.md) - HARD 2026-10-01: no name, Gmail or country on public pages; use hello@pulsify-ai.com (forwarded via Cloudflare Email Routing)

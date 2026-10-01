@@ -73,3 +73,6 @@
     })
     .catch(() => {});
 })();
+
+// Footer copyright year follows the visitor's clock so it never goes stale.
+document.querySelectorAll("[data-year]").forEach((el) => { el.textContent = String(new Date().getFullYear()); });
