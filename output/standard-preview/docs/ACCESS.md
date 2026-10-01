@@ -107,3 +107,7 @@ Google on, you can leave it off.
 | "Google has not confirmed that email address yet." | The Google account's email is unverified. | Verify it with Google, or use the password. |
 | Google button missing | Google is not set up, or the consent screen is still in Testing. | "Turning on Continue with Google" above. |
 | Signed in with Google but got "Request sent" | Their Google email is not the one on the workspace. | Tell them which email the workspace uses, or change the workspace login email. |
+
+## Production setup checked 2026-10-01
+
+Direct Continue with Google is configured on pulsify-funnels. The existing Google Cloud project is pulsify-dashboard-496614; the dedicated client is Pulsify sign-in, redirect https://pulsify-ai.com/api/google/callback. Consent publishing status is In production. Founder team sign-in with abod.louai@gmail.com passed end to end after deployment 301ea876. Both sign-in tabs display the button. Real client account sign-in still needs acceptance with that client's Google account; the automated client authorization tests pass.

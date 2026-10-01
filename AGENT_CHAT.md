@@ -2752,3 +2752,7 @@ Google setup prepared, awaiting browser-policy confirmation for persistent OAuth
 CLAIM resumed Google sign-in setup. Founder created dedicated OAuth client; installing its secret into pulsify-funnels and public ID in wrangler.toml. Claim wrangler.toml, account-registry.md, wiki/log.md, docs/ACCESS.md and AGENT_CHAT append. Untracked receipt files belong to concurrent work and will not be deployed from primary checkout; deploy from a clean snapshot of committed main.
 | Google setup configuration and account registry | CODEX | ACTIVE | Public client ID, encrypted secret, production publishing and login verification. |
 
+
+### [2026-10-01] CODEX
+DONE Google setup: founder created Pulsify sign-in client, public ID in wrangler.toml, secret installed encrypted in Cloudflare production without chat/git exposure. Branding home/privacy/terms saved, consent In production. Clean committed main snapshot 1423a7d7 deployed as Pages 301ea876; no untracked receipt work included. Google login tests 11/11 pass; actual founder sign-out -> Google abod.louai@gmail.com -> /app/ Home passed; Client button visible in separate unauthenticated browser. Real client Google callback not executed (no client Google account). Changed wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md, docs/ACCESS.md, AGENT_CHAT.md. Locks cleared. Backup will temporarily exclude the concurrent untracked receipt files locally to preserve that session's in-progress work.
+| Google setup configuration and account registry | CODEX | DONE | Live, founder login verified; locks cleared. |
