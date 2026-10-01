@@ -3,29 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#11100f">
+  <meta name="theme-color" content="#0b0c0d">
   <meta name="color-scheme" content="dark">
   <title>Sign in · Pulsify</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/shared/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/portal/login/auth.css?v=4edc101">
+  <link rel="stylesheet" href="/site/signin.css">
 </head>
-<body>
-  <div class="auth-shell">
-    <section class="auth-panel" aria-labelledby="cardTitle">
-      <a class="auth-brand" href="/" aria-label="Pulsify home">
-        <img src="/assets/brand/variations/05-lockup-white.svg" alt="Pulsify" width="112" height="32">
-      </a>
+<body class="signin">
+  <div class="si-atmos" aria-hidden="true"><i></i></div>
+  <header class="si-header">
+    <a class="si-brand" href="/" aria-label="Pulsify home"><img src="/assets/brand/variations/05-lockup-white.svg" alt="Pulsify" width="100" height="28"></a>
+  </header>
 
-      <main class="auth-main">
-        <div class="auth-card">
+  <main class="si-main">
+    <div class="si-card" role="region" aria-labelledby="cardTitle">
           <span class="sr-only" id="cardTitle">Sign in</span>
 
           <section id="loginPanel">
             <div class="auth-heading">
               <h1 id="loginTitle">Welcome back</h1>
-              <p id="loginSubtitle">One sign-in for clients and the Pulsify team. <a href="#" id="noAccountLink">No account yet?</a></p>
+              <p id="loginSubtitle">One sign-in for clients and the Pulsify team. New here? <a href="#" id="noAccountLink">Request access</a></p>
             </div>
 
             <form id="emailForm" class="auth-form">
@@ -58,17 +57,29 @@
           </section>
 
           <section id="registrationNote" hidden>
-            <div class="auth-heading">
-              <h1>No account yet?</h1>
-              <p>Pulsify is invite-only. <a href="/portal/login" id="backFromNote">Back to sign in</a></p>
+            <div id="requestForm">
+              <div class="auth-heading">
+                <h1>Request access</h1>
+                <p>Tell us who you are. We review every request and email you when your workspace is ready. <a href="/portal/login" id="backFromNote">Back to sign in</a></p>
+              </div>
+              <form id="accessForm" class="auth-form" novalidate>
+                <label class="sr-only" for="reqName">Your name</label>
+                <input id="reqName" name="name" autocomplete="name" maxlength="120" placeholder="Your name" required>
+                <label class="sr-only" for="reqEmail">Email address</label>
+                <input id="reqEmail" name="email" type="email" autocomplete="email" placeholder="Email address" required>
+                <label class="sr-only" for="reqLink">Your channel or website (optional)</label>
+                <input id="reqLink" name="link" autocomplete="url" maxlength="300" placeholder="Your channel or website (optional)">
+                <div class="si-trap" aria-hidden="true"><label>Website<input id="reqWebsite" name="website" tabindex="-1" autocomplete="off"></label></div>
+                <button id="reqButton" class="primary-button" type="submit">Request access</button>
+              </form>
             </div>
-            <div class="invitation-card">
-              <img src="/shared/brand/mark.svg" alt="" width="32" height="32">
-              <strong>Workspaces are created when a contract is signed</strong>
-              <p>Clients: the moment your agreement is signed, a welcome email with a one-time setup link lands in the inbox you signed with. Use that link, set a password, and you are in. Lost it? Enter your email on the sign-in page and choose "Email me a sign-in link".</p>
-              <p>Pulsify team: sign in with the Google account registered for you. There is nothing to create.</p>
+            <div id="requestDone" hidden>
+              <div class="auth-heading">
+                <h1>Request sent</h1>
+                <p id="requestDoneText">We will email you as soon as your workspace is approved.</p>
+              </div>
+              <a class="primary-button button-link" href="/portal/login">Back to sign in</a>
             </div>
-            <a class="primary-button button-link" href="/portal/login">Back to sign in</a>
           </section>
 
           <section id="setupPanel" hidden>
@@ -89,20 +100,13 @@
           </section>
 
           <div class="message error" id="message" role="alert" hidden></div>
-        </div>
-      </main>
-    </section>
+    </div>
+  </main>
 
-    <aside class="auth-image" aria-hidden="true">
-      <picture>
-        <source media="(max-width: 1023px)" srcset="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E">
-        <source media="(min-width: 1024px)" type="image/avif" srcset="/assets/brand/login-hero-1600.avif 1600w, /assets/brand/login-hero-2400.avif 2400w" sizes="calc(100vw - 500px)">
-        <source media="(min-width: 1024px)" type="image/webp" srcset="/assets/brand/login-hero-1600.webp 1600w, /assets/brand/login-hero-2400.webp 2400w" sizes="calc(100vw - 500px)">
-        <source media="(min-width: 1024px)" type="image/jpeg" srcset="/assets/brand/login-hero-1600.jpg 1600w" sizes="calc(100vw - 500px)">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E" alt="" width="1600" height="1117" fetchpriority="high" decoding="async">
-      </picture>
-    </aside>
-  </div>
+  <footer class="si-footer">
+    <span>© <span data-year>2026</span> Pulsify</span>
+    <span><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span>
+  </footer>
 
   <script>
     const params = new URLSearchParams(location.search);
@@ -149,8 +153,23 @@
     const remembered = sessionStorage.getItem("pulsify_client_login_email") || localStorage.getItem("pulsify_login_email") || "";
     $("email").value = remembered;
 
+    $("accessForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("reqButton");
+      button.disabled = true;
+      hideMessage();
+      try {
+        const response = await fetch("/api/access-request", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: $("reqName").value, email: $("reqEmail").value, link: $("reqLink").value, website: $("reqWebsite").value }) });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send your request.");
+        $("requestForm").hidden = true;
+        $("requestDone").hidden = false;
+        $("requestDoneText").textContent = data.message || "We will email you as soon as your workspace is approved.";
+      } catch (error) { showMessage(error.message || "Could not send your request."); }
+      finally { button.disabled = false; }
+    });
     $("noAccountLink").addEventListener("click", (e) => { e.preventDefault(); showNoAccount(); });
-    $("backFromNote").addEventListener("click", (e) => { e.preventDefault(); history.replaceState(null, "", "/portal/login"); $("registrationNote").hidden = true; $("loginPanel").hidden = false; $("cardTitle").textContent = "Sign in"; });
+    $("backFromNote").addEventListener("click", (e) => { e.preventDefault(); history.replaceState(null, "", "/portal/login"); $("registrationNote").hidden = true; hideMessage(); $("loginPanel").hidden = false; $("cardTitle").textContent = "Sign in"; });
     document.querySelectorAll("[data-change-email]").forEach((b) => b.addEventListener("click", () => showStep("email")));
 
     $("emailForm").addEventListener("submit", async (event) => {
@@ -196,7 +215,7 @@
         const data = await response.json().catch(() => ({}));
         if (!response.ok || !data.ok) {
           throw new Error(response.status === 401 || response.status === 404 || response.status === 422
-            ? "That email and password do not match a workspace. Workspaces are created when your contract is signed; if you never set a password, use the sign-in link below."
+            ? "That email and password do not match a workspace. If you never set a password, use the sign-in link below. New here? Request access first."
             : (data.error || "Could not sign in."));
         }
         sessionStorage.removeItem("pulsify_reel_thoughts");
@@ -231,7 +250,7 @@
     function showNoAccount() {
       $("loginPanel").hidden = true;
       $("registrationNote").hidden = false;
-      $("cardTitle").textContent = "No account yet";
+      $("cardTitle").textContent = "Request access";
     }
 
     $("backToLogin").addEventListener("click", () => {
@@ -293,5 +312,6 @@
       $("loginHint").textContent = "You're signed out. Enter your email to sign back in.";
     }
   </script>
+  <script>document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = String(new Date().getFullYear()); });</script>
 </body>
 </html>

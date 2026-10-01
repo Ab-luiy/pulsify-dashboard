@@ -1935,3 +1935,6 @@ Released Pages 5d7e8271 and Worker 3504635c from claude/infoos-build 731d481: Pe
 
 ## [2026-10-01] client-update | Public site cleanup and founder privacy
 Removed the founder's name, country and personal Gmail from privacy and terms; contact is now hello@pulsify-ai.com, forwarded to the founder through Cloudflare Email Routing (MX and SPF added on the root domain; Resend sends from the send subdomain and is unaffected). Also added the copyright year to the footers, a better home title, favicons and descriptions on the legal and sign-in pages, a mobile-safe 404, and compressed the home emblem image from 1.4 MB to 30 KB. Checked every public page at 320, 390 and 768 px: no sideways scroll, no broken links or images.
+
+## [2026-10-01] query | App audit
+Ran every client portal page live and judged the operator console from code and endpoints. Findings and proposed merges in wiki/synthesis/app-audit-2026-10-01.md.

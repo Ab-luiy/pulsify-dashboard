@@ -1,0 +1,208 @@
+[
+ {
+  "route": "/",
+  "h1": "Kyle Kirshner",
+  "words": 541,
+  "empties": [
+   "No buyers yet",
+   "Nothing graded yet",
+   "No payments yet",
+   "No content items yet"
+  ],
+  "buttons": 29,
+  "sample": "Kyle Kirshner Choose the work that moves this week forward. Monthly report Create something Start your onboarding About 15 minutes. It's how we learn your business before we write a word for you. About you: 0 of 3 Your offer: 0 of 2 Your buyer: 0 of 1 Your sto",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/content",
+  "h1": "Content calendar",
+  "words": 27,
+  "empties": [
+   "No content items yet"
+  ],
+  "buttons": 0,
+  "sample": "Content calendar Read-only pipeline items already saved for this client. No content items yet Scheduled, in-production and published work shows here once your Pulsify team saves it.",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/plans",
+  "h1": "Plans",
+  "words": 31,
+  "empties": [
+   "No plan loaded yet"
+  ],
+  "buttons": 0,
+  "sample": "Plans The current roadmap, progress, and date window from the client dashboard. 0 PLANS No plan loaded yet The current roadmap appears here once Pulsify adds it to the client dashboard.",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/todos",
+  "h1": "To-dos",
+  "words": 32,
+  "empties": [
+   "No to-dos loaded yet"
+  ],
+  "buttons": 0,
+  "sample": "To-dos Check off the items you have finished. State saves back to the dashboard. No to-dos loaded yet Pulsify will add the current action list here once the client roadmap is written.",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/team",
+  "h1": "Team",
+  "words": 40,
+  "empties": [
+   "No team assigned yet"
+  ],
+  "buttons": 0,
+  "sample": "Team Who is assigned to the build and what is currently in their lane. No team assigned yet Your Pulsify team appears here once assigned. Your sales team Add your setters and closers to see their numbers, forms and commissions.",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/tracker",
+  "h1": "All-time tracker",
+  "words": 338,
+  "empties": [
+   "Nothing saved yet",
+   "No payments yet"
+  ],
+  "buttons": 42,
+  "sample": "All-time tracker Everything your workspace has produced, from the first day. Work saved 0 Stories, carousels, videos, writing, leads, sequences and images Cash collected $0 0 matched payments Registered leads 0 In your lead register Money by day Each square is",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/instagram",
+  "h1": "Instagram",
+  "words": 185,
+  "empties": [],
+  "buttons": 14,
+  "sample": "Instagram Every format has a job. Start with the one you need today. Overview Story sequences My projects Carousels Reels Performance Leads & DMs Story sequences Choose the job, follow the structure and build each panel. 9 distinct sequence types Reels A focus",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/youtube",
+  "h1": "Package the idea before you record.",
+  "words": 94,
+  "empties": [
+   "No saved projects yet"
+  ],
+  "buttons": 12,
+  "sample": "Overview Videos by cash Create long form Title formulas Thumbnail gallery Thumbnail designer My thumbnails My video projects Package the idea before you record. A clear promise, the right visual and a video that delivers on both. Create long form Work through ",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/copy",
+  "h1": "What are we writing today?",
+  "words": 157,
+  "empties": [
+   "No saved projects yet"
+  ],
+  "buttons": 10,
+  "sample": "What are we writing today? Start with a focused brief. Draft, rewrite and refine with your saved client context. AI CONNECTED Writing desk Saved drafts Brand context Story sequence Panel-by-panel copy with a clear arc. Hook · Context · Useful lesson · Evidence",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/performance",
+  "h1": "Performance at a glance",
+  "words": 28,
+  "empties": [],
+  "buttons": 9,
+  "sample": "Performance at a glance Work from your recorded results. Open one area to go deeper. Log new results Overview Retention Sequence history Weekly progress Funnel Video Applications Links",
+  "bad": [],
+  "errs": [
+   "Failed to load resource: the server responded with a status of 500 ()"
+  ]
+ },
+ {
+  "route": "/leads",
+  "h1": "Leads",
+  "words": 50,
+  "empties": [
+   "No leads yet"
+  ],
+  "buttons": 6,
+  "sample": "Leads Pipeline Visitors Calls Conversations Hot now 0 Hot = about 13%+ chance to buy To call 0 Nobody waiting Calls booked 0 None coming up Sold, not collected $0 Nothing owed All 0 No leads yet A lead appears the moment someone opts in or applies on your page",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/pages",
+  "h1": "Pages",
+  "words": 52,
+  "empties": [],
+  "buttons": 7,
+  "sample": "Pages Edit page 7d 30d 90d All Page flow Visited the page 2 Applied or opted in 0 0% of the step before Booked a call 0 - of the step before Page Visits Unique Completions Rate Last visit Actions Application page LIVE pulsify-ai.com/kyle-kirshner 2 2 0 0% Sep ",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/revenue",
+  "h1": "Revenue",
+  "words": 81,
+  "empties": [
+   "No recorded payments yet"
+  ],
+  "buttons": 6,
+  "sample": "Revenue Confirmed payments, clearly separated from account settings and connections. View transactions Overview Transactions Commissions Cash collected $0 Confirmed matched payments This month $0 Confirmed this month Payments 0 Confirmed matched payments Avera",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/media",
+  "h1": "Your image library",
+  "words": 39,
+  "empties": [],
+  "buttons": 3,
+  "sample": "Image library Thumbnail archive Your image library A visual home for your work, references and permitted proof. Upload images Drop in the images you want to work with. Upload several at once, then choose them inside your story editor.",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/access",
+  "h1": "Integrations",
+  "words": 275,
+  "empties": [
+   "NOT CONNECTED",
+   "NOT CONNECTED",
+   "NOT CONNECTED",
+   "NOT CONNECTED"
+  ],
+  "buttons": 2,
+  "sample": "Integrations The tools this workspace runs on. Operator preview is read-only. Sign in as the client to make changes. 0 of 5 connected Social Sign in once. Messages, read receipts and analytics sync on their own. Instagram DMs, read receipts, profile pictures a",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/settings",
+  "h1": "Settings",
+  "words": 482,
+  "empties": [
+   "No login email yet",
+   "No login email yet",
+   "Not connected",
+   "Not connected"
+  ],
+  "buttons": 31,
+  "sample": "Settings Your account, your workspace, and how Pulsify talks to you. Appearance Account Security and sessions Workspace Brand and account Notifications Connected accounts Plan and billing Your data Close workspace Operator preview. You can change this workspac",
+  "bad": [],
+  "errs": []
+ },
+ {
+  "route": "/voice",
+  "h1": "Add your voice",
+  "words": 245,
+  "empties": [],
+  "buttons": 3,
+  "sample": "Add your voice Talk about your business for a few minutes. We turn it into your brain, so everything we write for you sounds like you. Operator preview is read-only. Sign in as the client to make changes. Press the button and start talking Already recorded it ",
+  "bad": [],
+  "errs": []
+ }
+]
