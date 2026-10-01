@@ -36,7 +36,7 @@ Live on pulsify-ai.com since 2026-09-30 (Pages c28a8219, Worker 50640f69, migrat
 - Censor switch in both headers, blurring names, contact details, message text and money; world clocks in both headers.
 - Tracker additions: visit location (globe), rage clicks, one id per page load. Booking webhooks now record cancellations, the booking time and the call link.
 
-Built and tested, in the next release (pulsify-saas claude/infoos-build 710cd6e and later):
+Live since 2026-10-01 (Pages 5d7e8271, Worker 3504635c, pulsify-saas claude/infoos-build 731d481):
 
 - Performance: Funnel (live tiles, sources down to cash, globe, qualify split, funnel against target), Video (plays, depth, finished, time to press play, retention curve), Applications (every answer with book and buy rates, a not-a-fit switch that feeds the score), Links (tracked links for a bio, story, email or ad, with clicks to cash).
 - Pages: page stats, page flow, and a builder that edits the locked template's words, video, form and proof with a live preview where clicking text jumps to its field ([[playbooks/landing-page-fill-in-playbook]]).
