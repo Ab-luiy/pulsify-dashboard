@@ -1945,3 +1945,6 @@ One dark sign-in look (homepage-draft palette) for /login/client, /login/operato
 ## [2026-10-01] decision | Cleanup round
 Founder: less is more. Merged related pages into tabs (client menu 16 to 10, operator 20 to 11), icon-only header with an eye for blurring private details, one onboarding card on Home, starter Examples on empty pages. Demo workspace deliberately not seeded yet: it would count in the real operator totals. Released as Pages e0d293e4.
 
+
+## [2026-10-01] decision | Main-only releases and sign-in hardening
+pulsify-saas main now equals what is live and all releases go through it; the release script refuses non-main, dirty or unpushed trees and stamps app/release.json. A parallel deploy from claude/graphite-preview was merged into main the same day. Sign-in rebuilt as one page for /login, /login/client, /login/operator, /portal/login and /portal/register (single-step form, CSP, redirect when signed in), per-address and per-email throttle (migration 0049), same-origin-only auth endpoints, password rules, operator emails no longer revealed by the lookup, nightly auth cleanup job instead of per-request purges. Found and removed a broken path: the client Continue button went through PropelAuth with zero linked clients. Team sign-in still lands on the PropelAuth hosted page (old look); decision pending.
