@@ -37,9 +37,10 @@
 
   const TITLES = {
     signin: "Sign in", forgot: "Email me a link", sent: "Check your email", request: "Request access", requested: "Request sent",
-    setup: "Set your password", expired: "Link expired", team: "Team sign in",
+    setup: "Set your password", expired: "Link expired", team: "Team sign in", teamcode: "Check your email",
+    teamforgot: "Set your team password", teamsent: "Check your email",
   };
-  const WITH_TABS = new Set(["signin", "forgot", "request", "team"]);
+  const WITH_TABS = new Set(["signin", "forgot", "request", "team", "teamforgot"]);
   const notice = $("#notice");
   let view = "";
   let cameFrom = "signin";
@@ -54,6 +55,8 @@
     // Remember which sign-in screen the request or forgot form was opened from, so Back returns there.
     if ((next === "request" || next === "forgot") && (view === "signin" || view === "team")) cameFrom = view;
     view = next;
+    const fresh = $('[data-view="expired"] [data-go]');
+    if (fresh) fresh.dataset.go = mode === "operator" ? "teamforgot" : "forgot";
     for (const section of $$("[data-view]")) section.hidden = section.dataset.view !== next;
     $("#tabs").hidden = !WITH_TABS.has(next);
     for (const tab of $$("[data-tab]")) {
@@ -228,6 +231,16 @@
   }
 
   async function sendCode() {
+    if (mode === "operator") {
+      state.needsCode = false;
+      $("#codeField").hidden = true;
+      $("#resendCode").hidden = true;
+      $("#setupCode").required = false;
+      $("#setupLead").textContent = "Choose a password for the Pulsify team console.";
+      $("#setupHint").textContent = "At least 12 characters.";
+      $("#setupPassword").minLength = 12;
+      return;
+    }
     const result = await post("/api/client-email-code", { setup_token: setupToken });
     if (result.status === 401) return show("expired");
     if (!result.ok) return fail("setupError", result.error);
@@ -253,11 +266,14 @@
     clearErrors(setupForm);
     const password = $("#setupPassword").value;
     const code = $("#setupCode").value.trim();
-    if (password.length < 10) return fail("setupError", "Use at least 10 characters.", $("#setupPassword"));
+    const minimum = mode === "operator" ? 12 : 10;
+    if (password.length < minimum) return fail("setupError", `Use at least ${minimum} characters.`, $("#setupPassword"));
     if (state.needsCode && !/^\d{6}$/.test(code)) return fail("setupError", "Enter the 6-digit code from your email.", $("#setupCode"));
     const button = $("#setupButton");
     busy(button, true, "Saving", "Save password and open workspace");
-    const result = await post("/api/client-set-password", { setup_token: setupToken, code: state.needsCode ? code : "", password });
+    const result = mode === "operator"
+      ? await post("/api/operator-auth", { action: "setup", setup_token: setupToken, password, trust: true, next: nextRaw })
+      : await post("/api/client-set-password", { setup_token: setupToken, code: state.needsCode ? code : "", password });
     if (result.ok) {
       $("#setupPassword").value = "";
       const target = typeof result.data.redirect === "string" && result.data.redirect.startsWith("/") && !result.data.redirect.startsWith("//") ? result.data.redirect : "/app/portal";
@@ -270,7 +286,76 @@
     fail("setupError", result.error, codeProblem ? $("#setupCode") : $("#setupPassword"));
   });
 
-  // Team
+  // Team: email and password, then an emailed code on a device we have not seen
+  const teamForm = $("#teamForm");
+  let challenge = "";
+  teamForm.addEventListener("input", () => clearErrors(teamForm));
+  teamForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearErrors(teamForm);
+    const email = $("#teamEmail").value.trim().toLowerCase();
+    const password = $("#teamPassword").value;
+    if (!validEmail(email)) return fail("teamError", "Enter your team email address.", $("#teamEmail"));
+    if (!password) return fail("teamError", "Enter your password.", $("#teamPassword"));
+    const button = $("#teamButton");
+    busy(button, true, "Signing in", "Sign in");
+    const result = await post("/api/operator-auth", { action: "login", email, password, trust: $("#teamTrust").checked, next: nextRaw });
+    busy(button, false, "", "Sign in");
+    if (!result.ok) {
+      fail("teamError", result.error, result.status === 401 || result.status === 429 ? $("#teamPassword") : undefined);
+      if (result.status === 401) $("#teamPassword").select();
+      return;
+    }
+    $("#teamPassword").value = "";
+    if (result.data.step === "code") {
+      challenge = result.data.challenge;
+      $("#teamCodeLead").textContent = `We sent a 6-digit code to ${result.data.email || email}. It expires in 10 minutes.`;
+      $("#teamCode").value = "";
+      show("teamcode");
+      return;
+    }
+    location.replace(result.data.redirect || "/app/");
+  });
+
+  const teamCodeForm = $("#teamCodeForm");
+  teamCodeForm.addEventListener("input", () => clearErrors(teamCodeForm));
+  teamCodeForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearErrors(teamCodeForm);
+    const code = $("#teamCode").value.replace(/\s+/g, "");
+    if (!/^\d{6}$/.test(code)) return fail("teamCodeError", "Enter the 6-digit code from your email.", $("#teamCode"));
+    const button = $("#teamCodeButton");
+    busy(button, true, "Checking", "Verify and sign in");
+    const result = await post("/api/operator-auth", { action: "verify", challenge, code });
+    busy(button, false, "", "Verify and sign in");
+    if (result.ok) {
+      location.replace(result.data.redirect || "/app/");
+      return;
+    }
+    if (result.data && result.data.expired) {
+      show("team", { keepNotice: true });
+      say(result.error, true);
+      return;
+    }
+    fail("teamCodeError", result.error, $("#teamCode"));
+  });
+
+  const teamForgotForm = $("#teamForgotForm");
+  teamForgotForm.addEventListener("input", () => clearErrors(teamForgotForm));
+  teamForgotForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    clearErrors(teamForgotForm);
+    const email = $("#teamForgotEmail").value.trim().toLowerCase();
+    if (!validEmail(email)) return fail("teamForgotError", "Enter your team email address.", $("#teamForgotEmail"));
+    const button = $("#teamForgotButton");
+    busy(button, true, "Sending", "Send link");
+    const result = await post("/api/operator-auth", { action: "link", email });
+    busy(button, false, "", "Send link");
+    if (result.status === 0 || !result.ok) return fail("teamForgotError", result.error);
+    if (typeof result.data.message === "string" && result.data.message) $("#teamSentText").textContent = result.data.message;
+    show("teamsent");
+  });
+
   const MESSAGES = {
     not_operator: "This account is not on the Pulsify team. Sign in with your team email, or request access.",
     unlinked: "This sign-in is not linked to a Pulsify workspace yet. Ask your Pulsify contact to add you.",
@@ -291,7 +376,9 @@
       teamContinue.setAttribute("role", "link");
       teamContinue.setAttribute("aria-disabled", "true");
       teamContinue.removeAttribute("href");
-      if (view === "team") say("Team sign-in is being switched on. Try again shortly.");
+      // The Google and magic-link fallback is off; the password form above is unaffected.
+      teamContinue.hidden = true;
+      if (teamContinue.parentElement) teamContinue.parentElement.hidden = true;
     })
     .catch(() => {});
 

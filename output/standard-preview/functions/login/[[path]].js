@@ -3,6 +3,7 @@
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { serveLoginPage } from "../_shared/login-page.js";
 import { resolveOperatorSession } from "../_shared/operator-session.js";
+import { consoleDestination } from "../_shared/auth-guard.js";
 
 const PAGES = new Set(["", "client", "operator"]);
 
@@ -36,7 +37,7 @@ export async function onRequest(context) {
     if (path === "operator") {
       // An operator with a live team session goes straight to the console.
       const operator = await resolveOperatorSession(request, env).catch(() => null);
-      if (operator) return redirect(new URL(consoleLanding(url.searchParams.get("next")), url).toString());
+      if (operator) return redirect(new URL(consoleDestination(url.searchParams.get("next")), url).toString());
     } else {
       const access = await resolveClientAccess(request, env, { allowHeaderToken: false, allowQueryToken: false, allowImpersonated: true }).catch(() => ({ error: true }));
       if (!access.error) {
@@ -47,18 +48,6 @@ export async function onRequest(context) {
     }
   }
   return serveLoginPage(env, request);
-}
-
-// Operators only ever land inside the console, never in a client portal.
-function consoleLanding(raw) {
-  if (typeof raw !== "string" || !raw.startsWith("/") || raw.startsWith("//") || raw.includes("\\")) return "/app/";
-  try {
-    const url = new URL(raw, "https://pulsify-ai.com");
-    if (url.origin !== "https://pulsify-ai.com" || !/^\/app(\/|$)/.test(url.pathname) || /^\/app\/portal(\/|$)/.test(url.pathname)) return "/app/";
-    return url.pathname + url.search;
-  } catch {
-    return "/app/";
-  }
 }
 
 function redirect(location) {

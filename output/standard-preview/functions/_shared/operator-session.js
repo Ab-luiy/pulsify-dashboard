@@ -77,3 +77,11 @@ export async function revokeOperatorSession(request, env) {
       .bind(new Date().toISOString(), await sha256Hex(token)).run();
   } catch { /* the cookie is cleared regardless */ }
 }
+
+/** Ends every open team session for one address (a new password, or removing them from the team). */
+export async function revokeOperatorSessionsFor(env, email) {
+  try {
+    await env.DB.prepare('UPDATE operator_sessions SET revoked_at = ? WHERE email = ? AND revoked_at IS NULL')
+      .bind(new Date().toISOString(), normalizeEmail(email)).run();
+  } catch { /* sessions also stop when the address leaves the team */ }
+}

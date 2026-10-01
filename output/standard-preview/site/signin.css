@@ -161,3 +161,8 @@ a.primary-button[aria-disabled="true"] { opacity: .5; cursor: not-allowed; trans
 .si-card .switch .link-button { color: var(--ink); font-size: inherit; }
 .si-card h1:focus { outline: none; }
 .link-button:focus-visible, .pw-toggle:focus-visible, .si-switch a:focus-visible { outline: 2px solid var(--ink-2); outline-offset: 2px; }
+
+.check { display: flex; align-items: center; gap: 10px; color: var(--ink-2); font-size: 13.5px; cursor: pointer; }
+.check input { width: 18px; height: 18px; padding: 0; accent-color: #efeee9; box-shadow: none; flex: none; }
+.si-card .switch a { color: var(--ink-2); text-underline-offset: 3px; }
+.si-card .switch a:hover { color: var(--ink); }
