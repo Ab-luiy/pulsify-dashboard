@@ -96,6 +96,26 @@ The current carousel output looks automated and the founder rejected it. Carouse
 
 Two constraints from the founder. The slide structure and photo pattern come from reading the Niksetting carousels already captured in [[content-engine/carousel-breakdowns/README]] (and any others he adds), applied as documented. And the flow has to work for clients without a photographer or great photos: phone photos must be enough, so the photo ask stays simple and the design carries plain pictures. Order: YouTube video first, then this.
 
+## The portal is a guided operator (founder decision 2026-09-28)
+
+Asked whether the portal should track data, generate assets or create content, and whether the method should live as SOP docs or in the app, the founder chose the guided operator: every SOP becomes steps inside the app, each step asks the questions an operator would ask, the AI suggests options built from the client's brain and our method, the client picks, and the founder reviews before anything ships. Push-button automation looks generic; SOP docs alone are a course. It must look premium and card-based, and it runs on what onboarding collects (voice notes, offer, delivery, students and their results): "we take all that information to ask them back what they want to create on."
+
+First build: the YouTube flow, starting with ideation. His ideation questions, one at a time: what have you solved; a common mistake in your niche; what you struggled with and fixed; what took longest to figure out; can it be broken down on a Miro board (is it mindset-heavy, do you need to show proof of work and how); does it break a limiting belief; is it wide or niche; the video you wish someone had made. Then "here are your ideation results", sorted into pain point, limiting belief and breakdown, then title and thumbnail, build, shoot sheet and review. Remaking a winning concept on a new problem in a new format is part of it. Formats: Miro board, face to camera, both, student call, group coaching call, in-person student video.
+
+> ⚠️ Contradiction: the founder said there are no bottom-of-funnel videos (the bottom is the landing page and VSL). [[concepts/content-funnel-tof-mof-bof]] lists bottom-of-funnel videos (client interviews, mini-VSLs). Resolution: founder call, flagged to him 2026-09-28; the ideation screen tags ideas TOF or MOF only until he rules.
+
+### The guided new-video flow as built (2026-09-28, not deployed)
+
+Three steps in the client portal, each asking what an operator would ask, each running on the client brain and granted proof, each with the BYO-AI copy-paste fallback until the Anthropic key and the same Opus 5.5 switch after:
+
+1. **Ideation** (/portal/youtube/new): his ten questions as cards with onboarding answers as tap-to-use hints; ideas in pain point, limiting belief and breakdown, tagged funnel stage, format, mindset and proof to show. Method: micro niche YouTube, funnel stages, packaging rules.
+2. **Title and thumbnail** (/portal/youtube/title): what the video proves, which of the four layouts; five title and thumbnail pairs; live checks from the vault (under 60 characters, no question marks, no exclamation marks, thumbnail adds what the title doesn't say, yellow-bar headline on board thumbnails only, quiet text elsewhere, every number showable on screen). Where the titles skill and [[content-engine/thumbnail-layout-patterns]] disagree on thumbnail text, the layout page wins, as that page itself says.
+3. **Build the video** (/portal/youtube/build): why they should believe you, what they walk away with, what viewers do next; three openings (the promise, why you, reason to stay) and one outline in problem, struggle, discovery, result with board, screen, camera or student cues and the section that pays off the opening's loop; checks for warm-up openers, length, missing beats, unresolved loops and a hard pitch on a top-of-funnel video.
+
+**The review gate for YouTube (built 2026-09-29, not deployed).** The build step ends with "Send to my team for review" or "Save as a draft". A sent package is snapshotted server-side (content_reviews, migration 0044) and lands on the founder's Reviews page beside story sequences. Approved packages become examples in all three YouTube steps; a send-back reason becomes a rule. Rules are shared across formats, on the reading that a correction like "never call revenue profit" holds for every piece of that client's content. Video projects show In review, Approved or Changes requested, and the reason appears on the title and build steps.
+
+Not built yet: a shoot sheet and the editing standard (a vault gap).
+
 ## What "teaches itself" can mean without building our own AI
 
 A proposal for the planning session, not a decision. Nothing here needs a model of our own or retraining one. The model stays a hosted one; what learns is the data around it.
