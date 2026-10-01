@@ -44,6 +44,8 @@ export function validateOutcome(body) {
       objection: result === "not_closed" || result === "follow_up" ? text(body.objection, 200) : null,
       notes: text(body.notes, 2000),
       closer: text(body.closer, 80),
+      closer_id: text(body.closer_id, 40),
+      setter_id: text(body.setter_id, 40),
     },
   };
 }
@@ -58,6 +60,13 @@ async function handlePost({ request, env }) {
   const checked = validateOutcome(body);
   if (checked.error) return json({ ok: false, error: checked.error }, 422);
   const o = checked.value;
+  // A rep named by id must be on this workspace's team; their name fills the closer field.
+  for (const key of ["closer_id", "setter_id"]) {
+    if (!o[key]) continue;
+    const rep = await env.DB.prepare("SELECT name FROM team_members WHERE id=? AND client_id=?").bind(o[key], access.client).first().catch(() => null);
+    if (!rep) return json({ ok: false, error: "That rep isn't on this team." }, 422);
+    if (key === "closer_id" && !o.closer) o.closer = rep.name;
+  }
   const now = new Date().toISOString();
   const existing = o.booking_ref
     ? await env.DB.prepare("SELECT id FROM lead_outcomes WHERE client_id=? AND booking_ref=?").bind(access.client, o.booking_ref).first()
@@ -66,14 +75,14 @@ async function handlePost({ request, env }) {
   if (id) {
     await env.DB.prepare(
       `UPDATE lead_outcomes SET email=?, call_at=COALESCE(?,call_at), attended=?, result=?, deal_cents=?, payment_type=?, pre_sold=?,
-              objection=?, notes=?, closer=?, updated_at=? WHERE id=? AND client_id=?`,
-    ).bind(o.email, o.call_at, o.attended, o.result, o.deal_cents, o.payment_type, o.pre_sold, o.objection, o.notes, o.closer, now, id, access.client).run();
+              objection=?, notes=?, closer=?, closer_id=?, setter_id=?, updated_at=? WHERE id=? AND client_id=?`,
+    ).bind(o.email, o.call_at, o.attended, o.result, o.deal_cents, o.payment_type, o.pre_sold, o.objection, o.notes, o.closer, o.closer_id, o.setter_id, now, id, access.client).run();
   } else {
     const inserted = await env.DB.prepare(
       `INSERT INTO lead_outcomes (client_id, email, booking_ref, call_at, attended, result, deal_cents, payment_type, pre_sold,
-              objection, notes, closer, created_by, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+              objection, notes, closer, closer_id, setter_id, created_by, created_at, updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
     ).bind(access.client, o.email, o.booking_ref, o.call_at, o.attended, o.result, o.deal_cents, o.payment_type, o.pre_sold,
-      o.objection, o.notes, o.closer, access.actor, now, now).run();
+      o.objection, o.notes, o.closer, o.closer_id, o.setter_id, access.actor, now, now).run();
     id = inserted.meta?.last_row_id || null;
   }
   if (!existing && o.result === "closed") {

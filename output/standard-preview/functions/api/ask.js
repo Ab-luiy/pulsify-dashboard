@@ -3,7 +3,7 @@
 // (InfoOS build.) Client session, preview or operator (client named). Read-only.
 
 import { json, str } from "../_shared/common.js";
-import { withOperator } from "../_shared/access.js";
+import { operatorIdentity, rememberOperator, withOperator } from "../_shared/access.js";
 import { resolveReportClient } from "../_shared/client-read.js";
 import { SUGGESTIONS, answerQuestion } from "../_shared/ask.js";
 
@@ -21,7 +21,11 @@ async function handlePost({ request, env }) {
   // Reads use the same access as the reports; the client can come from the body for operators.
   const url = new URL(request.url);
   if (body?.client && !url.searchParams.get("client")) url.searchParams.set("client", String(body.client));
-  const access = await resolveReportClient(new Request(url, request), env);
+  // The body is already read, so check access on a copy carrying the same headers and identity.
+  const scoped = new Request(url, { method: "GET", headers: request.headers });
+  const identity = operatorIdentity(request);
+  if (identity) rememberOperator(scoped, identity);
+  const access = await resolveReportClient(scoped, env);
   if (access.error) return access.error;
   const question = str(body?.question).slice(0, 300);
   if (!question) return json({ ok: false, error: "Ask a question." }, 422);

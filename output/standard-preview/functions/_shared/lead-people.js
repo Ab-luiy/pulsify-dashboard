@@ -109,7 +109,7 @@ export async function clientRows(env, client, now = Date.now()) {
     all(env, `SELECT * FROM lead_outcomes WHERE client_id=? ORDER BY COALESCE(call_at, created_at)`, [client]).catch(() => []),
     all(env, `SELECT booking_ref, confirmed_at FROM call_flags WHERE client_id=? AND confirmed_at IS NOT NULL`, [client]).catch(() => []),
     all(env, `SELECT video_id, title, thumbnail_url FROM yt_videos WHERE client_id=?`, [client]).catch(() => []),
-    all(env, `SELECT key, value_json FROM workspace_preferences WHERE client_id=? AND key IN ('lead-qualify','regional')`, [client]).catch(() => []),
+    all(env, `SELECT key, value_json FROM workspace_preferences WHERE client_id=? AND key IN ('lead-qualify','workspace-settings')`, [client]).catch(() => []),
     all(env, `SELECT client_id, model_json FROM lead_models WHERE client_id IN (?, '')`, [client]).catch(() => []),
     env.DB.prepare(
       `SELECT COUNT(DISTINCT visitor_id) AS matured FROM page_events
@@ -126,7 +126,7 @@ export async function clientRows(env, client, now = Date.now()) {
   return {
     edges, touches, leads, payments, outcomes, flags, videos,
     qualify: pref("lead-qualify"),
-    regional: pref("regional"),
+    regional: pref("workspace-settings"),
     clientModel: model(client),
     pooledModel: model(""),
     anonMatured: Number(anon?.matured || 0),

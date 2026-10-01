@@ -27,7 +27,7 @@ async function handle_onRequestGet({ request, env }) {
   }
 
   const since7d = new Date(Date.now() - 7 * DAY_MS).toISOString().slice(0, 10);
-  const [payments, snapshots, sequences, studio, brain, pageActivity, operatorEvents] = await Promise.all([
+  const [payments, snapshots, sequences, studio, brain, pageActivity, operatorEvents, funnelScores] = await Promise.all([
     safeAll(
       env,
       `SELECT client,
@@ -81,7 +81,17 @@ async function handle_onRequestGet({ request, env }) {
       `SELECT id, actor, action, client, detail, created_at
          FROM operator_events ORDER BY created_at DESC LIMIT 30`,
     ),
+    // Each client's funnel score, stored daily by the sync Worker's lead-models job (InfoOS build).
+    safeAll(
+      env,
+      `SELECT client_id, value, ts FROM metric_points
+        WHERE scope='client' AND source='funnel' AND metric='score' AND ts >= ?
+        ORDER BY ts DESC`,
+      [new Date(Date.now() - 14 * DAY_MS).toISOString().slice(0, 10)],
+    ),
   ]);
+  const funnelScoreMap = new Map();
+  for (const row of funnelScores) if (!funnelScoreMap.has(row.client_id)) funnelScoreMap.set(row.client_id, row.value == null ? null : Math.round(Number(row.value)));
 
   const paymentMap = toMap(payments, "client");
   const snapshotMap = toSnapshotMap(snapshots);
@@ -140,6 +150,7 @@ async function handle_onRequestGet({ request, env }) {
       client,
       client_name: config.client_name || client,
       health,
+      funnel_score: funnelScoreMap.has(client) ? funnelScoreMap.get(client) : null,
       collected: {
         total_cents: totalCollectedCents,
         payment_count: paymentCount,

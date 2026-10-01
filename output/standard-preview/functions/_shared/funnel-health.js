@@ -45,32 +45,32 @@ export const BENCHMARKS = {
 };
 
 // The fix for a step that is under target, from our playbooks. Keyed by the
-// step people fail to reach.
+// step people fail to reach. `action` opens the place to make the fix (InfoOS do-the-fix buttons).
 const FIXES = {
   play: {
     text: "Most visitors never press play. Open the video on the viewer and the result they want, before any backstory.",
     source: "wiki/frameworks/vsl-framework.md",
-    action: null,
+    action: { label: "Edit the video section", route: "pages/edit" },
   },
   optin: {
     text: "People see the page but don't opt in. Put the proof and the result above the fold, and ask for one thing only.",
     source: "wiki/frameworks/vsl-framework.md",
-    action: null,
+    action: { label: "Edit the top of the page", route: "pages/edit" },
   },
   app_start: {
     text: "They watch but don't start the application. Keep the page to the video and the application button below it, nothing else.",
     source: "wiki/playbooks/pulsify-funnel-v1.md",
-    action: null,
+    action: { label: "Edit the page", route: "pages/edit" },
   },
   application: {
     text: "People start the application and stop. Keep it to the questions the call needs, in the playbook order, 7 to 10 at most.",
     source: "wiki/playbooks/pulsify-funnel-v1.md",
-    action: null,
+    action: { label: "See which answers stop them", route: "performance/applications" },
   },
   booking: {
     text: "They apply but don't book. Send them from the last question straight to the calendar, and reach out while they are still warm.",
     source: "wiki/playbooks/pulsify-funnel-v1.md",
-    action: null,
+    action: { label: "Call the applicants", route: "leads" },
   },
   buyer: {
     text: "Booked calls that don't buy. Fill the 48 to 72 hours before each call: a confirmation page with short videos built from real call questions, and a result story on call days.",

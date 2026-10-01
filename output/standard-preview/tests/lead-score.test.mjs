@@ -22,6 +22,12 @@ import { onRequestGet as linksGet, onRequestPost as linksPost, onRequestDelete a
 import { onRequestGet as qualifyGet, onRequestPut as qualifyPut } from "../functions/api/lead-qualify.js";
 import { onRequestGet as pagesGet, onRequestPost as pagesPost } from "../functions/api/pages.js";
 import { onRequestGet as linkRedirect } from "../functions/a/[token].js";
+import { onRequestGet as askGet, onRequestPost as askPostHandler } from "../functions/api/ask.js";
+import { answerQuestion, intentOf } from "../functions/_shared/ask.js";
+import { onRequestGet as reportGet, onRequestPut as reportPut } from "../functions/api/monthly-report.js";
+import { onRequestGet as teamGet, onRequestPost as teamPost } from "../functions/api/team.js";
+import { callDayNudges } from "../functions/_shared/call-day.js";
+import { integrationNotes } from "../functions/_shared/integration-notes.js";
 
 const sql = new DatabaseSync(":memory:");
 const mig = (name) => readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8");
@@ -50,6 +56,7 @@ sql.exec(mig("0043_cash_by_video.sql"));
 sql.exec(mig("0045_lead_score.sql"));
 sql.exec("ALTER TABLE client_config ADD COLUMN template_variant TEXT DEFAULT 'canonical'; ALTER TABLE client_config ADD COLUMN page_content_json TEXT; ALTER TABLE client_config ADD COLUMN page_active INTEGER DEFAULT 1; ALTER TABLE client_config ADD COLUMN proof_images_json TEXT;");
 sql.exec(mig("0046_links_team.sql"));
+sql.exec(mig("0007_delivery_failures.sql"));
 
 const env = {
   DB: {
@@ -378,6 +385,7 @@ const stored = JSON.parse(sql.prepare("SELECT model_json FROM lead_models WHERE 
 assert.ok(stored.computed_at && stored.counts.visit, "model and step counts stored");
 assert.ok(sql.prepare("SELECT COUNT(*) AS n FROM lead_score_snapshots WHERE client_id='acme'").get().n >= 3, "scores recorded");
 assert.ok(sql.prepare("SELECT 1 FROM lead_models WHERE client_id=''").get(), "pooled model built");
+assert.ok(sql.prepare("SELECT 1 FROM metric_points WHERE client_id='acme' AND source='funnel' AND metric='score'").get(), "the day's funnel score is stored for the operator overview");
 const runAgain = await refreshLeadModels(env, NOW + 60000);
 assert.equal(runAgain.client?.client, "other", "next run takes the next client, not the same one");
 // Stored model is used by the screens and scores match.
@@ -480,6 +488,135 @@ res = await post(pagesPost, { typeform_url: "https://evil.example/form" });
 assert.equal(res.status, 422, "only Typeform links");
 res = await post(pagesPost, { wistia_media_id: "<script>" });
 assert.equal(res.status, 422);
+
+// ---------- ask ----------
+assert.equal(intentOf("Who should I call first?"), "call");
+assert.equal(intentOf("How much cash came in this month?"), "cash");
+assert.equal(intentOf("Which video brought the most cash?"), "video");
+assert.equal(intentOf("Where do my best leads come from?"), "source");
+assert.equal(intentOf("What should I fix first?"), "fix");
+assert.equal(intentOf("What's broken in my funnel?"), "fix");
+assert.equal(intentOf("How are my show rates?"), "calls");
+res = await get(askGet, "/api/ask", { "x-portal-token": "token-acme" });
+assert.ok((await res.json()).suggestions.length >= 4);
+const askPost = (question, headers = { "x-portal-token": "token-acme" }, extra = {}) => askPostHandler({
+  request: new Request("https://pulsify-ai.com/api/ask", { method: "POST", headers: { "content-type": "application/json", ...headers }, body: JSON.stringify({ question, ...extra }) }),
+  env,
+});
+res = await askPost("How much cash came in this month?");
+body = await res.json();
+assert.equal(body.source, "computed", "no model key: the computed answer");
+assert.match(body.answer, /\$3,500 collected this month|collected this month/);
+assert.ok(body.facts.some((f) => f.label === "This month"));
+res = await askPost("Who should I call first?");
+body = await res.json();
+assert.match(body.answer, /Fay/, "the hot applicant is named first");
+assert.ok(body.links.some((l) => l.route === "leads"));
+res = await askPost("Where do my best leads come from?");
+assert.match((await res.json()).answer, /YouTube|Instagram/);
+res = await askPost("");
+assert.equal(res.status, 422);
+res = await askPost("Who should I call first?", { "x-portal-token": "token-other" });
+assert.doesNotMatch((await res.json()).answer, /Fay/, "answers stay in their workspace");
+res = await askPost("Who should I call first?", { "x-admin-key": "admin-test-key" }, { client: "acme" });
+assert.equal(res.status, 200, "operators ask about a named client");
+// With a model key, Claude only rewords; a failure falls back to the computed answer.
+const reworded = await answerQuestion({ ...env, ANTHROPIC_API_KEY: "test" }, "acme", "How much cash came in this month?", {
+  fetcher: async () => new Response(JSON.stringify({ content: [{ type: "text", text: "Reworded answer." }] }), { status: 200 }),
+});
+assert.equal(reworded.source, "ai");
+assert.equal(reworded.answer, "Reworded answer.");
+const fallback = await answerQuestion({ ...env, ANTHROPIC_API_KEY: "test" }, "acme", "How much cash came in this month?", {
+  fetcher: async () => new Response("{}", { status: 500 }),
+});
+assert.equal(fallback.source, "computed");
+
+// ---------- monthly report ----------
+// The month most of the test funnel sits in (yesterday's), so the test holds on the 1st too.
+const thisMonth = ago(1).slice(0, 7);
+res = await get(reportGet, `/api/monthly-report?month=${thisMonth}`, { "x-portal-token": "token-acme" });
+assert.equal(res.status, 200);
+body = await res.json();
+assert.equal(body.month, thisMonth);
+const monthCash = sql.prepare(
+  `SELECT COALESCE(SUM(p.amount_cents - p.refunded_cents), 0) AS c FROM payment_matches m JOIN payments p ON p.id = m.payment_id
+    WHERE m.client_id='acme' AND m.status='confirmed' AND substr(p.occurred_at, 1, 7) = ?`,
+).get(thisMonth).c;
+assert.equal(body.sales.cash_cents, monthCash, "cash is the month's confirmed payments");
+assert.ok(body.funnel.applications >= 1);
+assert.ok(body.label.length > 3);
+res = await reportPut({ request: new Request("https://pulsify-ai.com/api/monthly-report", { method: "PUT", headers: { "content-type": "application/json", "x-portal-token": "token-acme" }, body: JSON.stringify({ month: thisMonth, forecast: { cash_cents: 1 } }) }), env });
+assert.equal(res.status, 403, "clients don't set their own forecast");
+res = await reportPut({ request: new Request("https://pulsify-ai.com/api/monthly-report", { method: "PUT", headers: { "content-type": "application/json", "x-admin-key": "admin-test-key" }, body: JSON.stringify({ client: "acme", month: thisMonth, forecast: { cash_cents: 1000000, calls: 20, deals: 3 } }) }), env });
+assert.equal(res.status, 200);
+body = await (await get(reportGet, `/api/monthly-report?month=${thisMonth}`, { "x-portal-token": "token-acme" })).json();
+assert.deepEqual(body.forecast, { cash_cents: 1000000, calls: 20, deals: 3 });
+res = await reportPut({ request: new Request("https://pulsify-ai.com/api/monthly-report", { method: "PUT", headers: { "content-type": "application/json", "x-admin-key": "admin-test-key" }, body: JSON.stringify({ client: "acme", month: "2026-13", forecast: {} }) }), env });
+assert.equal(res.status, 422);
+
+// ---------- sales team and commissions ----------
+const team = (payload, headers = { "x-portal-token": "token-acme" }) => post(teamPost, payload, headers);
+res = await team({ action: "upsert-member", member: { name: "", role: "closer" } });
+assert.equal(res.status, 422);
+res = await team({ action: "upsert-member", member: { name: "Sam Closer", role: "closer", commission_pct: 10 } });
+assert.equal(res.status, 200);
+const samId = (await res.json()).id;
+res = await team({ action: "upsert-member", member: { name: "Tia Setter", role: "setter", setter_pct: 5 } });
+const tiaId = (await res.json()).id;
+body = await (await get(teamGet, "/api/team", { "x-portal-token": "token-acme" })).json();
+const tia = body.members.find((m) => m.id === tiaId);
+assert.ok(tia.link?.url.includes("/a/"), "setters get their own booking link");
+assert.equal(body.members.find((m) => m.id === samId).link, null, "closers don't need one");
+// Sam closed Ann on her call; Ann paid this month.
+res = await post(outcomePost, { email: "ann@example.com", booking_ref: "book-ann", attended: "showed", result: "closed", deal_cents: 500000, payment_type: "pif", pre_sold: "yes", closer_id: samId });
+assert.equal(res.status, 200);
+res = await post(outcomePost, { email: "ann@example.com", booking_ref: "book-ann", attended: "showed", result: "closed", deal_cents: 500000, closer_id: "rep_not_ours" });
+assert.equal(res.status, 422, "a rep from another team is refused");
+// Tia set Fay (post-set form) and filed an end-of-day form.
+res = await team({ action: "form", member_id: tiaId, kind: "set", lead_email: "fay@example.com", data: { notes: "Warm" } });
+assert.equal(res.status, 200);
+res = await team({ action: "form", member_id: tiaId, kind: "eod", data: { dials: 40, conversations: 9, sets: 2 } });
+assert.equal(res.status, 200);
+res = await team({ action: "form", member_id: tiaId, kind: "eod", data: { dials: -1 } });
+assert.equal(res.status, 422);
+res = await team({ action: "form", member_id: samId, kind: "set" });
+assert.equal(res.status, 422, "a post-set form needs the lead");
+body = await (await get(teamGet, "/api/team", { "x-portal-token": "token-acme" })).json();
+const sam = body.members.find((m) => m.id === samId);
+assert.ok(sam.stats.closed >= 1);
+assert.equal(body.members.find((m) => m.id === tiaId).stats.eod_days_7, 1);
+assert.ok(body.forms.some((f) => f.kind === "eod" && f.member_name === "Tia Setter"));
+const samPay = body.commissions.find((c) => c.member_id === samId);
+assert.equal(samPay.owed_cents, 25000, "10% of the $2,500 Ann paid this period");
+res = await team({ action: "mark-paid", member_id: samId, period_start: samPay.period_start, period_end: samPay.period_end, amount_cents: 25000 });
+assert.equal(res.status, 200);
+body = await (await get(teamGet, "/api/team", { "x-portal-token": "token-acme" })).json();
+assert.equal(body.commissions.find((c) => c.member_id === samId).paid_cents, 25000);
+assert.ok(body.flags.some((f) => f.kind === "no_closer"), "a payment with no closer is flagged");
+res = await team({ action: "mark-paid", member_id: samId, period_start: samPay.period_start, period_end: samPay.period_end, amount_cents: 1 }, { "x-portal-token": "token-other" });
+assert.equal(res.status, 404, "cannot pay another workspace's rep");
+assert.equal((await (await get(teamGet, "/api/team", { "x-portal-token": "token-other" })).json()).members.length, 0);
+
+// ---------- call-day nudge ----------
+const today = new Date(NOW).toISOString().slice(0, 10);
+touch("acme", "hal@example.com", "booking", `${today}T15:00:00.000Z`, "book-hal", { starts_at: `${today}T15:00:00.000Z` });
+touch("acme", "ivy@example.com", "booking", `${today}T09:00:00.000Z`, "book-ivy", { starts_at: `${today}T09:00:00.000Z` });
+touch("acme", "ivy@example.com", "booking", `${today}T09:00:00.000Z`, "book-ivy#canceled", { starts_at: `${today}T09:00:00.000Z`, status: "canceled" });
+const nudge = await callDayNudges(env, NOW);
+assert.equal(nudge.sent, 1);
+const note = sql.prepare("SELECT title, link FROM notifications WHERE kind='calls.today'").get();
+assert.match(note.title, /^1 call today, first at 15:00 UTC/, "a cancelled call doesn't count");
+assert.equal(note.link, "leads?tab=calls");
+assert.equal((await callDayNudges(env, NOW)).sent, 0, "once a day");
+
+// ---------- integrations: plain words and the first payment ----------
+sql.prepare("INSERT INTO delivery_failures (client, kind, detail, at) VALUES (?,?,?,?)").run("acme", "stripe_signature", "invalid signature", ago(1));
+sql.prepare("INSERT INTO delivery_failures (client, kind, detail, at) VALUES (?,?,?,?)").run("acme", "stripe_signature", "invalid signature", ago(30));
+const notes = await integrationNotes(env, "acme", NOW);
+assert.match(notes.stripe.problem.text, /signing secret/);
+assert.equal(notes.stripe.problem.count, 1, "only the last 14 days count");
+assert.ok(notes.stripe.first_payment_at, "the first payment through Stripe proves the connection");
+assert.ok(notes.test?.first_booking_at, "first booking per calendar source");
 
 delete env.ADMIN_KEY;
 console.log("lead-score: all checks passed");

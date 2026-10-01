@@ -33,10 +33,10 @@ const nameOf = (p) => p.name || p.email || "Someone";
 
 // Which question is it? First match wins; the order puts the specific before the general.
 const INTENTS = [
-  ["call", /\b(call|reach out|contact|follow ?up|hot|warm|who should|first|priority|leads? to)\b/i],
+  ["fix", /\b(fix|improve|leak|broken|wrong|bottleneck|funnel|convert)\b/i],
+  ["call", /\b(call|reach out|contact|follow ?up|hot|warm|who should|priority|leads? to)\b/i],
   ["video", /\b(video|youtube|content|upload)\b/i],
   ["source", /\b(source|where|come from|traffic|channel|platform|best leads)\b/i],
-  ["fix", /\b(fix|improve|leak|broken|wrong|bottleneck|funnel|convert)\b/i],
   ["calls", /\b(show|no-?show|close rate|closing|calls?|booked|meeting)\b/i],
   ["cash", /\b(cash|revenue|money|made|earn|sales|sold|paid|payments?|collected)\b/i],
   ["applications", /\b(appl|qualif|opt.?in|signups?)\b/i],

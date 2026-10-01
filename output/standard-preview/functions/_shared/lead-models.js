@@ -6,6 +6,7 @@
 // Pulsify funnels) is rebuilt from the client models, cheaply, without reloading anyone.
 
 import { assemble, clientRows, listVisitors, loadPipeline, visitorAggregates } from "./lead-people.js";
+import { funnelHealthReport } from "./funnel-health.js";
 import {
   BEHAVIOUR, DAY, LADDER, MATURE_DAYS, STATES, fitModel, scorePerson, startingModel, withMeans, withOwnRates,
 } from "./lead-score.js";
@@ -61,7 +62,20 @@ export async function refreshClient(env, client, now = Date.now()) {
   ).bind(client, JSON.stringify(model), model.computed_at).run();
 
   const snapshots = await writeSnapshots(env, client, known, model, now);
-  return { client, people: known.length, anonymous_sampled: anon.people.length, fitted: Boolean(model.fitted?.applied), snapshots };
+  const funnelScore = await storeFunnelScore(env, client, now).catch(() => null);
+  return { client, people: known.length, anonymous_sampled: anon.people.length, fitted: Boolean(model.fitted?.applied), snapshots, funnel_score: funnelScore };
+}
+
+// The client's funnel score (30 days, graded steps only), stored once a day so the operator
+// overview reads every client's in one query instead of grading each funnel on request.
+async function storeFunnelScore(env, client, now) {
+  const report = await funnelHealthReport(env, client, { range: "30d", now });
+  const value = report.score?.value ?? null;
+  await env.DB.prepare(
+    `INSERT OR REPLACE INTO metric_points (scope, client_id, source, metric, ts, value, dims_json)
+     VALUES ('client', ?, 'funnel', 'score', ?, ?, '{}')`,
+  ).bind(client, new Date(now).toISOString().slice(0, 10), value).run();
+  return value;
 }
 
 // A fixed sample of matured anonymous visitors (never tied to an email), weighted up to
