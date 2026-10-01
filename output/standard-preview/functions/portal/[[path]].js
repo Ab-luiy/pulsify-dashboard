@@ -1,3 +1,4 @@
+import { serveLoginPage } from "../_shared/login-page.js";
 import {
   consumeImpersonationExchange,
   issueClientSession,
@@ -11,7 +12,7 @@ export async function onRequest(context) {
     if (access.error) return access.error;
     return serveAsset(context.env, context.request, '/portal/' + path);
   }
-  if (path === "register") return serveAsset(context.env, context.request, "/portal/login/index.html");
+  if (path === "register") return serveLoginPage(context.env, context.request);
   if (path === "login") return serveLogin(context);
   if (!path || path === 'index.html') return serveDashboard(context);
   return context.next();
@@ -73,7 +74,7 @@ async function serveDashboard({ request, env }) {
 
 async function serveLogin({ request, env }) {
   if (new URL(request.url).searchParams.has("setup")) {
-    return serveAsset(env, request, "/portal/login/index.html");
+    return serveLoginPage(env, request);
   }
   const access = await resolveClientAccess(request, env, {
     allowHeaderToken: false,
@@ -85,7 +86,7 @@ async function serveLogin({ request, env }) {
     destination.searchParams.set("client", access.client);
     return Response.redirect(destination, 302);
   }
-  return serveAsset(env, request, "/portal/login/index.html");
+  return serveLoginPage(env, request);
 }
 
 // ASSETS.fetch on an explicit index.html returns a 308 to the directory URL,

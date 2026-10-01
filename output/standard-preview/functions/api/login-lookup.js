@@ -1,13 +1,11 @@
-// One login for everyone. The page asks for an email first and this endpoint
-// says what happens next.
-//   POST /api/login-lookup {email}                -> {kind:"operator"|"password", hint}
-//   POST /api/login-lookup {email, action:"link"} -> emails a one-time sign-in link when the
-//                                                    email belongs to a client; the response
-//                                                    is identical either way (no enumeration).
+// Password-link endpoint for the sign-in page (the page no longer asks who an email belongs to, so
+// nobody can use it to find out which addresses are operators).
+//   POST /api/login-lookup {email, action:"link"} -> emails a one-time link to set a new password
+//        when the email belongs to a client. The answer is identical either way (no enumeration).
 // Operator emails come from OPERATOR_EMAILS (comma separated) or OPERATOR_EMAIL.
 import { json, normalizeEmail, str } from "../_shared/common.js";
+import { sameOrigin } from "../_shared/auth-guard.js";
 import { createSetupLink } from "../_shared/client-auth.js";
-import { isOperatorEmailDb } from "../_shared/operator-session.js";
 
 const LINKS_PER_EMAIL_PER_HOUR = 3;
 
@@ -17,11 +15,11 @@ export function operatorEmails(env) {
 }
 
 export async function onRequestPost({ request, env }) {
+  if (!sameOrigin(request)) return json({ ok: false, error: "Forbidden" }, 403);
   let body = {};
   try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
   const email = normalizeEmail(body.email);
   if (!email) return json({ ok: false, error: "Enter a valid email address." }, 422);
-  const operators = operatorEmails(env);
   const action = str(body.action);
 
   if (action === "link") {
@@ -56,9 +54,6 @@ export async function onRequestPost({ request, env }) {
     return json(generic);
   }
 
-  if (operators.includes(email) || await isOperatorEmailDb(env, email)) {
-    return json({ ok: true, kind: "operator", hint: email, next: "/admin" });
-  }
   // Clients and unknown emails both get the password field. The failure
   // message after a wrong password explains how workspaces are created.
   return json({ ok: true, kind: "password" });

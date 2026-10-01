@@ -43,12 +43,12 @@ const asClient=(h={})=>({cookie:`${CLIENT_SESSION_COOKIE}=${mine}`,...h});
 const call=(fn,r)=>fn({request:r,env,data:{}});
 const op=(r)=>{rememberOperator(r,{email:'abod.louai@gmail.com',via:'access'});return r};
 
-test('lookup: operator emails route to Google, everything else gets a password field, nothing leaks', async()=>{
+test('lookup: every email gets the same answer, so operator addresses are not revealed', async()=>{
   const a=await (await call(lookupPost,post('https://x/api/login-lookup',{email:'Abod.Louai@gmail.com'}))).json();
-  assert.equal(a.kind,'operator');assert.equal(a.next,'/admin');
+  assert.equal(a.kind,'password');assert.equal(a.next,undefined);
   const b=await (await call(lookupPost,post('https://x/api/login-lookup',{email:'coach@acme.com'}))).json();
   const c=await (await call(lookupPost,post('https://x/api/login-lookup',{email:'nobody@nowhere.com'}))).json();
-  assert.equal(b.kind,'password');assert.deepEqual({...b},{...c},'client and unknown are indistinguishable');
+  assert.equal(b.kind,'password');assert.deepEqual({...a},{...b},'operator, client and unknown are indistinguishable');assert.deepEqual({...b},{...c});
   assert.equal((await call(lookupPost,post('https://x/api/login-lookup',{email:'not-an-email'}))).status,422);
 });
 

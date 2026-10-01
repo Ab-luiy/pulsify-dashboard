@@ -25,7 +25,9 @@ async function handlePost({ request, env }) {
   let body = {};
   try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
   const action = str(body.action);
-  const origin = new URL(request.url).origin;
+  // Links in emails always use the real domain, even when the console was opened on a preview address.
+  const seen = new URL(request.url).origin;
+  const origin = /\.pages\.dev$/.test(new URL(seen).hostname) ? "https://pulsify-ai.com" : seen;
   const actor = denied.operatorEmail;
   let out;
   if (action === "add-operator") out = await addOperator(env, { email: body.email, name: str(body.name), actor, origin });

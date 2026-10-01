@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0b0c0d">
   <meta name="color-scheme" content="dark">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
   <title>Sign in · Pulsify</title>
+  <meta name="description" content="Sign in to your Pulsify workspace or the team console.">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/shared/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/site/signin.css">
+  <script src="/site/signin.js" defer></script>
 </head>
 <body class="signin">
   <div class="si-atmos" aria-hidden="true"><i></i></div>
@@ -18,88 +22,127 @@
   </header>
 
   <main class="si-main">
-    <div class="si-card" role="region" aria-labelledby="cardTitle">
-          <span class="sr-only" id="cardTitle">Sign in</span>
+    <div class="si-card">
+      <nav class="si-switch" id="tabs" aria-label="Sign in as">
+        <a href="/login/client" data-tab="client">Client</a>
+        <a href="/login/operator" data-tab="operator">Team</a>
+      </nav>
 
-          <section id="loginPanel">
-            <div class="auth-heading">
-              <h1 id="loginTitle">Welcome back</h1>
-              <p id="loginSubtitle">One sign-in for clients and the Pulsify team. New here? <a href="#" id="noAccountLink">Request access</a></p>
+      <p class="notice" id="notice" role="status" hidden></p>
+      <noscript><p class="notice error">Sign-in needs JavaScript. Turn it on for this site and reload.</p></noscript>
+
+      <!-- Client: one form, email and password together so password managers fill it in one go -->
+      <section data-view="signin" aria-labelledby="t-signin">
+        <h1 id="t-signin" tabindex="-1">Welcome back</h1>
+        <p class="lead">Sign in to see your workspace.</p>
+        <form id="signinForm" class="auth-form" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="username" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+          </div>
+          <div class="field">
+            <div class="field-head">
+              <label for="password">Password</label>
+              <button type="button" class="link-button" data-go="forgot">Forgot password?</button>
             </div>
-
-            <form id="emailForm" class="auth-form">
-              <label class="sr-only" for="email">Email address</label>
-              <input id="email" type="email" autocomplete="username" placeholder="Enter your email address" required autofocus>
-              <button id="continueButton" class="primary-button" type="submit">Continue</button>
-            </form>
-
-            <div id="operatorStep" hidden>
-              <div class="identity-row"><span id="operatorEmail"></span><button type="button" class="link-button" data-change-email>Change</button></div>
-              <a class="google-button" id="operatorGoogle" href="/admin">
-                <svg aria-hidden="true" viewBox="0 0 18 18"><path fill="#4285f4" d="M17.64 9.205c0-.639-.057-1.252-.164-1.841H9v3.482h4.844a4.14 4.14 0 0 1-1.797 2.715v2.259h2.909c1.702-1.567 2.684-3.875 2.684-6.615Z"/><path fill="#34a853" d="M9 18c2.43 0 4.468-.806 5.956-2.18l-2.91-2.259c-.805.54-1.835.86-3.046.86-2.344 0-4.329-1.585-5.037-3.714H.956v2.332A9 9 0 0 0 9 18Z"/><path fill="#fbbc05" d="M3.963 10.707A5.41 5.41 0 0 1 3.682 9c0-.592.102-1.168.281-1.707V4.961H.956A9 9 0 0 0 0 9c0 1.452.347 2.827.956 4.039l3.007-2.332Z"/><path fill="#ea4335" d="M9 3.58c1.321 0 2.507.454 3.441 1.346l2.581-2.58C13.464.891 11.427 0 9 0A9 9 0 0 0 .956 4.961l3.007 2.332C4.67 5.165 6.656 3.58 9 3.58Z"/></svg>
-                <span id="operatorGoogleLabel">Continue with Google</span>
-              </a>
-              <p class="recovery-note" id="operatorHint">This is a Pulsify team account. When Google asks, pick <strong id="operatorHintEmail"></strong>, not another Gmail on this device. You come straight back here signed in.</p>
+            <div class="pw">
+              <input id="password" name="password" type="password" autocomplete="current-password" required>
+              <button type="button" class="pw-toggle" data-toggle="password" aria-label="Show password" aria-pressed="false">Show</button>
             </div>
+          </div>
+          <p class="field-error" id="signinError" role="alert" hidden></p>
+          <button class="primary-button" id="signinButton" type="submit">Sign in</button>
+        </form>
+        <p class="switch">New here? <button type="button" class="link-button" data-go="request">Request access</button></p>
+      </section>
 
-            <form id="passwordForm" class="auth-form" hidden>
-              <div class="identity-row"><span id="passwordEmail"></span><button type="button" class="link-button" data-change-email>Change</button></div>
-              <a id="propelSignIn" class="primary-button" href="/api/propelauth/start" hidden>Continue with secure sign-in</a>
-              <div id="propelDivider" class="divider" hidden><span>Or use your current password</span></div>
-              <label class="sr-only" for="password">Password</label>
-              <input id="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
-              <button id="loginButton" class="primary-button" type="submit">Sign in</button>
-              <button type="button" class="outline-button" id="magicLinkButton">Email me a sign-in link instead</button>
-              <p class="recovery-note" id="passwordHint">First time here, or forgot your password? The sign-in link sets a new one. It works once and expires in 48 hours.</p>
-            </form>
+      <section data-view="forgot" aria-labelledby="t-forgot" hidden>
+        <h1 id="t-forgot" tabindex="-1">Email me a link</h1>
+        <p class="lead">We will email a one-time link to set a new password. It works once and expires in 48 hours.</p>
+        <form id="forgotForm" class="auth-form" novalidate>
+          <div class="field">
+            <label for="forgotEmail">Email</label>
+            <input id="forgotEmail" name="email" type="email" autocomplete="username" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+          </div>
+          <p class="field-error" id="forgotError" role="alert" hidden></p>
+          <button class="primary-button" id="forgotButton" type="submit">Send link</button>
+        </form>
+        <p class="switch"><button type="button" class="link-button" data-go="signin">Back to sign in</button></p>
+      </section>
 
-            <p class="recovery-note" id="loginHint" hidden></p>
-          </section>
+      <section data-view="sent" aria-labelledby="t-sent" hidden>
+        <h1 id="t-sent" tabindex="-1">Check your email</h1>
+        <p class="lead" id="sentText">If that email has a Pulsify workspace, a one-time link is on its way. It works once and expires in 48 hours.</p>
+        <button type="button" class="outline-button" data-go="signin">Back to sign in</button>
+      </section>
 
-          <section id="registrationNote" hidden>
-            <div id="requestForm">
-              <div class="auth-heading">
-                <h1>Request access</h1>
-                <p>Tell us who you are. We review every request and email you when your workspace is ready. <a href="/portal/login" id="backFromNote">Back to sign in</a></p>
-              </div>
-              <form id="accessForm" class="auth-form" novalidate>
-                <label class="sr-only" for="reqName">Your name</label>
-                <input id="reqName" name="name" autocomplete="name" maxlength="120" placeholder="Your name" required>
-                <label class="sr-only" for="reqEmail">Email address</label>
-                <input id="reqEmail" name="email" type="email" autocomplete="email" placeholder="Email address" required>
-                <label class="sr-only" for="reqLink">Your channel or website (optional)</label>
-                <input id="reqLink" name="link" autocomplete="url" maxlength="300" placeholder="Your channel or website (optional)">
-                <div class="si-trap" aria-hidden="true"><label>Website<input id="reqWebsite" name="website" tabindex="-1" autocomplete="off"></label></div>
-                <button id="reqButton" class="primary-button" type="submit">Request access</button>
-              </form>
+      <section data-view="request" aria-labelledby="t-request" hidden>
+        <h1 id="t-request" tabindex="-1">Request access</h1>
+        <p class="lead">Tell us who you are. We review every request and email you when your workspace is ready.</p>
+        <form id="requestForm" class="auth-form" novalidate>
+          <div class="field">
+            <label for="reqName">Your name</label>
+            <input id="reqName" name="name" autocomplete="name" maxlength="120" required>
+          </div>
+          <div class="field">
+            <label for="reqEmail">Email</label>
+            <input id="reqEmail" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+          </div>
+          <div class="field">
+            <label for="reqLink">Your channel or website <span class="optional">optional</span></label>
+            <input id="reqLink" name="link" autocomplete="url" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="300">
+          </div>
+          <div class="si-trap" aria-hidden="true"><label>Website<input id="reqWebsite" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="field-error" id="requestError" role="alert" hidden></p>
+          <button class="primary-button" id="requestButton" type="submit">Request access</button>
+        </form>
+        <p class="switch"><button type="button" class="link-button" data-go="back">Back to sign in</button></p>
+      </section>
+
+      <section data-view="requested" aria-labelledby="t-requested" hidden>
+        <h1 id="t-requested" tabindex="-1">Request sent</h1>
+        <p class="lead" id="requestedText">We will email you as soon as your workspace is approved.</p>
+        <button type="button" class="outline-button" data-go="back">Back to sign in</button>
+      </section>
+
+      <!-- Setup: arrives from the emailed link -->
+      <section data-view="setup" aria-labelledby="t-setup" hidden>
+        <h1 id="t-setup" tabindex="-1">Set your password</h1>
+        <p class="lead" id="setupLead">Choose a password for your private Pulsify workspace.</p>
+        <form id="setupForm" class="auth-form" novalidate>
+          <input id="setupUsername" class="si-trap" type="email" name="username" autocomplete="username" tabindex="-1" aria-hidden="true" readonly>
+          <div class="field">
+            <label for="setupPassword">New password</label>
+            <div class="pw">
+              <input id="setupPassword" name="password" type="password" autocomplete="new-password" minlength="10" maxlength="200" aria-describedby="setupHint" required>
+              <button type="button" class="pw-toggle" data-toggle="setupPassword" aria-label="Show password" aria-pressed="false">Show</button>
             </div>
-            <div id="requestDone" hidden>
-              <div class="auth-heading">
-                <h1>Request sent</h1>
-                <p id="requestDoneText">We will email you as soon as your workspace is approved.</p>
-              </div>
-              <a class="primary-button button-link" href="/portal/login">Back to sign in</a>
-            </div>
-          </section>
+            <p class="field-hint" id="setupHint">At least 10 characters.</p>
+          </div>
+          <div class="field" id="codeField" hidden>
+            <label for="setupCode">Email code</label>
+            <input id="setupCode" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*">
+            <p class="field-hint" id="codeHint"></p>
+          </div>
+          <p class="field-error" id="setupError" role="alert" hidden></p>
+          <button class="primary-button" id="setupButton" type="submit">Save password and open workspace</button>
+          <button type="button" class="outline-button" id="resendCode" hidden>Send a new code</button>
+        </form>
+      </section>
 
-          <section id="setupPanel" hidden>
-            <div class="auth-heading">
-              <h1>Set your password</h1>
-              <p>Secure your private Pulsify workspace.</p>
-            </div>
-            <form id="setupForm" class="auth-form">
-              <label class="sr-only" for="setupPassword">New password</label>
-              <input id="setupPassword" type="password" autocomplete="new-password" minlength="10" placeholder="New password · at least 10 characters" required>
-              <label class="sr-only" for="setupCode" id="setupCodeLabel" hidden>Email verification code</label>
-              <div id="setupCodeWrap" hidden><input id="setupCode" inputmode="numeric" autocomplete="one-time-code" placeholder="Enter the 6-digit code"></div>
-              <p class="recovery-note" id="setupCodeHint" hidden></p>
-              <button class="primary-button" id="setupButton" type="submit">Save password and open dashboard</button>
-              <button class="outline-button" id="resendCodeButton" type="button" hidden>Resend code</button>
-            </form>
-            <button class="more-options" id="backToLogin" type="button">Back to login</button>
-          </section>
+      <section data-view="expired" aria-labelledby="t-expired" hidden>
+        <h1 id="t-expired" tabindex="-1">This link has expired</h1>
+        <p class="lead">Setup links work once and last 48 hours. Ask for a fresh one and we will email it.</p>
+        <button type="button" class="primary-button" data-go="forgot">Email me a new link</button>
+      </section>
 
-          <div class="message error" id="message" role="alert" hidden></div>
+      <!-- Team -->
+      <section data-view="team" aria-labelledby="t-team" hidden>
+        <h1 id="t-team" tabindex="-1">Team console</h1>
+        <p class="lead">Sign in with your team account.</p>
+        <a class="primary-button" id="teamContinue" href="/api/propelauth/start?as=operator">Continue</a>
+        <p class="switch">Need access? <button type="button" class="link-button" data-go="request">Request access</button></p>
+      </section>
     </div>
   </main>
 
@@ -107,211 +150,5 @@
     <span>© <span data-year>2026</span> Pulsify</span>
     <span><a href="/privacy">Privacy</a><a href="/terms">Terms</a></span>
   </footer>
-
-  <script>
-    const params = new URLSearchParams(location.search);
-    const setupToken = params.get("setup") || "";
-    const client = params.get("client") || "";
-    const operatorMode = params.get("operator") === "1";
-    function loginDestination(fallback) {
-      const next = params.get("next");
-      if (!next) return fallback;
-      try {
-        const target = new URL(next, location.origin);
-        if (target.origin === location.origin && /^\/(?:onboard|portal)(?:\/|$)/.test(target.pathname) && !/^\/portal\/(?:login|register)/.test(target.pathname)) return target.pathname + target.search + target.hash;
-      } catch {}
-      return fallback;
-    }
-    const $ = (id) => document.getElementById(id);
-    const setupState = { requiresCode: false };
-    let propelEnabled = false;
-    fetch("/api/propelauth/config", { cache: "no-store" })
-      .then((response) => response.ok ? response.json() : null)
-      .then((config) => { propelEnabled = Boolean(config?.enabled); $("propelSignIn").hidden = !propelEnabled; $("propelDivider").hidden = !propelEnabled; })
-      .catch(() => {});
-    if (!setupToken && params.has("auth_error")) {
-      const failure = params.get("auth_error");
-      showMessage(failure === "unlinked" ? "This sign-in is not linked to a Pulsify workspace yet. Contact your Pulsify team." : "Secure sign-in did not finish. Try again or use your current password.");
-      history.replaceState(null, "", "/portal/login");
-    }
-    // A password login must not reuse another client's private-link token.
-    sessionStorage.removeItem("pulsify_portal_token");
-
-    if (setupToken) {
-      $("loginPanel").hidden = true;
-      $("setupPanel").hidden = false;
-      $("cardTitle").textContent = "Set password";
-      sendSetupCode();
-    }
-    if (location.pathname.includes("register") && !setupToken) showNoAccount();
-    if (operatorMode && !setupToken) {
-      document.title = "Operator sign in · Pulsify";
-      if (params.get("logout") === "1") finishOperatorSignOut();
-    }
-
-    // Step 1: email. Remembered per browser so a returning person skips straight to their step.
-    const remembered = sessionStorage.getItem("pulsify_client_login_email") || localStorage.getItem("pulsify_login_email") || "";
-    $("email").value = remembered;
-
-    $("accessForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const button = $("reqButton");
-      button.disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/access-request", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: $("reqName").value, email: $("reqEmail").value, link: $("reqLink").value, website: $("reqWebsite").value }) });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send your request.");
-        $("requestForm").hidden = true;
-        $("requestDone").hidden = false;
-        $("requestDoneText").textContent = data.message || "We will email you as soon as your workspace is approved.";
-      } catch (error) { showMessage(error.message || "Could not send your request."); }
-      finally { button.disabled = false; }
-    });
-    $("noAccountLink").addEventListener("click", (e) => { e.preventDefault(); showNoAccount(); });
-    $("backFromNote").addEventListener("click", (e) => { e.preventDefault(); history.replaceState(null, "", "/portal/login"); $("registrationNote").hidden = true; hideMessage(); $("loginPanel").hidden = false; $("cardTitle").textContent = "Sign in"; });
-    document.querySelectorAll("[data-change-email]").forEach((b) => b.addEventListener("click", () => showStep("email")));
-
-    $("emailForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const email = $("email").value.trim().toLowerCase();
-      if (!email) return;
-      const button = $("continueButton");
-      button.disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/login-lookup", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email }) });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || "Could not check that email.");
-        try { localStorage.setItem("pulsify_login_email", email); } catch {}
-        sessionStorage.setItem("pulsify_client_login_email", email);
-        if (data.kind === "operator") {
-          $("operatorEmail").textContent = email;
-          $("operatorHintEmail").textContent = data.hint || email;
-          $("operatorGoogle").href = data.next || "/admin";
-          showStep("operator");
-        } else {
-          $("passwordEmail").textContent = email;
-          const secure = new URL("/api/propelauth/start", location.origin);
-          if (client) secure.searchParams.set("client", client);
-          if (params.get("next")) secure.searchParams.set("next", params.get("next"));
-          $("propelSignIn").href = secure.pathname + secure.search;
-          $("propelSignIn").hidden = !propelEnabled;
-          $("propelDivider").hidden = !propelEnabled;
-          showStep("password");
-        }
-      } catch (error) { showMessage(error.message || "Could not check that email."); }
-      finally { button.disabled = false; }
-    });
-
-    $("passwordForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const button = $("loginButton");
-      const payload = { email: $("email").value.trim().toLowerCase(), password: $("password").value };
-      button.disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/client-login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) {
-          throw new Error(response.status === 401 || response.status === 404 || response.status === 422
-            ? "That email and password do not match a workspace. If you never set a password, use the sign-in link below. New here? Request access first."
-            : (data.error || "Could not sign in."));
-        }
-        sessionStorage.removeItem("pulsify_reel_thoughts");
-        location.href = loginDestination(data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`);
-      } catch (error) { showMessage(error.message || "Could not sign in."); }
-      finally { button.disabled = false; }
-    });
-
-    $("magicLinkButton").addEventListener("click", async () => {
-      const email = $("email").value.trim().toLowerCase();
-      const button = $("magicLinkButton");
-      button.disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/login-lookup", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email, action: "link" }) });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send the link.");
-        $("passwordHint").textContent = data.message;
-        button.textContent = "Link sent";
-      } catch (error) { showMessage(error.message || "Could not send the link."); button.disabled = false; }
-    });
-
-    function showStep(step) {
-      $("emailForm").hidden = step !== "email";
-      $("operatorStep").hidden = step !== "operator";
-      $("passwordForm").hidden = step !== "password";
-      hideMessage();
-      if (step === "email") $("email").focus();
-      if (step === "password") $("password").focus();
-      $("loginTitle").textContent = step === "operator" ? "Welcome back, Pulsify" : "Welcome back";
-    }
-    function showNoAccount() {
-      $("loginPanel").hidden = true;
-      $("registrationNote").hidden = false;
-      $("cardTitle").textContent = "Request access";
-    }
-
-    $("backToLogin").addEventListener("click", () => {
-      const next = new URL(location.href);
-      next.searchParams.delete("setup");
-      location.href = "/portal/login" + next.search;
-    });
-    $("resendCodeButton").addEventListener("click", sendSetupCode);
-
-    $("setupForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const button = $("setupButton");
-      button.disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/client-set-password", {
-          method: "POST", headers: { "content-type": "application/json" },
-          body: JSON.stringify({ setup_token: setupToken, code: setupState.requiresCode ? $("setupCode").value.trim() : "", password: $("setupPassword").value }),
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || "Could not save this password.");
-        location.href = loginDestination(data.redirect || `/portal?client=${encodeURIComponent(client || data.client || "")}`);
-      } catch (error) { showMessage(error.message || "Could not save this password."); }
-      finally { button.disabled = false; }
-    });
-
-    async function sendSetupCode() {
-      if (!setupToken) return;
-      $("resendCodeButton").disabled = true;
-      hideMessage();
-      try {
-        const response = await fetch("/api/client-email-code", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ setup_token: setupToken }) });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok || !data.ok) throw new Error(data.error || "Could not send the email verification code.");
-        setupState.requiresCode = Boolean(data.requires_code);
-        $("setupCodeWrap").hidden = !setupState.requiresCode;
-        $("setupCodeLabel").hidden = !setupState.requiresCode;
-        $("setupCodeHint").hidden = !setupState.requiresCode;
-        $("resendCodeButton").hidden = !setupState.requiresCode;
-        if (setupState.requiresCode) {
-          $("setupCode").required = true;
-          $("setupCodeHint").textContent = `We emailed a 6-digit code to ${data.email}. It expires in 10 minutes.`;
-        } else {
-          $("setupCode").required = false;
-          $("setupCode").value = "";
-        }
-      } catch (error) { showMessage(error.message || "Could not send the email verification code."); }
-      finally { $("resendCodeButton").disabled = false; }
-    }
-
-    function showMessage(text) { $("message").textContent = text; $("message").hidden = false; }
-    function hideMessage() { $("message").hidden = true; $("message").textContent = ""; }
-    async function finishOperatorSignOut() {
-      $("loginHint").hidden = false;
-      $("loginHint").textContent = "Signing you out…";
-      try { await fetch("/cdn-cgi/access/logout", { credentials: "include", cache: "no-store" }); }
-      catch { /* Access can finish the cookie clear even when its HTML response is opaque. */ }
-      history.replaceState(null, "", "/portal/login");
-      $("loginHint").textContent = "You're signed out. Enter your email to sign back in.";
-    }
-  </script>
-  <script>document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = String(new Date().getFullYear()); });</script>
 </body>
 </html>
