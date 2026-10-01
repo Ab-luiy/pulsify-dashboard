@@ -84,11 +84,43 @@ a { color: inherit; }
 @keyframes si-in { from { opacity: 0; transform: translateY(10px) scale(.99); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 @media (prefers-reduced-motion: reduce) { .si-card, .si-atmos::before { animation: none; } }
 
-/* Client or Team */
-.si-switch { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 0 0 32px; border-radius: 999px; background: rgb(0 0 0 / .28); box-shadow: inset 0 0 0 1px var(--line), inset 0 1px 2px rgb(0 0 0 / .4); }
-.si-switch a { text-align: center; padding: 8px 12px; border-radius: 999px; color: var(--ink-2); font-size: 13px; font-weight: 500; text-decoration: none; transition: color 160ms var(--ease), background-color 160ms var(--ease); }
+/* Client or Team (founder, 2026-10-01: "change the way the sign in splits are"). One track with
+   a lit indicator that slides to the chosen side. Client is the warm side (coral dot, coral card
+   corner), Team the cool side (violet), the same as the homepage pop-up. signin.js only sets
+   aria-current; everything here follows from it. */
+.si-switch {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 0 0 32px; border-radius: 16px;
+  background: rgb(0 0 0 / .3); box-shadow: inset 0 0 0 1px var(--line), inset 0 1px 3px rgb(0 0 0 / .45);
+}
+.si-switch::before {
+  content: ""; position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 12px) / 2); border-radius: 12px; opacity: 0;
+  background: radial-gradient(90% 140% at 0% 0%, rgb(var(--side, 150 80 64) / .38), transparent 70%), linear-gradient(180deg, rgb(255 255 255 / .13), rgb(255 255 255 / .06));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .12), inset 0 1px 0 rgb(255 255 255 / .14), 0 6px 16px -6px rgb(0 0 0 / .7);
+  transition: transform 340ms var(--ease), opacity 200ms var(--ease);
+}
+.si-switch:has([aria-current])::before { opacity: 1; }
+.si-switch:has([data-tab="operator"][aria-current])::before { --side: 86 68 120; transform: translateX(calc(100% + 4px)); }
+.si-switch a {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 9px;
+  min-height: 40px; padding: 0 12px; border-radius: 12px; color: var(--ink-2); font-size: 13.5px; font-weight: 600; letter-spacing: -.01em; text-decoration: none;
+  transition: color 200ms var(--ease);
+}
 .si-switch a:hover { color: var(--ink); }
-.si-switch a[aria-current="page"] { background: linear-gradient(180deg, rgb(255 255 255 / .14), rgb(255 255 255 / .07)); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2), inset 0 1px 0 rgb(255 255 255 / .12), 0 4px 12px -4px rgb(0 0 0 / .6); }
+.si-switch a[aria-current="page"] { color: var(--ink); }
+.si-dot { width: 7px; height: 7px; border-radius: 50%; background: rgb(150 80 64 / .55); box-shadow: 0 0 0 3px rgb(150 80 64 / .12); transition: background-color 200ms var(--ease), box-shadow 200ms var(--ease); }
+[data-tab="operator"] .si-dot { background: rgb(120 100 170 / .55); box-shadow: 0 0 0 3px rgb(86 68 120 / .14); }
+[data-tab="client"][aria-current] .si-dot { background: #d89580; box-shadow: 0 0 0 3px rgb(150 80 64 / .28), 0 0 12px rgb(216 149 128 / .6); }
+[data-tab="operator"][aria-current] .si-dot { background: #a898d8; box-shadow: 0 0 0 3px rgb(86 68 120 / .32), 0 0 12px rgb(168 152 216 / .6); }
+@media (prefers-reduced-motion: reduce) { .si-switch::before { transition: none; } }
+
+/* The card's lit corner follows the side: coral for Client, violet for Team. */
+.si-card:has([data-tab="operator"][aria-current]) {
+  background:
+    radial-gradient(circle at 100% 0%, rgb(86 68 120 / .3), transparent 46%) padding-box,
+    radial-gradient(circle at 0% 100%, rgb(47 58 74 / .24), transparent 48%) padding-box,
+    linear-gradient(rgb(20 21 24 / .8), rgb(20 21 24 / .8)) padding-box,
+    linear-gradient(180deg, rgb(255 255 255 / .2), rgb(255 255 255 / .06) 30%, rgb(255 255 255 / .03) 70%, rgb(255 255 255 / .08)) border-box;
+}
 
 .si-card h1, .auth-heading h1 { margin: 0; font-size: 32px; line-height: 1.08; font-weight: 800; letter-spacing: -.045em; color: var(--ink); }
 .si-card .lead, .auth-heading p { margin: 10px 0 28px; color: var(--ink-2); font-size: 14.5px; line-height: 1.55; letter-spacing: -.003em; }

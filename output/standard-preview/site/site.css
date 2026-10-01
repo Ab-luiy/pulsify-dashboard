@@ -598,12 +598,44 @@ body.public-home dialog.chooser::backdrop { background: rgb(8 9 11 / .72); backd
 body.public-home .chooser h2 { font-size: 30px; font-weight: 800; letter-spacing: -.045em; line-height: 1.1; color: #f1f1ee; }
 body.public-home .chooser .kicker { color: #8d8f95; font-weight: 500; letter-spacing: .24em; }
 body.public-home .chooser .entry-emblem { background: rgb(255 255 255 / .04); box-shadow: inset 0 0 0 1px rgb(255 255 255 / .1); }
-body.public-home .choice, body.public-home .choice-primary { border-radius: 16px; background: #1b1c20; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08); }
-body.public-home .choice-primary { background: radial-gradient(circle at 100% 0%, rgb(150 80 64 / .26), transparent 60%), #1b1c20; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14); }
-body.public-home .choice:hover { background-color: #202126; }
-body.public-home .choice strong { font-weight: 600; }
-body.public-home .choice span[aria-hidden] { color: #a3a5aa; transition: transform 200ms var(--ease); }
-body.public-home .choice:hover span[aria-hidden] { transform: translate(2px, -2px); color: #f1f1ee; }
+/* The split (founder, 2026-10-01: "change the way the sign in splits are"): two doors side by
+   side. Client is the warm side (coral), Team the cool side (violet), the same as on sign-in. */
+body.public-home dialog.chooser { width: min(580px, calc(100vw - 32px)); }
+body.public-home .chooser h2 { margin-bottom: 26px; }
+.public-home .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+body.public-home .choice {
+  --tint: 150 80 64;
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 0;
+  min-height: 212px; margin: 0; padding: 20px 20px 18px; border-radius: 20px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(120% 90% at 0% 0%, rgb(var(--tint) / .2), transparent 60%), #1a1b1f;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / .08), inset 0 1px 0 rgb(255 255 255 / .05);
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease), background-color 220ms var(--ease);
+}
+body.public-home .choice-team { --tint: 86 68 120; }
+body.public-home .choice::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: 0;
+  background: radial-gradient(120% 100% at 0% 0%, rgb(var(--tint) / .32), transparent 65%);
+  transition: opacity 260ms var(--ease);
+}
+body.public-home .choice:hover, body.public-home .choice:focus-visible {
+  transform: translateY(-3px); background-color: #1d1e23;
+  box-shadow: inset 0 0 0 1px rgb(var(--tint) / .55), inset 0 1px 0 rgb(255 255 255 / .08), 0 22px 44px -22px rgb(0 0 0 / .9), 0 0 40px -14px rgb(var(--tint) / .7);
+}
+body.public-home .choice:hover::before, body.public-home .choice:focus-visible::before { opacity: 1; }
+body.public-home .choice .choice-icon {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; color: #f1f1ee;
+  background: linear-gradient(160deg, rgb(var(--tint) / .55), rgb(var(--tint) / .2));
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .18), inset 0 0 0 1px rgb(255 255 255 / .06), 0 8px 20px -8px rgb(var(--tint) / .8);
+}
+.public-home .choice-text { display: block; margin-top: 22px; }
+body.public-home .choice strong { font-size: 17px; font-weight: 700; letter-spacing: -.03em; }
+body.public-home .choice small { margin-top: 6px; font-size: 13px; line-height: 1.45; color: #a3a5aa; }
+body.public-home .choice .choice-go {
+  margin-top: auto; padding-top: 18px; display: inline-flex; align-items: center; gap: 6px;
+  color: #d9d7d2; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+}
+.public-home .choice-go i { font-style: normal; letter-spacing: 0; transition: transform 220ms var(--ease); }
+body.public-home .choice:hover .choice-go i { transform: translateX(3px); }
 body.public-home .close:hover { background: rgb(255 255 255 / .08); }
 
 @media (max-width: 600px) {
@@ -612,6 +644,11 @@ body.public-home .close:hover { background: rgb(255 255 255 / .08); }
   body.public-home.oversized-emblem .hero p { max-width: none; white-space: nowrap; }
   body.public-home .hero p::before, body.public-home .hero p::after { content: none; }
   .public-home .si-atmos { box-shadow: inset 0 0 120px 20px rgb(0 0 0 / .5); }
+  .public-home .choices { grid-template-columns: 1fr; gap: 10px; }
+  body.public-home .choice { min-height: 0; display: grid; grid-template-columns: auto 1fr auto; align-items: center; column-gap: 14px; padding: 16px; }
+  .public-home .choice-text { margin-top: 0; }
+  body.public-home .choice .choice-go { margin-top: 0; padding-top: 0; font-size: 0; }
+  .public-home .choice-go i { font-size: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .public-home .si-atmos::before, .public-home .brand-stage::after, .public-home .brand-stage, .public-home .hero h1, .public-home .hero p, .public-home .hero .hero-button { animation: none !important; }

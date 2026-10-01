@@ -44,14 +44,18 @@
     <div class="entry-emblem" aria-hidden="true"><span class="emblem-art"></span></div>
     <p class="kicker">Pulsify</p>
     <h2 id="chooser-title">Continue as</h2>
-    <a class="choice choice-primary" href="/login/client">
-      <span><strong>Client portal</strong><small>Review work and next steps</small></span>
-      <span aria-hidden="true">↗</span>
-    </a>
-    <a class="choice" href="/login/operator">
-      <span><strong>Team console</strong><small>Manage clients and delivery</small></span>
-      <span aria-hidden="true">↗</span>
-    </a>
+    <div class="choices">
+      <a class="choice choice-client" href="/login/client">
+        <span class="choice-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M3.5 9.5h17M9 9.5v10"/></svg></span>
+        <span class="choice-text"><strong>Client portal</strong><small>Review work and next steps</small></span>
+        <span class="choice-go" aria-hidden="true">Sign in <i>→</i></span>
+      </a>
+      <a class="choice choice-team" href="/login/operator">
+        <span class="choice-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="3"/><path d="M3.5 19c.8-3 3-4.5 5.5-4.5s4.7 1.5 5.5 4.5"/><circle cx="16.5" cy="8.5" r="2.4"/><path d="M16 13.7c2.3-.2 4 1.2 4.6 3.8"/></svg></span>
+        <span class="choice-text"><strong>Team console</strong><small>Manage clients and delivery</small></span>
+        <span class="choice-go" aria-hidden="true">Sign in <i>→</i></span>
+      </a>
+    </div>
   </dialog>
 </body>
 </html>
