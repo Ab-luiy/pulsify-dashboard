@@ -73,6 +73,18 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png} | CODEX | DONE | 2026-10-01: layout refined; lock cleared. |
+
+CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — refined board styling, copy unchanged; lock cleared.
+
+CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — two compact mockups.
+
+CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — new original-reference preview.
+
+CODEX DONE 2026-09-30: outreach/resources/packaging-dos-donts/ — original screenshot comparison preview.
+
+CODEX DONE 2026-09-30: outreach/resources/qualified-audience-board/ — final export and follow-up handoff.
+
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — expanded thumbnail spread and straight sequence.
 
 CODEX DONE 2026-09-27: outreach/resources/qualified-audience-board/ — horizontal slideshow revision.
@@ -96,6 +108,13 @@ Active claims only. Clear your row when done.
 | September 22 founder feedback: output/standard-preview outreach/queue/CRM/social views and supporting APIs/tests; wiki/log.md | CODEX | DONE | Released; 119 tests and browser flows pass. See output/qa/2026-09-prospects/RELEASE.md for limitations. |
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/{functions/_shared/lead-*.js (new), functions/api/lead-*.js (new), functions/_shared/pages-*.js (new), functions/api/{pages,calls,ask,report,team}*.js (new), migrations/0045+ (new), js/funnel-integrations.js, functions/event.js, tests/lead-*.test.mjs (new)}; pulsify-saas NEW worktree pulsify-saas-wt/infoos branch claude/infoos-build (from claude/graphite-preview 6fcd0c9); wiki/synthesis/infoos-*.md; wiki/log.md (append) | CLAUDE | DONE | InfoOS build #39 fully released: Pages 5d7e8271, Worker 3504635c, saas claude/infoos-build 731d481 (merged into graphite-preview by the design session after each release). Locks cleared. |
+| pulsify-saas worktree fix-list branch claude/graphite-preview (src/components/shell/island-nav.tsx new, src/features/portal/portal-shell.tsx, src/app/globals.css, tests/portal.spec.ts, docs/DESIGN.md); output/qa/2026-09-30-island/** | CLAUDE | DONE | Island menu live (Pages b870544d, saas 09bdd2c). Locks cleared. |
+| pulsify-saas worktree fix-list branch claude/graphite-preview (src/app/globals.css, src/components/shell/atmosphere.tsx, src/features/portal/portal-shell.tsx, src/components/shell/app-shell.tsx, src/features/funnel/funnel-view.tsx, tests/**); output/qa/2026-09-30-palettes/** | CLAUDE | DONE | Spotlight default + six palettes, saas f86f740 pushed, not released. Locks cleared. |
+| output/standard-preview/functions/api/{funnel-health,video-cash}.js (operator read access), tests/{funnel-health,cash-by-video}.test.mjs; pulsify-saas worktree fix-list branch claude/graphite-preview (src/app/globals.css, src/features/portal/**, src/features/portal-home/**, src/features/clients/**, src/components/shell/nav.ts, src/app/**, tests/**); visual-references/boards/**; wiki/synthesis/portal-design-*.md | CLAUDE | DONE | Overnight round done: saas claude/graphite-preview b234276 (pushed, not released), Brain 18af5de7. Locks cleared. |
+| visual-references/taste-profile.md (append one confirmed-feedback section), output/home-draft/README.md | CLAUDE | DONE | Founder loved the homepage draft design; recorded as confirmed taste; draft saved for later. |
+| output/home-draft/** (new, draft page kept OUTSIDE the deploy folder), output/qa/2026-09-home-draft/** | CLAUDE | DONE (draft, awaiting founder) | Pulsify homepage draft for the founder's YouTube traffic (#38, NotchPop layout, Graphite). Live root index.html (Codex D1) untouched. |
+| output/standard-preview/{functions/_shared/funnel-health.js (new), functions/api/funnel-health.js (new), tests/funnel-health.test.mjs (new), js/funnel-integrations.js (engagement signals, founder-approved tracker change), functions/api/pulse-feed.js (hide engagement rows)}; pulsify-saas worktree C:/Users/Abdullah/Desktop/pulsify-saas-wt/fix-list branch claude/fix-list (from live 66c8bc4): src/features/portal-home/**, src/lib/api/funnel-health.ts (new), src/lib/queries.ts, tests/** | CLAUDE | DONE | #37 shipped: Pages 1c1a5500, backend 9c67e204, saas claude/fix-list a8e351c. Locks cleared. |
 | wiki/synthesis/infoos-placement-map.md (new), wiki/index.md, wiki/log.md (append) | CLAUDE | DONE | wiki/synthesis/infoos-placement-map.md written (index/log not updated, usage limit). Locks cleared. |
 | raw-sources/inspiration/dustin-varano-infoos/README.md, wiki/synthesis/dustin-varano-video-as-brief.md, wiki/log.md (append) | CLAUDE | DONE | 52 screenshots mapped in the README, design and missing-element findings added to the brief page. Docs only. Locks cleared. |
 | raw-sources/inspiration/dustin-varano-infoos/{screenshots/ (new, founder drop folder), transcript.txt (new)}, wiki/synthesis/dustin-varano-video-as-brief.md (new), wiki/synthesis/dustin-varano-infoos-teardown.md, wiki/people/dustin-varano.md, wiki/index.md, wiki/log.md (append) | CLAUDE | DONE | InfoOS video read as a brief (new synthesis page), transcript saved, screenshot folder created, links/index/log updated. Docs only, no code. Locks cleared. |
@@ -2642,3 +2661,75 @@ CLAIM: visual-references/studies/bakers-liquid-gradients/**, visual-references/r
 
 ### [2026-09-29] CODEX
 DONE: visual-references/studies/bakers-liquid-gradients/ (three source videos, frame sheets, metadata, palette measurements, JSON profile, README and reproducible scripts); appended reference-notes.md, taste-profile.md, wiki/log.md. JSON parsed successfully, all three timelines visually inspected. No app edits. All study claims released.
+
+### [2026-09-29 18:30] CLAUDE
+DONE + DEPLOYED: pulsify-saas #37 client home "Your funnel" (InfoOS brief item 2). Backend commit 9c67e204: functions/_shared/funnel-health.js + GET /api/funnel-health (targets: Jeremy Haynes low ends for booked -> bought, else the client's own best 30 days; money at stake = extra people at target x close-through x AOV; no AI in numbers), tests/funnel-health.test.mjs (suite 185/185). Tracker js/funnel-integrations.js now sends one "engagement" page event on hide/leave (active_seconds, max_scroll, full_scrolls, proof_seconds); founder approved changing the tracker inside the locked landing standard for tracking only; pulse-feed.js hides these rows. FYI Codex: page_events now has event='engagement' rows; filter event='page_view' when counting views (every existing counter already does). Frontend: pulsify-saas claude/fix-list a8e351c = live 66c8bc4 + this feature, npm run check green (614). Pages 1c1a5500 deployed. Live: anonymous 401; operator preview of kyle-kirshner correct, preview exited.
+
+### [2026-09-30] CLAUDE
+DRAFT: Pulsify homepage for the founder's YouTube traffic (#38) at output/home-draft/, deliberately outside output/standard-preview so no Pages deploy publishes it. Codex D1 root entry page untouched. Founder reviewing; placement (root vs its own path) is his call.
+
+### [2026-09-30] CLAUDE
+DONE (preview, not released): founder rejected the first Graphite dashboard. pulsify-saas branch claude/graphite-preview (b234276, pushed): atmosphere layer + four looks (glass, dusk, bloom, spotlight; ?look=) on BOTH shells, off-white light tokens (light --muted-foreground now 38% for 4.5:1), funnel section moved to src/features/funnel/ (numbers-first, expandable fix rows), new operator page /app/funnels?client=, operator shell now has the floating panel ([data-portal-panel] is the scroll container on desktop). Brain 18af5de7: functions/_shared/client-read.js (operator reads funnel-health and video-cash for any existing client with ?client=), tests 185/185. FYI Codex: DESIGN.md 'no gradients' rule is amended on that branch; the page scrolls inside [data-portal-panel], so tests that rely on window scroll or bottom-right buttons may need adjusting (see tests/reviews.spec.ts). Plan: wiki/synthesis/portal-design-gameplan-2026-09-30.md.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages 6cca1a98. App built from pulsify-saas claude/graphite-preview 04e112a (= the #37 release a8e351c + the design round: default look 'home' = homepage draft colours in the homepage's places, calmer numbers-first funnel section in src/features/funnel/, operator page /app/funnels?client=, floating panel on both shells, off-white light tokens). Backend: functions/_shared/client-read.js (operator reads funnel-health and video-cash for any existing client with ?client=), committed in auto-checkpoint c661ae7b. Live: anonymous 401, operator 200 / unknown client 404 / no client 422, portal renders look=home on kyle-kirshner, preview exited. NOT included: claude/growth-youtube (YouTube video flow) - awaiting founder yes. FYI all agents: the app page now scrolls inside [data-portal-panel] on desktop; toasts bottom-right can cover panel-corner buttons (see tests/reviews.spec.ts). Recurring a11y flake: aria-prohibited-attr on a random screen under full-suite load, passes alone.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages b870544d from pulsify-saas claude/graphite-preview 09bdd2c. The client portal's left panel is gone: the menu is now a black island at the top centre (src/components/shell/island-nav.tsx) that shows the current page and springs open into the full menu on hover, tap or Enter (one shape, blur swap, SPRING.size). The page fills the window (no gutter, no rounded panel); the header keeps only the bell and the light switch; operator previews show a bottom pill with Exit preview. Tests: nav 'Workspace' links only exist while the island is open, so open it first with the button 'Menu, {page}' (see tests/portal.spec.ts). Operator console still has its sidebar, pending founder approval. Live: kyle-kirshner preview shows the island, 16 links open, no aside, exit preview works.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages be716de5 from pulsify-saas claude/graphite-preview 30824a9. Founder approved ("ship it") the simpler island: the closed pill carries four shortcuts (Overview, YouTube, Instagram, To-dos; SHORTCUTS in src/features/portal/portal-shell.tsx), the current page shows its name, the highlight slides between them, any other page joins the pill while open. The arrow button 'All pages' opens the full menu; hover-open removed. Phones place the island left so the bell stays visible. Tests: open the menu with button 'All pages' (tests/portal.spec.ts). Live check on kyle-kirshner: 4 shortcuts, 16 links open, exit preview works.
+
+
+### [2026-09-30] CODEX
+Locked founder-approved asset in build-final.cjs, board-final.html, qualified-audience-final.png and FINAL.md. Minor final label/edge polish, original thumbnails and approved layout retained. Chrome render inspected, five steps have no overflow. Recorded Day 2 attachment copy and next packaging do/dont asset brief. Existing output/qa/2026-09-30-operator-island belongs to separate work and was not edited. Locks cleared.
+
+### [2026-09-30] CODEX
+Built packaging do/dont preview in outreach/resources/packaging-dos-donts/{build.cjs,board.html,packaging-dos-donts.png}. Original Nathan Miller, natural trading speaker, and two TradingLab crops with short annotations grounded in Packaging review.md and packaging-rules.md. Founder title example retained in applied section. No analytics/sales claims; high-reach references critiqued for claim style only. Off-white canvas and bold typography. Chrome render visually inspected, source screenshot files unchanged. Locks cleared.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages 5561e091 from pulsify-saas claude/graphite-preview 6fcd0c9. Operator console now uses the same island menu (founder: "put it on the operator console too"): shortcuts Overview, Today, Clients, Leads (SHORTCUTS in src/components/shell/app-shell.tsx), four columns open, workspace switcher at the top of the open island, page edge to edge, header keeps search, date range, bell, light switch. app-sidebar.tsx and sidebar-footer.tsx removed. The island's arrow button is now 'Open menu' in BOTH shells (Acquisition pages has an 'All pages' filter). FYI all agents: there is no sidebar any more; tests reach menu links with button 'Open menu' first. Live: portal verified via kyle-kirshner preview; operator console needs Access sign-in, bundle verified, founder to eyeball.
+
+
+### [2026-09-30] CODEX
+Built outreach/resources/dont-be-a-guru/{build.cjs,board.html,dont-be-a-guru.png}. Original TJR, fxalexg and Travis Marziani references compared with Nathan Miller and kole trades. Short observations of specific visible packaging choices plus actionable alternatives, founder title used exactly. Corrected responsive source crops after visual inspection to hide listing chrome and retain 16:9 thumbnails. Original files unmodified. No claim of poor sales or dishonesty. Locks cleared.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages 5504f49c from pulsify-saas claude/graphite-preview 15a55d1. Home look hero glow and grain moved from `[data-portal-panel] > main::before/::after` to `[data-portal-panel]::before/::after` (panel is now `isolation: isolate`), so screens wider than 1800px get colour edge to edge instead of dark bands. FYI claude/infoos-build: merge graphite-preview 15a55d1 before your release; island button is 'Open menu', no sidebar in either shell.
+
+
+### [2026-09-30] CODEX
+Added build-mockups.cjs plus mockup-cards and mockup-rows HTML/PNG siblings. Two shorter variants of dont-be-a-guru: card grid with one point per example, and three comparison rows. Original embedded thumbnail bytes preserved; less prose, lighter structure, off-white/bold type retained. Chrome exports visually inspected, row width tightened after first preview. Earlier asset preserved. Locks cleared.
+
+### [2026-09-30] CLAUDE
+DONE + DEPLOYED: Pages baa212a7 from pulsify-saas claude/graphite-preview 69c6523. Founder wording round: island shortcuts show names (current only below 768px), new icons (Home house, Today sun, Leads user-plus, To-dos list, tracker clock, Instagram/YouTube marks via NavIcon type in src/components/shell/nav.ts), Sign out is a power button. "Overview"/"Your workspace" -> "Home". No "health" in anything people read: Client status (On track / Watch / At risk / Needs onboarding), Funnel score, Collections, sequence "healthy" -> "on track" (src/lib/sequence-status.ts). API and code names unchanged. FYI claude/infoos-build: merge 69c6523 before release; nav link "Overview" is now "Home" in tests.
+
+
+
+### [2026-09-30] CODEX
+Refined the existing cards mockup in outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png}. Restored established off-white dotted canvas, bold black typography and compact horizontal sections. Existing copy and original thumbnails retained. Chrome render visually inspected; no clipping. Locks cleared.
+
+### [2026-09-30 23:25] CODEX
+CLAIM: AGENT_CHAT.md append only, recording Asif login repair. No application source changes.
+| AGENT_CHAT.md (append access repair) | CODEX | ACTIVE | Record production PropelAuth account creation. |
+
+### [2026-09-30 23:25] CODEX
+COMPLETED: asifadiv@gmail.com was already on the live OPERATOR_EMAILS allowlist but missing from PropelAuth production, explaining the founder-supplied "No account found with those credentials" error. Created that production user with email confirmation required and confirmation-email sending enabled; no preset password or organization membership. Verified "User created" success and the new UNCONFIRMED user row (2 production users total). Asif must confirm his email, then use /login/operator with Google; his first successful sign-in remains unverified. No deployment needed. Evidence saved outside repo at C:/Users/Abdullah/AppData/Local/Temp/pulsify-asif-account-created.png.
+| AGENT_CHAT.md (append access repair) | CODEX | DONE | Log complete; lock cleared. |
+
+### [2026-09-30 23:22] CODEX
+CLAIM: AGENT_CHAT.md append only for confirmation-email troubleshooting.
+| AGENT_CHAT.md (email repair log) | CODEX | ACTIVE | Record Asif confirmation resend. |
+COMPLETED: PropelAuth production account still UNCONFIRMED, Google NOT CONNECTED, no sessions. Initial resend attempt was temporarily rate-limited ('Please wait, it may take a few minutes'). A later attempt succeeded with 'Successfully resent email confirmation'. This verifies provider acceptance, not inbox delivery. Original founder screenshot's 23:17 conversation predates account creation at 23:18:49. No confirmation override, password, organization or source changes.
+| AGENT_CHAT.md (email repair log) | CODEX | DONE | Lock cleared. |
+
+
+### [2026-10-01] CODEX
+Refined existing packaging board in outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png}: aligned five thumbnail crops to a consistent three-column grid, tightened typography and spacing, removed lower card shadows/panels and kept the existing off-white dotted canvas. Original image bytes and copy unchanged, verified against mockup-cards.html. Chrome render inspected; no card overflow. Locks cleared.
+
+### [2026-10-01] CLAUDE
+Sign-in and registration pass (pulsify-saas #40). Files touched: output/standard-preview/{site/signin.css,login/client/index.html,login/operator/index.html,portal/login/index.html,404.html,privacy.html,terms.html,index.html}, functions/_shared/{access-requests,operator-session,propelauth}.js, functions/api/{access-request,access-requests,login-lookup,account}.js, migrations 0047+0048; app: src/features/clients/access-requests.tsx, src/features/settings/{team-access,settings-screen}.tsx, src/lib/api/access.ts. One dark sign-in look for all three sign-in pages; people request access on the sign-in page, the founder approves as client or operator from Clients, and Settings > Team access adds or removes operators. Releasing from claude/infoos-build next; merge it before your next release so it is not overwritten.
+
+### [2026-10-01] CLAUDE
+DONE + DEPLOYED: Pages e0d293e4 from pulsify-saas claude/graphite-preview 29e0fd9 (on top of infoos-build dbcc802). Founder "less is more" cleanup: related pages are tabs on one menu entry (NavItem `tabOf`, src/components/shell/section-tabs.tsx; client menu 10, operator 11, routes unchanged), header tools icon-only (Ask, clocks, an eye button labelled "Blur private details" replaces the Censor switch, bell, light), Home shows one onboarding card (checklist waits), starter Examples on empty Plans/To-dos/Calendar. FYI claude/infoos-build: merge 29e0fd9 before release. Tests reach Plans/To-dos/Team/Pages/Integrations via the Section tabs, not the island. tests/portal-leads.spec.ts world clocks test (London button) already fails at baseline, not from this change: the city buttons are not found in the open popover.
+

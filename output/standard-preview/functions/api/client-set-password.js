@@ -9,8 +9,10 @@ import {
   rejectImpersonatedSession,
 } from "../_shared/client-auth.js";
 import { deleteSetupCode, verifySetupCode } from "./client-email-code.js";
+import { passwordProblem, sameOrigin } from "../_shared/auth-guard.js";
 
 export async function onRequestPost({ request, env }) {
+  if (!sameOrigin(request)) return json({ ok: false, error: "Forbidden" }, 403);
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const impersonationError = await rejectImpersonatedSession(request, env);
   if (impersonationError) return impersonationError;
@@ -22,14 +24,12 @@ export async function onRequestPost({ request, env }) {
   if (!setupToken || !password) {
     return json({ ok: false, error: "setup token and password are required" }, 422);
   }
-  if (password.length < 10) {
-    return json({ ok: false, error: "password must be at least 10 characters" }, 422);
-  }
-
   const setup = await consumeSetupToken(env, setupToken);
   if (!setup) {
-    return json({ ok: false, error: "this setup link is invalid or expired" }, 401);
+    return json({ ok: false, error: "This setup link is invalid or expired. Ask for a new one." }, 401);
   }
+  const problem = passwordProblem(password, setup.email);
+  if (problem) return json({ ok: false, error: problem }, 422);
   if (env.RESEND_API_KEY) {
     if (!code) {
       return json({ ok: false, error: "email verification code is required" }, 422);
@@ -76,15 +76,4 @@ export async function onRequestPost({ request, env }) {
     200,
     { "set-cookie": session.cookie },
   );
-}
-
-export async function onRequestOptions() {
-  return new Response(null, {
-    headers: {
-      "access-control-allow-origin": "*",
-      "access-control-allow-methods": "POST, OPTIONS",
-      "access-control-allow-headers": "content-type",
-      "access-control-max-age": "86400",
-    },
-  });
 }

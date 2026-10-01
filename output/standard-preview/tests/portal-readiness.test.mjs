@@ -13,7 +13,7 @@ import { sha256Hex } from '../functions/_shared/common.js';
 
 const sql = new DatabaseSync(':memory:');
 sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
-for (const file of ['0011_client_dashboard_auth.sql','0014_client_brain.sql']) {
+for (const file of ['0011_client_dashboard_auth.sql','0014_client_brain.sql','0049_login_throttle.sql']) {
   sql.exec(readFileSync(new URL('../migrations/'+file,import.meta.url),'utf8'));
 }
 sql.exec("CREATE TABLE client_email_codes(client_id TEXT,email TEXT,purpose TEXT); INSERT INTO client_config VALUES('qa','QA',NULL),('other','Other',NULL)");

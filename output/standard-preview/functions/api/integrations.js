@@ -12,6 +12,7 @@ import {
   upsertIntegration,
   validateProvider,
 } from "../_shared/integrations.js";
+import { integrationNotes } from "../_shared/integration-notes.js";
 import { hasOwn, json, str } from "../_shared/common.js";
 import { autoConnect } from "../_shared/autoconnect.js";
 import { resolveSpineRead } from "../_shared/spine-auth.js";
@@ -67,11 +68,13 @@ async function handle_onRequestGet({ request, env }) {
   }
 
   const records = await listIntegrations(env, { scope, client, provider: provider || null });
+  // Client scope: plain-English problems and the first payment or booking per connection (InfoOS build).
+  const notes = scope === "client" && client ? await integrationNotes(env, client).catch(() => ({})) : {};
   return json({
     ok: true,
     scope,
     client: scope === "client" ? client : null,
-    integrations: records.map(maskIntegration),
+    integrations: records.map((record) => ({ ...maskIntegration(record), ...(notes[record.provider] || {}) })),
   });
 }
 

@@ -10,6 +10,7 @@ import {
 } from "../_shared/integrations.js";
 import { hasOwn, json, str } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
+import { integrationNotes } from "../_shared/integration-notes.js";
 
 const CLIENT_ALLOWED = [
   "kit",
@@ -70,6 +71,8 @@ export async function onRequestGet({ request, env }) {
       .filter((record) => CLIENT_ALLOWED_SET.has(record.provider))
       .map((record) => [record.provider, record]),
   );
+  // Plain-English problems and first payment/booking per connection (InfoOS build).
+  const notes = await integrationNotes(env, client).catch(() => ({}));
   const integrations = CLIENT_ALLOWED.map((allowedProvider) => {
     const record = byProvider.get(allowedProvider) || {
       scope: "client",
@@ -81,7 +84,7 @@ export async function onRequestGet({ request, env }) {
       updated_at: null,
       last_event_ts: null,
     };
-    return maskIntegration(record);
+    return { ...maskIntegration(record), ...(notes[allowedProvider] || { problem: null, first_payment_at: null, first_booking_at: null }) };
   });
 
   return json({ ok: true, client, integrations });

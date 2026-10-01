@@ -50,26 +50,43 @@ export async function verifyPassword(password, row) {
   return constantTimeEqual(actual, expected) && Boolean(row?.pass_hash);
 }
 
-export async function countRecentFailedLogins(env, email) {
+// Sign-in throttle. A lock needs five misses from one address on one email, twenty misses on one
+// email from anywhere, or forty misses from one address across emails, inside 15 minutes. That
+// stops guessing and spraying, and stops a stranger locking the real owner out from elsewhere.
+const EMAIL_LIMIT_ANY_ADDRESS = 20;
+const ADDRESS_LIMIT_ANY_EMAIL = 40;
+
+export async function countRecentFailedLogins(env, email, ipHash = '') {
   const threshold = isoMinutesAgo(FAILED_LOGIN_WINDOW_MINUTES);
   const row = await env.DB.prepare(
-    `SELECT COUNT(*) AS total
+    `SELECT COUNT(*) AS email_total,
+            SUM(CASE WHEN ip_hash = ? THEN 1 ELSE 0 END) AS pair_total
        FROM client_login_attempts
       WHERE email=? AND attempted_at>=?`,
-  ).bind(email, threshold).first();
-  return Number(row?.total || 0);
+  ).bind(ipHash, email, threshold).first();
+  let addressTotal = 0;
+  if (ipHash) {
+    const byAddress = await env.DB.prepare('SELECT COUNT(*) AS total FROM client_login_attempts WHERE ip_hash=? AND attempted_at>=?').bind(ipHash, threshold).first();
+    addressTotal = Number(byAddress?.total || 0);
+  }
+  const pair = Number(row?.pair_total || 0);
+  const anyAddress = Number(row?.email_total || 0);
+  // One number for the message: whichever limit is closest.
+  const count = Math.max(ipHash ? pair : anyAddress, anyAddress >= EMAIL_LIMIT_ANY_ADDRESS ? FAILED_LOGIN_LIMIT : 0, addressTotal >= ADDRESS_LIMIT_ANY_EMAIL ? FAILED_LOGIN_LIMIT : 0);
+  return count;
 }
 
-export async function recordFailedLogin(env, email) {
+export async function recordFailedLogin(env, email, ipHash = '') {
   await env.DB.prepare(
-    "INSERT INTO client_login_attempts (email, attempted_at) VALUES (?, ?)",
-  ).bind(email, nowIso()).run();
+    'INSERT INTO client_login_attempts (email, attempted_at, ip_hash) VALUES (?, ?, ?)',
+  ).bind(email, nowIso(), ipHash || null).run();
 }
 
-export async function clearFailedLogins(env, email) {
+export async function clearFailedLogins(env, email, ipHash = '') {
+  // A good sign-in clears this address's misses for the email; other addresses keep theirs.
   await env.DB.prepare(
-    "DELETE FROM client_login_attempts WHERE email=?",
-  ).bind(email).run();
+    ipHash ? 'DELETE FROM client_login_attempts WHERE email=? AND ip_hash=?' : 'DELETE FROM client_login_attempts WHERE email=?',
+  ).bind(...(ipHash ? [email, ipHash] : [email])).run();
 }
 
 export function isRateLimited(count) {
@@ -351,7 +368,6 @@ export async function resolveSessionAccess(request, env) {
   const token = parseCookies(request.headers.get("cookie")).get(CLIENT_SESSION_COOKIE);
   if (!token) return null;
 
-  await purgeExpiredClientSessions(env);
   const hash = await sha256Hex(token);
   const impersonation = await env.DB.prepare(
     `SELECT s.client_id, s.expires_at, s.created_by, c.client_name
@@ -376,7 +392,15 @@ export async function resolveSessionAccess(request, env) {
        LEFT JOIN client_config c ON c.client=s.client_id
       WHERE s.token_hash=? AND s.expires_at>? AND COALESCE(c.status,'')<>'archived'`,
   ).bind(hash, nowIso()).first();
-  if (!row) return null;
+  if (!row) {
+    // The cookie did not match a live session. Drop just that token (it expired or was revoked), so a stale
+    // cookie leaves nothing behind. Live sessions cost no extra writes; the nightly job sweeps the rest.
+    await Promise.all([
+      env.DB.prepare("DELETE FROM client_sessions WHERE token_hash=?").bind(hash).run(),
+      env.DB.prepare("DELETE FROM impersonation_sessions WHERE token_hash=?").bind(hash).run().catch(() => null),
+    ]).catch(() => null);
+    return null;
+  }
 
   return {
     client: cleanId(row.client_id),

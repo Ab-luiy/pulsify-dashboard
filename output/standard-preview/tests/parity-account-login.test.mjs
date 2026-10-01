@@ -17,7 +17,7 @@ sql.exec("CREATE TABLE client_setup_tokens(token_hash TEXT,client_id TEXT,email 
 sql.exec("CREATE TABLE client_sessions(token_hash TEXT PRIMARY KEY,client_id TEXT,expires_at TEXT,created_at TEXT)");
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");
 sql.exec("CREATE TABLE proof_items(id INTEGER PRIMARY KEY,client_id TEXT,created_at TEXT)");
-sql.exec("CREATE TABLE client_login_attempts(email TEXT,attempted_at TEXT)");
+sql.exec("CREATE TABLE client_login_attempts(email TEXT,attempted_at TEXT,ip_hash TEXT)");
 for(const n of ['0008_integrations_hub.sql','0014_client_brain.sql','0015_operator_events.sql','0021_workspace_records.sql','0025_data_spine.sql','0026_workspace_preferences.sql','0027_revenue_automation.sql']){
   try{sql.exec(mig(n).replace(/ALTER TABLE client_config ADD COLUMN status[^;]*;/,''));}catch(e){}
 }
@@ -43,12 +43,12 @@ const asClient=(h={})=>({cookie:`${CLIENT_SESSION_COOKIE}=${mine}`,...h});
 const call=(fn,r)=>fn({request:r,env,data:{}});
 const op=(r)=>{rememberOperator(r,{email:'abod.louai@gmail.com',via:'access'});return r};
 
-test('lookup: operator emails route to Google, everything else gets a password field, nothing leaks', async()=>{
+test('lookup: every email gets the same answer, so operator addresses are not revealed', async()=>{
   const a=await (await call(lookupPost,post('https://x/api/login-lookup',{email:'Abod.Louai@gmail.com'}))).json();
-  assert.equal(a.kind,'operator');assert.equal(a.next,'/admin');
+  assert.equal(a.kind,'password');assert.equal(a.next,undefined);
   const b=await (await call(lookupPost,post('https://x/api/login-lookup',{email:'coach@acme.com'}))).json();
   const c=await (await call(lookupPost,post('https://x/api/login-lookup',{email:'nobody@nowhere.com'}))).json();
-  assert.equal(b.kind,'password');assert.deepEqual({...b},{...c},'client and unknown are indistinguishable');
+  assert.equal(b.kind,'password');assert.deepEqual({...a},{...b},'operator, client and unknown are indistinguishable');assert.deepEqual({...b},{...c});
   assert.equal((await call(lookupPost,post('https://x/api/login-lookup',{email:'not-an-email'}))).status,422);
 });
 

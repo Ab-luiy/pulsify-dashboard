@@ -42,6 +42,7 @@ sql.prepare("INSERT INTO page_events(client,visitor_id,event,utm_json,at) VALUES
 sql.prepare("INSERT INTO asset_links(token,client,label,target_url,created_at) VALUES(?,?,?,?,?)")
   .run("oldasset", "acme", "Prospect doc", "https://docs.example.com/x", "2026-01-01T00:00:00.000Z");
 sql.exec(mig("0043_cash_by_video.sql"));
+sql.exec("ALTER TABLE page_events ADD COLUMN lat REAL; ALTER TABLE page_events ADD COLUMN lng REAL;"); // 0045 (its other tables need columns this test does not create)
 
 let row = sql.prepare("SELECT utm_source, utm_content, utm_json FROM page_events WHERE visitor_id='old-visitor'").get();
 assert.equal(row.utm_source, "youtube", "backfill lowercases the source");
@@ -317,6 +318,15 @@ const body = await res.json();
 assert.equal(body.client, "acme");
 assert.equal(body.range, "30d");
 assert.equal(body.videos[0].video_id, "videoAAAAAA");
+
+// Operators read any client's videos by name (operator console, ticket #36 follow-up).
+env.ADMIN_KEY = "admin-test-key";
+res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?client=acme&range=30d", { headers: { "x-admin-key": "admin-test-key" } }), env });
+assert.equal(res.status, 200);
+assert.deepEqual((await res.json()).videos.map((row) => row.video_id), body.videos.map((row) => row.video_id), "operator sees the client's own ranking");
+res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash", { headers: { "x-admin-key": "admin-test-key" } }), env });
+assert.equal(res.status, 422, "operator must name a client");
+delete env.ADMIN_KEY;
 
 // ---------- worker schedule ----------
 assert.deepEqual(scheduledJobs("*/30 * * * *"), ["payment-rematch", "client-videos"]);

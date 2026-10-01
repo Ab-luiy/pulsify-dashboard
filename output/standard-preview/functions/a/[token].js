@@ -10,13 +10,23 @@ export async function onRequestGet(context) {
   let link;
   try {
     link = await env.DB.prepare(
-      `SELECT token, client, label, target_url, lead_email, kind, video_id, placement
+      `SELECT token, client, label, target_url, lead_email, kind, video_id, placement, source
          FROM asset_links
         WHERE token=? AND archived=0
         LIMIT 1`,
     ).bind(token).first();
   } catch {
-    return redirect(FALLBACK_URL);
+    // Before migration 0046 adds asset_links.source, read the link without it.
+    try {
+      link = await env.DB.prepare(
+        `SELECT token, client, label, target_url, lead_email, kind, video_id, placement
+           FROM asset_links
+          WHERE token=? AND archived=0
+          LIMIT 1`,
+      ).bind(token).first();
+    } catch {
+      return redirect(FALLBACK_URL);
+    }
   }
 
   if (!link) return redirect(FALLBACK_URL);
@@ -26,6 +36,7 @@ export async function onRequestGet(context) {
   else await trackingTask;
 
   if (link.kind === "video") return redirect(videoTarget(request, link));
+  if (link.kind === "link") return redirect(linkTarget(request, link));
   return redirect(isHttpUrl(link.target_url) ? link.target_url : FALLBACK_URL);
 }
 
@@ -42,6 +53,21 @@ export function videoTarget(request, link) {
   url.searchParams.set("utm_medium", link.placement || "description");
   url.searchParams.set("utm_campaign", client || "pulsify");
   url.searchParams.set("utm_content", link.video_id || "channel");
+  return url.toString();
+}
+
+// Tracked links (Links tab): a bio, story, email or ad link lands on the page wearing the
+// tags of where it lives, and utm_content=l-<token> so every visit and sale traces back to it.
+export function linkTarget(request, link) {
+  const client = String(link.client || "").replace(/[^a-z0-9_-]/gi, "");
+  const base = isHttpUrl(link.target_url)
+    ? link.target_url
+    : client ? `${new URL(request.url).origin}/${client}` : FALLBACK_URL;
+  const url = new URL(base);
+  url.searchParams.set("utm_source", link.source || "other");
+  url.searchParams.set("utm_medium", link.placement || "other");
+  url.searchParams.set("utm_campaign", client || "pulsify");
+  url.searchParams.set("utm_content", `l-${link.token}`);
   return url.toString();
 }
 
@@ -72,8 +98,8 @@ async function recordOpen(env, request, link) {
     // Tracking must never block the prospect's redirect.
   }
 
-  // Video links can be clicked hundreds of times a day; they never ping.
-  if (link.kind === "video") return;
+  // Video and tracked links can be clicked hundreds of times a day; they never ping.
+  if (link.kind === "video" || link.kind === "link") return;
 
   try {
     await sendDiscordAlert(env, {

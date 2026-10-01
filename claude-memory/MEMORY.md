@@ -15,6 +15,8 @@
 - [Humanizer copy standard](feedback_humanizer_copy.md) - all copy avoids AI tells: no "not X, it's Y", no em-dash overuse, no bold-first bullets, no rule-of-three padding, no curly quotes or arrow glyphs
 - [Claude writes copy](feedback_claude_writes_copy.md) - all client-facing copy is Claude-written in-session; Gemini key is fallback only
 - [Fable-grade quality directive](feedback_fable_grade_quality.md) - everything shipped matches Fable 5 quality whatever model executes; seven-gate standard in AGENT_CHAT.md
+- [App colour = homepage placement](feedback_app_colour_placement.md) - HARD 2026-09-30: inside the app use the homepage draft's colours in the homepage's places (glow behind titles, charcoal content, coral corner, funnel as art); placement was the miss across six rejected rounds; calm, never saturated
+- [App wording rules](feedback_app_wording.md) - HARD 2026-09-30: never "health" in the app (Client status On track/Watch/At risk, Funnel score, Collections); first page is "Home"; IG and YouTube use their own marks; sign out is a power button
 - [Dashboard quality bar](feedback_dashboard_quality_bar.md) - dashboard/CRM work is million-dollar-grade, beats Airtable; premium, decluttered; slow beats cringe-but-fast
 - [Price objection = smokescreen](feedback_price_objection_smokescreen.md) - 2026-07-28 HARD doctrine: price objections are smokescreens, upfront fee non-negotiable; hold vault positions even when he already committed the other way
 - [Agent cross-call protocol](project_agent_cross_call_protocol.md) - Claude<->Codex headless cross-calls live; quotas via `python tools/quota.py`, gate session>70% / weekly>85%. NOTE: the vault memory sync once clobbered this index; the topic files survive, rebuild lines from them
@@ -69,6 +71,7 @@
 - [Admin key access](project_admin_key_access.md) - ROTATED 2026-09-17: key lives in gitignored .env as FUNNELS_ADMIN_KEY (vault root + dashboard checkouts) and in Cloudflare; read it from the file, never print it, never ask him; /api/crm-sync currently 401s any admin key until Codex redeploys/fixes
 - [Growth = service delivery, TOP priority](project_growth_service_delivery.md) - 2026-09-25: client portal Growth is the fulfillment; self-learning AI on our data (no own model, no 30/day cap), review gate on; 2026-09-26 REELS OUT, #1 = creating a full YouTube video, then story sequences, carousels last; structure undecided; plan in wiki/synthesis/growth-section-plan-2026-09-25.md
 - [Cash by video LIVE (#36)](project_cash_by_video.md) - 2026-09-29: per-video description + pinned-comment links, portal /portal/youtube/cash ranks videos by cash; first-touch credit, confirmed payments only; open: founder's own channel first, flywheel link decision
+- [InfoOS integration decisions](project_infoos_integration.md) - copy Dustin's InfoOS logic into OUR look; #36 #37 LIVE; 2026-10-01 #39 ALL LIVE (lead score, Leads hub, censor, clocks, Performance tabs, Pages builder, report, Ask, sales team); he KEEPS globe, clocks, page builder; write-up wiki/synthesis/infoos-build-2026-10.md
 - [Growth voice note 2026-09-28](project_growth_voice_note_2026_09_28.md) - portal purpose undecided (guided operator recommended), his YouTube ideation questions + formats, BOF contradiction, backlog incl. landing builder, Miro, Joel Kaplan reels SOP, Dustin Varano InfoOS teardown (done, wiki/synthesis), webinars, walkthrough video
 - [Client integrations PARKED](project_client_integrations_parked.md) - 2026-09-24: client sign-in integrations (#15) wait until the first client signs AND pays; then Zernio per-client for IG/YouTube (~$12/mo per client), own OAuth for Kit/Calendly/Stripe
 - [Integrations hub I1 live](project_integrations_hub_i1.md) - /integrations UI, D1 integrations/payments, Mark-paid onboarding trigger, webhooks, Discord alerts, all live; RULE: non-null getters delete !cfg gates; user-side = Kit key + Discord webhook
@@ -111,3 +114,5 @@
 ## Visual references
 
 - [Founder visual taste library](project_visual_references.md) - shared visual-references/ folder; images in inbox, reference notes, growing taste profile and boards; read before aesthetic work.
+- [No personal details on public pages](feedback_no_personal_details_public.md) - HARD 2026-10-01: no name, Gmail or country on public pages; use hello@pulsify-ai.com (forwarded via Cloudflare Email Routing)
+- [Registration approval](project_registration_approval.md) - 2026-10-01: request access on sign-in, founder approves as client or operator from Clients; owners-only operator management; GHL sub-account idea parked

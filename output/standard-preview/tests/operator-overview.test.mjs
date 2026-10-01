@@ -145,7 +145,7 @@ async function testRollupAndHealthLabels() {
   assert.equal(body.summary.at_risk_count, 1);
   assert.equal(body.summary.total_collected_cents, 400000);
   assert.deepEqual(body.clients.map((row) => row.client), ["risk", "watch", "new", "healthy"]);
-  assert.equal(db.queries.length, 8, "rollup query count must stay fixed as client count grows");
+  assert.equal(db.queries.length, 9, "rollup query count must stay fixed as client count grows");
 
   const healthy = body.clients.find((row) => row.client === "healthy");
   assert.equal(healthy.collected.total_cents, 250000);

@@ -278,7 +278,7 @@ class MockStmt {
     if (sql.startsWith("INSERT INTO page_events")) {
       const [
         client, visitorId, sessionId, pageId, event, email, path, referrer,
-        utmJson, metadataJson, ip, country, city, userAgent, utmSource, utmContent, at,
+        utmJson, metadataJson, ip, country, city, userAgent, utmSource, utmContent, lat, lng, at,
       ] = p;
       const row = {
         id: state.page_events.length + 1,
@@ -298,6 +298,8 @@ class MockStmt {
         user_agent: userAgent,
         utm_source: utmSource,
         utm_content: utmContent,
+        lat,
+        lng,
         at,
       };
       state.page_events.push(row);

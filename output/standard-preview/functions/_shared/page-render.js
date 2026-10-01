@@ -3,7 +3,7 @@ import { cleanId, escapeHtml, parseJson, titleCase } from "./common.js";
 export const VALID_VARIANTS = new Set(["canonical", "variant-02"]);
 const NON_WRAPPABLE_PREVIEW_TOKENS = new Set(["META_DESCRIPTION", "PAGE_TITLE"]);
 
-const DEFAULT_CONTENT = {
+export const DEFAULT_CONTENT = {
   META_DESCRIPTION: "A private breakdown, then apply to work together.",
   PAGE_TITLE: "Private Application",
   BRAND_MARK: "",

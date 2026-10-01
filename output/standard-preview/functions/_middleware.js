@@ -30,7 +30,7 @@ export const onRequest = [
   })),
   pulsifyMiddleware,
 ];
-const adminApis = new Set(['dashboard-generate','studio-feedback','transcript','activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','outreach-queue','zernio','notifications','realtime-config','search','workspace-archive']);
+const adminApis = new Set(['dashboard-generate','studio-feedback','transcript','activity','assets','campaigns','clients','client-setup-link','client-brain-export','crm-sync','email-compose','followups','generate','health','impersonate','integration-env','integrations','media','operator-overview','operator-bootstrap','payment','settings','contract-status','provision','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','outreach-queue','zernio','notifications','realtime-config','search','workspace-archive','access-requests']);
 const mixedApis = new Set(['spine','integrations','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','outreach-queue','zernio','notifications','realtime-config','search']);
 export async function pulsifyMiddleware(context) {
   const { request, next, env } = context;

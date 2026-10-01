@@ -102,6 +102,7 @@
     enablePreviewEditorMap();
   }
   trackPageView();
+  trackEngagement();
   bindCtas();
   bindOptins();
   loadConfig();
@@ -484,6 +485,93 @@
         screen: `${screen.width}x${screen.height}`,
       },
     });
+  }
+
+  // Engagement for the lead score (InfoOS brief, founder approved 2026-09-29): seconds actively
+  // on the page (tab visible, input in the last 30s), deepest scroll, full passes through the
+  // page (top to bottom or back), and seconds the proof section was on screen. Sent as one
+  // "engagement" page event each time the page is hidden or left; values are running totals
+  // for this page load, so readers take the largest per visitor.
+  function trackEngagement() {
+    const IDLE_MS = 30000;
+    // One id per page load, so running totals from two loads in one tab are never merged.
+    const loadId = Math.random().toString(36).slice(2, 12);
+    let activeMs = 0;
+    // Rage clicks (three or more fast clicks on one spot): a sign something on the page looks
+    // clickable and isn't. Shown on the lead, not used in the score.
+    let rageClicks = 0;
+    let burst = [];
+    let proofMs = 0;
+    let lastTick = performance.now();
+    let lastInput = lastTick;
+    let maxScroll = 0;
+    let fullScrolls = 0;
+    let edge = "top";
+    let proofVisible = false;
+    let sentKey = "";
+    const tick = () => {
+      const now = performance.now();
+      const delta = now - lastTick;
+      lastTick = now;
+      if (document.visibilityState !== "visible") return;
+      if (now - lastInput < IDLE_MS) activeMs += delta;
+      if (proofVisible) proofMs += delta;
+    };
+    const onInput = () => {
+      tick();
+      lastInput = performance.now();
+    };
+    for (const type of ["pointermove", "pointerdown", "keydown", "wheel", "touchstart"]) {
+      addEventListener(type, onInput, { passive: true });
+    }
+    addEventListener("pointerdown", (event) => {
+      const at = performance.now();
+      burst = burst.filter((c) => at - c.at < 800 && Math.hypot(c.x - event.clientX, c.y - event.clientY) < 40);
+      burst.push({ at, x: event.clientX, y: event.clientY });
+      if (burst.length === 3) rageClicks += 1;
+    }, { passive: true });
+    addEventListener("scroll", () => {
+      onInput();
+      const room = document.documentElement.scrollHeight - innerHeight;
+      if (room <= 0) return;
+      const depth = Math.min(1, Math.max(0, scrollY / room));
+      maxScroll = Math.max(maxScroll, depth);
+      if (depth >= 0.9 && edge === "top") {
+        fullScrolls += 1;
+        edge = "bottom";
+      } else if (depth <= 0.1 && edge === "bottom") {
+        fullScrolls += 1;
+        edge = "top";
+      }
+    }, { passive: true });
+    const proof = document.querySelector("[data-proof-section]");
+    if (proof && "IntersectionObserver" in window) {
+      new IntersectionObserver((entries) => {
+        tick();
+        proofVisible = entries.some((entry) => entry.isIntersecting);
+      }, { threshold: 0.3 }).observe(proof);
+    }
+    setInterval(tick, 1000);
+    const flush = () => {
+      tick();
+      const metadata = {
+        active_seconds: Math.round(activeMs / 1000),
+        max_scroll: Math.round(maxScroll * 100),
+        full_scrolls: fullScrolls,
+        proof_seconds: Math.round(proofMs / 1000),
+        rage_clicks: rageClicks,
+        load_id: loadId,
+      };
+      const key = JSON.stringify({ ...metadata, load_id: undefined });
+      if (key === sentKey || (!metadata.active_seconds && !metadata.max_scroll)) return;
+      sentKey = key;
+      window.PulsifyFunnel.track("engagement", metadata);
+    };
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") flush();
+      else lastTick = performance.now();
+    });
+    addEventListener("pagehide", flush);
   }
 
   async function send(payload) {
