@@ -13,7 +13,7 @@ import { authCleanup } from "../functions/_shared/auth-cleanup.js";
 // sign-in page served at every login address.
 const sql = new DatabaseSync(":memory:");
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,updated_at TEXT)");
-for (const name of ["0011_client_dashboard_auth.sql", "0038_operator_sessions.sql", "0049_login_throttle.sql"]) {
+for (const name of ["0011_client_dashboard_auth.sql", "0038_operator_sessions.sql", "0049_login_throttle.sql", "0050_setup_link_emailed.sql"]) {
   sql.exec(readFileSync(new URL("../migrations/" + name, import.meta.url), "utf8").replace(/ALTER TABLE client_config ADD COLUMN [^;]*;/g, ""));
 }
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");
@@ -149,5 +149,27 @@ assert.equal(sql.prepare('SELECT COUNT(*) n FROM client_setup_tokens').get().n, 
 assert.equal(sql.prepare('SELECT COUNT(*) n FROM api_key_usage').get().n, 1, 'only sign-in rate buckets are swept, never API key usage');
 assert.equal(removed['client sessions'], 1);
 assert.equal(removed['preview sessions'], 0);
+
+// ---- a link the system emailed skips the extra code; one shared by hand keeps it
+{
+  const { onRequestPost: emailCode } = await import("../functions/api/client-email-code.js");
+  const { onRequestPost: setPassword } = await import("../functions/api/client-set-password.js");
+  const { sha256Hex } = await import("../functions/_shared/common.js");
+  const fut = "2999-01-01T00:00:00.000Z";
+  const put = async (token, emailedAt) => sql.prepare("INSERT INTO client_setup_tokens(token_hash,client_id,email,expires_at,created_at,emailed_at) VALUES(?,?,?,?,?,?)").run(await sha256Hex(token), "ada", "ada@example.com", fut, fut, emailedAt);
+  const mailEnv = { ...env, RESEND_API_KEY: "key", EMAIL_FROM: "Pulsify <hello@example.test>" };
+  await put("emailed-link", "2026-10-01T00:00:00.000Z");
+  let answer = await (await emailCode({ request: post("/api/client-email-code", { setup_token: "emailed-link" }), env: mailEnv })).json();
+  assert.equal(answer.requires_code, false, "no second code for a link we emailed");
+  assert.equal(answer.email, "ada@example.com");
+  r = await setPassword({ request: post("/api/client-set-password", { setup_token: "emailed-link", password: "a-brand-new-passphrase" }), env: mailEnv });
+  assert.equal(r.status, 200, "an emailed link sets the password with no code");
+  assert.equal(sql.prepare("SELECT COUNT(*) n FROM client_setup_tokens WHERE client_id='ada'").get().n, 0, "the link is used up");
+
+  await put("shared-link", null);
+  r = await setPassword({ request: post("/api/client-set-password", { setup_token: "shared-link", password: "another-new-passphrase" }), env: mailEnv });
+  assert.equal(r.status, 422, "a link shared by hand still needs the emailed code");
+  assert.match((await r.json()).error, /verification code is required/);
+}
 
 console.log('signin-hardening: ok');

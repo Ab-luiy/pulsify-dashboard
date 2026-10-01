@@ -19,9 +19,9 @@ export const PASSWORD_MIN = 10;
 export const PASSWORD_MAX = 200;
 
 /** Why a new password is not acceptable, or "" when it is fine. Plain words, shown to the person. */
-export function passwordProblem(password, email = "") {
+export function passwordProblem(password, email = "", min = PASSWORD_MIN) {
   const value = String(password || "");
-  if (value.length < PASSWORD_MIN) return `Use at least ${PASSWORD_MIN} characters.`;
+  if (value.length < min) return `Use at least ${min} characters.`;
   if (value.length > PASSWORD_MAX) return `Use at most ${PASSWORD_MAX} characters.`;
   const lower = value.toLowerCase();
   const letters = lower.replace(/[^a-z0-9]/g, "");
@@ -31,4 +31,16 @@ export function passwordProblem(password, email = "") {
   if (/^(0123456789|1234567890|123456789|12345678910|abcdefghij)/.test(letters)) return "That password is too easy to guess. Pick something less common.";
   if (local.length >= 4 && letters.includes(local)) return "Your password should not contain your email name.";
   return "";
+}
+
+/** Where a team member may land after signing in: inside the console, never a client portal. */
+export function consoleDestination(raw) {
+  if (typeof raw !== "string" || !raw.startsWith("/") || raw.startsWith("//") || raw.includes("\\")) return "/app/";
+  try {
+    const url = new URL(raw, "https://pulsify-ai.com");
+    if (url.origin !== "https://pulsify-ai.com" || !/^\/app(\/|$)/.test(url.pathname) || /^\/app\/portal(\/|$)/.test(url.pathname)) return "/app/";
+    return url.pathname + url.search;
+  } catch {
+    return "/app/";
+  }
 }

@@ -35,8 +35,9 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "this setup link is invalid or expired" }, 401);
   }
 
-  if (!env.RESEND_API_KEY) {
-    return json({ ok: true, requires_code: false, sent: false });
+  // A link we emailed to this address already proves the mailbox, so there is no second code.
+  if (!env.RESEND_API_KEY || setup.emailed_at) {
+    return json({ ok: true, requires_code: false, sent: false, email: normalizeEmail(setup.email) });
   }
   if (!(await allowCode(env, setupToken))) {
     return json({ ok: false, error: "Too many codes requested for this link. Wait an hour, or ask for a new link." }, 429);

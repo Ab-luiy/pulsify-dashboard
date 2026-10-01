@@ -5,7 +5,7 @@
 // Operator emails come from OPERATOR_EMAILS (comma separated) or OPERATOR_EMAIL.
 import { json, normalizeEmail, str } from "../_shared/common.js";
 import { sameOrigin } from "../_shared/auth-guard.js";
-import { createSetupLink } from "../_shared/client-auth.js";
+import { createSetupLink, markSetupEmailed } from "../_shared/client-auth.js";
 
 const LINKS_PER_EMAIL_PER_HOUR = 3;
 
@@ -32,7 +32,7 @@ export async function onRequestPost({ request, env }) {
       if (!row) return json(generic);
       const link = await createSetupLink(env, new URL(request.url).origin, row.client_id, email);
       if (!link.ok) return json(generic);
-      await fetch("https://api.resend.com/emails", {
+      const sent = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json" },
         body: JSON.stringify({
@@ -50,6 +50,7 @@ export async function onRequestPost({ request, env }) {
           ].join("\n"),
         }),
       }).catch(() => null);
+      if (sent?.ok) await markSetupEmailed(env, row.client_id);
     } catch { /* same answer regardless */ }
     return json(generic);
   }

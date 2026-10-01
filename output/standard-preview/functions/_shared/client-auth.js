@@ -293,10 +293,16 @@ export async function createSetupLink(env, origin, clientId, email) {
   };
 }
 
+/** The system just emailed this client's setup link to the address on file. Call only after the send succeeded. */
+export async function markSetupEmailed(env, clientId) {
+  await env.DB.prepare("UPDATE client_setup_tokens SET emailed_at=? WHERE client_id=? AND emailed_at IS NULL")
+    .bind(nowIso(), clientId).run().catch(() => null);
+}
+
 export async function consumeSetupToken(env, token) {
   const tokenHash = await sha256Hex(token);
   const row = await env.DB.prepare(
-    `SELECT token_hash, client_id, email, expires_at
+    `SELECT token_hash, client_id, email, expires_at, emailed_at
        FROM client_setup_tokens
       WHERE token_hash=?`,
   ).bind(tokenHash).first();

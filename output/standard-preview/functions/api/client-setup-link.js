@@ -1,6 +1,6 @@
 import { withOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, normalizeEmail } from "../_shared/common.js";
-import { createSetupLink } from "../_shared/client-auth.js";
+import { createSetupLink, markSetupEmailed } from "../_shared/client-auth.js";
 
 async function handle_onRequestPost({ request, env }) {
   const auth = checkAdmin(request, env);
@@ -41,6 +41,7 @@ async function handle_onRequestPost({ request, env }) {
         link: result.link,
         expiresAt: result.expires_at,
       });
+      await markSetupEmailed(env, client);
     } catch (error) {
       return json({ ...result, emailed: false, warning: "Email delivery failed. Copy and share this setup link directly." });
     }

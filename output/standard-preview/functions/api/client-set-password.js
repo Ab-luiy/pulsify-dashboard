@@ -30,7 +30,7 @@ export async function onRequestPost({ request, env }) {
   }
   const problem = passwordProblem(password, setup.email);
   if (problem) return json({ ok: false, error: problem }, 422);
-  if (env.RESEND_API_KEY) {
+  if (env.RESEND_API_KEY && !setup.emailed_at) {
     if (!code) {
       return json({ ok: false, error: "email verification code is required" }, 422);
     }

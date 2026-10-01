@@ -5,7 +5,7 @@ import { sideEffectFailure } from "./side-effect-failure.js";
 // seeds the checklist, sends the welcome email through Resend with retries,
 // sets status to onboarding, and emits client.provisioned once.
 import { cleanId, generateOpaqueToken, normalizeEmail, nowIso, sha256Hex, str, titleCase } from "./common.js";
-import { createSetupLink } from "./client-auth.js";
+import { createSetupLink, markSetupEmailed } from "./client-auth.js";
 import { seedChecklist } from "./checklist.js";
 import { recordFailure } from "./integrations.js";
 import { emitEvent } from "./outbound-webhooks.js";
@@ -103,6 +103,7 @@ export async function sendWelcome(env, { clientId, email, name, setupLink, sleep
       }
       if (response.ok) {
         await env.DB.prepare("UPDATE client_provisioning SET welcome_state='sent', welcome_attempts=?, welcome_sent_at=?, welcome_error=NULL WHERE client_id=?").bind(attempt, nowIso(), clientId).run();
+        await markSetupEmailed(env, clientId);
         return { state: "sent", attempt };
       }
       lastError = `HTTP ${response.status}`;
