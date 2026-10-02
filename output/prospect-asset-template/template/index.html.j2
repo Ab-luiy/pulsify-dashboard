@@ -76,18 +76,24 @@
     <section class="slide" data-reveal aria-labelledby="win-title">
       <div class="slide-inner">
         {{ head(win, 'win-title') }}
-        <figure class="yt-card" data-stage="image">
-          {{ pic(win.video.img, win.video.title, '[their best video thumbnail]') }}
-          <figcaption>
-            <strong>{{ win.video.title }}</strong>
-            <span class="yt-views"><em class="pop">{{ win.video.views }}</em> views, {{ win.video.age }}</span>
-          </figcaption>
-        </figure>
-        <div class="prose" data-stage="copy">{% for p in win.paragraphs %}<p>{{ p|safe }}</p>{% endfor %}</div>
-        {%- for f in win.formulas %}
-        <div class="formula" data-stage="copy"><small>{{ f.label }}</small>{% for l in f.lines %}<p>{{ l }}</p>{% endfor %}</div>
-        {%- endfor %}
-        {%- if win.after %}<div class="prose" data-stage="copy">{% for p in win.after %}<p>{{ p|safe }}</p>{% endfor %}</div>{% endif %}
+        <div class="split">
+          <div class="split-a">
+            <figure class="yt-card" data-stage="image">
+              {{ pic(win.video.img, win.video.title, '[their best video thumbnail]') }}
+              <figcaption>
+                <strong>{{ win.video.title }}</strong>
+                <span class="yt-views"><em class="pop">{{ win.video.views }}</em> views, {{ win.video.age }}</span>
+              </figcaption>
+            </figure>
+          </div>
+          <div class="split-b">
+            <div class="prose" data-stage="copy">{% for p in win.paragraphs %}<p>{{ p|safe }}</p>{% endfor %}</div>
+            {%- for f in win.formulas %}
+            <div class="formula" data-stage="copy"><small>{{ f.label }}</small>{% for l in f.lines %}<p>{{ l }}</p>{% endfor %}</div>
+            {%- endfor %}
+            {%- if win.after %}<div class="prose" data-stage="copy">{% for p in win.after %}<p>{{ p|safe }}</p>{% endfor %}</div>{% endif %}
+          </div>
+        </div>
         {{ app_note(win.app) }}
       </div>
     </section>
@@ -113,7 +119,7 @@
       <div class="slide-inner">
         {{ head(ideas, 'ideas-title') }}
         <ol class="ideas" data-stage="image">
-          {%- for it in ideas.items %}
+          {%- for it in ideas.videos %}
           <li class="card idea">
             <figure class="idea-ref">
               {{ pic(it.ref_img, it.ref_alt or it.title, '[reference frame]') }}
@@ -166,7 +172,7 @@
           {%- if bio.link %}<p class="link">{{ bio.link }}</p>{% endif %}
         </div>
         {%- if bio.rail %}
-        <ul class="rail" data-stage="annotation" aria-label="highlights">{% for r in bio.rail %}<li><i></i>{{ r }}</li>{% endfor %}</ul>
+        <ul class="rail" data-stage="annotation" aria-label="highlights">{% for r in bio.rail %}<li><i>{{ loop.index }}</i>{{ r }}</li>{% endfor %}</ul>
         {%- endif %}
         {%- if bio.followup %}<p class="followup" data-stage="copy">{{ bio.followup|safe }}</p>{% endif %}
         {{ app_note(bio.app) }}
@@ -273,7 +279,7 @@
           {%- else %}{% for i in range(4) %}<div class="ph">[client photo]</div>{% endfor %}{% endif %}
         </div>
         <div class="close-col close-tail">
-          {%- for p in close.copy %}<p data-stage="copy">{{ p }}</p>{% endfor %}
+          {%- for p in close.paras %}<p data-stage="copy">{{ p }}</p>{% endfor %}
           <a id="cta-primary" class="cta" data-cta="primary" data-stage="annotation" href="{{ close.cta.href }}">{{ close.cta.label }}</a>
         </div>
       </div>

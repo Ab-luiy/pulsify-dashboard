@@ -108,7 +108,8 @@ strong, b { color: var(--ink); font-weight: 650; }
 }
 .hero-glow::after { content: ""; position: absolute; inset: 0; background-image: var(--grain); background-size: 220px; opacity: 0.22; mix-blend-mode: overlay; }
 .hero::after { content: ""; position: absolute; inset: auto 0 0; height: 200px; z-index: -1; background: linear-gradient(transparent, var(--bg)); }
-.hero-inner { max-width: 760px; }
+.hero-inner { max-width: 980px; }
+.hero-inner > div { max-width: 760px; }
 .badge {
   display: inline-flex; align-items: center; gap: 8px; margin-bottom: 22px; padding: 6px 14px 6px 12px;
   border-radius: 999px; font-size: 13px; color: var(--ink-2);
@@ -225,14 +226,23 @@ strong, b { color: var(--ink); font-weight: 650; }
 .bio-card .link { color: var(--info); }
 .rail { display: flex; gap: 20px; margin-top: 22px; }
 .rail li { display: grid; justify-items: center; gap: 8px; width: 78px; text-align: center; color: var(--ink-2); font-size: 12.5px; }
-.rail i { display: block; width: 64px; height: 64px; border-radius: 50%; padding: 3px; background: conic-gradient(from 200deg, var(--dusk-coral), var(--dusk-violet), var(--dusk-slate), var(--dusk-coral)); }
-.rail i::after { content: ""; display: block; width: 100%; height: 100%; border-radius: 50%; background: var(--card-2); box-shadow: inset 0 0 0 3px var(--bg); }
+.rail i { position: relative; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; padding: 3px; font-style: normal; font-size: 20px; font-weight: 600; color: var(--ink); background: conic-gradient(from 200deg, var(--dusk-coral), var(--dusk-violet), var(--dusk-slate), var(--dusk-coral)); }
+.rail i::before { content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--card-2); box-shadow: inset 0 0 0 3px var(--bg); z-index: -1; }
+.rail i { z-index: 0; }
 
 /* ---- 6 quick fixes (before / after rows) -------------------------------------------- */
 
 .diffs { display: grid; gap: 12px; }
 .diff { padding: 16px; display: grid; gap: 12px; }
-.diff-side { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.diff-side { display: grid; gap: 8px; align-content: start; justify-items: start; min-width: 0; }
+.diff-side code { justify-self: stretch; }
+.phone figcaption .pill { display: inline-flex; }
+.split { display: grid; gap: 22px; }
+.split-b { min-width: 0; }
+.split-b .prose { margin-top: 0; }
+.split-b .prose + .formula, .split-b .formula:first-of-type { margin-top: 20px; }
+.split-b .formula { max-width: none; }
+.split-b .formula + .prose { margin-top: 20px; }
 .diff-side code { display: block; padding: 11px 12px; border-radius: 10px; background: #0f1012; box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); font: 13.5px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
 .diff-side.before code { color: var(--ink-3); text-decoration: line-through; text-decoration-color: rgb(232 139 128 / 0.55); }
 .diff-note { color: var(--ink-2); font-size: 14.5px; line-height: 1.45; }
@@ -365,6 +375,8 @@ strong, b { color: var(--ink); font-weight: 650; }
   .slide { padding-top: 96px; padding-bottom: 96px; }
   .hero { padding-top: 168px; padding-bottom: 96px; }
   .head { margin-bottom: 36px; }
+  .split { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 44px; align-items: start; }
+  .split-a { position: sticky; top: 92px; }
   .stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .stat { min-height: 220px; }
   .ideas { grid-template-columns: repeat(2, minmax(0, 1fr)); }

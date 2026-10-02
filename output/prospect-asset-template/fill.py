@@ -54,7 +54,7 @@ def main():
     ap.add_argument("--assets", help="folder that contains the assets/ files the JSON points at")
     args = ap.parse_args()
 
-    data = json.loads(Path(args.data).read_text(encoding="utf-8"))
+    data = json.loads(Path(args.data).read_text(encoding="utf-8-sig"))
     out = Path(args.out).resolve()
     out.mkdir(parents=True, exist_ok=True)
 
