@@ -21,3 +21,5 @@ Founder 2026-10-02: wants the product at MVP so he can start reaching out to lea
 - Not built: Sales Co-pilot (pre-call briefs, proposal templates), comment triage. For client one these are by hand.
 
 **How to apply:** fix list order = what blocks a first sale. Ask before building; do the live end-to-end run only with an inbox he names (it sends a real email).
+
+**Update 2026-10-02 (later):** founder said payments are OUT of scope, he logs and updates them by hand (wallet address is no longer a blocker I chase). He asked for an A-Z MVP plan that finds duplicates and checks the drivers, not UI. Plan saved at wiki/synthesis/mvp-plan-2026-10-02.md. Audit facts: Plans/To-dos/Team are hand-fed and empty on provision; client Content has no automatic writer; Copywriter still on Cloudflare Llama with 30/day cap; five+ duplicate LLM callers; delivery-automation already has pre-call briefs, Fathom import, weekly report drafts (my earlier 'not built' was wrong for the operator side).
