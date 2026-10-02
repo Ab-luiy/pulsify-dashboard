@@ -1970,3 +1970,5 @@ Founder answers: demo workspace yes, YouTube flow release yes, AI writing stays 
 
 ## [2026-10-02] decision | MVP plan, payments out of scope
 Founder: payments are logged by hand, not part of the MVP; plan the build A-Z, find duplicates, fix the drivers not the UI. Plan: [[wiki/synthesis/mvp-plan-2026-10-02]]. Phase 1 built on branch claude/mvp-phase1 (not deployed): the day-1 checklist now runs voice, audience, proof, first video (idea, review, approved), connections, then the story sequence; provisioning seeds Plans from the offer week table, four client-owned to-dos and a team; the review gate keeps client Content in step (one row per video). Checklist is ten steps and connect-payments is gone.
+
+Released 2026-10-02: pulsify-saas main 9e0471e, Brain main 1e0dc471, Pages ddf0fac4, no new migrations. Live check: checklist API returns ten steps; test client mvp-test-client provisioned to hello@pulsify-ai.com, welcome email sent on attempt 1, Plans/To-dos/Team seeded. Test client to be archived after the founder opens the email.
