@@ -33,3 +33,7 @@ Vault sources: clients/nick/overview.md, claude-memory/project_nick_case_study.m
 The VALUE board contains the assembled SVG artwork and five native Miro frames: client work, brand and offer, ideas and packaging, video structure, viewer to client. Open Frames to navigate in order. Artwork is one imported SVG image, not individually editable native text or shapes. The standalone modules remain available locally for future rearrangement. miro-overview.jpg and miro-packaging.jpg capture the actual browser result.
 
 Miro did not render the first SVG's nested SVG-image data URIs. Replaced only our incomplete upload with a flattened SVG containing its groups inline, then verified the full artwork and original thumbnails. The builder preserves this flattened export for future uploads.
+
+## Design revision
+
+Founder requested Dustin’s supplied design style: gray canvas, black type, red marker emphasis, curved black arrows, plain outlined boxes, fewer containers, no blue accent fills or offset shadows. Replaced existing artwork in place in VALUE, retaining all five frames and copy. Verified packaging at recording scale.

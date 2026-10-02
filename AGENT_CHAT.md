@@ -2767,3 +2767,10 @@ DONE + DEPLOYED (Pages c9eafecf, worker pulsify-sync 736183fe, migrations 0044 a
 
 ### [2026-10-02] CODEX
 DONE: Built outreach/resources/miro-outreach-preview/ with four SVG sections, Nick client-work opening, pan/zoom HTML preview, rendered PNGs and RECORDING.md. Read Dustin full guide and inspected both Miro references. Founder authorized last VALUE board; imported flattened full-board.svg at https://miro.com/app/board/uXjVN8MGpsk=/ and created five native transparent recording frames (00–04). Verified original thumbnails and readable frame navigation; saved miro-overview.jpg and miro-packaging.jpg. Imported graphic is not native editable text/shapes. Preserved existing distant content; no reference-board edits or outbound DMs. Lock cleared.
+
+### [2026-10-02] CODEX
+CLAIM: outreach/resources/miro-outreach-preview/** for founder-directed Dustin reference restyle and authorized VALUE board artwork replacement.
+| outreach/resources/miro-outreach-preview/** | CODEX | DONE | Dustin design restyle verified live; lock cleared. |
+
+### [2026-10-02] CODEX
+DONE Dustin-reference restyle: build.cjs, generated SVG/HTML/PNG files and live screenshots in outreach/resources/miro-outreach-preview/. All text black, neutral gray grid, no blue fills or offset card shadows, simple outlined boxes, heavier red marker underlines and curved black arrows. Copy and original image bytes preserved. Used Miro Replace image on our existing artwork; all five native frames preserved and packaging navigation verified at 77%. Live VALUE board remains the delivery. Lock cleared.

@@ -1,21 +1,21 @@
 const fs=require('fs'),path=require('path');
 const {chromium}=require('C:/Users/Abdullah/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const root=path.resolve(__dirname,'../../..'), out=__dirname;
-const blue='#355ed4',red='#dc4135',ink='#171717',paper='#f5f3ee';
+const blue='#171717',red='#e31b23',ink='#171717',paper='#f2f2f2';
 const esc=s=>s.replaceAll('&','&amp;').replaceAll('<','&lt;');
 const image=p=>'data:image/'+(p.endsWith('.jpg')?'jpeg':'png')+';base64,'+fs.readFileSync(path.join(root,p)).toString('base64');
 const ref=n=>image('outreach/packaging-references/attachments/'+n);
 const t=(x,y,s,size=25,color=ink,weight=500)=>`<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}">${esc(s)}</text>`;
 const lines=(x,y,ss,size=25,color=ink,weight=500,gap=34)=>ss.map((s,i)=>t(x,y+i*gap,s,size,color,weight)).join('');
-const box=(x,y,w,h,fill='#fff',stroke=ink)=>`<rect x="${x+5}" y="${y+6}" width="${w}" height="${h}" rx="12" fill="${ink}"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="12" fill="${fill}" stroke="${stroke}" stroke-width="2.3"/>`;
-const arrow=(x,y,a,b,c=ink)=>`<path d="M${x},${y} L${a},${b}" stroke="${c}" stroke-width="3" fill="none" marker-end="url(#arrow)"/>`;
-const underline=(x,y,w)=>`<path d="M${x},${y} Q${x+w*.35},${y-5} ${x+w},${y-1}" stroke="${red}" stroke-width="6" stroke-linecap="round" fill="none"/>`;
+const box=(x,y,w,h,fill='#fff',stroke=ink)=>[538,690].includes(y)?'':`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="2" fill="${fill}" stroke="${stroke}" stroke-width="2.3"/>`;
+const arrow=(x,y,a,b,c=ink)=>{const dx=a-x,dy=b-y;return `<path d="M${x},${y} Q${x+dx*.48-dy*.09},${y+dy*.48+dx*.09} ${a},${b}" stroke="${c}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M${a-dx*.12-dy*.09},${b-dy*.12+dx*.09} Q${a-dx*.03},${b-dy*.03} ${a},${b} L${a-dx*.12+dy*.09},${b-dy*.12-dx*.09}" stroke="${c}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`};
+const underline=(x,y,w)=>`<path d="M${x},${y} Q${x+w*.35},${y-3} ${x+w},${y-1}" stroke="${red}" stroke-width="8" stroke-linecap="round" fill="none"/>`;
 const crop=(src,x,y,w,h,vb)=>`<svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="${vb}" preserveAspectRatio="xMidYMid slice"><image href="${src}" width="${vb==='10 8 523 292'?1086:1131}" height="${vb==='10 8 523 292'?310:316}"/></svg>`;
-const wrap=(body,w=1200,h=1050)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#e3e0d8" stroke-width="1"/></pattern><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="${ink}"/></marker></defs><rect width="100%" height="100%" fill="${paper}"/><rect width="100%" height="100%" fill="url(#grid)"/><g font-family="Arial, sans-serif">${body}</g></svg>`;
-const header=(n,heading,sub)=>t(48,61,'0'+n,26,blue,800)+t(108,63,heading,34,ink,800)+t(48,113,sub,25,blue,700);
+const wrap=(body,w=1200,h=1050)=>`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs><pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#e7e7e7" stroke-width="1"/></pattern><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10" fill="${ink}"/></marker></defs><rect width="100%" height="100%" fill="${paper}"/><rect width="100%" height="100%" fill="url(#grid)"/><g font-family="Arial, sans-serif">${body}</g></svg>`;
+const header=(n,heading,sub)=>t(48,61,'0'+n,26,blue,800)+t(108,63,heading,34,ink,800)+t(48,113,sub,25,blue,500)+underline(108,78,Math.min(heading.length*19,900));
 const modules=[];
 modules.push(wrap(header(1,'Your brand and offer','Pinpoint exactly what makes you different.')+
- `<circle cx="600" cy="360" r="191" fill="#e8e3d8" stroke="${ink}" stroke-width="2"/><circle cx="600" cy="360" r="133" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="600" cy="360" r="79" fill="#e2e9ff" stroke="${blue}" stroke-width="2"/>`+
+ `<circle cx="600" cy="360" r="191" fill="#f2f2f2" stroke="${ink}" stroke-width="2"/><circle cx="600" cy="360" r="133" fill="#fff" stroke="${ink}" stroke-width="2"/><circle cx="600" cy="360" r="79" fill="#ffffff" stroke="${red}" stroke-width="7"/>`+
  '<g text-anchor="middle">'+lines(600,353,['Your own','approach'],24,blue,800,30)+'</g>'+
  lines(64,281,['Who needs','your help?'],26,ink,700)+arrow(245,289,418,307)+
  lines(920,281,['What have','you solved?'],26,ink,700)+arrow(903,289,783,308)+
@@ -40,27 +40,27 @@ modules.push(wrap(header(2,'Ideas and packaging','Know what to record before you
  t(72,933,'03',22,blue,800)+t(117,933,"here's how [student] went from [problem] to [result]",23,ink,700)));
 let structure=header(3,'Video structure','Talking points you can record from.');
 const steps=[['Intro',['Show real proof.','Confirm the title.']],['Body',['What changed?','Show what you did.']],['Mid-video CTA',['Offer help applying it.','Then keep teaching.']],['Body',['Show another example.','Explain the decisions.']],['Final CTA',['Recap the result.','Give one next step.']]];
-steps.forEach((s,i)=>{const x=48+i*226;structure+=box(x,207,200,202,i===2?'#e2e9ff':'#fff')+t(x+15,246,'0'+(i+1),21,blue,800)+t(x+15,285,s[0],i===2?21:25,ink,800)+lines(x+15,334,s[1],16,ink,500,25);if(i<4)structure+=arrow(x+204,305,x+221,305)});
+steps.forEach((s,i)=>{const x=48+i*226;structure+=box(x,207,200,202,i===2?'#ffffff':'#fff')+t(x+15,246,'0'+(i+1),21,blue,800)+t(x+15,285,s[0],i===2?21:25,ink,800)+lines(x+15,334,s[1],16,ink,500,25);if(i<4)structure+=arrow(x+204,305,x+221,305)});
 structure+=t(48,161,'Intro → body → mid-video CTA → body → final CTA',23,ink,700)+
  t(48,494,'One experience. Three different ways to explain it.',29,ink,800)+
  box(48,538,337,188)+box(431,538,337,188)+box(815,538,337,188)+
  t(70,584,'Break down a win',25,ink,800)+lines(70,627,['Show the result.','Walk through the decisions.'],21)+
  t(453,584,'Explain a mistake',25,ink,800)+lines(453,627,['Show what went wrong.','Explain what you changed.'],21)+
  t(837,584,'Compare examples',25,ink,800)+lines(837,627,['Put them side by side.','Explain the difference.'],21)+
- box(48,777,1104,165,'#e2e9ff',blue)+t(72,820,'After a useful lesson:',24,blue,800)+
+ box(48,777,1104,165,'#ffffff',blue)+t(72,820,'After a useful lesson:',24,blue,800)+
  lines(72,861,["that's one of the things we work through in the program. if you want help", "applying it, the first link below explains more. if not, no worries, keep watching."],23)+
  t(48,999,'Build from what you actually do. Give them the useful detail.',24,ink,700);
 modules.push(wrap(structure));
 let route=header(4,'From viewer to client','Give interested people a clear next step.');
 const nodes=[['YouTube video','They understand your approach.'],['DM or free training','They explore getting your help.'],['Application','You check whether it fits.'],['Sales conversation','You discuss working together.']];
-nodes.forEach((n,i)=>{const y=163+i*174;route+=box(225,y,750,121,i===0?'#e2e9ff':'#fff',i===0?blue:ink)+t(260,y+45,n[0],29,ink,800)+t(260,y+85,n[1],24);if(i<3)route+=arrow(600,y+129,600,y+165)});
-route+=box(48,875,1104,121,'#e2e9ff',blue)+t(72,916,'The overview is reusable. The roadmap is built around your business.',25,blue,800)+
+nodes.forEach((n,i)=>{const y=163+i*174;route+=box(225,y,750,121,i===0?'#ffffff':'#fff',i===0?blue:ink)+t(260,y+45,n[0],29,ink,800)+t(260,y+85,n[1],24);if(i<3)route+=arrow(600,y+129,600,y+165)});
+route+=box(48,875,1104,121,'#ffffff',blue)+t(72,916,'The overview is reusable. The roadmap is built around your business.',25,blue,800)+
  t(72,960,'Reply here and we can go through what this would look like for yours.',24,ink,700);
 modules.push(wrap(route));
 modules.forEach((s,i)=>fs.writeFileSync(path.join(out,`0${i+1}-module.svg`),s));
 const nick=image('output/bergtrades-asset-v2/assets/nick/yt-3QDKzi4nFl8.jpg');
 const proof=wrap(t(48,58,'Real client work / Nick',30,ink,800)+`<image href="${nick}" x="48" y="93" width="498" height="280"/>`+
- t(595,144,'$98,000',63,blue,800)+t(595,187,'total sales across the engagement',23,ink,700)+
+ t(595,144,'$98,000',63,blue,800)+underline(595,157,265)+t(595,187,'total sales across the engagement',23,ink,700)+
  lines(595,245,['Positioning, content packaging and outreach.','One of the videos we packaged for Nick.'],23)+
  t(595,337,'A real result, with the work behind it.',25,ink,800),1200,420);
 fs.writeFileSync(path.join(out,'00-client-work.svg'),proof);
