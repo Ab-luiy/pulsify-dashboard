@@ -1975,3 +1975,5 @@ Released 2026-10-02: pulsify-saas main 9e0471e, Brain main 1e0dc471, Pages ddf0f
 
 ## [2026-10-02] decision | Phase 2: prompts go to the client's own AI first
 Founder: handing the prompt to the client's own Claude or other AI is better than building our own agent in the app. Copywriter now follows the same switch as every Growth generator: with ANTHROPIC_API_KEY it generates, without it it returns the finished prompt (brand context inside) and the client pastes the answer back. Cloudflare Llama path and the 30/day cap removed. Carousel studio dropped Gemini and uses the shared Anthropic helper. Operator-side tools (generate.js, dashboard-generate.js, llm.js for briefs and weekly reports) still have their own callers; left for a later pass.
+
+Released 2026-10-02: pulsify-saas main 17734ec, Pages 04741545 (phase 2), no new migrations.
