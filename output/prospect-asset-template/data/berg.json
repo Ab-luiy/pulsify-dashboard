@@ -41,8 +41,8 @@
     },
     "paragraphs": [
       "that one did <strong>558</strong> while the last two weeks did 62, 181, 373 and 107. same trader, same model, same camera.",
-      "the difference is the title. an exact number, the method named, and a bracket that promises the how. then you stopped writing them like that.",
-      "lowercase, always. the second a title goes into title case it starts sounding like a brand instead of a person, and that is the whole guru tell."
+      "the difference is the title. an exact number, the method named, and a bracket that promises the how.",
+      "lowercase, always. title case sounds like a brand, and that is the guru tell."
     ],
     "formulas": [
       {
@@ -59,20 +59,17 @@
         ]
       }
     ],
-    "after": [
-      "odd numbers beat round ones. $18,530 reads like a statement, $20k reads like a claim. that is why this shape prints across every make money online niche and why it still works when the flashy stuff stops."
-    ],
     "app": {
       "where": "Content",
-      "text": "every title is written from this formula using the numbers you actually made, and it waits for your yes before it goes anywhere."
+      "text": "every title is written from this formula using numbers you actually made. nothing goes out without your yes."
     }
   },
   "content": {
     "n": "2",
     "title": "how content really works",
     "paragraphs": [
-      "content is the thing that primes everything else. packaging decides whether any of it gets seen. everything else on this page is small next to that.",
-      "the youtube link in the bio matters because a new pair of eyes gets nurtured by long form in a way a grid never does. that's the 7-11-4 rule, and youtube stacks those hours far faster than instagram ever will."
+      "content primes everything else. packaging decides whether any of it gets seen.",
+      "the youtube link in the bio matters because long form does the nurturing a grid never will. that's the 7-11-4 rule."
     ],
     "stats": [
       {
@@ -90,13 +87,13 @@
     ],
     "app": {
       "where": "Home",
-      "text": "the path every lead took is counted for you, from the first video they watched to the call they booked."
+      "text": "every lead's path is counted for you, from the first video they watched to the call they booked."
     }
   },
   "ideas": {
     "n": "3",
     "title": "six videos, ready to film",
-    "intro": "three are student stories already on your vip page, so the material exists. same formula, all lowercase. each one sits on a frame that already worked on your channel.",
+    "intro": "three are student stories already on your vip page. each sits on a frame that already worked on your channel.",
     "videos": [
       {
         "title": "amazon driver to funded trader in 4 months (h1rvey's numbers)",
@@ -104,7 +101,7 @@
         "tag_kind": "good",
         "ref_img": "assets/berg/yt-JsYfn3IdFyo.jpg",
         "ref_label": "built on this frame, 1.1K views",
-        "frame": "a board of his payouts in frame that a stranger can read, the way the Leon video was framed."
+        "frame": "a board of his payouts a stranger can read, like the Leon video."
       },
       {
         "title": "electrician to full time day trader in 77 days (jj's story)",
@@ -112,7 +109,7 @@
         "tag_kind": "good",
         "ref_img": "assets/berg/yt-VjUpqe73wQw.jpg",
         "ref_label": "built on this frame, 1.2K views",
-        "frame": "his own certificate in frame and the total written out by hand, the way week 1 was framed."
+        "frame": "his own certificate in frame, the total written by hand, like week 1."
       },
       {
         "title": "$20,000 from prop firms with one model (tzfred's numbers)",
@@ -120,7 +117,7 @@
         "tag_kind": "good",
         "ref_img": "assets/berg/yt-E6yw1uGNWBY.jpg",
         "ref_label": "built on this frame, 917 views",
-        "frame": "the payout certificates laid out the way week 7 was, with the total written on them."
+        "frame": "the payout certificates laid out like week 7, total written on them."
       },
       {
         "title": "i lost 27r in a month (every trade on screen)",
@@ -128,7 +125,7 @@
         "tag_kind": "info",
         "ref_img": "assets/berg/yt-2aLJHNEWygw.jpg",
         "ref_label": "built on this frame, 1.8K views",
-        "frame": "a raw screen recording of the trades, no template. your biggest loss streak is the one video nobody else in the niche will make."
+        "frame": "a raw screen recording of the trades. the one video nobody else in the niche will make."
       },
       {
         "title": "road to $5,000,000 in funding (week 1)",
@@ -136,7 +133,7 @@
         "tag_kind": "info",
         "ref_img": "assets/berg/yt-VjUpqe73wQw.jpg",
         "ref_label": "built on this frame, 1.2K views",
-        "frame": "handwritten whiteboard and your real certificates, the same frame week 1 of road to $2m used."
+        "frame": "handwritten whiteboard and your real certificates, like week 1 of road to $2m."
       },
       {
         "title": "10 traders audited every trade i took (30 days)",
@@ -144,18 +141,18 @@
         "tag_kind": "warn",
         "ref_img": "assets/berg/yt-JsYfn3IdFyo.jpg",
         "ref_label": "built on this frame, 1.1K views",
-        "frame": "ten traders' trades laid out on one board, the way the Leon video was framed."
+        "frame": "ten traders' trades on one board, like the Leon video."
       }
     ],
     "app": {
       "where": "Content",
-      "text": "all six sit in your pipeline as ready for review, each with its title, frame and outline. you approve, then film."
+      "text": "all six sit in your pipeline as ready for review, each with title, frame and outline."
     }
   },
   "packaging": {
     "n": "4",
     "title": "and the frames",
-    "intro": "three uploads we packaged for another trading creator. same trading, different frame.",
+    "intro": "three uploads we packaged for another trading creator.",
     "cards": [
       {
         "img": "assets/nick/yt-3QDKzi4nFl8.jpg",
@@ -178,7 +175,7 @@
   "bio": {
     "n": "5",
     "title": "your bio, rebuilt",
-    "intro": "two lines instead of four, youtube where the second account was. one tap from stranger to twenty minutes with you.",
+    "intro": "two lines instead of four, youtube where the second account was.",
     "current_img": "assets/ig-current.png",
     "rebuilt_img": "assets/ig-rebuilt.png",
     "lines": [
@@ -191,27 +188,27 @@
       "my story",
       "results"
     ],
-    "followup": "three highlights, in that order: where to start, your story, then nothing but results."
+    "followup": ""
   },
   "quick": {
     "n": "6",
     "title": "three quick ones",
-    "intro": "small, and each one is a ten minute fix.",
+    "intro": "each one is a ten minute fix.",
     "rows": [
       {
         "before": "Join the Best Trading Team : https://linktw.in/kbevxQ",
         "after": "Apply for 1-on-1 mentorship: https://bergsmentorship.com<br>Instagram: https://www.instagram.com/bergtrades.ig/",
-        "note": "your own offer first, two links, and nothing unbranded. the shortener is the only link on the page that reads like a redirect."
+        "note": "your own offer first, two links, nothing unbranded."
       },
       {
         "before": "your contact details on question 8 of the application",
         "after": "your contact details on question 2",
-        "note": "you keep the lead even if they don't finish the form."
+        "note": "you keep the lead even if they don't finish."
       },
       {
         "before": "browser tab and link preview on bergsmentorship.com: My Framer Site",
         "after": "Matthew Bergin | 1-on-1 day trading mentorship",
-        "note": "that tab title is the default, and it is also the title that shows every time the link gets pasted anywhere."
+        "note": "the default title shows every time the link is pasted anywhere."
       }
     ],
     "app": {
@@ -222,7 +219,7 @@
   "vsl": {
     "n": "7",
     "title": "your vsl, rewritten",
-    "intro": "you have tested a lot of these. we built you one off the limited view we have from the outside, on the framework we use for this, which has done over $10m in info product and mentorship sales. tap a step to open it.",
+    "intro": "you've tested a lot of these. we built one on the framework we use, which has done over $10m in info product and mentorship sales.",
     "steps": [
       {
         "title": "the hook",
@@ -236,9 +233,9 @@
         "title": "why you",
         "sub": "your story, once they know why to listen",
         "body": [
-          "<strong>where you were:</strong> 10 pip stops and 30 pip targets, no idea whether the day would be a swing or a wick.",
-          "<strong>what changed:</strong> basing entry, stop and target on the range, measured with the fib tool.",
-          "<strong>what it bought:</strong> three years profitable, 40 years of backtested data, about 45 minutes a day on the charts, nine winning months a year and three losing ones, said out loud.",
+          "<strong>where you were:</strong> 10 pip stops and 30 pip targets, no idea what the day would be.",
+          "<strong>what changed:</strong> entry, stop and target based on the range, measured with the fib tool.",
+          "<strong>what it bought:</strong> three years profitable, 40 years of backtested data, about 45 minutes a day, nine winning months and three losing ones, said out loud.",
           "<strong>the life:</strong> left open on purpose. that beat has to be yours."
         ]
       },
@@ -246,7 +243,7 @@
         "title": "buying motives",
         "sub": "why people actually come to you, most common first",
         "body": [
-          "a year or two in and still not profitable. stuck on the prop firm treadmill. can't hold a system for more than a fortnight. doing it alone. each one gets a line of its own, in the order they show up on your calls."
+          "a year or two in and still not profitable. stuck on the prop firm treadmill. can't hold a system past a fortnight. doing it alone. one line each, most common first."
         ]
       },
       {
@@ -260,7 +257,7 @@
         "title": "objections",
         "sub": "the real ones, from your own videos",
         "body": [
-          "\"i'd have to be at a laptop all day\" is forty-five minutes, limit orders and phone alerts. \"how long before i'm profitable\" is under four weeks to teach the model and one to two years for the skill, and you say both. the rest comes from your sales calls."
+          "\"i'd have to be at a laptop all day\" is forty-five minutes and phone alerts. \"how long until i'm profitable\" is under four weeks for the model and one to two years for the skill, and you say both."
         ]
       },
       {
@@ -279,7 +276,7 @@
   "app": {
     "n": "8",
     "title": "most of this runs from your dashboard",
-    "intro": "none of the above is a one-off. the titles, the links, the story sequences and the numbers behind them live in one place, and you approve everything before it goes out.",
+    "intro": "the titles, links, story sequences and the numbers behind them live in one place. you approve everything before it goes out.",
     "tiles": [
       {
         "kind": "ranked",
@@ -342,7 +339,7 @@
         "caption": "<b>payments matched to the person who paid</b>, so cash can be traced back to a video."
       }
     ],
-    "fine": "layout only. nothing here is counted for you until your page, calendar and payments are connected, and every figure shows the numbers it came from."
+    "fine": "layout only. nothing is counted until your page, calendar and payments are connected."
   },
   "close": {
     "heading": "we've done this before.",
@@ -381,8 +378,8 @@
       "assets/proof/proof-table.webp"
     ],
     "paras": [
-      "everyone up there had the same thing going on when we met them. the trading was fine and the students were already winning, the packaging just wasn't letting anyone find out. we sorted that part first and the numbers caught up after.",
-      "you're further along than most of them were. you've already written one title that worked, the student stories are sitting on your vip page, and the vsl's written off them."
+      "everyone up there had the same thing going on. the trading was fine, the students were winning, and the packaging wasn't letting anyone find out. we fixed that first and the numbers followed.",
+      "you're further along than most of them were. one title already worked, the student stories are on your vip page, and the vsl's written off them."
     ],
     "cta": {
       "label": "I want this implemented",

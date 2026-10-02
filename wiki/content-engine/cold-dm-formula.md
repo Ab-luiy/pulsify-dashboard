@@ -12,6 +12,8 @@ The repeatable structure for a first-touch cold DM that ships a pre-built asset 
 
 > ⚠️ Contradiction: this supersedes the DM voice in [[playbooks/pulse-system-outreach]] Step 4, which bans "bro"/casual openers and compliments and says "the asset is the message, no 'want me to send it over?'". The founder deliberately moved to a warmer, casual-peer voice with a genuine content compliment and a soft reply-inviting close. Resolution: for cold DMs, this page is the standard as of 2026-07-06. The old playbook's diagnostic Format A is retired for DMs; its research/follow-up/call steps still stand.
 
+> ⚠️ Contradiction (proposed 2026-10-02): [[playbooks/outreach-video-voice-touches]] tests an opener where the link is replaced by a 90 second video file and the link arrives when they reply. This page stays the standard and the control until 20 video-opener sends exist to compare.
+
 ## Why this matters for Pulsify
 
 The DM is the first three or four words a creator sees in an IG request preview. It decides whether they open it at all. The old diagnostic voice ("submitted your funnel, your Typeform lets unqualified leads through") reads like an audit from a stranger and triggers sales resistance. The new posture is a peer operator doing them a favor with zero ego and zero begging: I noticed something, I built you something in response, it's yours if you want it. That gets the reply.

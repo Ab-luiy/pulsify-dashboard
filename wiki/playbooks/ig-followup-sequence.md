@@ -118,6 +118,8 @@ Permission to be done, which draws a reply often enough to be worth sending. It 
 
 After touch 5 the thread is `dormant`, not `dead`.
 
+> Proposed 2026-10-02, untested: touch 2 can go as a 20 to 30 second voice note and touch 3 as a 60 second phone video sent to view once, with a 90 second video in the opener. Copy, scripts, gates and the 20-send test are in [[playbooks/outreach-video-voice-touches]]. When a thread replies, [[playbooks/reply-to-asset-sop]] takes over.
+
 ## Reopen track (state C)
 
 They have the asset and went quiet. Skip to touch 3. If touch 3 already ran and got a reply that revealed a blocker, as with `_acetrades_`, treat the blocker as the next asset: re-send the substance in the DM itself rather than re-sending the link.
