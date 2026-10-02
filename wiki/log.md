@@ -1977,3 +1977,5 @@ Released 2026-10-02: pulsify-saas main 9e0471e, Brain main 1e0dc471, Pages ddf0f
 Founder: handing the prompt to the client's own Claude or other AI is better than building our own agent in the app. Copywriter now follows the same switch as every Growth generator: with ANTHROPIC_API_KEY it generates, without it it returns the finished prompt (brand context inside) and the client pastes the answer back. Cloudflare Llama path and the 30/day cap removed. Carousel studio dropped Gemini and uses the shared Anthropic helper. Operator-side tools (generate.js, dashboard-generate.js, llm.js for briefs and weekly reports) still have their own callers; left for a later pass.
 
 Released 2026-10-02: pulsify-saas main 17734ec, Pages 04741545 (phase 2), no new migrations.
+
+Released 2026-10-02: Copywriter as a chat. pulsify-saas main 6650b40, Brain main export, Pages a34ebb48, no new migrations.
