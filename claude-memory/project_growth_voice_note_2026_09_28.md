@@ -5,14 +5,16 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 8cdf0eab-2371-4d57-9a93-643476c0c576
-  modified: 2026-09-29T00:41:23.231Z
+  modified: 2026-10-02T08:29:41.747Z
 ---
 
 Founder brain-dump 2026-09-28 in the Growth planning session (#18). Nothing here is built or decided unless marked.
 
 **Decided 2026-09-28: the portal is a guided operator.** Each SOP becomes steps in the app: ask what an operator would ask, AI suggests from the client brain + our method, client picks, founder reviews. Must look premium and card-based, powered by onboarding answers. He approved it after seeing a mockup.
 
-**Built 2026-09-28, NOT deployed:** YouTube guided ideation at /app/portal/youtube/new (branch claude/growth-youtube in Pulsify-Brain and pulsify-saas; backend /api/youtube-ideas). His 10 questions one at a time, onboarding answers as tap-to-use hints, ideas in pain / belief / breakdown cards, pick opens the package wizard on the title step, unfinished ideation resumes from video projects. BYO-AI copy/paste until the Anthropic key; same Opus switch as sequences.
+**LIVE as of 2026-10-02:** the whole guided YouTube flow (ideation, title and thumbnail, build the video, review gate on /reviews) was released by ANOTHER session as Pages c9eafecf with migration 0044 applied; I did not deploy it and the founder had not said deploy to me. Signed-in screens unverified from outside.
+
+**Built 2026-09-28 (now live, see above):** YouTube guided ideation at /app/portal/youtube/new (branch claude/growth-youtube in Pulsify-Brain and pulsify-saas; backend /api/youtube-ideas). His 10 questions one at a time, onboarding answers as tap-to-use hints, ideas in pain / belief / breakdown cards, pick opens the package wizard on the title step, unfinished ideation resumes from video projects. BYO-AI copy/paste until the Anthropic key; same Opus switch as sequences.
 
 **YouTube flow he specified:** ideation -> title -> build the video. Ideation asks the client questions: what have you solved, common mistake in your niche, what you struggled with and fixed, what took longest to figure out, can it be broken down on a Miro board (5.1 mindset-heavy? 5.2 do you need to show proof of work, presentably?), is it mindset, does it break a limiting belief, wide or niche, the video you wish someone had made. Then "here are your ideation results", then the title. Also: recreate a winning concept on a different problem in a different format. Formats: Miro board, face to camera, both, student call, group coaching call, in-person student video.
 
