@@ -73,6 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| output/prospect-asset-template/, output/bergtrades-asset-v2/ | CLAUDE | ACTIVE | 2026-10-02: prospect asset page redesigned on the homepage palette + app section, templatized (fill.py + JSON), Berg regenerated from it. Old output/bergtrades-page/ untouched (live). |
 | outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png} | CODEX | DONE | 2026-10-01: layout refined; lock cleared. |
 
 CODEX DONE 2026-09-30: outreach/resources/dont-be-a-guru/ — refined board styling, copy unchanged; lock cleared.

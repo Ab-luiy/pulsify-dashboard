@@ -1,0 +1,284 @@
+{#- Pulsify prospect asset page, v2. One template, one JSON per prospect (see ../data/). Every block is
+    optional: leave a key out and the slide disappears. Image keys left empty render a labelled slot, which
+    is what the blank template shows. -#}
+{%- macro pic(src, alt, label, cls='') -%}
+{%- if src -%}<img{% if cls %} class="{{ cls }}"{% endif %} src="{{ src }}" alt="{{ alt }}" loading="eager" decoding="async" draggable="false">
+{%- else -%}<div class="ph {{ cls }}" role="img" aria-label="{{ label }}"><span>{{ label }}</span></div>{%- endif -%}
+{%- endmacro -%}
+{%- macro app_note(a) -%}
+{%- if a -%}<p class="app-note" data-stage="annotation"><span class="pill info">in your dashboard</span><b>{{ a.where }}</b><span>{{ a.text|safe }}</span></p>{%- endif -%}
+{%- endmacro -%}
+{%- macro head(s, id) -%}
+<div class="head" data-stage="copy">
+  <p class="eyebrow"><b>{{ s.n }}</b></p>
+  <h2 id="{{ id }}">{{ s.title }}</h2>
+  {%- if s.intro %}<p>{{ s.intro|safe }}</p>{% endif %}
+</div>
+{%- endmacro -%}
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ meta.title }}</title>
+  <meta name="description" content="{{ meta.description }}">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0c0d">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ meta.title }}">
+  <meta property="og:description" content="{{ meta.description }}">
+{%- if meta.og_image %}
+  <meta property="og:image" content="{{ meta.og_image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ meta.og_image }}">
+{%- endif %}
+  <meta name="twitter:title" content="{{ meta.title }}">
+  <meta name="twitter:description" content="{{ meta.description }}">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <svg width="0" height="0" class="sr-only" aria-hidden="true">
+    <symbol id="mark" viewBox="0 0 64 64"><path fill="currentColor" fill-rule="evenodd" d="M32 2A30 30 0 1 1 31.999 62A30 30 0 0 1 32 2ZM32 7A25 25 0 1 0 32.001 57A25 25 0 0 0 32 7ZM29.2 8H34.8V29.2H56V34.8H34.8V56H29.2V34.8H8V29.2H29.2ZM38.615 8.93A24 24 0 0 1 55.07 25.385L50.264 26.763A19 19 0 0 0 37.237 13.736ZM36.41 16.62A16 16 0 0 1 47.38 27.59L43.055 28.83A11.5 11.5 0 0 0 35.17 20.945ZM55.07 38.615A24 24 0 0 1 38.615 55.07L37.237 50.264A19 19 0 0 0 50.264 37.237ZM47.38 36.41A16 16 0 0 1 36.41 47.38L35.17 43.055A11.5 11.5 0 0 0 43.055 35.17ZM25.385 55.07A24 24 0 0 1 8.93 38.615L13.736 37.237A19 19 0 0 0 26.763 50.264ZM27.59 47.38A16 16 0 0 1 16.62 36.41L20.945 35.17A11.5 11.5 0 0 0 28.83 43.055ZM8.93 25.385A24 24 0 0 1 25.385 8.93L26.763 13.736A19 19 0 0 0 13.736 26.763ZM16.62 27.59A16 16 0 0 1 27.59 16.62L28.83 20.945A11.5 11.5 0 0 0 20.945 28.83Z"/></symbol>
+  </svg>
+
+  <div class="progress-line" aria-hidden="true"><span></span></div>
+  <header class="nav-wrap">
+    <div class="nav">
+      <a class="nav-brand" href="#top" aria-label="Pulsify"><svg class="nav-mark" aria-hidden="true"><use href="#mark"/></svg><span>Pulsify</span></a>
+      <span class="nav-for">built for {{ brand.first }}</span>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO: what we made, in three lines -->
+    <section class="slide hero" data-reveal aria-labelledby="hero-title">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="slide-inner hero-inner">
+        <div data-stage="copy">
+          <p class="badge"><span class="dot" aria-hidden="true"></span>{{ hero.badge }}</p>
+          <h1 class="display" id="hero-title">{{ hero.headline }}</h1>
+          <div class="lede">{% for p in hero.lines %}<p>{{ p|safe }}</p>{% endfor %}</div>
+        </div>
+        {%- if hero.chips %}
+        <ul class="hero-chips" data-stage="annotation" aria-label="what is inside">
+          {%- for c in hero.chips %}<li><b class="pop">{{ c.num }}</b><span>{{ c.label }}</span></li>{% endfor %}
+        </ul>
+        {%- endif %}
+      </div>
+    </section>
+
+{%- if win %}
+    <!-- 1. THEIR OWN WIN: the proof they already made, and the formula behind it -->
+    <section class="slide" data-reveal aria-labelledby="win-title">
+      <div class="slide-inner">
+        {{ head(win, 'win-title') }}
+        <figure class="yt-card" data-stage="image">
+          {{ pic(win.video.img, win.video.title, '[their best video thumbnail]') }}
+          <figcaption>
+            <strong>{{ win.video.title }}</strong>
+            <span class="yt-views"><em class="pop">{{ win.video.views }}</em> views, {{ win.video.age }}</span>
+          </figcaption>
+        </figure>
+        <div class="prose" data-stage="copy">{% for p in win.paragraphs %}<p>{{ p|safe }}</p>{% endfor %}</div>
+        {%- for f in win.formulas %}
+        <div class="formula" data-stage="copy"><small>{{ f.label }}</small>{% for l in f.lines %}<p>{{ l }}</p>{% endfor %}</div>
+        {%- endfor %}
+        {%- if win.after %}<div class="prose" data-stage="copy">{% for p in win.after %}<p>{{ p|safe }}</p>{% endfor %}</div>{% endif %}
+        {{ app_note(win.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if content %}
+    <!-- 2. HOW CONTENT WORKS: the idea as three numbers, not a paragraph -->
+    <section class="slide" data-reveal aria-labelledby="content-title">
+      <div class="slide-inner">
+        {{ head(content, 'content-title') }}
+        <div class="prose" data-stage="copy" style="margin-top:0">{% for p in content.paragraphs %}<p>{{ p|safe }}</p>{% endfor %}</div>
+        <ul class="stats" data-stage="image">
+          {%- for s in content.stats %}<li class="stat"><b class="pop">{{ s.num }}</b><span>{{ s.label }}</span></li>{% endfor %}
+        </ul>
+        {{ app_note(content.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if ideas %}
+    <!-- 3. THE VIDEOS, EACH WITH THE FRAME IT IS BUILT ON -->
+    <section class="slide" data-reveal aria-labelledby="ideas-title">
+      <div class="slide-inner">
+        {{ head(ideas, 'ideas-title') }}
+        <ol class="ideas" data-stage="image">
+          {%- for it in ideas.items %}
+          <li class="card idea">
+            <figure class="idea-ref">
+              {{ pic(it.ref_img, it.ref_alt or it.title, '[reference frame]') }}
+              {%- if it.ref_label %}<figcaption>{{ it.ref_label }}</figcaption>{% endif %}
+            </figure>
+            <div class="idea-body">
+              <div class="idea-top"><span class="idea-n">{{ loop.index }}</span>{% if it.tag %}<span class="pill {{ it.tag_kind or 'good' }}">{{ it.tag }}</span>{% endif %}</div>
+              <h3>{{ it.title }}</h3>
+              {%- if it.frame %}<p class="idea-frame">{{ it.frame }}</p>{% endif %}
+            </div>
+          </li>
+          {%- endfor %}
+        </ol>
+        {{ app_note(ideas.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if packaging %}
+    <!-- 4. PACKAGING BEFORE / AFTER, a real case with real numbers -->
+    <section class="slide" data-reveal aria-labelledby="pack-title">
+      <div class="slide-inner">
+        {{ head(packaging, 'pack-title') }}
+        <div class="pack">
+          {%- for c in packaging.cards %}
+          <figure class="pack-card" data-stage="image">
+            {{ pic(c.img, c.title, '[packaged thumbnail]') }}
+            <figcaption><strong>{{ c.title }}</strong><span class="pack-count"><em class="pop">{{ c.count }}</em> views</span></figcaption>
+          </figure>
+          {%- endfor %}
+        </div>
+        {%- if packaging.followup %}<p class="followup" data-stage="copy">{{ packaging.followup|safe }}</p>{% endif %}
+        {{ app_note(packaging.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if bio %}
+    <!-- 5. BIO, rebuilt side by side -->
+    <section class="slide" data-reveal aria-labelledby="bio-title">
+      <div class="slide-inner">
+        {{ head(bio, 'bio-title') }}
+        <div class="phones">
+          <figure class="phone" data-stage="image"><figcaption><span class="pill bad">current</span></figcaption>{{ pic(bio.current_img, 'current profile', '[their current profile screenshot]', 'ph-tall') }}</figure>
+          <figure class="phone" data-stage="annotation"><figcaption><span class="pill good">rebuilt</span></figcaption>{{ pic(bio.rebuilt_img, 'rebuilt profile', '[the rebuilt profile]', 'ph-tall') }}</figure>
+        </div>
+        <div class="card bio-card" data-stage="copy">
+          <small>the rebuilt bio</small>
+          {%- for l in bio.lines %}<p>{{ l }}</p>{% endfor %}
+          {%- if bio.link %}<p class="link">{{ bio.link }}</p>{% endif %}
+        </div>
+        {%- if bio.rail %}
+        <ul class="rail" data-stage="annotation" aria-label="highlights">{% for r in bio.rail %}<li><i></i>{{ r }}</li>{% endfor %}</ul>
+        {%- endif %}
+        {%- if bio.followup %}<p class="followup" data-stage="copy">{{ bio.followup|safe }}</p>{% endif %}
+        {{ app_note(bio.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if quick %}
+    <!-- 6. QUICK FIXES as before / after rows -->
+    <section class="slide" data-reveal aria-labelledby="quick-title">
+      <div class="slide-inner">
+        {{ head(quick, 'quick-title') }}
+        <div class="diffs" data-stage="image">
+          {%- for r in quick.rows %}
+          <div class="card diff">
+            <div class="diff-side before"><span class="pill bad">now</span><code>{{ r.before }}</code></div>
+            <div class="diff-side after"><span class="pill good">rebuilt</span><code>{{ r.after }}</code></div>
+            {%- if r.note %}<p class="diff-note">{{ r.note|safe }}</p>{% endif %}
+          </div>
+          {%- endfor %}
+        </div>
+        {{ app_note(quick.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if vsl %}
+    <!-- 7. THE VSL, six steps, each one opens -->
+    <section class="slide" data-reveal aria-labelledby="vsl-title">
+      <div class="slide-inner">
+        {{ head(vsl, 'vsl-title') }}
+        <div class="steps" data-stage="image">
+          {%- for s in vsl.steps %}
+          <details class="card step"{% if loop.first %} open{% endif %}>
+            <summary><span class="step-n">{{ loop.index }}</span><span class="t"><strong>{{ s.title }}</strong><small>{{ s.sub }}</small></span></summary>
+            <div class="step-body">
+              {%- if s.quote %}<blockquote>{{ s.quote }}</blockquote>{% endif %}
+              {%- for p in s.body %}<p>{{ p|safe }}</p>{% endfor %}
+            </div>
+          </details>
+          {%- endfor %}
+        </div>
+        {{ app_note(vsl.app) }}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if app %}
+    <!-- 8. THE APP: what takes the rest off their plate -->
+    <section class="slide" data-reveal aria-labelledby="app-title">
+      <div class="slide-inner">
+        {{ head(app, 'app-title') }}
+        <div class="tiles">
+          {%- for t in app.tiles %}
+          <figure class="tile" data-stage="image">
+            <div class="tile-ui">
+              {%- if t.kind == 'ranked' %}
+              <div class="t-table">{% for r in t.rows %}<p><span>{{ r.title }}</span><em>{{ r.views }}</em><b>{{ r.cash }}</b></p>{% endfor %}</div>
+              {%- elif t.kind == 'link' %}
+              <div class="t-link"><code>{{ t.code }}</code><span>Copy</span></div><p class="t-sub">{{ t.sub }}</p>
+              {%- elif t.kind == 'formula' %}
+              <div class="t-thumb"><span class="t-thumb-img">{% if t.img %}<img src="{{ t.img }}" alt="">{% endif %}</span><div><b>{{ t.title }}</b><small>{{ t.sub }}</small></div></div>
+              {%- elif t.kind == 'story' %}
+              <div class="t-story"><i></i><i></i><i></i><i></i></div><p class="t-sub">{{ t.sub }}</p>
+              {%- elif t.kind == 'approve' %}
+              <p class="t-approve"><span class="pill info">ready for review</span><span class="t-btn">Approve</span></p><p class="t-sub">{{ t.sub }}</p>
+              {%- elif t.kind == 'journey' %}
+              <div class="t-journey">{% for s in t.steps %}<p><i{% if loop.last %} class="on"{% endif %}></i>{{ s }}</p>{% endfor %}</div>
+              {%- elif t.kind == 'steps' %}
+              <div class="t-steps">{% for g in t.grades %}<span class="pill {{ g.cls }}">{{ g.label }}</span>{% if not loop.last %}<i></i>{% endif %}{% endfor %}</div><p class="t-sub">{{ t.sub }}</p>
+              {%- elif t.kind == 'payment' %}
+              <div class="t-row"><span class="pill good">matched</span><p>{{ t.text|safe }}<br><small>{{ t.sub }}</small></p></div>
+              {%- endif %}
+            </div>
+            <figcaption>{{ t.caption|safe }}</figcaption>
+          </figure>
+          {%- endfor %}
+        </div>
+        {%- if app.fine %}<p class="fine" data-stage="copy">{{ app.fine }}</p>{% endif %}
+      </div>
+    </section>
+{%- endif %}
+
+{%- if close %}
+    <!-- CLOSE: the number as type, its receipt, the metrics, the people, the ask -->
+    <section class="slide close-slide" data-reveal aria-labelledby="close-title">
+      <div class="close-backdrop" data-close-backdrop aria-hidden="true">
+        <div class="cb-layer" data-cb-layer>
+          {%- if close.people %}{% for i in range(24) %}<img src="{{ close.people[i % (close.people|length)] }}" alt="" loading="eager" decoding="async" draggable="false">{% endfor %}{% endif %}
+        </div>
+      </div>
+      <div class="slide-inner close-inner">
+        <div class="close-col" data-stage="copy">
+          <h2 id="close-title">{{ close.heading }}</h2>
+          <p class="proof-figure pop">{{ close.figure }}</p>
+          <p class="proof-note">{{ close.figure_note }}</p>
+        </div>
+        <figure class="receipt" data-stage="image">{{ pic(close.receipt.img, close.receipt.alt, '[receipt screenshot that proves the number]') }}</figure>
+        <div class="wall" data-proof-wall data-stage="image">
+          {%- for w in close.wall %}<figure class="pw-item" data-shot="{{ w.shot }}">{{ pic(w.img, w.alt, '[proof screenshot]') }}</figure>{% endfor %}
+        </div>
+        <div class="people" data-stage="image" aria-hidden="true">
+          {%- if close.people %}{% for p in close.people %}<img src="{{ p }}" alt="" loading="eager" decoding="async" draggable="false">{% endfor %}
+          {%- else %}{% for i in range(4) %}<div class="ph">[client photo]</div>{% endfor %}{% endif %}
+        </div>
+        <div class="close-col close-tail">
+          {%- for p in close.copy %}<p data-stage="copy">{{ p }}</p>{% endfor %}
+          <a id="cta-primary" class="cta" data-cta="primary" data-stage="annotation" href="{{ close.cta.href }}">{{ close.cta.label }}</a>
+        </div>
+      </div>
+    </section>
+{%- endif %}
+  </main>
+</body>
+</html>
