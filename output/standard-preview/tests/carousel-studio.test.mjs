@@ -250,13 +250,13 @@ async function testManualGenerateAndSanitizer() {
 
 async function testLlmPathWhenKeyExists() {
   const { env, alphaToken } = await createEnv();
-  env.GEMINI_API_KEY = "test-key";
+  env.ANTHROPIC_API_KEY = "test-key";
   const originalFetch = globalThis.fetch;
   let called = false;
   globalThis.fetch = async () => {
     called = true;
     return new Response(JSON.stringify({
-      candidates: [{ content: { parts: [{ text: JSON.stringify({
+      content: [{ type: "text", text: JSON.stringify({
         structure: "philosophy",
         title: "Beliefs",
         slides: Array.from({ length: 7 }, (_, index) => ({
@@ -267,7 +267,7 @@ async function testLlmPathWhenKeyExists() {
           cta: index === 6 ? "DM SYSTEM" : "",
           design: { image_class: index === 1 ? "lifestyle-frame" : "real-workspace" },
         })),
-      }) }] } }],
+      }) }],
     }), { status: 200, headers: { "content-type": "application/json" } });
   };
   try {
@@ -285,7 +285,7 @@ async function testLlmPathWhenKeyExists() {
     const body = await response.json();
     assert.equal(called, true);
     assert.equal(body.mode, "generated");
-    assert.equal(body.provider, "gemini");
+    assert.equal(body.provider, "anthropic");
     assert.notEqual(body.output.slides[1].design.image_class.type, "lifestyle-frame");
     assert.match(body.output.slides[6].cta, /^DM SYSTEM/);
   } finally {

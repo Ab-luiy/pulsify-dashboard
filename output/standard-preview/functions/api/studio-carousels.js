@@ -4,6 +4,7 @@ import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { clientLabel, notify } from "../_shared/notifications.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
+import { callAnthropic, parseModelJson } from "../_shared/anthropic.js";
 import {
   buildCarouselPrompt,
   buildManualCarouselOutput,
@@ -121,12 +122,10 @@ async function generateCarousel(env, access, body) {
   let provider = "";
   let output = buildManualCarouselOutput(input);
   let reviewNote = null;
-  if (!forceManual && (env.GEMINI_API_KEY || env.ANTHROPIC_API_KEY)) {
-    provider = env.GEMINI_API_KEY ? "gemini" : "anthropic";
+  if (!forceManual && env.ANTHROPIC_API_KEY) {
+    provider = "anthropic";
     try {
-      const raw = provider === "gemini"
-        ? await callGemini(prompt, env.GEMINI_API_KEY)
-        : await callAnthropic(prompt, env.ANTHROPIC_API_KEY);
+      const raw = await callAnthropic(prompt, env.ANTHROPIC_API_KEY);
       output = sanitizeCarouselOutput(parseModelJson(raw), { structure, topic, goal, triggerWord, slideCount });
       mode = "generated";
     } catch (error) {
@@ -287,58 +286,6 @@ function serializeRow(row) {
 function normalizeStatusFilter(value) {
   const status = String(value || "").trim().toLowerCase();
   return ["draft", "review", "approved", "rejected"].includes(status) ? status : "";
-}
-
-async function callGemini(prompt, apiKey) {
-  const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
-    body: JSON.stringify({
-      contents: [
-        { role: "user", parts: [{ text: prompt.system }] },
-        { role: "user", parts: [{ text: prompt.user }] },
-      ],
-      generationConfig: { temperature: 0.5, responseMimeType: "application/json" },
-    }),
-  });
-  if (!response.ok) throw new Error(`${response.status}: ${(await response.text()).slice(0, 400)}`);
-  const data = await response.json();
-  const text = (data?.candidates?.[0]?.content?.parts || []).map((part) => part?.text || "").join("");
-  if (!text) throw new Error("Gemini returned no text");
-  return text;
-}
-
-async function callAnthropic(prompt, apiKey) {
-  const response = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: "claude-sonnet-5",
-      max_tokens: 4000,
-      system: prompt.system,
-      messages: [{ role: "user", content: prompt.user }],
-    }),
-  });
-  if (!response.ok) throw new Error(`${response.status}: ${(await response.text()).slice(0, 400)}`);
-  const data = await response.json();
-  const text = (data?.content || []).map((block) => block?.text || "").join("");
-  if (!text) throw new Error("Anthropic returned no text");
-  return text;
-}
-
-function parseModelJson(raw) {
-  const text = String(raw || "").trim()
-    .replace(/^```(?:json)?\s*/i, "")
-    .replace(/```\s*$/i, "")
-    .trim();
-  const start = text.indexOf("{");
-  const end = text.lastIndexOf("}");
-  if (start === -1 || end < start) throw new Error("No JSON object found.");
-  return JSON.parse(text.slice(start, end + 1));
 }
 
 function safeMessage(error) {
