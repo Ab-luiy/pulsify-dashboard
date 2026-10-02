@@ -2,7 +2,7 @@
     optional: leave a key out and the slide disappears. Image keys left empty render a labelled slot, which
     is what the blank template shows. -#}
 {%- macro pic(src, alt, label, cls='') -%}
-{%- if src -%}<img{% if cls %} class="{{ cls }}"{% endif %} src="{{ src }}" alt="{{ alt }}" loading="eager" decoding="async" draggable="false">
+{%- if src -%}<img{% if cls %} class="{{ cls }}"{% endif %} src="{{ src }}" alt="{{ alt }}" loading="eager" draggable="false">
 {%- else -%}<div class="ph {{ cls }}" role="img" aria-label="{{ label }}"><span>{{ label }}</span></div>{%- endif -%}
 {%- endmacro -%}
 {%- macro app_note(a) -%}
@@ -261,7 +261,7 @@
     <section class="slide close-slide" data-reveal aria-labelledby="close-title">
       <div class="close-backdrop" data-close-backdrop aria-hidden="true">
         <div class="cb-layer" data-cb-layer>
-          {%- if close.people %}{% for i in range(24) %}<img src="{{ close.people[i % (close.people|length)] }}" alt="" loading="eager" decoding="async" draggable="false">{% endfor %}{% endif %}
+          {%- if close.people %}{% for i in range(24) %}<img src="{{ close.people[i % (close.people|length)] }}" alt="" loading="eager" draggable="false">{% endfor %}{% endif %}
         </div>
       </div>
       <div class="slide-inner close-inner">
@@ -275,7 +275,7 @@
           {%- for w in close.wall %}<figure class="pw-item" data-shot="{{ w.shot }}">{{ pic(w.img, w.alt, '[proof screenshot]') }}</figure>{% endfor %}
         </div>
         <div class="people" data-stage="image" aria-hidden="true">
-          {%- if close.people %}{% for p in close.people %}<img src="{{ p }}" alt="" loading="eager" decoding="async" draggable="false">{% endfor %}
+          {%- if close.people %}{% for p in close.people %}<img src="{{ p }}" alt="" loading="eager" draggable="false">{% endfor %}
           {%- else %}{% for i in range(4) %}<div class="ph">[client photo]</div>{% endfor %}{% endif %}
         </div>
         <div class="close-col close-tail">

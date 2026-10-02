@@ -6,6 +6,7 @@
 Writes a throwaway _capture.html (reveal animation forced on, nothing in index.html changes), screenshots
 it with headless Chrome, then slices the tall image into chunks small enough to read.
 """
+import os
 import subprocess
 import sys
 import tempfile
@@ -28,7 +29,8 @@ def main():
     out.mkdir(parents=True, exist_ok=True)
 
     html = (page / "index.html").read_text(encoding="utf-8")
-    html = html.replace("<html ", '<html data-proof-freeze ', 1).replace("</head>", OVERRIDE, 1)
+    extra = os.environ.get("CAPTURE_CSS", "")
+    html = html.replace("<html ", '<html data-proof-freeze ', 1).replace("</head>", OVERRIDE.replace("</style>", extra + "</style>"), 1)
     cap = page / "_capture.html"
     cap.write_text(html, encoding="utf-8")
     shot = out / f"full-{width}.png"
@@ -45,7 +47,7 @@ def main():
     bg = im.getpixel((2, im.height - 2))
     last = im.height
     px = im.convert("RGB")
-    while last > 10 and all(px.getpixel((x, last - 1)) == bg for x in range(0, im.width, max(1, im.width // 24))):
+    while height > 700 and last > 10 and all(px.getpixel((x, last - 1)) == bg for x in range(0, im.width, max(1, im.width // 24))):
         last -= 1
     im = im.crop((0, 0, im.width, min(im.height, last + 4)))
     im.save(shot)

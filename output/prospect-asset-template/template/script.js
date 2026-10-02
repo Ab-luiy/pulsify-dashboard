@@ -208,39 +208,34 @@
     return;
   }
 
-  if (!("IntersectionObserver" in window)) {
-    root.dataset.motion = "unsupported";
-    return;
-  }
-
-  const markInitialSlides = () => {
-    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-
+  // Slides wake up from the scroll position itself (no IntersectionObserver), so a jump to any part of
+  // the page, a throttled tab or an in-app browser still lands on content that is already showing.
+  // A slide is active once a fair slice of it sits inside the middle 80% of the viewport; judged against
+  // the smaller of the slide and that band, so a slide taller than the screen still wakes up.
+  let evalFrame = 0;
+  const evaluate = () => {
+    evalFrame = 0;
+    const vh = window.innerHeight || document.documentElement.clientHeight || 1;
+    const top = vh * 0.1;
+    const bottom = vh * 0.9;
     reveals.forEach((section) => {
-      const bounds = section.getBoundingClientRect();
-      const isVisible = bounds.bottom > viewportHeight * 0.12 && bounds.top < viewportHeight * 0.88;
-      section.classList.toggle("is-active", isVisible);
+      const b = section.getBoundingClientRect();
+      const overlap = Math.max(0, Math.min(b.bottom, bottom) - Math.max(b.top, top));
+      const room = Math.max(1, Math.min(b.height, bottom - top));
+      section.classList.toggle("is-active", overlap / room >= 0.14);
     });
   };
+  const queueEvaluate = () => {
+    if (!evalFrame) evalFrame = window.requestAnimationFrame(evaluate);
+  };
 
-  markInitialSlides();
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      const active = entry.isIntersecting && entry.intersectionRatio >= 0.12;
-      entry.target.classList.toggle("is-active", active);
-    });
-  }, {
-    root: null,
-    rootMargin: "-10% 0px -10% 0px",
-    threshold: [0, 0.06, 0.12, 0.24, 0.5, 0.75]
-  });
-
-  reveals.forEach((section) => observer.observe(section));
+  evaluate();
+  window.addEventListener("scroll", queueEvaluate, { passive: true });
+  window.addEventListener("resize", queueEvaluate, { passive: true });
+  window.addEventListener("load", queueEvaluate);
 
   window.requestAnimationFrame(() => {
     root.classList.add("motion-ready");
     root.dataset.motion = "ready";
   });
 })();
-

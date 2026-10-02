@@ -4,7 +4,9 @@
     "description": "[one sentence for the link preview]",
     "og_image": ""
   },
-  "brand": { "first": "[first name]" },
+  "brand": {
+    "first": "[first name]"
+  },
   "hero": {
     "badge": "built for [prospect name]",
     "headline": "[headline, what we made them]",
@@ -14,60 +16,162 @@
       "[line 3: the third thing we built]"
     ],
     "chips": [
-      { "num": "[n]", "label": "[thing built]" },
-      { "num": "[n]", "label": "[thing built]" },
-      { "num": "[n]", "label": "[thing built]" }
+      {
+        "num": "[n]",
+        "label": "[thing built]"
+      },
+      {
+        "num": "[n]",
+        "label": "[thing built]"
+      },
+      {
+        "num": "[n]",
+        "label": "[thing built]"
+      }
     ]
   },
   "win": {
     "n": "1",
     "title": "[the proof they already made]",
-    "video": { "img": "", "title": "[their best video title, exact]", "views": "[views]", "age": "[age]" },
+    "video": {
+      "img": "",
+      "title": "[their best video title, exact]",
+      "views": "[views]",
+      "age": "[age]"
+    },
     "paragraphs": [
       "[their best against their recent: real numbers, both public]",
       "[what the winning one did that the recent ones stopped doing]",
       "[the one voice rule that carries their register]"
     ],
     "formulas": [
-      { "label": "the formula", "lines": ["[the title formula, in brackets]"] },
-      { "label": "same video, written properly", "lines": ["[their winning video, rewritten to the formula]", "[a second version]"] }
+      {
+        "label": "the formula",
+        "lines": [
+          "[the title formula, in brackets]"
+        ]
+      },
+      {
+        "label": "same video, written properly",
+        "lines": [
+          "[their winning video, rewritten to the formula]",
+          "[a second version]"
+        ]
+      }
     ],
-    "after": ["[one line on why the formula works]"],
-    "app": { "where": "Content", "text": "[what the app does with this: formula bank, approval before anything goes out]" }
+    "after": [
+      "[one line on why the formula works]"
+    ],
+    "app": {
+      "where": "Content",
+      "text": "[what the app does with this: formula bank, approval before anything goes out]"
+    }
   },
   "content": {
     "n": "2",
     "title": "[how content works, in their terms]",
-    "paragraphs": ["[content primes everything, packaging decides if it gets seen]", "[why the link in the bio matters, then the 7-11-4]"],
-    "stats": [
-      { "num": "7", "label": "hours of you, roughly, before someone buys" },
-      { "num": "11", "label": "touchpoints along the way" },
-      { "num": "4", "label": "places they meet you" }
+    "paragraphs": [
+      "[content primes everything, packaging decides if it gets seen]",
+      "[why the link in the bio matters, then the 7-11-4]"
     ],
-    "app": { "where": "Home", "text": "[the path every lead took is counted for you]" }
+    "stats": [
+      {
+        "num": "7",
+        "label": "hours of you, roughly, before someone buys"
+      },
+      {
+        "num": "11",
+        "label": "touchpoints along the way"
+      },
+      {
+        "num": "4",
+        "label": "places they meet you"
+      }
+    ],
+    "app": {
+      "where": "Home",
+      "text": "[the path every lead took is counted for you]"
+    }
   },
   "ideas": {
     "n": "3",
     "title": "[n] videos, ready to film",
     "intro": "[where the material already exists, and the formula they are written to]",
     "videos": [
-      { "title": "[video title 1]", "tag": "[source]", "tag_kind": "good", "ref_img": "", "ref_label": "[reference frame, views]", "frame": "[what is in the frame and why it works]" },
-      { "title": "[video title 2]", "tag": "[source]", "tag_kind": "good", "ref_img": "", "ref_label": "[reference frame, views]", "frame": "[what is in the frame and why it works]" },
-      { "title": "[video title 3]", "tag": "[source]", "tag_kind": "good", "ref_img": "", "ref_label": "[reference frame, views]", "frame": "[what is in the frame and why it works]" },
-      { "title": "[video title 4]", "tag": "[source]", "tag_kind": "info", "ref_img": "", "ref_label": "[reference frame, views]", "frame": "[what is in the frame and why it works]" },
-      { "title": "[video title 5]", "tag": "[source]", "tag_kind": "info", "ref_img": "", "ref_label": "[reference frame, views]", "frame": "[what is in the frame and why it works]" },
-      { "title": "[video title 6]", "tag": "new", "tag_kind": "warn", "ref_img": "", "ref_label": "[reference frame, views]", "frame": "[what is in the frame and why it works]" }
+      {
+        "title": "[video title 1]",
+        "tag": "[source]",
+        "tag_kind": "good",
+        "ref_img": "",
+        "ref_label": "[reference frame, views]",
+        "frame": "[what is in the frame and why it works]"
+      },
+      {
+        "title": "[video title 2]",
+        "tag": "[source]",
+        "tag_kind": "good",
+        "ref_img": "",
+        "ref_label": "[reference frame, views]",
+        "frame": "[what is in the frame and why it works]"
+      },
+      {
+        "title": "[video title 3]",
+        "tag": "[source]",
+        "tag_kind": "good",
+        "ref_img": "",
+        "ref_label": "[reference frame, views]",
+        "frame": "[what is in the frame and why it works]"
+      },
+      {
+        "title": "[video title 4]",
+        "tag": "[source]",
+        "tag_kind": "info",
+        "ref_img": "",
+        "ref_label": "[reference frame, views]",
+        "frame": "[what is in the frame and why it works]"
+      },
+      {
+        "title": "[video title 5]",
+        "tag": "[source]",
+        "tag_kind": "info",
+        "ref_img": "",
+        "ref_label": "[reference frame, views]",
+        "frame": "[what is in the frame and why it works]"
+      },
+      {
+        "title": "[video title 6]",
+        "tag": "new",
+        "tag_kind": "warn",
+        "ref_img": "",
+        "ref_label": "[reference frame, views]",
+        "frame": "[what is in the frame and why it works]"
+      }
     ],
-    "app": { "where": "Content", "text": "[all of them sit in the pipeline as ready for review]" }
+    "app": {
+      "where": "Content",
+      "text": "[all of them sit in the pipeline as ready for review]"
+    }
   },
   "packaging": {
     "n": "4",
     "title": "and the frames",
     "intro": "[the case study, one line]",
     "cards": [
-      { "img": "", "title": "[packaged video title 1]", "count": "[views]" },
-      { "img": "", "title": "[packaged video title 2]", "count": "[views]" },
-      { "img": "", "title": "[packaged video title 3]", "count": "[views]" }
+      {
+        "img": "",
+        "title": "[packaged video title 1]",
+        "count": "[views]"
+      },
+      {
+        "img": "",
+        "title": "[packaged video title 2]",
+        "count": "[views]"
+      },
+      {
+        "img": "",
+        "title": "[packaged video title 3]",
+        "count": "[views]"
+      }
     ],
     "followup": "[channel size and the average before, one line]"
   },
@@ -77,9 +181,16 @@
     "intro": "[what changed in the bio and the one tap it earns]",
     "current_img": "",
     "rebuilt_img": "",
-    "lines": ["[bio line 1]", "[bio line 2]"],
+    "lines": [
+      "[bio line 1]",
+      "[bio line 2]"
+    ],
     "link": "[profile link]",
-    "rail": ["start here", "my story", "results"],
+    "rail": [
+      "start here",
+      "my story",
+      "results"
+    ],
     "followup": "[the highlight rail, one line]"
   },
   "quick": {
@@ -87,66 +198,190 @@
     "title": "[n] quick ones",
     "intro": "small, and each one is a ten minute fix.",
     "rows": [
-      { "before": "[what it says now, exact]", "after": "[what it should say]", "note": "[why, one line]" },
-      { "before": "[what it says now, exact]", "after": "[what it should say]", "note": "[why, one line]" },
-      { "before": "[what it says now, exact]", "after": "[what it should say]", "note": "[why, one line]" }
+      {
+        "before": "[what it says now, exact]",
+        "after": "[what it should say]",
+        "note": "[why, one line]"
+      },
+      {
+        "before": "[what it says now, exact]",
+        "after": "[what it should say]",
+        "note": "[why, one line]"
+      },
+      {
+        "before": "[what it says now, exact]",
+        "after": "[what it should say]",
+        "note": "[why, one line]"
+      }
     ],
-    "app": { "where": "Links", "text": "a tracked link for each description, so you see which video sent which application." }
+    "app": {
+      "where": "YouTube",
+      "text": "a tracked link for each description, so you see which video sent which application."
+    }
   },
   "vsl": {
     "n": "7",
     "title": "[their vsl, rewritten]",
     "intro": "[open on the replacement, not the mess. one line on the framework, per the visual standard]",
     "steps": [
-      { "title": "the hook", "sub": "say what you'll do for them, in one line", "quote": "[the hook line, in their voice]", "body": ["[why this line carries the first fifteen seconds]"] },
-      { "title": "why you", "sub": "your story, once they know why to listen", "body": ["[where they were]", "[what changed]", "[what it bought, real numbers only]", "[the life: leave open if it is theirs to say]"] },
-      { "title": "buying motives", "sub": "why people actually come to you, most common first", "body": ["[the motives, most common first]"] },
-      { "title": "the offer", "sub": "what it is, how long, what they get, what it costs", "body": ["[the price gets said out loud. leave the number for them if we do not have it]"] },
-      { "title": "objections", "sub": "the real ones, from their own videos", "body": ["[the objections they already answer on camera]"] },
-      { "title": "qualification and the ask", "sub": "their own line, then one action", "body": ["[their own disqualifier, word for word, then one action]"] }
+      {
+        "title": "the hook",
+        "sub": "say what you'll do for them, in one line",
+        "quote": "[the hook line, in their voice]",
+        "body": [
+          "[why this line carries the first fifteen seconds]"
+        ]
+      },
+      {
+        "title": "why you",
+        "sub": "your story, once they know why to listen",
+        "body": [
+          "[where they were]",
+          "[what changed]",
+          "[what it bought, real numbers only]",
+          "[the life: leave open if it is theirs to say]"
+        ]
+      },
+      {
+        "title": "buying motives",
+        "sub": "why people actually come to you, most common first",
+        "body": [
+          "[the motives, most common first]"
+        ]
+      },
+      {
+        "title": "the offer",
+        "sub": "what it is, how long, what they get, what it costs",
+        "body": [
+          "[the price gets said out loud. leave the number for them if we do not have it]"
+        ]
+      },
+      {
+        "title": "objections",
+        "sub": "the real ones, from their own videos",
+        "body": [
+          "[the objections they already answer on camera]"
+        ]
+      },
+      {
+        "title": "qualification and the ask",
+        "sub": "their own line, then one action",
+        "body": [
+          "[their own disqualifier, word for word, then one action]"
+        ]
+      }
     ],
-    "app": { "where": "Pages", "text": "the vsl, the application and the booking sit on one page, and every step from play to booked call is counted." }
+    "app": {
+      "where": "Home",
+      "text": "the vsl, the application and the booking sit on one page, and every step from play to booked call is counted."
+    }
   },
   "app": {
     "n": "8",
     "title": "most of this runs from your dashboard",
     "intro": "none of the above is a one-off. the titles, the links, the story sequences and the numbers behind them live in one place, and you approve everything before it goes out.",
     "tiles": [
-      { "kind": "ranked", "rows": [
-          { "title": "[their video 1]", "views": "[views]", "cash": "not linked" },
-          { "title": "[their video 2]", "views": "[views]", "cash": "not linked" },
-          { "title": "[their video 3]", "views": "[views]", "cash": "not linked" },
-          { "title": "[their video 4]", "views": "[views]", "cash": "not linked" } ],
-        "caption": "<b>every video ranked by the cash it brought in</b>, once your payments are linked." },
-      { "kind": "link", "code": "pulsify-ai.com/a/k7Qp2mX4", "sub": "description link, example",
-        "caption": "<b>a tracked link for every video</b>, so no description needs a bare shortener again." },
-      { "kind": "formula", "img": "", "title": "[their winning title, rewritten]", "sub": "formula: [the formula]",
-        "caption": "<b>titles and thumbnails built from formulas that already worked</b>, starting from your own." },
-      { "kind": "story", "sub": "credibility sequence, 4 slides, ready for review",
-        "caption": "<b>story sequences drafted in your voice</b>. nothing posts without your yes." },
-      { "kind": "journey", "steps": ["came from your video", "watched your vsl", "applied", "booked a call"],
-        "caption": "<b>the path each lead took</b>, counted from your page and your calendar." },
-      { "kind": "payment", "text": "<b>[payment platform] payment</b>", "sub": "tied to the buyer who came from your video",
-        "caption": "<b>payments matched to the person who paid</b>, so cash can be traced back to a video." }
+      {
+        "kind": "ranked",
+        "rows": [
+          {
+            "title": "[their video 1]",
+            "views": "[views]",
+            "cash": "not linked"
+          },
+          {
+            "title": "[their video 2]",
+            "views": "[views]",
+            "cash": "not linked"
+          },
+          {
+            "title": "[their video 3]",
+            "views": "[views]",
+            "cash": "not linked"
+          },
+          {
+            "title": "[their video 4]",
+            "views": "[views]",
+            "cash": "not linked"
+          }
+        ],
+        "caption": "<b>every video ranked by the cash it brought in</b>, once your payments are linked."
+      },
+      {
+        "kind": "link",
+        "code": "pulsify-ai.com/a/k7Qp2mX4",
+        "sub": "description link, example",
+        "caption": "<b>a tracked link for every video</b>, so no description needs a bare shortener again."
+      },
+      {
+        "kind": "formula",
+        "img": "",
+        "title": "[their winning title, rewritten]",
+        "sub": "formula: [the formula]",
+        "caption": "<b>titles and thumbnails built from formulas that already worked</b>, starting from your own."
+      },
+      {
+        "kind": "story",
+        "sub": "credibility sequence, 4 slides, ready for review",
+        "caption": "<b>story sequences drafted in your voice</b>. nothing posts without your yes."
+      },
+      {
+        "kind": "journey",
+        "steps": [
+          "came from your video",
+          "watched your vsl",
+          "applied",
+          "booked a call"
+        ],
+        "caption": "<b>the path each lead took</b>, counted from your page and your calendar."
+      },
+      {
+        "kind": "payment",
+        "text": "<b>[payment platform] payment</b>",
+        "sub": "tied to the buyer who came from your video",
+        "caption": "<b>payments matched to the person who paid</b>, so cash can be traced back to a video."
+      }
     ],
     "fine": "layout only. nothing here is counted for you until your page, calendar and payments are connected, and every figure shows the numbers it came from."
   },
   "close": {
     "heading": "we've done this before.",
-    "figure": "[$ figure]",
+    "figure": "$00,000",
     "figure_note": "[the figure, in one supporting line, every number read off the receipt]",
-    "receipt": { "img": "", "alt": "[what the receipt shows]" },
+    "receipt": {
+      "img": "",
+      "alt": "[what the receipt shows]"
+    },
     "wall": [
-      { "shot": "closed-list", "img": "", "alt": "[proof screenshot]" },
-      { "shot": "payment", "img": "", "alt": "[proof screenshot]" },
-      { "shot": "dashboard", "img": "", "alt": "[proof screenshot]" },
-      { "shot": "cash", "img": "", "alt": "[proof screenshot]" }
+      {
+        "shot": "closed-list",
+        "img": "",
+        "alt": "[proof screenshot]"
+      },
+      {
+        "shot": "payment",
+        "img": "",
+        "alt": "[proof screenshot]"
+      },
+      {
+        "shot": "dashboard",
+        "img": "",
+        "alt": "[proof screenshot]"
+      },
+      {
+        "shot": "cash",
+        "img": "",
+        "alt": "[proof screenshot]"
+      }
     ],
     "people": [],
     "paras": [
       "[the shared diagnosis: what the creators shown all had wrong, that we fixed it, and the numbers followed]",
       "[why this prospect is further along, built only from things shown above]"
     ],
-    "cta": { "label": "[I want this implemented]", "href": "[booking link]" }
+    "cta": {
+      "label": "[I want this implemented]",
+      "href": "[booking link]"
+    }
   }
 }

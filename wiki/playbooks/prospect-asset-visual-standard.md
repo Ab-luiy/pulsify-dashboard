@@ -1,4 +1,4 @@
----
+﻿---
 type: playbook
 tags: [outreach, assets, design, docs, funnel]
 sources: [[playbooks/prospect-asset-doc-standard]], [[playbooks/prospect-asset-sop]], founder directive 2026-08-13
@@ -138,9 +138,9 @@ Minimum reading before a line is written:
 
 Founder directive 2026-08-13, stated explicitly for Berg **and every creator after him**. This is now the recommended highlight structure in every profile audit:
 
-1. **Start here** or **New here?** — orients a first-time visitor
+1. **Start here** or **New here?** â€” orients a first-time visitor
 2. **My Story**
-3. **RESULTS** — nothing in it but results
+3. **RESULTS** â€” nothing in it but results
 
 Highlights named `YouTube`, `Testimonials`, `Few Certs`, `Few Trades` come out. Those are folders, not jobs. A highlight rail has one purpose, which is walking a stranger from arrival to proof in three taps.
 
@@ -163,7 +163,7 @@ Why it changed: the horizon note reassures a creator that their follower count i
 1. **We have done this before.** One line naming that we have fixed the same thing for creators in their niche and outside it. Never a case-study essay.
 2. **The proof block.** The strongest figure set as type, its receipt screenshot, the remaining metrics, then the client photos. Full shape below.
 3. **The shared diagnosis.** Two paragraphs naming what those creators all had wrong and why this prospect is further along. Superseded the "what they would get" delivery line on 2026-08-17, which read as sales.
-4. **CTA button** worded so it assumes the decision. "Set this up for me" over "book a call" — by this point the reader is asking how they get it, not whether it works.
+4. **CTA button** worded so it assumes the decision. "Set this up for me" over "book a call" â€” by this point the reader is asking how they get it, not whether it works.
 
 ### The close, and this is the standard for every asset
 
@@ -266,6 +266,8 @@ Two rules that follow:
 
 ## Build path
 
+> Update 2026-10-02: the standard is now implemented as a template, see [[playbooks/prospect-asset-template]]. Fill a JSON and run `fill.py` instead of hand-building.
+
 Claude specs and does the thinking, Codex executes the design and the build, per [[feedback_codex_builds_claude_specs]] and the founder's instruction on this pass.
 
 Reuse rather than reinvent:
@@ -290,11 +292,11 @@ The word ceiling is now a guide rather than a gate, because a designed page carr
 
 ## Connections
 
-- [[playbooks/prospect-asset-doc-standard]] — the writing rules, still in force
-- [[playbooks/prospect-asset-sop]] — order of operations, phase 3b covers rendering
-- [[playbooks/prospect-asset-library]] — which asset for which wound
-- [[frameworks/bio-optimization-system]] — what goes in the rebuilt bio
-- [[content-engine/thumbnail-layout-patterns]] — what goes in the rebuilt thumbnails
+- [[playbooks/prospect-asset-doc-standard]] â€” the writing rules, still in force
+- [[playbooks/prospect-asset-sop]] â€” order of operations, phase 3b covers rendering
+- [[playbooks/prospect-asset-library]] â€” which asset for which wound
+- [[frameworks/bio-optimization-system]] â€” what goes in the rebuilt bio
+- [[content-engine/thumbnail-layout-patterns]] â€” what goes in the rebuilt thumbnails
 
 ## Open questions / gaps
 

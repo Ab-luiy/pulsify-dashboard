@@ -4,7 +4,9 @@
     "description": "we made you a few things.",
     "og_image": "https://bergtrades.pages.dev/assets/og-card.png"
   },
-  "brand": { "first": "matthew" },
+  "brand": {
+    "first": "matthew"
+  },
   "hero": {
     "badge": "built for matthew bergin",
     "headline": "we made you a few things.",
@@ -14,9 +16,18 @@
       "and we wrote the vsl for your page."
     ],
     "chips": [
-      { "num": "6", "label": "videos, titles and frames" },
-      { "num": "1", "label": "bio, rebuilt" },
-      { "num": "1", "label": "vsl, written off your students" }
+      {
+        "num": "6",
+        "label": "videos, titles and frames"
+      },
+      {
+        "num": "1",
+        "label": "bio, rebuilt"
+      },
+      {
+        "num": "1",
+        "label": "vsl, written off your students"
+      }
     ]
   },
   "win": {
@@ -34,16 +45,27 @@
       "lowercase, always. the second a title goes into title case it starts sounding like a brand instead of a person, and that is the whole guru tell."
     ],
     "formulas": [
-      { "label": "the formula", "lines": ["[exact number you actually made] + [the method, named] + (what they get)"] },
-      { "label": "same video, written properly", "lines": [
-        "how i made $18,530 in forex using my mech strategy (step-by-step)",
-        "watch me break down the system that made me $18,530 (exposing everything)"
-      ] }
+      {
+        "label": "the formula",
+        "lines": [
+          "[exact number you actually made] + [the method, named] + (what they get)"
+        ]
+      },
+      {
+        "label": "same video, written properly",
+        "lines": [
+          "how i made $18,530 in forex using my mech strategy (step-by-step)",
+          "watch me break down the system that made me $18,530 (exposing everything)"
+        ]
+      }
     ],
     "after": [
       "odd numbers beat round ones. $18,530 reads like a statement, $20k reads like a claim. that is why this shape prints across every make money online niche and why it still works when the flashy stuff stops."
     ],
-    "app": { "where": "Content", "text": "every title is written from this formula using the numbers you actually made, and it waits for your yes before it goes anywhere." }
+    "app": {
+      "where": "Content",
+      "text": "every title is written from this formula using the numbers you actually made, and it waits for your yes before it goes anywhere."
+    }
   },
   "content": {
     "n": "2",
@@ -53,46 +75,103 @@
       "the youtube link in the bio matters because a new pair of eyes gets nurtured by long form in a way a grid never does. that's the 7-11-4 rule, and youtube stacks those hours far faster than instagram ever will."
     ],
     "stats": [
-      { "num": "7", "label": "hours of you, roughly, before someone buys" },
-      { "num": "11", "label": "touchpoints along the way" },
-      { "num": "4", "label": "places they meet you" }
+      {
+        "num": "7",
+        "label": "hours of you, roughly, before someone buys"
+      },
+      {
+        "num": "11",
+        "label": "touchpoints along the way"
+      },
+      {
+        "num": "4",
+        "label": "places they meet you"
+      }
     ],
-    "app": { "where": "Home", "text": "the path every lead took is counted for you, from the first video they watched to the call they booked." }
+    "app": {
+      "where": "Home",
+      "text": "the path every lead took is counted for you, from the first video they watched to the call they booked."
+    }
   },
   "ideas": {
     "n": "3",
     "title": "six videos, ready to film",
     "intro": "three are student stories already on your vip page, so the material exists. same formula, all lowercase. each one sits on a frame that already worked on your channel.",
     "videos": [
-      { "title": "amazon driver to funded trader in 4 months (h1rvey's numbers)", "tag": "student story on your vip page", "tag_kind": "good",
-        "ref_img": "assets/berg/yt-JsYfn3IdFyo.jpg", "ref_label": "built on this frame, 1.1K views",
-        "frame": "a board of his payouts in frame that a stranger can read, the way the Leon video was framed." },
-      { "title": "electrician to full time day trader in 77 days (jj's story)", "tag": "student story on your vip page", "tag_kind": "good",
-        "ref_img": "assets/berg/yt-JsYfn3IdFyo.jpg", "ref_label": "built on this frame, 1.1K views",
-        "frame": "his own proof on screen, readable, not a designed graphic with one word on it." },
-      { "title": "$20,000 from prop firms with one model (tzfred's numbers)", "tag": "student story on your vip page", "tag_kind": "good",
-        "ref_img": "assets/berg/yt-E6yw1uGNWBY.jpg", "ref_label": "built on this frame, 917 views",
-        "frame": "the payout certificates laid out the way week 7 was, with the total written on them." },
-      { "title": "i lost 27r in a month (every trade on screen)", "tag": "your own drawdown", "tag_kind": "info",
-        "ref_img": "assets/berg/yt-2aLJHNEWygw.jpg", "ref_label": "built on this frame, 1.8K views",
-        "frame": "a raw screen recording of the trades, no template. your biggest loss streak is the one video nobody else in the niche will make." },
-      { "title": "road to $5,000,000 in funding (week 1)", "tag": "the series that built the channel", "tag_kind": "info",
-        "ref_img": "assets/berg/yt-VjUpqe73wQw.jpg", "ref_label": "built on this frame, 1.2K views",
-        "frame": "handwritten whiteboard and your real certificates, the same frame week 1 of road to $2m used." },
-      { "title": "10 traders audited every trade i took (30 days)", "tag": "new", "tag_kind": "warn",
-        "ref_img": "assets/berg/yt-2aLJHNEWygw.jpg", "ref_label": "built on this frame, 1.8K views",
-        "frame": "the model makes your results checkable, so the video lets ten students check them on camera." }
+      {
+        "title": "amazon driver to funded trader in 4 months (h1rvey's numbers)",
+        "tag": "student story on your vip page",
+        "tag_kind": "good",
+        "ref_img": "assets/berg/yt-JsYfn3IdFyo.jpg",
+        "ref_label": "built on this frame, 1.1K views",
+        "frame": "a board of his payouts in frame that a stranger can read, the way the Leon video was framed."
+      },
+      {
+        "title": "electrician to full time day trader in 77 days (jj's story)",
+        "tag": "student story on your vip page",
+        "tag_kind": "good",
+        "ref_img": "assets/berg/yt-VjUpqe73wQw.jpg",
+        "ref_label": "built on this frame, 1.2K views",
+        "frame": "his own certificate in frame and the total written out by hand, the way week 1 was framed."
+      },
+      {
+        "title": "$20,000 from prop firms with one model (tzfred's numbers)",
+        "tag": "student story on your vip page",
+        "tag_kind": "good",
+        "ref_img": "assets/berg/yt-E6yw1uGNWBY.jpg",
+        "ref_label": "built on this frame, 917 views",
+        "frame": "the payout certificates laid out the way week 7 was, with the total written on them."
+      },
+      {
+        "title": "i lost 27r in a month (every trade on screen)",
+        "tag": "your own drawdown",
+        "tag_kind": "info",
+        "ref_img": "assets/berg/yt-2aLJHNEWygw.jpg",
+        "ref_label": "built on this frame, 1.8K views",
+        "frame": "a raw screen recording of the trades, no template. your biggest loss streak is the one video nobody else in the niche will make."
+      },
+      {
+        "title": "road to $5,000,000 in funding (week 1)",
+        "tag": "the series that built the channel",
+        "tag_kind": "info",
+        "ref_img": "assets/berg/yt-VjUpqe73wQw.jpg",
+        "ref_label": "built on this frame, 1.2K views",
+        "frame": "handwritten whiteboard and your real certificates, the same frame week 1 of road to $2m used."
+      },
+      {
+        "title": "10 traders audited every trade i took (30 days)",
+        "tag": "new",
+        "tag_kind": "warn",
+        "ref_img": "assets/berg/yt-JsYfn3IdFyo.jpg",
+        "ref_label": "built on this frame, 1.1K views",
+        "frame": "ten traders' trades laid out on one board, the way the Leon video was framed."
+      }
     ],
-    "app": { "where": "Content", "text": "all six sit in your pipeline as ready for review, each with its title, frame and outline. you approve, then film." }
+    "app": {
+      "where": "Content",
+      "text": "all six sit in your pipeline as ready for review, each with its title, frame and outline. you approve, then film."
+    }
   },
   "packaging": {
     "n": "4",
     "title": "and the frames",
     "intro": "three uploads we packaged for another trading creator. same trading, different frame.",
     "cards": [
-      { "img": "assets/nick/yt-3QDKzi4nFl8.jpg", "title": "watch us breakdown our 6 figure trading systems live. (step-by-step)", "count": "814" },
-      { "img": "assets/nick/yt-KnbqLjGzD3k.jpg", "title": "trading mentor exposes trading mentorships", "count": "737" },
-      { "img": "assets/nick/yt-enVq8W8N6mU.jpg", "title": "my $30k/mo secret that stopped me from blowing accounts (step by step)", "count": "314" }
+      {
+        "img": "assets/nick/yt-3QDKzi4nFl8.jpg",
+        "title": "watch us breakdown our 6 figure trading systems live. (step-by-step)",
+        "count": "814"
+      },
+      {
+        "img": "assets/nick/yt-KnbqLjGzD3k.jpg",
+        "title": "trading mentor exposes trading mentorships",
+        "count": "737"
+      },
+      {
+        "img": "assets/nick/yt-enVq8W8N6mU.jpg",
+        "title": "my $30k/mo secret that stopped me from blowing accounts (step by step)",
+        "count": "314"
+      }
     ],
     "followup": "200 sub channel, average around 125. nothing changed about the trading."
   },
@@ -102,9 +181,16 @@
     "intro": "two lines instead of four, youtube where the second account was. one tap from stranger to twenty minutes with you.",
     "current_img": "assets/ig-current.png",
     "rebuilt_img": "assets/ig-rebuilt.png",
-    "lines": ["Day trader (UK flag)", "one mechanical model, and my students trade it with me"],
+    "lines": [
+      "Day trader (UK flag)",
+      "one mechanical model, and my students trade it with me"
+    ],
     "link": "youtube.com/@Bergtrades",
-    "rail": ["start here", "my story", "results"],
+    "rail": [
+      "start here",
+      "my story",
+      "results"
+    ],
     "followup": "three highlights, in that order: where to start, your story, then nothing but results."
   },
   "quick": {
@@ -112,65 +198,149 @@
     "title": "three quick ones",
     "intro": "small, and each one is a ten minute fix.",
     "rows": [
-      { "before": "Join the Best Trading Team : https://linktw.in/kbevxQ",
+      {
+        "before": "Join the Best Trading Team : https://linktw.in/kbevxQ",
         "after": "Apply for 1-on-1 mentorship: https://bergsmentorship.com<br>Instagram: https://www.instagram.com/bergtrades.ig/",
-        "note": "your own offer first, two links, and nothing unbranded. the shortener is the only link on the page that reads like a redirect." },
-      { "before": "your contact details on question 8 of the application",
+        "note": "your own offer first, two links, and nothing unbranded. the shortener is the only link on the page that reads like a redirect."
+      },
+      {
+        "before": "your contact details on question 8 of the application",
         "after": "your contact details on question 2",
-        "note": "you keep the lead even if they don't finish the form." },
-      { "before": "browser tab and link preview on bergsmentorship.com: My Framer Site",
+        "note": "you keep the lead even if they don't finish the form."
+      },
+      {
+        "before": "browser tab and link preview on bergsmentorship.com: My Framer Site",
         "after": "Matthew Bergin | 1-on-1 day trading mentorship",
-        "note": "that tab title is the default, and it is also the title that shows every time the link gets pasted anywhere." }
+        "note": "that tab title is the default, and it is also the title that shows every time the link gets pasted anywhere."
+      }
     ],
-    "app": { "where": "Links", "text": "a tracked link for each description, so you see which video sent which application." }
+    "app": {
+      "where": "YouTube",
+      "text": "a tracked link for each description, so you see which video sent which application."
+    }
   },
   "vsl": {
     "n": "7",
     "title": "your vsl, rewritten",
     "intro": "you have tested a lot of these. we built you one off the limited view we have from the outside, on the framework we use for this, which has done over $10m in info product and mentorship sales. tap a step to open it.",
     "steps": [
-      { "title": "the hook", "sub": "say what you'll do for them, in one line",
+      {
+        "title": "the hook",
+        "sub": "say what you'll do for them, in one line",
         "quote": "I'm Berg. I'm going to teach you a mechanical day trading model you can run in about 45 minutes a day, and you'll be able to check my own results against yours the entire time.",
-        "body": ["no build up, no backdrop, no welcome-guys. if people drop in the first fifteen seconds, this line is the reason."] },
-      { "title": "why you", "sub": "your story, once they know why to listen",
+        "body": [
+          "no build up, no backdrop, no welcome-guys. if people drop in the first fifteen seconds, this line is the reason."
+        ]
+      },
+      {
+        "title": "why you",
+        "sub": "your story, once they know why to listen",
         "body": [
           "<strong>where you were:</strong> 10 pip stops and 30 pip targets, no idea whether the day would be a swing or a wick.",
           "<strong>what changed:</strong> basing entry, stop and target on the range, measured with the fib tool.",
           "<strong>what it bought:</strong> three years profitable, 40 years of backtested data, about 45 minutes a day on the charts, nine winning months a year and three losing ones, said out loud.",
           "<strong>the life:</strong> left open on purpose. that beat has to be yours."
-        ] },
-      { "title": "buying motives", "sub": "why people actually come to you, most common first",
-        "body": ["a year or two in and still not profitable. stuck on the prop firm treadmill. can't hold a system for more than a fortnight. doing it alone. each one gets a line of its own, in the order they show up on your calls."] },
-      { "title": "the offer", "sub": "what it is, how long, what they get, what it costs",
-        "body": ["the price gets said out loud. we left the number for you, it's yours to state."] },
-      { "title": "objections", "sub": "the real ones, from your own videos",
-        "body": ["\"i'd have to be at a laptop all day\" is forty-five minutes, limit orders and phone alerts. \"how long before i'm profitable\" is under four weeks to teach the model and one to two years for the skill, and you say both. the rest comes from your sales calls."] },
-      { "title": "qualification and the ask", "sub": "your own line, word for word, then one action",
-        "body": ["you already tell people not to apply if they won't put the hours in. that stays exactly as you said it. then one action: the application, then the call."] }
+        ]
+      },
+      {
+        "title": "buying motives",
+        "sub": "why people actually come to you, most common first",
+        "body": [
+          "a year or two in and still not profitable. stuck on the prop firm treadmill. can't hold a system for more than a fortnight. doing it alone. each one gets a line of its own, in the order they show up on your calls."
+        ]
+      },
+      {
+        "title": "the offer",
+        "sub": "what it is, how long, what they get, what it costs",
+        "body": [
+          "the price gets said out loud. we left the number for you, it's yours to state."
+        ]
+      },
+      {
+        "title": "objections",
+        "sub": "the real ones, from your own videos",
+        "body": [
+          "\"i'd have to be at a laptop all day\" is forty-five minutes, limit orders and phone alerts. \"how long before i'm profitable\" is under four weeks to teach the model and one to two years for the skill, and you say both. the rest comes from your sales calls."
+        ]
+      },
+      {
+        "title": "qualification and the ask",
+        "sub": "your own line, word for word, then one action",
+        "body": [
+          "you already tell people not to apply if they won't put the hours in. that stays exactly as you said it. then one action: the application, then the call."
+        ]
+      }
     ],
-    "app": { "where": "Pages", "text": "the vsl, the application and the booking sit on one page, and every step from play to booked call is counted." }
+    "app": {
+      "where": "Home",
+      "text": "the vsl, the application and the booking sit on one page, and every step from play to booked call is counted."
+    }
   },
   "app": {
     "n": "8",
     "title": "most of this runs from your dashboard",
     "intro": "none of the above is a one-off. the titles, the links, the story sequences and the numbers behind them live in one place, and you approve everything before it goes out.",
     "tiles": [
-      { "kind": "ranked", "rows": [
-          { "title": "My trading process in 2026 (full guide)", "views": "1.8K views", "cash": "not linked" },
-          { "title": "Road to $2,000,000 in Funding, week 1", "views": "1.2K views", "cash": "not linked" },
-          { "title": "$81 payout to over $1,000,000 (Leon)", "views": "1.1K views", "cash": "not linked" },
-          { "title": "Making $18,530 day trading Forex", "views": "558 views", "cash": "not linked" } ],
-        "caption": "<b>every video ranked by the cash it brought in</b>, once your Whop payments are linked." },
-      { "kind": "link", "code": "pulsify-ai.com/a/k7Qp2mX4", "sub": "description link, example",
-        "caption": "<b>a tracked link for every video</b>, so no description needs a bare shortener again." },
-      { "kind": "formula", "img": "assets/berg/yt-eeQlkrFZs1Q.jpg", "title": "how i made $18,530 in forex using my mech strategy (step-by-step)", "sub": "formula: exact number + method named + what they get",
-        "caption": "<b>titles and thumbnails built from formulas that already worked</b>, starting from your own." },
-      { "kind": "story", "sub": "credibility sequence, 4 slides, ready for review",
-        "caption": "<b>story sequences drafted in your voice</b>. nothing posts without your yes." },
-      { "kind": "journey", "steps": ["came from your video", "watched your vsl", "applied", "booked a call"],
-        "caption": "<b>the path each lead took</b>, counted from your page and your calendar." },
-      { "kind": "payment", "text": "<b>Whop payment</b>", "sub": "tied to the buyer who came from your video",
-        "caption": "<b>payments matched to the person who paid</b>, so cash can be traced back to a video." }
+      {
+        "kind": "ranked",
+        "rows": [
+          {
+            "title": "My trading process in 2026 (full guide)",
+            "views": "1.8K views",
+            "cash": "not linked"
+          },
+          {
+            "title": "Road to $2,000,000 in Funding, week 1",
+            "views": "1.2K views",
+            "cash": "not linked"
+          },
+          {
+            "title": "$81 payout to over $1,000,000 (Leon)",
+            "views": "1.1K views",
+            "cash": "not linked"
+          },
+          {
+            "title": "Making $18,530 day trading Forex",
+            "views": "558 views",
+            "cash": "not linked"
+          }
+        ],
+        "caption": "<b>every video ranked by the cash it brought in</b>, once your Whop payments are linked."
+      },
+      {
+        "kind": "link",
+        "code": "pulsify-ai.com/a/k7Qp2mX4",
+        "sub": "description link, example",
+        "caption": "<b>a tracked link for every video</b>, so no description needs a bare shortener again."
+      },
+      {
+        "kind": "formula",
+        "img": "assets/berg/yt-eeQlkrFZs1Q.jpg",
+        "title": "how i made $18,530 in forex using my mech strategy (step-by-step)",
+        "sub": "formula: exact number + method named + what they get",
+        "caption": "<b>titles and thumbnails built from formulas that already worked</b>, starting from your own."
+      },
+      {
+        "kind": "story",
+        "sub": "credibility sequence, 4 slides, ready for review",
+        "caption": "<b>story sequences drafted in your voice</b>. nothing posts without your yes."
+      },
+      {
+        "kind": "journey",
+        "steps": [
+          "came from your video",
+          "watched your vsl",
+          "applied",
+          "booked a call"
+        ],
+        "caption": "<b>the path each lead took</b>, counted from your page and your calendar."
+      },
+      {
+        "kind": "payment",
+        "text": "<b>Whop payment</b>",
+        "sub": "tied to the buyer who came from your video",
+        "caption": "<b>payments matched to the person who paid</b>, so cash can be traced back to a video."
+      }
     ],
     "fine": "layout only. nothing here is counted for you until your page, calendar and payments are connected, and every figure shows the numbers it came from."
   },
@@ -183,10 +353,26 @@
       "alt": "the engagement: $98,000 cash collected, 24.1k followers, $4.07 per follower, $50,000 monthly revenue up from $10-20k"
     },
     "wall": [
-      { "shot": "closed-list", "img": "assets/proof/proof-closed-list.webp", "alt": "sales record, every row a 1-on-1 mentorship close at $4,377" },
-      { "shot": "payment", "img": "assets/proof/proof-payment.webp", "alt": "wallet transfer confirmation, max total $8,983.14" },
-      { "shot": "dashboard", "img": "assets/proof/proof-dashboard.webp", "alt": "sales dashboard: 195 calls on calendar, 25 closed sets, 87 live calls, 28.74% closing rate" },
-      { "shot": "cash", "img": "assets/proof/proof-cash.webp", "alt": "total cash collected $74,434.00" }
+      {
+        "shot": "closed-list",
+        "img": "assets/proof/proof-closed-list.webp",
+        "alt": "sales record, every row a 1-on-1 mentorship close at $4,377"
+      },
+      {
+        "shot": "payment",
+        "img": "assets/proof/proof-payment.webp",
+        "alt": "wallet transfer confirmation, max total $8,983.14"
+      },
+      {
+        "shot": "dashboard",
+        "img": "assets/proof/proof-dashboard.webp",
+        "alt": "sales dashboard: 195 calls on calendar, 25 closed sets, 87 live calls, 28.74% closing rate"
+      },
+      {
+        "shot": "cash",
+        "img": "assets/proof/proof-cash.webp",
+        "alt": "total cash collected $74,434.00"
+      }
     ],
     "people": [
       "assets/proof/proof-nick.webp",
@@ -198,6 +384,9 @@
       "everyone up there had the same thing going on when we met them. the trading was fine and the students were already winning, the packaging just wasn't letting anyone find out. we sorted that part first and the numbers caught up after.",
       "you're further along than most of them were. you've already written one title that worked, the student stories are sitting on your vip page, and the vsl's written off them."
     ],
-    "cta": { "label": "I want this implemented", "href": "https://cal.com/mista-ab/1-1-consultation-call-with-*ab" }
+    "cta": {
+      "label": "I want this implemented",
+      "href": "https://cal.com/mista-ab/1-1-consultation-call-with-*ab"
+    }
   }
 }
