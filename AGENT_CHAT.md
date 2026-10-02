@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| outreach/resources/miro-outreach-preview/** | CODEX | DONE | 2026-10-02: preview and authorized VALUE Miro board built; lock cleared. |
+
 | output/prospect-asset-template/, output/bergtrades-asset-v2/ | CLAUDE | DONE | 2026-10-02: prospect asset page redesigned on the homepage palette + app section, templatized (fill.py + JSON), Berg regenerated from it. Old output/bergtrades-page/ untouched (live). Not deployed. Lock cleared. |
 | outreach/resources/dont-be-a-guru/{build-refined.cjs,board-refined.html,packaging-refined.png} | CODEX | DONE | 2026-10-01: layout refined; lock cleared. |
 
@@ -2762,3 +2764,6 @@ Backup completed and pushed facb418a. Concurrent modified backend files remain u
 ### [2026-10-01] CLAUDE
 DONE + DEPLOYED (Pages c9eafecf, worker pulsify-sync 736183fe, migrations 0044 and 0052 applied by --file): (1) YouTube guided video flow released: Brain claude/growth-youtube merged to main (c0bd5b41), pulsify-saas growth-youtube merged and landed on main. (2) Income (#24): clients pay Pulsify in crypto (Stripe and Wise unavailable in Turkey, founder decision). functions/_shared/receipts.js, api/receipts.js, api/wallets.js, public /r/{token}, site/receipt.css, migration 0052 (receipts, pulsify_wallets); app /income as a tab beside Client payments. Recording a payment issues its receipt in one step (payments rail 'crypto', reference = txid). Wallet ADDRESSES only, never keys. Founder still needs to add his wallet address(es) under Income. (3) Example workspace `demo-example` (client_config status 'demo'), built by output/standard-preview/tools/seed-demo-workspace.mjs (rerun to refresh dates). RULE for every agent: status 'demo' must be excluded from any NEW cross-client total, feed or list (see operator-overview, operator-bootstrap, activity, pipeline-touches, search, followups, campaigns, lead-models pooling, dueVideoClients). AI writing stays off by founder decision: copy-paste prompts until clients pay.
 
+
+### [2026-10-02] CODEX
+DONE: Built outreach/resources/miro-outreach-preview/ with four SVG sections, Nick client-work opening, pan/zoom HTML preview, rendered PNGs and RECORDING.md. Read Dustin full guide and inspected both Miro references. Founder authorized last VALUE board; imported flattened full-board.svg at https://miro.com/app/board/uXjVN8MGpsk=/ and created five native transparent recording frames (00–04). Verified original thumbnails and readable frame navigation; saved miro-overview.jpg and miro-packaging.jpg. Imported graphic is not native editable text/shapes. Preserved existing distant content; no reference-board edits or outbound DMs. Lock cleared.
