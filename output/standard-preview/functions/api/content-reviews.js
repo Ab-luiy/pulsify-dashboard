@@ -29,6 +29,25 @@ function serialize(row, withSnapshot) {
   };
 }
 
+// Keeps the client's Content screen in step with the review gate: one content_items row per
+// video (matched on client + YouTube + title). The stage is never moved backwards, so a video
+// the team has scheduled or published stays that way. Best-effort: a review never fails on this.
+async function syncContentItem(env, client, title, note) {
+  const name = String(title || "").trim().slice(0, 200);
+  if (!name) return;
+  const now = new Date().toISOString();
+  try {
+    const existing = await env.DB.prepare("SELECT id FROM content_items WHERE client=? AND platform='youtube' AND title=?").bind(client, name).first();
+    if (existing) {
+      await env.DB.prepare("UPDATE content_items SET notes=?, updated_at=? WHERE id=?").bind(note, now, existing.id).run();
+    } else {
+      await env.DB.prepare("INSERT INTO content_items (client, title, stage, platform, notes, updated_at) VALUES (?,?,'production','youtube',?,?)").bind(client, name, note, now).run();
+    }
+  } catch {
+    // content_items is a view of the review for the client; the review itself stands.
+  }
+}
+
 async function handleGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const url = new URL(request.url);
@@ -60,7 +79,7 @@ async function handlePost({ request, env }) {
     const note = String(body.note || "").trim().slice(0, 600);
     if (!id) return json({ ok: false, error: "review id is required" }, 422);
     if (action === "reject" && !note) return json({ ok: false, error: "review note is required when rejecting" }, 422);
-    const review = await env.DB.prepare("SELECT id, client_id, status FROM content_reviews WHERE id=?").bind(id).first();
+    const review = await env.DB.prepare("SELECT id, client_id, title, status FROM content_reviews WHERE id=?").bind(id).first();
     if (!review) return json({ ok: false, error: "review not found" }, 404);
     if (review.status !== "review") return json({ ok: false, error: "this package was already decided" }, 409);
     const now = new Date().toISOString();
@@ -76,6 +95,7 @@ async function handlePost({ request, env }) {
       );
     }
     await env.DB.batch(statements);
+    await syncContentItem(env, cleanId(review.client_id), review.title, status === "approved" ? "Approved by Pulsify. Next: shoot and edit." : `Changes requested: ${note}`);
     return json({ ok: true, status });
   }
 
@@ -104,6 +124,7 @@ async function handlePost({ request, env }) {
     ).bind(client, recordId, record.title, JSON.stringify(snapshot), now).run();
     id = Number(result.meta?.last_row_id || 0);
   }
+  await syncContentItem(env, client, record.title, "Sent for review. We read it before anything is made.");
   await notify(env, {
     scope: "operator",
     clientId: client,

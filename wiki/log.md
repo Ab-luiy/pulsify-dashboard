@@ -1967,3 +1967,6 @@ Founder created Pulsify sign-in in Google Cloud project pulsify-dashboard-496614
 ## [2026-10-01] decision | YouTube flow live, crypto income, Example workspace
 Founder answers: demo workspace yes, YouTube flow release yes, AI writing stays off (prompts, free) until payments, clients pay in crypto (Stripe and Wise are unavailable in Turkey). Shipped: the guided YouTube video flow; Income with one-step receipts and wallet addresses; the Example workspace (status demo, excluded from every real total). Open: founder adds his wallet address under Income; lead score on the Example workspace refreshes on the daily cron.
 
+
+## [2026-10-02] decision | MVP plan, payments out of scope
+Founder: payments are logged by hand, not part of the MVP; plan the build A-Z, find duplicates, fix the drivers not the UI. Plan: [[wiki/synthesis/mvp-plan-2026-10-02]]. Phase 1 built on branch claude/mvp-phase1 (not deployed): the day-1 checklist now runs voice, audience, proof, first video (idea, review, approved), connections, then the story sequence; provisioning seeds Plans from the offer week table, four client-owned to-dos and a team; the review gate keeps client Content in step (one row per video). Checklist is ten steps and connect-payments is gone.

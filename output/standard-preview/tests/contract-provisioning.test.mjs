@@ -25,7 +25,8 @@ try{
  const beforeLink=lastLink;fail=false;assert.equal((await call()).status,200);assert.equal(lastLink,beforeLink,'retry preserves identical invitation');
  assert.equal(sql.prepare('SELECT invitation_cipher FROM contract_provisioning').get().invitation_cipher,null,'delivered link is removed');
  assert.equal(sql.prepare("SELECT welcome_state FROM client_provisioning").get().welcome_state,'sent');
- assert.equal(sql.prepare("SELECT COUNT(*) n FROM checklist_steps").get().n,8);
+ assert.equal(sql.prepare("SELECT COUNT(*) n FROM checklist_steps").get().n,10);
+ assert.equal(sql.prepare("SELECT COUNT(*) n FROM client_dashboard_content WHERE section IN ('plans','todos','team')").get().n,3,'provisioning seeds Plans, To-dos and Team');
  assert.equal((await call()).status,200);assert.equal(sends,4,'delivered event is idempotent');
  const another=structuredClone(payload);another.data.envelopeId='test-envelope-2';assert.equal((await (await call(another)).json()).state,'existing');assert.equal(sends,4,'existing account credentials and invitation are untouched');
  assert.equal(sql.prepare('SELECT COUNT(*) n FROM client_auth').get().n,1);assert.equal(sql.prepare('SELECT COUNT(*) n FROM client_setup_tokens').get().n,1);
