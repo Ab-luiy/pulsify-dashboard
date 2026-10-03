@@ -304,3 +304,5 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 ## Visual reference library
 
 - [[visual-references/README]] - Founder's shared image and brand inspiration library, with reference notes and an evidence-based taste profile. [design, brand] 2026-09-29.
+- [[synthesis/pulsify-product-launch-direction]] — Five X references translated into an original founder/app launch film, story sequence and carousel; product truth, footage needs and consultation scope separated from proposals. [content, offer, funnel, design] 2026-10-03.
+- [[visual-references/studies/pulsify-launch-2026-10-03/README]] — Individual motion reference observations, saved demos, contact sheets and streamed-media evidence limits. [design, brand] 2026-10-03.

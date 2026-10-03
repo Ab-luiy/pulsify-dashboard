@@ -105,3 +105,9 @@ No single favorite hue, font, logo direction or light/dark preference is establi
 ## Bakers Studio animated liquid gradients
 
 Founder-supplied post: https://x.com/studiobakers/status/2102349193881006288. Three videos sampled throughout. [Study and JSON profile](studies/bakers-liquid-gradients/README.md). Broad deforming ribbons, soft light seams and fine grain; mint/aqua, blue/yellow and coral/cream variants. Graphite adaptation is separately proposed; source palettes are not approved replacements.
+
+## Founder and product launch films (2026-10-03)
+
+Five founder-supplied X references: zero/twoclipping's UI, food and photography motion guide; dawood46's side-by-side sting and course film; the existing Bakers gradient post; Raphael Aubry's product-launch guide and linked Howseen film. [Individual observations and saved evidence](studies/pulsify-launch-2026-10-03/README.md). Four downloadable demos sampled at half-second intervals; Bakers' existing three local studies rechecked; streamed-player observations and written specifications explicitly distinguished. Invalid cropped captures excluded.
+
+Reusable direction: a recognizable object carries the workflow; short captions and deliberate scale changes; readable product states; specific still review before animation; quiet background material; actual capabilities and example data labelled. Original proposed Pulsify adaptation combines warm founder footage, one current app journey, consultation judgment and a manual walkthrough CTA. [[wiki/synthesis/pulsify-product-launch-direction]] contains the draft film, stories and carousel. This is a production brief, not finished media or a replacement app theme.
