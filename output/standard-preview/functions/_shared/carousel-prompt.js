@@ -144,10 +144,34 @@ export function sanitizeCarouselOutput(value, fallback = {}) {
         }),
         design: toDesignBlock(direction),
         design_direction: direction,
+        ...(slide?.layout ? { layout: sanitizeCarouselLayout(slide.layout) } : {}),
       };
     }),
     caption: cleanText(result.caption),
     posting_note: cleanText(result.posting_note),
+  };
+}
+
+// The designed slide from the portal carousel builder (founder 2026-10-03): which slide kind,
+// the cover's serif and sans lines, the emphasis word, the ghost number, the chips and the proof
+// slot. Short strings only; anything else is dropped.
+const LAYOUT_KINDS = new Set(["cover", "item", "concept", "close"]);
+const clip = (value, max) => cleanText(value).slice(0, max);
+export function sanitizeCarouselLayout(value) {
+  const v = value && typeof value === "object" ? value : {};
+  const chips = Array.isArray(v.chips) ? v.chips.slice(0, 3).map((chip) => clip(chip, 40)).filter(Boolean) : [];
+  return {
+    kind: LAYOUT_KINDS.has(v.kind) ? v.kind : "item",
+    kicker: clip(v.kicker, 60),
+    serif: clip(v.serif, 80),
+    bold: clip(v.bold, 80),
+    emphasis: clip(v.emphasis, 40),
+    number: clip(v.number, 6),
+    chips,
+    proof: clip(v.proof, 120),
+    trigger: clip(v.trigger, 24),
+    ask: v.ask === "dm" ? "dm" : "comment",
+    theme: ["ink", "paper", "forest"].includes(v.theme) ? v.theme : "ink",
   };
 }
 

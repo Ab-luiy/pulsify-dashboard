@@ -67,6 +67,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 
 | Page | Summary | Created |
 |---|---|---|
+| [[playbooks/carousel-sop]] | Five steps to a Pulsify carousel: structure, cover first, inside slides with ghost numbers and proof, one-word close, the check; the client app carousel builder follows it | 2026-10-03 |
 | [[playbooks/client-app-content-sop]] | How a piece moves through the client app: plan on the calendar, Get started, make it, review, ships, result in Funnel; long-form, stories, reels, carousels | 2026-10-03 |
 | [[playbooks/account-registry]] | Which email owns which service (Cloudflare, Meta, Google, email, contracts); three near-identical Gmails, check before creating accounts | 2026-09-17 |
 | [[playbooks/lead-sourcing-outreach]] | 50–100 DMs/day across 6 platforms, Day 1/3/5/7 follow-up, Loom approach, setter hiring | 2026-05-02 |

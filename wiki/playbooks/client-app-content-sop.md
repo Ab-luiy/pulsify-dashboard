@@ -43,19 +43,19 @@ Same path: plan, Get started, build in Reels or Carousels, review, post, log. Th
 
 - The calendar's Get started button is the bridge from plan to work: long-form opens New video, shorts and reels open Reels, stories open Story sequences, carousels open Carousels.
 - Due today shows in the Home dock (Next move) for planned pieces with a reminder on.
-- Proven: the calendar, Get started and Due today shipped 2026-10-03. Theoretical: email reminders (need a scheduled job), the in-app version of this SOP.
+- Proven: the calendar, Get started and Due today shipped 2026-10-03. A morning reminder for planned pieces goes to the bell and, when switched on, email (sync worker, 05:00 UTC). Theoretical: the in-app version of this SOP.
 
 ## Connections
 
 - [[frameworks/story-sequence-system]] — the sequence builder's rules.
 - [[content-engine/reel-format-ladder]] — which reel to make at which stage.
-- [[frameworks/carousel-system]] — the carousel structures; a full carousel SOP is still owed.
+- [[frameworks/carousel-system]] — the carousel structures; the step-by-step is [[playbooks/carousel-sop]].
 
 ## Open questions / gaps
 
-- Email and bell reminders when a planned piece is due are not built; only the in-app Due today exists.
-- The plan id is passed to the creators (`?plan=`) but the creators do not read it yet, so the working title is not prefilled.
-- A thorough carousel SOP (founder ask) is not written yet.
+- Reminders go out once each morning at 05:00 UTC, not at the planned hour.
+- The creators show the planned piece in a "From your calendar" bar; only the story builder prefills its topic from the working title so far.
+- The high-volume reel path (founder: inspired by Joel Kaplan) waits on the founder's source material.
 
 ## Source trail
 
