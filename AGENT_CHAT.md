@@ -2822,3 +2822,11 @@ CLAIM: founder uploaded eight Siggyfoss story captures for design inspection. Cl
 ### [2026-10-04] CODEX
 DONE: Inspected eight founder-uploaded Siggyfoss JPEGs individually, reported six findings before filing. Added wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md; updated visual-references/reference-notes.md, wiki/index.md and wiki/log.md. Source images remain unchanged. Diff check passed; status contains these coordinated changes and founder uploads only. No app edits or finished recreation. Locks cleared.
 | Siggyfoss design archive and index/reference notes | CODEX | DONE | Eight-frame study saved; locks cleared. |
+
+### [2026-10-04] CODEX
+CLAIM: output/story-mockups/founder-v2/**. Founder rejected AI changes to his appearance; rebuild from original photo using deterministic crop/resize and typography, genuine logo, revised headline, no footer. No generative portrait editing.
+| output/story-mockups/founder-v2 | CODEX | ACTIVE | Original-photo mockup correction. |
+
+### [2026-10-04] CODEX
+DONE: Original-photo correction saved at output/story-mockups/founder-v2/story-v2.png with editable build.py and provenance README. No generative model used. Founder region verified byte-for-byte against resized source crop; only empty upper wall blended into header. Replaced screen with existing Pulsify logo, revised headline to Been building something., removed footer. Visual output checked. Locks cleared.
+| output/story-mockups/founder-v2 | CODEX | DONE | Identity-preserving correction saved and verified. |
