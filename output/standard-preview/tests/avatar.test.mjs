@@ -11,6 +11,8 @@ const sql = new DatabaseSync(":memory:");
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT)");
 sql.exec("CREATE TABLE client_sessions(token_hash TEXT PRIMARY KEY,client_id TEXT,expires_at TEXT,created_at TEXT)");
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");
+sql.exec("CREATE TABLE operator_sessions(token_hash TEXT PRIMARY KEY,email TEXT,expires_at TEXT,revoked_at TEXT)");
+sql.prepare("INSERT INTO operator_sessions VALUES(?,?,?,NULL)").run(await sha256Hex("op-session-token-1234567890"), "abod.louai@gmail.com", "2099-01-01T00:00:00.000Z");
 sql.prepare("INSERT INTO client_config VALUES(?,?,?)").run("acme", "Acme", "client");
 sql.prepare("INSERT INTO client_sessions VALUES(?,?,?,?)").run(await sha256Hex("sess-client"), "acme", "2099-01-01T00:00:00.000Z", "x");
 
@@ -54,6 +56,16 @@ test("operator picture: upload, read, delete", async () => {
   assert.equal(read.headers.get("content-type"), "image/png");
   await call(avatarDelete, op(new Request("https://x/api/avatar?owner=operator", { method: "DELETE" })));
   assert.equal((await call(avatarGet, op(new Request("https://x/api/avatar?owner=operator")))).status, 204);
+});
+
+test("operator picture shows in a plain <img>: the sign-in cookie is enough to read it", async () => {
+  await call(avatarPost, op(upload("operator", png)));
+  const cookie = { cookie: "__Host-pulsify_operator=op-session-token-1234567890" };
+  const read = await call(avatarGet, new Request("https://x/api/avatar?owner=operator", { headers: cookie }));
+  assert.equal(read.status, 200, "no x-pulsify-operator header, still the picture");
+  assert.equal((await call(avatarGet, new Request("https://x/api/avatar?owner=operator"))).status, 401, "signed out: no picture");
+  assert.equal((await call(avatarPost, upload("operator", png, cookie))).status, 401, "changing it still needs the bound operator");
+  await call(avatarDelete, op(new Request("https://x/api/avatar?owner=operator", { method: "DELETE" })));
 });
 
 test("client picture needs their session; wrong types and sizes are refused", async () => {

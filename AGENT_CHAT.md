@@ -2781,3 +2781,7 @@ CLAIM: outreach/resources/miro-outreach-preview/{native-board.json,RECORDING.md,
 ### [2026-10-02] CODEX
 DONE native Miro rebuild: direct UI Text, Shapes and lines, Pen, Upload and Frame tools on authorized VALUE board. Editable copy, rectangles, oval, connectors and red marker annotations; three original image objects; enclosing overview and five transparent named recording frames. Reload verified persistence; packaging navigation verified at 36%. Removed only our earlier imported artwork/drafts, preserved distant user content. Updated RECORDING.md, added miro-native-overview.jpg and miro-native-packaging.jpg; discarded unpersisted native-board.json draft. No reference-board changes or outbound DMs. Locks cleared.
 | outreach/resources/miro-outreach-preview native rebuild | CODEX | DONE | Native board saved and verified; locks cleared. |
+
+### [2026-10-03] CLAUDE
+CLAIM: founder's client portal feedback round (avatar fix, clocks, back/forward, Home rework, YouTube/IG/Content/Brand restructure). pulsify-saas branch claude/portal-feedback; Brain output/standard-preview/functions/api/avatar.js + tests/avatar.test.mjs.
+| pulsify-saas src/features/portal*, src/components/shell/*, Brain functions/api/avatar.js | CLAUDE | ACTIVE | Portal feedback round 2026-10-03. |

@@ -6,7 +6,8 @@
 //   DELETE /api/avatar?owner=operator|client
 // The operator side needs the operator identity; the client side needs the
 // client session, and the operator previewing a workspace may change it too.
-import { withOperator } from "../_shared/access.js";
+import { accessToken, validateAccess, withOperator } from "../_shared/access.js";
+import { resolveOperatorSession } from "../_shared/operator-session.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { json, normalizeEmail, sha256Hex, str } from "../_shared/common.js";
@@ -14,8 +15,20 @@ import { json, normalizeEmail, sha256Hex, str } from "../_shared/common.js";
 export const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
 const TYPES = new Set(["image/png", "image/jpeg", "image/webp"]);
 
-async function keyFor(request, env, owner) {
+// The picture is shown with a plain <img>, which cannot send the x-pulsify-operator header,
+// so the middleware does not bind the operator for that request. Reading your own picture
+// is safe without the header (it changes nothing), so GET checks the sign-in cookie itself.
+async function operatorFromCookie(request, env) {
+  const access = await validateAccess(accessToken(request), [env.ACCESS_AUD, env.ACCESS_DASHBOARD_AUD]);
+  return access || (await resolveOperatorSession(request, env));
+}
+
+async function keyFor(request, env, owner, { read = false } = {}) {
   if (owner === "operator") {
+    if (read) {
+      const signedIn = await operatorFromCookie(request, env);
+      if (signedIn?.email) return { key: `avatars/operator/${await sha256Hex(normalizeEmail(signedIn.email))}` };
+    }
     const operator = resolveOperator(request, env);
     if (operator.error) return { error: operator.error };
     return { key: `avatars/operator/${await sha256Hex(normalizeEmail(operator.operatorEmail || "operator"))}` };
@@ -29,7 +42,7 @@ const ownerOf = (value) => (str(value) === "operator" ? "operator" : "client");
 
 async function get({ request, env }) {
   if (!env.MEDIA) return new Response(null, { status: 204 });
-  const found = await keyFor(request, env, ownerOf(new URL(request.url).searchParams.get("owner")));
+  const found = await keyFor(request, env, ownerOf(new URL(request.url).searchParams.get("owner")), { read: true });
   if (found.error) return found.error;
   const stored = await env.MEDIA.get(found.key);
   // No picture yet: an empty answer, not a 404, so the sidebar's check does not log an error on every page.
