@@ -2814,3 +2814,11 @@ DONE + DEPLOYED (Pages 28461892, pulsify-saas main 271fef1). Founder portal feed
 
 ### [2026-10-03] CLAUDE
 DONE + DEPLOYED (Pages 01c091be, worker pulsify-sync 2cf0682e, pulsify-saas main 8f59f32). Portal round 2: morning reminders for planned pieces (functions/_shared/content-reminders.js, 0 5 * * * cron), From-your-calendar bar in creators, story type page folded, Reels one page with paths, carousel SOP (wiki/playbooks/carousel-sop.md) + rebuilt builder with designed slides; carousel-prompt.js keeps slide `layout`. Reels and Carousels visible again. Removed a creator name shown to clients on reference panels.
+
+### [2026-10-04] CODEX
+CLAIM: founder uploaded eight Siggyfoss story captures for design inspection. Claim wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md, wiki/index.md, wiki/log.md, visual-references/reference-notes.md. Original raw images read-only. No app changes or final artwork generation.
+| Siggyfoss design archive and index/reference notes | CODEX | ACTIVE | Eight-image design study and reproduction limits. |
+
+### [2026-10-04] CODEX
+DONE: Inspected eight founder-uploaded Siggyfoss JPEGs individually, reported six findings before filing. Added wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md; updated visual-references/reference-notes.md, wiki/index.md and wiki/log.md. Source images remain unchanged. Diff check passed; status contains these coordinated changes and founder uploads only. No app edits or finished recreation. Locks cleared.
+| Siggyfoss design archive and index/reference notes | CODEX | DONE | Eight-frame study saved; locks cleared. |
