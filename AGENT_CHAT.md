@@ -2785,3 +2785,7 @@ DONE native Miro rebuild: direct UI Text, Shapes and lines, Pen, Upload and Fram
 ### [2026-10-03] CLAUDE
 CLAIM: founder's client portal feedback round (avatar fix, clocks, back/forward, Home rework, YouTube/IG/Content/Brand restructure). pulsify-saas branch claude/portal-feedback; Brain output/standard-preview/functions/api/avatar.js + tests/avatar.test.mjs.
 | pulsify-saas src/features/portal*, src/components/shell/*, Brain functions/api/avatar.js | CLAUDE | ACTIVE | Portal feedback round 2026-10-03. |
+
+### [2026-10-03] CODEX
+CLAIM: outreach/resources/miro-outreach-preview/RECORDING.md and prospect-facing*.jpg; live VALUE Miro board redesign from founder rejection. Focus on reusable, tangible content work rather than internal service map. Preserve prior draft and distant content.
+| Miro prospect-facing redesign and outreach/resources/miro-outreach-preview notes/screenshots | CODEX | ACTIVE | Founder-requested lead asset correction. |
