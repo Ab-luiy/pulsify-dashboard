@@ -1979,3 +1979,6 @@ Founder: handing the prompt to the client's own Claude or other AI is better tha
 Released 2026-10-02: pulsify-saas main 17734ec, Pages 04741545 (phase 2), no new migrations.
 
 Released 2026-10-02: Copywriter as a chat. pulsify-saas main 6650b40, Brain main export, Pages a34ebb48, no new migrations.
+
+## [2026-10-03] decision | Phase 3 cleanup on a branch, live click-through done
+Live read-only click-through of the test client found no console errors and every screen loading. Phase 3 removed the unreachable legacy operator console and client portal (about 33,000 lines, 205 of 205 backend tests, functions bundle compiles) on branch claude/mvp-phase3-cleanup, not merged or deployed. Duplicate product calls for the founder are in [[wiki/synthesis/mvp-qa-2026-10-03]].
