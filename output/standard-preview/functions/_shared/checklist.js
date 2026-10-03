@@ -1,4 +1,4 @@
-// Launch checklist: eight fixed steps, server-side progress per client, and
+// Launch checklist: ten fixed steps, server-side progress per client, and
 // auto-complete rules evaluated against the client's own data. Each step
 // deep-links to the view that completes it.
 import { cleanId, nowIso, str } from "./common.js";
@@ -6,12 +6,14 @@ import { emitEvent } from "./outbound-webhooks.js";
 
 export const STEPS = [
   { id: "offer-voice-note", title: "Record your offer voice note", detail: "Two minutes on what you sell, to whom, and why it works. We turn it into your brain.", view: "onboard:voice", cta: "Record" },
-  { id: "who-you-sell-to", title: "Tell us who you sell to", detail: "Your ideal buyer in plain words. This shapes every sequence and title.", view: "brain:icp", cta: "Describe them" },
-  { id: "connect-instagram", title: "Connect Instagram", detail: "Accept the tester invite so your inbox and insights flow in.", view: "integrations:instagram", cta: "Connect" },
-  { id: "connect-youtube", title: "Connect YouTube", detail: "Your channel handle is enough to start tracking.", view: "integrations:youtube", cta: "Connect" },
-  { id: "connect-payments", title: "Connect payments", detail: "Stripe or Whop, read-only. Cash collected then shows against the lead who paid.", view: "integrations:stripe", cta: "Connect" },
+  { id: "who-you-sell-to", title: "Tell us who you sell to", detail: "Your ideal buyer in plain words. This shapes every video idea, title and sequence.", view: "brain:icp", cta: "Describe them" },
   { id: "first-proof", title: "Upload your first proof", detail: "One real student result. Never lifestyle.", view: "media", cta: "Upload" },
-  { id: "first-sequence", title: "Generate your first sequence", detail: "Pick a type, add the proof, and let the studio draft it.", view: "instagram", cta: "Open studio" },
+  { id: "first-video-idea", title: "Plan your first video", detail: "Answer a few questions and pick the idea we build the video around.", view: "youtube:new", cta: "Start" },
+  { id: "first-video-review", title: "Send your first video for review", detail: "Pick the title, write the opening, and send it. We read it before anything is made.", view: "youtube:projects", cta: "Open projects" },
+  { id: "first-video-approved", title: "Get your first video approved", detail: "We approve it or send back one clear note. Approved videos go into production.", view: "content", cta: "See status" },
+  { id: "connect-youtube", title: "Connect YouTube", detail: "Your channel handle is enough to start tracking.", view: "integrations:youtube", cta: "Connect" },
+  { id: "connect-instagram", title: "Connect Instagram", detail: "Accept the tester invite so your inbox and insights flow in.", view: "integrations:instagram", cta: "Connect" },
+  { id: "first-sequence", title: "Generate your first story sequence", detail: "Pick a type, add the proof, and let the studio draft it.", view: "instagram", cta: "Open studio" },
   { id: "ship-it", title: "Ship it", detail: "Post the sequence. It goes live in your library and the loop starts.", view: "content", cta: "Mark live" },
 ];
 const STEP_IDS = new Set(STEPS.map((s) => s.id));
@@ -62,7 +64,9 @@ const RULES = {
   "who-you-sell-to": async (env, c) => exists(env, "SELECT 1 FROM client_brain WHERE client_id=? AND section='icp' AND length(value_json)>4 LIMIT 1", c),
   "connect-instagram": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider='instagram' AND json_extract(config_json,'$.confirmed')='true' LIMIT 1", c),
   "connect-youtube": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider='youtube' AND length(COALESCE(json_extract(config_json,'$.handle'),''))>0 LIMIT 1", c),
-  "connect-payments": async (env, c) => exists(env, "SELECT 1 FROM integrations WHERE scope='client' AND client_id=? AND provider IN ('stripe','whop') AND secret_json IS NOT NULL AND length(secret_json)>2 LIMIT 1", c),
+  "first-video-idea": async (env, c) => exists(env, "SELECT 1 FROM workspace_records WHERE client_id=? AND kind='youtube' LIMIT 1", c),
+  "first-video-review": async (env, c) => exists(env, "SELECT 1 FROM content_reviews WHERE client_id=? LIMIT 1", c),
+  "first-video-approved": async (env, c) => exists(env, "SELECT 1 FROM content_reviews WHERE client_id=? AND status='approved' LIMIT 1", c),
   "first-proof": async (env, c) => exists(env, "SELECT 1 FROM proof_items WHERE client_id=? LIMIT 1", c),
   "first-sequence": async (env, c) => exists(env, "SELECT 1 FROM studio_sequences WHERE client_id=? LIMIT 1", c),
   "ship-it": async (env, c) => exists(env, "SELECT 1 FROM studio_sequences WHERE client_id=? AND status IN ('live','published') LIMIT 1", c),

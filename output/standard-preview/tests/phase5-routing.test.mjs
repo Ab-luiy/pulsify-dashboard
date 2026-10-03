@@ -32,7 +32,7 @@ test('database failure is not disguised as a successful gateway response', async
 
 import {pulsifyMiddleware as middleware} from '../functions/_middleware.js';
 test('retired client surface redirects to authenticated portal',async()=>{
-  for(const path of ['/client','/client.html']){
+  for(const path of ['/client','/client.html','/portal.html']){
     const r=await middleware({request:new Request('https://pulsify-ai.com'+path),env:{},data:{},next:()=>new Response('old')});
     assert.equal(r.status,302);assert.equal(r.headers.get('location'),'https://pulsify-ai.com/portal');
   }

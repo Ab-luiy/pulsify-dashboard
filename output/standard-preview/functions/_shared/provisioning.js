@@ -2,11 +2,12 @@ import { sideEffectFailure } from "./side-effect-failure.js";
 // One provisioning function, three triggers: a completed DocuSign envelope,
 // a confirmed payment for a prospect, or the operator's "Provision now".
 // Idempotent on client id. Creates the workspace and login shell if missing,
-// seeds the checklist, sends the welcome email through Resend with retries,
+// seeds the checklist, Plans, To-dos and Team, sends the welcome email through Resend with retries,
 // sets status to onboarding, and emits client.provisioned once.
 import { cleanId, generateOpaqueToken, normalizeEmail, nowIso, sha256Hex, str, titleCase } from "./common.js";
 import { createSetupLink, markSetupEmailed } from "./client-auth.js";
 import { seedChecklist } from "./checklist.js";
+import { seedDashboard } from "./workspace-seed.js";
 import { recordFailure } from "./integrations.js";
 import { emitEvent } from "./outbound-webhooks.js";
 import { welcomeEmail } from "./welcome-email.js";
@@ -68,6 +69,7 @@ export async function provisionClient(env, { source, client, email, name, contra
     await env.DB.prepare("DELETE FROM client_provisioning WHERE client_id=? AND welcome_state='pending'").bind(clientId).run().catch(() => sideEffectFailure(env, "provisioning_operation_2"));
     return { ok: false, error: String(error?.message || error) };
   }
+  await seedDashboard(env, clientId, now).catch(() => sideEffectFailure(env, "provisioning_seed_dashboard"));
   await env.DB.prepare("INSERT INTO operator_events (actor, action, client, detail, created_at) VALUES (?,?,?,?,?)")
     .bind(str(actor) || source, "client-provisioned", clientId, JSON.stringify({ source, contract_ref: contractRef || null, email: normalizedEmail }), now).run().catch(() => sideEffectFailure(env, "provisioning_operation_3"));
   await emitEvent(env, { scope: "client", clientId, event: "client.provisioned", data: { client_id: clientId, name: clientName, email: normalizedEmail, source, contract_ref: contractRef || null } }).catch(() => sideEffectFailure(env, "provisioning_operation_4"));

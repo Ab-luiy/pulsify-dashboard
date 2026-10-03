@@ -1,11 +1,12 @@
 // POST /api/youtube-titles {idea, layout, answers:[{id, question, answer}]} -> title and thumbnail pairs
-// for the signed-in client. With ANTHROPIC_API_KEY: {mode:"generated", pairs}. Without: {mode:"manual",
+// for the signed-in client. With an AI key (ai-provider.js): {mode:"generated", pairs}. Without: {mode:"manual",
 // prompt} for the client's own AI. Nothing is stored here: the portal saves the pick to the video project.
 import { withOperator } from "../_shared/access.js";
 import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
-import { callAnthropic, parseModelJson } from "../_shared/anthropic.js";
+import { parseModelJson } from "../_shared/anthropic.js";
+import { aiConfigured, generateText, resolveAi } from "../_shared/ai-provider.js";
 import { loadVideoLearning } from "../_shared/content-learning.js";
 import { normalizeAnswers } from "../_shared/youtube-ideas.js";
 import { LAYOUTS, buildTitlesPrompt, normalizeIdea, sanitizePairs } from "../_shared/youtube-titles.js";
@@ -38,11 +39,12 @@ async function handlePost({ request, env }) {
   });
   const manual = { ok: true, mode: "manual", prompt: `${prompt.system}\n\n${prompt.user}` };
 
-  if (!env.ANTHROPIC_API_KEY) return json(manual);
+  const ai = await resolveAi(env, client);
+  if (!aiConfigured(ai)) return json(manual);
 
   let rawText;
   try {
-    rawText = await callAnthropic(prompt, env.ANTHROPIC_API_KEY);
+    rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
     return json({ ok: false, error: "The title generator could not answer. Try again.", detail: String(error?.message || error).slice(0, 300) }, 502);
   }

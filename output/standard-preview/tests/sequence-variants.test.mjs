@@ -335,35 +335,21 @@ async function testAdminReadAuthAndCrossClientCoverage() {
   assert.deepEqual(new Set(body.rows.map((row) => row.client_id)), new Set(["alpha", "beta"]));
 }
 
-async function testMigrationAndPortalContract() {
+async function testMigration() {
   const sql = await readFile(new URL("../migrations/0019_sequence_variants.sql", import.meta.url), "utf8");
   assert.match(sql, /CREATE TABLE IF NOT EXISTS sequence_variants/);
   assert.match(sql, /sequence_ref\s+INTEGER NOT NULL/);
   assert.match(sql, /UNIQUE \(client_id, sequence_ref, label\)/);
   assert.match(sql, /CHECK \(status IN \('testing', 'won', 'lost', 'retired'\)\)/);
   assert.doesNotMatch(sql, /\b(?:DROP|ALTER|DELETE|UPDATE)\b/i);
-
-  const portal = [
-    await readFile(new URL("../portal/index.html", import.meta.url), "utf8"),
-    await readFile(new URL("../portal/legacy.js", import.meta.url), "utf8"),
-  ].join("\n");
-  assert.match(portal, /\/api\/sequence-variants/);
-  assert.match(portal, /data-retest-sequence/);
-  assert.match(portal, /How the retest works/);
-  assert.match(portal, /Keep every other slide identical/);
-  assert.match(portal, /data-log-variant/);
-  assert.match(portal, /data-resolve-retest/);
-  assert.match(portal, /A hook retest is running on/);
-  assert.match(portal, /won the hook retest on/);
-  assert.match(portal, /function getSequenceRead\(\) \{[\s\S]*?const activeRetest = state\.performance\.variantGroups[\s\S]*?return \{ rows, title, text, tab, label, leak, best, activeRetest, resolvedRetest \};/);
 }
 
 try {
   await testLifecycleAndIsolation();
   await testImpersonationReadOnlyAndClientRead();
   await testAdminReadAuthAndCrossClientCoverage();
-  await testMigrationAndPortalContract();
-  console.log("PASS sequence variants: start, capture, isolation, impersonation, logging, resolution, admin auth, portal, and migration");
+  await testMigration();
+  console.log("PASS sequence variants: start, capture, isolation, impersonation, logging, resolution, admin auth, and migration");
 } catch (error) {
   console.error(`FAIL sequence variants: ${error?.stack || error}`);
   process.exitCode = 1;

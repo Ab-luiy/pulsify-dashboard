@@ -11,7 +11,7 @@ sql.exec(`CREATE TABLE client_config(client TEXT PRIMARY KEY, client_name TEXT, 
 CREATE TABLE client_brain(id INTEGER, client_id TEXT, section TEXT, field TEXT, value_json TEXT, source TEXT, updated_at TEXT);
 CREATE TABLE proof_items(id INTEGER, client_id TEXT, kind TEXT, url TEXT, claim TEXT, permission TEXT, created_at TEXT);
 CREATE TABLE workspace_records(id TEXT PRIMARY KEY, client_id TEXT NOT NULL, kind TEXT NOT NULL, title TEXT NOT NULL, data_json TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL, updated_at TEXT NOT NULL);`);
-for (const file of ["0042_studio_feedback.sql", "0044_content_reviews.sql"]) sql.exec(readFileSync(new URL(`../migrations/${file}`, import.meta.url), "utf8"));
+for (const file of ["0006_portal_content.sql", "0042_studio_feedback.sql", "0044_content_reviews.sql"]) sql.exec(readFileSync(new URL(`../migrations/${file}`, import.meta.url), "utf8"));
 sql.prepare("INSERT INTO client_config(client, client_name, portal_token_hash) VALUES (?,?,?),(?,?,?)")
   .run("a", "Alpha Trades", await sha256Hex("token-a"), "b", "Beta", await sha256Hex("token-b"));
 const insertRecord = sql.prepare("INSERT INTO workspace_records VALUES (?,?,?,?,?,?,?)");
@@ -92,4 +92,16 @@ body = await (await reviewsApi.onRequestGet({ env: { DB }, request: req("content
 assert.equal(body.rows.length, 0);
 assert.doesNotMatch(await (async () => (await (await titlesApi.onRequestPost({ env: { DB }, request: req("youtube-titles", { idea: { idea: "x" } }, "token-b") })).json()).prompt)(), /APPROVED TITLE A|TITLES UNDER 50/, "learning stays with its client");
 
-console.log("PASS content reviews: client-only submit with snapshot, operator-only decisions, one decision per review, approved packages as examples, rejection reasons as rules, tenant isolation.");
+// The client's Content screen follows the gate: one row per video, in production, with a plain status note.
+const items = sql.prepare("SELECT title, stage, platform, notes FROM content_items WHERE client='a' ORDER BY id").all();
+assert.equal(items.length, 2, "one content item per video, not per review");
+assert.deepEqual(items.map((row) => row.platform), ["youtube", "youtube"]);
+assert.equal(items.find((row) => row.title === "The one risk rule").notes, "Approved by Pulsify. Next: shoot and edit.");
+assert.equal(items.find((row) => row.title === "Half done").notes, "Changes requested: TITLES UNDER 50 CHARACTERS");
+assert.equal(sql.prepare("SELECT COUNT(*) n FROM content_items WHERE client='b'").get().n, 0, "another client gets no rows");
+sql.prepare("UPDATE content_items SET stage='published' WHERE title='The one risk rule'").run();
+await submit("vid-a");
+assert.equal(sql.prepare("SELECT stage FROM content_items WHERE title='The one risk rule'").get().stage, "published", "a later review never moves a video backwards");
+assert.equal(sql.prepare("SELECT COUNT(*) n FROM content_items WHERE client='a'").get().n, 2, "resubmitting does not duplicate the item");
+
+console.log("PASS content reviews: client-only submit with snapshot, operator-only decisions, one decision per review, approved packages as examples, rejection reasons as rules, tenant isolation, Content screen kept in step.");

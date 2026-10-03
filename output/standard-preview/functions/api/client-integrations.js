@@ -21,6 +21,8 @@ const CLIENT_ALLOWED = [
   "youtube",
   "instagram",
   "zapier",
+  "gemini",
+  "anthropic",
 ];
 const CLIENT_ALLOWED_SET = new Set(CLIENT_ALLOWED);
 const DELEGATED_PROVIDERS = new Set(["youtube", "instagram"]);
@@ -126,6 +128,7 @@ export async function onRequestPost({ request, env }) {
     }
   }
 
+  // An AI key is checked and sealed inside upsertIntegration, so every route that saves one does the same.
   const result = await upsertIntegration(env, {
     scope: "client",
     client: access.client,

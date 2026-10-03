@@ -26,6 +26,7 @@ sql.exec("CREATE TABLE client_sessions(token_hash TEXT,client_id TEXT,expires_at
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");
 sql.exec("CREATE TABLE proof_items(id INTEGER PRIMARY KEY,client_id TEXT,created_at TEXT)");
 sql.exec("CREATE TABLE studio_sequences(id INTEGER PRIMARY KEY,client_id TEXT,status TEXT)");
+sql.exec("CREATE TABLE content_reviews(id INTEGER PRIMARY KEY,client_id TEXT,status TEXT)");
 for(const n of ['0007_delivery_failures.sql','0008_integrations_hub.sql','0014_client_brain.sql','0015_operator_events.sql','0021_workspace_records.sql','0025_data_spine.sql','0027_revenue_automation.sql','0028_onboarding.sql']){
   sql.exec(mig(n).replace(/ALTER TABLE client_config ADD COLUMN status[^;]*;/,''));
 }
@@ -76,29 +77,30 @@ assert.match(mail.subject,/ready/);assert.match(mail.text,/^Hey Ada,/);assert.ok
 console.log('PASS welcome email: template substitution, no leftover placeholders, link rendered');
 
 // ---------- checklist: auto-complete rules ----------
-let c=await loadChecklist(env,'acme');assert.equal(c.done,0);assert.equal(c.total,8);
+let c=await loadChecklist(env,'acme');assert.equal(c.done,0);assert.equal(c.total,10);
 sql.prepare("INSERT INTO client_brain(client_id,section,field,value_json,source,updated_at) VALUES('acme','icp','avatar','\"Traders\"','client-form','x')").run();
 sql.prepare("INSERT INTO proof_items(client_id,created_at) VALUES('acme','x')").run();
 sql.prepare("INSERT INTO integrations(scope,client_id,provider,config_json,secret_json,created_at,updated_at) VALUES('client','acme','stripe','{}','{\"api_key\":\"rk\"}','x','x')").run();
-let done=await autoComplete(env,'acme');assert.deepEqual(done.sort(),['connect-payments','first-proof','who-you-sell-to']);
-c=await loadChecklist(env,'acme');assert.equal(c.done,3);assert.equal(c.steps.find(s=>s.id==='first-proof').completed_by,'system');
-assert.equal(sql.prepare("SELECT COUNT(*) c FROM webhook_outbox WHERE event='client.checklist_step_completed'").get().c,3);
+let done=await autoComplete(env,'acme');assert.deepEqual(done.sort(),['first-proof','who-you-sell-to']);
+c=await loadChecklist(env,'acme');assert.equal(c.done,2);assert.equal(c.steps.find(s=>s.id==='first-proof').completed_by,'system');
+assert.equal(sql.prepare("SELECT COUNT(*) c FROM webhook_outbox WHERE event='client.checklist_step_completed'").get().c,2);
 // skip is allowed and does not emit
 r=await setStep(env,'acme','connect-instagram','skipped','client:acme');assert.equal(r.ok,true);
-assert.equal(sql.prepare("SELECT COUNT(*) c FROM webhook_outbox WHERE event='client.checklist_step_completed'").get().c,3);
+assert.equal(sql.prepare("SELECT COUNT(*) c FROM webhook_outbox WHERE event='client.checklist_step_completed'").get().c,2);
 // ship-it completes on live sequence, and finishing all flips status to client
 sql.prepare("INSERT INTO studio_sequences(client_id,status) VALUES('acme','live')").run();
 sql.prepare("INSERT INTO client_brain(client_id,section,field,value_json,source,updated_at) VALUES('acme','offer','business_explainer','\"Mentorship\"','voice-note','x')").run();
 sql.prepare("INSERT INTO integrations(scope,client_id,provider,config_json,secret_json,created_at,updated_at) VALUES('client','acme','instagram','{\"handle\":\"acme\"}','{}','x','x'),('client','acme','youtube','{\"handle\":\"acme\"}','{}','x','x')").run();
-r=await call(checklistGet,op('https://t/api/checklist?client=acme'));let body=await r.json();assert.equal(body.done,7);assert.equal(body.steps.find(s=>s.id==='connect-instagram').state,'skipped');
+r=await call(checklistGet,op('https://t/api/checklist?client=acme'));let body=await r.json();assert.equal(body.done,6);assert.equal(body.steps.find(s=>s.id==='connect-instagram').state,'skipped');
 sql.prepare("UPDATE integrations SET config_json='{\"confirmed\":\"true\",\"handle\":\"acme\"}' WHERE client_id='acme' AND provider='instagram'").run();
-r=await call(checklistGet,op('https://t/api/checklist?client=acme'));body=await r.json();assert.equal(body.done,8);
+sql.prepare("INSERT INTO workspace_records(id,client_id,kind,title,data_json,created_at,updated_at) VALUES('v1','acme','youtube','V','{}','x','x')").run();sql.prepare("INSERT INTO content_reviews(client_id,status) VALUES('acme','approved')").run();
+r=await call(checklistGet,op('https://t/api/checklist?client=acme'));body=await r.json();assert.equal(body.done,10);
 assert.equal(sql.prepare("SELECT status FROM client_config WHERE client='acme'").get().status,'client');
 // client can read and mark its own; cannot touch another client
 r=await checklistGet({request:new Request('https://t/api/checklist?client=acme',{headers:{'x-portal-token':'token-acme'}}),env,data:{}});assert.equal(r.status,200);
 r=await checklistPost({request:new Request('https://t/api/checklist',{method:'POST',headers:{'content-type':'application/json','x-portal-token':'token-acme'},body:JSON.stringify({client:'other',step:'ship-it'})}),env,data:{}});assert.equal(r.status,403);
 r=await checklistPost({request:new Request('https://t/api/checklist',{method:'POST',headers:{'content-type':'application/json','x-portal-token':'token-acme'},body:JSON.stringify({client:'acme',step:'nope'})}),env,data:{}});assert.equal(r.status,422);
-console.log('PASS checklist: 8 seeded, auto-complete from brain/proof/integrations/sequences, skip silent, all-done flips status, tenant scope, validation');
+console.log('PASS checklist: 10 seeded, auto-complete from brain/proof/integrations/sequences, skip silent, all-done flips status, tenant scope, validation');
 
 // ---------- pipeline touches: one person, many events ----------
 await recordTouch(env,{client:'acme',email:'Lead@X.com',name:'Lead Person',kind:'optin',ts:'2026-09-01T00:00:00Z',source:'landing',externalId:'optin:lead@x.com'});
