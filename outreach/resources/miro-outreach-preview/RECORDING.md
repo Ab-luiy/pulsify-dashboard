@@ -31,3 +31,14 @@ The older SVGs, build.cjs, walkthrough.html and PNG previews remain as earlier d
 Dustin guide, read fully: https://dustinvarano.notion.site/Create-High-Converting-Miro-Boards-39fc6265eb9a805b8f40c32cc9e6dfd6. Applied short notes, original screenshots, bold black headings, connected stages, gray canvas and red marker emphasis. Financial claims from his examples were not adopted.
 
 Vault references: clients/nick/overview.md; claude-memory/project_nick_case_study.md; wiki/content-engine/packaging-rules.md; wiki/content-engine/thumbnail-layout-patterns.md; founder instructions in this thread. Earlier DM messages remain unchanged.
+
+## Founder rejection and prospect-facing rebuild, 2026-10-03
+
+Founder rejected the process-map build as unsuitable for leads. The 2026-10-02 readiness claim is superseded. New native sections sit separately on VALUE: START HERE - your next 3 video angles, then NEXT - record the full breakdown. The old overview is historical/internal draft, not the recommended prospect asset.
+
+First section uses the founder's approved qualified-audience headline, ideation rule, three reusable title angles, original kole trades and Nathan Miller screenshots at readable size, and short explanations of what to borrow. Second section develops the first angle through the five-stage video sequence horizontally, with the founder-approved mid-video and final CTA examples and a reply invitation for their own brand breakdown. Brackets require the creator's real details; no bespoke audit or result is claimed.
+
+This replaces the internal service explanation with practical content work. Source review: feedback_value_asset_is_built_work.md, packaging-rules.md, thumbnail-layout-patterns.md, copy-voice-guide.md, Packaging examples/review and the founder's wording in this thread. Keep the day-2 message unchanged. Use the first resource as the useful excerpt; the second continues the same example. No DMs sent and no outreach performance claim.
+
+Screenshots: prospect-facing-ideas.jpg and prospect-facing-recording.jpg. Pending founder review; successful saving does not establish that the prospect asset hits the required standard.
+
