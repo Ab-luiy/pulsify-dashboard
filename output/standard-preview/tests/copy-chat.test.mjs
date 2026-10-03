@@ -135,6 +135,8 @@ try {
   assert.match(system, /never say or hint where Pulsify's methods/i, "the hard limit on sources is in the prompt");
   assert.doesNotMatch(system, /niksetting|haynes|alexei|ayman|soowei/i, "the method text the model reads names no source");
   assert.match(system, /story sequence/i, "story format loads the story method");
+  assert.match(system, /THE LEVEL OF WRITING EXPECTED/, "a worked example sets the level");
+  assert.match(system, /Slide 1: \[Real result\]/, "the story example leaves facts as brackets");
 
   // ---- the background memory call ran and stored a note
   assert.deepEqual(sql.prepare("SELECT note, source FROM copy_memory WHERE client_id='a' AND active=1").all().map((r) => [r.note, r.source]), [["Prefers blunt, dry openings.", "chat"]]);

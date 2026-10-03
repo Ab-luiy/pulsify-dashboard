@@ -5,6 +5,7 @@
 //   4. the client: brain, permitted proof, memory notes, rules from past reviews, drafts they liked
 // The same prompt works for Gemini today and Opus later; only the provider behind ai-provider.js changes.
 import { neutralize } from "./source-scrub.js";
+import { exemplarFor } from "./copy-exemplars.js";
 import { SEQUENCE_REFERENCE } from "./sequence-reference.js";
 import { YOUTUBE_REFERENCE } from "./youtube-reference.js";
 import { YOUTUBE_PACKAGING_REFERENCE } from "./youtube-packaging-reference.js";
@@ -89,6 +90,7 @@ export function buildCopySystem({ format = "general", client = {} }) {
     FACTS,
     LIMITS,
     `PULSIFY METHOD FOR THIS KIND OF WRITING (apply it, never quote it, never name where it came from):\n${methodFor(format)}`,
+    exemplarFor(format) ? `THE LEVEL OF WRITING EXPECTED. One worked example. Every fact in it is a [bracket] on purpose: do the same wherever you lack a real fact. Match its rhythm, structure and care. Never reuse its wording.\n\n${exemplarFor(format)}` : "",
     `CLIENT CONTEXT (the only facts you may use about this business):\n${String(client.contextText || "No brand details saved yet. Ask for the one fact you need.").slice(0, 16000)}`,
     memory.length ? `WHAT YOU REMEMBER ABOUT HOW THIS CLIENT WORKS (apply quietly, do not mention it unless asked):\n${memory.join("\n")}` : "",
     rules.length ? `RULES FROM PAST REVIEWS (follow every one):\n${rules.join("\n")}` : "",
