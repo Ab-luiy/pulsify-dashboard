@@ -71,9 +71,9 @@ export async function pulsifyMiddleware(context) {
   // A Cloudflare Access token is still honoured for the ops dashboard and API keys.
   let operator = await validateAccess(accessToken(request), api ? [env.ACCESS_AUD,env.ACCESS_DASHBOARD_AUD] : env.ACCESS_AUD);
   if (!operator) operator = await resolveOperatorSession(request, env);
-  // App code is only served to someone signed in: the Next.js build, and the
-  // legacy console and portal scripts kept for rollback. Everyone else gets a
-  // plain 404, so the code cannot be downloaded from the public site.
+  // App code is only served to someone signed in: the Next.js build and the
+  // remaining shared scripts. Everyone else gets a plain 404, so the code
+  // cannot be downloaded from the public site.
   if (privateAsset(path) && !operator) {
     const client = await resolveClientAccess(request, env, { allowHeaderToken: false, allowQueryToken: false, allowImpersonated: true, clientHint: '' });
     if (client.error || operatorOnlyAsset(path)) return notFound();

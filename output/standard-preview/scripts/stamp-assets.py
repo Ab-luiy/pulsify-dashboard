@@ -4,7 +4,7 @@
 import re, subprocess, io, os
 root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sha = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True, cwd=root).stdout.strip() or "dev"
-pages = ["admin.html", "portal/index.html", "portal/login/index.html", "onboard/index.html", "admin/console-view.html"]
+pages = ["portal/login/index.html", "onboard/index.html"]
 pat = re.compile(r'((?:src|href)=")(/(?:shared|admin|portal|onboard|js|css)/[^"?]+\.(?:js|css))(?:\?v=[^"]*)?(")')
 for rel in pages:
     p = os.path.join(root, rel)
