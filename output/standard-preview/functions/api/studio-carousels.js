@@ -4,7 +4,8 @@ import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { clientLabel, notify } from "../_shared/notifications.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
-import { callAnthropic, parseModelJson } from "../_shared/anthropic.js";
+import { parseModelJson } from "../_shared/anthropic.js";
+import { aiConfigured, aiMode, generateText } from "../_shared/ai-provider.js";
 import {
   buildCarouselPrompt,
   buildManualCarouselOutput,
@@ -122,10 +123,10 @@ async function generateCarousel(env, access, body) {
   let provider = "";
   let output = buildManualCarouselOutput(input);
   let reviewNote = null;
-  if (!forceManual && env.ANTHROPIC_API_KEY) {
-    provider = "anthropic";
+  if (!forceManual && aiConfigured(env)) {
+    provider = aiMode(env);
     try {
-      const raw = await callAnthropic(prompt, env.ANTHROPIC_API_KEY);
+      const raw = await generateText(prompt, env, { json: true });
       output = sanitizeCarouselOutput(parseModelJson(raw), { structure, topic, goal, triggerWord, slideCount });
       mode = "generated";
     } catch (error) {
