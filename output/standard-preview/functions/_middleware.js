@@ -55,7 +55,7 @@ export async function pulsifyMiddleware(context) {
     });
   }
   const url = new URL(request.url), api = path.startsWith('/api/');
-  if (/^\/client(?:\.html)?\/?$/.test(path) && ['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
+  if (/^\/(?:client(?:\.html)?|portal\.html)\/?$/.test(path) &&['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/app/'+legacyView[1],302);
   // The old combined sign-in's operator mode now has its own branded page.
