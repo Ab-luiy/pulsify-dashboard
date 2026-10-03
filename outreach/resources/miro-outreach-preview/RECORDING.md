@@ -42,3 +42,5 @@ This replaces the internal service explanation with practical content work. Sour
 
 Screenshots: prospect-facing-ideas.jpg and prospect-facing-recording.jpg. Pending founder review; successful saving does not establish that the prospect asset hits the required standard.
 
+
+Reload verification completed for both native sections. Clean full-content DM captures: prospect-facing-ideas-send.jpg and prospect-facing-recording-send.jpg. Crops preserve native board content and remove the surrounding controls.

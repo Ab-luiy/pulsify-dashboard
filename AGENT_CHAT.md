@@ -2789,3 +2789,7 @@ CLAIM: founder's client portal feedback round (avatar fix, clocks, back/forward,
 ### [2026-10-03] CODEX
 CLAIM: outreach/resources/miro-outreach-preview/RECORDING.md and prospect-facing*.jpg; live VALUE Miro board redesign from founder rejection. Focus on reusable, tangible content work rather than internal service map. Preserve prior draft and distant content.
 | Miro prospect-facing redesign and outreach/resources/miro-outreach-preview notes/screenshots | CODEX | ACTIVE | Founder-requested lead asset correction. |
+
+### [2026-10-03] CODEX
+DONE: Prospect-facing VALUE redesign saved and verified after reload. Two separate editable native sections: reusable video/title angles with original kole trades and Nathan Miller screenshots, then the connected five-stage recording breakdown with CTA examples. Preserved old draft and distant board content. Updated RECORDING.md and four prospect-facing JPEG captures. Founder review pending; no performance/readiness claim or outbound DMs. Locks cleared.
+| Miro prospect-facing redesign and outreach/resources/miro-outreach-preview notes/screenshots | CODEX | DONE | Rebuilt and verified; locks cleared. |
