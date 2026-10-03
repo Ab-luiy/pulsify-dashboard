@@ -1982,3 +1982,5 @@ Released 2026-10-02: Copywriter as a chat. pulsify-saas main 6650b40, Brain main
 
 ## [2026-10-03] decision | Phase 3 cleanup on a branch, live click-through done
 Live read-only click-through of the test client found no console errors and every screen loading. Phase 3 removed the unreachable legacy operator console and client portal (about 33,000 lines, 205 of 205 backend tests, functions bundle compiles) on branch claude/mvp-phase3-cleanup, not merged or deployed. Duplicate product calls for the founder are in [[wiki/synthesis/mvp-qa-2026-10-03]].
+
+Released 2026-10-03: Phase 3 cleanup. pulsify-saas main 352fe2d, Pages c5f26e08 (tested first on a throwaway preview URL, route statuses matched live), no migrations. /portal.html now redirects to the portal.
