@@ -12,6 +12,7 @@ import { syncSearchIndex } from "./jobs/search-index.js";
 import { syncClientVideosJob } from "./jobs/client-videos.js";
 import { refreshLeadModelsJob } from "./jobs/lead-models.js";
 import { callDayNudges } from "../../../functions/_shared/call-day.js";
+import { contentReminders } from "../../../functions/_shared/content-reminders.js";
 import { authCleanup } from "../../../functions/_shared/auth-cleanup.js";
 import { verifySignature } from "../../../functions/_shared/zernio.js";
 
@@ -38,6 +39,8 @@ export default {
     if (controller.cron === "0 5 * * *") ctx.waitUntil(followUpDigest(env).catch(() => 0));
     // Clients with calls today get one nudge to post a result story before them (InfoOS build).
     if (controller.cron === "0 5 * * *") ctx.waitUntil(callDayNudges(env).catch(() => null));
+    // Pieces the client planned for today on their Content calendar, one reminder each morning.
+    if (controller.cron === "0 5 * * *") ctx.waitUntil(contentReminders(env).catch(() => null));
     // Expired sessions, links, codes and sign-in misses are swept once a night, not on every request.
     if (controller.cron === "0 5 * * *") ctx.waitUntil(authCleanup(env).catch(() => null));
     // Delivery automations run on Pages (Fathom and model keys live there).
