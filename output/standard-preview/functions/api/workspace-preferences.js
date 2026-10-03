@@ -1,7 +1,7 @@
 import { json } from '../_shared/common.js';
 import { resolveClientAccess } from '../_shared/client-auth.js';
 import { emitEvent } from '../_shared/outbound-webhooks.js';
-const validKey=key=>/^(launch-checklist|kpi-layout:[a-z0-9:_-]+)$/.test(key);
+const validKey=key=>/^(launch-checklist|content-plan|media-folders|kpi-layout:[a-z0-9:_-]+)$/.test(key);
 export async function onRequestGet({request,env}){
  const access=await resolveClientAccess(request,env,{allowHeaderToken:true,allowImpersonated:true});
  if(access.error)return access.error;
