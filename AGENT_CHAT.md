@@ -2793,3 +2793,7 @@ CLAIM: outreach/resources/miro-outreach-preview/RECORDING.md and prospect-facing
 ### [2026-10-03] CODEX
 DONE: Prospect-facing VALUE redesign saved and verified after reload. Two separate editable native sections: reusable video/title angles with original kole trades and Nathan Miller screenshots, then the connected five-stage recording breakdown with CTA examples. Preserved old draft and distant board content. Updated RECORDING.md and four prospect-facing JPEG captures. Founder review pending; no performance/readiness claim or outbound DMs. Locks cleared.
 | Miro prospect-facing redesign and outreach/resources/miro-outreach-preview notes/screenshots | CODEX | DONE | Rebuilt and verified; locks cleared. |
+
+### [2026-10-03 15:57] CODEX
+CLAIM: founder-requested five X launch/motion reference study and Pulsify founder-plus-product launch brief. Claim visual-references/studies/pulsify-launch-2026-10-03/**, visual-references/reference-notes.md, visual-references/taste-profile.md, wiki/synthesis/pulsify-product-launch-direction.md, wiki/index.md, wiki/log.md; AGENT_CHAT append only. No application changes.
+| Launch reference study and named visual/wiki files | CODEX | ACTIVE | Inspect five founder-supplied links, evidence and original launch direction. |

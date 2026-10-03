@@ -1,0 +1,55 @@
+[
+  {
+    "name": "twoclipping-overview",
+    "file": "twoclipping-overview.mp4",
+    "fps": 60.0,
+    "frames": 840.0,
+    "duration_seconds": 14.0,
+    "width": 1440.0,
+    "height": 1440.0,
+    "sample_interval_seconds": 0.5,
+    "contact_sheets": [
+      "twoclipping-overview-sheet-01.jpg"
+    ]
+  },
+  {
+    "name": "twoclipping-food",
+    "file": "twoclipping-food.mp4",
+    "fps": 60.0,
+    "frames": 886.0,
+    "duration_seconds": 14.766666666666667,
+    "width": 1920.0,
+    "height": 1080.0,
+    "sample_interval_seconds": 0.5,
+    "contact_sheets": [
+      "twoclipping-food-sheet-01.jpg"
+    ]
+  },
+  {
+    "name": "twoclipping-photo",
+    "file": "twoclipping-photo.mp4",
+    "fps": 59.99982660346042,
+    "frames": 1622.0,
+    "duration_seconds": 27.033411458333333,
+    "width": 1440.0,
+    "height": 1440.0,
+    "sample_interval_seconds": 0.5,
+    "contact_sheets": [
+      "twoclipping-photo-sheet-01.jpg",
+      "twoclipping-photo-sheet-02.jpg"
+    ]
+  },
+  {
+    "name": "twoclipping-ui",
+    "file": "twoclipping-ui.mp4",
+    "fps": 60.0,
+    "frames": 840.0,
+    "duration_seconds": 14.0,
+    "width": 1440.0,
+    "height": 1440.0,
+    "sample_interval_seconds": 0.5,
+    "contact_sheets": [
+      "twoclipping-ui-sheet-01.jpg"
+    ]
+  }
+]
