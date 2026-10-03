@@ -5,7 +5,7 @@ import { resolveClientAccess } from "../_shared/client-auth.js";
 import { clientLabel, notify } from "../_shared/notifications.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, aiMode, generateText } from "../_shared/ai-provider.js";
+import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
 import {
   buildCarouselPrompt,
   buildManualCarouselOutput,
@@ -123,10 +123,11 @@ async function generateCarousel(env, access, body) {
   let provider = "";
   let output = buildManualCarouselOutput(input);
   let reviewNote = null;
-  if (!forceManual && aiConfigured(env)) {
-    provider = aiMode(env);
+  const ai = forceManual ? null : await resolveAi(env, client);
+  if (ai && aiConfigured(ai)) {
+    provider = aiMode(ai);
     try {
-      const raw = await generateText(prompt, env, { json: true });
+      const raw = await generateText(prompt, ai, { json: true });
       output = sanitizeCarouselOutput(parseModelJson(raw), { structure, topic, goal, triggerWord, slideCount });
       mode = "generated";
     } catch (error) {

@@ -11,6 +11,7 @@ import {
   strOrNull,
   titleCase,
 } from "./common.js";
+import { AI_PROVIDERS, sealAiKey, validateAiKey } from "./ai-provider.js";
 
 export const DEFAULT_ONBOARDING_FORM_URL =
   "https://docs.google.com/forms/d/1zXVRhwBgX3WF1ie194m-FvG7Vd4-OFpwNA9wtKu_gTE/viewform";
@@ -115,6 +116,23 @@ export const PROVIDERS = {
       return Boolean(record.secrets.webhook_url);
     },
   },
+  // The client's own AI key (ai-provider.js). The key is stored sealed; last_four is the only part ever shown back.
+  gemini: {
+    scope: "client",
+    configFields: ["last_four", "connected_at"],
+    secretFields: ["api_key"],
+    clientConnected(record) {
+      return Boolean(record.secrets.api_key);
+    },
+  },
+  anthropic: {
+    scope: "client",
+    configFields: ["last_four", "connected_at"],
+    secretFields: ["api_key"],
+    clientConnected(record) {
+      return Boolean(record.secrets.api_key);
+    },
+  },
 };
 
 export function validateProvider(provider, scope) {
@@ -177,6 +195,20 @@ export async function upsertIntegration(env, input) {
   const checked = validateProvider(input.provider, scope);
   if (checked.error) return { ok: false, error: checked.error };
   if (scope === "client" && !client) return { ok: false, error: "valid client id required" };
+
+  // A client's AI key is checked with its provider and stored sealed to that client, on every route that can write it.
+  // What is shown back (last four, connected date) comes from the key that was accepted, never from the request.
+  if (scope === "client" && AI_PROVIDERS.includes(checked.provider)) {
+    const key = str(input.secrets?.api_key).trim();
+    if (!key) return { ok: false, error: "Paste your key first." };
+    const check = await validateAiKey(checked.provider, key);
+    if (!check.ok) return { ok: false, error: check.message };
+    input = {
+      ...input,
+      secrets: { api_key: await sealAiKey(env, client, checked.provider, key) },
+      config: { last_four: key.slice(-4), connected_at: nowIso() },
+    };
+  }
 
   const existing = await getIntegration(env, scope, client, checked.provider);
   const existingConfig = existing?.config || {};

@@ -7,7 +7,7 @@ import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, generateText } from "../_shared/ai-provider.js";
+import { aiConfigured, generateText, resolveAi } from "../_shared/ai-provider.js";
 import { loadVideoLearning } from "../_shared/content-learning.js";
 import { buildIdeasPrompt, normalizeAnswers, sanitizeIdeas } from "../_shared/youtube-ideas.js";
 
@@ -36,13 +36,14 @@ async function handlePost({ request, env }) {
   });
   const brainUsed = { used: brainContext.used, fields_used: brainContext.fields_used };
 
-  if (!aiConfigured(env)) {
+  const ai = await resolveAi(env, client);
+  if (!aiConfigured(ai)) {
     return json({ ok: true, mode: "manual", prompt: `${prompt.system}\n\n${prompt.user}`, brain_context: brainUsed });
   }
 
   let rawText;
   try {
-    rawText = await generateText(prompt, env, { json: true });
+    rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
     return json({ ok: false, error: "The idea generator could not answer. Try again.", detail: String(error?.message || error).slice(0, 300) }, 502);
   }

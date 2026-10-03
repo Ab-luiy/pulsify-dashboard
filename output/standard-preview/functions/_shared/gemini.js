@@ -22,8 +22,8 @@ function bodyFor({ system, messages, json, temperature, maxOutputTokens }) {
   };
 }
 
-function modelsFor(env) {
-  const wanted = String(env?.GEMINI_MODEL || "").trim();
+function modelsFor(options) {
+  const wanted = String(options?.model || "").trim();
   return wanted ? [wanted, ...GEMINI_MODELS.filter((model) => model !== wanted)] : GEMINI_MODELS;
 }
 
@@ -47,7 +47,7 @@ export async function callGemini(prompt, apiKey, options = {}) {
   const messages = [{ role: "user", content: prompt.user }];
   const payload = JSON.stringify(bodyFor({ system: prompt.system, messages, ...options }));
   let lastError;
-  for (const model of modelsFor(options.env)) {
+  for (const model of modelsFor(options)) {
     const response = await fetch(`${BASE}/${model}:generateContent`, {
       method: "POST",
       headers: { "content-type": "application/json", "x-goog-api-key": apiKey },
@@ -72,7 +72,7 @@ export async function* streamGemini(prompt, apiKey, options = {}) {
   const payload = JSON.stringify(bodyFor({ system: prompt.system, messages: prompt.messages, ...options }));
   let response;
   let lastError;
-  for (const model of modelsFor(options.env)) {
+  for (const model of modelsFor(options)) {
     response = await fetch(`${BASE}/${model}:streamGenerateContent?alt=sse`, {
       method: "POST",
       headers: { "content-type": "application/json", "x-goog-api-key": apiKey },

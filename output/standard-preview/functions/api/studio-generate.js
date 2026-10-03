@@ -7,7 +7,7 @@ import {
 import { cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, aiMode, generateText } from "../_shared/ai-provider.js";
+import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 
 export async function onRequestPost({ request, env }) {
@@ -24,9 +24,6 @@ export async function onRequestPost({ request, env }) {
   const triggerWord = String(body.trigger_word || "").trim();
   const proofLines = normalizeLines(body.proof_lines);
   const slideCount = clampSlideCount(body.slide_count);
-  // One switch: with an AI key set (Opus, else Gemini; see ai-provider.js) every draft is written for them; without one the
-  // client gets the same prompt to run in their own AI and pastes the answer back.
-  const forceManual = !aiConfigured(env);
 
   if (!type && !intent) {
     return json({ ok: false, error: "type or intent is required" }, 422);
@@ -36,6 +33,9 @@ export async function onRequestPost({ request, env }) {
   }
 
   const client = cleanId(access.client);
+  // One switch per client (see ai-provider.js): their own key, else a prompt for their own AI.
+  const ai = await resolveAi(env, client);
+  const forceManual = !aiConfigured(ai);
   const clientContext = await loadClientContext(env, client);
   const brainContext = buildGeneratorBrainContext(clientContext.brain);
   const learning = await loadReviewLearning(env, client, type);
@@ -102,10 +102,10 @@ export async function onRequestPost({ request, env }) {
     });
   }
 
-  const provider = aiMode(env);
+  const provider = aiMode(ai);
   let rawText = "";
   try {
-    rawText = await generateText(prompt, env, { json: true });
+    rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
     return json({
       ok: false,

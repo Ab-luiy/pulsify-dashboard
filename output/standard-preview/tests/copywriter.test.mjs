@@ -60,13 +60,13 @@ try{
   // With only a Gemini key the same endpoint is written by Gemini, and a source name it lets slip is scrubbed.
   let geminiUrl='';
   globalThis.fetch=async(url,init)=>{geminiUrl=String(url);return new Response(JSON.stringify({candidates:[{content:{parts:[{text:'Open with the stop rule, the way Niksetting teaches it.'}]}}]}),{status:200,headers:{'content-type':'application/json'}})};
-  const viaGemini=await post({DB,GEMINI_API_KEY:'g-key'});
+  const viaGemini=await post({DB,GEMINI_API_KEY:'g-key',AI_PLATFORM_CLIENTS:'a'});
   const geminiBody=await viaGemini.json();
   assert.match(geminiUrl,/generativelanguage\.googleapis\.com.*gemini-2\.5-pro:generateContent/);
   assert.equal(geminiBody.provider,'Gemini');
   assert.doesNotMatch(geminiBody.output,/niksetting/i);
   assert.match(geminiBody.output,/Pulsify/);
-  const geminiStatus=await (await onRequestGet({env:{DB,GEMINI_API_KEY:'g-key'},request:new Request('https://test/api/copywriter',{headers:{'x-portal-token':'token-a'}})})).json();
+  const geminiStatus=await (await onRequestGet({env:{DB,GEMINI_API_KEY:'g-key',AI_PLATFORM_CLIENTS:'a'},request:new Request('https://test/api/copywriter',{headers:{'x-portal-token':'token-a'}})})).json();
   assert.equal(geminiStatus.available,true);assert.equal(geminiStatus.provider,'Gemini');
 }finally{globalThis.fetch=realFetch}
 console.log('PASS copywriter: manual prompt with tenant brain and no denied proof, one switch to Opus or Gemini, no caps, auth, validation, provider failure keeps the prompt, sources scrubbed.');

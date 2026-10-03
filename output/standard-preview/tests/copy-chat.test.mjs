@@ -38,7 +38,7 @@ const req = (body, token = "token-a", method = "POST", query = "") => new Reques
 });
 const get = (env, query = "", token = "token-a") => chat.onRequestGet({ env, request: req(null, token, "GET", query) });
 const manualEnv = { DB };
-const geminiEnv = { DB, GEMINI_API_KEY: "g-key" };
+const geminiEnv = { DB, GEMINI_API_KEY: "g-key", AI_PLATFORM_CLIENTS: "*" };
 
 /** Run a send, collect the background work, and parse the event stream if there is one. */
 async function post(env, body, token = "token-a") {

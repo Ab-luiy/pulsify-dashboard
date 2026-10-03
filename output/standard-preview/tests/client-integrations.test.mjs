@@ -298,9 +298,11 @@ test("GET returns all providers with masked secrets only", async () => {
       "youtube",
       "instagram",
       "zapier",
+      "gemini",
+      "anthropic",
     ],
   );
-  assert.equal(data.integrations.length, 8);
+  assert.equal(data.integrations.length, 10);
   assert.equal(data.integrations.find((item) => item.provider === "kit").config.api_key_set, true);
   assert.equal(data.integrations.find((item) => item.provider === "zapier").config.webhook_url_set, true);
   assert.equal(data.integrations.find((item) => item.provider === "calcom").connected, false);

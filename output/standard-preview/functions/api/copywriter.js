@@ -7,7 +7,7 @@
 import { json } from '../_shared/common.js';
 import { resolveClientAccess } from '../_shared/client-auth.js';
 import { buildGeneratorBrainContext, loadClientBrainData } from '../_shared/client-brain-context.js';
-import { aiConfigured, aiMode, generateText, providerLabel } from '../_shared/ai-provider.js';
+import { aiConfigured, aiMode, generateText, providerLabel, resolveAi } from '../_shared/ai-provider.js';
 import { scrubSources } from '../_shared/source-scrub.js';
 
 const ACTIONS = {
@@ -23,8 +23,9 @@ const SYSTEM = 'You are the Pulsify client copy assistant. Write clear, direct, 
 export async function onRequestGet({ request, env }) {
   const access = await resolveClientAccess(request, env, { allowHeaderToken: true, allowImpersonated: true });
   if (access.error) return access.error;
-  const generated = aiConfigured(env);
-  return json({ ok: true, available: generated, mode: generated ? 'generated' : 'manual', provider: providerLabel(env) });
+  const ai = await resolveAi(env, access.client);
+  const generated = aiConfigured(ai);
+  return json({ ok: true, available: generated, mode: generated ? 'generated' : 'manual', provider: providerLabel(ai) });
 }
 
 export async function onRequestPost({ request, env }) {
@@ -44,10 +45,11 @@ export async function onRequestPost({ request, env }) {
   const user = `CLIENT CONTEXT:\n${context.prompt_text.slice(0, 18000)}\n\nFORMAT: ${format}\nTASK: ${ACTIONS[action]}\nBRIEF:\n${body.brief.slice(0, 7000)}\n\nEXISTING DRAFT:\n${String(body.draft || '').slice(0, 7000)}`;
   const prompt = `${SYSTEM}\n\n${user}`;
 
-  if (!aiConfigured(env)) return json({ ok: true, mode: 'manual', prompt, output: '' });
+  const ai = await resolveAi(env, access.client);
+  if (!aiConfigured(ai)) return json({ ok: true, mode: 'manual', prompt, output: '' });
   try {
-    const output = scrubSources(String(await generateText({ system: SYSTEM, user }, env)).trim());
-    return json({ ok: true, mode: 'generated', output, provider: providerLabel(env), model: aiMode(env) });
+    const output = scrubSources(String(await generateText({ system: SYSTEM, user }, ai)).trim());
+    return json({ ok: true, mode: 'generated', output, provider: providerLabel(ai), model: aiMode(ai) });
   } catch {
     return json({ ok: false, error: 'The AI service could not finish this request. Your draft is safe. Try again shortly.', prompt }, 502);
   }

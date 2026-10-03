@@ -14,7 +14,7 @@
 import { cleanId, json, nowIso } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
-import { aiMode, generateText, providerLabel, streamText } from "../_shared/ai-provider.js";
+import { aiMode, generateText, providerLabel, resolveAi, streamText } from "../_shared/ai-provider.js";
 import { parseModelJson } from "../_shared/anthropic.js";
 import { buildCopySystem, conversationFor, formatFromText, memoryPrompt } from "../_shared/copy-brain.js";
 import { createStreamScrubber, scrubSources } from "../_shared/source-scrub.js";
@@ -55,10 +55,13 @@ export async function onRequestGet({ request, env }) {
     return json({ ok: true, chat, messages: (rows.results || []).map((row) => ({ ...row, id: Number(row.id) })) });
   }
   const chats = await env.DB.prepare("SELECT id, title, format, updated_at FROM copy_chats WHERE client_id=? ORDER BY updated_at DESC, id DESC LIMIT 100").bind(client).all();
+  const ai = await resolveAi(env, client);
   return json({
     ok: true,
-    mode: aiMode(env) === "manual" ? "manual" : "generated",
-    provider: providerLabel(env),
+    mode: aiMode(ai) === "manual" ? "manual" : "generated",
+    provider: providerLabel(ai),
+    // "client" = writing on their own key, "platform" = on Pulsify's, "none" = a prompt for their own AI.
+    source: ai.source,
     chats: (chats.results || []).map((row) => ({ ...row, id: Number(row.id) })),
     memory: await loadMemory(env, client),
   });
@@ -149,10 +152,10 @@ async function addMemory(env, client, note, source) {
   }
 }
 
-async function remember(env, client, userMessage, reply) {
+async function remember(env, ai, client, userMessage, reply) {
   try {
     const existing = (await loadMemory(env, client)).map((row) => row.note);
-    const answer = parseModelJson(await generateText(memoryPrompt({ userMessage, reply, existing }), env, { json: true, temperature: 0.2, maxOutputTokens: 400 }));
+    const answer = parseModelJson(await generateText(memoryPrompt({ userMessage, reply, existing }), ai, { json: true, temperature: 0.2, maxOutputTokens: 400 }));
     for (const note of (Array.isArray(answer?.notes) ? answer.notes : []).slice(0, 2)) {
       const text = clean(scrubSources(note), 200);
       if (text.length >= 8) await addMemory(env, client, text, "chat");
@@ -206,7 +209,8 @@ async function send(context, client, body) {
   const messages = conversationFor(history.results || []);
   const system = buildCopySystem({ format, client: await loadClientBrain(env, client) });
 
-  if (aiMode(env) === "manual") {
+  const ai = await resolveAi(env, client);
+  if (aiMode(ai) === "manual") {
     const transcript = messages.map((turn) => `${turn.role === "assistant" ? "ASSISTANT" : "CLIENT"}:\n${turn.content}`).join("\n\n");
     return json({ ok: true, mode: "manual", chat_id: chat.id, title: chat.title, message_id: userId, prompt: `${system}\n\nCONVERSATION SO FAR:\n${transcript}\n\nWrite the next reply.` });
   }
@@ -222,7 +226,7 @@ async function send(context, client, body) {
     let full = "";
     try {
       await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format });
-      for await (const chunk of streamText({ system, messages }, env)) {
+      for await (const chunk of streamText({ system, messages }, ai)) {
         const safe = scrubber.push(chunk);
         if (safe) {
           full += safe;
@@ -244,7 +248,7 @@ async function send(context, client, body) {
     } finally {
       await writer.close().catch(() => null);
     }
-    if (full) await remember(env, client, message, full);
+    if (full) await remember(env, ai, client, message, full);
   })();
   context.waitUntil?.(work);
 

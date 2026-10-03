@@ -6,7 +6,7 @@ import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, generateText } from "../_shared/ai-provider.js";
+import { aiConfigured, generateText, resolveAi } from "../_shared/ai-provider.js";
 import { loadVideoLearning } from "../_shared/content-learning.js";
 import { normalizeAnswers } from "../_shared/youtube-ideas.js";
 import { LAYOUTS, buildTitlesPrompt, normalizeIdea, sanitizePairs } from "../_shared/youtube-titles.js";
@@ -39,11 +39,12 @@ async function handlePost({ request, env }) {
   });
   const manual = { ok: true, mode: "manual", prompt: `${prompt.system}\n\n${prompt.user}` };
 
-  if (!aiConfigured(env)) return json(manual);
+  const ai = await resolveAi(env, client);
+  if (!aiConfigured(ai)) return json(manual);
 
   let rawText;
   try {
-    rawText = await generateText(prompt, env, { json: true });
+    rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
     return json({ ok: false, error: "The title generator could not answer. Try again.", detail: String(error?.message || error).slice(0, 300) }, 502);
   }
