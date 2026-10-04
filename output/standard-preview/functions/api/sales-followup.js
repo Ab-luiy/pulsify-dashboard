@@ -12,14 +12,16 @@ async function handleGet({request,env}) {
 }
 async function handlePost({request,env}) {
   const body=await request.json().catch(()=>null);
-  if(!body || typeof body !== 'object') return json({ok:false,error:'Invalid draft.'},400);
+  if(!body || typeof body !== 'object' || Array.isArray(body)) return json({ok:false,error:'Invalid draft.'},400);
   const access=await resolveReportWriter(request,env,body.client); if(access.error) return access.error;
   if(body.action === 'retry') {
+    if(!Number.isSafeInteger(Number(body.outcome_id)) || Number(body.outcome_id)<=0) return json({ok:false,error:'Choose a call.'},422);
     const o=await env.DB.prepare('SELECT id FROM lead_outcomes WHERE id=? AND client_id=?').bind(Number(body.outcome_id),access.client).first();
     if(!o) return json({ok:false,error:'Call not found.'},404);
     await queueSalesFollowup(env,access.client,o.id);
     return json({ok:true});
   }
+  if(!Number.isSafeInteger(Number(body.id)) || Number(body.id)<=0) return json({ok:false,error:'Choose a draft.'},422);
   const row=await env.DB.prepare("SELECT * FROM content_reviews WHERE id=? AND client_id=? AND format='sales_followup'").bind(Number(body.id),access.client).first();
   if(!row) return json({ok:false,error:'Draft not found.'},404);
   if(!['draft','rejected'].includes(row.status)) return json({ok:false,error:'This draft is already in review or has been replaced.'},409);

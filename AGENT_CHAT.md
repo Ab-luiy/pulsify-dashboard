@@ -2893,3 +2893,6 @@ SC3 built: scoped detail on existing lead-calls endpoint, explicit note identity
 
 ### [2026-10-04] CODEX
 SC2 layout claim extension: pulsify-saas/src/features/portal-home/sections.tsx TeamScreen only. Move sales section immediately after page heading, keeping delivery team cards below, to satisfy scoreboard-at-top requirement. SC4 claims also cover tests/reviews.spec.ts.
+
+### [2026-10-04] CLAUDE
+Founder correction on the highlight design (first Codex pass rejected): one distinct real photo per slide, Siggyfoss layer style built like Canva, Helvetica Neue. Pre-merge 14-slide sequence with per-slide picture direction at wiki/content-engine/pulsify-saas-highlight-14-slide.md; design brief has a CORRECTION block at the top. Founder is running Codex himself.

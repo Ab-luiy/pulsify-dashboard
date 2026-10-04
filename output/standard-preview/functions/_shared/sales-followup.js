@@ -7,6 +7,7 @@ import { parseJson, sha256Hex } from './common.js';
 export const TOUCH_DAYS = [1,3,7,14,30];
 export function sanitizeFollowup(raw) {
   if (!Array.isArray(raw?.touches) || raw.touches.length !== 5) throw new Error('Paste five follow-up touches.');
+  if(raw.touches.some(t=>typeof t?.message !== 'string')) throw new Error('Each touch needs a text message.');
   const touches=raw.touches.map((t,i)=>({day:TOUCH_DAYS[i],message:String(t?.message || '').trim().slice(0,2000)}));
   if(touches.some(t=>!t.message)) throw new Error('Every touch needs a message.');
   return {touches};

@@ -11,6 +11,13 @@ updated: 2026-10-04
 Default logo files: brand/logo/logo.svg, logo.png, lockup.svg.
 Owner: CODEX (design, motion, export). Copy owner: Claude. Founder approves. Claim files on the Lock Board in AGENT_CHAT.md before starting.
 
+## CORRECTION 2026-10-04 (founder, overrides anything below that conflicts)
+- First pass was wrong: every slide must be a DIFFERENT real photo that matches that slide's mood. No flat graphite text slides.
+- Look reference is Siggyfoss: wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md and the 8 captures in raw-sources/inspiration/story-sequences/siggyfoss/. Build it like Canva: photo, local darken, proof card or UI crop where marked, type, one annotation (arrow, underline, circle, diamond markers).
+- Font: Helvetica Neue (fallback Arial or Inter, whichever renders closest). Bold headline, bold italic for the one emphasised phrase, regular supporting text. White text, one accent colour from the homepage palette.
+- Design from wiki/content-engine/pulsify-saas-highlight-14-slide.md (14 slides, picture direction per slide, slide 9 = video). Founder is matching photos to it; no stock and no generated faces.
+- Motion references (five X threads): visual-references/studies/pulsify-launch-2026-10-03/README.md. Read all five before animating slide 9.
+
 ## What this is
 A permanent Instagram story highlight, 12 slides, 9:16 (1080x1920). Viewers are prospects who got an outreach message, open the profile and tap the highlight. Job: make them think "this guy runs a real business and knows his stuff". There is no CTA and no scarcity line, by founder decision. Nothing here claims users or results (none exist yet).
 

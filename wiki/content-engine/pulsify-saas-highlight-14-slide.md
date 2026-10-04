@@ -1,0 +1,111 @@
+---
+type: playbook
+tags: [content, instagram, story-sequences, design]
+sources: [[content-engine/pulsify-saas-highlight-sequence]], [[content-engine/sequence-breakdowns/siggyfoss-proof-design]]
+created: 2026-10-04
+updated: 2026-10-04
+---
+
+# Pulsify highlight, 14-slide (pre-merge) version with picture matches
+
+Same locked copy as [[content-engine/pulsify-saas-highlight-sequence]] before slides were merged to 12. Use this one for matching photos: one distinct photo per slide. Slide 9 is the on-camera video with the motion graphic. If the founder merges later, 4+5 and 12+13 combine and take the first slide's photo.
+
+Design standard (replaces the earlier brief where they differ): Siggyfoss layer stack per [[content-engine/sequence-breakdowns/siggyfoss-proof-design]], built as in Canva. Photo, local darken, proof card or UI crop (only where marked), type, one annotation. Font Helvetica Neue (Arial or Inter as fallback if not installed): bold for the headline, bold italic for the one emphasised phrase, regular for supporting lines. White text, one accent colour taken from the homepage palette and used the same on every slide. No flat colour slides: every slide sits on a real photo.
+
+## 1. hook
+i've been working on this for a whole year now.
+because everyone in this space is stuck on the same problem.
+PHOTO: desk at night, laptop glow the only light, wide frame, phone-raw. Alt: back of founder at the desk.
+
+## 2. two businesses
+you're already good at what you do.
+trading. tiktok shop. whatever it is.
+and you know a mentorship can make you more than the thing itself.
+but info is a whole business on its own.
+so now you're learning two businesses at once.
+PHOTO: two screens, or a laptop plus a notebook, open side by side with hands in frame. Alt: founder at a window mid-thought. Emphasis: "two businesses" in bold italic.
+
+## 3. the chain
+content. traffic. a page. sales calls. a team. cash in the bank.
+that's the whole chain.
+most people have never run it.
+some don't even know what a kpi is.
+and that's fine. nobody teaches you this part.
+PHOTO: whiteboard or Miro board with the six steps drawn as arrows, shot at an angle. Card layer: the chain as a clean card. Annotation: one arrow along the chain.
+
+## 4. it breaks somewhere
+so it breaks somewhere:
+- you want to post, but you don't know what to say
+- you know what to say, but nobody's watching
+- people are watching, but you don't know where to send them
+- calls are booked, but you can't tell who's closing and who isn't
+PHOTO: tight shot of a screen with too many tabs open. Alt: cluttered desk, phone, notes. List markers as small diamonds (Siggyfoss slide 7 style).
+
+## 5. dms and the leak
+so you post something.
+a couple of people dm you.
+you lose half of them in the chat.
+the ones who book don't close.
+and you have no idea which post brought any of them in.
+PHOTO: hand holding a phone with a blurred, full DM inbox (names unreadable). If there is a usable body shot, put the founder in front of a dark card (the Siggyfoss slide 5 move).
+
+## 6. try harder
+so you try harder.
+more posts. more tools. another chatgpt tab at 2am.
+you start copying what the big names do.
+and you end up promoting their format instead of building your own.
+meanwhile the thing that actually pays you gets less of your time.
+PHOTO: dark room, face lit by the laptop, late night, tired. Alt: phone showing 2am on the lock screen. Darkest slide of the run.
+
+## 7. plateau
+that's where most people plateau.
+then they pick the main business, because that's what keeps food on the table.
+and the info side dies quietly.
+none of that is your fault.
+PHOTO: morning, coffee next to a closed laptop, window light, quiet. Alt: founder looking out a window, back turned. Emphasis: "plateau".
+
+## 8. new faces
+here's what most people miss.
+the top of every niche is 3 or 4 names.
+but new people break in every single month.
+not because they're bigger. because they bring something new.
+people always want a new face with a new idea.
+"you don't need to be first. you need to sound like you."
+PHOTO: outdoor wide shot, founder small in frame walking a street or along water, looking ahead. The quote line is the biggest type on this slide.
+
+## 9. VIDEO (on camera + motion graphic, coin logo)
+On screen: so i built the bridge.
+Spoken (~25s): you shouldn't have to give up what you're good at to build an info business. so i took everything i've learned about content, funnels and sales, and built one place that runs it from the first view to the cash in your account. what to post. how to say it. where to send people. who's ready to buy. who's closing. this is pulsify.
+SHOOT: founder to camera, desk, warm light, eye level. Motion graphic per the design brief.
+
+## 10. voice and "we work through it"
+now you sit down and you already know what to make.
+it's written in your voice, so you don't sound like everyone else.
+the people who see it land somewhere that sells.
+and we work through it with you.
+PHOTO: calm daytime desk, laptop open, notebook, coffee, relaxed posture. Alt: founder and another person looking at a screen together.
+
+## 11. sales side
+then the sales side.
+you see who's closing. who's not.
+who's hitting their calls. who's hitting your numbers.
+no more guessing what happened on a call.
+no scripts to write yourself.
+PHOTO: founder on a call, headset or phone, laptop open. Alt: video-call grid screenshot with faces blurred. No scoreboard card until the Sales Co-pilot ships (tickets 41 to 44).
+
+## 12. tracked
+and every post is tracked. who watched, who clicked, who booked, who paid.
+"you never post blind again."
+PHOTO: laptop screen close-up showing the real tracking view (demo workspace data only). Card layer: one enlarged UI detail in a circular magnifier (Siggyfoss slide 2 move), with a connector in the single accent colour.
+
+## 13. not overnight
+none of this was built overnight.
+every framework was tested first.
+then turned into one place that does the heavy lifting, so you can keep doing what you're good at.
+PHOTO: the vault graph view on screen, or a stack of notebooks and printed frameworks with hands writing. Alt: a long scroll of the wiki on a monitor.
+
+## 14. close
+right now it's only for the people i work with.
+it's getting sharper every week.
+and i'm not stopping until this is a seven-figure company.
+PHOTO: relaxed human shot: walk, gym, or laughing on a call. Warmest slide. Small coin mark in a bottom corner.
