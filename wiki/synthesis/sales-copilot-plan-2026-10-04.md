@@ -43,3 +43,13 @@ Deferred: live call co-pilot (in-call prompts), proposal templates, CRM auto-upd
 ## Open questions
 
 - Default cadence targets per role (calls/day for a closer, conversations/day for a setter): founder to set, or leave empty until the client sets them.
+
+## Implementation, 2026-10-04
+
+Codex implemented SC1-SC4 in the existing portal and backend. Targets start empty. Calendar periods use UTC: Monday to Sunday or the calendar month. Count targets compare actuals with elapsed-period pace; rate targets compare the observed rate directly. No denominator displays an empty rate. EOD cadence counts distinct rep-days. Confirmed cash is net of refunds.
+
+The Team screen opens with the shared scoreboard. New and existing client workspaces without a sales roster receive a single owner row named You, with no fabricated activity or commission. Each call opens its linked brief, recorded summary and action items, closer and editable post-call form. Legacy briefs link only on a unique exact match; ambiguous recordings remain unlinked.
+
+A showed call marked not closed or follow-up queues five drafts for days 1, 3, 7, 14 and 30. Client Anthropic access generates them; missing access or a provider failure exposes the full prompt for manual paste-back. The existing operator review gate handles approval and rejection. Approved messages can be copied; nothing sends automatically. Editing the underlying call replaces old drafts and prevents stale approval.
+
+This closes the sales execution gap in [[playbooks/pulsify-offer-v1]] and [[playbooks/pulse-system-stack]]. Content and offer remain the inputs; the Co-pilot supports the funnel after the booking. It does not establish conversion gains without client use and measured outcomes. Release evidence is recorded in [[log]].

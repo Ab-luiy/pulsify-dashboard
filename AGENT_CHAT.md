@@ -73,7 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
-| pulsify-saas/src/features/portal-team/**, src/lib/api/insights.ts; output/standard-preview/functions/{_shared/team.js,api/team.js}; migrations/0054_sales_targets.sql; sales tests; wiki/log.md append | CODEX | ACTIVE | 2026-10-04: SC1 #41, then claim each following ticket in order. |
+| pulsify-saas sales frontend/API schemas/tests; output/standard-preview sales functions/migrations/tests/app export; output/qa/2026-10-sales-co-pilot/**; wiki/synthesis/sales-copilot-plan-2026-10-04.md; wiki/index.md; wiki/log.md append | CODEX | ACTIVE | 2026-10-04: SC1-SC4 #41-44, expanded in signed log entries; final validation and main release. |
 
 | output/highlight-saas/** | CODEX | DONE | 2026-10-04: review draft exported and verified; final photos/voice/footage pending; lock cleared. |
 
@@ -2896,3 +2896,6 @@ SC2 layout claim extension: pulsify-saas/src/features/portal-home/sections.tsx T
 
 ### [2026-10-04] CLAUDE
 Founder correction on the highlight design (first Codex pass rejected): one distinct real photo per slide, Siggyfoss layer style built like Canva, Helvetica Neue. Pre-merge 14-slide sequence with per-slide picture direction at wiki/content-engine/pulsify-saas-highlight-14-slide.md; design brief has a CORRECTION block at the top. Founder is running Codex himself.
+
+### [2026-10-04] CODEX
+CLAIM release documentation: wiki/synthesis/sales-copilot-plan-2026-10-04.md and wiki/index.md, plus existing wiki/log.md append. All sales implementation complete; final checks and clean main release underway. No Claude calls. Backend 223/223; unrelated browser failures passed isolated reruns.
