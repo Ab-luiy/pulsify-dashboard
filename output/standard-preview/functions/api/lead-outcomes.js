@@ -8,6 +8,7 @@ import { json, normalizeEmail, str } from "../_shared/common.js";
 import { withOperator } from "../_shared/access.js";
 import { resolveReportWriter } from "../_shared/client-read.js";
 import { notify } from "../_shared/notifications.js";
+import { queueSalesFollowup } from '../_shared/sales-followup.js';
 
 const ATTENDED = ["showed", "no_show", "cancelled", "rescheduled"];
 const RESULTS = ["closed", "not_closed", "follow_up", "unqualified"];
@@ -50,7 +51,7 @@ export function validateOutcome(body) {
   };
 }
 
-async function handlePost({ request, env }) {
+async function handlePost({ request, env, waitUntil }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   let body;
   try { body = await request.json(); } catch { return json({ ok: false, error: "invalid JSON" }, 400); }
@@ -60,6 +61,7 @@ async function handlePost({ request, env }) {
   const checked = validateOutcome(body);
   if (checked.error) return json({ ok: false, error: checked.error }, 422);
   const o = checked.value;
+  const manualId = /^manual:[1-9]\d*$/.test(o.booking_ref || '') ? Number(o.booking_ref.slice(7)) : null;
   // A rep named by id must be on this workspace's team; their name fills the closer field.
   for (const key of ["closer_id", "setter_id"]) {
     if (!o[key]) continue;
@@ -68,9 +70,12 @@ async function handlePost({ request, env }) {
     if (key === "closer_id" && !o.closer) o.closer = rep.name;
   }
   const now = new Date().toISOString();
-  const existing = o.booking_ref
-    ? await env.DB.prepare("SELECT id FROM lead_outcomes WHERE client_id=? AND booking_ref=?").bind(access.client, o.booking_ref).first()
+  const existing = manualId
+    ? await env.DB.prepare("SELECT id FROM lead_outcomes WHERE client_id=? AND id=? AND booking_ref IS NULL").bind(access.client,manualId).first()
+    : o.booking_ref ? await env.DB.prepare("SELECT id FROM lead_outcomes WHERE client_id=? AND booking_ref=?").bind(access.client, o.booking_ref).first()
     : null;
+  if(manualId && !existing) return json({ok:false,error:'Call not found.'},404);
+  if(manualId) o.booking_ref=null;
   let id = existing?.id || null;
   if (id) {
     await env.DB.prepare(
@@ -98,6 +103,8 @@ async function handlePost({ request, env }) {
       dedupeKey: `deal:${access.client}:${o.booking_ref || id}`,
     }).catch(() => null);
   }
+  const draft=queueSalesFollowup(env,access.client,id).catch(error=>console.error('sales follow-up queue failed',String(error?.message || error).slice(0,160)));
+  if(waitUntil) waitUntil(draft); else await draft;
   return json({ ok: true, id });
 }
 

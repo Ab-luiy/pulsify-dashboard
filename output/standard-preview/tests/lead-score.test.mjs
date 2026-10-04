@@ -56,6 +56,11 @@ sql.exec(mig("0043_cash_by_video.sql"));
 sql.exec(mig("0045_lead_score.sql"));
 sql.exec("ALTER TABLE client_config ADD COLUMN template_variant TEXT DEFAULT 'canonical'; ALTER TABLE client_config ADD COLUMN page_content_json TEXT; ALTER TABLE client_config ADD COLUMN page_active INTEGER DEFAULT 1; ALTER TABLE client_config ADD COLUMN proof_images_json TEXT;");
 sql.exec(mig("0046_links_team.sql"));
+sql.exec(mig("0054_sales_targets.sql"));
+sql.exec('CREATE TABLE call_notes(id INTEGER PRIMARY KEY, client TEXT, call_date TEXT,title TEXT,summary TEXT,decisions TEXT,actions TEXT,recording_url TEXT,created_at TEXT)');
+sql.exec(mig('0056_call_note_links.sql'));
+sql.exec(mig('0014_client_brain.sql'));
+sql.exec(mig('0044_content_reviews.sql'));
 sql.exec(mig("0007_delivery_failures.sql"));
 
 const env = {
@@ -598,6 +603,33 @@ assert.equal(res.status, 404, "cannot pay another workspace's rep");
 assert.equal((await (await get(teamGet, "/api/team", { "x-portal-token": "token-other" })).json()).members.length, 0);
 
 // ---------- call-day nudge ----------
+// A no-close form queues the manual fallback through the same sales review gate.
+res=await post(outcomePost,{email:'new-lead@example.com',booking_ref:'new-no-close',attended:'showed',result:'not_closed',notes:'Needs the worksheet first'});
+assert.equal(res.status,200);
+const noCloseId=(await res.json()).id;
+assert.ok(sql.prepare("SELECT id FROM content_reviews WHERE format='sales_followup' AND record_id LIKE ?").get(`sales-call:${noCloseId}:%`));
+
+// Call panel is scoped by the booking; unrelated and ambiguous notes never leak in.
+sql.prepare("INSERT INTO call_notes(client,title,summary,booking_ref,source_kind,created_at) VALUES('acme','Brief','Known facts','book-ann','precall',?)").run(ago(1));
+sql.prepare("INSERT INTO call_notes(client,title,summary,booking_ref,source_kind,created_at) VALUES('other','Private','Other workspace','book-ann','precall',?)").run(ago(1));
+body=await (await get(callsGet,'/api/lead-calls?booking_ref=book-ann',{'x-portal-token':'token-acme'})).json();
+assert.equal(body.detail.briefs.length,1);
+assert.equal(body.detail.briefs[0].summary,'Known facts');
+assert.equal(body.detail.closer,'Sam Closer');
+assert.equal((await get(callsGet,'/api/lead-calls?booking_ref=book-ann',{'x-portal-token':'token-other'})).status,404);
+
+// Targets are scoped, upserted (including NULL whole-team scope), and cleared.
+for (let i=0;i<2;i++) assert.equal((await team({ action:'set-target', member_id:null, metric:'calls_taken', period:'week', target:10+i })).status,200);
+assert.equal(sql.prepare("SELECT COUNT(*) n FROM sales_targets WHERE client_id='acme'").get().n,1);
+assert.equal((await team({ action:'set-target', member_id:samId, metric:'show_rate', period:'month', target:0.8 })).status,200);
+assert.equal((await team({ action:'set-target', member_id:samId, metric:'show_rate', period:'month', target:80 })).status,422);
+assert.equal((await team({ action:'set-target', member_id:samId, metric:'calls_taken', period:'week', target:2 }, {'x-portal-token':'token-other'})).status,404);
+body = await (await get(teamGet,'/api/team',{'x-portal-token':'token-acme'})).json();
+assert.equal(body.target_progress.length,1);
+assert.equal(body.members.find(m=>m.id===samId).progress[0].metric,'show_rate');
+assert.equal((await (await get(teamGet,'/api/team',{'x-portal-token':'token-other'})).json()).targets.length,0);
+assert.equal((await team({ action:'set-target', member_id:null, metric:'calls_taken', period:'week', target:null })).status,200);
+
 const today = new Date(NOW).toISOString().slice(0, 10);
 touch("acme", "hal@example.com", "booking", `${today}T15:00:00.000Z`, "book-hal", { starts_at: `${today}T15:00:00.000Z` });
 touch("acme", "ivy@example.com", "booking", `${today}T09:00:00.000Z`, "book-ivy", { starts_at: `${today}T09:00:00.000Z` });

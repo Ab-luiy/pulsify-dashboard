@@ -8,6 +8,7 @@
 import { complete, llmAvailable, VOICE_GUARD } from "./llm.js";
 import { clientLabel, notify } from "./notifications.js";
 import { centsToAmount, normalizeEmail, nowIso, parseJson, str } from "./common.js";
+import { recordingBooking } from './call-detail.js';
 
 const DAY = 86400000;
 
@@ -98,10 +99,10 @@ ${VOICE_GUARD}`;
       if (result.text) { body = `${result.text.trim()}\n\n${body}`; provider_ = result.provider; }
     }
     await env.DB.prepare(
-      "INSERT INTO call_notes (client, call_date, title, summary, decisions, actions, recording_url, created_at) VALUES (?,?,?,?,?,?,?,?)",
-    ).bind(clientId, startsAt || null, `Pre-call brief: ${who}`, body.slice(0, 8000), null, null, null, nowIso()).run();
+      "INSERT INTO call_notes (client, call_date, title, summary, decisions, actions, recording_url, created_at, booking_ref,lead_email,source_kind) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+    ).bind(clientId, startsAt || null, `Pre-call brief: ${who}`, body.slice(0, 8000), null, null, null, nowIso(),String(eventId),normalizeEmail(email) || null,'precall').run();
     await notify(env, { scope: "operator", clientId, kind: "brief", severity: "info", title: `Pre-call brief ready: ${who} with ${clientName}`, body: startsAt ? `Call ${new Date(startsAt).toUTCString().replace(":00 GMT", " UTC")}` : "", link: "delivery", entity: { client: clientId, email: dossier.email, name: who }, dedupeKey: `brief:${ref}` });
-    await notify(env, { scope: "client", clientId, kind: "brief", severity: "info", title: `Your brief for the call with ${who} is ready`, body: "Open Call notes before the call.", link: "content", dedupeKey: `brief-client:${ref}` });
+    await notify(env, { scope: "client", clientId, kind: "brief", severity: "info", title: `Your brief for the call with ${who} is ready`, body: "Open the call brief before the call.", link: "leads?tab=calls", dedupeKey: `brief-client:${ref}` });
     await finish(env, "precall-brief", ref, "done", provider_);
     return { ok: true, provider: provider_ };
   } catch (error) {
@@ -153,9 +154,10 @@ export async function importFathomCalls(env, { now = Date.now(), fetcher = fetch
       const ref = String(m.recording_id || m.url || "");
       if (!ref || !(await claim(env, "fathom-call", ref, clientId))) continue;
       const actions = (m.action_items || []).map((a) => `- ${str(a.description)}${a.assignee?.name || a.assignee?.email ? ` (${a.assignee.name || a.assignee.email})` : ""}`).filter((x) => x.length > 2);
+      const linked = await recordingBooking(env,clientId,invitees,m.scheduled_start_time || m.created_at);
       await env.DB.prepare(
-        "INSERT INTO call_notes (client, call_date, title, summary, decisions, actions, recording_url, created_at) VALUES (?,?,?,?,?,?,?,?)",
-      ).bind(clientId, m.scheduled_start_time || m.created_at || null, str(m.meeting_title || m.title || "Call").slice(0, 200), str(m.default_summary?.markdown_formatted).slice(0, 8000) || null, null, actions.join("\n") || null, str(m.url || m.share_url) || null, nowIso()).run();
+        "INSERT INTO call_notes (client, call_date, title, summary, decisions, actions, recording_url, created_at,booking_ref,lead_email,source_kind) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+      ).bind(clientId, m.scheduled_start_time || m.created_at || null, str(m.meeting_title || m.title || "Call").slice(0, 200), str(m.default_summary?.markdown_formatted).slice(0, 8000) || null, null, actions.join("\n") || null, str(m.url || m.share_url) || null, nowIso(),linked?.booking_ref || null,linked?.lead_email || null,'fathom').run();
       await finish(env, "fathom-call", ref, "done");
       await notify(env, { scope: "operator", clientId, kind: "content.review", severity: "info", title: `Call with ${await clientLabel(env, clientId)} filed`, body: `${actions.length} action item${actions.length === 1 ? "" : "s"} from Fathom. Review in Client work, Call notes.`, link: "delivery", entity: { client: clientId }, dedupeKey: `fathom:${ref}` });
       imported += 1;

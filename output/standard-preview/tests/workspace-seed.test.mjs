@@ -6,6 +6,7 @@ import { seedDashboard, seedSections } from "../functions/_shared/workspace-seed
 
 const sql = new DatabaseSync(":memory:");
 sql.exec(readFileSync(new URL("../migrations/0011_client_dashboard_auth.sql", import.meta.url), "utf8"));
+sql.exec("CREATE TABLE team_members(id TEXT PRIMARY KEY,client_id TEXT,name TEXT,role TEXT,active INTEGER,created_at TEXT,updated_at TEXT)");
 const DB = {
   prepare(query) {
     let args = [];
@@ -41,6 +42,8 @@ sql.prepare("UPDATE client_dashboard_content SET json=? WHERE client_id='acme' A
 await seedDashboard(env, "acme");
 assert.equal(sql.prepare("SELECT json FROM client_dashboard_content WHERE client_id='acme' AND section='plans'").get().json, '[{"title":"Custom plan"}]');
 assert.equal(sql.prepare("SELECT COUNT(*) n FROM client_dashboard_content WHERE client_id='acme'").get().n, 3);
+assert.equal(sql.prepare("SELECT COUNT(*) n FROM team_members WHERE client_id='acme'").get().n,1);
+assert.equal(sql.prepare("SELECT name FROM team_members WHERE client_id='acme'").get().name,'You');
 
 // Another client's workspace is separate.
 await seedDashboard(env, "beta");

@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| pulsify-saas/src/features/portal-team/**, src/lib/api/insights.ts; output/standard-preview/functions/{_shared/team.js,api/team.js}; migrations/0054_sales_targets.sql; sales tests; wiki/log.md append | CODEX | ACTIVE | 2026-10-04: SC1 #41, then claim each following ticket in order. |
+
 | output/highlight-saas/** | CODEX | DONE | 2026-10-04: review draft exported and verified; final photos/voice/footage pending; lock cleared. |
 
 | outreach/resources/miro-outreach-preview/** | CODEX | DONE | 2026-10-02: preview and authorized VALUE Miro board built; lock cleared. |
@@ -2873,3 +2875,21 @@ CLAIM: output/highlight-saas/** and wiki/log.md append. Founder says get to work
 
 ### [2026-10-04] CODEX
 DONE review draft: output/highlight-saas/ has 01-12 PNGs, contact sheet, 08.mp4 (28s, 24fps, 1080x1920), review.html, README, layout-audit and qa.json; project/ has editable deterministic Python renderer/verifier, original desk photo, canonical coin/logo and Inter assets, timeline/SRT and sampled frames. Copy words/punctuation preserved; long lines wrap within their original pills for phone readability, explained to founder after unclear question. No synthetic identity or voice. Original real desk/hands crops on 1/2/5/9/10; 6 and 12 marked photo placeholders; 8 remains a silent animatic until real founder footage/audio arrives. Sales visuals abstract; no fabricated metrics. Verified copy, bounds, type, all dimensions, 672 decoded frames and sampled encoded images; phone contact sheet visually reviewed. No app edits, publication or deployment. Locks cleared; final production depends on missing founder assets.
+
+### [2026-10-04] CODEX
+START Sales Co-pilot handoff authorized by founder. Working #41 first, targets unset by default. Extend current implementation; self-verify, then clean main release. No Claude cross-call. Existing .obsidian/graph.json change belongs to user/Obsidian.
+
+### [2026-10-04] CODEX
+SC1 claim extension: functions/_shared/sales-targets.js and portal-team/targets.tsx covered by the target implementation. Calendar week/month counts, percentages as fractions; per-rep and team targets independent. No inherited aggregate team target per rep.
+
+### [2026-10-04] CODEX
+SC1 implementation complete; backend 216/216, lint/typecheck/build pass, existing client and operator sales browser checks pass. Target editor label fix pending rerun/full suite. Starting SC2 #42: claim workspace-seed.js, migrations/0055_sales_owner.sql, workspace-seed tests, portal-team scoreboard + fixtures/tests. No issue closure until final checks.
+
+### [2026-10-04] CODEX
+SC1 target-editor rerun passed. SC2 built: shared table, week/month, real cash ranking, cadence without default target, idempotent owner seed. SC3 #43 claim: lead-calls API/shared, delivery-automation, migration/0056_call_note_links.sql, portal-leads call panel, lib/api/leads.ts, related backend/browser tests. Existing notes lack booking identity; add it to new notes and conservatively link legacy briefs, never guess a prospect.
+
+### [2026-10-04] CODEX
+SC3 built: scoped detail on existing lead-calls endpoint, explicit note identity, conservative Fathom matching, safe empty states and prefilled post-call edits. Backend 216/216 green. Starting SC4 #44 claim: functions/_shared/sales-followup.js, api/sales-followup.js, api/lead-outcomes.js, api/content-reviews.js, client call panel + sales draft editor, operator reviews/API schema, related tests. All four tickets get final full check and release together; no drafts auto-sent.
+
+### [2026-10-04] CODEX
+SC2 layout claim extension: pulsify-saas/src/features/portal-home/sections.tsx TeamScreen only. Move sales section immediately after page heading, keeping delivery team cards below, to satisfy scoreboard-at-top requirement. SC4 claims also cover tests/reviews.spec.ts.

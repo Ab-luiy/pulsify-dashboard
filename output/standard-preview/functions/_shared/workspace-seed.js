@@ -58,4 +58,7 @@ export async function seedDashboard(env, clientId, startIso = nowIso()) {
       "INSERT OR IGNORE INTO client_dashboard_content (client_id, section, json, updated_at) VALUES (?,?,?,?)",
     ).bind(clientId, section, JSON.stringify(value), now).run();
   }
+  await env.DB.prepare(`INSERT INTO team_members (id,client_id,name,role,active,created_at,updated_at)
+    SELECT ?,?,'You','closer',1,?,? WHERE NOT EXISTS (SELECT 1 FROM team_members WHERE client_id=?)`)
+    .bind(`rep_${crypto.randomUUID().replaceAll('-','').slice(0,16)}`,clientId,now,now,clientId).run();
 }

@@ -165,8 +165,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,13 +178,19 @@
       "bases:Create new base": false
     }
   },
-  "active": "1bef72d5493f4d9e",
+  "active": "ed58ad05607d5d8c",
   "lastOpenFiles": [
+    "output/standard-preview/tests/sales-followup.test.mjs",
+    "output/standard-preview/functions/api/sales-followup.js",
+    "output/standard-preview/functions/_shared/sales-followup.js",
+    "output/standard-preview/functions/_shared/call-detail.js",
+    "output/standard-preview/migrations/0056_call_note_links.sql",
+    "output/standard-preview/migrations/0055_sales_owner.sql",
+    "output/standard-preview/tests/sales-targets.test.mjs",
+    "output/standard-preview/functions/_shared/sales-targets.js",
+    "output/standard-preview/migrations/0054_sales_targets.sql",
     "output/standard-preview/tests/sedRInr5R",
     "output/standard-preview/tests/sedN0NuUG",
-    "output/standard-preview/tests/sedctqBow",
-    "output/standard-preview/migrations/0039_outreach_pain_tags.sql",
-    "output/standard-preview/functions/_shared/pain-tags.js",
     "output/qa/2026-09-d1/centered-chooser/light-tablet.png",
     "output/qa/2026-09-d1/centered-chooser/light-phone-chooser.png",
     "output/qa/2026-09-d1/centered-chooser/light-phone.png",
@@ -196,12 +201,6 @@
     "output/qa/2026-09-d1/centered-chooser/dark-phone.png",
     "output/qa/2026-09-d1/centered-chooser/dark-desktop-chooser.png",
     "output/qa/2026-09-d1/centered-chooser/dark-desktop.png",
-    "output/qa/2026-09-d1/centered-chooser/capture.cjs",
-    "output/qa/2026-09-d1/centered-chooser",
-    "output/qa/2026-09-d1/launch-polish/capture.cjs",
-    "output/qa/2026-09-d1/launch-polish",
-    "output/qa/2026-09-d1/entry-flow/capture.cjs",
-    "output/qa/2026-09-d1/entry-flow",
     "claude-memory/project_ticket_board.md",
     "wiki/synthesis/login-brand-codex-brief.md",
     "output/qa/2026-09-phase3/CODEX-REVIEW.md",

@@ -10,6 +10,7 @@
 
 import { cleanId, normalizeEmail, parseJson, str } from "./common.js";
 import { loadPipeline } from "./lead-people.js";
+import { periodMetrics, salesPeriod, targetProgress } from "./sales-targets.js";
 
 const DAY = 86400000;
 export const ROLES = ["setter", "closer", "both"];
@@ -25,17 +26,19 @@ const pct = (value) => (value == null || !Number.isFinite(Number(value)) ? null 
 
 export async function loadTeam(env, clientId, { now = Date.now() } = {}) {
   const client = cleanId(clientId, "");
-  const [membersRes, formsRes, outcomesRes, payoutsRes, pipeline] = await Promise.all([
+  const [membersRes, formsRes, outcomesRes, payoutsRes, pipeline, targetsRes] = await Promise.all([
     env.DB.prepare("SELECT * FROM team_members WHERE client_id=? ORDER BY created_at").bind(client).all(),
-    env.DB.prepare("SELECT * FROM team_forms WHERE client_id=? ORDER BY created_at DESC LIMIT 200").bind(client).all(),
+    env.DB.prepare("SELECT * FROM team_forms WHERE client_id=? AND day>=? ORDER BY created_at DESC").bind(client, new Date(now - 62 * DAY).toISOString().slice(0,10)).all(),
     env.DB.prepare("SELECT * FROM lead_outcomes WHERE client_id=?").bind(client).all(),
     env.DB.prepare("SELECT * FROM commission_payouts WHERE client_id=?").bind(client).all(),
     loadPipeline(env, client, { now }),
+    env.DB.prepare("SELECT * FROM sales_targets WHERE client_id=? ORDER BY member_id,metric,period").bind(client).all(),
   ]);
   const members = membersRes.results || [];
   const forms = formsRes.results || [];
   const outcomes = outcomesRes.results || [];
   const payouts = payoutsRes.results || [];
+  const targets = targetsRes.results || [];
   const { rows } = pipeline;
   const origin = env.PAGES_ORIGIN || "https://pulsify-ai.com";
 
@@ -183,6 +186,22 @@ export async function loadTeam(env, clientId, { now = Date.now() } = {}) {
     }
   }
 
+  const inPeriod = (at, p) => at >= p.start && at < p.end && at <= new Date(now).toISOString();
+  const metricsFor = (memberId, period) => {
+    const p = salesPeriod(period, now);
+    const member = members.find(m => m.id === memberId);
+    const own = outcomes.filter(o => !memberId || o.closer_id === memberId || (!o.closer_id && String(o.closer || '').trim().toLowerCase() === byName(member)));
+    const calls = own.filter(o => inPeriod(o.call_at || o.created_at, p));
+    const eods = forms.filter(f => (!memberId || f.member_id === memberId) && f.day >= p.start.slice(0,10) && f.day < p.end.slice(0,10) && f.day <= new Date(now).toISOString().slice(0,10));
+    const keys = memberId ? closedBy.get(memberId) || new Set() : new Set(paymentsByPerson.keys());
+    const cash = [...keys].reduce((n,k) => n + cashIn(k,p.start,new Date(Math.min(now + 1,Date.parse(p.end))).toISOString()),0);
+    return periodMetrics(calls,eods,cash);
+  };
+  for (const row of memberRows) {
+    row.period_stats = { week: metricsFor(row.id,'week'), month: metricsFor(row.id,'month') };
+    row.progress = targets.filter(t => t.member_id === row.id).map(t => targetProgress(t,row.period_stats[t.period][t.metric],now));
+  }
+  const teamMetrics = { week: metricsFor(null,'week'), month: metricsFor(null,'month') };
   const nameOf = new Map(members.map((m) => [m.id, m.name]));
   return {
     ok: true,
@@ -190,6 +209,9 @@ export async function loadTeam(env, clientId, { now = Date.now() } = {}) {
     currency: String(rows.payments.find((p) => p.currency)?.currency || "USD").toUpperCase(),
     period: current,
     members: memberRows,
+    targets,
+    target_progress: targets.filter(t => !t.member_id).map(t => targetProgress(t,teamMetrics[t.period][t.metric],now)),
+    period_stats: teamMetrics,
     forms: forms.slice(0, 60).map((f) => ({ id: f.id, member_id: f.member_id, member_name: nameOf.get(f.member_id) || "Removed rep", kind: f.kind, lead_email: f.lead_email, data: parseJson(f.data_json, {}), day: f.day, created_at: f.created_at })),
     compliance: { calls_without_form: missing.length, oldest_at: missing[0] || null },
     commissions: commissionsFor(current),

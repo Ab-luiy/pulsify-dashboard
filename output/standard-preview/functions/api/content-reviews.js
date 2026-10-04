@@ -11,6 +11,7 @@ import { withOperator, hasOperator } from "../_shared/access.js";
 import { checkAdmin, cleanId, json, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { clientLabel, notify } from "../_shared/notifications.js";
+import { eligibleOutcome, outcomeSignature } from '../_shared/sales-followup.js';
 
 const SNAPSHOT_FIELDS = ["stage", "headline", "thumbnail", "thumbnail_text", "thumbnail_frame", "layout", "hook", "outline", "evidence", "type", "format", "ideation", "packaging", "build"];
 
@@ -79,15 +80,20 @@ async function handlePost({ request, env }) {
     const note = String(body.note || "").trim().slice(0, 600);
     if (!id) return json({ ok: false, error: "review id is required" }, 422);
     if (action === "reject" && !note) return json({ ok: false, error: "review note is required when rejecting" }, 422);
-    const review = await env.DB.prepare("SELECT id, client_id, title, status FROM content_reviews WHERE id=?").bind(id).first();
+    const review = await env.DB.prepare("SELECT id, client_id, title, status, format, snapshot_json FROM content_reviews WHERE id=?").bind(id).first();
     if (!review) return json({ ok: false, error: "review not found" }, 404);
     if (review.status !== "review") return json({ ok: false, error: "this package was already decided" }, 409);
+    if(review.format === 'sales_followup') {
+      const snapshot=parseJson(review.snapshot_json,{});
+      const o=await env.DB.prepare('SELECT * FROM lead_outcomes WHERE id=? AND client_id=?').bind(snapshot.outcome_id,review.client_id).first();
+      if(!eligibleOutcome(o) || await outcomeSignature(o) !== snapshot.signature) return json({ok:false,error:'This call changed. Review its latest draft.'},409);
+    }
     const now = new Date().toISOString();
     const status = action === "approve" ? "approved" : "rejected";
     const statements = [
-      env.DB.prepare("UPDATE content_reviews SET status=?, review_note=?, decided_at=? WHERE id=?").bind(status, note || null, now, id),
+      env.DB.prepare("UPDATE content_reviews SET status=?, review_note=?, decided_at=? WHERE id=? AND status='review'").bind(status, note || null, now, id),
     ];
-    if (status === "rejected") {
+    if (status === "rejected" && review.format !== 'sales_followup') {
       statements.push(
         env.DB.prepare(
           `INSERT INTO studio_feedback (client_id, sequence_id, rule, scope, active, created_at, updated_at) VALUES (?, NULL, ?, ?, 1, ?, ?)`,
@@ -95,7 +101,7 @@ async function handlePost({ request, env }) {
       );
     }
     await env.DB.batch(statements);
-    await syncContentItem(env, cleanId(review.client_id), review.title, status === "approved" ? "Approved by Pulsify. Next: shoot and edit." : `Changes requested: ${note}`);
+    if(review.format !== 'sales_followup') await syncContentItem(env, cleanId(review.client_id), review.title, status === "approved" ? "Approved by Pulsify. Next: shoot and edit." : `Changes requested: ${note}`);
     return json({ ok: true, status });
   }
 

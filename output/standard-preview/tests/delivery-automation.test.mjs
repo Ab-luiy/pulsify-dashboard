@@ -23,6 +23,8 @@ CREATE TABLE client_auth(client_id TEXT PRIMARY KEY,email TEXT);
 CREATE TABLE client_brain(client_id TEXT,section TEXT,field TEXT,value_json TEXT);
 CREATE TABLE client_provisioning(client_id TEXT PRIMARY KEY,provisioned_at TEXT);`);
 for(const n of ['0008_integrations_hub.sql','0027_revenue_automation.sql','0031_notifications.sql','0036_automation_runs.sql'])for(const st of mig(n).replace(/--[^\n]*/g,'').split(';'))if(st.trim())try{sql.exec(st);}catch{}
+sql.exec('CREATE TABLE pipeline_touches(id INTEGER PRIMARY KEY,client_id TEXT,contact_email TEXT,contact_name TEXT,kind TEXT,external_id TEXT,ts TEXT,payload_json TEXT,source TEXT,amount_cents INTEGER)');
+sql.exec(mig('0056_call_note_links.sql'));
 const now=Date.now(),iso=t=>new Date(t).toISOString();
 sql.prepare("INSERT INTO client_config VALUES('acme','Acme Coaching','client','x',NULL)").run();
 sql.prepare("INSERT INTO client_auth VALUES('acme','coach@acme.com')").run();

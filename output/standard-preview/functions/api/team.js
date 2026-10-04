@@ -9,6 +9,7 @@ import { json, str } from "../_shared/common.js";
 import { withOperator } from "../_shared/access.js";
 import { resolveReportClient, resolveReportWriter } from "../_shared/client-read.js";
 import { fileForm, loadTeam, markPaid, upsertMember } from "../_shared/team.js";
+import { setTarget } from "../_shared/sales-targets.js";
 
 async function handleGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
@@ -34,7 +35,8 @@ async function handlePost({ request, env }) {
     action === "upsert-member" ? await upsertMember(env, access.client, body.member, origin)
       : action === "form" ? await fileForm(env, access.client, body)
         : action === "mark-paid" ? await markPaid(env, access.client, body, access.actor)
-          : { error: "Unknown action." };
+          : action === "set-target" ? await setTarget(env, access.client, body)
+            : { error: "Unknown action." };
   if (result.error) return json({ ok: false, error: result.error }, result.status || 422);
   return json({ ok: true, ...result });
 }
