@@ -35,3 +35,9 @@ Founder voice answers to Claude's 18-question intake for the SaaS highlight sequ
 - Info is a whole business in itself. Creators (traders, TikTok Shop sellers, etc.) are deep in their craft; starting an info business means learning two businesses at once with no prerequisite knowledge, and it costs time from the craft that pays the bills.
 - Everyone now knows mentorships can make more than the craft itself, but starting feels like drowning or plateauing at the cost of the main business, so they stop and protect the income ("food on the table").
 - Pulsify's role: show exactly how to do each piece, the built system carries it, plus consultation so the info business runs alongside what they already do. Founder wants this pushed harder than the product features.
+
+## Addendum 2: A-to-Z and new faces
+- With the sales arrangement Pulsify shows the whole sales team: who's closing, who isn't, who meets cadence, who meets the business KPIs. Most creators don't know what a KPI is or how to run an info business A to Z (content, sales, traffic, conversions) until cash lands.
+- Promise: they stop worrying about sales, scripts and conversions; it's sorted for them in one native place.
+- Content is the highest-leverage play (brings traffic); good content system + slightly better conversion system closes a lot of deals. The key is a distinct voice so you don't look like everyone else, even when new.
+- New faces: the top of a niche stays 2-4 people, but new leaders arrive every month because they bring something new; audiences always want new faces, new ideas, new solutions. Founder wants this talked about.
