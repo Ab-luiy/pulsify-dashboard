@@ -2023,3 +2023,6 @@ Founder requested full client control rather than operator preview. Added a real
 
 ## [2026-10-04] decision | Sales Co-pilot planned, handed to Codex
 Founder un-deferred the client-facing Sales Co-pilot. Plan at [[synthesis/sales-copilot-plan-2026-10-04]], tickets pulsify-saas #41-#44 (owner Codex). Also: SaaS highlight sequence copy v6 (12 slides) at [[content-engine/pulsify-saas-highlight-sequence]], founder answers in raw-sources/content-ideas/2026-10-04-saas-story-founder-answers.md.
+
+## [2026-10-04] decision | Logo kit filed, SaaS highlight copy v6
+Canonical logo kit saved at brand/ (coin mark; old P-Media logo retired). SaaS highlight sequence copy written with the founder across intake answers (raw-sources/content-ideas/2026-10-04-saas-story-founder-answers.md), 12 slides, saved at wiki/content-engine/pulsify-saas-highlight-sequence.md. Open: Sales Co-pilot client view is not built, slide 10 depends on it.
