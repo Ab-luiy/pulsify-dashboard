@@ -30,3 +30,8 @@ Founder voice answers to Claude's 18-question intake for the SaaS highlight sequ
 - Ask: just watch. No CTA, no scarcity.
 - Format: talking-to-camera + motion graphic video in the MIDDLE of the sequence. Motion graphic shows the UI layout/features without intricate detail (regenerated look, not raw screens).
 - Also wants: a carousel and a heavily edited reel showing the product, from the same material. Codex already holds his X/Twitter motion references (wiki/synthesis/pulsify-product-launch-direction.md).
+
+## Addendum (same day): the two-businesses angle
+- Info is a whole business in itself. Creators (traders, TikTok Shop sellers, etc.) are deep in their craft; starting an info business means learning two businesses at once with no prerequisite knowledge, and it costs time from the craft that pays the bills.
+- Everyone now knows mentorships can make more than the craft itself, but starting feels like drowning or plateauing at the cost of the main business, so they stop and protect the income ("food on the table").
+- Pulsify's role: show exactly how to do each piece, the built system carries it, plus consultation so the info business runs alongside what they already do. Founder wants this pushed harder than the product features.
