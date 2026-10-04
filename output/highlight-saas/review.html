@@ -1,0 +1,11 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pulsify highlight review</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0b0c0d;color:#f4f2ef;font:16px/1.5 system-ui,sans-serif}main{max-width:1440px;margin:auto;padding:40px 24px}h1{font-size:30px;letter-spacing:-.04em;font-weight:500}p{color:#aaa7a4;max-width:760px}a{color:#f4f2ef}section{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:32px}figure{margin:0}img,video{width:100%;height:auto;display:block;border-radius:4px}figcaption{padding:12px 0 28px;color:#aaa7a4;font-size:14px}video{aspect-ratio:9/16;background:#17181b}.note{font-size:14px}nav{margin-bottom:30px}nav a{margin-right:24px}footer{padding:20px 0 60px;color:#aaa7a4}
+</style>
+<main><h1>Pulsify highlight</h1><p>12-story review draft. Exact copy, original photo, current coin logo. Slide 8 is a silent motion draft; your on-camera recording is still needed. Slides 6 and 12 have marked photo placeholders.</p><nav><a href="contact-sheet.jpg">Contact sheet</a><a href="README.md">Production notes</a><a href="08.mp4">Motion file</a></nav><section id="slides"></section><footer>Local review only. Nothing has been posted or published.</footer></main>
+<script>
+const notes={6:'Wider-room photo pending.',8:'Silent motion animatic. Founder footage and voice pending.',10:'Original desk crop. Sales visuals remain abstract.',12:'Relaxed personal photo pending.'};
+for(let i=1;i<=12;i++){const n=String(i).padStart(2,'0');const f=document.createElement('figure');if(i===8){const v=document.createElement('video');v.src='08.mp4';v.poster='08.png';v.controls=true;v.preload='metadata';v.setAttribute('playsinline','');f.append(v)}else{const im=document.createElement('img');im.src=n+'.png';im.alt='Story '+n;im.loading='lazy';f.append(im)}const c=document.createElement('figcaption');c.textContent=n+(notes[i]?' · '+notes[i]:'');f.append(c);document.getElementById('slides').append(f)}
+</script></html>

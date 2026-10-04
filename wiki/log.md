@@ -2026,3 +2026,8 @@ Founder un-deferred the client-facing Sales Co-pilot. Plan at [[synthesis/sales-
 
 ## [2026-10-04] decision | Logo kit filed, SaaS highlight copy v6
 Canonical logo kit saved at brand/ (coin mark; old P-Media logo retired). SaaS highlight sequence copy written with the founder across intake answers (raw-sources/content-ideas/2026-10-04-saas-story-founder-answers.md), 12 slides, saved at wiki/content-engine/pulsify-saas-highlight-sequence.md. Open: Sales Co-pilot client view is not built, slide 10 depends on it.
+
+## [2026-10-04] decision | SaaS highlight design and motion review draft
+
+Founder authorized Codex to execute [[synthesis/saas-highlight-design-brief]]. Built output/highlight-saas/ with 12 story PNGs, a phone-size contact sheet, 28-second silent slide 8 motion animatic, review page, production notes and editable Python project. Used exact copy from [[content-engine/pulsify-saas-highlight-sequence]], existing Inter and canonical coin logo; longer sentences wrap inside their original pills for phone readability, explained to the founder without changing wording. Used only the supplied original desk photo and its crops; no face/body edits or synthetic voice. Slides 6 and 12 retain marked photo placeholders; final slide 8 needs founder on-camera footage and audio. Sales graphic stays abstract pending the Co-pilot. Verified 1080x1920 exports, 24fps/672 video frames/28s, exact copy and safe zones, and visually inspected the sequence and encoded video samples. No app changes, publishing or deployment. Production source and remaining recording needs are in output/highlight-saas/README.md.
+

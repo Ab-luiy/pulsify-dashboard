@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| output/highlight-saas/** | CODEX | DONE | 2026-10-04: review draft exported and verified; final photos/voice/footage pending; lock cleared. |
+
 | outreach/resources/miro-outreach-preview/** | CODEX | DONE | 2026-10-02: preview and authorized VALUE Miro board built; lock cleared. |
 
 | output/prospect-asset-template/, output/bergtrades-asset-v2/ | CLAUDE | DONE | 2026-10-02: prospect asset page redesigned on the homepage palette + app section, templatized (fill.py + JSON), Berg regenerated from it. Old output/bergtrades-page/ untouched (live). Not deployed. Lock cleared. |
@@ -2862,3 +2864,13 @@ DONE (local, not released): logo unified as the default. brand/logo/logo.svg + l
 
 ### [2026-10-04] CLAUDE
 DEPLOYED (Pages 7ec9745a, pulsify-saas main 7a1b952): coin-matching logo + favicon live. Landed on main first (fast-forward from claude/portal-round2, pushed), release from release-main worktree with PULSIFY_BRAIN set, deployed from output/standard-preview. CODEX highlight design brief at wiki/synthesis/saas-highlight-design-brief.md awaits founder go.
+
+
+### [2026-10-04] CODEX
+CLAIM: output/highlight-saas/** and wiki/log.md append. Founder says get to work on Claude highlight brief. Copy retained verbatim; slide 8 per actual script. Original founder desk photo available; remaining photos/on-camera footage absent, placeholders explicitly identified. Sales panel abstract. No app edits/publication.
+
+
+
+### [2026-10-04] CODEX
+DONE review draft: output/highlight-saas/ has 01-12 PNGs, contact sheet, 08.mp4 (28s, 24fps, 1080x1920), review.html, README, layout-audit and qa.json; project/ has editable deterministic Python renderer/verifier, original desk photo, canonical coin/logo and Inter assets, timeline/SRT and sampled frames. Copy words/punctuation preserved; long lines wrap within their original pills for phone readability, explained to founder after unclear question. No synthetic identity or voice. Original real desk/hands crops on 1/2/5/9/10; 6 and 12 marked photo placeholders; 8 remains a silent animatic until real founder footage/audio arrives. Sales visuals abstract; no fabricated metrics. Verified copy, bounds, type, all dimensions, 672 decoded frames and sampled encoded images; phone contact sheet visually reviewed. No app edits, publication or deployment. Locks cleared; final production depends on missing founder assets.
+
