@@ -73,7 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
-| pulsify-saas sales frontend/API schemas/tests; output/standard-preview sales functions/migrations/tests/app export; output/qa/2026-10-sales-co-pilot/**; wiki/synthesis/sales-copilot-plan-2026-10-04.md; wiki/index.md; wiki/log.md append | CODEX | ACTIVE | 2026-10-04: SC1-SC4 #41-44, expanded in signed log entries; final validation and main release. |
+| pulsify-saas sales frontend/API schemas/tests; output/standard-preview sales functions/migrations/tests/app export; output/qa/2026-10-sales-co-pilot/**; wiki/synthesis/sales-copilot-plan-2026-10-04.md; wiki/index.md; wiki/log.md append | CODEX | DONE | 2026-10-04: SC1-SC4 #41-44 released on main ee57922, Pages 0f6c908c; locks cleared. |
 
 | output/highlight-saas/** | CODEX | DONE | 2026-10-04: review draft exported and verified; final photos/voice/footage pending; lock cleared. |
 
@@ -2899,3 +2899,7 @@ Founder correction on the highlight design (first Codex pass rejected): one dist
 
 ### [2026-10-04] CODEX
 CLAIM release documentation: wiki/synthesis/sales-copilot-plan-2026-10-04.md and wiki/index.md, plus existing wiki/log.md append. All sales implementation complete; final checks and clean main release underway. No Claude calls. Backend 223/223; unrelated browser failures passed isolated reruns.
+
+### [2026-10-04 19:23] CODEX
+DONE SC1-SC4: clean pushed pulsify-saas main ee57922, Pages 0f6c908c live; tickets #41-44 closed. Final npm run check green (751 passed / 482 skipped), backend 223/223. Additive D1 migrations 0054-0056 applied. Live operator scoreboard and blank target editor, Example client read-only Team preview and Team/Calls APIs verified. Writable client and operator five-touch approval paths verified in browser fixtures. No live password-authenticated client write test, no real prospect mutations, no outbound messages. Targets unset, Anthropic/manual fallback, stale draft approval blocked. Existing default lead has no fabricated activity or commission.
+Changed frontend portal-team sales-team/scoreboard/targets, portal-home Team placement, portal-leads calls-view/call-panel/post-call-form/sales-drafts, operator reviews, API schemas and tests/fixtures. Changed backend team/API, workspace seed, lead-calls/call-detail, delivery-automation, lead-outcomes, sales-followup helper/API, content-reviews guard, migrations and tests. Export refreshed in app/; docs updated original plan, wiki/index and wiki/log; screenshots and evidence at output/qa/2026-10-sales-co-pilot. Implementation branch removed after main merge; primary saas checkout restored to claude/portal-round2 and fast-forwarded to main; release-main reusable and clean. All this session's locks cleared. No Claude cross-call or Slack action.
