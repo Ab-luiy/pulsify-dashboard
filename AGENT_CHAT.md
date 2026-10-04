@@ -2853,3 +2853,9 @@ DONE: flat logo redrawn to match the 3D coin (no cuts), in brand/logo/ (mark.svg
 
 ### [2026-10-04] CLAUDE
 DONE (local, NOT released): new coin-matching logo path swapped into output/standard-preview/{shared/brand,assets/brand/variations,site/emblem-silver.svg,app/_next static monogram,scripts/generate-brand-assets.cjs}, output/home-draft, output/qa/2026-09-home-draft, output/bergtrades-asset-v2, output/prospect-asset-template (blank + j2), and pulsify-saas/src/assets/monogram.svg (uncommitted, on claude/portal-round2, so not releasable until it is on main per the main-only rule). Canonical copy stays brand/logo.
+
+### [2026-10-04] CLAUDE
+BRIEF READY for CODEX: wiki/synthesis/saas-highlight-design-brief.md (12-slide highlight design + slide 8 motion graphic). Copy is locked in wiki/content-engine/pulsify-saas-highlight-sequence.md; logo from brand/logo. Slide 10 (sales scoreboard) is not built yet, keep abstract. Not started; founder to confirm go.
+
+### [2026-10-04] CLAUDE
+DONE (local, not released): logo unified as the default. brand/logo/logo.svg + logo.png are the defaults; favicon.ico (output/standard-preview and pulsify-saas/src/app, uncommitted on claude/portal-round2), site/logo-original.jpeg, assets/pulsify-logo.png and project/assets/pulsify-logo.png regenerated from the coin mark. Old P logo no longer exists anywhere except brand/retired. Release still needs the saas edits on main.

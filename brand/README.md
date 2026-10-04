@@ -19,3 +19,7 @@ Deployed app/site use `output/standard-preview/shared/brand/` (mark.svg, lockup.
 
 ## Revision 2026-10-04
 Flat vector mark redrawn to match the 3D coin: four continuous quadrants (thick quarter band with a square-ended window, solid quarter disc in the centre) separated by a plain cross channel, inside a ring. The earlier flat version had a solid cross bar and broken arcs ("cuts"); that is gone. mark.svg, lockup.svg and variations 01, 02, 03, 05, 06, 07 (SVG + PNG) are regenerated. The new path was swapped into output/standard-preview (shared/brand, assets/brand/variations, site/emblem-silver.svg, the compiled monogram, generate-brand-assets.cjs), the homepage drafts, the prospect asset templates and pulsify-saas/src/assets/monogram.svg on 2026-10-04. Not yet released: pulsify-saas edit is uncommitted on claude/portal-round2.
+
+## Default logo (2026-10-04)
+One logo everywhere. Default = `logo/logo.svg` (same as mark.svg, recolours with currentColor) and `logo/logo.png` (flat black, transparent). Default lockup = `logo/lockup.svg`. Hero and motion = `logo/coin-master-3d.png`. App icon and favicon = `logo/variations/07-monogram`.
+Unified across: favicon.ico (app + site), site/logo-original.jpeg (sign-in/site mark), assets/pulsify-logo.png and project/assets/pulsify-logo.png (legacy dashboard pages that still reference it, now the coin mark instead of the old "P" logo), plus every inlined path listed above. Any new surface starts from brand/logo, never from a screenshot or an older file.
