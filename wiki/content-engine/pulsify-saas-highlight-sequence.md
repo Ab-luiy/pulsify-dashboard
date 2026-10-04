@@ -6,9 +6,9 @@ created: 2026-10-04
 updated: 2026-10-04
 ---
 
-# Pulsify SaaS highlight sequence (copy v5, A-to-Z + new faces)
+# Pulsify SaaS highlight sequence (copy v6, 12 slides)
 
-Permanent highlight for outreach prospects who check the profile. Frame: info is a second business; most creators can't run it A to Z; new faces win with a distinct voice; Pulsify (system + consultation + sales visibility) runs it from first view to cash. Never labelled an app. Ask: none. Slide 9 = founder on camera + motion graphic with the NEW logo. Design/motion: Codex, per [[synthesis/pulsify-product-launch-direction]]. Status: v5 awaiting founder lock.
+Permanent highlight for outreach prospects who check the profile. Frame: info is a second business; most creators can't run it A to Z; new faces win with a distinct voice; Pulsify (system + consultation + sales visibility) runs it from first view to cash. Never labelled an app. Ask: none. Slide 9 = founder on camera + motion graphic with the NEW logo. Design/motion: Codex, per [[synthesis/pulsify-product-launch-direction]]. Status: v6 (merged to 12) awaiting lock; slide 10 depends on the Sales Co-pilot being built before filming.
 
 ## Slide 1
 i've been working on this for a whole year now.
@@ -34,29 +34,22 @@ so it breaks somewhere:
 - you know what to say, but nobody's watching
 - people are watching, but you don't know where to send them
 - calls are booked, but you can't tell who's closing and who isn't
-same problem. different angle.
+then it repeats every day, and you have no idea which post brought anyone in.
 
 ## Slide 5
-so you post something.
-a couple of people dm you.
-you lose half of them in the chat.
-the ones who book don't close.
-and you have no idea which post brought any of them in.
-
-## Slide 6
 so you try harder.
 more posts. more tools. another chatgpt tab at 2am.
 you start copying what the big names do.
 and you end up promoting their format instead of building your own.
 meanwhile the thing that actually pays you gets less of your time.
 
-## Slide 7
+## Slide 6
 that's where most people plateau.
 then they pick the main business, because that's what keeps food on the table.
 and the info side dies quietly.
 none of that is your fault.
 
-## Slide 8 (the belief shift)
+## Slide 7 (the belief shift)
 here's what most people miss.
 the top of every niche is 3 or 4 names.
 but new people break in every single month.
@@ -64,35 +57,29 @@ not because they're bigger. because they bring something new.
 people always want a new face with a new idea.
 "you don't need to be first. you need to sound like you."
 
-## Slide 9 (on camera + motion graphic, new logo)
+## Slide 8 (on camera + motion graphic, new logo)
 On-screen: so i built the bridge.
 Spoken (~25s): you shouldn't have to give up what you're good at to build an info business. so i took everything i've learned about content, funnels and sales, and built one place that runs it from the first view to the cash in your account. what to post. how to say it. where to send people. who's ready to buy. who's closing. this is pulsify.
 
-## Slide 10
+## Slide 9
 now you sit down and you already know what to make.
 it's written in your voice, so you don't sound like everyone else.
 the people who see it land somewhere that sells.
 and we work through it with you.
 
-## Slide 11
+## Slide 10
 then the sales side.
 you see who's closing. who's not.
 who's hitting their calls. who's hitting your numbers.
 no more guessing what happened on a call.
 no scripts to write yourself.
 
-## Slide 12
-and every post is tracked.
-who watched, who clicked, who booked, who paid.
-even when you're not sure a post was good, you know what it did.
+## Slide 11
+and every post is tracked. who watched, who clicked, who booked, who paid.
 "you never post blind again."
+none of this was built overnight. every framework was tested first.
 
-## Slide 13
-none of this was built overnight.
-every framework was tested first.
-then turned into one place that does the heavy lifting, so you can keep doing what you're good at.
-
-## Slide 14
+## Slide 12
 right now it's only for the people i work with.
 it's getting sharper every week.
 and i'm not stopping until this is a seven-figure company.
