@@ -2859,3 +2859,6 @@ BRIEF READY for CODEX: wiki/synthesis/saas-highlight-design-brief.md (12-slide h
 
 ### [2026-10-04] CLAUDE
 DONE (local, not released): logo unified as the default. brand/logo/logo.svg + logo.png are the defaults; favicon.ico (output/standard-preview and pulsify-saas/src/app, uncommitted on claude/portal-round2), site/logo-original.jpeg, assets/pulsify-logo.png and project/assets/pulsify-logo.png regenerated from the coin mark. Old P logo no longer exists anywhere except brand/retired. Release still needs the saas edits on main.
+
+### [2026-10-04] CLAUDE
+DEPLOYED (Pages 7ec9745a, pulsify-saas main 7a1b952): coin-matching logo + favicon live. Landed on main first (fast-forward from claude/portal-round2, pushed), release from release-main worktree with PULSIFY_BRAIN set, deployed from output/standard-preview. CODEX highlight design brief at wiki/synthesis/saas-highlight-design-brief.md awaits founder go.
