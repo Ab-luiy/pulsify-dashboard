@@ -2850,3 +2850,6 @@ DONE: logo kit filed at brand/logo/ (mark.svg, lockup.svg, coin-master-3d.png, v
 
 ### [2026-10-04] CLAUDE
 DONE: flat logo redrawn to match the 3D coin (no cuts), in brand/logo/ (mark.svg, lockup.svg, variations 01-03, 05-07 svg+png). App/homepage still use the old flat path; swap output/standard-preview/shared/brand/{mark,lockup}.svg from brand/logo and any inlined copies when the founder approves a release. No app edits.
+
+### [2026-10-04] CLAUDE
+DONE (local, NOT released): new coin-matching logo path swapped into output/standard-preview/{shared/brand,assets/brand/variations,site/emblem-silver.svg,app/_next static monogram,scripts/generate-brand-assets.cjs}, output/home-draft, output/qa/2026-09-home-draft, output/bergtrades-asset-v2, output/prospect-asset-template (blank + j2), and pulsify-saas/src/assets/monogram.svg (uncommitted, on claude/portal-round2, so not releasable until it is on main per the main-only rule). Canonical copy stays brand/logo.
