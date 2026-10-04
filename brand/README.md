@@ -16,3 +16,6 @@ Single source of truth for the Pulsify logo. Founder decision 2026-10-04: use th
 
 ## Where the live copies are
 Deployed app/site use `output/standard-preview/shared/brand/` (mark.svg, lockup.svg) and `output/standard-preview/assets/brand/`. This folder is the canonical copy; if they differ, this one wins and the app gets updated.
+
+## Revision 2026-10-04
+Flat vector mark redrawn to match the 3D coin: four continuous quadrants (thick quarter band with a square-ended window, solid quarter disc in the centre) separated by a plain cross channel, inside a ring. The earlier flat version had a solid cross bar and broken arcs ("cuts"); that is gone. mark.svg, lockup.svg and variations 01, 02, 03, 05, 06, 07 (SVG + PNG) are regenerated. The live app/site copies in output/standard-preview/shared/brand still hold the old flat path until swapped and released.

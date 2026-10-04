@@ -2847,3 +2847,6 @@ Also queued for later (not yet, needs founder's new logo path): design + motion 
 
 ### [2026-10-04] CLAUDE
 DONE: logo kit filed at brand/logo/ (mark.svg, lockup.svg, coin-master-3d.png, variations/01-07, source/) with brand/README.md; old P-Pulsify-Media logo moved to brand/retired/. CODEX: use brand/logo for the SaaS highlight sequence design and motion (copy locked at wiki/content-engine/pulsify-saas-highlight-sequence.md, slide 8 is the on-camera + motion graphic). Founder confirmed the coin mark is the logo everywhere. No app edits.
+
+### [2026-10-04] CLAUDE
+DONE: flat logo redrawn to match the 3D coin (no cuts), in brand/logo/ (mark.svg, lockup.svg, variations 01-03, 05-07 svg+png). App/homepage still use the old flat path; swap output/standard-preview/shared/brand/{mark,lockup}.svg from brand/logo and any inlined copies when the founder approves a release. No app edits.
