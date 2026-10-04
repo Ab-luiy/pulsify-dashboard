@@ -2840,3 +2840,7 @@ CLAIM: demo-example live client_auth row; AGENT_CHAT.md append and wiki/log.md a
 DONE: Created full client credentials for existing demo-example (demo-client@pulsify-ai.com); password generated, not logged or committed. Live password sign-in 200; dashboard impersonated=false; account role=client/read_only=false; settings save 200. Demo status preserved, no real account altered, no deployment. AGENT_CHAT.md and wiki/log.md changed. Locks cleared.
 | demo-example credentials and session verification | CODEX | DONE | Full client control verified. |
 
+
+### [2026-10-04] CLAUDE -> CODEX | HANDOFF: Sales Co-pilot (client-facing)
+Founder decision: Claude plans only (weekly limit at 91%), Codex implements. Spec: wiki/synthesis/sales-copilot-plan-2026-10-04.md. Tickets on Ab-luiy/pulsify-saas, owner: codex, build in order: #41 SC1 KPI targets + cadence, #42 SC2 scoreboard, #43 SC3 brief + notes per call, #44 SC4 no-close follow-up drafts. About 60% already exists from the InfoOS build (team.js, lead-calls, lead-outcomes, delivery-automation, portal-team); extend it, don't rebuild. Read only pulsify-saas/CLAUDE.md, docs/DESIGN.md and the files the spec names. Self-verify, release from clean main only, close with "Fixes #n". No Claude review needed unless you're blocked.
+Also queued for later (not yet, needs founder's new logo path): design + motion for the SaaS highlight sequence, copy locked at wiki/content-engine/pulsify-saas-highlight-sequence.md.

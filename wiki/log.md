@@ -2020,3 +2020,6 @@ Inspected all eight founder-uploaded JPEGs individually in order. Reported six d
 
 Founder requested full client control rather than operator preview. Added a real client_auth login to demo-example under demo-client@pulsify-ai.com with a generated password (not stored in the vault). Live password login and client dashboard passed; account reports role client and read_only false; client settings save passed. Workspace stays status demo and excluded from real totals. No application code change or deployment.
 
+
+## [2026-10-04] decision | Sales Co-pilot planned, handed to Codex
+Founder un-deferred the client-facing Sales Co-pilot. Plan at [[synthesis/sales-copilot-plan-2026-10-04]], tickets pulsify-saas #41-#44 (owner Codex). Also: SaaS highlight sequence copy v6 (12 slides) at [[content-engine/pulsify-saas-highlight-sequence]], founder answers in raw-sources/content-ideas/2026-10-04-saas-story-founder-answers.md.
