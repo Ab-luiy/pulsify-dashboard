@@ -2830,3 +2830,13 @@ CLAIM: output/story-mockups/founder-v2/**. Founder rejected AI changes to his ap
 ### [2026-10-04] CODEX
 DONE: Original-photo correction saved at output/story-mockups/founder-v2/story-v2.png with editable build.py and provenance README. No generative model used. Founder region verified byte-for-byte against resized source crop; only empty upper wall blended into header. Replaced screen with existing Pulsify logo, revised headline to Been building something., removed footer. Visual output checked. Locks cleared.
 | output/story-mockups/founder-v2 | CODEX | DONE | Identity-preserving correction saved and verified. |
+
+### [2026-10-04 15:55] CODEX
+CLAIM: demo-example live client_auth row; AGENT_CHAT.md append and wiki/log.md append. Founder requests full client control. Create a separate demo-client login with generated password, preserve demo status and real-account access. No application code changes.
+| demo-example credentials and session verification | CODEX | ACTIVE | Full client login for founder demo. |
+
+
+### [2026-10-04 15:56] CODEX
+DONE: Created full client credentials for existing demo-example (demo-client@pulsify-ai.com); password generated, not logged or committed. Live password sign-in 200; dashboard impersonated=false; account role=client/read_only=false; settings save 200. Demo status preserved, no real account altered, no deployment. AGENT_CHAT.md and wiki/log.md changed. Locks cleared.
+| demo-example credentials and session verification | CODEX | DONE | Full client control verified. |
+

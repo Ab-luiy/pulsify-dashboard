@@ -2015,3 +2015,8 @@ Worked the open list from round 1. Planned pieces now remind clients each mornin
 ## [2026-10-04] ingest | Siggyfoss story design captures
 
 Inspected all eight founder-uploaded JPEGs individually in order. Reported six design takeaways before writing. Added wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md with frame-by-frame observations, layer stack, original Pulsify adaptation and reproduction limits. Updated wiki/index.md and visual-references/reference-notes.md. Source images unchanged. No financial-result validation, exact-font/software claim, animation inference or finished recreation.
+
+## [2026-10-04] client-update | Full client control for Example workspace
+
+Founder requested full client control rather than operator preview. Added a real client_auth login to demo-example under demo-client@pulsify-ai.com with a generated password (not stored in the vault). Live password login and client dashboard passed; account reports role client and read_only false; client settings save passed. Workspace stays status demo and excluded from real totals. No application code change or deployment.
+
