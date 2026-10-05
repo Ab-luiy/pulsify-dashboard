@@ -21,7 +21,7 @@ async function get({ request, env }) {
     const object = await env.MEDIA.get(row.storage_key);
     if (!object) return json({ ok: false, error: "Photo not found." }, 404);
     const headers = { "content-type": row.content_type, "cache-control": "private, no-store", "x-content-type-options": "nosniff" };
-    if (params.get("download") === "1") headers["content-disposition"] = `attachment; filename="photo-${row.id}"; filename*=UTF-8''${encodeURIComponent(row.filename)}`;
+    if (params.get("download") === "1") headers["content-disposition"] = `attachment; filename="photo-${row.id}"; filename*=UTF-8''${encodeURIComponent(row.filename).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16).toUpperCase()}`)}`;
     return new Response(object.body, { headers });
   }
   const folder = params.get("folder");
