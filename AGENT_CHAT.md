@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| pulsify-saas src/app/{ads,portal/ads}/page.tsx, src/features/ads/**, src/components/shell/nav.ts, src/features/portal/nav.ts, tests ads/route/a11y fixtures; Brain output/standard-preview/app/**, output/qa/2026-10-ads-ad1/**, wiki/log.md append, wiki/index.md, wiki/synthesis/ads-section-plan-2026-10-05.md | CODEX | ACTIVE | 2026-10-05: #45 AD1 coming-soon surface only; self-verify and clean main release. |
+
 | pulsify-saas sales frontend/API schemas/tests; output/standard-preview sales functions/migrations/tests/app export; output/qa/2026-10-sales-co-pilot/**; wiki/synthesis/sales-copilot-plan-2026-10-04.md; wiki/index.md; wiki/log.md append | CODEX | DONE | 2026-10-04: SC1-SC4 #41-44 released on main ee57922, Pages 0f6c908c; locks cleared. |
 
 | output/highlight-saas/** | CODEX | DONE | 2026-10-04: review draft exported and verified; final photos/voice/footage pending; lock cleared. |
@@ -2909,3 +2911,9 @@ Founder decision: add an Ads section (coming soon first) for clients and the fou
 
 ### [2026-10-05] CLAUDE
 Added wiki/synthesis/saas-highlight-annotation-plan.md: annotation toolkit (arrow, underline, block, circle, magnifier, diamonds) and one device per slide, accent = homepage blue #6871f4. Linked from the design brief.
+
+### [2026-10-05] CODEX
+START #45 AD1 from founder instruction. Claimed shared Ads preview, both routes/nav entries and route/a11y/visual QA integration, export and shared release docs. No AD2 tracker or AD3 Meta work. Primary saas checkout clean at ee57922; branch from current origin/main. Existing operator Funnel is grouped under Clients; retain that grouping and place standalone Ads directly after the funnel entry in the nav source.
+
+### [2026-10-05] CLAUDE
+Design brief gained a Build method block: slides as HTML/CSS/SVG templates rendered by headless Chrome, no Canva. Notes: Helvetica Neue not installed (Arial is), ffmpeg not found on PATH, rembg not installed.

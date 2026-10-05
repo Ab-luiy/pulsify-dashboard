@@ -70,3 +70,6 @@ Founder on camera (to be recorded, about 25 seconds, script on slide 8 of the co
 - Log files touched in AGENT_CHAT.md and wiki/log.md.
 
 Design overlay plan (arrows, shapes, per-slide device): wiki/synthesis/saas-highlight-annotation-plan.md
+
+## Build method (decided 2026-10-05): no Canva, no third-party design app
+Build each slide as an HTML/CSS/SVG template (Canva concepts as code: layers, text boxes, shapes, masks, shadows) with the locked copy read from wiki/content-engine/pulsify-saas-highlight-14-slide.md, then render to 1080x1920 PNG with headless Chrome. Photo prep (crop, directional darken, local desaturate) with Pillow as in output/story-mockups/build.py. Original photos only, faces unaltered (founder rule on the earlier mock). Fonts: Helvetica Neue is not installed on this PC; use Arial (installed) or a free Helvetica-alike, never an unrelated face. Foreground cutouts (Siggyfoss slide 5 move) only via a local on-machine model, optional, skip if it looks rough. Slide 9 motion: deterministic HTML frames plus an encoder; verify an encoder exists before promising the MP4.
