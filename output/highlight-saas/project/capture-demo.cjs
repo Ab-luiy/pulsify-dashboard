@@ -1,0 +1,40 @@
+const {execFileSync}=require('node:child_process');
+const {randomBytes,createHash}=require('node:crypto');
+const {readFileSync,writeFileSync}=require('node:fs');
+const path=require('node:path');
+const {chromium}=require('C:/Users/Abdullah/Desktop/pulsify-saas/node_modules/playwright');
+const root=path.resolve(__dirname,'../../..'),cwd=path.join(root,'output/standard-preview');
+const wrangler='C:/Users/Abdullah/AppData/Local/npm-cache/_npx/32026684e21afda6/node_modules/wrangler/bin/wrangler.js';
+const sql=s=>JSON.parse(execFileSync(process.execPath,[wrangler,'d1','execute','pulsify-portal','--remote','--json','--command',s],{cwd,encoding:'utf8',windowsHide:true}));
+const quote=s=>"'"+s.replaceAll("'","''")+"'";
+(async()=>{
+ const token=randomBytes(32).toString('base64url'),hash=createHash('sha256').update(token).digest('hex');
+ const email=readFileSync(path.join(cwd,'wrangler.toml'),'utf8').match(/OPERATOR_EMAILS\s*=\s*"([^"]+)"/)[1].split(',')[0];
+ let browser,previewHash;
+ try{
+  sql(`INSERT INTO operator_sessions (token_hash,email,provider_user_id,created_at,expires_at) VALUES (${quote(hash)},${quote(email)},'codex-highlight-review',${quote(new Date().toISOString())},${quote(new Date(Date.now()+1800000).toISOString())})`);
+  browser=await chromium.launch({headless:true});
+  const context=await browser.newContext({viewport:{width:1440,height:1080},deviceScaleFactor:1,extraHTTPHeaders:{'x-pulsify-operator':'1'}});
+  await context.addCookies([{name:'__Host-pulsify_operator',value:token,domain:'pulsify-ai.com',path:'/',httpOnly:true,secure:true,sameSite:'Lax'}]);
+  const page=await context.newPage();
+  const preview=await context.request.post('https://pulsify-ai.com/api/impersonate',{data:{client:'demo-example'}});
+  const exchange=await preview.json();
+  if(!exchange.ok)throw new Error('Cannot open read-only Example preview');
+  await page.goto('https://pulsify-ai.com'+exchange.url,{waitUntil:'networkidle'});
+  const cookies=await context.cookies();
+  const previewCookie=cookies.find(c=>c.name==='pulsify_client_session');
+  if(previewCookie)previewHash=createHash('sha256').update(previewCookie.value).digest('hex');
+  await context.setExtraHTTPHeaders({});
+  await page.goto('https://pulsify-ai.com/app/portal/performance/funnel?client=demo-example',{waitUntil:'networkidle'});
+  await page.waitForTimeout(4000);
+  if(/unauthorized|This page did not load/.test(await page.locator('body').innerText())) throw new Error('Demo report failed');
+  console.log('Capture route:',page.url());
+  await page.screenshot({path:path.join(__dirname,'html/assets/demo-funnel-full.png'),fullPage:true});
+  const sections=page.locator('section');
+  const found=sections.filter({has:page.getByText('Your funnel',{exact:true})});
+  if(await found.count()) await found.first().screenshot({path:path.join(__dirname,'html/assets/demo-funnel.png')});
+  else await page.locator('main').screenshot({path:path.join(__dirname,'html/assets/demo-funnel.png')});
+  writeFileSync(path.join(__dirname,'html/assets/demo-source.json'),JSON.stringify({captured_at:new Date().toISOString(),url:'https://pulsify-ai.com/app/portal/performance/funnel?client=demo-example',workspace:'Example',data:'live demo workspace; not client results'},null,2));
+  console.log('Captured real Example funnel UI.');
+ } finally {if(browser)await browser.close();sql(`DELETE FROM operator_sessions WHERE token_hash=${quote(hash)}`);if(previewHash)sql(`DELETE FROM impersonation_sessions WHERE token_hash=${quote(previewHash)}`);console.log('Temporary capture sessions removed.');}
+})().catch(e=>{console.error(e.message);process.exitCode=1});

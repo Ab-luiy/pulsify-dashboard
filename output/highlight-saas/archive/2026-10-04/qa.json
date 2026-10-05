@@ -1,0 +1,89 @@
+{
+  "status": "review draft; final photos and founder recording pending",
+  "stills": 12,
+  "dimensions": [
+    1080,
+    1920
+  ],
+  "video_duration_seconds": 28.0,
+  "video_frames": 672,
+  "fps": 24,
+  "audio": "silent, intentional until the real recording arrives",
+  "copy_fidelity": "exact words and punctuation; wraps inside pills",
+  "safe_zones": "all audited copy pills within y=250..1580 and x=60..1020",
+  "type_minimum_px": 40,
+  "encoded_video_frames_inspected": [
+    1,
+    14,
+    26
+  ],
+  "visual_review": "all 12 at phone size; enlarged quote and logo; representative motion frames",
+  "references_reviewed": [
+    "Niksetting New here: pills and single emphasis",
+    "founder/product direction: real work, graphite and homepage palette",
+    "Claude highlight brief: exact copy, coin, placeholders, abstract sales"
+  ],
+  "remaining": [
+    "slide 6 wider room photo",
+    "slide 12 relaxed real photo",
+    "slide 8 founder footage and voice",
+    "slide 10 preferred laptop-and-notes photo",
+    "sales feature verification before filming literal scoreboard"
+  ],
+  "files": {
+    "01.png": {
+      "bytes": 1411619,
+      "sha256": "924f4d30cc9b4c6693d104ef29f988d6e6320a05690bf85323fb29d8b7b8dfe1"
+    },
+    "02.png": {
+      "bytes": 1146222,
+      "sha256": "d0d9cf7cfc9c941e81cf54b342d340af7cd4c1a859d59e2b36e76d96f5954a11"
+    },
+    "03.png": {
+      "bytes": 1378019,
+      "sha256": "e3488b02a6314533b46b0924b416b033cfd50bd9158fd1a105cbf6832eaa3ff6"
+    },
+    "04.png": {
+      "bytes": 1274255,
+      "sha256": "6d95748a6311741044c864e204c32334be53656f7aac4c4ae53a48221a60e902"
+    },
+    "05.png": {
+      "bytes": 1334833,
+      "sha256": "f8fe8e5df05922a262b3b6538aeab19f4a26538f76f5e757928dc0d081255a19"
+    },
+    "06.png": {
+      "bytes": 1102370,
+      "sha256": "60f5bf648671ddc62f8edd995f60809d99794bb2da4f51636f5c65d951efbc6b"
+    },
+    "07.png": {
+      "bytes": 1214801,
+      "sha256": "8a3c2580da01f764c1de20a6bdc7bbfd23a3b33b8e9696ffd43d0946f6f4099c"
+    },
+    "08.png": {
+      "bytes": 1751450,
+      "sha256": "fad2fdd2c52ad61ef5a4bc84fa0828dd7a1191b46e6ac2bc7b959f0606e23a3e"
+    },
+    "09.png": {
+      "bytes": 1128075,
+      "sha256": "0e9d76c926a8bd99c9a2e03739416d706ee2c351a3324d66477e435aba5f369d"
+    },
+    "10.png": {
+      "bytes": 1292720,
+      "sha256": "919e6e87263f9a504a479f466515dae1891e29c78b73b86dd4cb345d0f937ba9"
+    },
+    "11.png": {
+      "bytes": 1423212,
+      "sha256": "14f7b9768195ea995f0214d1d520b84088cc2f72161f135431ac51356c842d2a"
+    },
+    "12.png": {
+      "bytes": 1125061,
+      "sha256": "5d81402032d83afa2e31ae3b9ca7a335b135093500e3830f750cbddf6c5e8381"
+    },
+    "08.mp4": {
+      "bytes": 3633804,
+      "sha256": "c5054431a5a0ccebb500e752c9add824813bb59003971961f07413cc5f114640"
+    }
+  },
+  "founder_photo_sha256": "d9f78376e4ace7541bbbdd7803ce895c396dd3140a314c9f8b4445cea35ed381",
+  "copy_source_sha256": "2044c03122401cc1a160d9b5e0f30fb7aec9aa404d559f1d605a137dddd612ad"
+}

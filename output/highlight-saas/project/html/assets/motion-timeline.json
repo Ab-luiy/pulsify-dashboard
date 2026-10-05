@@ -1,0 +1,70 @@
+{
+  "duration": 27,
+  "fps": 24,
+  "kind": "silent animatic; founder take required",
+  "spoken": "you shouldn't have to give up what you're good at to build an info business. so i took everything i've learned about content, funnels and sales, and built one place that runs it from the first view to the cash in your account. what to post. how to say it. where to send people. who's ready to buy. who's closing. this is pulsify.",
+  "cues": [
+    {
+      "start": 1,
+      "end": 6.9523809523809526,
+      "text": "you shouldn't have to give up what you're good at to build an info business."
+    },
+    {
+      "start": 6.9523809523809526,
+      "end": 13.3015873015873,
+      "text": "so i took everything i've learned about content, funnels and sales, and built one place that"
+    },
+    {
+      "start": 13.3015873015873,
+      "end": 18.063492063492063,
+      "text": "runs it from the first view to the cash in your account."
+    },
+    {
+      "start": 18.063492063492063,
+      "end": 22.428571428571427,
+      "text": "what to post. how to say it. where to send people."
+    },
+    {
+      "start": 22.428571428571427,
+      "end": 24.809523809523807,
+      "text": "who's ready to buy. who's closing."
+    },
+    {
+      "start": 24.809523809523807,
+      "end": 25.999999999999996,
+      "text": "this is pulsify."
+    }
+  ],
+  "beats": [
+    {
+      "from": 0,
+      "to": 5.1,
+      "scene": "coin and founder still; replace hold with actual eye-level take"
+    },
+    {
+      "from": 5.1,
+      "to": 10.4,
+      "scene": "six-step chain draws in"
+    },
+    {
+      "from": 10.4,
+      "to": 17.2,
+      "scene": "actual Example tracking UI"
+    },
+    {
+      "from": 17.2,
+      "to": 20.2,
+      "scene": "actual Example calls detail"
+    },
+    {
+      "from": 20.2,
+      "to": 24.3,
+      "scene": "return to unified Example tracking view"
+    },
+    {
+      "from": 24.3,
+      "to": 27,
+      "scene": "coin and canonical lockup"
+    }
+  ]
+}

@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| output/highlight-saas/**; brand/photos/uploaded/**; wiki/log.md append | CODEX | DONE | 2026-10-06: 14-slide review and silent slide9 preview verified; locked copy/Helvetica/photos/safe zones pass; founder take pending; locks cleared. |
+
 | saas operator photos route/feature/API/nav/tests/docs; Brain functions operator-photos, shared image-upload validator, middleware, migration 0057, tests, tools/sync-operator-photos.mjs, brand/photos README, wiki/log append, app export | CODEX | DONE | 2026-10-05: #48 released main 3832d8c / Pages 5d0ef3f4; live upload and Brain sync verified; locks cleared. |
 
 | brand/photos/README.md; brand/README.md | CODEX | DONE | 2026-10-05: shared photo folder documented; lock cleared. |
@@ -2959,3 +2961,12 @@ Photo library (49 photos at /app/photos) reviewed. Matches in wiki/content-engin
 
 ### [2026-10-06] CLAUDE
 Founder uploaded more reference sequences (brez-scales, shelby-sapp, niksetting seq 1-3). Viewed all. Single guidance page for Codex: wiki/synthesis/saas-highlight-codex-guidance.md (pattern library, per-slide treatment, method). Full per-slide ingest of the new references is not done (usage); the guidance carries the observed patterns.
+
+### [2026-10-06] CODEX
+START 14-slide highlight rebuild authorized by founder. Claim output/highlight-saas/**, shared uploaded photo refresh and wiki/log append. Preserve rejected pass in archive, use installed Helvetica and distinct originals, build 12/3/5 first. Founder has no slide 9 take: silent motion preview plus recording script. No publication or Claude cross-call.
+
+### [2026-10-06] CODEX
+DONE local review: output/highlight-saas/01-14.png, 09-preview.mp4 (27s, 24fps, silent), contact sheets, review.html, ZIP, README, QA/audits and editable project/html templates plus prepare/render/motion/package scripts. Old 12-slide pass preserved in archive; stale root motion/source moved there. All49 operator originals hash-verified in brand/photos/uploaded. Kept Claude photo choices; spare40 chain fallback and spare7 video storyboard. Real read-only Example tracking screenshot resolves slide12 gap; demo labelled, temporary sessions removed. Exact copy and actual Helvetica verified, 14 distinct photos, dimensions/key safe zones pass, all648 video frames decoded; final sheets/samples visually reviewed. Founder has no take: real slide9 recording remains, script included. No app edits/publication/deployment/Claude call. wiki/log appended. All this session's locks cleared.
+
+### [2026-10-06] CODEX
+Backup recovery: auto-backup skipped an empty index.lock left at00:44. Verified no git.exe process, lock older than10minutes and scheduled backup Ready; preserved stale lock in Windows Temp and retried the normal backup. No index or worktree reset.

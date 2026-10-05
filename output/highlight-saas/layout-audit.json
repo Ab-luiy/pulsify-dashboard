@@ -1,750 +1,525 @@
-{
-  "wrapping": true,
-  "safe_zone": [
-    250,
-    1580
-  ],
-  "slides": [
-    {
-      "slide": 1,
-      "font_px": 57,
-      "blocks": [
-        {
-          "source": "i've been working on this for a whole year now.",
-          "rendered_lines": [
-            "i've been working on this for a",
-            "whole year now."
-          ],
-          "bounds": [
-            76,
-            310,
-            931,
-            484
-          ],
-          "font_px": 57
-        },
-        {
-          "source": "because everyone in this space is stuck on the same problem.",
-          "rendered_lines": [
-            "because everyone in this space",
-            "is stuck on the same problem."
-          ],
-          "bounds": [
-            76,
-            497,
-            972,
-            671
-          ],
-          "font_px": 57
-        }
-      ],
-      "photo": "desk",
-      "photo_pending": false
-    },
-    {
-      "slide": 2,
-      "font_px": 42,
-      "blocks": [
-        {
-          "source": "you're already good at what you do.",
-          "rendered_lines": [
-            "you're already good at what you do."
-          ],
-          "bounds": [
-            76,
-            290,
-            838,
-            369
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "trading. tiktok shop. whatever it is.",
-          "rendered_lines": [
-            "trading. tiktok shop. whatever it is."
-          ],
-          "bounds": [
-            76,
-            382,
-            803,
-            461
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "and you know a mentorship can make you more than the thing itself.",
-          "rendered_lines": [
-            "and you know a mentorship can make you",
-            "more than the thing itself."
-          ],
-          "bounds": [
-            76,
-            474,
-            961,
-            608
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "but info is a whole business on its own.",
-          "rendered_lines": [
-            "but info is a whole business on its own."
-          ],
-          "bounds": [
-            76,
-            621,
-            897,
-            700
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "so now you're learning two businesses at once.",
-          "rendered_lines": [
-            "so now you're learning two businesses at",
-            "once."
-          ],
-          "bounds": [
-            76,
-            713,
-            942,
-            847
-          ],
-          "font_px": 42
-        }
-      ],
-      "photo": "hands",
-      "photo_pending": false
-    },
-    {
-      "slide": 3,
-      "font_px": 43,
-      "blocks": [
-        {
-          "source": "content. traffic. a page. sales calls. a team. cash in the bank.",
-          "rendered_lines": [
-            "content. traffic. a page. sales calls. a team.",
-            "cash in the bank."
-          ],
-          "bounds": [
-            76,
-            390,
-            984,
-            528
-          ],
-          "font_px": 43
-        },
-        {
-          "source": "that's the whole chain.",
-          "rendered_lines": [
-            "that's the whole chain."
-          ],
-          "bounds": [
-            76,
-            541,
-            575,
-            622
-          ],
-          "font_px": 43
-        },
-        {
-          "source": "most people have never run it.",
-          "rendered_lines": [
-            "most people have never run it."
-          ],
-          "bounds": [
-            76,
-            635,
-            735,
-            716
-          ],
-          "font_px": 43
-        },
-        {
-          "source": "some don't even know what a kpi is.",
-          "rendered_lines": [
-            "some don't even know what a kpi is."
-          ],
-          "bounds": [
-            76,
-            729,
-            856,
-            810
-          ],
-          "font_px": 43
-        },
-        {
-          "source": "and that's fine. nobody teaches you this part.",
-          "rendered_lines": [
-            "and that's fine. nobody teaches you this",
-            "part."
-          ],
-          "bounds": [
-            76,
-            823,
-            930,
-            961
-          ],
-          "font_px": 43
-        }
-      ],
-      "photo": null,
-      "photo_pending": false
-    },
-    {
-      "slide": 4,
-      "font_px": 40,
-      "blocks": [
-        {
-          "source": "so it breaks somewhere:",
-          "rendered_lines": [
-            "so it breaks somewhere:"
-          ],
-          "bounds": [
-            76,
-            290,
-            588,
-            367
-          ],
-          "font_px": 40
-        },
-        {
-          "source": "- you want to post, but you don't know what to say",
-          "rendered_lines": [
-            "- you want to post, but you don't know what",
-            "to say"
-          ],
-          "bounds": [
-            76,
-            380,
-            960,
-            510
-          ],
-          "font_px": 40
-        },
-        {
-          "source": "- you know what to say, but nobody's watching",
-          "rendered_lines": [
-            "- you know what to say, but nobody's",
-            "watching"
-          ],
-          "bounds": [
-            76,
-            523,
-            838,
-            653
-          ],
-          "font_px": 40
-        },
-        {
-          "source": "- people are watching, but you don't know where to send them",
-          "rendered_lines": [
-            "- people are watching, but you don't know",
-            "where to send them"
-          ],
-          "bounds": [
-            76,
-            666,
-            929,
-            796
-          ],
-          "font_px": 40
-        },
-        {
-          "source": "- calls are booked, but you can't tell who's closing and who isn't",
-          "rendered_lines": [
-            "- calls are booked, but you can't tell who's",
-            "closing and who isn't"
-          ],
-          "bounds": [
-            76,
-            809,
-            932,
-            939
-          ],
-          "font_px": 40
-        },
-        {
-          "source": "then it repeats every day, and you have no idea which post brought anyone in.",
-          "rendered_lines": [
-            "then it repeats every day, and you have no",
-            "idea which post brought anyone in."
-          ],
-          "bounds": [
-            76,
-            952,
-            933,
-            1082
-          ],
-          "font_px": 40
-        }
-      ],
-      "photo": null,
-      "photo_pending": false
-    },
-    {
-      "slide": 5,
-      "font_px": 42,
-      "blocks": [
-        {
-          "source": "so you try harder.",
-          "rendered_lines": [
-            "so you try harder."
-          ],
-          "bounds": [
-            76,
-            290,
-            473,
-            369
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "more posts. more tools. another chatgpt tab at 2am.",
-          "rendered_lines": [
-            "more posts. more tools. another chatgpt tab",
-            "at 2am."
-          ],
-          "bounds": [
-            76,
-            382,
-            992,
-            516
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "you start copying what the big names do.",
-          "rendered_lines": [
-            "you start copying what the big names do."
-          ],
-          "bounds": [
-            76,
-            529,
-            942,
-            608
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "and you end up promoting their format instead of building your own.",
-          "rendered_lines": [
-            "and you end up promoting their format",
-            "instead of building your own."
-          ],
-          "bounds": [
-            76,
-            621,
-            888,
-            755
-          ],
-          "font_px": 42
-        },
-        {
-          "source": "meanwhile the thing that actually pays you gets less of your time.",
-          "rendered_lines": [
-            "meanwhile the thing that actually pays you",
-            "gets less of your time."
-          ],
-          "bounds": [
-            76,
-            768,
-            969,
-            902
-          ],
-          "font_px": 42
-        }
-      ],
-      "photo": "desk",
-      "photo_pending": false
-    },
-    {
-      "slide": 6,
-      "font_px": 45,
-      "blocks": [
-        {
-          "source": "that's where most people plateau.",
-          "rendered_lines": [
-            "that's where most people plateau."
-          ],
-          "bounds": [
-            246,
-            285,
-            1004,
-            368
-          ],
-          "font_px": 45
-        },
-        {
-          "source": "then they pick the main business, because that's what keeps food on the table.",
-          "rendered_lines": [
-            "then they pick the main business,",
-            "because that's what keeps food on the",
-            "table."
-          ],
-          "bounds": [
-            142,
-            381,
-            1004,
-            582
-          ],
-          "font_px": 45
-        },
-        {
-          "source": "and the info side dies quietly.",
-          "rendered_lines": [
-            "and the info side dies quietly."
-          ],
-          "bounds": [
-            338,
-            595,
-            1004,
-            678
-          ],
-          "font_px": 45
-        },
-        {
-          "source": "none of that is your fault.",
-          "rendered_lines": [
-            "none of that is your fault."
-          ],
-          "bounds": [
-            431,
-            691,
-            1004,
-            774
-          ],
-          "font_px": 45
-        }
-      ],
-      "photo": null,
-      "photo_pending": true
-    },
-    {
-      "slide": 7,
-      "font_px": 44,
-      "blocks": [
-        {
-          "source": "here's what most people miss.",
-          "rendered_lines": [
-            "here's what most people miss."
-          ],
-          "bounds": [
-            76,
-            320,
-            743,
-            402
-          ],
-          "font_px": 44
-        },
-        {
-          "source": "the top of every niche is 3 or 4 names.",
-          "rendered_lines": [
-            "the top of every niche is 3 or 4 names."
-          ],
-          "bounds": [
-            76,
-            415,
-            908,
-            497
-          ],
-          "font_px": 44
-        },
-        {
-          "source": "but new people break in every single month.",
-          "rendered_lines": [
-            "but new people break in every single",
-            "month."
-          ],
-          "bounds": [
-            76,
-            510,
-            869,
-            650
-          ],
-          "font_px": 44
-        },
-        {
-          "source": "not because they're bigger. because they bring something new.",
-          "rendered_lines": [
-            "not because they're bigger. because they",
-            "bring something new."
-          ],
-          "bounds": [
-            76,
-            663,
-            969,
-            803
-          ],
-          "font_px": 44
-        },
-        {
-          "source": "people always want a new face with a new idea.",
-          "rendered_lines": [
-            "people always want a new face with a new",
-            "idea."
-          ],
-          "bounds": [
-            76,
-            816,
-            993,
-            956
-          ],
-          "font_px": 44
-        },
-        {
-          "source": "\"you don't need to be first. you need to sound like you.\"",
-          "rendered_lines": [
-            "\"you don't need to be first.",
-            "you need to sound like you.\""
-          ],
-          "bounds": [
-            76,
-            969,
-            982,
-            1161
-          ],
-          "font_px": 64
-        }
-      ],
-      "photo": null,
-      "photo_pending": false
-    },
-    {
-      "slide": 9,
-      "font_px": 45,
-      "blocks": [
-        {
-          "source": "now you sit down and you already know what to make.",
-          "rendered_lines": [
-            "now you sit down and you already know",
-            "what to make."
-          ],
-          "bounds": [
-            76,
-            300,
-            966,
-            442
-          ],
-          "font_px": 45
-        },
-        {
-          "source": "it's written in your voice, so you don't sound like everyone else.",
-          "rendered_lines": [
-            "it's written in your voice, so you don't",
-            "sound like everyone else."
-          ],
-          "bounds": [
-            76,
-            455,
-            916,
-            597
-          ],
-          "font_px": 45
-        },
-        {
-          "source": "the people who see it land somewhere that sells.",
-          "rendered_lines": [
-            "the people who see it land somewhere",
-            "that sells."
-          ],
-          "bounds": [
-            76,
-            610,
-            931,
-            752
-          ],
-          "font_px": 45
-        },
-        {
-          "source": "and we work through it with you.",
-          "rendered_lines": [
-            "and we work through it with you."
-          ],
-          "bounds": [
-            76,
-            765,
-            814,
-            848
-          ],
-          "font_px": 45
-        }
-      ],
-      "photo": "hands",
-      "photo_pending": false
-    },
-    {
-      "slide": 10,
-      "font_px": 48,
-      "blocks": [
-        {
-          "source": "then the sales side.",
-          "rendered_lines": [
-            "then the sales side."
-          ],
-          "bounds": [
-            76,
-            310,
-            562,
-            397
-          ],
-          "font_px": 48
-        },
-        {
-          "source": "you see who's closing. who's not.",
-          "rendered_lines": [
-            "you see who's closing. who's not."
-          ],
-          "bounds": [
-            76,
-            410,
-            888,
-            497
-          ],
-          "font_px": 48
-        },
-        {
-          "source": "who's hitting their calls. who's hitting your numbers.",
-          "rendered_lines": [
-            "who's hitting their calls. who's hitting",
-            "your numbers."
-          ],
-          "bounds": [
-            76,
-            510,
-            967,
-            660
-          ],
-          "font_px": 48
-        },
-        {
-          "source": "no more guessing what happened on a call.",
-          "rendered_lines": [
-            "no more guessing what happened on",
-            "a call."
-          ],
-          "bounds": [
-            76,
-            673,
-            968,
-            823
-          ],
-          "font_px": 48
-        },
-        {
-          "source": "no scripts to write yourself.",
-          "rendered_lines": [
-            "no scripts to write yourself."
-          ],
-          "bounds": [
-            76,
-            836,
-            745,
-            923
-          ],
-          "font_px": 48
-        }
-      ],
-      "photo": "review",
-      "photo_pending": false
-    },
-    {
-      "slide": 11,
-      "font_px": 44,
-      "blocks": [
-        {
-          "source": "and every post is tracked. who watched, who clicked, who booked, who paid.",
-          "rendered_lines": [
-            "and every post is tracked. who watched,",
-            "who clicked, who booked, who paid."
-          ],
-          "bounds": [
-            76,
-            440,
-            950,
-            580
-          ],
-          "font_px": 44
-        },
-        {
-          "source": "\"you never post blind again.\"",
-          "rendered_lines": [
-            "\"you never post blind again.\""
-          ],
-          "bounds": [
-            76,
-            593,
-            998,
-            701
-          ],
-          "font_px": 64
-        },
-        {
-          "source": "none of this was built overnight. every framework was tested first.",
-          "rendered_lines": [
-            "none of this was built overnight. every",
-            "framework was tested first."
-          ],
-          "bounds": [
-            76,
-            714,
-            901,
-            854
-          ],
-          "font_px": 44
-        }
-      ],
-      "photo": null,
-      "photo_pending": false
-    },
-    {
-      "slide": 12,
-      "font_px": 47,
-      "blocks": [
-        {
-          "source": "right now it's only for the people i work with.",
-          "rendered_lines": [
-            "right now it's only for the people i work",
-            "with."
-          ],
-          "bounds": [
-            76,
-            360,
-            991,
-            508
-          ],
-          "font_px": 47
-        },
-        {
-          "source": "it's getting sharper every week.",
-          "rendered_lines": [
-            "it's getting sharper every week."
-          ],
-          "bounds": [
-            76,
-            521,
-            824,
-            607
-          ],
-          "font_px": 47
-        },
-        {
-          "source": "and i'm not stopping until this is a seven-figure company.",
-          "rendered_lines": [
-            "and i'm not stopping until this is a",
-            "seven-figure company."
-          ],
-          "bounds": [
-            76,
-            620,
-            871,
-            768
-          ],
-          "font_px": 47
-        }
-      ],
-      "photo": null,
-      "photo_pending": true
-    }
-  ]
-}
+[
+  {
+    "slide": 1,
+    "text": [
+      "i've been working on this for a whole year now.",
+      "because everyone in this space is stuck on the same problem."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 355,
+        "w": 900,
+        "h": 488.859375,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 33
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 59
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "text": [
+      "you're already good at what you do.",
+      "trading. tiktok shop. whatever it is.",
+      "and you know a mentorship can make you more than the thing itself.",
+      "but info is a whole business on its own.",
+      "so now you're learning two businesses at once."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 656.25,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 34
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 173
+      }
+    ]
+  },
+  {
+    "slide": 3,
+    "text": [
+      "that's the whole chain.",
+      "most people have never run it.",
+      "some don't even know what a kpi is.",
+      "and that's fine. nobody teaches you this part."
+    ],
+    "chain": [
+      "content.",
+      "traffic.",
+      "a page.",
+      "sales calls.",
+      "a team.",
+      "cash in the bank."
+    ],
+    "geometry": [
+      {
+        "element": "chain card",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 255.71875,
+        "safe": true
+      },
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 720,
+        "w": 900,
+        "h": 431.046875,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 23
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 110
+      }
+    ]
+  },
+  {
+    "slide": 4,
+    "text": [
+      "so it breaks somewhere:",
+      "you want to post, but you don't know what to say",
+      "you know what to say, but nobody's watching",
+      "people are watching, but you don't know where to send them",
+      "calls are booked, but you can't tell who's closing and who isn't"
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 729.484375,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 23
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 209
+      }
+    ]
+  },
+  {
+    "slide": 5,
+    "text": [
+      "so you post something.",
+      "a couple of people dm you.",
+      "you lose half of them in the chat.",
+      "the ones who book don't close.",
+      "and you have no idea which post brought any of them in."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "card inbox",
+        "x": 73.26976013183594,
+        "y": 1110.722900390625,
+        "w": 493.46044921875,
+        "h": 442.55419921875,
+        "safe": true
+      },
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 537.34375,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 22
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 126
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "text": [
+      "so you try harder.",
+      "more posts. more tools. another chatgpt tab at 2am.",
+      "you start copying what the big names do.",
+      "and you end up promoting their format instead of building your own.",
+      "meanwhile the thing that actually pays you gets less of your time."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 639.703125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 18
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 218
+      }
+    ]
+  },
+  {
+    "slide": 7,
+    "text": [
+      "that's where most people plateau.",
+      "then they pick the main business, because that's what keeps food on the table.",
+      "and the info side dies quietly.",
+      "none of that is your fault."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 340,
+        "w": 900,
+        "h": 595.375,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 25
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 134
+      }
+    ]
+  },
+  {
+    "slide": 8,
+    "text": [
+      "here's what most people miss.",
+      "the top of every niche is 3 or 4 names.",
+      "but new people break in every single month.",
+      "not because they're bigger. because they bring something new.",
+      "people always want a new face with a new idea.",
+      "\"you don't need to be first. you need to sound like you.\""
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 737.625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 29
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 187
+      }
+    ]
+  },
+  {
+    "slide": 9,
+    "text": [
+      "so i built the bridge."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "coin",
+        "x": 740,
+        "y": 1150,
+        "w": 230,
+        "h": 230,
+        "safe": true
+      },
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 400,
+        "w": 900,
+        "h": 136.15625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 22
+      }
+    ]
+  },
+  {
+    "slide": 10,
+    "text": [
+      "now you sit down and you already know what to make.",
+      "it's written in your voice, so you don't sound like everyone else.",
+      "the people who see it land somewhere that sells.",
+      "and we work through it with you."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 386,
+        "w": 900,
+        "h": 593.640625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 50
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 134
+      }
+    ]
+  },
+  {
+    "slide": 11,
+    "text": [
+      "then the sales side.",
+      "you see who's closing. who's not.",
+      "who's hitting their calls. who's hitting your numbers.",
+      "no more guessing what happened on a call.",
+      "no scripts to write yourself."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 386,
+        "w": 900,
+        "h": 599.453125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 20
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 78
+      }
+    ]
+  },
+  {
+    "slide": 12,
+    "text": [
+      "and every post is tracked. who watched, who clicked, who booked, who paid.",
+      "\"you never post blind again.\""
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "example",
+        "x": 96,
+        "y": 879,
+        "w": 282.5625,
+        "h": 51,
+        "safe": true
+      },
+      {
+        "element": "zoom",
+        "x": 575,
+        "y": 935,
+        "w": 360,
+        "h": 360,
+        "safe": true
+      },
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 386,
+        "w": 900,
+        "h": 441.828125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 28
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 72
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "text": [
+      "none of this was built overnight.",
+      "every framework was tested first.",
+      "then turned into one place that does the heavy lifting, so you can keep doing what you're good at."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 515.84375,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 32
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 96
+      }
+    ]
+  },
+  {
+    "slide": 14,
+    "text": [
+      "right now it's only for the people i work with.",
+      "it's getting sharper every week.",
+      "and i'm not stopping until this is a seven-figure company."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "coin",
+        "x": 890,
+        "y": 1420,
+        "w": 100,
+        "h": 100,
+        "safe": true
+      },
+      {
+        "element": "copy",
+        "x": 90,
+        "y": 340,
+        "w": 900,
+        "h": 551.625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 102
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 32
+      }
+    ]
+  }
+]
