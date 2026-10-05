@@ -16,7 +16,7 @@ export async function onRequestHead({ params, env }) {
 
 async function serveMedia(params, env, headOnly) {
   const key = readKey(params);
-  if (!key || !env.MEDIA) return new Response("Not found", { status: 404 });
+  if (!key || key.startsWith("operator-photos/") || !env.MEDIA) return new Response("Not found", { status: 404 });
 
   // V1 uses the unguessable UUID object key as the guard. Per-client serving auth is a later hardening step.
   const object = await env.MEDIA.get(key);

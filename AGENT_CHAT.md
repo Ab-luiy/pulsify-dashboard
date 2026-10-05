@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| saas operator photos route/feature/API/nav/tests/docs; Brain functions operator-photos, shared image-upload validator, middleware, migration 0057, tests, tools/sync-operator-photos.mjs, brand/photos README, wiki/log append, app export | CODEX | ACTIVE | 2026-10-05: #48 operator photo library and shared Brain sync. |
+
 | brand/photos/README.md; brand/README.md | CODEX | DONE | 2026-10-05: shared photo folder documented; lock cleared. |
 
 | Downloads JPEG outputs for 31 explicitly supplied HEIC files | CODEX | DONE | 2026-10-05: all 31 converted and decoded for verification; lock cleared. |
@@ -2945,3 +2947,6 @@ START shared founder photo library at brand/photos/ inside Brain. Claim brand/ph
 
 ### [2026-10-05] CODEX
 DONE: created brand/photos/README.md as the shared founder-photo drop location for mixed portraits/scenery/everyday photos. Linked current story copy, picture directions, design brief, breakdowns and original story references; preserve originals and record slide selections in output project notes. Added discovery link in brand/README.md. No photos copied or selected yet. Locks cleared. Pre-existing untracked founder story-reference folders remain unchanged; standard automatic backup may include them.
+
+### [2026-10-05] CODEX
+START #48 founder-authorized operator photo uploads and shared Brain access. Private dedicated photo records/R2 prefix, operator-only serving, batch uploads/folders and original downloads; on-demand authenticated Cloudflare sync to brand/photos uploaded originals for both agents. Reuse current validators/auth/storage. No client media changes beyond extracting upload validation. Claim listed on Lock Board; no Claude call.

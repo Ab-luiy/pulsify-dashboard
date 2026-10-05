@@ -4,6 +4,14 @@ Drop your own pictures directly into this folder. Portraits, scenery, work shots
 
 This is the shared photo source for Claude and Codex when building Pulsify stories and other content. Founder requested it on 2026-10-05.
 
+## Upload through Pulsify
+
+Operators can use Photo library at https://pulsify-ai.com/app/photos. Upload JPEG, PNG, WebP or GIF originals up to 10 MB each, 30 per batch. The library is private to signed-in operators and separate from client media.
+
+Before selecting pictures, Claude or Codex runs `node tools/sync-operator-photos.mjs` from the Brain root. This uses the existing Cloudflare Wrangler login to pull originals into `brand/photos/uploaded/`. No founder download or key handling is required. The sync verifies SHA-256 hashes, skips unchanged files and preserves existing originals. `uploaded/index.json` maps original filenames, folders and local filenames. If Cloudflare authentication has expired, report that sync is blocked rather than claiming the local library is current.
+
+Uploads are available locally after the agent runs the sync; this is not an automatic background mirror.
+
 ## Choosing photos for stories
 
 Read the current sequence copy and design brief before choosing pictures. Inspect the actual photos, then match each slide's message, mood, crop and space for text. Use the existing story references to guide composition and pacing.
