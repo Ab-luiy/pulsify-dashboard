@@ -1,5 +1,7 @@
 # Pulsify brand kit: the logo
 
+Founder pictures for story sequences: [shared photo folder](photos/). Drop mixed portraits, scenery and everyday shots there; Claude and Codex use the same originals and choose against the current sequence and reference library.
+
 Single source of truth for the Pulsify logo. Founder decision 2026-10-04: use the coin mark everywhere (homepage, app, stories, carousels, reels, motion). The old "P / Pulsify Media" logo is retired.
 
 ## Use

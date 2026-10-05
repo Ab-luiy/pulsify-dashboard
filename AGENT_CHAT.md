@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| brand/photos/README.md; brand/README.md | CODEX | DONE | 2026-10-05: shared photo folder documented; lock cleared. |
+
 | Downloads JPEG outputs for 31 explicitly supplied HEIC files | CODEX | DONE | 2026-10-05: all 31 converted and decoded for verification; lock cleared. |
 
 | pulsify-saas src/app/{ads,portal/ads}/page.tsx, src/features/ads/**, src/components/shell/nav.ts, src/features/portal/nav.ts, tests ads/route/a11y fixtures and portal-instagram toast validation; Brain output/standard-preview/app/**, output/qa/2026-10-ads-ad1/**, wiki/log.md append, wiki/index.md, wiki/synthesis/ads-section-plan-2026-10-05.md | CODEX | DONE | 2026-10-05: #45 AD1 released, main 8f1f219 / Pages c893b3f0; locks cleared. |
@@ -2937,3 +2939,9 @@ START local HEIC to JPEG conversion for 31 founder-supplied Downloads files. Cla
 
 ### [2026-10-05] CODEX
 DONE: converted all 31 supplied HEICs to same-basename .jpg files in C:/Users/Abdullah/Downloads, quality 95, full dimensions and corrected orientation. Reopened and fully decoded every JPEG. Originals preserved. Repository changes: AGENT_CHAT.md coordination entries only; lock cleared.
+
+### [2026-10-05] CODEX
+START shared founder photo library at brand/photos/ inside Brain. Claim brand/photos/README.md and brand/README.md. Founder will drop mixed portraits/scenery for Claude and Codex to select against existing story sequences. Existing untracked story-reference folders predate this work and remain untouched.
+
+### [2026-10-05] CODEX
+DONE: created brand/photos/README.md as the shared founder-photo drop location for mixed portraits/scenery/everyday photos. Linked current story copy, picture directions, design brief, breakdowns and original story references; preserve originals and record slide selections in output project notes. Added discovery link in brand/README.md. No photos copied or selected yet. Locks cleared. Pre-existing untracked founder story-reference folders remain unchanged; standard automatic backup may include them.
