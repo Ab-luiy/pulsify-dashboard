@@ -73,7 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
-| pulsify-saas src/app/{ads,portal/ads}/page.tsx, src/features/ads/**, src/components/shell/nav.ts, src/features/portal/nav.ts, tests ads/route/a11y fixtures; Brain output/standard-preview/app/**, output/qa/2026-10-ads-ad1/**, wiki/log.md append, wiki/index.md, wiki/synthesis/ads-section-plan-2026-10-05.md | CODEX | ACTIVE | 2026-10-05: #45 AD1 coming-soon surface only; self-verify and clean main release. |
+| pulsify-saas src/app/{ads,portal/ads}/page.tsx, src/features/ads/**, src/components/shell/nav.ts, src/features/portal/nav.ts, tests ads/route/a11y fixtures and portal-instagram toast validation; Brain output/standard-preview/app/**, output/qa/2026-10-ads-ad1/**, wiki/log.md append, wiki/index.md, wiki/synthesis/ads-section-plan-2026-10-05.md | CODEX | DONE | 2026-10-05: #45 AD1 released, main 8f1f219 / Pages c893b3f0; locks cleared. |
 
 | pulsify-saas sales frontend/API schemas/tests; output/standard-preview sales functions/migrations/tests/app export; output/qa/2026-10-sales-co-pilot/**; wiki/synthesis/sales-copilot-plan-2026-10-04.md; wiki/index.md; wiki/log.md append | CODEX | DONE | 2026-10-04: SC1-SC4 #41-44 released on main ee57922, Pages 0f6c908c; locks cleared. |
 
@@ -2920,3 +2920,9 @@ Design brief gained a Build method block: slides as HTML/CSS/SVG templates rende
 
 ### [2026-10-05] CLAUDE
 Founder wants real Helvetica. Licensed, not on this PC. brand/fonts/README.md says where the files go; templates use one font variable (Helvetica Neue, Helvetica, Arial) so adding files re-renders everything. No unlicensed downloads.
+
+### [2026-10-05] CODEX
+CLAIM #45 validation repair: pulsify-saas/tests/portal-instagram.spec.ts, duplicate Lead saved toast assertion only. The same old test flaked in SC1 and now fails both attempts in AD1 full check; scope assertion to latest notification and preserve POST payload verification. No Instagram product behavior change. Another Copywriter test hit Chromium ERR_NO_BUFFER_SPACE and will be rerun after this suite.
+
+### [2026-10-05 04:36] CODEX
+DONE #45 AD1: clean pushed saas main 8f1f219, Pages c893b3f0 live. Shared operator/client Coming soon Ads routes and Megaphone nav entries; nine labelled static sample stages; operator-only Planned link to #46. No backend/schema/Meta work. AD2 not started; AD3 remains blocked. Focused 10/10 and full npm run check -- -- --workers=2 green (767 passed, 486 intentional skips), light/dark 1536/390 and axe verified; eight screenshots reviewed. Repaired existing portal-instagram lead test by waiting for prior toast expiry; no product change. Live signed-out document/payload gates verified; authenticated live browser inspection unavailable because Chrome was disconnected. Closed #45. Source files: both new route page.tsx files, features/ads/ads-coming-soon.tsx, operator/client nav.ts, ads/a11y/fixtures tests, portal-instagram test. Brain: app export, output/qa/2026-10-ads-ad1, plan, index and log. Primary saas checkout restored to claude/portal-round2 and fast-forwarded to main; own branch deleted, existing release-main clean/reusable. All this session's locks cleared. No Claude cross-call or Slack action.

@@ -47,3 +47,11 @@ AD3, Meta connection (blocked, founder authorisation plus Meta app review):
 1. Meta only at first, or also TikTok and YouTube ads?
 2. Do clients ever launch ads themselves in the app, or is it view-only while Pulsify runs them?
 3. Should the founder's own Pulsify ads live in the same section (default yes, as the operator's own workspace)?
+
+## AD1 release, 2026-10-05
+
+AD1 is live at /app/ads and /app/portal/ads, from pulsify-saas main 8f1f219, Pages c893b3f0. The shared preview displays all nine stages as labelled illustrative samples, with no account-data model, ad controls, waitlist, date or result promise. Operators see the Planned link to ticket #46; clients do not. Ads follows Funnel in the client menu. Operator Funnel stays grouped under Clients, with the standalone Ads entry immediately after that funnel entry in the navigation source.
+
+Both role views passed light/dark, 1536/390 rendering and axe checks. Final full check passed lint, TypeScript, production build and 767 browser tests (486 intentional skips). A recurring existing lead-toast test was repaired without changing product behavior. Live signed-out document and payload gates passed; authenticated live browser inspection was unavailable because Chrome was disconnected. Evidence is in output/qa/2026-10-ads-ad1 and [[log]].
+
+AD2 remains queued; AD3 remains blocked. No backend, database, Meta account or token changes were made for AD1.
