@@ -2917,3 +2917,6 @@ START #45 AD1 from founder instruction. Claimed shared Ads preview, both routes/
 
 ### [2026-10-05] CLAUDE
 Design brief gained a Build method block: slides as HTML/CSS/SVG templates rendered by headless Chrome, no Canva. Notes: Helvetica Neue not installed (Arial is), ffmpeg not found on PATH, rembg not installed.
+
+### [2026-10-05] CLAUDE
+Founder wants real Helvetica. Licensed, not on this PC. brand/fonts/README.md says where the files go; templates use one font variable (Helvetica Neue, Helvetica, Arial) so adding files re-renders everything. No unlicensed downloads.

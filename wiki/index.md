@@ -141,6 +141,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | Page | Summary | Created |
 |---|---|---|
 | [[synthesis/sales-copilot-plan-2026-10-04]] | Client Sales Co-pilot scope and implementation: targets, scoreboard, linked call context and reviewed five-touch follow-ups. [sales, funnel, offer] | 2026-10-04 |
+| [[synthesis/ads-section-plan-2026-10-05]] | Ads build brief: coming-soon surface, manual stage tracker, and gated Meta connection. [ads, funnel, scaling, product] | 2026-10-05 |
 | [[synthesis/vsl-pattern-lab]] | Operating page for transcribing, segmenting, and extracting reusable patterns from downloaded VSLs | 2026-05-09 |
 | [[synthesis/vsl-patterns/README]] | Template and folder rules for one-page VSL transcript analyses | 2026-05-09 |
 | [[synthesis/operator-vsl-study-map]] | Filtered study map for Charlie Morgan, Daniel Fazio, Serge Gatari, Jordan Platten, Jeremy Haynes, and peripheral operators | 2026-05-09 |
