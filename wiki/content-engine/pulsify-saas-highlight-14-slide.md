@@ -109,3 +109,26 @@ right now it's only for the people i work with.
 it's getting sharper every week.
 and i'm not stopping until this is a seven-figure company.
 PHOTO: relaxed human shot: walk, gym, or laughing on a call. Warmest slide. Small coin mark in a bottom corner.
+
+## Photo matches from the photo library (2026-10-05)
+Source: operator Photo library at /app/photos (49 photos: 13 portraits, 27 scenery, 9 other). Originals for the chosen photos are copied to output/highlight-saas/photos/ as slide-NN-photo-ID.jpg. IDs are the library ids.
+
+| Slide | Photo | Why | Note |
+| --- | --- | --- | --- |
+| 1 hook | 14 | Writing in a notebook at night, headphones and mic, dark room | Very dark, lift shadows locally |
+| 2 two businesses | 45 | Monitor, mic, keyboard desk | Clean, text space on the top wall |
+| 3 the chain | GAP | Needs a whiteboard or Miro board photo | Screenshot of a Miro board with the six steps works; I can draw it |
+| 4 breaks | 31 | Laptop and dock, many apps | Underexposed; brighten the screen area. Alt 33 |
+| 5 DMs | 6 | Phone in hand at a table, looking away | Alt 3 (watch visible on wrist, crop or skip) |
+| 6 try harder | 12 | Face lit in a dark room, notebook open | Darkest, quiet slide |
+| 7 plateau | 8 | Hand on head, tired at a table | Exact mood. Alt 20 (coffee, quiet cafe) |
+| 8 new faces | 47 | Walking away down a glass walkway, small in frame | Best photo in the library for this slide |
+| 9 video | SHOOT | On-camera take needed | Alt still: 13 (hand on headphone) |
+| 10 voice | 49 | Laptop on a couch, relaxed home | Calm daytime feel is weak (dim room); brighten |
+| 11 sales | 9 | Headphones on, to camera, notebook | Reads as on a call |
+| 12 tracked | 50 | Laptop screen in a dark room | Add a real UI card and magnifier on top |
+| 13 not overnight | 13 | Notebook on the desk, late night | Add vault graph card if wanted |
+| 14 close | 10 | Phone up, smiling, warm teal light | Watch visible at the wrist, crop. Alt 37 (rainy street) |
+
+Do not use: 15, 16, 21, 22, 23, 24, 25, 29, 35 (luxury store interiors and brands: Rimowa, Louis Vuitton-style, Patek Philippe), 30 (BMW cabin), 5 and 32 (Leclerc helmet, F1 car). These read as flex, against the Pulsify positioning. 17, 36, 43 (food), 42 and 44 (leg, concert) have no slide.
+Gaps: slide 3 (whiteboard or Miro), slide 9 (video), slide 12 (a real tracking screenshot from the demo workspace). Many laptop shots are underexposed: lift locally, never relight the face.
