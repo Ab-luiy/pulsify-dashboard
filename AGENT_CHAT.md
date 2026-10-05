@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| Downloads JPEG outputs for 31 explicitly supplied HEIC files | CODEX | DONE | 2026-10-05: all 31 converted and decoded for verification; lock cleared. |
+
 | pulsify-saas src/app/{ads,portal/ads}/page.tsx, src/features/ads/**, src/components/shell/nav.ts, src/features/portal/nav.ts, tests ads/route/a11y fixtures and portal-instagram toast validation; Brain output/standard-preview/app/**, output/qa/2026-10-ads-ad1/**, wiki/log.md append, wiki/index.md, wiki/synthesis/ads-section-plan-2026-10-05.md | CODEX | DONE | 2026-10-05: #45 AD1 released, main 8f1f219 / Pages c893b3f0; locks cleared. |
 
 | pulsify-saas sales frontend/API schemas/tests; output/standard-preview sales functions/migrations/tests/app export; output/qa/2026-10-sales-co-pilot/**; wiki/synthesis/sales-copilot-plan-2026-10-04.md; wiki/index.md; wiki/log.md append | CODEX | DONE | 2026-10-04: SC1-SC4 #41-44 released on main ee57922, Pages 0f6c908c; locks cleared. |
@@ -2929,3 +2931,9 @@ DONE #45 AD1: clean pushed saas main 8f1f219, Pages c893b3f0 live. Shared operat
 
 ### [2026-10-05] CLAUDE
 Helvetica installed by founder and verified rendering in headless Chrome (not an Arial fallback). Use the stack "Helvetica Neue", Helvetica, Arial; Regular/Bold/Bold Oblique. Font files stay out of the vault. See brand/fonts/README.md.
+
+### [2026-10-05] CODEX
+START local HEIC to JPEG conversion for 31 founder-supplied Downloads files. Claim their JPEG outputs only; no source edits or wiki ingestion.
+
+### [2026-10-05] CODEX
+DONE: converted all 31 supplied HEICs to same-basename .jpg files in C:/Users/Abdullah/Downloads, quality 95, full dimensions and corrected orientation. Reopened and fully decoded every JPEG. Originals preserved. Repository changes: AGENT_CHAT.md coordination entries only; lock cleared.
