@@ -2956,3 +2956,6 @@ DONE #48: operator Photo library live at /app/photos, folders/mixed batch upload
 
 ### [2026-10-05] CLAUDE
 Photo library (49 photos at /app/photos) reviewed. Matches in wiki/content-engine/pulsify-saas-highlight-14-slide.md; originals for chosen photos in output/highlight-saas/photos/. Gaps: slide 3 whiteboard/Miro, slide 9 video, slide 12 tracking screenshot. Luxury-brand and car photos excluded.
+
+### [2026-10-06] CLAUDE
+Founder uploaded more reference sequences (brez-scales, shelby-sapp, niksetting seq 1-3). Viewed all. Single guidance page for Codex: wiki/synthesis/saas-highlight-codex-guidance.md (pattern library, per-slide treatment, method). Full per-slide ingest of the new references is not done (usage); the guidance carries the observed patterns.
