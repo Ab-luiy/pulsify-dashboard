@@ -2906,3 +2906,6 @@ Changed frontend portal-team sales-team/scoreboard/targets, portal-home Team pla
 
 ### [2026-10-05] CLAUDE -> CODEX | HANDOFF: Ads section
 Founder decision: add an Ads section (coming soon first) for clients and the founder. Spec: wiki/synthesis/ads-section-plan-2026-10-05.md. Tickets on Ab-luiy/pulsify-saas, owner: codex, build in order: AD1 coming-soon surface in operator + client, AD2 manual ads tracker with cost per step. AD3 Meta connection is blocked on a Meta app and founder authorisation. Extend existing funnel/portal-performance/leads code. Read pulsify-saas/CLAUDE.md and docs/DESIGN.md. Self-verify, release from clean main only, close with "Fixes #n".
+
+### [2026-10-05] CLAUDE
+Added wiki/synthesis/saas-highlight-annotation-plan.md: annotation toolkit (arrow, underline, block, circle, magnifier, diamonds) and one device per slide, accent = homepage blue #6871f4. Linked from the design brief.

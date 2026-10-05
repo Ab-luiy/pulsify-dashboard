@@ -68,3 +68,5 @@ Founder on camera (to be recorded, about 25 seconds, script on slide 8 of the co
 - Check at phone size: text readable, no line wraps differently from the copy file, nothing under the IG overlays, logo is the coin only.
 - Do not post, publish or deploy. Hand back to the founder for approval.
 - Log files touched in AGENT_CHAT.md and wiki/log.md.
+
+Design overlay plan (arrows, shapes, per-slide device): wiki/synthesis/saas-highlight-annotation-plan.md
