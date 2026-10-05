@@ -20,7 +20,7 @@ export async function readUpload(request) {
       size: Number(file.size || 0),
       contentType: normalizeContentType(file.type),
       claim: str(form.get("claim")).slice(0, 500),
-      filename: str(file.name).slice(0, 255),
+      filename: str(file.name),
       folder: str(form.get("folder")),
       signature: new Uint8Array(await file.slice(0, 16).arrayBuffer()),
     };

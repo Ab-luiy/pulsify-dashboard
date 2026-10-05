@@ -4,7 +4,7 @@ import { MAX_UPLOAD_BYTES, IMAGE_TYPES, readUpload, matchesImageSignature } from
 
 export const FOLDERS = new Set(["portraits", "everyday", "scenery", "other"]);
 export function safeFilename(value, extension) {
-  const name = String(value || "photo").split(/[\\/]/).pop().replace(/[<>:"|?*\x00-\x1f]/g, "_").replace(/[. ]+$/g, "").slice(0, 180) || "photo";
+  const name = Array.from(String(value || "photo").split(/[\\/]/).pop().replace(/[<>:"|?*\x00-\x1f]/g, "_").replace(/[. ]+$/g, "")).slice(0, 180).join("") || "photo";
   return /\.(png|jpe?g|webp|gif)$/i.test(name) ? name : `${name}.${extension}`;
 }
 function record(row) {

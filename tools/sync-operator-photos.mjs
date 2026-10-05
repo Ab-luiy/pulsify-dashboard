@@ -10,7 +10,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 export function localName(row) {
   if (!Number.isSafeInteger(row.id) || row.id < 1) throw new Error("Invalid photo id");
-  const name = String(row.filename || "photo").split(/[\\/]/).pop().replace(/[<>:"|?*\x00-\x1f]/g, "_").replace(/[. ]+$/g, "").slice(0, 180) || "photo";
+  const name = Array.from(String(row.filename || "photo").split(/[\\/]/).pop().replace(/[<>:"|?*\x00-\x1f]/g, "_").replace(/[. ]+$/g, "")).slice(0, 180).join("") || "photo";
   return `${row.id}-${name}`;
 }
 export function syncRows(rows, destination, download) {
@@ -53,7 +53,10 @@ export function main() {
   const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
   const cwd = join(root, "output", "standard-preview");
   const wrangler = findWrangler(root);
-  const run = args => execFileSync(process.execPath, [wrangler, ...args], { cwd, encoding: "utf8", windowsHide: true, maxBuffer: 32 * 1024 * 1024 });
+  const run = args => {
+    try { return execFileSync(process.execPath, [wrangler, ...args], { cwd, encoding: "utf8", windowsHide: true, maxBuffer: 32 * 1024 * 1024 }); }
+    catch (error) { throw new Error((error.stdout || error.stderr || error.message).trim()); }
+  };
   const result = JSON.parse(run(["d1", "execute", "pulsify-portal", "--remote", "--json", "--command", "SELECT id, storage_key, filename, folder, content_type, size_bytes, sha256, created_at FROM operator_photos ORDER BY id"]));
   if (!Array.isArray(result) || result.some(part => !part.success)) throw new Error("The photo list could not be read");
   const rows = result.flatMap(part => part.results || []);
