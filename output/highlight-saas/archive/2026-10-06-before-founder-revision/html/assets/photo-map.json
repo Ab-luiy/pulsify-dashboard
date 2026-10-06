@@ -1,0 +1,100 @@
+[
+  {
+    "slide": 1,
+    "photo_id": 14,
+    "original": "output/highlight-saas/photos/slide-01-photo-14.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 2,
+    "photo_id": 45,
+    "original": "output/highlight-saas/photos/slide-02-photo-45.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 3,
+    "photo_id": 40,
+    "original": "brand/photos/uploaded/40-IMG_5830.JPEG",
+    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
+    "role": "slide background"
+  },
+  {
+    "slide": 4,
+    "photo_id": 31,
+    "original": "output/highlight-saas/photos/slide-04-photo-31.jpg",
+    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
+    "role": "slide background"
+  },
+  {
+    "slide": 5,
+    "photo_id": 6,
+    "original": "output/highlight-saas/photos/slide-05-photo-6.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 6,
+    "photo_id": 12,
+    "original": "output/highlight-saas/photos/slide-06-photo-12.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 7,
+    "photo_id": 8,
+    "original": "output/highlight-saas/photos/slide-07-photo-8.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 8,
+    "photo_id": 47,
+    "original": "output/highlight-saas/photos/slide-08-photo-47.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 9,
+    "photo_id": 7,
+    "original": "brand/photos/uploaded/7-IMG_7573.JPEG",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "silent video storyboard background"
+  },
+  {
+    "slide": 10,
+    "photo_id": 49,
+    "original": "output/highlight-saas/photos/slide-10-photo-49.jpg",
+    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
+    "role": "slide background"
+  },
+  {
+    "slide": 11,
+    "photo_id": 9,
+    "original": "output/highlight-saas/photos/slide-11-photo-9.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 12,
+    "photo_id": 50,
+    "original": "output/highlight-saas/photos/slide-12-photo-50.jpg",
+    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
+    "role": "slide background"
+  },
+  {
+    "slide": 13,
+    "photo_id": 13,
+    "original": "output/highlight-saas/photos/slide-13-photo-13.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  },
+  {
+    "slide": 14,
+    "photo_id": 10,
+    "original": "output/highlight-saas/photos/slide-14-photo-10.jpg",
+    "preparation": "orientation/crop only; template darkening",
+    "role": "slide background"
+  }
+]

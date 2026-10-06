@@ -73,6 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+
 | output/highlight-saas/**; brand/photos/uploaded/**; wiki/log.md append | CODEX | DONE | 2026-10-06: 14-slide review and silent slide9 preview verified; locked copy/Helvetica/photos/safe zones pass; founder take pending; locks cleared. |
 
 | saas operator photos route/feature/API/nav/tests/docs; Brain functions operator-photos, shared image-upload validator, middleware, migration 0057, tests, tools/sync-operator-photos.mjs, brand/photos README, wiki/log append, app export | CODEX | DONE | 2026-10-05: #48 released main 3832d8c / Pages 5d0ef3f4; live upload and Brain sync verified; locks cleared. |
@@ -2970,3 +2971,9 @@ DONE local review: output/highlight-saas/01-14.png, 09-preview.mp4 (27s, 24fps, 
 
 ### [2026-10-06] CODEX
 Backup recovery: auto-backup skipped an empty index.lock left at00:44. Verified no git.exe process, lock older than10minutes and scheduled backup Ready; preserved stale lock in Windows Temp and retried the normal backup. No index or worktree reset.
+
+### [2026-10-06] CODEX
+START founder-directed visual revision. Exact filenames (IMG_7545.JPEG is library50, different from IMG_7545.jpg19), paired photos1/2,7/8,13/14; red nearly-horizontal hand underlines, no midpoint fade/half-image loss, slide8 typography baseline, connected diagrams without generic blocks, remove opening so from4/5. Slide9 is founder-owned and not being rebuilt. Founder asks actual full-photo and vertical-crop comparisons for11/13/14 before deciding. Claim output and canonical guidance/copy/log updates; no app changes/publication or cross-call.
+
+### [2026-10-06 08:02] CODEX
+DONE founder visual revision and A/B previews. Changed output/highlight-saas/**: 13 stills, open chain/DM/plateau/entrant/voice/tracking diagrams, approved slide8 type sizing, red near-horizontal underlines, exact founder photo IDs, Gaussian blur on2, uniform exposure without fading masks. Removed opening so on4/5 in the canonical copy. Updated wiki/content-engine/pulsify-saas-highlight-14-slide.md and wiki/synthesis/saas-highlight-codex-guidance.md with current mapping/overrides; earlier selections labelled historical. Six whole-photo A / vertical-crop B previews for11/13/14 are in project/comparisons, comparisons.html and framing-comparison.jpg. Founder repeated that both previews must be seen; framing remains pending, B is labelled provisional in main review. 09.png/09-preview.mp4 unchanged; slide9 founder-owned and excluded from new ZIP. Prior pass preserved in archive/2026-10-06-before-founder-revision. Exact copy, mapped IDs, Chrome Helvetica, 1080x1920 and safe bounds verified, comparison sheet and phone contact sheet inspected. wiki/log appended. No publication, app changes or Claude cross-call. Locks cleared.

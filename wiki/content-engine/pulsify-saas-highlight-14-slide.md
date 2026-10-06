@@ -3,14 +3,32 @@ type: playbook
 tags: [content, instagram, story-sequences, design]
 sources: [[content-engine/pulsify-saas-highlight-sequence]], [[content-engine/sequence-breakdowns/siggyfoss-proof-design]]
 created: 2026-10-04
-updated: 2026-10-04
+updated: 2026-10-06
 ---
 
 # Pulsify highlight, 14-slide (pre-merge) version with picture matches
 
-Same locked copy as [[content-engine/pulsify-saas-highlight-sequence]] before slides were merged to 12. Use this one for matching photos: one distinct photo per slide. Slide 9 is the on-camera video with the motion graphic. If the founder merges later, 4+5 and 12+13 combine and take the first slide's photo.
+The 14-slide copy is locked except for the founder's removal of the opening "so" on slides 4 and 5 (2026-10-06). The founder's current photo mapping below supersedes the earlier photo matches. Slide 9 is founder-owned.
 
-Design standard (replaces the earlier brief where they differ): Siggyfoss layer stack per [[content-engine/sequence-breakdowns/siggyfoss-proof-design]], built as in Canva. Photo, local darken, proof card or UI crop (only where marked), type, one annotation. Font Helvetica Neue (Arial or Inter as fallback if not installed): bold for the headline, bold italic for the one emphasised phrase, regular for supporting lines. White text, one accent colour taken from the homepage palette and used the same on every slide. No flat colour slides: every slide sits on a real photo.
+## Founder photo and design revision (2026-10-06)
+
+| Slide | Exact library file | Photo ID |
+| --- | --- | --- |
+| 1, 2 | IMG_7545.JPEG | 50 |
+| 3 | IMG_7708.jpg | 15 |
+| 4 | IMG_8128.jpg (same background) | 31 |
+| 5 | IMG_7710.jpg | 22 |
+| 6 | IMG_8127.jpg | 33 |
+| 7, 8 | IMG_7830.jpg | 34 |
+| 9 | Founder will handle | — |
+| 10 | IMG_7540.JPEG (same background) | 49 |
+| 11 | IMG_8529.JPEG (same background) | 9 |
+| 12 | IMG_7278.JPEG | 46 |
+| 13, 14 | IMG_8690.JPEG | 14 |
+
+IMG_7545.JPEG (ID 50) is different from IMG_7545.jpg (ID 19). Reuse the designated photos on the paired slides. Gaussian blur on slide 2. Uniform exposure adjustments are allowed; no middle fade or removal of half the photograph. Red hand-drawn underlines run almost horizontally. Slide 8's 57px bold headline, 46px body, and 69px closing quote are the typography baseline. Slide 3 uses written stage labels joined by open arrows/wires, without a dark card. Build useful diagrams from the reference archive. Slides 11, 13 and 14 have whole-photo and vertical-crop previews; founder selection is pending.
+
+Current design standard: original photos with uniform exposure, white installed Helvetica, red horizontal hand marks and useful open diagrams. Build editable HTML/CSS/SVG templates and render to story PNGs. Follow the founder revision above and [[synthesis/saas-highlight-codex-guidance]]. The PHOTO notes under the copy and older selection table below are historical direction; current filename mapping controls.
 
 ## 1. hook
 i've been working on this for a whole year now.
@@ -34,7 +52,7 @@ and that's fine. nobody teaches you this part.
 PHOTO: whiteboard or Miro board with the six steps drawn as arrows, shot at an angle. Card layer: the chain as a clean card. Annotation: one arrow along the chain.
 
 ## 4. it breaks somewhere
-so it breaks somewhere:
+it breaks somewhere:
 - you want to post, but you don't know what to say
 - you know what to say, but nobody's watching
 - people are watching, but you don't know where to send them
@@ -42,7 +60,7 @@ so it breaks somewhere:
 PHOTO: tight shot of a screen with too many tabs open. Alt: cluttered desk, phone, notes. List markers as small diamonds (Siggyfoss slide 7 style).
 
 ## 5. dms and the leak
-so you post something.
+you post something.
 a couple of people dm you.
 you lose half of them in the chat.
 the ones who book don't close.
@@ -110,7 +128,7 @@ it's getting sharper every week.
 and i'm not stopping until this is a seven-figure company.
 PHOTO: relaxed human shot: walk, gym, or laughing on a call. Warmest slide. Small coin mark in a bottom corner.
 
-## Photo matches from the photo library (2026-10-05)
+## Historical photo matches from the photo library (2026-10-05, superseded)
 Source: operator Photo library at /app/photos (49 photos: 13 portraits, 27 scenery, 9 other). Originals for the chosen photos are copied to output/highlight-saas/photos/ as slide-NN-photo-ID.jpg. IDs are the library ids.
 
 | Slide | Photo | Why | Note |

@@ -10,6 +10,12 @@ updated: 2026-10-06
 
 Written after the founder uploaded more reference sequences and Claude viewed all of them (2026-10-06). This is the single page Codex reads. It supersedes any look decisions in the older brief where they differ. Copy is locked in [[content-engine/pulsify-saas-highlight-14-slide]]. Photos are chosen in the same file (table "Photo matches") and copied to output/highlight-saas/photos/.
 
+## Founder override (2026-10-06, after first visual review)
+
+This revision controls over the historical treatments below. Use the exact filename/photo table in [[content-engine/pulsify-saas-highlight-14-slide]]. Photos intentionally repeat on 1/2, 7/8 and 13/14. Slide 2 receives Gaussian blur. Keep photos visible with uniform exposure changes; do not mask away half the image or fade it through the middle. Underlines are red, hand-drawn and nearly horizontal. Use the approved slide 8 typography as the baseline (57px bold first line, 46px regular body, 69px closing quote). Remove the opening "so" from 4 and 5 only. Slide 3 uses written labels connected by open wires/arrows, without a rounded dark block. Replace generic blue cards with relevant icons, diagrams and figures drawn from the archive's craft. The founder handles slide 9. Retain backgrounds on 4, 10 and 11. Put slide 11's supporting copy in the bottom half if it reads clearly. Founder requested both framing previews for landscape slides 11, 13 and 14; selection remains pending. Review at output/highlight-saas/comparisons.html.
+
+Current implementation uses conceptual diagrams only: the six-stage chain, DM/book/no-close flow, a qualitative plateau sketch, four established figures and a new entrant, voice/content/page icons, and watched/clicked/booked/paid tracking. These do not imply measured revenue or client results. Keep the original photography intact; do not invent screenshot proof.
+
 ## References, all viewed
 In raw-sources/inspiration/story-sequences/ (open every image before designing):
 - siggyfoss/ (8): layered photo, proof cards, circular magnifier, diamond markers. Breakdown: [[content-engine/sequence-breakdowns/siggyfoss-proof-design]].
@@ -33,7 +39,7 @@ In raw-sources/inspiration/story-sequences/ (open every image before designing):
 
 Not copied: cars, watches, bank balances, luxury hotels, price tags, "reply with" triggers, scarcity lines. The craft transfers; the flex does not.
 
-## Treatment per slide
+## Historical treatment per slide (superseded where the founder override differs)
 Use one accent colour only (homepage blue #6871f4) for pills, underlines, boxes and arrows. White text, Helvetica installed on this PC.
 1. Hook, photo 14: plain white text, upper third, highlight pill on "a whole year". Like brez 1.
 2. Two businesses, photo 45: left text, hand-drawn underline under "two businesses". Like brez 3.

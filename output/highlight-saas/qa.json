@@ -1,34 +1,33 @@
 {
   "date": "2026-10-06",
-  "slides": 14,
+  "revision": "founder photo/type/diagram corrections",
+  "still_count": 13,
   "dimensions": [
     1080,
     1920
   ],
-  "locked_copy": "verified character/punctuation parity after whitespace normalization; list markers styled as diamonds",
-  "fonts": "Chrome CDP reports installed Helvetica on all 14 slides",
-  "distinct_original_photos": 14,
-  "safe_zones": "key blocks inside x60\u20131020, y250\u20131580; all pass",
-  "motion": {
-    "duration": 27,
-    "fps": 24,
-    "decoded_frames": 648,
-    "audio": "none",
-    "status": "silent preview; founder take still needed",
-    "subtitles": "locked spoken script; provisional timing"
+  "copy": "Exact locked words/punctuation verified; founder removal of opening so on 4/5 included",
+  "fonts": "Installed Helvetica verified through Chrome CDP",
+  "photo_mapping": {
+    "1": 50,
+    "2": 50,
+    "3": 15,
+    "4": 31,
+    "5": 22,
+    "6": 33,
+    "7": 34,
+    "8": 34,
+    "10": 49,
+    "11": 9,
+    "12": 46,
+    "13": 14,
+    "14": 14
   },
-  "source_based_review": [
-    "2026-10-06 guidance controls look and photo selection",
-    "Siggyfoss: real photos, card layers, magnifier, one accent",
-    "Brez: plain type and quiet hand-drawn emphasis",
-    "Shelby: curved arrow to card/subject, no copied results",
-    "Niksetting seq3: feature numbers/progress dots and real UI composited onto screen",
-    "X studies: deterministic beats, actual UI, Example label, no borrowed footage or claims"
-  ],
-  "photo_safety": "Originals retained. Portraits cropped, template-darkened; no face retouching or synthesized identity. Wristwatch excluded on slide14. Only still-life screens receive shadow lift.",
-  "remaining": [
-    "Slide9 founder video/audio take",
-    "Optional replacement slide3 whiteboard photo; current clean diagram fulfills authorized fallback"
-  ],
-  "publication": "local review only"
+  "preparation": "Uniform exposure; no fading masks or photo cutouts; Gaussian12px on2",
+  "annotations": "Red near-horizontal hand-drawn underlines; white open connectors and diagram icons",
+  "safe_zones": "All text/diagrams x60\u20131020, y250\u20131580",
+  "slide9": "Founder-owned; earlier media unchanged and excluded from this revision package",
+  "framing": "11/13/14 pending founder choice; all six alternatives included. B shown provisionally in main review.",
+  "diagrams": "Conceptual, no fabricated quantitative results",
+  "publication": "Local review only"
 }

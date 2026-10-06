@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-06",
+  "slides": 14,
+  "dimensions": [
+    1080,
+    1920
+  ],
+  "locked_copy": "verified character/punctuation parity after whitespace normalization; list markers styled as diamonds",
+  "fonts": "Chrome CDP reports installed Helvetica on all 14 slides",
+  "distinct_original_photos": 14,
+  "safe_zones": "key blocks inside x60\u20131020, y250\u20131580; all pass",
+  "motion": {
+    "duration": 27,
+    "fps": 24,
+    "decoded_frames": 648,
+    "audio": "none",
+    "status": "silent preview; founder take still needed",
+    "subtitles": "locked spoken script; provisional timing"
+  },
+  "source_based_review": [
+    "2026-10-06 guidance controls look and photo selection",
+    "Siggyfoss: real photos, card layers, magnifier, one accent",
+    "Brez: plain type and quiet hand-drawn emphasis",
+    "Shelby: curved arrow to card/subject, no copied results",
+    "Niksetting seq3: feature numbers/progress dots and real UI composited onto screen",
+    "X studies: deterministic beats, actual UI, Example label, no borrowed footage or claims"
+  ],
+  "photo_safety": "Originals retained. Portraits cropped, template-darkened; no face retouching or synthesized identity. Wristwatch excluded on slide14. Only still-life screens receive shadow lift.",
+  "remaining": [
+    "Slide9 founder video/audio take",
+    "Optional replacement slide3 whiteboard photo; current clean diagram fulfills authorized fallback"
+  ],
+  "publication": "local review only"
+}

@@ -1,100 +1,148 @@
 [
   {
     "slide": 1,
-    "photo_id": 14,
-    "original": "output/highlight-saas/photos/slide-01-photo-14.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 50,
+    "filename": "IMG_7545.JPEG",
+    "original": "brand/photos/uploaded/50-IMG_7545.JPEG",
+    "exposure_multiplier": 0.95,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 2,
-    "photo_id": 45,
-    "original": "output/highlight-saas/photos/slide-02-photo-45.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 50,
+    "filename": "IMG_7545.JPEG",
+    "original": "brand/photos/uploaded/50-IMG_7545.JPEG",
+    "exposure_multiplier": 0.83,
+    "preparation": "full-bleed crop; uniform exposure; Gaussian blur radius12px",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 3,
-    "photo_id": 40,
-    "original": "brand/photos/uploaded/40-IMG_5830.JPEG",
-    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
-    "role": "slide background"
+    "photo_id": 15,
+    "filename": "IMG_7708.jpg",
+    "original": "brand/photos/uploaded/15-IMG_7708.jpg",
+    "exposure_multiplier": 0.57,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 4,
     "photo_id": 31,
-    "original": "output/highlight-saas/photos/slide-04-photo-31.jpg",
-    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
-    "role": "slide background"
+    "filename": "IMG_8128.jpg",
+    "original": "brand/photos/uploaded/31-IMG_8128.jpg",
+    "exposure_multiplier": 1,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 5,
-    "photo_id": 6,
-    "original": "output/highlight-saas/photos/slide-05-photo-6.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 22,
+    "filename": "IMG_7710.jpg",
+    "original": "brand/photos/uploaded/22-IMG_7710.jpg",
+    "exposure_multiplier": 0.58,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 6,
-    "photo_id": 12,
-    "original": "output/highlight-saas/photos/slide-06-photo-12.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 33,
+    "filename": "IMG_8127.jpg",
+    "original": "brand/photos/uploaded/33-IMG_8127.jpg",
+    "exposure_multiplier": 0.95,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 7,
-    "photo_id": 8,
-    "original": "output/highlight-saas/photos/slide-07-photo-8.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 34,
+    "filename": "IMG_7830.jpg",
+    "original": "brand/photos/uploaded/34-IMG_7830.jpg",
+    "exposure_multiplier": 0.7,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 8,
-    "photo_id": 47,
-    "original": "output/highlight-saas/photos/slide-08-photo-47.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
-  },
-  {
-    "slide": 9,
-    "photo_id": 7,
-    "original": "brand/photos/uploaded/7-IMG_7573.JPEG",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "silent video storyboard background"
+    "photo_id": 34,
+    "filename": "IMG_7830.jpg",
+    "original": "brand/photos/uploaded/34-IMG_7830.jpg",
+    "exposure_multiplier": 0.7,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 10,
     "photo_id": 49,
-    "original": "output/highlight-saas/photos/slide-10-photo-49.jpg",
-    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
-    "role": "slide background"
+    "filename": "IMG_7540.JPEG",
+    "original": "brand/photos/uploaded/49-IMG_7540.JPEG",
+    "exposure_multiplier": 1,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 11,
     "photo_id": 9,
-    "original": "output/highlight-saas/photos/slide-11-photo-9.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "filename": "IMG_8529.JPEG",
+    "original": "brand/photos/uploaded/9-IMG_8529.JPEG",
+    "exposure_multiplier": 0.87,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "full",
+      "crop"
+    ]
   },
   {
     "slide": 12,
-    "photo_id": 50,
-    "original": "output/highlight-saas/photos/slide-12-photo-50.jpg",
-    "preparation": "orientation/crop, top gradient in template; still-life-only shadow lift",
-    "role": "slide background"
+    "photo_id": 46,
+    "filename": "IMG_7278.JPEG",
+    "original": "brand/photos/uploaded/46-IMG_7278.JPEG",
+    "exposure_multiplier": 0.56,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "crop"
+    ]
   },
   {
     "slide": 13,
-    "photo_id": 13,
-    "original": "output/highlight-saas/photos/slide-13-photo-13.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 14,
+    "filename": "IMG_8690.JPEG",
+    "original": "brand/photos/uploaded/14-IMG_8690.JPEG",
+    "exposure_multiplier": 0.88,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "full",
+      "crop"
+    ]
   },
   {
     "slide": 14,
-    "photo_id": 10,
-    "original": "output/highlight-saas/photos/slide-14-photo-10.jpg",
-    "preparation": "orientation/crop only; template darkening",
-    "role": "slide background"
+    "photo_id": 14,
+    "filename": "IMG_8690.JPEG",
+    "original": "brand/photos/uploaded/14-IMG_8690.JPEG",
+    "exposure_multiplier": 0.88,
+    "preparation": "full-bleed crop; uniform exposure",
+    "framing_options": [
+      "full",
+      "crop"
+    ]
   }
 ]

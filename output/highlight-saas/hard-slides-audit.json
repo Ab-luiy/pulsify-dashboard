@@ -1,33 +1,71 @@
 [
   {
-    "slide": 12,
+    "slide": 8,
+    "framing": "crop",
     "text": [
-      "and every post is tracked. who watched, who clicked, who booked, who paid.",
-      "\"you never post blind again.\""
+      "here's what most people miss.",
+      "the top of every niche is 3 or 4 names.",
+      "but new people break in every single month.",
+      "not because they're bigger. because they bring something new.",
+      "people always want a new face with a new idea.",
+      "\"you don't need to be first. you need to sound like you.\""
     ],
+    "chain": [],
     "geometry": [
       {
-        "element": "example",
-        "x": 96,
-        "y": 926,
-        "w": 282.5625,
-        "h": 51,
-        "safe": true
-      },
-      {
-        "element": "zoom",
-        "x": 575,
-        "y": 985,
-        "w": 360,
-        "h": 360,
-        "safe": true
-      },
-      {
-        "element": "copy",
+        "element": {},
         "x": 90,
-        "y": 386,
+        "y": 1370,
         "w": 900,
-        "h": 441.828125,
+        "h": 170,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 374.984375,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 446.5,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 518.015625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 641.046875,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 779.078125,
+        "w": 880,
+        "h": 223.546875,
         "safe": true
       }
     ],
@@ -36,96 +74,13 @@
         "familyName": "Helvetica",
         "postScriptName": "Helvetica-Bold",
         "isCustomFont": false,
-        "glyphCount": 28
+        "glyphCount": 84
       },
       {
         "familyName": "Helvetica",
         "postScriptName": "Helvetica",
         "isCustomFont": false,
-        "glyphCount": 72
-      }
-    ]
-  },
-  {
-    "slide": 3,
-    "text": [
-      "that's the whole chain.",
-      "most people have never run it.",
-      "some don't even know what a kpi is.",
-      "and that's fine. nobody teaches you this part."
-    ],
-    "geometry": [
-      {
-        "element": "chain card",
-        "x": 90,
-        "y": 300,
-        "w": 900,
-        "h": 255.71875,
-        "safe": true
-      },
-      {
-        "element": "copy",
-        "x": 90,
-        "y": 720,
-        "w": 900,
-        "h": 431.046875,
-        "safe": true
-      }
-    ],
-    "fonts": [
-      {
-        "familyName": "Helvetica",
-        "postScriptName": "Helvetica-Bold",
-        "isCustomFont": false,
-        "glyphCount": 23
-      },
-      {
-        "familyName": "Helvetica",
-        "postScriptName": "Helvetica",
-        "isCustomFont": false,
-        "glyphCount": 110
-      }
-    ]
-  },
-  {
-    "slide": 5,
-    "text": [
-      "so you post something.",
-      "a couple of people dm you.",
-      "you lose half of them in the chat.",
-      "the ones who book don't close.",
-      "and you have no idea which post brought any of them in."
-    ],
-    "geometry": [
-      {
-        "element": "card inbox",
-        "x": 73.26976013183594,
-        "y": 1110.722900390625,
-        "w": 493.46044921875,
-        "h": 442.55419921875,
-        "safe": true
-      },
-      {
-        "element": "copy",
-        "x": 90,
-        "y": 300,
-        "w": 900,
-        "h": 537.34375,
-        "safe": true
-      }
-    ],
-    "fonts": [
-      {
-        "familyName": "Helvetica",
-        "postScriptName": "Helvetica-Bold",
-        "isCustomFont": false,
-        "glyphCount": 22
-      },
-      {
-        "familyName": "Helvetica",
-        "postScriptName": "Helvetica",
-        "isCustomFont": false,
-        "glyphCount": 126
+        "glyphCount": 187
       }
     ]
   }
