@@ -17,3 +17,19 @@
 .s12 .copy > p:first-child{font-weight:400;font-size:53px;line-height:1.16;letter-spacing:-1px}.s12 .copy p:last-child{font-size:69px;line-height:1.08;font-weight:700;margin-top:42px;max-width:850px}.s12 .diagram{top:1100px;height:320px}
 .full .lower{top:1120px}.s13.full .lower{top:1170px}.s14.full .lower{top:1200px}
 .diagram .red path,.diagram .red circle{stroke:var(--red)}
+
+/* Composition pass: authored line breaks and placement follow each photograph. */
+.copy{line-height:1.16;letter-spacing:-.5px;text-shadow:0 2px 6px #0009,0 0 18px #0005}
+.s01 .copy{left:130px;top:580px;width:840px}.s01 .copy > p:first-child{font-size:57px;line-height:1.1;margin-bottom:46px}.s01 .copy p+p{font-size:46px}
+.s02 .copy{left:110px;top:470px;width:880px}.s02 .copy p{margin-bottom:31px}.s02 .copy p:last-child{margin-top:42px}
+.s03 .chain{top:435px}.s03 .copy{top:1030px}.s03 .copy p{margin-bottom:24px}
+.s04 .copy{top:735px;width:920px;font-size:46px;line-height:1.16}.s04 .copy > p:first-child{margin-bottom:36px}.s04 .copy p:not(:first-child){margin-bottom:31px}
+.s05 .copy{top:380px;width:900px}.s05 .copy p{margin-bottom:31px}.s05 .copy p:last-child{position:absolute;top:915px;left:60px;width:840px;text-align:right;margin:0}.s05 .diagram{top:1000px;left:150px;width:780px;height:235px}
+.s06 .copy{top:900px;width:900px}.s06 .copy p{margin-bottom:28px}.s06 .copy > p:first-child{margin-bottom:35px}
+.s07 .copy{inset:0;width:1080px}.s07 .copy p{position:absolute;left:90px;width:900px;margin:0}.s07 .copy [data-paragraph="0"]{top:320px}.s07 .copy [data-paragraph="1"]{top:500px}.s07 .copy [data-paragraph="2"]{top:735px}.s07 .copy [data-paragraph="3"]{top:1480px;font-weight:700}.s07 .diagram{top:960px;height:350px}
+.s08 .copy{line-height:1.12;letter-spacing:-.7px}.s08 .copy p:last-child{margin-top:42px;max-width:900px;text-align:center}.s08 .diagram{top:1395px;height:150px;left:210px;width:660px}
+.s10 .copy{inset:0;width:1080px}.s10 .copy p{position:absolute;left:130px;width:830px;margin:0}.s10 .copy [data-paragraph="0"]{top:420px}.s10 .copy [data-paragraph="1"]{top:665px}.s10 .copy [data-paragraph="2"]{top:1150px}.s10 .copy [data-paragraph="3"]{top:1470px}.s10 .diagram{top:890px;left:180px;width:720px;height:200px}
+.s12 .copy{top:490px;left:110px;width:800px}.s12 .copy > p:first-child{font-size:53px;line-height:1.16}.s12 .copy p:last-child{font-size:69px;line-height:1.08;margin-top:60px;max-width:800px}.s12 .diagram{top:1310px;left:110px;width:860px;height:260px}
+.s13 .copy > p:first-child,.s14 .copy > p:first-child{width:900px;top:285px;line-height:1.12}.s13.full .copy > p:first-child,.s14.full .copy > p:first-child{top:355px}
+.s13 .lower{top:1140px}.s13.full .lower{top:1130px}.s13 .copy .lower p{margin-bottom:34px}.s14 .copy .lower p:last-child{font-size:57px;line-height:1.1}
+.s11 .copy{line-height:1.12;letter-spacing:-.7px;text-shadow:0 2px 8px #0009,0 0 24px #0006}

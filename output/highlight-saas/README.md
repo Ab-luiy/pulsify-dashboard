@@ -1,5 +1,9 @@
 # Founder revision · 2026-10-06
 
+Latest composition pass: revisited all six named archive reference sets, enlarged Niksetting seq3/1, seq2/3 and Brez/4 before refinement. Authored semantic line breaks in project/html/assets/layout-lines.json; actual rendered line count and text ink bounds checked. Placement follows the photograph: lower desk area4, below screen6, diagram between text groups10, balanced quotes8/12 and clearer two-line portrait headings13/14. Approved slide8 font sizes retained. Reducing unnecessary emphasis on4 makes its X list cleaner.
+
+Slide11 photo confirmation is pending: founder says the current photo differs from the intended image. Current file is IMG_8529.JPEG (ID9), shown provisionally; exact intended filename requested, no replacement guessed. Slide11 type/layout remains unchanged until its photograph is settled. Both framing options remain available for11/13/14. This pass is a review draft.
+
 Open review.html for the revised 13 stills. Slide 9 is founder-owned; the earlier silent preview is unchanged and excluded from the current review/package.
 
 Open comparisons.html to compare whole-photo A and vertical-crop B on slides 11, 13 and 14. All six 1080×1920 files are in project/comparisons. The main review uses B provisionally; the framing choice is still pending.

@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-06",
+  "revision": "founder photo/type/diagram corrections",
+  "still_count": 13,
+  "dimensions": [
+    1080,
+    1920
+  ],
+  "copy": "Exact locked words/punctuation verified; founder removal of opening so on 4/5 included",
+  "fonts": "Installed Helvetica verified through Chrome CDP",
+  "photo_mapping": {
+    "1": 50,
+    "2": 50,
+    "3": 15,
+    "4": 31,
+    "5": 22,
+    "6": 33,
+    "7": 34,
+    "8": 34,
+    "10": 49,
+    "11": 9,
+    "12": 46,
+    "13": 14,
+    "14": 14
+  },
+  "preparation": "Uniform exposure; no fading masks or photo cutouts; Gaussian12px on2",
+  "annotations": "Red near-horizontal hand-drawn underlines; white open connectors and diagram icons",
+  "safe_zones": "All text/diagrams x60\u20131020, y250\u20131580",
+  "slide9": "Founder-owned; earlier media unchanged and excluded from this revision package",
+  "framing": "11/13/14 pending founder choice; all six alternatives included. B shown provisionally in main review.",
+  "diagrams": "Conceptual, no fabricated quantitative results",
+  "publication": "Local review only"
+}

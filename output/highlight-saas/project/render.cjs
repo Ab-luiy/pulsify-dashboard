@@ -9,7 +9,13 @@ const server=createServer((req,res)=>{const file=path.join(root,decodeURICompone
  try{for(const n of selected){const id=String(n).padStart(2,'0');for(const framing of (comparisons?['full','crop']:['crop'])){await page.goto(`http://127.0.0.1:${port}/slides/${id}.html?framing=${framing}`);await page.waitForFunction(()=>window.slideReady);await page.screenshot({path:comparisons?path.join(__dirname,'comparisons',`${id}-${framing}.png`):path.join(out,id+'.png')});
  const geometry=await page.evaluate(()=>Array.from(document.querySelectorAll('[data-key]')).map(el=>{const r=el.getBoundingClientRect();return{element:el.className,x:r.x,y:r.y,w:r.width,h:r.height,safe:r.y>=250&&r.bottom<=1580&&r.x>=60&&r.right<=1020}}));
  const doc=await cdp.send('DOM.getDocument');const node=await cdp.send('DOM.querySelector',{nodeId:doc.root.nodeId,selector:'.copy'});const fonts=await cdp.send('CSS.getPlatformFontsForNode',{nodeId:node.nodeId});
- const text=await page.locator('[data-copy]').allTextContents(),chain=await page.locator('[data-chain]').allTextContents();audits.push({slide:n,framing,text,chain,geometry,fonts:fonts.fonts});console.log('Rendered',id,framing,geometry.every(g=>g.safe)?'safe':'inspect bounds');}}
+ const typography=await page.evaluate(()=>Array.from(document.querySelectorAll('[data-copy]')).map(el=>{
+   const walker=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const boxes=[];let node;
+   while(node=walker.nextNode()){if(!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node);boxes.push(...Array.from(range.getClientRects()).filter(r=>r.width>1));}
+   const rows=[];for(const r of boxes){if(!rows.some(y=>Math.abs(y-r.y)<5))rows.push(r.y);}
+   return{paragraph:Number(el.dataset.paragraph),authored_lines:el.querySelectorAll('br').length+1,rendered_lines:rows.length,ink_safe:boxes.every(r=>r.x>=60&&r.right<=1020&&r.y>=250&&r.bottom<=1580)};
+ }));
+ const text=await page.locator('[data-copy]').allTextContents(),chain=await page.locator('[data-chain]').allTextContents();audits.push({slide:n,framing,text,chain,geometry,typography,fonts:fonts.fonts});console.log('Rendered',id,framing,geometry.every(g=>g.safe)?'safe':'inspect bounds',n!==11&&typography.some(t=>t.authored_lines!==t.rendered_lines)?'inspect unintended wraps':'');}}
  fs.writeFileSync(path.join(out,comparisons?'comparison-audit.json':selected.length===13?'layout-audit.json':'hard-slides-audit.json'),JSON.stringify(audits,null,2));
  }finally{await browser.close();server.close()}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1});

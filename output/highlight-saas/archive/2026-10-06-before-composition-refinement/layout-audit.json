@@ -1,0 +1,823 @@
+[
+  {
+    "slide": 1,
+    "framing": "crop",
+    "text": [
+      "i've been working on this for a whole year now.",
+      "because everyone in this space is stuck on the same problem."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 360,
+        "w": 860,
+        "h": 146.875,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 550.875,
+        "w": 800,
+        "h": 109.75,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 34
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 59
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "framing": "crop",
+    "text": [
+      "you're already good at what you do.",
+      "trading. tiktok shop. whatever it is.",
+      "and you know a mentorship can make you more than the thing itself.",
+      "but info is a whole business on its own.",
+      "so now you're learning two businesses at once."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 121.96875,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 440.96875,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 526.484375,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 663.515625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 758.03125,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 65
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 142
+      }
+    ]
+  },
+  {
+    "slide": 3,
+    "framing": "crop",
+    "text": [
+      "that's the whole chain.",
+      "most people have never run it.",
+      "some don't even know what a kpi is.",
+      "and that's fine. nobody teaches you this part."
+    ],
+    "chain": [
+      "content.",
+      "traffic.",
+      "a page.",
+      "sales calls.",
+      "a team.",
+      "cash in the bank."
+    ],
+    "geometry": [
+      {
+        "element": "chain",
+        "x": 90,
+        "y": 300,
+        "w": 900,
+        "h": 470,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 880,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 969.984375,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1050.5,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1131.015625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 23
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 111
+      }
+    ]
+  },
+  {
+    "slide": 4,
+    "framing": "crop",
+    "text": [
+      "it breaks somewhere:",
+      "you want to post, but you don't know what to say",
+      "you know what to say, but nobody's watching",
+      "people are watching, but you don't know where to send them",
+      "calls are booked, but you can't tell who's closing and who isn't"
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 391.984375,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 537.015625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 682.046875,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 827.078125,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 20
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 142
+      }
+    ]
+  },
+  {
+    "slide": 5,
+    "framing": "crop",
+    "text": [
+      "you post something.",
+      "a couple of people dm you.",
+      "you lose half of them in the chat.",
+      "the ones who book don't close.",
+      "and you have no idea which post brought any of them in."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": {},
+        "x": 90,
+        "y": 1120,
+        "w": 900,
+        "h": 270,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 377.984375,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 461.5,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 545.015625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 628.53125,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 19
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 122
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "framing": "crop",
+    "text": [
+      "so you try harder.",
+      "more posts. more tools. another chatgpt tab at 2am.",
+      "you start copying what the big names do.",
+      "and you end up promoting their format instead of building your own.",
+      "meanwhile the thing that actually pays you gets less of your time."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 381.984375,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 521.015625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 608.53125,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 747.5625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 18
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 218
+      }
+    ]
+  },
+  {
+    "slide": 7,
+    "framing": "crop",
+    "text": [
+      "that's where most people plateau.",
+      "then they pick the main business, because that's what keeps food on the table.",
+      "and the info side dies quietly.",
+      "none of that is your fault."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": {},
+        "x": 90,
+        "y": 1040,
+        "w": 900,
+        "h": 360,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 374.984375,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 507.015625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 587.53125,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 26
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 135
+      }
+    ]
+  },
+  {
+    "slide": 8,
+    "framing": "crop",
+    "text": [
+      "here's what most people miss.",
+      "the top of every niche is 3 or 4 names.",
+      "but new people break in every single month.",
+      "not because they're bigger. because they bring something new.",
+      "people always want a new face with a new idea.",
+      "\"you don't need to be first. you need to sound like you.\""
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": {},
+        "x": 90,
+        "y": 1370,
+        "w": 900,
+        "h": 170,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 374.984375,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 446.5,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 518.015625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 641.046875,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 779.078125,
+        "w": 880,
+        "h": 223.546875,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 84
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 187
+      }
+    ]
+  },
+  {
+    "slide": 10,
+    "framing": "crop",
+    "text": [
+      "now you sit down and you already know what to make.",
+      "it's written in your voice, so you don't sound like everyone else.",
+      "the people who see it land somewhere that sells.",
+      "and we work through it with you."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": {},
+        "x": 90,
+        "y": 1170,
+        "w": 900,
+        "h": 220,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 121.96875,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 446.96875,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 590,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 733.03125,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 82
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 102
+      }
+    ]
+  },
+  {
+    "slide": 11,
+    "framing": "crop",
+    "text": [
+      "then the sales side.",
+      "you see who's closing. who's not.",
+      "who's hitting their calls. who's hitting your numbers.",
+      "no more guessing what happened on a call.",
+      "no scripts to write yourself."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1080,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1159.515625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1290.546875,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1370.0625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 20
+      }
+    ]
+  },
+  {
+    "slide": 12,
+    "framing": "crop",
+    "text": [
+      "and every post is tracked. who watched, who clicked, who booked, who paid.",
+      "\"you never post blind again.\""
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": {},
+        "x": 90,
+        "y": 1100,
+        "w": 900,
+        "h": 320,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 184.40625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 511.40625,
+        "w": 850,
+        "h": 149.03125,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 28
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 72
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "framing": "crop",
+    "text": [
+      "none of this was built overnight.",
+      "every framework was tested first.",
+      "then turned into one place that does the heavy lifting, so you can keep doing what you're good at."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1130,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1209.515625,
+        "w": 900,
+        "h": 154.546875,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 33
+      }
+    ]
+  },
+  {
+    "slide": 14,
+    "framing": "crop",
+    "text": [
+      "right now it's only for the people i work with.",
+      "it's getting sharper every week.",
+      "and i'm not stopping until this is a seven-figure company."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "coin",
+        "x": 890,
+        "y": 1460,
+        "w": 100,
+        "h": 100,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 121.96875,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1190,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1269.515625,
+        "w": 900,
+        "h": 125.375,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 46
+      }
+    ]
+  }
+]

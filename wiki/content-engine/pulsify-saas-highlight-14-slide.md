@@ -22,7 +22,7 @@ The 14-slide copy is locked except for the founder's removal of the opening "so"
 | 7, 8 | IMG_7830.jpg | 34 |
 | 9 | Founder will handle | — |
 | 10 | IMG_7540.JPEG (same background) | 49 |
-| 11 | IMG_8529.JPEG (same background) | 9 |
+| 11 | IMG_8529.JPEG currently shown; founder disputed image, intended filename pending | 9 (provisional) |
 | 12 | IMG_7278.JPEG | 46 |
 | 13, 14 | IMG_8690.JPEG | 14 |
 

@@ -1,6 +1,6 @@
 {
   "date": "2026-10-06",
-  "revision": "founder photo/type/diagram corrections",
+  "revision": "photo-aware composition and typography refinement",
   "still_count": 13,
   "dimensions": [
     1080,
@@ -8,6 +8,7 @@
   ],
   "copy": "Exact locked words/punctuation verified; founder removal of opening so on 4/5 included",
   "fonts": "Installed Helvetica verified through Chrome CDP",
+  "typography": "Authored semantic line breaks verified against actual rendered lines; no unintended wraps on refined stills. Slide11 unchanged pending photo.",
   "photo_mapping": {
     "1": 50,
     "2": 50,
@@ -25,8 +26,9 @@
   },
   "preparation": "Uniform exposure; no fading masks or photo cutouts; Gaussian12px on2",
   "annotations": "Red near-horizontal hand-drawn underlines; white open connectors and diagram icons",
-  "safe_zones": "All text/diagrams x60\u20131020, y250\u20131580",
+  "safe_zones": "All text/diagrams and actual text ink x60\u20131020, y250\u20131580",
   "slide9": "Founder-owned; earlier media unchanged and excluded from this revision package",
+  "slide11": "Founder disputed current IMG_8529.JPEG; exact intended filename requested. Current photo shown provisionally, no replacement inferred.",
   "framing": "11/13/14 pending founder choice; all six alternatives included. B shown provisionally in main review.",
   "diagrams": "Conceptual, no fabricated quantitative results",
   "publication": "Local review only"

@@ -52,6 +52,38 @@
         "safe": true
       }
     ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 1,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 3,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 4,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      }
+    ],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -114,6 +146,38 @@
         "safe": true
       }
     ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 1,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 3,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 4,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      }
+    ],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -136,26 +200,46 @@
       {
         "element": "",
         "x": 90,
-        "y": 285,
+        "y": 355,
         "w": 900,
-        "h": 60.984375,
+        "h": 127.65625,
         "safe": true
       },
       {
         "element": "",
         "x": 90,
-        "y": 1170,
+        "y": 1130,
         "w": 900,
-        "h": 51.515625,
+        "h": 53.359375,
         "safe": true
       },
       {
         "element": "",
         "x": 90,
-        "y": 1249.515625,
+        "y": 1217.359375,
         "w": 900,
-        "h": 154.546875,
+        "h": 160.078125,
         "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 3,
+        "rendered_lines": 3,
+        "ink_safe": true
       }
     ],
     "fonts": [
@@ -163,7 +247,7 @@
         "familyName": "Helvetica",
         "postScriptName": "Helvetica-Bold",
         "isCustomFont": false,
-        "glyphCount": 33
+        "glyphCount": 32
       }
     ]
   },
@@ -182,24 +266,44 @@
         "x": 90,
         "y": 285,
         "w": 900,
-        "h": 60.984375,
+        "h": 127.65625,
         "safe": true
       },
       {
         "element": "",
         "x": 90,
-        "y": 1130,
+        "y": 1140,
         "w": 900,
-        "h": 51.515625,
+        "h": 53.359375,
         "safe": true
       },
       {
         "element": "",
         "x": 90,
-        "y": 1209.515625,
+        "y": 1227.359375,
         "w": 900,
-        "h": 154.546875,
+        "h": 160.078125,
         "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 3,
+        "rendered_lines": 3,
+        "ink_safe": true
       }
     ],
     "fonts": [
@@ -207,7 +311,7 @@
         "familyName": "Helvetica",
         "postScriptName": "Helvetica-Bold",
         "isCustomFont": false,
-        "glyphCount": 33
+        "glyphCount": 32
       }
     ]
   },
@@ -232,9 +336,9 @@
       {
         "element": "",
         "x": 90,
-        "y": 285,
+        "y": 355,
         "w": 900,
-        "h": 121.96875,
+        "h": 127.65625,
         "safe": true
       },
       {
@@ -242,16 +346,36 @@
         "x": 90,
         "y": 1200,
         "w": 900,
-        "h": 51.515625,
+        "h": 53.359375,
         "safe": true
       },
       {
         "element": "",
         "x": 90,
-        "y": 1279.515625,
+        "y": 1281.359375,
         "w": 900,
         "h": 125.375,
         "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
       }
     ],
     "fonts": [
@@ -286,7 +410,7 @@
         "x": 90,
         "y": 285,
         "w": 900,
-        "h": 121.96875,
+        "h": 127.65625,
         "safe": true
       },
       {
@@ -294,16 +418,36 @@
         "x": 90,
         "y": 1190,
         "w": 900,
-        "h": 51.515625,
+        "h": 53.359375,
         "safe": true
       },
       {
         "element": "",
         "x": 90,
-        "y": 1269.515625,
+        "y": 1271.359375,
         "w": 900,
         "h": 125.375,
         "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
       }
     ],
     "fonts": [

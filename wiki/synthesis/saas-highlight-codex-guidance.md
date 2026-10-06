@@ -17,6 +17,8 @@ This revision controls over the historical treatments below. Use the exact filen
 Current implementation uses conceptual diagrams only: the six-stage chain, DM/book/no-close flow, a qualitative plateau sketch, four established figures and a new entrant, voice/content/page icons, and watched/clicked/booked/paid tracking. These do not imply measured revenue or client results. Keep the original photography intact; do not invent screenshot proof.
 
 ## References, all viewed
+
+Founder correction after the framing previews (2026-10-06): typography must look neat and match the image's aesthetic. Do not apply a universal top-to-bottom text layout. Reopen the archive examples during every design revision and study composition, language cadence, edits and figures directly. Use deliberate semantic line breaks, coherent group widths and spacing; position text above, beside, between or below visual elements as the photograph permits. Preserve locked words while changing layout. Connect figures to the specific point they explain. Approved slide8 type sizes remain the baseline, not a requirement for every slide to share its position. Founder also disputed slide11's photograph; current IMG_8529.JPEG is provisional until the exact intended filename is supplied.
 In raw-sources/inspiration/story-sequences/ (open every image before designing):
 - siggyfoss/ (8): layered photo, proof cards, circular magnifier, diamond markers. Breakdown: [[content-engine/sequence-breakdowns/siggyfoss-proof-design]].
 - brez-scales story sequence/ (8): text-led. The same photo holds across several slides while the text changes. Plain white text, black highlight pill on one line, hand-drawn red underline, red X marks as list bullets, blue price highlight, link-sticker pill at the end.
