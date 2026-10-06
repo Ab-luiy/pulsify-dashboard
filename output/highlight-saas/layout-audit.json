@@ -368,10 +368,10 @@
     "geometry": [
       {
         "element": {},
-        "x": 150,
-        "y": 1000,
-        "w": 780,
-        "h": 235,
+        "x": 125,
+        "y": 980,
+        "w": 830,
+        "h": 280,
         "safe": true
       },
       {
@@ -670,10 +670,10 @@
     "geometry": [
       {
         "element": {},
-        "x": 210,
-        "y": 1395,
-        "w": 660,
-        "h": 150,
+        "x": 155,
+        "y": 1380,
+        "w": 780,
+        "h": 170,
         "safe": true
       },
       {
@@ -790,11 +790,11 @@
     "chain": [],
     "geometry": [
       {
-        "element": {},
-        "x": 180,
-        "y": 890,
-        "w": 720,
-        "h": 200,
+        "element": "product-overview product-window",
+        "x": 90,
+        "y": 830,
+        "w": 900,
+        "h": 450,
         "safe": true
       },
       {
@@ -816,7 +816,7 @@
       {
         "element": "",
         "x": 130,
-        "y": 1150,
+        "y": 1320,
         "w": 830,
         "h": 106.71875,
         "safe": true
@@ -824,7 +824,7 @@
       {
         "element": "",
         "x": 130,
-        "y": 1470,
+        "y": 1490,
         "w": 830,
         "h": 53.359375,
         "safe": true
@@ -975,11 +975,11 @@
     "chain": [],
     "geometry": [
       {
-        "element": {},
-        "x": 110,
-        "y": 1310,
-        "w": 860,
-        "h": 260,
+        "element": "product-tracking product-window",
+        "x": 90,
+        "y": 1020,
+        "w": 900,
+        "h": 505,
         "safe": true
       },
       {
@@ -1102,14 +1102,6 @@
     ],
     "chain": [],
     "geometry": [
-      {
-        "element": "coin",
-        "x": 890,
-        "y": 1460,
-        "w": 100,
-        "h": 100,
-        "safe": true
-      },
       {
         "element": "",
         "x": 90,

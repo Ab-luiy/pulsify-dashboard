@@ -1,0 +1,462 @@
+[
+  {
+    "slide": 11,
+    "framing": "full",
+    "text": [
+      "then the sales side.",
+      "you see who's closing. who's not.",
+      "who's hitting their calls. who's hitting your numbers.",
+      "no more guessing what happened on a call.",
+      "no scripts to write yourself."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1120,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1199.515625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1330.546875,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1410.0625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 1,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 3,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 4,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 20
+      }
+    ]
+  },
+  {
+    "slide": 11,
+    "framing": "crop",
+    "text": [
+      "then the sales side.",
+      "you see who's closing. who's not.",
+      "who's hitting their calls. who's hitting your numbers.",
+      "no more guessing what happened on a call.",
+      "no scripts to write yourself."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1080,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1159.515625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1290.546875,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1370.0625,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 1,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 3,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 4,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 20
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "framing": "full",
+    "text": [
+      "none of this was built overnight.",
+      "every framework was tested first.",
+      "then turned into one place that does the heavy lifting, so you can keep doing what you're good at."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 355,
+        "w": 900,
+        "h": 127.65625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1130,
+        "w": 900,
+        "h": 53.359375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1217.359375,
+        "w": 900,
+        "h": 160.078125,
+        "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 3,
+        "rendered_lines": 3,
+        "ink_safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 32
+      }
+    ]
+  },
+  {
+    "slide": 13,
+    "framing": "crop",
+    "text": [
+      "none of this was built overnight.",
+      "every framework was tested first.",
+      "then turned into one place that does the heavy lifting, so you can keep doing what you're good at."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 127.65625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1140,
+        "w": 900,
+        "h": 53.359375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1227.359375,
+        "w": 900,
+        "h": 160.078125,
+        "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 3,
+        "rendered_lines": 3,
+        "ink_safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 32
+      }
+    ]
+  },
+  {
+    "slide": 14,
+    "framing": "full",
+    "text": [
+      "right now it's only for the people i work with.",
+      "it's getting sharper every week.",
+      "and i'm not stopping until this is a seven-figure company."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "coin",
+        "x": 890,
+        "y": 1460,
+        "w": 100,
+        "h": 100,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 355,
+        "w": 900,
+        "h": 127.65625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1200,
+        "w": 900,
+        "h": 53.359375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1281.359375,
+        "w": 900,
+        "h": 125.375,
+        "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 46
+      }
+    ]
+  },
+  {
+    "slide": 14,
+    "framing": "crop",
+    "text": [
+      "right now it's only for the people i work with.",
+      "it's getting sharper every week.",
+      "and i'm not stopping until this is a seven-figure company."
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": "coin",
+        "x": 890,
+        "y": 1460,
+        "w": 100,
+        "h": 100,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 127.65625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1190,
+        "w": 900,
+        "h": 53.359375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 1271.359375,
+        "w": 900,
+        "h": 125.375,
+        "safe": true
+      }
+    ],
+    "typography": [
+      {
+        "paragraph": 0,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 1,
+        "authored_lines": 1,
+        "rendered_lines": 1,
+        "ink_safe": true
+      },
+      {
+        "paragraph": 2,
+        "authored_lines": 2,
+        "rendered_lines": 2,
+        "ink_safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 46
+      }
+    ]
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "slide": 8,
+    "framing": "crop",
+    "text": [
+      "here's what most people miss.",
+      "the top of every niche is 3 or 4 names.",
+      "but new people break in every single month.",
+      "not because they're bigger. because they bring something new.",
+      "people always want a new face with a new idea.",
+      "\"you don't need to be first. you need to sound like you.\""
+    ],
+    "chain": [],
+    "geometry": [
+      {
+        "element": {},
+        "x": 90,
+        "y": 1370,
+        "w": 900,
+        "h": 170,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 285,
+        "w": 900,
+        "h": 60.984375,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 374.984375,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 446.5,
+        "w": 900,
+        "h": 51.515625,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 518.015625,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 641.046875,
+        "w": 900,
+        "h": 103.03125,
+        "safe": true
+      },
+      {
+        "element": "",
+        "x": 90,
+        "y": 779.078125,
+        "w": 880,
+        "h": 223.546875,
+        "safe": true
+      }
+    ],
+    "fonts": [
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica-Bold",
+        "isCustomFont": false,
+        "glyphCount": 84
+      },
+      {
+        "familyName": "Helvetica",
+        "postScriptName": "Helvetica",
+        "isCustomFont": false,
+        "glyphCount": 187
+      }
+    ]
+  }
+]

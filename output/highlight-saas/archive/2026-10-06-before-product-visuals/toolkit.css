@@ -1,0 +1,35 @@
+:root{--red:#ef3e3e;--font:"Helvetica Neue",Helvetica,Arial,sans-serif}
+*{box-sizing:border-box}html,body{margin:0;width:1080px;height:1920px;background:#191918;color:white;font-family:var(--font);-webkit-font-smoothing:antialiased}body{overflow:hidden}
+.slide{position:relative;width:1080px;height:1920px;overflow:hidden}.photo{position:absolute;inset:0;width:1080px;height:1920px;object-fit:cover}
+.copy{position:absolute;left:90px;top:285px;width:900px;font-size:46px;line-height:1.12;letter-spacing:-.7px;z-index:4;text-shadow:0 2px 8px #0009,0 0 24px #0006}
+.copy p{margin:0 0 29px}.copy > p:first-child{font-weight:700;font-size:57px;line-height:1.07;letter-spacing:-1.7px;margin-bottom:29px}
+.under{font-weight:700;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='14' viewBox='0 0 400 14'%3E%3Cpath d='M2 7 Q95 3 199 7 T398 6 M5 11 Q188 8 395 10' fill='none' stroke='%23ef3e3e' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");background-position:left bottom;background-repeat:no-repeat;background-size:100% 10px;padding-bottom:9px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.diagram{position:absolute;left:90px;width:900px;z-index:3;overflow:visible;filter:drop-shadow(0 2px 4px #0009)}.diagram path,.diagram line,.diagram circle,.diagram rect,.diagram polyline{fill:none;stroke:white;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.diagram .red{stroke:var(--red)}.diagram text{fill:white;font-family:var(--font);font-size:30px}.diagram .small{font-size:24px;fill:#eee}.diagram .strong{stroke-width:5}
+.s01 .copy{top:360px}.s01 .copy > p:first-child{font-size:68px;line-height:1.08;margin-bottom:44px;max-width:860px}.s01 .copy p+ p{max-width:800px;font-size:49px}
+.s02 .copy p{margin-bottom:34px}.s02 .copy p:last-child{font-weight:700;margin-top:43px}
+.chain{position:absolute;left:90px;top:300px;width:900px;height:470px;z-index:4;font-size:44px;font-weight:700;line-height:1.12;text-shadow:0 2px 9px #000b}.chain span{position:absolute;width:350px}.chain span:nth-of-type(1){left:0;top:0}.chain span:nth-of-type(2){left:530px;top:0}.chain span:nth-of-type(3){left:530px;top:175px}.chain span:nth-of-type(4){left:0;top:175px}.chain span:nth-of-type(5){left:0;top:350px}.chain span:nth-of-type(6){left:530px;top:350px}
+.chain svg{position:absolute;inset:0;width:900px;height:470px;overflow:visible}.chain path{fill:none;stroke:white;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}.chain .red{stroke:var(--red)}.s03 .copy{top:880px}.s03 .copy > p:first-child{font-size:57px}
+.s04 .copy p:not(:first-child){position:relative;padding-left:55px;margin-bottom:42px}.s04 .copy p:not(:first-child):before{content:'×';font-size:58px;font-weight:400;color:var(--red);position:absolute;left:0;top:-8px}.s04 .copy > p:first-child{margin-bottom:46px}
+.s05 .copy p{margin-bottom:32px}.s05 .diagram{top:1120px;height:270px}.s06 .copy p{margin-bottom:36px}
+.s07 .copy{top:285px}.s07 .diagram{top:1040px;height:360px}.s08 .copy p{margin-bottom:20px}.s08 .copy > p:first-child{font-size:57px;margin-bottom:29px}.s08 .copy p:last-child{font-size:69px;line-height:1.08;font-weight:700;margin-top:35px;letter-spacing:-1.5px;max-width:880px}.s08 .diagram{top:1370px;height:170px}
+.s10 .copy p{margin-bottom:40px}.s10 .copy p:last-child{font-weight:700}.s10 .diagram{top:1170px;height:220px}
+.s11 .copy,.s13 .copy,.s14 .copy{inset:0;width:1080px}.s11 .copy p,.s13 .copy p,.s14 .copy p{position:relative;width:900px;left:90px}.s11 .copy > p:first-child,.s13 .copy > p:first-child,.s14 .copy > p:first-child{position:absolute;top:285px;margin:0}.copy .lower{position:absolute;left:0;top:1080px;width:1080px}.copy .lower p{margin-bottom:28px}.s13 .lower{top:1130px}.s14 .lower{top:1190px}.s14 .lower p:last-child{font-weight:700;font-size:57px;line-height:1.1}.s14 .coin{position:absolute;left:890px;top:1460px;width:100px;height:100px;object-fit:contain;z-index:5}
+.s12 .copy > p:first-child{font-weight:400;font-size:53px;line-height:1.16;letter-spacing:-1px}.s12 .copy p:last-child{font-size:69px;line-height:1.08;font-weight:700;margin-top:42px;max-width:850px}.s12 .diagram{top:1100px;height:320px}
+.full .lower{top:1120px}.s13.full .lower{top:1170px}.s14.full .lower{top:1200px}
+.diagram .red path,.diagram .red circle{stroke:var(--red)}
+
+/* Composition pass: authored line breaks and placement follow each photograph. */
+.copy{line-height:1.16;letter-spacing:-.5px;text-shadow:0 2px 6px #0009,0 0 18px #0005}
+.s01 .copy{left:130px;top:580px;width:840px}.s01 .copy > p:first-child{font-size:57px;line-height:1.1;margin-bottom:46px}.s01 .copy p+p{font-size:46px}
+.s02 .copy{left:110px;top:470px;width:880px}.s02 .copy p{margin-bottom:31px}.s02 .copy p:last-child{margin-top:42px}
+.s03 .chain{top:435px}.s03 .copy{top:1030px}.s03 .copy p{margin-bottom:24px}
+.s04 .copy{top:735px;width:920px;font-size:46px;line-height:1.16}.s04 .copy > p:first-child{margin-bottom:36px}.s04 .copy p:not(:first-child){margin-bottom:31px}
+.s05 .copy{top:380px;width:900px}.s05 .copy p{margin-bottom:31px}.s05 .copy p:last-child{position:absolute;top:915px;left:60px;width:840px;text-align:right;margin:0}.s05 .diagram{top:1000px;left:150px;width:780px;height:235px}
+.s06 .copy{top:900px;width:900px}.s06 .copy p{margin-bottom:28px}.s06 .copy > p:first-child{margin-bottom:35px}
+.s07 .copy{inset:0;width:1080px}.s07 .copy p{position:absolute;left:90px;width:900px;margin:0}.s07 .copy [data-paragraph="0"]{top:320px}.s07 .copy [data-paragraph="1"]{top:500px}.s07 .copy [data-paragraph="2"]{top:735px}.s07 .copy [data-paragraph="3"]{top:1480px;font-weight:700}.s07 .diagram{top:960px;height:350px}
+.s08 .copy{line-height:1.12;letter-spacing:-.7px}.s08 .copy p:last-child{margin-top:42px;max-width:900px;text-align:center}.s08 .diagram{top:1395px;height:150px;left:210px;width:660px}
+.s10 .copy{inset:0;width:1080px}.s10 .copy p{position:absolute;left:130px;width:830px;margin:0}.s10 .copy [data-paragraph="0"]{top:420px}.s10 .copy [data-paragraph="1"]{top:665px}.s10 .copy [data-paragraph="2"]{top:1150px}.s10 .copy [data-paragraph="3"]{top:1470px}.s10 .diagram{top:890px;left:180px;width:720px;height:200px}
+.s12 .copy{top:490px;left:110px;width:800px}.s12 .copy > p:first-child{font-size:53px;line-height:1.16}.s12 .copy p:last-child{font-size:69px;line-height:1.08;margin-top:60px;max-width:800px}.s12 .diagram{top:1310px;left:110px;width:860px;height:260px}
+.s13 .copy > p:first-child,.s14 .copy > p:first-child{width:900px;top:285px;line-height:1.12}.s13.full .copy > p:first-child,.s14.full .copy > p:first-child{top:355px}
+.s13 .lower{top:1140px}.s13.full .lower{top:1130px}.s13 .copy .lower p{margin-bottom:34px}.s14 .copy .lower p:last-child{font-size:57px;line-height:1.1}
+.s11 .copy{line-height:1.12;letter-spacing:-.7px;text-shadow:0 2px 8px #0009,0 0 24px #0006}

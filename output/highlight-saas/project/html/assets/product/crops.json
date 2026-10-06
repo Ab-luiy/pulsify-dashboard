@@ -1,0 +1,171 @@
+[
+  {
+    "asset": "voice-context.png",
+    "capture": "voice.png",
+    "crop": [
+      1090,
+      266,
+      1392,
+      500
+    ],
+    "capture_sha256": "b374a01f15fea2a31f75769bd44f6df4de91cdff53dedcab969d7d57c9f3d405",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "copy-formats.png",
+    "capture": "write.png",
+    "crop": [
+      508,
+      457,
+      880,
+      534
+    ],
+    "capture_sha256": "af10eef01b73a8a4347ebb28d1da62b06f7bcff5b69280a1c22ea8deac734c9a",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "copy-context.png",
+    "capture": "write.png",
+    "crop": [
+      505,
+      273,
+      1224,
+      323
+    ],
+    "capture_sha256": "af10eef01b73a8a4347ebb28d1da62b06f7bcff5b69280a1c22ea8deac734c9a",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-flow.png",
+    "capture": "funnel.png",
+    "crop": [
+      32,
+      1090,
+      1408,
+      1287
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-calls.png",
+    "capture": "funnel.png",
+    "crop": [
+      720,
+      943,
+      1065,
+      1077
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-cash.png",
+    "capture": "funnel.png",
+    "crop": [
+      377,
+      943,
+      720,
+      1077
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-calls-detail.png",
+    "capture": "funnel.png",
+    "crop": [
+      740,
+      960,
+      950,
+      1042
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-cash-detail.png",
+    "capture": "funnel.png",
+    "crop": [
+      397,
+      960,
+      607,
+      1042
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-source.png",
+    "capture": "funnel.png",
+    "crop": [
+      32,
+      490,
+      914,
+      636
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "funnel-visits.png",
+    "capture": "funnel.png",
+    "crop": [
+      179,
+      374,
+      326,
+      476
+    ],
+    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "sales-scoreboard.png",
+    "capture": "team.png",
+    "crop": [
+      32,
+      280,
+      1408,
+      518
+    ],
+    "capture_sha256": "ac05bee6b59ccf4a6bbcce4ac2348cfc8f9fb8477dfcc653ecf79737fddf8c7e",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "revenue-chart.png",
+    "capture": "revenue.png",
+    "crop": [
+      32,
+      403,
+      1408,
+      766
+    ],
+    "capture_sha256": "c7bfda8d33f685450596c320d24c067674c55948a8a402eb3bbbd91012ce82aa",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  },
+  {
+    "asset": "home-pipeline.png",
+    "capture": "home.png",
+    "crop": [
+      32,
+      398,
+      1408,
+      577
+    ],
+    "capture_sha256": "143dac21bc75e5d527fec47b47f2e957599c11e8d14105349bd8040b5b9dc5c1",
+    "transformation": "crop only; no redrawn UI or changed values",
+    "workspace": "Example / demo data"
+  }
+]

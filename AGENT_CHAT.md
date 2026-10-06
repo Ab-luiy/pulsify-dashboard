@@ -73,6 +73,8 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
+| output/highlight-saas/**; wiki/synthesis/saas-highlight-codex-guidance.md; wiki/log.md append; temporary Example capture sessions | CODEX | ACTIVE | 2026-10-06: replace generic glyphs/arrows with weighty meaningful visuals and real dashboard crops; integrated subtle branding. |
+
 
 
 | output/highlight-saas/**; brand/photos/uploaded/**; wiki/log.md append | CODEX | DONE | 2026-10-06: 14-slide review and silent slide9 preview verified; locked copy/Helvetica/photos/safe zones pass; founder take pending; locks cleared. |
@@ -2984,3 +2986,6 @@ START founder feedback: slide11 photo is disputed; asked exact replacement filen
 
 ### [2026-10-06 08:18] CODEX
 DONE independent composition/type refinement in output/highlight-saas/**. Reopened six archive reference sheets and enlarged originals Nik seq3/1, seq2/3, Brez/4. Authored semantic line breaks (project/html/assets/layout-lines.json), varied placement around images, reduced competing emphasis on4, balanced quote8/12 and headings13/14; approved slide8 type sizes retained. Chrome audit now verifies rendered versus intended row counts and actual text ink bounds, in addition to locked copy/photos/font/dimensions. All refined stills pass with no unintended wraps; final phone sheet, slide10 and A/B comparisons inspected. Preserved prior revision in archive/2026-10-06-before-composition-refinement. Updated review/comparisons/ZIP/notes, reproducible templates, source review evidence, wiki/synthesis/saas-highlight-codex-guidance.md and wiki/content-engine/pulsify-saas-highlight-14-slide.md plus wiki/log.md. Founder says slide11 has a different photo; requested exact intended filename, still pending. Its current IMG_8529.JPEG and layout are preserved (11.png hash matches prior revision); shown provisionally, no replacement guessed. 11/13/14 framing remains open and9 founder-owned. Shared guidance now requires reopening examples for every design revision, photo-aware text placement, neat type and purposeful figures. No publication, app changes or cross-call. Locks cleared.
+
+### [2026-10-06 08:25] CODEX
+START founder rejected generic line icons, mouse glyph, weak charts/arrows and pasted 3D coin. Revisit product/proof reference frames; rebuild visuals with more weight, actual relevant Example dashboard elements and canonical flat mark integrated subtly into product composition. Preserve copy/photo mapping/type and pending11 photo/framing,9 founder-owned. Claim output/guidance/log and disposable Example capture sessions only. No app edits/publication/cross-call.
