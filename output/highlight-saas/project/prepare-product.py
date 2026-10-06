@@ -4,7 +4,7 @@ import json,hashlib
 ROOT=Path(__file__).resolve().parents[3]; P=Path(__file__).resolve().parent/'html/assets/product'
 crops={
  'voice-context':('voice',(1090,266,1392,500)),
- 'copy-formats':('write',(508,457,880,534)),
+ 'copy-formats':('write',(508,457,848,534)),
  'copy-context':('write',(505,273,1224,323)),
  'funnel-flow':('funnel',(32,1090,1408,1287)),
  'funnel-calls':('funnel',(720,943,1065,1077)),
@@ -18,9 +18,11 @@ crops={
  'home-pipeline':('home',(32,398,1408,577))
 }
 manifest=[]
+sources={s['name']:s for s in json.loads((P/'sources.json').read_text(encoding='utf-8'))}
 for name,(source,box) in crops.items():
-    original=P/f'{source}.png';im=Image.open(original).convert('RGB');assert box[2]<=im.width and box[3]<=im.height
-    im.crop(box).save(P/f'{name}.png');manifest.append({'asset':name+'.png','capture':source+'.png','crop':box,'capture_sha256':hashlib.sha256(original.read_bytes()).hexdigest(),'transformation':'crop only; no redrawn UI or changed values','workspace':'Example / demo data'})
+    scale=sources[source].get('device_scale_factor',1);pixel_box=tuple(int(v*scale) for v in box)
+    original=P/f'{source}.png';im=Image.open(original).convert('RGB');assert pixel_box[2]<=im.width and pixel_box[3]<=im.height
+    im.crop(pixel_box).save(P/f'{name}.png');manifest.append({'asset':name+'.png','capture':source+'.png','crop':pixel_box,'css_crop':box,'device_scale_factor':scale,'capture_sha256':hashlib.sha256(original.read_bytes()).hexdigest(),'transformation':'crop only; no redrawn UI or changed values','workspace':'Example / demo data'})
 (P/'crops.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
 mark=(ROOT/'brand/logo/logo.svg').read_text(encoding='utf-8').replace('fill="currentColor"','fill="#ffffff"')
 (P/'mark-white.svg').write_text(mark,encoding='utf-8')

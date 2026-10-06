@@ -14,7 +14,9 @@ Written after the founder uploaded more reference sequences and Claude viewed al
 
 This revision controls over the historical treatments below. Use the exact filename/photo table in [[content-engine/pulsify-saas-highlight-14-slide]]. Photos intentionally repeat on 1/2, 7/8 and 13/14. Slide 2 receives Gaussian blur. Keep photos visible with uniform exposure changes; do not mask away half the image or fade it through the middle. Underlines are red, hand-drawn and nearly horizontal. Use the approved slide 8 typography as the baseline (57px bold first line, 46px regular body, 69px closing quote). Remove the opening "so" from 4 and 5 only. Slide 3 uses written labels connected by open wires/arrows, without a rounded dark block. Replace generic blue cards with relevant icons, diagrams and figures drawn from the archive's craft. The founder handles slide 9. Retain backgrounds on 4, 10 and 11. Put slide 11's supporting copy in the bottom half if it reads clearly. Founder requested both framing previews for landscape slides 11, 13 and 14; selection remains pending. Review at output/highlight-saas/comparisons.html.
 
-Current implementation uses conceptual diagrams only: the six-stage chain, DM/book/no-close flow, a qualitative plateau sketch, four established figures and a new entrant, voice/content/page icons, and watched/clicked/booked/paid tracking. These do not imply measured revenue or client results. Keep the original photography intact; do not invent screenshot proof.
+Latest founder correction (2026-10-06, product visuals): generic pictograms, the mouse cursor, weak charts and cheap arrows are rejected. Visuals need weight through filled forms, substantial strokes and clear type. Branding belongs inside relevant dashboard elements and a bird's-eye view of how they connect. Do not paste the rendered 3D coin onto a still. Use the canonical flat mark subtly within product headers. Revisit actual archive frames on every iteration; the current pass remains a review draft.
+
+Current implementation: substantial open arrows connect slide3's written chain; filled and hatched shapes show DM loss on5; a filled qualitative plateau chart sits on7; type-based 3–4/new-face figures replace stick people on8. Slide10 connects genuine Voice/Copywriter/Funnel crops in a compact product overview. Slide12 uses the actual funnel flow with enlarged booked-call and cash details. Both product compositions are explicitly labelled Example/demo; captures and crop provenance live in output/highlight-saas/project/html/assets/product. No results are invented or presented as client proof. The floating coin is removed from14. Keep original photography visible and locked story copy intact.
 
 ## References, all viewed
 
@@ -65,4 +67,4 @@ Use one accent colour only (homepage blue #6871f4) for pills, underlines, boxes 
 - Claim files in AGENT_CHAT.md first, log files touched in AGENT_CHAT.md and wiki/log.md, do not post or deploy.
 
 ## Open
-Slide 3 image (whiteboard or Miro), slide 9 take, slide 12 real tracking screenshot (demo workspace only).
+Slide9 founder-owned recording; slide11 intended photo filename; A/B framing choices for11/13/14. Real Example workspace tracking crops are available and labelled demo. Current visual pass awaits founder review.

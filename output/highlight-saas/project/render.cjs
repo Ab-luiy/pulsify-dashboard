@@ -15,7 +15,8 @@ const server=createServer((req,res)=>{const file=path.join(root,decodeURICompone
    const rows=[];for(const r of boxes){if(!rows.some(y=>Math.abs(y-r.y)<5))rows.push(r.y);}
    return{paragraph:Number(el.dataset.paragraph),authored_lines:el.querySelectorAll('br').length+1,rendered_lines:rows.length,ink_safe:boxes.every(r=>r.x>=60&&r.right<=1020&&r.y>=250&&r.bottom<=1580)};
  }));
- const text=await page.locator('[data-copy]').allTextContents(),chain=await page.locator('[data-chain]').allTextContents();audits.push({slide:n,framing,text,chain,geometry,typography,fonts:fonts.fonts});console.log('Rendered',id,framing,geometry.every(g=>g.safe)?'safe':'inspect bounds',n!==11&&typography.some(t=>t.authored_lines!==t.rendered_lines)?'inspect unintended wraps':'');}}
+ const product=await page.evaluate(()=>[...document.querySelectorAll('.product-window')].map(el=>({label:el.querySelector('header').innerText,assets:[...el.querySelectorAll('img')].map(img=>img.getAttribute('src'))})));
+ const text=await page.locator('[data-copy]').allTextContents(),chain=await page.locator('[data-chain]').allTextContents();audits.push({slide:n,framing,text,chain,geometry,typography,product,fonts:fonts.fonts});console.log('Rendered',id,framing,geometry.every(g=>g.safe)?'safe':'inspect bounds',n!==11&&typography.some(t=>t.authored_lines!==t.rendered_lines)?'inspect unintended wraps':'');}}
  fs.writeFileSync(path.join(out,comparisons?'comparison-audit.json':selected.length===13?'layout-audit.json':'hard-slides-audit.json'),JSON.stringify(audits,null,2));
  }finally{await browser.close();server.close()}
 })().catch(e=>{console.error(e);server.close();process.exitCode=1});

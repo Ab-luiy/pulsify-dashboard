@@ -84,6 +84,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -178,6 +179,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -242,6 +244,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -306,6 +309,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -325,14 +329,6 @@
     ],
     "chain": [],
     "geometry": [
-      {
-        "element": "coin",
-        "x": 890,
-        "y": 1460,
-        "w": 100,
-        "h": 100,
-        "safe": true
-      },
       {
         "element": "",
         "x": 90,
@@ -378,6 +374,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -397,14 +394,6 @@
     ],
     "chain": [],
     "geometry": [
-      {
-        "element": "coin",
-        "x": 890,
-        "y": 1460,
-        "w": 100,
-        "h": 100,
-        "safe": true
-      },
       {
         "element": "",
         "x": 90,
@@ -450,6 +439,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",

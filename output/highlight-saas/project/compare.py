@@ -8,7 +8,7 @@ for i,n in enumerate([11,13,14]):
     for j,(label,kind) in enumerate([('A · whole photo','full'),('B · vertical crop','crop')]):
         x=28+j*590;y=20+i*735;draw.text((x,y),f'{n} {label}',font=font,fill='white')
         im=Image.open(OUT/f'project/comparisons/{n:02d}-{kind}.png');canvas.paste(im.resize((378,672),Image.Resampling.LANCZOS),(x+85,y+46))
-        file=f'project/comparisons/{n:02d}-{kind}.png';html+=f'<section><p>{label}</p><a href="{file}"><img src="{file}?rev=composition3" alt="Slide {n}, {label}"></a></section>'
+        file=f'project/comparisons/{n:02d}-{kind}.png';html+=f'<section><p>{label}</p><a href="{file}"><img src="{file}?rev=product4" alt="Slide {n}, {label}"></a></section>'
     html+='</div>'
 canvas.save(OUT/'framing-comparison.jpg',quality=95)
 (OUT/'comparisons.html').write_text(html+'</body></html>',encoding='utf-8')

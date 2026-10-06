@@ -73,7 +73,7 @@ The user currently runs Claude sessions on Fable 5 and expects that bar to survi
 
 ## Lock Board
 
-| output/highlight-saas/**; wiki/synthesis/saas-highlight-codex-guidance.md; wiki/log.md append; temporary Example capture sessions | CODEX | ACTIVE | 2026-10-06: replace generic glyphs/arrows with weighty meaningful visuals and real dashboard crops; integrated subtle branding. |
+| output/highlight-saas/**; wiki/synthesis/saas-highlight-codex-guidance.md; wiki/log.md append; temporary Example capture sessions | CODEX | DONE | 2026-10-06: product4 review exported and verified; genuine labelled demo crops, substantial figures/arrows, integrated flat mark. Capture sessions removed; locks cleared. |
 
 
 
@@ -2989,3 +2989,6 @@ DONE independent composition/type refinement in output/highlight-saas/**. Reopen
 
 ### [2026-10-06 08:25] CODEX
 START founder rejected generic line icons, mouse glyph, weak charts/arrows and pasted 3D coin. Revisit product/proof reference frames; rebuild visuals with more weight, actual relevant Example dashboard elements and canonical flat mark integrated subtly into product composition. Preserve copy/photo mapping/type and pending11 photo/framing,9 founder-owned. Claim output/guidance/log and disposable Example capture sessions only. No app edits/publication/cross-call.
+
+### [2026-10-06 08:52] CODEX
+DONE product4 visual pass in output/highlight-saas/**. Reopened Niksetting seq3 product frames, seq2 funnel and Siggyfoss proof treatment. Removed generic mic/cursor/calendar/money/people symbols; rebuilt3 with substantial filled arrowheads,5 filled/hatched loss funnel,7 continuous filled plateau,8 large type figures. Slide10 connects actual Voice/Copywriter/Funnel fragments;12 uses native conversion flow and enlarged booked-call/cash crops. Used live Example captures at2x density, visibly labelled demo; provenance records URLs/timestamps/source hashes/pixel crops. Canonical flat mark integrated into product headers; floating3D coin removed14 and both14 framing previews. Disposable operator/preview sessions removed; no app or stored client-data changes. Existing11 image/layout and9 PNG hashes match prior pass, video untouched. Story copy/photo IDs/Helvetica/semantic line breaks/ink safe bounds/dimensions,13 source hashes and exact crop pixels/demo labels verified. Phone sheets/full figures/A/B previews inspected; review/ZIP/docs refreshed. Founder11 photo and11/13/14 framing remain pending;9 founder-owned. Updated wiki/synthesis/saas-highlight-codex-guidance.md with latest feedback and wiki/log.md. Prior pass archived; local review only, no publish/deploy/cross-call. Locks cleared. Scheduled backup checkpointed initial work at08:44; final normal backup follows.

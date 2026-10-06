@@ -1,13 +1,13 @@
 {
   "date": "2026-10-06",
-  "revision": "photo-aware composition and typography refinement",
+  "revision": "product4: real dashboard crops, substantial figures, integrated flat branding",
   "still_count": 13,
   "dimensions": [
     1080,
     1920
   ],
   "copy": "Exact locked words/punctuation verified; founder removal of opening so on 4/5 included",
-  "fonts": "Installed Helvetica verified through Chrome CDP",
+  "fonts": "Story copy uses installed Helvetica verified through Chrome CDP; captured product keeps native UI typography",
   "typography": "Authored semantic line breaks verified against actual rendered lines; no unintended wraps on refined stills. Slide11 unchanged pending photo.",
   "photo_mapping": {
     "1": 50,
@@ -25,11 +25,18 @@
     "14": 14
   },
   "preparation": "Uniform exposure; no fading masks or photo cutouts; Gaussian12px on2",
-  "annotations": "Red near-horizontal hand-drawn underlines; white open connectors and diagram icons",
-  "safe_zones": "All text/diagrams and actual text ink x60\u20131020, y250\u20131580",
+  "annotations": "Red near-horizontal hand-drawn underlines; substantial open arrows and filled explanatory figures",
+  "safe_zones": "All key text/figures and actual story text ink x60\u20131020, y250\u20131580",
   "slide9": "Founder-owned; earlier media unchanged and excluded from this revision package",
   "slide11": "Founder disputed current IMG_8529.JPEG; exact intended filename requested. Current photo shown provisionally, no replacement inferred.",
   "framing": "11/13/14 pending founder choice; all six alternatives included. B shown provisionally in main review.",
-  "diagrams": "Conceptual, no fabricated quantitative results",
+  "diagrams": "5/7/8 conceptual; no invented measurements. 10/12 contain real Example workspace UI, clearly labelled demo.",
+  "product_provenance": {
+    "captures": "project/html/assets/product/sources.json",
+    "crop_manifest": "project/html/assets/product/crops.json",
+    "verification": "13 source hashes and pixel-identical crops verified; no UI values redrawn",
+    "used_capture_density": "2x"
+  },
+  "branding": "Canonical flat mark in product headers; floating 3D coin removed",
   "publication": "Local review only"
 }

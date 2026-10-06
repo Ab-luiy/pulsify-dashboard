@@ -1,70 +1,5 @@
 [
   {
-    "name": "voice",
-    "url": "https://pulsify-ai.com/app/portal/voice?client=demo-example",
-    "captured_at": "2026-10-06T05:33:31.145Z",
-    "workspace": "Example",
-    "data": "Demo workspace, not client results",
-    "regions": [
-      {
-        "tag": "H1",
-        "text": "Add your voice",
-        "x": 32,
-        "y": 90.84375,
-        "w": 768.796875,
-        "h": 36
-      },
-      {
-        "tag": "SECTION",
-        "text": "Press the button and start talking\n\nAlready recorded it on your phone? Drop the audio file here, or\nChoose a file",
-        "x": 32,
-        "y": 241.984375,
-        "w": 1016,
-        "h": 374
-      },
-      {
-        "tag": "SECTION",
-        "text": "What to talk about\n\nTalk like you would to a friend on a call. No script, no need to be polished.\n\n1\nWho you are\nHow you got into this and what you do now. The ",
-        "x": 1068,
-        "y": 241.984375,
-        "w": 340,
-        "h": 630.859375
-      },
-      {
-        "tag": "H2",
-        "text": "What to talk about",
-        "x": 1092,
-        "y": 265.984375,
-        "w": 292,
-        "h": 24
-      },
-      {
-        "tag": "SECTION",
-        "text": "Who you sell to\n\nYour ideal buyer in plain words. This shapes every sequence and title we write.\n\nSave\nWho are they: age, job, situation?\nWhat are they struggli",
-        "x": 32,
-        "y": 892.84375,
-        "w": 1376,
-        "h": 214.84375
-      },
-      {
-        "tag": "H2",
-        "text": "Who you sell to",
-        "x": 56,
-        "y": 916.84375,
-        "w": 1008,
-        "h": 24
-      },
-      {
-        "tag": "SECTION",
-        "text": "",
-        "x": 0,
-        "y": 1200,
-        "w": 1440,
-        "h": 0
-      }
-    ]
-  },
-  {
     "name": "projects",
     "url": "https://pulsify-ai.com/app/portal/youtube/projects?client=demo-example",
     "captured_at": "2026-10-06T05:33:35.242Z",
@@ -77,31 +12,6 @@
         "x": 32,
         "y": 56,
         "w": 372.765625,
-        "h": 36
-      },
-      {
-        "tag": "SECTION",
-        "text": "",
-        "x": 0,
-        "y": 1200,
-        "w": 1440,
-        "h": 0
-      }
-    ]
-  },
-  {
-    "name": "write",
-    "url": "https://pulsify-ai.com/app/portal/copy/write?client=demo-example",
-    "captured_at": "2026-10-06T05:33:39.178Z",
-    "workspace": "Example",
-    "data": "Demo workspace, not client results",
-    "regions": [
-      {
-        "tag": "H1",
-        "text": "Copywriter",
-        "x": 32,
-        "y": 56,
-        "w": 539.875,
         "h": 36
       },
       {
@@ -391,9 +301,102 @@
     ]
   },
   {
+    "name": "voice",
+    "url": "https://pulsify-ai.com/app/portal/voice?client=demo-example",
+    "captured_at": "2026-10-06T05:45:52.763Z",
+    "device_scale_factor": 2,
+    "workspace": "Example",
+    "data": "Demo workspace, not client results",
+    "regions": [
+      {
+        "tag": "H1",
+        "text": "Add your voice",
+        "x": 32,
+        "y": 90.84375,
+        "w": 768.796875,
+        "h": 36
+      },
+      {
+        "tag": "SECTION",
+        "text": "Press the button and start talking\n\nAlready recorded it on your phone? Drop the audio file here, or\nChoose a file",
+        "x": 32,
+        "y": 241.984375,
+        "w": 1016,
+        "h": 374
+      },
+      {
+        "tag": "SECTION",
+        "text": "What to talk about\n\nTalk like you would to a friend on a call. No script, no need to be polished.\n\n1\nWho you are\nHow you got into this and what you do now. The ",
+        "x": 1068,
+        "y": 241.984375,
+        "w": 340,
+        "h": 630.859375
+      },
+      {
+        "tag": "H2",
+        "text": "What to talk about",
+        "x": 1092,
+        "y": 265.984375,
+        "w": 292,
+        "h": 24
+      },
+      {
+        "tag": "SECTION",
+        "text": "Who you sell to\n\nYour ideal buyer in plain words. This shapes every sequence and title we write.\n\nSave\nWho are they: age, job, situation?\nWhat are they struggli",
+        "x": 32,
+        "y": 892.84375,
+        "w": 1376,
+        "h": 214.84375
+      },
+      {
+        "tag": "H2",
+        "text": "Who you sell to",
+        "x": 56,
+        "y": 916.84375,
+        "w": 1008,
+        "h": 24
+      },
+      {
+        "tag": "SECTION",
+        "text": "",
+        "x": 0,
+        "y": 1200,
+        "w": 1440,
+        "h": 0
+      }
+    ]
+  },
+  {
+    "name": "write",
+    "url": "https://pulsify-ai.com/app/portal/copy/write?client=demo-example",
+    "captured_at": "2026-10-06T05:45:57.672Z",
+    "device_scale_factor": 2,
+    "workspace": "Example",
+    "data": "Demo workspace, not client results",
+    "regions": [
+      {
+        "tag": "H1",
+        "text": "Copywriter",
+        "x": 32,
+        "y": 56,
+        "w": 539.875,
+        "h": 36
+      },
+      {
+        "tag": "SECTION",
+        "text": "",
+        "x": 0,
+        "y": 1200,
+        "w": 1440,
+        "h": 0
+      }
+    ]
+  },
+  {
     "name": "funnel",
     "url": "https://pulsify-ai.com/app/portal/performance/funnel?client=demo-example",
-    "captured_at": "2026-10-06T05:39:30.490Z",
+    "captured_at": "2026-10-06T05:46:10.863Z",
+    "device_scale_factor": 2,
     "workspace": "Example",
     "data": "Demo workspace, not client results",
     "regions": [
@@ -407,7 +410,7 @@
       },
       {
         "tag": "SECTION",
-        "text": "Where visitors come from\nfirst visit\nYouTube\n125 · 43 applied · $7,500\nDirect\n46 · 14 applied\ndemo\n0 · 0 applied",
+        "text": "Where visitors come from\nfirst visit\nYouTube\n124 · 43 applied · $7,500\nDirect\n46 · 14 applied\ndemo\n0 · 0 applied",
         "x": 32,
         "y": 490.28125,
         "w": 882,
@@ -439,7 +442,7 @@
       },
       {
         "tag": "SECTION",
-        "text": "Against target\n7d\n30d\n90d\nAll\nFunnel score\n89\n6 steps graded\nCash collected\n$7,500\n4 buyers\nBooked calls\n22\n39% of applications\nWorth per visitor\n$43.86\n171 vis",
+        "text": "Against target\n7d\n30d\n90d\nAll\nFunnel score\n89\n6 steps graded\nCash collected\n$7,500\n4 buyers\nBooked calls\n22\n39% of applications\nWorth per visitor\n$44.12\n170 vis",
         "x": 32,
         "y": 899.984375,
         "w": 1376,
@@ -455,7 +458,7 @@
       },
       {
         "tag": "SECTION",
-        "text": "What to fix, in order\n3\n1\nOpt-ins\nStarted applying\n61% of 100%\n$4,737\n2\nApplications\nBooked calls\n39% of 41%\n$340.91\n3\nVisits\nVideo plays\n60% of 61%\n$147.06",
+        "text": "What to fix, in order\n3\n1\nOpt-ins\nStarted applying\n61% of 100%\n$4,737\n2\nApplications\nBooked calls\n39% of 41%\n$340.91\n3\nVisits\nVideo plays\n60% of 61%\n$73.53",
         "x": 32,
         "y": 1292.796875,
         "w": 806.078125,
@@ -487,7 +490,7 @@
       },
       {
         "tag": "SECTION",
-        "text": "Worth per step\nPer visitor\n$43.86\nPer viewer\n$73.53\nPer opt-in\n$80.65\nPer application started\n$131.58\nPer application\n$131.58\nPer booked call\n$340.91",
+        "text": "Worth per step\nPer visitor\n$44.12\nPer viewer\n$73.53\nPer opt-in\n$80.65\nPer application started\n$131.58\nPer application\n$131.58\nPer booked call\n$340.91",
         "x": 852.078125,
         "y": 1535.09375,
         "w": 555.90625,

@@ -39,6 +39,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -139,6 +140,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -239,6 +241,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -339,6 +342,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -447,6 +451,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -547,6 +552,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -640,6 +646,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -763,6 +770,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -854,6 +862,18 @@
         "authored_lines": 1,
         "rendered_lines": 1,
         "ink_safe": true
+      }
+    ],
+    "product": [
+      {
+        "label": "Pulsify / workspace\nExample · demo",
+        "assets": [
+          "../assets/product/mark-white.svg",
+          "../assets/product/voice-context.png",
+          "../assets/product/copy-context.png",
+          "../assets/product/copy-formats.png",
+          "../assets/product/funnel-source.png"
+        ]
       }
     ],
     "fonts": [
@@ -956,6 +976,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -1011,6 +1032,17 @@
         "authored_lines": 2,
         "rendered_lines": 2,
         "ink_safe": true
+      }
+    ],
+    "product": [
+      {
+        "label": "Pulsify / funnel\nExample · demo",
+        "assets": [
+          "../assets/product/mark-white.svg",
+          "../assets/product/funnel-flow.png",
+          "../assets/product/funnel-calls-detail.png",
+          "../assets/product/funnel-cash-detail.png"
+        ]
       }
     ],
     "fonts": [
@@ -1083,6 +1115,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",
@@ -1147,6 +1180,7 @@
         "ink_safe": true
       }
     ],
+    "product": [],
     "fonts": [
       {
         "familyName": "Helvetica",

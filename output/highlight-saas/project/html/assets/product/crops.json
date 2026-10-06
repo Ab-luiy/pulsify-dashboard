@@ -3,12 +3,19 @@
     "asset": "voice-context.png",
     "capture": "voice.png",
     "crop": [
+      2180,
+      532,
+      2784,
+      1000
+    ],
+    "css_crop": [
       1090,
       266,
       1392,
       500
     ],
-    "capture_sha256": "b374a01f15fea2a31f75769bd44f6df4de91cdff53dedcab969d7d57c9f3d405",
+    "device_scale_factor": 2,
+    "capture_sha256": "8938d7ae2806e8589529e42c26ee41f93b55def5c013e649570535304173f538",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -16,12 +23,19 @@
     "asset": "copy-formats.png",
     "capture": "write.png",
     "crop": [
+      1016,
+      914,
+      1696,
+      1068
+    ],
+    "css_crop": [
       508,
       457,
-      880,
+      848,
       534
     ],
-    "capture_sha256": "af10eef01b73a8a4347ebb28d1da62b06f7bcff5b69280a1c22ea8deac734c9a",
+    "device_scale_factor": 2,
+    "capture_sha256": "23c0ce3eb368350bc7f4bfb21f4333ebc0e5b20c4129424197796676d3f3ebb7",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -29,12 +43,19 @@
     "asset": "copy-context.png",
     "capture": "write.png",
     "crop": [
+      1010,
+      546,
+      2448,
+      646
+    ],
+    "css_crop": [
       505,
       273,
       1224,
       323
     ],
-    "capture_sha256": "af10eef01b73a8a4347ebb28d1da62b06f7bcff5b69280a1c22ea8deac734c9a",
+    "device_scale_factor": 2,
+    "capture_sha256": "23c0ce3eb368350bc7f4bfb21f4333ebc0e5b20c4129424197796676d3f3ebb7",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -42,12 +63,19 @@
     "asset": "funnel-flow.png",
     "capture": "funnel.png",
     "crop": [
+      64,
+      2180,
+      2816,
+      2574
+    ],
+    "css_crop": [
       32,
       1090,
       1408,
       1287
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -55,12 +83,19 @@
     "asset": "funnel-calls.png",
     "capture": "funnel.png",
     "crop": [
+      1440,
+      1886,
+      2130,
+      2154
+    ],
+    "css_crop": [
       720,
       943,
       1065,
       1077
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -68,12 +103,19 @@
     "asset": "funnel-cash.png",
     "capture": "funnel.png",
     "crop": [
+      754,
+      1886,
+      1440,
+      2154
+    ],
+    "css_crop": [
       377,
       943,
       720,
       1077
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -81,12 +123,19 @@
     "asset": "funnel-calls-detail.png",
     "capture": "funnel.png",
     "crop": [
+      1480,
+      1920,
+      1900,
+      2084
+    ],
+    "css_crop": [
       740,
       960,
       950,
       1042
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -94,12 +143,19 @@
     "asset": "funnel-cash-detail.png",
     "capture": "funnel.png",
     "crop": [
+      794,
+      1920,
+      1214,
+      2084
+    ],
+    "css_crop": [
       397,
       960,
       607,
       1042
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -107,12 +163,19 @@
     "asset": "funnel-source.png",
     "capture": "funnel.png",
     "crop": [
+      64,
+      980,
+      1828,
+      1272
+    ],
+    "css_crop": [
       32,
       490,
       914,
       636
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -120,12 +183,19 @@
     "asset": "funnel-visits.png",
     "capture": "funnel.png",
     "crop": [
+      358,
+      748,
+      652,
+      952
+    ],
+    "css_crop": [
       179,
       374,
       326,
       476
     ],
-    "capture_sha256": "4fd67b99ea6194f0be0716a523759f9a131080d8c064349a36ade72566c2246b",
+    "device_scale_factor": 2,
+    "capture_sha256": "af22a4bcebdd2e33d24ba33fc95f40d4a66257b849cea3dc4bce92251a7fefd0",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
   },
@@ -138,6 +208,13 @@
       1408,
       518
     ],
+    "css_crop": [
+      32,
+      280,
+      1408,
+      518
+    ],
+    "device_scale_factor": 1,
     "capture_sha256": "ac05bee6b59ccf4a6bbcce4ac2348cfc8f9fb8477dfcc653ecf79737fddf8c7e",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
@@ -151,6 +228,13 @@
       1408,
       766
     ],
+    "css_crop": [
+      32,
+      403,
+      1408,
+      766
+    ],
+    "device_scale_factor": 1,
     "capture_sha256": "c7bfda8d33f685450596c320d24c067674c55948a8a402eb3bbbd91012ce82aa",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
@@ -164,6 +248,13 @@
       1408,
       577
     ],
+    "css_crop": [
+      32,
+      398,
+      1408,
+      577
+    ],
+    "device_scale_factor": 1,
     "capture_sha256": "143dac21bc75e5d527fec47b47f2e957599c11e8d14105349bd8040b5b9dc5c1",
     "transformation": "crop only; no redrawn UI or changed values",
     "workspace": "Example / demo data"
