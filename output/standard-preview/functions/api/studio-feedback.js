@@ -10,7 +10,7 @@ async function handleGet({ request, env }) {
   const auth = checkAdmin(request, env);
   if (auth) return auth;
   const rows = await env.DB.prepare(
-    `SELECT id, client_id, sequence_id, rule, scope, created_at, updated_at
+    `SELECT *
        FROM studio_feedback
       WHERE active=1
       ORDER BY CASE WHEN scope='all' THEN 0 ELSE 1 END, created_at DESC

@@ -8,6 +8,7 @@ import { cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { parseModelJson } from "../_shared/anthropic.js";
 import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
+import { loadRules } from "../_shared/content-learning.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 
 export async function onRequestPost({ request, env }) {
@@ -245,13 +246,7 @@ async function loadReviewLearning(env, client, type) {
         ORDER BY CASE WHEN type=? THEN 0 ELSE 1 END, updated_at DESC
         LIMIT 3`,
     ).bind(client, type || "").all().catch(() => ({ results: [] })),
-    env.DB.prepare(
-      `SELECT rule
-         FROM studio_feedback
-        WHERE active=1 AND (scope='all' OR client_id=?)
-        ORDER BY CASE WHEN scope='all' THEN 0 ELSE 1 END, created_at DESC
-        LIMIT 20`,
-    ).bind(client).all().catch(() => ({ results: [] })),
+    loadRules(env, client, 'sequence'),
   ]);
   const examples = [];
   const exampleIds = [];
@@ -262,8 +257,7 @@ async function loadReviewLearning(env, client, type) {
     examples.push({ type: row.type || output.type || "", topic: row.topic || "", slides });
     exampleIds.push(Number(row.id));
   }
-  const rules = [...new Set((ruleRows.results || []).map((row) => String(row.rule || "").trim()).filter(Boolean))];
-  return { examples, exampleIds, rules };
+  return { examples, exampleIds, rules: ruleRows };
 }
 
 function sanitizeSequenceOutput(value, fallback) {

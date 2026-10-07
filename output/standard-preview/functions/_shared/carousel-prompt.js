@@ -32,6 +32,7 @@ export function buildCarouselPrompt({
   triggerWord,
   proofLines,
   slideCount,
+  learningBlocks = [],
 }) {
   const safeStructure = normalizeCarouselStructure(structure) || "methodology";
   const safeGoal = normalizeCarouselGoal(goal);
@@ -73,6 +74,7 @@ export function buildCarouselPrompt({
     `Goal: ${safeGoal}`,
     `Trigger word: ${cleanText(triggerWord) || "Choose one short topic-relevant word and return it in the CTA copy."}`,
     proof.length ? `Approved proof lines:\n- ${proof.join("\n- ")}` : "Approved proof lines: none supplied. Do not invent proof or numbers.",
+    ...normalizeLines(learningBlocks),
     "Return the carousel in the required JSON only.",
   ].join("\n\n");
 

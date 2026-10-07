@@ -84,9 +84,26 @@ def refined_matte(base):
     return Image.fromarray((np.clip(m, 0, 1) * 255).astype(np.uint8))
 
 
+CUTOUT = os.path.join(b.HERE, 'img', 'cutout.png')           # founder's background-removed version of photo 14 (2000x1500, aligned to the original)
+
+
+def cutout_matte(shift=250):
+    """Alpha of the founder's background-removed photo, put through the same crop and shift as the photo itself."""
+    a = Image.open(CUTOUT).convert('RGBA').split()[3].resize((4032, 3024), Image.LANCZOS)
+    s = max(W / a.width, H / a.height)
+    a = a.resize((int(a.width * s), int(a.height * s)), Image.LANCZOS)
+    x = int((a.width - W) * 0.41); y = int((a.height - H) * 0.5)
+    crop = a.crop((x, y, x + W, y + H))
+    m = Image.new('L', (W, H), 0)
+    m.paste(crop.crop((0, 0, W, H - shift)), (0, shift))
+    arr = np.asarray(m).astype(np.float32) / 255
+    arr = smoothstep(arr, .18, .92)                            # tighten the soft fringe of the remover
+    return Image.fromarray((arr * 255).astype(np.uint8))
+
+
 def bg1():
     base = photo_with_seamless_top()
-    m = refined_matte(base)
+    m = cutout_matte()
     flat = Image.open(b.MARKPNG).convert('RGBA').resize((980, 980), Image.LANCZOS)
     a = Image.new('L', (W, H), 0)
     a.paste(flat.split()[3], (250, 500))                      # centre (740, 990): ring stays clear of the text lines

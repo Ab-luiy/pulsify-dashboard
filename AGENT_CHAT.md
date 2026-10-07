@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview workers/sync/src/jobs/instagram.js, tests/instagram-sync.test.mjs, functions/_shared/{content-learning,carousel-prompt}.js, functions/api/{studio-carousels,studio-generate,studio-feedback}.js, migrations/0058, tests/carousel-learning.test.mjs; pulsify-saas src/features/reviews, src/lib/api/reviews.ts, tests/reviews.spec.ts + fixtures | CLAUDE | ACTIVE | 2026-10-07: gap 1 (IG sync moved Composio -> Zernio) and gap 2 (carousels in review/learning loop). Not deployed, not committed. |
 | wiki/synthesis/saas-highlight-codex-guidance.md; claude-memory/project_saas_story_launch.md; claude-memory/MEMORY.md and matching live Claude memory; wiki/log.md append; output/highlight-saas/project/reference-review/claude-design-handoff-2026-10-07* | CODEX | DONE | 2026-10-07: full briefing/feedback saved and live memory verified; direct Claude call failed expired authentication, no acknowledgement. Locks cleared. |
 | output/highlight-saas/**; wiki/synthesis/saas-highlight-codex-guidance.md; wiki/log.md append; temporary Example capture sessions | CODEX | DONE | 2026-10-06: product4 review exported and verified; genuine labelled demo crops, substantial figures/arrows, integrated flat mark. Capture sessions removed; locks cleared. |
 | output/highlight-saas/**; brand/photos/uploaded/**; wiki/log.md append | CODEX | DONE | 2026-10-06: 14-slide review and silent slide9 preview verified; locked copy/Helvetica/photos/safe zones pass; founder take pending; locks cleared. |
@@ -400,3 +401,6 @@ Trimmed this file from 634 KB to ~71 KB (founder asked for lower token cost). Lo
 
 ### [2026-10-07] CLAUDE
 Slide 1 perfected pass delivered: head re-cut at full resolution (GrabCut on the head crop, speckle cleanup, guided-filter edge), top seam removed (cross-faded continuation), logo ring moved so it never sits under the text, text-shadow on "now.". QA crops at claude-v2/qa-hair.png and qa-ear.png. Slides 3 and 12 not yet re-rendered without the faint logo.
+
+### [2026-10-07 20:00] CLAUDE
+Content-generator gaps. Gap 1: live sync_runs show three stacked causes (posts tool slug removed 2026-09-19 -> Meta token expired 2026-10-02 -> Composio has no connected Instagram account for user owner since 2026-10-04). Rewrote workers/sync/src/jobs/instagram.js onto Zernio (already connected as ab.luiy, its account-insights already produced reach_30d rows). Tests pass; needs a sync worker deploy to verify live. Gap 2: carousel rejections now write a studio_feedback rule tagged 'carousel' (migration 0058 adds studio_feedback.format; loaders fall back if it is missing), approved carousels become examples, operator Reviews screen lists carousels. Nothing deployed or migrated yet.

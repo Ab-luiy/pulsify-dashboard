@@ -4,6 +4,7 @@ import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { clientLabel, notify } from "../_shared/notifications.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
+import { carouselLearningBlocks, loadCarouselLearning } from "../_shared/content-learning.js";
 import { parseModelJson } from "../_shared/anthropic.js";
 import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
 import {
@@ -91,6 +92,7 @@ async function generateCarousel(env, access, body) {
   const context = await loadClientContext(env, client);
   const brain = buildGeneratorBrainContext(context.brain);
   const triggerWord = String(body.trigger_word || "").trim() || brain.trigger_words[0] || "";
+  const learning = await loadCarouselLearning(env, client, structure);
   const input = {
     clientName: context.client_name || access.client_name || client,
     clientProfile: context.client_profile,
@@ -101,6 +103,7 @@ async function generateCarousel(env, access, body) {
     triggerWord,
     proofLines: brain.proof_lines,
     slideCount,
+    learningBlocks: carouselLearningBlocks(learning),
   };
   const prompt = buildCarouselPrompt(input);
   const manualPrompt = buildManualCarouselPrompt(input);
@@ -111,6 +114,7 @@ async function generateCarousel(env, access, body) {
     trigger_word: triggerWord || null,
     proof_lines: brain.proof_lines,
     slide_count: slideCount,
+    learning: { example_ids: learning.exampleIds, rules_used: learning.rules.length },
     brain_context: {
       used: brain.used,
       fields_used: brain.fields_used,
@@ -226,6 +230,7 @@ async function reviewCarousel(request, env, body, action) {
     return json({ ok: false, error: "review note is required when rejecting" }, 422);
   }
   const status = action === "approve" ? "approved" : "rejected";
+  const review = await env.DB.prepare("SELECT client_id FROM studio_carousels WHERE id=? AND status='review'").bind(id).first();
   const result = await env.DB.prepare(
     `UPDATE studio_carousels
         SET status=?, review_note=?, updated_at=?
@@ -233,6 +238,20 @@ async function reviewCarousel(request, env, body, action) {
   ).bind(status, note || null, nowIso(), id).run();
   if (!Number(result.meta?.changes || 0)) {
     return json({ ok: false, error: "carousel not found or not in review" }, 404);
+  }
+  if (status === "rejected" && review?.client_id) {
+    // The reason outlives review_note (cleared on resubmit): it becomes a rule for future carousels. Tagged
+    // 'carousel' so it does not steer sequences or YouTube; the plain insert covers a database that has not
+    // had migration 0058 yet.
+    const stamp = nowIso();
+    const scope = body.apply_to_all ? "all" : "client";
+    await env.DB.prepare(
+      `INSERT INTO studio_feedback (client_id, sequence_id, rule, scope, active, created_at, updated_at, format)
+       VALUES (?, NULL, ?, ?, 1, ?, ?, 'carousel')`,
+    ).bind(review.client_id, note.slice(0, 600), scope, stamp, stamp).run().catch(() => env.DB.prepare(
+      `INSERT INTO studio_feedback (client_id, sequence_id, rule, scope, active, created_at, updated_at)
+       VALUES (?, NULL, ?, ?, 1, ?, ?)`,
+    ).bind(review.client_id, note.slice(0, 600), scope, stamp, stamp).run());
   }
   return json({ ok: true, status });
 }
