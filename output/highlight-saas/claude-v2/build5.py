@@ -143,16 +143,16 @@ def slide12():
     for i, (lab, val, wd) in enumerate(SAMPLE):
         last = i == len(SAMPLE) - 1
         col = EMERALD if last else INK
-        rows += (f'<div style="display:flex;align-items:baseline;justify-content:space-between;width:520px;padding:7px 0 6px;border-bottom:1px solid rgba(255,255,255,.16)">'
-                 f'<span style="font-size:32px;color:{MUTE}">{lab}</span><span style="font-size:46px;font-weight:700;letter-spacing:-1.4px;color:{col}">{val}</span></div>'
-                 f'<div style="height:6px;width:{int(520*wd)}px;background:{col};opacity:.9;border-radius:3px;margin:0 0 12px 0"></div>')
+        rows += (f'<div style="display:flex;align-items:baseline;justify-content:space-between;width:520px;padding:4px 0 4px;border-bottom:1px solid rgba(255,255,255,.16)">'
+                 f'<span style="font-size:28px;color:{MUTE}">{lab}</span><span style="font-size:38px;font-weight:700;letter-spacing:-1.2px;color:{col}">{val}</span></div>'
+                 f'<div style="height:4px;width:{int(520*wd)}px;background:{col};opacity:.9;border-radius:2px;margin:0 0 7px 0"></div>')
     body = scene(img, .55, .22, .66) + f'''
     <img class="abs" src="{MARK_URL}" style="left:-320px;top:1020px;width:980px;opacity:.12">
     <div class="abs" style="left:72px;top:256px;width:700px;font-size:44px;line-height:1.24;letter-spacing:-.8px">and every post is tracked.<br>who watched, who clicked,<br>who booked, who paid.</div>
     <div class="abs" style="left:72px;top:470px;width:600px;font-size:100px;line-height:1.02;font-weight:700;letter-spacing:-4.5px">"you never<br>post <span style="display:inline-block;background:{SILVER};color:{GRAPH};padding:0 22px 12px;border-radius:16px">blind</span><br>again."</div>
     <div class="abs" style="left:72px;top:800px;width:290px">{underline(290)}</div>
-    <div class="abs" style="left:72px;top:870px;width:540px">
-      <div class="label" style="margin-bottom:12px">every post, tracked <span style="opacity:.6">· sample data</span></div>{rows}</div>
+    <div class="abs" style="left:72px;top:846px;width:560px">
+      <div class="label" style="margin-bottom:8px;font-size:23px;white-space:nowrap">tracked <span style="opacity:.6">· sample data</span></div>{rows}</div>
     <div class="abs" style="left:66px;top:1262px;width:960px">
       <div style="font-size:236px;line-height:.85;font-weight:700;letter-spacing:-13px;color:{EMERALD}">{CASH}</div>
       <div class="label" style="margin-top:22px">cash collected</div></div>'''
