@@ -93,16 +93,16 @@ def s05():
 # ------------------------------------------------------------------ 06  windows piling up
 def s06():
     img = prep_photo_full(37, 'p06.png')
-    tools = [('chatgpt', 40, 250, -6), ('notion', 330, 215, 4), ('reels', 600, 262, -3), ('youtube', 80, 345, 5), ('docs', 410, 330, -5),
-             ('dms', 690, 360, 6), ('sheet', 40, 440, -4), ('calendly', 300, 450, 3), ('carousel', 590, 460, -6)]
+    tools = [('chatgpt', 50, 235, -6), ('notion', 400, 210, 4), ('reels', 700, 260, -3), ('youtube', 90, 375, 5), ('docs', 470, 365, -5),
+             ('dms', 740, 405, 6), ('sheet', 40, 520, -4), ('calendly', 300, 535, 3), ('carousel', 640, 545, -6)]
     chips = ''
     for i, (t, x, y, r) in enumerate(tools):
         fill = SILVER if i % 3 == 0 else 'rgba(14,15,17,.78)'
         col = GRAPH if i % 3 == 0 else INK
-        chips += (f'<div class="abs" style="left:{x}px;top:{y}px;padding:14px 34px 18px;border-radius:999px;background:{fill};color:{col};'
-                  f'border:2px solid rgba(239,238,233,.55);font-size:46px;font-weight:700;letter-spacing:-1px;transform:rotate({r}deg);box-shadow:0 14px 34px rgba(0,0,0,.5)">{t}</div>')
+        chips += (f'<div class="abs" style="left:{x}px;top:{y}px;padding:16px 40px 22px;border-radius:999px;background:{fill};color:{col};'
+                  f'border:2px solid rgba(239,238,233,.55);font-size:58px;font-weight:700;letter-spacing:-1px;transform:rotate({r}deg);box-shadow:0 14px 34px rgba(0,0,0,.5)">{t}</div>')
     body = scene(img, .45, .64, .84) + chips
-    body += at(560, f'<div class="label" style="font-size:26px">9 tabs open. none of them talk to each other.</div>')
+    body += at(690, f'<div class="label" style="font-size:26px">9 tabs open. none of them talk to each other.</div>')
     body += at(800, p("so you try harder.", 112, 700, lh=1, ls=-4.4))
     body += at(980, p("more posts. more tools.", 52, ls=-1.3)
                + p("another chatgpt tab at " + block("2am", 56, pad='0 18px 12px', radius=14), 52, ls=-1.3, mt=14)
@@ -117,7 +117,7 @@ def s07():
     img = prep_photo_full(26, 'p07.png')
     X0, X1, Y0, Y1 = 40, 920, 40, 420                      # plot area inside a 960x520 svg
     grid = ''.join(f'<line x1="{X0}" y1="{y}" x2="{X1}" y2="{y}" stroke="rgba(255,255,255,.14)" stroke-width="2"/>' for y in (40, 160, 280, 400))
-    months = ''.join(f'<text x="{X0 + i*176}" y="470" font-family="Helvetica,Arial" font-size="26" fill="{MUTE}" text-anchor="middle">month {i+1}</text>' for i in range(6))
+    months = ''.join(f'<text x="{X0 + 20 + i*168}" y="470" font-family="Helvetica,Arial" font-size="26" fill="{MUTE}" text-anchor="middle">month {i+1}</text>' for i in range(6))
     info_up = 'M40 400 C 170 392, 250 300, 330 200 S 470 70, 520 62'
     info_down = 'M520 62 C 580 56, 620 150, 680 250 S 800 380, 920 402'
     svg = (f'<svg width="960" height="500" viewBox="0 0 960 500">{grid}'
@@ -127,15 +127,16 @@ def s07():
            f'<path d="{info_down}" fill="none" stroke="{RED}" stroke-width="12" stroke-linecap="round" stroke-dasharray="2 22"/>'
            f'<circle cx="520" cy="62" r="20" fill="{EMERALD}"/><circle cx="520" cy="62" r="34" fill="none" stroke="{EMERALD}" stroke-width="4" opacity=".5"/>'
            f'<circle cx="920" cy="402" r="16" fill="{RED}"/>{months}</svg>')
-    tags = (f'<div class="abs" style="left:78px;top:276px">{block("main business", 36, pad="6px 22px 16px", radius=999)}</div>'
-            f'<div class="abs" style="left:610px;top:70px;font-size:34px;font-weight:700;color:{EMERALD};letter-spacing:-.6px">info side<br>peaks</div>'
-            f'<div class="abs" style="left:660px;top:376px;font-size:34px;font-weight:700;color:{RED};letter-spacing:-.6px">and quietly dies</div>')
-    body = scene(img, .78, .6, .7)
-    body += at(262, p("that's where most people " + ul("plateau."), 84, 700, lh=1.06, ls=-3)
+    tags = (f'<div class="abs" style="left:40px;top:172px">{block("main business", 32, pad="4px 20px 14px", radius=999)}</div>'
+            f'<div class="abs" style="left:30px;top:20px;width:300px;text-align:right;font-size:36px;font-weight:700;color:{EMERALD};letter-spacing:-.6px">info side<br>peaks here</div>'
+            f'<div class="abs" style="left:380px;top:318px;font-size:36px;font-weight:700;color:{INK};letter-spacing:-.6px">and quietly dies</div>')
+    body = scene(img, .84, .8, .84)
+    body += at(330, p("that's where most people " + ul("plateau."), 84, 700, lh=1.06, ls=-3)
                + p("then they pick the main business, because that's what keeps food on the table.", 46, ls=-1, mt=34)
                + p("and the info side dies quietly.", 46, ls=-1, mt=20)
                + p("none of that is your fault.", 46, 700, ls=-1, mt=20))
-    body += at(900, svg, left=60, width=960) + f'<div class="abs" style="left:60px;top:900px;width:960px;height:500px">{tags}</div>'
+    body += '<div class="abs" style="left:0;top:790px;width:1080px;height:830px;background:linear-gradient(180deg,rgba(11,12,13,0) 0%,rgba(11,12,13,.88) 14%,rgba(11,12,13,.88) 86%,rgba(11,12,13,0) 100%)"></div>'
+    body += at(1020, svg, left=60, width=960) + f'<div class="abs" style="left:60px;top:1020px;width:960px;height:500px">{tags}</div>'
     return body
 
 
@@ -144,9 +145,9 @@ def s08():
     img = prep_photo_full(47, 'p08.png')
     top = ''.join(f'<div style="width:120px;height:120px;border-radius:50%;background:{SILVER};color:{GRAPH};display:grid;place-items:center;font-size:62px;font-weight:700;'
                   f'letter-spacing:-2px;box-shadow:0 12px 34px rgba(0,0,0,.5)">{i+1}</div>' for i in range(4))
-    new = ''.join(f'<div style="width:{sz}px;height:{sz}px;border-radius:50%;background:{EMERALD};color:{GRAPH};display:grid;place-items:center;font-size:{int(sz*.28)}px;font-weight:700;'
-                  f'opacity:{op};margin-top:{mt}px">new</div>' for sz, op, mt in [(70, .55, 18), (84, .75, 4), (98, .9, 22), (112, 1, 0)])
-    arrow = (f'<svg width="120" height="150" viewBox="0 0 120 150"><path d="M20 140 C 30 70, 70 40, 92 14" fill="none" stroke="{EMERALD}" stroke-width="9" stroke-linecap="round"/>'
+    new = ''.join(f'<div style="width:{sz}px;height:{sz}px;border-radius:50%;background:{EMERALD};color:{GRAPH};display:grid;place-items:center;font-size:{int(sz*.3)}px;font-weight:700;'
+                  f'opacity:{op};margin-top:{mt}px">new</div>' for sz, op, mt in [(92, .6, 16), (106, .78, 4), (120, .92, 20), (136, 1, 0)])
+    arrow = (f'<svg width="140" height="170" viewBox="0 0 120 150"><path d="M20 140 C 30 70, 70 40, 92 14" fill="none" stroke="{EMERALD}" stroke-width="9" stroke-linecap="round"/>'
              f'<path d="M62 8 L 100 8 L 98 46" fill="none" stroke="{EMERALD}" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg>')
     rows = (f'<div class="label" style="margin-top:34px">the top of every niche: 3 or 4 names</div>'
             f'<div style="display:flex;gap:26px;margin-top:16px">{top}</div>'

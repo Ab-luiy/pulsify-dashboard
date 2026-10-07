@@ -3,10 +3,12 @@ type: playbook
 tags: [content, instagram, story-sequences, design, product]
 sources: [[content-engine/pulsify-saas-highlight-14-slide]], [[synthesis/saas-highlight-codex-guidance]], [[content-engine/sequence-carousel-design-system]], [[content-engine/sequence-breakdowns/siggyfoss-proof-design]]
 created: 2026-10-07
-updated: 2026-10-07
+updated: 2026-10-08
 ---
 
 # Story sequence design procedure (the Pulsify standard)
+
+> Reading order, updated 2026-10-08: the founder's later Whole-photo rule below supersedes the older cover-crop instruction in procedure step 2 for the active highlight. Earlier build status paragraphs are historical snapshots, not current completion status. [[synthesis/story-reference-forensic-audit-2026-10-08]] now supplies the complete 57-image design/copy study and source atlas. Read the relevant original frames before choosing a composition. A new photo per slide, three typography voices and giant numbers are not universal reference requirements; purposeful repetition and simpler type-led frames are documented options. Keep current locked copy and explicit founder choices unless separately changed.
 
 How a Pulsify story sequence is designed, learned while building the SaaS highlight (slides 1, 3, 12 in output/highlight-saas/claude-v2/). It is written so it can be offloaded into the app and run for clients with the same standard. The code that produced it is the proof: build5.py (templates), matte.py + final1.py (subject cut-out and logo behind the subject).
 
@@ -62,7 +64,8 @@ Photos are shown whole: never cropped to fill, never painted over with a flat fi
 
 ## Connections
 
-- [[playbooks/story-sequence-system]] (types, cadence, copy), [[content-engine/sequence-carousel-design-system]] (annotation grammar), [[content-engine/pulsify-saas-highlight-14-slide]] (the locked copy and photo mapping), [[synthesis/saas-highlight-codex-guidance]].
+- [[synthesis/story-reference-forensic-audit-2026-10-08]] - slide-by-slide evidence, composition gates, profile demonstrations, layering and copy transitions
+- [[frameworks/story-sequence-system]] (types, cadence, copy), [[content-engine/sequence-carousel-design-system]] (annotation grammar), [[content-engine/pulsify-saas-highlight-14-slide]] (the locked copy and photo mapping), [[synthesis/saas-highlight-codex-guidance]].
 
 ## Open questions / gaps
 

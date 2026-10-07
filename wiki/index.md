@@ -314,3 +314,5 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 - [[content-engine/sequence-breakdowns/siggyfoss-proof-design]] — Eight founder-uploaded stories: photo treatment, foreground masks, proof cards, detail magnification, visual pathway and asset requirements; partial-sequence and unverified-claim limits. [content, design, stories] 2026-10-04.
 
 - [[playbooks/story-sequence-design-procedure]] - the Pulsify story-sequence design standard and build procedure (palette, photo handling, logo behind subject, matte, QA); playbook, 2026-10-07
+- [[content-engine/story-design-reference-standard]] - what the reference story sequences actually do, rule by rule; framework, 2026-10-08
+- [[synthesis/story-reference-forensic-audit-2026-10-08]] - all 57 images across seven story sets inspected individually; complete slide ledger and visual atlas, Niksetting/Brez comparison, copy transitions, profiles, shapes, layering, branding, corrected reference rules and proposed Pulsify quality/measurement standard. [content, offer, funnel, design] 2026-10-08

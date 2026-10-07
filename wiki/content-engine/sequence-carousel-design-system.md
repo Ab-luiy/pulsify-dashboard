@@ -3,10 +3,12 @@ type: framework
 tags: [content, instagram, design, story-sequences, carousels]
 sources: [[wiki/content-engine/sequence-breakdowns/niksetting-new-here]], [[wiki/frameworks/carousel-system]], [[raw-sources/inspiration/story-sequences/niksetting/new-here]], [[raw-sources/inspiration/carousels/niksetting]]
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-10-08
 ---
 
 # The sequence and carousel design system
+
+> Scope update 2026-10-08: the original rules below describe the New here capture and carousel corpus. [[synthesis/story-reference-forensic-audit-2026-10-08]] examines all 57 stored story images and supplies the broader story standard. Its seven-set comparison shows meaningful abstract figures, multiple type modes, purposeful photo repetition and color roles that vary by sequence. Red can emphasize a positive result; not every headline uses a white pill; a coherent component family need not impose one composition. Keep the original source observations in their scope. Current founder constraints in [[playbooks/story-sequence-design-procedure]] control the active highlight. Adopting reference craft does not validate its financial claims or guarantee the same performance.
 
 The distinctive part of a story sequence or carousel is the design as much as the copy. This page locks the visual grammar, read directly from the captured Niksetting frames (18 sequence slides, 3 full carousels), so the generators can output design direction per slide, not just words. The rule that governs the whole thing: keep every design move, swap the currency. His frames sell with lifestyle; ours sell with student proof. The design language is currency-neutral and ports 1 to 1.
 
@@ -66,6 +68,7 @@ Colour-coded pills that let a reader absorb metadata without reading prose. On t
 
 ## Connections
 
+- [[synthesis/story-reference-forensic-audit-2026-10-08]] - all seven story sets, slide-level visual evidence and corrections to universal interpretations
 - [[content-engine/sequence-breakdowns/niksetting-new-here]] — the slide-by-slide capture this grammar is read from.
 - [[frameworks/carousel-system]] — the three carousel structures this is the design layer for.
 - [[frameworks/story-sequence-system]] — the copy and type architecture the design wraps.

@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| wiki/synthesis/story-reference-forensic-audit-2026-10-08.md; wiki/content-engine/story-design-reference-standard.md; wiki/content-engine/sequence-carousel-design-system.md; wiki/playbooks/story-sequence-design-procedure.md; wiki/index.md; wiki/log.md append; output/story-reference-audit-2026-10-08/** | CODEX | DONE | 2026-10-08: all 57 originals inspected; complete audit/atlas and corrected reference guidance saved and verified. This task locks cleared; existing Claude output untouched. |
 | output/standard-preview workers/sync/src/jobs/instagram.js, tests/instagram-sync.test.mjs, functions/_shared/{content-learning,carousel-prompt}.js, functions/api/{studio-carousels,studio-generate,studio-feedback}.js, migrations/0058, tests/carousel-learning.test.mjs; pulsify-saas src/features/reviews, src/lib/api/reviews.ts, tests/reviews.spec.ts + fixtures | CLAUDE | DONE | 2026-10-08: gaps 1 and 2 released (migration 0058, Pages, pulsify-sync, saas 6c98e25). Locks cleared. |
 | wiki/synthesis/saas-highlight-codex-guidance.md; claude-memory/project_saas_story_launch.md; claude-memory/MEMORY.md and matching live Claude memory; wiki/log.md append; output/highlight-saas/project/reference-review/claude-design-handoff-2026-10-07* | CODEX | DONE | 2026-10-07: full briefing/feedback saved and live memory verified; direct Claude call failed expired authentication, no acknowledgement. Locks cleared. |
 | output/highlight-saas/**; wiki/synthesis/saas-highlight-codex-guidance.md; wiki/log.md append; temporary Example capture sessions | CODEX | DONE | 2026-10-06: product4 review exported and verified; genuine labelled demo crops, substantial figures/arrows, integrated flat mark. Capture sessions removed; locks cleared. |
@@ -419,3 +420,24 @@ Round 3 rebuild (slides_r2.py, engine.prep_photo_full): whole uncropped photos, 
 
 ### [2026-10-08 00:55] CLAUDE
 Released gaps 1 and 2. Migration 0058 applied to live D1. Pages deploy d194d8ee (carousel rules/examples, app export saas 6c98e25 with carousels in Reviews). pulsify-sync deployed (Instagram on Zernio). Live run id 45197/45199 = success: 420 followers, 18 posts with metrics, reach_30d 82, views_30d 184; 5 stories rows. Temp trigger route and secret TMP_TRIGGER were added for the run and removed; crons unchanged (5 of 5, the account is at the free 5-cron limit, so no cron can be added). Noted: lead-models job errors every ~10 min since 21:13 UTC (not mine, not investigated).
+
+### [2026-10-08] CLAUDE
+Founder asked for more mockups of slides 6, 7, 8. Built options B and C for each (claude-v2/variants.py): 06b tab strip with 12 crushed tabs, 06c 2:07am lock screen with notifications, 07b grouped bars, 07c draining battery, 08b leaderboard with a new entrant, 08c orbit of new faces. Current picks 06/07/08 redesigned too (pile of tools, two-line chart, ranked circles with new arrivals); 12 lost the "9 paid x $7,000" line. Sheet at claude-v2/mockups.jpg. Nothing locked.
+
+### [2026-10-08] CLAUDE
+Founder asked to revisit the existing story-sequence references and replicate them for slides 6/7/8. Re-read Niksetting sequence 2 (tag pile, timeline cards with dots, translucent funnel over photo). Built 06d (pile of 36 tilted tool tags), 07d (floating month cards tied to coloured dots), 08d (translucent pyramid TOP/NEW labels) in claude-v2/refstyle.py; ref-compare.jpg shows his slide beside mine. Nothing locked.
+
+### [2026-10-08] CLAUDE
+Re-studied every reference at full res and wrote the rules to wiki/content-engine/story-design-reference-standard.md. Rebuilt 6/7/8 as 06e/07e/08e (claude-v2/refstyle2.py): real-looking artifacts (browser at 2:07 AM with 14 tabs + hand ring; Discord-style message timeline with coloured dots; translucent bands off the right edge with outlined labels), Helvetica + Georgia serif voice. Not swapped into the full set yet.
+
+### [2026-10-08] CLAUDE
+Option (b) type-only 06t/07t/08t (claude-v2/typeonly.py) and option (c) exact layout copies 06r = Brez 4, 07r = Nik seq3 slide 7 (claude-v2/copyref.py, side-by-side copyref.jpg). Locked copy only. Awaiting founder verdict.
+
+### [2026-10-08] CODEX
+START full founder-requested examination of all seven stored story sequences (57 source images): design components, typography, photo/subject layering, profiles/proof, copy and slide-to-slide persuasion. Sources remain immutable. Claim audit output, synthesis, reference standard and cross-links/index/log only. Existing Claude uncommitted claude-v2 revisions and standard/index additions recognized; preserve them. No visual rebuild, publication or cross-call in scope.
+
+### [2026-10-08 02:38] CODEX
+DONE founder-requested full story reference examination. New wiki/synthesis/story-reference-forensic-audit-2026-10-08.md (~10,800 words including all 57 per-file notes) and output/story-reference-audit-2026-10-08/ atlas, observations, manifest, reproducible scripts, verification and preview screenshots. Updated wiki/content-engine/story-design-reference-standard.md (meaningful shapes allowed; source-specific type/color/photo/line observations), wiki/content-engine/sequence-carousel-design-system.md (scope), wiki/playbooks/story-sequence-design-procedure.md (later whole-photo precedence/link), wiki/index.md and wiki/log.md. Attribution corrected: shelby-sapp images are posted by kobeynguyen about Shelby. No measured performance inferred from screenshots. Coverage57/57, unchanged source hashes/decodes,60 local links, atlas filters and mobile layout verified; rendered desktop/mobile inspected. Existing Claude claude-v2 changes preserved; no artwork rewrite, locked copy change, publication or cross-call. Exact17-file task inventory in output/story-reference-audit-2026-10-08/README.md. This task locks cleared; unrelated older Codex locks unchanged. Expected coordinated worktree changes verified; mandatory normal backup follows.
+
+### [2026-10-08 02:40] CODEX
+Backup recovery: normal script skipped a zero-byte index.lock last modified01:04. Verified zero git processes, backup task Ready and lock age95minutes; moved the stale lock intact into Windows Temp before retrying normal backup. No index/worktree reset or source changes.
