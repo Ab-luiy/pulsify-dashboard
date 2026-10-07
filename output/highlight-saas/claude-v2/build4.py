@@ -14,14 +14,20 @@ MARK = os.path.join(ROOT, 'brand', 'logo', 'mark.svg').replace('\\', '/')
 FLOW = os.path.join(ROOT, 'output', 'highlight-saas', 'project', 'html', 'assets', 'product', 'funnel-flow.png').replace('\\', '/')
 
 
-def prep(name, out, focus=(0.5, 0.5)):
+def prep(name, out, focus=(0.5, 0.5), shift=0):
     """Cover-crop only. No exposure change: the photos stay as shot."""
     im = ImageOps.exif_transpose(Image.open(os.path.join(UP, name))).convert('RGB')
     s = max(W / im.width, H / im.height)
     im = im.resize((int(im.width * s), int(im.height * s)), Image.LANCZOS)
     x = int((im.width - W) * focus[0]); y = int((im.height - H) * focus[1])
     p = os.path.join(HERE, 'img', out)
-    im.crop((x, y, x + W, y + H)).save(p, quality=94)
+    crop = im.crop((x, y, x + W, y + H))
+    if shift:
+        top = crop.crop((0, 0, W, 6)).resize((1, 1), Image.LANCZOS).getpixel((0, 0))
+        canvas = Image.new('RGB', (W, H), top)
+        canvas.paste(crop, (0, shift))
+        crop = canvas
+    crop.save(p, quality=94)
     return p.replace('\\', '/')
 
 
@@ -64,8 +70,8 @@ def scene(img, top, mid, bot):
 
 
 def slide1():
-    img = prep('14-IMG_8690.JPEG', 's1.jpg', (0.41, 0.5))
-    body = scene(img, .55, .0, .35) + f'''
+    img = prep('14-IMG_8690.JPEG', 's1.jpg', (0.41, 0.5), shift=250)
+    body = scene(img, .35, .0, .3) + f'''
     <div class="abs" style="left:72px;top:250px">{navpill()}</div>
     <div class="abs" style="left:72px;top:372px;width:936px">
       <div style="font-size:54px;line-height:1.1;white-space:nowrap;letter-spacing:-1px">i've been working on this for</div>
@@ -110,11 +116,9 @@ def slide12():
     <div class="abs" style="left:72px;top:470px;width:600px;font-size:100px;line-height:1.02;font-weight:700;letter-spacing:-4.5px">"you never<br>post <span style="display:inline-block;background:{SILVER};color:{GRAPH};padding:0 22px 12px;border-radius:16px">blind</span><br>again."</div>
     <div class="abs" style="left:72px;top:800px;width:290px">{underline(290)}</div>
     <div class="abs" style="left:66px;top:880px;width:960px">
-      <div style="display:flex;align-items:flex-end;gap:30px">
-        <div style="font-size:250px;line-height:.85;font-weight:700;letter-spacing:-14px;color:{INK}">22</div>
-        <div class="label" style="padding-bottom:14px">booked calls</div>
-      </div>
-      <div style="margin-top:36px;font-size:222px;line-height:.85;font-weight:700;letter-spacing:-12px;color:{EMERALD}">$7,500</div>
+      <div style="font-size:250px;line-height:.85;font-weight:700;letter-spacing:-14px;color:{INK}">22</div>
+      <div class="label" style="margin-top:18px">booked calls</div>
+      <div style="margin-top:30px;font-size:210px;line-height:.85;font-weight:700;letter-spacing:-12px;color:{EMERALD}">$7,500</div>
       <div class="label" style="margin-top:20px">cash collected</div>
     </div>
     <div class="abs" style="left:56px;top:1402px;width:968px;background:rgba(20,21,24,.9);border:1px solid rgba(255,255,255,.12);border-radius:30px;padding:22px 24px">
