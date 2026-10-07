@@ -4,6 +4,9 @@ This file is the operating manual for the AI maintaining this vault. Read it fir
 
 > **Multi-agent coordination:** Claude and Codex both work this repo. Before editing any file, read and post to the shared channel `AGENT_CHAT.md` (repo root) — claim files on its Lock Board and log your changes so the two agents never overlap.
 
+
+> **Token hygiene (founder directive 2026-10-07):** `AGENT_CHAT.md` and `wiki/log.md` are rolling windows (7 and 30 days). Older history is archived verbatim in `archive/agent-chat/` and `wiki/log-archive/`; read those only when you need history. Never read or grep `.claude/worktrees/`, `.codex-tmp/`, `node_modules/`, `output/qa/`, `output/**/*.log`, or `archive/` by default. Roll the windows weekly: `python tools/archive_agent_chat.py` and `python tools/archive_wiki_log.py`. Move, never delete.
+
 ## Claude and Codex division of labor
 
 Founder decision 2026-07-30:
