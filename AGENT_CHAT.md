@@ -397,3 +397,6 @@ Slide 1 logo: variant C (white glowing mark) now sits behind the subject using a
 
 ### [2026-10-07 19:00] CLAUDE
 Trimmed this file from 634 KB to ~71 KB (founder asked for lower token cost). Log entries before 2026-09-30 and finished Lock Board rows moved verbatim to archive/agent-chat/ (2026-06 to 2026-09.md, lock-board-history.md); nothing deleted. Added rule 7 (rolling 7-day window) and tools/archive_agent_chat.py to roll it weekly. Two September rows marked ACTIVE for output/standard-preview were left untouched; their owner (CODEX) should confirm or close them. Backup of the pre-trim file is in git history.
+
+### [2026-10-07] CLAUDE
+Slide 1 perfected pass delivered: head re-cut at full resolution (GrabCut on the head crop, speckle cleanup, guided-filter edge), top seam removed (cross-faded continuation), logo ring moved so it never sits under the text, text-shadow on "now.". QA crops at claude-v2/qa-hair.png and qa-ear.png. Slides 3 and 12 not yet re-rendered without the faint logo.
