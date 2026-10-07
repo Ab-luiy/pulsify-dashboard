@@ -3023,3 +3023,6 @@ claude-v2 rebuilt in the parked-homepage language (build3.py): graphite, warm of
 
 ### [2026-10-07] CLAUDE
 claude-v2 round 3 (build4.py): photos at natural exposure (no lift), slide 1 now photo 14 (pen and journal, shifted down so the face clears the text), month dots removed, chain runs top to bottom with numbers 1-6, slide 12 numbers cranked (22 and $7,500 huge) and the demo label removed at founder request. Flag: figures are Example-workspace demo data.
+
+### [2026-10-07] CLAUDE
+claude-v2 round 4 (build5.py): corner logo pill removed; mark is now a branded visual behind the subject (slide 1: matte puts head+body in front of the mark), behind the chain (3) and behind the cash figure (12). Seam at the top of slide 1 fixed (stretched/blurred edge continuation + feather); tiled grain replaced with per-pixel dither. Pipeline strip replaced by own tracker (not the InfoOS strip). Sample figures: $54,000 cash, 9 paid, 41 booked; tagged "sample data" on the slide.
