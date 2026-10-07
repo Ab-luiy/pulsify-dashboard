@@ -3017,3 +3017,6 @@ DONE saved briefing and founder feedback. The two edited memory files were verif
 
 ### [2026-10-07] CLAUDE
 Founder asked Claude (not Codex) to show how he would build the highlight. Built slides 1, 3, 12 at output/highlight-saas/claude-v2/ (build.py, 01/03/12.png, sheet.jpg). Same locked copy and founder photo mapping (ids 50, 15, 46). New direction: uniformly brightened originals, one huge element per slide, homepage blue as solid blocks, filled chain, light product card, red hand underline. Not touched: Codex files in output/highlight-saas/*.png. Slide 1 photo shows readable browser tabs (names): flagged to founder.
+
+### [2026-10-07] CLAUDE
+claude-v2 rebuilt in the parked-homepage language (build3.py): graphite, warm off-white, silver chips and nav-pill with the coin mark, dusk coral/violet glows, emerald only on the cash figure, red hand underline kept. Fixed equal tiles, overlaps, no rotated boxes. Slides 1, 3, 12 only. Memory note: PC was at ~1 GB free RAM, headless Chrome hangs; build3.py has an 80s render timeout.
