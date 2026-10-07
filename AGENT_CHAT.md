@@ -407,3 +407,6 @@ Content-generator gaps. Gap 1: live sync_runs show three stacked causes (posts t
 
 ### [2026-10-07] CLAUDE
 Slide 1 rebuilt with the founder-supplied background-removed cutout as the matte (img/cutout.png, alignment checked). Hair, ear/headphone and shoulder edges inspected at zoom: clean. Procedure doc updated: bg-removed cutout is the preferred matte route.
+
+### [2026-10-07] CLAUDE
+Slide 1 zoomed out about 17 percent (SHIFT=330, FOCUS_X=0.378 in claude-v2/final1.py; patch_zoom.py applied). Head still clear of the headline block, cutout edge clean at 2x, top of frame seamless.
