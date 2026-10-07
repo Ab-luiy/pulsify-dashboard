@@ -1,22 +1,95 @@
-"""Slide 1 with the glowing white logo (variant C) truly behind the subject, using the GrabCut matte.
-Also re-renders slides 3 and 12 without the faint background logo (logo appears on slide 1 and the video slide only)."""
-import os, re
-import numpy as np
-from PIL import Image, ImageDraw, ImageFilter, ImageChops
+"""Slide 1, perfected pass.
+ - logo (white glowing mark) truly behind the subject
+ - matte edge refined with a guided filter on the head (follows hair strands, no dark fringe)
+ - top of the photo cross-faded into a continuous fill (no visible seam)
+ - logo placed so it never sits under the text lines
+Run: python final1.py   (needs img/matte1.png from matte.py)
+"""
+import os
+import numpy as np, cv2
+from PIL import Image, ImageFilter, ImageChops
 import build5 as b
 
 W, H = b.W, b.H
 
 
-def bg1():
-    base = b.extend_top(b.cover('14-IMG_8690.JPEG', (0.41, 0.5)), 250)
-    m = Image.open(os.path.join(b.HERE, 'img', 'matte1.png')).convert('L')
-    d = ImageDraw.Draw(m)
-    m = m.filter(ImageFilter.GaussianBlur(1.4))
+def smoothstep(x, a, b_):
+    t = np.clip((x - a) / (b_ - a), 0, 1)
+    return t * t * (3 - 2 * t)
 
+
+def photo_with_seamless_top(shift=250, fade=320):
+    crop = b.cover('14-IMG_8690.JPEG', (0.41, 0.5))
+    arr = np.asarray(crop).astype(np.float32)
+    row = arr[:24].mean(axis=0)                              # average colour of the photo's own top rows, per column
+    row = cv2.GaussianBlur(row.reshape(1, W, 3), (0, 0), 70).reshape(W, 3)
+    canvas = np.empty((H, W, 3), np.float32)
+    canvas[:] = row[None]                                    # flat continuation of the top edge
+    canvas[shift:] = arr[:H - shift]
+    # cross-fade the first `fade` rows of the photo into the continuation
+    y = np.arange(H, dtype=np.float32)
+    t = smoothstep(y, shift, shift + fade)[:, None, None]
+    flat = np.empty_like(canvas); flat[:] = row[None]
+    canvas = flat * (1 - t) + canvas * t
+    return Image.fromarray(np.clip(canvas, 0, 255).astype(np.uint8))
+
+
+def guided(I, p, r, eps):
+    box = lambda x: cv2.boxFilter(x, -1, (2 * r + 1, 2 * r + 1))
+    mI, mp = box(I), box(p)
+    var = box(I * I) - mI * mI
+    cov = box(I * p) - mI * mp
+    a = cov / (var + eps)
+    bb = mp - a * mI
+    return box(a) * I + box(bb)
+
+
+def refined_matte(base):
+    m = np.asarray(Image.open(os.path.join(b.HERE, 'img', 'matte1.png')).convert('L')).astype(np.float32) / 255
+    x0, y0, x1, y1 = 340, 480, 960, 1180                      # head, hair, headphones, shoulders-top
+    rgb = np.asarray(base)[y0:y1, x0:x1]
+    lift = cv2.LUT(rgb, (255 * (np.arange(256) / 255.0) ** 0.42).astype(np.uint8))
+    I = cv2.cvtColor(lift, cv2.COLOR_RGB2GRAY).astype(np.float32) / 255
+    p = m[y0:y1, x0:x1].copy()
+    hard = (p > .5).astype(np.uint8)
+    # pass 1: full-resolution GrabCut on the head crop, initialised from the coarse matte
+    core = cv2.erode(hard, np.ones((29, 29), np.uint8))
+    outer = cv2.dilate(hard, np.ones((29, 29), np.uint8))
+    gm = np.full(hard.shape, cv2.GC_BGD, np.uint8)
+    gm[outer > 0] = cv2.GC_PR_BGD
+    gm[hard > 0] = cv2.GC_PR_FGD
+    gm[core > 0] = cv2.GC_FGD
+    bgr = cv2.cvtColor(lift, cv2.COLOR_RGB2BGR)
+    bd, fd = np.zeros((1, 65), np.float64), np.zeros((1, 65), np.float64)
+    cv2.grabCut(bgr, gm, None, bd, fd, 5, cv2.GC_INIT_WITH_MASK)
+    fg = np.where((gm == cv2.GC_FGD) | (gm == cv2.GC_PR_FGD), 255, 0).astype(np.uint8)
+    # pass 2: remove speckle and stair-steps
+    fg = cv2.medianBlur(fg, 9)
+    fg = cv2.morphologyEx(fg, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7)))
+    fg = cv2.morphologyEx(fg, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (11, 11)))
+    n, lab, st, _ = cv2.connectedComponentsWithStats(fg)
+    if n > 1:
+        fg = np.where(lab == 1 + np.argmax(st[1:, cv2.CC_STAT_AREA]), 255, 0).astype(np.uint8)
+    fgf = cv2.GaussianBlur(fg.astype(np.float32) / 255, (0, 0), 2.2)          # smooth contour
+    # pass 3: let the image decide the soft edge (strands), only in a thin band
+    q = np.clip(guided(I, fgf, 5, 1.5e-3), 0, 1)
+    band = cv2.dilate(fg, np.ones((15, 15), np.uint8)) - cv2.erode(fg, np.ones((15, 15), np.uint8))
+    q = smoothstep(q, .30, .80)
+    out = np.where(band > 0, q, fgf)
+    out = cv2.GaussianBlur(out.astype(np.float32), (0, 0), 1.1)
+    # keep the coarse matte outside the head crop's inner area (shoulders)
+    keep = np.zeros_like(out); keep[40:-40, 40:-40] = 1
+    keep = cv2.GaussianBlur(keep, (0, 0), 14)
+    m[y0:y1, x0:x1] = out * keep + p * (1 - keep)
+    return Image.fromarray((np.clip(m, 0, 1) * 255).astype(np.uint8))
+
+
+def bg1():
+    base = photo_with_seamless_top()
+    m = refined_matte(base)
     flat = Image.open(b.MARKPNG).convert('RGBA').resize((980, 980), Image.LANCZOS)
     a = Image.new('L', (W, H), 0)
-    a.paste(flat.split()[3], (200, 350))
+    a.paste(flat.split()[3], (250, 500))                      # centre (740, 990): ring stays clear of the text lines
     bloom_a = a.filter(ImageFilter.GaussianBlur(26)).point(lambda v: int(v * .75))
     white = Image.new('L', (W, H), 255)
     bloom = Image.merge('RGBA', (white, white, white, bloom_a))
@@ -25,7 +98,7 @@ def bg1():
     wa = a.filter(ImageFilter.GaussianBlur(60)).point(lambda v: int(v * .5))
     scene = ImageChops.screen(base, ImageChops.multiply(warm, Image.merge('RGB', (wa, wa, wa))))
     scene = Image.alpha_composite(Image.alpha_composite(scene.convert('RGBA'), bloom), sharp).convert('RGB')
-    out = Image.composite(base, scene, m)               # subject in front, logo behind
+    out = Image.composite(base, scene, m)                     # subject in front, logo behind
     p = os.path.join(b.HERE, 'img', 's1.png')
     b.dither(out).save(p)
     return p.replace('\\', '/')
@@ -33,16 +106,6 @@ def bg1():
 
 if __name__ == '__main__':
     b.prep_slide1 = bg1
-    b.render('01', b.slide1())
-    import sys; sys.exit(0)
-    # drop the faint background logo from 3 and 12
-    src = open(os.path.join(b.HERE, 'build5.py'), encoding='utf-8').read()
-    src = re.sub(r'\n\s*<img class="abs" src="\{MARK_URL\}"[^\n]*', '', src)
-    open(os.path.join(b.HERE, 'build5.py'), 'w', encoding='utf-8').write(src)
-    import importlib; importlib.reload(b)
-    b.render('03', b.slide3()); b.render('12', b.slide12())
-    sheet = Image.new('RGB', (W * 3 // 2 + 40, H // 2), (20, 20, 20))
-    for i, n in enumerate(['01', '03', '12']):
-        sheet.paste(Image.open(os.path.join(b.HERE, n + '.png')).convert('RGB').resize((W // 2, H // 2)), (i * (W // 2 + 20), 0))
-    sheet.save(os.path.join(b.HERE, 'sheet.jpg'), quality=90)
+    html = b.slide1().replace('letter-spacing:-7px;margin-left:-6px">now.', 'letter-spacing:-7px;margin-left:-6px;text-shadow:0 0 26px rgba(0,0,0,.75)">now.')
+    b.render('01', html)
     print('ok')

@@ -123,3 +123,4 @@
 - [MVP first client plan](project_mvp_first_client.md) - 2026-10-02: sell done-for-you service, portal is the window; payments out of scope; plan at wiki/synthesis/mvp-plan-2026-10-02.md
 - [SaaS story launch](project_saas_story_launch.md) - 2026-10-07 founder rejects Codex design's lack of innovation; Claude briefing requested; own logo/photos/redesigned product visuals must form original compositions; product4 unapproved
 - [Brand logo kit](reference_brand_logo.md) - coin mark at brand/logo/, old P-Media logo retired; use in every design
+- [Perfection standard](feedback_perfection_standard.md) - HARD 2026-10-07: no known flaws shipped; zoom-inspect before showing; procedure saved at wiki/playbooks/story-sequence-design-procedure.md

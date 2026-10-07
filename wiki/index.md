@@ -312,3 +312,5 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 - [[visual-references/studies/pulsify-launch-2026-10-03/README]] — Individual motion reference observations, saved demos, contact sheets and streamed-media evidence limits. [design, brand] 2026-10-03.
 
 - [[content-engine/sequence-breakdowns/siggyfoss-proof-design]] — Eight founder-uploaded stories: photo treatment, foreground masks, proof cards, detail magnification, visual pathway and asset requirements; partial-sequence and unverified-claim limits. [content, design, stories] 2026-10-04.
+
+- [[playbooks/story-sequence-design-procedure]] - the Pulsify story-sequence design standard and build procedure (palette, photo handling, logo behind subject, matte, QA); playbook, 2026-10-07
