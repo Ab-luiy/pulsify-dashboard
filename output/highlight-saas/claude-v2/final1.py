@@ -11,6 +11,8 @@ from PIL import Image, ImageFilter, ImageChops
 import build5 as b
 
 W, H = b.W, b.H
+SHIFT = 330          # photo is moved down by this much; the top is a seamless continuation of the wall
+FOCUS_X = 0.378      # horizontal crop position so the face sits at about x=640
 
 
 def smoothstep(x, a, b_):
@@ -18,15 +20,19 @@ def smoothstep(x, a, b_):
     return t * t * (3 - 2 * t)
 
 
-def photo_with_seamless_top(shift=250, fade=320):
-    crop = b.cover('14-IMG_8690.JPEG', (0.41, 0.5))
-    arr = np.asarray(crop).astype(np.float32)
-    row = arr[:24].mean(axis=0)                              # average colour of the photo's own top rows, per column
+def photo_with_seamless_top(shift=SHIFT, fade=320):
+    orig = Image.open(os.path.join(b.UP, '14-IMG_8690.JPEG'))
+    from PIL import ImageOps
+    orig = ImageOps.exif_transpose(orig).convert('RGB')
+    sc = (H - shift) / orig.height                            # zoomed out: the whole photo height fits under the extension
+    im = orig.resize((int(orig.width * sc), H - shift), Image.LANCZOS)
+    x = int((im.width - W) * FOCUS_X)
+    arr = np.asarray(im.crop((x, 0, x + W, H - shift))).astype(np.float32)
+    row = arr[:24].mean(axis=0)
     row = cv2.GaussianBlur(row.reshape(1, W, 3), (0, 0), 70).reshape(W, 3)
     canvas = np.empty((H, W, 3), np.float32)
-    canvas[:] = row[None]                                    # flat continuation of the top edge
-    canvas[shift:] = arr[:H - shift]
-    # cross-fade the first `fade` rows of the photo into the continuation
+    canvas[:] = row[None]
+    canvas[shift:] = arr
     y = np.arange(H, dtype=np.float32)
     t = smoothstep(y, shift, shift + fade)[:, None, None]
     flat = np.empty_like(canvas); flat[:] = row[None]
@@ -87,17 +93,15 @@ def refined_matte(base):
 CUTOUT = os.path.join(b.HERE, 'img', 'cutout.png')           # founder's background-removed version of photo 14 (2000x1500, aligned to the original)
 
 
-def cutout_matte(shift=250):
-    """Alpha of the founder's background-removed photo, put through the same crop and shift as the photo itself."""
-    a = Image.open(CUTOUT).convert('RGBA').split()[3].resize((4032, 3024), Image.LANCZOS)
-    s = max(W / a.width, H / a.height)
-    a = a.resize((int(a.width * s), int(a.height * s)), Image.LANCZOS)
-    x = int((a.width - W) * 0.41); y = int((a.height - H) * 0.5)
-    crop = a.crop((x, y, x + W, y + H))
+def cutout_matte(shift=SHIFT):
+    """Alpha of the founder's background-removed photo, through the same zoom, crop and shift as the photo."""
+    sc = (H - shift) / 3024
+    a = Image.open(CUTOUT).convert('RGBA').split()[3].resize((int(4032 * sc), H - shift), Image.LANCZOS)
+    x = int((a.width - W) * FOCUS_X)
     m = Image.new('L', (W, H), 0)
-    m.paste(crop.crop((0, 0, W, H - shift)), (0, shift))
+    m.paste(a.crop((x, 0, x + W, H - shift)), (0, shift))
     arr = np.asarray(m).astype(np.float32) / 255
-    arr = smoothstep(arr, .18, .92)                            # tighten the soft fringe of the remover
+    arr = smoothstep(arr, .18, .92)
     return Image.fromarray((arr * 255).astype(np.uint8))
 
 
