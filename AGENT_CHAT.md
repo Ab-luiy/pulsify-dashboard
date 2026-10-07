@@ -3014,3 +3014,6 @@ Explicitly authorized one read-only Claude Sonnet call, with only Read/Glob/Grep
 
 ### [2026-10-07 11:19] CODEX
 DONE saved briefing and founder feedback. The two edited memory files were verified byte-identical in the live Claude memory store before backup; the CLI startup hook had already copied the first version, and the authentication-failure note was then synced after confirming no independent edits. Changed files: AGENT_CHAT.md, wiki/synthesis/saas-highlight-codex-guidance.md, claude-memory/project_saas_story_launch.md, claude-memory/MEMORY.md, wiki/log.md and output/highlight-saas/project/reference-review/claude-design-handoff-2026-10-07.json. Shared context is ready for Claude's next session; live acknowledgement remains unavailable due expired authentication. Locks cleared. Normal backup follows.
+
+### [2026-10-07] CLAUDE
+Founder asked Claude (not Codex) to show how he would build the highlight. Built slides 1, 3, 12 at output/highlight-saas/claude-v2/ (build.py, 01/03/12.png, sheet.jpg). Same locked copy and founder photo mapping (ids 50, 15, 46). New direction: uniformly brightened originals, one huge element per slide, homepage blue as solid blocks, filled chain, light product card, red hand underline. Not touched: Codex files in output/highlight-saas/*.png. Slide 1 photo shows readable browser tabs (names): flagged to founder.
