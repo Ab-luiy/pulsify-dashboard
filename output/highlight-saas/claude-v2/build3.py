@@ -64,18 +64,18 @@ def scene(img, top, mid, bot):
 
 def slide1():
     img = prep('50-IMG_7545.JPEG', 's1.jpg', 0.55, (0.5, 0.6))
-    dots = ''.join(f'<div style="width:62px;height:62px;border-radius:50%;background:{SILVER};color:{GRAPH};display:grid;place-items:center;font-size:28px;font-weight:700">{m}</div>' for m in 'JFMAMJJASOND')
-    body = scene(img, .88, .62, .05) + f'''
-    <div class="abs" style="left:72px;top:262px">{navpill()}</div>
-    <div class="abs" style="left:72px;top:392px;width:936px">
-      <div style="font-size:56px;line-height:1.1;white-space:nowrap">i've been working on this for</div>
-      <div style="display:inline-block;margin:26px 0 6px -4px;background:{SILVER};color:{GRAPH};padding:22px 40px 48px;border-radius:26px;font-size:148px;line-height:1;font-weight:700;letter-spacing:-6px;white-space:nowrap">a whole year</div>
-      <div style="font-size:148px;line-height:.95;font-weight:700;letter-spacing:-6px;margin-left:-4px">now.</div>
-      <div style="display:flex;justify-content:space-between;width:936px;margin-top:44px">{dots}</div>
-      <div style="margin-top:54px;font-size:46px;line-height:1.24">because everyone in this space<br>is stuck on the same problem.</div>
-      <div style="margin:-2px 0 0 262px;width:360px">{underline(360)}</div>
+    dots = ''.join(f'<div style="width:50px;height:50px;border-radius:50%;background:{SILVER};color:{GRAPH};display:grid;place-items:center;font-size:23px;font-weight:700">{m}</div>' for m in 'JFMAMJJASOND')
+    body = scene(img, .88, .6, .05) + f'''
+    <div class="abs" style="left:72px;top:250px">{navpill()}</div>
+    <div class="abs" style="left:72px;top:352px;width:936px">
+      <div style="font-size:52px;line-height:1.1;white-space:nowrap">i've been working on this for</div>
+      <div style="display:inline-block;margin:20px 0 4px -4px;background:{SILVER};color:{GRAPH};padding:16px 40px 40px;border-radius:24px;font-size:128px;line-height:1;font-weight:700;letter-spacing:-5px;white-space:nowrap">a whole year</div>
+      <div style="font-size:128px;line-height:.95;font-weight:700;letter-spacing:-5px;margin-left:-4px">now.</div>
+      <div style="display:flex;justify-content:space-between;width:936px;margin-top:30px">{dots}</div>
+      <div style="margin-top:40px;font-size:42px;line-height:1.24">because everyone in this space<br>is stuck on the same problem.</div>
+      <div style="margin:-4px 0 0 238px;width:330px">{underline(330)}</div>
     </div>
-    <div class="abs" style="left:150px;top:1395px;width:800px;height:76px;backdrop-filter:blur(14px)"></div>'''
+    <div class="abs" style="left:190px;top:1005px;width:860px;height:80px;backdrop-filter:blur(18px);clip-path:polygon(0% 51%,100% 6%,100% 49%,0% 91%)"></div>'''
     return page(body)
 
 
