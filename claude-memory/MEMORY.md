@@ -121,5 +121,5 @@
 - [Main-only releases](feedback_main_only_releases.md) - HARD 2026-10-01: pulsify-saas main == live; release only from a clean pushed main; merge any peer's deployed...
 - [Portal feedback round 1](project_portal_feedback_round.md) - 2026-10-03 LIVE Pages 28461892: new Home, Funnel, YouTube/IG deck, calendar planner, Brand folders; owed list inside
 - [MVP first client plan](project_mvp_first_client.md) - 2026-10-02: sell done-for-you service, portal is the window; payments out of scope; plan at wiki/synthesis/mvp-plan-2026-10-02.md
-- [SaaS story launch](project_saas_story_launch.md) - 2026-10-04 highlight sequence about the app; answers file, no users yet, 5-trial plan, carousel+reel owed
+- [SaaS story launch](project_saas_story_launch.md) - 2026-10-07 founder rejects Codex design's lack of innovation; Claude briefing requested; own logo/photos/redesigned product visuals must form original compositions; product4 unapproved
 - [Brand logo kit](reference_brand_logo.md) - coin mark at brand/logo/, old P-Media logo retired; use in every design

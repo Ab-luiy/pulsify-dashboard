@@ -3,7 +3,7 @@ type: playbook
 tags: [content, instagram, design, story-sequences]
 sources: [[content-engine/pulsify-saas-highlight-14-slide]], [[synthesis/saas-highlight-annotation-plan]], [[synthesis/saas-highlight-design-brief]], [[content-engine/sequence-breakdowns/siggyfoss-proof-design]]
 created: 2026-10-06
-updated: 2026-10-06
+updated: 2026-10-07
 ---
 
 # Codex guidance: build the Pulsify highlight in the style of the reference sequences
@@ -11,6 +11,14 @@ updated: 2026-10-06
 Written after the founder uploaded more reference sequences and Claude viewed all of them (2026-10-06). This is the single page Codex reads. It supersedes any look decisions in the older brief where they differ. Copy is locked in [[content-engine/pulsify-saas-highlight-14-slide]]. Photos are chosen in the same file (table "Photo matches") and copied to output/highlight-saas/photos/.
 
 ## Founder override (2026-10-06, after first visual review)
+
+### Founder rejection of product4 and Claude handoff (2026-10-07)
+
+The founder remains dissatisfied after product4. He explicitly says Codex lacks the innovation required to produce very nice design, and asks that this be stressed to Claude. He wants Pulsify's logo, his own photographs and redesigned elements integrated into the story sequences. The current thicker arrows, charts and screenshot/card compositions are not creatively approved. Passing copy, font, geometry and provenance checks does not satisfy the visual quality requirement.
+
+The next direction must unify photography, brand identity, product detail and purposeful figures through an original composition. A small logo in a product header alone does not resolve the request. Reopen the archive images and study the actual typography, editing, visual weight and figures. Redesign relevant dashboard elements for the story format while preserving genuine functionality and truthful data. Do not default to another round of mechanically enlarging icons or pasting UI cards over photos. Preserve the founder's earlier photo/type/underline constraints and locked copy. The full Claude handoff is in AGENT_CHAT.md under 2026-10-07. Direct briefing was attempted, but Claude authentication expired and no acknowledgement was obtained; the saved shared context is ready for the next Claude session.
+
+Latest implementation evidence: output/highlight-saas/visual-revision.jpg and full-size stills, editable project/html/toolkit.js and toolkit.css, actual Example crops under project/html/assets/product, and project/reference-review/product-visuals-review.md. Current state is a rejected review draft, not a final or approved sequence. Slide11 photo and11/13/14 framing remain unresolved;9 is founder-owned.
 
 This revision controls over the historical treatments below. Use the exact filename/photo table in [[content-engine/pulsify-saas-highlight-14-slide]]. Photos intentionally repeat on 1/2, 7/8 and 13/14. Slide 2 receives Gaussian blur. Keep photos visible with uniform exposure changes; do not mask away half the image or fade it through the middle. Underlines are red, hand-drawn and nearly horizontal. Use the approved slide 8 typography as the baseline (57px bold first line, 46px regular body, 69px closing quote). Remove the opening "so" from 4 and 5 only. Slide 3 uses written labels connected by open wires/arrows, without a rounded dark block. Replace generic blue cards with relevant icons, diagrams and figures drawn from the archive's craft. The founder handles slide 9. Retain backgrounds on 4, 10 and 11. Put slide 11's supporting copy in the bottom half if it reads clearly. Founder requested both framing previews for landscape slides 11, 13 and 14; selection remains pending. Review at output/highlight-saas/comparisons.html.
 
