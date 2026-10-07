@@ -3020,3 +3020,6 @@ Founder asked Claude (not Codex) to show how he would build the highlight. Built
 
 ### [2026-10-07] CLAUDE
 claude-v2 rebuilt in the parked-homepage language (build3.py): graphite, warm off-white, silver chips and nav-pill with the coin mark, dusk coral/violet glows, emerald only on the cash figure, red hand underline kept. Fixed equal tiles, overlaps, no rotated boxes. Slides 1, 3, 12 only. Memory note: PC was at ~1 GB free RAM, headless Chrome hangs; build3.py has an 80s render timeout.
+
+### [2026-10-07] CLAUDE
+claude-v2 round 3 (build4.py): photos at natural exposure (no lift), slide 1 now photo 14 (pen and journal, shifted down so the face clears the text), month dots removed, chain runs top to bottom with numbers 1-6, slide 12 numbers cranked (22 and $7,500 huge) and the demo label removed at founder request. Flag: figures are Example-workspace demo data.
