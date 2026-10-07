@@ -25,7 +25,9 @@ def fill(poly=None, ell=None, val=0):
 fill(poly=[(470, 1000), (830, 1000), (960, 1180), (1040, 1500), (1080, 1920), (0, 1920), (40, 1500), (130, 1180), (300, 1060)], val=cv2.GC_PR_FGD)
 fill(ell=((640, 850), (250, 300)), val=cv2.GC_PR_FGD)
 # sure foreground: the inner core
+fill(ell=((665, 650), (200, 150)), val=cv2.GC_PR_FGD)
 fill(ell=((640, 860), (130, 170)), val=cv2.GC_FGD)
+fill(ell=((665, 690), (120, 70)), val=cv2.GC_FGD)
 fill(poly=[(560, 1090), (740, 1090), (860, 1240), (930, 1500), (980, 1920), (100, 1920), (150, 1500), (230, 1270), (380, 1140)], val=cv2.GC_FGD)
 
 bgd, fgd = np.zeros((1, 65), np.float64), np.zeros((1, 65), np.float64)

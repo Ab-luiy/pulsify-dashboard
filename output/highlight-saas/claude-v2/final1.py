@@ -12,12 +12,11 @@ def bg1():
     base = b.extend_top(b.cover('14-IMG_8690.JPEG', (0.41, 0.5)), 250)
     m = Image.open(os.path.join(b.HERE, 'img', 'matte1.png')).convert('L')
     d = ImageDraw.Draw(m)
-    d.ellipse((470, 560, 850, 720), fill=255)          # restore the top of the hair that the segmenter clipped
     m = m.filter(ImageFilter.GaussianBlur(1.4))
 
     flat = Image.open(b.MARKPNG).convert('RGBA').resize((980, 980), Image.LANCZOS)
     a = Image.new('L', (W, H), 0)
-    a.paste(flat.split()[3], (110, 320))
+    a.paste(flat.split()[3], (200, 350))
     bloom_a = a.filter(ImageFilter.GaussianBlur(26)).point(lambda v: int(v * .75))
     white = Image.new('L', (W, H), 255)
     bloom = Image.merge('RGBA', (white, white, white, bloom_a))
@@ -35,6 +34,7 @@ def bg1():
 if __name__ == '__main__':
     b.prep_slide1 = bg1
     b.render('01', b.slide1())
+    import sys; sys.exit(0)
     # drop the faint background logo from 3 and 12
     src = open(os.path.join(b.HERE, 'build5.py'), encoding='utf-8').read()
     src = re.sub(r'\n\s*<img class="abs" src="\{MARK_URL\}"[^\n]*', '', src)

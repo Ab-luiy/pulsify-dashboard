@@ -129,7 +129,6 @@ def slide3():
             parts.append(f'<svg class="abs" style="left:{ax-14}px;top:{y+ph}px" width="28" height="{gap}" viewBox="0 0 28 {gap}">'
                          f'<path d="M14 2 L14 {gap-12}" stroke="{INK}" stroke-width="6" stroke-linecap="round"/><path d="M3 {gap-16} L14 {gap-1} L25 {gap-16} Z" fill="{INK}"/></svg>')
     body = scene(img, .5, .14, .62) + f'''
-    <img class="abs" src="{MARK_URL}" style="left:330px;top:300px;width:1050px;opacity:.14">
     <div class="abs" style="left:72px;top:300px;font-size:104px;line-height:1;font-weight:700;letter-spacing:-4.5px">that's the<br>whole chain.</div>
     {''.join(parts)}
     <div class="abs" style="left:72px;top:1410px;width:940px;font-size:42px;line-height:1.28;letter-spacing:-.6px">
@@ -147,7 +146,6 @@ def slide12():
                  f'<span style="font-size:28px;color:{MUTE}">{lab}</span><span style="font-size:38px;font-weight:700;letter-spacing:-1.2px;color:{col}">{val}</span></div>'
                  f'<div style="height:4px;width:{int(400*wd)}px;background:{col};opacity:.9;border-radius:2px;margin:0 0 7px 0"></div>')
     body = scene(img, .55, .22, .66) + f'''
-    <img class="abs" src="{MARK_URL}" style="left:-320px;top:1020px;width:980px;opacity:.12">
     <div class="abs" style="left:72px;top:256px;width:700px;font-size:44px;line-height:1.24;letter-spacing:-.8px">and every post is tracked.<br>who watched, who clicked,<br>who booked, who paid.</div>
     <div class="abs" style="left:72px;top:470px;width:600px;font-size:100px;line-height:1.02;font-weight:700;letter-spacing:-4.5px">"you never<br>post <span style="display:inline-block;background:{SILVER};color:{GRAPH};padding:0 22px 12px;border-radius:16px">blind</span><br>again."</div>
     <div class="abs" style="left:72px;top:800px;width:290px">{underline(290)}</div>
