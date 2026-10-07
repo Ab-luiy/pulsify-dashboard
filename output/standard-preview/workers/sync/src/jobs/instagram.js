@@ -92,7 +92,8 @@ function toMedia(post) {
   const type = String(post.mediaType || "").toLowerCase();
   const a = post.analytics || {};
   return {
-    id: String(post.platformPostId || post.postId || ""),
+    // The list rows carry no platform id, so the permalink shortcode (stable, unique) is the fallback.
+    id: String(post.platformPostId || post.postId || post._id || post.id || /instagram\.com\/(?:p|reel|reels|tv)\/([^/?#]+)/.exec(post.platformPostUrl || "")?.[1] || ""),
     caption: String(post.content || ""),
     media_type: type === "video" ? "VIDEO" : type === "carousel" ? "CAROUSEL_ALBUM" : "IMAGE",
     media_product_type: String(post.mediaProductType || ""),

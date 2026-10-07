@@ -22,6 +22,7 @@ const env = {
 
 const POSTS = [
   { postId: 'z1', platformPostId: 'm1', content: 'a reel', mediaType: 'video', mediaProductType: 'REELS', platformPostUrl: 'https://instagram.com/reel/m1', thumbnailUrl: 'https://cdn/t.jpg', publishedAt: '2026-10-01T10:00:00Z', analytics: { views: 900, reach: 700, likes: 40, comments: 3, shares: 2, saves: 5, engagementRate: 7.1 } },
+  { platformPostUrl: 'https://www.instagram.com/p/SHORT1/', content: 'no id fields', mediaType: 'image', mediaProductType: 'FEED', publishedAt: '2026-10-02T10:00:00Z', analytics: {} },
   { postId: 'z2', platformPostId: 's1', content: '', mediaType: 'image', mediaProductType: 'STORY', publishedAt: '2026-10-06T10:00:00Z', analytics: { views: 100 } },
 ];
 
@@ -50,8 +51,9 @@ test('reads profile, followers, insights and posts from Zernio and stores them i
     const snap = (kind) => JSON.parse(sql.prepare("SELECT payload_json FROM snapshots WHERE source='instagram' AND kind=?").get(kind).payload_json);
     assert.equal(snap('profile').followers, 1234);
     const media = snap('media');
-    assert.equal(media.length, 1, 'stories are not in the feed list');
+    assert.equal(media.length, 2, 'stories are not in the feed list');
     assert.equal(media[0].id, 'm1');
+    assert.equal(media[1].id, 'SHORT1', 'a post with no id field falls back to its permalink shortcode');
     assert.equal(media[0].media_type, 'VIDEO');
     assert.equal(media[0].permalink, 'https://instagram.com/reel/m1');
     assert.equal(media[0].metrics.views, 900);

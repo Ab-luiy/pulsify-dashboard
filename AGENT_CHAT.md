@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview workers/sync/src/jobs/instagram.js, tests/instagram-sync.test.mjs, functions/_shared/{content-learning,carousel-prompt}.js, functions/api/{studio-carousels,studio-generate,studio-feedback}.js, migrations/0058, tests/carousel-learning.test.mjs; pulsify-saas src/features/reviews, src/lib/api/reviews.ts, tests/reviews.spec.ts + fixtures | CLAUDE | ACTIVE | 2026-10-07: gap 1 (IG sync moved Composio -> Zernio) and gap 2 (carousels in review/learning loop). Not deployed, not committed. |
+| output/standard-preview workers/sync/src/jobs/instagram.js, tests/instagram-sync.test.mjs, functions/_shared/{content-learning,carousel-prompt}.js, functions/api/{studio-carousels,studio-generate,studio-feedback}.js, migrations/0058, tests/carousel-learning.test.mjs; pulsify-saas src/features/reviews, src/lib/api/reviews.ts, tests/reviews.spec.ts + fixtures | CLAUDE | DONE | 2026-10-08: gaps 1 and 2 released (migration 0058, Pages, pulsify-sync, saas 6c98e25). Locks cleared. |
 | wiki/synthesis/saas-highlight-codex-guidance.md; claude-memory/project_saas_story_launch.md; claude-memory/MEMORY.md and matching live Claude memory; wiki/log.md append; output/highlight-saas/project/reference-review/claude-design-handoff-2026-10-07* | CODEX | DONE | 2026-10-07: full briefing/feedback saved and live memory verified; direct Claude call failed expired authentication, no acknowledgement. Locks cleared. |
 | output/highlight-saas/**; wiki/synthesis/saas-highlight-codex-guidance.md; wiki/log.md append; temporary Example capture sessions | CODEX | DONE | 2026-10-06: product4 review exported and verified; genuine labelled demo crops, substantial figures/arrows, integrated flat mark. Capture sessions removed; locks cleared. |
 | output/highlight-saas/**; brand/photos/uploaded/**; wiki/log.md append | CODEX | DONE | 2026-10-06: 14-slide review and silent slide9 preview verified; locked copy/Helvetica/photos/safe zones pass; founder take pending; locks cleared. |
@@ -410,3 +410,12 @@ Slide 1 rebuilt with the founder-supplied background-removed cutout as the matte
 
 ### [2026-10-07] CLAUDE
 Slide 1 zoomed out about 17 percent (SHIFT=330, FOCUS_X=0.378 in claude-v2/final1.py; patch_zoom.py applied). Head still clear of the headline block, cutout edge clean at 2x, top of frame seamless.
+
+### [2026-10-07] CLAUDE
+Built slides 2-8 and 10-14 (claude-v2/slides.py + engine.py), contact sheet claude-v2/sheet-all.jpg. Rejected and re-did 2, 4, 5, 6, 8, 11, 13 after zoom QA (text on busy photo areas, hair, chin, sign). Open: slide 9 founder video; slide 11 photo provisional; slides 1/13/14 share photo 14; slide 12 uses sample figures tagged; nothing locked or shipped until the founder says so.
+
+### [2026-10-08] CLAUDE
+Round 3 rebuild (slides_r2.py, engine.prep_photo_full): whole uncropped photos, mirrored progressive-blur extension above, scenery on 2,3,5,6,7,8,11,13,14 (ids 20,27,38,37,26,47,41,18,34), 10 and 12 unchanged, 1 keeps the founder pen-and-journal photo with the smaller logo. Chain on 3 reads as a numbered list, 5 is a leak chart, 6 piled windows, 7 two-line plateau chart, 12 shows $63,000 = 9 x $7,000 (sample, tagged). Photo id 9 banned. Nothing locked.
+
+### [2026-10-08 00:55] CLAUDE
+Released gaps 1 and 2. Migration 0058 applied to live D1. Pages deploy d194d8ee (carousel rules/examples, app export saas 6c98e25 with carousels in Reviews). pulsify-sync deployed (Instagram on Zernio). Live run id 45197/45199 = success: 420 followers, 18 posts with metrics, reach_30d 82, views_30d 184; 5 stories rows. Temp trigger route and secret TMP_TRIGGER were added for the run and removed; crons unchanged (5 of 5, the account is at the free 5-cron limit, so no cron can be added). Noted: lead-models job errors every ~10 min since 21:13 UTC (not mine, not investigated).
