@@ -3026,3 +3026,6 @@ claude-v2 round 3 (build4.py): photos at natural exposure (no lift), slide 1 now
 
 ### [2026-10-07] CLAUDE
 claude-v2 round 4 (build5.py): corner logo pill removed; mark is now a branded visual behind the subject (slide 1: matte puts head+body in front of the mark), behind the chain (3) and behind the cash figure (12). Seam at the top of slide 1 fixed (stretched/blurred edge continuation + feather); tiled grain replaced with per-pixel dither. Pipeline strip replaced by own tracker (not the InfoOS strip). Sample figures: $54,000 cash, 9 paid, 41 booked; tagged "sample data" on the slide.
+
+### [2026-10-07] CLAUDE
+Slide 1 logo: variant C (white glowing mark) now sits behind the subject using a GrabCut matte (claude-v2/matte.py, final1.py). Matte follows hair, headphones and shoulders; no light bleed on the body. Logo planned for slide 1 and the slide 9 video only; slides 3 and 12 still carry the faint background mark until re-rendered. Windows memory is nearly exhausted on this PC; OpenCV and Chrome renders fail intermittently and are retried.
