@@ -404,3 +404,6 @@ Slide 1 perfected pass delivered: head re-cut at full resolution (GrabCut on the
 
 ### [2026-10-07 20:00] CLAUDE
 Content-generator gaps. Gap 1: live sync_runs show three stacked causes (posts tool slug removed 2026-09-19 -> Meta token expired 2026-10-02 -> Composio has no connected Instagram account for user owner since 2026-10-04). Rewrote workers/sync/src/jobs/instagram.js onto Zernio (already connected as ab.luiy, its account-insights already produced reach_30d rows). Tests pass; needs a sync worker deploy to verify live. Gap 2: carousel rejections now write a studio_feedback rule tagged 'carousel' (migration 0058 adds studio_feedback.format; loaders fall back if it is missing), approved carousels become examples, operator Reviews screen lists carousels. Nothing deployed or migrated yet.
+
+### [2026-10-07] CLAUDE
+Slide 1 rebuilt with the founder-supplied background-removed cutout as the matte (img/cutout.png, alignment checked). Hair, ear/headphone and shoulder edges inspected at zoom: clean. Procedure doc updated: bg-removed cutout is the preferred matte route.
