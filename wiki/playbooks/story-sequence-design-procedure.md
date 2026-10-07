@@ -40,6 +40,18 @@ Content brings the lead, the offer qualifies them, the funnel closes them. Stori
 8. Tracker/pipeline graphics are our own design (rows with a value and a shrinking bar), never a copy of another product's funnel strip.
 9. QA before showing: zoomed crops of edges, seams and text-graphic contacts; phone-size view; copy diff against the locked file.
 
+
+## The engine (app-ready core, 2026-10-07)
+
+output/highlight-saas/claude-v2/engine.py is the reusable core: photo prep (cover crop, zoom, 9:16 box crop, blur, dither, extended top for text room), components (silver emphasis block, self-fitting red hand underline `ul()`, text blocks, absolute placement) and the headless-Chrome renderer with timeout and retries. slides.py holds one function per slide (photo spec + scrim + body); final1.py is slide 1 (logo behind subject via cutout matte). In the app a slide becomes data: photo id and crop, scrim, and a list of components. Every slide still gets the same zoom QA before it is shown.
+
+Extra rules learned building slides 2-14: text never sits on a face, hair, a bright sign or a busy shelf; if the photo has clutter where the text must go, move the text, reframe the photo, or add a soft dark band behind that line only. Photos with the subject high in frame get the extended top (prep_photo_extended). Where the photo is almost black, enlarge the type and add one device (waveform, plateau curve, funnel, dot field) so the slide is not just words.
+
+
+## Whole-photo rule (founder, 2026-10-08)
+
+Photos are shown whole: never cropped to fill, never painted over with a flat fill. engine.prep_photo_full fits the photo to the frame width and extends the space above it by mirroring the photo's own top edge with a progressive blur (sharp at the join, softer upward), so the colours meet exactly and no seam shows. Check the join numerically (mean brightness across rows either side of it) and by eye. Scenery carries every slide that does not need the founder's face; portraits only where the founder asks for them. Library photo id 9 is banned. Slide-level text sits in the extended area or over a soft dark band, never on a busy part of the photo.
+
 ## Failure modes seen (and the fix)
 
 - Logo "blended into the body": soft rough matte. Fix: tight matte, subject pasted over the logo.

@@ -21,6 +21,17 @@ def find_photo(pid):
     raise FileNotFoundError(pid)
 
 
+def safe_save(im, path, tries=6):
+    """Windows under memory pressure sometimes refuses a file write; retry instead of crashing the build."""
+    for k in range(tries):
+        try:
+            im.save(path)
+            return
+        except OSError:
+            time.sleep(2 + k)
+    im.save(path)
+
+
 def dither(im, sigma=2.6):
     n = Image.effect_noise(im.size, sigma).convert('RGB')
     return ImageChops.add(im, n, scale=1, offset=-128)
@@ -39,8 +50,81 @@ def prep_photo(pid, out, focus=(0.5, 0.5), box=None, blur=0, zoom=1.0):
     if blur:
         im = im.filter(ImageFilter.GaussianBlur(blur))
     p = os.path.join(HERE, 'img', out)
-    dither(im).save(p)
+    safe_save(dither(im), p)
     return p.replace('\\', '/')
+
+
+def prep_photo_extended(pid, out, shift, focus_x=0.5):
+    """Zoom the photo out so its full height fits under `shift` extra pixels, then continue the top edge seamlessly
+    (average of the photo's own top rows, cross-faded over 320px). Gives text room above a subject without a seam."""
+    import numpy as np, cv2
+    im = ImageOps.exif_transpose(Image.open(find_photo(pid))).convert('RGB')
+    sc = max((H - shift) / im.height, W / im.width)
+    im = im.resize((round(im.width * sc), round(im.height * sc)), Image.LANCZOS)
+    x = int((im.width - W) * focus_x)
+    hh = min(im.height, H - shift)
+    arr = np.asarray(im.crop((x, 0, x + W, hh))).astype(np.float32)
+    row = arr[:24].mean(axis=0)
+    row = cv2.GaussianBlur(row.reshape(1, W, 3), (0, 0), 70).reshape(W, 3)
+    canvas = np.empty((H, W, 3), np.float32)
+    canvas[:] = row[None]
+    canvas[shift:shift + hh] = arr
+    y = np.arange(H, dtype=np.float32)
+    t = np.clip((y - shift) / 320.0, 0, 1)
+    t = (t * t * (3 - 2 * t))[:, None, None]
+    flat = np.empty_like(canvas); flat[:] = row[None]
+    canvas = flat * (1 - t) + canvas * t
+    out_im = Image.fromarray(np.clip(canvas, 0, 255).astype(np.uint8))
+    pth = os.path.join(HERE, 'img', out)
+    safe_save(dither(out_im), pth)
+    return pth.replace('\\', '/')
+
+
+def prep_photo_full(pid, out, align='bottom', blur=0):
+    """Show the WHOLE photo, uncropped, fitted to the frame. Leftover space is a blurred, darkened, enlarged copy of the same photo.
+    Only the 28px where the photo meets that backdrop is feathered, so there is no visible edge."""
+    import numpy as np
+    im = ImageOps.exif_transpose(Image.open(find_photo(pid))).convert('RGB')
+    sc = min(W / im.width, H / im.height)
+    pw, ph = round(im.width * sc), round(im.height * sc)
+    fg = im.resize((pw, ph), Image.LANCZOS)
+    if blur:
+        fg = fg.filter(ImageFilter.GaussianBlur(blur))
+    if pw >= W - 1 and ph >= H - 1:
+        canvas = fg.resize((W, H), Image.LANCZOS)
+    else:
+        cs = max(W / im.width, H / im.height)
+        bg = im.resize((round(im.width * cs), round(im.height * cs)), Image.LANCZOS)
+        bx = (bg.width - W) // 2; by = (bg.height - H) // 2
+        bg = bg.crop((bx, by, bx + W, by + H)).filter(ImageFilter.GaussianBlur(46))
+        bg = ImageChops.multiply(bg, Image.new('RGB', (W, H), (150, 150, 150)))
+        x = (W - pw) // 2
+        y = {'bottom': H - ph, 'top': 0, 'center': (H - ph) // 2}[align]
+        m = np.ones((ph, pw), np.float32)
+        ramp = np.linspace(0, 1, 60, dtype=np.float32)
+        # top edge needs no feather: the mirrored continuation above matches the photo's first row exactly
+        if y + ph < H:
+            m[-60:, :] *= ramp[::-1][:, None]
+        if x > 0:
+            m[:, :28] *= ramp[None, :]; m[:, -28:] *= ramp[::-1][None, :]
+        mask = Image.fromarray((m * 255).astype(np.uint8))
+        canvas = bg.copy()
+        if y > 0:                                        # continue the photo upward by mirroring its own top, blurred: colours meet exactly
+            rh = min(y, ph)
+            base_r = fg.crop((0, 0, pw, rh)).transpose(Image.FLIP_TOP_BOTTOM)
+            levels = [0, 6, 14, 30]                          # progressive blur: sharp at the join, softer the further up it goes
+            stack = [np.asarray(base_r if r == 0 else base_r.filter(ImageFilter.GaussianBlur(r))).astype(np.float32) for r in levels]
+            dist = (rh - 1 - np.arange(rh)).astype(np.float32) / max(1, rh - 1) * (len(levels) - 1)
+            acc = np.zeros_like(stack[0])
+            for i, arr in enumerate(stack):
+                wgt = np.clip(1 - np.abs(dist - i), 0, 1)[:, None, None]
+                acc += arr * wgt
+            refl = Image.fromarray(np.clip(acc, 0, 255).astype(np.uint8))
+            canvas.paste(refl, (x, y - rh))
+        canvas.paste(fg, (x, y), mask)
+    pth = os.path.join(HERE, 'img', out)
+    safe_save(dither(canvas), pth)
+    return pth.replace('\\', '/')
 
 
 # ------------------------------------------------------------------ components

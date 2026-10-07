@@ -108,9 +108,9 @@ def cutout_matte(shift=SHIFT):
 def bg1():
     base = photo_with_seamless_top()
     m = cutout_matte()
-    flat = Image.open(b.MARKPNG).convert('RGBA').resize((980, 980), Image.LANCZOS)
+    flat = Image.open(b.MARKPNG).convert('RGBA').resize((760, 760), Image.LANCZOS)
     a = Image.new('L', (W, H), 0)
-    a.paste(flat.split()[3], (250, 500))                      # centre (740, 990): ring stays clear of the text lines
+    a.paste(flat.split()[3], (280, 520))                      # centre (740, 990): ring stays clear of the text lines
     bloom_a = a.filter(ImageFilter.GaussianBlur(26)).point(lambda v: int(v * .75))
     white = Image.new('L', (W, H), 255)
     bloom = Image.merge('RGBA', (white, white, white, bloom_a))
