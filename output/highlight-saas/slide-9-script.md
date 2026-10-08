@@ -81,3 +81,21 @@ Three steps. You keep doing what you're good at, and the system does the rest.
 Anchors: here's exactly what happens / step one: app, questions, sit down together / step two: numbers, cheapest leak first, tracked to payment / step three: writes in your voice, make more of what pays / you keep doing what you're good at.
 
 Founder confirmed 2026-10-08: he goes through onboarding on a call and reviews weekly. Unconfirmed: that step two (offer, funnel, calls, cheapest leak first) is what he does on every client.
+
+---
+
+## Casual product version (final direction 2026-10-08: casual IG story mid-sequence, about the software, not the founder)
+
+Opener: "Okay, so what does this thing actually do?" Alternates: "Quick one. People keep asking what the app actually does." / "So you know how nobody can tell which post made them money? That's the thing it fixes." / "Let me explain the app real quick." / "Okay, quick breakdown of what happens when you get in."
+
+Okay, so what does this thing actually do?
+
+First, you get in and it asks you a bunch of questions. Who you are, what you sell, who you sell to, how you talk. Everything it makes for you comes from those answers. Then we hop on a call and go through it together, so it's dialed in before you touch anything.
+
+Then it shows you your numbers. Every post gets tracked from the first view to the payment, so you can see which one actually made you money. And on the sales side, you can see who's closing and who's not. We flag the cheapest leak first, so you're not pouring content into a business that's losing people further down.
+
+And then it gets to work. It writes in your voice and tells you what to make next, so you sit down already knowing what to say. Every week we get on a call, look at what's paying, and do more of that.
+
+That's it. You keep doing what you're good at. The app handles the rest.
+
+Note: "we flag the cheapest leak" is deliberately "we", not "it", until the founder confirms the app does that automatically.
