@@ -499,3 +499,4 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: rebuilt slides 2,5,8,10,11,12 (slides_r3.py, final-r3/) using audit components; awaiting founder 'ship it'.
 - 2026-10-08 Claude: round-4 rebuild (slides_r4.py -> final-r4/): cover crops only, new punchy copy, whole-chain slide 3, Apple-ad hero screens 10-12. Copy changes need founder approval.
 - 2026-10-08 Claude: round-5 rebuild (output/highlight-saas/claude-v2/slides_r5.py -> final-r5/): Brez typography, 7 photos reused with blurred carry-over, designed app cards, no sample-data tags.
+- 2026-10-08 Claude: round-6 (slides_r6.py -> final-r6/): real brand glyphs, 3 mock-ups for slide 5 (05/05b/05c), leaderboard slide 8, prompt+reply widget slide 10, one-colour sales card, tracking message; slide 7 unchanged from r5.
