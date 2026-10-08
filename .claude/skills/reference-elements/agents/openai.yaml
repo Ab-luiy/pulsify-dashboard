@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reference elements"
+  short_description: "Rebuild slide graphics from visual references"
+  default_prompt: "Use $reference-elements to inspect this slide and recreate the selected visual element as editable SVG/HTML with a rendered preview."
