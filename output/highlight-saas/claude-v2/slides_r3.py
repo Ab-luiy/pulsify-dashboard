@@ -158,7 +158,7 @@ def s11():
     body += badge(2)
     body += at(370, p("then the sales side.", 92, 700, lh=1, ls=-3.4) + rows)
     body += shot(t1, 600, 72, 760) + shot(t2, 600, 408, 940)
-    body += tag(1200)
+    body += tag(1218)
     body += at(1270, back(p("who's hitting their calls. who's hitting your numbers.", 42, ls=-.9) + p("no more guessing what happened on a call.", 42, ls=-.9, mt=8) + p("no scripts to write yourself.", 42, 700, ls=-.9, mt=8)))
     return body
 
