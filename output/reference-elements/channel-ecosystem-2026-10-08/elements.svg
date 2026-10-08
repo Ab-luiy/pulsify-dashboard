@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="diagram-title diagram-desc">
+<title id="diagram-title">Three channels with distinct paths to the offer</title><desc id="diagram-desc">Instagram discover, profile, DM. YouTube find, learn, apply. Email read, trust, reply. A conceptual pathway, without conversion figures.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1 8 5 1 9" fill="none" stroke="#e9e4da" stroke-width="1.6" stroke-linejoin="round"/></marker></defs>
+<style>.stage-label{font-family:ReferenceArial,Arial,sans-serif;font-weight:700;fill:#fff9f3;text-anchor:middle;letter-spacing:-.4px}.channel{font-family:ReferenceArial,Arial,sans-serif;font-weight:700;font-size:43px;fill:#fff9f3;text-anchor:middle;letter-spacing:-1.2px}.desc{font-family:ReferenceArial,Arial,sans-serif;font-size:29px;fill:#e1ddd6;text-anchor:middle;letter-spacing:-.3px}</style>
+<g id="branch-connectors" fill="none" stroke="#e9e4da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".85">
+<path d="M540 407 V444 Q540 469 515 469 H243 Q218 469 218 494 V519" marker-end="url(#arrow)"/>
+<path d="M540 407 V519" marker-end="url(#arrow)"/>
+<path d="M540 407 V444 Q540 469 565 469 H837 Q862 469 862 494 V519" marker-end="url(#arrow)"/>
+</g><g id="instagram-glyph" transform="translate(180 530) scale(3.166667)" fill="#f8f5f0"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></g><text class="channel" x="218" y="651">Instagram</text><text class="desc" x="218" y="710">Make your profile</text><text class="desc" x="218" y="746">worth exploring.</text>
+    <linearGradient id="instagram-body" x1="0" x2="1"><stop stop-color="#593980"/><stop offset=".46" stop-color="#ac86ef"/><stop offset="1" stop-color="#593980"/></linearGradient>
+    <linearGradient id="instagram-rim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#c8a7f9"/><stop offset="1" stop-color="#ac86ef"/></linearGradient>
+    <g id="instagram-funnel" transform="translate(92 792)">
+      <g id="instagram-discovery">
+        <path d="M0 27 Q126 79 252 27 L211 131 Q126 153 41 131 Z" fill="url(#instagram-body)"/>
+        <ellipse cx="126" cy="27" rx="126" ry="27" fill="url(#instagram-rim)"/>
+        <ellipse cx="126" cy="26" rx="110" ry="17" fill="#593980"/>
+        <path d="M5 25 Q126 75 247 25" fill="none" stroke="#c8a7f9" stroke-width="2" opacity=".75"/>
+        <text x="126" y="101" class="stage-label" font-size="31">Discover</text>
+      </g>
+      <g id="instagram-consideration">
+        <path d="M46 148 Q126 168 206 148 L170 214 Q126 229 82 214 Z" fill="url(#instagram-body)"/>
+        <path d="M46 148 Q126 163 206 148" fill="none" stroke="#c8a7f9" stroke-width="2" opacity=".8"/>
+        <text x="126" y="194" class="stage-label" font-size="30">Profile</text>
+      </g>
+      <g id="instagram-action">
+        <path d="M83 231 Q126 241 169 231 L163 289 Q126 305 89 289 Z" fill="url(#instagram-body)"/>
+        <path d="M83 231 Q126 240 169 231" fill="none" stroke="#c8a7f9" stroke-width="2" opacity=".8"/>
+        <text x="126" y="270" class="stage-label" font-size="27">DM</text>
+      </g>
+    </g><g id="youtube-glyph" transform="translate(502 530) scale(3.166667)" fill="#f8f5f0"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></g><text class="channel" x="540" y="651">YouTube</text><text class="desc" x="540" y="710">Teach the problem</text><text class="desc" x="540" y="746">you help solve.</text>
+    <linearGradient id="youtube-body" x1="0" x2="1"><stop stop-color="#8e2929"/><stop offset=".46" stop-color="#e94c43"/><stop offset="1" stop-color="#8e2929"/></linearGradient>
+    <linearGradient id="youtube-rim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f58175"/><stop offset="1" stop-color="#e94c43"/></linearGradient>
+    <g id="youtube-funnel" transform="translate(414 792)">
+      <g id="youtube-discovery">
+        <path d="M0 27 Q126 79 252 27 L211 131 Q126 153 41 131 Z" fill="url(#youtube-body)"/>
+        <ellipse cx="126" cy="27" rx="126" ry="27" fill="url(#youtube-rim)"/>
+        <ellipse cx="126" cy="26" rx="110" ry="17" fill="#8e2929"/>
+        <path d="M5 25 Q126 75 247 25" fill="none" stroke="#f58175" stroke-width="2" opacity=".75"/>
+        <text x="126" y="101" class="stage-label" font-size="31">Find</text>
+      </g>
+      <g id="youtube-consideration">
+        <path d="M46 148 Q126 168 206 148 L170 214 Q126 229 82 214 Z" fill="url(#youtube-body)"/>
+        <path d="M46 148 Q126 163 206 148" fill="none" stroke="#f58175" stroke-width="2" opacity=".8"/>
+        <text x="126" y="194" class="stage-label" font-size="30">Learn</text>
+      </g>
+      <g id="youtube-action">
+        <path d="M83 231 Q126 241 169 231 L163 289 Q126 305 89 289 Z" fill="url(#youtube-body)"/>
+        <path d="M83 231 Q126 240 169 231" fill="none" stroke="#f58175" stroke-width="2" opacity=".8"/>
+        <text x="126" y="270" class="stage-label" font-size="27">Apply</text>
+      </g>
+    </g><g id="email-symbol" transform="translate(825 539)" fill="none" stroke="#f8f5f0" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><rect width="74" height="58" rx="9"/><path d="M4 7 37 31 70 7"/></g><text class="channel" x="862" y="651">Email</text><text class="desc" x="862" y="710">Keep the conversation</text><text class="desc" x="862" y="746">going.</text>
+    <linearGradient id="email-body" x1="0" x2="1"><stop stop-color="#296073"/><stop offset=".46" stop-color="#5bafc8"/><stop offset="1" stop-color="#296073"/></linearGradient>
+    <linearGradient id="email-rim" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#99d6df"/><stop offset="1" stop-color="#5bafc8"/></linearGradient>
+    <g id="email-funnel" transform="translate(736 792)">
+      <g id="email-discovery">
+        <path d="M0 27 Q126 79 252 27 L211 131 Q126 153 41 131 Z" fill="url(#email-body)"/>
+        <ellipse cx="126" cy="27" rx="126" ry="27" fill="url(#email-rim)"/>
+        <ellipse cx="126" cy="26" rx="110" ry="17" fill="#296073"/>
+        <path d="M5 25 Q126 75 247 25" fill="none" stroke="#99d6df" stroke-width="2" opacity=".75"/>
+        <text x="126" y="101" class="stage-label" font-size="31">Read</text>
+      </g>
+      <g id="email-consideration">
+        <path d="M46 148 Q126 168 206 148 L170 214 Q126 229 82 214 Z" fill="url(#email-body)"/>
+        <path d="M46 148 Q126 163 206 148" fill="none" stroke="#99d6df" stroke-width="2" opacity=".8"/>
+        <text x="126" y="194" class="stage-label" font-size="30">Trust</text>
+      </g>
+      <g id="email-action">
+        <path d="M83 231 Q126 241 169 231 L163 289 Q126 305 89 289 Z" fill="url(#email-body)"/>
+        <path d="M83 231 Q126 240 169 231" fill="none" stroke="#99d6df" stroke-width="2" opacity=".8"/>
+        <text x="126" y="270" class="stage-label" font-size="27">Reply</text>
+      </g>
+    </g></svg>

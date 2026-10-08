@@ -1,0 +1,15 @@
+{
+  "issues": [],
+  "fontsLoaded": true,
+  "images": [
+    {
+      "src": "assets/cafe.jpg",
+      "decoded": true
+    },
+    {
+      "src": "assets/pulsify.svg",
+      "decoded": true
+    }
+  ],
+  "svgTextCount": 18
+}

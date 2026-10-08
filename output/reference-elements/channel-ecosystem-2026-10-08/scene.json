@@ -1,0 +1,112 @@
+{
+  "mode": "client-production adaptation, review draft",
+  "format": [
+    1080,
+    1350
+  ],
+  "profile_version": "1.0.0",
+  "family": "red-case-system",
+  "recipe": "three-platform-funnels",
+  "anchor": "K1-4",
+  "photo_id": 20,
+  "font": "Arial registered from Windows; source font unknown",
+  "channels": [
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "center": 218,
+      "color": "#ac86ef",
+      "light": "#c8a7f9",
+      "dark": "#593980",
+      "stages": [
+        "Discover",
+        "Profile",
+        "DM"
+      ],
+      "description": [
+        "Make your profile",
+        "worth exploring."
+      ]
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "center": 540,
+      "color": "#e94c43",
+      "light": "#f58175",
+      "dark": "#8e2929",
+      "stages": [
+        "Find",
+        "Learn",
+        "Apply"
+      ],
+      "description": [
+        "Teach the problem",
+        "you help solve."
+      ]
+    },
+    {
+      "id": "email",
+      "name": "Email",
+      "center": 862,
+      "color": "#5bafc8",
+      "light": "#99d6df",
+      "dark": "#296073",
+      "stages": [
+        "Read",
+        "Trust",
+        "Reply"
+      ],
+      "description": [
+        "Keep the conversation",
+        "going."
+      ]
+    }
+  ],
+  "data_status": "conceptual, not measured conversion rates",
+  "assets": [
+    {
+      "source": "C:\\Users\\Abdullah\\Desktop\\Pulsify-Brain\\brand\\photos\\uploaded\\20-IMG_8165.jpg",
+      "file": "assets/cafe.jpg",
+      "sha256": "157d212e3a0612bba0f953bece06809b218fca088bc76a58e66b5d20bfd3cf08"
+    },
+    {
+      "source": "C:\\Users\\Abdullah\\Desktop\\Pulsify-Brain\\raw-sources\\inspiration\\carousels\\carousel kobenguyen\\#1\\4.jpg",
+      "file": "assets/reference.jpg",
+      "sha256": "951ca199d1d6a0b8e9c208828a82d33a9231551d403ff64375d3d0d548464734"
+    },
+    {
+      "source": "C:\\Users\\Abdullah\\Desktop\\Pulsify-Brain\\brand\\logo\\variations\\05-lockup-white.svg",
+      "file": "assets/pulsify.svg",
+      "sha256": "7090ee62e68300639716825e50e6064fb9cb326a77523a3fb8a9b6feef1928f3"
+    },
+    {
+      "source": "C:\\Windows\\Fonts\\arial.ttf",
+      "file": "assets/arial.ttf",
+      "sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a"
+    },
+    {
+      "source": "C:\\Windows\\Fonts\\arialbd.ttf",
+      "file": "assets/arial-bold.ttf",
+      "sha256": "e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/instagram.svg",
+      "file": "assets/instagram.svg",
+      "sha256": "f53af2d1fc5292ba1433b5c1faf50005ce6a997fa302d1816989929f379a59dc"
+    },
+    {
+      "source": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/youtube.svg",
+      "file": "assets/youtube.svg",
+      "sha256": "5038808acbbc4e6edda16cbeb1cc6dec80e4e4ee4e227e039c41229fa222aa8c"
+    }
+  ],
+  "deviations": [
+    "Original airport image replaced with own cafe photo",
+    "Fresh shorter Pulsify copy; no borrowed result claims",
+    "Generic email channel replaces Kit brand",
+    "Funnel bands contain explicit stage labels",
+    "Photo remains naturally cropped; local scrims support text, no blur/mirror/mask"
+  ],
+  "photo_sync": "Blocked with Cloudflare7403; existing local photo used"
+}
