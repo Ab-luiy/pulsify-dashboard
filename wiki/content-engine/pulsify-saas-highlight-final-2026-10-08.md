@@ -21,7 +21,7 @@ The highlight is a shiny-object pre-launch shown to cold prospects. The founder'
 3. "the whole chain." Six cards: content (top, middle, bottom of funnel side by side), personal brand (people start buying into you), traffic (runners heading right), landing page (vsl, webinar, profile funnel, ascension, challenge), sales team (closer, setter, manager), cash in the bank (Stripe, Whop, Fanbasis). Closing text on a revenue-chart card: "most people have never run it. some don't even know what a kpi is. and that's fine. nobody teaches you this part."
 4. Same photo as 3, blurred. "it breaks somewhere:" with four red-X lines (post / nobody watching / where to send / who is closing).
 5. "your traffic is leaking." Alias inbox (Marcus Reyes, Tyler Brandt, Daniel Okafor, Ethan Cole: replied, seen no reply, booked, no close). Four blurred post cards with a big ?, labelled YOUTUBE LONG FORM, CAROUSELS, STORY SEQUENCES, REELS. "and no idea which post brought any of them in."
-6. Brez layout on the slide 5 photo, blurred: "so you try harder." red X list, "you start copying the big names." black box with red "their", "MEANWHILE THE THING THAT PAYS YOU GETS LESS OF YOUR TIME."
+6. Approved as is. Brez layout on the slide 5 photo, blurred, no ghost text: "so you try harder." red X list, "you start copying the big names." black box with red "their", "MEANWHILE THE THING THAT PAYS YOU GETS LESS OF YOUR TIME."
 7. "that's where most people plateau." "then they pick the main business, because that's what keeps food on the table." "and the info side dies quietly." "none of that is your fault."
 8. "here's what most people miss." "the top of every niche is 3 or 4 names." Unnamed niche leaderboard plus a "new face, new idea" climbing 2k to 18k+. "but every month, a new face breaks in." "people follow someone they don't feel below." "you don't have to be a guru. you just have to sound like you."
 9. Founder video.
@@ -44,7 +44,6 @@ The highlight is a shiny-object pre-launch shown to cold prospects. The founder'
 ## Open items
 
 - Slide 5 avatars are initials. Real face photos (licensed or provided) are still wanted.
-- Slide 6 is the earlier Brez-layout version on the slide 5 photo.
 - Slide 9 video and its motion graphic are founder-owned and not built.
 
 ## Connections

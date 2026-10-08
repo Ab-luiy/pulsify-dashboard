@@ -233,7 +233,7 @@ def s05(v='a'):
 
 def s06(v='a'):
     img = dim_photo(38, 'r7_06.png', blur=10, dark=.5)
-    body = bgdiv(img) + carry(at(236, bz("you post something.", 84, lh=1.0)), 8, .1)
+    body = bgdiv(img)
     px_ = R4.px
     body += (f'<div class="abs" style="left:{px_(78)}px;top:{px_(258)}px;width:{px_(700)}px;font-family:{SANS};font-weight:700;color:#fff;letter-spacing:{-px_(1.4)}px;{SH};font-size:{px_(38)}px">'
              f'<div style="line-height:1.15">so you {R4.red_ul("try harder.")}</div>'
