@@ -510,3 +510,4 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: slide 1 switched to U2 (one-line sentence behind founder) with 'all day every day.'; final-r16/01.png.
 - 2026-10-08 Claude: slide 6 ghost headline removed (slides_r7.py s06), final-r16/06.png updated.
 - 2026-10-08 Claude: slide 5 avatars = gradient initials (slides_r17.py via make_r17.py), final-r16/05.png updated.
+- 2026-10-08 Claude: slide 5 final = photo avatars + capitalized source-label names (slides_r21.py), final-r16/05.png; initials version kept as 05-initials.png; wiki updated.
