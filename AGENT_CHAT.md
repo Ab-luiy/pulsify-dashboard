@@ -505,3 +505,4 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: round-10 (slides_r10.py via make_r10.py -> final-r10/): slide 14 deleted, slide 13 reworded + underlined, slide 12 red-gradient bullets (watched/clicked/booked/paid), slide 5 caps labels. 12 designed slides + slide 9 video.
 - 2026-10-08 Claude: round-11 slide 12 only (slides_r11.py via make_r11.py): headline one line right-aligned, bullets restored, red gradient pills on stat labels; set in final-r11/.
 - 2026-10-08 Claude: round-12 slide 12 (slides_r12.py via make_r12.py): left headline, white-block stats, bold brim line, red underlines on bullets; set in final-r12/.
+- 2026-10-08 Claude: slide 12 bullets = option H (numbered outlined circles on a straight red line, dimmed lead-in + bright key word); final set in output/highlight-saas/claude-v2/final-r15/ (source slides_r15h.py).
