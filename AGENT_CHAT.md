@@ -509,3 +509,4 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: slide 1 = U3 (type behind founder, small logo above, copy 'i've been working on this all year, every day, all day. i noticed something every creator i've worked with has in common. everyone is stuck on the same problem.'); set in final-r16/ (source slide1_mockups8.py).
 - 2026-10-08 Claude: slide 1 switched to U2 (one-line sentence behind founder) with 'all day every day.'; final-r16/01.png.
 - 2026-10-08 Claude: slide 6 ghost headline removed (slides_r7.py s06), final-r16/06.png updated.
+- 2026-10-08 Claude: slide 5 avatars = gradient initials (slides_r17.py via make_r17.py), final-r16/05.png updated.
