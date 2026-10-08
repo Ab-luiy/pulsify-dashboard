@@ -44,3 +44,18 @@ Say the beat in your own words. The anchor is the one line to hit exactly.
 - No "guaranteed", "changes everything", "never seen before".
 - No "years" of anything beyond what you can stand behind ("this year" is true).
 - No call to action. The ask is just watch.
+
+---
+
+## Long version, "the wrong metric" (about 70 seconds, SooWei-style flip translated to the app)
+
+SooWei's pitch moves used (from the vault extractions, his claims, structure only): flip the metric from views to attributed booked calls; show instead of tell; cash per follower over follower count. Product claims limited to what slides 10 to 12 show. No transcript objection mining (not confirmed live). No income figures. Ends on a statement, no "watch".
+
+1. The flip. Views are the wrong way to judge your content. Everyone checks views, likes, followers; none say if a post made a dollar. A 5K-view post can bring in more booked calls than a 500K one, and you never find out because nothing connects the two.
+2. The gap. You post, a call books, someone pays, and you don't know which post started it. Next week you guess and make more of what got attention, which isn't what pays you.
+3. The turn. So I built the thing that connects them.
+4. What it does. Every post tracked from first view to payment: who watched, how far, who clicked, who booked, who paid, down to the video. It writes in your voice from how you talk. On the sales side you see who's closing and who's not, every setter and closer, one place.
+5. The reframe. You stop asking what's trending and ask what's paying. A small audience that buys beats a big one that watches; cash per follower matters more than follower count.
+6. The close. Built from everything I've seen work, every framework tested before it went in. You keep doing what you're good at. The system tells you where it's paying.
+
+Anchors: views are the wrong metric / you can't tell which post did it / so I built the thing that connects them / post to payment, your voice, who's closing / make more of what pays / you keep doing what you're good at. Minimum cut: beats 3, 4, 6.
