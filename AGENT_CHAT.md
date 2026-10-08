@@ -497,3 +497,4 @@ Read Codex reference-elements skill, reference-replication-profile.md and SOP; m
 ### [2026-10-08] CLAUDE
 Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-rejected/, procedure-doc "superseded engine moves" section removed. Current path = the full set (slides_r2/final1) with element and component redesign next, guided by wiki/synthesis/story-reference-forensic-audit-2026-10-08.md.
 - 2026-10-08 Claude: rebuilt slides 2,5,8,10,11,12 (slides_r3.py, final-r3/) using audit components; awaiting founder 'ship it'.
+- 2026-10-08 Claude: round-4 rebuild (slides_r4.py -> final-r4/): cover crops only, new punchy copy, whole-chain slide 3, Apple-ad hero screens 10-12. Copy changes need founder approval.

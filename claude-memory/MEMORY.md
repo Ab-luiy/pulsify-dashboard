@@ -127,3 +127,4 @@
 - [Brand logo kit](reference_brand_logo.md) - coin mark at brand/logo/, old P-Media logo retired; use in every design
 - [Perfection standard](feedback_perfection_standard.md) - HARD 2026-10-07: no known flaws shipped; zoom-inspect before showing; procedure saved at wiki/playbooks/story-sequence-design-procedure.md
 - [Never photo 9](feedback_never_photo_9.md) - HARD 2026-10-08: never use library photo id 9 (IMG_8529, headphones to camera) anywhere
+- [SaaS story round 4](feedback_saas_story_round4.md) - 2026-10-08: no zoom-out/mirror, Apple-ad product visuals, punchy human voice, slide 3 expertise-chain brief
