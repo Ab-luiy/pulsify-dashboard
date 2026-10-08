@@ -3,10 +3,12 @@ type: framework
 tags: [content, instagram, story-sequences, funnel]
 sources: [[wiki/synthesis/niksetting-extractions/07-story-sequences-7-frameworks]], [[wiki/synthesis/niksetting-extractions/06-200k-months-amer-case-study]], [[wiki/synthesis/niksetting-extractions/21b-masterclass-part-2]], [[wiki/synthesis/niksetting-extractions/21c-masterclass-part-3]], [[wiki/synthesis/niksetting-extractions/21d-masterclass-part-4]], [[wiki/synthesis/niksetting-extractions/04-conversion-content-five-assets]], [[wiki/synthesis/cross-creator-synthesis]]
 created: 2026-07-11
-updated: 2026-09-29
+updated: 2026-10-08
 ---
 
 # The story sequence system
+
+> Shared design production, 2026-10-08: keep this page's content architecture, then run [[playbooks/reference-replication-sop]] using [[content-engine/reference-replication-profile]]. The [[synthesis/carousel-reference-forensic-audit-2026-10-08|76-image carousel examination]] now feeds story craft alongside the [[synthesis/story-reference-forensic-audit-2026-10-08|57-image story audit]]. Preserve real environments; no blanket blur/mirrored extensions; behind-subject type, evidence and figures use an aligned restoration mask. Copy/purpose comes first; reference families do not impose mandatory numbers/cards on every frame. Current campaign copy/brand/photo exclusions control. Screenshot claims and historical conversion heuristics are attributed hypotheses, not guaranteed performance or verified Pulsify results.
 
 The canonical Pulsify framework for Instagram story sequences: what they are, the five types, the universal slide structure, the daily 9-slide frame, the permanent assets (start-here, story launch), cadence, delegation, and measurement. Source is the Niksetting corpus (single-source, per [[synthesis/cross-creator-synthesis]]), cross-validated where SooWei's material touches it, with Pulsify deltas applied throughout. This page is the spec for the story-sequence generator.
 

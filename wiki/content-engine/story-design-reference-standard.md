@@ -8,6 +8,8 @@ updated: 2026-10-08
 
 # Story design reference standard (read at full resolution, 2026-10-08)
 
+> Current shared standard: [[content-engine/reference-replication-profile]] and [[playbooks/reference-replication-sop]] merge the full [[synthesis/carousel-reference-forensic-audit-2026-10-08|76-carousel-image examination]] into story production. Current founder direction: preserve real environments; no blanket blur or mirrored/blurred extension; intentional original-pixel subject restoration supports text, cards, figures and brand objects behind people. Purpose/copy first, one registered photo/mask transform, essential labels clear, genuine app glyphs and semantic figures. Older whole-photo/extension assumptions below are historical and cannot override this direction.
+
 What the reference sequences actually do, slide by slide, so Pulsify stories copy the craft and not a guess of it. Written after the founder rejected abstract charts ("they don't read at all"). This is the bar the app's story builder must meet for clients.
 
 ## Why this matters for Pulsify
@@ -25,7 +27,7 @@ Stories connect content, offer and funnel. The references combine photography, e
 5. Progressions use coloured dots joined by thin lines to cards, colour shifting along the path (yellow -> orange -> red -> pink in Nik seq 2 slide 2).
 6. Translucent edge-bleeding forms are one option: Nik's teal funnel bands run off the right side, with outlined stage labels joined by thin white lines. Opaque receipts, text-only frames and solid tiles also occur. Preserve complete essential labels even when a figure bleeds off-frame.
 7. Depth: the person can stand in front of cards (Nik seq 2 slide 4), or remain in color against a desaturated background (Siggy 5). Nik seq 3 slide 1 partly hides a teaser line behind the head. Keep essential words readable. Screen-plane product placement in seq 3 slides 4-6 is another distinct technique.
-8. Photos vary from bright to heavily dimmed. Brez 1 uses black type on sky; Brez 2 switches to white as text reaches trees. Kobey's Shelby sequence dims earlier layers to introduce a new point. These source observations do not override the current Pulsify whole-photo/natural-exposure rule or authorize mid-image fades.
+8. Photos vary from bright to heavily dimmed. Brez 1 uses black type on sky; Brez 2 switches to white as text reaches trees. Kobey's Shelby sequence dims earlier layers to introduce a new point. These observations do not override current natural-environment production rules: useful crops, no blanket blur or manufactured extension, narrow approved contrast where needed.
 9. Lines have different jobs. Curved white arrows identify the person or destination in Kobey's Shelby sequence; red arrows link Siggy's journey; lime curls point to figures. Thin straight connectors and progress lines also occur. Match the weight to the job and preserve the founder's near-horizontal red underline direction for the active set.
 10. Lists: red X marks for what is missing (Brez), dot bullets with bold keywords, colour-coded columns for a comparison (Nik seq 2 slide 1: grey heap of small tags vs big mustard blocks).
 11. Repeated photos can carry progress. Brez 1/2, 3-5 and 6/7 use additive copy; Nik seq 3 slides 3-6 retain the presentation scene and advance the product explanation. Change or repeat the scene deliberately rather than forcing a unique photo on every slide.
@@ -48,7 +50,7 @@ Stories connect content, offer and funnel. The references combine photography, e
 
 ## Open questions / gaps
 
-Real-looking app icons: we draw simplified tiles, not brand logos; check whether real logos are acceptable to the founder.
+Founder explicitly requested recognizable real app icons in this session. Register actual permitted glyph assets with their source/use context. Generic lookalike tiles are not the default. A diagram's icon is distinct from an authenticated live integration.
 
 Source conversion performance, exact typefaces, layer files and animation timing are unavailable. The shelby-sapp folder contains stories posted by kobeynguyen about Shelby, not confirmed Shelby-authored design.
 

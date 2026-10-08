@@ -1,0 +1,534 @@
+[
+  {
+    "id": "G1-1",
+    "subject": "Viktor introduction",
+    "visual": "Intact cafe portrait; huge thin white translucent product name crosses the center behind the head and torso; white outline reinforces the letter edges. Upper-right italic peach/violet introduction; left white task list; three rounded peach/violet statistic pills lower left. Purple square V icon, curved white arrow and lower-right chevrons.",
+    "story": "A named assistant is introduced through recurring operator tasks and specific source-presented workload counts. The following feature tiles unpack that promise.",
+    "lesson": "Preserve environment, weight contrast, outlined rear text and subject registration. Counts and capabilities are source claims. Exact source font and original uncomposited photo are unavailable."
+  },
+  {
+    "id": "G1-2",
+    "subject": "Call preparation",
+    "visual": "Peach thin sans headline across top; white supporting copy with a peach hand underline on the briefing noun. Meeting photo with two men at table. Three black rounded message crops, descriptive labels and violet curved connectors form a preparation chain.",
+    "story": "Turns a broad assistant claim into a concrete pre-call output: person, bottleneck and likely obstruction. Each panel answers a different preparation question.",
+    "lesson": "Use genuine call-context artifacts or clearly labeled demonstrations. Crop to the decisive detail; retain source labels. Curves connect work stages rather than decorating empty space."
+  },
+  {
+    "id": "G1-3",
+    "subject": "Follow-up",
+    "visual": "Pink thin headline; white body wraps around a central standing subject. Black recap, action and draft cards occupy left-middle, right-middle and lower-left fields. Violet rounded elbow lines and cards sit behind the restored person; scene remains visible.",
+    "story": "Moves from the call to its aftermath. The three outputs make otherwise invisible follow-up work inspectable; the draft supplies a tangible payoff.",
+    "lesson": "Excellent behind-subject card recipe. Match photo/mask transform exactly; avoid splitting a sentence into disconnected fragments around the head. A draft panel does not establish that a message was sent."
+  },
+  {
+    "id": "G1-4",
+    "subject": "Onboarding",
+    "visual": "Lilac thin headline and white copy with a hand underline. Two broad dark message panels sit side by side above seated people and laptop. Labels distinguish setup work from pending actions; restrained glow and rounded corners unify the panels.",
+    "story": "Shifts from a lead conversation to the work needed when someone becomes a client. Shows completed and outstanding tasks as separate states.",
+    "lesson": "Use two named states and actual task records. Keep panels readable above the subject; no graph is needed when the comparison is categorical."
+  },
+  {
+    "id": "G1-5",
+    "subject": "Updates",
+    "visual": "Purple thin headline at top. Presenter on the right overlaps three stacked black reporting crops on the left. Thin lavender separators and bold label nouns divide what happened, what changed and what comes next; white body and one underline.",
+    "story": "Report structure makes the assistant's work understandable instead of presenting a vague activity total. Three numbered summaries turn reporting into a decision aid.",
+    "lesson": "Preserve the left report/right person relationship. Do not invent reports or turn illustrative movement into measured client outcomes."
+  },
+  {
+    "id": "G1-6",
+    "subject": "Recruitment",
+    "visual": "Violet headline and underlined process phrase. Candidate shortlist table and interview-verdict prose appear in paired black cards above a conference-table photograph. Small explanatory labels sit below the panels.",
+    "story": "Reframes a hiring complaint around the selection process and demonstrates two decision artifacts. The source adds its own first-hire claim.",
+    "lesson": "A table and a verdict have different jobs; keep their forms distinct. Source hiring outcomes are unverified, and small cells must be enlarged when needed at phone size."
+  },
+  {
+    "id": "G1-7",
+    "subject": "Collections",
+    "visual": "More saturated violet headline. Central man cycling outdoors; overdue-invoice crop lower left and failed-payment crop mid-right. White explanatory copy is spaced around the face, with violet accent edges and label hierarchy.",
+    "story": "Moves from acquiring revenue to collecting it. Shows two operational money problems rather than another general growth promise.",
+    "lesson": "Keep metric distinctions: billed, overdue, failed and collected are different states. Preserve the outdoors; source split copy around the face is a readability weakness to improve."
+  },
+  {
+    "id": "G1-8",
+    "subject": "Cross-system questions",
+    "visual": "Saturated purple thin headline, white question-oriented body and one underline. Seated operator with phone/laptop; dark crops for quiet clients, booked calls and renewals sit upper-left, upper-right and lower-left around him.",
+    "story": "Closes the captured set on cross-system visibility. A single question can draw on several named work records; no audience-facing CTA is captured.",
+    "lesson": "Retain three clearly identified record types. Visible visual connections do not prove real integrations. Do not append a commercial close and claim it existed in the source."
+  },
+  {
+    "id": "G2-1",
+    "subject": "Viktor keyword invitation",
+    "visual": "Cafe portrait; enormous bold white product keyword, partly outlined/occluded around hair. Gradient italic invitation above; small white upper-right delivery promise and gradient underline. Speech bubble identifies the keyword near the subject.",
+    "story": "Asks for a bounded document/setup asset. It is saved first, but may be a campaign close; the folder alone does not establish reading order.",
+    "lesson": "Preserve keyword hierarchy and one promised delivery. Make the fulfillment route real. Do not infer the operator's identity from adjacent tiles."
+  },
+  {
+    "id": "G2-2",
+    "subject": "Edvin result tile",
+    "visual": "Sunset dinner photograph; huge white dot-matrix multiplier behind the centered head. Italic serif name and agency phrase; translucent outlined pills for starting/ending monthly amount and duration, positioned at the lower sides.",
+    "story": "A source-presented $5k to $500k/month change over 18 months is condensed into an identity, multiplier and timeframe.",
+    "lesson": "The ratio is 100, but the business outcome is not audited. Keep the month unit, duration and both endpoints. Dot-matrix display requires a real font or deterministic glyph asset."
+  },
+  {
+    "id": "G2-3",
+    "subject": "Dan result tile",
+    "visual": "Two men seated on a couch in a warm pink-lit venue. White dot-matrix multiplier lies behind heads; italic identity and agency descriptor; centered lower glass pills show endpoints and 11-month duration.",
+    "story": "Presents a source $8k to $112k/month change, a 14-fold ratio, as another example in the collection.",
+    "lesson": "Repetition creates an archive of similarly framed cases. Adapt positions to two faces; never transplant the names or results into Pulsify proof."
+  },
+  {
+    "id": "G2-4",
+    "subject": "Sam result tile",
+    "visual": "Night photograph on a sports car with palms; white dot-matrix multiplier behind the person, serif identity around it, glass endpoint and two-year pills below. Cool darkness supports white type.",
+    "story": "Source $30k to $2.05M/month is compressed to a rounded 68-fold result.",
+    "lesson": "Arithmetic is approximately 68.33; label rounding. Copy the depth and token hierarchy with work imagery, rather than making the car the authority signal."
+  },
+  {
+    "id": "G2-5",
+    "subject": "Jay result tile",
+    "visual": "Podcast/work desk scene with microphone and monitor; dot-matrix display behind the seated subject; serif identity; outlined glass pills contain a zero baseline, $100k/month ending amount and 12 months.",
+    "story": "Attempts to amplify a from-zero case with a 1000-fold headline.",
+    "lesson": "A multiplier from zero is undefined. Preserve the visual construction but replace that calculation with an honest endpoint or absolute change when making our own tile."
+  },
+  {
+    "id": "G2-6",
+    "subject": "Jim result tile",
+    "visual": "Front-facing cafe portrait, large dot-matrix display behind the head, italic identity and agency descriptor, two restrained glass pills around the lower photo field.",
+    "story": "Source $100 to $50k/month over 12 months gives a 500-fold ratio.",
+    "lesson": "Include the currency, recurring period and duration. A mathematically coherent claim still requires genuine evidence before becoming our own case study."
+  },
+  {
+    "id": "G2-7",
+    "subject": "Otis result tile",
+    "visual": "Standing waterfront portrait, sea and palms clearly visible; large dotted type behind the head; italic name/agency; low glass pills show six months and zero to $18k/month.",
+    "story": "Another starting-from-zero story presented as an 18-fold increase.",
+    "lesson": "Zero denominator again makes the multiplier invalid. Environmental depth supplies interest without needing an added blur or a heavy rectangular card."
+  },
+  {
+    "id": "G2-8",
+    "subject": "Liv result tile",
+    "visual": "Coffee portrait in front of mountain lake; dotted result behind hair; italic identity; glass pills subtly inherit the green environment and retain white text for endpoints and 14 months.",
+    "story": "Source $35k to $132k/month is rounded to a four-fold result.",
+    "lesson": "Actual ratio is about 3.77. Preserve restrained tint sampled from the photo rather than injecting unrelated neon colors. Identify rounded calculations."
+  },
+  {
+    "id": "G2-9",
+    "subject": "Callum result tile",
+    "visual": "Rooftop terrace portrait in light clothing; white dotted display behind the head; thin italic identity; glass lower-side pills carry endpoints and ten-month duration.",
+    "story": "Source $20k to $200k/month is summarized by a 10-fold headline.",
+    "lesson": "The repeated template varies with available negative space. White clothing needs local contrast planning; a universal darkened image would discard the scene's character."
+  },
+  {
+    "id": "G2-10",
+    "subject": "Peter result tile",
+    "visual": "Two people in a bright outdoor interview; dotted result sits behind heads; serif identity and lower glass metrics remain the same family.",
+    "story": "Source $30k to $770k/month over seven months is shown as a rounded 26-fold increase.",
+    "lesson": "Ratio is about 25.67. Protect both faces and leave required figures clear. Same-unit comparison is essential to a meaningful result tile."
+  },
+  {
+    "id": "G2-11",
+    "subject": "Alexis result tile",
+    "visual": "Side portrait at a work table, with an already soft photographic background. Large dotted display behind the subject; serif name and transparent outlined endpoint/time pills.",
+    "story": "Source $9k to $109k/month over seven months is summarized as roughly twelve-fold.",
+    "lesson": "Ratio is about 12.11. A flattened picture cannot establish whether softness came from the lens or editing; it does not authorize manufactured blanket blur."
+  },
+  {
+    "id": "G2-12",
+    "subject": "Alex result tile",
+    "visual": "Selfie with cap and headphones; dotted multiplier is occluded by the cap/head, serif name and descriptor remain visible, glass endpoint/time pills sit low.",
+    "story": "Source $2.5k to $55k/month over eight months produces a 22-fold ratio.",
+    "lesson": "Cap edges need the same mask care as hair. Preserve photo identity and source labels; do not infer business facts from the styling."
+  },
+  {
+    "id": "G2-13",
+    "subject": "Noah result tile",
+    "visual": "Warm orange restaurant candid; dotted headline behind hair, white serif identity, low glass pills. The photo's amber lighting supplies most of the palette.",
+    "story": "Source $5k to $109k/month over eleven months is summarized as rounded 22-fold growth.",
+    "lesson": "Ratio is 21.8. Repeated white type can unite different real scenes without recoloring all photographs into one background."
+  },
+  {
+    "id": "G2-14",
+    "subject": "Tyler result tile",
+    "visual": "Speaking portrait with microphone; large dotted multiplier behind the head, italic name and agency text, glass pills for $20k to $200k/month and eight months.",
+    "story": "Uses the same case-tile grammar, but labels the change as six-fold.",
+    "lesson": "The visible endpoints imply ten-fold growth. Preserve the layout, flag the source contradiction and never reproduce the incorrect calculation in client output."
+  },
+  {
+    "id": "G3-1",
+    "subject": "Proof-wall close",
+    "visual": "Standing speaker left; a dense tiled wall of YouTube case thumbnails fills the left background and fades near the bottom. Right column carries a large success-story count, qualifying copy and a keyword request. Subject stands in front of the wall.",
+    "story": "Makes an archive feel tangible, then offers help and a further asset. This tile differs from the following Bram story and should not be assumed its opening.",
+    "lesson": "Use an actual archive with a verifiable count. Dense thumbnails suggest volume but do not independently verify each success. Keep source identity/ordering uncertain."
+  },
+  {
+    "id": "G3-2",
+    "subject": "Bram credential cover",
+    "visual": "Cafe photo with person low-center, white centered sans in top and bottom zones. Selective bold metrics and clean blue underlines; small @bram signature lower left; intact environment under exposure reduction.",
+    "story": "Introduces an attributed e-commerce history and opens the question of what happened between the starting point and current scale.",
+    "lesson": "Credentials are source-presented claims. Transfer the specific timeline question and selective emphasis with the founder's own verified history."
+  },
+  {
+    "id": "G3-3",
+    "subject": "Beginning without guidance",
+    "visual": "Room at sunset with silhouetted person; white top copy describes a 2019 beginning, a trial and belief; lower copy isolates the cost of learning alone. Blue underlines and bold words repeat the family.",
+    "story": "Creates a personal starting point and withholds the consequences until the lower beat, leading to the next chapter.",
+    "lesson": "Do not invent an autobiography. Use an actual moment, concrete constraint and consequence. The photo supplies mood, not historical verification."
+  },
+  {
+    "id": "G3-4",
+    "subject": "Slow progress",
+    "visual": "Terrace/menu photo; short white top block about eventual progress, longer bottom block about expensive years and avoidable learning. Center breathing room preserves the human scene; blue phrase underlines.",
+    "story": "Answers whether it worked, then shifts the question to the cost of the route taken.",
+    "lesson": "One frame can hold a concession and a consequence without a box. Keep top/bottom reading order clear at story scale."
+  },
+  {
+    "id": "G3-5",
+    "subject": "Environment reset",
+    "visual": "Dubai skyline scene; small seated subject lower left. White top text describes a move/reset; bottom text links environment and scale. Blue underlines and small signature maintain identity.",
+    "story": "Presents a life chapter as a turning point.",
+    "lesson": "A scene illustrates the reported move; it does not prove that location caused growth. Pulsify should use a relevant work change rather than a status destination by default."
+  },
+  {
+    "id": "G3-6",
+    "subject": "Plateau invitation",
+    "visual": "Padel court at sunset; white upper pain-mirror copy, lower faster-way invitation, link-in-bio instruction and personal sign-off. Blue underlines keep the established look.",
+    "story": "Offers an exit from a plateau and a next step. Saved before further story tiles, so the original chronology is not established.",
+    "lesson": "Keep a meaningful named next asset or diagnostic task. The source's faster-way promise lacks a fully exposed mechanism here; do not rely on vague relief alone."
+  },
+  {
+    "id": "G3-7",
+    "subject": "Costly shortcuts",
+    "visual": "Roadside/car scene with person; two separated white blocks, bold keywords and blue underlines. Upper block frames lost money; lower block names courses/coaching at the wrong stage and continued investment.",
+    "story": "Adds the mistake and its consequence to the autobiographical arc.",
+    "lesson": "Stage mismatch is the useful teaching point. A car is neither evidence of the mistake nor required for a persuasive Pulsify version."
+  },
+  {
+    "id": "G3-8",
+    "subject": "Small team and systems",
+    "visual": "Amsterdam street and small-car scene; white upper/lower copy describes returning home and a small team with systems, with restrained blue underlines and signature.",
+    "story": "Moves from wandering/investment to a grounded operating model and pride in the work.",
+    "lesson": "Transfer the operational specificity, not the source life history. Team and system claims require their own artifacts if presented as evidence."
+  },
+  {
+    "id": "G3-9",
+    "subject": "Reader recognition",
+    "visual": "Busy outdoor dining photo with patterned awning; white top identification statement and lower grouped revenue-stage examples. Bold phrases, blue underlines and @bram signature; relatively dense copy over a visually busy setting.",
+    "story": "Makes several business stages feel recognized, then names the inability to see the obstruction.",
+    "lesson": "Audience examples are not audited client results. Reduce density or relocate text when recomposing; recognition should describe a real buyer situation."
+  },
+  {
+    "id": "G3-10",
+    "subject": "Diagnostic mechanism",
+    "visual": "Walking portrait in old street; upper white copy names inspection of ad account, creative and numbers. Lower copy lists three source-presented client outcomes, then a stage-appropriate systems conclusion; blue underlines.",
+    "story": "Supplies a concrete intervention to the earlier plateau and wrong-stage problem, then attaches attributed results.",
+    "lesson": "Preserve diagnostic nouns and stage logic. The listed outcomes have no attached receipts here; do not promote them as verified Pulsify results."
+  },
+  {
+    "id": "K1-1",
+    "subject": "Fitness case-study cover",
+    "visual": "Bold white headline with red rectangular result backing. City-view portrait foreground; intentionally blurred IG profile card left, calendar/events and payment/message crops right. Cards pass behind subject; smaller follower/view context below the headline.",
+    "story": "Opens a case with a claimed starting/ending income and call volume despite a small audience.",
+    "lesson": "Blur is localized to the profile, likely privacy/de-emphasis; it is not a background recipe. Event counts do not automatically establish qualified weekly calls."
+  },
+  {
+    "id": "K1-2",
+    "subject": "Consultation audit",
+    "visual": "Glowing white [1] and red-backed heading; several short white audit paragraphs on the left; rounded video-call panel below with one face pixelated; curved white arrow points to the panel. Real travel/seat setting remains recognizable.",
+    "story": "Explains a first consultation and its diagnostic value rather than jumping directly to the result.",
+    "lesson": "Preserve the purpose of the call and privacy treatment. Short paras are structured but dense; test phone readability before copying their length."
+  },
+  {
+    "id": "K1-3",
+    "subject": "Content ecosystem setup",
+    "visual": "Glowing [2], bold white heading with red block, right-side explanatory copy. Airport/aircraft scene, headphones and book in foreground. Open space reserves room for the next visual.",
+    "story": "Introduces the organic acquisition engine and makes the next frame's mechanism diagram worthwhile.",
+    "lesson": "A setup should name what the diagram will answer. Do not force all information into the setup; use the same photo for the reveal when useful."
+  },
+  {
+    "id": "K1-4",
+    "subject": "Three-channel ecosystem",
+    "visual": "Repeats prior scene with earlier text subdued. White rounded branching connectors lead to three columns: Instagram, YouTube and newsletter/Kit marks. Each has a colored three-band funnel and explanatory text; colors separate platform roles.",
+    "story": "Adds the promised system view without resetting the visual context. Distinguishes profile funnel, video flywheel and newsletter functions.",
+    "lesson": "Build named vector nodes, SVG funnel bands and real app glyph assets. These are conceptual routes, not measured conversion rates or evidence that APIs are connected."
+  },
+  {
+    "id": "K1-5",
+    "subject": "Hybrid funnel setup",
+    "visual": "Glowing [3], left white/red title and three explanatory paragraphs. Night portrait and city stay visible. Copy introduces multiple routes and prepares the viewer for the build diagram.",
+    "story": "Explains why interconnected routes matter, then leaves their construction for the next frame.",
+    "lesson": "Repeat with purpose. A named mechanism needs the actual route exposed; avoid using a title as a substitute for explanation."
+  },
+  {
+    "id": "K1-6",
+    "subject": "Hybrid funnel map",
+    "visual": "Same night portrait; three columns of dark glass nodes and white rounded elbow arrows. Left route includes Instagram organic, DM funnel, Typeform and sales call; right includes newsletter and lead magnet. Head hides parts of the middle route. Lower cyan/blue keyword CTA and glow.",
+    "story": "Pays off the setup with a system map and offers a deeper breakdown.",
+    "lesson": "Retain topology as structured edges. Middle labels are partly unreadable: record the gap, do not invent transcription. Move required node names outside the mask; graph routes are not live integrations."
+  },
+  {
+    "id": "K1-7",
+    "subject": "Launch plan",
+    "visual": "Glowing [4], red-backed launch heading, white left copy describing phased days. Large light Miro-style board on the right; desk/laptop/calendar below. Tiny board cards supply texture more than readable detail.",
+    "story": "Turns the mechanism into an implementation schedule, building anticipation through stages.",
+    "lesson": "Source phases overlap on day 11; resolve dates for an actual plan. Use a real board, then enlarge one decisive phase. Genuine deadlines/capacity must precede scarcity copy."
+  },
+  {
+    "id": "K1-8",
+    "subject": "Case result and close",
+    "visual": "Glowing [5], white/red result heading. Two large opaque evidence panels across the middle cover much of the subject: calendar/payment rows left, DM and graphs right. Large cyan/blue keyword invitation below, with an alternative DM request.",
+    "story": "Returns to the cover outcome and asks for the mechanism breakdown.",
+    "lesson": "This frame deliberately puts proof in front of the person; depth is not mandatory on every panel. Visible calendar window does not establish weekly volume. Prefer one primary action in our own close."
+  },
+  {
+    "id": "K2-1",
+    "subject": "Views-to-money cover",
+    "visual": "Mountain lake and back-facing subject; small gray handle near top. Huge bold white result headline with cyan/blue block; curved white arrow to a smaller money-oriented aside and blue hand underline.",
+    "story": "Creates tension between a large views number and the practical commercial lesson to follow.",
+    "lesson": "Treat views and income as separate outcomes. The source's 38M headline is an attributed claim, not a license to infer sales."
+  },
+  {
+    "id": "K2-2",
+    "subject": "Six-lesson bridge",
+    "visual": "Lift selfie fills the frame. Four dark analytics/donut cards sit behind head, hand and torso at different positions. White lower heading emphasizes six lessons in cyan/blue; small pen-and-paper aside.",
+    "story": "Provides visual scale and converts the result hook into a finite teaching promise.",
+    "lesson": "Four visible view totals sum to 34,864,274, so they do not alone reconcile 38M; they may be partial. Preserve actual ring data/labels or label a conceptual ring; no arbitrary proportions."
+  },
+  {
+    "id": "K2-3",
+    "subject": "World and identity lesson",
+    "visual": "Turquoise glowing [1]; white left-aligned title and paragraph stack; mountain lake photo with small subject lower-right. Natural water and shoreline create negative space; no panel or chart.",
+    "story": "Teaches personal-brand associations through background, history and vulnerability.",
+    "lesson": "Use the client's actual story and associations. Do not add shapes where the photograph and argument already carry the frame."
+  },
+  {
+    "id": "K2-4",
+    "subject": "Distribution lesson",
+    "visual": "Turquoise [2], provocative bold heading and roughly six short white paragraphs on the left. Desk and laptop below, bright window/right scene. One-column text follows the negative space.",
+    "story": "Argues for extending one idea into more formats rather than more ideation; source includes an unsupported reach-lift claim.",
+    "lesson": "Transfer the concrete repurposing process, not the numerical promise. Dense paragraph count is a production readability concern."
+  },
+  {
+    "id": "K2-5",
+    "subject": "Visual positioning lesson",
+    "visual": "Turquoise [3]; mirror portrait with person concentrated right; white left heading, explanation and five-item camera/light/presence/congruence/editing list. Warm brown setting supports restrained white type.",
+    "story": "Makes the visual craft itself evidence of the lesson and names controllable inputs.",
+    "lesson": "Craft can show a method without financial claims. Preserve camera/light congruence, not incidental possessions; typography must remain distinct from mirror reflections."
+  },
+  {
+    "id": "K2-6",
+    "subject": "Outlier identity lesson",
+    "visual": "Turquoise [4]; white left title and long paragraph stack over night buildings and car. The image carries darkness and atmosphere while text remains the primary object.",
+    "story": "Encourages associations beyond the creator's obvious industry.",
+    "lesson": "Source universal assertions are teaching opinions, not proven laws. Tie unusual associations to actual buyer relevance rather than arbitrary novelty."
+  },
+  {
+    "id": "K2-7",
+    "subject": "Objection-to-topic lesson",
+    "visual": "Turquoise [5]; shoreline photo with small person lower-right. White principle above; lower paired objection/example lines demonstrate a topic derived from a time concern.",
+    "story": "Turns a recognized objection into an actionable content brief.",
+    "lesson": "Use actual objection language and a supported answer. The example's time/result framing is a placeholder pattern, not a performance claim to inherit."
+  },
+  {
+    "id": "K2-8",
+    "subject": "Ecosystem lesson",
+    "visual": "Turquoise [6]; white left copy describes Instagram, YouTube and email roles. Car/wheel scene is visibly soft, red and dark; no constructed graph despite a system topic.",
+    "story": "Completes the teaching promise with platform roles and a connected-content argument.",
+    "lesson": "A soft flattened source cannot establish its editing method. Our founder rejects blanket background blur; keep recognizable scenes and use a diagram only if it adds clarity."
+  },
+  {
+    "id": "K2-9",
+    "subject": "Audit close",
+    "visual": "Night portrait reused from the hybrid map set. Gray centered handle, large white benefits copy, oversized cyan/blue keyword invitation below and a personal-delivery promise.",
+    "story": "Closes the six lessons with a bounded audit asset and simple action.",
+    "lesson": "The offer must exist and fulfillment must be defined. A personal-looking promise does not establish a connected automation or guarantee a reply time."
+  },
+  {
+    "id": "NG-1",
+    "subject": "Onboarding cover",
+    "visual": "Desktop Instagram capture: artwork occupies left, caption/UI right. Warm studio photo; very large bold grow with italic serif acquisition; thin introductory line and white promise. Lower-left dense dark message wall behind foreground person/table; underlined audience nouns.",
+    "story": "Invites the reader to experience onboarding, then previews a seven-stage service method.",
+    "lesson": "Crop outer browser UI out of exported art. The proof wall signals volume, but the result promise and message count are unverified."
+  },
+  {
+    "id": "NG-2",
+    "subject": "Audit and gameplan",
+    "visual": "Warm studio meeting, people/laptop lower; projected Miro-style board upper-left; upper-right bold white title with pale tall serif 1. Body attached to a thin vertical white rule.",
+    "story": "Names diagnosis as the first service stage and shows a planning artifact.",
+    "lesson": "Use an actual plan with readable decisive boxes. The tall number is a family marker, not a requirement for unrelated feature or personal-story sets."
+  },
+  {
+    "id": "NG-3",
+    "subject": "Profile optimization",
+    "visual": "Presenter and audience low in frame; a huge tilted IG profile screenshot fills the right wall plane. White handwritten labels/arrows identify avatar, bio, highlight circles and pinned posts. Ghost 2, white heading and ruled body upper-left.",
+    "story": "Shows the profile as a conversion surface and reveals its components.",
+    "lesson": "Use the same real profile state and source date; preserve avatar/handle/bio/highlights. Screenshot appearance does not prove every asserted outcome or account relationship."
+  },
+  {
+    "id": "NG-4",
+    "subject": "Content positioning",
+    "visual": "Ghost 3 and centered heading/body high; three platform pills with recognizable YouTube/Instagram/avatar marks. Tall thumbnail collections arranged as columns behind seated team and chairs; warm studio scene preserved.",
+    "story": "Makes three content surfaces tangible through their actual outputs.",
+    "lesson": "Platform/output map rather than measured graph. Preserve recognizable artifacts and marks; the foreground group should overlap redundant edges only."
+  },
+  {
+    "id": "NG-5",
+    "subject": "Offer refinement",
+    "visual": "Ghost 4, upper-left white heading and ruled description. Team works at a laptop in a real studio with backdrop rack, tripods and warm lamp; no added proof panel is required.",
+    "story": "Provides a craft/process pause between heavier artifact scenes.",
+    "lesson": "Counterexample to mandatory screenshot on every slide. The relevant work scene can carry context while the copy explains the service."
+  },
+  {
+    "id": "NG-6",
+    "subject": "Content to revenue",
+    "visual": "Ghost 5 and large white title/body above. A sequence of dark chat/link/booking/signed crops traverses the wall with white curved arrows; seated audience left and presenter right remain foreground; studio equipment visible.",
+    "story": "Turns the abstract lead-to-client path into a sequence of recognizable communication states.",
+    "lesson": "Connect actual milestones in order. A signed badge does not establish collected cash. Arrows must land on the relevant state, not randomly on a card edge."
+  },
+  {
+    "id": "NG-7",
+    "subject": "Sales transformation",
+    "visual": "Ghost 6 and two-line bold white title, ruled body. Two-column payment notification stack below, lower rows progressively subdued. Two seated men overlap the lowest notifications; warm leather and lighting supply palette.",
+    "story": "Uses payment artifacts to make the sales stage concrete.",
+    "lesson": "Use genuine payment notifications, redact identifying fields rather than metrics/periods. Source claims do not establish causation; required amounts must stay outside subject overlap."
+  },
+  {
+    "id": "NG-8",
+    "subject": "Data optimization",
+    "visual": "Ghost 7 and centered white title/body; enormous rectangular mosaic of colorful dashboards on rear wall. Contains line plots, maps, heatmaps, donut, funnel, network and bars. Meeting group/table foreground, orange orb/column lights below.",
+    "story": "Visually culminates the method with tracking and decision infrastructure.",
+    "lesson": "These small panels are mostly texture at phone size. Product identity and real tracking coverage are not established by the mosaic. Enlarge one relevant metric instead of inventing a data wall."
+  },
+  {
+    "id": "NG-9",
+    "subject": "Custom-fit close",
+    "visual": "Warm boardroom photo; large real-looking board left. White upper-right heading and ruled copy lead to a dark rounded DM bubble with avatar, handle and keyword. Black curved arrow points at that bubble; people/table occupy lower frame.",
+    "story": "Answers who the method fits and asks for a diagnostic conversation with a specific keyword.",
+    "lesson": "A mocked bubble illustrates the desired action; it is not a received lead. Preserve personalized diagnostic framing with truthful fit boundaries and one real next step."
+  },
+  {
+    "id": "NT-1",
+    "subject": "Story-result cover",
+    "visual": "Outdoor bench/architecture photo; large white amount, italic serif framing above and around, mixed sans medium phrase. Circular story-ring avatar and viewer label at left; person in foreground with phone.",
+    "story": "Uses a specific attributed revenue result to open a finite taxonomy of story types.",
+    "lesson": "Precise numbers feel concrete but are not independently verified. Preserve units and claimed timeframe; no revenue claim should be inferred from the viewer badge alone."
+  },
+  {
+    "id": "NT-2",
+    "subject": "Value type",
+    "visual": "White canvas, black bold name/definition, pale italic serif 1 woven behind type. Three overlapping phones below; left purple cadence pill, middle gray purpose pill, right mint audience pill. Real profile annotations and value-story captures visible inside.",
+    "story": "Defines useful teaching and shows actual examples in the same frame.",
+    "lesson": "Chip colors encode three axes in this family. Do not enforce them on every carousel. Phone content is evidence of format; tiny inner text must be separately enlarged when decisive."
+  },
+  {
+    "id": "NT-3",
+    "subject": "Credibility type",
+    "visual": "White canvas; two tall phones around central dark win/payment crops; pale curved arrows link crop to phone. Black lower name/definition with pale 2; purple/gray/mint pills across bottom.",
+    "story": "Pairs the credibility category with recognizable transformation/message examples.",
+    "lesson": "Arrows connect evidence and its use. Payment snippets are source claims, not our results; retain provenance and never manufacture a client quote."
+  },
+  {
+    "id": "NT-4",
+    "subject": "Q and A type",
+    "visual": "Large pale serif 3 left; bold black name and definition right; three colored pills beneath. Center tall question-sticker phone with soft local shadow, four smaller story cards across the lower area, outer examples intentionally edge-cropped.",
+    "story": "Shows the interaction and response formats that handle questions/objections.",
+    "lesson": "Local phone shadow is separate from blanket photo blur. Preserve the question mechanism; edge bleed is allowed for secondary examples, not required labels."
+  },
+  {
+    "id": "NT-5",
+    "subject": "Day-in-life type",
+    "visual": "White canvas; three cropped phones above and three below. Center giant black title/definition with pale 4; colored purpose/cadence/audience pills stacked left. Time labels inside screenshots organize the day.",
+    "story": "Demonstrates chronology through actual work/activity snapshots.",
+    "lesson": "This six-phone collage is denser than a generic two-card layout. Use real work for Pulsify, and keep dates/time labels legible if chronology is the claim."
+  },
+  {
+    "id": "NT-6",
+    "subject": "Breakdown type",
+    "visual": "White canvas; one large partial phone left shows CRM stages; title/definition in top-right with pale 5; colored pills below. Three phones across bottom show setter selection, answer and voice states; red privacy strokes and arrow inside captures.",
+    "story": "Shows a mechanism through successive product states rather than a broad software promise.",
+    "lesson": "Use actual current UI and capability verification. Source software name/features are not established merely by our resemblance to it. Separate evidence redaction from emphasis marks."
+  },
+  {
+    "id": "NT-7",
+    "subject": "Lifestyle type",
+    "visual": "Four large phones occupy corners around a central vertical white column. Bold black split title, pale 6, definition and three pills centered; real restaurant/conversation/event/portrait scenes inside devices.",
+    "story": "Defines a photo-only familiarity/desire category with examples.",
+    "lesson": "Preserve the structural option while translating to humanity and useful work. Source lifestyle positioning does not override Pulsify's no-flex authority."
+  },
+  {
+    "id": "NT-8",
+    "subject": "CTA type",
+    "visual": "White canvas; staggered tall phones, black category at upper-left with pale 7, three pills upper-right. Thick pale rounded route traces between devices and ends in a dot; definition occupies center/lower gaps.",
+    "story": "Shows several nurture states culminating in an invitation.",
+    "lesson": "The route line encodes progression, not quantitative loss. Genuine availability and delivery must support any scarcity visible in our own CTA."
+  },
+  {
+    "id": "NT-9",
+    "subject": "Broken capture",
+    "visual": "Only a narrow fragment of dark artwork and cut-off white/serif letters is available. No full figure, subject, complete sentence or composition can be recovered from the file.",
+    "story": "Cannot establish a complete extra slide or its transition. The seven-type taxonomy is visible in the other captures.",
+    "lesson": "Exclude from recipe matching and finished reproduction. Preserve the fragment and explicit missing status; never fabricate the absent slide."
+  },
+  {
+    "id": "NT-10",
+    "subject": "Keyword close",
+    "visual": "Warm studio with two people on phones. Large white keyword, italic invitation above, smaller delivery promise and hand underline. Left magenta/violet donut with view total/legend; enormous translucent green curved arrow right, both behind people.",
+    "story": "Offers the in-depth asset after the taxonomy, using reach imagery as supporting context.",
+    "lesson": "The donut's source total is readable but exact segment values are absent. Do not recreate arbitrary proportions as data. Keep graphic arrows distinct from the source platform navigation controls."
+  },
+  {
+    "id": "NP-1",
+    "subject": "Seven-lesson cover",
+    "visual": "Warm studio portrait on stool; giant pale translucent 7 behind huge white sans lesson word. Smaller mixed-weight promise below; figure overlaps lettering, soft text shadow supplies lift. Camera stand and environment remain visible.",
+    "story": "Promises a bounded set of retrospective lessons.",
+    "lesson": "Number belongs on this cover, while interiors are concept-led. Keep necessary words readable around the head; outer screenshot UI is not artwork."
+  },
+  {
+    "id": "NP-2",
+    "subject": "Progress as currency",
+    "visual": "Huge white concept word with shadow top; massive white-framed thumbnail archive on rear wall; small presenter overlaps it. Two white bottom prose groups over the dark room edge.",
+    "story": "Treats the difference between earlier and current work as visible authority.",
+    "lesson": "Use a genuine work archive and comparable dates. A dense collage is not proof that every item succeeded, but it can substantiate a body of work."
+  },
+  {
+    "id": "NP-3",
+    "subject": "Transposition",
+    "visual": "Huge white shadowed concept title high. Right-aligned explanation upper-right, two wider left bottom paragraphs. Two operators at real monitors lower-left; curtains/window/light equipment create the working setting.",
+    "story": "Explains moving a useful pattern between contexts rather than seeking novelty without inputs.",
+    "lesson": "Alignment follows the scene; no ghost number or mandatory card. Transfer a principle with own relevant examples, not copied prose or guaranteed originality claims."
+  },
+  {
+    "id": "NP-4",
+    "subject": "Intention",
+    "visual": "Large white word/shadow over bright projected screen. Black body is broken into left/right fragments around a central standing subject; table in foreground. Some projected source text is faint in the background.",
+    "story": "Connects the quality of the work to the care taken in producing it.",
+    "lesson": "Strong subject depth but fractured sentence flow. Recompose phrases as readable blocks rather than inheriting every irregular gap. Avoid black text on a dark obstruction."
+  },
+  {
+    "id": "NP-5",
+    "subject": "Invisible demand",
+    "visual": "Huge white shadowed word, black paragraphs on bright studio wall. Seated person lower-left; right three-column grid of nine vertical post crops, each with prominent inbound count and smaller views. Subject hides one small part of the text/grid.",
+    "story": "Reframes visible engagement as an incomplete picture of demand and presents source inbound counts as examples.",
+    "lesson": "Inbound labels do not automatically mean qualified buyers or collected revenue. Maintain each metric's definition; a useful visual comparison can retain views and inbounds without claiming causation."
+  },
+  {
+    "id": "NP-6",
+    "subject": "Creativity",
+    "visual": "Huge white shadowed concept word high; two men working at laptop in a cafe fill middle. Three white prose groups across lower scene, following existing dark clothing/table areas.",
+    "story": "Offers a personal work practice behind creative judgment.",
+    "lesson": "A work photo is sufficient when the claim concerns process. Source statements about AI and intelligence are rhetorical opinions, not evidence-based universal rules."
+  },
+  {
+    "id": "NP-7",
+    "subject": "Angles",
+    "visual": "Huge white concept/shadow at top. Four separated white prose groups span upper and lower fields over a dark real desk scene with monitors. Subject occupies lower-left; copy uses a music metaphor and topic reframing.",
+    "story": "Explains how a changed perspective can give an existing topic a different meaning.",
+    "lesson": "Use a clear relevant analogy and return to the practical content task. Do not add a decorative graph just because the slide contains a metaphor."
+  },
+  {
+    "id": "NP-8",
+    "subject": "Differentiation thesis",
+    "visual": "Bright studio, large white shadowed title high, black multi-block body around two seated people and chairs. Dark softboxes overlap the frame edges and reduce contrast under some black words. No hard commercial CTA captured.",
+    "story": "Ends on a category/identity thesis rather than a reply request.",
+    "lesson": "Keep the thesis-close option. Improve source contrast and sentence fragmentation instead of copying defects; absent CTA is a meaningful structural choice."
+  }
+]

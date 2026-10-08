@@ -1,0 +1,908 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "profile_version": {
+      "const": "1.0.0"
+    },
+    "job_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "reference-study",
+        "client-production"
+      ]
+    },
+    "family_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "carousel",
+        "story"
+      ]
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ]
+    },
+    "brief": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "topic": {
+          "type": "string",
+          "minLength": 1
+        },
+        "audience_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "belief_to_change": {
+          "type": "string",
+          "minLength": 1
+        },
+        "offer_fit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "delivery": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "question",
+        "topic",
+        "audience_state",
+        "purpose",
+        "belief_to_change",
+        "offer_fit",
+        "action",
+        "delivery"
+      ]
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      },
+      "minItems": 1
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/claim"
+      },
+      "minItems": 0
+    },
+    "slides": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/slide"
+      },
+      "minItems": 1
+    },
+    "render_status": {
+      "type": "string",
+      "enum": [
+        "unbound-template",
+        "draft",
+        "validated",
+        "rendered",
+        "reviewed",
+        "approved",
+        "exported"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "profile_version",
+    "job_id",
+    "mode",
+    "family_id",
+    "format",
+    "canvas",
+    "brief",
+    "assets",
+    "claims",
+    "slides",
+    "render_status"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pulsify reference composition job 1.0.0",
+  "$defs": {
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "photo",
+            "mask",
+            "proof",
+            "profile",
+            "icon",
+            "font",
+            "brand",
+            "device"
+          ]
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "mask_of": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_note": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "path",
+        "sha256",
+        "source_note"
+      ]
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "window": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "verification": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "illustrative",
+            "source-presented",
+            "unverified"
+          ]
+        },
+        "calculation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "ratio",
+                "sum"
+              ]
+            },
+            "inputs": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2
+            },
+            "rounding_tolerance": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "kind",
+            "inputs"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "entity",
+        "metric",
+        "value",
+        "unit",
+        "window",
+        "evidence_ids",
+        "verification"
+      ]
+    },
+    "style": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "font_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "weight": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 900
+        },
+        "size_px": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "line_height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "tracking_px": {
+          "type": "number"
+        },
+        "alignment": {
+          "type": "string",
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        "fill": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stroke": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stroke_px": {
+          "type": "number",
+          "minimum": 0
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "radius_px": {
+          "type": "number",
+          "minimum": 0
+        },
+        "gradient_stops": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "offset": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "color": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "offset",
+              "color"
+            ]
+          },
+          "minItems": 0
+        }
+      },
+      "required": []
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "component": {
+          "type": "string",
+          "enum": [
+            "photo",
+            "local-contrast",
+            "subject-restore",
+            "text",
+            "source-crop",
+            "glass-pill",
+            "report-card",
+            "profile-panel",
+            "phone-frame",
+            "proof-wall",
+            "app-icon",
+            "funnel",
+            "graph",
+            "annotation",
+            "magnifier",
+            "brand-object",
+            "cta"
+          ]
+        },
+        "z": {
+          "type": "integer"
+        },
+        "box": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "essential": {
+          "type": "boolean"
+        },
+        "asset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mask_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "same_transform_as": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transform": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "scale": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "translate": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "items": false,
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "crop": {
+              "type": "array",
+              "prefixItems": [
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 1
+                }
+              ],
+              "items": false,
+              "minItems": 4,
+              "maxItems": 4
+            }
+          },
+          "required": [
+            "scale",
+            "translate",
+            "crop"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "line_breaks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "style": {
+          "$ref": "#/$defs/style"
+        },
+        "source_box": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "graph_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_layer_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "svg_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "illustrative_label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "photo_effect": {
+          "type": "string",
+          "enum": [
+            "none",
+            "approved-local-scrim"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "component",
+        "z",
+        "box",
+        "essential"
+      ]
+    },
+    "node": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "box": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "icon_asset_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ports": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "label",
+        "box",
+        "ports"
+      ]
+    },
+    "edge": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "from_port": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to_port": {
+          "type": "string",
+          "minLength": 1
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "from",
+        "from_port",
+        "to",
+        "to_port"
+      ]
+    },
+    "datum": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "label",
+        "value"
+      ]
+    },
+    "graph": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "flow",
+            "funnel",
+            "donut",
+            "line",
+            "bar"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "conceptual",
+            "measured",
+            "source-capture"
+          ]
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/node"
+          },
+          "minItems": 0
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/edge"
+          },
+          "minItems": 0
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/datum"
+          },
+          "minItems": 0
+        },
+        "metric": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "window": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_asset_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "scale_semantics": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "status",
+        "nodes",
+        "edges",
+        "data",
+        "source_asset_ids",
+        "scale_semantics"
+      ]
+    },
+    "copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "question": {
+          "type": "string",
+          "minLength": 1
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "next_question": {
+          "type": "string"
+        },
+        "payoff_slide": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "question",
+        "answer",
+        "evidence_ids",
+        "next_question",
+        "payoff_slide"
+      ]
+    },
+    "slide": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "recipe_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "copy": {
+          "$ref": "#/$defs/copy"
+        },
+        "subject_box": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          ],
+          "items": false,
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/layer"
+          },
+          "minItems": 1
+        },
+        "graphs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/graph"
+          },
+          "minItems": 0
+        },
+        "qa_notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "reference_ids",
+        "recipe_id",
+        "copy",
+        "layers",
+        "graphs",
+        "qa_notes"
+      ]
+    }
+  }
+}

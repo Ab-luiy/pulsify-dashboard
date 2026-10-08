@@ -1,0 +1,2621 @@
+{
+  "$schema": "./reference-replication-profile.schema.json",
+  "profile_version": "1.0.0",
+  "id": "pulsify-shared-reference-replication",
+  "date": "2026-10-08",
+  "scope": {
+    "carousel_images_individually_examined": 76,
+    "usable_full_captures": 75,
+    "broken_fragments": 1,
+    "source_directories": 8,
+    "visual_families": 9,
+    "existing_story_audit_images": 57,
+    "story_audit_reopened_this_pass": false,
+    "live_app_integrated": false,
+    "pixel_identity_guaranteed": false
+  },
+  "evidence_policy": {
+    "observation": "Visible in supplied image",
+    "inference": "Bounded interpretation of visual/narrative job",
+    "production_rule": "Explicit founder direction or proposed engineering gate",
+    "geometry": "Estimated starting coordinates; calibrate with original",
+    "source_claims": "Attributed, not independently verified",
+    "unknowns": [
+      "exact source fonts",
+      "layer files and many original photographs",
+      "uninterrupted G2/G3 campaign order",
+      "occluded/tiny UI labels",
+      "donut segment values",
+      "measured retention/conversion"
+    ]
+  },
+  "precedence": [
+    "current explicit job/founder/client decisions",
+    "locked copy and banned asset registry",
+    "mode and family",
+    "selected image/recipe anchors",
+    "estimated defaults"
+  ],
+  "modes": {
+    "reference-study": "Preserve original reference look for internal calibration, source claims remain attributed",
+    "client-production": "Preserve craft with real registered client assets, truthful copy and active brand overrides"
+  },
+  "invariants": [
+    "copy and communication purpose before artwork",
+    "preserve recognizable actual environment",
+    "never globally blur or mirror/blur-extend for text space",
+    "do not generate personal identity, receipts or final typography",
+    "photo and mask share one exact transform",
+    "essential text/units/timeframes/CTA remain visible",
+    "real glyph assets identify apps; connections require separate authenticated records",
+    "graphs declare conceptual/source-capture/measured status",
+    "same craft for stories and carousels with separate geometry",
+    "no hard gate can be offset by an aesthetic score"
+  ],
+  "pulsify_overrides": {
+    "scope": "Current SaaS highlight; does not globally replace source-study palettes or app UI",
+    "palette": {
+      "graphite": "#0b0c0d",
+      "warm_white": "#f1f1ee",
+      "silver": "#efeee9",
+      "red_underline": "#e5322d",
+      "good_number_emerald": "#5fd6a4"
+    },
+    "fonts": [
+      "registered Helvetica family; current local choice",
+      "Georgia only when an approved serif role is wanted"
+    ],
+    "banned_photo_ids": [
+      "9 / IMG_8529"
+    ],
+    "photo": "Natural scene and exposure; useful deliberate crop; no manufactured top fill",
+    "brand": "Purposeful canonical coin; once/twice in current highlight, not watermark every frame",
+    "no_saturated_blue_in_active_highlight": true
+  },
+  "formats": {
+    "carousel": {
+      "width": 1080,
+      "height": 1350,
+      "safe_box": [
+        0.05,
+        0.04,
+        0.9,
+        0.92
+      ],
+      "status": "proposed working 4:5 canvas; actual source aspect varies"
+    },
+    "story": {
+      "width": 1080,
+      "height": 1920,
+      "safe_box": [
+        0.05,
+        0.13020833333333334,
+        0.9,
+        0.6927083333333334
+      ],
+      "status": "inherited active project reserves, not verified platform specification"
+    },
+    "adaptation": "Recompose photo, text, nodes and edges separately for each format; never stretch or blindly scale entire frame"
+  },
+  "layer_stack": [
+    "base-photo",
+    "approved-local-contrast",
+    "rear-artwork",
+    "original-photo-subject-restore",
+    "critical-foreground-copy-labels",
+    "annotations-brand-cta"
+  ],
+  "material_defaults": {
+    "status": "Proposed 1080px-wide starting values; visually calibrate selected source, not exact recovered source parameters",
+    "glass_pill": {
+      "border_px": [
+        1,
+        2
+      ],
+      "radius_px": [
+        18,
+        32
+      ],
+      "background_opacity": [
+        0.12,
+        0.3
+      ],
+      "padding_px": [
+        14,
+        24
+      ],
+      "shadow": "subtle local lift, not background blur"
+    },
+    "dark_report": {
+      "border_px": [
+        0,
+        1.5
+      ],
+      "radius_px": [
+        16,
+        28
+      ],
+      "background_opacity": [
+        0.85,
+        1
+      ],
+      "padding_px": [
+        16,
+        28
+      ]
+    },
+    "graph_route": {
+      "stroke_px": [
+        2,
+        4
+      ],
+      "corner_radius_px": [
+        12,
+        24
+      ],
+      "arrow_tip": "match named endpoint; route behind nonessential edges, essential labels in front"
+    },
+    "editorial_arrow": {
+      "stroke_px": [
+        2,
+        5
+      ],
+      "curve": "explicit SVG cubic control points; subtle deliberate hand variation"
+    },
+    "marker_underline": {
+      "stroke_px": [
+        3,
+        7
+      ],
+      "placement": "phrase baseline with a small gap; fitted actual rendered width"
+    },
+    "photo_depth": {
+      "alpha": "Registered grayscale/RGBA source-sized mask",
+      "transform": "same crop, scale, translation as base",
+      "restore_rgb": "original photo pixels",
+      "check": "hair/hands/furniture intersections at full size and zoom"
+    },
+    "type": {
+      "side_margin_fraction": [
+        0.05,
+        0.07
+      ],
+      "standard_headline_px": [
+        64,
+        100
+      ],
+      "body_px": [
+        34,
+        46
+      ],
+      "status": "font/phrase dependent; phone readability overrides range"
+    }
+  },
+  "raster_color_evidence": [
+    {
+      "reference_id": "G1-2",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#ecacac",
+          "qualifying_pixel_count": 64867
+        },
+        {
+          "hex": "#fcbca4",
+          "qualifying_pixel_count": 62326
+        },
+        {
+          "hex": "#f4b4a4",
+          "qualifying_pixel_count": 53250
+        }
+      ]
+    },
+    {
+      "reference_id": "G1-3",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#dca4b4",
+          "qualifying_pixel_count": 71381
+        },
+        {
+          "hex": "#e4acb4",
+          "qualifying_pixel_count": 54753
+        },
+        {
+          "hex": "#e4a4b4",
+          "qualifying_pixel_count": 42260
+        }
+      ]
+    },
+    {
+      "reference_id": "G1-4",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#c48cc4",
+          "qualifying_pixel_count": 40091
+        },
+        {
+          "hex": "#d49cbc",
+          "qualifying_pixel_count": 38118
+        },
+        {
+          "hex": "#c494c4",
+          "qualifying_pixel_count": 33796
+        }
+      ]
+    },
+    {
+      "reference_id": "G1-5",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#b484cc",
+          "qualifying_pixel_count": 48622
+        },
+        {
+          "hex": "#ac7cd4",
+          "qualifying_pixel_count": 47156
+        },
+        {
+          "hex": "#bc84cc",
+          "qualifying_pixel_count": 30018
+        }
+      ]
+    },
+    {
+      "reference_id": "G1-6",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#a474dc",
+          "qualifying_pixel_count": 44960
+        },
+        {
+          "hex": "#9c74dc",
+          "qualifying_pixel_count": 43216
+        },
+        {
+          "hex": "#946ce4",
+          "qualifying_pixel_count": 40806
+        }
+      ]
+    },
+    {
+      "reference_id": "G1-7",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#845cec",
+          "qualifying_pixel_count": 54692
+        },
+        {
+          "hex": "#8c64ec",
+          "qualifying_pixel_count": 46915
+        },
+        {
+          "hex": "#8c64e4",
+          "qualifying_pixel_count": 42382
+        }
+      ]
+    },
+    {
+      "reference_id": "G1-8",
+      "role": "headline-accent",
+      "normalized_region_xyxy": [
+        0.02,
+        0.02,
+        0.98,
+        0.3
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#6c4cfc",
+          "qualifying_pixel_count": 83335
+        },
+        {
+          "hex": "#7454f4",
+          "qualifying_pixel_count": 56762
+        },
+        {
+          "hex": "#7c54f4",
+          "qualifying_pixel_count": 47032
+        }
+      ]
+    },
+    {
+      "reference_id": "K1-1",
+      "role": "red-emphasis",
+      "normalized_region_xyxy": [
+        0.05,
+        0.02,
+        0.95,
+        0.23
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#9c0404",
+          "qualifying_pixel_count": 16252
+        },
+        {
+          "hex": "#a40404",
+          "qualifying_pixel_count": 14806
+        },
+        {
+          "hex": "#940404",
+          "qualifying_pixel_count": 14790
+        }
+      ]
+    },
+    {
+      "reference_id": "K2-3",
+      "role": "cyan-ordinal",
+      "normalized_region_xyxy": [
+        0.08,
+        0.18,
+        0.17,
+        0.225
+      ],
+      "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+      "candidates": [
+        {
+          "hex": "#64d4dc",
+          "qualifying_pixel_count": 304
+        },
+        {
+          "hex": "#64dce4",
+          "qualifying_pixel_count": 165
+        },
+        {
+          "hex": "#64dcdc",
+          "qualifying_pixel_count": 161
+        }
+      ]
+    }
+  ],
+  "families": [
+    {
+      "id": "assistant-features",
+      "anchors": "G1-1–8",
+      "job": "Thin feature verbs, outputs, peach-to-violet progression",
+      "signature": [
+        "light-sans",
+        "white-body",
+        "dark-report",
+        "violet-connectors",
+        "aligned-subject-depth"
+      ],
+      "observed_color_roles": [
+        "peach",
+        "pink",
+        "lilac",
+        "violet"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "outlined-name-behind-subject",
+        "feature-three-artifacts",
+        "paired-work-states"
+      ]
+    },
+    {
+      "id": "dotted-results",
+      "anchors": "G2-2–14",
+      "job": "Case identity, result and bounded timeframe",
+      "signature": [
+        "dot-matrix-display",
+        "italic-serif-identity",
+        "glass-metric-pill",
+        "rear-type"
+      ],
+      "observed_color_roles": [
+        "white",
+        "environmental-tint"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "dotted-case-result"
+      ]
+    },
+    {
+      "id": "proof-wall-close",
+      "anchors": "G3-1; NG-1; NP-2",
+      "job": "A real archive supports a readable argument",
+      "signature": [
+        "source-thumbnail-grid",
+        "speaker-foreground",
+        "count-or-thesis"
+      ],
+      "observed_color_roles": [
+        "white",
+        "photo-neutral"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "proof-wall-speaker"
+      ]
+    },
+    {
+      "id": "personal-chronicle",
+      "anchors": "G3-2–10",
+      "job": "Sourced personal chapters and diagnostic resolution",
+      "signature": [
+        "white-sans",
+        "selective-bold",
+        "blue-underline",
+        "small-handle",
+        "top-bottom-copy"
+      ],
+      "observed_color_roles": [
+        "white",
+        "blue",
+        "photo-neutral"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "personal-top-bottom"
+      ]
+    },
+    {
+      "id": "red-case-system",
+      "anchors": "K1-1–8",
+      "job": "Outcome, diagnosis, staged system reveal, evidence",
+      "signature": [
+        "red-headline-block",
+        "white-bold",
+        "bracket-ordinal",
+        "actual-proof",
+        "white-routes",
+        "cyan-cta"
+      ],
+      "observed_color_roles": [
+        "white",
+        "red",
+        "cyan",
+        "platform-colors"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "red-case-proof",
+        "three-platform-funnels",
+        "hybrid-route-map"
+      ]
+    },
+    {
+      "id": "cyan-lessons",
+      "anchors": "K2-1–9",
+      "job": "Result bridge, finite lessons, bounded asset",
+      "signature": [
+        "cyan-word",
+        "glowing-bracket",
+        "gray-handle",
+        "white-copy",
+        "scene-sensitive-alignment"
+      ],
+      "observed_color_roles": [
+        "white",
+        "cyan",
+        "gray"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "cyan-lesson"
+      ]
+    },
+    {
+      "id": "warm-method",
+      "anchors": "NG-1–9",
+      "job": "Diagnosis through seven visible work stages",
+      "signature": [
+        "pale-serif-ordinal",
+        "white-title",
+        "vertical-rule",
+        "rear-wall-artifact",
+        "foreground-people"
+      ],
+      "observed_color_roles": [
+        "white",
+        "warm-gray",
+        "photo-amber"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "warm-method-wall"
+      ]
+    },
+    {
+      "id": "white-taxonomy",
+      "anchors": "NT-2–8",
+      "job": "Definition, informational chips and actual format examples",
+      "signature": [
+        "black-sans",
+        "pale-serif-ordinal",
+        "white-canvas",
+        "phone-collage",
+        "axis-chips"
+      ],
+      "observed_color_roles": [
+        "black",
+        "white",
+        "pale-gray",
+        "purple",
+        "gray",
+        "mint"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "white-phone-taxonomy"
+      ]
+    },
+    {
+      "id": "concept-words",
+      "anchors": "NP-1–8",
+      "job": "One concept and its useful belief change",
+      "signature": [
+        "giant-shadowed-word",
+        "photo-responsive-black-or-white-body",
+        "work-scene",
+        "optional-archive"
+      ],
+      "observed_color_roles": [
+        "black",
+        "white",
+        "photo-neutral"
+      ],
+      "color_status": "approximate visual families, not recovered source hex tokens",
+      "recipes": [
+        "concept-word-scene"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "photo",
+      "job": "Registered real environment",
+      "construction": "Original pixels, focus crop, no global blur/extension"
+    },
+    {
+      "id": "subject-restore",
+      "job": "Depth occlusion",
+      "construction": "Same source/transform as base; registered alpha; original RGB restored"
+    },
+    {
+      "id": "text",
+      "job": "Editable exact copy",
+      "construction": "Actual font ID, weight, bounds, line height, tracking, phrase breaks"
+    },
+    {
+      "id": "source-crop",
+      "job": "Evidence or real work",
+      "construction": "Asset crop, capture date, source claim link, readable decisive detail"
+    },
+    {
+      "id": "glass-pill",
+      "job": "Bounded qualifier/metric",
+      "construction": "Thin border, padding, translucent tint, no false unit"
+    },
+    {
+      "id": "report-card",
+      "job": "Work output",
+      "construction": "Labeled actual capture or explicitly illustrative structured output"
+    },
+    {
+      "id": "profile-panel",
+      "job": "Profile visitor route",
+      "construction": "Avatar/handle, bio, link, highlights, pinned regions; capture date"
+    },
+    {
+      "id": "phone-frame",
+      "job": "Format demonstration",
+      "construction": "Separate actual screenshot/device shell; maintain inner aspect"
+    },
+    {
+      "id": "proof-wall",
+      "job": "Body of work",
+      "construction": "Real asset list; perspective where needed; no fabricated proof count"
+    },
+    {
+      "id": "app-icon",
+      "job": "Recognizable platform identity",
+      "construction": "Actual permitted SVG/PNG, registered source; not an integration claim"
+    },
+    {
+      "id": "funnel",
+      "job": "Conceptual stages or measured conversion",
+      "construction": "Named bands; dataset required for measured widths"
+    },
+    {
+      "id": "graph",
+      "job": "Routes or measured chart",
+      "construction": "Nodes/edges or numeric series, metric/unit/window/scale"
+    },
+    {
+      "id": "annotation",
+      "job": "Focused emphasis/direction",
+      "construction": "Explicit phrase/asset/port target; deterministic path"
+    },
+    {
+      "id": "magnifier",
+      "job": "Read exact source detail",
+      "construction": "Exact crop reused; ring/connector; original label preserved"
+    },
+    {
+      "id": "brand-object",
+      "job": "Purposeful identity/reveal",
+      "construction": "Canonical mark/object, permitted placement, scene-depth plan"
+    },
+    {
+      "id": "cta",
+      "job": "Bounded next action",
+      "construction": "Actual destination/asset/fulfillment; one primary action"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "outlined-name-behind-subject",
+      "anchors": [
+        "G1-1",
+        "G2-1"
+      ],
+      "estimated_boxes": {
+        "rear_display": [
+          0.04,
+          0.2,
+          0.92,
+          0.28
+        ],
+        "body": [
+          0.06,
+          0.44,
+          0.4,
+          0.27
+        ],
+        "icon": [
+          0.76,
+          0.48,
+          0.15,
+          0.12
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > rear outlined/filled type > subject restore > tasks/CTA",
+      "acceptance": "The subject hides redundant letter areas; complete name remains recognizable."
+    },
+    {
+      "id": "feature-three-artifacts",
+      "anchors": [
+        "G1-2",
+        "G1-3",
+        "G1-5",
+        "G1-8"
+      ],
+      "estimated_boxes": {
+        "headline": [
+          0.05,
+          0.05,
+          0.9,
+          0.1
+        ],
+        "body": [
+          0.06,
+          0.16,
+          0.88,
+          0.12
+        ],
+        "artifact_a": [
+          0.06,
+          0.31,
+          0.38,
+          0.17
+        ],
+        "artifact_b": [
+          0.56,
+          0.45,
+          0.38,
+          0.17
+        ],
+        "artifact_c": [
+          0.07,
+          0.68,
+          0.4,
+          0.17
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > report crops/routes > subject restore > essential copy",
+      "acceptance": "Reposition all artifacts to the actual subject; connectors describe real work relationships."
+    },
+    {
+      "id": "paired-work-states",
+      "anchors": [
+        "G1-4",
+        "G1-6"
+      ],
+      "estimated_boxes": {
+        "headline": [
+          0.05,
+          0.06,
+          0.9,
+          0.1
+        ],
+        "body": [
+          0.07,
+          0.17,
+          0.86,
+          0.14
+        ],
+        "state_a": [
+          0.07,
+          0.34,
+          0.41,
+          0.23
+        ],
+        "state_b": [
+          0.52,
+          0.34,
+          0.41,
+          0.23
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > labeled pair > subject restore if needed > essential labels",
+      "acceptance": "Labels distinguish different states or artifact types; use actual records."
+    },
+    {
+      "id": "dotted-case-result",
+      "anchors": [
+        "G2-2",
+        "G2-3",
+        "G2-4",
+        "G2-5",
+        "G2-6",
+        "G2-7",
+        "G2-8",
+        "G2-9",
+        "G2-10",
+        "G2-11",
+        "G2-12",
+        "G2-13",
+        "G2-14"
+      ],
+      "estimated_boxes": {
+        "display": [
+          0.02,
+          0.07,
+          0.96,
+          0.27
+        ],
+        "identity": [
+          0.05,
+          0.27,
+          0.9,
+          0.22
+        ],
+        "endpoint": [
+          0.08,
+          0.71,
+          0.55,
+          0.075
+        ],
+        "duration": [
+          0.66,
+          0.71,
+          0.26,
+          0.075
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > dotted display > subject restore > serif identity and glass qualifiers",
+      "acceptance": "Check finite nonzero denominator; keep metric, unit and timeframe visible."
+    },
+    {
+      "id": "proof-wall-speaker",
+      "anchors": [
+        "G3-1",
+        "NG-1",
+        "NP-2"
+      ],
+      "estimated_boxes": {
+        "archive": [
+          0.03,
+          0.22,
+          0.63,
+          0.62
+        ],
+        "argument": [
+          0.66,
+          0.14,
+          0.29,
+          0.57
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > wall-plane actual thumbnail assets > people/furniture restore > argument",
+      "acceptance": "Wall shape varies by anchor; count only actual registered items."
+    },
+    {
+      "id": "personal-top-bottom",
+      "anchors": [
+        "G3-2",
+        "G3-3",
+        "G3-4",
+        "G3-5",
+        "G3-6",
+        "G3-7",
+        "G3-8",
+        "G3-9",
+        "G3-10"
+      ],
+      "estimated_boxes": {
+        "upper_copy": [
+          0.09,
+          0.1,
+          0.82,
+          0.23
+        ],
+        "lower_copy": [
+          0.09,
+          0.64,
+          0.82,
+          0.24
+        ],
+        "handle": [
+          0.07,
+          0.92,
+          0.22,
+          0.03
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > local approved contrast > prose and underlines",
+      "acceptance": "The central scene remains visible; history and causal claims stay source-bounded."
+    },
+    {
+      "id": "red-case-proof",
+      "anchors": [
+        "K1-1",
+        "K1-2",
+        "K1-8"
+      ],
+      "estimated_boxes": {
+        "headline": [
+          0.06,
+          0.06,
+          0.88,
+          0.17
+        ],
+        "proof_a": [
+          0.05,
+          0.3,
+          0.42,
+          0.37
+        ],
+        "proof_b": [
+          0.53,
+          0.3,
+          0.42,
+          0.37
+        ],
+        "cta": [
+          0.1,
+          0.78,
+          0.8,
+          0.12
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > rear proof where chosen > subject restore > optional front proof > CTA",
+      "acceptance": "Front-proof close and rear-proof cover are deliberate variants, not interchangeable defaults."
+    },
+    {
+      "id": "three-platform-funnels",
+      "anchors": [
+        "K1-4"
+      ],
+      "estimated_boxes": {
+        "header": [
+          0.05,
+          0.05,
+          0.9,
+          0.13
+        ],
+        "column_a": [
+          0.06,
+          0.25,
+          0.27,
+          0.58
+        ],
+        "column_b": [
+          0.365,
+          0.25,
+          0.27,
+          0.58
+        ],
+        "column_c": [
+          0.67,
+          0.25,
+          0.27,
+          0.58
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > subdued prior context > vector branches/apps/funnel bands > labels",
+      "acceptance": "All stages are conceptual unless true counts/data are supplied."
+    },
+    {
+      "id": "hybrid-route-map",
+      "anchors": [
+        "K1-6"
+      ],
+      "estimated_boxes": {
+        "heading": [
+          0.05,
+          0.06,
+          0.9,
+          0.14
+        ],
+        "graph": [
+          0.07,
+          0.25,
+          0.86,
+          0.49
+        ],
+        "cta": [
+          0.08,
+          0.8,
+          0.84,
+          0.12
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > glass nodes and routed edges > subject restore > essential node labels and CTA",
+      "acceptance": "Do not inherit unreadable/hidden source middle-node labels; retain declared topology."
+    },
+    {
+      "id": "cyan-lesson",
+      "anchors": [
+        "K2-3",
+        "K2-4",
+        "K2-5",
+        "K2-6",
+        "K2-7",
+        "K2-8"
+      ],
+      "estimated_boxes": {
+        "ordinal": [
+          0.05,
+          0.04,
+          0.18,
+          0.09
+        ],
+        "heading": [
+          0.07,
+          0.15,
+          0.84,
+          0.12
+        ],
+        "body": [
+          0.08,
+          0.29,
+          0.66,
+          0.48
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > approved local contrast > ordinal/title/body",
+      "acceptance": "Change copy width and side to actual photo; no mandatory proof card."
+    },
+    {
+      "id": "warm-method-wall",
+      "anchors": [
+        "NG-2",
+        "NG-3",
+        "NG-4",
+        "NG-5",
+        "NG-6",
+        "NG-7",
+        "NG-8"
+      ],
+      "estimated_boxes": {
+        "ordinal": [
+          0.07,
+          0.1,
+          0.17,
+          0.17
+        ],
+        "heading": [
+          0.19,
+          0.12,
+          0.74,
+          0.1
+        ],
+        "body": [
+          0.21,
+          0.23,
+          0.7,
+          0.17
+        ],
+        "artifact": [
+          0.1,
+          0.43,
+          0.8,
+          0.35
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > rear wall artifact > people/furniture restore > title/rule/body",
+      "acceptance": "Source art is the left panel of desktop captures; calibrate after excluding outer UI."
+    },
+    {
+      "id": "white-phone-taxonomy",
+      "anchors": [
+        "NT-2",
+        "NT-3",
+        "NT-4",
+        "NT-5",
+        "NT-6",
+        "NT-7",
+        "NT-8"
+      ],
+      "estimated_boxes": {
+        "ordinal": [
+          0.3,
+          0.06,
+          0.32,
+          0.25
+        ],
+        "heading": [
+          0.1,
+          0.14,
+          0.8,
+          0.13
+        ],
+        "definition": [
+          0.1,
+          0.28,
+          0.8,
+          0.12
+        ],
+        "phones": [
+          0.02,
+          0.47,
+          0.96,
+          0.53
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "white canvas > pale ordinal > actual phone/screenshot assets > title/definition/chips",
+      "acceptance": "Top/bottom/central/staggered variants match the chosen source; do not reduce all to two cards."
+    },
+    {
+      "id": "concept-word-scene",
+      "anchors": [
+        "NP-2",
+        "NP-3",
+        "NP-4",
+        "NP-5",
+        "NP-6",
+        "NP-7",
+        "NP-8"
+      ],
+      "estimated_boxes": {
+        "concept": [
+          0.04,
+          0.05,
+          0.92,
+          0.18
+        ],
+        "body_upper": [
+          0.06,
+          0.27,
+          0.88,
+          0.23
+        ],
+        "body_lower": [
+          0.06,
+          0.72,
+          0.88,
+          0.2
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > optional rear archive/type > subject restore > readable explanation",
+      "acceptance": "Select body black/white per region; no mandatory ordinal or commercial close."
+    },
+    {
+      "id": "source-detail-lens",
+      "anchors": [
+        "story:S2",
+        "NG-8"
+      ],
+      "estimated_boxes": {
+        "source": [
+          0.05,
+          0.28,
+          0.64,
+          0.4
+        ],
+        "lens": [
+          0.65,
+          0.56,
+          0.28,
+          0.23
+        ],
+        "label": [
+          0.6,
+          0.81,
+          0.35,
+          0.06
+        ]
+      },
+      "geometry_status": "estimate; calibrate selected original",
+      "stack": "base > authentic source > exact-pixel lens/ring/connector > labels",
+      "acceptance": "Do not redraw the metric; retain its source region, unit, period and definition."
+    }
+  ],
+  "copy_contract": {
+    "brief_fields": [
+      "question",
+      "topic",
+      "audience_state",
+      "purpose",
+      "belief_to_change",
+      "offer_fit",
+      "proof_available",
+      "action",
+      "delivery"
+    ],
+    "slide_fields": [
+      "question",
+      "answer",
+      "evidence",
+      "next_question",
+      "payoff_slide"
+    ],
+    "continuity_options": [
+      "setup to diagram",
+      "principle to evidence",
+      "task to output",
+      "mistake to consequence to diagnosis",
+      "objection to demonstration",
+      "finite set",
+      "bounded asset invitation"
+    ],
+    "voice": "Pulsify direct, specific and varied; no filler, invented history, false suspense or source copy pasted as own"
+  },
+  "proof_contract": {
+    "fields": [
+      "entity",
+      "metric",
+      "value",
+      "unit",
+      "window",
+      "evidence_ids",
+      "verification_state"
+    ],
+    "forbidden": [
+      "multiplier from zero",
+      "unsupported causal lift",
+      "invented client receipt",
+      "mislabeling revenue as cash/profit",
+      "arbitrary measured chart",
+      "scarcity without actual constraint"
+    ],
+    "profile_regions": [
+      "avatar_handle",
+      "bio",
+      "link",
+      "highlights",
+      "pinned_posts"
+    ],
+    "source_defects": [
+      "G2-5 and G2-7 zero denominator",
+      "G2-14 multiplier mismatch",
+      "K2-2 visible totals do not fully reconcile cover",
+      "K1-7 day 11 overlap",
+      "NT-9 fragment",
+      "hidden K1-6 nodes",
+      "NP-4/8 fragmented or low-contrast copy"
+    ]
+  },
+  "app_contract": {
+    "status": "specified, not deployed",
+    "provider": "configured server-side, capability-checked; no hardcoded unverified model",
+    "stages": [
+      "brief",
+      "copy",
+      "assets",
+      "plan",
+      "validate",
+      "render",
+      "review",
+      "approved",
+      "exported"
+    ],
+    "credentials_in_payload": false,
+    "rendering": "Deterministic type/SVG/source assets; registered photo-mask composition",
+    "current_gap": "Inspected carousel sanitizer keeps four short layout kinds and design hints; no mask/layer/graph geometry",
+    "artifacts": [
+      "output/carousel-reference-audit-2026-10-08/job.schema.json",
+      "output/carousel-reference-audit-2026-10-08/job-template.json",
+      "output/carousel-reference-audit-2026-10-08/validate_job.py"
+    ]
+  },
+  "quality": {
+    "hard_gates": [
+      "photo environment/identity",
+      "locked copy",
+      "clean registered mask",
+      "essential labels unobscured",
+      "proof provenance and arithmetic",
+      "graph meaning/data",
+      "selected family consistency",
+      "phone first-read",
+      "correct format/delivery"
+    ],
+    "views": [
+      "phone width",
+      "full size",
+      "zoomed intersections",
+      "whole set/contact sheet",
+      "source comparison"
+    ],
+    "fidelity_dimensions": [
+      "hierarchy",
+      "photo mass",
+      "type silhouette",
+      "materials",
+      "spacing",
+      "depth",
+      "annotation hand",
+      "color role",
+      "story job"
+    ],
+    "performance": "Measure available platform and downstream qualified demand; no unlimited-profit promise"
+  },
+  "reference_catalog": [
+    {
+      "id": "G1-1",
+      "subject": "Viktor introduction",
+      "visual": "Intact cafe portrait; huge thin white translucent product name crosses the center behind the head and torso; white outline reinforces the letter edges. Upper-right italic peach/violet introduction; left white task list; three rounded peach/violet statistic pills lower left. Purple square V icon, curved white arrow and lower-right chevrons.",
+      "story": "A named assistant is introduced through recurring operator tasks and specific source-presented workload counts. The following feature tiles unpack that promise.",
+      "lesson": "Preserve environment, weight contrast, outlined rear text and subject registration. Counts and capabilities are source claims. Exact source font and original uncomposited photo are unavailable.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/1.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "20092e45439ded2a6946f8a1ce42e0033952433d0c48e01d5fc95d544941e78c",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-2",
+      "subject": "Call preparation",
+      "visual": "Peach thin sans headline across top; white supporting copy with a peach hand underline on the briefing noun. Meeting photo with two men at table. Three black rounded message crops, descriptive labels and violet curved connectors form a preparation chain.",
+      "story": "Turns a broad assistant claim into a concrete pre-call output: person, bottleneck and likely obstruction. Each panel answers a different preparation question.",
+      "lesson": "Use genuine call-context artifacts or clearly labeled demonstrations. Crop to the decisive detail; retain source labels. Curves connect work stages rather than decorating empty space.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/2.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "58a56427517663c6fba724b44d6115011a07f5a3abc388d43d4760e69cd84eb2",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-3",
+      "subject": "Follow-up",
+      "visual": "Pink thin headline; white body wraps around a central standing subject. Black recap, action and draft cards occupy left-middle, right-middle and lower-left fields. Violet rounded elbow lines and cards sit behind the restored person; scene remains visible.",
+      "story": "Moves from the call to its aftermath. The three outputs make otherwise invisible follow-up work inspectable; the draft supplies a tangible payoff.",
+      "lesson": "Excellent behind-subject card recipe. Match photo/mask transform exactly; avoid splitting a sentence into disconnected fragments around the head. A draft panel does not establish that a message was sent.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/3.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "81f87e40f0120f01deaad8643770a3c52efd852539762824588ca7959e6887d0",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-4",
+      "subject": "Onboarding",
+      "visual": "Lilac thin headline and white copy with a hand underline. Two broad dark message panels sit side by side above seated people and laptop. Labels distinguish setup work from pending actions; restrained glow and rounded corners unify the panels.",
+      "story": "Shifts from a lead conversation to the work needed when someone becomes a client. Shows completed and outstanding tasks as separate states.",
+      "lesson": "Use two named states and actual task records. Keep panels readable above the subject; no graph is needed when the comparison is categorical.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/4.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "14252c521c6ab2f70c052ac27a426bbee139bb2d4b7747a521230a6e5a12cf97",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-5",
+      "subject": "Updates",
+      "visual": "Purple thin headline at top. Presenter on the right overlaps three stacked black reporting crops on the left. Thin lavender separators and bold label nouns divide what happened, what changed and what comes next; white body and one underline.",
+      "story": "Report structure makes the assistant's work understandable instead of presenting a vague activity total. Three numbered summaries turn reporting into a decision aid.",
+      "lesson": "Preserve the left report/right person relationship. Do not invent reports or turn illustrative movement into measured client outcomes.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/5.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "84874a787b2471e6aa2dd1fbadbda66c0d29ec44a8c0cfb776abc0250f75232a",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-6",
+      "subject": "Recruitment",
+      "visual": "Violet headline and underlined process phrase. Candidate shortlist table and interview-verdict prose appear in paired black cards above a conference-table photograph. Small explanatory labels sit below the panels.",
+      "story": "Reframes a hiring complaint around the selection process and demonstrates two decision artifacts. The source adds its own first-hire claim.",
+      "lesson": "A table and a verdict have different jobs; keep their forms distinct. Source hiring outcomes are unverified, and small cells must be enlarged when needed at phone size.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/6.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "b9bb67d9e5da262627eb9bee304834f2666f91a5f49b2780a17d4b9014543c02",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-7",
+      "subject": "Collections",
+      "visual": "More saturated violet headline. Central man cycling outdoors; overdue-invoice crop lower left and failed-payment crop mid-right. White explanatory copy is spaced around the face, with violet accent edges and label hierarchy.",
+      "story": "Moves from acquiring revenue to collecting it. Shows two operational money problems rather than another general growth promise.",
+      "lesson": "Keep metric distinctions: billed, overdue, failed and collected are different states. Preserve the outdoors; source split copy around the face is a readability weakness to improve.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/7.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "51c318fc442e40002cadf0b7776aa215440e41e73ede5769b5482a977fa1c422",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G1-8",
+      "subject": "Cross-system questions",
+      "visual": "Saturated purple thin headline, white question-oriented body and one underline. Seated operator with phone/laptop; dark crops for quiet clients, booked calls and renewals sit upper-left, upper-right and lower-left around him.",
+      "story": "Closes the captured set on cross-system visibility. A single question can draw on several named work records; no audience-facing CTA is captured.",
+      "lesson": "Retain three clearly identified record types. Visible visual connections do not prove real integrations. Do not append a commercial close and claim it existed in the source.",
+      "group": "Viktor features",
+      "family": "assistant-features",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#1/8.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "eb7a07b6863aa6435de93f28c5cd456610bfac26e951f72ae80db4bf3023da95",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-1",
+      "subject": "Viktor keyword invitation",
+      "visual": "Cafe portrait; enormous bold white product keyword, partly outlined/occluded around hair. Gradient italic invitation above; small white upper-right delivery promise and gradient underline. Speech bubble identifies the keyword near the subject.",
+      "story": "Asks for a bounded document/setup asset. It is saved first, but may be a campaign close; the folder alone does not establish reading order.",
+      "lesson": "Preserve keyword hierarchy and one promised delivery. Make the fulfillment route real. Do not infer the operator's identity from adjacent tiles.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/1.jpg",
+      "width": 3274,
+      "height": 4096,
+      "sha256": "d516ab1dce597466067ed5f9861df68c581aafd1c0c515cd6a21c419bda17c69",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-2",
+      "subject": "Edvin result tile",
+      "visual": "Sunset dinner photograph; huge white dot-matrix multiplier behind the centered head. Italic serif name and agency phrase; translucent outlined pills for starting/ending monthly amount and duration, positioned at the lower sides.",
+      "story": "A source-presented $5k to $500k/month change over 18 months is condensed into an identity, multiplier and timeframe.",
+      "lesson": "The ratio is 100, but the business outcome is not audited. Keep the month unit, duration and both endpoints. Dot-matrix display requires a real font or deterministic glyph asset.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/2.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "dace7efad9d8f035f07977a8e716df3b74367a91e766dfb293c402675e884131",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-3",
+      "subject": "Dan result tile",
+      "visual": "Two men seated on a couch in a warm pink-lit venue. White dot-matrix multiplier lies behind heads; italic identity and agency descriptor; centered lower glass pills show endpoints and 11-month duration.",
+      "story": "Presents a source $8k to $112k/month change, a 14-fold ratio, as another example in the collection.",
+      "lesson": "Repetition creates an archive of similarly framed cases. Adapt positions to two faces; never transplant the names or results into Pulsify proof.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/3.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "e627f89fe58a8b570badd2bb11b87b99f3a2c57bbd9e4ffed9464e26264e0297",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-4",
+      "subject": "Sam result tile",
+      "visual": "Night photograph on a sports car with palms; white dot-matrix multiplier behind the person, serif identity around it, glass endpoint and two-year pills below. Cool darkness supports white type.",
+      "story": "Source $30k to $2.05M/month is compressed to a rounded 68-fold result.",
+      "lesson": "Arithmetic is approximately 68.33; label rounding. Copy the depth and token hierarchy with work imagery, rather than making the car the authority signal.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/4.jpg",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "6dd7f2c17fbe452be074908c1b454565cff2a611c8468327b8e777df8dc67929",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-5",
+      "subject": "Jay result tile",
+      "visual": "Podcast/work desk scene with microphone and monitor; dot-matrix display behind the seated subject; serif identity; outlined glass pills contain a zero baseline, $100k/month ending amount and 12 months.",
+      "story": "Attempts to amplify a from-zero case with a 1000-fold headline.",
+      "lesson": "A multiplier from zero is undefined. Preserve the visual construction but replace that calculation with an honest endpoint or absolute change when making our own tile.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/5.jpg",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "072f56a492ebf984924aebee16d93f6bfc29d3994dd17e1126dca9c6bf4b4364",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-6",
+      "subject": "Jim result tile",
+      "visual": "Front-facing cafe portrait, large dot-matrix display behind the head, italic identity and agency descriptor, two restrained glass pills around the lower photo field.",
+      "story": "Source $100 to $50k/month over 12 months gives a 500-fold ratio.",
+      "lesson": "Include the currency, recurring period and duration. A mathematically coherent claim still requires genuine evidence before becoming our own case study.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/6.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "316f6c40bb0924d8d315c6ce3349a1594ba29af3416d48148454f40c1bac89d1",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-7",
+      "subject": "Otis result tile",
+      "visual": "Standing waterfront portrait, sea and palms clearly visible; large dotted type behind the head; italic name/agency; low glass pills show six months and zero to $18k/month.",
+      "story": "Another starting-from-zero story presented as an 18-fold increase.",
+      "lesson": "Zero denominator again makes the multiplier invalid. Environmental depth supplies interest without needing an added blur or a heavy rectangular card.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/7.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "9f1857c29001d5e15775170ae08318ad08d07486002816675a50c7a7285579c6",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-8",
+      "subject": "Liv result tile",
+      "visual": "Coffee portrait in front of mountain lake; dotted result behind hair; italic identity; glass pills subtly inherit the green environment and retain white text for endpoints and 14 months.",
+      "story": "Source $35k to $132k/month is rounded to a four-fold result.",
+      "lesson": "Actual ratio is about 3.77. Preserve restrained tint sampled from the photo rather than injecting unrelated neon colors. Identify rounded calculations.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/8.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "be06ec9b29762d0354c8cc83dd22f4c9a78c7582cac1e4848b3358259bf89fcc",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-9",
+      "subject": "Callum result tile",
+      "visual": "Rooftop terrace portrait in light clothing; white dotted display behind the head; thin italic identity; glass lower-side pills carry endpoints and ten-month duration.",
+      "story": "Source $20k to $200k/month is summarized by a 10-fold headline.",
+      "lesson": "The repeated template varies with available negative space. White clothing needs local contrast planning; a universal darkened image would discard the scene's character.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/9.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "50f42ff1cd15bad6e400082bb4086e9e8a48d67fa3f0a30dbe7adc36af04dfab",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-10",
+      "subject": "Peter result tile",
+      "visual": "Two people in a bright outdoor interview; dotted result sits behind heads; serif identity and lower glass metrics remain the same family.",
+      "story": "Source $30k to $770k/month over seven months is shown as a rounded 26-fold increase.",
+      "lesson": "Ratio is about 25.67. Protect both faces and leave required figures clear. Same-unit comparison is essential to a meaningful result tile.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/10.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "75231edb3ad82130c8d9317a6f00079546004a68c376d1f048f2880e21658653",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-11",
+      "subject": "Alexis result tile",
+      "visual": "Side portrait at a work table, with an already soft photographic background. Large dotted display behind the subject; serif name and transparent outlined endpoint/time pills.",
+      "story": "Source $9k to $109k/month over seven months is summarized as roughly twelve-fold.",
+      "lesson": "Ratio is about 12.11. A flattened picture cannot establish whether softness came from the lens or editing; it does not authorize manufactured blanket blur.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/11.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "a70b254cf210e6c913bc78495b4a1220822dbb8ac6a776df248338fb39e33587",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-12",
+      "subject": "Alex result tile",
+      "visual": "Selfie with cap and headphones; dotted multiplier is occluded by the cap/head, serif name and descriptor remain visible, glass endpoint/time pills sit low.",
+      "story": "Source $2.5k to $55k/month over eight months produces a 22-fold ratio.",
+      "lesson": "Cap edges need the same mask care as hair. Preserve photo identity and source labels; do not infer business facts from the styling.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/12.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "3eb9814aa32037e0e39742cf1530315c9eeb055568e5e4b7e61de71674d71c2e",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-13",
+      "subject": "Noah result tile",
+      "visual": "Warm orange restaurant candid; dotted headline behind hair, white serif identity, low glass pills. The photo's amber lighting supplies most of the palette.",
+      "story": "Source $5k to $109k/month over eleven months is summarized as rounded 22-fold growth.",
+      "lesson": "Ratio is 21.8. Repeated white type can unite different real scenes without recoloring all photographs into one background.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/13.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "c12e7984dbfcb7a68b73d9b498c61d966cf8bea57efd8bea49f388a039d2eab9",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G2-14",
+      "subject": "Tyler result tile",
+      "visual": "Speaking portrait with microphone; large dotted multiplier behind the head, italic name and agency text, glass pills for $20k to $200k/month and eight months.",
+      "story": "Uses the same case-tile grammar, but labels the change as six-fold.",
+      "lesson": "The visible endpoints imply ten-fold growth. Preserve the layout, flag the source contradiction and never reproduce the incorrect calculation in client output.",
+      "group": "Viktor invitation and case tiles",
+      "family": "dotted-results",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#2/14.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "0975f9affa6e35a09e805db4b61c4e09a2ff88cb69e1ba73d88b2c7ad9b3c7e4",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-1",
+      "subject": "Proof-wall close",
+      "visual": "Standing speaker left; a dense tiled wall of YouTube case thumbnails fills the left background and fades near the bottom. Right column carries a large success-story count, qualifying copy and a keyword request. Subject stands in front of the wall.",
+      "story": "Makes an archive feel tangible, then offers help and a further asset. This tile differs from the following Bram story and should not be assumed its opening.",
+      "lesson": "Use an actual archive with a verifiable count. Dense thumbnails suggest volume but do not independently verify each success. Keep source identity/ordering uncertain.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "proof-wall-close",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/1.jpg",
+      "width": 3072,
+      "height": 4096,
+      "sha256": "1cbb507c43363c218f0a86afc4a202bcfab682be433cab270974bdee0ef46e75",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-2",
+      "subject": "Bram credential cover",
+      "visual": "Cafe photo with person low-center, white centered sans in top and bottom zones. Selective bold metrics and clean blue underlines; small @bram signature lower left; intact environment under exposure reduction.",
+      "story": "Introduces an attributed e-commerce history and opens the question of what happened between the starting point and current scale.",
+      "lesson": "Credentials are source-presented claims. Transfer the specific timeline question and selective emphasis with the founder's own verified history.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/2.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "85be96222205e4b8de9b9419d1174f00658742cdf1903a1cbd0ebd42c8883a9b",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-3",
+      "subject": "Beginning without guidance",
+      "visual": "Room at sunset with silhouetted person; white top copy describes a 2019 beginning, a trial and belief; lower copy isolates the cost of learning alone. Blue underlines and bold words repeat the family.",
+      "story": "Creates a personal starting point and withholds the consequences until the lower beat, leading to the next chapter.",
+      "lesson": "Do not invent an autobiography. Use an actual moment, concrete constraint and consequence. The photo supplies mood, not historical verification.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/3.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "800fe8280b52d50d81092518fee54d9041bb19164c6e855fbe4dd3fe0b1ece72",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-4",
+      "subject": "Slow progress",
+      "visual": "Terrace/menu photo; short white top block about eventual progress, longer bottom block about expensive years and avoidable learning. Center breathing room preserves the human scene; blue phrase underlines.",
+      "story": "Answers whether it worked, then shifts the question to the cost of the route taken.",
+      "lesson": "One frame can hold a concession and a consequence without a box. Keep top/bottom reading order clear at story scale.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/4.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "c5bdf5028fc35dc29fe4919c36750d5ac55a46eabde7f1f9f5e2ea2cef4c2f75",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-5",
+      "subject": "Environment reset",
+      "visual": "Dubai skyline scene; small seated subject lower left. White top text describes a move/reset; bottom text links environment and scale. Blue underlines and small signature maintain identity.",
+      "story": "Presents a life chapter as a turning point.",
+      "lesson": "A scene illustrates the reported move; it does not prove that location caused growth. Pulsify should use a relevant work change rather than a status destination by default.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/5.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "4ccff829b1ee32c3f0261c63d73ccf79eac9d37cbaf6b5dbd873b08f4a113fba",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-6",
+      "subject": "Plateau invitation",
+      "visual": "Padel court at sunset; white upper pain-mirror copy, lower faster-way invitation, link-in-bio instruction and personal sign-off. Blue underlines keep the established look.",
+      "story": "Offers an exit from a plateau and a next step. Saved before further story tiles, so the original chronology is not established.",
+      "lesson": "Keep a meaningful named next asset or diagnostic task. The source's faster-way promise lacks a fully exposed mechanism here; do not rely on vague relief alone.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/6.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "645fcc67be630096effe2e09a376ede91de6c32a5cf51b609be67cc1b5e7fbb5",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-7",
+      "subject": "Costly shortcuts",
+      "visual": "Roadside/car scene with person; two separated white blocks, bold keywords and blue underlines. Upper block frames lost money; lower block names courses/coaching at the wrong stage and continued investment.",
+      "story": "Adds the mistake and its consequence to the autobiographical arc.",
+      "lesson": "Stage mismatch is the useful teaching point. A car is neither evidence of the mistake nor required for a persuasive Pulsify version.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/7.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "3da3eeb53b4c7869ec9f94e894c026b72c6ce2d6a62c7ef6f329f970ee7239e8",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-8",
+      "subject": "Small team and systems",
+      "visual": "Amsterdam street and small-car scene; white upper/lower copy describes returning home and a small team with systems, with restrained blue underlines and signature.",
+      "story": "Moves from wandering/investment to a grounded operating model and pride in the work.",
+      "lesson": "Transfer the operational specificity, not the source life history. Team and system claims require their own artifacts if presented as evidence.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/8.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "25db3daee7dbda7e5b034ae05bcd3841e60d0f41183d394424414b0f6d91733f",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-9",
+      "subject": "Reader recognition",
+      "visual": "Busy outdoor dining photo with patterned awning; white top identification statement and lower grouped revenue-stage examples. Bold phrases, blue underlines and @bram signature; relatively dense copy over a visually busy setting.",
+      "story": "Makes several business stages feel recognized, then names the inability to see the obstruction.",
+      "lesson": "Audience examples are not audited client results. Reduce density or relocate text when recomposing; recognition should describe a real buyer situation.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/9.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "407ad05051bf97fd8733b4593810d661928136e016055baf144cdac00e606be1",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "G3-10",
+      "subject": "Diagnostic mechanism",
+      "visual": "Walking portrait in old street; upper white copy names inspection of ad account, creative and numbers. Lower copy lists three source-presented client outcomes, then a stage-appropriate systems conclusion; blue underlines.",
+      "story": "Supplies a concrete intervention to the earlier plateau and wrong-stage problem, then attaches attributed results.",
+      "lesson": "Preserve diagnostic nouns and stage logic. The listed outcomes have no attached receipts here; do not promote them as verified Pulsify results.",
+      "group": "Mixed proof close and Bram chronicle",
+      "family": "personal-chronicle",
+      "source": "raw-sources/inspiration/carousels/Good carousel design/#3/10.jpg",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "57aab9750ccc38ea08cb02fb2158cae396497e80476214ff79e3dc36d1800352",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "mixed-or-unverified",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-1",
+      "subject": "Fitness case-study cover",
+      "visual": "Bold white headline with red rectangular result backing. City-view portrait foreground; intentionally blurred IG profile card left, calendar/events and payment/message crops right. Cards pass behind subject; smaller follower/view context below the headline.",
+      "story": "Opens a case with a claimed starting/ending income and call volume despite a small audience.",
+      "lesson": "Blur is localized to the profile, likely privacy/de-emphasis; it is not a background recipe. Event counts do not automatically establish qualified weekly calls.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/1.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "f85d0b0162cb1e13d0e6853be4c3729c3df648a25a525dba41c7ed70fe882555",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-2",
+      "subject": "Consultation audit",
+      "visual": "Glowing white [1] and red-backed heading; several short white audit paragraphs on the left; rounded video-call panel below with one face pixelated; curved white arrow points to the panel. Real travel/seat setting remains recognizable.",
+      "story": "Explains a first consultation and its diagnostic value rather than jumping directly to the result.",
+      "lesson": "Preserve the purpose of the call and privacy treatment. Short paras are structured but dense; test phone readability before copying their length.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/2.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "39c4070377f9fdf7660a0a9a7fb885c2d0f2c475a9f660c5586d1f02a99ead1d",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-3",
+      "subject": "Content ecosystem setup",
+      "visual": "Glowing [2], bold white heading with red block, right-side explanatory copy. Airport/aircraft scene, headphones and book in foreground. Open space reserves room for the next visual.",
+      "story": "Introduces the organic acquisition engine and makes the next frame's mechanism diagram worthwhile.",
+      "lesson": "A setup should name what the diagram will answer. Do not force all information into the setup; use the same photo for the reveal when useful.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/3.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "7e98d90f5c03d01592c3d50843bddf7f05aed09c241e229261f71613abf107e5",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-4",
+      "subject": "Three-channel ecosystem",
+      "visual": "Repeats prior scene with earlier text subdued. White rounded branching connectors lead to three columns: Instagram, YouTube and newsletter/Kit marks. Each has a colored three-band funnel and explanatory text; colors separate platform roles.",
+      "story": "Adds the promised system view without resetting the visual context. Distinguishes profile funnel, video flywheel and newsletter functions.",
+      "lesson": "Build named vector nodes, SVG funnel bands and real app glyph assets. These are conceptual routes, not measured conversion rates or evidence that APIs are connected.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/4.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "951ca199d1d6a0b8e9c208828a82d33a9231551d403ff64375d3d0d548464734",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-5",
+      "subject": "Hybrid funnel setup",
+      "visual": "Glowing [3], left white/red title and three explanatory paragraphs. Night portrait and city stay visible. Copy introduces multiple routes and prepares the viewer for the build diagram.",
+      "story": "Explains why interconnected routes matter, then leaves their construction for the next frame.",
+      "lesson": "Repeat with purpose. A named mechanism needs the actual route exposed; avoid using a title as a substitute for explanation.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/5.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "e2bd4181ecce2b94f38e0316de21665ddb3c182c15560d29960b67c0cee7c5cf",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-6",
+      "subject": "Hybrid funnel map",
+      "visual": "Same night portrait; three columns of dark glass nodes and white rounded elbow arrows. Left route includes Instagram organic, DM funnel, Typeform and sales call; right includes newsletter and lead magnet. Head hides parts of the middle route. Lower cyan/blue keyword CTA and glow.",
+      "story": "Pays off the setup with a system map and offers a deeper breakdown.",
+      "lesson": "Retain topology as structured edges. Middle labels are partly unreadable: record the gap, do not invent transcription. Move required node names outside the mask; graph routes are not live integrations.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/6.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "ee2950a7fc30ef7e89c465e6f6de506aa7091ff1a9678a3c292ee52b65b45027",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-7",
+      "subject": "Launch plan",
+      "visual": "Glowing [4], red-backed launch heading, white left copy describing phased days. Large light Miro-style board on the right; desk/laptop/calendar below. Tiny board cards supply texture more than readable detail.",
+      "story": "Turns the mechanism into an implementation schedule, building anticipation through stages.",
+      "lesson": "Source phases overlap on day 11; resolve dates for an actual plan. Use a real board, then enlarge one decisive phase. Genuine deadlines/capacity must precede scarcity copy.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/7.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "4e91bb9ae0843778537406d76df67ad00143e1da7bb94453f0cc5bda9804f327",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K1-8",
+      "subject": "Case result and close",
+      "visual": "Glowing [5], white/red result heading. Two large opaque evidence panels across the middle cover much of the subject: calendar/payment rows left, DM and graphs right. Large cyan/blue keyword invitation below, with an alternative DM request.",
+      "story": "Returns to the cover outcome and asks for the mechanism breakdown.",
+      "lesson": "This frame deliberately puts proof in front of the person; depth is not mandatory on every panel. Visible calendar window does not establish weekly volume. Prefer one primary action in our own close.",
+      "group": "Kobey case and system",
+      "family": "red-case-system",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#1/8.jpg",
+      "width": 3240,
+      "height": 4017,
+      "sha256": "7ba57b744957f610e65b299234477f5c8cce1c6c5d3ce3ff1331665d3561d6d3",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-1",
+      "subject": "Views-to-money cover",
+      "visual": "Mountain lake and back-facing subject; small gray handle near top. Huge bold white result headline with cyan/blue block; curved white arrow to a smaller money-oriented aside and blue hand underline.",
+      "story": "Creates tension between a large views number and the practical commercial lesson to follow.",
+      "lesson": "Treat views and income as separate outcomes. The source's 38M headline is an attributed claim, not a license to infer sales.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/1.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "714ff8ff66bee69eab50b11c1c9c7cb8be3f5c27887bfca1d8b5cac04d57acb4",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-2",
+      "subject": "Six-lesson bridge",
+      "visual": "Lift selfie fills the frame. Four dark analytics/donut cards sit behind head, hand and torso at different positions. White lower heading emphasizes six lessons in cyan/blue; small pen-and-paper aside.",
+      "story": "Provides visual scale and converts the result hook into a finite teaching promise.",
+      "lesson": "Four visible view totals sum to 34,864,274, so they do not alone reconcile 38M; they may be partial. Preserve actual ring data/labels or label a conceptual ring; no arbitrary proportions.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/2.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "b9915bfadd436cc842bc836e54f010e06cfd55ae3e0ebf2aa2f759ed981055db",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-3",
+      "subject": "World and identity lesson",
+      "visual": "Turquoise glowing [1]; white left-aligned title and paragraph stack; mountain lake photo with small subject lower-right. Natural water and shoreline create negative space; no panel or chart.",
+      "story": "Teaches personal-brand associations through background, history and vulnerability.",
+      "lesson": "Use the client's actual story and associations. Do not add shapes where the photograph and argument already carry the frame.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/3.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "26a56c43eb2bf1abf702650eb3681cb878022db8c3eaf0c9c38343759de0decf",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-4",
+      "subject": "Distribution lesson",
+      "visual": "Turquoise [2], provocative bold heading and roughly six short white paragraphs on the left. Desk and laptop below, bright window/right scene. One-column text follows the negative space.",
+      "story": "Argues for extending one idea into more formats rather than more ideation; source includes an unsupported reach-lift claim.",
+      "lesson": "Transfer the concrete repurposing process, not the numerical promise. Dense paragraph count is a production readability concern.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/4.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "ff79e67acf0164e62b38dab0d0f9a1c2a3accae0efbdc4c7425971349b0f0bf5",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-5",
+      "subject": "Visual positioning lesson",
+      "visual": "Turquoise [3]; mirror portrait with person concentrated right; white left heading, explanation and five-item camera/light/presence/congruence/editing list. Warm brown setting supports restrained white type.",
+      "story": "Makes the visual craft itself evidence of the lesson and names controllable inputs.",
+      "lesson": "Craft can show a method without financial claims. Preserve camera/light congruence, not incidental possessions; typography must remain distinct from mirror reflections.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/5.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "b61c9c6f392987dc4d4bba1d1be2329582b2be61ab1de8d72150389bab4d366b",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-6",
+      "subject": "Outlier identity lesson",
+      "visual": "Turquoise [4]; white left title and long paragraph stack over night buildings and car. The image carries darkness and atmosphere while text remains the primary object.",
+      "story": "Encourages associations beyond the creator's obvious industry.",
+      "lesson": "Source universal assertions are teaching opinions, not proven laws. Tie unusual associations to actual buyer relevance rather than arbitrary novelty.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/6.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "74a994ce62584346fff534bbc75b0fa1f9efaa0dccd8967abbe080c7be4240d1",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-7",
+      "subject": "Objection-to-topic lesson",
+      "visual": "Turquoise [5]; shoreline photo with small person lower-right. White principle above; lower paired objection/example lines demonstrate a topic derived from a time concern.",
+      "story": "Turns a recognized objection into an actionable content brief.",
+      "lesson": "Use actual objection language and a supported answer. The example's time/result framing is a placeholder pattern, not a performance claim to inherit.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/7.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "9617974a3c39ccac2bbf83941e566b304ae69964db89ee9e77875c7c1366e820",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-8",
+      "subject": "Ecosystem lesson",
+      "visual": "Turquoise [6]; white left copy describes Instagram, YouTube and email roles. Car/wheel scene is visibly soft, red and dark; no constructed graph despite a system topic.",
+      "story": "Completes the teaching promise with platform roles and a connected-content argument.",
+      "lesson": "A soft flattened source cannot establish its editing method. Our founder rejects blanket background blur; keep recognizable scenes and use a diagram only if it adds clarity.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/8.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "1793e52a108c9783ad25d1f4832e35b79d932523ce2548d53ae73115e9f0fe52",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "K2-9",
+      "subject": "Audit close",
+      "visual": "Night portrait reused from the hybrid map set. Gray centered handle, large white benefits copy, oversized cyan/blue keyword invitation below and a personal-delivery promise.",
+      "story": "Closes the six lessons with a bounded audit asset and simple action.",
+      "lesson": "The offer must exist and fulfillment must be defined. A personal-looking promise does not establish a connected automation or guarantee a reply time.",
+      "group": "Kobey six lessons",
+      "family": "cyan-lessons",
+      "source": "raw-sources/inspiration/carousels/carousel kobenguyen/#2/9.jpg",
+      "width": 2160,
+      "height": 2700,
+      "sha256": "50b07936e3aa9be28115aa7aca4c9b8f7c8d1be3ae40b24010bf2ae8eddf3245",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "NG-1",
+      "subject": "Onboarding cover",
+      "visual": "Desktop Instagram capture: artwork occupies left, caption/UI right. Warm studio photo; very large bold grow with italic serif acquisition; thin introductory line and white promise. Lower-left dense dark message wall behind foreground person/table; underlined audience nouns.",
+      "story": "Invites the reader to experience onboarding, then previews a seven-stage service method.",
+      "lesson": "Crop outer browser UI out of exported art. The proof wall signals volume, but the result promise and message count are unverified.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/01 (014025).png",
+      "width": 1464,
+      "height": 1198,
+      "sha256": "3e2e9027d0dce7c8abaadd793d30792c2ceb3baf14bb9381fbe14db4287a096e",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-2",
+      "subject": "Audit and gameplan",
+      "visual": "Warm studio meeting, people/laptop lower; projected Miro-style board upper-left; upper-right bold white title with pale tall serif 1. Body attached to a thin vertical white rule.",
+      "story": "Names diagnosis as the first service stage and shows a planning artifact.",
+      "lesson": "Use an actual plan with readable decisive boxes. The tall number is a family marker, not a requirement for unrelated feature or personal-story sets.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/02 (014029).png",
+      "width": 1463,
+      "height": 1204,
+      "sha256": "6de4fdb0e2822bdd2f6961286aea0472be84d2f7ac40e7140a30134e0461b09e",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-3",
+      "subject": "Profile optimization",
+      "visual": "Presenter and audience low in frame; a huge tilted IG profile screenshot fills the right wall plane. White handwritten labels/arrows identify avatar, bio, highlight circles and pinned posts. Ghost 2, white heading and ruled body upper-left.",
+      "story": "Shows the profile as a conversion surface and reveals its components.",
+      "lesson": "Use the same real profile state and source date; preserve avatar/handle/bio/highlights. Screenshot appearance does not prove every asserted outcome or account relationship.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/03 (014033).png",
+      "width": 1463,
+      "height": 1203,
+      "sha256": "dbbe11455bda3020a5df79de1e379c25721e78b32062969d36c580b6485155da",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-4",
+      "subject": "Content positioning",
+      "visual": "Ghost 3 and centered heading/body high; three platform pills with recognizable YouTube/Instagram/avatar marks. Tall thumbnail collections arranged as columns behind seated team and chairs; warm studio scene preserved.",
+      "story": "Makes three content surfaces tangible through their actual outputs.",
+      "lesson": "Platform/output map rather than measured graph. Preserve recognizable artifacts and marks; the foreground group should overlap redundant edges only.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/04 (014038).png",
+      "width": 1459,
+      "height": 1204,
+      "sha256": "905a8ac8ea3942f3fc4c7d53b5b57374154ddeb2b5340c233f8f2d92b6142e83",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-5",
+      "subject": "Offer refinement",
+      "visual": "Ghost 4, upper-left white heading and ruled description. Team works at a laptop in a real studio with backdrop rack, tripods and warm lamp; no added proof panel is required.",
+      "story": "Provides a craft/process pause between heavier artifact scenes.",
+      "lesson": "Counterexample to mandatory screenshot on every slide. The relevant work scene can carry context while the copy explains the service.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/05 (014044).png",
+      "width": 1460,
+      "height": 1197,
+      "sha256": "64e3b701c4a81806f644b358958a4d9f377076ee4c6299fead90c15cb95ffbb4",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-6",
+      "subject": "Content to revenue",
+      "visual": "Ghost 5 and large white title/body above. A sequence of dark chat/link/booking/signed crops traverses the wall with white curved arrows; seated audience left and presenter right remain foreground; studio equipment visible.",
+      "story": "Turns the abstract lead-to-client path into a sequence of recognizable communication states.",
+      "lesson": "Connect actual milestones in order. A signed badge does not establish collected cash. Arrows must land on the relevant state, not randomly on a card edge.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/06 (014049).png",
+      "width": 1456,
+      "height": 1195,
+      "sha256": "bb852351fc559369b3dc57cc6ebc00610de766d1e7b4b4a81ad684b18c59aabc",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-7",
+      "subject": "Sales transformation",
+      "visual": "Ghost 6 and two-line bold white title, ruled body. Two-column payment notification stack below, lower rows progressively subdued. Two seated men overlap the lowest notifications; warm leather and lighting supply palette.",
+      "story": "Uses payment artifacts to make the sales stage concrete.",
+      "lesson": "Use genuine payment notifications, redact identifying fields rather than metrics/periods. Source claims do not establish causation; required amounts must stay outside subject overlap.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/07 (014053).png",
+      "width": 1454,
+      "height": 1197,
+      "sha256": "3f4e6888e8d3b62219dfa9fdc7c144f49d3d1b9dac02197174e3986ab6f49cd6",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-8",
+      "subject": "Data optimization",
+      "visual": "Ghost 7 and centered white title/body; enormous rectangular mosaic of colorful dashboards on rear wall. Contains line plots, maps, heatmaps, donut, funnel, network and bars. Meeting group/table foreground, orange orb/column lights below.",
+      "story": "Visually culminates the method with tracking and decision infrastructure.",
+      "lesson": "These small panels are mostly texture at phone size. Product identity and real tracking coverage are not established by the mosaic. Enlarge one relevant metric instead of inventing a data wall.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/08 (014057).png",
+      "width": 1464,
+      "height": 1204,
+      "sha256": "96d7289df4bf0b31194e067e03a6aaea9801b9c7e65825052b29f32b63863e44",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NG-9",
+      "subject": "Custom-fit close",
+      "visual": "Warm boardroom photo; large real-looking board left. White upper-right heading and ruled copy lead to a dark rounded DM bubble with avatar, handle and keyword. Black curved arrow points at that bubble; people/table occupy lower frame.",
+      "story": "Answers who the method fits and asks for a diagnostic conversation with a specific keyword.",
+      "lesson": "A mocked bubble illustrates the desired action; it is not a received lead. Preserve personalized diagnostic framing with truthful fit boundaries and one real next step.",
+      "group": "Niksetting onboarding",
+      "family": "warm-method",
+      "source": "raw-sources/inspiration/carousels/niksetting/grow-acquisition-onboarding/09 (014102).png",
+      "width": 1462,
+      "height": 1195,
+      "sha256": "c013725e59f7b0f1e2e49a5b0e626888c7ed47b4b6f8f85cedf3df5f84a87ee3",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-1",
+      "subject": "Story-result cover",
+      "visual": "Outdoor bench/architecture photo; large white amount, italic serif framing above and around, mixed sans medium phrase. Circular story-ring avatar and viewer label at left; person in foreground with phone.",
+      "story": "Uses a specific attributed revenue result to open a finite taxonomy of story types.",
+      "lesson": "Precise numbers feel concrete but are not independently verified. Preserve units and claimed timeframe; no revenue claim should be inferred from the viewer badge alone.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/01 (014114).png",
+      "width": 1460,
+      "height": 1208,
+      "sha256": "3a090efc30b347fdfe6f382e043d71c13764abc7f0cffd6443a29105a2c39430",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-2",
+      "subject": "Value type",
+      "visual": "White canvas, black bold name/definition, pale italic serif 1 woven behind type. Three overlapping phones below; left purple cadence pill, middle gray purpose pill, right mint audience pill. Real profile annotations and value-story captures visible inside.",
+      "story": "Defines useful teaching and shows actual examples in the same frame.",
+      "lesson": "Chip colors encode three axes in this family. Do not enforce them on every carousel. Phone content is evidence of format; tiny inner text must be separately enlarged when decisive.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/02 (014118).png",
+      "width": 1462,
+      "height": 1199,
+      "sha256": "e5ba92ee7e851b2ada504ec1746309a28c25a0ea7bcbb81336b181af5e024827",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-3",
+      "subject": "Credibility type",
+      "visual": "White canvas; two tall phones around central dark win/payment crops; pale curved arrows link crop to phone. Black lower name/definition with pale 2; purple/gray/mint pills across bottom.",
+      "story": "Pairs the credibility category with recognizable transformation/message examples.",
+      "lesson": "Arrows connect evidence and its use. Payment snippets are source claims, not our results; retain provenance and never manufacture a client quote.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/03 (014123).png",
+      "width": 1458,
+      "height": 1192,
+      "sha256": "835f9537ec9e3495fea47a371e5a6005d8a345034d6093f49dba08a01289ca36",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-4",
+      "subject": "Q and A type",
+      "visual": "Large pale serif 3 left; bold black name and definition right; three colored pills beneath. Center tall question-sticker phone with soft local shadow, four smaller story cards across the lower area, outer examples intentionally edge-cropped.",
+      "story": "Shows the interaction and response formats that handle questions/objections.",
+      "lesson": "Local phone shadow is separate from blanket photo blur. Preserve the question mechanism; edge bleed is allowed for secondary examples, not required labels.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/04 (014126).png",
+      "width": 1459,
+      "height": 1197,
+      "sha256": "fb5e8d5630b85e3d17505dadc2086cc62ecccb041185539d7986fae75ec961ea",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-5",
+      "subject": "Day-in-life type",
+      "visual": "White canvas; three cropped phones above and three below. Center giant black title/definition with pale 4; colored purpose/cadence/audience pills stacked left. Time labels inside screenshots organize the day.",
+      "story": "Demonstrates chronology through actual work/activity snapshots.",
+      "lesson": "This six-phone collage is denser than a generic two-card layout. Use real work for Pulsify, and keep dates/time labels legible if chronology is the claim.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/05 (014130).png",
+      "width": 1462,
+      "height": 1194,
+      "sha256": "fc1a46459cc3b90c2da3eaefb76945de31aa82f63cdd8a2574375941c2eb3608",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-6",
+      "subject": "Breakdown type",
+      "visual": "White canvas; one large partial phone left shows CRM stages; title/definition in top-right with pale 5; colored pills below. Three phones across bottom show setter selection, answer and voice states; red privacy strokes and arrow inside captures.",
+      "story": "Shows a mechanism through successive product states rather than a broad software promise.",
+      "lesson": "Use actual current UI and capability verification. Source software name/features are not established merely by our resemblance to it. Separate evidence redaction from emphasis marks.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/06 (014135).png",
+      "width": 1467,
+      "height": 1204,
+      "sha256": "0fd4d96577aa342f7b921421359bc956ca5af68e4f6f1fdb0452b6e2b07df68d",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-7",
+      "subject": "Lifestyle type",
+      "visual": "Four large phones occupy corners around a central vertical white column. Bold black split title, pale 6, definition and three pills centered; real restaurant/conversation/event/portrait scenes inside devices.",
+      "story": "Defines a photo-only familiarity/desire category with examples.",
+      "lesson": "Preserve the structural option while translating to humanity and useful work. Source lifestyle positioning does not override Pulsify's no-flex authority.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/07 (014140).png",
+      "width": 1453,
+      "height": 1192,
+      "sha256": "972b0df3686fdf41c459487df5be1038a4a0ce5a6cd05d0e5ca768ab8f2b1b76",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-8",
+      "subject": "CTA type",
+      "visual": "White canvas; staggered tall phones, black category at upper-left with pale 7, three pills upper-right. Thick pale rounded route traces between devices and ends in a dot; definition occupies center/lower gaps.",
+      "story": "Shows several nurture states culminating in an invitation.",
+      "lesson": "The route line encodes progression, not quantitative loss. Genuine availability and delivery must support any scarcity visible in our own CTA.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/08 (014145).png",
+      "width": 1465,
+      "height": 1194,
+      "sha256": "58ea1fd460f2803e581b9d21781549ee5abe40070a6a3adf5e2343b00a0ea6dd",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NT-9",
+      "subject": "Broken capture",
+      "visual": "Only a narrow fragment of dark artwork and cut-off white/serif letters is available. No full figure, subject, complete sentence or composition can be recovered from the file.",
+      "story": "Cannot establish a complete extra slide or its transition. The seven-type taxonomy is visible in the other captures.",
+      "lesson": "Exclude from recipe matching and finished reproduction. Preserve the fragment and explicit missing status; never fabricate the absent slide.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/09 (014150).png",
+      "width": 273,
+      "height": 446,
+      "sha256": "cf2602290cf4de7e3d70c296ca8fbcdef84678370d1c09c669ffc889bf0ff47f",
+      "status": "broken-fragment",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "no-outer-chrome-observed"
+    },
+    {
+      "id": "NT-10",
+      "subject": "Keyword close",
+      "visual": "Warm studio with two people on phones. Large white keyword, italic invitation above, smaller delivery promise and hand underline. Left magenta/violet donut with view total/legend; enormous translucent green curved arrow right, both behind people.",
+      "story": "Offers the in-depth asset after the taxonomy, using reach imagery as supporting context.",
+      "lesson": "The donut's source total is readable but exact segment values are absent. Do not recreate arbitrary proportions as data. Keep graphic arrows distinct from the source platform navigation controls.",
+      "group": "Niksetting story taxonomy",
+      "family": "white-taxonomy",
+      "source": "raw-sources/inspiration/carousels/niksetting/964k-story-sequences/10 (014153).png",
+      "width": 1466,
+      "height": 1203,
+      "sha256": "389b102dbddf43ea22b086e1de4c06f0e7a4d522993c10cf0d9da8a47c512970",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-1",
+      "subject": "Seven-lesson cover",
+      "visual": "Warm studio portrait on stool; giant pale translucent 7 behind huge white sans lesson word. Smaller mixed-weight promise below; figure overlaps lettering, soft text shadow supplies lift. Camera stand and environment remain visible.",
+      "story": "Promises a bounded set of retrospective lessons.",
+      "lesson": "Number belongs on this cover, while interiors are concept-led. Keep necessary words readable around the head; outer screenshot UI is not artwork.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/01 (014209).png",
+      "width": 1459,
+      "height": 1201,
+      "sha256": "fccdbe1e1e3aafc697d9aeec2465469945e1d1a04918dafc8cec4c838e71fb32",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-2",
+      "subject": "Progress as currency",
+      "visual": "Huge white concept word with shadow top; massive white-framed thumbnail archive on rear wall; small presenter overlaps it. Two white bottom prose groups over the dark room edge.",
+      "story": "Treats the difference between earlier and current work as visible authority.",
+      "lesson": "Use a genuine work archive and comparable dates. A dense collage is not proof that every item succeeded, but it can substantiate a body of work.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/02 (014214).png",
+      "width": 1463,
+      "height": 1195,
+      "sha256": "96803f2c82cce4019c41780258ce6b4ac8f12265b0c50fe224a98f68df21fbab",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-3",
+      "subject": "Transposition",
+      "visual": "Huge white shadowed concept title high. Right-aligned explanation upper-right, two wider left bottom paragraphs. Two operators at real monitors lower-left; curtains/window/light equipment create the working setting.",
+      "story": "Explains moving a useful pattern between contexts rather than seeking novelty without inputs.",
+      "lesson": "Alignment follows the scene; no ghost number or mandatory card. Transfer a principle with own relevant examples, not copied prose or guaranteed originality claims.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/03 (014218).png",
+      "width": 1470,
+      "height": 1204,
+      "sha256": "436500c3c6b2efbbdfa11c0bcee0930bf78eb088255583371360f2d02240ff82",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-4",
+      "subject": "Intention",
+      "visual": "Large white word/shadow over bright projected screen. Black body is broken into left/right fragments around a central standing subject; table in foreground. Some projected source text is faint in the background.",
+      "story": "Connects the quality of the work to the care taken in producing it.",
+      "lesson": "Strong subject depth but fractured sentence flow. Recompose phrases as readable blocks rather than inheriting every irregular gap. Avoid black text on a dark obstruction.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/04 (014222).png",
+      "width": 1459,
+      "height": 1201,
+      "sha256": "cf33de5c4a3435f1538a77284aab0da9bb9320b5b8571f38da2181788a1aad12",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-5",
+      "subject": "Invisible demand",
+      "visual": "Huge white shadowed word, black paragraphs on bright studio wall. Seated person lower-left; right three-column grid of nine vertical post crops, each with prominent inbound count and smaller views. Subject hides one small part of the text/grid.",
+      "story": "Reframes visible engagement as an incomplete picture of demand and presents source inbound counts as examples.",
+      "lesson": "Inbound labels do not automatically mean qualified buyers or collected revenue. Maintain each metric's definition; a useful visual comparison can retain views and inbounds without claiming causation.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/05 (014226).png",
+      "width": 1470,
+      "height": 1197,
+      "sha256": "e7108cd9ec6c36254a988f7a5f64bb8e6ef2ebc4b2dd870bd77f715899a01440",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-6",
+      "subject": "Creativity",
+      "visual": "Huge white shadowed concept word high; two men working at laptop in a cafe fill middle. Three white prose groups across lower scene, following existing dark clothing/table areas.",
+      "story": "Offers a personal work practice behind creative judgment.",
+      "lesson": "A work photo is sufficient when the claim concerns process. Source statements about AI and intelligence are rhetorical opinions, not evidence-based universal rules.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/06 (014231).png",
+      "width": 1464,
+      "height": 1197,
+      "sha256": "0735f05c6dc972cc23f12f2e899d5ddbf97e92d1f5416b8437919c91ef0301a2",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-7",
+      "subject": "Angles",
+      "visual": "Huge white concept/shadow at top. Four separated white prose groups span upper and lower fields over a dark real desk scene with monitors. Subject occupies lower-left; copy uses a music metaphor and topic reframing.",
+      "story": "Explains how a changed perspective can give an existing topic a different meaning.",
+      "lesson": "Use a clear relevant analogy and return to the practical content task. Do not add a decorative graph just because the slide contains a metaphor.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/07 (014236).png",
+      "width": 1477,
+      "height": 1201,
+      "sha256": "27bc2d782e802e52a51ab73627da402b22dc27bda892ebb77ea85e25a28dd778",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    },
+    {
+      "id": "NP-8",
+      "subject": "Differentiation thesis",
+      "visual": "Bright studio, large white shadowed title high, black multi-block body around two seated people and chairs. Dark softboxes overlap the frame edges and reduce contrast under some black words. No hard commercial CTA captured.",
+      "story": "Ends on a category/identity thesis rather than a reply request.",
+      "lesson": "Keep the thesis-close option. Improve source contrast and sentence fragmentation instead of copying defects; absent CTA is a meaningful structural choice.",
+      "group": "Niksetting concept lessons",
+      "family": "concept-words",
+      "source": "raw-sources/inspiration/carousels/niksetting/7-lessons-content/08 (014240).png",
+      "width": 1459,
+      "height": 1194,
+      "sha256": "1fb6d7b996aa9b6a52fafb3d7e078246b0fcace1752ff1fc319b6d7a38c542f2",
+      "status": "full-capture",
+      "inspected": "2026-10-08; individually opened and visually examined",
+      "ordering": "stored-order-preserved",
+      "outer_chrome": "desktop-instagram; artwork is left panel"
+    }
+  ],
+  "related": [
+    "wiki/synthesis/carousel-reference-forensic-audit-2026-10-08.md",
+    "wiki/synthesis/story-reference-forensic-audit-2026-10-08.md",
+    "wiki/content-engine/reference-replication-profile.md",
+    "wiki/playbooks/reference-replication-sop.md"
+  ]
+}

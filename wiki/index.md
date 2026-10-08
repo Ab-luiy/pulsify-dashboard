@@ -1,9 +1,17 @@
 ---
-updated: 2026-09-07
+updated: 2026-10-08
 aliases:
 ---
 
 # Wiki index
+
+## Shared carousel and story replication (2026-10-08)
+
+| Page | Summary | Category | Created |
+|---|---|---|---|
+| [[synthesis/carousel-reference-forensic-audit-2026-10-08]] | All 76 stored carousel images individually examined; source atlas, every-slide ledger, nine families, copy/depth/figures/colors and evidence limits | synthesis, content, offer, funnel | 2026-10-08 |
+| [[content-engine/reference-replication-profile]] | Portable JSON/Markdown and schema; anchored recipes, shared story/carousel layers, registered masks, assets, figures and hard quality gates | framework, content, offer, funnel, design | 2026-10-08 |
+| [[playbooks/reference-replication-sop]] | Question/copy → registered assets → reference matching → strict scene plan → deterministic render → visual QA; app implementation contract | playbook, content, offer, funnel, product | 2026-10-08 |
 
 Every page in the Pulsify wiki, organized by category. Each entry: link, one-line summary, category, date created.
 

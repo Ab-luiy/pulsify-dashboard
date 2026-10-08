@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0.0",
+  "profile_version": "1.0.0",
+  "job_id": "bind-real-assets-before-rendering",
+  "mode": "client-production",
+  "family_id": "assistant-features",
+  "format": "carousel",
+  "canvas": {
+    "width": 1080,
+    "height": 1350
+  },
+  "brief": {
+    "question": "Which recurring work should this set explain?",
+    "topic": "Replace with the actual topic",
+    "audience_state": "Replace with a documented buyer situation",
+    "purpose": "Explain a fitting, verified capability",
+    "belief_to_change": "Replace with the specific belief",
+    "offer_fit": "Define the appropriate audience and boundary",
+    "action": "Set the actual requested action",
+    "delivery": "Name the existing deliverable and fulfillment"
+  },
+  "assets": [
+    {
+      "id": "photo_1",
+      "kind": "photo",
+      "path": "BIND_ACTUAL_PHOTO",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "width": 1080,
+      "height": 1350,
+      "source_note": "Actual approved operator photo; preserve environment"
+    },
+    {
+      "id": "mask_1",
+      "kind": "mask",
+      "path": "BIND_REGISTERED_ALPHA_MASK",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "width": 1080,
+      "height": 1350,
+      "mask_of": "photo_1",
+      "source_note": "Same source dimensions and transform; visual registration must pass"
+    },
+    {
+      "id": "font_1",
+      "kind": "font",
+      "path": "BIND_PERMITTED_FONT_FILE",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_note": "Actual font file, do not assume source font identity"
+    }
+  ],
+  "claims": [],
+  "slides": [
+    {
+      "id": "slide_1",
+      "role": "introduction",
+      "reference_ids": [
+        "G1-1"
+      ],
+      "recipe_id": "outlined-name-behind-subject",
+      "copy": {
+        "question": "What is this about?",
+        "answer": "Bind approved introduction copy",
+        "evidence_ids": [],
+        "next_question": "Which output can I inspect?",
+        "payoff_slide": null
+      },
+      "subject_box": [
+        0.4,
+        0.28,
+        0.45,
+        0.68
+      ],
+      "layers": [
+        {
+          "id": "base",
+          "component": "photo",
+          "z": 0,
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "essential": false,
+          "asset_id": "photo_1",
+          "transform": {
+            "scale": 1,
+            "translate": [
+              0,
+              0
+            ],
+            "crop": [
+              0,
+              0,
+              1,
+              1
+            ]
+          },
+          "photo_effect": "none"
+        },
+        {
+          "id": "rear_name",
+          "component": "text",
+          "z": 20,
+          "box": [
+            0.05,
+            0.22,
+            0.9,
+            0.3
+          ],
+          "essential": false,
+          "text": "Bind actual display name",
+          "style": {
+            "font_id": "font_1",
+            "weight": 300,
+            "size_px": 180,
+            "line_height": 1,
+            "tracking_px": -3,
+            "alignment": "center",
+            "fill": "#f1f1ee",
+            "opacity": 0.7
+          }
+        },
+        {
+          "id": "restore",
+          "component": "subject-restore",
+          "z": 30,
+          "box": [
+            0,
+            0,
+            1,
+            1
+          ],
+          "essential": false,
+          "asset_id": "photo_1",
+          "mask_id": "mask_1",
+          "same_transform_as": "base",
+          "transform": {
+            "scale": 1,
+            "translate": [
+              0,
+              0
+            ],
+            "crop": [
+              0,
+              0,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "id": "meaning",
+          "component": "text",
+          "z": 40,
+          "box": [
+            0.06,
+            0.08,
+            0.88,
+            0.1
+          ],
+          "essential": true,
+          "text": "Bind the approved promise",
+          "style": {
+            "font_id": "font_1",
+            "weight": 400,
+            "size_px": 46,
+            "line_height": 1.2,
+            "alignment": "left",
+            "fill": "#f1f1ee"
+          }
+        }
+      ],
+      "graphs": [],
+      "qa_notes": [
+        "Unbound template: no original assets or final topic/copy supplied here.",
+        "Geometry is an estimated demonstration and must be calibrated to the actual photo.",
+        "No rendered or deployed output is claimed."
+      ]
+    }
+  ],
+  "render_status": "unbound-template"
+}

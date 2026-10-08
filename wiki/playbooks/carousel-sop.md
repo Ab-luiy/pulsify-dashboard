@@ -3,10 +3,18 @@ type: playbook
 tags: [content, instagram, carousels, design]
 sources: [[wiki/frameworks/carousel-system]], [[wiki/content-engine/sequence-carousel-design-system]], [[wiki/content-engine/pulsify-methodology-carousel-v1]], [[wiki/content-engine/carousel-breakdowns/README]]
 created: 2026-10-03
-updated: 2026-10-03
+updated: 2026-10-08
 ---
 
 # Carousel SOP
+
+## Current shared production workflow, 2026-10-08
+
+Start with the question, purpose, audience, fitting offer, available proof and desired action; write the complete copy/payoff map before styling. Then run [[playbooks/reference-replication-sop]] with [[content-engine/reference-replication-profile]], its JSON, selected actual reference images and registered operator assets. The [[synthesis/carousel-reference-forensic-audit-2026-10-08|76-image examination]] supplies nine visual families and individual source anchors. Stories inherit the same craft through a separate 9:16 layout.
+
+The three structures below remain useful content options, not the complete menu or universal design templates. Add feature demonstration, case-mechanism, result archive and sourced personal chronicle where the job warrants them. Serif covers, mandatory ghost numbers, three chips, proof walls and alternating left/right alignment do not apply to every family. Choose the reference/photo relationship deliberately. Keep recognizable environments, intentional subject-over-text/cards, genuine glyphs and meaningful figures. Never manufacture space with blanket blur or mirrored extensions.
+
+The inspected app carousel sanitizer currently accepts short layout hints without mask/layer/graph geometry. The new scene schema/preflight and app integration contract are specified in the shared SOP; their existence does not mean the live renderer has been upgraded. Older builder steps below must be read with this current scope/precedence.
 
 How a Pulsify carousel gets made, from the idea to the posted set. Founder ask 2026-10-03: carousels get real work behind them and a full SOP, not a quick template. This SOP is also the order of the carousel builder in the client app (Instagram, Carousels).
 

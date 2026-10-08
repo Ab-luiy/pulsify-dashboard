@@ -1,0 +1,38 @@
+{
+  "source_count": 76,
+  "source_hashes_unchanged": true,
+  "profile_schema_valid": true,
+  "job_schema_valid": true,
+  "recipe_anchors_resolve": true,
+  "template_schema_valid": true,
+  "template_intentionally_blocked": [
+    "photo_1: actual asset file unavailable",
+    "mask_1: actual asset file unavailable",
+    "font_1: actual asset file unavailable"
+  ],
+  "checks": {
+    "registered_asset_fixture_passes": true,
+    "conceptual_graph_passes": true,
+    "missing_asset_rejected": true,
+    "hash_change_rejected": true,
+    "mask_dimension_mismatch_rejected": true,
+    "missing_mask_rejected": true,
+    "shifted_mask_transform_rejected": true,
+    "hidden_essential_copy_rejected": true,
+    "forbidden_blur_rejected": true,
+    "unknown_icon_rejected": true,
+    "broken_reference_rejected": true,
+    "dangling_graph_port_rejected": true,
+    "measured_chart_without_data_rejected": true,
+    "invented_conceptual_values_rejected": true,
+    "unanswered_payoff_rejected": true,
+    "valid_illustrative_arithmetic_passes": true,
+    "zero_denominator_rejected": true,
+    "mismatched_multiplier_rejected": true,
+    "unverified_production_claim_rejected": true,
+    "unlabeled_illustration_rejected": true,
+    "story_safe_zone_rejected": true
+  },
+  "visual_signoff": false,
+  "live_app_integrated": false
+}

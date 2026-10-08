@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pulsify portable reference profile 1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "profile_version",
+    "id",
+    "date",
+    "scope",
+    "evidence_policy",
+    "precedence",
+    "modes",
+    "invariants",
+    "pulsify_overrides",
+    "formats",
+    "layer_stack",
+    "material_defaults",
+    "raster_color_evidence",
+    "families",
+    "components",
+    "recipes",
+    "copy_contract",
+    "proof_contract",
+    "app_contract",
+    "quality",
+    "reference_catalog",
+    "related"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "profile_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "id": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "evidence_policy": {
+      "type": "object"
+    },
+    "precedence": {
+      "type": "array"
+    },
+    "modes": {
+      "type": "object"
+    },
+    "invariants": {
+      "type": "array"
+    },
+    "pulsify_overrides": {
+      "type": "object"
+    },
+    "formats": {
+      "type": "object"
+    },
+    "layer_stack": {
+      "type": "array"
+    },
+    "material_defaults": {
+      "type": "object"
+    },
+    "raster_color_evidence": {
+      "type": "array"
+    },
+    "families": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "anchors",
+          "job",
+          "signature",
+          "observed_color_roles",
+          "color_status",
+          "recipes"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "anchors": {
+            "type": "string"
+          },
+          "job": {
+            "type": "string"
+          },
+          "signature": {
+            "type": "array"
+          },
+          "observed_color_roles": {
+            "type": "array"
+          },
+          "color_status": {
+            "type": "string"
+          },
+          "recipes": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 16,
+      "maxItems": 16,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "job",
+          "construction"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "job": {
+            "type": "string"
+          },
+          "construction": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "minItems": 14,
+      "maxItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "anchors",
+          "estimated_boxes",
+          "geometry_status",
+          "stack",
+          "acceptance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "anchors": {
+            "type": "array"
+          },
+          "estimated_boxes": {
+            "type": "object"
+          },
+          "geometry_status": {
+            "type": "string"
+          },
+          "stack": {
+            "type": "string"
+          },
+          "acceptance": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "copy_contract": {
+      "type": "object"
+    },
+    "proof_contract": {
+      "type": "object"
+    },
+    "app_contract": {
+      "type": "object"
+    },
+    "quality": {
+      "type": "object"
+    },
+    "reference_catalog": {
+      "type": "array",
+      "minItems": 76,
+      "maxItems": 76,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "subject",
+          "visual",
+          "story",
+          "lesson",
+          "group",
+          "family",
+          "source",
+          "width",
+          "height",
+          "sha256",
+          "status",
+          "inspected",
+          "ordering",
+          "outer_chrome"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "subject": {
+            "type": "string"
+          },
+          "visual": {
+            "type": "string"
+          },
+          "story": {
+            "type": "string"
+          },
+          "lesson": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "family": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "width": {
+            "type": "integer"
+          },
+          "height": {
+            "type": "integer"
+          },
+          "sha256": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "inspected": {
+            "type": "string"
+          },
+          "ordering": {
+            "type": "string"
+          },
+          "outer_chrome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "related": {
+      "type": "array"
+    }
+  }
+}

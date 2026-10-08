@@ -3,10 +3,12 @@ type: framework
 tags: [content, instagram, carousels, design]
 sources: [[wiki/content-engine/carousel-breakdowns/niksetting-grow-acquisition-onboarding]], [[wiki/content-engine/carousel-breakdowns/niksetting-964k-story-sequences]], [[wiki/content-engine/carousel-breakdowns/niksetting-7-lessons-content]], [[wiki/synthesis/niksetting-extractions/17-300k-month-posting-schedule]]
 created: 2026-07-12
-updated: 2026-07-12
+updated: 2026-10-08
 ---
 
 # The carousel system
+
+> Corpus expansion, 2026-10-08: [[synthesis/carousel-reference-forensic-audit-2026-10-08]] adds a complete examination of all 76 stored carousel images, with nine visual families. The three structures below are observed options; their conversion performance is not established by the screenshots. Feature demonstrations, case-mechanism reveals, result archives and sourced personal chronicles also occur. For current production use [[content-engine/reference-replication-profile]] and [[playbooks/reference-replication-sop]]: purpose/copy first, actual photos/proof, photo-sensitive composition, registered subject depth and semantic figures. Exact source claims/identity are not Pulsify proof, and one ordinal/chip/template grammar does not describe the full corpus.
 
 The canonical Pulsify framework for Instagram carousels. Carousels were the thinnest area of both transcript corpora (one section in Niksetting 17: life-update mode + storyline mode); this framework is built primarily from three captured, fully-designed Niksetting carousels ([[content-engine/carousel-breakdowns/]]), which show what the transcripts couldn't — the design craft and the swipe mechanics. It is the save-optimized authority format, sibling to [[frameworks/story-sequence-system]].
 

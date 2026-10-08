@@ -1,0 +1,227 @@
+[
+  {
+    "reference_id": "G1-2",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#ecacac",
+        "qualifying_pixel_count": 64867
+      },
+      {
+        "hex": "#fcbca4",
+        "qualifying_pixel_count": 62326
+      },
+      {
+        "hex": "#f4b4a4",
+        "qualifying_pixel_count": 53250
+      }
+    ]
+  },
+  {
+    "reference_id": "G1-3",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#dca4b4",
+        "qualifying_pixel_count": 71381
+      },
+      {
+        "hex": "#e4acb4",
+        "qualifying_pixel_count": 54753
+      },
+      {
+        "hex": "#e4a4b4",
+        "qualifying_pixel_count": 42260
+      }
+    ]
+  },
+  {
+    "reference_id": "G1-4",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#c48cc4",
+        "qualifying_pixel_count": 40091
+      },
+      {
+        "hex": "#d49cbc",
+        "qualifying_pixel_count": 38118
+      },
+      {
+        "hex": "#c494c4",
+        "qualifying_pixel_count": 33796
+      }
+    ]
+  },
+  {
+    "reference_id": "G1-5",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#b484cc",
+        "qualifying_pixel_count": 48622
+      },
+      {
+        "hex": "#ac7cd4",
+        "qualifying_pixel_count": 47156
+      },
+      {
+        "hex": "#bc84cc",
+        "qualifying_pixel_count": 30018
+      }
+    ]
+  },
+  {
+    "reference_id": "G1-6",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#a474dc",
+        "qualifying_pixel_count": 44960
+      },
+      {
+        "hex": "#9c74dc",
+        "qualifying_pixel_count": 43216
+      },
+      {
+        "hex": "#946ce4",
+        "qualifying_pixel_count": 40806
+      }
+    ]
+  },
+  {
+    "reference_id": "G1-7",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#845cec",
+        "qualifying_pixel_count": 54692
+      },
+      {
+        "hex": "#8c64ec",
+        "qualifying_pixel_count": 46915
+      },
+      {
+        "hex": "#8c64e4",
+        "qualifying_pixel_count": 42382
+      }
+    ]
+  },
+  {
+    "reference_id": "G1-8",
+    "role": "headline-accent",
+    "normalized_region_xyxy": [
+      0.02,
+      0.02,
+      0.98,
+      0.3
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#6c4cfc",
+        "qualifying_pixel_count": 83335
+      },
+      {
+        "hex": "#7454f4",
+        "qualifying_pixel_count": 56762
+      },
+      {
+        "hex": "#7c54f4",
+        "qualifying_pixel_count": 47032
+      }
+    ]
+  },
+  {
+    "reference_id": "K1-1",
+    "role": "red-emphasis",
+    "normalized_region_xyxy": [
+      0.05,
+      0.02,
+      0.95,
+      0.23
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#9c0404",
+        "qualifying_pixel_count": 16252
+      },
+      {
+        "hex": "#a40404",
+        "qualifying_pixel_count": 14806
+      },
+      {
+        "hex": "#940404",
+        "qualifying_pixel_count": 14790
+      }
+    ]
+  },
+  {
+    "reference_id": "K2-3",
+    "role": "cyan-ordinal",
+    "normalized_region_xyxy": [
+      0.08,
+      0.18,
+      0.17,
+      0.225
+    ],
+    "method": "Most frequent 8-level RGB bins, saturation >= .2 and value >= .55; optional hue filter. Compressed raster samples, not native design tokens.",
+    "candidates": [
+      {
+        "hex": "#64d4dc",
+        "qualifying_pixel_count": 304
+      },
+      {
+        "hex": "#64dce4",
+        "qualifying_pixel_count": 165
+      },
+      {
+        "hex": "#64dcdc",
+        "qualifying_pixel_count": 161
+      }
+    ]
+  }
+]
