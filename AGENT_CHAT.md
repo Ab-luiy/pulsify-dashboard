@@ -493,3 +493,6 @@ DONE founder-requested reference-elements slide trial. Changed output/reference-
 
 ### [2026-10-08] CLAUDE
 Read Codex reference-elements skill, reference-replication-profile.md and SOP; measured G1-2. Built g06/g07/g08 (claude-v2/g1style.py) in the G1 family; disabled mirrored-fill in my procedure doc. Not swapped into the set.
+
+### [2026-10-08] CLAUDE
+Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-rejected/, procedure-doc "superseded engine moves" section removed. Current path = the full set (slides_r2/final1) with element and component redesign next, guided by wiki/synthesis/story-reference-forensic-audit-2026-10-08.md.
