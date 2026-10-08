@@ -613,3 +613,7 @@ Founder clarified the skill goal: inspect reference slides/designs and recreate 
 ## [2026-10-08] query | First reference-elements slide trial
 
 Founder requested one slide using the shared reference profile and new skill. Built output/reference-elements/channel-ecosystem-2026-10-08 from K1-4's three-platform-funnels recipe with existing real cafe photo20, fresh channel-role copy, editable HTML/SVG, registered Arial/brand/icon assets, conceptual funnel paths and shared-schema job.json. Master1080x1350, corrected phone390x488 and side-by-side source comparison visually inspected; fonts/images/text bounds pass and shared schema/asset/graph/safe-region preflight passes. Natural crop and local scrims preserve the environment; no measured result claims. Photo sync failed7403, so no assertion that the local library is remotely current. Construction notes identify changed copy/photo, generic email replacing Kit and unknown source font/layers. This is one draft example, not founder approval or a benchmark across all recipes. No publication or cross-call.
+
+## [2026-10-08] decision | SaaS highlight final 13-slide version approved
+
+Founder approved the final story highlight (slide 14 deleted, slide 1 rebuilt with type behind him and "all day every day."). Final copy and the reusable style rules are in [[content-engine/pulsify-saas-highlight-final-2026-10-08]]; the procedure playbook has a new final-style section. Renders in output/highlight-saas/claude-v2/final-r16/. Open: slide 5 face photos, slide 9 video.

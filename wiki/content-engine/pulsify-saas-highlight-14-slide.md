@@ -8,6 +8,8 @@ updated: 2026-10-06
 
 # Pulsify highlight, 14-slide (pre-merge) version with picture matches
 
+> Superseded 2026-10-08: the shipped 13-slide copy and design are in [[content-engine/pulsify-saas-highlight-final-2026-10-08]]. Slide 14 was deleted and the copy below was reworded by the founder. This page stays as history.
+
 The 14-slide copy is locked except for the founder's removal of the opening "so" on slides 4 and 5 (2026-10-06). The founder's current photo mapping below supersedes the earlier photo matches. Slide 9 is founder-owned.
 
 ## Founder photo and design revision (2026-10-06)

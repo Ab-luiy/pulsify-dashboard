@@ -82,6 +82,10 @@ Photos are shown whole: never cropped to fill, never painted over with a flat fi
 - Text on a face or on a bright ring: reposition the graphic or the text, never ship the overlap.
 - Windows out of memory: renders and OpenCV calls fail intermittently when free RAM is tiny; retry, render at half-res for segmentation, keep a subprocess timeout.
 
+## Final style learned shipping the SaaS highlight, 2026-10-08
+
+Full detail in [[content-engine/pulsify-saas-highlight-final-2026-10-08]]. For the app and client sequences: unify the palette to red, black, white and green; use Brez bold typography with thick red underlines and Kobey-style red gradient label boxes; reuse a few photos two or three times with a blurred, dimmed carry-over of the previous slide; redesign app screens as clean cards with a few words, never raw screenshots or "sample data" tags; use real brand glyphs; keep depth effects such as type behind the subject only where the cutout is clean; make every slide gratifying on its own because most viewers will not watch the whole set; show several mock-ups and let the founder choose. Tracking-style numbers are illustrative by founder choice and must not be reused as client results.
+
 ## Connections
 
 - [[content-engine/reference-replication-profile]], [[playbooks/reference-replication-sop]] — shared JSON/Markdown, anchored recipes, masking and app-quality contract
