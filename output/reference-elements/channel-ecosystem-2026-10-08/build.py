@@ -88,6 +88,8 @@ for c in channels:
     svg += '<text class="desc" x="%s" y="710">%s</text><text class="desc" x="%s" y="746">%s</text>' % (x, c['description'][0], x, c['description'][1])
     svg += funnel(c)
 svg += '</svg>'
+embedded_fonts = ''.join('@font-face{font-family:ReferenceArial;src:url(data:font/ttf;base64,' + base64.b64encode((ASSETS / file).read_bytes()).decode() + ') format("truetype");font-weight:' + str(weight) + ';}' for file, weight in [('arial.ttf',400),('arial-bold.ttf',700)])
+svg = svg.replace('<style>', '<style>' + embedded_fonts, 1)
 # Gradients are scoped inside component groups; SVG resolves IDs globally.
 (HERE / 'elements.svg').write_text(svg, encoding='utf-8')
 fonts = '''@font-face{font-family:ReferenceArial;src:url(assets/arial.ttf) format('truetype');font-weight:400}@font-face{font-family:ReferenceArial;src:url(assets/arial-bold.ttf) format('truetype');font-weight:700}'''
