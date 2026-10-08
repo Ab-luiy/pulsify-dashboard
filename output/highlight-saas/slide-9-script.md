@@ -59,3 +59,25 @@ SooWei's pitch moves used (from the vault extractions, his claims, structure onl
 6. The close. Built from everything I've seen work, every framework tested before it went in. You keep doing what you're good at. The system tells you where it's paying.
 
 Anchors: views are the wrong metric / you can't tell which post did it / so I built the thing that connects them / post to payment, your voice, who's closing / make more of what pays / you keep doing what you're good at. Minimum cut: beats 3, 4, 6.
+
+---
+
+## "What happens when you work with me" version (modeled on SooWei's IG walkthrough, founder-supplied 2026-10-08)
+
+Structure taken from the founder's pasted SooWei transcript: one hook line promising the exact process, then three numbered steps (get in the app and answer onboarding questions, then a roadmap call; analyze KPIs and fix the lowest-hanging fruit before touching top-of-funnel content; amplify with the content system), then a short close. His specifics (named clients, $200K a month, a weekly account manager, 150 posts a month) are NOT used. Pulsify steps map to what is live: onboarding form into the client brain (17 questions, 7 parts), tracking post to payment, closer and setter numbers, voice-matched writing, "we work through it with you".
+
+Script (about 75 seconds):
+
+Here's exactly what happens when you work with me.
+
+Step one. You get access to the app and answer a set of questions: who you are, what you sell, who you sell to, how you talk. Everything after this is built from your answers, including the voice. Then we sit down and go through it together, so you know how to attract the right customer and what makes you different from everyone else in your niche.
+
+Step two. We look at your numbers. Your offer, your funnel, your sales calls, where people drop off. We fix the cheapest leak first, because there's no point pouring more content into a business that loses people further down. In the app, every post is tracked from the first view to the payment, and you can see who's closing and who's not.
+
+Step three. We turn it up. With the foundation right, the app writes in your voice and tells you what to make next. You sit down already knowing what to say, you record it, and we look at what's paying and make more of that.
+
+Three steps. You keep doing what you're good at, and the system does the rest.
+
+Anchors: here's exactly what happens / step one: app, questions, sit down together / step two: numbers, cheapest leak first, tracked to payment / step three: writes in your voice, make more of what pays / you keep doing what you're good at.
+
+Open items before recording: the cadence of working through it with you (weekly or otherwise) is not set in the vault, so the script says "we sit down" and "we look at what's paying" without a number; consultation scope is the founder's call.
