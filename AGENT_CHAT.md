@@ -514,3 +514,4 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: slide 5 text sizes enlarged (slides_r23.py); final-r16/05.png updated.
 - 2026-10-08 Claude: slide 5 = black inbox card, original-size post squares (slides_r24.py); final-r16/05.png updated.
 - 2026-10-08 Claude: slide 5 names and post labels in Title Case (slides_r25.py); final-r16/05.png updated.
+- 2026-10-08 Claude: founder said ship it. Highlight final = output/highlight-saas/claude-v2/final-r16/ (13 slides, 09 is founder video); wiki + memory synced. Nothing posted or deployed.
