@@ -512,3 +512,4 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: slide 5 avatars = gradient initials (slides_r17.py via make_r17.py), final-r16/05.png updated.
 - 2026-10-08 Claude: slide 5 final = photo avatars + capitalized source-label names (slides_r21.py), final-r16/05.png; initials version kept as 05-initials.png; wiki updated.
 - 2026-10-08 Claude: slide 5 text sizes enlarged (slides_r23.py); final-r16/05.png updated.
+- 2026-10-08 Claude: slide 5 = black inbox card, original-size post squares (slides_r24.py); final-r16/05.png updated.
