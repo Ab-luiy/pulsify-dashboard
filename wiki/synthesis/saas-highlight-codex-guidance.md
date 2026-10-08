@@ -8,6 +8,12 @@ updated: 2026-10-08
 
 # Codex guidance: build the Pulsify highlight in the style of the reference sequences
 
+## Latest slide05 direction: tracking, 2026-10-08
+
+The founder subsequently rewrote05 around posting long-/short-form videos and lacking visibility into the source, watch depth, funnel stage, activity and arrival at a VSL/webinar. UTM tracking should feel desirable, and later frames must finish that story. Current nine-frame review now uses05 for the missing journey,06 for voice/content and the click-through bridge,07 for UTM source plus funnel-page watch/person/payment journey,08 for sales preparation and reviewed follow-up,09 for the founder/service close.01–04 unchanged. Previous complete v2 preserved under `revisions/before-tracking-rewrite/`.
+
+Keep the mechanisms accurate. UTM parameters capture tagged clicks. Wistia embedded on the funnel page records watch activity; identification joins visitor page/watch events to an email, then bookings and matched payments. Do not imply that UTM reveals individual watch duration or identity inside YouTube/Instagram, that all external webinar players are tracked, or that untagged traffic has complete attribution. Cash uses the first tagged source, confirmed matched payments, net of refunds. “How much did they watch there?” on05 refers to the VSL/webinar destination, and07 visibly scopes watch activity to the funnel page. The watch strip is conceptual, not client retention data. Evidence: [[synthesis/cash-by-video-spec]], [[synthesis/infoos-build-2026-10]], `output/standard-preview/js/funnel-integrations.js` and `output/standard-preview/functions/event.js`; exact capability notes in current output's `tracking-evidence.md`.
+
 ## Latest founder direction: pre-launch, 2026-10-08
 
 This direction supersedes conflicting photo, copy and sequence-length instructions below for the active pre-launch. The founder rejected the 14-frame Codex mockup: mirrored tops, unnecessarily zoomed-out photographs, screenshot-style product slides 10-12, crowded slide 8 and detached narrator copy. He approved the typography and red hand underlines. That approval applies to those devices, not the overall design.

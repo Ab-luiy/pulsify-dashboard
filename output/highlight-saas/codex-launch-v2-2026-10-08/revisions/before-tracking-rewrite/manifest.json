@@ -1,0 +1,74 @@
+[
+  {
+    "slide": 1,
+    "sha256": "91402ed1a5f7be9b24a32b7c92b0f541723138f28f2fd68fc97efbfd7acaf116",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 2,
+    "sha256": "807a30d55a18e5a4191ea7ff59febc0271726dfb4e420ef786cc48363dc6f4fe",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 3,
+    "sha256": "9a235e4b8683c40af34a8fce30c64e5d2b0488975fb3831cbc18d54d3195e02e",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 4,
+    "sha256": "9f4cb157aab9500c274258c51cc4e3c6570f80694ca40711b6328ee5c5200dae",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 5,
+    "sha256": "8de61bd56e4f7891b534ee71855f0969b768ff16ca9ec2aedf7af274ce4f0cf6",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 6,
+    "sha256": "9a03cdc67f84e8491b5087ad483bdf121efa6d998dbea46222fa834a8bee8984",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 7,
+    "sha256": "2a90e87441f9b29e480a080e9f5ed31d8b8a0d0d83f6c596e3ce53ecca3378b7",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 8,
+    "sha256": "9b9b73fb7e8db54484d9a7af7ea43dce04da778f77a32c62b032ef890626d3c1",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  },
+  {
+    "slide": 9,
+    "sha256": "ee96a02164169a610a6a7a3301885b2a62120680a5abd47df15c06fb8b65498c",
+    "dimensions": [
+      1080,
+      1920
+    ]
+  }
+]
