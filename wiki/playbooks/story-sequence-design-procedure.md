@@ -97,3 +97,6 @@ Earlier missing-slide paragraphs are historical build snapshots. The shared prof
 ## Source trail
 
 Founder feedback in-session 2026-10-04 to 2026-10-07; build scripts in output/highlight-saas/claude-v2/; references in raw-sources/inspiration/story-sequences/.
+
+## Superseded engine moves (2026-10-08)
+prep_photo_full mirrored/blurred top extension and blanket scrims are disabled per [[content-engine/reference-replication-profile]]. Current builds follow that profile and the reference-elements skill; g1style.py (output/highlight-saas/claude-v2) is the first G1-family build: measured panel fill rgb(12,13,15) ~97% opaque, 1.5px light border + faint halo, 14px radius, huge light lowercase peach-to-pink title, labels with one bold word, thin muted connectors, top-only fade.

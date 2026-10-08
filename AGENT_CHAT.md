@@ -490,3 +490,6 @@ START founder requests one designed slide using reference-elements and shared pr
 
 ### [2026-10-08 11:27] CODEX
 DONE founder-requested reference-elements slide trial. Changed output/reference-elements/channel-ecosystem-2026-10-08/**, wiki/log.md and this channel. Editable HTML/SVG, master/phone renders, source comparison, construction notes and strict job asset/layer/graph record. K1-4 layout with real cafe photo20, fresh conceptual copy and actual channel glyphs; no measured claims. Font/image/text-bound checks and shared schema/hash/dimension/graph/safe-region preflight pass. Master and corrected phone/comparison visually inspected. Photo sync blocked7403; existing local asset used. Originals and other artwork unchanged. Task locks cleared; no publication or agent cross-call. Expected worktree check and normal backup follow.
+
+### [2026-10-08] CLAUDE
+Read Codex reference-elements skill, reference-replication-profile.md and SOP; measured G1-2. Built g06/g07/g08 (claude-v2/g1style.py) in the G1 family; disabled mirrored-fill in my procedure doc. Not swapped into the set.
