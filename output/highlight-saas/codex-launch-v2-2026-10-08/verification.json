@@ -1,0 +1,85 @@
+[
+  {
+    "slide": 1,
+    "issues": [],
+    "images": [
+      {
+        "src": "assets/opening.png",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "slide": 2,
+    "issues": [],
+    "images": [
+      {
+        "src": "assets/31-IMG_8128.jpg",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "slide": 3,
+    "issues": [],
+    "images": [
+      {
+        "src": "assets/fanbasis.png",
+        "loaded": true
+      },
+      {
+        "src": "assets/whop.png",
+        "loaded": true
+      },
+      {
+        "src": "assets/stripe.svg",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "slide": 4,
+    "issues": [],
+    "images": [
+      {
+        "src": "assets/49-IMG_7540.JPEG",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "slide": 5,
+    "issues": [],
+    "images": [
+      {
+        "src": "assets/47-DB5350AE-65B9-4820-8FD0-C0CDB26324DD.JPEG",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "slide": 6,
+    "issues": [],
+    "images": []
+  },
+  {
+    "slide": 7,
+    "issues": [],
+    "images": []
+  },
+  {
+    "slide": 8,
+    "issues": [],
+    "images": []
+  },
+  {
+    "slide": 9,
+    "issues": [],
+    "images": [
+      {
+        "src": "assets/14-IMG_8690.JPEG",
+        "loaded": true
+      }
+    ]
+  }
+]

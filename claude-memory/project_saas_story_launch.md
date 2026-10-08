@@ -1,6 +1,6 @@
 ---
 name: project-saas-story-launch
-description: 2026-10-07 founder rejects story design's lack of originality; Claude briefing requested, integrate own logo/photos/redesigned product visuals; no creative approval
+description: 2026-10-08 pre-launch: tighter unmirrored photos, premium redesigned product scenes, passionate founder voice and gratifying frames; nine-frame proposal remains unapproved
 metadata:
   type: project
 ---
@@ -17,3 +17,11 @@ Current work: 13 stills, heavier figures3/5/7/8, genuine Example/dashboard crops
 Direction: compose the Pulsify identity, founder photography, redesigned relevant dashboard elements and clear figures as one visual idea. Brand integration needs to go beyond a small header mark or a pasted3D coin. Revisit the story archive's actual images each iteration. Preserve locked words, exact photo mapping/repeats, Helvetica and approved8 sizes, red nearly horizontal underlines, no middle fades/photo cutouts, truthful labelled demo UI. Slide9 founder-owned;11's current IMG_8529.JPEG disputed and intended filename pending;11/13/14 framing undecided. No publish/deploy. Founder expects continued iteration until the work looks good.
 
 Direct read-only Claude Sonnet briefing attempted2026-10-07: OAuth session expired and could not be refreshed, so no acknowledgement or review occurred. Full briefing and feedback saved in shared context and copied into live Claude memory for the next session; failure evidence at output/highlight-saas/project/reference-review/claude-design-handoff-2026-10-07.json.
+
+## 2026-10-08: pre-launch direction supersedes older photo and copy locks
+
+Founder rejected the full14-frame Codex mockup: unnecessarily zoomed-out/mirrored photos, screenshot-style app visuals10/11/12, crowded8 and narrator/newspaper copy. Typography and red underlines approved. He wants premium product-launch desirability like an Apple advertisement/iPhone trailer, selling the mechanism AND the outcome. Every frame should be gratifying; do not assume his audience watches14slides like Niksetting's. Natural cover crops are authorized; mirror extensions rejected. Keep photo identity and relevant scene, compose deliberately. Shorter passionate founder copy and concise line breaks; do not invent personal building anecdotes.
+
+Founder opening: working on this this whole year up until today; observed the same problem with creators he worked with; could not find what he wanted out there. Chain headline = "the whole chain", with squares/Miro-style content/personal-branding breakdown, niche-problem solving so people buy into the creator, drawn traffic crowd, landing-page/funnel routes (VSL/webinar/profile/ascension/challenge), talented setters/closers and Fanbasis/Whop/Stripe examples for cash. Demonstrate expertise, expose learning gaps/FOMO and make the system desirable. Brand examples are not proof of live integrations.
+
+Codex response: isolated nine-frame review at output/highlight-saas/codex-launch-v2-2026-10-08, editable sources and proposed copy. It keeps the opener's behind-subject mark, removes mirrored extensions, builds a visual two-business comparison and detailed chain, simplifies the voice frame, and reconstructs three story-scale product scenes (voice->content, call->reviewed follow-up, source->person->matched payment). No revenue figures or fictitious messages. Earlier14-frame review/Claude sources/canonical copy preserved. Nine frames are proposed, not approved or a measured retention optimum. Still review-stage; founder creative approval outstanding. Shared current guidance/procedure updated.

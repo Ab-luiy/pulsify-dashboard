@@ -3,10 +3,24 @@ type: playbook
 tags: [content, instagram, design, story-sequences]
 sources: [[content-engine/pulsify-saas-highlight-14-slide]], [[synthesis/saas-highlight-annotation-plan]], [[synthesis/saas-highlight-design-brief]], [[content-engine/sequence-breakdowns/siggyfoss-proof-design]]
 created: 2026-10-06
-updated: 2026-10-07
+updated: 2026-10-08
 ---
 
 # Codex guidance: build the Pulsify highlight in the style of the reference sequences
+
+## Latest founder direction: pre-launch, 2026-10-08
+
+This direction supersedes conflicting photo, copy and sequence-length instructions below for the active pre-launch. The founder rejected the 14-frame Codex mockup: mirrored tops, unnecessarily zoomed-out photographs, screenshot-style product slides 10-12, crowded slide 8 and detached narrator copy. He approved the typography and red hand underlines. That approval applies to those devices, not the overall design.
+
+The sequence sells through both the means and the ends. Product components should be redesigned for story-scale presentation, with the desirability, lighting, depth and purposeful reveal of an Apple product advertisement or iPhone trailer. Show what the system helps someone do and why it matters. Tiny dashboard captures and generic metric cards do not deliver that. Preserve true capabilities; illustrative interfaces cannot invent results or unsupported automation.
+
+Each frame must give the viewer a visual or informational payoff. Do not assume the prospect will watch 14 slides because a larger creator's audience would. A shorter sequence is authorized as a design response; nine frames in the new review are a proposal, not a measured optimal length or founder lock. Founder voice should express his involvement, care and passion. Avoid detached report copy and invented personal anecdotes.
+
+Opening direction: working on this this whole year, up until today; observing the same problem with creators he has worked with; unable to find what he wanted out there. Replace "that's the whole chain" with "the whole chain". The chain needs content/personal-branding square-board breakdowns, niche-problem solving and buying into the person, a drawn crowd for traffic, a landing-page demonstration with VSL/webinar/profile/ascension/challenge funnel possibilities, talented setters/closers and payment-brand examples Fanbasis/Whop/Stripe. Its job is to demonstrate expertise, expose what the prospect has yet to learn and make the connected system desirable. Payment-brand examples do not establish product integrations.
+
+Photo handling: use a deliberate natural cover crop where useful. Do not mirror the image or zoom out merely to make text space. Keep relevant scenes visible; adapt the composition to the photo. Retain Helvetica and the approved red underlines; shorten phrase breaks where one readable line will carry the point. The previous whole-photo mandate is superseded for this active revision.
+
+New review: `output/highlight-saas/codex-launch-v2-2026-10-08/` (nine PNGs, editable scenes, copy, contact sheet and review). Prior 14-frame mockup and Claude sources remain intact. Creative approval is pending; layout checks are not evidence of creative approval. See [[playbooks/story-sequence-design-procedure]] and [[synthesis/story-reference-forensic-audit-2026-10-08]].
 
 Written after the founder uploaded more reference sequences and Claude viewed all of them (2026-10-06). This is the single page Codex reads. It supersedes any look decisions in the older brief where they differ. Copy is locked in [[content-engine/pulsify-saas-highlight-14-slide]]. Photos are chosen in the same file (table "Photo matches") and copied to output/highlight-saas/photos/.
 
