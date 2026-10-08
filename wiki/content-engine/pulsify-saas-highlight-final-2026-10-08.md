@@ -25,7 +25,7 @@ The highlight is a shiny-object pre-launch shown to cold prospects. The founder'
 6. Approved as is. Brez layout on the slide 5 photo, blurred, no ghost text: "so you try harder." red X list, "you start copying the big names." black box with red "their", "MEANWHILE THE THING THAT PAYS YOU GETS LESS OF YOUR TIME."
 7. "that's where most people plateau." "then they pick the main business, because that's what keeps food on the table." "and the info side dies quietly." "none of that is your fault."
 8. "here's what most people miss." "the top of every niche is 3 or 4 names." Unnamed niche leaderboard plus a "new face, new idea" climbing 2k to 18k+. "but every month, a new face breaks in." "people follow someone they don't feel below." "you don't have to be a guru. you just have to sound like you."
-9. Founder video over a motion graphic (27 s, nine scenes: skill, system missing, "so i built it.", writes in your voice, which post made you money, who's closing, one place, keep doing what you're good at, "watch."). Script and build in `output/highlight-saas/claude-v2/s9/` (script.md, compose.py). Motion method follows [[synthesis/pulsify-product-launch-direction]]: code-rendered frames, blur cuts, one clear object per beat.
+9. Founder video, phone, no motion graphic (founder decision). Script in `output/highlight-saas/slide-9-script.md`: read-straight version plus a six-beat anchor table for off-the-top delivery.
 10. "now you sit down and you already know what to make." "it's written in your voice, so you don't sound like everyone else." Black matte Pulsify chat: "yo, what are we cooking today?", the prompt "i want a full credibility-based story sequence for my offer launch, built to get high bookings.", and three photo openers. "the people who see it land somewhere that sells. and we work through it with you."
 11. "then the sales side." "you see who's closing. who's not." Setters and closer KPIs, "CC $96,000" in red. "who's hitting their calls? who's hitting your numbers?" as italic bullets, "no more guessing what happened on a call. no scripts to write yourself."
 12. "every post is tracked." Five stacked bullets (who watched, how far they got, who clicked, who booked, who paid), a YouTube video tracking card with a red retention curve, white stat blocks with red gradient labels (watched, clicked, booked, paid), and "everything is tracked to the brim:" with where they are, how they land, when they first start watching, then "all the way until they buy from you, and we keep retargeting them until they buy again."
@@ -44,7 +44,7 @@ The highlight is a shiny-object pre-launch shown to cold prospects. The founder'
 
 ## Open items
 
-- Slide 9: graphic built with a stand-in photo; the founder's webcam clip still has to be recorded, then composited (`python compose.py final webcam.mp4`) and retimed via `beats.json` if the take differs.
+- Slide 9: founder records the video on his phone from `slide-9-script.md`; then it is dropped in at position 9.
 
 ## Connections
 

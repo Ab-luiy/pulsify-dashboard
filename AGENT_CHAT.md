@@ -517,3 +517,5 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - 2026-10-08 Claude: founder said ship it. Highlight final = output/highlight-saas/claude-v2/final-r16/ (13 slides, 09 is founder video); wiki + memory synced. Nothing posted or deployed.
 
 - [2026-10-08 Claude] Slide 9 motion graphic built: output/highlight-saas/claude-v2/s9/ (s9.html, capture.mjs, compose.py, script.md, beats.json, s9-preview.mp4). 27s, 9 scenes, webcam window at bottom (stand-in photo until founder clip). Final = python compose.py final webcam.mp4. Nothing posted.
+
+- [2026-10-08 Claude] Slide 9: founder dropped the motion graphic, will record on phone. Script at output/highlight-saas/slide-9-script.md (read version + 6-beat anchor table). s9/ build folder is unused. Nothing posted.
