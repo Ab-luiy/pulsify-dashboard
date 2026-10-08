@@ -99,3 +99,28 @@ And then it gets to work. It writes in your voice and tells you what to make nex
 That's it. You keep doing what you're good at. The app handles the rest.
 
 Note: "we flag the cheapest leak" is deliberately "we", not "it", until the founder confirms the app does that automatically.
+
+---
+
+## Heroic cut (working version 2026-10-08, product is the subject, about 40 seconds)
+
+Most creators are flying blind.
+
+They post. A call gets booked. Someone pays. And they have no idea which post did it.
+
+This ends that.
+
+You answer a few questions and it learns you. Your offer. Your customer. Your voice.
+
+Then it tracks every post, from the first view to the payment. You see exactly what made you money. You see who's closing and who's not.
+
+It writes in your voice and tells you what to make next. You sit down already knowing what to say.
+
+We go through it together on a call. Then every week, we look at what's paying and do more of it.
+
+One place. Every part of your business, finally visible.
+
+You keep doing what you're good at. This does the rest.
+
+Alternate openers: "Every creator has the same blind spot." / "There's a gap between posting and getting paid. Nobody can see it." / "Your content is making you money right now. You just can't see which part."
+Delivery: full beat before "This ends that." Slow and flat, not louder.
