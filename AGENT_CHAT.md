@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | ACTIVE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML and rendered review. |
 | .claude/skills/reference-elements/**; Codex skills/reference-elements junction; claude-memory/project_visual_references.md; wiki/log.md append | CODEX | DONE | 2026-10-08: shared reference-elements installed; packaging/links/hash/memory checks pass; no design benchmark or Canva change. |
 | C:/Users/Abdullah/.claude.json MCP composio; Composio Canva OAuth inspection | CODEX | DONE | 2026-10-08: Composio user MCP authenticated and Connected; Canva OAuth reached login, not completed. Founder redirected to official canva-skills comparison; no plugin installed or memory files changed. |
 | output/highlight-saas/codex-launch-v2-2026-10-08/**; wiki/synthesis/saas-highlight-codex-guidance.md; claude-memory/project_saas_story_launch.md; wiki/log.md append | CODEX | DONE | 2026-10-08:05 tracking rewrite and06–09 connected payoff rendered and verified; prior complete review preserved, memory synced, task locks cleared. |
@@ -483,3 +484,6 @@ START founder clarified desired skill: inspect reference slides/designs and recr
 
 ### [2026-10-08 11:13] CODEX
 DONE shared reference-elements skill: .claude/skills/reference-elements/{SKILL.md,references/element-spec.md,agents/openai.yaml}, claude-memory/project_visual_references.md and live mirror, wiki/log.md and this channel. Installed C:/Users/Abdullah/.codex/skills/reference-elements as junction to canonical repo skill. Current user brief and references govern; editable vector/HTML construction plus actual renders/visual comparisons required. Validator passes, references exist, installed source hashes equal, live memory mirrored, git diff --check clean. No behavior benchmark, third-party design plugin, Canva authorization, design artwork or external agent call. Locks cleared; normal backup follows.
+
+### [2026-10-08 11:16] CODEX
+START founder requests one designed slide using reference-elements and shared profile. Selected K1-4 three-platform-funnels, inspected original and candidate local photos; use real cafe photo20 with new conceptual channel copy. Isolated trial output only, preserve current highlights and raw sources. Photo sync attempted but blocked7403; local library is not asserted current. Build editable vectors, full photo layout, source comparison and visual QA. No publication or agent cross-call.
