@@ -25,7 +25,7 @@ def logo():
 
 
 def tail(y):
-    return (f'<div class="abs" style="top:{y}px;{C};{SH}"><div style="font-size:64px;font-weight:700;letter-spacing:-2.4px;line-height:1.05">{ul("every day, all day.")}</div>'
+    return (f'<div class="abs" style="top:{y}px;{C};{SH}"><div style="font-size:64px;font-weight:700;letter-spacing:-2.4px;line-height:1.05">{ul("all day every day.")}</div>'
             f'<div style="font-size:36px;line-height:1.2;margin-top:22px">i noticed something every creator<br>i\'ve worked with has in common.</div>'
             f'<div style="font-size:52px;font-weight:700;letter-spacing:-2px;line-height:1.1;margin-top:16px">everyone is stuck on the {ul("same problem.")}</div></div>')
 
