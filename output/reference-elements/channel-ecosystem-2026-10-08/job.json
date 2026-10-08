@@ -1,0 +1,1003 @@
+{
+  "schema_version": "1.0.0",
+  "profile_version": "1.0.0",
+  "job_id": "channel-ecosystem-2026-10-08",
+  "mode": "client-production",
+  "family_id": "red-case-system",
+  "format": "carousel",
+  "canvas": {
+    "width": 1080,
+    "height": 1350
+  },
+  "brief": {
+    "question": "What job should each content channel do?",
+    "topic": "Three channels leading toward one offer",
+    "audience_state": "Coach or creator using multiple channels without distinct roles",
+    "purpose": "Show a simple conceptual content path",
+    "belief_to_change": "Every channel should repeat the same job",
+    "offer_fit": "High-ticket coaching content ecosystem; no performance promise",
+    "action": "Give each channel a role and a next step",
+    "delivery": "One editable draft slide and rendered preview"
+  },
+  "assets": [
+    {
+      "id": "cafe",
+      "kind": "photo",
+      "path": "assets/cafe.jpg",
+      "sha256": "157d212e3a0612bba0f953bece06809b218fca088bc76a58e66b5d20bfd3cf08",
+      "source_note": "C:\\Users\\Abdullah\\Desktop\\Pulsify-Brain\\brand\\photos\\uploaded\\20-IMG_8165.jpg",
+      "width": 4284,
+      "height": 5712
+    },
+    {
+      "id": "reference",
+      "kind": "photo",
+      "path": "assets/reference.jpg",
+      "sha256": "951ca199d1d6a0b8e9c208828a82d33a9231551d403ff64375d3d0d548464734",
+      "source_note": "C:\\Users\\Abdullah\\Desktop\\Pulsify-Brain\\raw-sources\\inspiration\\carousels\\carousel kobenguyen\\#1\\4.jpg",
+      "width": 3240,
+      "height": 4017
+    },
+    {
+      "id": "pulsify",
+      "kind": "brand",
+      "path": "assets/pulsify.svg",
+      "sha256": "7090ee62e68300639716825e50e6064fb9cb326a77523a3fb8a9b6feef1928f3",
+      "source_note": "C:\\Users\\Abdullah\\Desktop\\Pulsify-Brain\\brand\\logo\\variations\\05-lockup-white.svg"
+    },
+    {
+      "id": "arial",
+      "kind": "font",
+      "path": "assets/arial.ttf",
+      "sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+      "source_note": "C:\\Windows\\Fonts\\arial.ttf"
+    },
+    {
+      "id": "arial_bold",
+      "kind": "font",
+      "path": "assets/arial-bold.ttf",
+      "sha256": "e8f4e3baf6cc35fed6fcce3a540e8b39e8f6cda1d22a28f2ec8f526fef7a43f5",
+      "source_note": "C:\\Windows\\Fonts\\arialbd.ttf"
+    },
+    {
+      "id": "instagram",
+      "kind": "icon",
+      "path": "assets/instagram.svg",
+      "sha256": "f53af2d1fc5292ba1433b5c1faf50005ce6a997fa302d1816989929f379a59dc",
+      "source_note": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/instagram.svg"
+    },
+    {
+      "id": "youtube",
+      "kind": "icon",
+      "path": "assets/youtube.svg",
+      "sha256": "5038808acbbc4e6edda16cbeb1cc6dec80e4e4ee4e227e039c41229fa222aa8c",
+      "source_note": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/youtube.svg"
+    },
+    {
+      "id": "email",
+      "kind": "icon",
+      "path": "assets/email.svg",
+      "sha256": "5825b360a7c57d5d5f864f83b4ef3b1154a09880436b69f6b94bfe518af9b424",
+      "source_note": "Original generic envelope vector; same geometry as inline slide symbol."
+    }
+  ],
+  "claims": [],
+  "slides": [
+    {
+      "id": "slide_1",
+      "role": "standalone explanation",
+      "reference_ids": [
+        "K1-4"
+      ],
+      "recipe_id": "three-platform-funnels",
+      "copy": {
+        "question": "What job should each content channel do?",
+        "answer": "Give every channel a clear job. Attention needs a path to your offer.",
+        "evidence_ids": [],
+        "next_question": "",
+        "payoff_slide": null
+      },
+      "layers": [
+        {
+          "id": "photo",
+          "component": "photo",
+          "z": 0,
+          "box": [
+            0.0,
+            0.0,
+            1.0,
+            1.0
+          ],
+          "essential": false,
+          "asset_id": "cafe",
+          "photo_effect": "none",
+          "transform": {
+            "scale": 0.25210084033613445,
+            "translate": [
+              0.0,
+              -45.0
+            ],
+            "crop": [
+              0.0,
+              0.03125,
+              1.0,
+              0.9375
+            ]
+          }
+        },
+        {
+          "id": "top_contrast",
+          "component": "local-contrast",
+          "z": 1,
+          "box": [
+            0.0,
+            0.0,
+            1.0,
+            0.4
+          ],
+          "essential": false
+        },
+        {
+          "id": "diagram_contrast",
+          "component": "local-contrast",
+          "z": 2,
+          "box": [
+            0.0,
+            0.31037037037037035,
+            1.0,
+            0.6896296296296296
+          ],
+          "essential": false
+        },
+        {
+          "id": "brand",
+          "component": "brand-object",
+          "z": 3,
+          "box": [
+            0.06018518518518518,
+            0.03925925925925926,
+            0.1287037037037037,
+            0.02962962962962963
+          ],
+          "essential": false,
+          "asset_id": "pulsify"
+        },
+        {
+          "id": "ordinal",
+          "component": "text",
+          "z": 4,
+          "box": [
+            0.8851851851851852,
+            0.0437037037037037,
+            0.05462962962962963,
+            0.02074074074074074
+          ],
+          "essential": true,
+          "text": "[01]",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 24,
+            "line_height": 1.13,
+            "alignment": "left",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "red_backing",
+          "component": "annotation",
+          "z": 5,
+          "box": [
+            0.046296296296296294,
+            0.1622222222222222,
+            0.3888888888888889,
+            0.06962962962962962
+          ],
+          "essential": false
+        },
+        {
+          "id": "headline",
+          "component": "text",
+          "z": 6,
+          "box": [
+            0.06018518518518518,
+            0.09481481481481481,
+            0.6851851851851852,
+            0.13703703703703704
+          ],
+          "essential": true,
+          "text": "Give every channel\na clear job.",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 80,
+            "line_height": 1.13,
+            "alignment": "left",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "intro",
+          "component": "text",
+          "z": 7,
+          "box": [
+            0.06018518518518518,
+            0.24962962962962962,
+            0.6481481481481481,
+            0.03111111111111111
+          ],
+          "essential": true,
+          "text": "One offer. Different ways to reach it.",
+          "style": {
+            "font_id": "arial",
+            "weight": 400,
+            "size_px": 33,
+            "line_height": 1.13,
+            "alignment": "left",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "branch_connectors",
+          "component": "graph",
+          "z": 8,
+          "box": [
+            0.19907407407407407,
+            0.3,
+            0.6018518518518519,
+            0.08592592592592592
+          ],
+          "essential": true,
+          "graph_id": "channel_routes",
+          "svg_path": "elements.svg#branch-connectors"
+        },
+        {
+          "id": "instagram_icon",
+          "component": "app-icon",
+          "z": 9,
+          "box": [
+            0.16666666666666666,
+            0.3925925925925926,
+            0.07037037037037037,
+            0.056296296296296296
+          ],
+          "essential": true,
+          "asset_id": "instagram",
+          "svg_path": "elements.svg#instagram-glyph"
+        },
+        {
+          "id": "instagram_name",
+          "component": "text",
+          "z": 10,
+          "box": [
+            0.0787037037037037,
+            0.45185185185185184,
+            0.2462962962962963,
+            0.0362962962962963
+          ],
+          "essential": true,
+          "text": "Instagram",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 43,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "instagram_caption",
+          "component": "text",
+          "z": 11,
+          "box": [
+            0.07222222222222222,
+            0.5051851851851852,
+            0.25925925925925924,
+            0.05185185185185185
+          ],
+          "essential": true,
+          "text": "Make your profile\nworth exploring.",
+          "style": {
+            "font_id": "arial",
+            "weight": 400,
+            "size_px": 29,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "instagram_funnel",
+          "component": "funnel",
+          "z": 12,
+          "box": [
+            0.08518518518518518,
+            0.5866666666666667,
+            0.23333333333333334,
+            0.22592592592592592
+          ],
+          "essential": true,
+          "graph_id": "instagram_path",
+          "svg_path": "elements.svg#instagram-funnel"
+        },
+        {
+          "id": "instagram_stage_0",
+          "component": "text",
+          "z": 13,
+          "box": [
+            0.1,
+            0.64,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Discover",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 31,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "instagram_stage_1",
+          "component": "text",
+          "z": 14,
+          "box": [
+            0.1,
+            0.7103703703703703,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Profile",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 30,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "instagram_stage_2",
+          "component": "text",
+          "z": 15,
+          "box": [
+            0.1,
+            0.7688888888888888,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "DM",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 27,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "youtube_icon",
+          "component": "app-icon",
+          "z": 16,
+          "box": [
+            0.4648148148148148,
+            0.3925925925925926,
+            0.07037037037037037,
+            0.056296296296296296
+          ],
+          "essential": true,
+          "asset_id": "youtube",
+          "svg_path": "elements.svg#youtube-glyph"
+        },
+        {
+          "id": "youtube_name",
+          "component": "text",
+          "z": 17,
+          "box": [
+            0.3768518518518518,
+            0.45185185185185184,
+            0.2462962962962963,
+            0.0362962962962963
+          ],
+          "essential": true,
+          "text": "YouTube",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 43,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "youtube_caption",
+          "component": "text",
+          "z": 18,
+          "box": [
+            0.37037037037037035,
+            0.5051851851851852,
+            0.25925925925925924,
+            0.05185185185185185
+          ],
+          "essential": true,
+          "text": "Teach the problem\nyou help solve.",
+          "style": {
+            "font_id": "arial",
+            "weight": 400,
+            "size_px": 29,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "youtube_funnel",
+          "component": "funnel",
+          "z": 19,
+          "box": [
+            0.38333333333333336,
+            0.5866666666666667,
+            0.23333333333333334,
+            0.22592592592592592
+          ],
+          "essential": true,
+          "graph_id": "youtube_path",
+          "svg_path": "elements.svg#youtube-funnel"
+        },
+        {
+          "id": "youtube_stage_0",
+          "component": "text",
+          "z": 20,
+          "box": [
+            0.39814814814814814,
+            0.64,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Find",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 31,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "youtube_stage_1",
+          "component": "text",
+          "z": 21,
+          "box": [
+            0.39814814814814814,
+            0.7103703703703703,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Learn",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 30,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "youtube_stage_2",
+          "component": "text",
+          "z": 22,
+          "box": [
+            0.39814814814814814,
+            0.7688888888888888,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Apply",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 27,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "email_icon",
+          "component": "app-icon",
+          "z": 23,
+          "box": [
+            0.762962962962963,
+            0.3925925925925926,
+            0.07037037037037037,
+            0.056296296296296296
+          ],
+          "essential": true,
+          "asset_id": "email",
+          "svg_path": "elements.svg#email-symbol"
+        },
+        {
+          "id": "email_name",
+          "component": "text",
+          "z": 24,
+          "box": [
+            0.675,
+            0.45185185185185184,
+            0.2462962962962963,
+            0.0362962962962963
+          ],
+          "essential": true,
+          "text": "Email",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 43,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "email_caption",
+          "component": "text",
+          "z": 25,
+          "box": [
+            0.6685185185185185,
+            0.5051851851851852,
+            0.25925925925925924,
+            0.05185185185185185
+          ],
+          "essential": true,
+          "text": "Keep the conversation\ngoing.",
+          "style": {
+            "font_id": "arial",
+            "weight": 400,
+            "size_px": 29,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "email_funnel",
+          "component": "funnel",
+          "z": 26,
+          "box": [
+            0.6814814814814815,
+            0.5866666666666667,
+            0.23333333333333334,
+            0.22592592592592592
+          ],
+          "essential": true,
+          "graph_id": "email_path",
+          "svg_path": "elements.svg#email-funnel"
+        },
+        {
+          "id": "email_stage_0",
+          "component": "text",
+          "z": 27,
+          "box": [
+            0.6962962962962963,
+            0.64,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Read",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 31,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "email_stage_1",
+          "component": "text",
+          "z": 28,
+          "box": [
+            0.6962962962962963,
+            0.7103703703703703,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Trust",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 30,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "email_stage_2",
+          "component": "text",
+          "z": 29,
+          "box": [
+            0.6962962962962963,
+            0.7688888888888888,
+            0.2037037037037037,
+            0.02666666666666667
+          ],
+          "essential": true,
+          "text": "Reply",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 27,
+            "line_height": 1.13,
+            "alignment": "center",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "close",
+          "component": "text",
+          "z": 30,
+          "box": [
+            0.06018518518518518,
+            0.8555555555555555,
+            0.6481481481481481,
+            0.07111111111111111
+          ],
+          "essential": true,
+          "text": "Attention needs a path\nto your offer.",
+          "style": {
+            "font_id": "arial_bold",
+            "weight": 700,
+            "size_px": 42,
+            "line_height": 1.13,
+            "alignment": "left",
+            "fill": "#faf7f1"
+          }
+        },
+        {
+          "id": "footer",
+          "component": "text",
+          "z": 31,
+          "box": [
+            0.06018518518518518,
+            0.9451851851851852,
+            0.3888888888888889,
+            0.018518518518518517
+          ],
+          "essential": false,
+          "text": "CONCEPTUAL CONTENT PATH",
+          "style": {
+            "font_id": "arial",
+            "weight": 400,
+            "size_px": 22,
+            "line_height": 1.13,
+            "alignment": "left",
+            "fill": "#faf7f1"
+          }
+        }
+      ],
+      "graphs": [
+        {
+          "id": "channel_routes",
+          "kind": "flow",
+          "status": "conceptual",
+          "nodes": [
+            {
+              "id": "routes",
+              "label": "One offer. Different ways to reach it.",
+              "box": [
+                0.06018518518518518,
+                0.24962962962962962,
+                0.6481481481481481,
+                0.03111111111111111
+              ],
+              "ports": [
+                "out"
+              ]
+            },
+            {
+              "id": "instagram",
+              "label": "Instagram",
+              "box": [
+                0.08518518518518518,
+                0.3925925925925926,
+                0.23333333333333334,
+                0.16
+              ],
+              "ports": [
+                "in",
+                "out"
+              ],
+              "icon_asset_id": "instagram"
+            },
+            {
+              "id": "youtube",
+              "label": "YouTube",
+              "box": [
+                0.38333333333333336,
+                0.3925925925925926,
+                0.23333333333333334,
+                0.16
+              ],
+              "ports": [
+                "in",
+                "out"
+              ],
+              "icon_asset_id": "youtube"
+            },
+            {
+              "id": "email",
+              "label": "Email",
+              "box": [
+                0.6814814814814815,
+                0.3925925925925926,
+                0.23333333333333334,
+                0.16
+              ],
+              "ports": [
+                "in",
+                "out"
+              ],
+              "icon_asset_id": "email"
+            }
+          ],
+          "edges": [
+            {
+              "id": "route_instagram",
+              "from": "routes",
+              "from_port": "out",
+              "to": "instagram",
+              "to_port": "in"
+            },
+            {
+              "id": "route_youtube",
+              "from": "routes",
+              "from_port": "out",
+              "to": "youtube",
+              "to_port": "in"
+            },
+            {
+              "id": "route_email",
+              "from": "routes",
+              "from_port": "out",
+              "to": "email",
+              "to_port": "in"
+            }
+          ],
+          "data": [],
+          "source_asset_ids": [],
+          "scale_semantics": "Branches enumerate channel roles; they encode no measured volume or attribution."
+        },
+        {
+          "id": "instagram_path",
+          "kind": "funnel",
+          "status": "conceptual",
+          "nodes": [
+            {
+              "id": "instagram_0",
+              "label": "Discover",
+              "box": [
+                0.08518518518518518,
+                0.5866666666666667,
+                0.23333333333333334,
+                0.10444444444444445
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            },
+            {
+              "id": "instagram_1",
+              "label": "Profile",
+              "box": [
+                0.08518518518518518,
+                0.6962962962962963,
+                0.23333333333333334,
+                0.06
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            },
+            {
+              "id": "instagram_2",
+              "label": "DM",
+              "box": [
+                0.08518518518518518,
+                0.7577777777777778,
+                0.23333333333333334,
+                0.054814814814814816
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "id": "instagram_step_1",
+              "from": "instagram_0",
+              "from_port": "out",
+              "to": "instagram_1",
+              "to_port": "in"
+            },
+            {
+              "id": "instagram_step_2",
+              "from": "instagram_1",
+              "from_port": "out",
+              "to": "instagram_2",
+              "to_port": "in"
+            }
+          ],
+          "data": [],
+          "source_asset_ids": [],
+          "scale_semantics": "Detached tapered bands communicate discovery, consideration and action; widths are categorical, not conversion rates."
+        },
+        {
+          "id": "youtube_path",
+          "kind": "funnel",
+          "status": "conceptual",
+          "nodes": [
+            {
+              "id": "youtube_0",
+              "label": "Find",
+              "box": [
+                0.38333333333333336,
+                0.5866666666666667,
+                0.23333333333333334,
+                0.10444444444444445
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            },
+            {
+              "id": "youtube_1",
+              "label": "Learn",
+              "box": [
+                0.38333333333333336,
+                0.6962962962962963,
+                0.23333333333333334,
+                0.06
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            },
+            {
+              "id": "youtube_2",
+              "label": "Apply",
+              "box": [
+                0.38333333333333336,
+                0.7577777777777778,
+                0.23333333333333334,
+                0.054814814814814816
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "id": "youtube_step_1",
+              "from": "youtube_0",
+              "from_port": "out",
+              "to": "youtube_1",
+              "to_port": "in"
+            },
+            {
+              "id": "youtube_step_2",
+              "from": "youtube_1",
+              "from_port": "out",
+              "to": "youtube_2",
+              "to_port": "in"
+            }
+          ],
+          "data": [],
+          "source_asset_ids": [],
+          "scale_semantics": "Detached tapered bands communicate discovery, consideration and action; widths are categorical, not conversion rates."
+        },
+        {
+          "id": "email_path",
+          "kind": "funnel",
+          "status": "conceptual",
+          "nodes": [
+            {
+              "id": "email_0",
+              "label": "Read",
+              "box": [
+                0.6814814814814815,
+                0.5866666666666667,
+                0.23333333333333334,
+                0.10444444444444445
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            },
+            {
+              "id": "email_1",
+              "label": "Trust",
+              "box": [
+                0.6814814814814815,
+                0.6962962962962963,
+                0.23333333333333334,
+                0.06
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            },
+            {
+              "id": "email_2",
+              "label": "Reply",
+              "box": [
+                0.6814814814814815,
+                0.7577777777777778,
+                0.23333333333333334,
+                0.054814814814814816
+              ],
+              "ports": [
+                "in",
+                "out"
+              ]
+            }
+          ],
+          "edges": [
+            {
+              "id": "email_step_1",
+              "from": "email_0",
+              "from_port": "out",
+              "to": "email_1",
+              "to_port": "in"
+            },
+            {
+              "id": "email_step_2",
+              "from": "email_1",
+              "from_port": "out",
+              "to": "email_2",
+              "to_port": "in"
+            }
+          ],
+          "data": [],
+          "source_asset_ids": [],
+          "scale_semantics": "Detached tapered bands communicate discovery, consideration and action; widths are categorical, not conversion rates."
+        }
+      ],
+      "qa_notes": [
+        "Master and phone render visually inspected. Structural preflight is separate from aesthetic judgment.",
+        "Source fonts/layers unknown; Arial is a verified local approximation.",
+        "Generic email replaces Kit. All paths are conceptual; there are no measured claims.",
+        "Small footer and brand are nonessential decorative edge elements.",
+        "Photo library sync failed7403; existing local cafe photo used."
+      ]
+    }
+  ],
+  "render_status": "reviewed"
+}

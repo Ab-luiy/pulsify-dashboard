@@ -20,6 +20,8 @@ Changed: café instead of airport setting; much shorter fresh copy; labels insid
 
 Renderer checks fonts and images,18 SVG text items, text bounds and critical text intersections. The final master and corrected phone-size preview were visually inspected; comparison.jpg presents source and adaptation at similar scale. The draft reads as a diagram superimposed on a café photo. It does not demonstrate the subject-depth recipes or establish the skill's effectiveness across the whole reference library.
 
+The shared job-schema and semantic preflight pass with actual file hashes, dimensions, registered fonts/icons, essential safe bounds and valid conceptual graph ports. This check is not aesthetic certification or founder approval. The job records the editable construction; slide.html and elements.svg remain the renderer inputs.
+
 ## Files and rebuild
 
 - `slide.html`: editable complete composition.
@@ -28,6 +30,7 @@ Renderer checks fonts and images,18 SVG text items, text bounds and critical tex
 - `phone.png`:390x488 inspection preview.
 - `review.html`, `comparison.jpg`: source comparison.
 - `scene.json`: copy, channel semantics, assets/hashes and deviations.
+- `job.json`: shared-schema asset, layer and semantic graph record.
 - `verification.json`: structural checks, not aesthetic certification.
 
-Rebuild using `python build.py`, `node render.cjs`, then `python comparison.py` from this directory. The renderer points to the bundled Playwright runtime and installed Chrome on this PC; adjust those two paths when moving to another machine. Source photo and source-reference originals are unchanged.
+Rebuild using `python build.py`, `node render.cjs`, `python comparison.py`, then `python job.py` from this directory. The renderer points to the bundled Playwright runtime and installed Chrome on this PC; adjust those two paths when moving to another machine. Validate job.json with the shared audit's validate_job.py in an environment with Pillow and jsonschema. Source photo and source-reference originals are unchanged.

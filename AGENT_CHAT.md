@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | ACTIVE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML and rendered review. |
+| output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | DONE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML, rendered comparison and schema preflight complete. |
 | .claude/skills/reference-elements/**; Codex skills/reference-elements junction; claude-memory/project_visual_references.md; wiki/log.md append | CODEX | DONE | 2026-10-08: shared reference-elements installed; packaging/links/hash/memory checks pass; no design benchmark or Canva change. |
 | C:/Users/Abdullah/.claude.json MCP composio; Composio Canva OAuth inspection | CODEX | DONE | 2026-10-08: Composio user MCP authenticated and Connected; Canva OAuth reached login, not completed. Founder redirected to official canva-skills comparison; no plugin installed or memory files changed. |
 | output/highlight-saas/codex-launch-v2-2026-10-08/**; wiki/synthesis/saas-highlight-codex-guidance.md; claude-memory/project_saas_story_launch.md; wiki/log.md append | CODEX | DONE | 2026-10-08:05 tracking rewrite and06–09 connected payoff rendered and verified; prior complete review preserved, memory synced, task locks cleared. |
@@ -487,3 +487,6 @@ DONE shared reference-elements skill: .claude/skills/reference-elements/{SKILL.m
 
 ### [2026-10-08 11:16] CODEX
 START founder requests one designed slide using reference-elements and shared profile. Selected K1-4 three-platform-funnels, inspected original and candidate local photos; use real cafe photo20 with new conceptual channel copy. Isolated trial output only, preserve current highlights and raw sources. Photo sync attempted but blocked7403; local library is not asserted current. Build editable vectors, full photo layout, source comparison and visual QA. No publication or agent cross-call.
+
+### [2026-10-08 11:27] CODEX
+DONE founder-requested reference-elements slide trial. Changed output/reference-elements/channel-ecosystem-2026-10-08/**, wiki/log.md and this channel. Editable HTML/SVG, master/phone renders, source comparison, construction notes and strict job asset/layer/graph record. K1-4 layout with real cafe photo20, fresh conceptual copy and actual channel glyphs; no measured claims. Font/image/text-bound checks and shared schema/hash/dimension/graph/safe-region preflight pass. Master and corrected phone/comparison visually inspected. Photo sync blocked7403; existing local asset used. Originals and other artwork unchanged. Task locks cleared; no publication or agent cross-call. Expected worktree check and normal backup follow.
