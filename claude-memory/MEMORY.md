@@ -2,6 +2,8 @@
 
 ## Doctrine / how to work
 
+- [Check live inbox first](feedback_check_live_inbox_first.md) - HARD 2026-10-09: before any outreach talk run tools/ig_inbox_snapshot.py (D1 via Zernio, near real time), never the vault log alone
+
 - [Source-based expert review before delivery](feedback_source_based_expert_review.md) - founder-required 2026-09-12: route each relevant draft to documented named-source criteria, revise before...
 
 - [Keys and APIs are mine](feedback_keys_and_apis_are_mine.md) - HARD 2026-09-19: never ask the founder to handle keys, secrets or API setup; create, install (wrangler...

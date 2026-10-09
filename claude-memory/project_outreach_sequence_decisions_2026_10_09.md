@@ -20,4 +20,4 @@ Founder calls 2026-10-09:
 **Why:** I opened this session with stale 08-26 data and he called it out hard.
 **How to apply:** check AGENT_CHAT.md tail and wiki/log.md for Codex handoffs before summarising outreach state.
 
-Live pull 2026-10-09 (Composio IG re-authed, account instagram_domino-winnie): no cold openers sent through the API-visible inbox since the 08-22/23 batch; the "doomscrolled" variant appears only once (howtodosales 09-09, a test thread). Open threads: niicksfx, _acetrades_ (call cancelled, wants a new day), tb.tradez, _byron_wilson (said "send it over" 09-22, unanswered). abdullah.index is a Miro builder ($80-150/board) whose boards are the founder's Miro references.
+Live pull 2026-10-09 (Composio IG re-authed, account instagram_domino-winnie): no cold openers sent through the API-visible inbox since the 08-22/23 batch; the "doomscrolled" variant appears only once (howtodosales 09-09, a test thread). Open threads: niicksfx, _acetrades_ (call cancelled, wants a new day), tb.tradez, _byron_wilson (said "send it over" 09-22; we sent media 10-02). abdullah.index is a Miro builder ($80-150/board) whose boards are the founder's Miro references.
