@@ -11,7 +11,7 @@ metadata:
 Founder 2026-10-09: "make sure that whatever comes through you got it." Every IG DM (incl. message requests the Composio pull misses) lands in D1 `pulsify-portal` tables `ig_conversations` / `ig_messages` within seconds via the Zernio webhook.
 
 Before saying anything about outreach state, run:
-`py -X utf8 tools/ig_inbox_snapshot.py 45` (script lives in the pulsify-brain repo `tools/`, committed on branch claude/outreach-9a8928 first; any folder with a wrangler.toml bound to pulsify-portal works as cwd, e.g. output/standard-preview). Raw fallback: `npx wrangler d1 execute pulsify-portal --remote --json --command "SELECT ... FROM ig_messages ORDER BY sent_at DESC LIMIT 50"`.
+`py -X utf8 tools/ig_inbox_snapshot.py 45` from the vault root (on brain main since 2026-10-09; verified working from the vault root). Raw fallback: `npx wrangler d1 execute pulsify-portal --remote --json --command "SELECT ... FROM ig_messages ORDER BY sent_at DESC LIMIT 50"`.
 
 Also read the AGENT_CHAT.md tail for Codex handoffs. Media messages show as `[media]` (text null) - e.g. the 10-02 sends to _byron_wilson and nq.nox were media, so "unanswered" can be wrong if you only read text.
 
