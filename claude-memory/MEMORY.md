@@ -23,6 +23,8 @@
 
 ## Prospect assets / outreach
 
+- [Outreach follow-up assets: full Claude handoff](project_outreach_followup_assets.md) - 2026-10-09: conversation purpose, accepted copy/design, rejected Miro and unapproved rebuild, cadence/media contradictions and open decisions; read before continuing
+
 - [Value asset = built work](feedback_value_asset_is_built_work.md) - the 6 governing rules for prospect docs: built work not diagnosis, framework not audit, ease in Bader-style...
 - [Prospect asset template (v2)](project_prospect_asset_template.md) - 2026-10-02: one Jinja template + JSON per prospect (fill.py), homepage palette, app shown handling the work; Berg v2 + blank built, not deployed
 - [Prospect asset SOP + tools](project_prospect_asset_sop.md) - 5-phase pipeline; tools/pull_creator_assets.py pulls YT thumbnails at max res (this step found the best...
