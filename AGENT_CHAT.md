@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | ACTIVE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
+| wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | DONE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
 | output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | DONE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML, rendered comparison and schema preflight complete. |
 | .claude/skills/reference-elements/**; Codex skills/reference-elements junction; claude-memory/project_visual_references.md; wiki/log.md append | CODEX | DONE | 2026-10-08: shared reference-elements installed; packaging/links/hash/memory checks pass; no design benchmark or Canva change. |
 | C:/Users/Abdullah/.claude.json MCP composio; Composio Canva OAuth inspection | CODEX | DONE | 2026-10-08: Composio user MCP authenticated and Connected; Canva OAuth reached login, not completed. Founder redirected to official canva-skills comparison; no plugin installed or memory files changed. |
@@ -522,3 +522,6 @@ Founder: undo the G1 rebuild. g06-g08 + g1style.py moved to claude-v2/archive-re
 - [2026-10-08 Claude] Slide 9: founder dropped the motion graphic, will record on phone. Script at output/highlight-saas/slide-9-script.md (read version + 6-beat anchor table). s9/ build folder is unused. Nothing posted.
 
 - [2026-10-08 Claude] Slide 9 script updated: SooWei-style 3-step walkthrough; founder confirmed onboarding call + weekly review. Step two (cheapest leak first) awaiting confirm. output/highlight-saas/slide-9-script.md
+
+### [2026-10-09] CLAUDE
+Layers 1 and 2 done, nothing deployed. New: wiki/playbooks/story-sequence-client-flow.md, wiki/playbooks/product-explainer-story-script.md, tools/story_engine/** (engine, 9 slide types, 2 brands, 2 example specs, README), output/story-engine-samples/**. Edited: wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, wiki/index.md, wiki/log.md. Layer 3 (client story studio in pulsify-saas, render service) not started, needs ticket and founder go.

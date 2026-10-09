@@ -1,0 +1,16 @@
+{
+  "name": "Pulsify",
+  "font": {"sans": "helvetica", "serif": "georgia"},
+  "colors": {
+    "bg": "#050506", "ink": "#f4f3ef", "card": "#0b0c0d", "mute": "#a9aaae", "silver": "#efeee9",
+    "accent": "#e5322d", "accent_hi": "#ff4a43", "accent_lo": "#7d0f0c", "good": "#5fd6a4"
+  },
+  "emphasis": {
+    "underline": {"on": true, "color": "accent"},
+    "box": {"on": true},
+    "gradient": {"on": true, "stops": ["#ff4a43", "#c9201b", "#7d0f0c"]}
+  },
+  "type": {"weight": 700, "tracking": -0.045, "case": "as-written"},
+  "logo": {"path": null, "placement": "none"},
+  "glow": true
+}

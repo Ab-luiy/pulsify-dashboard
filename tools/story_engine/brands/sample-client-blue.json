@@ -1,0 +1,16 @@
+{
+  "name": "Sample client (blue, no underlines)",
+  "font": {"sans": "segoe", "serif": "georgia"},
+  "colors": {
+    "bg": "#070b16", "ink": "#f2f5ff", "card": "#0d1426", "mute": "#9aa6c4", "silver": "#e9eefc",
+    "accent": "#4f8cff", "accent_hi": "#7aa9ff", "accent_lo": "#1d3a8a", "good": "#5fd6a4"
+  },
+  "emphasis": {
+    "underline": {"on": false, "color": "accent"},
+    "box": {"on": false},
+    "gradient": {"on": true, "stops": ["#7aa9ff", "#4f8cff", "#6d4cff"]}
+  },
+  "type": {"weight": 700, "tracking": -0.04, "case": "as-written"},
+  "logo": {"path": null, "placement": "none"},
+  "glow": true
+}

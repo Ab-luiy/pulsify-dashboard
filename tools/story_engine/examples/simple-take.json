@@ -1,0 +1,17 @@
+{
+  "brand": "../brands/pulsify.json",
+  "tier": "simple",
+  "copy_status": "approved",
+  "note": "Simple-tier demo: a take on one problem. Written copy on photos, pills, one long line fitted by shrinking the font. No cards, charts or icons. Generic demo copy, no figures.",
+  "slides": [
+    {"type": "pills", "pos": "center", "lines": ["i keep seeing the same thing", "with every coach i talk to"],
+     "photo": {"src": "photos/street.png", "mode": "fresh"}},
+    {"type": "text_dense", "kicker": "the *problem*", "top": 330, "height": 1100, "max": 80, "min": 36,
+     "text": "they spend weeks making content, then a lead messages them and they reply two days late, with nothing to send, and no idea which post that lead even came from. so the next month they make more of the same content and wonder why nothing changed.",
+     "photo": {"src": "photos/street.png", "mode": "carry"}},
+    {"type": "pills", "pos": "center", "lines": ["the fix is boring", "answer faster", "and track the source"],
+     "photo": {"src": "photos/skyline.png", "mode": "fresh", "focus": [0.5, 0.4]}},
+    {"type": "type_stack", "pos": "center", "lines": ["start with *one* lead", "today."],
+     "photo": {"src": "photos/skyline.png", "mode": "carry", "focus": [0.5, 0.4]}}
+  ]
+}

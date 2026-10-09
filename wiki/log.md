@@ -617,3 +617,7 @@ Founder requested one slide using the shared reference profile and new skill. Bu
 ## [2026-10-08] decision | SaaS highlight final 13-slide version approved
 
 Founder approved the final story highlight (slide 14 deleted, slide 1 rebuilt with type behind him and "all day every day."). Final copy and the reusable style rules are in [[content-engine/pulsify-saas-highlight-final-2026-10-08]]; the procedure playbook has a new final-style section. Renders in output/highlight-saas/claude-v2/final-r16/. Open: slide 5 face photos, slide 9 video.
+
+## [2026-10-09] decision | Story sequence generalization, layers 1 and 2
+
+Founder decided the story studio is for clients to use themselves, and approved layers 1 (standards, SOPs, skill) and 2 (reusable templates). Added playbooks/story-sequence-client-flow (copy first, guided look questions per element, photo reuse with carry-over, tiers so simple sequences stay simple and design is reserved for launches, VSL, webinars) and playbooks/product-explainer-story-script. Updated frameworks/story-sequence-system (tiers and copy-first loop), content-engine/story-design-reference-standard, and the story-sequence-generator skill. Built tools/story_engine (brand tokens, 9 slide types, copy-approved gate, auto-fit text, photo carry-over); samples in output/story-engine-samples. Not deployed. Layer 3 (client app feature, render service) needs a ticket and founder approval.

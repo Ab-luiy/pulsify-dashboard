@@ -1,0 +1,34 @@
+{
+  "brand": "../brands/pulsify.json",
+  "tier": "designed",
+  "copy_status": "approved",
+  "note": "Designed-tier demo. Copy is taken from the approved Pulsify SaaS highlight; figures are illustrative demo values.",
+  "slides": [
+    {"type": "type_stack", "pos": "top", "lines": ["every creator", "i worked with", "had the *skill.*"],
+     "icons": ["tradingview", "tiktok", "shopify", "amazon"],
+     "photo": {"src": "photos/cafe.png", "mode": "fresh", "focus": [0.5, 0.5]}},
+    {"type": "problem_list", "lines": ["it breaks", "somewhere:"], "items": ["posting", "nobody watching", "where to send them", "who is closing"],
+     "photo": {"src": "photos/cafe.png", "mode": "carry"}},
+    {"type": "step_cards", "lines": ["the whole", "*chain.*"], "size": 120,
+     "cards": [
+       {"label": "content", "sub": "top, middle, bottom of funnel", "icons": ["youtube", "instagram"]},
+       {"label": "sales calls", "sub": "booked and closed", "icons": ["calendly", "caldotcom"]},
+       {"label": "cash in the bank", "sub": "every payment, in one place", "icons": ["stripe", "whop", "fanbasis"]}],
+     "photo": {"src": "photos/skyline.png", "mode": "fresh", "focus": [0.5, 0.4]}},
+    {"type": "stat_card", "lines": ["who's closing.", "who's [not.]"], "card_title": "team kpis", "size": 118,
+     "rows": [{"label": "closer", "value": 0.82, "color": "good"}, {"label": "setter a", "value": 0.55, "color": "silver"}, {"label": "setter b", "value": 0.18, "color": "accent"}],
+     "photo": {"src": "photos/skyline.png", "mode": "carry", "focus": [0.5, 0.4]}},
+    {"type": "chat_card", "lines": ["now you sit", "down and you", "already *know.*"], "size": 110,
+     "greeting": "yo, what are we cooking today?", "prompt": "i want a full story sequence for my offer launch, built to get high bookings.",
+     "reply": "on it. i'll write it in your voice and use your proof."},
+    {"type": "inbox_card", "lines": ["your traffic", "is *leaking.*"], "size": 118,
+     "rows": [
+       {"name": "Youtube Lead", "msg": "this is exactly what i need", "status": "replied", "state": "good"},
+       {"name": "Carousel Lead", "msg": "seen 2 days ago", "status": "seen", "state": "warn"},
+       {"name": "Story Lead", "msg": "booked for thursday", "status": "booked", "state": "good"},
+       {"name": "Reel Lead", "msg": "ghosted after the call", "status": "no close", "state": "bad"}],
+     "photo": {"src": "photos/street.png", "mode": "fresh", "focus": [0.5, 0.5]}},
+    {"type": "closing", "pos": "center", "lines": ["you keep doing", "what you're", "{good at.}"],
+     "photo": {"src": "photos/street.png", "mode": "carry"}}
+  ]
+}
