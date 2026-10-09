@@ -3,7 +3,7 @@ type: framework
 tags: [content, instagram, story-sequences, funnel]
 sources: [[wiki/synthesis/niksetting-extractions/07-story-sequences-7-frameworks]], [[wiki/synthesis/niksetting-extractions/06-200k-months-amer-case-study]], [[wiki/synthesis/niksetting-extractions/21b-masterclass-part-2]], [[wiki/synthesis/niksetting-extractions/21c-masterclass-part-3]], [[wiki/synthesis/niksetting-extractions/21d-masterclass-part-4]], [[wiki/synthesis/niksetting-extractions/04-conversion-content-five-assets]], [[wiki/synthesis/cross-creator-synthesis]]
 created: 2026-07-11
-updated: 2026-10-08
+updated: 2026-10-09
 ---
 
 # The story sequence system
@@ -78,6 +78,10 @@ The default conversion sequence shape (from the Amer case, [[synthesis/niksettin
 
 **CTA placement is a dial, not a rule:** volume goal (lead magnets) puts the CTA on slide 1 before drop-off eats reach; qualification goal puts it after slide 7, because whoever clicks there genuinely cares. Ask which you want before building.
 
+## Production tiers and the copy-first loop (founder, 2026-10-09)
+
+Write the copy first and iterate it with the client until it is right, then design. Design effort has three tiers and defaults to the lightest: **Simple** (written copy on a photo or plain background, short pills or auto-fitted text, one emphasis device; for a take, a problem, Q&A, a quick lesson), **Standard** (brand look, one or two designed cards, photo reuse), **Designed** (offer launch, VSL, webinar, start-here, product reveal: full treatment). A simple sequence that is over-designed looks heavy and slows the client down. A long line can be fitted onto one slide by lowering the font size slightly instead of splitting it. Full flow, question bank and rules: [[playbooks/story-sequence-client-flow]].
+
 ## Permanent assets
 
 - **Start-here sequence.** The first highlight on the profile, permanent, tapped first by every new visitor: the silent sales pitch. **Naming is free (founder ruling):** "start here," "new here?", or B2C-friendly labels — the captured "New here?" is one example of the concept, not the required name. The same logic extends to the rest of the highlight rail: one or more proof highlights ("clients," "student wins," "results 1/2/3"), a mechanism highlight, an apply highlight — buckets per [[playbooks/instagram-growth-workstream]], names per account. Taught structure (10 slides): your story (3) -> client proof (3) -> the framework (2) -> the close (2). **Deployed reality (captured live, [[content-engine/sequence-breakdowns/niksetting-new-here]]):** his actual "New here?" runs 18 slides — hook+receipt, then a lesson/proof alternation, mechanism reveal, register-drop close, and dual CTAs (abundance first, scarcity appended a week later; the highlight accretes as a living asset). The reusable **lesson template** inside it: "Lesson N: {one word}" -> three "You might..." concessions -> "But you don't have {a deliverable of the offer}" -> a quotable law in quotes. Ten lessons = the offer's deliverables disguised as free education. Zero selling, purely the journey; each slide pairs a pain point with your insight from a belief perspective. Your story plus their pain points filters wrong-fit visitors automatically. **Pulsify note (founder-ratified):** start-here vs landing page is a per-audience test, not doctrine. Run both, measure where the audience interacts; if IG story interaction wins, the start-here carries conversion, otherwise the landing page does (the founder's prior: a landing page almost never fails). Cold outreach keeps pages regardless. Dial 5 in [[synthesis/cross-creator-synthesis]].
@@ -106,6 +110,8 @@ The default conversion sequence shape (from the Amer case, [[synthesis/niksettin
 
 ## Connections
 
+- [[playbooks/story-sequence-client-flow]] - the guided client flow, tiers and look questions.
+- [[playbooks/product-explainer-story-script]] - the casual product explainer script type.
 - [[concepts/profile-funnel]] — the surface this system closes for.
 - [[synthesis/cross-creator-synthesis]] — the law/contested filter this page inherits.
 - [[synthesis/niksetting-extractions/07-story-sequences-7-frameworks]] and [[synthesis/niksetting-extractions/06-200k-months-amer-case-study]] — the primary sources.

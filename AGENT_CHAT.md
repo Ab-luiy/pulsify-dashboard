@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | ACTIVE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
 | output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | DONE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML, rendered comparison and schema preflight complete. |
 | .claude/skills/reference-elements/**; Codex skills/reference-elements junction; claude-memory/project_visual_references.md; wiki/log.md append | CODEX | DONE | 2026-10-08: shared reference-elements installed; packaging/links/hash/memory checks pass; no design benchmark or Canva change. |
 | C:/Users/Abdullah/.claude.json MCP composio; Composio Canva OAuth inspection | CODEX | DONE | 2026-10-08: Composio user MCP authenticated and Connected; Canva OAuth reached login, not completed. Founder redirected to official canva-skills comparison; no plugin installed or memory files changed. |

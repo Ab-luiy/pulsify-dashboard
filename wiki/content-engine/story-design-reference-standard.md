@@ -3,7 +3,7 @@ type: framework
 tags: [content, instagram, story-sequences, design]
 sources: [[raw-sources/inspiration/story-sequences/niksetting]], [[raw-sources/inspiration/story-sequences/siggyfoss]], [[raw-sources/inspiration/story-sequences/shelby-sapp]], [[raw-sources/inspiration/story-sequences/brez-scales story sequence]]
 created: 2026-10-08
-updated: 2026-10-08
+updated: 2026-10-09
 ---
 
 # Story design reference standard (read at full resolution, 2026-10-08)
@@ -32,6 +32,10 @@ Stories connect content, offer and funnel. The references combine photography, e
 10. Lists: red X marks for what is missing (Brez), dot bullets with bold keywords, colour-coded columns for a comparison (Nik seq 2 slide 1: grey heap of small tags vs big mustard blocks).
 11. Repeated photos can carry progress. Brez 1/2, 3-5 and 6/7 use additive copy; Nik seq 3 slides 3-6 retain the presentation scene and advance the product explanation. Change or repeat the scene deliberately rather than forcing a unique photo on every slide.
 12. A sequence needs a reason to continue. Use a finite lesson/feature promise, an objection answered on the next frame, a principle followed by evidence, or a visible artifact leading to a deeper asset. Aesthetic variation alone does not supply that reason.
+
+## Shipped-set rules and tiers (2026-10-09)
+
+The SaaS highlight set (see [[content-engine/pulsify-saas-highlight-final-2026-10-08]]) added: one photo reused with a blurred, dimmed carry-over and a soft shadow on layered pieces; designed cards instead of raw screenshots; real brand glyphs; red, black, white and a good-number green; no sample-data labels. These apply to the Designed tier. Simple sequences use none of the card or chart treatment. Tiers, the dense-text fitting rule and the client question bank are in [[playbooks/story-sequence-client-flow]]. Reusable slide types are built in `tools/story_engine/`.
 
 ## Pulsify translation
 

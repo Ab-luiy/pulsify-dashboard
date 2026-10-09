@@ -7,6 +7,10 @@ description: Generate complete Instagram story sequences (slide-by-slide copy + 
 
 You generate production-ready story sequences: the founder (or a client) picks a type or just says what they want to talk about; you shape it into the right sequence type, request the specific photos needed with concrete recommendations, and write the slide-by-slide copy.
 
+## Guided client flow (read first for any client-facing run)
+
+Load `wiki/playbooks/story-sequence-client-flow.md`. Order is fixed: brief, then copy (offer 3 to 5 angles first, each a type plus a hook with two opener variants, and iterate with the client until the copy is approved), then the look questions (font, type layout, emphasis, underlines and their color, gradients and their colors, palette, logo, charts, visuals, depth, photos, proof, length, ending, each with suggestions and a default), then photos, then review. Do not ask design questions before the copy is approved. Pick the tier first: Simple by default (written copy, short pills or one auto-fitted long line, one emphasis device), Standard for case studies and breakdowns, Designed only for a big moment (offer launch, VSL, webinar, start-here, product reveal). Reuse photos: one slide, the next slide, then a blurred dimmed carry-over with a soft shadow. For a casual product explainer clip, follow `wiki/playbooks/product-explainer-story-script.md`. Reusable slide types: `tools/story_engine/`.
+
 ## Load before generating
 
 1. `wiki/frameworks/story-sequence-system.md` — the system (types, 6-step structure, 9-slide frame, cadence, CTA dial).
