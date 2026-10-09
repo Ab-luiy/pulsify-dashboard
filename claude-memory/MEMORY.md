@@ -131,3 +131,4 @@
 - [Never photo 9](feedback_never_photo_9.md) - HARD 2026-10-08: never use library photo id 9 (IMG_8529, headphones to camera) anywhere
 - [SaaS story round 4](feedback_saas_story_round4.md) - 2026-10-08: no zoom-out/mirror, Apple-ad product visuals, punchy human voice, slide 3 expertise-chain brief
 - [Story studio client flow](feedback_story_studio_client_flow.md) - 2026-10-09: clients use it themselves; copy first then guided design choices; tiers (simple/standard/designed); photo reuse; engine at tools/story_engine
+- [Outreach sequence calls 2026-10-09](project_outreach_sequence_decisions_2026_10_09.md) - text-only opener, day-3 voice note agreed; Miro weak due to Codex build; openers live in IG DMs (Composio IG needs re-auth)
