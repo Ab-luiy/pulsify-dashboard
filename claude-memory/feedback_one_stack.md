@@ -19,3 +19,5 @@ Founder 2026-10-10: "Raw HTML isn't the go. I want the frontend and backend fram
 
 **Status 2026-10-11:** #57 started. Step one on pulsify-saas branch claude/backend-ts (packages/contracts, api/ scaffold, contract tests, docs/backend-typescript.md), NOT merged or released. Ports of existing endpoints edit Brain output/standard-preview/functions, which Codex still has locked, so wait for the locks to clear (or #58) before touching them.
 
+**Update 2026-10-11:** founder cleared the stale Codex locks (he has the final say between Claude and Codex; stale = old, DONE twin, files untouched). Deploy folder copied into pulsify-saas/deploy and studio-sequences ported to TypeScript, branch claude/one-repo (pushed, not merged/deployed). The Brain output/standard-preview folder stays the live deploy source until the founder approves the cutover; steps and rollback in pulsify-saas docs/one-repo.md. Backend tests: npm run test:api (233 pass).
+

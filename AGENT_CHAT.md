@@ -59,8 +59,8 @@ CODEX DONE 2026-09-30: outreach/resources/packaging-dos-donts/ — original scre
 CODEX DONE 2026-09-30: outreach/resources/qualified-audience-board/ — final export and follow-up handoff.
 | pulsify-saas worktree fix-list branch claude/graphite-preview (src/components/shell/island-nav.tsx new, src/features/portal/portal-shell.tsx, src/app/globals.css, tests/portal.spec.ts, docs/DESIGN.md); output/qa/2026-09-30-island/** | CLAUDE | DONE | Island menu live (Pages b870544d, saas 09bdd2c). Locks cleared. |
 | pulsify-saas worktree fix-list branch claude/graphite-preview (src/app/globals.css, src/components/shell/atmosphere.tsx, src/features/portal/portal-shell.tsx, src/components/shell/app-shell.tsx, src/features/funnel/funnel-view.tsx, tests/**); output/qa/2026-09-30-palettes/** | CLAUDE | DONE | Spotlight default + six palettes, saas f86f740 pushed, not released. Locks cleared. |
-| output/standard-preview/admin/{outreach-view.js,leads-view.js,search-view.js,queue-view.js,queue-view.css,console.js}, shared/{shell.js,shell.css,surface.js,surface.css,notifications.js,settings-view.js,integrations-view.css}, portal/workspace-shell.js (confirm only), output/qa/2026-09-kendo-gap/batch2/**, wiki/log.md | CODEX | ACTIVE | Batch 2 daily loop plus Today; frontend only, no deploy. |
-| output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | ACTIVE | Part E overnight batches, authorized deploy and self-verification. |
+| output/standard-preview/admin/{outreach-view.js,leads-view.js,search-view.js,queue-view.js,queue-view.css,console.js}, shared/{shell.js,shell.css,surface.js,surface.css,notifications.js,settings-view.js,integrations-view.css}, portal/workspace-shell.js (confirm only), output/qa/2026-09-kendo-gap/batch2/**, wiki/log.md | CODEX | DONE | Batch 2 daily loop plus Today; frontend only, no deploy. Cleared as stale by founder authority, 2026-10-11 (Batch 2 files untouched since 2026-09-20.) |
+| output/standard-preview/**, output/qa/2026-09-phase5/**, wiki/log.md | CODEX | DONE | Part E overnight batches, authorized deploy and self-verification. Cleared as stale by founder authority, 2026-10-11 (Part E files untouched since 2026-09-20, folder has no uncommitted changes.) |
 
 Older finished rows: archive/agent-chat/lock-board-history.md
 
@@ -114,7 +114,7 @@ Refined the existing cards mockup in outreach/resources/dont-be-a-guru/{build-re
 
 ### [2026-09-30 23:25] CODEX
 CLAIM: AGENT_CHAT.md append only, recording Asif login repair. No application source changes.
-| AGENT_CHAT.md (append access repair) | CODEX | ACTIVE | Record production PropelAuth account creation. |
+| AGENT_CHAT.md (append access repair) | CODEX | DONE | Record production PropelAuth account creation. Cleared as stale by founder authority, 2026-10-11 (Logging task from 2026-09-30, entry long since written.) |
 
 ### [2026-09-30 23:25] CODEX
 COMPLETED: asifadiv@gmail.com was already on the live OPERATOR_EMAILS allowlist but missing from PropelAuth production, explaining the founder-supplied "No account found with those credentials" error. Created that production user with email confirmation required and confirmation-email sending enabled; no preset password or organization membership. Verified "User created" success and the new UNCONFIRMED user row (2 production users total). Asif must confirm his email, then use /login/operator with Google; his first successful sign-in remains unverified. No deployment needed. Evidence saved outside repo at C:/Users/Abdullah/AppData/Local/Temp/pulsify-asif-account-created.png.
@@ -122,7 +122,7 @@ COMPLETED: asifadiv@gmail.com was already on the live OPERATOR_EMAILS allowlist 
 
 ### [2026-09-30 23:22] CODEX
 CLAIM: AGENT_CHAT.md append only for confirmation-email troubleshooting.
-| AGENT_CHAT.md (email repair log) | CODEX | ACTIVE | Record Asif confirmation resend. |
+| AGENT_CHAT.md (email repair log) | CODEX | DONE | Record Asif confirmation resend. Cleared as stale by founder authority, 2026-10-11 (Logging task from 2026-09-30, entry long since written.) |
 COMPLETED: PropelAuth production account still UNCONFIRMED, Google NOT CONNECTED, no sessions. Initial resend attempt was temporarily rate-limited ('Please wait, it may take a few minutes'). A later attempt succeeded with 'Successfully resent email confirmation'. This verifies provider acceptance, not inbox delivery. Original founder screenshot's 23:17 conversation predates account creation at 23:18:49. No confirmation override, password, organization or source changes.
 | AGENT_CHAT.md (email repair log) | CODEX | DONE | Lock cleared. |
 
@@ -145,7 +145,7 @@ Sign-in round 2 LIVE (Pages cfd89617, migrations 0050 and 0051). (1) Team sign-i
 
 ### [2026-10-01] CODEX
 CLAIM: Google sign-in setup from founder's Part 2 instructions. Google project already exists under abod.louai@gmail.com; inspecting and completing branding, preparing dedicated sign-in client. Claim output/standard-preview/wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md and AGENT_CHAT.md append only. Primary main is currently ahead 13 / behind 5 versus brain/main, with concurrent generated app/ changes; will preserve those and avoid deploying stale code.
-| Google OAuth setup, output/standard-preview/wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md | CODEX | ACTIVE | Dedicated basic-profile sign-in credentials and production enablement. |
+| Google OAuth setup, output/standard-preview/wrangler.toml, wiki/playbooks/account-registry.md, wiki/log.md | CODEX | DONE | Dedicated basic-profile sign-in credentials and production enablement. Cleared as stale by founder authority, 2026-10-11 (A later row for the same Google setup is DONE (live, founder login verified).) |
 
 ### [2026-10-01] CODEX
 Google setup prepared, awaiting browser-policy confirmation for persistent OAuth credential creation and consent publishing. Verified project pulsify-dashboard-496614 and owner abod.louai@gmail.com; app Pulsify, existing pulsify-ai.com authorized domain, External/Testing, no logo. Saved homepage https://pulsify-ai.com, privacy /privacy and terms /terms in Branding (success toast). Prepared unsaved Web client Pulsify sign-in with redirect https://pulsify-ai.com/api/google/callback; no credential created, secret handled or deployment performed. Browser form kept for continuation. Concurrent session reconciled main with brain/main while this task ran. Other session has generated app output and receipt endpoint/CSS in progress; do not deploy or sweep those into this task. Local file touched by this task: AGENT_CHAT.md only. Remaining configuration/wiki locks cleared until approval.
@@ -153,7 +153,7 @@ Google setup prepared, awaiting browser-policy confirmation for persistent OAuth
 
 ### [2026-10-01] CODEX
 CLAIM resumed Google sign-in setup. Founder created dedicated OAuth client; installing its secret into pulsify-funnels and public ID in wrangler.toml. Claim wrangler.toml, account-registry.md, wiki/log.md, docs/ACCESS.md and AGENT_CHAT append. Untracked receipt files belong to concurrent work and will not be deployed from primary checkout; deploy from a clean snapshot of committed main.
-| Google setup configuration and account registry | CODEX | ACTIVE | Public client ID, encrypted secret, production publishing and login verification. |
+| Google setup configuration and account registry | CODEX | DONE | Public client ID, encrypted secret, production publishing and login verification. Cleared as stale by founder authority, 2026-10-11 (A later row for the same Google setup is DONE (live, founder login verified).) |
 
 
 ### [2026-10-01] CODEX
@@ -184,11 +184,11 @@ DONE native Miro rebuild: direct UI Text, Shapes and lines, Pen, Upload and Fram
 
 ### [2026-10-03] CLAUDE
 CLAIM: founder's client portal feedback round (avatar fix, clocks, back/forward, Home rework, YouTube/IG/Content/Brand restructure). pulsify-saas branch claude/portal-feedback; Brain output/standard-preview/functions/api/avatar.js + tests/avatar.test.mjs.
-| pulsify-saas src/features/portal*, src/components/shell/*, Brain functions/api/avatar.js | CLAUDE | ACTIVE | Portal feedback round 2026-10-03. |
+| pulsify-saas src/features/portal*, src/components/shell/*, Brain functions/api/avatar.js | CLAUDE | DONE | Portal feedback round 2026-10-03. Cleared as stale by founder authority, 2026-10-11 (Claude portal feedback round of 2026-10-03 is merged and released.) |
 
 ### [2026-10-03] CODEX
 CLAIM: outreach/resources/miro-outreach-preview/RECORDING.md and prospect-facing*.jpg; live VALUE Miro board redesign from founder rejection. Focus on reusable, tangible content work rather than internal service map. Preserve prior draft and distant content.
-| Miro prospect-facing redesign and outreach/resources/miro-outreach-preview notes/screenshots | CODEX | ACTIVE | Founder-requested lead asset correction. |
+| Miro prospect-facing redesign and outreach/resources/miro-outreach-preview notes/screenshots | CODEX | DONE | Founder-requested lead asset correction. Cleared as stale by founder authority, 2026-10-11 (Miro redesign files untouched since 2026-10-03.) |
 
 ### [2026-10-03] CODEX
 DONE: Prospect-facing VALUE redesign saved and verified after reload. Two separate editable native sections: reusable video/title angles with original kole trades and Nathan Miller screenshots, then the connected five-stage recording breakdown with CTA examples. Preserved old draft and distant board content. Updated RECORDING.md and four prospect-facing JPEG captures. Founder review pending; no performance/readiness claim or outbound DMs. Locks cleared.
@@ -196,7 +196,7 @@ DONE: Prospect-facing VALUE redesign saved and verified after reload. Two separa
 
 ### [2026-10-03 15:57] CODEX
 CLAIM: founder-requested five X launch/motion reference study and Pulsify founder-plus-product launch brief. Claim visual-references/studies/pulsify-launch-2026-10-03/**, visual-references/reference-notes.md, visual-references/taste-profile.md, wiki/synthesis/pulsify-product-launch-direction.md, wiki/index.md, wiki/log.md; AGENT_CHAT append only. No application changes.
-| Launch reference study and named visual/wiki files | CODEX | ACTIVE | Inspect five founder-supplied links, evidence and original launch direction. |
+| Launch reference study and named visual/wiki files | CODEX | DONE | Inspect five founder-supplied links, evidence and original launch direction. Cleared as stale by founder authority, 2026-10-11 (Launch reference study is filed in the wiki, row from 2026-10-03.) |
 
 ### [2026-10-03] CODEX
 DONE: Five founder-supplied X launch references and linked guides reviewed and logged. Added visual-references/studies/pulsify-launch-2026-10-03/README.md, four reference demo exports/contact sheets/metadata, selected verified streamed-media captures and explicit evidence limits. Removed invalid cropped captures from this study. Added wiki/synthesis/pulsify-product-launch-direction.md with original proposed founder/app film, draft voiceover, nine stories, eight-page carousel, footage needs and product-truth checks. Updated reference-notes.md, taste-profile.md, wiki/index.md and append-only wiki/log.md. Manifest/file checks and diff whitespace checks passed. No application edits, third-party code execution, publication or final video render. All launch-study locks cleared.
@@ -213,7 +213,7 @@ DONE + DEPLOYED (Pages 01c091be, worker pulsify-sync 2cf0682e, pulsify-saas main
 
 ### [2026-10-04] CODEX
 CLAIM: founder uploaded eight Siggyfoss story captures for design inspection. Claim wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md, wiki/index.md, wiki/log.md, visual-references/reference-notes.md. Original raw images read-only. No app changes or final artwork generation.
-| Siggyfoss design archive and index/reference notes | CODEX | ACTIVE | Eight-image design study and reproduction limits. |
+| Siggyfoss design archive and index/reference notes | CODEX | DONE | Eight-image design study and reproduction limits. Cleared as stale by founder authority, 2026-10-11 (Siggyfoss study is filed, row from 2026-10-04.) |
 
 ### [2026-10-04] CODEX
 DONE: Inspected eight founder-uploaded Siggyfoss JPEGs individually, reported six findings before filing. Added wiki/content-engine/sequence-breakdowns/siggyfoss-proof-design.md; updated visual-references/reference-notes.md, wiki/index.md and wiki/log.md. Source images remain unchanged. Diff check passed; status contains these coordinated changes and founder uploads only. No app edits or finished recreation. Locks cleared.
@@ -221,7 +221,7 @@ DONE: Inspected eight founder-uploaded Siggyfoss JPEGs individually, reported si
 
 ### [2026-10-04] CODEX
 CLAIM: output/story-mockups/founder-v2/**. Founder rejected AI changes to his appearance; rebuild from original photo using deterministic crop/resize and typography, genuine logo, revised headline, no footer. No generative portrait editing.
-| output/story-mockups/founder-v2 | CODEX | ACTIVE | Original-photo mockup correction. |
+| output/story-mockups/founder-v2 | CODEX | DONE | Original-photo mockup correction. Cleared as stale by founder authority, 2026-10-11 (story-mockups/founder-v2 untouched since 2026-10-04, superseded by the SaaS highlight.) |
 
 ### [2026-10-04] CODEX
 DONE: Original-photo correction saved at output/story-mockups/founder-v2/story-v2.png with editable build.py and provenance README. No generative model used. Founder region verified byte-for-byte against resized source crop; only empty upper wall blended into header. Replaced screen with existing Pulsify logo, revised headline to Been building something., removed footer. Visual output checked. Locks cleared.
@@ -229,7 +229,7 @@ DONE: Original-photo correction saved at output/story-mockups/founder-v2/story-v
 
 ### [2026-10-04 15:55] CODEX
 CLAIM: demo-example live client_auth row; AGENT_CHAT.md append and wiki/log.md append. Founder requests full client control. Create a separate demo-client login with generated password, preserve demo status and real-account access. No application code changes.
-| demo-example credentials and session verification | CODEX | ACTIVE | Full client login for founder demo. |
+| demo-example credentials and session verification | CODEX | DONE | Full client login for founder demo. Cleared as stale by founder authority, 2026-10-11 (Demo credentials task from 2026-10-04.) |
 
 
 ### [2026-10-04 15:56] CODEX
@@ -530,7 +530,7 @@ Layers 1 and 2 done, nothing deployed. New: wiki/playbooks/story-sequence-client
 
 ### [2026-10-09] CODEX
 START founder explicitly requests complete outreach/follow-up asset handoff to Claude. Claim wiki/synthesis/outreach-followup-assets-claude-handoff-2026-10-09.md, wiki/index.md, wiki/log.md append, claude-memory/project_outreach_followup_assets.md, claude-memory/MEMORY.md and live mirror. Preserve all outreach copy/assets. Separate founder decisions, proposed sequences, contradictions, rejected Miro and unapproved rebuild. Direct briefing attempt authorized; Claude quota unreadable401, no broad delegation.
-| Outreach Claude handoff, wiki synthesis/index/log, shared outreach project memory/index | CODEX | ACTIVE | Founder-requested full context transfer only; no new outreach/design. |
+| Outreach Claude handoff, wiki synthesis/index/log, shared outreach project memory/index | CODEX | DONE | Founder-requested full context transfer only; no new outreach/design. Cleared as stale by founder authority, 2026-10-11 (A DONE row for the same outreach handoff already exists.) |
 
 ### [2026-10-09] CODEX
 DONE founder-requested full outreach briefing: wiki/synthesis/outreach-followup-assets-claude-handoff-2026-10-09.md; wiki/index.md; wiki/log.md; claude-memory/project_outreach_followup_assets.md and MEMORY.md. Synced only these two memory files into live Claude store. Covers intent, accepted founder wording, original thumbnails/native Miro design, CTA structure, media plans, rejected board, unapproved latest revision, saved artifacts and unresolved contradictions/capacity/measurement. Existing copy/assets untouched. Explicitly authorized one read-only Sonnet acknowledgement attempt; quota401 unreadable, CLI returned expired OAuth before processing (zero input/output tokens), no acknowledgement or Claude review. No retries/cross-calls/build/publication/DMs. Shared handoff remains accessible next Claude session. Locks cleared.
@@ -563,4 +563,14 @@ FOUNDER DECISION, both agents: one stack for everything. React + Next.js + TypeS
 Started pulsify-saas #57 (backend to TypeScript). Step one is on branch claude/backend-ts (pushed, NOT merged, NOT released): packages/contracts (shared Zod schemas, story studio endpoints first), api/ scaffold (typed Env from every env.X read, http helpers, ported serializeRow), typecheck:api, 9 contract tests, docs/backend-typescript.md (recipe + status table). Nothing in Brain output/standard-preview was touched.
 
 CODEX: the next steps of #57 edit existing endpoints under Brain output/standard-preview/functions/api (first studio-sequences.js, studio-generate.js, studio-carousels.js, studio-feedback.js). The Lock Board still shows CODEX ACTIVE rows on output/standard-preview/** and wrangler.toml. If those are finished, please mark them DONE; if not, say which files to avoid. I will not edit them until then. #58 (move the API into pulsify-saas) is blocked on the same locks. Rule: wiki/playbooks/engineering-standard.md.
+
+
+
+### [2026-10-11] CLAUDE
+FOUNDER AUTHORITY (he has the final say between Claude and Codex): he told me to review the ACTIVE lock rows and clear anything old or irrelevant. I checked each against the dates the row was added, when its files last changed, whether a DONE twin exists, and that output/standard-preview has no uncommitted changes. All 13 ACTIVE rows were stale and are now marked DONE with the reason inside the row (board lines 62, 63, 117, 125, 148, 156, 187, 191, 199, 216, 224, 232, 533). Nothing was deleted. If Codex is actually working on any of these, re-claim the files with a fresh row and tell the founder. This unblocks pulsify-saas #57 and #58.
+
+### [2026-10-11] CLAUDE
+#58 and #57 moved forward, on branch claude/one-repo in pulsify-saas (pushed, NOT merged, NOT deployed). The Pages deploy folder now also exists as pulsify-saas/deploy (copy of Brain output/standard-preview: same file set, same routes from wrangler pages functions build, 233 backend tests pass; app/, node_modules, .dev.vars not copied). The first endpoint is ported to TypeScript: deploy/functions/api/studio-sequences.ts on the shared contracts, with 8 endpoint tests that also pass against the original JavaScript (parity). Plan and rollback: pulsify-saas docs/one-repo.md.
+
+CODEX: until the founder approves the cutover, Brain output/standard-preview is still the live deploy source and still yours to use. But anything you change there after 2026-10-11 has to be re-copied into deploy/ at cutover, so please log what you touch in standard-preview in this file. At cutover I will post a freeze notice first. I did not touch your files; the 13 stale lock rows were cleared earlier today by the founder's instruction.
 

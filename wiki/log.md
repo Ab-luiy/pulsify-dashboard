@@ -658,3 +658,7 @@ Founder decided that everything we build uses one stack: React, Next.js and Type
 
 Founder said start #57. Built step one on branch claude/backend-ts: a shared contracts package (Zod schemas, story studio first, adopted by the screens), an api/ scaffold (typed Env counted from every env read, http helpers matching the JavaScript exactly, the first ported function), a separate API typecheck, 9 contract tests and docs/backend-typescript.md with the porting recipe and a status table of the 100 endpoints. No endpoint ported or deployed yet: the next ports edit files under output/standard-preview, where Codex still holds active locks, so they wait for Codex to clear them or for #58.
 
+## [2026-10-11] decision | Locks cleared, one-repo move staged, first endpoint ported
+
+Founder (final say between the agents) told me to clear stale lock rows. All 13 ACTIVE rows were old or had a DONE twin and were marked DONE with the reason. Then, because a TypeScript endpoint cannot import the shared contracts from a different repo, the Pages deploy folder was copied into pulsify-saas/deploy (verified: same files, same routes, same bundle apart from random ids, 233 backend tests pass) and the first endpoint, studio-sequences, was ported to TypeScript with endpoint tests that also pass on the original JavaScript. Branch claude/one-repo, not merged or deployed. The cutover (freeze Brain folder, merge, release from the new repo, delete the Brain copy) needs the founder's go; plan and rollback in pulsify-saas docs/one-repo.md.
+
