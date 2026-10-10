@@ -637,3 +637,7 @@ Cloudflare Browser Run renders story slides correctly. Account is on Workers Fre
 ## [2026-10-10] client-update | Story studio built (pulsify-saas #54)
 
 Founder chose Geist and asked to start #54 with no paid plans until paying clients. Built the client story studio as a Design step on an existing story sequence: copy gate, one-at-a-time look questions, slide mapping, photo reuse rule, live preview, browser PNG export (zip of 1080x1920 images). Saves inside the sequence output, so no backend change. Branch claude/story-studio, commit 1a49b1c, pushed, not merged or released. Open: designed tier, angles before copy, client logo, server render (#53, needs Workers Paid).
+
+## [2026-10-10] client-update | Example workspace login password reset
+
+Founder asked for a client login. The demo-example password from 2026-10-04 was never stored, so Claude reset it in live D1 and saved it in the vault root .env (gitignored) as PULSIFY_DEMO_CLIENT_EMAIL / PULSIFY_DEMO_CLIENT_PASSWORD. Live /api/client-login returned 200. No code change or deployment.
