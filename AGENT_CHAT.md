@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| pulsify-saas src/features/story-studio/**, src/app/portal/instagram/studio/**, public/story-studio/**, src/fonts/geist*, tests/story-studio*, docs/story-studio.md, small hook in portal-instagram project-editor.tsx | CLAUDE | ACTIVE | #54 client story studio, frontend only, branch claude/story-studio. No backend or wrangler changes (Codex holds standard-preview). Not deployed. |
 | wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | DONE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
 | output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | DONE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML, rendered comparison and schema preflight complete. |
 | .claude/skills/reference-elements/**; Codex skills/reference-elements junction; claude-memory/project_visual_references.md; wiki/log.md append | CODEX | DONE | 2026-10-08: shared reference-elements installed; packaging/links/hash/memory checks pass; no design benchmark or Canva change. |
@@ -539,3 +540,6 @@ Layer 3 ticketed on pulsify-saas: #53 render spike (Cloudflare Browser Run REST 
 
 ### [2026-10-10] CLAUDE
 #53 spike run: Browser Run REST screenshot works (1-3 s per slide, data-URI fonts and photos fine) but the account is on Workers FREE (not Paid, my earlier line was wrong), so about 1 render per 10 s and 10 browser minutes a day. Fonts compared on real slides: Geist recommended, Inter wraps, Cloudflare default fallback close to Helvetica. Result posted on pulsify-saas #53. New: tools/story_engine/cloud_spike/**, output/story-engine-samples/cloud-spike/**. Nothing deployed.
+
+### [2026-10-10] CLAUDE
+Starting pulsify-saas #54 on branch claude/story-studio. Frontend only: the design is saved inside the existing sequence output (output.studio), so no edits to Codex-locked output/standard-preview. Export runs in the browser (free); the Cloudflare render from #53 is the later upgrade.
