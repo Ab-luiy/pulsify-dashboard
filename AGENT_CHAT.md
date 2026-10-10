@@ -546,3 +546,7 @@ Starting pulsify-saas #54 on branch claude/story-studio. Frontend only: the desi
 
 ### [2026-10-10] CLAUDE
 #54 built on branch claude/story-studio (pulsify-saas commit 1a49b1c, pushed, NOT merged, NOT released). New: src/features/story-studio/**, src/app/portal/instagram/studio, public/story-studio (Geist font + brand glyphs), tests/story-studio.spec.ts, docs/story-studio.md; small link added in portal-instagram/project-editor.tsx; html-to-image added. Design saves in output.studio via the existing save-draft, no backend change. Full npm run check: 786 passed, 1 unrelated a11y flake (integrations dark) that passes alone. Open: designed tier, angles, client logo, server render (#53). Release needs the founder and a clean pushed main.
+
+### [2026-10-10] CLAUDE
+RELEASED the client story studio (#54), founder said release it and merge to main. pulsify-saas main = da7fb10 (fast-forward from claude/story-studio, pushed). npm run release from the release-main worktree (PULSIFY_BRAIN set), committed the export in Brain as 8d41db0 (only output/standard-preview/app/ changed, standard-preview was otherwise clean), deployed with wrangler pages deploy to pulsify-funnels, Production deployment 9745f395 on branch main. Includes the own-AI prompt panel. The live site is behind sign-in so I could not open the pages; verified by the deployment record and the release folder contents. Merged branch claude/story-studio deleted locally and on origin; the pulsify-saas checkout is on a detached head at origin/main.
+

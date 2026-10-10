@@ -641,3 +641,8 @@ Founder chose Geist and asked to start #54 with no paid plans until paying clien
 ## [2026-10-10] client-update | Example workspace login password reset
 
 Founder asked for a client login. The demo-example password from 2026-10-04 was never stored, so Claude reset it in live D1 and saved it in the vault root .env (gitignored) as PULSIFY_DEMO_CLIENT_EMAIL / PULSIFY_DEMO_CLIENT_PASSWORD. Live /api/client-login returned 200. No code change or deployment.
+
+## [2026-10-10] decision | Story studio released (pulsify-saas #54)
+
+Founder approved merge and release. pulsify-saas main da7fb10, Brain commit 8d41db0, Cloudflare Pages production deployment 9745f395. Live at Instagram, My projects, open a story, "Design in the studio", plus the "Not happy with it? Use your own AI" option. Still open on #54: designed tier, angles before copy, client logo upload, server render (#53, needs Workers Paid).
+
