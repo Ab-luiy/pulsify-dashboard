@@ -328,3 +328,4 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 - [[playbooks/product-explainer-story-script]] - How to write the casual product-explainer story script (SooWei walkthrough shape, product as subject, claims limits). [content, copy, product] 2026-10-09.
 
 - [[synthesis/outreach-followup-assets-claude-handoff-2026-10-09]] — Complete founder-requested outreach conversation transfer to Claude: purpose, decisions, rejected board, unapproved revision, media/cadence conflicts and open work. [outreach, content, offer, funnel] 2026-10-09.
+- [[playbooks/engineering-standard]] - One stack for everything: React, Next.js and TypeScript for every interface (landing pages included), TypeScript on Cloudflare for every backend with shared Zod contracts, one repo, no paid plan until paying clients. [funnel, scaling, product] 2026-10-10.

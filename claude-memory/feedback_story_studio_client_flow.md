@@ -15,5 +15,5 @@ The story studio is for CLIENTS to use themselves in the app (founder, 2026-10-0
 
 Where it is: portal Instagram, My projects, open a story, "Design in the studio" (/portal/instagram/studio?id=). Docs: pulsify-saas/docs/story-studio.md. Release recipe that worked: fast-forward main in the release-main worktree, push, run npm run release there with PULSIFY_BRAIN pointing at the Brain, commit app/ in the Brain, wrangler pages deploy from output/standard-preview. The live site is behind sign-in, so verify from the deployment record, not curl.
 
-**Designed tier 2026-10-10:** built on branch claude/story-designed (ticket #55), pushed, NOT released. Logo, words behind you (client supplies the transparent cutout), numbers card, Q&A card, logos row. Export blocked until figures are real. Inbox card stays Pulsify-only. Backend answer for the founder: Cloudflare (Pages Functions, D1, R2, Vectorize, Workers AI), Supabase only as realtime push.
+**Designed tier 2026-10-10:** RELEASED (pulsify-saas main 9afb032, Brain d577fc87, Pages deployment 785a3cae; ticket #55). Logo, words behind you (client supplies the transparent cutout), numbers card, Q&A card, logos row. Export blocked until figures are real. Inbox card stays Pulsify-only. Backend answer for the founder: Cloudflare (Pages Functions, D1, R2, Vectorize, Workers AI), Supabase only as realtime push.
 

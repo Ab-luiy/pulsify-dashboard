@@ -650,3 +650,7 @@ Founder approved merge and release. pulsify-saas main da7fb10, Brain commit 8d41
 
 Founder asked to start the designed tier. Built on branch claude/story-designed: logo, words behind you with a client-supplied cutout, numbers card, question and answer card, logos row, per-slide picker in the Photos step, own-AI prompt extended. Export is blocked until numbers and answers are filled in. Inbox card kept Pulsify-only. Not merged or released; waiting for the founder. Same day the founder asked about Supabase: the backend is Cloudflare, Supabase is only the realtime push channel.
 
+## [2026-10-10] decision | One stack for everything, and the designed tier released
+
+Founder decided that everything we build uses one stack: React, Next.js and TypeScript for every interface (landing pages included, no raw HTML), TypeScript on Cloudflare for every backend endpoint with shared Zod contracts, one repo, no paid plan until paying clients. Written up in playbooks/engineering-standard. Supersedes the raw-HTML implementation of the landing-page standard (the design stays locked) and widens the 2026-09-23 Next.js migration from the console to everything. Tickets pulsify-saas #56 to #59. Same day the story studio designed tier was released (main 9afb032, Pages deployment 785a3cae).
+

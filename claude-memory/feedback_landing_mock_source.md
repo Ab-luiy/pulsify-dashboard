@@ -40,3 +40,5 @@ not propose changes — if the founder wants a change they tell Codex, not me. M
 off the OLD canonical and now predate the new standard — leave them; reconciling is Codex's
 call. My role on landing pages is now: check AGENT_CHAT.md for Codex's updates and stay out
 of the files.
+
+**Note 2026-10-10:** the "start from the approved canonical template" rule is about the design. New landing builds are React and Next.js components, not copied HTML ([[feedback_one_stack]]).

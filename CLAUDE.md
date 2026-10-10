@@ -20,6 +20,10 @@ Founder decision 2026-07-30:
 
 Founder decision 2026-07-30: Slack is not an active coordination requirement. Do not mirror work to Slack, recreate Slack briefings, or build Slack automations unless the founder explicitly reactivates them. `AGENT_CHAT.md`, git history, `wiki/log.md`, client decision files, and reusable wiki knowledge remain canonical. `SLACK_OPERATING_SYSTEM.md` is historical reference only.
 
+## Build stack (founder decision 2026-10-10)
+
+Everything we build uses one stack: React, Next.js and TypeScript for every interface (landing pages and funnels included, no hand-written HTML), TypeScript on Cloudflare for every backend endpoint with Zod schemas shared by the screens and the API, one repository for app, API and contracts. No paid plan until paying clients. Internal tools (Python, scripts) may use anything. Full rule and migration order: [[wiki/playbooks/engineering-standard]]. Tickets live on Ab-luiy/pulsify-saas (#59 epic).
+
 ## What this vault is
 
 This is the brain of Pulsify, a growth operating company that helps online coaches and creators in biz-op niches (trading, ecom, dropshipping, Amazon FBA, Airbnb hosting, TikTok Shop, etc.) sell high-ticket mentorships. Pulsify builds personal brands through raw, authentic content with AI — no flexing of cars, watches, or lifestyle — and pairs that with backend infrastructure (funnels, email sequences, sales team systems) to convert every lead.
