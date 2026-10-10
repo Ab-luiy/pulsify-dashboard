@@ -3,7 +3,7 @@ type: playbook
 tags: [content, instagram, story-sequences, design, product, sops]
 sources: [[wiki/content-engine/pulsify-saas-highlight-final-2026-10-08]], [[wiki/frameworks/story-sequence-system]], [[wiki/playbooks/story-sequence-design-procedure]], [[wiki/playbooks/reference-replication-sop]]
 created: 2026-10-09
-updated: 2026-10-09
+updated: 2026-10-10
 ---
 
 # Story sequence client flow (guided, copy first, design second)
@@ -82,6 +82,10 @@ Show the set as a contact sheet and then slides at phone size. The client replie
 - **Copy before design is a hard gate.** The renderer refuses to start until the copy status is approved.
 - **Inputs from the client brain:** voice, offer, customer and proof from the onboarding answers pre-fill the brief and the copy. Voice notes feed the copy tone.
 - **Templates:** the reusable slide types live in `tools/story_engine/` (see its README). A client's look is a brand file, so changing a font or a color is one edit, not a rebuild.
+
+## Implementation status (2026-10-10)
+
+Built in pulsify-saas as the Design step on a story sequence (ticket #54, branch claude/story-studio, not yet released): copy confirmation gate, one-at-a-time look questions with suggestions, slide styles (big stack, boxes, fitted long line, red-mark list, cards), the photo reuse rule, live preview and browser PNG export with Geist. Simple and standard tiers only. Not built: designed tier (type behind the subject, stat/chat/inbox cards), angles before copy, client logo upload, server render. See `pulsify-saas/docs/story-studio.md`.
 
 ## Connections
 

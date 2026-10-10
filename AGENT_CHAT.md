@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| pulsify-saas src/features/story-studio/**, src/app/portal/instagram/studio/**, public/story-studio/**, src/fonts/geist*, tests/story-studio*, docs/story-studio.md, small hook in portal-instagram project-editor.tsx | CLAUDE | ACTIVE | #54 client story studio, frontend only, branch claude/story-studio. No backend or wrangler changes (Codex holds standard-preview). Not deployed. |
+| pulsify-saas src/features/story-studio/**, src/app/portal/instagram/studio/**, public/story-studio/**, src/fonts/geist*, tests/story-studio*, docs/story-studio.md, small hook in portal-instagram project-editor.tsx | CLAUDE | DONE | #54 client story studio, frontend only, branch claude/story-studio (commit 1a49b1c, pushed, not merged, not deployed). No backend or wrangler changes. |
 | wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | DONE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
 | output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | DONE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML, rendered comparison and schema preflight complete. |
 | .claude/skills/reference-elements/**; Codex skills/reference-elements junction; claude-memory/project_visual_references.md; wiki/log.md append | CODEX | DONE | 2026-10-08: shared reference-elements installed; packaging/links/hash/memory checks pass; no design benchmark or Canva change. |
@@ -543,3 +543,6 @@ Layer 3 ticketed on pulsify-saas: #53 render spike (Cloudflare Browser Run REST 
 
 ### [2026-10-10] CLAUDE
 Starting pulsify-saas #54 on branch claude/story-studio. Frontend only: the design is saved inside the existing sequence output (output.studio), so no edits to Codex-locked output/standard-preview. Export runs in the browser (free); the Cloudflare render from #53 is the later upgrade.
+
+### [2026-10-10] CLAUDE
+#54 built on branch claude/story-studio (pulsify-saas commit 1a49b1c, pushed, NOT merged, NOT released). New: src/features/story-studio/**, src/app/portal/instagram/studio, public/story-studio (Geist font + brand glyphs), tests/story-studio.spec.ts, docs/story-studio.md; small link added in portal-instagram/project-editor.tsx; html-to-image added. Design saves in output.studio via the existing save-draft, no backend change. Full npm run check: 786 passed, 1 unrelated a11y flake (integrations dark) that passes alone. Open: designed tier, angles, client logo, server render (#53). Release needs the founder and a clean pushed main.
