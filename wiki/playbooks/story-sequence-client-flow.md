@@ -85,7 +85,9 @@ Show the set as a contact sheet and then slides at phone size. The client replie
 
 ## Implementation status (2026-10-10)
 
-Built in pulsify-saas as the Design step on a story sequence (ticket #54, branch claude/story-studio, not yet released): copy confirmation gate, one-at-a-time look questions with suggestions, slide styles (big stack, boxes, fitted long line, red-mark list, cards), the photo reuse rule, live preview and browser PNG export with Geist. Simple and standard tiers only. Not built: designed tier (type behind the subject, stat/chat/inbox cards), angles before copy, client logo upload, server render. See `pulsify-saas/docs/story-studio.md`.
+Released in pulsify-saas as the Design step on a story sequence (ticket #54): copy confirmation gate, one-at-a-time look questions with suggestions, slide styles (big stack, boxes, fitted long line, red-mark list, cards), the photo reuse rule, live preview, browser PNG export with Geist, and the "use your own AI" prompt with the client's profile.
+
+Designed tier built on branch claude/story-designed (ticket #55, not released): logo, words behind you (client supplies the cutout), numbers card, question and answer card, logos row; export is blocked until the numbers are real. Not built: automatic cutout, angles before copy, server render. See `pulsify-saas/docs/story-studio.md`.
 
 ## Connections
 

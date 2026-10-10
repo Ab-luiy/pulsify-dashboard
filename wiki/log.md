@@ -646,3 +646,7 @@ Founder asked for a client login. The demo-example password from 2026-10-04 was 
 
 Founder approved merge and release. pulsify-saas main da7fb10, Brain commit 8d41db0, Cloudflare Pages production deployment 9745f395. Live at Instagram, My projects, open a story, "Design in the studio", plus the "Not happy with it? Use your own AI" option. Still open on #54: designed tier, angles before copy, client logo upload, server render (#53, needs Workers Paid).
 
+## [2026-10-10] client-update | Story studio designed tier built (pulsify-saas #55)
+
+Founder asked to start the designed tier. Built on branch claude/story-designed: logo, words behind you with a client-supplied cutout, numbers card, question and answer card, logos row, per-slide picker in the Photos step, own-AI prompt extended. Export is blocked until numbers and answers are filled in. Inbox card kept Pulsify-only. Not merged or released; waiting for the founder. Same day the founder asked about Supabase: the backend is Cloudflare, Supabase is only the realtime push channel.
+

@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| pulsify-saas src/features/story-studio/**, public/story-studio/**, tests/story-studio.spec.ts, docs/story-studio.md | CLAUDE | DONE | Designed tier of the story studio (#55), branch claude/story-designed pushed, frontend only, NOT merged or released. |
 | pulsify-saas src/features/story-studio/**, src/app/portal/instagram/studio/**, public/story-studio/**, src/fonts/geist*, tests/story-studio*, docs/story-studio.md, small hook in portal-instagram project-editor.tsx | CLAUDE | DONE | #54 client story studio, frontend only, branch claude/story-studio (commit 1a49b1c, pushed, not merged, not deployed). No backend or wrangler changes. |
 | wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | DONE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
 | output/reference-elements/channel-ecosystem-2026-10-08/**; wiki/log.md append | CODEX | DONE | 2026-10-08: one reference-elements slide trial from K1-4; editable SVG/HTML, rendered comparison and schema preflight complete. |
@@ -549,4 +550,7 @@ Starting pulsify-saas #54 on branch claude/story-studio. Frontend only: the desi
 
 ### [2026-10-10] CLAUDE
 RELEASED the client story studio (#54), founder said release it and merge to main. pulsify-saas main = da7fb10 (fast-forward from claude/story-studio, pushed). npm run release from the release-main worktree (PULSIFY_BRAIN set), committed the export in Brain as 8d41db0 (only output/standard-preview/app/ changed, standard-preview was otherwise clean), deployed with wrangler pages deploy to pulsify-funnels, Production deployment 9745f395 on branch main. Includes the own-AI prompt panel. The live site is behind sign-in so I could not open the pages; verified by the deployment record and the release folder contents. Merged branch claude/story-studio deleted locally and on origin; the pulsify-saas checkout is on a detached head at origin/main.
+
+### [2026-10-10] CLAUDE
+Designed tier built for the story studio (pulsify-saas #55, branch claude/story-designed, pushed, NOT merged, NOT released). Adds logo, words behind you (client-supplied cutout), numbers card, question and answer card, logos row, per-slide picker in Photos. Export is blocked until numbers and answers are real. Inbox card left out on purpose (third-party names). Lint, typecheck, production build and the studio, Instagram and a11y suites passed (171). Founder also asked whether the backend is on Supabase: no, Cloudflare Pages Functions + D1 + R2 + Vectorize + Workers AI; Supabase is only the realtime push channel (decided 2026-09-19).
 
