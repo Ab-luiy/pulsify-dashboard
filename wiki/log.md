@@ -654,3 +654,7 @@ Founder asked to start the designed tier. Built on branch claude/story-designed:
 
 Founder decided that everything we build uses one stack: React, Next.js and TypeScript for every interface (landing pages included, no raw HTML), TypeScript on Cloudflare for every backend endpoint with shared Zod contracts, one repo, no paid plan until paying clients. Written up in playbooks/engineering-standard. Supersedes the raw-HTML implementation of the landing-page standard (the design stays locked) and widens the 2026-09-23 Next.js migration from the console to everything. Tickets pulsify-saas #56 to #59. Same day the story studio designed tier was released (main 9afb032, Pages deployment 785a3cae).
 
+## [2026-10-11] client-update | Backend in TypeScript started (pulsify-saas #57)
+
+Founder said start #57. Built step one on branch claude/backend-ts: a shared contracts package (Zod schemas, story studio first, adopted by the screens), an api/ scaffold (typed Env counted from every env read, http helpers matching the JavaScript exactly, the first ported function), a separate API typecheck, 9 contract tests and docs/backend-typescript.md with the porting recipe and a status table of the 100 endpoints. No endpoint ported or deployed yet: the next ports edit files under output/standard-preview, where Codex still holds active locks, so they wait for Codex to clear them or for #58.
+
