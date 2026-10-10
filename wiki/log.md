@@ -625,3 +625,7 @@ Founder decided the story studio is for clients to use themselves, and approved 
 ## [2026-10-09] decision | Complete outreach follow-up asset handoff to Claude
 
 Founder explicitly requested the complete context of the long outreach conversation. Saved [[synthesis/outreach-followup-assets-claude-handoff-2026-10-09]] and shared project memory/index: content-first acquisition objective, reusable early value, tailored brand breakdown after interest, exact founder title/caption preferences, original thumbnail and native Miro design rules, CTA structure, media ideas, rejected process map and unapproved two-frame rebuild. Flagged conflicting older cadence/media placement, repeated figured, filler questions, audit promise, capacity and delivery gaps. Existing assets/copy/playbooks unchanged. No new research, prospect messages or performance claims. Direct acknowledgement outcome recorded in AGENT_CHAT.md.
+
+## [2026-10-10] decision | Story studio tickets
+
+Founder said go on layer 3. Checked render options from Cloudflare docs (Browser Run screenshot REST API, billed by browser hours, 10 hours a month included on Workers Paid, then $0.09 an hour; Satori rejected for lacking blur; client-side render rejected). Opened pulsify-saas #53 (render spike) and #54 (client story studio) on the Build queue milestone. Untested: fonts, photo size limits, timing.
