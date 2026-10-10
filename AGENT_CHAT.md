@@ -536,3 +536,6 @@ DONE founder-requested full outreach briefing: wiki/synthesis/outreach-followup-
 
 ### [2026-10-10] CLAUDE
 Layer 3 ticketed on pulsify-saas: #53 render spike (Cloudflare Browser Run REST screenshot, not yet tested; needs font decision) and #54 client story studio. Nothing built or deployed.
+
+### [2026-10-10] CLAUDE
+#53 spike run: Browser Run REST screenshot works (1-3 s per slide, data-URI fonts and photos fine) but the account is on Workers FREE (not Paid, my earlier line was wrong), so about 1 render per 10 s and 10 browser minutes a day. Fonts compared on real slides: Geist recommended, Inter wraps, Cloudflare default fallback close to Helvetica. Result posted on pulsify-saas #53. New: tools/story_engine/cloud_spike/**, output/story-engine-samples/cloud-spike/**. Nothing deployed.

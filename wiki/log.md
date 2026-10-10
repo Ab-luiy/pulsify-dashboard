@@ -629,3 +629,7 @@ Founder explicitly requested the complete context of the long outreach conversat
 ## [2026-10-10] decision | Story studio tickets
 
 Founder said go on layer 3. Checked render options from Cloudflare docs (Browser Run screenshot REST API, billed by browser hours, 10 hours a month included on Workers Paid, then $0.09 an hour; Satori rejected for lacking blur; client-side render rejected). Opened pulsify-saas #53 (render spike) and #54 (client story studio) on the Build queue milestone. Untested: fonts, photo size limits, timing.
+
+## [2026-10-10] decision | Render spike result (pulsify-saas #53)
+
+Cloudflare Browser Run renders story slides correctly. Account is on Workers Free: about 1 render per 10 seconds, 10 browser minutes a day. Workers Paid ($5 a month minimum) would lift that; founder call. Font candidates compared on real slides, Geist recommended over Inter (Inter is wider and wraps card labels). Helvetica cannot ship to the server.
