@@ -86,18 +86,19 @@ export const PROVIDERS = {
   },
   youtube: {
     scope: "client",
-    configFields: ["confirmed", "confirmed_at", "channel_note", "handle"],
+    // account_id..connected_at: the client's own sign-in through Zernio (api/client-connect.js).
+    configFields: ["confirmed", "confirmed_at", "channel_note", "handle", "account_id", "username", "profile_id", "connected_at"],
     secretFields: [],
     clientConnected(record) {
-      return Boolean(record.config.handle || record.config.confirmed);
+      return Boolean(record.config.account_id || record.config.handle || record.config.confirmed);
     },
   },
   instagram: {
     scope: "client",
-    configFields: ["confirmed", "confirmed_at", "channel_note", "handle"],
+    configFields: ["confirmed", "confirmed_at", "channel_note", "handle", "account_id", "username", "profile_id", "connected_at"],
     secretFields: [],
     clientConnected(record) {
-      return Boolean(record.config.confirmed);
+      return Boolean(record.config.account_id || record.config.confirmed);
     },
   },
   zernio: {

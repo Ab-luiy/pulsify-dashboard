@@ -6,7 +6,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, readdirSync } from 'node:fs';
-import { syncInstagram } from '../workers/sync/src/jobs/instagram.js';
+import { syncClientInstagram, syncInstagram } from '../workers/sync/src/jobs/instagram.js';
 
 const sql = new DatabaseSync(':memory:');
 for (const file of readdirSync(new URL('../migrations/', import.meta.url)).filter((f) => /^\d+_.*\.sql$/.test(f)).sort()) {
@@ -115,6 +115,28 @@ test('an account that needs reconnecting fails loudly instead of saving nothing 
   globalThis.fetch = fakeZernio({ needsReconnection: true });
   try {
     await assert.rejects(syncInstagram(env), /needs reconnecting/);
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
+
+test('a client who connected their own Instagram gets it synced into their workspace', async () => {
+  sql.exec("CREATE TABLE IF NOT EXISTS client_config(client TEXT PRIMARY KEY, client_name TEXT, status TEXT, portal_token_hash TEXT, updated_at TEXT)");
+  sql.prepare("INSERT OR IGNORE INTO client_config(client, client_name) VALUES('demo-rio','Demo Rio')").run();
+  sql.prepare("INSERT INTO integrations(scope, client_id, provider, config_json, secret_json, created_at, updated_at) VALUES('client','demo-rio','instagram',?, '{}', ?, ?)")
+    .run(JSON.stringify({ account_id: 'acc1', username: 'pulsify' }), new Date().toISOString(), new Date().toISOString());
+  // Story ids are unique across workspaces; start from an empty table so this run's stories are the client's.
+  sql.exec("DELETE FROM stories");
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = fakeZernio();
+  try {
+    const n = await syncClientInstagram(env);
+    assert.ok(n > 0);
+    const row = sql.prepare("SELECT payload_json FROM snapshots WHERE scope='client' AND client_id='demo-rio' AND source='instagram' AND kind='profile'").get();
+    assert.equal(JSON.parse(row.payload_json).followers, 1234);
+    assert.ok(sql.prepare("SELECT COUNT(*) n FROM snapshots WHERE scope='client' AND client_id='demo-rio' AND kind='reels'").get().n === 1);
+    assert.equal(sql.prepare("SELECT COUNT(*) n FROM stories WHERE scope='client' AND client_id='demo-rio'").get().n >= 1, true);
+    assert.equal(await syncClientInstagram(env), 0, 'synced within 20 hours waits');
   } finally {
     globalThis.fetch = realFetch;
   }

@@ -117,6 +117,9 @@ export async function onRequestPost({ request, env }) {
   if (DELEGATED_PROVIDERS.has(provider)) {
     delete config.confirmed;
     delete config.confirmed_at;
+    // The connected account is set only by the signed sign-in flow (api/client-connect.js). Taking it from a
+    // request body would let a client point the sync at someone else's account on our Zernio key.
+    for (const field of ["account_id", "username", "profile_id", "connected_at"]) delete config[field];
     secrets = {};
     if (hasOwn(body, "confirm")) {
       if (body.confirm === true) {

@@ -1,6 +1,6 @@
 import { accessToken, validateAccess } from "./access.js";
 import { runJob } from "./db.js";
-import { syncInstagram } from "./jobs/instagram.js";
+import { syncClientInstagram, syncInstagram } from "./jobs/instagram.js";
 import { syncInstagramInbox } from "./jobs/instagram-inbox.js";
 import { syncYouTubeLeads } from "./jobs/leads.js";
 import { syncYouTube } from "./jobs/youtube.js";
@@ -27,6 +27,7 @@ const JOBS = {
   "search-index": syncSearchIndex,
   "client-videos": syncClientVideosJob,
   "lead-models": refreshLeadModelsJob,
+  "client-instagram": syncClientInstagram,
 };
 
 export default {
@@ -74,7 +75,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models|client-instagram)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);
@@ -94,7 +95,7 @@ export default {
 
 // Webhooks remain immediate. Polling is recovery, not the primary live path.
 export function scheduledJobs(cron, scheduledTime = Date.now()) {
-  if (cron === "*/30 * * * *") return ["payment-rematch", "client-videos"];
+  if (cron === "*/30 * * * *") return ["payment-rematch", "client-videos", "client-instagram"];
   if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
   const minute = new Date(scheduledTime).getUTCMinutes();
   // The lead score refit gets a minute of its own (one client per run, CPU-light).

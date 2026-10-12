@@ -7,14 +7,36 @@ import { zernioConfigured, zernioConnection, zernioFetch } from "../../../../fun
 // tool slug had been removed and the Meta token had expired, so the job could
 // not be repaired on Composio without the founder re-doing the Meta login.
 export async function syncInstagram(env) {
-  const capturedAt = new Date().toISOString();
   if (!zernioConfigured(env)) throw new Error("ZERNIO_API_KEY is not set");
   const connection = await zernioConnection(env);
   if (!connection.connected || !connection.account_id) throw new Error("Instagram is not connected in Zernio (Integrations)");
-  const accountId = connection.account_id;
+  return syncInstagramAccount(env, { scope: "operator", clientId: "", accountId: connection.account_id });
+}
+
+// Clients who connected their own Instagram (api/client-connect.js): one client per run, the one whose
+// numbers are oldest, each at most every 20 hours. Runs on the 30-minute cron.
+const CLIENT_RESYNC_MS = 20 * 3600000;
+export async function syncClientInstagram(env, now = Date.now()) {
+  if (!zernioConfigured(env)) return 0;
+  const due = await env.DB.prepare(
+    `SELECT i.client_id AS client_id, json_extract(i.config_json, '$.account_id') AS account_id,
+            (SELECT s.captured_at FROM snapshots s WHERE s.scope='client' AND s.client_id=i.client_id AND s.source='instagram' AND s.kind='profile') AS last
+       FROM integrations i
+       LEFT JOIN client_config c ON c.client = i.client_id
+      WHERE i.scope='client' AND i.provider='instagram'
+        AND COALESCE(json_extract(i.config_json, '$.account_id'), '') <> ''
+        AND COALESCE(c.status, '') NOT IN ('archived')
+      ORDER BY COALESCE(last, '') LIMIT 1`,
+  ).first();
+  if (!due || (due.last && now - Date.parse(due.last) < CLIENT_RESYNC_MS)) return 0;
+  return syncInstagramAccount(env, { scope: "client", clientId: due.client_id, accountId: due.account_id });
+}
+
+export async function syncInstagramAccount(env, { scope, clientId, accountId }) {
+  const capturedAt = new Date().toISOString();
   const id = encodeURIComponent(accountId);
 
-  const accounts = await zernioFetch(env, "/v1/accounts?platform=instagram&page=1&limit=50");
+  const accounts = await zernioFetch(env, `/v1/accounts?platform=instagram&search=${id}`);
   const account = (accounts.accounts || []).find((a) => a._id === accountId);
   if (!account) throw new Error(`Zernio has no Instagram account ${accountId}`);
   if (account.needsReconnection) throw new Error("Zernio says Instagram needs reconnecting (token expired)");
@@ -60,8 +82,8 @@ export async function syncInstagram(env) {
     });
   }
   const recent = await env.DB.prepare(
-    "SELECT payload_json FROM stories WHERE scope='operator' AND client_id='' AND captured_at >= ? ORDER BY captured_at DESC LIMIT 20",
-  ).bind(new Date(Date.parse(capturedAt) - 3 * DAY_MS).toISOString()).all();
+    "SELECT payload_json FROM stories WHERE scope=? AND client_id=? AND captured_at >= ? ORDER BY captured_at DESC LIMIT 20",
+  ).bind(scope, clientId, new Date(Date.parse(capturedAt) - 3 * DAY_MS).toISOString()).all();
   for (const row of recent.results || []) {
     let saved = null;
     try { saved = JSON.parse(row.payload_json); } catch { /* skip a bad row */ }
@@ -79,8 +101,8 @@ export async function syncInstagram(env) {
   }
 
   // Every write goes in one batch: the free plan allows 50 database calls per run.
-  const snapshot = (kind, payload) => upsertSnapshotStatement(env, { source: "instagram", kind, capturedAt, payload });
-  const metric = (name, ts, value) => insertMetricStatement(env, { source: "instagram", metric: name, ts, value });
+  const snapshot = (kind, payload) => upsertSnapshotStatement(env, { scope, clientId, source: "instagram", kind, capturedAt, payload });
+  const metric = (name, ts, value) => insertMetricStatement(env, { scope, clientId, source: "instagram", metric: name, ts, value });
   const statements = [
     snapshot("profile", profile),
     snapshot("account", insights),
@@ -97,17 +119,17 @@ export async function syncInstagram(env) {
     if (!story.id) continue;
     statements.push(env.DB.prepare(
       `INSERT INTO stories(scope,client_id,media_id,captured_at,payload_json)
-       VALUES('operator','',?,?,?)
+       VALUES(?,?,?,?,?)
        ON CONFLICT(media_id) DO UPDATE SET
          captured_at=excluded.captured_at,payload_json=excluded.payload_json`,
-    ).bind(story.id, story.capturedAt || capturedAt, JSON.stringify({ ...story, capturedAt: story.capturedAt || capturedAt })));
+    ).bind(scope, clientId, story.id, story.capturedAt || capturedAt, JSON.stringify({ ...story, capturedAt: story.capturedAt || capturedAt })));
   }
   await env.DB.batch(statements);
 
   // The breakdowns the Instagram tab shows, rebuilt from this pull on every run.
   const storyRows = await env.DB.prepare(
-    "SELECT payload_json FROM stories WHERE scope='operator' AND client_id='' ORDER BY captured_at DESC LIMIT 60",
-  ).all();
+    "SELECT payload_json FROM stories WHERE scope=? AND client_id=? ORDER BY captured_at DESC LIMIT 60",
+  ).bind(scope, clientId).all();
   const savedStories = (storyRows.results || []).map((r) => { try { return JSON.parse(r.payload_json); } catch { return null; } }).filter(Boolean);
   const views = summarize(feed, savedStories, Date.parse(capturedAt));
   await env.DB.batch([
