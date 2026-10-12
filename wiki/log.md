@@ -675,3 +675,8 @@ The sync worker's lead-models job had failed every run since 2026-10-08 with "to
 ## [2026-10-12] client-update | Reference fix released and verified (#60)
 
 Follow-up work on the fix released Pages preview b5666d69 and production 65508234 from the isolated pushed-main snapshot 1398fb06. This includes the prompt source-reference fix and Claude's completed lead-people fix; active Instagram worker work excluded. Frontend export remains 9afb032; no worker deployment or migration cutover. Backend 238/238 pass; preview and production each passed 24 API assertions, including all four YouTube/story source-name and private-path checks plus synthetic save/read/delete. Original failed-live evidence preserved separately. Updated the PRD, evidence README, live-check tool and existing shared project memory. Previously saved prompts require regeneration before sharing; historical records were not rewritten. Pricing and other client commissioning gates remain open in #60.
+
+## [2026-10-12] decision | The app writes for clients on our side (Pulsify AI)
+
+Founder approved using our key. No Anthropic or Gemini key exists, so the platform writer is Cloudflare Workers AI (GPT-OSS 120B, chosen in a bake-off on the real story prompt), with no key at all. Every generator (stories, carousels, YouTube ideas, titles, build, Copywriter) now drafts for the client instead of handing out a prompt. Free plan: about 20 stories a day across all clients; bigger models need Workers Paid. Claude takes over when Anthropic credits are bought. Live as Pages f200aacd.
+
