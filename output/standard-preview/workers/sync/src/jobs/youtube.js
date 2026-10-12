@@ -13,20 +13,16 @@ export async function syncYouTube(env) {
   });
   const channel = channels.items?.[0];
   if (!channel) throw new Error("YouTube channel not found");
+  // A channel with no public videos has no uploads playlist (YouTube answers 404).
+  // Channel numbers still save; the latest video is simply empty.
   const uploads = channel.contentDetails?.relatedPlaylists?.uploads;
-  const playlist = await youtube(env, "playlistItems", {
-    part: "snippet,contentDetails",
-    playlistId: uploads,
-    maxResults: 1,
-  });
-  const videoId = playlist.items?.[0]?.contentDetails?.videoId;
-  if (!videoId) throw new Error("Latest YouTube upload not found");
-  const videos = await youtube(env, "videos", {
-    part: "snippet,statistics,contentDetails",
-    id: videoId,
-  });
-  const video = videos.items?.[0];
-  if (!video) throw new Error("Latest YouTube video details not found");
+  const playlist = number(channel.statistics?.videoCount) > 0 && uploads
+    ? await youtube(env, "playlistItems", { part: "snippet,contentDetails", playlistId: uploads, maxResults: 1 })
+      .catch((error) => { if (/\(404\)/.test(String(error?.message))) return { items: [] }; throw error; })
+    : { items: [] };
+  const videoId = playlist.items?.[0]?.contentDetails?.videoId || null;
+  const video = videoId ? (await youtube(env, "videos", { part: "snippet,statistics,contentDetails", id: videoId })).items?.[0] : null;
+  if (videoId && !video) throw new Error("Latest YouTube video details not found");
 
   const capturedAt = new Date().toISOString();
   const channelSnapshot = {
@@ -38,7 +34,7 @@ export async function syncYouTube(env) {
     views: number(channel.statistics?.viewCount),
     source: "youtube-data-api",
   };
-  const latestVideo = {
+  const latestVideo = !video ? {} : {
     id: videoId,
     title: video.snippet?.title || "",
     url: `https://www.youtube.com/watch?v=${videoId}`,
@@ -85,7 +81,7 @@ export async function syncYouTube(env) {
     insertMetric(env, { source: "youtube", metric: "subscribers", ts: capturedAt, value: channelSnapshot.subscribers }),
     insertMetric(env, { source: "youtube", metric: "channel_views", ts: capturedAt, value: channelSnapshot.views }),
     insertMetric(env, { source: "youtube", metric: "video_count", ts: capturedAt, value: channelSnapshot.videos }),
-    insertMetric(env, { source: "youtube", metric: "latest_video_views", ts: capturedAt, value: latestVideo.views, dims: { video_id: videoId } }),
+    ...(video ? [insertMetric(env, { source: "youtube", metric: "latest_video_views", ts: capturedAt, value: latestVideo.views, dims: { video_id: videoId } })] : []),
   ]);
   return 3;
 }

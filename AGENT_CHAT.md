@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/workers/sync/src/{jobs/instagram.js,db.js}; tests/instagram-sync.test.mjs; workers/sync deploy | CLAUDE | ACTIVE | 2026-10-12: IG tab frozen since 09-17 (only profile/account/media refresh; new rows lack insights). Rebuild all tab blocks from Zernio. |
+| output/standard-preview/workers/sync/src/{jobs/instagram.js,jobs/youtube.js,jobs/leads.js,db.js}; tests/{instagram-sync,youtube-sync,yt-leads-sync}.test.mjs; workers/sync deploy | CLAUDE | ACTIVE | 2026-10-12: IG tab frozen since 09-17 (only profile/account/media refresh; new rows lack insights). Rebuild all tab blocks from Zernio. |
 | Pages release #60; tools/mvp-readiness/live-check.mjs; output/mvp-readiness-2026-10-12/**; wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; wiki/log.md append; claude-memory/project_mvp_first_client.md and live mirror | CODEX | DONE | 2026-10-12: founder follow-up to work on fix. Preview then production release, explicit live privacy assertions, update evidence. Includes Claude's committed lead-people fix; no migration cutover. |
 | output/standard-preview/functions/_shared/lead-people.js (listVisitors); output/standard-preview/tests/lead-score.test.mjs; workers/sync deploy | CLAUDE | DONE | 2026-10-12: fixed (e8abc756), pulsify-sync deployed dec066bf, 07:53 UTC run success. Pages not redeployed. Locks cleared. |
 | claude-memory/project_mvp_first_client.md and matching live Claude memory | CODEX | DONE | 2026-10-12 #60: append fresh provisioning and working-MVP evidence; preserve dated history and distinguish proposed pricing from founder approval. |

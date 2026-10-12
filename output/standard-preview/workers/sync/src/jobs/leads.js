@@ -6,7 +6,9 @@ const QUERIES = {
   fba: ["why my amazon product isnt selling","amazon product not ranking","how to rank amazon products","amazon ppc not converting","how to lower acos amazon","amazon fba margins too low","amazon fba too competitive","amazon product launch failed","amazon listing suppressed","how to get reviews on amazon fba","making 10k a month amazon fba","amazon fba product research","my amazon fba strategy","amazon fba mentorship"],
 };
 const ALL_QUERIES = Object.entries(QUERIES).flatMap(([niche, queries]) => queries.map((query) => ({ niche, query })));
-const BATCH_SIZE = 30;
+// 12 searches, then at most 12 video and 12 channel lookups: inside the free plan's
+// 50 outbound requests per run (30 searches broke it every week from 2026-09-20).
+const BATCH_SIZE = 12;
 const MIN_SCORE = 7000;
 const EXCLUDED_HANDLES = new Set(["franz_wieler1", "abluiy", "imangadzhi"]);
 const QUALITY = /\b(for beginners|how to start|step[- ]?by[- ]?step|course|academy|masterclass|mentorship|free training|my students|learn to|tutorial|full guide|day trading|forex|options trading|dropshipping|shopify|tiktok shop|amazon fba|ecommerce|e-commerce)\b/i;
@@ -85,16 +87,18 @@ export async function syncYouTubeLeads(env) {
     if (!prior || lead.s > prior.s) bestByChannel.set(channel.id, lead);
   }
   const updatedAt = new Date().toISOString();
+  const writes = [];
   for (const [, lead] of bestByChannel) {
     const id = await leadId(lead);
-    await env.DB.prepare(
+    writes.push(env.DB.prepare(
       `INSERT INTO yt_leads(id,payload_json,score,tier,niche,updated_at)
        VALUES(?,?,?,?,?,?)
        ON CONFLICT(id) DO UPDATE SET
          payload_json=CASE WHEN excluded.score>=yt_leads.score THEN excluded.payload_json ELSE yt_leads.payload_json END,
          score=MAX(yt_leads.score,excluded.score),niche=excluded.niche,updated_at=excluded.updated_at`,
-    ).bind(id, JSON.stringify(lead), lead.s, tier(lead.s), lead.niche, updatedAt).run();
+    ).bind(id, JSON.stringify(lead), lead.s, tier(lead.s), lead.niche, updatedAt));
   }
+  if (writes.length) await env.DB.batch(writes);
   const nextCursor = (cursor + selected.length) % ALL_QUERIES.length;
   const metadata = {
     scrapedAt: updatedAt.slice(0, 10),
