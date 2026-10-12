@@ -26,9 +26,10 @@ const recentVisitors = (since, limit) => ({
   params: (client) => [client, since],
 });
 
+// One JSON array parameter: D1 caps a compound SELECT at 5 terms, so a UNION ALL list breaks.
 export const listVisitors = (ids) => ({
-  sql: ids.map(() => "SELECT ? AS visitor_id").join(" UNION ALL ") || "SELECT NULL AS visitor_id WHERE 0",
-  params: () => ids,
+  sql: "SELECT value AS visitor_id FROM json_each(?)",
+  params: () => [JSON.stringify(ids)],
 });
 
 async function all(env, sql, params) {

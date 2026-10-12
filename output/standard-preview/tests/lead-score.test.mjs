@@ -7,7 +7,7 @@ import { sha256Hex } from "../functions/_shared/common.js";
 import {
   BEHAVIOUR, bandFor, fitModel, logit, pointsFromLogit, scorePerson, startingModel, suspectEmail, withMeans,
 } from "../functions/_shared/lead-score.js";
-import { loadPerson, loadPipeline, loadVisitors, sourceFrom, deviceFrom } from "../functions/_shared/lead-people.js";
+import { listVisitors, loadPerson, loadPipeline, loadVisitors, sourceFrom, deviceFrom, visitorAggregates } from "../functions/_shared/lead-people.js";
 import { checkHotLead } from "../functions/_shared/lead-alerts.js";
 import { refreshLeadModels } from "../functions/_shared/lead-models.js";
 import { onRequestGet as pipelineGet } from "../functions/api/lead-pipeline.js";
@@ -66,6 +66,8 @@ sql.exec(mig("0007_delivery_failures.sql"));
 const env = {
   DB: {
     prepare(query) {
+      // D1 rejects a compound SELECT with more than 5 terms; local SQLite allows 500.
+      if ((query.match(/\b(UNION|INTERSECT|EXCEPT)\b/gi) || []).length > 4) throw new Error("D1_ERROR: too many terms in compound SELECT");
       let args = [];
       const p = {
         bind(...values) { args = values; return p; },
@@ -649,6 +651,13 @@ assert.match(notes.stripe.problem.text, /signing secret/);
 assert.equal(notes.stripe.problem.count, 1, "only the last 14 days count");
 assert.ok(notes.stripe.first_payment_at, "the first payment through Stripe proves the connection");
 assert.ok(notes.test?.first_booking_at, "first booking per calendar source");
+
+// ---------- long visitor lists (the anonymous sample sends up to 90) stay inside D1's compound SELECT cap ----------
+const bulkIds = Array.from({ length: 12 }, (_, i) => `bulk-${i}`);
+for (const id of bulkIds) page("bulk", id, "page_view", ago(40));
+const bulk = await visitorAggregates(env, "bulk", listVisitors(bulkIds));
+assert.equal(bulk.size, 12, "every listed browser comes back");
+assert.equal((await visitorAggregates(env, "bulk", listVisitors([]))).size, 0, "an empty list matches nothing");
 
 delete env.ADMIN_KEY;
 console.log("lead-score: all checks passed");

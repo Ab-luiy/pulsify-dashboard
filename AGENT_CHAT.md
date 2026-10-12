@@ -29,6 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| output/standard-preview/functions/_shared/lead-people.js (listVisitors); output/standard-preview/tests/lead-score.test.mjs; workers/sync deploy | CLAUDE | ACTIVE | 2026-10-12: lead-models job fails every run, D1 caps compound SELECT at 5 terms. Swap UNION ALL list for json_each. Founder go. |
 | claude-memory/project_mvp_first_client.md and matching live Claude memory | CODEX | DONE | 2026-10-12 #60: append fresh provisioning and working-MVP evidence; preserve dated history and distinguish proposed pricing from founder approval. |
 | output/standard-preview/functions/_shared/source-scrub.js; functions/_shared/{youtube-ideas,youtube-titles,youtube-build,sequence-prompt}.js under output/standard-preview; output/standard-preview/tests/client-method-reference.test.mjs | CODEX | DONE | 2026-10-12 #60: fix confirmed live handoff reference-name leakage; remove attributed example paragraphs rather than reassign claims. Claude #58 must re-copy these exact files at cutover. No deploy yet. |
 | wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; wiki/index.md; wiki/log.md append; tools/mvp-readiness/**; output/mvp-readiness-2026-10-12/** | CODEX | DONE | 2026-10-12: founder-requested PRD, working-MVP verification and concrete pricing assessment. Live demo checks, isolated test artifacts; claim product fixes separately. Preserve Claude one-repo migration. |
