@@ -17,11 +17,11 @@ for (const file of readdirSync(new URL('../migrations/', import.meta.url)).filte
 const env = {
   ZERNIO_API_KEY: 'test',
   INTEGRATION_ENCRYPTION_KEY: 'x',
-  DB: { prepare(q) { let a = []; const p = { bind(...v) { a = v; return p; }, async first() { return sql.prepare(q).get(...a) || null; }, async all() { return { results: sql.prepare(q).all(...a) }; }, async run() { const r = sql.prepare(q).run(...a); return { meta: { changes: r.changes } }; } }; return p; } },
+  DB: { prepare(q) { let a = []; const p = { bind(...v) { a = v; return p; }, async first() { return sql.prepare(q).get(...a) || null; }, async all() { return { results: sql.prepare(q).all(...a) }; }, async run() { const r = sql.prepare(q).run(...a); return { meta: { changes: r.changes } }; } }; return p; }, async batch(list) { const out = []; for (const st of list) out.push(await st.run()); return out; } },
 };
 
 const POSTS = [
-  { postId: 'z1', platformPostId: 'm1', content: 'a reel', mediaType: 'video', mediaProductType: 'REELS', platformPostUrl: 'https://instagram.com/reel/m1', thumbnailUrl: 'https://cdn/t.jpg', publishedAt: '2026-10-01T10:00:00Z', analytics: { views: 900, reach: 700, likes: 40, comments: 3, shares: 2, saves: 5, engagementRate: 7.1 } },
+  { postId: 'z1', platformPostId: 'm1', content: 'a reel', mediaType: 'video', mediaProductType: 'REELS', platformPostUrl: 'https://instagram.com/reel/m1', thumbnailUrl: 'https://cdn/t.jpg', publishedAt: '2026-10-01T10:00:00Z', analytics: { views: 900, reach: 700, likes: 40, comments: 3, shares: 2, saves: 5, engagementRate: 7.1, igReelsAvgWatchTime: 6400, profileViews: 4 } },
   { platformPostUrl: 'https://www.instagram.com/p/SHORT1/', content: 'no id fields', mediaType: 'image', mediaProductType: 'FEED', publishedAt: '2026-10-02T10:00:00Z', analytics: {} },
   { postId: 'z2', platformPostId: 's1', content: '', mediaType: 'image', mediaProductType: 'STORY', publishedAt: '2026-10-06T10:00:00Z', analytics: { views: 100 } },
 ];
@@ -36,6 +36,8 @@ function fakeZernio({ needsReconnection = false, insightsStatus = 200 } = {}) {
       return Response.json({ metrics: { views: { total: 800 }, accounts_engaged: { total: 60 }, total_interactions: { total: 90 } } });
     }
     if (u.includes('/v1/analytics?')) return Response.json({ posts: POSTS });
+    if (u.includes('/v1/analytics/instagram/demographics')) return Response.json({ demographics: { country: [{ dimension: 'US', value: 300 }, { dimension: 'GB', value: 90 }], age: [{ dimension: '25-34', value: 200 }] } });
+    if (u.includes('/instagram/stories/s1/insights')) return Response.json({ data: { source: 'cached', metrics: { views: 120, reach: 95, replies: 2, shares: 0, navigation: 110, tapsForward: 80, tapsBack: 10, exits: 15, swipesForward: 5, profileVisits: 3, follows: 1, reposts: 0, totalInteractions: 2 } } });
     return Response.json({ error: 'unexpected ' + u }, { status: 500 });
   };
 }
@@ -64,6 +66,27 @@ test('reads profile, followers, insights and posts from Zernio and stores them i
     assert.equal(m('followers'), 1234);
     assert.equal(m('views_30d'), 800);
     assert.equal(m('reach_30d'), 50);
+
+    // Every block the Instagram tab reads is rebuilt, in the shape it reads.
+    assert.equal(media[0].insights.reach, 700, 'feed rows carry the insights the tab reads');
+    assert.equal(media[0].insights.saved, 5);
+    assert.equal(media[0].insights.avgWatchTimeMs, 6400);
+    const reels = snap('reels');
+    assert.equal(reels.length, 1);
+    assert.equal(reels[0].rank, 1);
+    assert.equal(typeof reels[0].hookScore, 'number');
+    assert.ok(reels[0].diagnosis);
+    assert.equal(snap('posts').length, 1);
+    assert.equal(snap('content').totalReach, 700);
+    assert.equal(snap('content').avgWatchMs, 6400);
+    assert.equal(snap('reels-summary').count, 1);
+    assert.equal(snap('posts-summary').count, 1);
+    const stories = snap('stories');
+    assert.equal(stories[0].insights.reach, 95, 'story numbers come from story insights');
+    assert.equal(snap('stories-summary').totalReplies, 2);
+    assert.deepEqual(Object.keys(snap('cadence')).sort(), ['posts7d', 'reels7d', 'stories7d']);
+    assert.deepEqual(snap('audience').countries[0], { name: 'US', value: 300 });
+    assert.equal(snap('audience').age[0].name, '25-34');
   } finally {
     globalThis.fetch = realFetch;
   }
