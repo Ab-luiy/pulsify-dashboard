@@ -3,6 +3,7 @@
 ## Doctrine / how to work
 
 - [One stack for everything](feedback_one_stack.md) - HARD 2026-10-10: React + Next.js + TypeScript for every interface (landing pages too, no raw HTML), TypeScript on Cloudflare for every backend with shared Zod contracts, one repo; tickets #56-#59
+- [Two-direction build](feedback_two_direction_build.md) - HARD 2026-10-12: every frontend change ships with backend wiring notes (docs/backend-wiring.md); client portal first; minimal black question-led UI; I am the only engineer
 - [Check live inbox first](feedback_check_live_inbox_first.md) - HARD 2026-10-09: before any outreach talk run tools/ig_inbox_snapshot.py (D1 via Zernio, near real time), never the vault log alone
 
 - [Source-based expert review before delivery](feedback_source_based_expert_review.md) - founder-required 2026-09-12: route each relevant draft to documented named-source criteria, revise before...
