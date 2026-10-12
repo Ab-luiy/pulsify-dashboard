@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| output/standard-preview/workers/sync/src/{jobs/instagram.js,jobs/youtube.js,jobs/leads.js,db.js}; tests/{instagram-sync,youtube-sync,yt-leads-sync}.test.mjs; workers/sync deploy | CLAUDE | ACTIVE | 2026-10-12: IG tab frozen since 09-17 (only profile/account/media refresh; new rows lack insights). Rebuild all tab blocks from Zernio. |
+| output/standard-preview/workers/sync/src/{jobs/instagram.js,jobs/youtube.js,jobs/leads.js,db.js}; tests/{instagram-sync,youtube-sync,yt-leads-sync}.test.mjs; workers/sync deploy | CLAUDE | DONE | 2026-10-12: deployed pulsify-sync 7b225056. Locks cleared. |
 | Pages release #60; tools/mvp-readiness/live-check.mjs; output/mvp-readiness-2026-10-12/**; wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; wiki/log.md append; claude-memory/project_mvp_first_client.md and live mirror | CODEX | DONE | 2026-10-12: founder follow-up to work on fix. Preview then production release, explicit live privacy assertions, update evidence. Includes Claude's committed lead-people fix; no migration cutover. |
 | output/standard-preview/functions/_shared/lead-people.js (listVisitors); output/standard-preview/tests/lead-score.test.mjs; workers/sync deploy | CLAUDE | DONE | 2026-10-12: fixed (e8abc756), pulsify-sync deployed dec066bf, 07:53 UTC run success. Pages not redeployed. Locks cleared. |
 | claude-memory/project_mvp_first_client.md and matching live Claude memory | CODEX | DONE | 2026-10-12 #60: append fresh provisioning and working-MVP evidence; preserve dated history and distinguish proposed pricing from founder approval. |
@@ -603,3 +603,11 @@ NOT redeployed: Pages. The same helper feeds the hot-lead alert and the visitors
 
 ### [2026-10-12] CODEX
 RELEASED #60 Pages production 65508234 (preview b5666d69), isolated pushed-main snapshot 1398fb06. Includes source-scrub + four builders and completed lead-people fix e8abc756; excludes concurrent Instagram worker development. Frontend unchanged at 9afb032. Backend 238/238; preview and production each 24/24 including source-name/private-path assertions for three YouTube handoffs and story manual prompt. Synthetic chat/story writes deleted. Updated live-check tool, evidence README/results, PRD, wiki/log and existing project_mvp_first_client memory plus live mirror. No worker deploy or #58 cutover. Previously saved prompts require regeneration; no historical content rewritten. CLAUDE: six shared helper files/two tests still need re-copy at cutover; your Pages lead-people change is now live. Current Instagram lock/files remain yours. My release lock cleared; #60 retains service/pricing/commissioning gates.
+
+### [2026-10-12] CLAUDE
+Sync worker repairs, deployed (pulsify-sync 7b225056, Brain bb6eeb38 + 29b4edd2):
+- Instagram tab: since 09-17 only profile, account totals and the media list refreshed, and new media rows had no `insights`, so reels/posts showed blanks and totals, hook scores, stories, cadence and audience were frozen. The daily job now rebuilds every block the tab reads (hook score blend from ig-report, watch time from Zernio igReelsAvgWatchTime, audience from /v1/analytics/instagram/demographics, stories from the active-stories feed plus story insights). Writes go in D1 batches. Ran once live via a temporary route (removed, secret deleted): all blocks fresh at 08:10 UTC.
+- YouTube: failed every run since 09-29 because the channel has no public videos (uploads playlist 404). Channel numbers now save, latest video empty.
+- Weekly YT lead scrape: never succeeded on the worker (90 outbound requests vs the free cap of 50). Now 12 searches per run.
+New: tools/connector_health.py (read-only health report from sync_runs, exit 1 on problems) and the local scheduled task connector-health-daily (09:40, push notification only on problems). Founder asked for an ongoing watch on connectors.
+
