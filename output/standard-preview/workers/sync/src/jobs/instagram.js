@@ -49,7 +49,24 @@ export async function syncInstagram(env) {
 
   // Who follows: top countries and age bands (Meta needs 100+ followers; empty otherwise).
   const audience = await fetchAudience(env, id).catch(() => null);
-  // Stories expire after a day, so their final numbers come from Zernio's story insights.
+  // Stories live for 24 hours and the daily run sees the ones still up. Stories from
+  // the last 3 days are checked again: once expired, insights return final numbers.
+  const active = await zernioFetch(env, `/v1/accounts/${id}/instagram/stories`).catch(() => null);
+  for (const row of Array.isArray(active?.data) ? active.data : []) {
+    if (!row.id || stories.some((story) => story.id === String(row.id))) continue;
+    stories.push({
+      id: String(row.id), caption: "", media_type: String(row.mediaType || "IMAGE"), media_product_type: "STORY",
+      permalink: String(row.permalink || ""), thumbnail_url: String(row.thumbnailUrl || row.mediaUrl || ""), timestamp: String(row.timestamp || ""),
+    });
+  }
+  const recent = await env.DB.prepare(
+    "SELECT payload_json FROM stories WHERE scope='operator' AND client_id='' AND captured_at >= ? ORDER BY captured_at DESC LIMIT 20",
+  ).bind(new Date(Date.parse(capturedAt) - 3 * DAY_MS).toISOString()).all();
+  for (const row of recent.results || []) {
+    let saved = null;
+    try { saved = JSON.parse(row.payload_json); } catch { /* skip a bad row */ }
+    if (saved?.id && !stories.some((story) => story.id === saved.id)) stories.push(saved);
+  }
   for (const story of stories.slice(0, MAX_STORY_INSIGHTS)) {
     const result = await zernioFetch(env, `/v1/accounts/${id}/instagram/stories/${encodeURIComponent(story.id)}/insights`).catch(() => null);
     const metrics = result?.data?.source !== "unavailable" ? result?.data?.metrics : null;
@@ -83,7 +100,7 @@ export async function syncInstagram(env) {
        VALUES('operator','',?,?,?)
        ON CONFLICT(media_id) DO UPDATE SET
          captured_at=excluded.captured_at,payload_json=excluded.payload_json`,
-    ).bind(story.id, capturedAt, JSON.stringify({ ...story, capturedAt })));
+    ).bind(story.id, story.capturedAt || capturedAt, JSON.stringify({ ...story, capturedAt: story.capturedAt || capturedAt })));
   }
   await env.DB.batch(statements);
 

@@ -37,6 +37,8 @@ function fakeZernio({ needsReconnection = false, insightsStatus = 200 } = {}) {
     }
     if (u.includes('/v1/analytics?')) return Response.json({ posts: POSTS });
     if (u.includes('/v1/analytics/instagram/demographics')) return Response.json({ demographics: { country: [{ dimension: 'US', value: 300 }, { dimension: 'GB', value: 90 }], age: [{ dimension: '25-34', value: 200 }] } });
+    if (u.endsWith('/instagram/stories')) return Response.json({ data: [{ id: 's9', mediaType: 'IMAGE', mediaProductType: 'STORY', permalink: 'https://instagram.com/stories/x/s9', timestamp: new Date().toISOString() }] });
+    if (u.includes('/instagram/stories/s9/insights')) return Response.json({ data: { source: 'live', metrics: { views: 10, reach: 8, replies: 1, shares: 0, navigation: 9, tapsForward: 5, tapsBack: 1, exits: 2, swipesForward: 1, profileVisits: 0, follows: 0, reposts: 0, totalInteractions: 1 } } });
     if (u.includes('/instagram/stories/s1/insights')) return Response.json({ data: { source: 'cached', metrics: { views: 120, reach: 95, replies: 2, shares: 0, navigation: 110, tapsForward: 80, tapsBack: 10, exits: 15, swipesForward: 5, profileVisits: 3, follows: 1, reposts: 0, totalInteractions: 2 } } });
     return Response.json({ error: 'unexpected ' + u }, { status: 500 });
   };
@@ -49,7 +51,7 @@ test('reads profile, followers, insights and posts from Zernio and stores them i
   await zernio.recordConnection(env, { accountId: 'acc1', username: 'pulsify', profileId: 'p1', webhookId: 'w1' });
   try {
     const n = await syncInstagram(env);
-    assert.equal(n, 4);
+    assert.equal(n, 5);
     const snap = (kind) => JSON.parse(sql.prepare("SELECT payload_json FROM snapshots WHERE source='instagram' AND kind=?").get(kind).payload_json);
     assert.equal(snap('profile').followers, 1234);
     const media = snap('media');
@@ -82,8 +84,10 @@ test('reads profile, followers, insights and posts from Zernio and stores them i
     assert.equal(snap('reels-summary').count, 1);
     assert.equal(snap('posts-summary').count, 1);
     const stories = snap('stories');
-    assert.equal(stories[0].insights.reach, 95, 'story numbers come from story insights');
-    assert.equal(snap('stories-summary').totalReplies, 2);
+    assert.equal(stories.find((x) => x.id === 's1').insights.reach, 95, 'story numbers come from story insights');
+    assert.equal(sql.prepare("SELECT COUNT(*) n FROM stories WHERE media_id='s9'").get().n, 1, 'active stories from the stories feed are saved');
+    assert.equal(snap('stories').find((x) => x.id === 's9').insights.reach, 8);
+    assert.equal(snap('stories-summary').totalReplies, 3);
     assert.deepEqual(Object.keys(snap('cadence')).sort(), ['posts7d', 'reels7d', 'stories7d']);
     assert.deepEqual(snap('audience').countries[0], { name: 'US', value: 300 });
     assert.equal(snap('audience').age[0].name, '25-34');
