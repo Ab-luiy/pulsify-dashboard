@@ -1,0 +1,24 @@
+{"name":"demo login","pass":true,"status":200,"client":"demo-example"}
+{"name":"/api/workspace-records","pass":true,"status":200}
+{"name":"/api/studio-sequences","pass":true,"status":200}
+{"name":"/api/content-reviews","pass":true,"status":200}
+{"name":"/api/copy-chat","pass":true,"status":200,"mode":"manual","source":"none"}
+{"name":"/api/client-integrations","pass":true,"status":200}
+{"name":"/api/client-brain","pass":true,"status":200}
+{"name":"/api/workspace-summary","pass":true,"status":200}
+{"name":"anonymous records blocked","pass":true,"status":401}
+{"name":"client query cannot change workspace","pass":true,"status":403}
+{"name":"/api/youtube-ideas manual handoff","pass":true,"status":200,"mode":"manual","promptLength":20802}
+{"name":"/api/youtube-ideas reference privacy","pass":true,"promptLength":20802,"sourceNamesExposed":false,"privatePathsExposed":false}
+{"name":"/api/youtube-titles manual handoff","pass":true,"status":200,"mode":"manual","promptLength":17933}
+{"name":"/api/youtube-titles reference privacy","pass":true,"promptLength":17933,"sourceNamesExposed":false,"privatePathsExposed":false}
+{"name":"/api/youtube-build manual handoff","pass":true,"status":200,"mode":"manual","promptLength":20980}
+{"name":"/api/youtube-build reference privacy","pass":true,"promptLength":20980,"sourceNamesExposed":false,"privatePathsExposed":false}
+{"name":"copy chat manual prompt","pass":true,"status":200,"chatId":6,"mode":"manual"}
+{"name":"copy paste persists after reread","pass":true,"status":200}
+{"name":"QA chat cleanup","pass":true,"status":200}
+{"name":"story manual draft created","pass":true,"status":200,"id":9,"mode":"manual"}
+{"name":"story manual handoff reference privacy","pass":true,"promptLength":37723,"sourceNamesExposed":false,"privatePathsExposed":false}
+{"name":"story draft persists after reread","pass":true,"status":200}
+{"name":"QA story cleanup","pass":true,"status":200}
+{"name":"QA session logout","pass":true}

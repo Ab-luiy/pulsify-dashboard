@@ -4,6 +4,8 @@ Canonical analysis and proposed PRD: `wiki/synthesis/mvp-readiness-and-pricing-2
 
 ## Results and limits
 
+- **Release follow-up:** preview b5666d69 and production 65508234 deployed from pushed Brain main snapshot 1398fb06. Both passed 24 checks, including all four explicit prompt source-name/private-path assertions. See preview-check.json and production-after-fix.json. Existing frontend stays at 9afb032. Includes Claude's completed lead-people fix e8abc756; excludes subsequent Instagram worker work. No worker deployed by this release.
+- `backend-release.txt`: 238/238 pass before release. Deployment logs and before/after deployment inventories are preserved here. The original functional/source-failure evidence below remains historical evidence, not current release status.
 - `live-check.json`: 25 functional checks passed on the production Example workspace. Three YouTube prompts separately report `sourceNamesExposed: true`: a real privacy defect, regardless of the functional pass flags. These are pre-patch production results. No paid AI generation or actual output-quality assessment was performed.
 - `backend-tests.txt`: baseline 233 passed. `backend-after-fix.txt`: 238 passed, including five new regression tests. `functions-build.txt`: compilation successful; standalone build warns about Sentry Node built-ins (production Wrangler config has nodejs_compat).
 - `frontend-check.txt`: current frontend main 9afb032; lint, typecheck, build pass; browser run 755 passed, 509 skipped, one call-note edit payload failure. `delivery-rerun.txt`: complete affected file 15 passed. `delivery-repeat.txt`: specific test three further passes. Failure cause unresolved; do not describe the full suite as green. No frontend source change.
@@ -32,4 +34,6 @@ npm run test:static -- tests/delivery.spec.ts --workers=1
 npm run test:static -- tests/delivery.spec.ts -g "edits a call note" --workers=1 --repeat-each=3
 ```
 
-The reference patch is saved in the Brain production-source helpers but not deployed. Claude's staged one-repo migration must re-copy those helpers and the new backend test at cutover. Existing persisted prompts need regeneration before sharing; editing the builder does not rewrite old records.
+The reference patch is live in Pages 65508234 and verified on pulsify-ai.com. Claude's staged one-repo migration must re-copy those helpers and the new backend test at cutover, plus the separate lead-people fix/test. Existing persisted prompts need regeneration before sharing; editing the builder does not rewrite old records.
+
+The check now adds explicit privacy assertions, covering all SOURCE_NAMES plus private wiki/raw-source paths on the three YouTube handoffs and story prompt. Set MVP_CHECK_LABEL to a unique lowercase/hyphenated name to preserve separate evidence (for example production-after-fix); the default still overwrites live-check.json. MVP_CHECK_BASE accepts only the production origin or a pulsify-funnels Pages preview. Preview and production sessions each created and removed one synthetic chat and story. The optional video approval loop was not repeated for this release.

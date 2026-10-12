@@ -57,7 +57,7 @@ Status means evidence, not confidence. Live = exercised on production in the exi
 | Review gate | Client submits; only operator approves; client sees the decision | Entire API path passed live. Client self-approval returned 401. Synthetic record/review/content removed after verification |
 | Copywriter | Manual prompt, paste-back and saved reply survive reread | Live create/paste/read/delete passed; no paid AI call made |
 | Stories | Draft created, edited, persisted and can be designed/exported | Live API draft/save/reread/delete passed. PNG/ZIP generation and 1080x1920 dimensions covered by production-export browser tests |
-| Source privacy | Client handoffs omit internal named-source material | FAIL on live YouTube prompts. Fix prepared in four prompt builders plus source-scrub helper; raw bundles preserved; 5 new regressions pass. Not deployed by this audit |
+| Source privacy | Client handoffs omit internal named-source material | Fixed and released October 12, Pages 65508234. Three YouTube handoffs and story handoff pass explicit live source-name/private-path checks. Raw bundles preserved; 5 regressions pass. Previously persisted prompts are not rewritten |
 | Full AI writing | Real selected provider returns a good result from actual permitted client context | Not verified. Demo has no key. Resolve operationally with the operator's writing workflow or a deliberately configured client provider; do not describe the demo as autonomous AI |
 | Funnel | One real client's page, form, booking and pre-call path work together | Existing implementation/tests; fresh external event-to-client chain not exercised here. Per-client commissioning required |
 | Sales support | Brief, recorded context and follow-up drafts support a booked call | Implemented and automated tests; no fresh client calendar/recording provider event triggered |
@@ -76,9 +76,11 @@ Backend: 233 tests passed before the patch; **238/238 passed after it**, includi
 
 These checks establish workflow mechanics. They do not establish quality of AI-generated content, complete provider integrations, sales results, actual delivery cost or willingness to pay. Evidence and reproduction notes are in output/mvp-readiness-2026-10-12/README.md.
 
+Release follow-up, October 12: Pages preview b5666d69 and production 65508234 deployed from pushed Brain main snapshot 1398fb06, leaving active Instagram worker development outside the release. The completed lead-people fix e8abc756 also ships in Pages. Frontend export stays at 9afb032. Both preview and production passed 24 checks, including four explicit prompt privacy assertions and synthetic copy/story persistence and cleanup. The original 25-check audit included a separate video review loop; this release rerun did not repeat that optional mutation. Evidence: preview-check.json, production-after-fix.json, production-deploy.txt and deployments-after.json. Backend release rerun: 238/238 pass.
+
 ### Ship decision
 
-The core portal supports a managed pilot: real persistence and the video approval loop work. An unconditional claim that the entire managed service is ready would go beyond the evidence. Before first client handoff: release and recheck the source-reference fix; agree the bounded scope, attribution/settlement and guarantee terms; commission that client's actual funnel/accounts; verify the first real deliverable is good enough to publish. No new feature suite is required to answer these questions.
+The core portal supports a managed pilot: real persistence and the video approval loop work, and the reference fix is now live and verified. An unconditional claim that the entire managed service is ready would go beyond the evidence. Before first client handoff: agree the bounded scope, attribution/settlement and guarantee terms; commission that client's actual funnel/accounts; verify the first real deliverable is good enough to publish. No new feature suite is required to answer these questions.
 
 The new TypeScript/one-repo work (#57/#58) is staged separately. This audit does not cut it over or make it a prerequisite for validating the current production path. The five helper changes and new backend test must be carried into its deploy copy before cutover.
 
@@ -140,7 +142,7 @@ Use real client usage to revise the product. Prioritise failures that prevent a 
 2. Bounded guarantee/remedy, fee attribution, commissions, continuation and hosted-access terms remain to be settled. The unbounded historical $100k continuation prevents a defensible cost ceiling.
 3. Real delivery time and editor quotes. The model is sensitivity analysis until these exist.
 4. Quality acceptance for the first real client's complete output and commissioning of their external accounts. A working manual handoff is not proof of generated copy quality.
-5. Reference sanitisation patch awaits release and a live rerun. Previously saved prompts can retain old material; regenerate/replace them before sharing with clients.
+5. Reference sanitisation patch is live and verified. Previously saved prompts can retain old material; regenerate/replace them before sharing with clients. The patch does not alter client-supplied facts or rewrite historical records.
 
 ## Source trail
 

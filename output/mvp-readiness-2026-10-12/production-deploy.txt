@@ -1,0 +1,16 @@
+
+ ⛅️ wrangler 4.149.0
+────────────────────
+▲ [WARNING] Warning: Your working directory is a git repo and has uncommitted changes
+
+  To silence this warning, pass in --commit-dirty=true
+
+
+✨ Compiled Worker successfully
+Uploading... (956/956)
+✨ Success! Uploaded 0 files (956 already uploaded) (0.55 sec)
+
+✨ Uploading _headers
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://65508234.pulsify-funnels.pages.dev
