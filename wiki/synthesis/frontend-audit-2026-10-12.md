@@ -109,8 +109,8 @@ Proposal:
 ## 9. Bugs and glitches found
 
 1. A carousel opens in an editor titled "Story editor".
-2. The story editor shows "In review" with "Save draft" still active; an item in review should be locked or say editing pulls it back.
-3. Operator's YouTube tab shows a grey empty box for the latest video when there is none (fixed at the data source today; the screen should also show a proper empty state).
+2. ~~Items in review stay editable~~: checked in code, they are locked (draft and rejected only). The screenshot was misread.
+3. ~~Grey latest-video box~~: that was the test data's missing thumbnail; the screen already has an empty state.
 4. Instagram tab "Posts" count is the posts pulled in 90 days, not the account total, but it's labelled "All media on the account".
 5. Six sync jobs have runs stuck as "running" that never finished (lead-models 172, zernio-inbox 314, search-index 109, webhook-outbox 90, client-videos 3, payment-rematch 1 since Oct 1). Their next runs succeed, so data still flows, but the cause is not investigated yet and the job log is misleading.
 6. Hot-lead alerts and the visitors feed still break for people with more than 5 browsers until the next site deploy (the fix is committed).
