@@ -39,3 +39,21 @@ export async function insertMetric(env, { scope = "operator", clientId = "", sou
      VALUES(?,?,?,?,?,?,?,?)`,
   ).bind(scope, clientId, source, metric, ts, value, valueText, JSON.stringify(dims || {})).run();
 }
+
+// Statement forms of the two writes above, for env.DB.batch (one database call).
+export function upsertSnapshotStatement(env, { scope = "operator", clientId = "", source, kind, capturedAt, payload }) {
+  return env.DB.prepare(
+    `INSERT INTO snapshots(scope,client_id,source,kind,captured_at,payload_json)
+     VALUES(?,?,?,?,?,?)
+     ON CONFLICT(scope,client_id,source,kind) DO UPDATE SET
+       captured_at=excluded.captured_at,payload_json=excluded.payload_json`,
+  ).bind(scope, clientId, source, kind, capturedAt, JSON.stringify(payload));
+}
+
+export function insertMetricStatement(env, { scope = "operator", clientId = "", source, metric, ts, value = null, valueText = null, dims = {} }) {
+  return env.DB.prepare(
+    `INSERT OR IGNORE INTO metric_points
+      (scope,client_id,source,metric,ts,value,value_text,dims_json)
+     VALUES(?,?,?,?,?,?,?,?)`,
+  ).bind(scope, clientId, source, metric, ts, value, valueText, JSON.stringify(dims || {}));
+}

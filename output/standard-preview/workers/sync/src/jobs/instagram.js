@@ -1,4 +1,4 @@
-import { insertMetric, upsertSnapshot } from "../db.js";
+import { insertMetricStatement, upsertSnapshotStatement } from "../db.js";
 import { zernioConfigured, zernioConnection, zernioFetch } from "../../../../functions/_shared/zernio.js";
 
 // Daily Instagram sync, served by Zernio (the account that already runs the
@@ -47,32 +47,70 @@ export async function syncInstagram(env) {
   const totals = await zernioFetch(env, `/v1/analytics/instagram/account-insights?accountId=${id}&metrics=views,accounts_engaged,total_interactions,profile_links_taps`).catch((error) => { insightsError = insightsError || error; return null; });
   for (const [name, data] of Object.entries(totals?.metrics || {})) insights[name] = { points: [], total: Number(data.total || 0) };
 
-  await Promise.all([
-    upsertSnapshot(env, { source: "instagram", kind: "profile", capturedAt, payload: profile }),
-    upsertSnapshot(env, { source: "instagram", kind: "account", capturedAt, payload: insights }),
-    upsertSnapshot(env, { source: "instagram", kind: "media", capturedAt, payload: feed }),
-    insertMetric(env, { source: "instagram", metric: "followers", ts: capturedAt, value: profile.followers }),
-    insertMetric(env, { source: "instagram", metric: "media_count", ts: capturedAt, value: profile.mediaCount }),
-  ]);
-  for (const point of insights.reach?.points || []) {
-    await insertMetric(env, { source: "instagram", metric: "reach", ts: point.end_time || capturedAt, value: point.value });
+  // Who follows: top countries and age bands (Meta needs 100+ followers; empty otherwise).
+  const audience = await fetchAudience(env, id).catch(() => null);
+  // Stories expire after a day, so their final numbers come from Zernio's story insights.
+  for (const story of stories.slice(0, MAX_STORY_INSIGHTS)) {
+    const result = await zernioFetch(env, `/v1/accounts/${id}/instagram/stories/${encodeURIComponent(story.id)}/insights`).catch(() => null);
+    const metrics = result?.data?.source !== "unavailable" ? result?.data?.metrics : null;
+    if (metrics) {
+      story.insights = {
+        reach: num(metrics.reach), views: num(metrics.views), replies: num(metrics.replies), navigation: num(metrics.navigation),
+        profileVisits: num(metrics.profileVisits), follows: num(metrics.follows),
+      };
+    }
   }
-  for (const [name, metric] of [["reach", "reach_30d"], ["views", "views_30d"], ["accounts_engaged", "accounts_engaged_30d"], ["total_interactions", "interactions_30d"]]) {
+
+  // Every write goes in one batch: the free plan allows 50 database calls per run.
+  const snapshot = (kind, payload) => upsertSnapshotStatement(env, { source: "instagram", kind, capturedAt, payload });
+  const metric = (name, ts, value) => insertMetricStatement(env, { source: "instagram", metric: name, ts, value });
+  const statements = [
+    snapshot("profile", profile),
+    snapshot("account", insights),
+    snapshot("media", feed),
+    metric("followers", capturedAt, profile.followers),
+    metric("media_count", capturedAt, profile.mediaCount),
+    ...(insights.reach?.points || []).map((point) => metric("reach", point.end_time || capturedAt, point.value)),
+  ];
+  for (const [name, key] of [["reach", "reach_30d"], ["views", "views_30d"], ["accounts_engaged", "accounts_engaged_30d"], ["total_interactions", "interactions_30d"]]) {
     const value = insights[name]?.total;
-    if (Number.isFinite(value) && insights[name]) await insertMetric(env, { source: "instagram", metric, ts: capturedAt, value });
+    if (Number.isFinite(value) && insights[name]) statements.push(metric(key, capturedAt, value));
   }
   for (const story of stories) {
     if (!story.id) continue;
-    await env.DB.prepare(
+    statements.push(env.DB.prepare(
       `INSERT INTO stories(scope,client_id,media_id,captured_at,payload_json)
        VALUES('operator','',?,?,?)
        ON CONFLICT(media_id) DO UPDATE SET
          captured_at=excluded.captured_at,payload_json=excluded.payload_json`,
-    ).bind(story.id, capturedAt, JSON.stringify({ ...story, capturedAt })).run();
+    ).bind(story.id, capturedAt, JSON.stringify({ ...story, capturedAt })));
   }
+  await env.DB.batch(statements);
+
+  // The breakdowns the Instagram tab shows, rebuilt from this pull on every run.
+  const storyRows = await env.DB.prepare(
+    "SELECT payload_json FROM stories WHERE scope='operator' AND client_id='' ORDER BY captured_at DESC LIMIT 60",
+  ).all();
+  const savedStories = (storyRows.results || []).map((r) => { try { return JSON.parse(r.payload_json); } catch { return null; } }).filter(Boolean);
+  const views = summarize(feed, savedStories, Date.parse(capturedAt));
+  await env.DB.batch([
+    snapshot("reels", views.reels),
+    snapshot("posts", views.posts),
+    snapshot("stories", views.stories),
+    snapshot("content", views.content),
+    snapshot("reels-summary", views.reelsSummary),
+    snapshot("posts-summary", views.postsSummary),
+    snapshot("stories-summary", views.storiesSummary),
+    snapshot("cadence", views.cadence),
+    ...(audience ? [snapshot("audience", audience)] : []),
+  ]);
   if (insightsError) throw new Error(`Profile, followers and posts saved; insights failed: ${insightsError.message}`);
   return 3 + stories.length;
 }
+
+const MAX_STORY_INSIGHTS = 10;
+const DAY_MS = 86400000;
+const num = (value) => (Number.isFinite(Number(value)) ? Number(value) : 0);
 
 // Last 90 days of posts with their metrics, newest first. Zernio pages at 50.
 async function fetchPosts(env, accountId) {
@@ -104,6 +142,112 @@ function toMedia(post) {
       views: Number(a.views || 0), reach: Number(a.reach || 0), likes: Number(a.likes || 0), comments: Number(a.comments || 0),
       shares: Number(a.shares || 0), saves: Number(a.saves || 0), follows: Number(a.follows || 0), engagementRate: Number(a.engagementRate || 0),
     },
+    // The names the Instagram tab reads (the Graph API shape it was built on).
+    insights: {
+      reach: num(a.reach), views: num(a.views), likes: num(a.likes), comments: num(a.comments), shares: num(a.shares), saved: num(a.saves),
+      totalInteractions: num(a.likes) + num(a.comments) + num(a.shares) + num(a.saves),
+      avgWatchTimeMs: num(a.igReelsAvgWatchTime), profileVisits: num(a.profileViews), follows: num(a.follows),
+    },
   };
 }
+
+const isReel = (item) => item.media_product_type === "REELS" || item.media_type === "VIDEO";
+const rate = (part, whole) => (whole > 0 ? part / whole : 0);
+const sumOf = (rows, pick) => rows.reduce((total, row) => total + pick(row), 0);
+const median = (values) => {
+  if (!values.length) return 0;
+  const sorted = [...values].sort((x, y) => x - y);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+};
+const normalizer = (values) => {
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  return (value) => (max > min ? (value - min) / (max - min) : 0);
+};
+
+// Hook score ranks each reel against your own last 90 days; it is not an absolute
+// grade. Watch time 40%, save rate 25%, share rate 20%, engagement rate 15%, each
+// scaled across the set (the same blend the old ig-report tool used).
+export function scoreReels(reels) {
+  if (!reels.length) return [];
+  const watch = normalizer(reels.map((r) => r.insights.avgWatchTimeMs));
+  const save = normalizer(reels.map((r) => rate(r.insights.saved, r.insights.reach)));
+  const share = normalizer(reels.map((r) => rate(r.insights.shares, r.insights.reach)));
+  const engage = normalizer(reels.map((r) => rate(r.insights.totalInteractions, r.insights.reach)));
+  const medianReach = median(reels.map((r) => r.insights.reach));
+  const scored = reels.map((reel) => {
+    const { reach, saved, shares, totalInteractions, avgWatchTimeMs } = reel.insights;
+    const hookScore = Math.round(100 * (0.4 * watch(avgWatchTimeMs) + 0.25 * save(rate(saved, reach)) + 0.2 * share(rate(shares, reach)) + 0.15 * engage(rate(totalInteractions, reach))));
+    return {
+      ...reel, saveRate: rate(saved, reach), shareRate: rate(shares, reach), engagementRate: rate(totalInteractions, reach),
+      hookScore, diagnosis: diagnose(reel, hookScore, medianReach),
+    };
+  });
+  scored.sort((x, y) => y.hookScore - x.hookScore);
+  return scored.map((reel, index) => ({ ...reel, rank: index + 1 }));
+}
+
+function diagnose(reel, hookScore, medianReach) {
+  const { reach, shares, saved } = reel.insights;
+  const lowReach = reach < medianReach;
+  if (hookScore >= 70 && lowReach) return "Strong hook, but Instagram didn't push it. Repost or remix it.";
+  if (hookScore < 40 && !lowReach) return "Instagram pushed it, but people didn't stay. Sharpen the first 3 seconds.";
+  if (rate(saved, reach) >= 0.02) return "High save rate. Make a follow-up or turn it into a series.";
+  if (rate(shares, reach) >= 0.01) return "People share this one. Use the format or topic again.";
+  if (hookScore >= 70) return "Top performer. Repeat what worked.";
+  return "Middle of the pack. Test a different hook or opening visual.";
+}
+
+// Reels, posts and stories with their totals, plus the last 7 days' posting cadence.
+export function summarize(feed, stories, now) {
+  const at = (item) => Date.parse(item.timestamp || "") || 0;
+  const since90 = now - 90 * DAY_MS;
+  const since7 = now - 7 * DAY_MS;
+  const reels = scoreReels(feed.filter((item) => isReel(item) && at(item) >= since90));
+  const posts = feed.filter((item) => !isReel(item) && at(item) >= since90);
+  const recentStories = stories.filter((story) => at(story) >= now - 30 * DAY_MS);
+  const ri = (pick) => sumOf(reels, (r) => pick(r.insights));
+  const pi = (pick) => sumOf(posts, (r) => pick(r.insights));
+  const si = (key) => sumOf(recentStories, (r) => num(r.insights?.[key]));
+  const n = reels.length;
+  const watched = reels.filter((r) => r.insights.avgWatchTimeMs > 0);
+  const content = {
+    reelsCount: n,
+    totalReach: ri((x) => x.reach), totalViews: ri((x) => x.views), totalInteractions: ri((x) => x.totalInteractions),
+    totalSaves: ri((x) => x.saved), totalShares: ri((x) => x.shares),
+    avgReach: n ? Math.round(ri((x) => x.reach) / n) : 0,
+    avgViews: n ? Math.round(ri((x) => x.views) / n) : 0,
+    avgWatchMs: watched.length ? Math.round(sumOf(watched, (r) => r.insights.avgWatchTimeMs) / watched.length) : null,
+    avgHook: n ? Math.round(sumOf(reels, (r) => r.hookScore) / n) : null,
+    reachByPost: [...reels].sort((x, y) => at(x) - at(y)).map((r) => ({ date: r.timestamp, reach: r.insights.reach, views: r.insights.views, hook: r.hookScore, caption: String(r.caption || "").slice(0, 80) })),
+  };
+  return {
+    reels, posts, stories: recentStories, content,
+    reelsSummary: { count: n, avgHook: content.avgHook, topReelId: reels[0]?.id || null },
+    postsSummary: {
+      count: posts.length, totalReach: pi((x) => x.reach), totalSaves: pi((x) => x.saved), totalShares: pi((x) => x.shares),
+      totalInteractions: pi((x) => x.totalInteractions), avgReach: posts.length ? Math.round(pi((x) => x.reach) / posts.length) : 0,
+      avgSaveRate: rate(pi((x) => x.saved), pi((x) => x.reach)),
+    },
+    storiesSummary: {
+      count: recentStories.length, totalReach: si("reach"), totalReplies: si("replies"), totalProfileVisits: si("profileVisits"),
+      totalNavigation: si("navigation"), avgReach: recentStories.length ? Math.round(si("reach") / recentStories.length) : 0,
+    },
+    cadence: {
+      reels7d: feed.filter((item) => isReel(item) && at(item) >= since7).length,
+      posts7d: feed.filter((item) => !isReel(item) && at(item) >= since7).length,
+      stories7d: stories.filter((story) => at(story) >= since7).length,
+    },
+  };
+}
+
+// Top countries and age bands of followers, in the {name, value} rows the tab reads.
+async function fetchAudience(env, id) {
+  const result = await zernioFetch(env, `/v1/analytics/instagram/demographics?accountId=${id}&metric=follower_demographics&breakdown=age,country`);
+  const rows = (items) => (Array.isArray(items) ? items : []).map((x) => ({ name: String(x.dimension || ""), value: num(x.value) })).filter((x) => x.name);
+  const audience = { countries: rows(result?.demographics?.country), age: rows(result?.demographics?.age) };
+  return audience.countries.length || audience.age.length ? audience : null;
+}
+
 

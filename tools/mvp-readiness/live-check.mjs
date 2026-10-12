@@ -1,10 +1,14 @@
 // Explicit live-demo QA. Never prints credentials or client payloads.
 import fs from 'node:fs';
 import path from 'node:path';
+import { SOURCE_NAMES } from '../../output/standard-preview/functions/_shared/source-scrub.js';
 const root = process.cwd();
 const out = path.join(root, 'output/mvp-readiness-2026-10-12');
 const vars = Object.fromEntries(fs.readFileSync(path.join(root,'.env'),'utf8').split(/\r?\n/).filter(l=>/^[A-Z_]+=/.test(l)).map(l=>{const i=l.indexOf('=');return [l.slice(0,i),l.slice(i+1).trim().replace(/^(['"])(.*)\1$/,'$2')]}));
-const base='https://pulsify-ai.com';
+const base=process.env.MVP_CHECK_BASE || 'https://pulsify-ai.com';
+if(!/^https:\/\/(?:pulsify-ai\.com|[a-z0-9-]+\.pulsify-funnels\.pages\.dev)$/.test(base))throw Error('Refusing unknown QA origin');
+const label=process.env.MVP_CHECK_LABEL || 'live-check';
+if(!/^[a-z0-9-]+$/.test(label))throw Error('Invalid evidence label');
 let cookie=''; const results=[];
 async function req(route, body, auth=true) {
  const r=await fetch(base+route,{method:body?'POST':'GET',headers:{origin:base,...(body?{'content-type':'application/json'}:{}),...(auth&&cookie?{cookie}:{})},...(body?{body:JSON.stringify(body)}:{}),redirect:'manual',signal:AbortSignal.timeout(45000)});
@@ -12,6 +16,12 @@ async function req(route, body, auth=true) {
  return {r,data};
 }
 function record(name, pass, facts={}) { const row={name,pass,...facts};results.push(row);console.log(JSON.stringify(row)); }
+function checkPrivacy(name,prompt){
+ const text=String(prompt||'');
+ const sourceNamesExposed=SOURCE_NAMES.some(name=>text.toLowerCase().includes(name.toLowerCase()));
+ const privatePathsExposed=/\b(?:wiki|raw-sources)\/[\w./-]+|\bSKILL\.md\b/i.test(text);
+ record(name+' reference privacy',text.length>100&&!sourceNamesExposed&&!privatePathsExposed,{promptLength:text.length,sourceNamesExposed,privatePathsExposed});
+}
 try {
  if(!vars.PULSIFY_DEMO_CLIENT_EMAIL||!vars.PULSIFY_DEMO_CLIENT_PASSWORD)throw Error('Stored demo credentials missing');
  const login=await req('/api/client-login',{email:vars.PULSIFY_DEMO_CLIENT_EMAIL,password:vars.PULSIFY_DEMO_CLIENT_PASSWORD},false);
@@ -52,7 +62,7 @@ try {
  if(mode.data.mode==='manual'){
   const answers=[{id:'problem',question:'What problem do you solve?',answer:'QA example only: help beginners record a consistent trade journal.'},{id:'method',question:'What is the method?',answer:'Write the entry rule before reviewing the outcome.'},{id:'proof',question:'What evidence do you have?',answer:'No client outcome claims. Demonstrate a fictional labelled worksheet.'}];
   const inputs=[['/api/youtube-ideas',{answers}],['/api/youtube-titles',{idea:{idea:'A trade journal walkthrough',working_title:'review your trading rules',why:'Make the process visible',bucket:'pain',funnel:'MOF',format:'camera'},layout:'screen',answers}],['/api/youtube-build',{video:{idea:'A trade journal walkthrough',title:'review your trading rules',thumbnail_text:'journal review',funnel:'MOF',format:'camera'},next_step:'video',answers}]];
-  for(const [route,body]of inputs){const {r,data}=await req(route,body);record(route+' manual handoff',r.status===200&&data.mode==='manual'&&data.prompt?.length>100,{status:r.status,mode:data.mode,promptLength:data.prompt?.length,sourceNamesExposed:/\b(?:Alexei|Ayman|Niksetting|Haynes|SooWei)\b/i.test(data.prompt||'')});}
+  for(const [route,body]of inputs){const {r,data}=await req(route,body);record(route+' manual handoff',r.status===200&&data.mode==='manual'&&data.prompt?.length>100,{status:r.status,mode:data.mode,promptLength:data.prompt?.length});checkPrivacy(route,data.prompt);}
   let chatId;
   try {
    const sent=await req('/api/copy-chat',{action:'send',message:'QA 2026-10-12: draft a clearly fictional trade-journal example. No results claims.',format:'youtube'});chatId=sent.data.chat_id;
@@ -63,12 +73,13 @@ try {
   try{
    const made=await req('/api/studio-generate',{type:'value-driven',topic:'QA 2026-10-12: a fictional journal workflow',goal:'reach',slide_count:3});seqId=made.data.id;
    record('story manual draft created',made.r.status===200&&!!seqId&&made.data.mode==='manual',{status:made.r.status,id:seqId,mode:made.data.mode});
+   checkPrivacy('story manual handoff',made.data.manual_prompt);
    if(seqId){const output={title:'QA example only',slides:[{headline:'Write the rule',body:'A fictional journal workflow.'},{headline:'Record the decision',body:'Compare the decision with the rule.'},{headline:'Review your notes',body:'No performance claims.'}]};const saved=await req('/api/studio-sequences',{action:'save-draft',id:seqId,raw_text:JSON.stringify(output)});const reread=await req('/api/studio-sequences');record('story draft persists after reread',saved.r.status===200&&reread.data.rows?.some(s=>s.id===seqId&&s.output.title===output.title),{status:saved.r.status});}
   }finally{if(seqId){const deleted=await req('/api/studio-sequences',{action:'delete',id:seqId});record('QA story cleanup',deleted.r.status===200,{status:deleted.r.status});}}
  }else record('generation skipped to avoid unbudgeted AI spend',true,{mode:mode.data.mode});
 }catch(error){record('run error',false,{error:String(error.message)});process.exitCode=1;}
 finally{
  if(cookie){const logout=await req('/api/client-logout',{}).catch(()=>null);record('QA session logout',logout?.r.status===200);}
- fs.writeFileSync(path.join(out,'live-check.json'),JSON.stringify({time:new Date().toISOString(),results},null,2));
+ fs.writeFileSync(path.join(out,label+'.json'),JSON.stringify({time:new Date().toISOString(),base,results},null,2));
  if(results.some(r=>!r.pass))process.exitCode=1;
 }
