@@ -6,11 +6,14 @@
 //   3. A platform Gemini key (GEMINI_API_KEY): only for the clients named in AI_PLATFORM_CLIENTS (demo and test
 //      workspaces, or "*"). A free Gemini key may be used by Google to improve its products, so a real client's
 //      business details never go through it unless that is switched on on purpose.
-//   4. Otherwise "manual": the generator hands the client a prompt to run in their own AI.
+//   4. Pulsify AI: Cloudflare Workers AI through the AI binding, for every client (founder decision 2026-10-12:
+//      the app writes for clients on our side). No key exists; the free plan allows about 20 stories a day.
+//   5. Otherwise "manual": the generator hands the client a prompt to run in their own AI.
 // Callers resolve once per request, then pass the result to generateText / streamText.
 import { cleanId } from "./common.js";
 import { callAnthropic, GROWTH_MODEL, streamAnthropic } from "./anthropic.js";
 import { callGemini, streamGemini } from "./gemini.js";
+import { callWorkersAi, streamWorkersAi, WORKERS_AI_MODEL } from "./workers-ai.js";
 import { seal, unseal } from "./secret-box.js";
 
 export const AI_PROVIDERS = ["gemini", "anthropic"];
@@ -31,7 +34,7 @@ function platformGeminiAllowed(env, client) {
   return list.includes("*") || list.includes(client);
 }
 
-/** {mode: "anthropic" | "gemini" | "manual", apiKey, source: "client" | "platform" | "none", model} for one client. */
+/** {mode: "anthropic" | "gemini" | "workers" | "manual", apiKey, source: "client" | "platform" | "none", model} for one client. */
 export async function resolveAi(env, clientId) {
   const client = cleanId(clientId, "");
   const model = String(env?.GEMINI_MODEL || "").trim() || undefined;
@@ -43,6 +46,9 @@ export async function resolveAi(env, clientId) {
   }
   if (env?.ANTHROPIC_API_KEY) return { mode: "anthropic", apiKey: env.ANTHROPIC_API_KEY, source: "platform", model };
   if (env?.GEMINI_API_KEY && platformGeminiAllowed(env, client)) return { mode: "gemini", apiKey: env.GEMINI_API_KEY, source: "platform", model };
+  if (env?.AI?.run && env?.PULSIFY_AI !== "off") {
+    return { mode: "workers", apiKey: "", binding: env.AI, source: "platform", model: String(env?.WORKERS_AI_MODEL || "").trim() || WORKERS_AI_MODEL };
+  }
   return { mode: "manual", apiKey: "", source: "none", model };
 }
 
@@ -50,12 +56,13 @@ export const aiMode = (ai) => ai?.mode || "manual";
 export const aiConfigured = (ai) => aiMode(ai) !== "manual";
 
 /** The provider's name for the client-facing status. */
-export const providerLabel = (ai) => ({ anthropic: "Claude", gemini: "Gemini", manual: "Your own AI" })[aiMode(ai)];
+export const providerLabel = (ai) => ({ anthropic: "Claude", gemini: "Gemini", workers: "Pulsify AI", manual: "Your own AI" })[aiMode(ai)];
 
 /** {system, user} in, the full text out. */
 export async function generateText(prompt, ai, options = {}) {
   if (aiMode(ai) === "anthropic") return callAnthropic(prompt, ai.apiKey);
   if (aiMode(ai) === "gemini") return callGemini(prompt, ai.apiKey, { ...options, model: ai.model });
+  if (aiMode(ai) === "workers") return callWorkersAi(prompt, ai.binding, { ...options, model: ai.model });
   throw new Error("No AI provider is configured");
 }
 
@@ -63,6 +70,7 @@ export async function generateText(prompt, ai, options = {}) {
 export function streamText(prompt, ai, options = {}) {
   if (aiMode(ai) === "anthropic") return streamAnthropic(prompt, ai.apiKey, options);
   if (aiMode(ai) === "gemini") return streamGemini(prompt, ai.apiKey, { ...options, model: ai.model });
+  if (aiMode(ai) === "workers") return streamWorkersAi(prompt, ai.binding, { ...options, model: ai.model });
   throw new Error("No AI provider is configured");
 }
 
