@@ -15,7 +15,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-DEPLOY = Path(__file__).resolve().parent.parent / "output" / "standard-preview"
+ROOT = Path(__file__).resolve().parent.parent
+DEPLOY = ROOT / "output" / "standard-preview"
 
 # job -> (what it feeds, hours a success may be old before it is flagged)
 JOBS = {
@@ -34,8 +35,10 @@ JOBS = {
 
 def d1(sql):
     out = subprocess.run(
-        ["npx", "wrangler", "d1", "execute", "pulsify-portal", "--remote", "--json", "--command", sql],
-        cwd=DEPLOY, capture_output=True, text=True, encoding="utf-8", shell=sys.platform == "win32",
+        ["npx", "wrangler", "d1", "execute", "pulsify-portal", "--remote", "--json", "--config", str(DEPLOY / "wrangler.toml"), "--command", sql],
+        # Wrangler loads the vault's gitignored credential environment from this cwd.
+        # Running inside the deploy folder can select a different, unauthorized identity.
+        cwd=ROOT, capture_output=True, text=True, encoding="utf-8", shell=sys.platform == "win32",
     )
     start = out.stdout.find("[")
     if out.returncode or start < 0:

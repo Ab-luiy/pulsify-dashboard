@@ -166,8 +166,40 @@ async function run() {
   assert.equal(served.headers.get("content-type"), "image/png");
   assert.equal(served.headers.get("cache-control"), "public, max-age=31536000, immutable");
   assert.deepEqual([...new Uint8Array(await served.arrayBuffer())], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.equal(served.headers.get("x-content-type-options"), "nosniff");
+  const imageHead = await mediaRoute.onRequestHead({ params: { key }, env });
+  assert.equal(imageHead.status, 200);
+  assert.equal(await imageHead.text(), "");
 
-  const missing = await mediaRoute.onRequestGet({ params: { key: ["alpha", "missing.png"] }, env });
+  // The public image route must never become a download route for other R2 namespaces.
+  // Synthetic fixtures only: no production private objects are accessed by this regression.
+  const getsBeforePrivate = media.calls.get;
+  for (const privateKey of [
+    "archive/workspaces/alpha/export.json",
+    "archive/00000000-0000-4000-8000-000000000000.png",
+    "clients/alpha/voice-notes/00000000-0000-4000-8000-000000000000",
+    "operator-photos/00000000-0000-4000-8000-000000000000.png",
+    "avatars/operator/example.png",
+    "alpha/private.json",
+  ]) {
+    await media.put(privateKey, 'PRIVATE FIXTURE', { httpMetadata: { contentType: "application/json" } });
+    for (const method of ["onRequestGet", "onRequestHead"]) {
+      const response = await mediaRoute[method]({ params: { key: privateKey.split("/") }, env });
+      assert.equal(response.status, 404, `${method} must deny private objects`);
+      assert.equal(response.headers.get("cache-control"), "no-store");
+    }
+  }
+  assert.equal(media.calls.get, getsBeforePrivate, "private paths must be rejected before bucket lookup");
+  // Clean only these mock objects so the existing client-prefix cleanup assertions stay isolated.
+  await media.delete("alpha/private.json");
+
+  const disguised = "alpha/11111111-1111-4111-8111-111111111111.png";
+  await media.put(disguised, 'PRIVATE FIXTURE', { httpMetadata: { contentType: "application/json" } });
+  const rejectedMetadata = await mediaRoute.onRequestGet({ params: { key: disguised }, env });
+  assert.equal(rejectedMetadata.status, 404);
+  await media.delete(disguised);
+
+  const missing = await mediaRoute.onRequestGet({ params: { key: ["alpha", "00000000-0000-4000-8000-000000000000.png"] }, env });
   assert.equal(missing.status, 404);
 
   await media.put("alpha/second.webp", new Uint8Array([1]), { httpMetadata: { contentType: "image/webp" } });

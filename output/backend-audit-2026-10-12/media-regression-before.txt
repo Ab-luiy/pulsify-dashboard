@@ -1,0 +1,20 @@
+FAIL proof media: AssertionError [ERR_ASSERTION]: onRequestGet must deny private objects
+
+200 !== 404
+
+    at run (file:///C:/Users/Abdullah/Desktop/Pulsify-Brain/output/standard-preview/tests/proof-media.test.mjs:183:14)
+✖ tests\proof-media.test.mjs (136.0819ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 147.2741
+
+✖ failing tests:
+
+test at tests\proof-media.test.mjs:1:1
+✖ tests\proof-media.test.mjs (136.0819ms)
+  'test failed'

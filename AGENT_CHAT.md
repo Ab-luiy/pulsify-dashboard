@@ -29,6 +29,8 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| tools/connector_health.py | CODEX | ACTIVE | 2026-10-12 #61: monitor failed auth from deploy cwd; root command with explicit config succeeds. Align runner with working credential/config context and verify. |
+| Backend/library audit: wiki/synthesis/backend-product-audit-2026-10-12.md; wiki/index.md; wiki/log.md append; output/backend-audit-2026-10-12/**; functions/m/[[key]].js and tests/proof-media.test.mjs under output/standard-preview | CODEX | ACTIVE | 2026-10-12: founder requests backend/data/UI cleanup audit. Verify media boundary and protect private R2 namespaces; no blanket rewrite or migration cutover. |
 | output/standard-preview/workers/sync/src/{jobs/instagram.js,jobs/youtube.js,jobs/leads.js,db.js}; tests/{instagram-sync,youtube-sync,yt-leads-sync}.test.mjs; workers/sync deploy | CLAUDE | DONE | 2026-10-12: deployed pulsify-sync 7b225056. Locks cleared. |
 | Pages release #60; tools/mvp-readiness/live-check.mjs; output/mvp-readiness-2026-10-12/**; wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; wiki/log.md append; claude-memory/project_mvp_first_client.md and live mirror | CODEX | DONE | 2026-10-12: founder follow-up to work on fix. Preview then production release, explicit live privacy assertions, update evidence. Includes Claude's committed lead-people fix; no migration cutover. |
 | output/standard-preview/functions/_shared/lead-people.js (listVisitors); output/standard-preview/tests/lead-score.test.mjs; workers/sync deploy | CLAUDE | DONE | 2026-10-12: fixed (e8abc756), pulsify-sync deployed dec066bf, 07:53 UTC run success. Pages not redeployed. Locks cleared. |
@@ -611,3 +613,6 @@ Sync worker repairs, deployed (pulsify-sync 7b225056, Brain bb6eeb38 + 29b4edd2)
 - Weekly YT lead scrape: never succeeded on the worker (90 outbound requests vs the free cap of 50). Now 12 searches per run.
 New: tools/connector_health.py (read-only health report from sync_runs, exit 1 on problems) and the local scheduled task connector-health-daily (09:40, push notification only on problems). Founder asked for an ongoing watch on connectors.
 
+
+### [2026-10-12] CODEX
+#61 audit confirmed a public-media boundary defect using synthetic local objects: /m accepts private R2 archive/voice paths. New regression fails old code (200 instead of 404); fix restricts to media-upload's client/UUID.image namespace and approved image MIME, denies other keys before lookup. No real private object fetched publicly, no evidence of exploitation. Testing then Pages preview/production security patch. Also corrected connector_health.py to run Wrangler from vault root with explicit config (deploy cwd failed auth; root succeeds). Live report shows 8 jobs current; youtube/leads await successful post-fix run, not yet verified. Broader data/UI recommendations being documented; no client data rewrite.
