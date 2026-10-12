@@ -1,0 +1,33 @@
+{
+  "checkedAt": "2026-10-12T12:38:24.545Z",
+  "origin": "https://pulsify-ai.com",
+  "results": [
+    {
+      "check": "authenticated demo brain",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "check": "existing image sample count",
+      "count": 0
+    },
+    {
+      "check": "non-public namespace rejects anonymous request",
+      "status": 404,
+      "pass": true,
+      "cache": "no-store"
+    },
+    {
+      "check": "non-public namespace rejects anonymous request",
+      "status": 404,
+      "pass": true,
+      "cache": "no-store"
+    },
+    {
+      "check": "non-public namespace rejects anonymous request",
+      "status": 404,
+      "pass": true,
+      "cache": "no-store"
+    }
+  ]
+}

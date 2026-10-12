@@ -25,6 +25,7 @@ JOBS = {
     "zernio-inbox": ("IG DMs via Zernio (every 5 min)", 1),
     "youtube": ("YouTube tab: subscribers, views, latest video (every 6 h)", 13),
     "client-videos": ("Clients' YouTube videos (every 30 min)", 2),
+    "client-instagram": ("Client Instagram scheduler (every 30 min; each account refreshed about every 20 h)", 2),
     "payment-rematch": ("Payments matched to leads (every 30 min)", 2),
     "lead-models": ("Lead scores (every 10 min)", 2),
     "search-index": ("App search (every 15 min)", 2),

@@ -1,0 +1,17 @@
+✔ operator auth required before any storage access, including portal token (58.0325ms)
+✔ stores original bytes and hash in isolated table, lists folder, downloads original (27.7815ms)
+✔ rejects forged signatures, wrong types, oversize and invalid folders without storage writes (132.3433ms)
+✔ safe filenames, absent photo and invalid cursor (14.0146ms)
+✔ pagination returns all photos without duplicates (92.9604ms)
+✔ failed record insert cleans up the stored object (4.3434ms)
+✔ sync verifies originals, resumes, rejects altered files and unsafe keys (13.3535ms)
+PASS proof media: validation, token-scoped R2 upload, proof row, serving, missing 404, and prefix cleanup
+✔ output\standard-preview\tests\proof-media.test.mjs (216.0663ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 514.5411

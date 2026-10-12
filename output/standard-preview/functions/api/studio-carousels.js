@@ -18,6 +18,7 @@ import {
   normalizeCarouselStructure,
   sanitizeCarouselOutput,
 } from "../_shared/carousel-prompt.js";
+import { applyRewrite, buildRewritePrompt, readRewriteReply, readRewriteRequest } from "../_shared/carousel-rewrite.js";
 
 const SELECT_COLUMNS = `id, client_id, structure, topic, goal, params_json, output_json,
   manual_prompt, status, review_note, created_at, updated_at`;
@@ -67,6 +68,7 @@ async function handle_onRequestPost({ request, env }) {
   if (action === "generate") return generateCarousel(env, access, body);
   if (action === "save") return saveCarousel(env, access, body);
   if (action === "submit-for-review") return submitCarousel(env, access, body);
+  if (action === "rewrite") return rewriteCarousel(env, access, body);
   return json({ ok: false, error: "unknown action" }, 422);
 }
 
@@ -209,6 +211,36 @@ async function saveCarousel(env, access, body) {
       WHERE id=?`,
   ).bind(JSON.stringify(output), nowIso(), id).run();
   return json({ ok: true, status: "draft", output });
+}
+
+// Highlight-and-ask (founder 2026-10-12): one slide's headline or body, or the caption, rewritten
+// by the AI on the client's instruction; the rest of the carousel stays exactly as it is.
+async function rewriteCarousel(env, access, body) {
+  const id = Number(body.id || 0);
+  if (!id) return json({ ok: false, error: "carousel id is required" }, 422);
+  const row = await findOwnedCarousel(env, id, access.client);
+  if (!row) return json({ ok: false, error: "carousel not found" }, 404);
+  if (row.status !== "draft" && row.status !== "rejected") {
+    return json({ ok: false, error: "this carousel is with the team; it can change after review" }, 422);
+  }
+  const stored = await env.DB.prepare("SELECT output_json FROM studio_carousels WHERE id=?").bind(id).first();
+  const output = parseJson(stored?.output_json, null);
+  const request = readRewriteRequest(body, output);
+  if (request.error) return json({ ok: false, error: request.error }, 422);
+  const ai = await resolveAi(env, cleanId(access.client));
+  if (!ai || !aiConfigured(ai)) return json({ ok: false, error: "writing is switched off right now" }, 503);
+  const brain = buildGeneratorBrainContext(await loadClientBrainData(env, cleanId(access.client)));
+  let next;
+  try {
+    const raw = await generateText(buildRewritePrompt({ output, request, clientBrain: brain.prompt_text }), ai, { json: true });
+    next = applyRewrite(output, request, readRewriteReply(raw));
+  } catch (error) {
+    return json({ ok: false, error: `The rewrite did not work: ${safeMessage(error)}` }, 502);
+  }
+  await env.DB.prepare(
+    `UPDATE studio_carousels SET output_json=?, status='draft', review_note=NULL, updated_at=? WHERE id=?`,
+  ).bind(JSON.stringify(next), nowIso(), id).run();
+  return json({ ok: true, status: "draft", output: next });
 }
 
 async function submitCarousel(env, access, body) {

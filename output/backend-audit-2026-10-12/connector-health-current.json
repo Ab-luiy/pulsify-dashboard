@@ -1,0 +1,94 @@
+{
+  "checked_at": "2026-10-12T12:39:07.809261+00:00",
+  "problems": 1,
+  "jobs": [
+    {
+      "job": "instagram",
+      "feeds": "Instagram tab: followers, reels, posts, stories, audience (daily 05:00 UTC)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 4.5,
+      "last_error": null
+    },
+    {
+      "job": "instagram-inbox",
+      "feeds": "IG DMs inbox (every 5 min)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.1,
+      "last_error": null
+    },
+    {
+      "job": "zernio-inbox",
+      "feeds": "IG DMs via Zernio (every 5 min)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.1,
+      "last_error": null
+    },
+    {
+      "job": "youtube",
+      "feeds": "YouTube tab: subscribers, views, latest video (every 6 h)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.4,
+      "last_error": null
+    },
+    {
+      "job": "client-videos",
+      "feeds": "Clients' YouTube videos (every 30 min)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.2,
+      "last_error": null
+    },
+    {
+      "job": "client-instagram",
+      "feeds": "Client Instagram scheduler (every 30 min; each account refreshed about every 20 h)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.2,
+      "last_error": null
+    },
+    {
+      "job": "payment-rematch",
+      "feeds": "Payments matched to leads (every 30 min)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.2,
+      "last_error": null
+    },
+    {
+      "job": "lead-models",
+      "feeds": "Lead scores (every 10 min)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.1,
+      "last_error": null
+    },
+    {
+      "job": "search-index",
+      "feeds": "App search (every 15 min)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.2,
+      "last_error": null
+    },
+    {
+      "job": "webhook-outbox",
+      "feeds": "Outgoing webhooks (every minute)",
+      "ok": true,
+      "problem": null,
+      "last_success_hours_ago": 0.0,
+      "last_error": null
+    },
+    {
+      "job": "leads",
+      "feeds": "Weekly YouTube lead scrape",
+      "ok": false,
+      "problem": "never succeeded",
+      "last_success_hours_ago": null,
+      "last_error": "Too many subrequests by single Worker invocation. To configure this limit, refer to https://developers.cloudflare.com/workers/wrangler/configuration/#limits"
+    }
+  ]
+}

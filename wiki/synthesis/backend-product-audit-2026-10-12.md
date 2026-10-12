@@ -10,6 +10,18 @@ updated: 2026-10-12
 
 The main problem is fragmented ownership of data and work. The app has working authentication, client isolation, approval flows and integrations, but images, proof, projects, schedules and settings use different records and update rules. Tidying the menus alone will leave the underlying inconsistencies. Ticket: https://github.com/Ab-luiy/pulsify-saas/issues/61. This is a targeted code and workflow audit, not a completed penetration test or verification of every screen.
 
+### Coordination update after session interruption
+
+The founder explicitly requested active Claude/Codex cooperation. Claude has since released platform AI writing, client self-connect and carousel backend support. The current production Pages deployment is e5cab84a, source 21dbc2f8, with frontend 940c804. These are newer than this audit's initial snapshot. The media-boundary patch is byte-identical in that release source and anonymous namespace smoke checks pass live. Do not deploy the old 8ee7a049 preview: it would roll back Claude's newer work.
+
+Claude's `pulsify-saas` branch `claude/phase1-cleanup` contains `docs/portal-rebuild-plan.md` and `docs/backend-wiring.md`: these govern his portal rebuild. Its broader UI is built, with full check/screenshots/founder review/release still pending according to that plan. This audit supplies data-integrity and security acceptance requirements to that work; it is not a competing frontend rebuild.
+
+Ownership posted in AGENT_CHAT: Claude keeps portal UI, Create, AI provider and account connection work; Codex owns this audit, media-boundary verification and connector monitoring. Codex picked up Claude's explicit `client-instagram` monitoring request. Asset/proof separation and content/review identity need one agreed shared contract before either side migrates records. This split is a posted proposal with a concrete incoming handoff, not a claimed acknowledgment from the other active session.
+
+A requested read-only Sonnet review was attempted once after checking quotas; it failed with expired OAuth before reviewing anything. No Claude review verdict exists. Shared-channel request/response files are under output/backend-audit-2026-10-12. No additional backend or UI release was performed on resumption.
+
+New release gates from Claude's wiring notes: prevent invented claims from reaching clients, allocate/limit shared AI use per client, verify the first real account connection, provide explicit posted states and link drafts to planned pieces. These join the asset-ID, folder-write and recovery requirements below. Counts and sync observations in the initial findings are dated evidence, not current deployment-wide certification.
+
 ## Why this matters for Pulsify
 
 Content production depends on finding the right asset and current approved version. The managed offer depends on reliable delivery and clear ownership. Funnel reporting depends on fresh, attributable events. Each needs stable records shared across screens, visible progress and errors, and controls appropriate to the data. Adding more generators before resolving these problems adds more places for work to disagree.
