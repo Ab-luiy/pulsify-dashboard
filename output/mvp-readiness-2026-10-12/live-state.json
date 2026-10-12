@@ -1,0 +1,116 @@
+[
+  {
+    "results": [
+      {
+        "status": "archived",
+        "count": 5
+      },
+      {
+        "status": "demo",
+        "count": 1
+      },
+      {
+        "status": "onboarding",
+        "count": 2
+      },
+      {
+        "status": "prospect",
+        "count": 1
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "PRG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.4319
+      },
+      "duration": 0.4319,
+      "changes": 0,
+      "last_row_id": 55562,
+      "changed_db": false,
+      "size_after": 23932928,
+      "rows_read": 18,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  },
+  {
+    "results": [
+      {
+        "welcome_state": "sent",
+        "count": 2
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "PRG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.8247
+      },
+      "duration": 0.8247,
+      "changes": 0,
+      "last_row_id": 55562,
+      "changed_db": false,
+      "size_after": 23932928,
+      "rows_read": 4,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  },
+  {
+    "results": [
+      {
+        "qa_records_remaining": 1
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "PRG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.0971
+      },
+      "duration": 0.0971,
+      "changes": 0,
+      "last_row_id": 55562,
+      "changed_db": false,
+      "size_after": 23932928,
+      "rows_read": 1,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  },
+  {
+    "results": [
+      {
+        "qa_reviews_remaining": 1
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "PRG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.0978
+      },
+      "duration": 0.0978,
+      "changes": 0,
+      "last_row_id": 55562,
+      "changed_db": false,
+      "size_after": 23932928,
+      "rows_read": 1,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

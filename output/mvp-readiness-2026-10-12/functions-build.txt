@@ -1,0 +1,79 @@
+
+ ⛅️ wrangler 4.149.0
+────────────────────
+▲ [WARNING] 						The package "node:async_hooks" wasn't found on the file system but is built into node.
+
+  						Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+  						 - ..\node_modules\@sentry\opentelemetry\build\esm\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\async-context.js
+
+
+▲ [WARNING] 						The package "node:diagnostics_channel" wasn't found on the file system but is built into node.
+
+  						Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+  						 - ..\node_modules\@sentry\server-utils\build\esm\integrations\langchain.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\langgraph.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\mastra.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\lru-memoizer.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\amqplib.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\aws-sdk\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\mongodb\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\dataloader.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\mongoose\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\kafkajs\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\express\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\redis\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\mistral.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\postgres-js.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\hapi\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\koa\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\knex.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\mysql2\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\graphql\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\google-genai.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\mysql.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\generic-pool.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\vercel-ai\index.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\openai.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\firebase\instrumentation.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\fastify\errors.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\anthropic.js
+  - ..\node_modules\@sentry\server-utils\build\esm\orchestrion\instrumentation.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\postgres.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\redis\ioredis-channel-subscriber.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\fastify\instrumentation.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\openai-compatible.js
+  - ..\node_modules\@sentry\server-utils\build\esm\integrations\tedious.js
+
+
+▲ [WARNING] The package "node:events" wasn't found on the file system but is built into node.
+
+  Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+   - ..\node_modules\@sentry\server-utils\build\esm\integrations\tedious.js
+
+
+▲ [WARNING] The package "node:module" wasn't found on the file system but is built into node.
+
+  Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+   - ..\node_modules\@sentry\server-utils\build\esm\integrations\mastra.js
+
+
+▲ [WARNING] The package "node:net" wasn't found on the file system but is built into node.
+
+  Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+   - ..\node_modules\@sentry\server-utils\build\esm\integrations\firebase\firestore.js
+
+
+▲ [WARNING] The package "node:path" wasn't found on the file system but is built into node.
+
+  Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+   - ..\node_modules\@sentry\server-utils\build\esm\integrations\mastra.js
+
+
+▲ [WARNING] The package "node:url" wasn't found on the file system but is built into node.
+
+  Your Worker may throw errors at runtime unless you enable the "nodejs_compat" compatibility flag. Refer to https://developers.cloudflare.com/workers/runtime-apis/nodejs/ for more details. Imported from:
+   - ..\node_modules\@sentry\server-utils\build\esm\integrations\mastra.js
+
+
+✨ Compiled Worker successfully

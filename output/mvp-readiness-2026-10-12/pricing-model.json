@@ -1,0 +1,197 @@
+{
+  "hypothetical": true,
+  "hourly": 50,
+  "weeks": 13,
+  "excludes": [
+    "acquisition",
+    "tax",
+    "fixed overhead",
+    "refunds",
+    "uncapped continuation"
+  ],
+  "scenarios": [
+    {
+      "name": "lean",
+      "setupHours": 20,
+      "weeklyHours": 3,
+      "production": 600,
+      "tools": 300,
+      "hours": 59,
+      "cost": 3850,
+      "options": [
+        {
+          "base": 5000,
+          "share": 0.3,
+          "marginWithNoPerformance": 0.23,
+          "revenueNeededToBreakEven": 0,
+          "revenueFor50PercentDeliveryMargin": 9000,
+          "feeAt": [
+            {
+              "attributableCollections": 0,
+              "fee": 5000
+            },
+            {
+              "attributableCollections": 30000,
+              "fee": 14000
+            },
+            {
+              "attributableCollections": 60000,
+              "fee": 23000
+            },
+            {
+              "attributableCollections": 100000,
+              "fee": 35000
+            }
+          ]
+        },
+        {
+          "base": 10000,
+          "share": 0.25,
+          "marginWithNoPerformance": 0.615,
+          "revenueNeededToBreakEven": 0,
+          "revenueFor50PercentDeliveryMargin": 0,
+          "feeAt": [
+            {
+              "attributableCollections": 0,
+              "fee": 10000
+            },
+            {
+              "attributableCollections": 30000,
+              "fee": 17500
+            },
+            {
+              "attributableCollections": 60000,
+              "fee": 25000
+            },
+            {
+              "attributableCollections": 100000,
+              "fee": 35000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "working",
+      "setupHours": 25,
+      "weeklyHours": 5,
+      "production": 1200,
+      "tools": 450,
+      "hours": 90,
+      "cost": 6150,
+      "options": [
+        {
+          "base": 5000,
+          "share": 0.3,
+          "marginWithNoPerformance": -0.23,
+          "revenueNeededToBreakEven": 3833.3333333333335,
+          "revenueFor50PercentDeliveryMargin": 24333.333333333336,
+          "feeAt": [
+            {
+              "attributableCollections": 0,
+              "fee": 5000
+            },
+            {
+              "attributableCollections": 30000,
+              "fee": 14000
+            },
+            {
+              "attributableCollections": 60000,
+              "fee": 23000
+            },
+            {
+              "attributableCollections": 100000,
+              "fee": 35000
+            }
+          ]
+        },
+        {
+          "base": 10000,
+          "share": 0.25,
+          "marginWithNoPerformance": 0.385,
+          "revenueNeededToBreakEven": 0,
+          "revenueFor50PercentDeliveryMargin": 9200,
+          "feeAt": [
+            {
+              "attributableCollections": 0,
+              "fee": 10000
+            },
+            {
+              "attributableCollections": 30000,
+              "fee": 17500
+            },
+            {
+              "attributableCollections": 60000,
+              "fee": 25000
+            },
+            {
+              "attributableCollections": 100000,
+              "fee": 35000
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "heavy",
+      "setupHours": 40,
+      "weeklyHours": 8,
+      "production": 2400,
+      "tools": 600,
+      "hours": 144,
+      "cost": 10200,
+      "options": [
+        {
+          "base": 5000,
+          "share": 0.3,
+          "marginWithNoPerformance": -1.04,
+          "revenueNeededToBreakEven": 17333.333333333336,
+          "revenueFor50PercentDeliveryMargin": 51333.333333333336,
+          "feeAt": [
+            {
+              "attributableCollections": 0,
+              "fee": 5000
+            },
+            {
+              "attributableCollections": 30000,
+              "fee": 14000
+            },
+            {
+              "attributableCollections": 60000,
+              "fee": 23000
+            },
+            {
+              "attributableCollections": 100000,
+              "fee": 35000
+            }
+          ]
+        },
+        {
+          "base": 10000,
+          "share": 0.25,
+          "marginWithNoPerformance": -0.02,
+          "revenueNeededToBreakEven": 800,
+          "revenueFor50PercentDeliveryMargin": 41600,
+          "feeAt": [
+            {
+              "attributableCollections": 0,
+              "fee": 10000
+            },
+            {
+              "attributableCollections": 30000,
+              "fee": 17500
+            },
+            {
+              "attributableCollections": 60000,
+              "fee": 25000
+            },
+            {
+              "attributableCollections": 100000,
+              "fee": 35000
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

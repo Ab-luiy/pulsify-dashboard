@@ -1,4 +1,5 @@
 import { SEQUENCE_REFERENCE } from "./sequence-reference.js";
+import { clientMethodReference } from "./source-scrub.js";
 
 const TYPE_MENU = [
   "value-driven",
@@ -128,7 +129,7 @@ export function buildSequencePrompt({
     "Respond with JSON only.",
     "",
     "REFERENCE MATERIAL. This is the method you are executing; it outranks your general instincts.",
-    SEQUENCE_REFERENCE,
+    clientMethodReference(SEQUENCE_REFERENCE),
   ].join("\n");
 
   const user = [

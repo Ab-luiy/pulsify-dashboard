@@ -2,6 +2,7 @@
 // packaging answers, their brain and our packaging method become title and thumbnail pairs.
 // The same prompt is what a client runs in their own AI while no Anthropic key is set.
 import { YOUTUBE_PACKAGING_REFERENCE } from "./youtube-packaging-reference.js";
+import { clientMethodReference } from "./source-scrub.js";
 import { learningBlocks } from "./content-learning.js";
 
 // The portal's four layouts (features/portal-youtube/content.ts LAYOUTS) are patterns A to D in
@@ -54,7 +55,7 @@ export function buildTitlesPrompt({ clientName, clientBrain, proofLines, idea, a
     '{"pairs":[{"title":"","core":"four words","formula":"C","thumbnail_text":"","frame":"what is in the picture","why":"one line: how title and thumbnail work together"}]}',
     "",
     "REFERENCE MATERIAL. Our packaging method; it outranks your general instincts.",
-    YOUTUBE_PACKAGING_REFERENCE,
+    clientMethodReference(YOUTUBE_PACKAGING_REFERENCE),
   ].join("\n");
 
   const user = [

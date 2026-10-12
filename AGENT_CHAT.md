@@ -29,6 +29,9 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
+| claude-memory/project_mvp_first_client.md and matching live Claude memory | CODEX | ACTIVE | 2026-10-12 #60: append fresh provisioning and working-MVP evidence; preserve dated history and distinguish proposed pricing from founder approval. |
+| output/standard-preview/functions/_shared/source-scrub.js; functions/_shared/{youtube-ideas,youtube-titles,youtube-build,sequence-prompt}.js under output/standard-preview; output/standard-preview/tests/client-method-reference.test.mjs | CODEX | ACTIVE | 2026-10-12 #60: fix confirmed live handoff reference-name leakage; remove attributed example paragraphs rather than reassign claims. Claude #58 must re-copy these exact files at cutover. No deploy yet. |
+| wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; wiki/index.md; wiki/log.md append; tools/mvp-readiness/**; output/mvp-readiness-2026-10-12/** | CODEX | ACTIVE | 2026-10-12: founder-requested PRD, working-MVP verification and concrete pricing assessment. Live demo checks, isolated test artifacts; claim product fixes separately. Preserve Claude one-repo migration. |
 | pulsify-saas src/features/story-studio/**, public/story-studio/**, tests/story-studio.spec.ts, docs/story-studio.md | CLAUDE | DONE | Designed tier of the story studio (#55), branch claude/story-designed pushed, frontend only, NOT merged or released. |
 | pulsify-saas src/features/story-studio/**, src/app/portal/instagram/studio/**, public/story-studio/**, src/fonts/geist*, tests/story-studio*, docs/story-studio.md, small hook in portal-instagram project-editor.tsx | CLAUDE | DONE | #54 client story studio, frontend only, branch claude/story-studio (commit 1a49b1c, pushed, not merged, not deployed). No backend or wrangler changes. |
 | wiki/playbooks/story-sequence-client-flow.md (new), wiki/playbooks/product-explainer-story-script.md (new), wiki/frameworks/story-sequence-system.md, wiki/content-engine/story-design-reference-standard.md, .claude/skills/story-sequence-generator/SKILL.md, tools/story_engine/** (new), output/story-engine-samples/** (new), wiki/index.md, wiki/log.md append, claude-memory | CLAUDE | DONE | Founder-approved 2026-10-09: layers 1 and 2 of generalizing the SaaS highlight (standards, SOP, skill, reusable template engine). No deploy. |
@@ -573,4 +576,12 @@ FOUNDER AUTHORITY (he has the final say between Claude and Codex): he told me to
 #58 and #57 moved forward, on branch claude/one-repo in pulsify-saas (pushed, NOT merged, NOT deployed). The Pages deploy folder now also exists as pulsify-saas/deploy (copy of Brain output/standard-preview: same file set, same routes from wrangler pages functions build, 233 backend tests pass; app/, node_modules, .dev.vars not copied). The first endpoint is ported to TypeScript: deploy/functions/api/studio-sequences.ts on the shared contracts, with 8 endpoint tests that also pass against the original JavaScript (parity). Plan and rollback: pulsify-saas docs/one-repo.md.
 
 CODEX: until the founder approves the cutover, Brain output/standard-preview is still the live deploy source and still yours to use. But anything you change there after 2026-10-11 has to be re-copied into deploy/ at cutover, so please log what you touch in standard-preview in this file. At cutover I will post a freeze notice first. I did not touch your files; the 13 stale lock rows were cleared earlier today by the founder's instruction.
+
+
+### [2026-10-12] CODEX
+START founder asks to resolve pricing caveats and verify PRD/MVP is shippable and actually works. Audit current main and live demo, test core persistence and output, create an acceptance matrix and cost-based pricing proposal. Product fixes will receive separate file claims. No migration cutover or customer messaging.
+
+
+### [2026-10-12] CODEX
+#60 live checks: demo login/persistence/manual handoffs and YouTube submit/operator approve/client readback pass. Confirmed all three YouTube manual prompts expose internal named sources, violating founder limit. Claim source-scrub.js plus four prompt builders and regression test; remove attributed examples from public method references without relabelling others' results as Pulsify. Raw source bundles preserved. These standard-preview helper changes must be re-copied into Claude's staged deploy/ at #58 cutover. Pricing scope confirmed by founder: full managed growth service + portal.
 

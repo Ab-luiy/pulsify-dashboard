@@ -41,6 +41,19 @@ export function neutralize(text) {
     .replace(FILES, "the Pulsify method");
 }
 
+/** Client-visible method references exclude attributed case studies entirely.
+ * Replacing an author's name with Pulsify would misattribute their results.
+ * Apply only to shared reference bundles, never to the client's own facts.
+ * Raw bundles retain their source trail for internal review and rebuilding.
+ */
+export function clientMethodReference(text) {
+  const sourceName = new RegExp(NAME.source, "i");
+  const privatePath = new RegExp(FILES.source, "i");
+  return String(text ?? "").split(/\n\s*\n/)
+    .filter((paragraph) => !sourceName.test(paragraph) && !privatePath.test(paragraph))
+    .join("\n\n");
+}
+
 /** For anything the model says. */
 export function scrubSources(text) {
   return String(text ?? "").replace(NAME, swap).replace(FILES, "the Pulsify method");

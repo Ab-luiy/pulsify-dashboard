@@ -1,0 +1,29 @@
+[
+  {
+    "results": [
+      {
+        "records_remaining": 0,
+        "reviews_remaining": 0,
+        "content_remaining": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "PRG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.2122
+      },
+      "duration": 0.2122,
+      "changes": 0,
+      "last_row_id": 1499,
+      "changed_db": false,
+      "size_after": 23937024,
+      "rows_read": 0,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

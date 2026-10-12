@@ -1,0 +1,36 @@
+[
+  {
+    "results": [
+      {
+        "client_id": "mvp-test-client",
+        "source": "operator",
+        "welcome_state": "sent",
+        "provisioned_at": "2026-10-02T11:39:01.774Z"
+      },
+      {
+        "client_id": "nicholas",
+        "source": "operator",
+        "welcome_state": "sent",
+        "provisioned_at": "2026-10-10T22:30:51.156Z"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "EEUR",
+      "served_by_colo": "PRG",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.1677
+      },
+      "duration": 0.1677,
+      "changes": 0,
+      "last_row_id": 1499,
+      "changed_db": false,
+      "size_after": 23937024,
+      "rows_read": 2,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

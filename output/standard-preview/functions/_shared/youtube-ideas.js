@@ -2,6 +2,7 @@
 // their answers, their brain and our YouTube method into video ideas in three buckets.
 // The same prompt is what a client runs in their own AI while no Anthropic key is set.
 import { YOUTUBE_REFERENCE } from "./youtube-reference.js";
+import { clientMethodReference } from "./source-scrub.js";
 import { learningBlocks } from "./content-learning.js";
 
 export const BUCKETS = ["pain", "belief", "breakdown"];
@@ -44,7 +45,7 @@ export function buildIdeasPrompt({ clientName, clientBrain, proofLines, answers,
     '{"ideas":[{"bucket":"pain","idea":"one line: what the video is about","working_title":"","why":"one line: why this will land with their audience","funnel":"TOF","format":"camera-miro","mindset_heavy":false,"needs_proof":"","from_answer":"question id"}]}',
     "",
     "REFERENCE MATERIAL. Our YouTube method; it outranks your general instincts.",
-    YOUTUBE_REFERENCE,
+    clientMethodReference(YOUTUBE_REFERENCE),
   ].join("\n");
 
   const user = [

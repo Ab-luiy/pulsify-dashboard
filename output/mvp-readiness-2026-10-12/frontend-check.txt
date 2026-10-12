@@ -1,0 +1,1435 @@
+
+> pulsify-saas@0.1.0 check
+> npm run lint && npm run typecheck && npm run build && npm run test:static -- --workers=2
+
+
+> pulsify-saas@0.1.0 lint
+> eslint
+
+
+> pulsify-saas@0.1.0 typecheck
+> next typegen && tsc --noEmit
+
+Generating route types...
+✓ Types generated successfully
+
+> pulsify-saas@0.1.0 build
+> node scripts/build.mjs
+
+▲ Next.js 16.3.6 (Turbopack)
+✓ Running next.config.ts took 55ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 18.1s
+  Running TypeScript ...
+  Finished TypeScript in 6.2s ...
+  Collecting page data using 7 workers ...
+  Generating static pages using 7 workers (0/80) ...
+  Generating static pages using 7 workers (20/80) 
+  Generating static pages using 7 workers (40/80) 
+  Generating static pages using 7 workers (60/80) 
+✓ Generating static pages using 7 workers (80/80) in 2.2s
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /ads
+├ ○ /brain
+├ ○ /campaigns
+├ ○ /clients
+├ ○ /clients/setup
+├ ○ /content
+├ ○ /crm
+├ ○ /dashboard
+├ ○ /delivery
+├ ○ /email
+├ ○ /funnels
+├ ○ /inbox
+├ ○ /income
+├ ○ /instagram
+├ ○ /integrations
+├ ○ /leads
+├ ○ /outreach
+├ ○ /payments
+├ ○ /photos
+├ ○ /portal
+├ ○ /portal/access
+├ ○ /portal/ads
+├ ○ /portal/content
+├ ○ /portal/copy
+├ ○ /portal/copy/context
+├ ○ /portal/copy/drafts
+├ ○ /portal/copy/write
+├ ○ /portal/instagram
+├ ○ /portal/instagram/carousels
+├ ○ /portal/instagram/metrics
+├ ○ /portal/instagram/metrics/history
+├ ○ /portal/instagram/metrics/retention
+├ ○ /portal/instagram/metrics/weekly
+├ ○ /portal/instagram/projects
+├ ○ /portal/instagram/reels
+├ ○ /portal/instagram/sequences
+├ ○ /portal/instagram/studio
+├ ○ /portal/leads
+├ ○ /portal/media
+├ ○ /portal/onboarding
+├ ○ /portal/pages
+├ ○ /portal/pages/edit
+├ ○ /portal/performance
+├ ○ /portal/performance/applications
+├ ○ /portal/performance/funnel
+├ ○ /portal/performance/history
+├ ○ /portal/performance/links
+├ ○ /portal/performance/retention
+├ ○ /portal/performance/video
+├ ○ /portal/performance/weekly
+├ ○ /portal/plans
+├ ○ /portal/revenue
+├ ○ /portal/revenue/commissions
+├ ○ /portal/revenue/transactions
+├ ○ /portal/settings
+├ ○ /portal/team
+├ ○ /portal/todos
+├ ○ /portal/tracker
+├ ○ /portal/voice
+├ ○ /portal/youtube
+├ ○ /portal/youtube/build
+├ ○ /portal/youtube/cash
+├ ○ /portal/youtube/create
+├ ○ /portal/youtube/designer
+├ ○ /portal/youtube/designs
+├ ○ /portal/youtube/formulas
+├ ○ /portal/youtube/gallery
+├ ○ /portal/youtube/new
+├ ○ /portal/youtube/projects
+├ ○ /portal/youtube/title
+├ ○ /queue
+├ ○ /reviews
+├ ○ /search
+├ ○ /settings
+├ ○ /today
+└ ○ /youtube
+
+
+○  (Static)  prerendered as static content
+
+flatten-segments: 77 file(s)
+
+> pulsify-saas@0.1.0 test:static
+> cross-env PW_STATIC=1 playwright test --workers=2
+
+[WebServer] (node:7652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1265 tests using 2 workers
+
+(node:2584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok    1 tests\access-requests.spec.ts:44:5 › waiting requests show on Clients and approving as a client creates the workspace (2.2s)
+  ok    3 tests\access-requests.spec.ts:59:5 › approving as an operator gives console access (938ms)
+  ok    4 tests\access-requests.spec.ts:68:5 › an operator who is not an owner can only approve clients (731ms)
+  ok    2 tests\a11y.spec.ts:73:9 › a11y overview light (4.2s)
+  ok    5 tests\access-requests.spec.ts:76:5 › declining removes the request, and a failed setup email says so (1.0s)
+  ok    7 tests\access-requests.spec.ts:88:5 › settings: add an operator by email and remove them again (1.2s)
+  ok    6 tests\a11y.spec.ts:73:9 › a11y clients light (2.5s)
+  ok    8 tests\access-requests.spec.ts:102:5 › settings: a non-owner sees the team but no way to change it (1.0s)
+  ok   10 tests\access-requests.spec.ts:111:5 › nothing waiting shows no section (466ms)
+  ok   11 tests\access-requests.spec.ts:118:5 › waiting list fits a phone (713ms)
+  ok    9 tests\a11y.spec.ts:73:9 › a11y funnels light (2.5s)
+  ok   12 tests\ads.spec.ts:10:11 › ads operator light 1536: honest locked preview (1.9s)
+  ok   13 tests\a11y.spec.ts:73:9 › a11y photos light (1.9s)
+  ok   14 tests\ads.spec.ts:10:11 › ads operator light 390: honest locked preview (1.9s)
+  ok   15 tests\a11y.spec.ts:73:9 › a11y ads light (1.9s)
+  ok   16 tests\ads.spec.ts:10:11 › ads operator dark 1536: honest locked preview (2.1s)
+  ok   17 tests\a11y.spec.ts:73:9 › a11y today light (2.3s)
+  ok   18 tests\ads.spec.ts:10:11 › ads operator dark 390: honest locked preview (2.1s)
+  ok   20 tests\ads.spec.ts:35:7 › ads operator: reachable from the island menu (994ms)
+  ok   19 tests\a11y.spec.ts:73:9 › a11y queue light (2.6s)
+  ok   21 tests\ads.spec.ts:10:11 › ads client light 1536: honest locked preview (2.2s)
+  ok   22 tests\a11y.spec.ts:73:9 › a11y outreach light (2.4s)
+  ok   23 tests\ads.spec.ts:10:11 › ads client light 390: honest locked preview (1.9s)
+  ok   24 tests\a11y.spec.ts:73:9 › a11y inbox light (2.4s)
+  ok   25 tests\ads.spec.ts:10:11 › ads client dark 1536: honest locked preview (2.2s)
+  ok   26 tests\a11y.spec.ts:73:9 › a11y leads light (2.2s)
+  ok   27 tests\ads.spec.ts:10:11 › ads client dark 390: honest locked preview (2.1s)
+  ok   29 tests\ads.spec.ts:35:7 › ads client: reachable from the island menu (1.3s)
+  -    30 tests\brain.screens.spec.ts:22:9 › brain dark-desktop
+  -    31 tests\brain.screens.spec.ts:42:9 › email dark-desktop
+  -    32 tests\brain.screens.spec.ts:22:9 › brain dark-mobile
+  -    33 tests\brain.screens.spec.ts:42:9 › email dark-mobile
+  -    34 tests\brain.screens.spec.ts:22:9 › brain light-desktop
+  -    35 tests\brain.screens.spec.ts:42:9 › email light-desktop
+  -    36 tests\brain.screens.spec.ts:22:9 › brain light-mobile
+  -    37 tests\brain.screens.spec.ts:42:9 › email light-mobile
+  ok   28 tests\a11y.spec.ts:73:9 › a11y crm light (2.8s)
+  ok   38 tests\brain.spec.ts:24:7 › client brain › renders summary, sections, sources, timestamps and proof (1.5s)
+  ok   39 tests\a11y.spec.ts:73:9 › a11y search light (2.6s)
+  ok   40 tests\brain.spec.ts:98:7 › client brain › saves each edited field with its own POST and updates the counts (2.9s)
+  ok   41 tests\a11y.spec.ts:73:9 › a11y campaigns light (2.9s)
+  ok   42 tests\brain.spec.ts:144:7 › client brain › clearing, booleans and proof lists use the legacy editor grammar (3.3s)
+  ok   43 tests\a11y.spec.ts:73:9 › a11y delivery light (2.4s)
+  ok   44 tests\brain.spec.ts:184:7 › client brain › a failed save keeps the editor open and retries (2.0s)
+  ok   45 tests\a11y.spec.ts:73:9 › a11y reviews light (2.6s)
+  ok   46 tests\brain.spec.ts:198:7 › client brain › cancel restores the stored answer (2.6s)
+  ok   47 tests\a11y.spec.ts:73:9 › a11y brain light (4.7s)
+  ok   48 tests\brain.spec.ts:210:7 › client brain › unsaved edits are guarded on navigation and client switch (4.5s)
+  ok   49 tests\a11y.spec.ts:73:9 › a11y email light (2.4s)
+  ok   50 tests\brain.spec.ts:249:7 › client brain › switching client loads that brain and puts it in the URL (1.4s)
+  ok   52 tests\brain.spec.ts:259:7 › client brain › deep link ?client= opens that client (1.2s)
+  ok   53 tests\brain.spec.ts:267:7 › client brain › honours the legacy sessionStorage handoff once, then clears it (1.1s)
+  ok   51 tests\a11y.spec.ts:73:9 › a11y instagram light (3.3s)
+  ok   54 tests\brain.spec.ts:281:7 › client brain › the onboarding card makes the client's form link after asking, and copies it (1.5s)
+  ok   56 tests\brain.spec.ts:306:7 › client brain › a long answer folds to its first lines with Show all (1.2s)
+  ok   55 tests\a11y.spec.ts:73:9 › a11y youtube light (2.7s)
+  ok   57 tests\brain.spec.ts:324:7 › client brain › export downloads the context package (2.5s)
+  ok   58 tests\a11y.spec.ts:73:9 › a11y content light (2.5s)
+  ok   59 tests\brain.spec.ts:340:7 › client brain › export failure shows an inline error with retry (1.5s)
+  ok   60 tests\a11y.spec.ts:73:9 › a11y integrations light (2.6s)
+  ok   62 tests\a11y.spec.ts:73:9 › a11y payments light (2.0s)
+  ok   61 tests\brain.spec.ts:349:7 › client brain › load error shows the error state (4.1s)
+  ok   64 tests\brain.spec.ts:358:7 › client brain › no clients shows the empty state (929ms)
+  ok   65 tests\brain.spec.ts:367:7 › client brain › mobile layout has no horizontal overflow (1.2s)
+  -    66 tests\campaigns.screens.spec.ts:44:11 › campaigns-pages dark desktop
+  -    67 tests\campaigns.screens.spec.ts:44:11 › campaigns-queue dark desktop
+  -    68 tests\campaigns.screens.spec.ts:44:11 › campaigns-links dark desktop
+  -    69 tests\campaigns.screens.spec.ts:44:11 › campaigns-activity dark desktop
+  -    70 tests\campaigns.screens.spec.ts:44:11 › delivery-content dark desktop
+  -    71 tests\campaigns.screens.spec.ts:44:11 › delivery-calls dark desktop
+  -    72 tests\campaigns.screens.spec.ts:44:11 › delivery-assets dark desktop
+  -    73 tests\campaigns.screens.spec.ts:44:11 › campaigns-pages dark mobile
+  -    74 tests\campaigns.screens.spec.ts:44:11 › campaigns-queue dark mobile
+  -    75 tests\campaigns.screens.spec.ts:44:11 › campaigns-links dark mobile
+  -    76 tests\campaigns.screens.spec.ts:44:11 › campaigns-activity dark mobile
+  -    77 tests\campaigns.screens.spec.ts:44:11 › delivery-content dark mobile
+  -    78 tests\campaigns.screens.spec.ts:44:11 › delivery-calls dark mobile
+  -    79 tests\campaigns.screens.spec.ts:44:11 › delivery-assets dark mobile
+  -    80 tests\campaigns.screens.spec.ts:44:11 › campaigns-pages light desktop
+  -    81 tests\campaigns.screens.spec.ts:44:11 › campaigns-queue light desktop
+  -    82 tests\campaigns.screens.spec.ts:44:11 › campaigns-links light desktop
+  -    83 tests\campaigns.screens.spec.ts:44:11 › campaigns-activity light desktop
+  -    84 tests\campaigns.screens.spec.ts:44:11 › delivery-content light desktop
+  -    85 tests\campaigns.screens.spec.ts:44:11 › delivery-calls light desktop
+  -    86 tests\campaigns.screens.spec.ts:44:11 › delivery-assets light desktop
+  -    87 tests\campaigns.screens.spec.ts:44:11 › campaigns-pages light mobile
+  -    88 tests\campaigns.screens.spec.ts:44:11 › campaigns-queue light mobile
+  -    89 tests\campaigns.screens.spec.ts:44:11 › campaigns-links light mobile
+  -    90 tests\campaigns.screens.spec.ts:44:11 › campaigns-activity light mobile
+  -    91 tests\campaigns.screens.spec.ts:44:11 › delivery-content light mobile
+  -    92 tests\campaigns.screens.spec.ts:44:11 › delivery-calls light mobile
+  -    93 tests\campaigns.screens.spec.ts:44:11 › delivery-assets light mobile
+  ok   63 tests\a11y.spec.ts:73:9 › a11y settings light (2.6s)
+  ok   94 tests\campaigns.spec.ts:18:7 › acquisition pages › renders KPIs, tab counts and page rows with signal and state (1.6s)
+  ok   95 tests\a11y.spec.ts:73:9 › a11y dashboard light (2.7s)
+  ok   96 tests\campaigns.spec.ts:61:7 › acquisition pages › filters and sorts pages (1.3s)
+  ok   98 tests\campaigns.spec.ts:83:7 › acquisition pages › empty filter offers to show every page (1.6s)
+  ok   97 tests\a11y.spec.ts:73:9 › a11y setup light (3.8s)
+  ok   99 tests\campaigns.spec.ts:94:7 › acquisition pages › copy link copies the share url with feedback on the button (3.0s)
+  ok  100 tests\a11y.spec.ts:73:9 › a11y portal-ads light (2.2s)
+  ok  101 tests\campaigns.spec.ts:105:7 › acquisition pages › copy link mints a token first when the page has none (1.3s)
+  ok  103 tests\campaigns.spec.ts:116:7 › acquisition pages › copy failure shows on the button (1.2s)
+  ok  102 tests\a11y.spec.ts:73:9 › a11y portal-home light (2.4s)
+  ok  104 tests\campaigns.spec.ts:127:7 › acquisition pages › deactivate confirms first, activate does not (3.0s)
+  ok  105 tests\a11y.spec.ts:73:9 › a11y portal/content light (2.7s)
+  ok  106 tests\campaigns.spec.ts:151:7 › acquisition pages › toggle failure shows an inline error (1.2s)
+  ok  107 tests\a11y.spec.ts:73:9 › a11y portal/plans light (2.1s)
+  ok  108 tests\campaigns.spec.ts:159:7 › acquisition pages › create and edit hand off to client setup (2.0s)
+  ok  110 tests\campaigns.spec.ts:171:7 › acquisition pages › visitor activity drill-down loads once and is cached (1.9s)
+  ok  109 tests\a11y.spec.ts:73:9 › a11y portal/todos light (2.3s)
+  ok  111 tests\campaigns.spec.ts:208:7 › acquisition pages › activity with no visitors shows the empty state (1.9s)
+  ok  112 tests\a11y.spec.ts:73:9 › a11y portal/team light (2.3s)
+  ok  113 tests\campaigns.spec.ts:218:7 › acquisition pages › activity failure shows an error with retry (1.1s)
+  ok  115 tests\campaigns.spec.ts:227:7 › acquisition pages › follow-up queue hides completed outcomes by default (1.5s)
+  ok  116 tests\campaigns.spec.ts:250:7 › acquisition pages › follow-up queue empty and error states (1.1s)
+  ok  114 tests\a11y.spec.ts:73:9 › a11y portal/tracker light (3.8s)
+  ok  118 tests\a11y.spec.ts:73:9 › a11y portal-instagram light (2.3s)
+  ok  117 tests\campaigns.spec.ts:259:7 › acquisition pages › follow-up queue failure keeps the page list (4.1s)
+  ok  119 tests\a11y.spec.ts:73:9 › a11y portal-instagram/sequences light (2.2s)
+  ok  120 tests\campaigns.spec.ts:268:7 › acquisition pages › tracked links: validation, create, copy and archive (2.1s)
+  ok  122 tests\campaigns.spec.ts:322:7 › acquisition pages › tracked link server validation error is shown (980ms)
+  ok  121 tests\a11y.spec.ts:73:9 › a11y portal-instagram/sequences?type=credibility light (2.5s)
+  ok  123 tests\campaigns.spec.ts:332:7 › acquisition pages › tracked links empty state focuses the form (1.0s)
+  ok  125 tests\campaigns.spec.ts:341:7 › acquisition pages › no pages yet offers to create one (1.1s)
+  ok  124 tests\a11y.spec.ts:73:9 › a11y portal-instagram/projects light (2.4s)
+  ok  127 tests\a11y.spec.ts:73:9 › a11y portal-instagram/carousels light (2.3s)
+  ok  126 tests\campaigns.spec.ts:349:7 › acquisition pages › board failure shows the error state with retry (4.2s)
+  ok  129 tests\campaigns.spec.ts:357:7 › acquisition pages › signed-out board shows sign in (738ms)
+  ok  128 tests\a11y.spec.ts:73:9 › a11y portal-instagram/reels light (2.2s)
+  ok  130 tests\campaigns.spec.ts:363:7 › acquisition pages › refresh reloads the board, queue and links (992ms)
+  ok  132 tests\campaigns.spec.ts:373:9 › acquisition pages › mobile Pages has no horizontal overflow and no console problems (1.0s)
+  ok  131 tests\a11y.spec.ts:73:9 › a11y portal-leads light (2.4s)
+  ok  133 tests\campaigns.spec.ts:373:9 › acquisition pages › mobile Follow-up queue has no horizontal overflow and no console problems (1.2s)
+  ok  135 tests\campaigns.spec.ts:373:9 › acquisition pages › mobile Tracked links has no horizontal overflow and no console problems (1.5s)
+  ok  134 tests\a11y.spec.ts:73:9 › a11y portal-leads-visitors light (3.1s)
+  ok  136 tests\campaigns.spec.ts:387:7 › acquisition pages › mobile activity dialog has no horizontal overflow (1.3s)
+  ok  138 tests\console.spec.ts:6:7 › no console errors on overview (1.3s)
+  ok  137 tests\a11y.spec.ts:73:9 › a11y portal-leads-calls light (2.4s)
+  ok  139 tests\console.spec.ts:16:7 › no horizontal overflow on overview at 390px (936ms)
+  ok  141 tests\console.spec.ts:6:7 › no console errors on clients (1.3s)
+  ok  142 tests\console.spec.ts:16:7 › no horizontal overflow on clients at 390px (1.1s)
+  ok  143 tests\console.spec.ts:6:7 › no console errors on funnels (2.7s)
+  ok  140 tests\a11y.spec.ts:73:9 › a11y portal-performance-funnel light (5.4s)
+  ok  144 tests\console.spec.ts:16:7 › no horizontal overflow on funnels at 390px (987ms)
+  ok  146 tests\console.spec.ts:6:7 › no console errors on photos (1.3s)
+  ok  145 tests\a11y.spec.ts:73:9 › a11y portal-performance-video light (2.4s)
+  ok  147 tests\console.spec.ts:16:7 › no horizontal overflow on photos at 390px (989ms)
+  ok  149 tests\console.spec.ts:6:7 › no console errors on ads (1.2s)
+  ok  148 tests\a11y.spec.ts:73:9 › a11y portal-performance-applications light (2.2s)
+  ok  150 tests\console.spec.ts:16:7 › no horizontal overflow on ads at 390px (1.0s)
+  ok  151 tests\a11y.spec.ts:73:9 › a11y portal-performance-links light (2.1s)
+  ok  152 tests\console.spec.ts:6:7 › no console errors on today (1.2s)
+  ok  154 tests\console.spec.ts:16:7 › no horizontal overflow on today at 390px (1.0s)
+  ok  153 tests\a11y.spec.ts:73:9 › a11y portal-commissions light (2.0s)
+  ok  155 tests\console.spec.ts:6:7 › no console errors on queue (1.3s)
+  ok  157 tests\console.spec.ts:16:7 › no horizontal overflow on queue at 390px (1.0s)
+  ok  156 tests\a11y.spec.ts:73:9 › a11y portal-team-sales light (2.3s)
+  ok  158 tests\console.spec.ts:6:7 › no console errors on outreach (1.3s)
+  ok  160 tests\console.spec.ts:16:7 › no horizontal overflow on outreach at 390px (1.0s)
+  ok  159 tests\a11y.spec.ts:73:9 › a11y portal-pages light (2.0s)
+  ok  161 tests\console.spec.ts:6:7 › no console errors on inbox (1.4s)
+  ok  163 tests\console.spec.ts:16:7 › no horizontal overflow on inbox at 390px (1.0s)
+  ok  162 tests\a11y.spec.ts:73:9 › a11y portal-pages-edit light (2.3s)
+  ok  164 tests\console.spec.ts:6:7 › no console errors on leads (1.4s)
+  ok  166 tests\console.spec.ts:16:7 › no horizontal overflow on leads at 390px (850ms)
+  ok  165 tests\a11y.spec.ts:73:9 › a11y portal-leads-conversations light (1.9s)
+  ok  167 tests\console.spec.ts:6:7 › no console errors on crm (1.4s)
+  ok  168 tests\a11y.spec.ts:73:9 › a11y portal-youtube light (2.2s)
+  ok  169 tests\console.spec.ts:16:7 › no horizontal overflow on crm at 390px (1.1s)
+  ok  171 tests\console.spec.ts:6:7 › no console errors on search (1.5s)
+  ok  170 tests\a11y.spec.ts:73:9 › a11y portal-youtube/new light (1.9s)
+  ok  172 tests\console.spec.ts:16:7 › no horizontal overflow on search at 390px (1.0s)
+  ok  173 tests\a11y.spec.ts:73:9 › a11y portal-youtube/cash light (2.0s)
+  ok  174 tests\console.spec.ts:6:7 › no console errors on campaigns (1.4s)
+  ok  176 tests\console.spec.ts:16:7 › no horizontal overflow on campaigns at 390px (961ms)
+  ok  175 tests\a11y.spec.ts:73:9 › a11y portal-youtube/create light (1.8s)
+  ok  177 tests\console.spec.ts:6:7 › no console errors on delivery (1.3s)
+  ok  179 tests\console.spec.ts:16:7 › no horizontal overflow on delivery at 390px (910ms)
+  ok  178 tests\a11y.spec.ts:73:9 › a11y portal-youtube/formulas light (1.9s)
+  ok  180 tests\console.spec.ts:6:7 › no console errors on reviews (1.2s)
+  ok  182 tests\console.spec.ts:16:7 › no horizontal overflow on reviews at 390px (899ms)
+  ok  181 tests\a11y.spec.ts:73:9 › a11y portal-youtube/gallery light (2.2s)
+  ok  183 tests\console.spec.ts:6:7 › no console errors on brain (1.3s)
+  ok  185 tests\console.spec.ts:16:7 › no horizontal overflow on brain at 390px (922ms)
+  ok  184 tests\a11y.spec.ts:73:9 › a11y portal-youtube/designs light (2.1s)
+  ok  186 tests\console.spec.ts:6:7 › no console errors on email (1.2s)
+  ok  188 tests\console.spec.ts:16:7 › no horizontal overflow on email at 390px (830ms)
+  ok  187 tests\a11y.spec.ts:73:9 › a11y portal-youtube/projects light (1.8s)
+  ok  189 tests\console.spec.ts:6:7 › no console errors on instagram (1.3s)
+  ok  191 tests\console.spec.ts:16:7 › no horizontal overflow on instagram at 390px (873ms)
+  ok  190 tests\a11y.spec.ts:73:9 › a11y portal-youtube/title light (2.2s)
+  ok  192 tests\console.spec.ts:6:7 › no console errors on youtube (1.2s)
+  ok  194 tests\console.spec.ts:16:7 › no horizontal overflow on youtube at 390px (859ms)
+  ok  193 tests\a11y.spec.ts:73:9 › a11y portal-youtube/build light (2.1s)
+  ok  195 tests\console.spec.ts:6:7 › no console errors on content (1.4s)
+  ok  196 tests\a11y.spec.ts:73:9 › a11y portal-media light (2.1s)
+  ok  197 tests\console.spec.ts:16:7 › no horizontal overflow on content at 390px (899ms)
+  ok  199 tests\console.spec.ts:6:7 › no console errors on integrations (1.3s)
+  ok  198 tests\a11y.spec.ts:73:9 › a11y portal-copy light (1.7s)
+  ok  200 tests\console.spec.ts:16:7 › no horizontal overflow on integrations at 390px (914ms)
+  ok  201 tests\a11y.spec.ts:73:9 › a11y portal-copy-write?type=reel light (1.7s)
+  ok  202 tests\console.spec.ts:6:7 › no console errors on payments (1.1s)
+  ok  204 tests\console.spec.ts:16:7 › no horizontal overflow on payments at 390px (895ms)
+  ok  203 tests\a11y.spec.ts:73:9 › a11y portal-copy-drafts light (1.7s)
+  ok  205 tests\console.spec.ts:6:7 › no console errors on settings (1.2s)
+  ok  207 tests\console.spec.ts:16:7 › no horizontal overflow on settings at 390px (937ms)
+  ok  206 tests\a11y.spec.ts:73:9 › a11y portal-copy-context light (1.7s)
+  ok  208 tests\console.spec.ts:6:7 › no console errors on dashboard (1.3s)
+  ok  209 tests\a11y.spec.ts:73:9 › a11y portal-performance light (1.8s)
+  ok  210 tests\console.spec.ts:16:7 › no horizontal overflow on dashboard at 390px (1.1s)
+  ok  212 tests\console.spec.ts:6:7 › no console errors on setup (1.5s)
+  ok  211 tests\a11y.spec.ts:73:9 › a11y portal-performance-weekly light (1.9s)
+  ok  213 tests\console.spec.ts:16:7 › no horizontal overflow on setup at 390px (1.1s)
+  ok  215 tests\content.spec.ts:34:7 › content › loads the pipeline into seven stages with counts and KPIs (857ms)
+  ok  214 tests\a11y.spec.ts:73:9 › a11y portal-revenue light (2.2s)
+  ok  216 tests\content.spec.ts:72:7 › content › adds a video with its pillar, layer and start stage (1.4s)
+  ok  218 tests\content.spec.ts:109:7 › content › the stage menu and arrow buttons move a video (1.0s)
+  ok  217 tests\a11y.spec.ts:73:9 › a11y portal-access light (2.4s)
+  ok  219 tests\content.spec.ts:133:7 › content › keyboard: Left and Right move the focused video, Delete asks before removing (1.6s)
+  ok  221 tests\content.spec.ts:156:7 › content › drag and drop moves a video between stages (1.5s)
+  ok  220 tests\a11y.spec.ts:73:9 › a11y portal-settings light (3.0s)
+  ok  223 tests\a11y.spec.ts:73:9 › a11y portal-voice light (2.2s)
+  ok  222 tests\content.spec.ts:172:7 › content › edit dialog saves the changed fields as an override (2.6s)
+  ok  224 tests\a11y.spec.ts:73:9 › a11y portal-onboarding light (1.8s)
+  ok  225 tests\content.spec.ts:211:7 › content › removing confirms, then records the id and drops the added record (1.8s)
+  ok  227 tests\content.spec.ts:232:7 › content › a failed save takes the edit back and Retry saves it (1.3s)
+  ok  228 tests\content.spec.ts:249:7 › content › a failed add puts the draft back in the form (1.0s)
+  ok  226 tests\a11y.spec.ts:73:9 › a11y overview dark (2.6s)
+  ok  230 tests\a11y.spec.ts:73:9 › a11y clients dark (1.9s)
+  ok  229 tests\content.spec.ts:264:7 › content › edits made while a save is in flight are never lost (3.3s)
+  ok  231 tests\a11y.spec.ts:73:9 › a11y funnels dark (2.3s)
+  ok  232 tests\content.spec.ts:288:7 › content › moves the old browser copy to the server once (1.4s)
+  ok  234 tests\content.spec.ts:310:7 › content › an existing server copy wins over the browser copy (729ms)
+  ok  235 tests\content.spec.ts:321:7 › content › nothing stored and no browser copy shows the seed video without writing (626ms)
+  ok  233 tests\a11y.spec.ts:73:9 › a11y photos dark (2.0s)
+  ok  236 tests\content.spec.ts:329:7 › content › an empty pipeline points at the add form (813ms)
+  ok  238 tests\content.spec.ts:339:7 › content › filters narrow the board by pillar and layer (1.2s)
+  ok  237 tests\a11y.spec.ts:73:9 › a11y ads dark (1.8s)
+  ok  239 tests\content.spec.ts:356:7 › content › Export CSV downloads every video (1.1s)
+  ok  240 tests\a11y.spec.ts:73:9 › a11y today dark (2.1s)
+  ok  242 tests\a11y.spec.ts:73:9 › a11y queue dark (1.9s)
+  ok  241 tests\content.spec.ts:370:7 › content › load errors show with retry (3.9s)
+  ok  244 tests\content.spec.ts:381:7 › content › phone layout stacks the stages with no horizontal overflow (697ms)
+  ok  243 tests\a11y.spec.ts:73:9 › a11y outreach dark (2.2s)
+  ok  245 tests\content.spec.ts:395:7 › content › no console errors or warnings across the screen (2.2s)
+  -   247 tests\crm.screens.spec.ts:20:11 › crm board dark desktop
+  -   248 tests\crm.screens.spec.ts:20:11 › crm list dark desktop
+  -   249 tests\crm.screens.spec.ts:20:11 › crm review dark desktop
+  -   250 tests\crm.screens.spec.ts:20:11 › crm board dark mobile
+  -   251 tests\crm.screens.spec.ts:20:11 › crm list dark mobile
+  -   252 tests\crm.screens.spec.ts:20:11 › crm review dark mobile
+  -   253 tests\crm.screens.spec.ts:20:11 › crm board light desktop
+  -   254 tests\crm.screens.spec.ts:20:11 › crm list light desktop
+  -   255 tests\crm.screens.spec.ts:20:11 › crm review light desktop
+  -   256 tests\crm.screens.spec.ts:20:11 › crm board light mobile
+  -   257 tests\crm.screens.spec.ts:20:11 › crm list light mobile
+  -   258 tests\crm.screens.spec.ts:20:11 › crm review light mobile
+  ok  246 tests\a11y.spec.ts:73:9 › a11y inbox dark (2.4s)
+  ok  259 tests\crm.spec.ts:22:7 › crm › merges every spine page with crm-sync state and counts the pipeline (1.1s)
+  ok  261 tests\crm.spec.ts:62:7 › crm › cards show their picture, YouTube and Instagram, their top video and when they opened their page (#34) (993ms)
+  ok  260 tests\a11y.spec.ts:73:9 › a11y leads dark (2.6s)
+  ok  262 tests\crm.spec.ts:77:7 › crm › tabs switch between approved, unreviewed and dropped (1.2s)
+  ok  264 tests\crm.spec.ts:101:7 › crm › search matches name, handle and niche (1.2s)
+  ok  263 tests\a11y.spec.ts:73:9 › a11y crm dark (2.0s)
+  ok  265 tests\crm.spec.ts:119:7 › crm › stage menu moves a prospect and syncs its thread (1.6s)
+  ok  267 tests\crm.spec.ts:141:7 › crm › drag and drop moves a card between columns (1.3s)
+  ok  266 tests\a11y.spec.ts:73:9 › a11y search dark (2.3s)
+  ok  268 tests\crm.spec.ts:162:7 › crm › review dialog approves a prospect and wakes its thread (1.6s)
+  ok  269 tests\a11y.spec.ts:73:9 › a11y campaigns dark (2.7s)
+  ok  270 tests\crm.spec.ts:186:7 › crm › approving a dropped prospect restores it and clears a lost outcome (1.5s)
+  ok  271 tests\a11y.spec.ts:73:9 › a11y delivery dark (2.4s)
+  ok  272 tests\crm.spec.ts:210:7 › crm › review dialog drops a prospect and hibernates its thread (2.2s)
+  ok  274 tests\crm.spec.ts:233:7 › crm › conversation opens the thread in outreach (1.2s)
+  ok  275 tests\crm.spec.ts:240:7 › crm › list view is a sortable table with the same actions (1.3s)
+  ok  273 tests\a11y.spec.ts:73:9 › a11y reviews dark (2.5s)
+  ok  276 tests\crm.spec.ts:260:7 › crm › empty state sends you to review (1.1s)
+  ok  277 tests\a11y.spec.ts:73:9 › a11y brain dark (3.3s)
+  ok  279 tests\a11y.spec.ts:73:9 › a11y email dark (1.7s)
+  ok  278 tests\crm.spec.ts:271:7 › crm › load errors show inline with retry (4.1s)
+  ok  281 tests\crm.spec.ts:282:7 › crm › phone layout scrolls the board inside its container only (855ms)
+  ok  280 tests\a11y.spec.ts:73:9 › a11y instagram dark (2.6s)
+  ok  282 tests\crm.spec.ts:298:7 › crm › no console errors or warnings across the screen (2.1s)
+  -   284 tests\dashboard.screens.spec.ts:22:11 › dashboard-live dark desktop
+  -   285 tests\dashboard.screens.spec.ts:22:11 › dashboard-plan dark desktop
+  -   286 tests\dashboard.screens.spec.ts:22:11 › dashboard-income dark desktop
+  -   287 tests\dashboard.screens.spec.ts:22:11 › dashboard-payouts dark desktop
+  -   288 tests\dashboard.screens.spec.ts:22:11 › dashboard-cashflow dark desktop
+  -   289 tests\dashboard.screens.spec.ts:22:11 › dashboard-calendar dark desktop
+  -   290 tests\dashboard.screens.spec.ts:22:11 › dashboard-sales dark desktop
+  -   291 tests\dashboard.screens.spec.ts:22:11 › dashboard-live dark mobile
+  -   292 tests\dashboard.screens.spec.ts:22:11 › dashboard-plan dark mobile
+  -   293 tests\dashboard.screens.spec.ts:22:11 › dashboard-income dark mobile
+  -   294 tests\dashboard.screens.spec.ts:22:11 › dashboard-payouts dark mobile
+  -   295 tests\dashboard.screens.spec.ts:22:11 › dashboard-cashflow dark mobile
+  -   296 tests\dashboard.screens.spec.ts:22:11 › dashboard-calendar dark mobile
+  -   297 tests\dashboard.screens.spec.ts:22:11 › dashboard-sales dark mobile
+  -   298 tests\dashboard.screens.spec.ts:22:11 › dashboard-live light desktop
+  -   299 tests\dashboard.screens.spec.ts:22:11 › dashboard-plan light desktop
+  -   300 tests\dashboard.screens.spec.ts:22:11 › dashboard-income light desktop
+  -   301 tests\dashboard.screens.spec.ts:22:11 › dashboard-payouts light desktop
+  -   302 tests\dashboard.screens.spec.ts:22:11 › dashboard-cashflow light desktop
+  -   303 tests\dashboard.screens.spec.ts:22:11 › dashboard-calendar light desktop
+  -   304 tests\dashboard.screens.spec.ts:22:11 › dashboard-sales light desktop
+  -   305 tests\dashboard.screens.spec.ts:22:11 › dashboard-live light mobile
+  -   306 tests\dashboard.screens.spec.ts:22:11 › dashboard-plan light mobile
+  -   307 tests\dashboard.screens.spec.ts:22:11 › dashboard-income light mobile
+  -   308 tests\dashboard.screens.spec.ts:22:11 › dashboard-payouts light mobile
+  -   309 tests\dashboard.screens.spec.ts:22:11 › dashboard-cashflow light mobile
+  -   310 tests\dashboard.screens.spec.ts:22:11 › dashboard-calendar light mobile
+  -   311 tests\dashboard.screens.spec.ts:22:11 › dashboard-sales light mobile
+  ok  312 tests\dashboard.spec.ts:31:7 › business dashboard › overview renders the YouTube card, cockpit numbers and operator rail (1.1s)
+  ok  283 tests\a11y.spec.ts:73:9 › a11y youtube dark (2.0s)
+  ok  313 tests\dashboard.spec.ts:88:7 › business dashboard › manual inputs save under the legacy key and move the Content signal (2.0s)
+  ok  314 tests\a11y.spec.ts:73:9 › a11y content dark (2.1s)
+  ok  315 tests\dashboard.spec.ts:126:7 › business dashboard › plan tab shows targets, progress and the Phase 1 checklist (967ms)
+  ok  317 tests\dashboard.spec.ts:152:7 › business dashboard › income tab shows recorded revenue, targets and an empty cash trend (900ms)
+  ok  316 tests\a11y.spec.ts:73:9 › a11y integrations dark (1.9s)
+  ok  318 tests\dashboard.spec.ts:170:7 › business dashboard › KPI layout loads and saves under the legacy operator_state key (1.8s)
+  ok  319 tests\a11y.spec.ts:73:9 › a11y payments dark (1.9s)
+  ok  320 tests\dashboard.spec.ts:212:7 › business dashboard › a failed layout save rolls back and says so (967ms)
+  ok  322 tests\dashboard.spec.ts:222:7 › business dashboard › payouts calculator applies the 5 / 10 / 15 / 25 percent rules (1.1s)
+  ok  321 tests\a11y.spec.ts:73:9 › a11y settings dark (2.3s)
+  ok  323 tests\dashboard.spec.ts:251:7 › business dashboard › cash flow shows the recorded target and honest No data states (953ms)
+  ok  325 tests\dashboard.spec.ts:271:7 › business dashboard › calendar shows real outreach activity by day and the booked conversations (1.1s)
+  ok  324 tests\a11y.spec.ts:73:9 › a11y dashboard dark (2.0s)
+  ok  326 tests\dashboard.spec.ts:301:7 › business dashboard › payments shows No data for the unconnected ledger and follows the header range (902ms)
+  ok  328 tests\dashboard.spec.ts:320:7 › business dashboard › ?tab= deep links, legacy aliases and tab clicks keep the URL in sync (1.4s)
+  ok  329 tests\dashboard.spec.ts:339:7 › business dashboard › no YouTube snapshot shows No data on the card (916ms)
+  ok  327 tests\a11y.spec.ts:73:9 › a11y setup dark (2.9s)
+  ok  331 tests\a11y.spec.ts:73:9 › a11y portal-ads dark (1.6s)
+  ok  332 tests\a11y.spec.ts:73:9 › a11y portal-home dark (2.0s)
+  ok  330 tests\dashboard.spec.ts:351:7 › business dashboard › a spine failure is reported inline and the rest of the dashboard still renders (4.1s)
+  ok  333 tests\a11y.spec.ts:73:9 › a11y portal/content dark (1.9s)
+  ok  335 tests\a11y.spec.ts:73:9 › a11y portal/plans dark (1.5s)
+  ok  334 tests\dashboard.spec.ts:359:7 › business dashboard › a CRM failure keeps the embedded prospects and offers a retry (4.1s)
+  ok  337 tests\dashboard.spec.ts:367:7 › business dashboard › signed-out sessions get the sign-in state (564ms)
+  ok  336 tests\a11y.spec.ts:73:9 › a11y portal/todos dark (1.7s)
+  ok  338 tests\dashboard.spec.ts:375:9 › business dashboard › mobile live has no horizontal overflow and no console problems (931ms)
+  ok  340 tests\dashboard.spec.ts:375:9 › business dashboard › mobile plan has no horizontal overflow and no console problems (735ms)
+  ok  339 tests\a11y.spec.ts:73:9 › a11y portal/team dark (1.7s)
+  ok  341 tests\dashboard.spec.ts:375:9 › business dashboard › mobile income has no horizontal overflow and no console problems (873ms)
+  ok  343 tests\dashboard.spec.ts:375:9 › business dashboard › mobile payouts has no horizontal overflow and no console problems (853ms)
+  ok  342 tests\a11y.spec.ts:73:9 › a11y portal/tracker dark (2.3s)
+  ok  344 tests\dashboard.spec.ts:375:9 › business dashboard › mobile cashflow has no horizontal overflow and no console problems (821ms)
+  ok  346 tests\dashboard.spec.ts:375:9 › business dashboard › mobile calendar has no horizontal overflow and no console problems (968ms)
+  ok  347 tests\dashboard.spec.ts:375:9 › business dashboard › mobile sales has no horizontal overflow and no console problems (747ms)
+  ok  345 tests\a11y.spec.ts:73:9 › a11y portal-instagram dark (1.9s)
+  ok  348 tests\delivery.spec.ts:17:7 › client work › deep link picks the client and lists content items (1.1s)
+  ok  349 tests\a11y.spec.ts:73:9 › a11y portal-instagram/sequences dark (2.0s)
+  ok  350 tests\delivery.spec.ts:43:7 › client work › without a deep link it opens the first client, and picking one updates the url (1.1s)
+  ok  352 tests\delivery.spec.ts:57:7 › client work › an unknown client in the link falls back to the first client (617ms)
+  ok  353 tests\delivery.spec.ts:63:7 › client work › adds a content item with the exact payload (1.0s)
+  ok  351 tests\a11y.spec.ts:73:9 › a11y portal-instagram/sequences?type=credibility dark (2.1s)
+  x   354 tests\delivery.spec.ts:99:7 › client work › edits a call note and can cancel an edit (1.8s)
+  ok  355 tests\a11y.spec.ts:73:9 › a11y portal-instagram/projects dark (1.9s)
+(node:33736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  357 tests\delivery.spec.ts:136:7 › client work › call note requires a date and a title (868ms)
+  ok  356 tests\a11y.spec.ts:73:9 › a11y portal-instagram/carousels dark (2.1s)
+  ok  358 tests\delivery.spec.ts:145:7 › client work › adds an asset and deletes one after confirming (1.7s)
+  ok  359 tests\a11y.spec.ts:73:9 › a11y portal-instagram/reels dark (2.0s)
+  ok  360 tests\delivery.spec.ts:180:7 › client work › a failed delete puts the row back with an error (954ms)
+  ok  362 tests\delivery.spec.ts:190:7 › client work › a failed save keeps the form and shows the legacy error copy (794ms)
+  ok  363 tests\delivery.spec.ts:199:7 › client work › empty states per kind focus the form (834ms)
+  ok  361 tests\a11y.spec.ts:73:9 › a11y portal-leads dark (2.2s)
+  ok  365 tests\a11y.spec.ts:73:9 › a11y portal-leads-visitors dark (1.9s)
+  ok  364 tests\delivery.spec.ts:212:7 › client work › load failure shows an inline error with retry (3.9s)
+  ok  366 tests\a11y.spec.ts:73:9 › a11y portal-leads-calls dark (1.8s)
+  ok  367 tests\delivery.spec.ts:219:7 › client work › no clients shows the setup hand-off (531ms)
+  ok  369 tests\delivery.spec.ts:228:9 › client work › mobile Content items has no horizontal overflow and no console problems (1.0s)
+  ok  370 tests\delivery.spec.ts:228:9 › client work › mobile Call notes has no horizontal overflow and no console problems (1.3s)
+  ok  368 tests\a11y.spec.ts:73:9 › a11y portal-performance-funnel dark (3.3s)
+  ok  371 tests\delivery.spec.ts:228:9 › client work › mobile Assets has no horizontal overflow and no console problems (1.5s)
+  ok  373 tests\email.spec.ts:29:7 › email › renders Kit connection, composer and the stored email list (751ms)
+  ok  372 tests\a11y.spec.ts:73:9 › a11y portal-performance-video dark (1.8s)
+  ok  374 tests\email.spec.ts:60:7 › email › validates before saving (814ms)
+  ok  376 tests\email.spec.ts:73:7 › email › saves a draft with the legacy payload and lists it (833ms)
+  ok  375 tests\a11y.spec.ts:73:9 › a11y portal-performance-applications dark (2.0s)
+  ok  377 tests\email.spec.ts:87:7 › email › send asks first, names the tag, and cancel sends nothing (1.4s)
+  ok  378 tests\a11y.spec.ts:73:9 › a11y portal-performance-links dark (2.0s)
+  ok  379 tests\email.spec.ts:111:7 › email › a rejected send stays in the list for copy and paste (1.3s)
+  ok  381 tests\email.spec.ts:134:7 › email › load puts a stored email back in the composer, including an unknown tag (815ms)
+  ok  382 tests\email.spec.ts:146:7 › email › preview renders paragraphs the way Kit will (862ms)
+  ok  380 tests\a11y.spec.ts:73:9 › a11y portal-commissions dark (1.9s)
+  ok  383 tests\email.spec.ts:160:7 › email › Kit not connected: drafts still save, send stays off (1.0s)
+  ok  385 tests\email.spec.ts:174:7 › email › Kit tag failure keeps the connection and explains it (632ms)
+  ok  386 tests\email.spec.ts:183:7 › email › no Kit tags explains how to add one (722ms)
+  ok  384 tests\a11y.spec.ts:73:9 › a11y portal-team-sales dark (2.4s)
+  ok  388 tests\a11y.spec.ts:73:9 › a11y portal-pages dark (2.1s)
+  ok  387 tests\email.spec.ts:190:7 › email › unreachable Kit check says so (4.1s)
+  ok  390 tests\email.spec.ts:198:7 › email › empty stored email (1.1s)
+  ok  389 tests\a11y.spec.ts:73:9 › a11y portal-pages-edit dark (2.8s)
+  ok  392 tests\a11y.spec.ts:73:9 › a11y portal-leads-conversations dark (2.5s)
+  ok  391 tests\email.spec.ts:207:7 › email › draft list failure shows an inline error with retry (4.1s)
+  ok  393 tests\a11y.spec.ts:73:9 › a11y portal-youtube dark (2.0s)
+  ok  394 tests\email.spec.ts:216:7 › email › ?client= preselects a known client (672ms)
+  ok  396 tests\email.spec.ts:223:7 › email › mobile layout has no horizontal overflow (691ms)
+  ok  397 tests\funnels.spec.ts:8:5 › operator sees a client's funnel and videos, asking as the operator for that client (846ms)
+  ok  395 tests\a11y.spec.ts:73:9 › a11y portal-youtube/new dark (2.0s)
+  ok  399 tests\a11y.spec.ts:73:9 › a11y portal-youtube/cash dark (1.7s)
+  ok  400 tests\a11y.spec.ts:73:9 › a11y portal-youtube/create dark (1.5s)
+  ok  401 tests\a11y.spec.ts:73:9 › a11y portal-youtube/formulas dark (1.5s)
+  ok  402 tests\a11y.spec.ts:73:9 › a11y portal-youtube/gallery dark (1.6s)
+  ok  403 tests\a11y.spec.ts:73:9 › a11y portal-youtube/designs dark (1.5s)
+  ok  404 tests\a11y.spec.ts:73:9 › a11y portal-youtube/projects dark (1.5s)
+  ok  398 tests\funnels.spec.ts:31:5 › switching client reloads that client's report (10.5s)
+  ok  406 tests\inbox.spec.ts:12:7 › inbox › lists conversations newest first, grouped by recency, and opens one (685ms)
+  ok  405 tests\a11y.spec.ts:73:9 › a11y portal-youtube/title dark (2.0s)
+  ok  407 tests\inbox.spec.ts:31:7 › inbox › tagging a reply turns the next action into a personalised asset, logged once (1.6s)
+  ok  408 tests\a11y.spec.ts:73:9 › a11y portal-youtube/build dark (2.1s)
+  ok  409 tests\inbox.spec.ts:51:7 › inbox › Suggest reads their messages, shows the evidence and applies only on click (964ms)
+  ok  411 tests\inbox.spec.ts:71:7 › inbox › no reply: the follow-up alternates hook and jab on the strongest pain point (969ms)
+  ok  410 tests\a11y.spec.ts:73:9 › a11y portal-media dark (2.0s)
+  ok  412 tests\inbox.spec.ts:81:7 › inbox › keys: j and k walk the conversations, / focuses search (807ms)
+  ok  414 tests\inbox.spec.ts:98:7 › inbox › ?filter= from Today opens on that filter with the first conversation open (648ms)
+  ok  415 tests\inbox.spec.ts:107:7 › inbox › a hook follow-up offers the ready-made image to download and logs it when sent (615ms)
+  ok  413 tests\a11y.spec.ts:73:9 › a11y portal-copy dark (2.0s)
+  ok  416 tests\inbox.spec.ts:120:7 › inbox › filters narrow the list and the search matches names (843ms)
+  ok  418 tests\inbox.spec.ts:132:7 › inbox › only leads count: a friend moves to Not leads and back, inbound stays out (#27) (1.3s)
+  ok  417 tests\a11y.spec.ts:73:9 › a11y portal-copy-write?type=reel dark (2.3s)
+  ok  419 tests\inbox.spec.ts:155:7 › inbox › outcome is a funnel: reply, then the call, then closed or lost (1.2s)
+  ok  421 tests\inbox.spec.ts:169:7 › inbox › the call step opens only after a positive reply (883ms)
+  ok  420 tests\a11y.spec.ts:73:9 › a11y portal-copy-drafts dark (2.0s)
+  ok  422 tests\inbox.spec.ts:180:7 › inbox › a negative reply offers Lost straight away (878ms)
+  ok  424 tests\inbox.spec.ts:191:7 › inbox › the conversation reads as a timeline with the opener and follow-ups labelled (778ms)
+  ok  425 tests\inbox.spec.ts:200:7 › inbox › phone: list first, a conversation replaces it, Back returns; no sideways scroll (627ms)
+  ok  423 tests\a11y.spec.ts:73:9 › a11y portal-copy-context dark (2.0s)
+  ok  426 tests\income.spec.ts:58:5 › income: receipts, total, and Income as a tab under Payments (543ms)
+  ok  428 tests\income.spec.ts:76:5 › recording a payment issues the receipt in one step (923ms)
+  ok  429 tests\income.spec.ts:95:5 › wallets hold public addresses only and can be removed (759ms)
+  ok  427 tests\a11y.spec.ts:73:9 › a11y portal-performance dark (1.9s)
+  ok  430 tests\income.spec.ts:110:5 › income has no horizontal overflow on a phone (379ms)
+  ok  432 tests\integrations.spec.ts:26:7 › integrations, operator workspace › renders every connector with state, detail and the right action (885ms)
+  ok  433 tests\integrations.spec.ts:77:7 › integrations, operator workspace › brand marks load from /shared/icons and fall back to initials (579ms)
+  ok  431 tests\a11y.spec.ts:73:9 › a11y portal-performance-weekly dark (2.1s)
+  ok  434 tests\integrations.spec.ts:85:7 › integrations, operator workspace › a missing brand mark shows initials without console noise (719ms)
+  ok  436 tests\integrations.spec.ts:94:7 › integrations, operator workspace › Kit saves pasted fields as secrets and config, skipping blanks (1.1s)
+  ok  435 tests\a11y.spec.ts:73:9 › a11y portal-revenue dark (1.9s)
+  ok  437 tests\integrations.spec.ts:109:7 › integrations, operator workspace › Discord connects with its webhook URL (1.1s)
+  ok  439 tests\integrations.spec.ts:126:7 › integrations, operator workspace › disconnect asks first, cancel writes nothing, confirm sends the legacy DELETE (1.3s)
+  ok  438 tests\a11y.spec.ts:73:9 › a11y portal-access dark (2.3s)
+  ok  440 tests\integrations.spec.ts:145:7 › integrations, operator workspace › Instagram: live updates and disconnect go through /api/zernio (1.0s)
+  ok  442 tests\integrations.spec.ts:159:7 › integrations, operator workspace › OAuth connects are full-page links to the backend start URLs (594ms)
+  ok  443 tests\integrations.spec.ts:166:7 › integrations, operator workspace › Zernio missing on the server shows the note and no action (588ms)
+  ok  441 tests\a11y.spec.ts:73:9 › a11y portal-settings dark (2.8s)
+  ok  444 tests\integrations.spec.ts:176:7 › integrations, operator workspace › the OAuth return notice reads ?zernio= (845ms)
+  ok  446 tests\integrations.spec.ts:188:7 › integrations, client workspace › picking a client scopes every list and adds payment matching (956ms)
+  ok  445 tests\a11y.spec.ts:73:9 › a11y portal-voice dark (1.9s)
+  ok  447 tests\integrations.spec.ts:211:7 › integrations, client workspace › one-key connect shows the guide, reports a bad key, then confirms the webhook (1.4s)
+  ok  448 tests\a11y.spec.ts:73:9 › a11y portal-onboarding dark (1.5s)
+  ok  449 tests\integrations.spec.ts:245:7 › integrations, client workspace › booking one-key success copy talks about bookings (980ms)
+  ok  450 tests\leads.spec.ts:13:7 › leads › merges Instagram and funnel contacts with legacy copy (820ms)
+  ok  452 tests\leads.spec.ts:46:7 › leads › filter chips apply the legacy rules (1.1s)
+  ok  451 tests\integrations.spec.ts:258:7 › developer tools › a new API key is shown once with copy, then gone (2.0s)
+  ok  453 tests\leads.spec.ts:68:7 › leads › search, sort by name, and filtered empty state (1.2s)
+  ok  454 tests\integrations.spec.ts:288:7 › developer tools › revoke asks first and sends the scoped DELETE (1.6s)
+  ok  455 tests\leads.spec.ts:90:7 › leads › clicking an Instagram row opens the conversation dialog (1.5s)
+  ok  456 tests\integrations.spec.ts:305:7 › developer tools › add endpoint posts the picked events and reveals the signing secret once (1.7s)
+  ok  457 tests\leads.spec.ts:124:7 › leads › conversation load error shows inline retry and close (4.5s)
+  ok  458 tests\integrations.spec.ts:332:7 › developer tools › send test, history and delete (4.3s)
+  ok  459 tests\leads.spec.ts:135:7 › leads › add to CRM posts the legacy record and flips the row (829ms)
+  ok  460 tests\integrations.spec.ts:361:7 › developer tools › empty lists say what to do next (897ms)
+  ok  461 tests\leads.spec.ts:158:7 › leads › add to CRM failure reverts with an inline error (1.0s)
+  ok  463 tests\leads.spec.ts:168:7 › leads › funnel rows open Payments and Client brain in the app (1.3s)
+  ok  464 tests\leads.spec.ts:179:7 › leads › ?section=funnel preselects the Funnel filter (506ms)
+  ok  465 tests\leads.spec.ts:186:7 › leads › empty workspace points to Integrations (709ms)
+  ok  462 tests\integrations.spec.ts:370:7 › integrations, failures and layout › a failed integrations load shows the error with retry (4.0s)
+  ok  467 tests\integrations.spec.ts:378:7 › integrations, failures and layout › a failed key list keeps the rest of the page and offers retry (588ms)
+  ok  468 tests\integrations.spec.ts:387:9 › integrations, failures and layout › no horizontal overflow at 390px on /app/integrations (793ms)
+  ok  469 tests\integrations.spec.ts:387:9 › integrations, failures and layout › no horizontal overflow at 390px on /app/integrations?client=demo-rio (791ms)
+  ok  470 tests\monitoring.spec.ts:5:5 › scrubUrl removes every query and fragment (1ms)
+  ok  466 tests\leads.spec.ts:196:7 › leads › load error shows the error state (3.8s)
+  ok  472 tests\leads.spec.ts:203:7 › leads › refresh refetches both sources (714ms)
+  ok  473 tests\leads.spec.ts:212:7 › leads › mobile has no horizontal overflow, with the dialog open (614ms)
+  -   474 tests\onboarding.screens.spec.ts:26:9 › onboarding dark-desktop
+  -   475 tests\onboarding.screens.spec.ts:26:9 › onboarding dark-mobile
+  -   476 tests\onboarding.screens.spec.ts:26:9 › onboarding light-desktop
+  -   477 tests\onboarding.screens.spec.ts:26:9 › onboarding light-mobile
+  ok  471 tests\motion.spec.ts:19:5 › the pressed fill slides to the chosen option and settles on it (2.2s)
+  ok  479 tests\motion.spec.ts:36:5 › the sidebar marks the current page with the sliding shape (461ms)
+  ok  480 tests\motion.spec.ts:45:5 › button labels are swap-in-place text (540ms)
+  ok  481 tests\motion.spec.ts:55:7 › with reduced motion › the fill jumps straight to the chosen option (903ms)
+  ok  478 tests\onboarding.spec.ts:63:5 › a first visit starts at the welcome, blocks a blank required answer, and saves each answer on Continue (2.5s)
+  ok  482 tests\operator.spec.ts:5:7 › overview › renders live workspace data with health and range (620ms)
+  ok  484 tests\operator.spec.ts:16:7 › overview › island shortcuts, the full menu and overview tiles route inside the app (906ms)
+  ok  485 tests\operator.spec.ts:36:7 › overview › signed-out state shows sign-in and no client data (494ms)
+  ok  486 tests\operator.spec.ts:45:7 › clients › lists active clients and archives with confirmation (983ms)
+  ok  487 tests\operator.spec.ts:62:7 › clients › archived tab lists archived workspaces with restore (482ms)
+  ok  488 tests\operator.spec.ts:71:5 › theme choice is shared with the legacy console key (306ms)
+  ok  489 tests\operator.spec.ts:78:5 › mobile layout has no horizontal overflow (334ms)
+  ok  490 tests\operator.spec.ts:88:7 › overview at a glance (ticket #17) › client health, cash by client and the outbound funnel (1.3s)
+  -   491 tests\outreach.screens.spec.ts:44:11 › outreach dark desktop
+  -   492 tests\outreach.screens.spec.ts:44:11 › outreach-expanded dark desktop
+  -   493 tests\outreach.screens.spec.ts:44:11 › leads dark desktop
+  -   494 tests\outreach.screens.spec.ts:44:11 › leads-dialog dark desktop
+  -   495 tests\outreach.screens.spec.ts:44:11 › outreach dark mobile
+  -   496 tests\outreach.screens.spec.ts:44:11 › outreach-expanded dark mobile
+  -   497 tests\outreach.screens.spec.ts:44:11 › leads dark mobile
+  -   498 tests\outreach.screens.spec.ts:44:11 › leads-dialog dark mobile
+  -   499 tests\outreach.screens.spec.ts:44:11 › outreach light desktop
+  -   500 tests\outreach.screens.spec.ts:44:11 › outreach-expanded light desktop
+  -   501 tests\outreach.screens.spec.ts:44:11 › leads light desktop
+  -   502 tests\outreach.screens.spec.ts:44:11 › leads-dialog light desktop
+  -   503 tests\outreach.screens.spec.ts:44:11 › outreach light mobile
+  -   504 tests\outreach.screens.spec.ts:44:11 › outreach-expanded light mobile
+  -   505 tests\outreach.screens.spec.ts:44:11 › leads light mobile
+  -   506 tests\outreach.screens.spec.ts:44:11 › leads-dialog light mobile
+  ok  507 tests\outreach.spec.ts:7:7 › outreach tracker › renders header, outbound stats, tabs with counts, and activity (832ms)
+  ok  508 tests\outreach.spec.ts:51:7 › outreach tracker › switching sections swaps stats and lists (1.0s)
+  ok  509 tests\outreach.spec.ts:72:7 › outreach tracker › follow-up due order groups the section (1.2s)
+  ok  483 tests\onboarding.spec.ts:108:5 › a returning client picks up at the first open question and walks to the finish (9.1s)
+  ok  510 tests\outreach.spec.ts:94:7 › outreach tracker › expanding a thread loads the chat, evidence, seen line and note; several stay open (1.2s)
+  ok  512 tests\outreach.spec.ts:128:7 › outreach tracker › empty and failed thread histories (1.0s)
+  ok  511 tests\onboarding.spec.ts:193:5 › the offer voice note: a file comes back as a transcript to fix, and the fix goes into the brain (3.4s)
+  ok  514 tests\onboarding.spec.ts:220:5 › proof: images upload at once, video links are added to the vault, and Finish records the answer (1.9s)
+  ok  513 tests\outreach.spec.ts:140:7 › outreach tracker › thread load error shows inline retry (4.4s)
+  ok  515 tests\onboarding.spec.ts:281:5 › operator preview walks the whole form and saves nothing (1.0s)
+  ok  517 tests\onboarding.spec.ts:292:5 › the private link's token leaves the address bar once the page is open (487ms)
+  ok  516 tests\outreach.spec.ts:148:7 › outreach tracker › each action posts the right body and refetches (2.1s)
+  ok  518 tests\onboarding.spec.ts:299:5 › phone width: no sideways scroll on the welcome, a long answer or the numbers (2.0s)
+  ok  519 tests\outreach.spec.ts:198:7 › outreach tracker › drop and restore prospect (1.3s)
+  ok  520 tests\onboarding.spec.ts:314:5 › the Overview asks the client to finish the form until they do (1.6s)
+  ok  521 tests\outreach.spec.ts:211:7 › outreach tracker › action failure shows an inline error with retry (1.4s)
+  ok  523 tests\outreach.spec.ts:221:7 › outreach tracker › saving a note posts the text (1.0s)
+  ok  524 tests\outreach.spec.ts:234:7 › outreach tracker › deep link selects the section, opens and scrolls to the thread (709ms)
+  ok  525 tests\outreach.spec.ts:244:7 › outreach tracker › search re-queries the API and keeps previous rows while loading (1.3s)
+  ok  526 tests\outreach.spec.ts:260:7 › outreach tracker › refresh button refetches (729ms)
+  ok  527 tests\outreach.spec.ts:269:7 › outreach tracker › empty sections use legacy copy and actions (822ms)
+  ok  522 tests\onboarding.spec.ts:333:7 › a11y: choice cards and the numbers screen pass axe in light (6.8s)
+  ok  528 tests\outreach.spec.ts:283:7 › outreach tracker › list error shows the error state with retry (4.1s)
+  ok  530 tests\outreach.spec.ts:290:7 › outreach tracker › mobile has no horizontal overflow, with a thread open (888ms)
+  ok  531 tests\payments.spec.ts:23:7 › payments › renders the first client's providers and the three matching lists (778ms)
+  ok  532 tests\payments.spec.ts:50:7 › payments › Whop connects with one key for the selected client (953ms)
+  ok  533 tests\payments.spec.ts:68:7 › payments › confirm and not-this send the legacy bodies (830ms)
+  ok  529 tests\onboarding.spec.ts:333:7 › a11y: choice cards and the numbers screen pass axe in dark (6.8s)
+  ok  534 tests\payments.spec.ts:79:7 › payments › unlinked: find matches and link manually through the lead search (1.6s)
+  ok  536 tests\payments.spec.ts:110:7 › payments › unlinking a confirmed match asks first (1.6s)
+  ok  537 tests\payments.spec.ts:127:7 › payments › ?payment= opens the right tab and highlights the row (945ms)
+  ok  535 tests\photos.spec.ts:5:6 › photos light 1536: folders, original and accessibility (3.4s)
+  ok  538 tests\payments.spec.ts:136:7 › payments › the legacy sessionStorage handoff is honoured once and moved into the URL (821ms)
+  ok  540 tests\payments.spec.ts:151:7 › payments › a payment that is not in this client's lists says so (658ms)
+  ok  541 tests\payments.spec.ts:157:7 › payments › switching client updates the URL and shows the empty lists (863ms)
+  ok  542 tests\payments.spec.ts:172:7 › payments › no clients yet (527ms)
+  ok  539 tests\photos.spec.ts:5:6 › photos light 390: folders, original and accessibility (2.8s)
+  ok  543 tests\payments.spec.ts:179:7 › payments › a failed matching load offers retry (845ms)
+  ok  545 tests\payments.spec.ts:186:7 › payments › no horizontal overflow at 390px (1.0s)
+  -   546 tests\portal-home.screens.spec.ts:21:11 › portal home dark desktop
+  -   547 tests\portal-home.screens.spec.ts:21:11 › portal content dark desktop
+  -   548 tests\portal-home.screens.spec.ts:21:11 › portal plans dark desktop
+  -   549 tests\portal-home.screens.spec.ts:21:11 › portal todos dark desktop
+  -   550 tests\portal-home.screens.spec.ts:21:11 › portal team dark desktop
+  -   551 tests\portal-home.screens.spec.ts:21:11 › portal tracker dark desktop
+  -   552 tests\portal-home.screens.spec.ts:21:11 › portal home dark mobile
+  -   553 tests\portal-home.screens.spec.ts:21:11 › portal content dark mobile
+  -   554 tests\portal-home.screens.spec.ts:21:11 › portal plans dark mobile
+  -   555 tests\portal-home.screens.spec.ts:21:11 › portal todos dark mobile
+  -   556 tests\portal-home.screens.spec.ts:21:11 › portal team dark mobile
+  -   557 tests\portal-home.screens.spec.ts:21:11 › portal tracker dark mobile
+  -   558 tests\portal-home.screens.spec.ts:21:11 › portal home light desktop
+  -   559 tests\portal-home.screens.spec.ts:21:11 › portal content light desktop
+  -   560 tests\portal-home.screens.spec.ts:21:11 › portal plans light desktop
+  -   561 tests\portal-home.screens.spec.ts:21:11 › portal todos light desktop
+  -   562 tests\portal-home.screens.spec.ts:21:11 › portal team light desktop
+  -   563 tests\portal-home.screens.spec.ts:21:11 › portal tracker light desktop
+  -   564 tests\portal-home.screens.spec.ts:21:11 › portal home light mobile
+  -   565 tests\portal-home.screens.spec.ts:21:11 › portal content light mobile
+  -   566 tests\portal-home.screens.spec.ts:21:11 › portal plans light mobile
+  -   567 tests\portal-home.screens.spec.ts:21:11 › portal todos light mobile
+  -   568 tests\portal-home.screens.spec.ts:21:11 › portal team light mobile
+  -   569 tests\portal-home.screens.spec.ts:21:11 › portal tracker light mobile
+  ok  570 tests\portal-home.spec.ts:32:7 › portal overview › renders the week, pipeline, money, the dock and the week lists from client calls only (1.9s)
+  ok  544 tests\photos.spec.ts:5:6 › photos dark 1536: folders, original and accessibility (3.6s)
+  ok  571 tests\portal-home.spec.ts:100:7 › portal overview › launch checklist combines saved, server and data facts and saves steps (2.2s)
+  ok  573 tests\portal-home.spec.ts:153:7 › portal overview › a dismissed checklist stays hidden (2.1s)
+  ok  572 tests\photos.spec.ts:5:6 › photos dark 390: folders, original and accessibility (4.7s)
+  ok  574 tests\portal-home.spec.ts:164:7 › portal overview › paints the cached dashboard before the network answers (2.1s)
+  ok  575 tests\photos.spec.ts:20:5 › operator upload sends folder, keeps failed images for retry, skips successful uploads (2.4s)
+  ok  577 tests\photos.spec.ts:32:5 › invalid HEIC is rejected with a readable message (1.3s)
+  ok  576 tests\portal-home.spec.ts:199:7 › portal overview › empty workspace shows the empty states (1.9s)
+  ok  578 tests\photos.spec.ts:37:5 › Photo library is reachable from operator menu (1.9s)
+  ok  580 tests\portal-insights.spec.ts:23:5 › monthly report: the month in numbers, forecast beside it, ready to save as a PDF (2.1s)
+  ok  579 tests\portal-home.spec.ts:226:7 › portal overview › a failed dashboard shows the error with retry, a failed pulse stays local (4.6s)
+  ok  581 tests\portal-insights.spec.ts:42:5 › call-day nudge: calls today ask for a result story first (1.6s)
+  ok  583 tests\portal-insights.spec.ts:51:5 › ask: a plain question gets an answer from the numbers, with where to act (1.9s)
+  ok  584 tests\portal-insights.spec.ts:65:5 › sales team: add the first rep, then see each rep's numbers, links and forms (1.4s)
+  ok  582 tests\portal-home.spec.ts:238:7 › portal overview › pulse failure keeps the rest of the overview (4.6s)
+  ok  586 tests\portal-home.spec.ts:246:7 › portal overview › a signed-out client is sent to the client sign-in (965ms)
+  ok  585 tests\portal-insights.spec.ts:85:5 › sales targets: rates are saved as fractions, empty input clears a team target (1.5s)
+  ok  587 tests\portal-home.spec.ts:259:7 › portal sections › content calendar: plan a piece at a time, repeat it weekly and get started from it (1.9s)
+  ok  588 tests\portal-insights.spec.ts:101:5 › sales scoreboard switches calendar periods and stays inside a phone (1.8s)
+  ok  589 tests\portal-home.spec.ts:306:7 › portal sections › plans show status, progress and dates (1.0s)
+  ok  590 tests\portal-insights.spec.ts:118:5 › commissions: what each rep earned this period, with mark paid and flags (1.3s)
+  ok  592 tests\portal-insights.spec.ts:129:5 › integrations: problems in plain words, and a check once money comes through (1.3s)
+  ok  591 tests\portal-home.spec.ts:326:7 › portal sections › to-dos tick through the client endpoint and revert when the save fails (1.6s)
+  ok  594 tests\portal-home.spec.ts:355:7 › portal sections › a failed to-do save reverts and says why (1.3s)
+  ok  593 tests\portal-insights.spec.ts:150:5 › operator: a client's leads, team and report from Client funnels (1.9s)
+  ok  595 tests\portal-home.spec.ts:366:7 › portal sections › team shows each member and what they are on (931ms)
+  ok  596 tests\portal-insights.spec.ts:171:5 › new pages fit a phone (1.5s)
+  -   598 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › overview
+  -   599 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › sequences
+  -   600 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › sequence-type
+  -   601 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › sequence-build
+  -   602 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › projects
+  -   603 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › editor-story
+  -   604 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › editor-carousel
+  -   605 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › carousels
+  -   606 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › reels
+  -   607 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › reels-capture
+  -   608 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › reels-angles
+  -   609 tests\portal-instagram.screens.spec.ts:41:13 › dark desktop › leads
+  -   610 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › overview
+  -   611 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › sequences
+  -   612 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › sequence-type
+  -   613 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › sequence-build
+  -   614 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › projects
+  -   615 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › editor-story
+  -   616 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › editor-carousel
+  -   617 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › carousels
+  -   618 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › reels
+  -   619 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › reels-capture
+  -   620 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › reels-angles
+  -   621 tests\portal-instagram.screens.spec.ts:41:13 › dark mobile › leads
+  -   622 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › overview
+  -   623 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › sequences
+  -   624 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › sequence-type
+  -   625 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › sequence-build
+  -   626 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › projects
+  -   627 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › editor-story
+  -   628 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › editor-carousel
+  -   629 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › carousels
+  -   630 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › reels
+  -   631 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › reels-capture
+  -   632 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › reels-angles
+  -   633 tests\portal-instagram.screens.spec.ts:41:13 › light desktop › leads
+  -   634 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › overview
+  -   635 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › sequences
+  -   636 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › sequence-type
+  -   637 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › sequence-build
+  -   638 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › projects
+  -   639 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › editor-story
+  -   640 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › editor-carousel
+  -   641 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › carousels
+  -   642 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › reels
+  -   643 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › reels-capture
+  -   644 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › reels-angles
+  -   645 tests\portal-instagram.screens.spec.ts:41:13 › light mobile › leads
+  ok  597 tests\portal-home.spec.ts:378:7 › portal sections › tracker shows all-time totals and opens each metric (1.4s)
+  ok  646 tests\portal-instagram.spec.ts:13:7 › portal instagram › overview renders the formats, weekly read and pipeline with client calls only (1.1s)
+  ok  647 tests\portal-home.spec.ts:393:7 › portal sections › money and the week cards carry every value in a readable table (1.5s)
+  ok  649 tests\portal-home.spec.ts:402:7 › portal sections › an empty workspace says what fills the pipeline and money (1.1s)
+  ok  650 tests\portal-home.spec.ts:415:7 › portal sections › tracker: headline, charts and a calendar you can click through (1.8s)
+  ok  648 tests\portal-instagram.spec.ts:34:7 › portal instagram › type grid, type detail, templates and reference panels (3.8s)
+  ok  651 tests\portal-home.spec.ts:468:7 › portal sections › tracker has no horizontal overflow on phones (1.1s)
+  ok  652 tests\portal-instagram.spec.ts:61:7 › portal instagram › adding a reference saves a workspace record (2.8s)
+  ok  653 tests\portal-home.spec.ts:482:7 › portal sections › tracker error state (4.5s)
+  ok  654 tests\portal-instagram.spec.ts:78:7 › portal instagram › the builder validates, generates the storyboard and opens the editor (3.0s)
+  ok  655 tests\portal-home.spec.ts:496:9 › portal sections › content empty state (1.1s)
+  ok  657 tests\portal-home.spec.ts:496:9 › portal sections › plans empty state (883ms)
+  ok  658 tests\portal-home.spec.ts:496:9 › portal sections › todos empty state (758ms)
+  ok  656 tests\portal-instagram.spec.ts:121:7 › portal instagram › when our AI writes the draft, the builder keeps its copy (2.5s)
+  ok  659 tests\portal-home.spec.ts:496:9 › portal sections › team empty state (801ms)
+  ok  660 tests\portal-instagram.spec.ts:135:7 › portal instagram › leaving the builder with unsaved input asks first (2.2s)
+  ok  661 tests\portal-home.spec.ts:504:5 › operator preview is read-only everywhere and never writes (2.1s)
+  ok  662 tests\portal-instagram.spec.ts:148:7 › portal instagram › library filters, board layout and empty search (2.1s)
+  ok  664 tests\portal-instagram.spec.ts:167:7 › portal instagram › editor saves, imports, drafts a panel with AI and sends for review (3.2s)
+  ok  665 tests\portal-instagram.spec.ts:202:7 › portal instagram › delete asks for confirmation and returns to the library (1.8s)
+  ok  663 tests\portal-home.spec.ts:530:5 › every route fits a 390px phone with no horizontal overflow (6.8s)
+  ok  666 tests\portal-instagram.spec.ts:215:7 › portal instagram › dirty editor guards leaving; AI unavailable is reported (2.2s)
+  ok  667 tests\portal-home.spec.ts:558:7 › funnel against target (#37; on the Funnel page since 2026-10-03) › numbers first, one funnel shape, fixes ranked by money with the math behind a tap (2.6s)
+  ok  669 tests\portal-home.spec.ts:661:7 › funnel against target (#37; on the Funnel page since 2026-10-03) › a new funnel shows the setup gap first and never grades what it can't measure (1.1s)
+  ok  668 tests\portal-instagram.spec.ts:228:7 › portal instagram › carousel builder follows the SOP, draws the designed slides and saves them into the draft (3.2s)
+  ok  670 tests\portal-home.spec.ts:689:7 › funnel against target (#37; on the Funnel page since 2026-10-03) › an empty funnel says when it fills in, and a failed report leaves the page usable (4.7s)
+  ok  671 tests\portal-instagram.spec.ts:266:7 › portal instagram › reels: capture inbox translates a thought, angle library lists the paths (3.8s)
+  ok  672 tests\portal-home.spec.ts:711:7 › funnel against target (#37; on the Funnel page since 2026-10-03) › every look renders the portal and keeps the page from scrolling sideways (2.5s)
+  ok  674 tests\portal-home.spec.ts:727:7 › funnel against target (#37; on the Funnel page since 2026-10-03) › every spotlight palette renders and keeps the page from scrolling sideways (1.9s)
+  ok  675 tests\portal-leads.spec.ts:20:5 › call panel shows the linked brief, recording, action items and closer (670ms)
+  ok  676 tests\portal-leads.spec.ts:35:5 › no-close follow-up is pasted for review and copy waits for approval (1.0s)
+  ok  673 tests\portal-instagram.spec.ts:306:7 › portal instagram › leads: pipeline, stage filter, add and summarize (6.6s)
+  ok  677 tests\portal-leads.spec.ts:56:5 › pipeline: numbers first, one line per lead, every detail on tap (1.3s)
+  ok  679 tests\portal-leads.spec.ts:94:5 › post-call form moves a lead along its pipeline (2.2s)
+  ok  680 tests\portal-leads.spec.ts:129:5 › a hot-lead alert link opens that lead (606ms)
+  ok  681 tests\portal-leads.spec.ts:136:5 › visitors: live count, anonymous visitors, same details on tap (901ms)
+  ok  682 tests\portal-leads.spec.ts:148:5 › calls: confirm, the month by outcome, and the form for calls that happened (927ms)
+  ok  678 tests\portal-instagram.spec.ts:361:7 › portal instagram › operator preview is read-only everywhere (5.6s)
+  ok  683 tests\portal-leads.spec.ts:162:5 › censor blurs names and money, and stays on after a reload (1.6s)
+  ok  684 tests\portal-instagram.spec.ts:393:7 › portal instagram › empty and error states (1.9s)
+  ok  685 tests\portal-leads.spec.ts:178:5 › world clocks: add a city to the header (1.3s)
+  ok  686 tests\portal-instagram.spec.ts:405:7 › portal instagram › load failures show an error with retry (1.1s)
+  ok  687 tests\portal-leads.spec.ts:187:5 › operator preview is read-only (1.4s)
+  ok  688 tests\portal-instagram.spec.ts:414:7 › portal instagram › every route fits a phone with no horizontal overflow (4.9s)
+  ok  689 tests\portal-leads.spec.ts:200:5 › empty and error states (4.4s)
+  ok  690 tests\portal-performance.spec.ts:18:5 › funnel: live tiles, where visitors come from, the map and the funnel against target (1.7s)
+  ok  692 tests\portal-performance.spec.ts:36:5 › video: plays, depth and how far viewers get (820ms)
+  ok  691 tests\portal-leads.spec.ts:211:5 › every tab fits a phone with no horizontal overflow (2.7s)
+  -   694 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy dark desktop
+  -   695 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-drafts dark desktop
+  -   696 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-context dark desktop
+  -   697 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-write dark desktop
+  -   698 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-prompt dark desktop
+  -   699 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-format dark desktop
+  -   700 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-draft dark desktop
+  -   701 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance dark desktop
+  -   702 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-retention dark desktop
+  -   703 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-history dark desktop
+  -   704 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-weekly dark desktop
+  -   705 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-log dark desktop
+  -   706 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue dark desktop
+  -   707 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue-transactions dark desktop
+  -   708 tests\portal-workspace.screens.spec.ts:68:11 › portal-access dark desktop
+  -   709 tests\portal-workspace.screens.spec.ts:68:11 › portal-settings dark desktop
+  -   710 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy dark mobile
+  -   711 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-drafts dark mobile
+  -   712 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-context dark mobile
+  -   713 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-write dark mobile
+  -   714 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-prompt dark mobile
+  -   715 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-format dark mobile
+  -   716 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-draft dark mobile
+  -   717 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance dark mobile
+  -   718 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-retention dark mobile
+  -   719 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-history dark mobile
+  -   720 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-weekly dark mobile
+  -   721 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-log dark mobile
+  -   722 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue dark mobile
+  -   723 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue-transactions dark mobile
+  -   724 tests\portal-workspace.screens.spec.ts:68:11 › portal-access dark mobile
+  -   725 tests\portal-workspace.screens.spec.ts:68:11 › portal-settings dark mobile
+  -   726 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy light desktop
+  -   727 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-drafts light desktop
+  -   728 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-context light desktop
+  -   729 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-write light desktop
+  -   730 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-prompt light desktop
+  -   731 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-format light desktop
+  -   732 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-draft light desktop
+  -   733 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance light desktop
+  -   734 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-retention light desktop
+  -   735 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-history light desktop
+  -   736 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-weekly light desktop
+  -   737 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-log light desktop
+  -   738 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue light desktop
+  -   739 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue-transactions light desktop
+  -   740 tests\portal-workspace.screens.spec.ts:68:11 › portal-access light desktop
+  -   741 tests\portal-workspace.screens.spec.ts:68:11 › portal-settings light desktop
+  -   742 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy light mobile
+  -   743 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-drafts light mobile
+  -   744 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-context light mobile
+  -   745 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-write light mobile
+  -   746 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-prompt light mobile
+  -   747 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-format light mobile
+  -   748 tests\portal-workspace.screens.spec.ts:68:11 › portal-copy-draft light mobile
+  -   749 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance light mobile
+  -   750 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-retention light mobile
+  -   751 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-history light mobile
+  -   752 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-weekly light mobile
+  -   753 tests\portal-workspace.screens.spec.ts:68:11 › portal-performance-log light mobile
+  -   754 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue light mobile
+  -   755 tests\portal-workspace.screens.spec.ts:68:11 › portal-revenue-transactions light mobile
+  -   756 tests\portal-workspace.screens.spec.ts:68:11 › portal-access light mobile
+  -   757 tests\portal-workspace.screens.spec.ts:68:11 › portal-settings light mobile
+  ok  693 tests\portal-performance.spec.ts:46:5 › applications: each answer with who books and buys, and a not-a-fit switch (974ms)
+  ok  758 tests\portal-workspace.spec.ts:46:7 › Copywriter › the Copywriter opens as a chat that says what it does, with saved chats beside it (875ms)
+  ok  760 tests\portal-workspace.spec.ts:63:7 › Copywriter › picking a kind of writing asks one plain question and shows an example and three starting points (1.3s)
+  ok  759 tests\portal-performance.spec.ts:58:5 › links: make a tracked link and see what it sold (1.6s)
+  ok  761 tests\portal-workspace.spec.ts:73:7 › Copywriter › a message streams its reply into the chat, which is saved and refined in the same thread (1.2s)
+  ok  762 tests\portal-performance.spec.ts:76:5 › pages: stats, page flow and the builder with a live preview (1.7s)
+  ok  763 tests\portal-workspace.spec.ts:90:7 › Copywriter › a reply can be stopped, and what was written stays (1.1s)
+  ok  764 tests\portal-performance.spec.ts:102:5 › operator preview can look but not change (1.6s)
+  ok  765 tests\portal-workspace.spec.ts:104:7 › Copywriter › a reply can be copied, saved to drafts with an automatic name, and rated (1.6s)
+  ok  767 tests\portal-workspace.spec.ts:124:7 › Copywriter › chats can be renamed and deleted from the rail, and a new chat starts empty (1.6s)
+  ok  768 tests\portal-workspace.spec.ts:146:7 › Copywriter › what the assistant remembers can be read, added to and forgotten (1.1s)
+  ok  766 tests\portal-performance.spec.ts:114:5 › every new route fits a phone (3.3s)
+  ok  769 tests\portal-workspace.spec.ts:159:7 › Copywriter › a saved draft opens in the chat and continues with its text as context (1.0s)
+  ok  771 tests\portal-workspace.spec.ts:170:7 › Copywriter › a missing draft says so (648ms)
+  ok  770 tests\portal-youtube-build.spec.ts:22:5 › answers, a plan from the client's own AI, pick an opening, save the video plan (1.7s)
+  ok  772 tests\portal-workspace.spec.ts:176:7 › Copywriter › without our AI the chat hands out a prompt and takes the pasted answer as the reply (1.2s)
+  ok  773 tests\portal-youtube-build.spec.ts:78:5 › a hard ask on a top-of-funnel video is flagged (1.2s)
+  ok  774 tests\portal-workspace.spec.ts:191:7 › Copywriter › a failed reply says so in the chat and offers the prompt for the client's own AI (889ms)
+  ok  775 tests\portal-youtube-build.spec.ts:89:5 › with the Anthropic key on, the plan arrives directly and a saved plan reopens (1.7s)
+  ok  776 tests\portal-workspace.spec.ts:200:7 › Copywriter › leaving mid-conversation with unsaved work asks first (1.4s)
+  ok  778 tests\portal-workspace.spec.ts:211:7 › Copywriter › drafts list and its empty state (837ms)
+  ok  777 tests\portal-youtube-build.spec.ts:106:5 › a video sent back shows the team's reason; a draft can be saved without sending (1.5s)
+  ok  779 tests\portal-workspace.spec.ts:217:7 › Copywriter › drafts empty state (695ms)
+  ok  780 tests\portal-youtube-ideation.spec.ts:20:5 › overview leads with New video (520ms)
+  ok  782 tests\portal-youtube-ideation.spec.ts:27:5 › questions show onboarding answers, run in the client's own AI, and the pick opens the title step (2.4s)
+  ok  783 tests\portal-youtube-ideation.spec.ts:100:5 › with the Anthropic key on, ideas arrive as cards and unfinished ideation resumes from projects (1.3s)
+  ok  781 tests\portal-workspace.spec.ts:222:7 › Copywriter › drafts load failure shows the error with retry (4.0s)
+  ok  784 tests\portal-youtube-ideation.spec.ts:130:5 › a client without onboarding answers is pointed to onboarding (775ms)
+  ok  785 tests\portal-workspace.spec.ts:229:7 › Copywriter › brand context: download, caption save and proof upload (1.3s)
+  ok  786 tests\portal-youtube-ideation.spec.ts:140:5 › an operator preview never saves (1.1s)
+  ok  787 tests\portal-workspace.spec.ts:260:7 › Performance › overview KPIs and explore cards (1.2s)
+  ok  789 tests\portal-workspace.spec.ts:271:7 › Performance › retention curve, cliff note and type leaderboard (1.2s)
+  ok  788 tests\portal-youtube-title.spec.ts:22:5 › proof and layout, titles from the client's own AI, pick a pair, save and build the video (2.2s)
+  ok  790 tests\portal-workspace.spec.ts:279:7 › Performance › retention empty state (1.1s)
+  ok  791 tests\portal-youtube-title.spec.ts:73:5 › live checks follow the packaging rules (1.5s)
+  ok  793 tests\portal-youtube-title.spec.ts:95:5 › with the Anthropic key on, pairs arrive directly and are saved with the project (1.1s)
+  ok  794 tests\portal-youtube-title.spec.ts:106:5 › a project waiting on its title reopens the title step from My video projects (687ms)
+  -   795 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube dark desktop
+  -   796 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new dark desktop
+  -   797 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new-results dark desktop
+  -   798 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title dark desktop
+  -   799 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title-pairs dark desktop
+  -   800 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-build-plan dark desktop
+  -   801 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash dark desktop
+  -   802 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash-video dark desktop
+  -   803 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-create dark desktop
+  -   804 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-wizard dark desktop
+  -   805 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-formulas dark desktop
+  -   806 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-gallery dark desktop
+  -   807 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-layout dark desktop
+  -   808 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designer dark desktop
+  -   809 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designs dark desktop
+  -   810 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-projects dark desktop
+  -   811 tests\portal-youtube.screens.spec.ts:86:11 › portal-media dark desktop
+  -   812 tests\portal-youtube.screens.spec.ts:86:11 › portal-media-upload dark desktop
+  -   813 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube dark mobile
+  -   814 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new dark mobile
+  -   815 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new-results dark mobile
+  -   816 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title dark mobile
+  -   817 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title-pairs dark mobile
+  -   818 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-build-plan dark mobile
+  -   819 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash dark mobile
+  -   820 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash-video dark mobile
+  -   821 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-create dark mobile
+  -   822 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-wizard dark mobile
+  -   823 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-formulas dark mobile
+  -   824 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-gallery dark mobile
+  -   825 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-layout dark mobile
+  -   826 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designer dark mobile
+  -   827 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designs dark mobile
+  -   828 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-projects dark mobile
+  -   829 tests\portal-youtube.screens.spec.ts:86:11 › portal-media dark mobile
+  -   830 tests\portal-youtube.screens.spec.ts:86:11 › portal-media-upload dark mobile
+  -   831 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube light desktop
+  -   832 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new light desktop
+  -   833 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new-results light desktop
+  -   834 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title light desktop
+  -   835 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title-pairs light desktop
+  -   836 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-build-plan light desktop
+  -   837 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash light desktop
+  -   838 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash-video light desktop
+  -   839 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-create light desktop
+  -   840 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-wizard light desktop
+  -   841 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-formulas light desktop
+  -   842 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-gallery light desktop
+  -   843 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-layout light desktop
+  -   844 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designer light desktop
+  -   845 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designs light desktop
+  -   846 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-projects light desktop
+  -   847 tests\portal-youtube.screens.spec.ts:86:11 › portal-media light desktop
+  -   848 tests\portal-youtube.screens.spec.ts:86:11 › portal-media-upload light desktop
+  -   849 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube light mobile
+  -   850 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new light mobile
+  -   851 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-new-results light mobile
+  -   852 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title light mobile
+  -   853 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-title-pairs light mobile
+  -   854 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-build-plan light mobile
+  -   855 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash light mobile
+  -   856 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-cash-video light mobile
+  -   857 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-create light mobile
+  -   858 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-wizard light mobile
+  -   859 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-formulas light mobile
+  -   860 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-gallery light mobile
+  -   861 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-layout light mobile
+  -   862 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designer light mobile
+  -   863 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-designs light mobile
+  -   864 tests\portal-youtube.screens.spec.ts:86:11 › portal-youtube-projects light mobile
+  -   865 tests\portal-youtube.screens.spec.ts:86:11 › portal-media light mobile
+  -   866 tests\portal-youtube.screens.spec.ts:86:11 › portal-media-upload light mobile
+  ok  792 tests\portal-workspace.spec.ts:284:7 › Performance › log a sequence and a follower snapshot (2.8s)
+  ok  867 tests\portal-youtube.spec.ts:29:5 › overview: three square doors, title formulas in place, every project behind All my projects (1.3s)
+  ok  868 tests\portal-workspace.spec.ts:314:7 › Performance › a validation error stays in the form (1.6s)
+  ok  869 tests\portal-youtube.spec.ts:54:5 › create long form walks the five steps and saves the package (2.2s)
+  ok  870 tests\portal-workspace.spec.ts:323:7 › Performance › history: edit, retest launch, variant log and lineage (2.8s)
+  ok  871 tests\portal-youtube.spec.ts:107:5 › a saved package opens prefilled and saves with its version (1.5s)
+  ok  872 tests\portal-workspace.spec.ts:357:7 › Performance › weekly card (960ms)
+  ok  873 tests\portal-youtube.spec.ts:124:5 › a stale package shows the conflict and keeps the edits (1.2s)
+  ok  874 tests\portal-workspace.spec.ts:365:7 › Performance › weekly empty state (1.0s)
+  ok  875 tests\portal-youtube.spec.ts:134:5 › a missing package says so (947ms)
+  ok  877 tests\portal-youtube.spec.ts:141:5 › unsaved wizard edits ask before leaving (1.5s)
+  ok  878 tests\portal-youtube.spec.ts:155:5 › AI suggestions show progress, apply to the step and send the legacy brief (923ms)
+  ok  879 tests\portal-youtube.spec.ts:183:5 › without our AI the suggestions come from the client's own AI and nothing applies until pasted (836ms)
+  ok  876 tests\portal-workspace.spec.ts:371:7 › Performance › a failed load shows the error with retry (4.3s)
+  ok  880 tests\portal-youtube.spec.ts:197:5 › title formulas list each format and open it in the wizard (1.1s)
+  ok  881 tests\portal-workspace.spec.ts:380:7 › Payments › overview stats, chart and tools (1.3s)
+  ok  883 tests\portal-workspace.spec.ts:390:7 › Payments › transactions table and empty state (1.2s)
+  ok  882 tests\portal-youtube.spec.ts:207:5 › gallery filters the archive, opens references and layouts (2.9s)
+  ok  884 tests\portal-workspace.spec.ts:397:7 › Payments › empty payments (1.4s)
+  ok  885 tests\portal-youtube.spec.ts:246:5 › adding a real video validates the link and saves the reference (2.2s)
+  ok  886 tests\portal-workspace.spec.ts:406:7 › Integrations › client catalog, connect, disconnect and keys (3.7s)
+  ok  887 tests\portal-youtube.spec.ts:275:5 › designer composes, saves a new design and exports the PNG (2.5s)
+  ok  889 tests\portal-youtube.spec.ts:315:5 › saved designs list and reopen in the designer (1.5s)
+  ok  888 tests\portal-workspace.spec.ts:438:7 › Integrations › a client adds their own AI key so the writing runs inside the app (2.6s)
+  ok  891 tests\portal-workspace.spec.ts:461:7 › Integrations › the Copywriter points a client without a key to this screen (889ms)
+  ok  890 tests\portal-youtube.spec.ts:326:5 › empty states read plainly (1.8s)
+  ok  893 tests\portal-youtube.spec.ts:336:5 › load errors show a retry, not a blank page (1.2s)
+  ok  894 tests\portal-youtube.spec.ts:345:5 › image library keeps the saved order, reorders and edits captions (1.7s)
+  ok  892 tests\portal-workspace.spec.ts:466:7 › Integrations › a failed load shows the error (4.2s)
+  ok  895 tests\portal-youtube.spec.ts:381:5 › upload queue enforces type, size and batch limits (3.3s)
+  ok  896 tests\portal-workspace.spec.ts:474:7 › Settings › sections render and each write sends the legacy body (2.7s)
+  ok  897 tests\portal-youtube.spec.ts:396:5 › batch upload sends each image with its caption and keeps failures for retry (1.8s)
+  ok  898 tests\portal-workspace.spec.ts:523:7 › Settings › a wrong current password shows the server message (1.7s)
+  ok  900 tests\portal-workspace.spec.ts:534:7 › Settings › deep link to the brand section and the onboarding form (1.5s)
+  ok  899 tests\portal-youtube.spec.ts:425:5 › operator preview is read-only: no writes reach the backend (3.4s)
+  ok  902 tests\portal-youtube.spec.ts:450:5 › a backend read-only answer reads as the preview message (1.3s)
+  ok  901 tests\portal-workspace.spec.ts:543:5 › operator preview is read-only everywhere and sends no writes (3.7s)
+  ok  904 tests\portal-workspace.spec.ts:575:5 › operator preview edits the brand through the operator path and flags client answers (#32) (1.7s)
+  ok  905 tests\portal-workspace.spec.ts:592:5 › settings: profile picture, connected accounts as tiles, client notification switches (#32) (1.6s)
+  ok  906 tests\portal-workspace.spec.ts:604:5 › no session: a sign-in prompt instead of data (723ms)
+  ok  903 tests\portal-youtube.spec.ts:474:5 › every route fits a 390px phone with no horizontal overflow (10.4s)
+  ok  908 tests\portal-youtube.spec.ts:486:5 › videos by cash ranks the small video that sold above the big one that did not (1.1s)
+  ok  909 tests\portal-youtube.spec.ts:506:5 › videos by cash opens a video with both links and the people it brought in (1.3s)
+  ok  910 tests\portal-youtube.spec.ts:523:5 › videos by cash explains each empty state with one action (814ms)
+  ok  911 tests\portal-youtube.spec.ts:530:5 › videos by cash says when the first channel check has not run (797ms)
+  ok  912 tests\portal-youtube.spec.ts:537:5 › videos by cash asks for the links to be pasted until the first click (788ms)
+  ok  913 tests\portal-youtube.spec.ts:545:5 › videos by cash fits a phone without sideways scrolling (760ms)
+  ok  914 tests\portal-youtube.spec.ts:557:5 › videos by cash says plainly when the saved handle is wrong (764ms)
+  ok  915 tests\portal.spec.ts:17:5 › portal renders the client shell with the server session and no operator calls (967ms)
+  ok  907 tests\portal-workspace.spec.ts:611:5 › every route fits a 390px phone with no horizontal overflow (13.8s)
+  ok  916 tests\portal.spec.ts:32:5 › operator preview shows the banner and exit ends the preview (864ms)
+  ok  917 tests\portal-workspace.spec.ts:624:7 › Your voice (#30) › says what to talk about, takes a file, shows the transcript and saves it to the brain (1.1s)
+  ok  918 tests\portal.spec.ts:42:5 › sign out ends the client session (1.6s)
+  ok  919 tests\portal-workspace.spec.ts:645:7 › Your voice (#30) › an audio file over 6 MB is refused before upload (2.0s)
+  ok  921 tests\portal-workspace.spec.ts:652:7 › Your voice (#30) › who you sell to saves the audience to the brain (943ms)
+  ok  922 tests\portal-workspace.spec.ts:664:7 › Your voice (#30) › operator preview cannot record, upload or save (659ms)
+  ok  920 tests\portal.spec.ts:52:5 › the island keeps four pages one tap away and opens into the full menu (3.9s)
+  ok  923 tests\reviews.spec.ts:8:5 › operator reviews the five sales touches without YouTube labels (1.1s)
+  ok  924 tests\portal.spec.ts:82:5 › portal has no horizontal overflow on phones (1.1s)
+  ok  925 tests\reviews.spec.ts:26:7 › reviews › lists every client's drafts waiting, with the copy slide by slide (1.1s)
+  ok  926 tests\portal.spec.ts:121:5 › client bell shows the workspace feed with an unread badge, client-scoped (1.1s)
+  ok  927 tests\reviews.spec.ts:42:7 › reviews › approve removes the draft; send back needs a reason and can apply to every client (1.3s)
+  ok  928 tests\portal.spec.ts:136:5 › opening a notification marks it read and goes to its page (1.4s)
+  ok  929 tests\reviews.spec.ts:68:7 › reviews › YouTube packages wait beside story sequences and are decided the same way (1.4s)
+  ok  930 tests\portal.spec.ts:147:5 › mark all read clears the badge (1.5s)
+  ok  931 tests\reviews.spec.ts:88:7 › reviews › a carousel waits in the same queue and a rejection reason becomes a rule (1.1s)
+  ok  932 tests\portal.spec.ts:156:5 › operator preview reads the bell but never marks anything read (1.8s)
+  ok  934 tests\portal.spec.ts:166:5 › the client bell asks for live updates as the client, never as the operator (758ms)
+  ok  935 tests\portal.spec.ts:179:5 › related pages share one menu entry and show as tabs (951ms)
+  ok  936 tests\portal.spec.ts:197:5 › the example workspace says so, and a real one does not (602ms)
+  -   937 tests\screens.spec.ts:19:11 › overview dark desktop
+  -   938 tests\screens.spec.ts:19:11 › clients dark desktop
+  -   939 tests\screens.spec.ts:19:11 › funnels dark desktop
+  -   940 tests\screens.spec.ts:19:11 › photos dark desktop
+  -   941 tests\screens.spec.ts:19:11 › ads dark desktop
+  -   942 tests\screens.spec.ts:19:11 › today dark desktop
+  -   943 tests\screens.spec.ts:19:11 › queue dark desktop
+  -   944 tests\screens.spec.ts:19:11 › outreach dark desktop
+  -   945 tests\screens.spec.ts:19:11 › inbox dark desktop
+  -   946 tests\screens.spec.ts:19:11 › leads dark desktop
+  -   947 tests\screens.spec.ts:19:11 › crm dark desktop
+  -   948 tests\screens.spec.ts:19:11 › search dark desktop
+  -   949 tests\screens.spec.ts:19:11 › campaigns dark desktop
+  -   950 tests\screens.spec.ts:19:11 › delivery dark desktop
+  -   951 tests\screens.spec.ts:19:11 › reviews dark desktop
+  -   952 tests\screens.spec.ts:19:11 › brain dark desktop
+  -   953 tests\screens.spec.ts:19:11 › email dark desktop
+  -   954 tests\screens.spec.ts:19:11 › instagram dark desktop
+  -   955 tests\screens.spec.ts:19:11 › youtube dark desktop
+  -   956 tests\screens.spec.ts:19:11 › content dark desktop
+  -   957 tests\screens.spec.ts:19:11 › integrations dark desktop
+  -   958 tests\screens.spec.ts:19:11 › payments dark desktop
+  -   959 tests\screens.spec.ts:19:11 › settings dark desktop
+  -   960 tests\screens.spec.ts:19:11 › dashboard dark desktop
+  -   961 tests\screens.spec.ts:19:11 › setup dark desktop
+  -   962 tests\screens.spec.ts:19:11 › overview dark mobile
+  -   963 tests\screens.spec.ts:19:11 › clients dark mobile
+  -   964 tests\screens.spec.ts:19:11 › funnels dark mobile
+  -   965 tests\screens.spec.ts:19:11 › photos dark mobile
+  -   966 tests\screens.spec.ts:19:11 › ads dark mobile
+  -   967 tests\screens.spec.ts:19:11 › today dark mobile
+  -   968 tests\screens.spec.ts:19:11 › queue dark mobile
+  -   969 tests\screens.spec.ts:19:11 › outreach dark mobile
+  -   970 tests\screens.spec.ts:19:11 › inbox dark mobile
+  -   971 tests\screens.spec.ts:19:11 › leads dark mobile
+  -   972 tests\screens.spec.ts:19:11 › crm dark mobile
+  -   973 tests\screens.spec.ts:19:11 › search dark mobile
+  -   974 tests\screens.spec.ts:19:11 › campaigns dark mobile
+  -   975 tests\screens.spec.ts:19:11 › delivery dark mobile
+  -   976 tests\screens.spec.ts:19:11 › reviews dark mobile
+  -   977 tests\screens.spec.ts:19:11 › brain dark mobile
+  -   978 tests\screens.spec.ts:19:11 › email dark mobile
+  -   979 tests\screens.spec.ts:19:11 › instagram dark mobile
+  -   980 tests\screens.spec.ts:19:11 › youtube dark mobile
+  -   981 tests\screens.spec.ts:19:11 › content dark mobile
+  -   982 tests\screens.spec.ts:19:11 › integrations dark mobile
+  -   983 tests\screens.spec.ts:19:11 › payments dark mobile
+  -   984 tests\screens.spec.ts:19:11 › settings dark mobile
+  -   985 tests\screens.spec.ts:19:11 › dashboard dark mobile
+  -   986 tests\screens.spec.ts:19:11 › setup dark mobile
+  -   987 tests\screens.spec.ts:19:11 › overview light desktop
+  -   988 tests\screens.spec.ts:19:11 › clients light desktop
+  -   989 tests\screens.spec.ts:19:11 › funnels light desktop
+  -   990 tests\screens.spec.ts:19:11 › photos light desktop
+  -   991 tests\screens.spec.ts:19:11 › ads light desktop
+  -   992 tests\screens.spec.ts:19:11 › today light desktop
+  -   993 tests\screens.spec.ts:19:11 › queue light desktop
+  -   994 tests\screens.spec.ts:19:11 › outreach light desktop
+  -   995 tests\screens.spec.ts:19:11 › inbox light desktop
+  -   996 tests\screens.spec.ts:19:11 › leads light desktop
+  -   997 tests\screens.spec.ts:19:11 › crm light desktop
+  -   998 tests\screens.spec.ts:19:11 › search light desktop
+  -   999 tests\screens.spec.ts:19:11 › campaigns light desktop
+  -  1000 tests\screens.spec.ts:19:11 › delivery light desktop
+  -  1001 tests\screens.spec.ts:19:11 › reviews light desktop
+  -  1002 tests\screens.spec.ts:19:11 › brain light desktop
+  -  1003 tests\screens.spec.ts:19:11 › email light desktop
+  -  1004 tests\screens.spec.ts:19:11 › instagram light desktop
+  -  1005 tests\screens.spec.ts:19:11 › youtube light desktop
+  -  1006 tests\screens.spec.ts:19:11 › content light desktop
+  -  1007 tests\screens.spec.ts:19:11 › integrations light desktop
+  -  1008 tests\screens.spec.ts:19:11 › payments light desktop
+  -  1009 tests\screens.spec.ts:19:11 › settings light desktop
+  -  1010 tests\screens.spec.ts:19:11 › dashboard light desktop
+  -  1011 tests\screens.spec.ts:19:11 › setup light desktop
+  -  1012 tests\screens.spec.ts:19:11 › overview light mobile
+  -  1013 tests\screens.spec.ts:19:11 › clients light mobile
+  -  1014 tests\screens.spec.ts:19:11 › funnels light mobile
+  -  1015 tests\screens.spec.ts:19:11 › photos light mobile
+  -  1016 tests\screens.spec.ts:19:11 › ads light mobile
+  -  1017 tests\screens.spec.ts:19:11 › today light mobile
+  -  1018 tests\screens.spec.ts:19:11 › queue light mobile
+  -  1019 tests\screens.spec.ts:19:11 › outreach light mobile
+  -  1020 tests\screens.spec.ts:19:11 › inbox light mobile
+  -  1021 tests\screens.spec.ts:19:11 › leads light mobile
+  -  1022 tests\screens.spec.ts:19:11 › crm light mobile
+  -  1023 tests\screens.spec.ts:19:11 › search light mobile
+  -  1024 tests\screens.spec.ts:19:11 › campaigns light mobile
+  -  1025 tests\screens.spec.ts:19:11 › delivery light mobile
+  -  1026 tests\screens.spec.ts:19:11 › reviews light mobile
+  -  1027 tests\screens.spec.ts:19:11 › brain light mobile
+  -  1028 tests\screens.spec.ts:19:11 › email light mobile
+  -  1029 tests\screens.spec.ts:19:11 › instagram light mobile
+  -  1030 tests\screens.spec.ts:19:11 › youtube light mobile
+  -  1031 tests\screens.spec.ts:19:11 › content light mobile
+  -  1032 tests\screens.spec.ts:19:11 › integrations light mobile
+  -  1033 tests\screens.spec.ts:19:11 › payments light mobile
+  -  1034 tests\screens.spec.ts:19:11 › settings light mobile
+  -  1035 tests\screens.spec.ts:19:11 › dashboard light mobile
+  -  1036 tests\screens.spec.ts:19:11 › setup light mobile
+  ok 1037 tests\search.spec.ts:19:7 › search what they said (inside the outreach tracker) › the tracker button opens it and Back returns to the tracker (799ms)
+  ok 1038 tests\search.spec.ts:28:7 › search what they said (inside the outreach tracker) › the old /search link forwards with its query (594ms)
+  ok  933 tests\reviews.spec.ts:102:7 › reviews › rules can be widened, narrowed and removed (6.1s)
+  ok 1039 tests\search.spec.ts:36:7 › search what they said (inside the outreach tracker) › searches, groups matches by person and expands extra passages (1.2s)
+  ok 1041 tests\search.spec.ts:68:7 › search what they said (inside the outreach tracker) › kind chips toggle and re-run the search (1.2s)
+  ok 1042 tests\search.spec.ts:82:7 › search what they said (inside the outreach tracker) › sorts people by name (1.2s)
+  ok 1043 tests\search.spec.ts:96:7 › search what they said (inside the outreach tracker) › an example fills the box and runs it (879ms)
+  ok 1040 tests\reviews.spec.ts:126:7 › reviews › empty and error states (4.4s)
+  ok 1044 tests\search.spec.ts:109:7 › search what they said (inside the outreach tracker) › ?q= prefills the box and runs on load (957ms)
+  ok 1045 tests\settings.spec.ts:25:7 › settings › renders every operator section with its data (1.5s)
+  ok 1046 tests\search.spec.ts:117:7 › search what they said (inside the outreach tracker) › a DM result opens the outreach thread (1.6s)
+  ok 1047 tests\settings.spec.ts:63:7 › settings › theme is wired to the shared theme key (1.5s)
+  ok 1048 tests\search.spec.ts:126:7 › search what they said (inside the outreach tracker) › a client brain result opens Client brain on that client (1.3s)
+  ok 1049 tests\settings.spec.ts:80:7 › settings › density is gone: nothing in the app read it (#32) (524ms)
+  ok 1050 tests\search.spec.ts:135:7 › search what they said (inside the outreach tracker) › no matches and errors (1.2s)
+  ok 1051 tests\settings.spec.ts:86:7 › settings › notification switches: connect Slack, route payments there, send a test (#32) (1.5s)
+  ok 1052 tests\search.spec.ts:148:7 › search what they said (inside the outreach tracker) › a failed search shows an inline error with retry (987ms)
+  ok 1054 tests\search.spec.ts:157:7 › search what they said (inside the outreach tracker) › unbound index says so (877ms)
+  ok 1053 tests\settings.spec.ts:108:7 › settings › client defaults post the legacy body and report the result inline (1.5s)
+  ok 1055 tests\search.spec.ts:170:7 › search what they said (inside the outreach tracker) › mobile layout has no horizontal overflow (818ms)
+  -  1057 tests\setup.screens.spec.ts:34:11 › dark desktop › new client
+  -  1058 tests\setup.screens.spec.ts:41:11 › dark desktop › edit client
+  -  1059 tests\setup.screens.spec.ts:48:11 › dark desktop › copy and prospect sections
+  -  1060 tests\setup.screens.spec.ts:61:11 › dark desktop › delete confirmation
+  -  1061 tests\setup.screens.spec.ts:34:11 › dark mobile › new client
+  -  1062 tests\setup.screens.spec.ts:41:11 › dark mobile › edit client
+  -  1063 tests\setup.screens.spec.ts:48:11 › dark mobile › copy and prospect sections
+  -  1064 tests\setup.screens.spec.ts:61:11 › dark mobile › delete confirmation
+  -  1065 tests\setup.screens.spec.ts:34:11 › light desktop › new client
+  -  1066 tests\setup.screens.spec.ts:41:11 › light desktop › edit client
+  -  1067 tests\setup.screens.spec.ts:48:11 › light desktop › copy and prospect sections
+  -  1068 tests\setup.screens.spec.ts:61:11 › light desktop › delete confirmation
+  -  1069 tests\setup.screens.spec.ts:34:11 › light mobile › new client
+  -  1070 tests\setup.screens.spec.ts:41:11 › light mobile › edit client
+  -  1071 tests\setup.screens.spec.ts:48:11 › light mobile › copy and prospect sections
+  -  1072 tests\setup.screens.spec.ts:61:11 › light mobile › delete confirmation
+  ok 1056 tests\settings.spec.ts:120:7 › settings › timezone can be cleared to Not set (1.1s)
+  ok 1074 tests\settings.spec.ts:129:7 › settings › a failed save says so under the form (898ms)
+  ok 1073 tests\setup.spec.ts:34:7 › new client › derives the ID, validates it and creates the client with {client, client_name} (1.3s)
+  ok 1075 tests\settings.spec.ts:136:7 › settings › ?section= deep-links to a section (888ms)
+  ok 1076 tests\setup.spec.ts:69:7 › new client › an existing ID offers to open that client instead (1.2s)
+  ok 1077 tests\settings.spec.ts:144:7 › settings › the side nav jumps and records the section in the URL (1.0s)
+  ok 1078 tests\setup.spec.ts:78:7 › new client › Add client on the Clients screen opens setup in the app (1.6s)
+  ok 1079 tests\settings.spec.ts:152:7 › settings › no operators listed says where to add the first owner (994ms)
+  ok 1081 tests\settings.spec.ts:160:7 › settings › a failed load shows the error with retry (830ms)
+  ok 1080 tests\setup.spec.ts:90:7 › edit client › renders every section with the saved values (1.5s)
+  ok 1082 tests\settings.spec.ts:166:7 › settings › no horizontal overflow at 390px (1.1s)
+  -  1084 tests\shell.screens.spec.ts:27:9 › bell dark desktop
+  -  1085 tests\shell.screens.spec.ts:36:9 › palette dark desktop
+  -  1086 tests\shell.screens.spec.ts:27:9 › bell dark mobile
+  -  1087 tests\shell.screens.spec.ts:36:9 › palette dark mobile
+  -  1088 tests\shell.screens.spec.ts:27:9 › bell light desktop
+  -  1089 tests\shell.screens.spec.ts:36:9 › palette light desktop
+  -  1090 tests\shell.screens.spec.ts:27:9 › bell light mobile
+  -  1091 tests\shell.screens.spec.ts:36:9 › palette light mobile
+  ok 1083 tests\setup.spec.ts:135:7 › edit client › copy section lists every landing-page token in order with labels and meanings (1.4s)
+  ok 1092 tests\shell.spec.ts:21:7 › notifications bell › badge, accessible name and document title show the unread count (858ms)
+  ok 1094 tests\shell.spec.ts:29:7 › notifications bell › no badge and no title prefix when everything is read (1.3s)
+  ok 1093 tests\setup.spec.ts:145:7 › edit client › shows the finish-setup checklist and jumps to a missing step (1.5s)
+  ok 1095 tests\shell.spec.ts:39:7 › notifications bell › panel lists rows by day with tabs and filters (1.6s)
+  ok 1097 tests\shell.spec.ts:71:7 › notifications bell › a row expands in place and marks itself read (1.3s)
+  ok 1098 tests\shell.spec.ts:90:7 › notifications bell › mark all read clears the badge and disables itself (1.2s)
+  ok 1096 tests\setup.spec.ts:155:7 › edit client › load error shows the error state with retry (4.3s)
+  ok 1100 tests\setup.spec.ts:162:7 › edit client › ?section= deep link scrolls to that section (1.3s)
+  ok 1099 tests\shell.spec.ts:103:7 › notifications bell › mute and unmute a sender (2.2s)
+  ok 1102 tests\shell.spec.ts:116:7 › notifications bell › Open on a conversation goes to the tracker thread and marks it read (1.9s)
+  ok 1101 tests\setup.spec.ts:169:7 › edit client › nav click scrolls and writes ?section= to the URL (2.5s)
+  ok 1104 tests\setup.spec.ts:179:7 › section saves send only touched keys › identity sends only the changed name (1.6s)
+  ok 1103 tests\shell.spec.ts:126:7 › notifications bell › Open on a client lands in Client brain on that client (1.7s)
+  ok 1106 tests\shell.spec.ts:135:7 › notifications bell › Show older asks for 50 more (1.5s)
+  ok 1105 tests\setup.spec.ts:190:7 › section saves send only touched keys › identity sends only the template variant when that is all that changed (1.6s)
+  ok 1107 tests\shell.spec.ts:145:7 › notifications bell › new arrivals toast, the first load does not (1.3s)
+  ok 1108 tests\setup.spec.ts:200:7 › section saves send only touched keys › funnel sends only the touched key and clears the write-only key after save (1.8s)
+  ok 1109 tests\shell.spec.ts:170:7 › command palette › Ctrl+K opens with views, Esc closes (1.8s)
+  ok 1110 tests\setup.spec.ts:218:7 › section saves send only touched keys › copy sends the whole page_content map, trimmed, and shows the webhook (1.6s)
+  ok 1111 tests\shell.spec.ts:186:7 › command palette › the header search button opens it (1.3s)
+  ok 1112 tests\setup.spec.ts:232:7 › section saves send only touched keys › page active saves the moment it flips (1.6s)
+  ok 1113 tests\shell.spec.ts:193:7 › command palette › picking a migrated view routes in the app and is remembered (1.7s)
+  ok 1114 tests\setup.spec.ts:241:7 › section saves send only touched keys › dashboard validates JSON and sends only the changed section (1.9s)
+  ok 1115 tests\shell.spec.ts:210:7 › command palette › picking a view navigates inside the app (1.4s)
+  ok 1116 tests\setup.spec.ts:258:7 › section saves send only touched keys › proof wall reorders, removes and saves the ordered map (2.1s)
+  ok 1117 tests\shell.spec.ts:220:7 › command palette › contact search, action mode, Mark booked (2.7s)
+  ok 1118 tests\setup.spec.ts:275:7 › section saves send only touched keys › proof upload compresses, posts base64 to /api/media and adds the URL (1.7s)
+  ok 1119 tests\shell.spec.ts:265:7 › command palette › Open in the tracker routes to the thread (1.8s)
+  ok 1121 tests\shell.spec.ts:275:7 › command palette › Open in the inbox routes to the conversation (1.4s)
+  ok 1120 tests\setup.spec.ts:298:7 › section saves send only touched keys › proof upload rejects the wrong type and images over 900 KB (3.6s)
+  ok 1122 tests\shell.spec.ts:285:7 › command palette › nothing matches copy (1.3s)
+  ok 1124 tests\shell.spec.ts:294:5 › phone: bell panel fits with zero horizontal overflow (1.3s)
+  ok 1123 tests\setup.spec.ts:321:7 › login, access and contract › setup link, email and provision send the legacy bodies (2.0s)
+  ok 1125 tests\shell.spec.ts:308:5 › no console errors or warnings on /app with the shell (1.6s)
+  ok 1126 tests\setup.spec.ts:349:7 › login, access and contract › access links mint a portal token and build the onboarding link (1.6s)
+  ok 1128 tests\setup.spec.ts:365:7 › login, access and contract › contract status: setup required with the empty state (1.6s)
+  ok 1127 tests\shell.spec.ts:325:7 › island menu and theme bulb (#31) › Account and Sign out sit at the bottom of the open island; the bulb flips light and dark (1.7s)
+  -  1130 tests\signin.spec.ts:58:7 › client sign in › one form with email and password, labelled and ready for password managers
+  -  1131 tests\signin.spec.ts:71:7 › client sign in › empty and malformed input is explained before anything is sent
+  -  1132 tests\signin.spec.ts:85:7 › client sign in › a wrong password shows the server's message, keeps the email and refocuses the password
+  -  1133 tests\signin.spec.ts:101:7 › client sign in › a paused sign-in, an offline browser and a server error each say what happened
+  -  1134 tests\signin.spec.ts:125:7 › client sign in › signing in goes to the portal with the client, and honours a safe next address only
+  -  1135 tests\signin.spec.ts:141:7 › client sign in › show and hide password
+  -  1136 tests\signin.spec.ts:155:7 › forgot password and request access › forgot password sends a link and gives the same answer for everyone
+  -  1137 tests\signin.spec.ts:172:7 › forgot password and request access › request access validates, sends, and confirms
+  -  1138 tests\signin.spec.ts:194:7 › forgot password and request access › the request form also opens from /portal/register and from the team tab
+  -  1139 tests\signin.spec.ts:211:7 › team sign in › the Team tab shows the team form and keeps the address in step
+  -  1140 tests\signin.spec.ts:226:7 › team sign in › a trusted device goes straight in; mistakes are explained first
+  -  1141 tests\signin.spec.ts:240:7 › team sign in › a wrong password shows the server's message and refocuses the password
+  -  1142 tests\signin.spec.ts:251:7 › team sign in › a new device gets an emailed code, with a clear message for a wrong or expired one
+  -  1143 tests\signin.spec.ts:287:7 › team sign in › set or reset the team password by emailed link, with the same answer for everyone
+  -  1144 tests\signin.spec.ts:303:7 › team sign in › the link from the email sets a longer password and signs straight in, with no extra code
+  -  1145 tests\signin.spec.ts:318:7 › team sign in › when the Google and magic-link fallback is off it is simply not offered
+  -  1146 tests\signin.spec.ts:325:7 › team sign in › a failed fallback sign-in explains itself and cleans the address; signed out says so
+  -  1147 tests\signin.spec.ts:336:7 › continue with Google › shows on both sides only when Google is set up, and carries the side and a safe next
+  -  1148 tests\signin.spec.ts:352:7 › continue with Google › every way back from Google says what happened
+  -  1149 tests\signin.spec.ts:372:7 › continue with Google › a finished sign-in is remembered so the homepage can send them straight back
+  -  1150 tests\signin.spec.ts:386:7 › set your password from the emailed link › asks for the emailed code, explains mistakes, and signs in on success
+  -  1151 tests\signin.spec.ts:424:7 › set your password from the emailed link › an old or used link says so and offers a new one; the resend button waits
+  -  1152 tests\signin.spec.ts:436:7 › set your password from the emailed link › when no code is needed the code field stays away
+  -  1153 tests\signin.spec.ts:456:9 › phones and accessibility › every view fits 320px with no sideways scroll
+  -  1154 tests\signin.spec.ts:456:9 › phones and accessibility › every view fits 390px with no sideways scroll
+  -  1155 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the sign in view
+  -  1156 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the forgot view
+  -  1157 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the request view
+  -  1158 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the team view
+  -  1159 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the team reset view
+  -  1160 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the team setup view
+  -  1161 tests\signin.spec.ts:469:9 › phones and accessibility › axe finds nothing on the setup view
+  -  1162 tests\signin.spec.ts:480:7 › phones and accessibility › the whole sign-in works from the keyboard alone
+  -  1163 tests\social.screens.spec.ts:21:11 › instagram dark desktop
+  -  1164 tests\social.screens.spec.ts:21:11 › youtube dark desktop
+  -  1165 tests\social.screens.spec.ts:21:11 › content dark desktop
+  -  1166 tests\social.screens.spec.ts:21:11 › content-edit dark desktop
+  -  1167 tests\social.screens.spec.ts:21:11 › instagram dark mobile
+  -  1168 tests\social.screens.spec.ts:21:11 › youtube dark mobile
+  -  1169 tests\social.screens.spec.ts:21:11 › content dark mobile
+  -  1170 tests\social.screens.spec.ts:21:11 › content-edit dark mobile
+  -  1171 tests\social.screens.spec.ts:21:11 › instagram light desktop
+  -  1172 tests\social.screens.spec.ts:21:11 › youtube light desktop
+  -  1173 tests\social.screens.spec.ts:21:11 › content light desktop
+  -  1174 tests\social.screens.spec.ts:21:11 › content-edit light desktop
+  -  1175 tests\social.screens.spec.ts:21:11 › instagram light mobile
+  -  1176 tests\social.screens.spec.ts:21:11 › youtube light mobile
+  -  1177 tests\social.screens.spec.ts:21:11 › content light mobile
+  -  1178 tests\social.screens.spec.ts:21:11 › content-edit light mobile
+  ok 1129 tests\setup.spec.ts:376:7 › login, access and contract › contract status: configured shows this client's rows only (1.5s)
+  ok 1179 tests\social.spec.ts:21:7 › instagram › profile, KPIs with trends, and No data for a field the pull did not carry (1.5s)
+  ok 1181 tests\social.spec.ts:65:7 › instagram › reels table merges the media pull with scored rows and sorts by rank (1.4s)
+  ok 1182 tests\social.spec.ts:86:7 › instagram › posts and stories grids, audience charts, cadence and content funnel (1.1s)
+  ok 1180 tests\setup.spec.ts:388:7 › performance › logs a sequence, edits a logged one and saves a snapshot (3.1s)
+  ok 1183 tests\social.spec.ts:131:7 › instagram › a preview that fails to load becomes a placeholder (1.1s)
+  ok 1184 tests\setup.spec.ts:429:7 › performance › empty sequence list shows the empty state (1.5s)
+  ok 1185 tests\social.spec.ts:139:7 › instagram › a sparse pull shows No data and the empty notes, never zeros (1.1s)
+  ok 1186 tests\setup.spec.ts:440:7 › prospect page › copies the exact legacy prompt (1.2s)
+  ok 1187 tests\social.spec.ts:160:7 › instagram › not connected sends you to Integrations (1.1s)
+  ok 1188 tests\setup.spec.ts:450:7 › prospect page › generate without an LLM key points to the copy-prompt path (1.1s)
+  ok 1190 tests\setup.spec.ts:461:7 › prospect page › generates, confirms the overwrite and creates the page (2.1s)
+  ok 1191 tests\setup.spec.ts:503:7 › delete and unsaved edits › delete needs the typed client ID and reports rows removed (1.6s)
+  ok 1192 tests\setup.spec.ts:525:7 › delete and unsaved edits › unsaved edits prompt before Back and before sidebar links (1.8s)
+  ok 1193 tests\setup.spec.ts:546:7 › delete and unsaved edits › closing the tab with unsaved edits triggers beforeunload (1.1s)
+  ok 1189 tests\social.spec.ts:168:7 › instagram › load errors show with retry, and a failed refresh keeps the last good copy (8.4s)
+  ok 1194 tests\setup.spec.ts:557:7 › delete and unsaved edits › no prompt when nothing changed (1.8s)
+  ok 1195 tests\social.spec.ts:187:7 › instagram › refresh pulls both endpoints again (1.6s)
+  ok 1197 tests\social.spec.ts:198:7 › youtube › KPIs, latest video, channel and analytics (1.2s)
+  ok 1196 tests\setup.spec.ts:565:5 › live draft preview frames the landing page and follows its focus requests (2.1s)
+  ok 1198 tests\social.spec.ts:240:7 › youtube › connected analytics and missing snapshots (821ms)
+  ok 1199 tests\setup.spec.ts:585:9 › mobile › no horizontal overflow at 390px on /app/clients/setup (801ms)
+  ok 1200 tests\social.spec.ts:258:7 › youtube › not connected (762ms)
+  ok 1201 tests\setup.spec.ts:585:9 › mobile › no horizontal overflow at 390px on /app/clients/setup?client=demo-rio (1.1s)
+  ok 1202 tests\social.spec.ts:267:9 › social layout › instagram at 390px has no horizontal overflow and charts shrink (1.2s)
+  ok 1203 tests\setup.spec.ts:598:5 › no console errors or warnings on new and edit pages (1.7s)
+  ok 1205 tests\story-studio.spec.ts:108:7 › story studio › the story editor links to the studio (632ms)
+  ok 1206 tests\story-studio.spec.ts:114:7 › story studio › copy comes first: without copy the studio sends you back to write it (558ms)
+  ok 1204 tests\social.spec.ts:285:9 › social layout › instagram has no console errors or warnings (2.7s)
+  ok 1208 tests\social.spec.ts:267:9 › social layout › youtube at 390px has no horizontal overflow and charts shrink (1.2s)
+  ok 1209 tests\social.spec.ts:285:9 › social layout › youtube has no console errors or warnings (2.1s)
+  -  1210 tests\today.screens.spec.ts:20:9 › queue dark desktop
+  -  1211 tests\today.screens.spec.ts:32:9 › search dark desktop
+  -  1212 tests\today.screens.spec.ts:20:9 › queue dark mobile
+  -  1213 tests\today.screens.spec.ts:32:9 › search dark mobile
+  -  1214 tests\today.screens.spec.ts:20:9 › queue light desktop
+  -  1215 tests\today.screens.spec.ts:32:9 › search light desktop
+  -  1216 tests\today.screens.spec.ts:20:9 › queue light mobile
+  -  1217 tests\today.screens.spec.ts:32:9 › search light mobile
+  ok 1218 tests\today.spec.ts:26:7 › today › renders counters, due follow-ups, openers and candidates (961ms)
+  ok 1219 tests\today.spec.ts:68:7 › today › booked and hibernate post to the tracker and drop the row (1.3s)
+  ok 1207 tests\story-studio.spec.ts:121:7 › story studio › copy gate, look questions, photos and a downloaded zip of 1080x1920 images (6.0s)
+  ok 1220 tests\today.spec.ts:90:7 › today › a failed thread action puts the row back with a retry (1.3s)
+  ok 1221 tests\story-studio.spec.ts:181:7 › story studio › standard tier: cards, a red-mark list and a gradient label export cleanly (4.1s)
+  ok 1222 tests\today.spec.ts:99:7 › today › opener card edits, copies, regenerates, marks sent and requeues (4.0s)
+  ok 1224 tests\today.spec.ts:141:7 › today › skip moves the opener to done today (1.2s)
+  ok 1225 tests\today.spec.ts:151:7 › today › detail saves on Enter and then writes the draft (1.2s)
+  ok 1226 tests\today.spec.ts:168:7 › today › adds a candidate and a manual handle (1.1s)
+  ok 1227 tests\today.spec.ts:197:7 › today › empty states use the legacy copy (860ms)
+  ok 1223 tests\story-studio.spec.ts:210:9 › story studio › accessibility and phone width, dark (6.4s)
+  ok 1228 tests\today.spec.ts:210:7 › today › each section shows its own load error with retry (3.9s)
+  ok 1230 tests\today.spec.ts:218:7 › today › keyboard walks rows, opens, copies and marks sent (1.3s)
+  ok 1231 tests\today.spec.ts:257:7 › today › the command palette event reloads both lists (1.2s)
+  ok 1229 tests\story-studio.spec.ts:210:9 › story studio › accessibility and phone width, light (5.6s)
+  ok 1232 tests\today.spec.ts:267:7 › today › mobile layout has no horizontal overflow (965ms)
+  ok 1234 tests\todos.spec.ts:10:7 › today to-dos › one row per action, urgent first, each linking to where it gets done (1.1s)
+  ok 1233 tests\story-studio.spec.ts:238:7 › story studio › own AI: a loaded prompt with the profile, and the answer pasted back onto the slides (2.5s)
+  ok 1235 tests\todos.spec.ts:30:7 › today to-dos › the button goes to the outreach queue section (985ms)
+  ok 1237 tests\todos.spec.ts:38:7 › today to-dos › checking one off moves it to Done today and survives a reload; unchecking brings it back (2.6s)
+  ok 1238 tests\todos.spec.ts:53:7 › today to-dos › nothing due shows the all-clear state (730ms)
+  ok 1239 tests\todos.spec.ts:72:7 › today to-dos › mobile layout has no horizontal overflow (622ms)
+  -  1240 tests\workspace.screens.spec.ts:63:11 › integrations dark desktop
+  -  1241 tests\workspace.screens.spec.ts:63:11 › integrations-client dark desktop
+  -  1242 tests\workspace.screens.spec.ts:63:11 › integrations-connect dark desktop
+  -  1243 tests\workspace.screens.spec.ts:63:11 › integrations-new-key dark desktop
+  -  1244 tests\workspace.screens.spec.ts:63:11 › payments dark desktop
+  -  1245 tests\workspace.screens.spec.ts:63:11 › settings dark desktop
+  -  1246 tests\workspace.screens.spec.ts:63:11 › integrations dark mobile
+  -  1247 tests\workspace.screens.spec.ts:63:11 › integrations-client dark mobile
+  -  1248 tests\workspace.screens.spec.ts:63:11 › integrations-connect dark mobile
+  -  1249 tests\workspace.screens.spec.ts:63:11 › integrations-new-key dark mobile
+  -  1250 tests\workspace.screens.spec.ts:63:11 › payments dark mobile
+  -  1251 tests\workspace.screens.spec.ts:63:11 › settings dark mobile
+  -  1252 tests\workspace.screens.spec.ts:63:11 › integrations light desktop
+  -  1253 tests\workspace.screens.spec.ts:63:11 › integrations-client light desktop
+  -  1254 tests\workspace.screens.spec.ts:63:11 › integrations-connect light desktop
+  -  1255 tests\workspace.screens.spec.ts:63:11 › integrations-new-key light desktop
+  -  1256 tests\workspace.screens.spec.ts:63:11 › payments light desktop
+  -  1257 tests\workspace.screens.spec.ts:63:11 › settings light desktop
+  -  1258 tests\workspace.screens.spec.ts:63:11 › integrations light mobile
+  -  1259 tests\workspace.screens.spec.ts:63:11 › integrations-client light mobile
+  -  1260 tests\workspace.screens.spec.ts:63:11 › integrations-connect light mobile
+  -  1261 tests\workspace.screens.spec.ts:63:11 › integrations-new-key light mobile
+  -  1262 tests\workspace.screens.spec.ts:63:11 › payments light mobile
+  -  1263 tests\workspace.screens.spec.ts:63:11 › settings light mobile
+  ok 1236 tests\story-studio.spec.ts:289:7 › story studio › designed tier: logo, words behind you, numbers and question cards, blocked until real numbers are in (7.3s)
+  ok 1264 tests\story-studio.spec.ts:381:7 › story studio › read-only operator preview cannot save (599ms)
+  ok 1265 tests\story-studio.spec.ts:388:7 › story studio › a sequence in review cannot be saved but the studio still opens (578ms)
+
+
+  1) tests\delivery.spec.ts:99:7 › client work › edits a call note and can cancel an edit ──────────
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+    @@ -6,9 +6,9 @@
+          "decisions": "Lead with the risk video
+      Keep the upfront fee",
+          "id": 21,
+          "recording_url": "https://fathom.video/calls/12345",
+          "summary": "Agreed the first three videos and the application questions. Pricing stays as proposed.",
+    -     "title": "Strategy call (week 1)",
+    +     "title": "Strategy call",
+        },
+        "type": "call",
+      }
+
+      118 |     await page.getByRole("button", { name: "Save changes" }).click();
+      119 |     await expect(page.getByRole("status").filter({ hasText: "Changes saved." })).toBeVisible();
+    > 120 |     expect(calls.find((call) => call.method === "POST")?.body).toEqual({
+          |                                                                ^
+      121 |       client: "demo-rio",
+      122 |       type: "call",
+      123 |       item: {
+        at C:\Users\Abdullah\Desktop\pulsify-saas-wt\release-main\tests\delivery.spec.ts:120:64
+
+    Error Context: test-results\delivery-client-work-edits-01d74-note-and-can-cancel-an-edit\error-context.md
+
+  Slow test file: tests\a11y.spec.ts (5.4m)
+  Consider running tests from slow files in parallel. See: https://playwright.dev/docs/test-parallel
+  1 failed
+    tests\delivery.spec.ts:99:7 › client work › edits a call note and can cancel an edit ───────────
+  509 skipped
+  755 passed (11.4m)

@@ -2,6 +2,7 @@
 // client's answers, their brain and granted proof, and our YouTube method become three openings and one
 // outline. The same prompt is what a client runs in their own AI while no Anthropic key is set.
 import { YOUTUBE_REFERENCE } from "./youtube-reference.js";
+import { clientMethodReference } from "./source-scrub.js";
 import { learningBlocks } from "./content-learning.js";
 
 export const BEATS = ["problem", "struggle", "discovery", "result"];
@@ -46,7 +47,7 @@ export function buildVideoPrompt({ clientName, clientBrain, proofLines, video, a
     '{"openings":[{"confirm":"","authority":"","open_loop":""}],"outline":[{"beat":"problem","heading":"","points":[""],"cue":"camera"}],"resolves_loop":"heading of the section that resolves it","close":{"payoff":"","next_step":""}}',
     "",
     "REFERENCE MATERIAL. Our YouTube method; it outranks your general instincts.",
-    YOUTUBE_REFERENCE,
+    clientMethodReference(YOUTUBE_REFERENCE),
   ].join("\n");
 
   const user = [
