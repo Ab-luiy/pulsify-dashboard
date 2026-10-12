@@ -1,7 +1,14 @@
 import { emitEvent } from "../../../functions/_shared/outbound-webhooks.js";
 
+// A run Cloudflare stops (CPU or time limit) never reaches its own UPDATE, so it stayed
+// "running" forever. The next run of the same job closes it as an error.
+const STALE_RUN_MS = 30 * 60000;
+
 export async function runJob(env, job, task) {
   const startedAt = new Date().toISOString();
+  await env.DB.prepare(
+    "UPDATE sync_runs SET status='error',finished_at=?,error='Stopped before finishing (Cloudflare ended the run)' WHERE job=? AND status='running' AND started_at < ?",
+  ).bind(startedAt, job, new Date(Date.parse(startedAt) - STALE_RUN_MS).toISOString()).run().catch(() => null);
   const result = await env.DB.prepare(
     "INSERT INTO sync_runs(job,started_at,status,items) VALUES(?,?,'running',0)",
   ).bind(job, startedAt).run();
