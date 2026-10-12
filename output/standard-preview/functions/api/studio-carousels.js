@@ -8,6 +8,8 @@ import { carouselLearningBlocks, loadCarouselLearning } from "../_shared/content
 import { parseModelJson } from "../_shared/anthropic.js";
 import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
 import {
+  applyCarouselLayouts,
+  safePhoto,
   buildCarouselPrompt,
   buildManualCarouselOutput,
   buildManualCarouselPrompt,
@@ -85,6 +87,9 @@ async function generateCarousel(env, access, body) {
   const goal = normalizeCarouselGoal(body.goal);
   const slideCount = clampCarouselSlideCount(body.slide_count);
   const forceManual = body.manual_mode !== false;
+  // From the question-led Create flow (2026-10-12): photos the client picked and proof they typed.
+  const photos = (Array.isArray(body.photos) ? body.photos : []).map(safePhoto).filter(Boolean).slice(0, 6);
+  const briefProof = (Array.isArray(body.proof_lines) ? body.proof_lines : []).map((line) => String(line || "").trim()).filter(Boolean).slice(0, 8);
   if (!structure) return json({ ok: false, error: "valid structure is required" }, 422);
   if (!topic) return json({ ok: false, error: "topic is required" }, 422);
 
@@ -101,7 +106,7 @@ async function generateCarousel(env, access, body) {
     topic,
     goal,
     triggerWord,
-    proofLines: brain.proof_lines,
+    proofLines: [...briefProof, ...brain.proof_lines.filter((line) => !briefProof.includes(line))],
     slideCount,
     learningBlocks: carouselLearningBlocks(learning),
   };
@@ -112,7 +117,8 @@ async function generateCarousel(env, access, body) {
     topic,
     goal,
     trigger_word: triggerWord || null,
-    proof_lines: brain.proof_lines,
+    proof_lines: input.proofLines,
+    photos,
     slide_count: slideCount,
     learning: { example_ids: learning.exampleIds, rules_used: learning.rules.length },
     brain_context: {
@@ -132,7 +138,7 @@ async function generateCarousel(env, access, body) {
     provider = aiMode(ai);
     try {
       const raw = await generateText(prompt, ai, { json: true });
-      output = sanitizeCarouselOutput(parseModelJson(raw), { structure, topic, goal, triggerWord, slideCount });
+      output = applyCarouselLayouts(sanitizeCarouselOutput(parseModelJson(raw), { structure, topic, goal, triggerWord, slideCount }), { photos, proofLines: input.proofLines, goal, triggerWord });
       mode = "generated";
     } catch (error) {
       reviewNote = `Generator fallback: ${safeMessage(error)}`;

@@ -174,6 +174,56 @@ export function sanitizeCarouselLayout(value) {
     trigger: clip(v.trigger, 24),
     ask: v.ask === "dm" ? "dm" : "comment",
     theme: ["ink", "paper", "forest"].includes(v.theme) ? v.theme : "ink",
+    ...(safePhoto(v.photo) ? { photo: safePhoto(v.photo) } : {}),
+  };
+}
+
+// Only the client's own media (served from R2 under /m/) or an https image may sit behind a slide.
+export function safePhoto(value) {
+  const url = String(value || "").trim();
+  if (url.length > 500) return "";
+  return /^\/m\/[\w./%-]+$/.test(url) || /^https:\/\/[\w.-]+\/[\w./%?=&-]*$/.test(url) ? url : "";
+}
+
+/*
+ * The designed layout for a generated carousel (2026-10-12): the model writes headline, body, roles
+ * and design notes; the slide renderer needs a layout. Cover first, numbered inside slides, a close
+ * with the ask. Photos the client picked go on the cover, the close and one inside slide, in that
+ * order; proof lines fill the proof slots. Nothing here invents copy: every string comes from the
+ * model's own slide or the client's proof.
+ */
+export function applyCarouselLayouts(output, { photos = [], proofLines = [], goal, triggerWord } = {}) {
+  const slides = Array.isArray(output?.slides) ? output.slides : [];
+  const count = slides.length;
+  const picked = photos.map(safePhoto).filter(Boolean).slice(0, 6);
+  const middle = Math.floor(count / 2);
+  const photoFor = (index) => (index === 0 ? picked[0] : index === count - 1 ? picked[1] : index === middle ? picked[2] : "") || "";
+  const proofs = normalizeLines(proofLines);
+  let proofIndex = 0;
+  return {
+    ...output,
+    slides: slides.map((slide, index) => {
+      if (slide.layout) return { ...slide, layout: sanitizeCarouselLayout({ ...slide.layout, photo: slide.layout.photo || photoFor(index) }) };
+      const kind = index === 0 ? "cover" : index === count - 1 ? "close" : "item";
+      const chips = Array.isArray(slide?.design_direction?.chips) ? slide.design_direction.chips.map((chip) => chip?.label || chip).filter((chip) => typeof chip === "string") : [];
+      const wantsProof = /proof|result|evidence/i.test(String(slide.role || ""));
+      const proof = kind === "item" && wantsProof && proofIndex < proofs.length ? proofs[proofIndex++] : "";
+      return {
+        ...slide,
+        layout: sanitizeCarouselLayout({
+          kind,
+          kicker: kind === "cover" ? output.title : "",
+          bold: slide.headline,
+          number: kind === "item" ? String(index).padStart(2, "0") : "",
+          chips,
+          proof,
+          trigger: kind === "close" ? triggerWord : "",
+          ask: goal === "dms" ? "dm" : "comment",
+          theme: "ink",
+          photo: photoFor(index),
+        }),
+      };
+    }),
   };
 }
 
