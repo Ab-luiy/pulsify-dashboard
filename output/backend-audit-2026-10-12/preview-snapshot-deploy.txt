@@ -1,0 +1,20 @@
+
+ ⛅️ wrangler 4.149.0
+────────────────────
+▲ [WARNING] Warning: Your working directory is a git repo and has uncommitted changes
+
+  To silence this warning, pass in --commit-dirty=true
+
+
+✨ Compiled Worker successfully
+Uploading... (955/958)
+Uploading... (956/958)
+Uploading... (957/958)
+Uploading... (958/958)
+✨ Success! Uploaded 3 files (955 already uploaded) (0.58 sec)
+
+✨ Uploading _headers
+✨ Uploading Functions bundle
+🌎 Deploying...
+✨ Deployment complete! Take a peek over at https://5a3ae55a.pulsify-funnels.pages.dev
+✨ Deployment alias URL: https://codex-media-boundary-preview.pulsify-funnels.pages.dev

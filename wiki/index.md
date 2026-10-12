@@ -148,6 +148,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 
 | Page | Summary | Created |
 |---|---|---|
+| [[synthesis/backend-product-audit-2026-10-12]] | Backend/data/UI audit: private-storage exposure, proof/library coupling, fragile folder saves, title-linked reviews, recovery gaps and phased asset/content consolidation. [content, offer, funnel, product, data] | 2026-10-12 |
 | [[synthesis/mvp-readiness-and-pricing-2026-10-12]] | Managed growth launch PRD, live save/review verification, remaining commissioning gates and hypothetical delivery-cost model; $10k + 25% proposed, not approved. [content, offer, funnel, product, pricing] | 2026-10-12 |
 | [[synthesis/sales-copilot-plan-2026-10-04]] | Client Sales Co-pilot scope and implementation: targets, scoreboard, linked call context and reviewed five-touch follow-ups. [sales, funnel, offer] | 2026-10-04 |
 | [[synthesis/ads-section-plan-2026-10-05]] | Ads build brief: coming-soon surface, manual stage tracker, and gated Meta connection. [ads, funnel, scaling, product] | 2026-10-05 |
