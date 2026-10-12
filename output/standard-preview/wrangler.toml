@@ -15,6 +15,11 @@ database_id = "764a46f6-9f61-4f45-85b5-7e9a00e8be01"
 binding = "MEDIA"
 bucket_name = "pulsify-media"
 
+# Subject cutouts for carousel slides (workers/cutout, private).
+[[services]]
+binding = "CUTOUT"
+service = "pulsify-cutout"
+
 [vars]
 GOOGLE_CLIENT_ID = "689048215822-2k36h0kv20qrhjq5lb4knvn2h462ep7u.apps.googleusercontent.com"
 ACCESS_AUD = "8c6c31dea1fa44e035c1449ec35f7d2a80601521be6d184fd5ed1d1a594af312"

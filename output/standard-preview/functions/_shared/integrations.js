@@ -134,6 +134,14 @@ export const PROVIDERS = {
       return Boolean(record.secrets.api_key);
     },
   },
+  openai: {
+    scope: "client",
+    configFields: ["last_four", "connected_at", "model"],
+    secretFields: ["api_key"],
+    clientConnected(record) {
+      return Boolean(record.secrets.api_key);
+    },
+  },
 };
 
 export function validateProvider(provider, scope) {
@@ -207,7 +215,7 @@ export async function upsertIntegration(env, input) {
     input = {
       ...input,
       secrets: { api_key: await sealAiKey(env, client, checked.provider, key) },
-      config: { last_four: key.slice(-4), connected_at: nowIso() },
+      config: { last_four: key.slice(-4), connected_at: nowIso(), ...(check.model ? { model: check.model } : {}) },
     };
   }
 

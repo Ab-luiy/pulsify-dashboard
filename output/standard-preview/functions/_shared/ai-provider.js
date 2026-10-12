@@ -14,9 +14,10 @@ import { cleanId } from "./common.js";
 import { callAnthropic, GROWTH_MODEL, streamAnthropic } from "./anthropic.js";
 import { callGemini, streamGemini } from "./gemini.js";
 import { callWorkersAi, streamWorkersAi, WORKERS_AI_MODEL } from "./workers-ai.js";
+import { callOpenAI, pickOpenAiModel, streamOpenAI } from "./openai.js";
 import { seal, unseal } from "./secret-box.js";
 
-export const AI_PROVIDERS = ["gemini", "anthropic"];
+export const AI_PROVIDERS = ["gemini", "anthropic", "openai"];
 export const aiKeyContext = (client, provider) => `ai-key:${cleanId(client)}:${provider}`;
 
 async function clientKey(env, client, provider) {
@@ -26,6 +27,16 @@ async function clientKey(env, client, provider) {
     return sealed ? await unseal(env, sealed, aiKeyContext(client, provider)) : "";
   } catch {
     return "";
+  }
+}
+
+/** The model chosen for a client's key when it was saved (OpenAI: picked from the key's own model list). */
+async function clientModel(env, client, provider) {
+  try {
+    const row = await env.DB.prepare("SELECT config_json FROM integrations WHERE scope='client' AND client_id=? AND provider=?").bind(client, provider).first();
+    return String(JSON.parse(row?.config_json || "{}")?.model || "") || undefined;
+  } catch {
+    return undefined;
   }
 }
 
@@ -41,6 +52,8 @@ export async function resolveAi(env, clientId) {
   if (client && env?.DB) {
     const claude = await clientKey(env, client, "anthropic");
     if (claude) return { mode: "anthropic", apiKey: claude, source: "client", model };
+    const chatgpt = await clientKey(env, client, "openai");
+    if (chatgpt) return { mode: "openai", apiKey: chatgpt, source: "client", model: await clientModel(env, client, "openai") };
     const gemini = await clientKey(env, client, "gemini");
     if (gemini) return { mode: "gemini", apiKey: gemini, source: "client", model };
   }
@@ -56,11 +69,12 @@ export const aiMode = (ai) => ai?.mode || "manual";
 export const aiConfigured = (ai) => aiMode(ai) !== "manual";
 
 /** The provider's name for the client-facing status. */
-export const providerLabel = (ai) => ({ anthropic: "Claude", gemini: "Gemini", workers: "Pulsify AI", manual: "Your own AI" })[aiMode(ai)];
+export const providerLabel = (ai) => ({ anthropic: "Claude", openai: "ChatGPT", gemini: "Gemini", workers: "Pulsify AI", manual: "Your own AI" })[aiMode(ai)];
 
 /** {system, user} in, the full text out. */
 export async function generateText(prompt, ai, options = {}) {
   if (aiMode(ai) === "anthropic") return callAnthropic(prompt, ai.apiKey);
+  if (aiMode(ai) === "openai") return callOpenAI(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "gemini") return callGemini(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "workers") return callWorkersAi(prompt, ai.binding, { ...options, model: ai.model });
   throw new Error("No AI provider is configured");
@@ -69,13 +83,14 @@ export async function generateText(prompt, ai, options = {}) {
 /** {system, messages} in, an async iterator of text chunks out. */
 export function streamText(prompt, ai, options = {}) {
   if (aiMode(ai) === "anthropic") return streamAnthropic(prompt, ai.apiKey, options);
+  if (aiMode(ai) === "openai") return streamOpenAI(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "gemini") return streamGemini(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "workers") return streamWorkersAi(prompt, ai.binding, { ...options, model: ai.model });
   throw new Error("No AI provider is configured");
 }
 
-const KEY_SHAPE = { gemini: /^AIza[\w-]{30,}$/, anthropic: /^sk-ant-[\w-]{20,}$/ };
-const NAME = { gemini: "Google", anthropic: "Anthropic" };
+const KEY_SHAPE = { gemini: /^AIza[\w-]{30,}$/, anthropic: /^sk-ant-[\w-]{20,}$/, openai: /^sk-(?!ant-)[\w-]{20,}$/ };
+const NAME = { gemini: "Google", anthropic: "Anthropic", openai: "OpenAI" };
 
 /**
  * Checks a key a client pasted by asking the provider for its model list (read-only, no cost).
@@ -89,7 +104,14 @@ export async function validateAiKey(provider, apiKey) {
   try {
     const response = provider === "gemini"
       ? await fetch("https://generativelanguage.googleapis.com/v1beta/models?pageSize=1", { headers: { "x-goog-api-key": key } })
-      : await fetch("https://api.anthropic.com/v1/models?limit=1", { headers: { "x-api-key": key, "anthropic-version": "2023-06-01" } });
+      : provider === "openai"
+        ? await fetch("https://api.openai.com/v1/models", { headers: { authorization: `Bearer ${key}` } })
+        : await fetch("https://api.anthropic.com/v1/models?limit=1", { headers: { "x-api-key": key, "anthropic-version": "2023-06-01" } });
+    if (response.ok && provider === "openai") {
+      // Pick the chat model from what this key can actually use; never a guessed name.
+      const model = pickOpenAiModel(((await response.json().catch(() => ({})))?.data || []).map((entry) => entry?.id));
+      return model ? { ok: true, model } : { ok: false, message: "That OpenAI key works, but it has no chat model switched on. Check your OpenAI project settings." };
+    }
     if (response.ok) return { ok: true };
     if (response.status === 400 || response.status === 401 || response.status === 403) {
       return { ok: false, message: `${NAME[provider]} did not accept that key. Check you copied the whole key, and that it is switched on.` };

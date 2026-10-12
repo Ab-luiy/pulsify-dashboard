@@ -23,6 +23,7 @@ const CLIENT_ALLOWED = [
   "zapier",
   "gemini",
   "anthropic",
+  "openai",
 ];
 const CLIENT_ALLOWED_SET = new Set(CLIENT_ALLOWED);
 const DELEGATED_PROVIDERS = new Set(["youtube", "instagram"]);
