@@ -1,0 +1,9 @@
+# The subject cutout for carousel slides (founder 2026-10-13: "okay to switch on image cutouts").
+# Private: no workers.dev URL and no route; only the Pages app reaches it through the CUTOUT service binding.
+name = "pulsify-cutout"
+main = "src/index.js"
+compatibility_date = "2026-09-17"
+workers_dev = false
+
+[images]
+binding = "IMAGES"
