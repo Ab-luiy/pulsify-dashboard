@@ -202,7 +202,10 @@ async function saveCarousel(env, access, body) {
       triggerWord: params.trigger_word,
       slideCount: params.slide_count,
     });
-  } catch {
+  } catch (error) {
+    // A saved design (object) that fails the checks is refused, never flattened into text over the
+    // client's work; only a pasted string falls back to raw text (the manual copy path).
+    if (typeof value !== "string") return json({ ok: false, error: safeMessage(error) || "The design could not be saved." }, 422);
     output = { raw_text: String(value || "").trim() };
   }
   await env.DB.prepare(
