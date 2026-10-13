@@ -1,0 +1,13 @@
+How to test Pulsify with Canva
+
+1. Go to https://pulsify-ai.com/portal/login and sign in with the reviewer account.
+   Email: (from CANVA_REVIEW_EMAIL in the Brain .env)
+   Password: (from CANVA_REVIEW_PASSWORD in the Brain .env)
+2. Open Create, choose Carousel, type any topic, press Continue through the steps, then Make it.
+   (If generation is slow, wait about a minute. The carousel opens in our editor.)
+3. In the editor, press "Edit in Canva" (top right). The first time, Canva asks you to allow Pulsify.
+   Pulsify asks for two permissions only: design:content:read and design:content:write.
+4. Your carousel opens as a new design in Canva with editable text. Edit anything, then press Return in Canva.
+5. You land back in Pulsify and your edited slides appear in the editor. "Undo" returns the earlier version.
+
+Notes: the reviewer account has no real client data. Posting to Instagram is not part of the Canva flow.
