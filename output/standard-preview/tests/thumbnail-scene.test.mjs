@@ -17,7 +17,9 @@ async function env({ refuse = false } = {}) {
   const runs = [];
   const AI = {
     async run(model, input) {
-      runs.push({ model, input });
+      // The image call sends a multipart stream; read it back the way Workers AI does.
+      const form = input.multipart ? await new Response(input.multipart.body, { headers: { "content-type": input.multipart.contentType } }).formData() : null;
+      runs.push({ model, input, form });
       if (model === api.SCENE_MODEL) return { response: '"A brass magnifying glass on a dark desk, orange glow."' };
       if (refuse) throw new Error("AiError: Your output has been flagged.");
       return { image: btoa("JPEG") };
@@ -36,7 +38,8 @@ test("an idea becomes a picture-only scene, and two backgrounds land in the clie
   for (const url of out.images) assert.match(url, /^\/m\/rio\/[0-9a-f-]{36}\.jpg$/);
   const draws = t.runs.filter((run) => run.model === api.THUMBNAIL_MODEL);
   assert.equal(draws.length, 2);
-  const prompt = draws[0].input.multipart.body.get("prompt");
+  assert.match(draws[0].input.multipart.contentType, /^multipart\/form-data; boundary=/);
+  const prompt = draws[0].form.get("prompt");
   // The title itself never reaches the image model (it paints titles as misspelled words).
   assert.doesNotMatch(prompt, /3 checks before any trade entry/);
   assert.match(prompt, /No text, no letters/);

@@ -10,6 +10,7 @@
 import { json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { takeAllowance } from "../_shared/usage.js";
+import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 
 export const THUMBNAIL_MODEL = "@cf/black-forest-labs/flux-2-klein-4b";
 export const SCENE_MODEL = "@cf/meta/llama-3.2-3b-instruct";
@@ -18,18 +19,22 @@ const OPTIONS = 2;
 
 const clean = (value, max) => String(value ?? "").replace(/[\u0000-\u001f]+/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
 
-const SCENE_SYSTEM =
-  "You describe the background photo for a YouTube thumbnail. Reply with one sentence of at most 35 words: the setting, " +
-  "one or two physical objects, dramatic light and bold contrasting colours. Never mention people, faces, hands, words, " +
-  "letters, numbers, signs, logos or the video title. No quotes.";
+const SCENE_SYSTEM = [
+  "You describe the background photo for a YouTube thumbnail. Show the world of the video literally: the real objects and place a viewer links to its topic and niche (for trading: chart screens, a desk, candles on a monitor; for fitness: a gym, weights). No metaphors, no nature, no boats, no forests unless the video is about them.",
+  "Reply with one sentence of at most 35 words: the place, one or two objects, dramatic light and bold contrasting colours. Never mention people, faces, hands, words, letters, numbers, signs or logos. No quotes.",
+  "",
+  "Examples:",
+  "Niche: trading. Video: My biggest losing trade -> A dark trading desk with a monitor full of red falling candles, a cold coffee beside the keyboard, harsh red light against deep blue shadows.",
+  "Niche: fitness coaching. Video: Why you are not losing fat -> An empty gym at night, a single barbell on the floor under one hard white spotlight, teal and orange contrast.",
+].join("\n");
 
 /** One picture-only sentence for the idea, from a small fast model. Falls back to a plain dark studio scene. */
-export async function describeScene(env, idea) {
+export async function describeScene(env, idea, niche = "") {
   try {
     const result = await env.AI.run(SCENE_MODEL, {
       messages: [
         { role: "system", content: SCENE_SYSTEM },
-        { role: "user", content: `Video: ${idea}` },
+        { role: "user", content: `Niche: ${niche || "online education"}. Video: ${idea}` },
       ],
       max_tokens: 90,
     });
@@ -55,12 +60,21 @@ export function scenePrompt({ scene, side }) {
   ].join(" ");
 }
 
+/** A short line on what the client does, from their brain, so the scene shows their world. */
+async function nicheOf(env, client) {
+  if (!env.DB) return "";
+  const brain = await loadClientBrainData(env, client).catch(() => null);
+  return clean(buildGeneratorBrainContext(brain).prompt_text, 300);
+}
+
 async function drawOne(env, prompt) {
   const form = new FormData();
   form.append("prompt", prompt);
   form.append("width", "1280");
   form.append("height", "720");
-  const result = await env.AI.run(THUMBNAIL_MODEL, { multipart: { body: form, contentType: "multipart/form-data" } });
+  // The form goes as a stream with its own content type, which carries the multipart boundary.
+  const encoded = new Response(form);
+  const result = await env.AI.run(THUMBNAIL_MODEL, { multipart: { body: encoded.body, contentType: encoded.headers.get("content-type") } });
   const base64 = result?.image;
   if (!base64) throw new Error("no image");
   return Uint8Array.from(atob(base64), (char) => char.charCodeAt(0));
@@ -81,7 +95,7 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: `That is today's ${THUMBNAILS_PER_DAY} thumbnail runs. More tomorrow.` }, 429);
   }
 
-  if (!scene) scene = await describeScene(env, idea);
+  if (!scene) scene = await describeScene(env, idea, await nicheOf(env, client));
   const prompt = scenePrompt({ scene, side: body.side });
   const drawn = await Promise.allSettled(Array.from({ length: OPTIONS }, () => drawOne(env, prompt)));
   const images = [];

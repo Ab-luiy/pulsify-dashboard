@@ -11,6 +11,8 @@ import { buildGeneratorBrainContext, loadClientBrainData } from '../_shared/clie
 import { aiConfigured, aiMode, generateText, providerLabel, resolveAi } from '../_shared/ai-provider.js';
 import { scrubSources } from '../_shared/source-scrub.js';
 import { plainText } from "../_shared/plain-text.js";
+import { formatFromText, methodFor } from '../_shared/copy-brain.js';
+import { exemplarFor } from '../_shared/copy-exemplars.js';
 
 const ACTIONS = {
   draft: 'Write a first draft from the brief.',
@@ -50,7 +52,17 @@ export async function onRequestPost({ request, env }) {
   const ai = await resolveAi(env, access.client);
   if (!aiConfigured(ai)) return json({ ok: true, mode: 'manual', prompt, output: '' });
   try {
-    const output = humanize(plainText(scrubSources(String(await generateText({ system: SYSTEM, user }, ai)).trim())));
+    // The same Pulsify method the chat copywriter uses for this kind of writing (founder 2026-10-13: "it literally
+    // doesn't even use our frameworks or our data").
+    const kind = formatFromText(`${format} ${body.brief.slice(0, 300)}`);
+    const system = [
+      SYSTEM,
+      `PULSIFY METHOD FOR THIS KIND OF WRITING (apply it, never quote it, never name where it came from):
+${methodFor(kind)}`,
+      exemplarFor(kind) ? `THE LEVEL OF WRITING EXPECTED (match the care, never reuse the words; every [bracket] is a fact you must take from the client context or leave as a bracket):
+${exemplarFor(kind)}` : '',
+    ].filter(Boolean).join('\n\n');
+    const output = humanize(plainText(scrubSources(String(await generateText({ system, user }, ai)).trim())));
     return json({ ok: true, mode: 'generated', output, provider: providerLabel(ai), model: aiMode(ai) });
   } catch {
     return json({ ok: false, error: 'The AI service could not finish this request. Your draft is safe. Try again shortly.', prompt }, 502);

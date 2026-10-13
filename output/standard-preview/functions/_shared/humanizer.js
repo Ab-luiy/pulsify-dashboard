@@ -39,14 +39,15 @@ export function humanize(input) {
   let text = String(input ?? "");
   if (!text) return text;
   text = text
-    .replace(/[‘’‛′]/g, "'")
-    .replace(/[“”‟″]/g, '"')
-    .replace(/\s*[→⟶➜➔⇒]\s*/g, " -> ")
-    .replace(/…/g, "...")
-    .replace(/[ \t]*[—–][ \t]*(?=\d)/g, "-")
-    .replace(/(\w)[ \t]*[—–][ \t]*(\w)/g, "$1, $2")
-    .replace(/[ \t]*[—–][ \t]*/g, " ")
-    .replace(/\p{Extended_Pictographic}️?/gu, "")
+    .replace(/[\u2018\u2019\u201B\u2032]/g, "'")
+    .replace(/[\u201C\u201D\u201F\u2033]/g, '"')
+    .replace(/\s*[\u2192\u27F6\u279C\u2794\u21D2]\s*/g, " -> ")
+    .replace(/\u2026/g, "...")
+    .replace(/[\u2010\u2011\u2012\u00AD]/g, "-")
+    .replace(/[ \t]*[\u2014\u2013][ \t]*(?=\d)/g, "-")
+    .replace(/(\w)[ \t]*[\u2014\u2013][ \t]*(\w)/g, "$1, $2")
+    .replace(/[ \t]*[\u2014\u2013][ \t]*/g, " ")
+    .replace(/\p{Extended_Pictographic}\uFE0F?/gu, "")
     .replace(/!+/g, ".")
     .replace(/\.{2}(?!\.)/g, ".");
   for (const [pattern, replacement] of WORDS) text = text.replace(pattern, replacement);
