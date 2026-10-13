@@ -141,6 +141,14 @@ export const PROVIDERS = {
     clientConnected(record) {
       return Boolean(record.secrets.api_key);
     },
+  },  // The client's own Canva (_shared/canva.js): OAuth tokens, sealed per client, refreshed on use.
+  canva: {
+    scope: "client",
+    configFields: ["connected_at", "expires_at"],
+    secretFields: ["access_token", "refresh_token"],
+    clientConnected(record) {
+      return Boolean(record.secrets.access_token);
+    },
   },
 };
 
