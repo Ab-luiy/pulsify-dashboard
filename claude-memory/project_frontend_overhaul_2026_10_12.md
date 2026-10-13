@@ -15,3 +15,5 @@ Audit: wiki/synthesis/frontend-audit-2026-10-12.md (13 sections, 5 phases). Foun
 Phase 1 (approved): remove the 9 story type cards and arc pages (one "what do you want to post about?" input instead), cut bulky subtitles and instruction paragraphs, remove the big empty icon cards, delete/redirect pure duplicates (metrics routes, formulas on YT overview, projects lists, payments providers), fix the audit's bugs. Phases 2-5 still need his go: operator Client view + content pipeline board, server generation, onboarding/carousel/thumbnail rebuild, protection (split builds, rate limits, watermark, terms).
 
 **How to apply:** screenshots before release, main-only releases ([[feedback_main_only_releases]]), app wording rules ([[feedback_app_wording]]).
+
+**Update 2026-10-13 (founder): "I seriously can't afford Claude."** No paid platform model. Pulsify AI (free Workers AI) writes by default; clients who want better writing connect their own Claude, ChatGPT or Gemini key through the "Connect your own AI" guided panel on Create (live, pulsify-saas d5fec6e). Do not propose Pulsify paying for Claude again; propose client keys or free options.

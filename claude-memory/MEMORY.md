@@ -91,7 +91,7 @@
 ## Dashboard / CRM / leads
 
 - [Design system 2026-10-12](project_design_system_2026_10_12.md) - Kendo rules made ours (docs/design-system.md): Geist, 12px corners, black gradient + glow colour choice, carousels finished with word-only edits
-- [Frontend overhaul + our AI key](project_frontend_overhaul_2026_10_12.md) - 2026-10-12: Phase 1 approved; app writes for clients on OUR key (reverses bring-your-own-key); audit in wiki/synthesis/frontend-audit-2026-10-12.md
+- [Frontend overhaul + AI keys](project_frontend_overhaul_2026_10_12.md) - 2026-10-12 Phase 1; 2026-10-13 founder cannot afford Claude: free Pulsify AI default, clients connect own Claude/ChatGPT/Gemini key
 
 - [Ticket board](project_ticket_board.md) - 2026-09-24: all SaaS work is GitHub Issues on Ab-luiy/pulsify-saas (#2-#21), owner labels, one ticket at a...
 - [Next.js migration](project_nextjs_migration.md) - 2026-09-23: move the live SaaS to React + Next.js + TS gradually, Claude builds; baseline sizes and verified...
