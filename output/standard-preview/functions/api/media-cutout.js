@@ -5,6 +5,9 @@
 //   POST {src: "/m/<client>/<uuid>.<ext>"} -> {ok, url: "/m/<client>/<uuid>.png", cached}
 import { json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
+import { takeAllowance } from "../_shared/usage.js";
+
+const CUTOUTS_PER_DAY = 25;
 
 const SOURCE = /^\/m\/([a-z0-9_-]{1,64})\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.(png|jpe?g|webp)$/i;
 
@@ -30,6 +33,10 @@ export async function onRequestPost({ request, env }) {
   const key = await cutoutKey(owner, sourceKey);
   if (await env.MEDIA.head(key)) return json({ ok: true, url: `/m/${key}`, cached: true });
 
+  // A new cutout spends the shared Cloudflare Images allowance: at most CUTOUTS_PER_DAY per client per day.
+  if (env.DB && !(await takeAllowance(env, owner.toLowerCase(), "cutout", CUTOUTS_PER_DAY))) {
+    return json({ ok: false, error: `That is today's ${CUTOUTS_PER_DAY} cutouts. More tomorrow.` }, 429);
+  }
   const source = await env.MEDIA.get(sourceKey);
   if (!source) return json({ ok: false, error: "That photo could not be found." }, 404);
   const response = await env.CUTOUT.fetch("https://cutout.internal/", {

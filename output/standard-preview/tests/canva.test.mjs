@@ -39,6 +39,7 @@ test("state is signed to the workspace and expires; PKCE challenge matches the v
   assert.equal(url.origin + url.pathname, "https://www.canva.com/api/oauth/authorize");
   assert.equal(url.searchParams.get("redirect_uri"), "https://pulsify-ai.com/api/canva-connect");
   assert.equal(url.searchParams.get("code_challenge_method"), "s256");
+  assert.equal(url.searchParams.get("scope"), "design:content:read design:content:write", "only the two scopes the flow uses");
 });
 
 test("start sets the verifier cookie; the callback stores sealed tokens for that workspace only", async () => {

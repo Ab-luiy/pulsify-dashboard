@@ -2,12 +2,14 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
+import { readFileSync } from "node:fs";
 import * as api from "../functions/api/media-cutout.js";
 import { sha256Hex } from "../functions/_shared/common.js";
 
 async function env() {
   const sql = new DatabaseSync(":memory:");
   sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY, client_name TEXT, portal_token_hash TEXT, page_content_json TEXT, status TEXT DEFAULT 'active')");
+  sql.exec(readFileSync(new URL("../migrations/0059_usage_counters.sql", import.meta.url), "utf8"));
   sql.prepare("INSERT INTO client_config(client, client_name, portal_token_hash, page_content_json) VALUES (?,?,?,'{}')").run("rio", "Rio", await sha256Hex("rio-token"));
   const DB = { prepare(q) { let a = []; const s = { bind(...v) { a = v; return s; }, async first() { return sql.prepare(q).get(...a) || null; }, async all() { return { results: sql.prepare(q).all(...a) }; }, async run() { const r = sql.prepare(q).run(...a); return { meta: { changes: r.changes } }; } }; return s; } };
   const store = new Map([["rio/11111111-2222-3333-4444-555555555555.jpg", "JPEGDATA"], ["sam/11111111-2222-3333-4444-555555555555.jpg", "OTHER"]]);
@@ -35,4 +37,14 @@ test("another client's photo, or anything that is not media, is refused", async 
   assert.equal((await post(t.env, "https://evil.example/a.jpg")).status, 422);
   assert.equal((await post(t.env, "/m/rio/../sam/x.jpg")).status, 422);
   assert.equal(t.calls(), 0);
+});
+
+test("new cutouts stop at the daily allowance; cached ones stay free", async () => {
+  const t = await env();
+  for (let n = 0; n < 25; n += 1) t.store.set(`rio/00000000-0000-0000-0000-${String(n).padStart(12, "0")}.jpg`, "J");
+  for (let n = 0; n < 25; n += 1) assert.equal((await post(t.env, `/m/rio/00000000-0000-0000-0000-${String(n).padStart(12, "0")}.jpg`)).status, 200);
+  const over = await post(t.env, "/m/rio/11111111-2222-3333-4444-555555555555.jpg");
+  assert.equal(over.status, 429);
+  assert.equal((await post(t.env, "/m/rio/00000000-0000-0000-0000-000000000003.jpg")).status, 200, "an already cut photo is served from storage");
+  assert.equal(t.calls(), 25);
 });

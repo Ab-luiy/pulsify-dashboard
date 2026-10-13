@@ -1,6 +1,6 @@
 // Canva Connect for the carousel editor (founder 2026-10-13: "do both, start with our own editor").
-// The Pulsify app in the founder's Canva developer account (App ID AAHOGILsm6c) has the scopes
-// design:content read/write, design:meta read, asset read/write and profile read. Credentials are Pages
+// The Pulsify app in the founder's Canva developer account (App ID AAHOGILsm6c) asks only for what the flow uses:
+// design:content:write (import the .pptx as a design) and design:content:read (export it back as PNGs). Credentials are Pages
 // secrets CANVA_CLIENT_ID and CANVA_CLIENT_SECRET. Each client signs in to their own Canva account
 // (OAuth with PKCE); the tokens are sealed per client in integrations(provider='canva') and refreshed
 // automatically (Canva rotates refresh tokens, so the newest one is stored every time).
@@ -11,7 +11,7 @@ import { seal, unseal } from "./secret-box.js";
 
 export const CANVA_API = "https://api.canva.com/rest/v1";
 export const CANVA_AUTHORIZE = "https://www.canva.com/api/oauth/authorize";
-export const CANVA_SCOPES = "design:content:read design:content:write design:meta:read asset:read asset:write profile:read";
+export const CANVA_SCOPES = "design:content:read design:content:write";
 export const canvaRedirect = (origin) => `${origin}/api/canva-connect`;
 const STATE_TTL_MS = 30 * 60000;
 
