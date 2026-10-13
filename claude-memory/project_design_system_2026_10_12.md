@@ -26,5 +26,16 @@ Founder 2026-10-12 shared Luke Alexander's Kendo design-system doc and said "go"
 **How to apply:**
 - Follow `docs/design-system.md`.
 - Never add 20-24px corners, small-text subtitles or colour on card surfaces.
-- He has not yet picked the default glow (asked 2026-10-12).
+- Default glow: orange (Ember), founder confirmed 2026-10-13 ("orange is sick").
 - Related: [[project_frontend_overhaul_2026_10_12]], [[feedback_two_direction_build]], [[feedback_perfection_standard]].
+
+**Update 2026-10-13: editor, cutouts and Canva are live** (pulsify-saas 5906aa9, Pages f6cf3526).
+- **Carousel editor** in the Instagram Carousels tab, with "Put text behind the person" (private `pulsify-cutout` Worker, Images segment).
+- **Canva handoff:**
+  - Canva app "Pulsify" (App ID AAHOGILsm6c, Public, still a draft) in the founder's Canva developer account; MFA is on.
+  - Secrets: Pages `CANVA_CLIENT_ID` / `CANVA_CLIENT_SECRET`.
+  - Callback `/api/canva-connect`, return `/api/canva-return`.
+- **Open:**
+  - Canva must approve the public app before clients outside the founder's Canva team can sign in (submit from the portal; it needs one tested OAuth first).
+  - Post to Instagram from the editor.
+
