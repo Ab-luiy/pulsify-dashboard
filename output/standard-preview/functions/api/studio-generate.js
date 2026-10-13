@@ -1,3 +1,4 @@
+import { humanizeDeep } from "../_shared/humanizer.js";
 import {
   buildManualPrompt,
   buildManualSequenceOutput,
@@ -121,7 +122,7 @@ export async function onRequestPost({ request, env }) {
   let mode = "generated";
   let warning = "";
   try {
-    parsed = sanitizeSequenceOutput(parseModelJson(rawText), {
+    parsed = sanitizeSequenceOutput(humanizeDeep(parseModelJson(rawText)), {
       type,
       intent,
       slideCount,

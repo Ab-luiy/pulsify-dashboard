@@ -4,6 +4,7 @@
 //   GET  -> {ok, available, mode: "generated" | "manual"}
 //   POST {format, action, brief, draft} -> {ok, mode:"generated", output} or {ok, mode:"manual", prompt, output:""}
 // No daily cap: a manual run costs us nothing, and the generated run is paid for by the key.
+import { humanize } from '../_shared/humanizer.js';
 import { json } from '../_shared/common.js';
 import { resolveClientAccess } from '../_shared/client-auth.js';
 import { buildGeneratorBrainContext, loadClientBrainData } from '../_shared/client-brain-context.js';
@@ -49,7 +50,7 @@ export async function onRequestPost({ request, env }) {
   const ai = await resolveAi(env, access.client);
   if (!aiConfigured(ai)) return json({ ok: true, mode: 'manual', prompt, output: '' });
   try {
-    const output = plainText(scrubSources(String(await generateText({ system: SYSTEM, user }, ai)).trim()));
+    const output = humanize(plainText(scrubSources(String(await generateText({ system: SYSTEM, user }, ai)).trim())));
     return json({ ok: true, mode: 'generated', output, provider: providerLabel(ai), model: aiMode(ai) });
   } catch {
     return json({ ok: false, error: 'The AI service could not finish this request. Your draft is safe. Try again shortly.', prompt }, 502);

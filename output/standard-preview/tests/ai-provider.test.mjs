@@ -34,7 +34,8 @@ try {
   assert.equal(await generateText({ system: "SYS", user: "USER" }, { mode: "gemini", apiKey: "g-key" }), "hello");
   assert.doesNotMatch(seen[0].url, /g-key/);
   assert.equal(seen[0].headers["x-goog-api-key"], "g-key");
-  assert.equal(seen[0].body.systemInstruction.parts[0].text, "SYS");
+  // The house humanizer rules ride after the caller's own system prompt (founder 2026-10-13).
+  assert.match(seen[0].body.systemInstruction.parts[0].text, /^SYS\n\nWrite like a person/);
   assert.equal(seen[0].body.contents[0].parts[0].text, "USER");
 
   // Structured generators ask for JSON.

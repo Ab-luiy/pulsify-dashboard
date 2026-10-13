@@ -22,7 +22,9 @@ test("generateText sends system and user, returns only the answer", async () => 
   const AI = binding(() => ({ choices: [{ message: { content: "<think>plan</think>{\"slides\":[]}" } }] }));
   const ai = await resolveAi({ AI }, "demo-rio");
   assert.equal(await generateText({ system: "S", user: "U" }, ai, { json: true }), "{\"slides\":[]}");
-  assert.deepEqual(AI.calls[0].input.messages, [{ role: "system", content: "S" }, { role: "user", content: "U" }]);
+  assert.equal(AI.calls[0].input.messages[0].role, "system");
+  assert.match(AI.calls[0].input.messages[0].content, /^S\n\nWrite like a person/);
+  assert.deepEqual(AI.calls[0].input.messages[1], { role: "user", content: "U" });
   assert.equal(AI.calls[0].model, WORKERS_AI_MODEL);
 });
 

@@ -1,6 +1,7 @@
 // POST /api/youtube-titles {idea, layout, answers:[{id, question, answer}]} -> title and thumbnail pairs
 // for the signed-in client. With an AI key (ai-provider.js): {mode:"generated", pairs}. Without: {mode:"manual",
 // prompt} for the client's own AI. Nothing is stored here: the portal saves the pick to the video project.
+import { humanizeDeep } from "../_shared/humanizer.js";
 import { withOperator } from "../_shared/access.js";
 import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
@@ -50,7 +51,7 @@ async function handlePost({ request, env }) {
   }
   let pairs = [];
   try {
-    pairs = sanitizePairs(parseModelJson(rawText));
+    pairs = sanitizePairs(humanizeDeep(parseModelJson(rawText)));
   } catch {
     pairs = [];
   }

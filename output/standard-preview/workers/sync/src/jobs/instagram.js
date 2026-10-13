@@ -1,3 +1,4 @@
+import { logStorySequences } from "./story-sequences.js";
 import { insertMetricStatement, upsertSnapshotStatement } from "../db.js";
 import { zernioConfigured, zernioConnection, zernioFetch } from "../../../../functions/_shared/zernio.js";
 
@@ -143,6 +144,8 @@ export async function syncInstagramAccount(env, { scope, clientId, accountId }) 
     snapshot("cadence", views.cadence),
     ...(audience ? [snapshot("audience", audience)] : []),
   ]);
+  // A client's story bursts become Sequence history rows by themselves (story-sequences.js).
+  if (scope === "client") await logStorySequences(env, clientId, savedStories, Date.parse(capturedAt)).catch((error) => console.error("story sequences", String(error?.message || error)));
   if (insightsError) throw new Error(`Profile, followers and posts saved; insights failed: ${insightsError.message}`);
   return 3 + stories.length;
 }

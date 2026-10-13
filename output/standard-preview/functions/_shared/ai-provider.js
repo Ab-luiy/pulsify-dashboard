@@ -16,6 +16,7 @@ import { callGemini, streamGemini } from "./gemini.js";
 import { callWorkersAi, streamWorkersAi, WORKERS_AI_MODEL } from "./workers-ai.js";
 import { callOpenAI, pickOpenAiModel, streamOpenAI } from "./openai.js";
 import { seal, unseal } from "./secret-box.js";
+import { HUMANIZER } from "./humanizer.js";
 
 export const AI_PROVIDERS = ["gemini", "anthropic", "openai"];
 export const aiKeyContext = (client, provider) => `ai-key:${cleanId(client)}:${provider}`;
@@ -72,7 +73,11 @@ export const aiConfigured = (ai) => aiMode(ai) !== "manual";
 export const providerLabel = (ai) => ({ anthropic: "Claude", openai: "ChatGPT", gemini: "Gemini", workers: "Pulsify AI", manual: "Your own AI" })[aiMode(ai)];
 
 /** {system, user} in, the full text out. */
-export async function generateText(prompt, ai, options = {}) {
+// Every writer carries the house humanizer rules (founder 2026-10-13); callers clean the output with humanize().
+const humanized = (prompt) => ({ ...prompt, system: [prompt?.system, HUMANIZER].filter(Boolean).join("\n\n") });
+
+export async function generateText(input, ai, options = {}) {
+  const prompt = humanized(input);
   if (aiMode(ai) === "anthropic") return callAnthropic(prompt, ai.apiKey);
   if (aiMode(ai) === "openai") return callOpenAI(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "gemini") return callGemini(prompt, ai.apiKey, { ...options, model: ai.model });
@@ -81,7 +86,8 @@ export async function generateText(prompt, ai, options = {}) {
 }
 
 /** {system, messages} in, an async iterator of text chunks out. */
-export function streamText(prompt, ai, options = {}) {
+export function streamText(input, ai, options = {}) {
+  const prompt = humanized(input);
   if (aiMode(ai) === "anthropic") return streamAnthropic(prompt, ai.apiKey, options);
   if (aiMode(ai) === "openai") return streamOpenAI(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "gemini") return streamGemini(prompt, ai.apiKey, { ...options, model: ai.model });

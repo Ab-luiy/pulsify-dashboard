@@ -1,3 +1,4 @@
+import { humanizeDeep } from '../_shared/humanizer.js';
 import { withOperator } from '../_shared/access.js';
 import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso, parseJson } from "../_shared/common.js";
@@ -140,7 +141,7 @@ async function generateCarousel(env, access, body) {
     provider = aiMode(ai);
     try {
       const raw = await generateText(prompt, ai, { json: true });
-      output = applyCarouselLayouts(sanitizeCarouselOutput(parseModelJson(raw), { structure, topic, goal, triggerWord, slideCount }), { photos, proofLines: input.proofLines, goal, triggerWord });
+      output = applyCarouselLayouts(sanitizeCarouselOutput(humanizeDeep(parseModelJson(raw)), { structure, topic, goal, triggerWord, slideCount }), { photos, proofLines: input.proofLines, goal, triggerWord });
       mode = "generated";
     } catch (error) {
       reviewNote = `Generator fallback: ${safeMessage(error)}`;
@@ -236,7 +237,7 @@ async function rewriteCarousel(env, access, body) {
   let next;
   try {
     const raw = await generateText(buildRewritePrompt({ output, request, clientBrain: brain.prompt_text }), ai, { json: true });
-    next = applyRewrite(output, request, readRewriteReply(raw));
+    next = applyRewrite(output, request, humanizeDeep(readRewriteReply(raw)));
   } catch (error) {
     return json({ ok: false, error: `The rewrite did not work: ${safeMessage(error)}` }, 502);
   }

@@ -1,6 +1,7 @@
 // POST /api/youtube-build {video, next_step, answers:[{id, question, answer}]} -> three openings and one
 // outline for the signed-in client. With an AI key (ai-provider.js): {mode:"generated", plan}. Without:
 // {mode:"manual", prompt} for the client's own AI. Nothing is stored here: the portal saves the plan.
+import { humanizeDeep } from "../_shared/humanizer.js";
 import { withOperator } from "../_shared/access.js";
 import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
@@ -50,7 +51,7 @@ async function handlePost({ request, env }) {
   }
   let plan = null;
   try {
-    plan = sanitizePlan(parseModelJson(rawText));
+    plan = sanitizePlan(humanizeDeep(parseModelJson(rawText)));
   } catch {
     plan = null;
   }

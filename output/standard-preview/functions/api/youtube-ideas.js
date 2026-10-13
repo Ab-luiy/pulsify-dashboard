@@ -2,6 +2,7 @@
 // With an AI key (ai-provider.js): {mode:"generated", ideas}. Without: {mode:"manual", prompt} for the client's own AI;
 // the portal parses the pasted answer with the same shape. Nothing is stored here: the portal saves the
 // ideation to the client's video project (workspace_records kind "youtube").
+import { humanizeDeep } from "../_shared/humanizer.js";
 import { withOperator } from "../_shared/access.js";
 import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
@@ -49,7 +50,7 @@ async function handlePost({ request, env }) {
   }
   let ideas = [];
   try {
-    ideas = sanitizeIdeas(parseModelJson(rawText));
+    ideas = sanitizeIdeas(humanizeDeep(parseModelJson(rawText)));
   } catch {
     ideas = [];
   }
