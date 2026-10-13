@@ -71,7 +71,9 @@ export async function onRequestGet({ request, env }) {
       return Response.redirect(authUrl, 302);
     } catch (error) {
       console.error("client-connect start", String(error?.message || error));
-      return back(url.origin, `connect_error=${platform}&reason=start`);
+      // Zernio answers 402 when the plan has no room for another profile or account.
+      const reason = / -> 402:/.test(String(error?.message || "")) ? "full" : "start";
+      return back(url.origin, `connect_error=${platform}&reason=${reason}`);
     }
   }
 

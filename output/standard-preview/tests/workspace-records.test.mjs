@@ -2,7 +2,7 @@ import {onRequestGet as summary} from '../functions/api/workspace-summary.js';
 import assert from 'node:assert/strict';
 import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
-import {onRequestGet,onRequestPost} from '../functions/api/workspace-records.js';
+import {onRequestDelete,onRequestGet,onRequestPost} from '../functions/api/workspace-records.js';
 import {sha256Hex} from '../functions/_shared/common.js';
 const sql=new DatabaseSync(':memory:');
 sql.exec('CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,portal_token_hash TEXT)');
@@ -28,6 +28,8 @@ assert.equal((await onRequestPost({env,request:req({...body,kind:'admin'})})).st
 {const idea=await onRequestPost({env,request:req({kind:'idea',title:'closed a skeptical client',data:{text:'closed a skeptical client',angle:'A win to credibility',sequenceId:40,formats:['a','b']}})});assert.equal(idea.status,201);const listed=await (await onRequestGet({env,request:new Request('https://test/api/workspace-records',{headers:{'x-portal-token':'token-a'}})})).json();assert.ok(listed.rows.some(row=>row.kind==='idea'&&row.data.sequenceId===40));}
 assert.equal((await onRequestPost({env,request:req(null)})).status,422);
 assert.equal((await onRequestPost({env,request:req({...body,data:{notes:'x'.repeat(100001)}})})).status,413);
+{const gone=await (await onRequestPost({env,request:req({kind:'reference',title:'Old thumbnail',data:{channel:'thumbnail'}})})).json();const del=(id,token='token-a')=>onRequestDelete({env,request:new Request('https://test/api/workspace-records?id='+id,{method:'DELETE',headers:{'x-portal-token':token}})});
+assert.equal((await del(gone.id,'token-b')).status,404);assert.equal((await del(gone.id)).status,200);assert.equal((await del(gone.id)).status,404);assert.equal((await del('')).status,422);}
 console.log('PASS workspace records: persistence, tenant isolation, stale update conflicts, auth, size and schema validation');
 
 for(const table of ['studio_sequences','studio_carousels','sequence_log','proof_items']){sql.exec('CREATE TABLE '+table+'(client_id TEXT)');sql.prepare('INSERT INTO '+table+' VALUES(?),(?)').run('a','b');}sql.exec('CREATE TABLE payments(client TEXT)');sql.prepare('INSERT INTO payments VALUES(?)').run('a');const result=await summary({env,request:new Request('https://test/api/workspace-summary',{headers:{'x-portal-token':'token-a'}})});const totals=await result.json();assert.equal(totals.counts.stories,1);assert.equal(totals.counts.sequences,1);assert.equal(totals.counts.lead,1);assert.equal((await summary({env,request:new Request('https://test/api/workspace-summary')})).status,401);console.log('PASS all-time summary: direct database counts and tenant isolation');

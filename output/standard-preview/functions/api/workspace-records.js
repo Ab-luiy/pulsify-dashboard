@@ -28,3 +28,14 @@ export async function onRequestPost({request,env}) {
  }else await env.DB.prepare('INSERT INTO workspace_records(id,client_id,kind,title,data_json,created_at,updated_at) VALUES(?,?,?,?,?,?,?)').bind(id,access.client,body.kind,String(body.title).trim().slice(0,250),JSON.stringify(body.data),now,now).run();
  return json({ok:true,id,updated_at:now},body.id?200:201);
 }
+// Delete one saved record (founder 2026-10-13: "you can't even delete that shit"). Only the owner's own rows.
+export async function onRequestDelete({request,env}) {
+ const access=await resolveClientAccess(request,env,{allowHeaderToken:true});
+ if(access.error)return access.error;
+ if(access.impersonated)return json({ok:false,error:'Operator preview is read-only.'},403);
+ const id=String(new URL(request.url).searchParams.get('id')||'');
+ if(!id)return json({ok:false,error:'Which record?'},422);
+ const result=await env.DB.prepare('DELETE FROM workspace_records WHERE id=? AND client_id=?').bind(id,access.client).run();
+ if(!result.meta?.changes)return json({ok:false,error:'Record not found.'},404);
+ return json({ok:true});
+}
