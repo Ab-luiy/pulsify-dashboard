@@ -39,3 +39,9 @@ Founder 2026-10-12 shared Luke Alexander's Kendo design-system doc and said "go"
   - Canva must approve the public app before clients outside the founder's Canva team can sign in (submit from the portal; it needs one tested OAuth first).
   - Post to Instagram from the editor.
 
+
+**Update 2026-10-14: founder walkthrough fixes live** (pulsify-saas f23f183, Brain 4ec87639). Tracker: pulsify-saas `docs/feedback-2026-10-13.md`.
+- Founder loved the carousel editor. Hated: thumbnail designer, format picker ("Teach a concept"), title formulas ("not what we use"), teaching copy, type leaderboard, Plans/To-dos, Content jumping to other sections.
+- Built: AI thumbnails (Workers AI flux-2-klein-4b background + llama-3.2-3b scene line from the client's niche; never AI faces or AI text; real cutout; editor at 1280x720), Content = everything made + calendar, Leads under Funnel, humanizer (`_shared/humanizer.js`) on every writer, story bursts auto-log to sequence_log.
+- Blocked: Instagram/YouTube connect fails because Zernio needs a payment method (402 "more than 2 accounts"). Founder must add a card.
+- Open: titles quality/presentation (#5), Metrics cards (#9), free model still invents small personal stories.
