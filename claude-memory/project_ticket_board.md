@@ -11,4 +11,10 @@ metadata:
 Founder said "set up tickets" on 2026-09-24 (a friend, Adiv, recommended breaking work into tickets instead of long essays). Board = GitHub Issues on Ab-luiy/pulsify-saas: #2-#8 Step 0 (new PropelAuth sign-in), #9-#19 Build queue (D1 design first, Growth G1 deliberately last), #20-#21 Later. Labels `owner: claude|codex|founder`, `type: design|backend|decision`, `idea`. Workflow is written in pulsify-saas/CLAUDE.md "Work tracking".
 
 **Why:** the cloud session's plan lived in a sandbox doc and nearly got lost; one shared board keeps Claude, Codex and the founder on the same list.
+
+## Current ticket rule, 2026-10-14
+
+The founder wants plain, informal titles and descriptions, with delayed or forgotten commitments first. This replaces the old fixed queue order above. Keep dependencies and approval steps clear; do not assume an old ticket is untouched when newer comments say parts shipped. Both agents must check and restore this order before adding new ideas. Full wording rule: [[feedback_plain_speech]].
+
+On 2026-10-14 Codex rewrote all 27 open issues and ordered the project with the older library, inbox, charts, income and content work first. Completed issues stay out of the active queue; waiting work stays marked as waiting. The GitHub project's manual order is the shared priority list, not issue-number order or the newest-updated issue list.
 **How to apply:** at the start of any SaaS work, run `gh issue list -R Ab-luiy/pulsify-saas` and work one ticket at a time; new work becomes a ticket first; close with "Fixes #n" or a closing comment. Board: https://github.com/users/Ab-luiy/projects/1 ("Pulsify build", project 1), Status field options Todo / In Progress / Waiting on you / Done (field id PVTSSF_lAHOEQNL8s4BkkmYzhjUuVs); move cards with `gh project item-edit`. Token has project scope (granted 2026-09-24). Related: [[project-nextjs-migration]].

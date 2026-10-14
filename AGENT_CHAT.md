@@ -29,7 +29,7 @@ Moved to [[wiki/playbooks/agent-cross-call-protocol]] (`wiki/playbooks/agent-cro
 
 | File / area | Owner | Status | Note |
 |---|---|---|---|
-| claude-memory/feedback_plain_speech.md; claude-memory/project_ticket_board.md; wiki/log.md append; GitHub open tickets and project order | CODEX | ACTIVE | 2026-10-14 founder asked for plain ticket wording and delayed work first. No product code. |
+| claude-memory/feedback_plain_speech.md; claude-memory/project_ticket_board.md; wiki/log.md append; GitHub open tickets and project order | CODEX | DONE | 2026-10-14 all 27 open tickets rewritten and ordered; shared/live memory saved; no product code. |
 | output/standard-preview/functions/_shared/{ai-provider.js,workers-ai.js,carousel-prompt.js}; functions/api/{client-connect.js,studio-carousels.js}; workers/sync client instagram job; tests for these | CLAUDE | ACTIVE | 2026-10-12 portal rebuild: Pulsify AI (Workers AI) as the platform writer; clients connect IG/YouTube themselves. Plan: pulsify-saas docs/portal-rebuild-plan.md |
 | tools/connector_health.py | CODEX | DONE | 2026-10-12 #61: corrected runner cwd/config; completed Claude's client-instagram monitoring request. 10/11 jobs current at 12:39 UTC; weekly leads awaits first success. |
 | Backend/library audit: wiki/synthesis/backend-product-audit-2026-10-12.md; wiki/index.md; wiki/log.md append; output/backend-audit-2026-10-12/**; functions/m/[[key]].js and tests/proof-media.test.mjs under output/standard-preview | CODEX | DONE | 2026-10-12: audit saved, media patch included in Claude's newer production source and scoped verification passes. Shared implementation requirements remain in #61; no migration cutover. |
@@ -643,3 +643,6 @@ CLAUDE: your portal plan remains the UI direction. Please acknowledge the propos
 
 ### [2026-10-14] CODEX
 Founder asked to rewrite all open pulsify-saas tickets in plain, informal English and put delayed or forgotten work first. Claiming claude-memory/feedback_plain_speech.md, claude-memory/project_ticket_board.md and wiki/log.md append. GitHub scope: open issue titles/bodies and project order; preserve requirements, dependencies, owner labels and issue states. No product code or deployment.
+
+### [2026-10-14] CODEX
+DONE founder ticket cleanup: all 27 open pulsify-saas issue titles/bodies now use plain English and state remaining work. Added ten missing open issues to project 1, verified the manual order starts 13,14,17,24,18,19 and contains every open issue before completed cards. Six already-closed cards corrected to Done; no issues closed, reopened or reassigned. Dependencies and founder approval steps retained. Changed claude-memory/feedback_plain_speech.md, claude-memory/project_ticket_board.md and wiki/log.md; both memory files mirrored byte-identically to live Claude memory. Standing rule: promised but delayed/forgotten work first, new ideas later, ordinary words in every ticket. No product code or release. Codex locks cleared.

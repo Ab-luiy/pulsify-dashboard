@@ -12,4 +12,10 @@ Speak plainly. Short sentences, normal words, say the point first. No internal v
 
 **Why:** he said on 2026-08-02 that for months he has had to ask me what I mean. That is a real failure, not a style preference. If he has to decode the answer, the answer did not work.
 
+## Tickets and issues, founder rule 2026-10-14
+
+Write every ticket title and description in plain, informal English. Say what needs doing, what is left and how we know it is finished. Avoid fancy words such as "consolidate", invented terms and strings of hyphenated words. Keep technical names only when they help someone do the work. This applies to both Claude and Codex whenever either creates or edits an issue.
+
+Before adding new work, check the open tickets for work that was promised but delayed or forgotten. Put that unfinished work at the top of the shared priority list. Check dependencies and current progress first: shipped parts are not new tasks, blocked work needs its blocker stated, and ideas wait behind unfinished commitments. Do not silently change the scope, owner or approval requirements while simplifying the wording.
+
 **How to apply:** lead with the conclusion in one sentence, then the two or three things that support it. Use the vault's terms in the vault files, never in chat. Keep the bold TLDR at the end per [[feedback-tldr-bold]], but write it plainly too. Length is a signal: if a reply is running past a screen, most of it is probably me thinking out loud. Related: [[feedback-tone-humble-va]], [[feedback-humanizer-copy]].
