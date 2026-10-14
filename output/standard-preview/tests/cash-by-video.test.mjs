@@ -329,7 +329,7 @@ assert.equal(res.status, 422, "operator must name a client");
 delete env.ADMIN_KEY;
 
 // ---------- worker schedule ----------
-assert.deepEqual(scheduledJobs("*/30 * * * *"), ["payment-rematch", "client-videos", "client-instagram"]);
+assert.deepEqual(scheduledJobs("*/30 * * * *"), ["payment-rematch", "client-videos", "client-instagram", "outliers"]);
 assert.deepEqual(scheduledJobs("15 */6 * * *"), ["youtube"]);
 
 console.log("cash-by-video: all checks passed");
