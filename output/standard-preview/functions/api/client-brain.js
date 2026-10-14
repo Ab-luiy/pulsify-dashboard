@@ -12,6 +12,7 @@ export const FIELD_DEFINITIONS = {
   identity: [
     field("name", "Name", "text"),
     field("handles", "Handles", "list"),
+    field("niche", "Niche", "text"),
     field("business_explainer", "Exactly what they do and how it makes money", "textarea"),
     field("positioning", "One-line positioning", "textarea", true),
     field("mechanism_name", "Category-of-one mechanism name", "text", true),
@@ -86,6 +87,7 @@ export const FIELD_DEFINITIONS = {
 const CLIENT_FIELDS = new Map([
   ["identity.name", "client-form"],
   ["identity.handles", "client-form"],
+  ["identity.niche", "client-form"],
   ["identity.business_explainer", "client-form"],
   ["offer.voice_note_url", "voice-note"],
   ["offer.direction", "client-form"],

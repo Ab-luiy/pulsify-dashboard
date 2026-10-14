@@ -1,3 +1,5 @@
+import { readNiche } from "./niches.js";
+
 const SECTION_ORDER = ["identity", "offer", "icp", "story", "voice", "proof", "funnel", "donot"];
 const SECTION_LABELS = {
   identity: "Identity",
@@ -77,6 +79,7 @@ export function buildGeneratorBrainContext(data) {
     if (truncated) break;
   }
 
+  const nicheRow = rows.find((row) => row.section === "identity" && row.field === "niche");
   const triggerWords = readListField(rows, "funnel", "trigger_words");
   const proofLines = proofItems
     .filter((item) => item.permission === "granted" && String(item.claim || "").trim())
@@ -89,6 +92,7 @@ export function buildGeneratorBrainContext(data) {
     fields_used: fieldsUsed,
     updated_at: updatedAt,
     truncated,
+    niche: readNiche(nicheRow ? parseBrainValue(nicheRow.value_json) : ""),
     trigger_words: triggerWords,
     proof_lines: uniqueStrings(proofLines),
   };
