@@ -35,6 +35,31 @@ test("a video is an outlier at 10x its channel's median, shorts and fresh upload
   assert.deepEqual(findOutliers([...Array.from({ length: 20 }, (_, n) => video(n + 1, 100)), video(30, 5_000)], NOW), []);
 });
 
+test("the library is English and real titles: other languages and hashtag lists are left out, two per channel at most", async () => {
+  const base = Array.from({ length: 20 }, (_, n) => video(n + 1, 8_000 + n * 100));
+  const hit = (n, extra) => video(n, 900_000, extra);
+  assert.equal(findOutliers([...base, hit(30, { language: "hi" })], NOW).length, 0, "a Hindi video is left out");
+  assert.equal(findOutliers([...base, hit(30, { language: "en-US" })], NOW).length, 1);
+  assert.equal(findOutliers([...base, hit(30, { language: "" })], NOW).length, 1, "unknown language is allowed");
+  assert.equal(findOutliers([...base, hit(30, { title: "Gold trading #stockmarket #trading #forex" })], NOW).length, 0);
+  assert.equal(findOutliers([...base, hit(30, { title: "My #1 rule for trading" })], NOW).length, 1, "one hash is fine");
+});
+
+test("one channel cannot fill a niche", async () => {
+  const t = db();
+  const env = { DB: t.DB, YT_API_KEY: "key" };
+  const sample = [...Array.from({ length: 20 }, (_, n) => video(n + 1, 8_000 + n * 100)), video(30, 900_000), video(31, 800_000), video(32, 700_000), video(33, 650_000)];
+  const fetcher = async (url) => {
+    const path = new URL(url).pathname.split("/").pop();
+    if (path === "search") return Response.json({ items: [{ snippet: { channelId: "UC1", channelTitle: "Chan" } }] });
+    if (path === "channels") return Response.json({ items: [{ id: "UC1", contentDetails: { relatedPlaylists: { uploads: "UU1" } } }] });
+    if (path === "playlistItems") return Response.json({ items: sample.map((v) => ({ contentDetails: { videoId: v.id } })) });
+    return Response.json({ items: sample.map((v) => ({ id: v.id, snippet: { title: v.title, publishedAt: v.publishedAt, channelId: "UC1", channelTitle: "Chan", thumbnails: { high: { url: v.thumbnail } } }, statistics: { viewCount: String(v.views) }, contentDetails: { duration: "PT15M" } })) });
+  };
+  await syncOutliers(env, fetcher, NOW);
+  assert.equal(t.sql.prepare("SELECT COUNT(*) AS n FROM outlier_videos").get().n, 2);
+});
+
 function db() {
   const sql = new DatabaseSync(":memory:");
   sql.exec(readFileSync(new URL("../migrations/0060_outlier_videos.sql", import.meta.url), "utf8"));

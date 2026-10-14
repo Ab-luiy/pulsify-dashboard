@@ -23,9 +23,10 @@ const MIN_AGE_DAYS = 3;
 const MAX_AGE_DAYS = 540;
 const RECHECK_DAYS = 3;
 const DISCOVER_EVERY_DAYS = 7;
-const CHANNELS_PER_RUN = 12;
+const CHANNELS_PER_RUN = 25;
 const KEEP_DAYS = 30;
 const MAX_CHANNELS_PER_NICHE = 60;
+const MAX_PER_CHANNEL = 2;
 
 export function median(numbers) {
   const sorted = numbers.filter(Number.isFinite).sort((a, b) => a - b);
@@ -38,13 +39,23 @@ export function median(numbers) {
  * The outliers among a channel's recent long-form uploads. `videos`: [{id, title, views, publishedAt, seconds, ...}].
  * Returns [] when the sample is too small to say what "normal" is for the channel.
  */
+/**
+ * Not every big video is a packaging example: the library is English (a video says its language when it knows it),
+ * and a title stuffed with hashtags is a tag list, not a title.
+ */
+export function worthShowing(video) {
+  if (video.language && !/^en/i.test(video.language)) return false;
+  if ((String(video.title).match(/#/g) || []).length >= 2) return false;
+  return true;
+}
+
 export function findOutliers(videos, now = Date.now()) {
   const settled = videos.filter((video) => video.seconds > 75 && now - Date.parse(video.publishedAt) >= MIN_AGE_DAYS * DAY).slice(0, SAMPLE);
   if (settled.length < MIN_SAMPLE) return [];
   const normal = median(settled.map((video) => video.views));
   if (normal <= 0) return [];
   return settled
-    .filter((video) => now - Date.parse(video.publishedAt) <= MAX_AGE_DAYS * DAY && video.views >= MIN_VIEWS)
+    .filter((video) => now - Date.parse(video.publishedAt) <= MAX_AGE_DAYS * DAY && video.views >= MIN_VIEWS && worthShowing(video))
     .map((video) => ({ ...video, normal: Math.round(normal), multiplier: Math.round((video.views / normal) * 10) / 10 }))
     .filter((video) => video.multiplier >= MIN_MULTIPLIER)
     .sort((a, b) => b.multiplier - a.multiplier);
@@ -66,6 +77,7 @@ export async function readChannelVideos(env, uploadsPlaylist, fetcher = fetch) {
       publishedAt: String(item.snippet?.publishedAt || ""),
       seconds: durationSeconds(item.contentDetails?.duration) ?? 0,
       thumbnail: thumbnailOf(item.snippet),
+      language: String(item.snippet?.defaultAudioLanguage || item.snippet?.defaultLanguage || ""),
       channelId: String(item.snippet?.channelId || ""),
       channelTitle: String(item.snippet?.channelTitle || "").slice(0, 120),
     }))
@@ -134,7 +146,8 @@ export async function syncOutliers(env, fetcher = fetch, now = Date.now()) {
       if (videos) {
         const outliers = findOutliers(videos, now);
         statements.push(env.DB.prepare("DELETE FROM outlier_videos WHERE channel_id=?").bind(row.channel_id));
-        for (const video of outliers.slice(0, 5)) {
+        // Two per channel at most, so one channel cannot fill a niche.
+        for (const video of outliers.slice(0, MAX_PER_CHANNEL)) {
           statements.push(
             env.DB.prepare(
               "INSERT INTO outlier_videos(video_id, niche, channel_id, channel_title, title, thumbnail_url, published_at, views, channel_median, multiplier, duration_s, refreshed_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
