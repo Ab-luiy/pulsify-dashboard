@@ -49,7 +49,8 @@ export function humanize(input) {
     .replace(/[ \t]*[\u2014\u2013][ \t]*/g, " ")
     .replace(/\p{Extended_Pictographic}\uFE0F?/gu, "")
     .replace(/!+/g, ".")
-    .replace(/\.{2}(?!\.)/g, ".");
+    // "Go!." became "Go.." above; exactly two dots fold to one, an ellipsis stays.
+    .replace(/(?<!\.)\.\.(?!\.)/g, ".");
   for (const [pattern, replacement] of WORDS) text = text.replace(pattern, replacement);
   return text.replace(/[ \t]{2,}/g, " ").replace(/[ \t]+([,.;:])/g, "$1").replace(/[ \t]+$/gm, "").trim();
 }

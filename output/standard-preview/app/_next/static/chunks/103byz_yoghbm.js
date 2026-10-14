@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,87318,t=>{"use strict";t.s(["FONTS_LOADED",0,!0])}]);

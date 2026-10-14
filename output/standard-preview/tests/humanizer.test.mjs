@@ -10,6 +10,8 @@ test("humanize fixes the mechanical tells and keeps the words", () => {
   assert.equal(humanize("It's worth noting that risk matters. Importantly, size down."), "Risk matters. Size down.");
   assert.equal(humanize("This serves as your plan \uD83D\uDE80"), "This is your plan");
   assert.equal(humanize("Line one\n\nLine two"), "Line one\n\nLine two");
+  assert.equal(humanize("Wait for it... then enter"), "Wait for it... then enter");
+  assert.equal(humanize("risk‑to‑reward"), "risk-to-reward");
 });
 
 test("humanizeDeep cleans every string in generated JSON", () => {
