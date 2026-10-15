@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 67c54d69-9a7d-464a-968f-df6657a1f2bd
-  modified: 2026-10-15T10:57:39.887Z
+  modified: 2026-10-15T11:16:01.763Z
 ---
 
 Founder, 2026-10-15 (session on MVP/PRD/pricing):
@@ -25,6 +25,15 @@ Founder, 2026-10-15 (session on MVP/PRD/pricing):
 - Onboarding wishes: questions read aloud + answers typed or spoken (speech to text), punchier suggestion lines, fun ways to pull answers out, multiple choice, progress bar + time left, buttons and ease of access, design kit from [[project_design_system_2026_10_12]], glowing custom cursor, logo-with-glow loader everywhere, never ask duplicates (dig deeper on one answer instead), ask why they joined / what made them feel they needed it. Data goes into the app's client brain. He reviews it with me before it goes live.
 - AI: test cheap models; he mentioned GLM.
 - Test run of a fake client: only after the session's work is done.
+
+**Round 3 answers, 2026-10-15:**
+- Reels: 2-5/day cadence stays, but we NEVER script reels (raw, natural creator moments). Supersedes the "no reels" note for cadence only.
+- 30% = everything after they join (content -> funnel -> closing). Revenue they already make from content is untouched unless we rebuild that stream. So record starting revenue at signing (onboarding Q8 + contract).
+- Guarantee: lean "if we don't deliver the agreed work in 90 days, we keep working at no extra cost until we do". No refunds.
+- Delivery also includes building the client's paid program (curriculum, 1-1 mentorship how-to, teaching assets, student paid/unpaid sheet + call calendar, Whop setup); app support later (#66). Setter/closer sourced when needed. Paid ads later or early if they want to scale.
+- Main selling point: the system keeps selling through organic content and traffic.
+- Glowing logo loader app-wide, a little bigger (#65); glowing cursor onboarding only.
+- Spec: wiki/synthesis/onboarding-v2-spec-2026-10-15.md (draft, review with him before live).
 
 **Why:** he believes delivery quality depends entirely on how well onboarding captures the client and how well the app uses our knowledge.
 
