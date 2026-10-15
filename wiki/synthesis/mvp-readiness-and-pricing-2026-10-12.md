@@ -31,9 +31,9 @@ Follow-up answers, same day:
 - **Main selling point:** the whole system keeps selling through organic content and traffic.
 
 - **Refunds:** refunded sales come off before the 30% is calculated (founder: "defo yes").
-- **Guarantee, revised:** 90 days is too long. The app should work for them as soon as they finish onboarding. Proposed wording (timings awaiting founder sign-off): "Your workspace is live and tailored to you the day you finish onboarding. Your first video package and first story sequence are ready within 7 days. If we miss either, we keep working at no extra cost until it's done. No refunds."
+- **Guarantee, revised:** 90 days is too long. The app should work for them as soon as they finish onboarding. Approved wording (founder 2026-10-15, no day count): "Your workspace is live and tailored to you the day you finish onboarding, and your first video package and story sequence follow right after. If anything we promised isn't delivered, we keep working at no extra cost until it is. No refunds."
 
-Still open: the exact timings in the guarantee.
+All pricing and guarantee decisions are now settled.
 
 ## Why this matters for Pulsify
 
