@@ -157,6 +157,7 @@ A7. What did you see from us before booking? Multi-pick: The DM / A voice note /
 8.8 Drop 1-3 links where you sound most like you. (optional)
 
 **9. Your content** (expanded, founder 2026-10-15: formats, how they make content, how long it takes, what they know)
+Intro screen for part 9: "You'll have covered some of this on your call. We ask again here so the app learns how you actually work, and fits itself around you instead of the other way round." If the founder logged answers from the sales call, those questions open pre-filled as "Is this right?" instead of blank (same rule as "Don't re-ask what we know").
 9.1 **What each one does.** One screen of four short fact cards they swipe through before any question. Each fact comes from our own playbooks:
    - **YouTube long form** is the main asset. About one a week, and everything else is cut from it. People who've watched 3-5 of your videos before a call are the easiest buyers there are. ([[playbooks/content-operating-rhythm]] and this vault's core rule that long form is the main revenue engine)
    - **Reels** are cut from your long form. They reach new people. They come after long form, not instead of it. ([[playbooks/content-operating-rhythm]])
@@ -179,8 +180,15 @@ A7. What did you see from us before booking? Multi-pick: The DM / A voice note /
 
 **10. Your funnel** (founder 2026-10-15: what they know, what they've tried, then their funnel; deep if they have one, short if not)
 Helper line on every metric screen: "Ranges are fine. 'I don't know' is a real answer, and it tells us what to set up first." Nobody is forced to give exact rates.
+Every funnel question also has a "Say more" box under the chips (type or talk), so they can answer in as much detail as they want. Chips give us clean data; the long answer gives us the real story, and both are saved.
 
-10.1 **How a funnel works.** A simple drawing: top (content that brings new people in) -> middle (content that builds trust) -> bottom (landing page, VSL, booking, call: where people buy). Per [[concepts/content-funnel-tof-mof-bof]], with the founder's rule that the bottom is the landing page and VSL, not videos (2026-09-28). Then: "Which of these are you working on right now?" Multi-pick: Top / Middle / Bottom / None / Not sure.
+10.1 **How a funnel works.** Most creators won't know what TOF, MOF and BOF mean, so the app never leads with those words. A simple drawing with three plain names, each with two examples from their own niche (picked in 1.5; trading shown here):
+   - **Get seen** (top of funnel): content that brings new people in. Examples: "5 mistakes that blow prop firm challenges", a reel cut from your video.
+   - **Get trusted** (middle of funnel): content that makes people believe you. Examples: a student's payout story, a story sequence walking through your own trade.
+   - **Get paid** (bottom of funnel): where people buy. Examples: your landing page and VSL, your booking page and the call.
+   Per [[concepts/content-funnel-tof-mof-bof]], with the founder's rule that the bottom is the landing page and VSL, not videos (2026-09-28). The small label "top / middle / bottom of funnel" sits under each name so they learn the words.
+10.1b **Quick check, three taps.** "Which part is this?" for three examples from their niche, each answered Get seen / Get trusted / Get paid. Right answers get a tick; wrong ones show the right answer with one line on why. Nothing is scored or shown to anyone as a grade.
+10.1c Which of these are you working on right now? Multi-pick: Get seen / Get trusted / Get paid / None yet / Not sure. (F) "Tell us what you're doing for each one you picked."
 10.2 **Words check.** "Tap the ones you know. It's not a test." Chips: Funnel / Lead magnet / VSL / Show rate / Close rate / High-ticket / Setter / Closer / Retargeting / Unique mechanism / ICP / Top, middle and bottom of funnel. Whatever they don't tap gets a plain "i" explainer wherever it shows up in their portal. Helper line: "Whatever you don't know, we handle."
 10.3 Which funnels have you tried, now or before? Multi-pick: Profile funnel (bio, DMs, stories) / Landing page + VSL / Application funnel / Lead magnet + emails / Webinar / Challenge / None. (F) for each: "Did it work?" Worked / Kind of / Didn't, then one line on why.
 10.4 What kind of funnel do you want? Same list plus "Whatever works, you pick."
@@ -249,6 +257,32 @@ Both answers are saved with the date and time, next to the signed contract.
 
 **14. Read-back** - "Here's what we heard", with an Edit button per part, then Finish.
 
+## What you see as the operator (founder 2026-10-15: "very important I get to view their answers")
+
+Every client's page in the operator console gets an **Onboarding** tab with two parts. Plain English, bullet points, easy to scan.
+
+**1. What this client needs figured out.** At the top, a short list the app builds by itself from their answers. Each item is one plain line, with the answer it came from one tap away. The rules that add an item:
+- No unique mechanism (7.1 "No") and nothing in their method walkthrough to build one from: "Needs a mechanism built from scratch. Start here, before content."
+- Doesn't know their buyer (5.1 "Not really"): "Needs buyer research. Starter profile confirmed: X of 7 cards."
+- No funnel (10.5 "No"): "Needs a funnel built."
+- A leak named (10.12): "Funnel leaks at: they book but don't show."
+- Numbers unknown (10.11 "I don't know"): "Not tracking: show rate, close rate. Set up tracking first."
+- No proof (11.3 "Not yet" and 11.4n "No"): "Needs a first result on record."
+- No offer (4.1 "Never had one"): "Needs an offer built."
+- Program messy or missing (12.1): "Program needs: curriculum, call structure."
+- Didn't confirm the deal (13.2 "No" or 13.3 "Not sure yet"): "Didn't confirm they'll do the work. Talk to them before starting."
+- Thin answers (follow-ups skipped or very short): "Answers on story and positioning are thin. Ask on the next call."
+Each item can be ticked off ("Done" or "Handled on a call") so the list shrinks as we work.
+
+**2. Their full answers, read back to you.** Every part of the form as a card in order (How you found us, You, Why now, Money, Offer, Buyer, Story, Positioning, On camera, Content, Funnel, Proof, Program, The deal). Inside each card:
+- Their answers as short bullets in plain words, not field names. For example: "Makes $12,400 a month, about $8,000 from content. Margin 61% over 3 months."
+- Their own words in quotes where they typed or spoke at length, with a play button for voice answers.
+- Gaps marked plainly: "Skipped", "Didn't know", "Not yet".
+- Their funnel drawn as a path, their proof as thumbnails, their money as a small table.
+- When they later add to an answer from their Brand Brain, the card shows "Updated" with the date, and the old answer stays one tap away.
+
+The client's status (On track / Watch / At risk / Needs onboarding) stays the label at the top of their page, as the app wording rules require. This is ticket pulsify-saas #70.
+
 ## Every answer is something they build on (founder 2026-10-15)
 
 Nothing in onboarding is a one-time form. Every answer becomes a card in their portal (Brand Brain) that they can open later and expand: add a new result to their proof, update their numbers, rewrite their story, refine their buyer. The read-back screen ends with "You can add to any of this later from your Brand Brain." When something new happens (a new student result, a new offer), the app nudges them to add it, and everything that writes for them picks it up straight away.
@@ -281,4 +315,4 @@ New brain fields this needs (added to the allowed client fields), by part: ident
 1. Settled: money questions are exact and required (last 3 months revenue + profit, current monthly income, content share).
 2. It's now 35-45 minutes. It autosaves and can be done in sittings. Is that OK, or should proof uploads and the program part move to a "finish your setup" step in the first week?
 3. Should the read-back step send you a notification so you see each new client's summary?
-4. Should "The deal" (13) come at the end as it is now, or right after part A so the frame is set before they answer anything?
+4. "The deal" (13) is the screen where they read what we do and what they must do, then confirm they understand and promise to put in the work. Should it come at the end, as now, or near the start, right after part A?
