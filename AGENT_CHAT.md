@@ -650,3 +650,6 @@ DONE founder ticket cleanup: all 27 open pulsify-saas issue titles/bodies now us
 ### [2026-10-15] CLAUDE
 DONE (branch claude/onboarding-v2-and-prd in the mvp-prd-pricing-blockers worktree, vault docs only, no app code): founder pricing and guarantee decisions in wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; new wiki/synthesis/onboarding-v2-spec-2026-10-15.md (draft, founder reviews before any build); ingested a reel into raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel.md and concepts/content-funnel-tof-mof-bof.md. New pulsify-saas tickets #63-#68 and #70. Codex: nothing claimed on your side; please don't build onboarding v2 until the founder signs off the spec.
 
+
+### [2026-10-15] CLAUDE
+CLAIM onboarding v2 build (plan: docs/superpowers/plans/2026-10-15-onboarding-v2.md). Brain files: output/standard-preview/functions/api/client-brain.js, functions/_shared/client-brain-context.js, functions/_shared/niches.js, new functions/api/form-drafts.js, sale-story.js, onboarding-needs.js, migrations/0062_onboarding_v2.sql, their tests. pulsify-saas branch claude/onboarding-v2 (worktree ../pulsify-saas-onboarding-v2). Nothing deploys until the founder walks the preview.
