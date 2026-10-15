@@ -65,7 +65,7 @@ A2. How long did it take you to decide? Chips: Same day / A few days / 1-2 weeks
 A3. (F) What could we have done to get you to say yes sooner?
 A4. What was the ONE thing that almost made you not buy? Chips: Price / Trust / Timing / Tried something before / Nothing / Other. (F) "Tell me more about that."
 A5. Which video made you want to book a call? Paste the link. Chips if they don't have one: Saw it on YouTube / Instagram / It was the DM / Someone referred me / Other.
-A6. Before the call, how sure were you that you'd sign up? Tap 1-10. (F) "What made you unsure, or so sure?"
+A6. Before the call, how sure were you that you'd sign up? Words, not a number (founder 2026-10-15: "the out of 10 mark is bad"): Not sure at all / Leaning no / Could go either way / Leaning yes / Certain. (F) "What made you unsure, or so sure?"
 A7. What did you see from us before booking? Multi-pick: The DM / A voice note / A custom video or asset we made for you / Our YouTube / Our stories / Other. (F) for each one picked: "How much did it help?" Tap 1-5, with a line for honest thoughts. **Last question: saving here closes part A.**
 
 **1. You** (personal; everything past the name is optional, helper line: "This is how we make your content sound like your life, not a template.")
@@ -148,7 +148,7 @@ A7. What did you see from us before booking? Multi-pick: The DM / A voice note /
    - **Calm teacher:** patient, clear, step by step.
    - **The rebel:** says what others won't, divides people on purpose.
    - **Other:** describe it in your own words.
-8.2 How unhinged are you on camera? Tap 1-5: 1 Buttoned-up / 3 Some edge / 5 Completely unhinged.
+8.2 How unhinged are you on camera? Tap one: Buttoned-up / A little edge / Some edge / Pretty unhinged / Completely unhinged.
 8.3 When you talk, do you think first or say whatever comes to mind? Chips: Very careful / Mostly careful / Depends on the day / Whatever comes to mind.
 8.4 Do you swear? Chips: Never / A little / It's how I talk.
 8.5 Do you use slang or words that could get flagged? Chips: No / Some slang / Yes, a lot. (F) if not "No": "Which words are fine for us to use, and which should we never write for you?" We match their voice but keep words platforms punish out of titles, captions and thumbnails by default; they confirm.
@@ -208,8 +208,8 @@ Every funnel question also has a "Say more" box under the chips (type or talk), 
 10.11 **Your numbers.** Only the ones that match the steps they picked are shown, one per screen, each with a one-line plain explanation and range chips plus "I don't know":
    - Leads a month (DMs, opt-ins, applications): Under 20 / 20-50 / 50-150 / 150+.
    - Calls booked a month: Under 5 / 5-15 / 15-40 / 40+.
-   - Show rate ("out of 10 booked calls, how many turn up?"): Under 4 / 4-6 / 6-8 / 8+.
-   - Close rate ("out of 10 calls that happen, how many buy?"): Under 1 / 1-2 / 2-3 / 3+.
+   - Show rate ("what share of booked calls actually turn up?"): Under 40% / 40-60% / 60-80% / 80% or more.
+   - Close rate ("what share of the calls that happen end in a sale?"): Under 10% / 10-20% / 20-30% / 30% or more.
    - Average deal size: exact number box (pre-filled from the price in 4.2 unless they offer payment plans).
    - How fast a new lead hears back: Minutes / Within the hour / Same day / Next day or later.
    - First message to paid, usually: Same day / Within a week / 1-4 weeks / Longer.
