@@ -131,6 +131,7 @@
 - [Registration approval](project_registration_approval.md) - 2026-10-01: request access on sign-in, founder approves as client or operator from Clients; owners-only...
 - [Main-only releases](feedback_main_only_releases.md) - HARD 2026-10-01: pulsify-saas main == live; release only from a clean pushed main; merge any peer's deployed...
 - [Portal feedback round 1](project_portal_feedback_round.md) - 2026-10-03 LIVE Pages 28461892: new Home, Funnel, YouTube/IG deck, calendar planner, Brand folders; owed list inside
+- [Brain-in-app vision + $5k/30%](project_brain_in_app_vision_2026_10_15.md) - 2026-10-15: price $5k+30%; onboarding is the strongest asset; app AI works from vault knowledge + client answers, learns per client, cheap model; inline connect buttons
 - [MVP first client plan](project_mvp_first_client.md) - 2026-10-02: sell done-for-you service, portal is the window; payments out of scope; plan at wiki/synthesis/mvp-plan-2026-10-02.md
 - [SaaS story launch](project_saas_story_launch.md) - 2026-10-08 FINAL: 13-slide highlight approved (copy + style rules in wiki/content-engine/pulsify-saas-highlight-final-2026-10-08.md); open: slide 9 video only; outreach next
 - [Brand logo kit](reference_brand_logo.md) - coin mark at brand/logo/, old P-Media logo retired; use in every design
