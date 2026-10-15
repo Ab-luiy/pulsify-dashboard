@@ -4,7 +4,7 @@ tags: [onboarding, product, client-portal]
 sources: [[synthesis/mvp-readiness-and-pricing-2026-10-12]], [[synthesis/client-portal-product-spec]]
 created: 2026-10-15
 updated: 2026-10-15
-status: DRAFT for founder review, nothing built yet
+status: BUILT on branches claude/onboarding-v2 (pulsify-saas) and claude/onboarding-v2-build (Brain); not live, waiting for the founder walkthrough
 ---
 
 # Onboarding v2: the spec to review together

@@ -697,3 +697,7 @@ Founder settled the launch terms: $5,000 base + 30% performance fee on everythin
 
 Founder pasted a reel transcript and asked for it to shape how we break down funnel stages; the lead-magnet call to action was removed. Saved to raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel.md. Added "Inside one video: the horizontal funnel" to concepts/content-funnel-tof-mof-bof.md (TOF opening, MOF dream-follower middle, BOF ICP ending), with a flagged contradiction against the reel's "the stages are dead" hook. Onboarding v2 now teaches TOF, MOF and BOF by their real names using this pattern.
 
+
+## [2026-10-15] decision | Onboarding v2 built, waiting for the founder's walkthrough
+
+Built the plan in docs/superpowers/plans/2026-10-15-onboarding-v2.md on two branches (Brain claude/onboarding-v2-build, pulsify-saas claude/onboarding-v2): the schema-driven form with talk-or-type, drafts saved while typing, part A saved as Pulsify's own record, seven niches, and the operator's Onboarding view with the needs list. Nothing is live and the database migration has not been applied. Release (plan Task 18) waits for the founder's yes.
