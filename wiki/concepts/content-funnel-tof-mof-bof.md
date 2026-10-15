@@ -1,9 +1,9 @@
 ---
 type: concept
 tags: [content, youtube, conversion, funnel]
-sources: [[raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md]], [[raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md]]
+sources: [[raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md]], [[raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md]], [[raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel]]
 created: 2026-05-02
-updated: 2026-09-29
+updated: 2026-10-15
 ---
 
 # Content funnel — TOF, MOF, BOF
@@ -108,6 +108,27 @@ Per Ayman: use Trakyo (trakyo.io; transcribed as "Trackio") to track calls booke
 - **No tracking at all** → you're flying blind; this is the default state for most creators
 - Pulsify is building this tracking into the client portal: [[synthesis/cash-by-video-spec]] (ticket #36) ranks every video by cash collected, not views.
 
+## Inside one video: the horizontal funnel (added 2026-10-15)
+
+Founder-directed insight, to be used whenever we break down content funnel stages. Source: a reel by Kobey Nguyen ([[raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel]]).
+
+The idea: the three stages don't have to be three separate kinds of video. They can run left to right inside a single video:
+
+- **First ~20% is TOF.** The opening speaks to a mass audience, anyone at all, to win the view.
+- **The middle is MOF.** It speaks to the dream follower: a problem that's still broad, but your ICP sits inside it.
+- **The end is BOF.** It speaks only to the ICP: their exact pains and wants, the things that move them toward buying.
+
+Why it matters: a micro-niched value video no longer has to give up reach. Open it wide, narrow it in the middle and land it on the buyer at the end, and the same video can pull TOF-level views and still sell.
+
+How it fits what we already have:
+- It's the same overlap as SooWei's ICP vs dream follower split ([[synthesis/soowei-goh-extractions/01-3m-yr-organic-content-strategy]]), applied to time inside one video instead of to topic choice.
+- It doesn't clash with the founder's 2026-09-28 rule of no dedicated BOF videos (BOF is the landing page and VSL). The BOF here is the closing section of a video, not a separate video.
+- It partly answers the open question below about Ayman's "free course video" doing all three stages at once: that's this pattern at full length.
+
+> ⚠️ Contradiction: the reel says "top, middle and bottom of funnel is completely dead". This page and the rest of the vault still use the three stages to plan *what* content to make (the ratios and journey above). Resolution: keep both. Use the stages across the content mix, and use the horizontal pattern inside each video. The reel's "dead" claim is a hook, not a reason to drop the stages.
+
+How Pulsify uses it: the YouTube "build the video" step should outline videos in this order (wide opening, dream-follower middle, ICP ending), and the client onboarding uses it to teach TOF, MOF and BOF ([[synthesis/onboarding-v2-spec-2026-10-15]], 10.1). Untested on client videos so far; judge it by cash per video ([[synthesis/cash-by-video-spec]]).
+
 ## Outside view: Dustin Varano's layer model (added 2026-09-29)
 
 Logged as extra context, not adopted. Dustin's layers: TOF = lifestyle vlogs (most views, weakest leads), MOF = one multi-hour "flywheel" video that does the pre-selling ([[concepts/flywheel-vsl]]), BOF = in-depth breakdowns for people who already understand the model, plus a separate proof layer (testimonials, case studies).
@@ -123,6 +144,7 @@ Logged as extra context, not adopted. Dustin's layers: TOF = lifestyle vlogs (mo
 - [[unique-mechanism]] — what is referenced throughout all three layers
 - [[ayman-arab]] — source of three content types framework
 - [[alexei]] — source of TOF/MOF/BOF funnel layer structure and the wow vs. how principle
+- [[synthesis/soowei-goh-extractions/01-3m-yr-organic-content-strategy]] — ICP vs dream follower, the overlap the horizontal funnel runs through
 
 ## Open questions / gaps
 
@@ -133,3 +155,4 @@ Logged as extra context, not adopted. Dustin's layers: TOF = lifestyle vlogs (mo
 
 - [[raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md]]
 - [[raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md]]
+- [[raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel]] (horizontal funnel, added 2026-10-15)

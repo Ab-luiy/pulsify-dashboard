@@ -688,3 +688,12 @@ Added synthesis/backend-product-audit-2026-10-12.md and wiki index entry with im
 ## [2026-10-14] decision | Plain tickets and unfinished work first
 
 Founder asked both agents to write tickets in plain, informal English and put promised work that was delayed or forgotten before new ideas. Rewrote the titles and descriptions of all 27 open issues in Ab-luiy/pulsify-saas, using existing comments and shared memory to distinguish shipped parts from remaining work. Kept issue states, owners, dependencies and approval requirements. Added ten missing open issues to the Pulsify build project, put all 27 open issues above completed work in manual priority order, and changed six already-closed cards to Done. Older library, inbox, charts, income and content tasks lead the list; blocked work and later ideas follow. Saved the standing rule in the existing plain-speech and ticket-board memory files and mirrored them to live Claude memory. Verified all issue titles/bodies and the exact project order through GitHub reads. No product code or deployment.
+
+## [2026-10-15] decision | Pricing, guarantee and onboarding v2 draft
+
+Founder settled the launch terms: $5,000 base + 30% performance fee on everything after they join (content revenue they already had is untouched unless we rebuild it), refunds come off before the 30%, starting revenue recorded at signing, DocuSign, and a guarantee with no day count: workspace live on onboarding day, first video package and story sequence right after, and we keep working at no extra cost until anything promised is delivered. No refunds. Recorded in synthesis/mvp-readiness-and-pricing-2026-10-12.md. Drafted synthesis/onboarding-v2-spec-2026-10-15.md for his review (nothing built). Tickets on pulsify-saas: #63 blurred connect cards, #64 watch time chart, #65 glowing loader, #66 program builder, #67 autosave everywhere, #68 free testers, #70 operator onboarding readout.
+
+## [2026-10-15] ingest | Horizontal content funnel (Kobey Nguyen reel)
+
+Founder pasted a reel transcript and asked for it to shape how we break down funnel stages; the lead-magnet call to action was removed. Saved to raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel.md. Added "Inside one video: the horizontal funnel" to concepts/content-funnel-tof-mof-bof.md (TOF opening, MOF dream-follower middle, BOF ICP ending), with a flagged contradiction against the reel's "the stages are dead" hook. Onboarding v2 now teaches TOF, MOF and BOF by their real names using this pattern.
+

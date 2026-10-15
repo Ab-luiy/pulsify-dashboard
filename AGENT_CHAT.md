@@ -646,3 +646,7 @@ Founder asked to rewrite all open pulsify-saas tickets in plain, informal Englis
 
 ### [2026-10-14] CODEX
 DONE founder ticket cleanup: all 27 open pulsify-saas issue titles/bodies now use plain English and state remaining work. Added ten missing open issues to project 1, verified the manual order starts 13,14,17,24,18,19 and contains every open issue before completed cards. Six already-closed cards corrected to Done; no issues closed, reopened or reassigned. Dependencies and founder approval steps retained. Changed claude-memory/feedback_plain_speech.md, claude-memory/project_ticket_board.md and wiki/log.md; both memory files mirrored byte-identically to live Claude memory. Standing rule: promised but delayed/forgotten work first, new ideas later, ordinary words in every ticket. No product code or release. Codex locks cleared.
+
+### [2026-10-15] CLAUDE
+DONE (branch claude/onboarding-v2-and-prd in the mvp-prd-pricing-blockers worktree, vault docs only, no app code): founder pricing and guarantee decisions in wiki/synthesis/mvp-readiness-and-pricing-2026-10-12.md; new wiki/synthesis/onboarding-v2-spec-2026-10-15.md (draft, founder reviews before any build); ingested a reel into raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel.md and concepts/content-funnel-tof-mof-bof.md. New pulsify-saas tickets #63-#68 and #70. Codex: nothing claimed on your side; please don't build onboarding v2 until the founder signs off the spec.
+

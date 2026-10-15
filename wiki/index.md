@@ -44,7 +44,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | [[concepts/unique-mechanism]] | The named proprietary methodology that differentiates every coach's offer; must exist before anything else is built | 2026-05-02 |
 | [[concepts/hammer-them-strategy]] | 15–20 retargeting pieces + 6 emails/day pre-call → 60–70%+ show rates | 2026-05-02 |
 | [[concepts/flywheel-vsl]] | One 1-6 hour YouTube video teaching the whole model, all other videos link to it; Dustin Varano's method, Pulsify version drops the lifestyle hook; untested with clients | 2026-09-29 |
-| [[concepts/content-funnel-tof-mof-bof]] | Three-layer content funnel: attract, nurture, convert — every video has a specific job | 2026-05-02 |
+| [[concepts/content-funnel-tof-mof-bof]] | Three-layer content funnel: attract, nurture, convert; plus the horizontal funnel (TOF opening, MOF middle, BOF ending inside one video) | 2026-10-15 |
 | [[concepts/micro-niche-youtube]] | Go one level deeper than the obvious niche on YouTube; $800–$1,200 per 100 views | 2026-05-02 |
 | [[concepts/trust-recession]] | The 2025–2026 market condition where prospects have been burned enough that lifestyle proof no longer converts | 2026-05-02 |
 | [[concepts/pulsify-order-of-operations]] | The 16-step sequence governing every new client engagement from profile cleanup to paid ad scale | 2026-05-02 |
@@ -149,7 +149,8 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | Page | Summary | Created |
 |---|---|---|
 | [[synthesis/backend-product-audit-2026-10-12]] | Backend/data/UI audit: private-storage exposure, proof/library coupling, fragile folder saves, title-linked reviews, recovery gaps and phased asset/content consolidation. [content, offer, funnel, product, data] | 2026-10-12 |
-| [[synthesis/mvp-readiness-and-pricing-2026-10-12]] | Managed growth launch PRD, live save/review verification, remaining commissioning gates and hypothetical delivery-cost model; $10k + 25% proposed, not approved. [content, offer, funnel, product, pricing] | 2026-10-12 |
+| [[synthesis/mvp-readiness-and-pricing-2026-10-12]] | Managed growth launch PRD and verification; founder decisions 2026-10-15: $5k + 30% on everything after joining, refunds first, delivery-based guarantee, DocuSign | 2026-10-15 |
+| [[synthesis/onboarding-v2-spec-2026-10-15]] | Onboarding v2 draft for founder review: talk-or-type, autosave, How you found us, money, offer, buyer/ICP branch, positioning, content, funnel (TOF/MOF/BOF + deep dive), proof, the deal, operator readout | 2026-10-15 |
 | [[synthesis/sales-copilot-plan-2026-10-04]] | Client Sales Co-pilot scope and implementation: targets, scoreboard, linked call context and reviewed five-touch follow-ups. [sales, funnel, offer] | 2026-10-04 |
 | [[synthesis/ads-section-plan-2026-10-05]] | Ads build brief: coming-soon surface, manual stage tracker, and gated Meta connection. [ads, funnel, scaling, product] | 2026-10-05 |
 | [[synthesis/vsl-pattern-lab]] | Operating page for transcribing, segmenting, and extracting reusable patterns from downloaded VSLs | 2026-05-09 |
@@ -285,6 +286,7 @@ All source files live in `raw-sources/`. Wiki pages synthesize and link back to 
 | `raw-sources/icp/PULSIFY ICP - FULL AVATAR + 28-POINT DEEP DIVE.pdf` | ICP | [[people/marcus-avatar]] |
 | `raw-sources/transcripts/Coaching-YT-Transcript-Pt1-Ayman-Arab.md` | Transcript | [[people/ayman-arab]], [[concepts/content-funnel-tof-mof-bof]], [[content-engine/content-pillars]], [[content-engine/packaging-rules]] |
 | `raw-sources/transcripts/Coaching-YT-Transcript-Pt2-Alexei.md` | Transcript | [[people/alexei]], [[concepts/micro-niche-youtube]], [[concepts/trust-recession]], [[concepts/unique-mechanism]], [[concepts/content-funnel-tof-mof-bof]], [[content-engine/packaging-rules]] |
+| `raw-sources/transcripts/kobey-nguyen-horizontal-funnel-reel.md` | Transcript (IG reel) | [[concepts/content-funnel-tof-mof-bof]], [[synthesis/onboarding-v2-spec-2026-10-15]] |
 | `raw-sources/frameworks/Call-Funnel-Framework-Jeremy-Haynes.md` | Framework | [[people/jeremy-haynes]], [[frameworks/call-funnel-framework]], [[concepts/hammer-them-strategy]] |
 | `raw-sources/frameworks/VSL-Frameworks-Jeremy-Haynes.md` | Framework | [[people/jeremy-haynes]], [[frameworks/vsl-framework]], [[concepts/hammer-them-strategy]] |
 | `raw-sources/frameworks/Webinar_Frameworks_Compressed.pdf` | Framework | [[people/jeremy-haynes]], [[frameworks/webinar-framework]] |
