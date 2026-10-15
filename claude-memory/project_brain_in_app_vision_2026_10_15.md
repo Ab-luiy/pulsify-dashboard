@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 67c54d69-9a7d-464a-968f-df6657a1f2bd
-  modified: 2026-10-15T11:16:01.763Z
+  modified: 2026-10-15T11:18:05.880Z
 ---
 
 Founder, 2026-10-15 (session on MVP/PRD/pricing):
@@ -29,7 +29,8 @@ Founder, 2026-10-15 (session on MVP/PRD/pricing):
 **Round 3 answers, 2026-10-15:**
 - Reels: 2-5/day cadence stays, but we NEVER script reels (raw, natural creator moments). Supersedes the "no reels" note for cadence only.
 - 30% = everything after they join (content -> funnel -> closing). Revenue they already make from content is untouched unless we rebuild that stream. So record starting revenue at signing (onboarding Q8 + contract).
-- Guarantee: lean "if we don't deliver the agreed work in 90 days, we keep working at no extra cost until we do". No refunds.
+- Refunded sales come off before the 30% (confirmed).
+- Guarantee: 90 days rejected as too long; the app must work the moment onboarding is done. Proposed: workspace live on onboarding day, first video package + story sequence within 7 days, else we keep working free until done. No refunds. Timings awaiting sign-off.
 - Delivery also includes building the client's paid program (curriculum, 1-1 mentorship how-to, teaching assets, student paid/unpaid sheet + call calendar, Whop setup); app support later (#66). Setter/closer sourced when needed. Paid ads later or early if they want to scale.
 - Main selling point: the system keeps selling through organic content and traffic.
 - Glowing logo loader app-wide, a little bigger (#65); glowing cursor onboarding only.
