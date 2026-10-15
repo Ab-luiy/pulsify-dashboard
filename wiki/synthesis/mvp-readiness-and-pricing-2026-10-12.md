@@ -10,6 +10,18 @@ updated: 2026-10-12
 
 Founder confirmed on October 12: sell the full managed growth service with the portal. The product is the delivered engagement. This document consolidates scattered requirements into a launch contract and records fresh checks. The pricing recommendation and quantified delivery package below are proposals, not approved changes to offer v1. Ticket: https://github.com/Ab-luiy/pulsify-saas/issues/60.
 
+## Founder decisions, October 15 (these replace the proposals below where they differ)
+
+- **Price: $5,000 base + 30% performance fee** for the 90-day engagement. The $10k + 25% recommendation below is not adopted.
+- **What we deliver:** making content creation easy and tracking the people it brings in. Volume follows the client's plan. Typical: 1-2 YouTube videos a week, story sequences twice a week, 1-2 carousels a month only when something major happens, and 2-5 Instagram reels a day (still to be confirmed against the September 26 "no reels" note).
+- **Guarantee:** tied to app output. No refunds, disputes or chargebacks, because the work is delivered. The exact wording is still to be written.
+- **Contract:** DocuSign.
+- **Onboarding is the most important part of the app.** The new spec is [[synthesis/onboarding-v2-spec-2026-10-15]], to be reviewed with the founder before it goes live.
+- **Connect cards:** every card that needs a platform shows a blurred sample with a "Connect your [platform]" button (pulsify-saas #63). The watch time chart is too zoomed in (#64).
+- **AI:** the app's AI should answer from Pulsify's know-how plus the client's answers, and improve with each client. Run on a cheap model (GLM and others to be tested); no Opus API cost.
+
+Still open: what exactly counts toward the 30% (which sales, refunds, timing), the guarantee wording, and the reels question.
+
 ## Why this matters for Pulsify
 
 Content creates demand, the offer defines what we owe, and the funnel turns demand into measured conversations and collections. The portal supports all three. We must price the operator and production work as well as the software, and verify real saves and approvals rather than treating a screen or a deployment record as evidence of the whole service.
