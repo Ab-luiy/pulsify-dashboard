@@ -1,5 +1,5 @@
 // Pulsify income by crypto (pulsify-saas #24). One step records the payment and issues the receipt.
-import { cleanId, nowIso } from "./common.js";
+import { cleanId, escapeHtml, nowIso } from "./common.js";
 import { processNormalizedPayment } from "./payments.js";
 
 // Assets and the networks each is accepted on. The founder can only be paid in crypto from Turkey.
@@ -20,7 +20,7 @@ function randomToken() {
   return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-const receiptColumns = `r.id, r.receipt_no, r.token, r.payment_id, r.client, r.amount_cents, r.currency, r.asset, r.network, r.txid, r.note, r.issued_at, r.issued_by,
+const receiptColumns = `r.id, r.receipt_no, r.token, r.payment_id, r.client, r.amount_cents, r.currency, r.asset, r.network, r.txid, r.note, r.issued_at, r.issued_by, r.emailed_at,
   COALESCE(c.client_name, r.client) AS client_name`;
 const receiptFrom = "FROM receipts r LEFT JOIN client_config c ON c.client=r.client";
 
@@ -51,7 +51,11 @@ export async function issueReceipt(env, input, origin) {
 
   const paymentId = result.payment?.id;
   const existing = await env.DB.prepare(`SELECT ${receiptColumns} ${receiptFrom} WHERE r.payment_id=?`).bind(paymentId).first();
-  if (existing) return { ok: true, duplicate: true, receipt: existing, url: `${origin}/r/${existing.token}`, payment: result.payment };
+  if (existing) {
+    // A receipt that was never emailed (no address yet, provider down) is sent on the next record of the same payment.
+    const email = existing.emailed_at ? "sent" : await emailReceipt(env, existing, origin);
+    return { ok: true, duplicate: true, receipt: existing, url: `${origin}/r/${existing.token}`, payment: result.payment, email };
+  }
 
   const issuedAt = nowIso();
   const year = issuedAt.slice(0, 4);
@@ -63,7 +67,66 @@ export async function issueReceipt(env, input, origin) {
      VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`,
   ).bind(receiptNo, token, paymentId, client, result.payment.amount_cents, "USD", asset, network, txid, note || null, issuedAt, input.issuedBy || "operator").run();
   const receipt = await env.DB.prepare(`SELECT ${receiptColumns} ${receiptFrom} WHERE r.token=?`).bind(token).first();
-  return { ok: true, duplicate: false, receipt, url: `${origin}/r/${token}`, payment: result.payment };
+  const email = await emailReceipt(env, receipt, origin);
+  return { ok: true, duplicate: false, receipt, url: `${origin}/r/${token}`, payment: result.payment, email };
+}
+
+const money = (cents, currency) => new Intl.NumberFormat("en-US", { style: "currency", currency: currency || "USD" }).format(Number(cents || 0) / 100);
+const day = (iso) => new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" });
+
+// The client's address: the one provisioning used, else the one they sign in with.
+async function receiptRecipient(env, client) {
+  const row = await env.DB.prepare(
+    "SELECT COALESCE((SELECT email FROM client_provisioning WHERE client_id=?1), (SELECT email FROM client_auth WHERE client_id=?1)) AS email",
+  ).bind(client).first().catch(() => null);
+  const email = String(row?.email || "").trim();
+  return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ? email : "";
+}
+
+export function receiptEmail(receipt, link) {
+  const amount = money(receipt.amount_cents, receipt.currency);
+  const lines = [
+    ["Receipt", receipt.receipt_no],
+    ["Received from", receipt.client_name],
+    ["Amount", amount],
+    ["Paid in", `${receipt.asset} on ${receipt.network}`],
+    ["Transaction id", receipt.txid],
+    ["Date", day(receipt.issued_at)],
+    ...(receipt.note ? [["Note", receipt.note]] : []),
+  ];
+  const text = [
+    "Hi,", "", `We received your payment of ${amount}. This is your receipt for your records.`, "",
+    ...lines.map(([k, v]) => `${k}: ${v}`), "", `Open or print it any time: ${link}`, "", "Pulsify",
+  ].join("\n");
+  const rows = lines.map(([k, v]) => `<tr><td style="padding:6px 16px 6px 0;color:#666">${escapeHtml(k)}</td><td style="padding:6px 0">${escapeHtml(v)}</td></tr>`).join("");
+  const html = `<div style="font:15px/1.6 Inter,system-ui,sans-serif;color:#1f1f1f;max-width:560px"><p>Hi,</p><p>We received your payment of ${escapeHtml(amount)}. This is your receipt for your records.</p><table style="border-collapse:collapse">${rows}</table><p><a href="${escapeHtml(link)}">Open or print your receipt</a></p><p>Pulsify</p></div>`;
+  return { subject: `Your Pulsify receipt ${receipt.receipt_no}`, text, html };
+}
+
+// Sends the receipt from the Pulsify address the moment it is issued. Never throws: a failed send is recorded on
+// the receipt and retried the next time the same payment is recorded. Returns sent | skipped | failed.
+export async function emailReceipt(env, receipt, origin) {
+  const from = String(env.RECEIPT_FROM || env.EMAIL_FROM || "").trim();
+  const to = await receiptRecipient(env, receipt.client);
+  const fail = async (state, reason) => {
+    await env.DB.prepare("UPDATE receipts SET email_error=? WHERE id=?").bind(reason, receipt.id).run().catch(() => null);
+    return state;
+  };
+  if (!env.RESEND_API_KEY || !from) return fail("skipped", "email not configured");
+  if (!to) return fail("skipped", "no email address on file for this client");
+  try {
+    const { subject, text, html } = receiptEmail(receipt, `${origin}/r/${receipt.token}`);
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, "content-type": "application/json", "idempotency-key": `receipt-${receipt.receipt_no}` },
+      body: JSON.stringify({ from, to: [to], subject, text, html }),
+    });
+    if (!response.ok) return fail("failed", `HTTP ${response.status}`);
+    await env.DB.prepare("UPDATE receipts SET emailed_at=?, email_error=NULL WHERE id=?").bind(nowIso(), receipt.id).run();
+    return "sent";
+  } catch (error) {
+    return fail("failed", String(error?.message || error).slice(0, 200));
+  }
 }
 
 export async function listReceipts(env, origin) {
