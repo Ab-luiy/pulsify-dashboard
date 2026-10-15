@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 67c54d69-9a7d-464a-968f-df6657a1f2bd
-  modified: 2026-10-15T11:53:06.241Z
+  modified: 2026-10-15T12:16:59.900Z
 ---
 
 Founder, 2026-10-15 (session on MVP/PRD/pricing):
@@ -35,6 +35,8 @@ Founder, 2026-10-15 (session on MVP/PRD/pricing):
 - Main selling point: the system keeps selling through organic content and traffic.
 - Glowing logo loader app-wide, a little bigger (#65); glowing cursor onboarding only.
 - Spec: wiki/synthesis/onboarding-v2-spec-2026-10-15.md (draft, review with him before live).
+
+**Later 2026-10-15:** proof part goes deep (best result + proof + story, top 3-5, own results); connect YouTube/IG is the FIRST screen right after payment is marked, everything auto-wired ("the most important thing"); every onboarding answer becomes an expandable Brand Brain card; free tester access to bring people in then upsell = pulsify-saas #68.
 
 **Why:** he believes delivery quality depends entirely on how well onboarding captures the client and how well the app uses our knowledge.
 
