@@ -22,7 +22,7 @@ One fixed form at `/app/portal/onboarding` (pulsify-saas `src/features/onboardin
 - **No read-aloud.** The browser voice sounded bad and the feature alone isn't worth building (founder 2026-10-15). If we ever add it, it uses a proper voice such as ElevenLabs.
 - **Multiple choice wherever it fits.** Tap a chip, or press 1-9 on the keyboard. There's always an "Other" chip that opens a text box.
 - **Short, punchy helper line** under each question, like "Rough numbers are fine." or "Say it like you'd say it to a friend."
-- **Progress bar on top** split by part, plus "about 8 min left", which counts down as they go.
+- **Progress line on top**, one thin line with the part name and "Part 4 of 14" underneath. No time remaining (founder 2026-10-15).
 - **Buttons and shortcuts:** Enter to continue, Back always works, Skip on optional questions, and everything saves as they type (see below).
 - **Glowing cursor** on the onboarding page only. It's off on phones and for people who turn off motion.
 - **Glowing Pulsify logo** whenever anything loads.
@@ -44,7 +44,7 @@ This is an app-wide rule, not just for onboarding: every text box, form and edit
 
 ## The question flow
 
-Rough time: 35-45 minutes, done in as many sittings as they like (everything autosaves, and the progress bar shows each part). Without a funnel or student results it's about 8 minutes shorter. Questions are numbered by part (5.3 is part 5, question 3). (F) means a follow-up that appears based on the answer before it.
+Length: 35-45 minutes, done in as many sittings as they like (everything autosaves, and the progress bar shows each part). Without a funnel or student results it's about 8 minutes shorter. Questions are numbered by part (5.3 is part 5, question 3). (F) means a follow-up that appears based on the answer before it.
 
 **Before onboarding: paid, then connect** (founder 2026-10-15: "as soon as they pay us... automatically wire everything", the most important thing)
 The moment a payment is recorded, everything sets itself up with no manual wiring:
@@ -61,7 +61,7 @@ Honest status: the payment trigger and auto-setup exist. Real one-tap YouTube an
 **A. How you found us** (comes first, while buying is fresh; from the founder's Typeform `vCwxUyWv`, 2026-10-15)
 These answers are about how *we* sold to them. When they answer the last question in this part, the whole part is saved as Pulsify's own record (see "Where the answers go"), then a short transition screen ("Thanks. Now let's get to you.") leads into the normal onboarding. The client's AI never reads this part.
 A1. What made you believe we could actually solve your problem?
-A2. How long did it take you to decide? Chips: Same day / A few days / 1-2 weeks / Over a month / I'd followed you for a while.
+A2. From the first time you came across us to booking the call, how long was it? (The old wording, "How long did it take you to decide?", was too vague, founder 2026-10-15.) Chips: The same day / A few days / A week or two / A month or more.
 A3. (F) What could we have done to get you to say yes sooner?
 A4. What was the ONE thing that almost made you not buy? Chips: Price / Trust / Timing / Tried something before / Nothing / Other. (F) "Tell me more about that."
 A5. Which video made you want to book a call? Paste the link. Chips if they don't have one: Saw it on YouTube / Instagram / It was the DM / Someone referred me / Other.
@@ -124,8 +124,7 @@ A7. What did you see from us before booking? Multi-pick: The DM / A voice note /
 5.6n After onboarding, we run the full buyer research for them as part of the service, and it lands in their portal for them to confirm. Their answers here are the starting point.
 
 **6. Your story**
-6.1 Where does your story start? Chips: Broke and figured it out / Had a job and left it / Failed first, then cracked it / Learned from a mentor / Other.
-6.2 (F) "Tell it like you would on camera." Talking is suggested here.
+6.1 What's your story? "Where you started, what changed, where you are now. Tell it like you would on camera." Talking works best. (The "where does your story start" chips question was cut, founder 2026-10-15.)
 
 **7. Your positioning** (new, founder 2026-10-15. Helper line: "Most creators haven't nailed this yet. That's fine, it's the first thing we build.")
 7.1 Do you have a unique mechanism? Plain explanation on screen: "Your own named method. The reason your way works when other ways don't." Chips: Yes, and it has a name / I have a method, but no name / No.
