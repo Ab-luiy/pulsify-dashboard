@@ -86,21 +86,38 @@ async function receiptRecipient(env, client) {
 export function receiptEmail(receipt, link) {
   const amount = money(receipt.amount_cents, receipt.currency);
   const lines = [
-    ["Receipt", receipt.receipt_no],
+    ["Receipt number", receipt.receipt_no],
     ["Received from", receipt.client_name],
+    ["Paid to", "Pulsify"],
+    ["Date received", day(receipt.issued_at)],
     ["Amount", amount],
     ["Paid in", `${receipt.asset} on ${receipt.network}`],
     ["Transaction id", receipt.txid],
-    ["Date", day(receipt.issued_at)],
-    ...(receipt.note ? [["Note", receipt.note]] : []),
+    ...(receipt.note ? [["For", receipt.note]] : []),
   ];
+  const intro = `Your payment of ${amount} has arrived and we have recorded it. Thank you for trusting us with your growth. We are glad to be working with you.`;
+  const notes = [
+    "Keep this receipt for your records. It shows the date, the amount in US dollars and the transaction id, which is what your bookkeeping and tax filing usually need.",
+    "You can look up the transfer on the blockchain any time using the transaction id. It will show the same amount and date.",
+    "A printable copy lives at the link below. Open it, print, and choose Save as PDF.",
+    "If anything here looks wrong, just reply to this email and we will put it right.",
+  ];
+  const first = String(receipt.client_name || "").trim() || "there";
   const text = [
-    "Hi,", "", `We received your payment of ${amount}. This is your receipt for your records.`, "",
-    ...lines.map(([k, v]) => `${k}: ${v}`), "", `Open or print it any time: ${link}`, "", "Pulsify",
+    `Hi ${first},`, "", intro, "", ...lines.map(([k, v]) => `${k}: ${v}`), "", "Good to know", ...notes.map((n) => `- ${n}`), "", `Your receipt: ${link}`, "", "Thank you again.", "Abdul", "Pulsify",
   ].join("\n");
-  const rows = lines.map(([k, v]) => `<tr><td style="padding:6px 16px 6px 0;color:#666">${escapeHtml(k)}</td><td style="padding:6px 0">${escapeHtml(v)}</td></tr>`).join("");
-  const html = `<div style="font:15px/1.6 Inter,system-ui,sans-serif;color:#1f1f1f;max-width:560px"><p>Hi,</p><p>We received your payment of ${escapeHtml(amount)}. This is your receipt for your records.</p><table style="border-collapse:collapse">${rows}</table><p><a href="${escapeHtml(link)}">Open or print your receipt</a></p><p>Pulsify</p></div>`;
-  return { subject: `Your Pulsify receipt ${receipt.receipt_no}`, text, html };
+  const rows = lines.map(([k, v]) => `<tr><td style="padding:9px 18px 9px 0;color:#6b6760;vertical-align:top;border-top:1px solid #e8e4dc">${escapeHtml(k)}</td><td style="padding:9px 0;border-top:1px solid #e8e4dc;word-break:break-all">${escapeHtml(v)}</td></tr>`).join("");
+  const html = `<div style="font:15px/1.6 Inter,system-ui,sans-serif;color:#1d1c1a;max-width:560px">
+<p style="margin:0 0 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6b6760">Receipt ${escapeHtml(receipt.receipt_no)}</p>
+<h1 style="margin:0 0 12px;font-size:24px;font-weight:600;letter-spacing:-.02em">Thank you. Payment received.</h1>
+<p style="margin:0 0 20px">Hi ${escapeHtml(first)},<br><br>${escapeHtml(intro)}</p>
+<div style="margin:0 0 20px;padding:16px 18px;border-radius:12px;background:#f1eee8"><span style="color:#6b6760;font-size:13px">Total received</span><br><strong style="font-size:28px;letter-spacing:-.02em">${escapeHtml(amount)}</strong></div>
+<table style="border-collapse:collapse;width:100%">${rows}</table>
+<h2 style="margin:26px 0 8px;font-size:15px">Good to know</h2>
+<ul style="margin:0 0 22px;padding-left:18px;color:#55524c;font-size:14px">${notes.map((n) => `<li style="margin:0 0 6px">${escapeHtml(n)}</li>`).join("")}</ul>
+<p style="margin:0 0 22px"><a href="${escapeHtml(link)}" style="display:inline-block;padding:11px 20px;border-radius:10px;background:#1d1c1a;color:#fff;text-decoration:none;font-weight:500">Open your receipt</a></p>
+<p style="margin:0">Thank you again.<br>Abdul<br>Pulsify</p></div>`;
+  return { subject: `Your Pulsify receipt ${receipt.receipt_no}: thank you`, text, html };
 }
 
 // Sends the receipt from the Pulsify address the moment it is issued. Never throws: a failed send is recorded on
