@@ -701,3 +701,7 @@ Founder pasted a reel transcript and asked for it to shape how we break down fun
 ## [2026-10-15] decision | Onboarding v2 built, waiting for the founder's walkthrough
 
 Built the plan in docs/superpowers/plans/2026-10-15-onboarding-v2.md on two branches (Brain claude/onboarding-v2-build, pulsify-saas claude/onboarding-v2): the schema-driven form with talk-or-type, drafts saved while typing, part A saved as Pulsify's own record, seven niches, and the operator's Onboarding view with the needs list. Nothing is live and the database migration has not been applied. Release (plan Task 18) waits for the founder's yes.
+
+## [2026-10-15] decision | Onboarding v2 preview deployed, migration 0062 applied
+
+With the founder's yes, applied migration 0062 (four new tables) to the live database and deployed a preview-branch build of Pages (onboarding-v2-preview) with the new form. Production and main are untouched. Tested with the test client only. Release to main still waits for the founder's walkthrough and yes.
