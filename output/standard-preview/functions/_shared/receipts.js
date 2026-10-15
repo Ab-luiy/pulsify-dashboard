@@ -102,9 +102,11 @@ export function receiptEmail(receipt, link) {
     "A printable copy lives at the link below. Open it, print, and choose Save as PDF.",
     "If anything here looks wrong, just reply to this email and we will put it right.",
   ];
+  const workspace = `${new URL(link).origin}/login/client`;
+  const nextStep = "Next step: sign in to your Pulsify workspace to see what comes next.";
   const first = String(receipt.client_name || "").trim() || "there";
   const text = [
-    `Hi ${first},`, "", intro, "", ...lines.map(([k, v]) => `${k}: ${v}`), "", "Good to know", ...notes.map((n) => `- ${n}`), "", `Your receipt: ${link}`, "", "Thank you again.", "Abdul", "Pulsify",
+    `Hi ${first},`, "", intro, "", ...lines.map(([k, v]) => `${k}: ${v}`), "", "Good to know", ...notes.map((n) => `- ${n}`), `- ${nextStep} ${workspace}`, "", `Your receipt: ${link}`, "", "Thank you again.", "Abdul", "Pulsify",
   ].join("\n");
   const rows = lines.map(([k, v]) => `<tr><td style="padding:9px 18px 9px 0;color:#6b6760;vertical-align:top;border-top:1px solid #e8e4dc">${escapeHtml(k)}</td><td style="padding:9px 0;border-top:1px solid #e8e4dc;word-break:break-all">${escapeHtml(v)}</td></tr>`).join("");
   const html = `<div style="font:15px/1.6 Inter,system-ui,sans-serif;color:#1d1c1a;max-width:560px">
@@ -114,7 +116,7 @@ export function receiptEmail(receipt, link) {
 <div style="margin:0 0 20px;padding:16px 18px;border-radius:12px;background:#f1eee8"><span style="color:#6b6760;font-size:13px">Total received</span><br><strong style="font-size:28px;letter-spacing:-.02em">${escapeHtml(amount)}</strong></div>
 <table style="border-collapse:collapse;width:100%">${rows}</table>
 <h2 style="margin:26px 0 8px;font-size:15px">Good to know</h2>
-<ul style="margin:0 0 22px;padding-left:18px;color:#55524c;font-size:14px">${notes.map((n) => `<li style="margin:0 0 6px">${escapeHtml(n)}</li>`).join("")}</ul>
+<ul style="margin:0 0 22px;padding-left:18px;color:#55524c;font-size:14px">${notes.map((n) => `<li style="margin:0 0 6px">${escapeHtml(n)}</li>`).join("")}<li style="margin:0 0 6px">${escapeHtml(nextStep)} <a href="${escapeHtml(workspace)}">Go to your workspace</a>.</li></ul>
 <p style="margin:0 0 22px"><a href="${escapeHtml(link)}" style="display:inline-block;padding:11px 20px;border-radius:10px;background:#1d1c1a;color:#fff;text-decoration:none;font-weight:500">Open your receipt</a></p>
 <p style="margin:0">Thank you again.<br>Abdul<br>Pulsify</p></div>`;
   return { subject: `Your Pulsify receipt ${receipt.receipt_no}: thank you`, text, html };

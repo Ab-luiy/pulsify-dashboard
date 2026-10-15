@@ -13,7 +13,7 @@ const CONTRACTS = {
 };
 const CONFIRMATIONS = 12; // blocks a transfer must be buried before it counts
 const MAX_RANGE = 2000; // blocks read per run (about 6.5 hours), so a long gap catches up over a few runs
-const MIN_CENTS = 2000; // transfers under $20 are address-poisoning dust, never receipts
+const MIN_CENTS = 1; // every cent counts; only amounts under one cent (nothing a receipt can show) are skipped
 const DEFAULT_ORIGIN = "https://pulsify-ai.com";
 const RPCS = ["https://ethereum-rpc.publicnode.com"];
 
@@ -122,10 +122,10 @@ async function notifyFounder(env, row, fetcher) {
 export async function listTransfers(env) {
   const rows = await env.DB.prepare(
     `SELECT t.id, t.asset, t.network, t.txid, t.from_address, t.amount_cents, t.status, t.client, t.receipt_no, t.seen_at,
-            COALESCE(c.client_name, t.client) AS client_name
-       FROM incoming_transfers t LEFT JOIN client_config c ON c.client=t.client
+            COALESCE(c.client_name, t.client) AS client_name, r.emailed_at
+       FROM incoming_transfers t LEFT JOIN client_config c ON c.client=t.client LEFT JOIN receipts r ON r.receipt_no=t.receipt_no
       WHERE t.status != 'ignored'
-      ORDER BY CASE t.status WHEN 'needs_client' THEN 0 ELSE 1 END, t.seen_at DESC LIMIT 50`,
+      ORDER BY CASE t.status WHEN 'needs_client' THEN 0 ELSE 1 END, t.seen_at DESC, t.id DESC LIMIT 50`,
   ).all();
   return rows.results || [];
 }

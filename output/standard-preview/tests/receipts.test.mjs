@@ -90,6 +90,8 @@ assert.match(sent[0].body.subject, /PUL-\d{4}-0001/);
 assert.match(sent[0].body.text, /\$2,500\.00/);
 assert.match(sent[0].body.text, /a1b2c3d4e5f60718293a4b5c6d7e8f90/);
 assert.match(sent[0].body.html, /\/r\/[a-f0-9]{36}/);
+assert.match(sent[0].body.text, /Next step: sign in to your Pulsify workspace.*pulsify-ai\.com\/login\/client/);
+assert.match(sent[0].body.html, /href="https:\/\/pulsify-ai\.com\/login\/client"/);
 assert.ok(sql.prepare("SELECT emailed_at FROM receipts WHERE id=1").get().emailed_at);
 
 // The same transaction never issues a second receipt, and a sent receipt is not emailed twice.
