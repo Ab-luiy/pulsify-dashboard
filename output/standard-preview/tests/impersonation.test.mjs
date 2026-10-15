@@ -205,6 +205,7 @@ class MockStatement {
       this.db.operatorEvents.unshift({ id, actor, action, client, detail, created_at: createdAt });
       return { meta: { changes: 1, last_row_id: id } };
     }
+    if (sql.startsWith("INSERT INTO client_brain_history")) return { meta: { changes: 0 } };
     if (sql.startsWith("INSERT INTO client_brain")) {
       const [clientId, section, field, valueJson, source, updatedAt] = this.params;
       const id = this.db.nextIds.brain++;

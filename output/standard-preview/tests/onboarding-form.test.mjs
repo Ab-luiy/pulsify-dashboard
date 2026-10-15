@@ -12,6 +12,7 @@ import { sha256Hex } from "../functions/_shared/common.js";
 
 const sql = new DatabaseSync(":memory:");
 sql.exec(readFileSync(new URL("../migrations/0014_client_brain.sql", import.meta.url), "utf8"));
+sql.exec(readFileSync(new URL("../migrations/0062_onboarding_v2.sql", import.meta.url), "utf8"));
 sql.exec("CREATE TABLE client_config(client TEXT PRIMARY KEY,client_name TEXT,status TEXT,portal_token_hash TEXT)");
 sql.exec("CREATE TABLE client_sessions(token_hash TEXT PRIMARY KEY,client_id TEXT,expires_at TEXT,created_at TEXT)");
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");

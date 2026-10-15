@@ -3,7 +3,7 @@ import { hasOperator } from '../_shared/access.js';
 import { checkAdmin, cleanId, json, nowIso, str } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 
-const SECTIONS = ["identity", "offer", "icp", "story", "voice", "proof", "funnel", "donot"];
+const SECTIONS = ["identity", "intent", "money", "offer", "icp", "story", "positioning", "voice", "content", "proof", "funnel", "program", "commitment", "donot"];
 const SOURCES = new Set(["client-form", "voice-note", "transcript", "operator", "research"]);
 const PROOF_KINDS = new Set(["image", "image-link", "video-link", "screenshot-link"]);
 const PERMISSIONS = new Set(["unknown", "granted", "denied"]);
@@ -16,6 +16,10 @@ export const FIELD_DEFINITIONS = {
     field("business_explainer", "Exactly what they do and how it makes money", "textarea"),
     field("positioning", "One-line positioning", "textarea", true),
     field("mechanism_name", "Category-of-one mechanism name", "text", true),
+    field("nickname", "What people call them", "text"),
+    field("age", "Age", "text"),
+    field("relationship_status", "Relationship status", "text"),
+    field("niche_line", "What people learn from them, in one line", "text"),
   ],
   offer: [
     field("voice_note_url", "Offer voice note", "url"),
@@ -26,6 +30,17 @@ export const FIELD_DEFINITIONS = {
     field("guarantees", "Guarantees", "textarea", true),
     field("payment_plans", "Payment plans and rails", "textarea", true),
     field("upsell_path", "Upsell path", "textarea", true),
+    field("history", "Offer so far", "text"),
+    field("current_name", "Current offer", "text"),
+    field("price", "Current price", "text"),
+    field("walkthrough", "What someone gets", "textarea"),
+    field("result", "Result they walk away with", "textarea"),
+    field("type", "Kind of offer", "text"),
+    field("past_offer", "The offer they stopped", "textarea"),
+    field("target_type", "What they want to sell", "text"),
+    field("target_price", "Price they want", "text"),
+    field("payment_platforms", "How they take payments", "list"),
+    field("past_growth_help", "Who they worked with before", "json"),
   ],
   icp: [
     field("client_guess", "Client's starting-point ICP guess", "textarea"),
@@ -38,6 +53,23 @@ export const FIELD_DEFINITIONS = {
     field("emotional_triggers", "Emotional triggers", "textarea", true),
     field("pain_scenarios", "Pain scenarios", "textarea", true),
     field("financial_qualification", "Financial qualification", "textarea", true),
+    field("known", "Knows their buyer", "text"),
+    field("best_client", "Best client ever", "textarea"),
+    field("age_range", "Buyer age", "list"),
+    field("gender_mix", "Buyer gender mix", "text"),
+    field("life_stage", "Buyer life", "list"),
+    field("daily_life", "A normal day for the buyer", "textarea"),
+    field("income", "Buyer income", "text"),
+    field("payment_style", "How buyers pay", "text"),
+    field("engagers", "Who comments and DMs", "text"),
+    field("before_state", "Stuck on before buying", "textarea"),
+    field("tried_before", "Tried before", "textarea"),
+    field("buying_behaviour", "How they act before buying", "list"),
+    field("tipping_point", "What tips them into buying", "textarea"),
+    field("client_objections", "Objections the client hears", "list"),
+    field("client_language", "Buyer's own words", "textarea"),
+    field("never_client", "Who they never want", "textarea"),
+    field("starter_profile", "Starter buyer profile", "json"),
   ],
   story: [
     field("input_type", "Story source selected", "text"),
@@ -48,6 +80,7 @@ export const FIELD_DEFINITIONS = {
     field("beliefs", "Key beliefs and contrarian takes", "textarea", true),
     field("human_details", "Recurring human details", "textarea", true),
     field("wins_losses", "Wins and losses worth telling", "textarea", true),
+    field("start_type", "Where the story starts", "text"),
   ],
   voice: [
     field("tone", "Tone", "list"),
@@ -56,10 +89,29 @@ export const FIELD_DEFINITIONS = {
     field("sample_links", "Voice sample links", "list"),
     field("sentence_habits", "Sentence habits", "textarea", true),
     field("banned_words", "Banned words and phrases", "list", true),
+    field("persona", "How they want to be seen", "text"),
+    field("persona_second", "Second persona", "text"),
+    field("persona_other", "Persona in their words", "text"),
+    field("unhinged_level", "How unhinged on camera (1-5)", "text"),
+    field("filter", "Thinks first or says it", "text"),
+    field("flagged_level", "Slang or flaggable words", "text"),
+    field("flagged_words", "Words fine to use and never to use", "json"),
+    field("sliders", "Calm to hype, polished to raw", "json"),
+    field("never_say", "Words they'd never say", "textarea"),
   ],
   proof: [
     field("has_proof", "Has student proof or case studies", "boolean"),
     field("items", "Proof links and the claims they support", "proof-list"),
+    field("own_best", "Their own best result", "textarea"),
+    field("own_how", "How they got it", "textarea"),
+    field("own_proof", "Proof of their own result", "list"),
+    field("level", "Student results", "text"),
+    field("best_result", "Best student result", "json"),
+    field("count", "How many results", "text"),
+    field("top_results", "Top results", "json"),
+    field("storage", "Where proof lives", "json"),
+    field("own_enough", "Own result enough to bring people in", "json"),
+    field("closest_thing", "Closest thing to a student result", "json"),
   ],
   // The client's onboarding form answers the facts they already know (where
   // traffic lands, audience sizes, cadence, email platform); routing, trigger
@@ -74,6 +126,74 @@ export const FIELD_DEFINITIONS = {
     field("platforms_audience", "Platforms and audience sizes", "textarea"),
     field("posting_cadence", "Posting cadence targets", "textarea"),
     field("current_funnel_links", "Current funnel links", "list"),
+    field("stage_focus", "TOF, MOF, BOF they work on", "json"),
+    field("terms_known", "Funnel words they know", "list"),
+    field("tried", "Funnels tried", "json"),
+    field("wanted", "Funnel they want", "json"),
+    field("has_funnel", "Has a funnel", "json"),
+    field("sales_method", "How people buy today", "json"),
+    field("lead_sources", "Where buyers find them", "json"),
+    field("path", "Their funnel, step by step", "list"),
+    field("step_links", "Links for each step", "json"),
+    field("tools", "Tools behind the funnel", "json"),
+    field("owners", "Who handles each part", "json"),
+    field("tracks_numbers", "Tracks their numbers", "json"),
+    field("metrics", "Funnel numbers", "json"),
+    field("leak", "Where it leaks", "json"),
+    field("non_buyer_followup", "What happens to people who don't buy", "json"),
+    field("ads", "Ads", "json"),
+    field("ads_detail", "Ad spend and cost per booked call", "json"),
+    field("ads_stopped_why", "Why they stopped ads", "textarea"),
+  ],
+  intent: [
+    field("why_joined", "Why they said yes", "list"),
+    field("decision_story", "The moment they decided", "textarea"),
+    field("win_90d", "A win in 90 days", "json"),
+  ],
+  money: [
+    field("last_3_months", "Revenue and profit, last 3 months", "json"),
+    field("monthly_income", "Monthly income now", "text"),
+    field("content_revenue_baseline", "Income from content now (the 30% starting line)", "json"),
+  ],
+  positioning: [
+    field("mechanism_status", "Unique mechanism", "text"),
+    field("mechanism", "Mechanism name and steps", "json"),
+    field("method_walkthrough", "How they get a result, step by step", "textarea"),
+    field("difference_known", "Knows what makes them different", "text"),
+    field("difference", "Why them and not others", "textarea"),
+    field("competitors", "Competition", "list"),
+    field("competitor_gap", "What they do that others don't", "textarea"),
+    field("content_shows_it", "Content shows the difference", "text"),
+    field("love_topics", "What they love talking about", "textarea"),
+    field("hour_topic", "What they could talk about for an hour", "textarea"),
+    field("avoid_topics", "Never on camera", "textarea"),
+  ],
+  content: [
+    field("home_platform", "More at home on", "text"),
+    field("longform_awareness", "Knew long form comes first", "text"),
+    field("hard_parts", "What feels hard", "list"),
+    field("hard_why", "Why it's hard", "textarea"),
+    field("yt_format", "YouTube format", "text"),
+    field("format_why", "Why that format", "textarea"),
+    field("cadence", "Posting now, per platform", "json"),
+    field("process", "How they make a video", "textarea"),
+    field("video_time", "Time per video", "text"),
+    field("script_time", "Time scripting", "text"),
+    field("daily_time", "Time a day on content", "text"),
+    field("schedule", "When they make content", "text"),
+    field("film_hours", "Hours a week for filming", "text"),
+    field("best_post", "Best post or video", "url"),
+    field("skills", "What they already know", "json"),
+    field("hates", "What they hate doing", "list"),
+    field("helpers", "Who helps them", "list"),
+  ],
+  program: [
+    field("status", "Paid program", "text"),
+    field("missing", "What the program is missing", "list"),
+  ],
+  commitment: [
+    field("understood", "Understood the deal", "text"),
+    field("promised", "Promised to do the work", "text"),
   ],
   donot: [
     field("claims", "Claims they cannot make", "textarea", true),
@@ -110,14 +230,38 @@ const CLIENT_FIELDS = new Map([
   ["funnel.email_platform_tags", "client-form"],
 ]);
 
+// Onboarding v2 (pulsify-saas src/features/brain/model.ts mirrors this list). Everything the client
+// answers in the form is theirs to write; research and operator fields stay operator-only.
+const ONBOARDING_V2_FIELDS = {
+  identity: ["nickname", "age", "relationship_status", "niche_line"],
+  intent: ["why_joined", "decision_story", "win_90d"],
+  money: ["last_3_months", "monthly_income", "content_revenue_baseline"],
+  offer: ["history", "current_name", "price", "walkthrough", "result", "type", "past_offer", "target_type", "target_price", "payment_platforms", "past_growth_help"],
+  icp: ["known", "best_client", "age_range", "gender_mix", "life_stage", "daily_life", "income", "payment_style", "engagers", "before_state", "tried_before", "buying_behaviour", "tipping_point", "client_objections", "client_language", "never_client", "starter_profile"],
+  story: ["start_type"],
+  positioning: ["mechanism_status", "mechanism", "method_walkthrough", "difference_known", "difference", "competitors", "competitor_gap", "content_shows_it", "love_topics", "hour_topic", "avoid_topics"],
+  voice: ["persona", "persona_second", "persona_other", "unhinged_level", "filter", "flagged_level", "flagged_words", "sliders", "never_say"],
+  content: ["home_platform", "longform_awareness", "hard_parts", "hard_why", "yt_format", "format_why", "cadence", "process", "video_time", "script_time", "daily_time", "schedule", "film_hours", "best_post", "skills", "hates", "helpers"],
+  proof: ["own_best", "own_how", "own_proof", "level", "best_result", "count", "top_results", "storage", "own_enough", "closest_thing"],
+  funnel: ["stage_focus", "terms_known", "tried", "wanted", "has_funnel", "sales_method", "lead_sources", "path", "step_links", "tools", "owners", "tracks_numbers", "metrics", "leak", "non_buyer_followup", "ads", "ads_detail", "ads_stopped_why"],
+  program: ["status", "missing"],
+  commitment: ["understood", "promised"],
+};
+for (const [section, keys] of Object.entries(ONBOARDING_V2_FIELDS)) {
+  for (const key of keys) CLIENT_FIELDS.set(`${section}.${key}`, "client-form");
+}
+
+
 async function handle_onRequestGet({ request, env }) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
 
   let client;
+  let wantsHistory = false;
   if ((hasOperator(request, env) || request.headers.get("x-admin-key") != null)) {
     const auth = checkAdmin(request, env);
     if (auth) return auth;
     client = cleanId(new URL(request.url).searchParams.get("client"));
+    wantsHistory = new URL(request.url).searchParams.get("history") === "1";
   } else {
     const access = await resolveClientAccess(request, env, {
       allowHeaderToken: true,
@@ -148,8 +292,20 @@ async function handle_onRequestGet({ request, env }) {
   ]);
 
   const grouped = groupBrainRows(brainResult.results || []);
+  let history;
+  if (wantsHistory) {
+    const rows = await env.DB.prepare(
+      `SELECT section, field, value_json, source, replaced_at
+         FROM client_brain_history
+        WHERE client_id=?
+        ORDER BY replaced_at DESC, id DESC
+        LIMIT 200`,
+    ).bind(client).all();
+    history = (rows.results || []).map((row) => ({ section: row.section, field: row.field, value: parseValue(row.value_json), source: row.source || null, replaced_at: row.replaced_at }));
+  }
   return json({
     ok: true,
+    ...(history ? { history } : {}),
     client,
     client_name: config?.client_name || client,
     sections: grouped.sections,
@@ -213,6 +369,16 @@ async function saveClientSubmission(body, env, client) {
         );
         accepted.push({ section, field: key, source, cleared: true });
       } else {
+        const valueJson = JSON.stringify(normalized);
+        // Keep what the answer said before when it changes, in the same batch (no extra read).
+        writes.push(
+          env.DB.prepare(
+            `INSERT INTO client_brain_history (client_id, section, field, value_json, source, replaced_at)
+             SELECT client_id, section, field, value_json, source, ?
+               FROM client_brain
+              WHERE client_id=? AND section=? AND field=? AND value_json<>?`,
+          ).bind(now, client, section, key, valueJson),
+        );
         writes.push(upsertBrain(env, client, section, key, normalized, source, now));
         accepted.push({ section, field: key, source });
       }
@@ -458,7 +624,11 @@ function isGap(value) {
 }
 
 function sectionLabel(section) {
-  return ({ identity: "Identity", offer: "Offer", icp: "ICP", story: "Story", voice: "Voice", proof: "Proof vault", funnel: "Funnel facts", donot: "Do-not list" })[section] || labelFromKey(section);
+  return ({
+    identity: "Identity", intent: "Why now", money: "Money", offer: "Offer", icp: "ICP", story: "Story",
+    positioning: "Positioning", voice: "Voice", content: "Content", proof: "Proof vault", funnel: "Funnel facts",
+    program: "Program", commitment: "The deal", donot: "Do-not list",
+  })[section] || labelFromKey(section);
 }
 
 function labelFromKey(key) {

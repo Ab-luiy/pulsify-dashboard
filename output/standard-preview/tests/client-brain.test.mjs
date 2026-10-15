@@ -55,6 +55,7 @@ class MockStatement {
   }
 
   async run() {
+    if (this.sql.startsWith("INSERT INTO client_brain_history")) return { meta: { changes: 0 } };
     if (this.sql.startsWith("INSERT INTO client_brain")) {
       const [clientId, section, field, valueJson, source, updatedAt] = this.values;
       const existing = this.db.brain.find((row) => row.client_id === clientId && row.section === section && row.field === field);
@@ -175,8 +176,8 @@ async function testClientSubmitAndOperatorRead() {
   assert.equal(readResponse.status, 200);
   const readBody = await readResponse.json();
   assert.equal(readBody.ok, true);
-  assert.equal(readBody.sections.length, 8);
-  assert.deepEqual(readBody.sections.map((section) => section.key), ["identity", "offer", "icp", "story", "voice", "proof", "funnel", "donot"]);
+  assert.equal(readBody.sections.length, 14);
+  assert.deepEqual(readBody.sections.map((section) => section.key), ["identity", "intent", "money", "offer", "icp", "story", "positioning", "voice", "content", "proof", "funnel", "program", "commitment", "donot"]);
   const identity = readBody.sections.find((section) => section.key === "identity");
   const funnel = readBody.sections.find((section) => section.key === "funnel");
   const icp = readBody.sections.find((section) => section.key === "icp");

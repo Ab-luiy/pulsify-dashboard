@@ -1,17 +1,24 @@
 import { readNiche } from "./niches.js";
 
-const SECTION_ORDER = ["identity", "offer", "icp", "story", "voice", "proof", "funnel", "donot"];
+const SECTION_ORDER = ["identity", "intent", "money", "offer", "icp", "story", "positioning", "voice", "content", "proof", "funnel", "program", "commitment", "donot"];
 const SECTION_LABELS = {
   identity: "Identity",
+  intent: "Why now",
+  money: "Money",
   offer: "Offer",
   icp: "ICP",
   story: "Story",
+  positioning: "Positioning",
   voice: "Voice",
+  content: "Content habits",
   proof: "Proof vault",
   funnel: "Funnel facts",
+  program: "Program",
+  commitment: "The deal",
   donot: "Do-not list",
 };
-const GENERATOR_SECTION_ORDER = ["offer", "icp", "voice", "proof", "donot", "story", "identity", "funnel"];
+// money (private numbers) and commitment (the deal) never reach a generator (onboarding v2 spec).
+const GENERATOR_SECTION_ORDER = ["offer", "positioning", "icp", "voice", "proof", "donot", "story", "identity", "content", "intent", "program", "funnel"];
 const MAX_GENERATOR_CONTEXT_CHARS = 30000;
 const MAX_GENERATOR_FIELD_CHARS = 6000;
 
