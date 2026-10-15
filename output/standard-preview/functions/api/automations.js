@@ -1,14 +1,15 @@
 // Delivery automations runner.
-//   POST /api/automations {job: "precall-briefs" | "fathom" | "weekly-reports"}
+//   POST /api/automations {job: "precall-briefs" | "fathom" | "weekly-reports" | "crypto-watch"}
 // Called by the pulsify-sync Worker's cron with X-Automation-Secret, or by an
 // operator ("Run now"). Runs here so it uses the Pages secrets (Fathom, and the
 // Claude key once set) and the AI binding.
 import { withOperator } from "../_shared/access.js";
 import { constantTimeEqual, json, str } from "../_shared/common.js";
 import { resolveOperator } from "../_shared/spine-auth.js";
+import { watchWallets } from "../_shared/crypto-watch.js";
 import { briefPendingBookings, draftWeeklyReports, importFathomCalls } from "../_shared/delivery-automation.js";
 
-const JOBS = { "precall-briefs": briefPendingBookings, fathom: importFathomCalls, "weekly-reports": draftWeeklyReports };
+const JOBS = { "precall-briefs": briefPendingBookings, fathom: importFathomCalls, "weekly-reports": draftWeeklyReports, "crypto-watch": watchWallets };
 
 async function handlePost({ request, env }) {
   const secret = str(request.headers.get("x-automation-secret"));

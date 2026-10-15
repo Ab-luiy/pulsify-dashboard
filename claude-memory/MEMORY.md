@@ -11,7 +11,7 @@
 - [Keys and APIs are mine](feedback_keys_and_apis_are_mine.md) - HARD 2026-09-19: never ask the founder to handle keys, secrets or API setup; create, install (wrangler...
 - [Never guess](feedback_never_guess.md) - HARD universal rule: never guess a URL, path, name, value or fact; ask the founder or verify from a real...
 - [Never lose typed input](feedback_never_lose_typed_input.md) - HARD 2026-10-15: every field autosaves drafts while typing and restores them on return, app-wide; ticket #67
-- [Our niches only](feedback_our_niches_only.md) - HARD 2026-10-15: niche options are our make-money-online niches (trading, ecom/dropshipping, TikTok Shop, FBA, Airbnb, general MMO), never fitness/real estate
+- [Our niches only](feedback_our_niches_only.md) - HARD 2026-10-15: seven niches only (trading, ecommerce, TikTok Shop, Amazon FBA, high-ticket sales, Airbnb & STR, general MMO), never fitness/real estate
 - [Codex builds, Claude thinks/specs/reviews](feedback_codex_builds_claude_specs.md) - OVERRIDDEN 2026-09-23: Claude executes code A-Z for now; old split was Claude owns strategy, research...
 - [Speed is the motto](feedback_speed_is_the_motto.md) - default to the fastest shippable move; don't ask permission when the path is obvious; markdown over apps...
 - [TLDR in bold](feedback_tldr_bold.md) - end every structured reply with a bold TLDR of what I need from him or my recommendation
@@ -142,3 +142,4 @@
 - [SaaS story round 4](feedback_saas_story_round4.md) - 2026-10-08: no zoom-out/mirror, Apple-ad product visuals, punchy human voice, slide 3 expertise-chain brief
 - [Story studio client flow](feedback_story_studio_client_flow.md) - 2026-10-09: clients use it themselves; copy first then guided design choices; tiers (simple/standard/designed); photo reuse; engine at tools/story_engine
 - [Outreach sequence calls 2026-10-09](project_outreach_sequence_decisions_2026_10_09.md) - text-only opener, day-3 voice note agreed; Miro weak due to Codex build; openers live in IG DMs (Composio IG needs re-auth)
+- [Wallet watcher + receipt emails](project_wallet_watcher.md) - 2026-10-15 LIVE: receipts emailed on issue, Ethereum USDT/USDC arrivals become receipts, other chains parked (#71)
