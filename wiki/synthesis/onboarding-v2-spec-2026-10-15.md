@@ -19,7 +19,7 @@ One fixed form at `/app/portal/onboarding` (pulsify-saas `src/features/onboardin
 
 - **One question per screen**, big and calm (design kit: Geist, black gradient, their glow colour).
 - **Talk or type, their choice, on every question.** A mic button records them, and the text appears so they can fix it. The free speech-to-text we already run does the conversion.
-- **Questions can be read out loud.** A speaker button, plus a "read questions to me" switch on the first screen. Version one uses the browser's built-in voice, which is free. A nicer voice can come later once we pick a provider.
+- **No read-aloud.** The browser voice sounded bad and the feature alone isn't worth building (founder 2026-10-15). If we ever add it, it uses a proper voice such as ElevenLabs.
 - **Multiple choice wherever it fits.** Tap a chip, or press 1-9 on the keyboard. There's always an "Other" chip that opens a text box.
 - **Short, punchy helper line** under each question, like "Rough numbers are fine." or "Say it like you'd say it to a friend."
 - **Progress bar on top** split by part, plus "about 8 min left", which counts down as they go.
@@ -56,7 +56,7 @@ The moment a payment is recorded, everything sets itself up with no manual wirin
 Honest status: the payment trigger and auto-setup exist. Real one-tap YouTube and Instagram sign-in for clients isn't proven yet. Today those two are "mark as done" steps, and making them real is ticket #15. That ticket was waiting for the first paying client, so it moves to the top the day one signs.
 
 **0. Welcome** (no questions)
-"Let's get you set up. Talk or type, whatever's easier." Two toggles: read questions to me, and I'd rather talk.
+"Let's get you set up. Talk or type, whatever's easier." One toggle: I'd rather talk (the mic comes first on long answers).
 
 **A. How you found us** (comes first, while buying is fresh; from the founder's Typeform `vCwxUyWv`, 2026-10-15)
 These answers are about how *we* sold to them. When they answer the last question in this part, the whole part is saved as Pulsify's own record (see "Where the answers go"), then a short transition screen ("Thanks. Now let's get to you.") leads into the normal onboarding. The client's AI never reads this part.
