@@ -23,11 +23,24 @@ One fixed form at `/app/portal/onboarding` (pulsify-saas `src/features/onboardin
 - **Multiple choice wherever it fits.** Tap a chip, or press 1-9 on the keyboard. There's always an "Other" chip that opens a text box.
 - **Short, punchy helper line** under each question, like "Rough numbers are fine." or "Say it like you'd say it to a friend."
 - **Progress bar on top** split by part, plus "about 8 min left", which counts down as they go.
-- **Buttons and shortcuts:** Enter to continue, Back always works, Skip on optional questions, and it saves after every answer so they can leave and come back.
+- **Buttons and shortcuts:** Enter to continue, Back always works, Skip on optional questions, and everything saves as they type (see below).
 - **Glowing cursor** on the onboarding page only. It's off on phones and for people who turn off motion.
 - **Glowing Pulsify logo** whenever anything loads.
 - **Digging deeper instead of repeating.** Every answer is asked once. If an answer is thin, the next screen builds on it ("You said X. What does that look like on a normal day?") instead of asking a new question about the same thing.
 - **Read-back at the end:** "Here's what we heard", a short summary per part, each with an Edit button. This catches mistakes and makes the client feel heard.
+
+## Nothing they write is ever lost (founder 2026-10-15: "very important across the entire app")
+
+Today an answer only saves when they press Continue. If they type half an answer and leave, it's gone. The new rule:
+
+- **Saves while they type.** Every field saves a second or so after they stop typing, including half-finished sentences, chip picks, slider positions, and voice-note text before they've confirmed it. They never have to press anything to keep their work.
+- **Saved on our side, not just their browser.** Drafts go to their account, so they're still there on another device or after clearing the browser. A copy is also kept in the browser, so nothing is lost if the internet drops mid-sentence. It syncs when they're back online.
+- **Comes back exactly where they left.** On return: "Welcome back. You were on *Your story*." It opens that question with their text in place and the cursor at the end, so they can keep their train of thought.
+- **Back and forth is safe.** Going back to an earlier question shows what they wrote. Going forward again keeps the later answers too.
+- **Drafts aren't final.** A half-typed draft never counts as an answer and never feeds the AI until they continue past it. Part A drafts are kept the same way, but only become our record once its last question is answered.
+- **A small "Saved" tick** near the field shows it's safe. It never pops up anything in their way.
+
+This is an app-wide rule, not just for onboarding: every text box, form and editor in the portal works this way (pulsify-saas #67).
 
 ## The question flow
 
@@ -138,5 +151,5 @@ New brain fields this needs (added to the allowed client fields): `intent.why_jo
 ## Points to settle in review
 
 1. Are the money questions OK to ask straight out? Each has "rough is fine"; only the starting revenue is required.
-2. Is 12-15 minutes the right length? We could cut it by moving the funnel and proof parts to a later "finish your setup" step.
+2. Is 15-18 minutes the right length? We could cut it by moving the funnel and proof parts to a later "finish your setup" step.
 3. Should the read-back step send you a notification so you see each new client's summary?
