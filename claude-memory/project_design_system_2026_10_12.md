@@ -47,3 +47,10 @@ Founder 2026-10-12 shared Luke Alexander's Kendo design-system doc and said "go"
 - Open: titles quality/presentation (#5), Metrics cards (#9), free model still invents small personal stories.
 
 **Update 2026-10-15: plan + decisions.** Plan: pulsify-saas `docs/plan-packaging-thumbnails-canva.md`; costs: `docs/costs-per-client.md` (about $12/client/month, nearly all Zernio; fixed $5 Workers). Founder rules: never AI-generated pictures (endpoint deleted 2026-10-14), real photos + light retouch only, Canva is the workbench. Decisions: niches trading, ecom, TikTok Shop, Amazon FBA, high-ticket sales (#62); outliers from 10x with 100x badge (views / channel median of last 30 uploads); 2 thumbnail suggestions per video; questions first then real suggestions. Zernio card on hold until pricing is decided.
+
+**Update 2026-10-15 (night): niche, thumbnail suggestions, packaging library live** (pulsify-saas d8d3cc1 + docs, Brain 8e3ba713 + later).
+- Native first: our editor is the home; Canva for thumbnails and the Canva-panel app are deferred on purpose.
+- Niche (#62) asked in onboarding (question 3 of 16) and Settings, stored `identity.niche`; every generator reads it.
+- Thumbnail maker: 4 questions then 2 suggestions (style, words, reason); code enforces rules (yellow bar only on boards, no `!`/emoji, no invented numbers). Real photos only.
+- Packaging library: Videos / Thumbnails / Titles / My thumbnails; outlier = views / median of last 30 uploads, 10x+, badge 100x, English only, 2 per channel; collector job `outliers` on the 30-minute cron; tables `outlier_*` (migration 0060); rows deleted after 30 days unrefreshed (YouTube policy).
+- Zernio card still on hold until pricing is decided (docs/costs-per-client.md).
