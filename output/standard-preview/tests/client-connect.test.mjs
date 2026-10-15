@@ -106,3 +106,38 @@ test("disconnect forgets it here and removes it on Zernio", async () => {
     globalThis.fetch = real;
   }
 });
+
+test("coming from onboarding, every way out returns to the onboarding form, not the Integrations page", async () => {
+  const state = encodeURIComponent(await makeState(env, "demo-rio", "youtube"));
+  const ok = await onRequestGet({ request: new Request(`https://pulsify-ai.com/api/client-connect?action=callback&state=${state}&return=onboarding&accountId=acc-yt2&username=riotrades`), env });
+  assert.match(ok.headers.get("location"), /\/app\/portal\/onboarding\?connected=youtube$/);
+  const denied = await onRequestGet({ request: new Request(`https://pulsify-ai.com/api/client-connect?action=callback&state=${state}&return=onboarding&error=access_denied`), env });
+  assert.match(denied.headers.get("location"), /\/app\/portal\/onboarding\?connect_error=youtube&reason=access_denied$/);
+  const expired = await onRequestGet({ request: new Request("https://pulsify-ai.com/api/client-connect?action=callback&state=nope&return=onboarding"), env });
+  assert.match(expired.headers.get("location"), /\/app\/portal\/onboarding\?connect_error=unknown&reason=expired$/);
+  // An unknown return value falls back to the normal page, so nobody can send a client somewhere else.
+  const other = await onRequestGet({ request: new Request(`https://pulsify-ai.com/api/client-connect?action=callback&state=${state}&return=https://evil.test&error=access_denied`), env });
+  assert.match(other.headers.get("location"), /^https:\/\/pulsify-ai\.com\/app\/portal\/access\?/);
+});
+
+test("start from onboarding passes the return along, and says plainly when connecting is switched off", async () => {
+  const real = globalThis.fetch;
+  globalThis.fetch = fakeZernio();
+  try {
+    const cookie = { cookie: "pulsify_client_session=sess-rio" };
+    const started = await onRequestGet({ request: new Request("https://pulsify-ai.com/api/client-connect?action=start&platform=youtube&return=onboarding", { headers: cookie }), env });
+    assert.equal(started.status, 302);
+    const connect = zernioCalls.filter((call) => call.url.includes("/v1/connect/youtube")).at(-1);
+    assert.match(decodeURIComponent(connect.url), /action=callback&state=demo-rio\.youtube\.[^&]+&return=onboarding/);
+
+    const off = { ...env, ZERNIO_API_KEY: "" };
+    const unavailable = await onRequestGet({ request: new Request("https://pulsify-ai.com/api/client-connect?action=start&platform=youtube&return=onboarding", { headers: cookie }), env: off });
+    assert.match(unavailable.headers.get("location"), /\/app\/portal\/onboarding\?connect_error=youtube&reason=unavailable$/);
+
+    const on = await (await onRequestGet({ request: new Request("https://pulsify-ai.com/api/client-connect?action=status", { headers: cookie }), env })).json();
+    const gone = await (await onRequestGet({ request: new Request("https://pulsify-ai.com/api/client-connect?action=status", { headers: cookie }), env: off })).json();
+    assert.deepEqual([on.available, gone.available], [true, false]);
+  } finally {
+    globalThis.fetch = real;
+  }
+});
