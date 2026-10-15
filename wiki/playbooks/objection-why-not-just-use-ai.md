@@ -10,6 +10,20 @@ related: [[feedback_price_objection_smokescreen]], [[project_nick_case_study]], 
 
 Use it before they say it. In 2026 every prospect has thought it, so the pre-empt goes into every sales call, the VSL and the follow-up sequence. If you wait for them to raise it, they have already half-decided.
 
+## The gist (founder, 2026-10-15)
+
+The app is everything we know about selling info, put in one place. Thousands of hours of the founder's own work went into it: the playbooks, the frameworks, the creators we studied, what worked for Nick. Every screen is there because of something we learned. AI helped us build it faster. It did not decide what goes in. We did.
+
+So the answer to "I could just do this with AI" is always the same: you can get AI to build a dashboard on a Friday night. You can't get it to know what belongs on it.
+
+## Script 0: "isn't this just an AI app?" / "I could vibe code this"
+
+> "Anyone can get AI to spit out a dashboard in a night. Looks nice, does nothing. Every screen in ours is there because of something we learned the hard way.
+>
+> The onboarding asks the questions that tell us how you actually make money. The cash-by-video page exists because creators had no clue which video made them a sale. The lead score tells you who's ready to buy so you stop chasing people who aren't.
+>
+> That's thousands of hours of my own work, some days 14 hours straight, and real client results behind it. Nick went from 10-20k a month to 50k. You're not paying for the code. You're paying for knowing what to build and what to do with it."
+
 ## The core idea (memorise this, the scripts are just versions of it)
 
 AI is an engine. It does not know where to drive.
