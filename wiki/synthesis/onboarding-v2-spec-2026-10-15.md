@@ -47,8 +47,8 @@ Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answe
 6. What almost stopped you? Chips: Price / Time / Trust / Tried something before / Nothing / Other.
 7. What would make the next 90 days a win? There's a number box ("$/month") plus a free line.
 
-**3. Money** (new, everything optional, with a "rough is fine" line)
-8. Roughly what do you make a month right now? Range chips: Under $5k / $5-10k / $10-20k / $20-50k / $50k+.
+**3. Money** (new, "rough is fine" line; Q8 is required because the 30% fee is measured from it)
+8. Roughly what do you make a month right now, and how much of that comes from your content? Range chips for each: Under $5k / $5-10k / $10-20k / $20-50k / $50k+, then an exact-number box. This is their starting point and must match the number in the contract.
 9. What do you sell and for how much? Main offer name and price.
 10. How do people buy? Chips: Sales call / DMs / Checkout page / Mix.
 11. Where do most buyers find you? Multi-pick: YouTube / Instagram / Referrals / Ads / Not sure.
@@ -73,7 +73,7 @@ Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answe
 22. Drop 1-3 links where you sound most like you. (optional)
 
 **8. Your content today** (new)
-23. How often do you post right now? There's a row per platform picked in Q2, with chips: Rarely / Weekly / Few times a week / Daily.
+23. How often do you post right now? There's a row per platform picked in Q2, with chips: Rarely / Weekly / Few times a week / Daily. Reels get their own row. We plan the reel cadence (2-5 a day), but we never script reels: they stay raw and natural, so no reel-writing questions.
 24. What's your best-performing post or video ever? Paste a link.
 25. Which parts do you hate doing? Multi-pick: Ideas / Scripting / Filming / Editing / Thumbnails / Captions / Posting.
 26. How many hours a week can you give to filming? Chips: 1-2 / 3-5 / 5-10 / 10+.
@@ -83,6 +83,9 @@ Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answe
 
 **10. Your proof**
 28. Do you have client results we can show? Yes / Not yet. If yes (F): drop links, screenshots or names.
+
+**10b. Your program** (new, optional; we build programs as part of delivery)
+28b. Do you have a paid program or mentorship yet? Chips: Yes, it runs well / Yes, but it's messy / Not yet. If not "runs well" (F): "What's missing?" Multi-pick: Curriculum / How to run 1-1 calls / Teaching material / Tracking who paid / Whop setup / Other.
 
 **11. Connect** (optional, skippable)
 29. Connect YouTube and Instagram now so your numbers fill in. Same blurred preview cards as [#63](https://github.com/Ab-luiy/pulsify-saas/issues/63).
@@ -100,11 +103,15 @@ Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answe
 
 Into the app's client brain, the same database the portal already reads from (the `client_brain` table behind `functions/api/client-brain.js`). That's the right home: everything in the app, and later the AI, reads from it. Our vault (Pulsify-Brain) is our own know-how, not client data. Operators can still export a client's brain into the vault when needed.
 
-New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.almost_stopped`, `intent.win_90d`, `money.monthly_range`, `money.offer_price`, `money.sales_method`, `money.lead_sources`, `offer.result`, `icp.before_state`, `icp.objections`, `story.start_type`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`.
+New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.almost_stopped`, `intent.win_90d`, `money.monthly_range`, `money.content_revenue_baseline`, `money.offer_price`, `money.sales_method`, `money.lead_sources`, `offer.result`, `icp.before_state`, `icp.objections`, `story.start_type`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`, `program.status`, `program.missing`.
+
+## Decided 2026-10-15
+
+- Glowing logo loader across the whole app, a little bigger than now (not huge). pulsify-saas #65.
+- Glowing cursor on onboarding only.
 
 ## Points to settle in review
 
-1. The design kit currently allows the glowing logo only on full-page loads, and no constant animation. Your new rule (logo glow on every load, glowing cursor) applies to onboarding only. Should it apply app-wide?
-2. Are the money questions OK to ask straight out? Each has "rough is fine" and can be skipped.
-3. Is 12-15 minutes the right length? We could cut it by moving the funnel and proof parts to a later "finish your setup" step.
-4. Should the read-back step send you a notification so you see each new client's summary?
+1. Are the money questions OK to ask straight out? Each has "rough is fine"; only the starting revenue is required.
+2. Is 12-15 minutes the right length? We could cut it by moving the funnel and proof parts to a later "finish your setup" step.
+3. Should the read-back step send you a notification so you see each new client's summary?

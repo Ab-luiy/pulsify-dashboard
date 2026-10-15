@@ -20,7 +20,17 @@ Founder confirmed on October 12: sell the full managed growth service with the p
 - **Connect cards:** every card that needs a platform shows a blurred sample with a "Connect your [platform]" button (pulsify-saas #63). The watch time chart is too zoomed in (#64).
 - **AI:** the app's AI should answer from Pulsify's know-how plus the client's answers, and improve with each client. Run on a cheap model (GLM and others to be tested); no Opus API cost.
 
-Still open: what exactly counts toward the 30% (which sales, refunds, timing), the guarantee wording, and the reels question.
+Follow-up answers, same day:
+
+- **Reels:** the 2-5 a day cadence stays, but we don't script them. Reels are where the creator is raw and natural. We plan the cadence, they make them.
+- **What the 30% covers:** everything after they join, from content to funnel to closing. Revenue they already make from content before joining is not touched, unless we rebuild that stream; then it counts too. This means we must **record their starting monthly revenue at signing** (onboarding asks it, and the contract states it).
+- **Guarantee (proposed, founder leaning yes):** if we don't deliver the agreed work for the 90 days, we keep working at no extra cost until we do. No refunds. His view: the app itself will win them over.
+- **Also part of delivery (done by us, app support later):** building the client's program. Curriculum for their paid students, how to run 1-1 mentorship, teaching assets and docs, a student sheet (who paid, who didn't, call calendar), and Whop setup if they host there.
+- **Setter and closer:** we find them one when the time calls for it.
+- **Paid ads:** later, or early if they want to scale fast. Organic first.
+- **Main selling point:** the whole system keeps selling through organic content and traffic.
+
+Still open: whether refunded sales come off before the 30% (recommended: yes), and the exact guarantee wording for DocuSign.
 
 ## Why this matters for Pulsify
 
