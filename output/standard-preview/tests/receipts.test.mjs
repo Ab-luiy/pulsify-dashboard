@@ -16,7 +16,7 @@ sql.exec("CREATE TABLE client_sessions(token_hash TEXT,client_id TEXT,expires_at
 sql.exec("CREATE TABLE impersonation_sessions(token_hash TEXT,exchange_hash TEXT,client_id TEXT,created_at TEXT,expires_at TEXT,created_by TEXT,consumed_at TEXT)");
 sql.exec("CREATE TABLE proof_items(id INTEGER PRIMARY KEY,client_id TEXT,created_at TEXT)");
 sql.exec("CREATE TABLE studio_sequences(id INTEGER PRIMARY KEY,client_id TEXT,status TEXT)");
-for (const name of ["0007_delivery_failures.sql", "0008_integrations_hub.sql", "0014_client_brain.sql", "0015_operator_events.sql", "0021_workspace_records.sql", "0025_data_spine.sql", "0027_revenue_automation.sql", "0028_onboarding.sql", "0052_receipts.sql"]) {
+for (const name of ["0007_delivery_failures.sql", "0008_integrations_hub.sql", "0014_client_brain.sql", "0015_operator_events.sql", "0021_workspace_records.sql", "0025_data_spine.sql", "0027_revenue_automation.sql", "0028_onboarding.sql", "0052_receipts.sql", "0062_receipt_email.sql"]) {
   sql.exec(mig(name).replace(/ALTER TABLE client_config ADD COLUMN status[^;]*;/, ""));
 }
 sql.prepare("INSERT INTO client_config VALUES(?,?,?,?,?)").run("acme", "Acme Trading", "prospect", "2026-10-01", null);
@@ -59,6 +59,14 @@ await bad({ ...good, txid: "x" }, /transaction id/);
 await bad({ ...good, amount: 0 }, /amount/);
 await bad({ ...good, amount: "lots" }, /amount/);
 
+// The receipt email: sent from the Pulsify address to the client on file, once.
+const sent = [];
+const realFetch = globalThis.fetch;
+globalThis.fetch = async (url, init) => { sent.push({ url, init, body: JSON.parse(init.body) }); return new Response("{}", { status: 200 }); };
+env.RESEND_API_KEY = "re_test";
+env.EMAIL_FROM = "Pulsify <hello@pulsify-ai.com>";
+sql.prepare("INSERT INTO client_auth(client_id,email) VALUES(?,?)").run("acme", "owner@acme.test");
+
 // One step: payment recorded, receipt issued.
 let res = await call(receiptsPost, post("https://pulsify-ai.com/api/receipts", good));
 assert.equal(res.status, 200);
@@ -74,15 +82,45 @@ assert.equal(payment.client, "acme");
 assert.equal(payment.amount_cents, 250000);
 assert.match(payment.note, /USDT on TRON \(TRC20\)\. First month/);
 
-// The same transaction never issues a second receipt.
+assert.equal(out.email, "sent");
+assert.equal(sent.length, 1);
+assert.deepEqual(sent[0].body.to, ["owner@acme.test"]);
+assert.equal(sent[0].body.from, "Pulsify <hello@pulsify-ai.com>");
+assert.match(sent[0].body.subject, /PUL-\d{4}-0001/);
+assert.match(sent[0].body.text, /\$2,500\.00/);
+assert.match(sent[0].body.text, /a1b2c3d4e5f60718293a4b5c6d7e8f90/);
+assert.match(sent[0].body.html, /\/r\/[a-f0-9]{36}/);
+assert.ok(sql.prepare("SELECT emailed_at FROM receipts WHERE id=1").get().emailed_at);
+
+// The same transaction never issues a second receipt, and a sent receipt is not emailed twice.
 res = await call(receiptsPost, post("https://pulsify-ai.com/api/receipts", good));
 out = await res.json();
 assert.equal(out.duplicate, true);
+assert.equal(sent.length, 1);
 assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM receipts").get().n, 1);
 
 // A second payment numbers on.
 res = await call(receiptsPost, post("https://pulsify-ai.com/api/receipts", { ...good, txid: "ffeeddccbbaa99887766554433221100", amount: 1000 }));
 assert.match((await res.json()).receipt.receipt_no, /0002$/);
+
+// No address on file or a provider outage never blocks the receipt; the failure is recorded and retried.
+const retryTx = "0011223344556677889900aabbccddee";
+sql.prepare("DELETE FROM client_auth").run();
+res = await call(receiptsPost, post("https://pulsify-ai.com/api/receipts", { ...good, txid: retryTx, amount: 500 }));
+out = await res.json();
+assert.equal(out.ok, true);
+assert.equal(out.email, "skipped");
+assert.match(sql.prepare("SELECT email_error FROM receipts WHERE txid=?").get(retryTx).email_error, /no email address/);
+sql.prepare("INSERT INTO client_auth(client_id,email) VALUES(?,?)").run("acme", "owner@acme.test");
+globalThis.fetch = async () => new Response("{}", { status: 500 });
+res = await call(receiptsPost, post("https://pulsify-ai.com/api/receipts", { ...good, txid: retryTx, amount: 500 }));
+assert.equal((await res.json()).email, "failed");
+globalThis.fetch = async (url, init) => { sent.push({ url, init, body: JSON.parse(init.body) }); return new Response("{}", { status: 200 }); };
+res = await call(receiptsPost, post("https://pulsify-ai.com/api/receipts", { ...good, txid: retryTx, amount: 500 }));
+assert.equal((await res.json()).email, "sent");
+assert.equal(sent.length, 3);
+sql.prepare("DELETE FROM receipts WHERE txid=?").run(retryTx);
+sql.prepare("DELETE FROM payments WHERE reference=?").run(retryTx);
 
 // The list and the total.
 res = await call(receiptsGet, op("https://pulsify-ai.com/api/receipts"));
@@ -120,4 +158,5 @@ assert.equal((await call(walletsPost, post("https://t/api/wallets", { asset: "BT
 res = await call(walletsDelete, op(`https://t/api/wallets?id=${wallets[0].id}`, { method: "DELETE" }));
 assert.equal((await res.json()).wallets.length, 0);
 
+globalThis.fetch = realFetch;
 console.log("receipts.test.mjs ok");

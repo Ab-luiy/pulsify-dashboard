@@ -18,20 +18,31 @@ export async function onRequestGet({ env, params }) {
   if (!receipt) {
     return new Response(page("Receipt not found", `<p class="lead">This receipt link is not valid. Ask Pulsify to send it again.</p>`), { status: 404, headers: HEADERS });
   }
+  const amount = money(receipt.amount_cents, receipt.currency);
   const rows = [
+    ["Receipt number", escapeHtml(receipt.receipt_no)],
     ["Received from", escapeHtml(receipt.client_name)],
-    ["Amount", escapeHtml(money(receipt.amount_cents, receipt.currency))],
+    ["Paid to", "Pulsify"],
+    ["Date received", escapeHtml(day(receipt.issued_at))],
+    ["Amount", escapeHtml(amount)],
     ["Paid in", escapeHtml(`${receipt.asset} on ${receipt.network}`)],
     ["Transaction id", `<code>${escapeHtml(receipt.txid)}</code>`],
-    ["Date", escapeHtml(day(receipt.issued_at))],
-    ...(receipt.note ? [["Note", escapeHtml(receipt.note)]] : []),
+    ...(receipt.note ? [["For", escapeHtml(receipt.note)]] : []),
   ];
   const body = `
     <p class="eyebrow">Receipt ${escapeHtml(receipt.receipt_no)}</p>
-    <h1>Payment received</h1>
-    <p class="lead">Thank you. This receipt confirms Pulsify received the payment below.</p>
+    <h1>Thank you. Payment received.</h1>
+    <p class="lead">Hi ${escapeHtml(receipt.client_name)}, your payment of ${escapeHtml(amount)} has arrived and we have recorded it. Thank you for trusting us with your growth. We are glad to be working with you.</p>
+    <div class="total"><span>Total received</span><strong>${escapeHtml(amount)}</strong></div>
     <dl>${rows.map(([label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd>${value}</dd></div>`).join("")}</dl>
-    <p class="foot">Pulsify. Keep this page for your records. Questions: reply to the email this link came in.</p>`;
+    <h2>Good to know</h2>
+    <ul class="notes">
+      <li>Keep this receipt for your records. It shows the date, the amount in US dollars and the transaction id, which is what your bookkeeping and tax filing usually need.</li>
+      <li>You can look up the transfer on the blockchain at any time using the transaction id above. It will show the same amount and date.</li>
+      <li>To keep a copy, print this page and choose Save as PDF.</li>
+      <li>If anything on this receipt looks wrong, reply to the email it came in and we will put it right.</li>
+    </ul>
+    <p class="foot">Pulsify &middot; pulsify-ai.com</p>`;
   return new Response(page(`Receipt ${receipt.receipt_no}`, body), { headers: HEADERS });
 }
 
