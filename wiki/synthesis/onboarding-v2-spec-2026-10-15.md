@@ -71,8 +71,10 @@ A7. What did you see from us before booking? Multi-pick: The DM / A voice note /
 7. (F) "Tell me about the moment you decided." Talking works best here.
 8. What would make the next 90 days a win? There's a number box ("$/month") plus a free line.
 
-**3. Money** (new, "rough is fine" line; the first question is required because the 30% fee is measured from it)
-9. Roughly what do you make a month right now, and how much of that comes from your content? Range chips for each: Under $5k / $5-10k / $10-20k / $20-50k / $50k+, then an exact-number box. This is their starting point and must match the number in the contract.
+**3. Money** (new. Founder 2026-10-15: exact numbers, can't be skipped. Helper line: "Exact numbers. This is the starting line we measure your growth from.")
+9. What did you make in each of the last 3 months? Three rows, one per month (named, e.g. July / August / September), each with two exact-number boxes: **revenue** and **profit** (what's left after costs). Required, no Skip. The app shows the profit margin for each month and the 3-month average as they type, so they can check it looks right.
+9b. What's your monthly income right now, exactly? Pre-filled with the latest month from question 9; they confirm or correct it. Required.
+9c. How much of that comes from your content? An exact number or a percent. Required. This is the starting point the 30% fee is measured from, and it must match the number in the contract.
 10. What do you sell and for how much? Main offer name and price.
 11. How do people buy? Chips: Sales call / DMs / Checkout page / Mix.
 12. Where do most buyers find you? Multi-pick: YouTube / Instagram / Referrals / Ads / Not sure.
@@ -141,7 +143,7 @@ Into the app's client brain, the same database the portal already reads from (th
 
 The "How you found us" answers (part A) are saved the moment its last question is answered, to a separate record that belongs to Pulsify (`sale_story.believed_because`, `sale_story.decision_time`, `sale_story.sooner_if`, `sale_story.converting_video`, `sale_story.pre_call_confidence`, `sale_story.almost_stopped`, `sale_story.touchpoints`). They are kept out of anything the client's AI reads, and summed across clients on the operator side ("which video books calls", "what almost stops people").
 
-New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.win_90d`, `money.monthly_range`, `money.content_revenue_baseline`, `money.offer_price`, `money.sales_method`, `money.lead_sources`, `offer.result`, `icp.before_state`, `icp.objections`, `story.start_type`, `identity.age`, `identity.relationship_status`, `voice.persona`, `voice.persona_second`, `voice.unhinged_level`, `voice.filter`, `voice.flagged_words`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`, `program.status`, `program.missing`.
+New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.win_90d`, `money.last_3_months` (revenue + profit per month), `money.monthly_income`, `money.content_revenue_baseline`, `money.offer_price`, `money.sales_method`, `money.lead_sources`, `offer.result`, `icp.before_state`, `icp.objections`, `story.start_type`, `identity.age`, `identity.relationship_status`, `voice.persona`, `voice.persona_second`, `voice.unhinged_level`, `voice.filter`, `voice.flagged_words`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`, `program.status`, `program.missing`.
 
 ## Decided 2026-10-15
 
@@ -150,6 +152,6 @@ New brain fields this needs (added to the allowed client fields): `intent.why_jo
 
 ## Points to settle in review
 
-1. Are the money questions OK to ask straight out? Each has "rough is fine"; only the starting revenue is required.
+1. Settled: money questions are exact and required (last 3 months revenue + profit, current monthly income, content share).
 2. Is 15-18 minutes the right length? We could cut it by moving the funnel and proof parts to a later "finish your setup" step.
 3. Should the read-back step send you a notification so you see each new client's summary?
