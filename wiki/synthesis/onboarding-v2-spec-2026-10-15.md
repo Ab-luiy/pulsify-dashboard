@@ -73,7 +73,7 @@ A7. What did you see from us before booking? Multi-pick: The DM / A voice note /
 1.2 How old are you?
 1.3 Relationship status? Chips: Single / In a relationship / Married / Rather not say.
 1.4 Where are you posting? Tap the chips (YouTube, Instagram, TikTok, X, Other), and a handle box opens for each one picked.
-1.5 What do you teach? Chips are our own make-money-online niches, taken from the lead-sourcing niche list ([[content-engine/youtube-lead-sourcing-query-bank]]) and the YouTube scraper (`tools/scrape_yt_leads.py`): Trading / Ecommerce & dropshipping / TikTok Shop / Amazon FBA / Airbnb & short-term rental / General make money online / Other. Then (F) "In one line, what do people learn from you?" (for example "prop firm challenges" or "dropshipping with organic TikTok"). Saved as its own field, which ticket #62 needs.
+1.5 What do you teach? Chips are our own make-money-online niches, the app's list plus two from the lead-sourcing niche list ([[content-engine/youtube-lead-sourcing-query-bank]]), founder 2026-10-15: Trading / Ecommerce / TikTok Shop / Amazon FBA / High-ticket sales / Airbnb & short-term rental / General make money online / Something else (their own words). Then (F) "In one line, what do people learn from you?" (for example "prop firm challenges" or "dropshipping with organic TikTok"). Saved as its own field, which ticket #62 needs.
 
 **2. Why now**
 2.1 What made you say yes to this? Multi-pick chips: My content isn't bringing in buyers / No time to make content / I'm stuck at the same income / An agency let me down / I want a system, not guesswork / Other.

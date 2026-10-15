@@ -14,7 +14,7 @@
 
 - One stack: React + Next.js + TypeScript for the screens, Zod for every API shape (founder 2026-10-10). Backend stays in Brain `output/standard-preview/functions` until the #58 cutover; every backend change is written up in pulsify-saas `docs/backend-wiring.md` in the same commit as the screen (founder 2026-10-12).
 - Nothing a client types is ever lost: every field autosaves a draft about 1 second after typing stops, to the server and to the browser, and comes back exactly where they left off (founder 2026-10-15, ticket #67).
-- Niches come only from `src/lib/niches.ts` (`trading`, `ecommerce`, `tiktok-shop`, `amazon-fba`, `ht-sales`, plus "other" with their own words). Never fitness, real estate or any generic niche (founder 2026-10-15).
+- Niches come only from `src/lib/niches.ts`: `trading`, `ecommerce`, `tiktok-shop`, `amazon-fba`, `ht-sales`, `airbnb`, `make-money-online`, plus "other" with their own words (founder 2026-10-15: "Use the app's list and also add Airbnb & short-term rental and General make money online"). Never fitness, real estate or any generic niche.
 - The app says TOF, MOF and BOF by name, with niche examples (founder 2026-10-15).
 - Money questions (3.1 to 3.3) are exact and required. Funnel metrics are ranges with "I don't know" always allowed. Nobody is forced to give exact rates.
 - Part A ("How you found us") is saved to `sale_stories` when its last question is answered and is never readable by any generator.
@@ -51,6 +51,7 @@ Frontend checks run from the pulsify-saas worktree: `npx playwright test tests/<
 - Create `src/lib/use-form-draft.ts` (the app-wide draft hook, #67).
 - Create `src/features/onboarding/schema/types.ts`, `schema/build.ts`, `schema/parts/*.ts` (one file per part), `schema/index.ts`.
 - Create `src/features/onboarding/engine.ts` (pure).
+- Modify `src/lib/niches.ts` and Brain `functions/_shared/niches.js` + `tests/niches.test.mjs` (two new niches: Airbnb & short-term rental, General make money online).
 - Create `src/features/onboarding/niche-content.ts` (TOF/MOF/BOF examples, quiz items, starter buyer cards per niche).
 - Create `src/features/onboarding/readout.ts` (pure: brain -> plain-English bullets per part; shared by the client read-back and the operator tab).
 - Create `src/features/onboarding/needs.ts` (pure: brain -> "needs figuring out" list).
@@ -2132,14 +2133,44 @@ Every title, note and option label below is the spec's wording. If you find a di
 ### Task 8: Niche content (TOF/MOF/BOF examples, quiz, starter buyer cards)
 
 **Files:**
+- Modify: `src/lib/niches.ts` (`NICHES`)
+- Modify: Brain `output/standard-preview/functions/_shared/niches.js` (`NICHES`), Brain `output/standard-preview/tests/niches.test.mjs:20`
 - Create: `src/features/onboarding/niche-content.ts`
 
 **Interfaces:**
-- Produces: `type Stage = "tof" | "mof" | "bof"`, `type NicheContent = { line: string; stages: Record<Stage, string>; quiz: { line: string; answer: Stage }[]; starter: { key: string; label: string; text: string }[] }`, `nicheContent(niche: string): NicheContent` (falls back to `other`), `STARTER_KEYS`.
+- Produces: `NicheId` now includes `"airbnb"` and `"make-money-online"`; `type Stage = "tof" | "mof" | "bof"`, `type NicheContent = { line: string; stages: Record<Stage, string>; quiz: { line: string; answer: Stage }[]; starter: { key: string; label: string; text: string }[] }`, `nicheContent(niche: string): NicheContent` (falls back to `other`), `STARTER_KEYS`.
 
-Founder rules that apply: our make-money-online niches only; examples are written for the client to confirm or fix, so they never claim a statistic as fact (the one "90%" title is the founder-approved spec example). Starter cards use the pain language from Brain `wiki/content-engine/youtube-lead-sourcing-query-bank.md`; high-ticket sales and "other" have no query-bank section, so their cards are general and say so in a comment.
+Founder rules that apply: our make-money-online niches only (seven, see Step 1); examples are written for the client to confirm or fix, so they never claim a statistic as fact (the one "90%" title is the founder-approved spec example). Starter cards use the pain language from Brain `wiki/content-engine/youtube-lead-sourcing-query-bank.md`; high-ticket sales and "other" have no query-bank section, so their cards are general and say so in a comment.
 
-- [ ] **Step 1: Write the file**
+- [ ] **Step 1: Add the two niches to both lists (founder 2026-10-15)**
+
+In pulsify-saas `src/lib/niches.ts`, add to the end of `NICHES` (and update the comment above it to name all seven niches and the founder's 2026-10-15 instruction):
+
+```ts
+  { id: "airbnb", label: "Airbnb & short-term rental", note: "Hosting, arbitrage, co-hosting" },
+  { id: "make-money-online", label: "General make money online", note: "Online coaching and income, not one craft" },
+```
+
+In Brain `output/standard-preview/functions/_shared/niches.js`, add to the end of `NICHES` (same comment update). The searches come from the Airbnb and "General biz-op / Make money online" sections of Brain `wiki/content-engine/youtube-lead-sourcing-query-bank.md`:
+
+```js
+  { id: "airbnb", label: "Airbnb & short-term rental", queries: ["airbnb hosting", "short term rental", "airbnb arbitrage", "airbnb co-hosting"] },
+  { id: "make-money-online", label: "General make money online", queries: ["make money online", "online coaching business", "high ticket coaching"] },
+```
+
+In Brain `output/standard-preview/tests/niches.test.mjs` line 20, extend the expected ids to `["trading", "ecommerce", "tiktok-shop", "amazon-fba", "ht-sales", "airbnb", "make-money-online"]`.
+
+Run (Brain worktree root): `node --test output/standard-preview/tests/niches.test.mjs`
+Expected: pass. Commit that in the Brain worktree:
+
+```bash
+git add output/standard-preview/functions/_shared/niches.js output/standard-preview/tests/niches.test.mjs
+git commit -m "Niches: add Airbnb & short-term rental and General make money online (founder 2026-10-15)"
+```
+
+The Settings niche picker (`src/features/portal-workspace/settings/brand-section.tsx`) reads `NICHES`, so it shows the new two without changes. Today's `tests/onboarding.spec.ts` expects 6 niche radios; Task 13 rewrites that file, and the new niche screen shows 8 (seven niches plus "Something else").
+
+- [ ] **Step 2: Write the niche content**
 
 Create `src/features/onboarding/niche-content.ts`:
 
@@ -2149,9 +2180,10 @@ import type { NicheId } from "@/lib/niches";
 /*
  * Niche examples for onboarding v2: the TOF/MOF/BOF examples (10.1), the quick check (10.1b) and
  * the starter buyer cards for clients who don't know their buyer yet (5.5n). The client confirms or
- * fixes every card; nothing here is shown as fact. Pain language for trading, ecommerce, TikTok Shop
- * and Amazon FBA comes from Pulsify-Brain wiki/content-engine/youtube-lead-sourcing-query-bank.md.
- * High-ticket sales and "other" have no query-bank section yet, so their cards stay general.
+ * fixes every card; nothing here is shown as fact. Pain language for trading, ecommerce, TikTok Shop,
+ * Amazon FBA, Airbnb and general make money online comes from Pulsify-Brain
+ * wiki/content-engine/youtube-lead-sourcing-query-bank.md. High-ticket sales and "other" have no
+ * query-bank section yet, so their cards stay general.
  */
 
 export type Stage = "tof" | "mof" | "bof";
@@ -2285,6 +2317,50 @@ const NICHE_CONTENT: Record<NicheId | "other", NicheContent> = {
       words: '"I keep getting \'let me think about it\'." "I don\'t know how to get on a team."',
     }),
   },
+  airbnb: {
+    line: "For example: Airbnb arbitrage in big cities",
+    stages: {
+      tof: "Why most new Airbnb hosts never get booked.",
+      mof: "My listing sat empty for a month until I changed the pricing.",
+      bof: "If your listing is live but your occupancy won't move, this is for you.",
+    },
+    quiz: [
+      { line: "Why Airbnb is still worth starting.", answer: "tof" },
+      { line: "How I got my first five-star reviews on a new listing.", answer: "mof" },
+      { line: "If you want your first arbitrage unit running this quarter, this is how we set it up together.", answer: "bof" },
+    ],
+    starter: cards({
+      age: "Mostly 25 to 40, often with a job and some savings.",
+      life: "Researches markets and listings after work, talks to landlords on weekends.",
+      money: "Needs savings for deposits and furnishing, so mistakes hurt.",
+      stuck: "Listing not getting booked, low occupancy, guessing the price per night, landlords saying no to arbitrage.",
+      behaviour: "Careful: wants to see real per-night numbers and occupancy before buying.",
+      objections: '"The market is saturated." "Landlords won\'t allow it."',
+      words: '"My listing isn\'t getting booked." "I don\'t know what to charge per night."',
+    }),
+  },
+  "make-money-online": {
+    line: "For example: helping beginners start an online coaching business",
+    stages: {
+      tof: "Why most people never make their first dollar online.",
+      mof: "The first online offer I sold, and what I'd change.",
+      bof: "If you want your first paying clients online in the next 90 days, this is for you.",
+    },
+    quiz: [
+      { line: "The easiest way to start making money online.", answer: "tof" },
+      { line: "How I sold my first coaching program with a small audience.", answer: "mof" },
+      { line: "If you're ready to sell high-ticket coaching and want it done right, here's how my program works.", answer: "bof" },
+    ],
+    starter: cards({
+      age: "Mostly 20 to 35, often in a job they want out of.",
+      life: "Watches a lot of make-money-online content and has tried a few side hustles.",
+      money: "Has bought courses before that didn't pay off.",
+      stuck: "Jumps between ideas, no clear offer, no first sale yet.",
+      behaviour: "Wants proof it works for people like them, buys after seeing results.",
+      objections: '"I\'ve bought courses that didn\'t work." "I don\'t know which one to pick."',
+      words: '"I just want one thing that actually works." "I\'ve tried everything."',
+    }),
+  },
   other: {
     line: "In your own words, as specific as you can",
     stages: {
@@ -2314,16 +2390,16 @@ export function nicheContent(niche: string): NicheContent {
 }
 ```
 
-- [ ] **Step 2: Typecheck**
+- [ ] **Step 3: Typecheck**
 
 Run: `npm run typecheck`
-Expected: no errors (the `NicheId` keys must match `src/lib/niches.ts`; if a niche id there changed, follow it).
+Expected: no errors. `NICHE_CONTENT` is typed `Record<NicheId | "other", ...>`, so a missing niche fails here.
 
-- [ ] **Step 3: Commit**
+- [ ] **Step 4: Commit**
 
 ```bash
-git add src/features/onboarding/niche-content.ts
-git commit -m "Onboarding v2: niche examples, quick check and starter buyer cards"
+git add src/lib/niches.ts src/features/onboarding/niche-content.ts
+git commit -m "Niches: add Airbnb & short-term rental and General make money online; onboarding niche examples, quick check and starter cards"
 ```
 
 ---
@@ -4917,6 +4993,7 @@ Write these tests (each one is a `test(...)` block; use `page.getByRole` locator
 8. **"proof links back to the client's own result when they have no student results"**: type an own result, pick "Payment or revenue screenshot", pick "Not yet" on 11.3, assert the next heading contains the start of their own result in quotes.
 9. **"the deal: both confirmations are saved, and Not sure still lets them finish"**: pick "Yes", then "Not sure yet"; assert POST bodies `{ commitment: { understood: "yes" } }` and `{ commitment: { promised: "not-sure" } }`; reach the read-back.
 10. **"the operator preview walks the whole form and saves nothing"**: open with `impersonated: true`; click through to the read-back with Continue only; assert no writes to `/api/client-brain`, `/api/form-drafts` or `/api/sale-story`.
+10b. **"the niche screen shows our seven niches and Something else"**: on 1.5 assert 8 radios, including "Airbnb & short-term rental" and "General make money online"; pick Airbnb, continue, and assert the 1.5 follow-up note reads "For example: Airbnb arbitrage in big cities".
 11. **"a short answer gets one gentle 'say more' nudge"**: type "Your breakdown." in A1, press Continue, assert the status text "Say a bit more? One or two more lines makes a big difference." and that the heading is still A1; press Continue again and assert the heading is A2.
 12. **"the form passes axe on the first question"**: run `new AxeBuilder({ page }).analyze()` on A1 and expect no violations (the old file has the same pattern).
 
