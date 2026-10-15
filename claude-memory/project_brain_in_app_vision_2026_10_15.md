@@ -5,7 +5,7 @@ metadata:
   node_type: memory
   type: project
   originSessionId: 67c54d69-9a7d-464a-968f-df6657a1f2bd
-  modified: 2026-10-15T10:43:34.753Z
+  modified: 2026-10-15T10:57:39.887Z
 ---
 
 Founder, 2026-10-15 (session on MVP/PRD/pricing):
@@ -16,6 +16,15 @@ Founder, 2026-10-15 (session on MVP/PRD/pricing):
 - **Connectors must be seamless:** wherever a number depends on an unconnected app, show a drawn sample of that card (graph if it's a graph), blurred, with one "Connect your [platform]" button on top; real numbers (even zero) once connected. Home gets "Your Instagram" and "Your YouTube" sections. Not repetitive banners. It doubles as a prospect demo. Ticket pulsify-saas #63. YouTube watch time chart too zoomed in: #64.
 - **The AI "juice":** he wants the app's AI to answer new clients the way Claude answers him in this vault: grounded in the Pulsify-Brain knowledge (frameworks, playbooks, what works) plus the client's own answers, then tailoring the app to them, and learning/improving with every new client.
 - **Cost:** Opus API is too expensive. He wants to try a cheap Chinese/open model. Until the AI is solved, the app should give many tailored suggestions so clients can pick titles, thumbnails, story sequences and post themselves; letting clients connect their own AI keys is fine too.
+
+**Founder answers, 2026-10-15 (later in the same session):**
+- Volume follows the client's plan/cadence. Typical: 1-2 YouTube videos a week, 2-5 IG reels a day, story sequences twice a week, 1-2 carousels a month only when something major happens. (Reels conflict with the 2026-09-26 "we're not working on reels" note in [[project_growth_service_delivery]]; asked him to confirm.)
+- Guarantee: tied to app output (meaning still to pin down). NO money back, no disputes or chargebacks, because the work is delivered.
+- 30% = performance fee. Scope reference he sent: Cardinal Mason's "Our work" slide (offer strategy, scripting, editing, ads, funnels, email, sales team, setters/closers, CRM, analytics, onboarding, finance, etc.), meaning "we do a ton of work to get them money".
+- Contract: DocuSign.
+- Onboarding wishes: questions read aloud + answers typed or spoken (speech to text), punchier suggestion lines, fun ways to pull answers out, multiple choice, progress bar + time left, buttons and ease of access, design kit from [[project_design_system_2026_10_12]], glowing custom cursor, logo-with-glow loader everywhere, never ask duplicates (dig deeper on one answer instead), ask why they joined / what made them feel they needed it. Data goes into the app's client brain. He reviews it with me before it goes live.
+- AI: test cheap models; he mentioned GLM.
+- Test run of a fake client: only after the session's work is done.
 
 **Why:** he believes delivery quality depends entirely on how well onboarding captures the client and how well the app uses our knowledge.
 
