@@ -46,6 +46,15 @@ This is an app-wide rule, not just for onboarding: every text box, form and edit
 
 Rough time: 20-25 minutes (about 3 less without a funnel) (the "How you found us" part adds about 2). (F) means a follow-up that appears based on the answer before it.
 
+**Before onboarding: paid, then connect** (founder 2026-10-15: "as soon as they pay us... automatically wire everything", the most important thing)
+The moment a payment is recorded, everything sets itself up with no manual wiring:
+1. **Payment recorded.** Clients pay in crypto, so today the founder presses "Mark paid" (the existing payment trigger, `/api/payment`). That one press does the rest automatically.
+2. **Workspace created and signed in.** Their account, private link and welcome message go out right away, the same flow that's live now.
+3. **The first screen they see is Connect.** "Connect your YouTube" and "Connect your Instagram", each shown as the blurred preview of what their numbers will look like ([#63](https://github.com/Ab-luiy/pulsify-saas/issues/63)). Then booking page, email tool and payments if they use them. One tap each, and they can skip and come back.
+4. **Then onboarding starts** (Welcome, then part A).
+
+Honest status: the payment trigger and auto-setup exist. Real one-tap YouTube and Instagram sign-in for clients isn't proven yet. Today those two are "mark as done" steps, and making them real is ticket #15. That ticket was waiting for the first paying client, so it moves to the top the day one signs.
+
 **0. Welcome** (no questions)
 "Let's get you set up. Talk or type, whatever's easier." Two toggles: read questions to me, and I'd rather talk.
 
@@ -162,16 +171,35 @@ Helper line on every metric screen: "Ranges are fine. 'I don't know' is a real a
 
 What it gives us: the app draws their funnel on their Funnel page from question 38, marks each number as known or unknown, and points the first piece of work at the leak they named. Unknown numbers become the first thing we set up tracking for.
 
-**10. Your proof**
-48. Do you have client results we can show? Yes / Not yet. If yes (F): drop links, screenshots or names.
+**10. Your proof** (founder 2026-10-15: proof shows what they've done and is one of the most useful things we collect; go deep)
+Helper line: "Results are what sell you. Give us everything, we'll pick what to use."
+
+48. Do you have client or student results? Chips: Yes, plenty / A few / Not yet.
+
+*If "Yes" or "A few"*:
+49. What's the best result you've ever gotten someone? Talking works best. (F) "Who were they before, what did they do, and what happened after?"
+50. Do you have proof of that one? Chips: Screenshot / Video testimonial / Written testimonial / Payment or revenue screenshot / DM or chat screenshot / No proof yet. Upload box opens for each type picked.
+51. (F) "Tell us more about it." How long it took, the exact number (money made, payout, first sale, followers), what made it work. This is the story we turn into content.
+52. Can we use their name and face? Chips: Yes / First name only / No names, results only / I need to ask them.
+53. **Your top results.** How many results can you show? Chips: 1-2 / 3-5 / 6-10 / 10+. Then a card for each of their top 3 (top 5 if they picked 6 or more), with the same short fields as the best one: who they were before, the result and number, how long it took, the proof upload, and whether we can use their name.
+54. Any results of your own? Your own trading account, store, payouts, income. Upload box. (F) "Which one are you proudest of?"
+55. Where does proof live right now? Multi-pick: Phone screenshots / A Google Drive folder / Discord / Whop / Instagram highlights / Nowhere organised. (F) for a folder or Discord: share link.
+
+*If "Not yet"*:
+48n. What's the closest thing you have? Chips: My own results / A free student or beta client / Someone who's halfway there / Nothing yet.
+49n. (F) "Tell us about it." Upload box for anything they have.
+50n. "That's normal. Getting your first proof is part of the plan." Their portal gets a "first proof" step, and the plan aims early work at getting one result on record.
+
+Every result saves as its own item in their proof vault (tagged by type, number, name permission and the claim it backs, as the [[synthesis/client-brain-spec]] proof vault describes). Content, the funnel and sales calls pull from it.
 
 **11. Your program** (new, optional; we build programs as part of delivery)
-49. Do you have a paid program or mentorship yet? Chips: Yes, it runs well / Yes, but it's messy / Not yet. If not "runs well" (F): "What's missing?" Multi-pick: Curriculum / How to run 1-1 calls / Teaching material / Tracking who paid / Whop setup / Other.
+56. Do you have a paid program or mentorship yet? Chips: Yes, it runs well / Yes, but it's messy / Not yet. If not "runs well" (F): "What's missing?" Multi-pick: Curriculum / How to run 1-1 calls / Teaching material / Tracking who paid / Whop setup / Other.
 
-**12. Connect** (optional, skippable)
-50. Connect YouTube and Instagram now so your numbers fill in. Same blurred preview cards as [#63](https://github.com/Ab-luiy/pulsify-saas/issues/63).
+**12. Read-back** - "Here's what we heard", with an Edit button per part, then Finish.
 
-**13. Read-back** - "Here's what we heard", with an Edit button per part, then Finish.
+## Every answer is something they build on (founder 2026-10-15)
+
+Nothing in onboarding is a one-time form. Every answer becomes a card in their portal (Brand Brain) that they can open later and expand: add a new result to their proof, update their numbers, rewrite their story, refine their buyer. The read-back screen ends with "You can add to any of this later from your Brand Brain." When something new happens (a new student result, a new offer), the app nudges them to add it, and everything that writes for them picks it up straight away.
 
 ## Rules so it never repeats itself
 
@@ -186,7 +214,7 @@ Into the app's client brain, the same database the portal already reads from (th
 
 The "How you found us" answers (part A) are saved the moment its last question is answered, to a separate record that belongs to Pulsify (`sale_story.believed_because`, `sale_story.decision_time`, `sale_story.sooner_if`, `sale_story.converting_video`, `sale_story.pre_call_confidence`, `sale_story.almost_stopped`, `sale_story.touchpoints`). They are kept out of anything the client's AI reads, and summed across clients on the operator side ("which video books calls", "what almost stops people").
 
-New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.win_90d`, `money.last_3_months` (revenue + profit per month), `money.monthly_income`, `money.content_revenue_baseline`, `money.offer_price`, `offer.result`, `icp.known`, `icp.best_client`, `icp.age_range`, `icp.gender_mix`, `icp.life_stage`, `icp.daily_life`, `icp.income`, `icp.payment_style`, `icp.engagers`, `icp.before_state`, `icp.tried_before`, `icp.buying_behaviour`, `icp.tipping_point`, `icp.objections`, `icp.language`, `icp.never_client`, `icp.starter_profile` (each card with confirmed or fixed), `story.start_type`, `identity.age`, `identity.relationship_status`, `voice.persona`, `voice.persona_second`, `voice.unhinged_level`, `voice.filter`, `voice.flagged_words`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`, `program.status`, `program.missing`, `funnel.has_funnel`, `funnel.path` (ordered steps), `funnel.step_links`, `funnel.tools`, `funnel.owners`, `funnel.tracks_numbers`, `funnel.metrics` (each with value or range, or unknown), `funnel.leak`, `funnel.leak_guess`, `funnel.non_buyer_followup`, `funnel.ads`, `funnel.asset_status`, `funnel.sales_method`, `funnel.lead_sources`.
+New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.win_90d`, `money.last_3_months` (revenue + profit per month), `money.monthly_income`, `money.content_revenue_baseline`, `money.offer_price`, `offer.result`, `icp.known`, `icp.best_client`, `icp.age_range`, `icp.gender_mix`, `icp.life_stage`, `icp.daily_life`, `icp.income`, `icp.payment_style`, `icp.engagers`, `icp.before_state`, `icp.tried_before`, `icp.buying_behaviour`, `icp.tipping_point`, `icp.objections`, `icp.language`, `icp.never_client`, `icp.starter_profile` (each card with confirmed or fixed), `story.start_type`, `identity.age`, `identity.relationship_status`, `voice.persona`, `voice.persona_second`, `voice.unhinged_level`, `voice.filter`, `voice.flagged_words`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`, `program.status`, `program.missing`, `proof.level`, `proof.best_result` (story, number, timeframe, proof files, name permission), `proof.top_results` (3-5 items, same fields), `proof.own_results`, `proof.storage`, `proof.closest_thing`, `funnel.has_funnel`, `funnel.path` (ordered steps), `funnel.step_links`, `funnel.tools`, `funnel.owners`, `funnel.tracks_numbers`, `funnel.metrics` (each with value or range, or unknown), `funnel.leak`, `funnel.leak_guess`, `funnel.non_buyer_followup`, `funnel.ads`, `funnel.asset_status`, `funnel.sales_method`, `funnel.lead_sources`.
 
 ## Decided 2026-10-15
 
