@@ -41,6 +41,7 @@ export async function onRequestGet({ env, params }) {
       <li>You can look up the transfer on the blockchain at any time using the transaction id above. It will show the same amount and date.</li>
       <li>To keep a copy, print this page and choose Save as PDF.</li>
       <li>If anything on this receipt looks wrong, reply to the email it came in and we will put it right.</li>
+      <li>Next step: sign in to your Pulsify workspace to see what comes next. <a href="/login/client">Go to your workspace</a>.</li>
     </ul>
     <p class="foot">Pulsify &middot; pulsify-ai.com</p>`;
   return new Response(page(`Receipt ${receipt.receipt_no}`, body), { headers: HEADERS });

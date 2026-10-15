@@ -81,20 +81,19 @@ assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM incoming_transfers").get().n
 
 // A new payment from an unknown sender waits for the founder and pings him once.
 head = 1100;
-logs = [transfer(ACME, 5000, TX(2), 1050), transfer(ACME, 0.01, TX(3), 1051), transfer(GLOBEX, 19.99, TX(4), 1052)];
-assert.equal(await watchWallets(env, { fetcher }), 3);
+logs = [transfer(ACME, 5000, TX(2), 1050), transfer(ACME, 0.01, TX(3), 1051), transfer(GLOBEX, 19.99, TX(4), 1052), transfer(GLOBEX, 0.000001, TX(11), 1053)];
+assert.equal(await watchWallets(env, { fetcher }), 4);
 let waiting = await listTransfers(env);
-assert.equal(waiting.length, 1, "dust under $20 is hidden");
-assert.equal(waiting[0].status, "needs_client");
-assert.equal(waiting[0].amount_cents, 500000);
-assert.equal(emails.length, 1);
-assert.deepEqual(emails[0].to, ["founder@test.dev"]);
-assert.match(emails[0].subject, /\$5,000\.00/);
+assert.deepEqual(waiting.map((row) => row.amount_cents).sort((a, b) => a - b), [1, 1999, 500000], "every cent shows; only sub-cent amounts are skipped");
+assert.ok(waiting.every((row) => row.status === "needs_client"));
+assert.equal(emails.length, 3);
+assert.ok(emails.every((mail) => mail.to[0] === "founder@test.dev"));
+assert.ok(emails.some((mail) => /\$5,000\.00/.test(mail.subject)));
 assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM receipts").get().n, 0);
 
 // Running again sees nothing new and never duplicates.
 assert.equal(await watchWallets(env, { fetcher }), 0);
-assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM incoming_transfers").get().n, 3);
+assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM incoming_transfers").get().n, 4);
 
 // Transfers not yet buried 12 blocks are not read.
 head = 1112;
@@ -111,7 +110,7 @@ assert.equal((await transfersGet({ request: new Request("https://t/api/incoming-
 const op = (url, init = {}) => { const r = new Request(url, init); rememberOperator(r, { email: "op@test", via: "access" }); return r; };
 const post = (body) => op("https://pulsify-ai.com/api/incoming-transfers", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
 const call = (fn, request) => fn({ request, env, data: { operator: { email: "op@test" } }, params: {} });
-const id = waiting[0].id;
+const id = waiting.find((row) => row.amount_cents === 500000).id;
 assert.equal((await call(transfersPost, post({ id, client: "" }))).status, 422);
 let res = await call(transfersPost, post({ id, client: "acme" }));
 assert.equal(res.status, 200);
@@ -122,6 +121,7 @@ const clientMail = emails.at(-1);
 assert.deepEqual(clientMail.to, ["owner@acme.test"]);
 assert.match(clientMail.text, /\$5,000\.00/);
 assert.equal(sql.prepare("SELECT status FROM incoming_transfers WHERE id=?").get(id).status, "receipted");
+assert.ok((await listTransfers(env)).find((row) => row.id === id).emailed_at, "the list says the receipt was emailed");
 assert.equal(sql.prepare("SELECT amount_cents FROM payments WHERE reference=?").get(TX(2)).amount_cents, 500000);
 assert.equal((await call(transfersPost, post({ id, client: "acme" }))).status, 409, "a handled transfer cannot be attached twice");
 
