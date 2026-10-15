@@ -97,8 +97,8 @@ export default {
 
 // Webhooks remain immediate. Polling is recovery, not the primary live path.
 export function scheduledJobs(cron, scheduledTime = Date.now()) {
-  // The 7-fig packaging library reads a few channels every half hour: about 30 YouTube units a run, against 10,000 a day.
-  if (cron === "*/30 * * * *") return ["payment-rematch", "client-videos", "client-instagram", "outliers"];
+  // The automatic outlier collector is switched off (founder 2026-10-15: nothing reaches clients that he has not approved).
+  if (cron === "*/30 * * * *") return ["payment-rematch", "client-videos", "client-instagram"];
   if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
   const minute = new Date(scheduledTime).getUTCMinutes();
   // The lead score refit gets a minute of its own (one client per run, CPU-light).
