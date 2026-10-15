@@ -28,6 +28,8 @@ const JOBS = {
   "client-videos": syncClientVideosJob,
   "lead-models": refreshLeadModelsJob,
   "client-instagram": syncClientInstagram,
+  // Pulsify's own wallets: new payments become receipts. Runs on Pages, where the email key lives.
+  "crypto-watch": async (env) => { const r = await runAutomation(env, "crypto-watch"); if (r.ok === false) throw new Error(r.error || r.skipped || "crypto-watch failed"); return r.count || 0; },
 };
 
 export default {
@@ -100,7 +102,7 @@ export function scheduledJobs(cron, scheduledTime = Date.now()) {
   if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
   const minute = new Date(scheduledTime).getUTCMinutes();
   // The lead score refit gets a minute of its own (one client per run, CPU-light).
-  return ["webhook-outbox", ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : []), ...(minute % 10 === 3 ? ["lead-models"] : [])];
+  return ["webhook-outbox", ...(minute % 2 === 1 ? ["crypto-watch"] : []), ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : []), ...(minute % 10 === 3 ? ["lead-models"] : [])];
 }
 
 export function scheduledJob(cron) {
