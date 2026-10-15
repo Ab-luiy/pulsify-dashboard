@@ -11,6 +11,7 @@
 // agree with the client's Payments page.
 
 import { cleanId, normalizeEmail } from "./common.js";
+import { scoreOwnVideos } from "./outlier-score.js";
 
 const API = "https://www.googleapis.com/youtube/v3";
 export const VIDEO_PLACEMENTS = ["description", "pinned-comment"];
@@ -398,6 +399,7 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
     s.cash_cents += p.cash;
   }
 
+  const scores = scoreOwnVideos(videos, now);
   const perThousand = (cents, views) => (views > 0 ? Math.round((cents / views) * 1000) : null);
   const rows = videos.map((video) => {
     const s = stats.get(video.video_id) || emptyStats();
@@ -410,6 +412,8 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
       published_at: video.published_at,
       duration_seconds: video.duration_seconds,
       views: video.views,
+      // views / the channel's normal (median of its last 30 long-form uploads); null while the video is still settling
+      outlier: scores.get(video.video_id) ?? null,
       ...s,
       cash_per_1k_views_cents: perThousand(s.cash_cents, Number(video.views || 0)),
       // The people credited to this video, most valuable first (the client's own leads).

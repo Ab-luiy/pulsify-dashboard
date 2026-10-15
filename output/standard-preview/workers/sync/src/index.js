@@ -10,7 +10,6 @@ import { followUpDigest, ingestSeen, sweepSeen } from "./jobs/outreach-notify.js
 import { handleZernioEvent, syncZernioInbox } from "./jobs/zernio-inbox.js";
 import { syncSearchIndex } from "./jobs/search-index.js";
 import { syncClientVideosJob } from "./jobs/client-videos.js";
-import { syncOutliers } from "../../../functions/_shared/outliers.js";
 import { refreshLeadModelsJob } from "./jobs/lead-models.js";
 import { callDayNudges } from "../../../functions/_shared/call-day.js";
 import { contentReminders } from "../../../functions/_shared/content-reminders.js";
@@ -29,7 +28,6 @@ const JOBS = {
   "client-videos": syncClientVideosJob,
   "lead-models": refreshLeadModelsJob,
   "client-instagram": syncClientInstagram,
-  outliers: syncOutliers,
 };
 
 export default {
@@ -77,7 +75,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models|client-instagram|outliers)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models|client-instagram)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);
@@ -97,7 +95,7 @@ export default {
 
 // Webhooks remain immediate. Polling is recovery, not the primary live path.
 export function scheduledJobs(cron, scheduledTime = Date.now()) {
-  // The automatic outlier collector is switched off (founder 2026-10-15: nothing reaches clients that he has not approved).
+  // The automatic outlier collector is gone (founder 2026-10-15: nothing reaches clients that he has not approved).
   if (cron === "*/30 * * * *") return ["payment-rematch", "client-videos", "client-instagram"];
   if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
   const minute = new Date(scheduledTime).getUTCMinutes();
