@@ -17,7 +17,7 @@ test("a niche is a known id or the client's own words", () => {
 });
 
 test("every founder-picked niche has searches for the packaging library", () => {
-  assert.deepEqual(NICHES.map((niche) => niche.id), ["trading", "ecommerce", "tiktok-shop", "amazon-fba", "ht-sales"]);
+  assert.deepEqual(NICHES.map((niche) => niche.id), ["trading", "ecommerce", "tiktok-shop", "amazon-fba", "ht-sales", "airbnb", "make-money-online"]);
   for (const niche of NICHES) assert.ok(niche.queries.length >= 3, niche.id);
 });
 

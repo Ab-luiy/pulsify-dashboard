@@ -1,5 +1,5 @@
 // The niches a client picks at onboarding (founder 2026-10-15: trading, ecommerce, TikTok Shop, Amazon FBA,
-// high-ticket sales; ticket #62). Stored on the brain as identity.niche: one of these ids, or the client's own
+// high-ticket sales, then "also add Airbnb & short-term rental and General make money online"; ticket #62). Stored on the brain as identity.niche: one of these ids, or the client's own
 // words when none fits. Generators read it through the brain context ("Niche: ..."); the packaging library
 // filters by it. Mirrored in pulsify-saas src/lib/niches.ts.
 export const NICHES = [
@@ -8,6 +8,8 @@ export const NICHES = [
   { id: "tiktok-shop", label: "TikTok Shop", queries: ["tiktok shop", "tiktok shop affiliate", "tiktok shop seller"] },
   { id: "amazon-fba", label: "Amazon FBA", queries: ["amazon fba", "amazon private label", "amazon product research"] },
   { id: "ht-sales", label: "High-ticket sales", queries: ["high ticket sales", "closing calls", "sales closer", "high ticket closer"] },
+  { id: "airbnb", label: "Airbnb & short-term rental", queries: ["airbnb hosting", "short term rental", "airbnb arbitrage", "airbnb co-hosting"] },
+  { id: "make-money-online", label: "General make money online", queries: ["make money online", "online coaching business", "high ticket coaching"] },
 ];
 
 const byId = new Map(NICHES.map((niche) => [niche.id, niche]));
