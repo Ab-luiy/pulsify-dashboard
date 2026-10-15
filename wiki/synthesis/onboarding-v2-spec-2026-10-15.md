@@ -31,7 +31,7 @@ One fixed form at `/app/portal/onboarding` (pulsify-saas `src/features/onboardin
 
 ## The question flow
 
-Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answer before it.
+Rough time: 14-17 minutes (the "How you found us" part adds about 2). (F) means a follow-up that appears based on the answer before it.
 
 **0. Welcome** (no questions)
 "Let's get you set up. Talk or type, whatever's easier." Two toggles: read questions to me, and I'd rather talk.
@@ -44,8 +44,17 @@ Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answe
 **2. Why now** (new)
 4. What made you say yes to this? Multi-pick chips: My content isn't bringing in buyers / No time to make content / I'm stuck at the same income / An agency let me down / I want a system, not guesswork / Other.
 5. (F) "Tell me about the moment you decided." Talking works best here.
-6. What almost stopped you? Chips: Price / Time / Trust / Tried something before / Nothing / Other.
+6. What was the ONE thing that almost made you not buy? Chips: Price / Trust / Timing / Tried something before / Nothing / Other. (F) "Tell me more about that."
 7. What would make the next 90 days a win? There's a number box ("$/month") plus a free line.
+
+**2b. How you found us** (new, from the founder's Typeform `vCwxUyWv`, 2026-10-15)
+These answers are about how *we* sold them, not about their business. They are stored apart from their brain (see "Where the answers go"), so the AI never writes their content from them, and they're added up across clients to improve our own outreach.
+7a. What made you believe we could actually solve your problem?
+7b. How long did it take you to decide? Chips: Same day / A few days / 1-2 weeks / Over a month / I'd followed you for a while.
+7c. (F) What could we have done to get you to say yes sooner?
+7d. Which video made you want to book a call? Paste the link. Chips if they don't have one: Saw it on YouTube / Instagram / It was the DM / Someone referred me / Other.
+7e. Before the call, how sure were you that you'd sign up? Tap 1-10. (F) "What made you unsure, or so sure?"
+7f. What did you see from us before booking? Multi-pick: The DM / A voice note / A custom video or asset we made for you / Our YouTube / Our stories / Other. (F) for each one picked: "How much did it help?" Tap 1-5, with a line for honest thoughts.
 
 **3. Money** (new, "rough is fine" line; Q8 is required because the 30% fee is measured from it)
 8. Roughly what do you make a month right now, and how much of that comes from your content? Range chips for each: Under $5k / $5-10k / $10-20k / $20-50k / $50k+, then an exact-number box. This is their starting point and must match the number in the contract.
@@ -102,6 +111,8 @@ Rough time: 12-15 minutes. (F) means a follow-up that appears based on the answe
 ## Where the answers go
 
 Into the app's client brain, the same database the portal already reads from (the `client_brain` table behind `functions/api/client-brain.js`). That's the right home: everything in the app, and later the AI, reads from it. Our vault (Pulsify-Brain) is our own know-how, not client data. Operators can still export a client's brain into the vault when needed.
+
+The "How you found us" answers (2b) go to a separate record for us (`sale_story.believed_because`, `sale_story.decision_time`, `sale_story.sooner_if`, `sale_story.converting_video`, `sale_story.pre_call_confidence`, `sale_story.touchpoints`). They are kept out of anything the client's AI reads, and summed across clients on the operator side ("which video books calls", "what almost stops people").
 
 New brain fields this needs (added to the allowed client fields): `intent.why_joined`, `intent.decision_story`, `intent.almost_stopped`, `intent.win_90d`, `money.monthly_range`, `money.content_revenue_baseline`, `money.offer_price`, `money.sales_method`, `money.lead_sources`, `offer.result`, `icp.before_state`, `icp.objections`, `story.start_type`, `voice.sliders`, `voice.never_say`, `content.cadence`, `content.best_post`, `content.hates`, `content.film_hours`, `program.status`, `program.missing`.
 
