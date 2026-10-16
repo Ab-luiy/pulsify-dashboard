@@ -713,3 +713,6 @@ Migration 0063 rebuilt the live client_brain table without the section CHECK (ro
 ## [2026-10-16] decision | Onboarding v2 released to production
 
 Merged pulsify-saas main (13e9a08) and Brain main, deployed Pages production (6f2a0b16). Live checks on pulsify-ai.com with the test client passed: form, drafts, saving into the new sections. Migrations 0062 and 0063 were already applied. The old 16-question form is replaced.
+
+## [2026-10-16] decision | Tickets 63, 64, 65 released
+pulsify-saas main 4546622 live (Pages deployment 94cdd830). Glowing logo loader on every loading state, chart count axes start at zero, and every Instagram/YouTube tracker is blurred behind one Connect button for a new client until they connect (shared ConnectPreview + PlatformGate). Payments cards not gated yet (no payments-connected signal). Zernio: founder connection healthy, no plan spend until first payment; weekly YouTube lead scrape hits Workers "Too many subrequests".
