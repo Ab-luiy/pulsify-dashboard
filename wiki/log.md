@@ -705,3 +705,7 @@ Built the plan in docs/superpowers/plans/2026-10-15-onboarding-v2.md on two bran
 ## [2026-10-15] decision | Onboarding v2 preview deployed, migration 0062 applied
 
 With the founder's yes, applied migration 0062 (four new tables) to the live database and deployed a preview-branch build of Pages (onboarding-v2-preview) with the new form. Production and main are untouched. Tested with the test client only. Release to main still waits for the founder's walkthrough and yes.
+
+## [2026-10-16] decision | client_brain rebuilt so onboarding v2 sections save
+
+Migration 0063 rebuilt the live client_brain table without the section CHECK (rows and ids identical, backed up first). Also: connect from onboarding returns to the form with a plain reason, the vague decision question was reworded, the story chips question and the time remaining were removed, and read-aloud was dropped.

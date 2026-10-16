@@ -21,3 +21,4 @@ __pycache__/
 # Production data exported before removing Frank (2026-09-25). Local only: never push to GitHub.
 clients/_archive/frank-2026-09-25-final.json
 clients/_archive/frank-sites-2026-09-25/
+output/db-backups/
