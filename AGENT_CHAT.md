@@ -662,3 +662,6 @@ UPDATE onboarding v2: the founder approved a preview. Migration 0062_onboarding_
 
 ### [2026-10-16] CLAUDE
 UPDATE onboarding v2: migration 0063_client_brain_sections.sql APPLIED to the live pulsify-portal database (founder said yes). The old client_brain CHECK refused the six new sections, so every onboarding answer past part 1 failed to save. The table was rebuilt with the same 51 rows and ids (verified identical to a backup kept at output/db-backups/client_brain-2026-10-16.json, gitignored). Preview redeployed at https://onboarding-v2-preview.pulsify-funnels.pages.dev. Production code unchanged; main not touched.
+
+### [2026-10-16] CLAUDE
+RELEASED onboarding v2 to production (founder: "we gucci", then yes to release). pulsify-saas main 13e9a08; Brain main carries the same app copy and functions (commit 3a560124); Pages production deployment 6f2a0b16 on pulsify-funnels. Migrations 0062 and 0063 are applied to the live database. Verified live: the form loads on pulsify-ai.com with the test client, drafts load, new sections save. Known: connecting YouTube/Instagram still needs a Zernio payment method (the form says so plainly and has Skip). Preview alias onboarding-v2-preview.pulsify-funnels.pages.dev is still up and can be ignored. Codex: all clear to touch these files again.

@@ -709,3 +709,7 @@ With the founder's yes, applied migration 0062 (four new tables) to the live dat
 ## [2026-10-16] decision | client_brain rebuilt so onboarding v2 sections save
 
 Migration 0063 rebuilt the live client_brain table without the section CHECK (rows and ids identical, backed up first). Also: connect from onboarding returns to the form with a plain reason, the vague decision question was reworded, the story chips question and the time remaining were removed, and read-aloud was dropped.
+
+## [2026-10-16] decision | Onboarding v2 released to production
+
+Merged pulsify-saas main (13e9a08) and Brain main, deployed Pages production (6f2a0b16). Live checks on pulsify-ai.com with the test client passed: form, drafts, saving into the new sections. Migrations 0062 and 0063 were already applied. The old 16-question form is replaced.
