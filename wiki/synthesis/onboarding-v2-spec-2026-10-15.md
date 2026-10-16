@@ -56,7 +56,7 @@ The moment a payment is recorded, everything sets itself up with no manual wirin
 Honest status: the payment trigger and auto-setup exist. Real one-tap YouTube and Instagram sign-in for clients isn't proven yet. Today those two are "mark as done" steps, and making them real is ticket #15. That ticket was waiting for the first paying client, so it moves to the top the day one signs.
 
 **0. Welcome** (no questions)
-"Let's get you set up. Talk or type, whatever's easier." One toggle: I'd rather talk (the mic comes first on long answers).
+"Let's get you set up. Talk or type, whatever's easier." No toggles: the mic is on every text answer (founder 2026-10-15: the "I'd rather talk" option was unnecessary).
 
 **A. How you found us** (comes first, while buying is fresh; from the founder's Typeform `vCwxUyWv`, 2026-10-15)
 These answers are about how *we* sold to them. When they answer the last question in this part, the whole part is saved as Pulsify's own record (see "Where the answers go"), then a short transition screen ("Thanks. Now let's get to you.") leads into the normal onboarding. The client's AI never reads this part.
