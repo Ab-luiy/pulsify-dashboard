@@ -15,6 +15,7 @@
 
 import { cleanId, normalizeEmail, parseJson } from "./common.js";
 import { DAY, LADDER, features, highestStage, nextStep, scorePerson, startingModel, withMeans, withOwnRates } from "./lead-score.js";
+import { classifyVisitor, getRegions } from "./visitor-regions.js";
 import { nameSuggestions, normalizeHandle, normalizePhone, weakMerges } from "./lead-identity.js";
 
 // Browsers tied to an email, for the pipeline of known people.
@@ -727,9 +728,11 @@ export async function loadVisitors(env, clientId, { since, limit = 200, now = Da
     model = pipeline.modelFull;
     hasVideo = hasVideo || pipeline.hasVideo;
   }
-  const list = people.map((p) => summarize(p, model, present, hasVideo, now));
+  // Each visitor lands in the main tracker or the flagged one (#77): outside the client's regions, or a likely bot.
+  const regions = await getRegions(env, client);
+  const list = people.map((p) => ({ ...summarize(p, model, present, hasVideo, now), ...classifyVisitor(p, regions, now) }));
   list.sort((a, b) => String(b.last_at || "").localeCompare(String(a.last_at || "")));
-  return { client, present, model: modelSummary(model), people: list };
+  return { client, present, model: modelSummary(model), people: list, regions };
 }
 
 /** The node a merge decision is stored against: stable while the person keeps this email, DM contact or browser. */

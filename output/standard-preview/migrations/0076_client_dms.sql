@@ -1,14 +1,6 @@
 -- Client Instagram DMs linked to lead records (pulsify-saas #76). Additive only.
--- Nothing writes here until a client's Instagram is connected through Zernio.
-
--- Which client owns a connected Instagram account (Zernio account id).
-CREATE TABLE IF NOT EXISTS zernio_client_accounts (
-  account_id   TEXT PRIMARY KEY,
-  client_id    TEXT NOT NULL,
-  username     TEXT,
-  connected_at TEXT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS idx_zernio_client_accounts_client ON zernio_client_accounts (client_id);
+-- Nothing writes here until a client's Instagram is connected through Zernio (the client's
+-- integrations row, provider instagram, holds the Zernio account id).
 
 -- Everyone who has messaged a client's Instagram: their Instagram id, username and name from
 -- the Meta profile, and the lead they were linked to once their email, phone or handle is known.

@@ -1,4 +1,4 @@
-// GET /api/lead-visitors?range=live|24h|7d|30d[&client=]
+// GET /api/lead-visitors?range=live|24h|7d|30d[&client=]   each person has bucket "main" | "flagged" (#77)
 // The latest visitors, anonymous or known, with their score (InfoOS build).
 // Read access as /api/lead-pipeline. "live" = active in the last 5 minutes.
 
@@ -33,7 +33,15 @@ async function handleGet({ request, env }) {
       range,
       generated_at: new Date(now).toISOString(),
       present: result.present,
-      totals: { visitors: Number(totals?.visitors || 0), live: Number(totals?.live || 0), known: people.filter((p) => !p.anonymous).length },
+      regions: result.regions,
+      totals: {
+        visitors: Number(totals?.visitors || 0),
+        live: Number(totals?.live || 0),
+        known: people.filter((p) => !p.anonymous).length,
+        // The two trackers (#77), counted over the people listed here.
+        main: people.filter((p) => p.bucket === "main").length,
+        flagged: people.filter((p) => p.bucket === "flagged").length,
+      },
       people,
     });
   } catch (error) {

@@ -11,6 +11,7 @@ import { handleZernioEvent, syncZernioInbox } from "./jobs/zernio-inbox.js";
 import { syncSearchIndex } from "./jobs/search-index.js";
 import { syncClientVideosJob } from "./jobs/client-videos.js";
 import { refreshLeadModelsJob } from "./jobs/lead-models.js";
+import { syncFollowerPlaces } from "./jobs/follower-places.js";
 import { callDayNudges } from "../../../functions/_shared/call-day.js";
 import { contentReminders } from "../../../functions/_shared/content-reminders.js";
 import { authCleanup } from "../../../functions/_shared/auth-cleanup.js";
@@ -44,6 +45,8 @@ export default {
     if (controller.cron === "0 5 * * *") ctx.waitUntil(callDayNudges(env).catch(() => null));
     // Pieces the client planned for today on their Content calendar, one reminder each morning.
     if (controller.cron === "0 5 * * *") ctx.waitUntil(contentReminders(env).catch(() => null));
+    // Where each connected client's followers are from (#77): once a day, only for clients with a connected Instagram.
+    if (controller.cron === "0 5 * * *") ctx.waitUntil(syncFollowerPlaces(env).catch(() => null));
     // Expired sessions, links, codes and sign-in misses are swept once a night, not on every request.
     if (controller.cron === "0 5 * * *") ctx.waitUntil(authCleanup(env).catch(() => null));
     // Delivery automations run on Pages (Fathom and model keys live there).
