@@ -3,6 +3,7 @@
 // Three jobs live here so the Pages API and the sync Worker share one copy:
 //   1. syncClientVideos  - pull each client's public YouTube uploads (API key only)
 //   2. ensureVideoLinks  - one tracked /a/ link per video placement, plus a channel link
+//      ensureYouTubeLinks - one readable link to the video itself for each of the newest uploads (#72)
 //   3. videoCashReport   - rank the videos by cash collected, not views
 //
 // Credit rule: one person, one video. A person (contact email) is credited to the
@@ -12,11 +13,15 @@
 
 import { cleanId, normalizeEmail } from "./common.js";
 import { scoreOwnVideos } from "./outlier-score.js";
+import { createTrackedLink } from "./tracked-link-store.js";
 
 const API = "https://www.googleapis.com/youtube/v3";
 export const VIDEO_PLACEMENTS = ["description", "pinned-comment"];
 export const CHANNEL_KEY = "channel";
 const RESYNC_MS = 6 * 60 * 60 * 1000;
+// The newest uploads that get a ready-made link in the Links tab. Wider than one so a sync that
+// was down for a few days still catches every new upload; older videos are made by pasting them.
+export const AUTO_LINK_LATEST = 5;
 const MAX_VIDEOS = 200;
 const TOKEN_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
 const RANGE_DAYS = { "30d": 30, "90d": 90 };
@@ -184,6 +189,8 @@ async function syncOneClient(env, clientId, handle, { fetcher, now }) {
   ).bind(clientId, channel.id));
   if (statements.length) await env.DB.batch(statements);
   await ensureVideoLinks(env, clientId, [...titles.keys()], { titles, now });
+  const newest = ids.slice(0, AUTO_LINK_LATEST).filter((id) => titles.has(id)).map((id) => ({ id, title: titles.get(id) }));
+  await ensureYouTubeLinks(env, clientId, newest, { now });
   return titles.size;
 }
 
@@ -217,6 +224,41 @@ export async function ensureVideoLinks(env, clientId, videoIds, { titles = new M
     minted += Number(result.meta?.changes || 0);
   }
   return minted;
+}
+
+/**
+ * Links tab, "new video" links (#72): every one of the newest uploads (given newest first) that has no
+ * link of its own yet gets one, named after the video, pointing at it. Safe to run on every sync: a video
+ * that already has a link, even one the client archived, is left alone, so nothing is made twice and
+ * nothing the client removed comes back. Returns how many were made.
+ */
+export async function ensureYouTubeLinks(env, clientId, videos, { now = Date.now() } = {}) {
+  const client = cleanId(clientId, "");
+  if (!client || !videos.length) return 0;
+  const existing = await env.DB.prepare(
+    "SELECT video_id FROM asset_links WHERE client=? AND kind='link' AND video_id IS NOT NULL",
+  ).bind(client).all();
+  const have = new Set((existing.results || []).map((row) => row.video_id));
+  const createdAt = new Date(now).toISOString();
+  let made = 0;
+  // Oldest first, so the newest video ends up on top of the list.
+  for (const video of [...videos].reverse()) {
+    if (!video.id || have.has(video.id)) continue;
+    const url = `https://www.youtube.com/watch?v=${video.id}`;
+    const result = await createTrackedLink(env, {
+      client,
+      label: String(video.title || "").trim().slice(0, 80) || `YouTube video ${video.id}`,
+      source: "other",
+      placement: "other",
+      targetUrl: url,
+      videoId: video.id,
+      videoUrl: url,
+      origin: "youtube-sync",
+      createdAt,
+    });
+    if (result.ok) made += 1;
+  }
+  return made;
 }
 
 // ---------- The report ----------
