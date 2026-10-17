@@ -716,3 +716,6 @@ Merged pulsify-saas main (13e9a08) and Brain main, deployed Pages production (6f
 
 ## [2026-10-16] decision | Tickets 63, 64, 65 released
 pulsify-saas main 4546622 live (Pages deployment 94cdd830). Glowing logo loader on every loading state, chart count axes start at zero, and every Instagram/YouTube tracker is blurred behind one Connect button for a new client until they connect (shared ConnectPreview + PlatformGate). Payments cards not gated yet (no payments-connected signal). Zernio: founder connection healthy, no plan spend until first payment; weekly YouTube lead scrape hits Workers "Too many subrequests".
+
+## [2026-10-17] decision | Jane released
+Jane the Copywriter is live: tilted acorn avatar (three to pick at /portal/copy/acorns, Classic is the default), greeting with six formats, examples inside the acorn, Thinking state, darker off-white in the light theme, What Jane knows now lists the client's own answers. pulsify-saas main 0819475, Pages deployment 01ad3a76. Founder still to pick an acorn.
