@@ -6,10 +6,16 @@
 // per browser, then summed per person here, so a client with a big funnel still loads
 // in one pass (Cloudflare's free plan allows 10ms of CPU per request).
 //
+// Since #74 a person is also matched on a phone number or an Instagram handle (see
+// lead-identity.js): a shared phone or handle joins two records unless the rest of their
+// details disagree, and a name alone only ever becomes a suggestion for the operator.
+// Instagram DMs (#76) are people too: a contact joins a lead by handle, email or phone.
+//
 // Cash follows the Payments page rule: confirmed payment matches only, net of refunds.
 
 import { cleanId, normalizeEmail, parseJson } from "./common.js";
 import { DAY, LADDER, features, highestStage, nextStep, scorePerson, startingModel, withMeans, withOwnRates } from "./lead-score.js";
+import { nameSuggestions, normalizeHandle, normalizePhone, weakMerges } from "./lead-identity.js";
 
 // Browsers tied to an email, for the pipeline of known people.
 const KNOWN_VISITORS = {
@@ -92,15 +98,18 @@ export async function visitorAggregates(env, client, set) {
 
 /** Everything per client that is keyed by email rather than browser. */
 export async function clientRows(env, client, now = Date.now()) {
-  const [edges, touches, leads, payments, outcomes, flags, videos, prefs, models, anon, video] = await Promise.all([
+  const [edges, touches, leads, payments, outcomes, flags, videos, prefs, models, anon, video, contacts, decisions] = await Promise.all([
     all(env, `SELECT visitor_id, lower(email) AS email FROM page_events WHERE client=? AND visitor_id IS NOT NULL AND email IS NOT NULL AND email<>'' GROUP BY visitor_id, lower(email)
               UNION SELECT visitor_id, lower(email) FROM leads WHERE client=? AND visitor_id IS NOT NULL AND email IS NOT NULL AND email<>''
               UNION SELECT visitor_id, lower(email) FROM watch_events WHERE client=? AND visitor_id IS NOT NULL AND email IS NOT NULL AND email<>'' GROUP BY visitor_id, lower(email)`,
       [client, client, client]),
     all(env, `SELECT lower(contact_email) AS email, contact_name AS name, kind, ts, source, external_id, amount_cents, payload_json
                 FROM pipeline_touches WHERE client_id=? ORDER BY ts`, [client]),
-    all(env, `SELECT lower(email) AS email, name, phone, answers_json, utm_json, applied_at, source, visitor_id
-                FROM leads WHERE client=? AND email IS NOT NULL AND email<>'' ORDER BY id`, [client]),
+    // ig_handle arrives with migration 0075; before it, read the same rows without it.
+    all(env, `SELECT lower(email) AS email, name, phone, ig_handle, answers_json, utm_json, applied_at, source, visitor_id
+                FROM leads WHERE client=? AND email IS NOT NULL AND email<>'' ORDER BY id`, [client])
+      .catch(() => all(env, `SELECT lower(email) AS email, name, phone, answers_json, utm_json, applied_at, source, visitor_id
+                FROM leads WHERE client=? AND email IS NOT NULL AND email<>'' ORDER BY id`, [client])),
     all(env, `SELECT p.id, p.amount_cents, p.refunded_cents, p.currency, p.occurred_at, p.customer_email, p.customer_name,
                      m.target_kind, m.target_id, json_extract(w.data_json, '$.email') AS record_email
                 FROM payment_matches m
@@ -121,11 +130,15 @@ export async function clientRows(env, client, now = Date.now()) {
       `SELECT (SELECT wistia_media_id FROM client_config WHERE client=?) AS media,
               (SELECT 1 FROM watch_events WHERE client=? LIMIT 1) AS watched`,
     ).bind(client, client).first().catch(() => null),
+    // People who messaged the client's Instagram (#76) and the operator's merge decisions (#74).
+    all(env, `SELECT id, ig_user_id, ig_username, ig_name, lead_email, lead_phone, link_source, first_dm_at, last_dm_at, first_ref, first_ref_label
+                FROM ig_contacts WHERE client_id=? ORDER BY first_dm_at`, [client]).catch(() => []),
+    all(env, `SELECT key_a, key_b, decision FROM lead_merge_decisions WHERE client_id=?`, [client]).catch(() => []),
   ]);
   const pref = (key) => parseJson(prefs.find((p) => p.key === key)?.value_json, null);
   const model = (id) => parseJson(models.find((m) => m.client_id === id)?.model_json, null);
   return {
-    edges, touches, leads, payments, outcomes, flags, videos,
+    edges, touches, leads, payments, outcomes, flags, videos, contacts, decisions,
     qualify: pref("lead-qualify"),
     regional: pref("workspace-settings"),
     clientModel: model(client),
@@ -246,13 +259,26 @@ export function assemble(client, byVisitor, rows, now, { onlyKnown = false, visi
   for (const p of rows.payments) { const e = paymentEmail(p); if (e) emailKeys.add(e); }
   for (const e of emailKeys) uf.find(`e:${e}`);
 
+  // Instagram DMs (#76): each person who messaged the client is a node, tied to their lead
+  // straight away when we already know their email.
+  const contacts = rows.contacts || [];
+  for (const c of contacts) {
+    uf.find(`c:${c.id}`);
+    const linked = normalizeEmail(c.lead_email);
+    if (linked) uf.union(`c:${c.id}`, `e:${linked}`);
+  }
+  // What the operator confirmed is the same person is a strong join, like a shared email.
+  const decisions = rows.decisions || [];
+  for (const d of decisions) if (d.decision === "same" && d.key_a && d.key_b) uf.union(d.key_a, d.key_b);
+
   const groups = new Map();
   for (const node of uf.nodes()) {
     const root = uf.find(node);
-    if (!groups.has(root)) groups.set(root, { visitors: [], emails: [] });
+    if (!groups.has(root)) groups.set(root, { visitors: [], emails: [], contactIds: [], phones: new Set(), handles: new Set() });
     const g = groups.get(root);
     if (node.startsWith("v:")) g.visitors.push(node.slice(2));
-    else g.emails.push(node.slice(2));
+    else if (node.startsWith("e:")) g.emails.push(node.slice(2));
+    else if (node.startsWith("c:")) g.contactIds.push(node.slice(2));
   }
 
   const touchesBy = groupBy(rows.touches, (t) => t.email);
@@ -261,25 +287,80 @@ export function assemble(client, byVisitor, rows, now, { onlyKnown = false, visi
   const paymentsBy = groupBy(rows.payments, paymentEmail);
   const confirmed = new Set(rows.flags.map((f) => f.booking_ref));
   const titles = new Map(rows.videos.map((v) => [v.video_id, v]));
+  const contactById = new Map(contacts.map((c) => [String(c.id), c]));
 
+  // Phone numbers and handles each group already holds.
+  for (const g of groups.values()) {
+    for (const email of g.emails) {
+      for (const lead of leadsBy.get(email) || []) {
+        const phone = normalizePhone(lead.phone, byVisitor.get(lead.visitor_id)?.place?.country);
+        if (phone) g.phones.add(phone);
+        const handle = normalizeHandle(lead.ig_handle);
+        if (handle) g.handles.add(handle);
+      }
+    }
+    for (const id of g.contactIds) {
+      const c = contactById.get(id);
+      const handle = normalizeHandle(c?.ig_username);
+      if (handle) g.handles.add(handle);
+      const phone = normalizePhone(c?.lead_phone);
+      if (phone) g.phones.add(phone);
+    }
+  }
+  // Join groups that share a phone or a handle, unless their other details disagree.
+  const groupList = [...groups.values()];
+  groupList.forEach((g, i) => { g.id = i; });
+  const nodesOf = (g) => new Set([
+    ...g.visitors.map((v) => `v:${v}`), ...g.emails.map((e) => `e:${e}`), ...g.contactIds.map((c) => `c:${c}`),
+    ...[...g.phones].map((p) => `p:${p}`), ...[...g.handles].map((h) => `h:${h}`),
+  ]);
+  const apartPairs = decisions.filter((d) => d.decision === "different");
+  const differentGroups = (a, b) => {
+    if (!apartPairs.length) return false;
+    const na = nodesOf(groupList[a]);
+    const nb = nodesOf(groupList[b]);
+    return apartPairs.some((d) => (na.has(d.key_a) && nb.has(d.key_b)) || (na.has(d.key_b) && nb.has(d.key_a)));
+  };
+  const { merges, blocked } = weakMerges(groupList, { different: differentGroups });
+  const mergedInto = new Map();
+  const root = (id) => { while (mergedInto.has(id)) id = mergedInto.get(id); return id; };
+  for (const [a, b] of merges) {
+    const ra = root(a);
+    const rb = root(b);
+    if (ra === rb) continue;
+    const keep = groupList[ra];
+    const gone = groupList[rb];
+    keep.visitors.push(...gone.visitors);
+    keep.emails.push(...gone.emails);
+    keep.contactIds.push(...gone.contactIds);
+    for (const p of gone.phones) keep.phones.add(p);
+    for (const h of gone.handles) keep.handles.add(h);
+    mergedInto.set(rb, ra);
+  }
   const people = [];
-  for (const group of groups.values()) {
-    if (onlyKnown && !group.emails.length) continue;
+  const personOfGroup = new Map();
+  for (const group of groupList) {
+    if (mergedInto.has(group.id)) continue;
+    const mine = group.contactIds.map((id) => contactById.get(id)).filter(Boolean);
+    if (onlyKnown && !group.emails.length && !mine.length) continue;
     if (visitorScope && !group.visitors.some((id) => visitorScope.has(id))) continue;
     const visitors = group.visitors.map((id) => byVisitor.get(id)).filter(Boolean);
-    if (!visitors.length && !group.emails.length) continue;
+    if (!visitors.length && !group.emails.length && !mine.length) continue;
     const touches = group.emails.flatMap((e) => touchesBy.get(e) || []);
     const leads = group.emails.flatMap((e) => leadsBy.get(e) || []);
     const outcomes = group.emails.flatMap((e) => outcomesBy.get(e) || []);
     const payments = group.emails.flatMap((e) => paymentsBy.get(e) || []);
-    if (!visitors.length && !touches.length && !leads.length && !outcomes.length && !payments.length) continue;
+    if (!visitors.length && !touches.length && !leads.length && !outcomes.length && !payments.length && !mine.length) continue;
 
     // Primary email: the one they applied with, else the one seen first.
     const applied = leads.filter((l) => l.source === "typeform").sort((a, b) => String(b.applied_at).localeCompare(String(a.applied_at)))[0];
     const email = applied?.email || touches[0]?.email || leads[0]?.email || [...group.emails].sort()[0] || null;
     const name = [...leads].reverse().find((l) => l.name)?.name || [...touches].reverse().find((t) => t.name)?.name
-      || payments.find((p) => p.customer_name)?.customer_name || null;
-    const phone = [...leads].reverse().find((l) => l.phone)?.phone || null;
+      || payments.find((p) => p.customer_name)?.customer_name || mine.find((c) => c.ig_name && c.ig_name !== c.ig_username)?.ig_name || null;
+    const phone = [...leads].reverse().find((l) => l.phone)?.phone || mine.find((c) => c.lead_phone)?.lead_phone || null;
+    const handle = [...group.handles][0] || null;
+    const firstDm = mine.reduce((m, c) => minIso(m, c.first_dm_at), null);
+    const lastDm = mine.reduce((m, c) => maxIso(m, c.last_dm_at), null);
     const answers = parseJson(applied?.answers_json || [...leads].reverse().find((l) => l.answers_json)?.answers_json, null);
 
     // Page and video signals across every browser this person used.
@@ -375,7 +456,8 @@ export function assemble(client, byVisitor, rows, now, { onlyKnown = false, visi
       showed: showedAt || (call?.state === "closed" || call?.state === "not_closed" || call?.state === "follow_up" ? call.call_at : null),
       bought: firstPaid,
     };
-    if (!firstAt) firstAt = [optin, appliedAt, bookedAt, firstPaid].reduce(minIso, null);
+    if (!firstAt) firstAt = [optin, appliedAt, bookedAt, firstPaid, firstDm].reduce(minIso, null);
+    if (lastDm && Date.parse(lastDm) <= now) lastAt = maxIso(lastAt, lastDm);
     const touchTimes = touches.filter((t) => t.kind !== "booking").map((t) => t.ts);
     for (const ts of [...touchTimes, ...bookings.map((b) => b.booked_at).filter(Boolean), ...outcomes.map((o) => o.created_at)]) {
       if (ts && Date.parse(ts) <= now) lastAt = maxIso(lastAt, ts);
@@ -391,11 +473,17 @@ export function assemble(client, byVisitor, rows, now, { onlyKnown = false, visi
       : null;
     const { device, browser } = deviceFrom(place?.user_agent);
 
-    people.push({
-      key: email || `v:${[...group.visitors].sort()[0]}`,
+    const person = {
+      key: email || (handle ? `h:${handle}` : mine.length ? `c:${mine[0].id}` : `v:${[...group.visitors].sort()[0]}`),
       email,
       emails: group.emails,
       visitor_ids: group.visitors,
+      handle,
+      names: [...new Set([...leads.map((l) => l.name), ...touches.map((t) => t.name), ...mine.map((c) => c.ig_name)].filter(Boolean))],
+      handles: [...group.handles],
+      phones: [...group.phones],
+      contacts: mine,
+      first_dm_at: firstDm,
       name,
       phone,
       answers,
@@ -429,9 +517,44 @@ export function assemble(client, byVisitor, rows, now, { onlyKnown = false, visi
         utm: parseJson(firstTouch?.utm_json, {}),
       },
       place: place ? { country: place.country || null, city: place.city || null, lat: place.lat ?? null, lng: place.lng ?? null, device, browser } : null,
-    });
+      user_agent: place?.user_agent || null,
+      group_id: group.id,
+    };
+    personOfGroup.set(group.id, person);
+    people.push(person);
+  }
+  // Pairs that share a phone or a handle but disagree on the other detail stay apart; each
+  // one lists the other so the operator can settle it.
+  for (const pair of blocked) {
+    const a = personOfGroup.get(root(pair.a));
+    const b = personOfGroup.get(root(pair.b));
+    if (!a || !b || a === b) continue;
+    (a.related ||= []).push({ key: b.key, why: pair.kind === "phone" ? "shared_phone" : "shared_handle" });
+    (b.related ||= []).push({ key: a.key, why: pair.kind === "phone" ? "shared_phone" : "shared_handle" });
   }
   return people;
+}
+
+/** Possible matches for one person: shared details that disagree, then same name. */
+export function suggestionsFor(person, people, decisions = []) {
+  const apart = decisions.filter((d) => d.decision === "different");
+  const nodes = (p) => new Set([...p.emails.map((e) => `e:${e}`), ...p.visitor_ids.map((v) => `v:${v}`), ...p.contacts.map((c) => `c:${c.id}`), ...p.phones.map((x) => `p:${x}`), ...p.handles.map((h) => `h:${h}`), `k:${p.key}`]);
+  const different = (a, b) => {
+    const pa = people.find((p) => p.key === a);
+    const pb = people.find((p) => p.key === b);
+    if (!pa || !pb) return false;
+    const na = nodes(pa);
+    const nb = nodes(pb);
+    return apart.some((d) => (na.has(d.key_a) && nb.has(d.key_b)) || (na.has(d.key_b) && nb.has(d.key_a)));
+  };
+  const byKey = new Map(people.map((p) => [p.key, p]));
+  const out = [];
+  for (const rel of person.related || []) {
+    const other = byKey.get(rel.key);
+    if (other && !different(person.key, other.key)) out.push({ key: other.key, name: other.name, email: other.email, handle: other.handle, phone: other.phone, why: rel.why });
+  }
+  for (const s of nameSuggestions(person, people, { different })) if (!out.some((o) => o.key === s.key)) out.push(s);
+  return out.slice(0, 5);
 }
 
 function groupBy(list, key) {
@@ -543,7 +666,8 @@ function summarize(person, model, present, hasVideo, now) {
     email: person.email,
     name: person.name,
     phone: person.phone,
-    anonymous: !person.email,
+    handle: person.handle || null,
+    anonymous: !person.email && !person.handle && !(person.contacts || []).length,
     first_at: person.first_at,
     last_at: person.last_at,
     status: pipelineStatus(person),
@@ -608,16 +732,24 @@ export async function loadVisitors(env, clientId, { since, limit = 200, now = Da
   return { client, present, model: modelSummary(model), people: list };
 }
 
-/** One person with the full breakdown and journey. `key` is an email or v:<visitor id>. */
+/** The node a merge decision is stored against: stable while the person keeps this email, DM contact or browser. */
+export function anchorNode(person) {
+  if (person.email) return `e:${person.email}`;
+  if (person.contacts?.length) return `c:${person.contacts[0].id}`;
+  return `v:${[...person.visitor_ids].sort()[0]}`;
+}
+
+/** One person with the full breakdown and journey. `key` is an email, h:<handle>, c:<contact id> or v:<visitor id>. */
 export async function loadPerson(env, clientId, key, { now = Date.now() } = {}) {
   const client = cleanId(clientId, "");
   const wanted = String(key || "");
-  const email = wanted.startsWith("v:") ? null : normalizeEmail(wanted);
-  if (!wanted.startsWith("v:") && !email) return null;
+  const prefixed = /^[vhc]:/.test(wanted);
+  const email = prefixed ? null : normalizeEmail(wanted);
+  if (!prefixed && !email) return null;
   // The known pipeline already holds every browser tied to an email.
   const pipeline = await loadPipeline(env, client, { now });
   const { rows, present, modelFull: model } = pipeline;
-  let person = pipeline.raw.find((p) => (email ? p.emails.includes(email) : p.visitor_ids.includes(wanted.slice(2))));
+  let person = pipeline.raw.find((p) => (email ? p.emails.includes(email) : wanted.startsWith("v:") ? p.visitor_ids.includes(wanted.slice(2)) : p.key === wanted));
   if (!person && wanted.startsWith("v:")) {
     const byVisitor = await visitorAggregates(env, client, listVisitors([wanted.slice(2)]));
     person = assemble(client, byVisitor, rows, now, { visitorScope: new Set([wanted.slice(2)]) })[0] || null;
@@ -634,6 +766,9 @@ export async function loadPerson(env, clientId, key, { now = Date.now() } = {}) 
     answers: person.answers,
     visitor_ids: person.visitor_ids,
     emails: person.emails,
+    identities: { emails: person.emails, phones: person.phones || [], handles: person.handles || [] },
+    anchor: anchorNode(person),
+    suggestions: suggestionsFor(person, pipeline.raw, rows.decisions).map((s) => ({ ...s, anchor: anchorNode(pipeline.raw.find((p) => p.key === s.key)) })),
     signals: person.signals,
     features: features(person),
     stage: highestStage(person, present),
@@ -647,7 +782,9 @@ async function loadJourney(env, client, person, rows) {
   const emails = person.emails.slice(0, 40);
   const idList = ids.map(() => "?").join(",") || "NULL";
   const emailList = emails.map(() => "?").join(",") || "NULL";
-  const [pageRows, watchRows] = await Promise.all([
+  const contactIds = (person.contacts || []).map((c) => String(c.id)).slice(0, 20);
+  const dmList = contactIds.map(() => "?").join(",") || "NULL";
+  const [pageRows, watchRows, linkRows, dmRows] = await Promise.all([
     all(env, `SELECT event, at, page_id, path, referrer, utm_source, utm_content, metadata_json, country, city FROM page_events
                WHERE client=? AND (visitor_id IN (${idList}) OR lower(email) IN (${emailList})) ORDER BY at DESC LIMIT 400`,
       [client, ...ids, ...emails]),
@@ -655,14 +792,25 @@ async function loadJourney(env, client, person, rows) {
                 FROM watch_events WHERE client=? AND (visitor_id IN (${idList}) OR lower(email) IN (${emailList}))
                GROUP BY session_id, media_id ORDER BY started DESC LIMIT 60`,
       [client, ...ids, ...emails]),
+    // The tracked links this client made, so a click reads "Instagram bio link", not a code (#75).
+    all(env, "SELECT token, label, source, placement, kind FROM asset_links WHERE client=?", [client]).catch(() => []),
+    // Instagram DMs with the client (#76): one row per message, no words.
+    all(env, `SELECT contact_id, direction, at, ref_label FROM ig_dm_events WHERE client_id=? AND contact_id IN (${dmList}) ORDER BY at LIMIT 400`, [client, ...contactIds]).catch(() => []),
   ]);
+  const links = new Map(linkRows.map((l) => [l.token, l]));
   const titles = new Map(rows.videos.map((v) => [v.video_id, v.title]));
   const out = [];
   for (const row of pageRows) {
     const meta = parseJson(row.metadata_json, {});
     if (row.event === "page_view") {
       const video = row.utm_source === "youtube" && row.utm_content ? titles.get(row.utm_content) || row.utm_content : null;
-      out.push({ kind: "page_view", at: row.at, page: row.page_id || row.path, source: sourceFrom(row), video, place: [row.city, row.country].filter(Boolean).join(", ") || null });
+      const tag = /^l-(.+)$/.exec(String(row.utm_content || ""));
+      const link = tag ? links.get(tag[1]) : null;
+      out.push({
+        kind: "page_view", at: row.at, page: row.page_id || row.path, source: sourceFrom(row), video,
+        link: link ? { label: link.label || null, source: link.source || null, placement: link.placement || null } : null,
+        place: [row.city, row.country].filter(Boolean).join(", ") || null,
+      });
     } else if (row.event === "engagement") {
       out.push({ kind: "engagement", at: row.at, active_seconds: Number(meta.active_seconds || 0), max_scroll: Number(meta.max_scroll || 0), proof_seconds: Number(meta.proof_seconds || 0), rage_clicks: Number(meta.rage_clicks || 0) });
     } else if (row.event === "cta_click") {
@@ -684,6 +832,16 @@ async function loadJourney(env, client, person, rows) {
     seen.add(minute);
     return true;
   });
+  // DMs: one line per day per conversation (who spoke), not one per message.
+  const dmDays = new Map();
+  for (const m of dmRows) {
+    const day = `${m.contact_id}:${String(m.at).slice(0, 10)}`;
+    if (!dmDays.has(day)) dmDays.set(day, { kind: "dm", at: m.at, inbound: 0, outbound: 0, ref: null });
+    const d = dmDays.get(day);
+    if (m.direction === "inbound") d.inbound += 1; else d.outbound += 1;
+    d.ref = d.ref || m.ref_label || null;
+  }
+  trimmed.push(...dmDays.values());
   for (const w of watchRows) trimmed.push({ kind: "watch", at: w.started, percent: Math.round(Number(w.pct || 0)), duration_seconds: w.duration ? Math.round(w.duration) : null });
   const mine = new Set(person.emails);
   // Opt-ins and applications arrive both as page events and as pipeline touches; keep one.
@@ -716,6 +874,10 @@ async function loadJourney(env, client, person, rows) {
   const hasPayments = trimmed.some((e) => e.kind === "payment");
   const final = hasPayments ? trimmed.filter((e) => e.kind !== "payment_touch") : trimmed.map((e) => (e.kind === "payment_touch" ? { ...e, kind: "payment" } : e));
   final.sort((a, b) => String(b.at || "").localeCompare(String(a.at || "")));
+  // Credit stays with the first touch: the earliest way they reached us. The whole path stays visible.
+  const TOUCHES = new Set(["page_view", "cta_click", "dm", "optin", "application", "form_submit", "booking"]);
+  const first = [...final].reverse().find((e) => TOUCHES.has(e.kind) && e.at);
+  if (first) first.first_touch = true;
   return final.slice(0, 300);
 }
 

@@ -10,7 +10,8 @@
  *   <div data-pulsify-wistia></div>
  *   <div data-pulsify-typeform></div>
  *
- * Any form with data-pulsify-optin will send its email to the pipe and Kit.
+ * Any form with data-pulsify-optin will send its email to the pipe and Kit. Optional inputs named
+ * "phone" and "instagram" are sent too, so the same person can be matched later (#74).
  *
  * One deployed page can serve any prospect: /?client=jake pulls jake's config
  * without needing a copied HTML file per prospect. Visiting with no ?client=
@@ -448,6 +449,9 @@
             kind: "optin",
             email,
             name: formData.get("name") || formData.get("first_name") || null,
+            // Optional fields: a phone number and an Instagram handle let us match this person later.
+            phone: String(formData.get("phone") || "").trim() || null,
+            instagram: String(formData.get("instagram") || formData.get("ig_handle") || "").trim() || null,
             visitor_id: visitorId,
             session_id: sessionId,
             page_id: pageId,
