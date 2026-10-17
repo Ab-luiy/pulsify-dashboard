@@ -617,7 +617,7 @@ export function liveModel(rows, people, present, now) {
 
 export const PIPELINE_STATUSES = [
   "customer", "paying", "closed", "not_closed", "follow_up", "no_show", "cancelled", "booked", "call_done",
-  "unqualified", "applied", "started", "opted_in", "visitor",
+  "unqualified", "applied", "started", "opted_in", "messaged", "visitor",
 ];
 
 export function pipelineStatus(person) {
@@ -636,6 +636,7 @@ export function pipelineStatus(person) {
   if (person.stages.applied) return "applied";
   if (person.stages.app_start && person.email) return "started";
   if (person.stages.optin) return "opted_in";
+  if ((person.contacts || []).length) return "messaged";
   return "visitor";
 }
 
@@ -643,7 +644,10 @@ export function pipelineStatus(person) {
 export function pipelineSteps(person, present, hasVideo) {
   const s = person.stages;
   const call = person.call || {};
-  const steps = [{ key: "visit", at: s.visit }];
+  // Someone who only ever messaged the client's Instagram (#76) starts at the message, not a page visit.
+  const dmOnly = !person.visitor_ids.length && (person.contacts || []).length > 0;
+  const steps = dmOnly ? [{ key: "messaged", at: person.first_dm_at }] : [{ key: "visit", at: s.visit }];
+  if (!dmOnly && person.first_dm_at) steps.push({ key: "messaged", at: person.first_dm_at });
   if (hasVideo) steps.push({ key: "watched", at: person.signals.first_play, detail: person.signals.vsl_frac ? Math.round(person.signals.vsl_frac * 100) : null });
   if (present.includes("optin")) steps.push({ key: "optin", at: s.optin });
   if (present.includes("applied") || present.includes("app_start")) {

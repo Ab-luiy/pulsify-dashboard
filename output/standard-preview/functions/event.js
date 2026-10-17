@@ -23,6 +23,7 @@ import {
 } from "./_shared/integrations.js";
 import { normalizeEmail } from "./_shared/common.js";
 import { normalizeHandle } from "./_shared/lead-identity.js";
+import { linkContactsForLead } from "./_shared/client-dms.js";
 import { notify } from "./_shared/notifications.js";
 import { checkHotLead } from "./_shared/lead-alerts.js";
 
@@ -115,6 +116,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
     const leadId = await saveLead(env, lead);
     await saveHandle(env, leadId, lead.ig_handle);
+    await linkDms(env, client, email, lead.ig_handle);
     await attachIdentityToEvents(env, client, visitorId, email);
     const kit = await addToKit(env, client, cfg, { email, first_name: name || "" });
     await setKitStatus(env, leadId, kit.status);
@@ -200,6 +202,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
     const leadId = await saveLead(env, lead);
     await saveHandle(env, leadId, lead.ig_handle);
+    await linkDms(env, client, email, lead.ig_handle);
     await attachIdentityToEvents(env, client, lead.visitor_id, email);
     const kit = await addToKit(env, client, cfg, { email, first_name: lead.name || "" });
     await setKitStatus(env, leadId, kit.status);
@@ -464,6 +467,12 @@ async function saveLead(env, lead) {
 async function saveHandle(env, leadId, handle) {
   if (!env.DB || !leadId || !handle) return;
   await env.DB.prepare("UPDATE leads SET ig_handle=? WHERE id=?").bind(handle, leadId).run().catch(() => null);
+}
+
+// Someone who already messaged the client from this handle becomes part of this lead (#76).
+async function linkDms(env, client, email, handle) {
+  if (!env.DB || !handle) return;
+  await linkContactsForLead(env, client, email, handle).catch(() => null);
 }
 
 async function setKitStatus(env, leadId, status) {

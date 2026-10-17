@@ -480,6 +480,7 @@ export function nextStep(person, scored, now) {
       ? { tone: "act", text: "Engaged after opting in. Send the application link." }
       : { tone: "wait", text: "Opted in. Let the emails do the work." };
   }
+  if (!person.email && person.contacts?.length) return { tone: "act", text: "Messaged your Instagram. Reply, and ask for an email or phone number so you can follow them up." };
   if (!person.email) return { tone: "none", text: "Anonymous. Nothing to act on until they leave an email." };
   return { tone: "wait", text: "Known visitor. Nothing to act on yet." };
 }
