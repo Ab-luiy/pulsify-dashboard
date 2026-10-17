@@ -8,6 +8,7 @@
 //      business details never go through it unless that is switched on on purpose.
 //   4. Pulsify AI: Cloudflare Workers AI through the AI binding, for every client (founder decision 2026-10-12:
 //      the app writes for clients on our side). No key exists; the free plan allows about 20 stories a day.
+//   Pulsify AI (4) and the platform keys (2, 3) count against a per-client daily allowance (ai-guard.js).
 //   5. Otherwise "manual": the generator hands the client a prompt to run in their own AI.
 // Callers resolve once per request, then pass the result to generateText / streamText.
 import { cleanId } from "./common.js";
@@ -17,6 +18,7 @@ import { callWorkersAi, streamWorkersAi, WORKERS_AI_MODEL } from "./workers-ai.j
 import { callOpenAI, pickOpenAiModel, streamOpenAI } from "./openai.js";
 import { seal, unseal } from "./secret-box.js";
 import { HUMANIZER } from "./humanizer.js";
+import { attachGuard, enforceAllowance } from "./ai-guard.js";
 
 export const AI_PROVIDERS = ["gemini", "anthropic", "openai"];
 export const aiKeyContext = (client, provider) => `ai-key:${cleanId(client)}:${provider}`;
@@ -48,6 +50,10 @@ function platformGeminiAllowed(env, client) {
 
 /** {mode: "anthropic" | "gemini" | "workers" | "manual", apiKey, source: "client" | "platform" | "none", model} for one client. */
 export async function resolveAi(env, clientId) {
+  return attachGuard(await resolveSwitch(env, clientId), env, cleanId(clientId, ""));
+}
+
+async function resolveSwitch(env, clientId) {
   const client = cleanId(clientId, "");
   const model = String(env?.GEMINI_MODEL || "").trim() || undefined;
   if (client && env?.DB) {
@@ -77,6 +83,8 @@ export const providerLabel = (ai) => ({ anthropic: "Claude", openai: "ChatGPT", 
 const humanized = (prompt) => ({ ...prompt, system: [prompt?.system, HUMANIZER].filter(Boolean).join("\n\n") });
 
 export async function generateText(input, ai, options = {}) {
+  // A generation on Pulsify's own AI counts against the client's daily allowance (ai-guard.js); `uncounted` is for small helper calls.
+  await enforceAllowance(ai, options);
   const prompt = humanized(input);
   if (aiMode(ai) === "anthropic") return callAnthropic(prompt, ai.apiKey);
   if (aiMode(ai) === "openai") return callOpenAI(prompt, ai.apiKey, { ...options, model: ai.model });

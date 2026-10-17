@@ -239,6 +239,7 @@ async function rewriteCarousel(env, access, body) {
     const raw = await generateText(buildRewritePrompt({ output, request, clientBrain: brain.prompt_text }), ai, { json: true });
     next = applyRewrite(output, request, humanizeDeep(readRewriteReply(raw)));
   } catch (error) {
+    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
     return json({ ok: false, error: `The rewrite did not work: ${safeMessage(error)}` }, 502);
   }
   await env.DB.prepare(

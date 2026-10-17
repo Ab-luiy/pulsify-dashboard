@@ -64,7 +64,8 @@ ${exemplarFor(kind)}` : '',
     ].filter(Boolean).join('\n\n');
     const output = humanize(plainText(scrubSources(String(await generateText({ system, user }, ai)).trim())));
     return json({ ok: true, mode: 'generated', output, provider: providerLabel(ai), model: aiMode(ai) });
-  } catch {
+  } catch (error) {
+    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
     return json({ ok: false, error: 'The AI service could not finish this request. Your draft is safe. Try again shortly.', prompt }, 502);
   }
 }

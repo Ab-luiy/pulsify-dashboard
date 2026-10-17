@@ -155,7 +155,7 @@ async function addMemory(env, client, note, source) {
 async function remember(env, ai, client, userMessage, reply) {
   try {
     const existing = (await loadMemory(env, client)).map((row) => row.note);
-    const answer = parseModelJson(await generateText(memoryPrompt({ userMessage, reply, existing }), ai, { json: true, temperature: 0.2, maxOutputTokens: 400 }));
+    const answer = parseModelJson(await generateText(memoryPrompt({ userMessage, reply, existing }), ai, { json: true, temperature: 0.2, maxOutputTokens: 400, uncounted: true }));
     for (const note of (Array.isArray(answer?.notes) ? answer.notes : []).slice(0, 2)) {
       const text = clean(scrubSources(note), 200);
       if (text.length >= 8) await addMemory(env, client, text, "chat");
