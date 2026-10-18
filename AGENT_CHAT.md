@@ -668,3 +668,6 @@ RELEASED onboarding v2 to production (founder: "we gucci", then yes to release).
 
 ### [2026-10-17] CLAUDE
 RELEASED Jane (the Copywriter redesign) to production. pulsify-saas main 0819475; Brain main 12d5857e (app copy only, no backend change, no migration: onboarding v2 migrations 0062 and 0063 were already applied on 2026-10-16, re-checked live today). Pages production deployment 01ad3a76 on pulsify-funnels. Ran from clean pushed mains in isolated checkouts, no other session branch included. Checked before release: lint, typecheck, build and 821 browser tests (one unrelated story-studio console warning under load, passes alone). Not yet checked in a signed-in production browser: demo and QA client logins are not for the agent to type.
+
+### [2026-10-18] CLAUDE
+RELEASED the silver bark-capped acorn for Jane. pulsify-saas main 7c75201; Brain main 49632db1 (app copy only, no backend change, no migration); Pages production deployment 297e57c4 on pulsify-funnels, replacing 01ad3a76. Built from clean pushed mains in isolated checkouts; no other session branch included. Tests before this: 46 copywriter browser tests pass; lint and types clean. Not checked in a signed-in production browser.
