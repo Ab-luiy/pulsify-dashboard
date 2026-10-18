@@ -21,3 +21,7 @@ The register/password flow then opens the existing intake. Adaptive feature conf
 `tests/contract-provisioning.test.mjs` uses real SQLite and mocked mail delivery. Covers missing signatures, wrong accounts, irrelevant events, atomic account creation, encrypted link storage, delivery retry with the same link, duplicate completion events, existing accounts, context-bound encryption and admin-only status.
 
 Provider references: [DocuSign JSON SIM and HMAC](https://www.docusign.com/blog/developers/event-notifications-using-json-sim-and-hmac), [raw-body signature verification](https://www.docusign.com/blog/developers/manually-authenticating-hmac-signatures-docusign-connect-webhook-configurations).
+
+## Sending a contract (added 2026-10-17, ticket #80)
+
+The operator sends the contract from the booked pipeline (pulsify-saas CRM, Call booked card). `functions/api/contracts.js` saves it as a draft and, on Send, creates the DocuSign envelope (`_shared/docusign.js`, JWT grant) with the agreement from `_shared/contract-text.js`. The envelope carries `pulsify_portal=true`, so signing runs the flow above. Extra secrets: DOCUSIGN_INTEGRATION_KEY, DOCUSIGN_USER_ID, DOCUSIGN_PRIVATE_KEY (optional DOCUSIGN_OPERATOR_EMAIL/NAME for a counter-signature). In Connect also enable envelope-sent, envelope-declined and envelope-voided so the pipeline shows them. Migration 0080. Test: `node tests/contracts.test.mjs`. Never run against a real account yet.

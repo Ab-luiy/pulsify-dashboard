@@ -47,6 +47,7 @@ async function handlePost({ request, env }) {
   try {
     rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
+    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
     return json({ ok: false, error: "The title generator could not answer. Try again.", detail: String(error?.message || error).slice(0, 300) }, 502);
   }
   let pairs = [];

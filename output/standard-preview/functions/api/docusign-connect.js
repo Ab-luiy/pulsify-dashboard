@@ -1,6 +1,7 @@
 import { json, normalizeEmail, sha256Hex, generateOpaqueToken } from '../_shared/common.js';
 import { seal, unseal } from '../_shared/secret-box.js';
 import { provisionClient, sendWelcome } from '../_shared/provisioning.js';
+import { applyEnvelopeStatus, envelopeStatusFromEvent } from '../_shared/contracts.js';
 
 // Sandbox by default; set DOCUSIGN_BASE_URL=https://www.docusign.net for production.
 export const docusignBase = (env) => String(env?.DOCUSIGN_BASE_URL || 'https://demo.docusign.net').replace(/\/$/, '');
@@ -49,6 +50,8 @@ export async function onRequestPost({request,env}) {
   let event;try{event=JSON.parse(new TextDecoder().decode(raw));}catch{return json({ok:false,error:'Invalid JSON.'},422);}
   if (!event || typeof event !== 'object' || Array.isArray(event)) return json({ok:false,error:'An event object is required.'},422);
   if (String(event.data?.accountId) !== String(env.DOCUSIGN_ACCOUNT_ID)) return json({ok:false,error:'Account mismatch.'},403);
+  // Contract status for the booked pipeline (#80): sent, completed, declined, voided. Never blocks onboarding.
+  await applyEnvelopeStatus(env, String(event.data?.envelopeId||''), envelopeStatusFromEvent(event.event)).catch(()=>null);
   if (event.event !== 'envelope-completed') return json({ok:true,ignored:true});
   const summary=event.data?.envelopeSummary,envelope=String(event.data?.envelopeId||'');
   if (!/^[\w-]{8,100}$/.test(envelope) || summary?.status !== 'completed') return json({ok:false,error:'A completed envelope is required.'},422);

@@ -109,6 +109,7 @@ export async function onRequestPost({ request, env }) {
   try {
     rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
+    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
     return json({
       ok: false,
       provider,
