@@ -42,6 +42,9 @@ sql.prepare("INSERT INTO page_events(client,visitor_id,event,utm_json,at) VALUES
 sql.prepare("INSERT INTO asset_links(token,client,label,target_url,created_at) VALUES(?,?,?,?,?)")
   .run("oldasset", "acme", "Prospect doc", "https://docs.example.com/x", "2026-01-01T00:00:00.000Z");
 sql.exec(mig("0043_cash_by_video.sql"));
+sql.exec("ALTER TABLE asset_links ADD COLUMN source TEXT"); // 0046 (its other tables need columns this test does not create)
+sql.exec(mig("0070_link_slugs_youtube.sql"));
+sql.exec(mig("0071_link_domains.sql"));
 sql.exec("ALTER TABLE page_events ADD COLUMN lat REAL; ALTER TABLE page_events ADD COLUMN lng REAL;"); // 0045 (its other tables need columns this test does not create)
 
 let row = sql.prepare("SELECT utm_source, utm_content, utm_json FROM page_events WHERE visitor_id='old-visitor'").get();

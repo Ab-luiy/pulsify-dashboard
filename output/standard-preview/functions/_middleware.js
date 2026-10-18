@@ -5,6 +5,7 @@ import * as Sentry from '@sentry/cloudflare';
 import { accessToken, validateAccess, rememberOperator, hasOperator } from './_shared/access.js';
 import { resolveOperatorSession } from './_shared/operator-session.js';
 import { resolveClientAccess } from './_shared/client-auth.js';
+import { handleLinkHostRequest } from './_shared/link-domains.js';
 
 // The Pages SDK runs before the access gate so route exceptions are captured.
 // Keep telemetry limited to exception type and code location: client data,
@@ -34,6 +35,9 @@ const adminApis = new Set(['dashboard-generate','studio-feedback','transcript','
 const mixedApis = new Set(['spine','integrations','payment-matches','webhooks','api-keys','checklist','pipeline','voice-note','account','outreach','outreach-queue','zernio','notifications','realtime-config','search']);
 export async function pulsifyMiddleware(context) {
   const { request, next, env } = context;
+  // A client's own link domain (go.clientname.com) answers tracked links and nothing else (#73).
+  const linkHost = await handleLinkHostRequest(context);
+  if (linkHost) return linkHost;
   const path = new URL(request.url).pathname.toLowerCase();
   // Any dot-segment (build caches, tool state), internal notes, configs and
   // source-only folders. The deploy dir is the repo folder, so fail closed here.
