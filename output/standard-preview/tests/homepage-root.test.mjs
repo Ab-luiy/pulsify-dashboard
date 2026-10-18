@@ -45,3 +45,11 @@ test("listed homepage files are open to visitors; the page itself redirects to t
   assert.equal(page.status, 302);
   assert.equal(page.headers.get("location"), "https://pulsify-ai.com/");
 });
+
+test("_headers gives the apex the same CSP the homepage function sets", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const headers = await readFile(new URL("../_headers", import.meta.url), "utf8");
+  const apex = headers.split(/\r?\n/).findIndex((l) => l.trim() === "/");
+  assert.ok(apex >= 0, "the apex has a _headers block");
+  assert.equal(headers.split(/\r?\n/)[apex + 1].trim(), `Content-Security-Policy: ${HOMEPAGE_CSP}`);
+});
