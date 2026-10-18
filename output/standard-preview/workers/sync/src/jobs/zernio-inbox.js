@@ -8,6 +8,8 @@ import { emitEvent } from "../../../../functions/_shared/outbound-webhooks.js";
 import { notifyReply } from "./outreach-notify.js";
 import { pushOperator } from "../../../../functions/_shared/realtime.js";
 import { captureScoutShare } from "../../../../functions/_shared/lead-share.js";
+import { clientForAccount } from "../../../../functions/_shared/follower-places.js";
+import { contactId, handleClientEvent, storeClientDm } from "../../../../functions/_shared/client-dms.js";
 
 // Free plan allows 60 requests a minute; one list call plus one messages call
 // per changed conversation keeps a sweep well inside that.
@@ -43,6 +45,10 @@ async function processZernioEvent(env, payload) {
   const zc = payload?.conversation || {};
   const zm = payload?.message || {};
   if (!zc.id && !zm.conversationId) return { ok: true, ignored: event };
+  // An account a client connected is theirs, not the operator's: its DMs become people on the
+  // client's leads (#76) and never reach the operator's own inbox tables.
+  const owner = await clientForAccount(env, payload?.account?.accountId || payload?.account?.id || zc.accountId);
+  if (owner) return handleClientEvent(env, owner, payload);
   const conversationId = await resolveConversationId(env, { ...zc, id: zc.id || zm.conversationId, accountId: payload?.account?.accountId || payload?.account?.id }, operatorEmail);
   await refreshIdentity(env, conversationId, zc);
 
@@ -103,6 +109,19 @@ export async function syncZernioInbox(env, { fetcher = fetch } = {}) {
       if (processed >= MAX_CONVERSATIONS_PER_SWEEP) break;
       const prior = known.get(String(zc.id));
       if (prior !== undefined && prior && String(zc.updatedTime || "") <= prior) continue;
+      const owner = await clientForAccount(env, zc.accountId);
+      if (owner) {
+        // A client's conversation: keep its messages as DMs on that client's leads, not in the operator inbox.
+        processed += 1;
+        const msgs = await zernioFetch(env, `/v1/inbox/conversations/${encodeURIComponent(zc.id)}/messages?accountId=${encodeURIComponent(zc.accountId)}&limit=100&sortOrder=desc`, {}, fetcher);
+        if (!Array.isArray(msgs.messages)) throw new Error("Zernio messages response is incomplete");
+        for (const zm of msgs.messages.slice().reverse()) if ((await storeClientDm(env, owner, zc, zm)).stored) written += 1;
+        // Remember when we last looked, so an unchanged conversation is skipped before any request (the check above).
+        await env.DB.prepare(
+          "INSERT INTO zernio_conversation_map(zernio_id,conversation_id,account_id,updated_time,synced_at) VALUES(?,?,?,?,?) ON CONFLICT(zernio_id) DO UPDATE SET updated_time=excluded.updated_time,synced_at=excluded.synced_at",
+        ).bind(String(zc.id), contactId(owner, zc.participantId), str(zc.accountId), str(zc.updatedTime) || null, nowIso()).run();
+        continue;
+      }
       processed += 1;
       const conversationId = await resolveConversationId(env, zc, operatorEmail);
       await refreshIdentity(env, conversationId, zc);

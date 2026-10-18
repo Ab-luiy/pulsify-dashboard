@@ -22,6 +22,8 @@ import {
   sendDiscordAlert,
 } from "./_shared/integrations.js";
 import { normalizeEmail } from "./_shared/common.js";
+import { normalizeHandle } from "./_shared/lead-identity.js";
+import { linkContactsForLead } from "./_shared/client-dms.js";
 import { notify } from "./_shared/notifications.js";
 import { checkHotLead } from "./_shared/lead-alerts.js";
 
@@ -81,7 +83,9 @@ export async function onRequestPost({ request, env, waitUntil }) {
     const answers = parseTypeformAnswers(formResponse.answers || []);
     const email = normalizeEmail(firstValue(answers, ["email", "email_address"])) || normalizeEmail(hidden.email) || null;
     const name = firstValue(answers, ["first_name", "name", "full_name"]) || null;
-    const phone = firstValue(answers, ["phone", "phone_number"]) || null;
+    const phone = firstValue(answers, ["phone", "phone_number", "mobile", "whatsapp"]) || null;
+    // The Instagram handle question on the client's Typeform (field ref instagram, ig_handle or handle).
+    const igHandle = normalizeHandle(firstValue(answers, ["instagram", "ig_handle", "insta", "handle"]));
     const visitorId = hidden.visitor_id || body.visitor_id || null;
     const sessionId = hidden.session_id || body.session_id || null;
     const pageId = hidden.page_id || body.page_id || "main";
@@ -96,6 +100,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       email,
       name,
       phone,
+      ig_handle: igHandle,
       revenue: firstValue(answers, ["revenue", "current_revenue"]) || null,
       situation: firstValue(answers, ["situation", "current_situation"]) || null,
       status: "new",
@@ -110,6 +115,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
     };
 
     const leadId = await saveLead(env, lead);
+    await saveHandle(env, leadId, lead.ig_handle);
+    await linkDms(env, client, email, lead.ig_handle);
     await attachIdentityToEvents(env, client, visitorId, email);
     const kit = await addToKit(env, client, cfg, { email, first_name: name || "" });
     await setKitStatus(env, leadId, kit.status);
@@ -179,6 +186,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
       email,
       name: body.name || body.first_name || null,
       phone: body.phone || null,
+      ig_handle: normalizeHandle(body.instagram || body.ig_handle || body.handle),
       revenue: null,
       situation: null,
       status: "opted_in",
@@ -193,6 +201,8 @@ export async function onRequestPost({ request, env, waitUntil }) {
     };
 
     const leadId = await saveLead(env, lead);
+    await saveHandle(env, leadId, lead.ig_handle);
+    await linkDms(env, client, email, lead.ig_handle);
     await attachIdentityToEvents(env, client, lead.visitor_id, email);
     const kit = await addToKit(env, client, cfg, { email, first_name: lead.name || "" });
     await setKitStatus(env, leadId, kit.status);
@@ -451,6 +461,18 @@ async function saveLead(env, lead) {
     lead.response_id, lead.answers_json, lead.utm_json, lead.applied_at, now,
   ).run();
   return result.meta?.last_row_id || null;
+}
+
+// The Instagram handle lives in its own column (migration 0075); a failure here must never lose the lead.
+async function saveHandle(env, leadId, handle) {
+  if (!env.DB || !leadId || !handle) return;
+  await env.DB.prepare("UPDATE leads SET ig_handle=? WHERE id=?").bind(handle, leadId).run().catch(() => null);
+}
+
+// Someone who already messaged the client from this handle becomes part of this lead (#76).
+async function linkDms(env, client, email, handle) {
+  if (!env.DB || !handle) return;
+  await linkContactsForLead(env, client, email, handle).catch(() => null);
 }
 
 async function setKitStatus(env, leadId, status) {
