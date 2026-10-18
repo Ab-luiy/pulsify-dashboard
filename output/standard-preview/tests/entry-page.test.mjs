@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { onRequestGet } from "../functions/index.js";
 
-test("apex serves the product gateway while explicit client previews still render", async () => {
+test("apex falls back to the gateway when the homepage export is missing; client previews still render", async () => {
   let nextCalls = 0;
   const env = {
     DB: {
@@ -23,9 +23,11 @@ test("apex serves the product gateway while explicit client previews still rende
       },
     },
   };
+  // No homepage export deployed (the stub ASSETS 404s it): the old gateway page is served.
+  const noHomepage = { ...env, ASSETS: { async fetch(u) { return String(u).includes("/app/homepage") ? new Response("nf", { status: 404 }) : env.ASSETS.fetch(u); } } };
   let response = await onRequestGet({
     request: new Request("https://pulsify-ai.com/"),
-    env,
+    env: noHomepage,
     next: async () => { nextCalls += 1; return new Response("gateway"); },
   });
   assert.equal(await response.text(), "gateway");

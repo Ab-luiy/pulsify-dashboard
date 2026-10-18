@@ -59,6 +59,13 @@ export async function pulsifyMiddleware(context) {
     });
   }
   const url = new URL(request.url), api = path.startsWith('/api/');
+  // The public homepage is a Next export under /app (pulsify-saas #38). App code
+  // stays private, so only the files the build lists in /app/homepage-assets.json
+  // are open to visitors. The page itself lives at the apex.
+  if (['GET','HEAD'].includes(request.method) && path.startsWith('/app/') && (await homepageAssets(env, url)).has(path)) {
+    if (path === '/app/homepage' || path === '/app/homepage.html') return Response.redirect(url.origin + '/', 302);
+    return next();
+  }
   if (/^\/(?:client(?:\.html)?|portal\.html)\/?$/.test(path) &&['GET','HEAD'].includes(request.method)) return Response.redirect(url.origin+'/portal',302);
   const legacyView = /^\/(integrations|settings|campaigns)(?:\.html)?\/?$/.exec(path);
   if (legacyView && ['GET','HEAD'].includes(request.method)) return Response.redirect('https://pulsify-ai.com/app/'+legacyView[1],302);
@@ -137,6 +144,19 @@ function operatorLogin(next) {
   const login = new URL('/login/operator', 'https://pulsify-ai.com');
   if (next && next !== '/app/' && next !== '/app') login.searchParams.set('next', next);
   return login.toString();
+}
+
+let homepageAssetSet = null;
+export async function homepageAssets(env, url) {
+  if (homepageAssetSet) return homepageAssetSet;
+  try {
+    const res = await env.ASSETS.fetch(new URL('/app/homepage-assets.json', url));
+    if (!res.ok) return new Set();
+    homepageAssetSet = new Set((await res.json()).map((p) => String(p).toLowerCase()));
+    return homepageAssetSet;
+  } catch {
+    return new Set();
+  }
 }
 
 function notFound() {
