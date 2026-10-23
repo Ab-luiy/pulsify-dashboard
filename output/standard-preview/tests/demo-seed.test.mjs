@@ -1,4 +1,4 @@
-// The Example workspace for sales calls and outreach videos (Theo Marsh, made up): the seed builds every screen the
+// The Example workspace for sales calls and outreach videos (a demo trader; money, leads and payments are estimates): the seed builds every screen the
 // video shows, reruns cleanly, never touches another client or the demo login, and no sync can overwrite it.
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
@@ -36,26 +36,26 @@ sql.prepare("INSERT INTO payments(client, amount_cents, currency, rail, referenc
 sql.prepare("INSERT INTO client_config(client, client_name, status, page_content_json) VALUES (?, 'Example Trading Co', 'demo', '{\"kept\":true}')").run(client);
 sql.prepare("INSERT INTO client_sessions(token_hash, client_id, expires_at, created_at) VALUES ('h1', ?, '2099-01-01', '2026-10-01')").run(client);
 
-const seedSql = () => execFileSync("node", [new URL("../tools/seed-demo-workspace.mjs", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")], { encoding: "utf8" });
+const seedSql = () => execFileSync("node", [new URL("../tools/seed-demo-workspace.mjs", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
 sql.exec(seedSql());
 
 const config = sql.prepare("SELECT client_name, status, page_content_json FROM client_config WHERE client=?").get(client);
 assert.equal(config.status, "demo");
-assert.equal(config.client_name, "Theo Marsh Trading");
+assert.equal(config.client_name, "Demo trader");
 assert.equal(config.page_content_json, '{"kept":true}', "the seed updates the workspace row, it never recreates it");
 assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM client_sessions WHERE client_id=?").get(client).n, 1, "the demo login survives");
 
-// Views vs money: two mid-view videos carry the cash; the breakout has ten times the normal views and no cash.
+// Views vs money: two mid-view videos carry the cash; the most viewed video, several times the normal, has none.
 const cash = await videoCashReport(env, client, { range: "all" });
-assert.equal(cash.handle, "@theomarshtrades");
-assert.equal(cash.videos.length, 24);
+assert.equal(cash.handle, "@demotrader");
+assert.equal(cash.videos.length, 30);
 const [first, second] = cash.videos;
-assert.match(first.title, /size every trade/);
-assert.match(second.title, /pre-market routine/);
-const breakout = cash.videos.find((v) => /\$500 into \$14,000/.test(v.title));
-assert.ok(breakout.outlier?.outlier && breakout.outlier.multiplier >= 10, "the breakout is flagged");
+assert.match(first.title, /7 Funded Accounts/);
+assert.match(second.title, /\$124,550/);
+const breakout = [...cash.videos].sort((a, b) => b.views - a.views)[0];
+assert.ok(breakout.outlier?.multiplier >= 5, "the most viewed video stands out against the channel's normal");
 assert.equal(breakout.cash_cents, 0);
-assert.ok(breakout.views > 8 * first.views && first.cash_cents >= 900000, "views and money point different ways");
+assert.ok(breakout.views > 5 * first.views && first.cash_cents >= 900000, "views and money point different ways");
 assert.ok(cash.videos.every((v) => v.thumbnail_url?.startsWith("data:image/svg+xml")), "every video has an inline made-up thumbnail");
 
 // Neither sync picks the example workspace up (they would replace the made-up numbers).
@@ -104,10 +104,10 @@ assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM client_config WHERE client=?
 assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM page_events WHERE client='acme'").get().n, 1);
 assert.equal(sql.prepare("SELECT amount_cents FROM payments WHERE client='acme'").get().amount_cents, 50000);
 
-// Made up throughout: only example.com addresses, none of the founder's handles or real creators.
+// Invented people throughout: only example.com addresses, and no real name or handle anywhere (the reference channel stays unnamed).
 const emails = sql.prepare("SELECT DISTINCT contact_email FROM pipeline_touches WHERE client_id=?").all(client).map((r) => r.contact_email);
 assert.ok(emails.length > 20 && emails.every((e) => e.endsWith("@example.com")));
 const everything = seedSql().toLowerCase();
-for (const real of ["ab.luiy", "abdul", "dovytrades", "tb.tradez"]) assert.ok(!everything.includes(real), `the seed never mentions ${real}`);
+for (const real of ["ab.luiy", "abdul", "dovy", "tb.tradez", "theo marsh"]) assert.ok(!everything.includes(real), `the seed never mentions ${real}`);
 
 console.log("demo-seed.test.mjs ok");

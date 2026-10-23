@@ -3,13 +3,14 @@
 //   node tools/seed-demo-workspace.mjs > demo-seed.sql
 //   npx wrangler d1 execute pulsify-portal --remote --file=demo-seed.sql
 //
-// One made-up trading creator, Theo Marsh (@theomarsh.trades), with about 12k Instagram followers and a small
-// YouTube channel. Every person, number and handle here is invented, and every email is @example.com. The
+// A demo trader (no real name or handle) with about 12k Instagram followers. The YouTube titles and view counts
+// are a real public channel's, kept as a reference (section 2); every person, lead, call and payment is invented,
+// every email is @example.com, and the money is an estimate. The
 // workspace has status 'demo', which every cross-client total, feed, list, the pooled lead model and both
 // syncs leave out, so none of these numbers reach the founder's real figures and no sync overwrites them.
 //
-// What it shows (founder 2026-10-23, "views vs money"): 24 videos where two mid-view videos bring in most of the
-// cash and the breakout with ten times the normal views brings in almost none; leads whose full path runs
+// What it shows (founder 2026-10-23, "views vs money"): 30 videos where two mid-view videos bring in most of the
+// cash and the most viewed one brings in almost none; leads whose full path runs
 // Instagram bio click, YouTube video, applied, booked, paid, and a few who stalled; booked calls with a pre-call
 // brief; story sequences with their numbers; the week plan; Instagram followers and reach.
 //
@@ -19,9 +20,9 @@
 import { summarize } from "../workers/sync/src/jobs/instagram.js";
 
 const CLIENT = "demo-example";
-const NAME = "Theo Marsh Trading";
-const IG = "theomarsh.trades";
-const YT = "@theomarshtrades";
+const NAME = "Demo trader";
+const IG = "demo.trader";
+const YT = "@demotrader";
 const NOW = Date.now();
 const HOUR = 3600000;
 const DAY = 24 * HOUR;
@@ -70,34 +71,43 @@ push(`DELETE FROM workspace_preferences WHERE client_id=${q(CLIENT)} AND key IN 
 push(`INSERT INTO client_config (client, client_name, status, updated_at) VALUES (${q(CLIENT)}, ${q(NAME)}, 'demo', ${q(iso(NOW))})
   ON CONFLICT(client) DO UPDATE SET client_name=excluded.client_name, status='demo', updated_at=excluded.updated_at;`);
 
-// ---------- 2. The channel: 24 videos, weekly, newest first ----------
-// visits = people who clicked through from the video; apply/book/buy = how many of them got that far.
-// Two mid-view videos (size, pre-market) carry the cash; the breakout ($500 to $14k) has ten times the views and no buyer.
+// ---------- 2. The channel: 30 videos, newest first ----------
+// Titles, view counts and lengths are a real public trading channel's last 30 uploads (pulled 2026-10-23), used as a
+// reference with the founder's go. Its name, handle, video ids and thumbnails are never stored: ids are neutral and
+// thumbnails are plain placeholders. visits = people who clicked through; apply/book/buy = how far they got. These,
+// and all the money, are estimates (the header says so). A student-result video and a strategy breakdown, both
+// mid-view, carry the cash; the most viewed video brings in almost none.
 const VIDEOS = [
-  { id: "tmVid24", hook: "3 SETUPS", title: "The only 3 setups I trade now", days: 4, views: 1460, visits: 8, apply: 1, book: 1, buy: 0 },
-  { id: "tmVid23", hook: "MY JOURNAL", title: "My trading journal, page by page", days: 11, views: 2580, visits: 22, apply: 4, book: 2, buy: 1 },
-  { id: "tmVid22", hook: "SKIP THE OPEN", title: "Why I stopped trading the first 15 minutes", days: 18, views: 2210, visits: 12, apply: 2, book: 1, buy: 0 },
-  { id: "tmVid21", hook: "PRE-MARKET", title: "My full pre-market routine, start to finish", days: 25, views: 3120, visits: 46, apply: 9, book: 6, buy: 3 },
-  { id: "tmVid20", hook: "4H CHART", title: "Reading the 4-hour chart, full breakdown", days: 32, views: 1890, visits: 9, apply: 1, book: 0, buy: 0 },
-  { id: "tmVid19", hook: "THE 1% RULE", title: "How I size every trade (the 1% rule, step by step)", days: 39, views: 4310, visits: 58, apply: 12, book: 8, buy: 4 },
-  { id: "tmVid18", hook: "LOSING WEEK", title: "What a losing week taught me about patience", days: 46, views: 2030, visits: 10, apply: 1, book: 1, buy: 0 },
-  { id: "tmVid17", hook: "$500 → $14K", title: "I turned $500 into $14,000 in 30 days (what really happened)", days: 53, views: 38400, visits: 61, apply: 2, book: 1, buy: 0 },
-  { id: "tmVid16", hook: "STOP-LOSS", title: "Stop-loss placement most traders get wrong", days: 60, views: 2670, visits: 14, apply: 3, book: 2, buy: 1 },
-  { id: "tmVid15", hook: "DAY IN MY LIFE", title: "A day in my life as a full-time trader", days: 67, views: 2950, visits: 11, apply: 1, book: 0, buy: 0 },
-  { id: "tmVid14", hook: "3 RISK RULES", title: "The 3 risk rules I never break", days: 74, views: 2420, visits: 13, apply: 3, book: 2, buy: 1 },
-  { id: "tmVid13", hook: "BLOWN ACCOUNT", title: "Why most traders blow their first account", days: 81, views: 3380, visits: 15, apply: 2, book: 1, buy: 1 },
-  { id: "tmVid12", hook: "BACKTEST", title: "Backtesting a strategy in one afternoon", days: 88, views: 1720, visits: 6, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid11", hook: "10-MIN REVIEW", title: "How I review every trade in 10 minutes", days: 95, views: 1980, visits: 9, apply: 2, book: 1, buy: 1 },
-  { id: "tmVid10", hook: "S/R LEVELS", title: "Support and resistance, the way I actually use it", days: 102, views: 2290, visits: 8, apply: 2, book: 1, buy: 1 },
-  { id: "tmVid09", hook: "WORST TRADE", title: "My worst trade of the year, explained", days: 109, views: 2760, visits: 7, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid08", hook: "9 TO 5 TRADER", title: "Trading with a 9 to 5: my exact schedule", days: 116, views: 2510, visits: 9, apply: 2, book: 1, buy: 1 },
-  { id: "tmVid07", hook: "FAKE BREAKOUT", title: "Fake breakouts and how I avoid them", days: 123, views: 1640, visits: 5, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid06", hook: "MY CHECKLIST", title: "The checklist I run before every trade", days: 130, views: 2140, visits: 6, apply: 2, book: 1, buy: 1 },
-  { id: "tmVid05", hook: "HOW MUCH?", title: "How much money you need to start trading", days: 137, views: 3020, visits: 6, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid04", hook: "REVENGE TRADING", title: "Revenge trading cost me $3,000. Here is the fix", days: 144, views: 2340, visits: 5, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid03", hook: "5 INDICATORS", title: "My 5 favourite indicators (and the 4 I deleted)", days: 151, views: 1870, visits: 4, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid02", hook: "JOURNAL IT", title: "Why I journal every single trade", days: 158, views: 1490, visits: 3, apply: 0, book: 0, buy: 0 },
-  { id: "tmVid01", hook: "$1,000 START", title: "How I started trading with $1,000", days: 165, views: 1310, visits: 3, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid30", hook: "1-MIN SCALP", title: "My Simple 1-Minute Scalping Strategy (Backtested Results)", days: 2, views: 12000, duration: 1164, visits: 16, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid29", hook: "-$3,234 LIVE", title: "Trading Live Losing $3,234 (NEVER MOVE YOUR SL)", days: 6, views: 6900, duration: 3664, visits: 11, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid28", hook: "EASY PAYOUTS", title: "Once You Master This, Getting Payouts Becomes Insanely Easy", days: 10, views: 11000, duration: 884, visits: 15, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid27", hook: "WICK THEORY", title: "The Wick Theory Strategy I Will Use For Life (FULL TRADE BREAKDOWN)", days: 14, views: 15000, duration: 911, visits: 20, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid26", hook: "7 FUNDED", title: "My Student Went From Blowing Accounts to 7 Funded Accounts", days: 18, views: 8100, duration: 831, visits: 62, apply: 13, book: 9, buy: 4 },
+  { id: "dvVid25", hook: "$29,162", title: "I made $29,162 Trading This One Setup", days: 22, views: 15000, duration: 612, visits: 20, apply: 3, book: 2, buy: 1 },
+  { id: "dvVid24", hook: "+$14,668 LIVE", title: "Trading Live Making $14,668 (THE BEST TRADING STRATEGY)", days: 26, views: 10000, duration: 3309, visits: 14, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid23", hook: "$7,962 FUNDED", title: "i made $7,962 on my funded with this simple strategy", days: 30, views: 16000, duration: 702, visits: 21, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid22", hook: "1 ACCOUNT?", title: "1 funded account will not make you full time", days: 34, views: 7800, duration: 775, visits: 12, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid21", hook: "ORDER FLOW", title: "i passed 2 funding challenges using order flow", days: 38, views: 9900, duration: 970, visits: 14, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid20", hook: "$124,550", title: "breakdown of the strategy that made me $124,550 last month", days: 42, views: 12000, duration: 960, visits: 50, apply: 10, book: 7, buy: 3 },
+  { id: "dvVid19", hook: "+$10,770 LIVE", title: "Trading Live Making $10,770 (TOGETHER WITH MY STUDENT)", days: 46, views: 8400, duration: 5695, visits: 12, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid18", hook: "+$16,951 LIVE", title: "Trading Live Making $16,951 (I DON'T NEED A STRATEGY)", days: 50, views: 5000, duration: 2614, visits: 9, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid17", hook: "VOLUME TRICK", title: "I Made $11,220 Using This Simple Volume Trick", days: 54, views: 6700, duration: 495, visits: 10, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid16", hook: "VOLUME PRINTS", title: "this volume based trading strategy prints money", days: 58, views: 8400, duration: 572, visits: 12, apply: 2, book: 1, buy: 1 },
+  { id: "dvVid15", hook: "+$7,338 LIVE", title: "Trading Live Making $7,338 (I LOVE THIS STRATEGY)", days: 62, views: 8500, duration: 2441, visits: 12, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid14", hook: "EASY FOR ME", title: "why trading is easy for me and hard for you", days: 66, views: 55000, duration: 900, visits: 66, apply: 2, book: 1, buy: 0 },
+  { id: "dvVid13", hook: "+$17,014 LIVE", title: "Trading Live Making $17,014 (IM INCREASING MY RISK)", days: 70, views: 4300, duration: 1907, visits: 8, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid12", hook: "$17,014", title: "my $17,014 trade breakdown (hybrid trading)", days: 74, views: 6500, duration: 646, visits: 10, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid11", hook: "$51,454", title: "i made $51,454 with Hybrid Trading (full breakdown)", days: 78, views: 8500, duration: 594, visits: 14, apply: 3, book: 2, buy: 1 },
+  { id: "dvVid10", hook: "+$7,320 LIVE", title: "Trading Live Making $7,320 (MARKETS ARE LOOKING BETTER)", days: 82, views: 4400, duration: 2851, visits: 8, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid09", hook: "WHY YOU FAIL", title: "Prop firm challenge? Here's why you're likely to fail", days: 86, views: 10000, duration: 985, visits: 14, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid08", hook: "$40,392", title: "my $40,392 profit trade breakdown", days: 90, views: 6000, duration: 438, visits: 10, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid07", hook: "NASDAQ SETUP", title: "this stupid simple Nasdaq setup made me $22,410", days: 94, views: 6500, duration: 475, visits: 10, apply: 2, book: 1, buy: 1 },
+  { id: "dvVid06", hook: "FIX 90%", title: "this will fix 90% of your trading problems (and it's not a strategy)", days: 98, views: 6100, duration: 906, visits: 10, apply: 2, book: 1, buy: 1 },
+  { id: "dvVid05", hook: "NOT BROKEN", title: "your trading is not broken. markets are...", days: 102, views: 3200, duration: 680, visits: 7, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid04", hook: "2 YEARS", title: "i tried every trading strategy for 2 years. here's what finally worked", days: 106, views: 10000, duration: 830, visits: 14, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid03", hook: "FUNDED IN 6 WKS", title: "my student went from losing trader to funded in 6 weeks", days: 110, views: 3300, duration: 2894, visits: 18, apply: 4, book: 3, buy: 1 },
+  { id: "dvVid02", hook: "+$20,118 LIVE", title: "Trading Live Making $20,118 (BACK IN PROFIT FOR THE MONTH)", days: 114, views: 5200, duration: 3741, visits: 9, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid01", hook: "+$24,264 LIVE", title: "Trading Live Making $24,264 (I AM THE BANK)", days: 118, views: 5700, duration: 5577, visits: 9, apply: 0, book: 0, buy: 0 },
 ];
 const video = (id) => VIDEOS.find((v) => v.id === id);
 // A plain made-up thumbnail per video (dark, one hook, a few candles), inline so nothing loads from outside.
@@ -112,13 +122,13 @@ const thumbnail = (v, n) => {
     candles += `<rect x="${760 + k * 54}" y="${y - h}" width="30" height="${h}" rx="3" fill="${up ? "#3ddc97" : "#ff5a4e"}" opacity="0.85"/><rect x="${773 + k * 54}" y="${y - h - 18}" width="4" height="${h + 36}" fill="${up ? "#3ddc97" : "#ff5a4e"}" opacity="0.6"/>`;
   }
   const size = v.hook.length > 11 ? 88 : 112;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16120f"/><stop offset="1" stop-color="#050505"/></linearGradient></defs><rect width="1280" height="720" fill="url(#g)"/><rect x="0" y="0" width="1280" height="720" fill="${accent}" opacity="0.06"/>${candles}<text x="70" y="330" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="${size}" fill="#ffffff">${v.hook.replace(/&/g, "&amp;")}</text><rect x="74" y="370" width="160" height="12" rx="6" fill="${accent}"/><text x="72" y="640" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#ffffff" opacity="0.7">THEO MARSH</text></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16120f"/><stop offset="1" stop-color="#050505"/></linearGradient></defs><rect width="1280" height="720" fill="url(#g)"/><rect x="0" y="0" width="1280" height="720" fill="${accent}" opacity="0.06"/>${candles}<text x="70" y="330" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="${size}" fill="#ffffff">${v.hook.replace(/&/g, "&amp;")}</text><rect x="74" y="370" width="160" height="12" rx="6" fill="${accent}"/><text x="72" y="640" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#ffffff" opacity="0.7">DEMO TRADER</text></svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 };
 VIDEOS.forEach((v, n) => {
   push(insert("yt_videos", {
-    client_id: CLIENT, video_id: v.id, channel_id: "demo-channel-theomarsh", title: v.title, published_at: iso(ago(v.days, 15)),
-    thumbnail_url: thumbnail(v, n), duration_seconds: between(540, 1260), views: v.views, likes: Math.round(v.views * 0.042), comments: Math.round(v.views * 0.007),
+    client_id: CLIENT, video_id: v.id, channel_id: "demo-channel", title: v.title, published_at: iso(ago(v.days, 15)),
+    thumbnail_url: thumbnail(v, n), duration_seconds: v.duration, views: v.views, likes: Math.round(v.views * 0.042), comments: Math.round(v.views * 0.007),
     synced_at: iso(NOW - 2 * HOUR),
   }));
   // Tracked links in the description and the pinned comment, clicked in proportion to the visits they sent.
@@ -189,12 +199,12 @@ const applyLead = (p, at) => {
 let bookingN = 0;
 const book = (p, bookedAt, callAt) => {
   const ref = `demo-book-${String(++bookingN).padStart(3, "0")}`;
-  touch(p, "booking", past(bookedAt), { external_id: ref, payload: { starts_at: iso(callAt), booked_at: iso(past(bookedAt)), join_url: `https://meet.example.com/theo-${ref.slice(-3)}`, status: "active" } });
+  touch(p, "booking", past(bookedAt), { external_id: ref, payload: { starts_at: iso(callAt), booked_at: iso(past(bookedAt)), join_url: `https://meet.example.com/call-${ref.slice(-3)}`, status: "active" } });
   p.booking = { ref, callAt };
   return ref;
 };
 const outcome = (p, fields) => push(insert("lead_outcomes", {
-  client_id: CLIENT, email: p.email, booking_ref: p.booking.ref, call_at: iso(p.booking.callAt), closer: "Theo Marsh", closer_id: "demo-tm-closer", setter_id: "demo-tm-setter",
+  client_id: CLIENT, email: p.email, booking_ref: p.booking.ref, call_at: iso(p.booking.callAt), closer: "Demo trader", closer_id: "demo-tm-closer", setter_id: "demo-tm-setter",
   created_by: "demo", created_at: iso(past(p.booking.callAt + 50 * 60000)), updated_at: iso(past(p.booking.callAt + 50 * 60000)), ...fields,
 }));
 let paymentN = 0;
@@ -223,19 +233,19 @@ const dm = (p, startAt, messages, ref) => {
   const tue = ago(wed + 8, 19, 40);
   page(maya, tue, fromBio); engaged(maya, tue + 4 * 60000, 190, 40);
   const fri = ago(wed + 5, 17, 10);
-  page(maya, fri, fromVideo(video("tmVid19"))); watched(maya, fri + 3 * 60000, 92); engaged(maya, fri + 20 * 60000, 520, 96, 70);
+  page(maya, fri, fromVideo(video("dvVid26"))); watched(maya, fri + 3 * 60000, 92); engaged(maya, fri + 20 * 60000, 520, 96, 70);
   const sun = ago(wed + 3, 15, 1);
-  page(maya, sun - 60000, fromVideo(video("tmVid19"))); event(maya, sun, "cta_click", { label: "APPLY NOW" }); event(maya, sun + 60000, "form_start");
+  page(maya, sun - 60000, fromVideo(video("dvVid26"))); event(maya, sun, "cta_click", { label: "APPLY NOW" }); event(maya, sun + 60000, "form_start");
   applyLead(maya, sun + 4 * 60000);
   book(maya, ago(wed + 2, 14, 30), ago(wed + 1, 15));
-  outcome(maya, { attended: "showed", result: "closed", deal_cents: OFFER.pif, payment_type: "pif", pre_sold: "yes", notes: "Watched the sizing video twice. Wanted structure, not signals. Paid in full." });
+  outcome(maya, { attended: "showed", result: "closed", deal_cents: OFFER.pif, payment_type: "pif", pre_sold: "yes", notes: "Watched the student video twice. Wanted the same path to funded. Paid in full." });
   pay(maya, ago(wed, 16, 20), OFFER.pif, "The Process, paid in full");
 
-  // Luis: messaged first on Instagram, then the pre-market video, applied, booked, deposit, then the second half.
+  // Luis: messaged first on Instagram, then the strategy breakdown video, applied, booked, deposit, then the second half.
   const luis = person("Luis Ferreira", { phone: "+44 20 7946 0321", handle: "luis.fx", place: PLACES[2], budget: "$1,000 to $3,000" });
   dm(luis, ago(24, 18, 5), [["inbound", 0], ["outbound", 12], ["inbound", 40], ["outbound", 55], ["inbound", 90]], "Bio link");
   const lv = ago(21, 20, 30);
-  page(luis, lv, fromVideo(video("tmVid21"))); watched(luis, lv + 2 * 60000, 78); engaged(luis, lv + 15 * 60000, 410, 88, 35);
+  page(luis, lv, fromVideo(video("dvVid20"))); watched(luis, lv + 2 * 60000, 78); engaged(luis, lv + 15 * 60000, 410, 88, 35);
   page(luis, ago(19, 8, 15), fromBio);
   const la = ago(19, 8, 20);
   event(luis, la, "cta_click", { label: "APPLY NOW" }); event(luis, la + 60000, "form_start"); applyLead(luis, la + 5 * 60000);
@@ -244,10 +254,10 @@ const dm = (p, startAt, messages, ref) => {
   pay(luis, ago(16, 18, 10), OFFER.deposit, "The Process, deposit");
   pay(luis, ago(2, 9, 40), OFFER.deposit, "The Process, second half");
 
-  // Hannah: YouTube journal video, then the bio link, applied, call in two days. Has a pre-call brief.
+  // Hannah: the student-result video, then the bio link, applied, call in two days. Has a pre-call brief.
   const hannah = person("Hannah Cole", { phone: "+1 416 555 0187", handle: "hannahcole.charts", place: PLACES[3], budget: "Over $3,000", goal: "Stop blowing accounts", situation: "Blew an account and want a system" });
   const hv = ago(8, 18, 5);
-  page(hannah, hv, fromVideo(video("tmVid23"))); watched(hannah, hv + 2 * 60000, 100); engaged(hannah, hv + 18 * 60000, 640, 100, 95);
+  page(hannah, hv, fromVideo(video("dvVid03"))); watched(hannah, hv + 2 * 60000, 100); engaged(hannah, hv + 18 * 60000, 640, 100, 95);
   page(hannah, ago(5, 13, 0), fromBio);
   const ha = ago(5, 13, 6);
   event(hannah, ha, "cta_click", { label: "APPLY NOW" }); event(hannah, ha + 60000, "form_start"); applyLead(hannah, ha + 4 * 60000);
@@ -256,47 +266,47 @@ const dm = (p, startAt, messages, ref) => {
   push(insert("call_notes", {
     client: CLIENT, booking_ref: hannah.booking.ref, lead_email: hannah.email, source_kind: "precall", call_date: iso(hannah.booking.callAt), created_at: iso(ago(1, 9)),
     title: "Pre-call brief: Hannah Cole",
-    summary: "WANT: a repeatable process so she stops blowing accounts. Lost two prop-firm challenges this year.\nCAME FROM: the trading journal video (watched to the end), then the Instagram bio link three days later.\nSPENT: 11 minutes on the page, most of it on the student results.\nBUDGET: over $3,000. Trades around a 9 to 5 in Toronto, the New York open.\nON THE CALL: open with her last blown challenge, show the sizing rules from the 1% video. Expect: can I do this with a full-time job?",
+    summary: "WANT: a repeatable process so she stops blowing accounts. Lost two prop-firm challenges this year.\nCAME FROM: the funded-in-6-weeks student video (watched to the end), then the Instagram bio link three days later.\nSPENT: 11 minutes on the page, most of it on the student results.\nBUDGET: over $3,000. Trades around a 9 to 5 in Toronto, the New York open.\nON THE CALL: open with her last blown challenge, show the student results from that video. Expect: can I do this with a full-time job?",
     decisions: "Budget: over $3,000. Trades around a 9 to 5 in Toronto. Best time to trade: the New York open.",
-    actions: "Open with her last blown challenge. Show the sizing rules from the 1% video. Expect the question: can I do this with a full-time job?",
+    actions: "Open with her last blown challenge. Show the student results from that video. Expect the question: can I do this with a full-time job?",
   }));
 
-  // Marco: booked for tomorrow from the size video, not confirmed yet.
+  // Marco: booked for tomorrow from the strategy breakdown video, not confirmed yet.
   const marco = person("Marco Bianchi", { place: PLACES[6], handle: "marco.b.trades", budget: "$1,000 to $3,000" });
   const mv = ago(3, 19, 45);
-  page(marco, mv, fromVideo(video("tmVid19"))); watched(marco, mv + 60000, 64); engaged(marco, mv + 12 * 60000, 300, 80, 20);
+  page(marco, mv, fromVideo(video("dvVid20"))); watched(marco, mv + 60000, 64); engaged(marco, mv + 12 * 60000, 300, 80, 20);
   event(marco, mv + 14 * 60000, "cta_click", { label: "APPLY NOW" }); applyLead(marco, mv + 18 * 60000);
   book(marco, mv + 30 * 60000, ago(-1, 17, 30));
   push(insert("call_notes", {
     client: CLIENT, booking_ref: marco.booking.ref, lead_email: marco.email, source_kind: "precall", call_date: iso(marco.booking.callAt), created_at: iso(ago(0, 8)),
     title: "Pre-call brief: Marco Bianchi",
-    summary: "WANT: to size trades properly. Came from the 1% rule video, watched two thirds, applied the same evening.\nSITUATION: profitable some months, not consistent.\nBUDGET: $1,000 to $3,000, likely the deposit plan.\nON THE CALL: walk through one of his losing trades on screen.",
+    summary: "WANT: one setup he can repeat. Came from the strategy breakdown video, watched two thirds, applied the same evening.\nSITUATION: profitable some months, not consistent.\nBUDGET: $1,000 to $3,000, likely the deposit plan.\nON THE CALL: walk through one of his losing trades on screen.",
     decisions: "Budget: $1,000 to $3,000. Likely the deposit plan.",
     actions: "Confirm the call today. Walk through one of his losing trades on screen.",
   }));
 
-  // Dev: bio click, then the breakout video, watched 40%, started the application and left.
+  // Dev: bio click, then the most viewed video, watched 40%, started the application and left.
   const dev = person("Dev Patel", { place: PLACES[7] });
   page(dev, ago(12, 17, 20), fromBio); engaged(dev, ago(12, 17, 24), 75, 30);
   const dv = ago(10, 18, 5);
-  page(dev, dv, fromVideo(video("tmVid17"))); watched(dev, dv + 60000, 40); engaged(dev, dv + 8 * 60000, 210, 62); event(dev, dv + 9 * 60000, "form_start");
+  page(dev, dv, fromVideo(video("dvVid14"))); watched(dev, dv + 60000, 40); engaged(dev, dv + 8 * 60000, 210, 62); event(dev, dv + 9 * 60000, "form_start");
 
-  // Sofia: the size video, applied, booked, did not show.
+  // Sofia: the student-result video, applied, booked, did not show.
   const sofia = person("Sofia Lindqvist", { place: PLACES[8], phone: "+31 20 555 0172" });
   const sv = ago(15, 16, 40);
-  page(sofia, sv, fromVideo(video("tmVid19"))); watched(sofia, sv + 60000, 71); engaged(sofia, sv + 10 * 60000, 360, 90, 30);
+  page(sofia, sv, fromVideo(video("dvVid26"))); watched(sofia, sv + 60000, 71); engaged(sofia, sv + 10 * 60000, 360, 90, 30);
   event(sofia, sv + 11 * 60000, "cta_click", { label: "APPLY NOW" }); applyLead(sofia, sv + 15 * 60000);
   book(sofia, sv + 40 * 60000, ago(12, 16));
   outcome(sofia, { attended: "no_show", notes: "No reply to the reminder texts. Sent the rebook link." });
 
-  // Grace: applied an hour ago from the pre-market video and has not booked. The hottest lead on the board.
+  // Grace: applied an hour ago from the strategy breakdown video and has not booked. The hottest lead on the board.
   const grace = person("Grace Kim", { place: PLACES[1], phone: "+1 305 555 0119", handle: "gracekim.trades", budget: "Over $3,000" });
   page(grace, ago(2, 14, 10), fromBio);
   const gv = NOW - 5 * HOUR;
-  page(grace, gv, fromVideo(video("tmVid21"))); watched(grace, gv + 60000, 100); engaged(grace, gv + 17 * 60000, 700, 100, 120);
+  page(grace, gv, fromVideo(video("dvVid20"))); watched(grace, gv + 60000, 100); engaged(grace, gv + 17 * 60000, 700, 100, 120);
   event(grace, NOW - 70 * 60000, "cta_click", { label: "APPLY NOW" }); event(grace, NOW - 69 * 60000, "form_start"); applyLead(grace, NOW - 64 * 60000);
 }
-const NAMED_CREDIT = { tmVid19: { apply: 3, book: 3, buy: 1 }, tmVid21: { apply: 2, book: 1, buy: 1 }, tmVid23: { apply: 1, book: 1, buy: 0 } };
+const NAMED_CREDIT = { dvVid26: { apply: 2, book: 2, buy: 1 }, dvVid20: { apply: 3, book: 2, buy: 1 }, dvVid03: { apply: 1, book: 1, buy: 0 } };
 
 // 3b. Everyone else, video by video, so cash by video adds up to the story above.
 const CALL_RESULTS = [["showed", "not_closed", "Needs to talk to their partner"], ["showed", "follow_up", "Wants to wait for the next paycheck"], ["no_show", null, null], ["showed", "unqualified", "Looking for signals, not a process"], ["showed", "not_closed", "Price"]];
@@ -364,7 +374,7 @@ for (const v of VIDEOS) {
     if (n >= 2) return;
     book(p, p.at + 40 * 60000, onTheHalfHour(p.at + 2 * DAY));
     if (n === 0) {
-      outcome(p, { attended: "showed", result: "closed", deal_cents: OFFER.pif, payment_type: "pif", pre_sold: "yes", notes: "Found Theo through a story. Paid in full." });
+      outcome(p, { attended: "showed", result: "closed", deal_cents: OFFER.pif, payment_type: "pif", pre_sold: "yes", notes: "Found the channel through a story. Paid in full." });
       pay(p, p.booking.callAt + 2 * HOUR, OFFER.pif, "The Process, paid in full");
     } else outcome(p, { attended: "showed", result: "follow_up", pre_sold: "somewhat", objection: "Wants to start next month", notes: "Follow up on the 1st." });
   });
@@ -386,7 +396,7 @@ for (let n = 0; n < 214; n++) push(insert("asset_events", { token: BIO, client: 
 for (let n = 0; n < 61; n++) push(insert("asset_events", { token: "tmigstory", client: CLIENT, at: iso(past(ago(between(0, 60), between(8, 23), between(0, 59)))) }));
 
 // ---------- 4. Team ----------
-push(insert("team_members", { id: "demo-tm-closer", client_id: CLIENT, name: "Theo Marsh", role: "closer", email: "theo@example.com", commission_pct: null, active: 1, created_at: iso(ago(120)), updated_at: iso(NOW) }));
+push(insert("team_members", { id: "demo-tm-closer", client_id: CLIENT, name: "Demo trader", role: "closer", email: "coach@example.com", commission_pct: null, active: 1, created_at: iso(ago(120)), updated_at: iso(NOW) }));
 push(insert("team_members", { id: "demo-tm-setter", client_id: CLIENT, name: "Ava Reed", role: "setter", email: "ava@example.com", setter_pct: 5, active: 1, created_at: iso(ago(60)), updated_at: iso(NOW) }));
 
 // ---------- 5. Instagram: profile, reels, posts, stories, followers ----------
@@ -452,7 +462,7 @@ const insights = {
   reach: { points: reachPoints, total: reachPoints.reduce((n, p) => n + p.value, 0) },
   views: { points: [], total: 412000 }, accounts_engaged: { points: [], total: 9800 }, total_interactions: { points: [], total: 23600 }, profile_links_taps: { points: [], total: 1480 },
 };
-const profile = { id: "demo-ig-theomarsh", username: IG, name: "Theo Marsh", biography: "Day trader. I teach the process, not signals.", website: "", accountType: "", followers: FOLLOWERS, following: 312, mediaCount: feed.length, profilePicture: "" };
+const profile = { id: "demo-ig-trader", username: IG, name: "Demo trader", biography: "Funded trader. I teach the process that gets you paid out.", website: "", accountType: "", followers: FOLLOWERS, following: 312, mediaCount: feed.length, profilePicture: "" };
 const audience = { countries: [["US", 4870], ["GB", 1410], ["CA", 1020], ["DE", 640], ["NL", 480], ["AU", 430], ["IN", 390]].map(([name, value]) => ({ name, value })), age: [["18-24", 2900], ["25-34", 5600], ["35-44", 2300], ["45-54", 760]].map(([name, value]) => ({ name, value })) };
 const snapshot = (kind, payload) => push(insert("snapshots", { scope: "client", client_id: CLIENT, source: "instagram", kind, captured_at: capturedAt, payload_json: json(payload) }));
 snapshot("profile", profile);
@@ -523,9 +533,9 @@ const slots = [
 push(`INSERT INTO workspace_preferences (client_id, key, value_json, updated_at) VALUES (${q(CLIENT)}, 'content-plan', ${q(json({ slots }))}, ${q(iso(NOW))})
   ON CONFLICT(client_id, key) DO UPDATE SET value_json=excluded.value_json, updated_at=excluded.updated_at;`);
 const ITEMS = [
-  ["The only 3 setups I trade now", "published", "YouTube", 1], ["Pre-market in 45 seconds", "published", "Instagram", 0], ["The 1% rule, slide by slide", "published", "Instagram", 0],
+  ["My Simple 1-Minute Scalping Strategy (Backtested Results)", "published", "YouTube", 1], ["Pre-market in 45 seconds", "published", "Instagram", 0], ["The 1% rule, slide by slide", "published", "Instagram", 0],
   ["Why I sit on my hands at the open", "scheduled", "Instagram", 3], ["Is it too late to start trading?", "production", "YouTube", 8], ["Carousel: 5 rules for sizing", "scheduled", "Instagram", 4],
-  ["My trading journal, page by page", "published", "YouTube", -7], ["Short: the 1% rule", "published", "YouTube", -3],
+  ["Trading Live Losing $3,234 (NEVER MOVE YOUR SL)", "published", "YouTube", -7], ["Short: the 1% rule", "published", "YouTube", -3],
 ];
 for (const [title, stage, platform, offset] of ITEMS) push(insert("content_items", { client: CLIENT, title, stage, platform, url: null, notes: null, scheduled_for: dayOf(offset), updated_at: iso(past(monday + Math.max(0, offset) * DAY + 15 * HOUR)) }));
 // The launch checklist is for a new client; the example account is past it.
@@ -533,25 +543,25 @@ push(`INSERT INTO workspace_preferences (client_id, key, value_json, updated_at)
   ON CONFLICT(client_id, key) DO UPDATE SET value_json=excluded.value_json, updated_at=excluded.updated_at;`);
 const section = (name, value) => push(insert("client_dashboard_content", { client_id: CLIENT, section: name, json: json(value), updated_at: iso(NOW) }));
 section("todos", { items: [
-  { label: "Film next week's YouTube video", owner: "Theo", deadline: dayOf(4), done: false },
-  { label: "Approve the CTA story sequence", owner: "Theo", deadline: dayOf(2), done: false },
+  { label: "Film next week's YouTube video", owner: "Coach", deadline: dayOf(4), done: false },
+  { label: "Approve the CTA story sequence", owner: "Coach", deadline: dayOf(2), done: false },
   { label: "Call Grace Kim back", owner: "Ava", deadline: dayOf(0), done: false },
   { label: "Send the rebook link to no-shows", owner: "Ava", deadline: dayOf(1), done: true },
 ] });
 section("plans", { items: [
-  { title: "YouTube: one video a week", status: "Active", progress_pct: 80, detail: "24 videos out. Next: more on sizing and the pre-market routine, the two that sell." },
+  { title: "YouTube: one video a week", status: "Active", progress_pct: 80, detail: "30 videos out. Next: more student results and strategy breakdowns, the two kinds that sell." },
   { title: "Story sequences most days", status: "Active", progress_pct: 65, detail: "12 sequences in the last 4 weeks. CTA days bring the most DMs." },
   { title: "Fill the program: 6 new students this month", status: "Active", progress_pct: 50, detail: "3 so far this month." },
 ] });
 
 // ---------- 8. Onboarding answers, so Home shows the working product ----------
 const BRAIN = {
-  identity: { name: "Theo Marsh", nickname: "Theo", age: "31", niche: "trading", niche_line: "I help traders with a day job build a process they can repeat.", handles: [`YouTube: ${YT}`, `Instagram: @${IG}`], relationship_status: "prefer-not" },
+  identity: { name: "Demo trader", nickname: "Coach", age: "29", niche: "trading", niche_line: "I help traders pass prop firm challenges and get paid out.", handles: [`YouTube: ${YT}`, `Instagram: @${IG}`], relationship_status: "prefer-not" },
   offer: { direction: "The Process: a 12-week 1:1 mentorship for day traders who want a repeatable process.", history: "selling", target_price: "3-5k", target_type: "1on1", payment_platforms: ["stripe"], past_growth_help: { picks: ["none"], details: {} } },
   icp: { client_guess: "Traders with a day job who have blown at least one account.", age_range: ["25-34"], life_stage: ["job"], income: "4-8k", gender_mix: "mostly-men", engagers: "intermediate", known: "yes", best_client: "A trader with a 9 to 5 who already knows the basics and wants structure.", buying_behaviour: ["dm-questions"], client_objections: ["time", "expensive"], payment_style: "plan" },
   voice: { tone: ["direct", "calm"], persona: "mentor", persona_second: "big-brother", sliders: { calm_hype: 30, polished_raw: 55 }, curse_slang: "none", filter: "clean", flagged_level: "none", never_say: "Guaranteed profits. Get rich quick.", flagged_words: { ok: "", never: "guaranteed, signals" }, unhinged_level: "1" },
   proof: { has_proof: true, level: "some", own_best: "Students passing their first funded challenge.", own_how: "Screenshots of student results, shared with permission.", own_proof: ["screenshot"], own_enough: { pick: "yes", more: "" }, closest_thing: { pick: "students", more: "" } },
-  story: { narrative: "Blew two accounts in his first year, then built the sizing and review process he now teaches." },
+  story: { narrative: "Blew accounts for two years, then built the process that got him funded and paid out, and now teaches it." },
   positioning: { mechanism_status: "named", method_walkthrough: "The Process: size, plan, trade, review.", difference_known: "yes", content_shows_it: "yes", love_topics: "Risk, sizing, routines, reviewing trades.", hour_topic: "How to size a trade so one loss never ruins a week." },
   program: { status: "running", missing: [] },
   content: { home_platform: "youtube", cadence: { youtube: "weekly", reels: "weekly", instagram: "daily" }, schedule: "fixed", yt_format: "talking-head", daily_time: "1-2h", film_hours: "2-3", video_time: "under-3h", script_time: "1-3h", hard_parts: ["ideas", "thumbnails"], hates: ["thumbnails", "posting"], longform_awareness: "yes-do", skills: { copy: "tried", scripting: "good", titles: "tried", thumbnails: "never", stories: "tried", carousels: "tried", editing: "tried" } },
@@ -564,5 +574,5 @@ for (const [sectionName, fields] of Object.entries(BRAIN)) {
   for (const [field, value] of Object.entries(fields)) push(insert("client_brain", { client_id: CLIENT, section: sectionName, field, value_json: json(value), source: "client-form", updated_at: iso(ago(150)) }));
 }
 
-console.log(`-- Example workspace seed (Theo Marsh, made up), built ${iso(NOW)}. Safe to rerun: it clears the example rows first.`);
+console.log(`-- Example workspace seed (Demo trader; money, leads and payments are estimates), built ${iso(NOW)}. Safe to rerun: it clears the example rows first.`);
 console.log(statements.join("\n"));
