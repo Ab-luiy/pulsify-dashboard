@@ -7,9 +7,9 @@ import { learningBlocks } from "./content-learning.js";
 
 export const BUCKETS = ["pain", "belief", "breakdown"];
 export const FORMATS = ["miro", "camera", "camera-miro", "student-call", "group-call", "in-person"];
-// Founder 2026-09-28: bottom of funnel is the landing page and VSL, so ideas are tagged TOF or MOF only
-// (the vault page still lists bottom-of-funnel videos; flagged, his call).
-export const FUNNEL_STAGES = ["TOF", "MOF"];
+// Founder 2026-09-28 kept ideas to TOF and MOF; 2026-10-23 he allowed BOF too (proof, student results, the offer),
+// so a video can be tagged with all three stages. Posted videos get theirs from video-stage.js.
+export const FUNNEL_STAGES = ["TOF", "MOF", "BOF"];
 
 const MAX_ANSWERS = 16;
 const MAX_ANSWER = 1500;
@@ -35,7 +35,7 @@ export function buildIdeasPrompt({ clientName, clientBrain, proofLines, answers,
     "- Build each idea from something the creator actually said in their answers or brain. Name which answer in from_answer.",
     "- Never invent results, numbers, students or stories. If an idea needs proof the creator has not given, say what proof to show in needs_proof.",
     "- Three buckets, three ideas each: pain (a problem their audience feels every week), belief (a limiting belief that keeps their audience stuck, broken with the creator's experience), breakdown (a method or result taken apart step by step).",
-    "- funnel is TOF (reach new people, give the wow not the how) or MOF (depth, case studies, the method in detail). Never BOF.",
+    "- funnel is TOF (reach new people, give the wow not the how), MOF (depth, the method in detail) or BOF (proof, student results and the offer, ending with the push to apply). Mostly TOF and MOF; BOF at most one in five.",
     `- format is one of: ${FORMATS.join(", ")} (Miro board, face to camera, camera plus Miro, a student call, a group coaching call, an in-person video with a student).`,
     "- working_title follows the packaging rules: lowercase, specific, no question marks, the core readable in four words.",
     "- Plain words. No emojis, no exclamation marks, no 'not X, it's Y' lines.",

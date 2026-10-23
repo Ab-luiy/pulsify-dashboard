@@ -45,7 +45,7 @@ assert.equal(body.mode, "manual");
 assert.match(body.prompt, /STOPPED MOVING MY STOP/);
 assert.match(body.prompt, /TEACH FUTURES RISK RULES/, "the brain is in the prompt");
 assert.match(body.prompt, /Detect market outliers/, "the YouTube method is bundled in");
-assert.match(body.prompt, /Never BOF/);
+assert.match(body.prompt, /BOF \(proof, student results and the offer/, "BOF is allowed, with what it means");
 assert.match(body.prompt, /Never invent results/);
 assert.doesNotMatch(body.prompt, /PRIVATE BETA OFFER/, "another client's brain never leaks");
 
@@ -60,7 +60,8 @@ globalThis.fetch = async (url, init) => {
 try {
   reply = "```json\n" + JSON.stringify({ ideas: [
     { bucket: "pain", idea: "Why moving your stop drains the account", working_title: "the stop loss mistake", why: "they feel it weekly", funnel: "TOF", format: "camera-miro", mindset_heavy: false, needs_proof: "", from_answer: "solved" },
-    { bucket: "belief", idea: "You need a better strategy", funnel: "BOF", format: "hologram", mindset_heavy: true },
+    { bucket: "belief", idea: "You need a better strategy", funnel: "bof", format: "hologram", mindset_heavy: true },
+    { bucket: "breakdown", idea: "How my student got funded", funnel: "ZOF", format: "camera" },
     { bucket: "nonsense", idea: "dropped" },
     { bucket: "breakdown" },
   ] }) + "\n```";
@@ -68,8 +69,9 @@ try {
   assert.equal(body.mode, "generated");
   assert.equal(sent.model, "claude-opus-5-5");
   assert.deepEqual(sent.system[0].cache_control, { type: "ephemeral" });
-  assert.equal(body.ideas.length, 2, "ideas without a known bucket or text are dropped");
-  assert.equal(body.ideas[1].funnel, "TOF", "BOF is never used");
+  assert.equal(body.ideas.length, 3, "ideas without a known bucket or text are dropped");
+  assert.equal(body.ideas[1].funnel, "BOF", "BOF is kept (founder 2026-10-23)");
+  assert.equal(body.ideas[2].funnel, "TOF", "anything else becomes TOF");
   assert.equal(body.ideas[1].format, "camera", "unknown formats fall back");
   assert.equal(body.ideas[1].mindset_heavy, true);
 

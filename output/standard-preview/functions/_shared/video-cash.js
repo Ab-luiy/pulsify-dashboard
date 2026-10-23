@@ -13,6 +13,7 @@
 
 import { cleanId, normalizeEmail } from "./common.js";
 import { scoreOwnVideos } from "./outlier-score.js";
+import { videoStage } from "./video-stage.js";
 import { createTrackedLink } from "./tracked-link-store.js";
 
 const API = "https://www.googleapis.com/youtube/v3";
@@ -281,7 +282,7 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
   const from = rangeStart(range, now);
   const db = env.DB;
   const [
-    handleRow, videoRows, linkRows, clickRows, taggedRows, refRows, identityRows, touchRows, paymentRows, unmatchedRow, errorRow,
+    handleRow, videoRows, linkRows, clickRows, taggedRows, refRows, identityRows, touchRows, paymentRows, unmatchedRow, errorRow, stageRow,
   ] = await Promise.all([
     db.prepare(
       "SELECT json_extract(config_json, '$.handle') AS handle FROM integrations WHERE scope='client' AND client_id=? AND provider='youtube'",
@@ -342,6 +343,7 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
     db.prepare(
       "SELECT captured_at, payload_json FROM snapshots WHERE scope='client' AND client_id=? AND source='youtube' AND kind='videos-error'",
     ).bind(client).first(),
+    db.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key='video-stages'").bind(client).first().catch(() => null),
   ]);
 
   const videos = videoRows.results || [];
@@ -442,6 +444,8 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
   }
 
   const scores = scoreOwnVideos(videos, now);
+  let confirmedStages = {};
+  try { confirmedStages = JSON.parse(stageRow?.value_json || "{}").stages || {}; } catch { confirmedStages = {}; }
   const perThousand = (cents, views) => (views > 0 ? Math.round((cents / views) * 1000) : null);
   const rows = videos.map((video) => {
     const s = stats.get(video.video_id) || emptyStats();
@@ -457,6 +461,8 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
       // views / the channel's normal (median of its last 30 long-form uploads); null while the video is still settling
       outlier: scores.get(video.video_id) ?? null,
       ...s,
+      // TOF, MOF or BOF: the creator's choice, or the app's guess from what the video did and its title (video-stage.js).
+      stage: videoStage({ video_id: video.video_id, title: video.title, calls: s.calls, buyers: s.buyers }, confirmedStages),
       cash_per_1k_views_cents: perThousand(s.cash_cents, Number(video.views || 0)),
       // The people credited to this video, most valuable first (the client's own leads).
       people: (peopleByKey.get(video.video_id) || [])

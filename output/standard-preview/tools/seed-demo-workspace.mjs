@@ -66,7 +66,7 @@ push(`DELETE FROM snapshots WHERE scope='client' AND client_id=${q(CLIENT)};`);
 push(`DELETE FROM metric_points WHERE scope='client' AND client_id=${q(CLIENT)};`);
 push(`DELETE FROM stories WHERE scope='client' AND client_id=${q(CLIENT)};`);
 push(`DELETE FROM integrations WHERE scope='client' AND client_id=${q(CLIENT)} AND provider IN ('youtube','instagram');`);
-push(`DELETE FROM workspace_preferences WHERE client_id=${q(CLIENT)} AND key IN ('content-plan');`);
+push(`DELETE FROM workspace_preferences WHERE client_id=${q(CLIENT)} AND key IN ('content-plan', 'video-stages');`);
 // Update in place: the row also holds the demo login's page settings, which a delete would lose.
 push(`INSERT INTO client_config (client, client_name, status, updated_at) VALUES (${q(CLIENT)}, ${q(NAME)}, 'demo', ${q(iso(NOW))})
   ON CONFLICT(client) DO UPDATE SET client_name=excluded.client_name, status='demo', updated_at=excluded.updated_at;`);
@@ -81,33 +81,33 @@ const VIDEOS = [
   { id: "dvVid30", hook: "1-MIN SCALP", title: "My Simple 1-Minute Scalping Strategy (Backtested Results)", days: 2, views: 12000, duration: 1164, visits: 16, apply: 1, book: 0, buy: 0 },
   { id: "dvVid29", hook: "-$3,234 LIVE", title: "Trading Live Losing $3,234 (NEVER MOVE YOUR SL)", days: 6, views: 6900, duration: 3664, visits: 11, apply: 0, book: 0, buy: 0 },
   { id: "dvVid28", hook: "EASY PAYOUTS", title: "Once You Master This, Getting Payouts Becomes Insanely Easy", days: 10, views: 11000, duration: 884, visits: 15, apply: 1, book: 0, buy: 0 },
-  { id: "dvVid27", hook: "WICK THEORY", title: "The Wick Theory Strategy I Will Use For Life (FULL TRADE BREAKDOWN)", days: 14, views: 15000, duration: 911, visits: 20, apply: 1, book: 0, buy: 0 },
-  { id: "dvVid26", hook: "7 FUNDED", title: "My Student Went From Blowing Accounts to 7 Funded Accounts", days: 18, views: 8100, duration: 831, visits: 62, apply: 13, book: 9, buy: 4 },
-  { id: "dvVid25", hook: "$29,162", title: "I made $29,162 Trading This One Setup", days: 22, views: 15000, duration: 612, visits: 20, apply: 3, book: 2, buy: 1 },
-  { id: "dvVid24", hook: "+$14,668 LIVE", title: "Trading Live Making $14,668 (THE BEST TRADING STRATEGY)", days: 26, views: 10000, duration: 3309, visits: 14, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid23", hook: "$7,962 FUNDED", title: "i made $7,962 on my funded with this simple strategy", days: 30, views: 16000, duration: 702, visits: 21, apply: 1, book: 0, buy: 0 },
-  { id: "dvVid22", hook: "1 ACCOUNT?", title: "1 funded account will not make you full time", days: 34, views: 7800, duration: 775, visits: 12, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid21", hook: "ORDER FLOW", title: "i passed 2 funding challenges using order flow", days: 38, views: 9900, duration: 970, visits: 14, apply: 1, book: 0, buy: 0 },
-  { id: "dvVid20", hook: "$124,550", title: "breakdown of the strategy that made me $124,550 last month", days: 42, views: 12000, duration: 960, visits: 50, apply: 10, book: 7, buy: 3 },
-  { id: "dvVid19", hook: "+$10,770 LIVE", title: "Trading Live Making $10,770 (TOGETHER WITH MY STUDENT)", days: 46, views: 8400, duration: 5695, visits: 12, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid18", hook: "+$16,951 LIVE", title: "Trading Live Making $16,951 (I DON'T NEED A STRATEGY)", days: 50, views: 5000, duration: 2614, visits: 9, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid17", hook: "VOLUME TRICK", title: "I Made $11,220 Using This Simple Volume Trick", days: 54, views: 6700, duration: 495, visits: 10, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid16", hook: "VOLUME PRINTS", title: "this volume based trading strategy prints money", days: 58, views: 8400, duration: 572, visits: 12, apply: 2, book: 1, buy: 1 },
-  { id: "dvVid15", hook: "+$7,338 LIVE", title: "Trading Live Making $7,338 (I LOVE THIS STRATEGY)", days: 62, views: 8500, duration: 2441, visits: 12, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid14", hook: "EASY FOR ME", title: "why trading is easy for me and hard for you", days: 66, views: 55000, duration: 900, visits: 66, apply: 2, book: 1, buy: 0 },
-  { id: "dvVid13", hook: "+$17,014 LIVE", title: "Trading Live Making $17,014 (IM INCREASING MY RISK)", days: 70, views: 4300, duration: 1907, visits: 8, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid12", hook: "$17,014", title: "my $17,014 trade breakdown (hybrid trading)", days: 74, views: 6500, duration: 646, visits: 10, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid11", hook: "$51,454", title: "i made $51,454 with Hybrid Trading (full breakdown)", days: 78, views: 8500, duration: 594, visits: 14, apply: 3, book: 2, buy: 1 },
-  { id: "dvVid10", hook: "+$7,320 LIVE", title: "Trading Live Making $7,320 (MARKETS ARE LOOKING BETTER)", days: 82, views: 4400, duration: 2851, visits: 8, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid09", hook: "WHY YOU FAIL", title: "Prop firm challenge? Here's why you're likely to fail", days: 86, views: 10000, duration: 985, visits: 14, apply: 1, book: 0, buy: 0 },
-  { id: "dvVid08", hook: "$40,392", title: "my $40,392 profit trade breakdown", days: 90, views: 6000, duration: 438, visits: 10, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid07", hook: "NASDAQ SETUP", title: "this stupid simple Nasdaq setup made me $22,410", days: 94, views: 6500, duration: 475, visits: 10, apply: 2, book: 1, buy: 1 },
-  { id: "dvVid06", hook: "FIX 90%", title: "this will fix 90% of your trading problems (and it's not a strategy)", days: 98, views: 6100, duration: 906, visits: 10, apply: 2, book: 1, buy: 1 },
-  { id: "dvVid05", hook: "NOT BROKEN", title: "your trading is not broken. markets are...", days: 102, views: 3200, duration: 680, visits: 7, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid04", hook: "2 YEARS", title: "i tried every trading strategy for 2 years. here's what finally worked", days: 106, views: 10000, duration: 830, visits: 14, apply: 1, book: 0, buy: 0 },
-  { id: "dvVid03", hook: "FUNDED IN 6 WKS", title: "my student went from losing trader to funded in 6 weeks", days: 110, views: 3300, duration: 2894, visits: 18, apply: 4, book: 3, buy: 1 },
-  { id: "dvVid02", hook: "+$20,118 LIVE", title: "Trading Live Making $20,118 (BACK IN PROFIT FOR THE MONTH)", days: 114, views: 5200, duration: 3741, visits: 9, apply: 0, book: 0, buy: 0 },
-  { id: "dvVid01", hook: "+$24,264 LIVE", title: "Trading Live Making $24,264 (I AM THE BANK)", days: 118, views: 5700, duration: 5577, visits: 9, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid27", hook: "WICK THEORY", title: "The Wick Theory Strategy I Will Use For Life (FULL TRADE BREAKDOWN)", stage: "MOF", days: 14, views: 15000, duration: 911, visits: 20, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid26", hook: "7 FUNDED", title: "My Student Went From Blowing Accounts to 7 Funded Accounts", stage: "BOF", days: 18, views: 8100, duration: 831, visits: 62, apply: 13, book: 9, buy: 4 },
+  { id: "dvVid25", hook: "$29,162", title: "I made $29,162 Trading This One Setup", stage: "MOF", days: 22, views: 15000, duration: 612, visits: 20, apply: 3, book: 2, buy: 1 },
+  { id: "dvVid24", hook: "+$14,668 LIVE", title: "Trading Live Making $14,668 (THE BEST TRADING STRATEGY)", stage: "TOF", days: 26, views: 10000, duration: 3309, visits: 14, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid23", hook: "$7,962 FUNDED", title: "i made $7,962 on my funded with this simple strategy", stage: "BOF", days: 30, views: 16000, duration: 702, visits: 21, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid22", hook: "1 ACCOUNT?", title: "1 funded account will not make you full time", stage: "BOF", days: 34, views: 7800, duration: 775, visits: 12, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid21", hook: "ORDER FLOW", title: "i passed 2 funding challenges using order flow", stage: "MOF", days: 38, views: 9900, duration: 970, visits: 14, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid20", hook: "$124,550", title: "breakdown of the strategy that made me $124,550 last month", stage: "MOF", days: 42, views: 12000, duration: 960, visits: 50, apply: 10, book: 7, buy: 3 },
+  { id: "dvVid19", hook: "+$10,770 LIVE", title: "Trading Live Making $10,770 (TOGETHER WITH MY STUDENT)", stage: "BOF", days: 46, views: 8400, duration: 5695, visits: 12, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid18", hook: "+$16,951 LIVE", title: "Trading Live Making $16,951 (I DON'T NEED A STRATEGY)", stage: "TOF", days: 50, views: 5000, duration: 2614, visits: 9, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid17", hook: "VOLUME TRICK", title: "I Made $11,220 Using This Simple Volume Trick", stage: "TOF", days: 54, views: 6700, duration: 495, visits: 10, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid16", hook: "VOLUME PRINTS", title: "this volume based trading strategy prints money", stage: "MOF", days: 58, views: 8400, duration: 572, visits: 12, apply: 2, book: 1, buy: 1 },
+  { id: "dvVid15", hook: "+$7,338 LIVE", title: "Trading Live Making $7,338 (I LOVE THIS STRATEGY)", stage: "TOF", days: 62, views: 8500, duration: 2441, visits: 12, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid14", hook: "EASY FOR ME", title: "why trading is easy for me and hard for you", stage: "TOF", days: 66, views: 55000, duration: 900, visits: 66, apply: 2, book: 1, buy: 0 },
+  { id: "dvVid13", hook: "+$17,014 LIVE", title: "Trading Live Making $17,014 (IM INCREASING MY RISK)", stage: "TOF", days: 70, views: 4300, duration: 1907, visits: 8, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid12", hook: "$17,014", title: "my $17,014 trade breakdown (hybrid trading)", stage: "TOF", days: 74, views: 6500, duration: 646, visits: 10, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid11", hook: "$51,454", title: "i made $51,454 with Hybrid Trading (full breakdown)", stage: "MOF", days: 78, views: 8500, duration: 594, visits: 14, apply: 3, book: 2, buy: 1 },
+  { id: "dvVid10", hook: "+$7,320 LIVE", title: "Trading Live Making $7,320 (MARKETS ARE LOOKING BETTER)", stage: "TOF", days: 82, views: 4400, duration: 2851, visits: 8, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid09", hook: "WHY YOU FAIL", title: "Prop firm challenge? Here's why you're likely to fail", stage: "TOF", days: 86, views: 10000, duration: 985, visits: 14, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid08", hook: "$40,392", title: "my $40,392 profit trade breakdown", stage: "TOF", days: 90, views: 6000, duration: 438, visits: 10, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid07", hook: "NASDAQ SETUP", title: "this stupid simple Nasdaq setup made me $22,410", stage: "MOF", days: 94, views: 6500, duration: 475, visits: 10, apply: 2, book: 1, buy: 1 },
+  { id: "dvVid06", hook: "FIX 90%", title: "this will fix 90% of your trading problems (and it's not a strategy)", stage: "TOF", days: 98, views: 6100, duration: 906, visits: 10, apply: 2, book: 1, buy: 1 },
+  { id: "dvVid05", hook: "NOT BROKEN", title: "your trading is not broken. markets are...", stage: "TOF", days: 102, views: 3200, duration: 680, visits: 7, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid04", hook: "2 YEARS", title: "i tried every trading strategy for 2 years. here's what finally worked", stage: "TOF", days: 106, views: 10000, duration: 830, visits: 14, apply: 1, book: 0, buy: 0 },
+  { id: "dvVid03", hook: "FUNDED IN 6 WKS", title: "my student went from losing trader to funded in 6 weeks", stage: "BOF", days: 110, views: 3300, duration: 2894, visits: 18, apply: 4, book: 3, buy: 1 },
+  { id: "dvVid02", hook: "+$20,118 LIVE", title: "Trading Live Making $20,118 (BACK IN PROFIT FOR THE MONTH)", stage: "TOF", days: 114, views: 5200, duration: 3741, visits: 9, apply: 0, book: 0, buy: 0 },
+  { id: "dvVid01", hook: "+$24,264 LIVE", title: "Trading Live Making $24,264 (I AM THE BANK)", stage: "TOF", days: 118, views: 5700, duration: 5577, visits: 9, apply: 0, book: 0, buy: 0 },
 ];
 const video = (id) => VIDEOS.find((v) => v.id === id);
 // A plain made-up thumbnail per video (dark, one hook, a few candles), inline so nothing loads from outside.
@@ -139,6 +139,10 @@ VIDEOS.forEach((v, n) => {
     for (let c = 0; c < clicks; c++) push(insert("asset_events", { token, client: CLIENT, at: iso(past(ago(v.days, 15) + rnd() * Math.min(v.days, 21) * DAY)) }));
   }
 });
+// Funnel stages the creator confirmed (functions/_shared/video-stage.js): about 60% TOF, 25% MOF, 15% BOF, with
+// MOF and BOF carrying the cash. The three newest are left as the app's guess, waiting for OK.
+push(`INSERT INTO workspace_preferences (client_id, key, value_json, updated_at) VALUES (${q(CLIENT)}, 'video-stages', ${q(json({ stages: Object.fromEntries(VIDEOS.filter((v) => v.stage).map((v) => [v.id, v.stage])) }))}, ${q(iso(NOW))})
+  ON CONFLICT(client_id, key) DO UPDATE SET value_json=excluded.value_json, updated_at=excluded.updated_at;`);
 // The Instagram bio link: the tracked link most leads start from.
 const BIO = "tmigbio";
 push(insert("asset_links", { token: BIO, client: CLIENT, label: "Bio link", target_url: "https://pulsify-ai.com/demo-example", created_at: iso(ago(120)), archived: 0, kind: "link", placement: "bio", source: "instagram" }));

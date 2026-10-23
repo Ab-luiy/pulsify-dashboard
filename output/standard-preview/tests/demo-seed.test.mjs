@@ -58,6 +58,13 @@ assert.equal(breakout.cash_cents, 0);
 assert.ok(breakout.views > 5 * first.views && first.cash_cents >= 900000, "views and money point different ways");
 assert.ok(cash.videos.every((v) => v.thumbnail_url?.startsWith("data:image/svg+xml")), "every video has an inline made-up thumbnail");
 
+// Funnel stages: roughly 60/25/15, MOF and BOF carry the cash, the newest ones wait for the creator's OK.
+const share = (stage) => cash.videos.filter((v) => v.stage.value === stage).length / cash.videos.length;
+assert.ok(share("TOF") >= 0.5 && share("TOF") <= 0.65 && share("MOF") >= 0.2 && share("MOF") <= 0.3 && share("BOF") >= 0.1 && share("BOF") <= 0.2, "a believable spread");
+const cashBy = (stage) => cash.videos.filter((v) => v.stage.value === stage).reduce((n, v) => n + v.cash_cents, 0);
+assert.ok(cashBy("MOF") + cashBy("BOF") > 4 * cashBy("TOF"), "MOF and BOF bring the cash, TOF the views");
+assert.equal(cash.videos.filter((v) => !v.stage.confirmed).length, 3);
+
 // Neither sync picks the example workspace up (they would replace the made-up numbers).
 assert.deepEqual(await dueVideoClients(env, { force: true }), []);
 const instagram = JSON.parse(sql.prepare("SELECT config_json FROM integrations WHERE client_id=? AND provider='instagram'").get(client).config_json);

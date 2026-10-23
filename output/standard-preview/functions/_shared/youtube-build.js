@@ -21,7 +21,7 @@ export function normalizeVideo(value) {
     idea: text(value?.idea, 240),
     title: text(value?.title, 120),
     thumbnail_text: text(value?.thumbnail_text, 60),
-    funnel: text(value?.funnel, 4).toUpperCase() === "MOF" ? "MOF" : "TOF",
+    funnel: ["MOF", "BOF"].includes(text(value?.funnel, 4).toUpperCase()) ? text(value?.funnel, 4).toUpperCase() : "TOF",
     format: text(value?.format, 20),
   };
 }

@@ -291,6 +291,9 @@ function normalizePositiveInteger(value, min, max) {
 }
 
 function clampDays(value) {
+  // No ?days= means the default window. Number(null) is 0, which used to clamp to one day, so every screen
+  // (none pass days) only ever saw today's sequences.
+  if (value == null || value === "") return 60;
   const number = Number(value);
   if (!Number.isFinite(number)) return 60;
   return Math.max(1, Math.min(365, Math.round(number)));
