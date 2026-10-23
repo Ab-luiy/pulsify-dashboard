@@ -1,32 +1,16 @@
-// The Example workspace for sales calls: the seed builds a believable funnel and videos-by-cash view, reruns
-// cleanly, never touches another client, and every cross-client total leaves it out.
+// The Example workspace for sales calls and outreach videos (Theo Marsh, made up): the seed builds every screen the
+// video shows, reruns cleanly, never touches another client or the demo login, and no sync can overwrite it.
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
-import { funnelHealthReport } from "../functions/_shared/funnel-health.js";
-import { videoCashReport } from "../functions/_shared/video-cash.js";
+import { videoCashReport, dueVideoClients } from "../functions/_shared/video-cash.js";
+import { loadPerson } from "../functions/_shared/lead-people.js";
+import { loadCalls } from "../functions/_shared/lead-calls.js";
+import { loadCallDetail } from "../functions/_shared/call-detail.js";
 
 const sql = new DatabaseSync(":memory:");
-const mig = (name) => readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8");
-sql.exec(`CREATE TABLE client_config(client TEXT PRIMARY KEY, client_name TEXT, status TEXT, portal_token_hash TEXT,
-  wistia_media_id TEXT, typeform_url TEXT, typeform_webhook_secret TEXT, kit_api_key TEXT, kit_tag_id TEXT,
-  allowed_origin TEXT, prospect_email TEXT, acquisition_token TEXT, updated_at TEXT)`);
-sql.exec(`CREATE TABLE leads(id INTEGER PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL, email TEXT, name TEXT, revenue TEXT,
-  situation TEXT, applied_at TEXT, status TEXT DEFAULT 'new', visitor_id TEXT, session_id TEXT, page_id TEXT,
-  source TEXT DEFAULT 'typeform', response_id TEXT, phone TEXT, answers_json TEXT, kit_status TEXT, utm_json TEXT, updated_at TEXT)`);
-sql.exec(`CREATE TABLE watch_events(id INTEGER PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL, email TEXT, media_id TEXT,
-  event TEXT, percent INTEGER, at TEXT, visitor_id TEXT, session_id TEXT, page_id TEXT, wistia_visitor_key TEXT, watch_seconds REAL DEFAULT 0)`);
-sql.exec(`CREATE TABLE page_events(id INTEGER PRIMARY KEY AUTOINCREMENT, client TEXT NOT NULL, visitor_id TEXT, session_id TEXT,
-  page_id TEXT, event TEXT NOT NULL, email TEXT, path TEXT, referrer TEXT, utm_json TEXT, metadata_json TEXT, at TEXT NOT NULL,
-  country TEXT, city TEXT)`);
-sql.exec("CREATE TABLE lead_models(client_id TEXT PRIMARY KEY, model_json TEXT, fitted_at TEXT)");
-sql.exec("CREATE TABLE client_sessions(token_hash TEXT, client_id TEXT, expires_at TEXT, created_at TEXT)");
-for (const name of ["0008_integrations_hub.sql", "0010_view_tracking.sql", "0014_client_brain.sql", "0021_workspace_records.sql", "0025_data_spine.sql", "0027_revenue_automation.sql", "0028_onboarding.sql", "0043_cash_by_video.sql"]) {
-  sql.exec(mig(name).replace(/ALTER TABLE client_config ADD COLUMN status[^;]*;/, "").replace(/ALTER TABLE page_events ADD COLUMN (ip|country|city|user_agent) TEXT;/g, ""));
-}
-sql.exec("ALTER TABLE page_events ADD COLUMN lat REAL; ALTER TABLE page_events ADD COLUMN lng REAL;");
-sql.exec("ALTER TABLE asset_links ADD COLUMN source TEXT;");
+sql.exec(readFileSync(new URL("./fixtures/d1-schema.sql", import.meta.url), "utf8"));
 
 const env = {
   DB: {
@@ -40,53 +24,90 @@ const env = {
       };
       return stmt;
     },
+    async batch(list) { return Promise.all(list.map((s) => s.run())); },
   },
 };
 
-// A real client whose rows the seed must never touch.
+const client = "demo-example";
+// A real client whose rows the seed must never touch, and the demo's own login and page settings.
 sql.prepare("INSERT INTO client_config(client, client_name, status) VALUES ('acme','Acme','client')").run();
 sql.prepare("INSERT INTO page_events(client, visitor_id, event, at) VALUES ('acme','a1','page_view','2026-09-30T00:00:00.000Z')").run();
 sql.prepare("INSERT INTO payments(client, amount_cents, currency, rail, reference, occurred_at, recorded_by, created_at) VALUES ('acme',50000,'USD','manual','acme-1','2026-09-30T00:00:00.000Z','op','2026-09-30T00:00:00.000Z')").run();
+sql.prepare("INSERT INTO client_config(client, client_name, status, page_content_json) VALUES (?, 'Example Trading Co', 'demo', '{\"kept\":true}')").run(client);
+sql.prepare("INSERT INTO client_sessions(token_hash, client_id, expires_at, created_at) VALUES ('h1', ?, '2099-01-01', '2026-10-01')").run(client);
 
 const seedSql = () => execFileSync("node", [new URL("../tools/seed-demo-workspace.mjs", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1")], { encoding: "utf8" });
 sql.exec(seedSql());
 
-const client = "demo-example";
-assert.equal(sql.prepare("SELECT status FROM client_config WHERE client=?").get(client).status, "demo");
+const config = sql.prepare("SELECT client_name, status, page_content_json FROM client_config WHERE client=?").get(client);
+assert.equal(config.status, "demo");
+assert.equal(config.client_name, "Theo Marsh Trading");
+assert.equal(config.page_content_json, '{"kept":true}', "the seed updates the workspace row, it never recreates it");
+assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM client_sessions WHERE client_id=?").get(client).n, 1, "the demo login survives");
 
-// The funnel: believable, ranked, with the money matched.
-const funnel = await funnelHealthReport(env, client, { range: "30d" });
-const count = (key) => funnel.steps.find((step) => step.key === key)?.count;
-assert.equal(count("visit"), 200);
-assert.equal(count("play"), 120);
-assert.equal(count("application"), 60);
-assert.equal(count("booking"), 24);
-assert.equal(count("buyer"), 4);
-assert.equal(funnel.cash.collected_cents, 750000);
-assert.ok(funnel.score?.value > 0, "the example funnel has a score");
-assert.ok(funnel.fixes.length > 0, "the example funnel has something to fix");
+// Views vs money: two mid-view videos carry the cash; the breakout has ten times the normal views and no cash.
+const cash = await videoCashReport(env, client, { range: "all" });
+assert.equal(cash.handle, "@theomarshtrades");
+assert.equal(cash.videos.length, 24);
+const [first, second] = cash.videos;
+assert.match(first.title, /size every trade/);
+assert.match(second.title, /pre-market routine/);
+const breakout = cash.videos.find((v) => /\$500 into \$14,000/.test(v.title));
+assert.ok(breakout.outlier?.outlier && breakout.outlier.multiplier >= 10, "the breakout is flagged");
+assert.equal(breakout.cash_cents, 0);
+assert.ok(breakout.views > 8 * first.views && first.cash_cents >= 900000, "views and money point different ways");
+assert.ok(cash.videos.every((v) => v.thumbnail_url?.startsWith("data:image/svg+xml")), "every video has an inline made-up thumbnail");
 
-// Videos by cash: every video listed, the buyers credited to the videos that earned them.
-const videos = await videoCashReport(env, client, { range: "all" });
-assert.equal(videos.handle, "@exampletradingco");
-assert.equal(videos.videos.length, 4);
-assert.equal(videos.videos.reduce((n, v) => n + v.buyers, 0) <= 4, true);
-assert.equal(videos.videos[0].cash_cents >= videos.videos[1].cash_cents, true, "ranked by cash");
-
-// The channel sync never looks the example workspace up (it would replace the made-up videos).
-const { dueVideoClients } = await import("../functions/_shared/video-cash.js");
+// Neither sync picks the example workspace up (they would replace the made-up numbers).
 assert.deepEqual(await dueVideoClients(env, { force: true }), []);
+const instagram = JSON.parse(sql.prepare("SELECT config_json FROM integrations WHERE client_id=? AND provider='instagram'").get(client).config_json);
+assert.equal(instagram.account_id, undefined, "no Zernio account, so the client Instagram sync never runs");
 
-// Rerun: no duplicates, same shape, the real client untouched.
+// Maya's path: Tuesday bio click, Friday YouTube, Sunday applied, Monday booked, Wednesday paid; credit on the first touch.
+const maya = await loadPerson(env, client, "maya.okafor@example.com");
+const journey = [...maya.journey].reverse();
+const firstTouch = journey.find((e) => e.first_touch);
+assert.equal(firstTouch.kind, "page_view");
+assert.equal(firstTouch.link?.placement, "bio");
+const day = (kind) => new Date(journey.find((e) => e.kind === kind).at).getUTCDay();
+assert.equal(new Date(firstTouch.at).getUTCDay(), 2);
+assert.equal(new Date(journey.find((e) => e.kind === "page_view" && e.video).at).getUTCDay(), 5);
+assert.equal(day("application"), 0);
+assert.equal(day("booking"), 1);
+assert.equal(day("payment"), 3);
+
+// Calls: upcoming ones with a pre-call brief, one waiting on a form, past ones with outcomes.
+const calls = await loadCalls(env, client);
+const json = JSON.stringify(calls);
+assert.ok(json.includes("hannah.cole@example.com"), "Hannah's call is on the Calls tab");
+const hannahRef = sql.prepare("SELECT external_id FROM pipeline_touches WHERE client_id=? AND kind='booking' AND contact_email='hannah.cole@example.com'").get(client).external_id;
+const detail = await loadCallDetail(env, client, hannahRef);
+assert.equal(detail.briefs.length, 1);
+assert.match(detail.briefs[0].summary, /^WANT:/);
+assert.ok(Date.parse(detail.call_at) > Date.now(), "the briefed call is still ahead");
+assert.ok(sql.prepare("SELECT COUNT(*) AS n FROM lead_outcomes WHERE client_id=?").get(client).n >= 10);
+
+// Stories, Instagram, the week plan: present and dated no later than now.
+assert.ok(sql.prepare("SELECT COUNT(*) AS n FROM sequence_log WHERE client_id=?").get(client).n >= 12);
+assert.equal(JSON.parse(sql.prepare("SELECT payload_json FROM snapshots WHERE scope='client' AND client_id=? AND kind='profile'").get(client).payload_json).followers, 11840);
+assert.ok(JSON.parse(sql.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key='content-plan'").get(client).value_json).slots.length >= 8);
+const nowIso = new Date(Date.now() + 60000).toISOString();
+for (const [table, column] of [["page_events", "at"], ["payments", "occurred_at"], ["sequence_log", "created_at"], ["ig_dm_events", "at"]]) {
+  assert.equal(sql.prepare(`SELECT COUNT(*) AS n FROM ${table} WHERE ${table === "ig_dm_events" || table === "sequence_log" ? "client_id" : "client"}=? AND ${column} > ?`).get(client, nowIso).n, 0, `${table} has nothing in the future`);
+}
+
+// Rerun: same shape, no duplicates, the real client untouched.
+const before = sql.prepare("SELECT (SELECT COUNT(*) FROM payments WHERE client=?) AS p, (SELECT COUNT(*) FROM page_events WHERE client=?) AS e, (SELECT COUNT(*) FROM studio_sequences WHERE client_id=?) AS s").get(client, client, client);
 sql.exec(seedSql());
+assert.deepEqual(sql.prepare("SELECT (SELECT COUNT(*) FROM payments WHERE client=?) AS p, (SELECT COUNT(*) FROM page_events WHERE client=?) AS e, (SELECT COUNT(*) FROM studio_sequences WHERE client_id=?) AS s").get(client, client, client), before);
 assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM client_config WHERE client=?").get(client).n, 1);
-assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM payments WHERE client=?").get(client).n, 4);
-assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM yt_videos WHERE client_id=?").get(client).n, 4);
 assert.equal(sql.prepare("SELECT COUNT(*) AS n FROM page_events WHERE client='acme'").get().n, 1);
 assert.equal(sql.prepare("SELECT amount_cents FROM payments WHERE client='acme'").get().amount_cents, 50000);
 
-// No private data anywhere: only example.com addresses.
+// Made up throughout: only example.com addresses, none of the founder's handles or real creators.
 const emails = sql.prepare("SELECT DISTINCT contact_email FROM pipeline_touches WHERE client_id=?").all(client).map((r) => r.contact_email);
-assert.ok(emails.length > 0 && emails.every((e) => e.endsWith("@example.com")));
+assert.ok(emails.length > 20 && emails.every((e) => e.endsWith("@example.com")));
+const everything = seedSql().toLowerCase();
+for (const real of ["ab.luiy", "abdul", "dovytrades", "tb.tradez"]) assert.ok(!everything.includes(real), `the seed never mentions ${real}`);
 
 console.log("demo-seed.test.mjs ok");
