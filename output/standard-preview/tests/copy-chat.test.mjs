@@ -78,6 +78,9 @@ globalThis.fetch = async (url, init) => {
     return new Response(sse(words), { status: 200, headers: { "content-type": "text/event-stream" } });
   }
   if (target.includes(":generateContent")) {
+    if (payload.systemInstruction?.parts?.[0]?.text.startsWith("Grounding check")) {
+      return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify({ reply }) }] } }] }), { status: 200, headers: { "content-type": "application/json" } });
+    }
     return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify({ notes: memoryNotes }) }] } }] }), { status: 200, headers: { "content-type": "application/json" } });
   }
   if (target.includes("api.anthropic.com")) {
@@ -108,6 +111,7 @@ try {
   let state = await (await get(geminiEnv)).json();
   assert.equal(state.mode, "generated");
   assert.equal(state.provider, "Gemini");
+  assert.match(state.knowledge_version, /^[a-f0-9]{16}$/);
   assert.deepEqual(state.chats, []);
   assert.equal((await (await get(manualEnv)).json()).mode, "manual");
   assert.equal((await (await get({ DB, ANTHROPIC_API_KEY: "a-key" })).json()).provider, "Claude");
@@ -132,11 +136,10 @@ try {
   const system = first.payload.systemInstruction.parts[0].text;
   assert.match(system, /ALPHA VOICE: blunt and dry/, "the client's own brain is in the prompt");
   assert.doesNotMatch(system, /PRIVATE BETA VOICE/, "another client's brain never is");
-  assert.match(system, /never say or hint where Pulsify's methods/i, "the hard limit on sources is in the prompt");
+  assert.match(system, /never say or hint where Pulsify's internal methods/i, "the hard limit on sources is in the prompt");
   assert.doesNotMatch(system, /niksetting|haynes|alexei|ayman|soowei/i, "the method text the model reads names no source");
   assert.match(system, /story sequence/i, "story format loads the story method");
-  assert.match(system, /THE LEVEL OF WRITING EXPECTED/, "a worked example sets the level");
-  assert.match(system, /Slide 1: \[Real result\]/, "the story example leaves facts as brackets");
+  assert.doesNotMatch(system, /THE LEVEL OF WRITING EXPECTED|Request: An email to people who watched/, "fictional legacy scenarios are not injected as examples of client facts");
 
   // ---- the background memory call ran and stored a note
   assert.deepEqual(sql.prepare("SELECT note, source FROM copy_memory WHERE client_id='a' AND active=1").all().map((r) => [r.note, r.source]), [["Prefers blunt, dry openings.", "chat"]]);
@@ -228,6 +231,84 @@ try {
   assert.equal(result.text, "Opus wrote this. Second part.");
   assert.ok(calls.some((c) => c.url.includes("api.anthropic.com")));
   assert.ok(!calls.some((c) => c.url.includes("generativelanguage")), "the paid key wins over the free one");
+
+  // ---- actual Workers AI path: all onboarding sections and proof reach the writer,
+  // explicit new formats override the old chat format, body client_id cannot select a client.
+  sql.exec("DELETE FROM copy_messages; DELETE FROM copy_chats;");
+  for (const [i, section] of ["intent", "money", "positioning", "content", "program", "commitment"].entries()) {
+    sql.prepare("INSERT INTO client_brain VALUES (?,?,?,?,?,?,?)").run(10 + i, "a", section, "detail", JSON.stringify(`ALPHA_${section.toUpperCase()}_FACT`), "client-form", "2026-10-25");
+  }
+  sql.prepare("INSERT INTO proof_items VALUES (?,?,?,?,?,?,?)").run(1, "a", "text", "", "ALPHA_GRANTED_PROOF", "granted", "2026-10-25");
+  sql.prepare("INSERT INTO proof_items VALUES (?,?,?,?,?,?,?)").run(2, "a", "text", "", "ALPHA_DENIED_PROOF", "denied", "2026-10-25");
+  const workersCalls = [];
+  let failReview = false;
+  let workerDraft = "A grounded answer.";
+  let reviewCount = 0;
+  const workersEnv = { DB, AI: { async run(model, payload) {
+    workersCalls.push({ model, payload });
+    if (!payload.stream) {
+      if (payload.messages[0].content.startsWith("Grounding check")) {
+        if (failReview) throw new Error("review unavailable");
+        reviewCount++;
+        if (reviewCount === 1) return { response: '{"reply":"A grounded answer. Everyone gets a personal video."}' };
+        return { response: '{"reply":"A grounded answer."}' };
+      }
+      return { response: '{"notes":[]}' };
+    }
+    return new ReadableStream({ start(controller) {
+      controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({ response: workerDraft })}\n\ndata: [DONE]\n\n`));
+      controller.close();
+    } });
+  } } };
+  result = await post(workersEnv, { action: "send", message: "Let's discuss my offer before drafting a story", format: "story", client_id: "b" });
+  assert.equal(result.text, "A grounded answer.");
+  assert.equal(result.events[0].data.grounding.fields_available, 8);
+  assert.equal(result.events[0].data.grounding.fields_omitted, 0);
+  assert.ok(result.events[0].data.grounding.method_passages > 0);
+  assert.match(result.events[0].data.grounding.knowledge_version, /^[a-f0-9]{16}$/);
+  const workersSystem = workersCalls.find((call) => call.payload.stream).payload.messages[0].content;
+  for (const section of ["intent", "money", "positioning", "content", "program", "commitment"]) assert.ok(workersSystem.includes(`ALPHA_${section.toUpperCase()}_FACT`));
+  assert.match(workersSystem, /ALPHA_GRANTED_PROOF/);
+  assert.doesNotMatch(workersSystem, /PRIVATE BETA|ALPHA_DENIED_PROOF/);
+  const workersChat = result.events[0].data.chat_id;
+  workerDraft = "A grounded answer. Everyone gets a personal video.";
+  result = await post(workersEnv, { action: "send", chat_id: workersChat, message: "Now write an email instead" });
+  assert.equal(result.events[0].data.format, "email", "an old story chat does not lock future turns to stories");
+  assert.equal(result.text, "A grounded answer.", "only the checked draft is exposed and saved");
+  assert.equal(reviewCount, 2, "a remaining unsupported commitment triggers one bounded repair");
+  const publicWriterSystem = workersCalls.filter((call) => call.payload.stream).at(-1).payload.messages[0].content;
+  assert.doesNotMatch(publicWriterSystem, /ALPHA_MONEY_FACT|ALPHA_COMMITMENT_FACT/, "private planning fields are excluded from a public draft");
+  assert.equal(sql.prepare("SELECT content FROM copy_messages WHERE chat_id=? AND role='assistant' ORDER BY id DESC LIMIT 1").get(workersChat).content, "A grounded answer.");
+  assert.ok(workersCalls.some((call) => !call.payload.stream && call.payload.messages[0].content.startsWith("Grounding check")));
+  failReview = true;
+  result = await post(workersEnv, { action: "send", chat_id: workersChat, message: "Write a new email" });
+  assert.equal(result.events.at(-1).event, "error");
+  assert.equal(result.text, "", "unverified draft never leaks when the checker fails");
+  failReview = false;
+
+  // ---- an unavailable brain is a visible retryable failure BEFORE writing anything.
+  const failedDB = { ...DB, prepare(query) {
+    if (query.includes("FROM client_brain")) throw new Error("simulated database outage");
+    return DB.prepare(query);
+  } };
+  const chatCount = sql.prepare("SELECT COUNT(*) n FROM copy_chats").get().n;
+  const messageCount = sql.prepare("SELECT COUNT(*) n FROM copy_messages").get().n;
+  const workerCallCount = workersCalls.length;
+  result = await post({ ...workersEnv, DB: failedDB }, { action: "send", message: "Use my actual business details" });
+  assert.equal(result.response.status, 503);
+  assert.match(result.json.error, /couldn't load your saved business details/);
+  assert.equal(sql.prepare("SELECT COUNT(*) n FROM copy_chats").get().n, chatCount);
+  assert.equal(sql.prepare("SELECT COUNT(*) n FROM copy_messages").get().n, messageCount);
+  assert.equal(workersCalls.length, workerCallCount, "no blind model call on a failed context read");
+
+  const cappedDB = { ...DB, prepare(query) {
+    if (query.includes("INSERT INTO usage_counters")) return { bind() { return this; }, async run() { return { meta: { changes: 0 } }; } };
+    return DB.prepare(query);
+  } };
+  result = await post({ ...workersEnv, DB: cappedDB }, { action: "send", message: "Use my brain" });
+  assert.equal(result.response.status, 429, "the existing platform allowance also covers chat streaming");
+  assert.equal(workersCalls.length, workerCallCount);
+  assert.equal(sql.prepare("SELECT COUNT(*) n FROM copy_messages").get().n, messageCount, "an exhausted allowance does not consume or save the draft");
 
   console.log("PASS copy chat: saved chats per client, Gemini streaming with fallback model, Opus when keyed, sources scrubbed from reply and prompt, ratings teach by example and rule, memory, isolation, burst limit, failures keep the message, manual prompt without a key.");
 } finally {
