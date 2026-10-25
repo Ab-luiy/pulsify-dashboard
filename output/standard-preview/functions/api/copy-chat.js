@@ -13,10 +13,12 @@
 // The writing is provider-agnostic (ai-provider.js): Opus with an Anthropic key, Gemini with a Gemini key.
 import { cleanId, json, nowIso } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
-import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
+import { buildJaneBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { aiMode, generateText, providerLabel, resolveAi, streamText } from "../_shared/ai-provider.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { buildCopySystem, conversationFor, formatFromText, memoryPrompt } from "../_shared/copy-brain.js";
+import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps } from "../_shared/copy-brain.js";
+import { retrieveCopyKnowledge, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
+import { enforceAllowance } from "../_shared/ai-guard.js";
 import { createStreamScrubber, scrubSources } from "../_shared/source-scrub.js";
 
 const MAX_MESSAGE = 8000;
@@ -60,6 +62,7 @@ export async function onRequestGet({ request, env }) {
     ok: true,
     mode: aiMode(ai) === "manual" ? "manual" : "generated",
     provider: providerLabel(ai),
+    knowledge_version: COPY_KNOWLEDGE_VERSION,
     // "client" = writing on their own key, "platform" = on Pulsify's, "none" = a prompt for their own AI.
     source: ai.source,
     chats: (chats.results || []).map((row) => ({ ...row, id: Number(row.id) })),
@@ -165,15 +168,18 @@ async function remember(env, ai, client, userMessage, reply) {
   }
 }
 
-async function loadClientBrain(env, client) {
+async function loadClientBrain(env, client, query, publicDraft) {
   const [context, memory, rules, liked] = await Promise.all([
-    loadClientBrainData(env, client).then((data) => buildGeneratorBrainContext(data).prompt_text).catch(() => ""),
+    // A failed read is different from an empty brain. Never generate blindly on a DB error.
+    loadClientBrainData(env, client).then((data) => buildJaneBrainContext(data, { query, publicDraft })),
     loadMemory(env, client),
     env.DB.prepare("SELECT rule FROM studio_feedback WHERE active=1 AND (scope='all' OR client_id=?) ORDER BY CASE WHEN scope='all' THEN 0 ELSE 1 END, created_at DESC LIMIT 20").bind(client).all().catch(() => ({ results: [] })),
     env.DB.prepare("SELECT content FROM copy_messages WHERE client_id=? AND role='assistant' AND rating='up' ORDER BY id DESC LIMIT 3").bind(client).all().catch(() => ({ results: [] })),
   ]);
   return {
-    contextText: context,
+    contextText: context.prompt_text,
+    grounding: { fields_available: context.fields_available, fields_used: context.fields_used,
+      fields_excerpted: context.fields_excerpted, fields_omitted: context.fields_omitted, private_fields_excluded: context.private_fields_excluded, truncated: context.truncated },
     memory: memory.map((row) => row.note),
     rules: [...new Set((rules.results || []).map((row) => clean(row.rule, 400)).filter(Boolean))],
     liked: (liked.results || []).map((row) => row.content),
@@ -193,26 +199,43 @@ async function send(context, client, body) {
   let chat = body.chat_id ? await loadChat(env, client, body.chat_id) : null;
   if (body.chat_id && !chat) return json({ ok: false, error: "chat not found" }, 404);
   const asked = FORMATS.has(String(body.format)) ? String(body.format) : null;
+  const inferred = formatFromText(message);
+  const format = inferred !== "general" ? inferred : asked || chat?.format || "general";
+  const reviewDraft = needsCopyReview(message, format);
+  const history = chat ? await env.DB.prepare("SELECT role, content FROM copy_messages WHERE chat_id=? AND client_id=? ORDER BY id").bind(chat.id, client).all() : { results: [] };
+  // Short follow-ups such as "why?" need the preceding topic for retrieval.
+  const query = [message, ...(message.length < 180 ? (history.results || []).filter((row) => row.role === "user").slice(-2).map((row) => row.content.slice(0, 1200)) : [])].join("\n");
+  let clientBrain;
+  try { clientBrain = await loadClientBrain(env, client, query, reviewDraft); }
+  catch {
+    return json({ ok: false, error: "Jane couldn't load your saved business details. Try again in a moment; your draft is still here." }, 503);
+  }
+  const knowledge = retrieveCopyKnowledge({ query, format });
+  const conversation = buildConversationContext([...(history.results || []), { role: "user", content: message }], query);
+  const messages = conversation.messages;
+  const system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
+  const grounding = { ...clientBrain.grounding, knowledge_version: knowledge.version,
+    method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns };
+  const ai = await resolveAi(env, client);
+  try { await enforceAllowance(ai); }
+  catch (error) {
+    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message }, 429);
+    return json({ ok: false, error: "Jane couldn't start that reply. Your draft is still here. Try again shortly." }, 503);
+  }
   if (!chat) {
     const now = nowIso();
     const result = await env.DB.prepare("INSERT INTO copy_chats (client_id, title, format, created_at, updated_at) VALUES (?, ?, ?, ?, ?)").bind(client, titleFrom(message), asked, now, now).run();
     chat = { id: Number(result.meta?.last_row_id || 0), title: titleFrom(message), format: asked };
   }
-  const format = chat.format || asked || formatFromText(message);
   if (!chat.format && FORMATS.has(format)) await env.DB.prepare("UPDATE copy_chats SET format=? WHERE id=? AND client_id=?").bind(format, chat.id, client).run();
 
   const userId = await addMessage(env, client, chat.id, "user", message);
   const direct = REMEMBER.exec(message);
   if (direct) await addMemory(env, client, clean(direct[1], 200), "client");
 
-  const history = await env.DB.prepare("SELECT role, content FROM copy_messages WHERE chat_id=? AND client_id=? ORDER BY id").bind(chat.id, client).all();
-  const messages = conversationFor(history.results || []);
-  const system = buildCopySystem({ format, client: await loadClientBrain(env, client) });
-
-  const ai = await resolveAi(env, client);
   if (aiMode(ai) === "manual") {
     const transcript = messages.map((turn) => `${turn.role === "assistant" ? "ASSISTANT" : "CLIENT"}:\n${turn.content}`).join("\n\n");
-    return json({ ok: true, mode: "manual", chat_id: chat.id, title: chat.title, message_id: userId, prompt: `${system}\n\nCONVERSATION SO FAR:\n${transcript}\n\nWrite the next reply.` });
+    return json({ ok: true, mode: "manual", chat_id: chat.id, title: chat.title, message_id: userId, grounding, prompt: `${system}\n\nCONVERSATION SO FAR:\n${transcript}\n\nWrite the next reply.` });
   }
 
   const { readable, writable } = new TransformStream();
@@ -225,21 +248,42 @@ async function send(context, client, body) {
     const scrubber = createStreamScrubber();
     let full = "";
     try {
-      await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format });
-      for await (const chunk of streamText({ system, messages }, ai)) {
+      await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format, grounding });
+      for await (const chunk of plainReplyChunks(streamText({ system, messages }, ai))) {
         const safe = scrubber.push(chunk);
         if (safe) {
           full += safe;
-          await emit("delta", { text: safe });
+          if (!reviewDraft) await emit("delta", { text: safe });
         }
       }
       const rest = scrubber.flush();
       if (rest) {
         full += rest;
-        await emit("delta", { text: rest });
+        if (!reviewDraft) await emit("delta", { text: rest });
       }
       full = full.trim();
       if (!full) throw new Error("empty reply");
+      if (reviewDraft) {
+        let checkedDraft = full;
+        let gaps = [];
+        for (let attempt = 0; attempt < 2; attempt++) {
+          const review = groundingReviewPrompt({ clientContext: clientBrain.contextText,
+            messages: [...(conversation.earlierText ? [{ role: "user", content: conversation.earlierText }] : []), ...messages], draft: checkedDraft });
+          if (gaps.length) review.user += `\n\nThese unsupported promises MUST be removed or narrowed to the saved delivery facts. Do not replace them with different promises:\n${gaps.join("\n")}`;
+          const checked = await generateText(review, copyReviewAi(ai),
+            { json: true, temperature: 0.1, maxOutputTokens: 4000, uncounted: true });
+          checkedDraft = applyGroundingReview(checkedDraft, checked);
+          gaps = findCopyClaimGaps(checkedDraft, clientBrain.contextText);
+          if (!gaps.length) break;
+        }
+        if (gaps.length) throw new Error("Unsupported offer commitments remain");
+        const reviewed = scrubSources(checkedDraft);
+        async function* corrected() { yield reviewed; }
+        full = "";
+        for await (const text of plainReplyChunks(corrected())) full += text;
+        full = full.trim();
+        await emit("delta", { text: full });
+      }
       const id = await addMessage(env, client, chat.id, "assistant", full);
       await emit("done", { message_id: id });
     } catch {

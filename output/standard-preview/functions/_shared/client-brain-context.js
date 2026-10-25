@@ -1,4 +1,5 @@
 import { readNiche } from "./niches.js";
+import { excerpt, relevance } from "./copy-knowledge.js";
 
 const SECTION_ORDER = ["identity", "intent", "money", "offer", "icp", "story", "positioning", "voice", "content", "proof", "funnel", "program", "commitment", "donot"];
 const SECTION_LABELS = {
@@ -21,6 +22,54 @@ const SECTION_LABELS = {
 const GENERATOR_SECTION_ORDER = ["offer", "positioning", "icp", "voice", "proof", "donot", "story", "identity", "content", "intent", "program", "funnel"];
 const MAX_GENERATOR_CONTEXT_CHARS = 30000;
 const MAX_GENERATOR_FIELD_CHARS = 6000;
+
+/** Jane uses ALL saved sections. Give every nonempty field a place before spending the
+ * remaining budget on the fields relevant to this turn. Other generators keep their contract. */
+export function buildJaneBrainContext(data, { query = "", maxChars = 32000, publicDraft = false } = {}) {
+  const entries = [];
+  let privateFieldsExcluded = 0;
+  for (const row of data?.rows || []) {
+    // Jane may discuss the authenticated creator's own planning context. Private money/deal
+    // fields and the creator's capacity must never become features/promises in public copy.
+    if (publicDraft && ["money", "commitment"].includes(row.section)) { privateFieldsExcluded++; continue; }
+    let value = parseBrainValue(row.value_json);
+    if (row.section === "proof" && row.field === "items") {
+      value = Array.isArray(value) ? value.filter((item) => item && typeof item === "object" && item.permission !== "denied") : [];
+    }
+    if (isBrainGap(value)) continue;
+    entries.push({ key: `${labelFromKey(row.section)} / ${labelFromKey(row.field)}`, value: formatBrainValue(value), updated_at: row.updated_at,
+      priority: (row.section === "donot" ? 8 : 0) + relevance(`${row.section} ${row.field}`, query) * 4 + relevance(formatBrainValue(value), query) });
+  }
+  for (const item of data?.proof_items || []) {
+    if (item.permission === "denied" || !String(item.claim || "").trim()) continue;
+    entries.push({ key: `Proof / ${item.permission === "granted" ? "Permission granted" : "Permission unknown: confirm before publication"}`,
+      value: String(item.claim).trim(), updated_at: item.created_at, priority: relevance(item.claim, query) + 2 });
+  }
+  // Stable relevance sorting prevents an oversized early field from excluding later sections.
+  entries.sort((a, b) => b.priority - a.priority || a.key.localeCompare(b.key));
+  const base = Math.max(40, Math.min(220, Math.floor(maxChars / Math.max(1, entries.length)) - 100));
+  let budget = maxChars - 350;
+  const kept = [];
+  for (const entry of entries) {
+    const allowance = Math.min(entry.value.length, base);
+    const cost = entry.key.length + allowance + 80;
+    if (cost > budget) continue;
+    kept.push({ ...entry, allowance });
+    budget -= cost;
+  }
+  for (const entry of kept) {
+    const extra = Math.min(budget, 6000 - entry.allowance, entry.value.length - entry.allowance);
+    entry.allowance += extra;
+    budget -= extra;
+  }
+  const excerpted = kept.filter((entry) => entry.value.length > entry.allowance).length;
+  const omitted = entries.length - kept.length;
+  const lines = kept.map((entry) => `${entry.key}: ${excerpt(entry.value, query, entry.allowance)}${entry.updated_at ? ` (saved ${entry.updated_at})` : ""}`);
+  const status = `Saved context: ${kept.length}/${entries.length} fields included; ${excerpted} excerpted; ${omitted} omitted. ${excerpted || omitted ? "This is a selection, not the complete record. Do not claim to have read omitted text." : "All nonempty saved fields included."}`;
+  return { prompt_text: `${status}\n${lines.join("\n") || "No saved business details yet. Ask for missing facts when needed."}`,
+    fields_available: entries.length, fields_used: kept.length, fields_excerpted: excerpted, fields_omitted: omitted, private_fields_excluded: privateFieldsExcluded,
+    truncated: Boolean(excerpted || omitted), sections: [...new Set((data?.rows || []).map((row) => row.section))] };
+}
 
 export async function loadClientBrainData(env, client) {
   const [brainResult, proofResult] = await Promise.all([
