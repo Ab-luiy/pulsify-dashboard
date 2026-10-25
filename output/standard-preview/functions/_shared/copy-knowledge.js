@@ -31,6 +31,9 @@ export function excerpt(text, query, maxChars) {
 }
 
 export function retrieveCopyKnowledge({ query = "", format = "general", maxChars = 12000 } = {}) {
+  // Getting a viewer to book and getting a BOOKED lead to attend are different tasks.
+  // A generic mention of a call must not flood discussion with pre-call email tactics.
+  const preCall = /pre[- ]?call|no[- ]?shows?|show (?:up|rate)|turn(?:ing)? up|attend|confirmation|reminder|nurtur|booked|sales call|scheduled call|after.*book/i.test(query);
   const aliases = [
     [/no[- ]?shows?|(?:don't|not|never) (?:show|attend)|turn(?:ing)? up/i, "pre-call show rate booking confirmation email"],
     [/generic|sound like everyone|stand out|differentiat/i, "positioning unique mechanism messaging reframe"],
@@ -38,7 +41,7 @@ export function retrieveCopyKnowledge({ query = "", format = "general", maxChars
     [/what.*(?:charge|sell)|how much.*(?:charge|price)/i, "offer pricing delivery program"],
   ];
   query = `${query} ${aliases.filter(([pattern]) => pattern.test(query)).map(([, words]) => words).join(" ")}`;
-  const ranked = COPY_KNOWLEDGE.passages.map((part) => ({ ...part,
+  const ranked = COPY_KNOWLEDGE.passages.filter((part) => part.source_id !== "pre-call" || preCall).map((part) => ({ ...part,
     score: relevance(`${part.title} ${part.tags.join(" ")}`, query) * 3 + relevance(part.text, query)
       + (part.tags.includes(format) && format !== "general" ? 2 : 0),
   })).filter((part) => part.score > 0).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));

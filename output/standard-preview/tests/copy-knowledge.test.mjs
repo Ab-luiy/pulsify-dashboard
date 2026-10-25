@@ -49,3 +49,10 @@ test("a relevant fact at the END of a long field is recovered within the budget"
   assert.match(value, /omitted|excerpted/);
   assert.ok(value.length <= 1400);
 });
+
+test("lack of bookings does not automatically load methods for already booked leads", () => {
+  for (const query of ["People watch but nobody books a call. Why?", "What should I film to lead traders to a call?", "Give me two calmer opening lines"]) {
+    assert.ok(!retrieveCopyKnowledge({ query }).source_ids.includes("pre-call"));
+  }
+  assert.ok(retrieveCopyKnowledge({ query: "Improve our confirmation page and email reminders after booking" }).source_ids.includes("pre-call"));
+});

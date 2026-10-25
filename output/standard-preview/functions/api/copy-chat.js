@@ -19,6 +19,7 @@ import { parseModelJson } from "../_shared/anthropic.js";
 import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps } from "../_shared/copy-brain.js";
 import { retrieveCopyKnowledge, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
 import { enforceAllowance } from "../_shared/ai-guard.js";
+import { createJaneTools, gatherJaneContext, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
 import { createStreamScrubber, scrubSources } from "../_shared/source-scrub.js";
 
 const MAX_MESSAGE = 8000;
@@ -63,6 +64,7 @@ export async function onRequestGet({ request, env }) {
     mode: aiMode(ai) === "manual" ? "manual" : "generated",
     provider: providerLabel(ai),
     knowledge_version: COPY_KNOWLEDGE_VERSION,
+    agent_version: JANE_AGENT_VERSION,
     // "client" = writing on their own key, "platform" = on Pulsify's, "none" = a prompt for their own AI.
     source: ai.source,
     chats: (chats.results || []).map((row) => ({ ...row, id: Number(row.id) })),
@@ -157,6 +159,20 @@ async function addMemory(env, client, note, source) {
 
 async function remember(env, ai, client, userMessage, reply) {
   try {
+    if (ai.mode === "workers") {
+      const existing = await loadMemory(env, client);
+      const notes = await extractJaneMemory(ai.binding, userMessage, existing);
+      for (const item of notes) {
+        await addMemory(env, client, item.note, "chat");
+        for (const id of item.replaces) {
+          // Never allow a model-supplied ID to cross the authenticated-client boundary.
+          if (existing.some((row) => row.id === id && row.note.toLowerCase() !== item.note.toLowerCase())) {
+            await env.DB.prepare("UPDATE copy_memory SET active=0 WHERE id=? AND client_id=?").bind(id, client).run();
+          }
+        }
+      }
+      return;
+    }
     const existing = (await loadMemory(env, client)).map((row) => row.note);
     const answer = parseModelJson(await generateText(memoryPrompt({ userMessage, reply, existing }), ai, { json: true, temperature: 0.2, maxOutputTokens: 400, uncounted: true }));
     for (const note of (Array.isArray(answer?.notes) ? answer.notes : []).slice(0, 2)) {
@@ -171,13 +187,14 @@ async function remember(env, ai, client, userMessage, reply) {
 async function loadClientBrain(env, client, query, publicDraft) {
   const [context, memory, rules, liked] = await Promise.all([
     // A failed read is different from an empty brain. Never generate blindly on a DB error.
-    loadClientBrainData(env, client).then((data) => buildJaneBrainContext(data, { query, publicDraft })),
+    loadClientBrainData(env, client).then((data) => ({ ...buildJaneBrainContext(data, { query, publicDraft }), data })),
     loadMemory(env, client),
     env.DB.prepare("SELECT rule FROM studio_feedback WHERE active=1 AND (scope='all' OR client_id=?) ORDER BY CASE WHEN scope='all' THEN 0 ELSE 1 END, created_at DESC LIMIT 20").bind(client).all().catch(() => ({ results: [] })),
     env.DB.prepare("SELECT content FROM copy_messages WHERE client_id=? AND role='assistant' AND rating='up' ORDER BY id DESC LIMIT 3").bind(client).all().catch(() => ({ results: [] })),
   ]);
   return {
     contextText: context.prompt_text,
+    data: context.data,
     grounding: { fields_available: context.fields_available, fields_used: context.fields_used,
       fields_excerpted: context.fields_excerpted, fields_omitted: context.fields_omitted, private_fields_excluded: context.private_fields_excluded, truncated: context.truncated },
     memory: memory.map((row) => row.note),
@@ -213,9 +230,9 @@ async function send(context, client, body) {
   const knowledge = retrieveCopyKnowledge({ query, format });
   const conversation = buildConversationContext([...(history.results || []), { role: "user", content: message }], query);
   const messages = conversation.messages;
-  const system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
+  let system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
   const grounding = { ...clientBrain.grounding, knowledge_version: knowledge.version,
-    method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns };
+    method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION };
   const ai = await resolveAi(env, client);
   // The new checker uses only our Cloudflare binding. A connected provider keeps its
   // existing generation path, without new OpenAI/Anthropic/Gemini helper calls.
@@ -252,6 +269,16 @@ async function send(context, client, body) {
     let full = "";
     try {
       await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format, grounding });
+      let lookups = null;
+      if (ai.mode === "workers") {
+        lookups = await gatherJaneContext({ binding: ai.binding,
+          tools: createJaneTools({ env, client, brainData: clientBrain.data, publicDraft }),
+          message, messages, currentContext: `${clientBrain.contextText}\n${knowledge.prompt_text}`,
+          onLookup: (data) => emit("lookup", data),
+        });
+        if (lookups.status === "daily_limit") throw new Error("Jane has reached today's free AI allowance. It resets at midnight UTC.");
+        system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text });
+      }
       for await (const chunk of plainReplyChunks(streamText({ system, messages }, ai))) {
         const safe = scrubber.push(chunk);
         if (safe) {
@@ -270,13 +297,16 @@ async function send(context, client, body) {
         let checkedDraft = full;
         let gaps = [];
         for (let attempt = 0; attempt < 2; attempt++) {
-          const review = groundingReviewPrompt({ clientContext: clientBrain.contextText,
-            messages: [...(conversation.earlierText ? [{ role: "user", content: conversation.earlierText }] : []), ...messages], draft: checkedDraft });
+          const checkedContext = [clientBrain.contextText, lookups?.brain_text || ""].filter(Boolean).join("\n\n");
+          const review = groundingReviewPrompt({ clientContext: checkedContext,
+            // Tool facts are labelled by source; drafts and shared method samples are not
+            // factual evidence. Include retrieved fields/earlier user statements in checks.
+            messages: [...(conversation.earlierText ? [{ role: "user", content: conversation.earlierText }] : []), ...(lookups?.history_messages || []), ...messages], draft: checkedDraft });
           if (gaps.length) review.user += `\n\nThese unsupported promises MUST be removed or narrowed to the saved delivery facts. Do not replace them with different promises:\n${gaps.join("\n")}`;
           const checked = await generateText(review, copyReviewAi(ai),
             { json: true, temperature: 0.1, maxOutputTokens: 4000, uncounted: true });
           checkedDraft = applyGroundingReview(checkedDraft, checked);
-          gaps = findCopyClaimGaps(checkedDraft, clientBrain.contextText);
+          gaps = findCopyClaimGaps(checkedDraft, checkedContext);
           if (!gaps.length) break;
         }
         if (gaps.length) throw new Error("Unsupported offer commitments remain");
@@ -288,9 +318,10 @@ async function send(context, client, body) {
         await emit("delta", { text: full });
       }
       const id = await addMessage(env, client, chat.id, "assistant", full);
-      await emit("done", { message_id: id });
-    } catch {
-      await emit("error", { error: "The writing service could not finish that. Your message is saved. Try again in a moment.", prompt: `${system}\n\nCONVERSATION SO FAR:\n${messages.map((turn) => `${turn.role === "assistant" ? "ASSISTANT" : "CLIENT"}:\n${turn.content}`).join("\n\n")}\n\nWrite the next reply.` });
+      await emit("done", { message_id: id, grounding: { lookup_calls: lookups?.calls || 0, lookup_status: lookups?.status || "not_used", agent_version: JANE_AGENT_VERSION } });
+    } catch (error) {
+      const limit = /today's (?:free AI allowance|limit)|daily free allocation/i.test(String(error?.message || ""));
+      await emit("error", { error: limit ? "Jane has reached today's free AI allowance. It resets at midnight UTC. Your message is saved." : "The writing service could not finish that. Your message is saved. Try again in a moment.", prompt: `${system}\n\nCONVERSATION SO FAR:\n${messages.map((turn) => `${turn.role === "assistant" ? "ASSISTANT" : "CLIENT"}:\n${turn.content}`).join("\n\n")}\n\nWrite the next reply.` });
       full = "";
     } finally {
       await writer.close().catch(() => null);
