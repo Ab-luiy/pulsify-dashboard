@@ -1,0 +1,521 @@
+{
+  "synthetic_only": true,
+  "date": "2026-10-25",
+  "note": "Original runs retained. Passing probes do not establish factual correctness. Final pre-call retrieval and complete-sentence memory refinements are covered by deterministic tests; final real rerun exhausted shared Cloudflare quota. No live client content touched.",
+  "review": [
+    "Earlier decision and saved-draft reading worked in real multi-round runs.",
+    "Original long discussion included unsupported process details, fabricated CTA assumptions and inappropriate pre-call tactics. Narrower retrieval added; no claim of final real-model success after quota.",
+    "Original memory extractor returned a phrase without subject. Final validation now requires a complete exact candidate sentence.",
+    "One Llama comparison had better approximate length but generic advice. Writer unchanged. GLM attempt and final rerun were blocked by Cloudflare 10000-neuron daily quota."
+  ],
+  "runs": {
+    "full": {
+      "at": "2026-10-25T19:18:13.255Z",
+      "synthetic_only": true,
+      "writer_model": "@cf/openai/gpt-oss-120b",
+      "lookup_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "results": [
+        {
+          "id": "earlier-chat",
+          "elapsed_ms": 11851,
+          "checks": {
+            "keyword": true,
+            "weekends": true,
+            "tool_used": true,
+            "no_other_client": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_history",
+              "query": "signup keyword and weekend-call decision earlier chat",
+              "id": "search_history_1",
+              "result": "{\"messages\":[{\"id\":1,\"chat\":\"Earlier launch\",\"at\":\"2026-10-20\",\"quote\":\"We decided the signup keyword is CEDAR. No weekend calls.\"}],\"note\":\"Earlier user statements only. Current corrections and current saved fields take precedence. Private financial/deal details must not be published.\"}"
+            },
+            {
+              "tool": "read_brain",
+              "query": "signup keyword",
+              "id": "search_brain_1",
+              "result": "{\"error\":\"Saved field not found or excluded from this task.\"}"
+            },
+            {
+              "tool": "read_brain",
+              "query": "weekend-call decision",
+              "id": "search_brain_2",
+              "result": "{\"error\":\"Saved field not found or excluded from this task.\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 1988
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 4711
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 621
+            }
+          ],
+          "text": "Keyword: CEDAR\nWeekend calls: No"
+        },
+        {
+          "id": "saved-draft",
+          "elapsed_ms": 9975,
+          "checks": {
+            "read_actual_draft": true,
+            "partial_edit": true,
+            "alternatives": true,
+            "no_fake_income": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_drafts",
+              "query": "Journal launch story",
+              "id": "",
+              "result": "{\"matches\":[{\"id\":\"story:1\",\"title\":\"Journal launch\",\"created_at\":\"2026-10-24\",\"excerpt\":\"slides: text: Your trading journal is a trophy shelf.\\ntext: Write down what made you enter, before judging the outcome.\\ntext: Change one rule, not the whole setup.\",\"score\":2}],\"unavailable\":[],\"note\":\"Draft text is not verified factual evidence. Only Jane replies, saved stories and carousels are supported.\"}"
+            },
+            {
+              "tool": "read_draft",
+              "query": "",
+              "id": "story:1",
+              "result": "{\"id\":\"story:1\",\"title\":\"Journal launch\",\"at\":\"2026-10-24\",\"text\":\"slides: text: Your trading journal is a trophy shelf.\\ntext: Write down what made you enter, before judging the outcome.\\ntext: Change one rule, not the whole setup.\",\"kind\":\"draft_not_factual_evidence\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 2366
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 1453
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 511
+            }
+          ],
+          "text": "Here are two calmer ways to open the story:\n\n1. \"Your trading journal can be a quiet record of your progress.\"\n\n2. \"Think of your trading journal as a steady log of the decisions you make.\"\n\nThe remaining slides stay the same:\n\n- \"Write down what made you enter, before judging the outcome.\"\n- \"Change one rule, not the whole setup.\""
+        },
+        {
+          "id": "conversation",
+          "elapsed_ms": 16560,
+          "checks": {
+            "one_question": true,
+            "no_unrequested_script": true,
+            "practical": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_brain",
+              "query": "video engagement vs booking rate reasons low conversion rate high view rate low booking rate reasons why viewers dont book after watching videos reasons for low conversion rate after high video engagement",
+              "id": "brain:1",
+              "result": "{\"fields\":[{\"id\":\"identity/craft\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nIdentity / Craft: I teach full-time workers to journal futures trades and follow risk rules. (saved 2026-10-25)\"},{\"id\":\"program/delivery\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nProgram / Delivery: Thursday group journal review and async feedback. No weekend calls. (saved 2026-10-25)\"},{\"id\":\"donot/claims\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nDonot / Claims: No verified student income results. Never invent testimonials. (saved 2026-10-25)\"},{\"id\":\"identity/name\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nIdentity / Name: QA Trader (saved 2026-10-25)\"},{\"id\":\"money/budget\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nMoney / Budget: No paid ads budget. Income is private. (saved 2026-10-25)\"},{\"id\":\"offer/name\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nOffer / Name: Quiet Edge (saved 2026-10-25)\"},{\"id\":\"offer/price\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nOffer / Price: $1700 (saved 2026-10-25)\"},{\"id\":\"voice/tone\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nVoice / Tone: Calm, direct, plain English. No hype. (saved 2026-10-25)\"}]}"
+            },
+            {
+              "tool": "search_knowledge",
+              "query": "common reasons for low booking rates despite high video engagement",
+              "id": "knowledge:1",
+              "result": "{\"source_ids\":[\"pre-call\",\"profile-funnel\",\"stages\"],\"text\":\"[pre-call-1] Hammer them strategy: Core mechanics\\n### The standard funnel without hammer them\\n\\n```\\nAd → VSL → Application → Booking → Call → Close\\n```\\n\\nResult: 40–50% show rates, unframed leads, defensive sales calls.\\n\\n### The funnel with hammer them\\n\\n```\\nAd → VSL → Application → Booking\\n  → [15–20 retargeting pieces hitting the lead]\\n  → [6 emails/day for 48–72 hours]\\n  → Call (lead arrives informed, framed, further along in buying process)\\n  → Close\\n```\\n\\nResult: 60–70%+ show rates, leads arrive with specific questions rather than objections, closes feel like order-taking.\\n\\n### The four content quadrants\\n\\nAll hammer them content is built from four categories derived from actual sales call data:\\n\\n1. **Common questions** — what do leads ask at the start of every sales call?\\n\\n2. **Common objections** — what pushback do they give when the offer is presented?\\n\\n3. **Expectations** — what do leads need to understand about how to succeed with the offer?\\n\\n4. **Follow-up questions** — what do they ask after the first set of questions gets answered?\\n\\nEvery piece of content maps to one of these four quadrants. Content that doesn't come from actual sales call data is guessing — and guessing produces no measurable lift.\\n\\n### Email sequence specifics\\n\\n- **Volume:** 6 emails per day\\n- **Window:** 48–72 hours pre-call (this means intentionally spacing calls 2–3 days out from booking, not same-day)\\n- **48-hour window:** 12 total emails\\n- **72-hour window:** 18 total emails\\n- **Open rates when content is relevant:** 50–80%+ per email\\n- **Content:** NOT reminders. Framing, education, objection handling, FAQ documents, breakout video links, research SOPs, case studies — the same material on the confirmation page, repurposed into email format\\n\\n### Confirmation page specifics\\n\\n[pre-call-2] Hammer them strategy: Core mechanics\\nThe confirmation page is a research hub, not just an \\\"your call is booked\\\" screen. Structure:\\n\\n1. Confirmation headline\\n\\n2. Main confirmation video (short — welcome, set framing: \\\"Our goal is for you to be fully in or out before the call\\\")\\n\\n3. Breakout videos: 4–12 videos, 30 seconds to 5 minutes each — pull from the four quadrants\\n\\n4. Testimonials (below breakout videos) — must be from original source (video, social screenshot, email), never retyped\\n\\n### Retargeting content volume\\n\\n- Full implementation: 30–50 short-form pieces + 20–30 long-form pieces\\n- Minimum to see meaningful show rate lift: 15–20 pieces minimum\\n- Half-assing this (only short-form, or too few pieces, or content that doesn't match what buyers actually ask) produces zero measurable result\\n\\n> Jeremy's exact words: \\\"Half-assing this does not produce results — you need the full volume. Done fully = 60–70%+ show rates. Done halfass = no meaningful result.\\\"\\n\\n### Three funnel stages where hammer them applies\\n\\n1. **Pre-ad:** Cost-effective content to build warm retargeting audience (fractions of a penny per view). CPMs drop when there's prior page interaction.\\n\\n2. **Between ad and funnel:** Content for people who saw the ad but didn't go to the funnel — sell them harder on why they need to go.\\n\\n3. **Post-booking (between booking and call):** The highest-leverage window. The four quadrant content. This is the stage most people call \\\"hammer them.\\\"\\n\\nJeremy calls doing all three simultaneously \\\"the tornado.\\\"\\n\\n### Interest levels framework\\n\\nLeads arrive at different interest levels:\\n- **Curious** — just browsing\\n- **General interest** — has awareness of the problem\\n- **Moderate interest** — researching solutions\\n- **High interest** — ready to buy if the right operator shows up\\n\\n[pre-call-3] Hammer them strategy: Core mechanics\\nDeals close at high interest. Most leads arrive at curious or general interest. The combined job of marketing + hammer them content is to move them up incrementally. The salesperson is the last step, not the only step.\\n\\n### Pre-call selfie video (salespeople)\\n\\nA salesperson texting the lead from a real iPhone — not automated, not green text, not software — with a selfie video referencing their application and offering to send a relevant resource is the single highest-impact action for show rate. When reps stop doing this, show rates drop within 3 weeks.\\n\\n[profile-funnel-1] Profile funnel: The funnel flow\\n```\\nContent (reels, YouTube, stories) -> profile visit\\n  -> Bio passes the 3-second test, triggers curiosity\\n  -> Two paths, always both:\\n       DM trigger word -> automation/setter -> qualification -> booked call\\n       YouTube long form -> deep trust -> DM or call\\n  -> Story sequences close daily in the background (+1%/watched story)\\n  -> Email (via lead magnet) owns the relationship off-platform\\n  -> The web, not a line: unclosed leads cycle back through\\n     email -> YouTube -> stories -> call, never out\\n```\\n\\n[stages-6] Content funnel — TOF, MOF, BOF: Inside one video: the horizontal funnel (added 2026-10-15)\\nThe idea: the three stages don't have to be three separate kinds of video. They can run left to right inside a single video:\\n\\n- **First ~20% is TOF.** The opening speaks to a mass audience, anyone at all, to win the view.\\n- **The middle is MOF.** It speaks to the dream follower: a problem that's still broad, but your ICP sits inside it.\\n- **The end is BOF.** It speaks only to the ICP: their exact pains and wants, the things that move them toward buying.\\n\\nWhy it matters: a micro-niched value video no longer has to give up reach. Open it wide, narrow it in the middle and land it on the buyer at the end, and the same video can pull TOF-level views and still sell.\\n\\nHow Pulsify uses it: the YouTube \\\"build the video\\\" step should outline videos in this order (wide opening, dream-follower middle, ICP ending), and the client onboarding uses it to teach TOF, MOF and BOF (onboarding v2 spec 2026 10 15, 10.1). Untested on client videos so far; judge it by cash per video (cash by video spec).\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "search_history",
+              "query": "previous discussions on low conversion rates after high video engagement",
+              "id": "history:1",
+              "result": "{\"messages\":[],\"note\":\"Earlier user statements only. Current corrections and current saved fields take precedence. Private financial/deal details must not be published.\"}"
+            },
+            {
+              "tool": "read_knowledge",
+              "query": "hammer them strategy",
+              "id": "knowledge:1",
+              "result": "{\"error\":\"Guide not found in the approved collection.\"}"
+            },
+            {
+              "tool": "read_brain",
+              "query": "video engagement vs booking rate reasons",
+              "id": "brain:1",
+              "result": "{\"error\":\"Saved field not found or excluded from this task.\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 4022
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 3002
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 146
+            }
+          ],
+          "text": "It sounds like you're getting attention but the step that moves viewers from \"interested\" to \"ready to book\" isn't catching. Two common places where that drop-off happens are:\n\n1. The conversion part of the video isn't speaking directly to your ideal client's pain points. If the first 20 % of the video is too broad (TOF) and the middle (MOF) still feels general, the final 10-15 % may never narrow enough to hit the exact problem that makes a full-time worker want to start journaling futures trades. When the BOF segment is vague, viewers don't see a clear reason to schedule a call.\n\n2. The post-view \"hammer-them\" sequence is missing or under-delivered. Without a solid set of retargeting pieces, follow-up emails, and a confirmation-page hub that answers the four content quadrants (common questions, objections, expectations, follow-ups), the lead stays at a \"curious\" or \"general-interest\" level and never gets framed for a call. Even a strong video can stall if the next touchpoints aren't there to move the prospect forward.\n\nQuestion: When a viewer clicks the \"book a call\" button in your videos, what information or next step do they see, and how many of those viewers actually reach the booking page?"
+        },
+        {
+          "id": "depth",
+          "elapsed_ms": 31312,
+          "checks": {
+            "developed": true,
+            "concrete": true,
+            "no_fake_income": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_knowledge",
+              "query": "futures trader journaling income proof alternatives'}, {",
+              "id": "none",
+              "result": "{\"source_ids\":[\"proof\",\"carousels\",\"offer\",\"messaging\"],\"text\":\"[proof-1] The proof system: The proof hierarchy (what counts, in order of power)\\n2. **Process proof** — the 1-on-1 breakdown filmed BEFORE the result, then the result landing: \\\"people can look back at our breakdown and see they really went out and did it.\\\" Makes the audience believe the process, not just the outcome.\\n\\n3. **Transformation stories with interiors** — numbers plus the person: \\\"we always show nice [numbers] in the front end... true impact is being made if you can change the way people feel.\\\" The coach knows the before-state nobody else saw; that story is unreplicable proof.\\n\\n4. **Receipts** — dashboards, payment screenshots, DM messages, funnel waterfalls. Radical transparency versions win hardest (the captured $17,932 December funnel: spend -> every stage -> revenue split reconciling to the headline).\\n\\n5. **Volume** — at scale, count replaces content: \\\"you see 50 clients... you don't even watch a testimonial. You just know it's enough.\\\" 95% never press play; the wall itself is the message.\\n\\n[proof-2] The proof system: Collection rituals (the system part)\\n1. **Post-close conversion survey** (buyer mirror) — mandatory in onboarding, runs forever. Key questions: first content piece that pulled you in; the piece that made you take me seriously; the LAST piece before you booked; how long you followed before buying; biggest hesitations; why me over the others; what in the content signaled I was right. First/last matter because attraction content ≠ conversion content.\\n\\n2. **The three-piece minimum per win:** every client result gets the 60s + interview + value-front treatment scheduled at capture time, not \\\"later.\\\"\\n\\n3. **Interior notes:** the coach records the before-state (the first sales call, the pain) when it happens — the documentary's raw material.\\n\\n4. **Community moments as proof:** retreats, awards, milestone rituals — filmed by default; one retreat = an evergreen proof asset (4-5 interviews per event). **Pulsify version:** milestone rituals in student communities (funded-pass walls, first-10K-month shoutouts), never watch-buying trends.\\n\\n5. **Referral capture at proof moments:** the \\\"who do you know\\\" ask lands best right after a win is packaged.\\n\\n[proof-3] The proof system: Deployment surfaces\\n- Proof pin posts on the grid (first thing a visitor sees), the start-here highlight's proof block, credibility story sequences (weekly), the salesy second account (spam-stack freely there; the main account stays curated), emails 3-5 of the nurture sequence, pre-call breakout videos, and the sales page/portal. One win, every surface, different depths.\\n\\n[carousels-1] The carousel system: The three observed structures (from the captures)\\n1. **Methodology-as-document** (the grow-acquisition carousel): cover (hook + proof wall) -> N numbered pillar slides, each = ghost number + bold title + one-sentence promise + a staged photo carrying a real artifact (dashboard, doc, chat journey, notifications) -> CTA slide (close from abundance + trigger word). This packages an entire offer/process as a scroll — a landing-page alternative. For Pulsify: the Pulse System's pillars templated exactly this way.\\n\\n2. **Taxonomy/matrix** (the 964k carousel): cover (specific-number hook) -> one slide per type/item, each with a definition + at-a-glance chips (a 3-chip color code: e.g. cadence / function / audience) + a real example mockup -> final CTA slide with a live proof element (a reach donut). This teaches a whole framework for free and sells the deeper version. The chip system is the reusable innovation.\\n\\n3. **Philosophy/concept set** (the 7-lessons carousel): cover -> N one-word concept slides, each a single belief-shift over a cinematic photo, big drop-shadow typography -> the last concept doubles as thesis/close. Packages beliefs as a saveable set; the carousel equivalent of a value/breakdown story sequence.\\n\\n[offer-3] Offer creation: Core mechanics\\n**Choose mid-ticket with upsell path when:**\\n- The audience is pre-revenue or early-stage ($0–$3K/month)\\n- Financial objections are the primary sales barrier\\n- The mechanism works for beginners, not just operators with existing infrastructure\\n- A $1,500 entry point creates enough proof and momentum to upsell to $5,000+ at 90 days\\n\\n**Never offer mid-ticket without an explicit upsell path.** A mid-ticket offer with no upsell is a business model with a ceiling.\\n\\n### Offer audit checklist\\n\\nBefore the offer goes live, check:\\n\\n- [ ] Avatar is named and specific (revenue range, niche, exact problem)\\n- [ ] Unique mechanism is named and documented\\n- [ ] Transformation is measurable and stated in the avatar's language\\n- [ ] Delivery model is defined (what exactly does the client get, how often, through what format)\\n- [ ] Price is set based on avatar qualification, not operator comfort\\n- [ ] Risk reversal is defined without income guarantee language\\n- [ ] The one-sentence positioning statement can be written cleanly\\n\\n[messaging-2] The messaging and reframe system: 3. Direct vs indirect (the mechanism dial)\\n- **Direct** = say the word (\\\"the profile funnel has helped me scale — here's a client\\\"). Easy, and needed in proof/CTA content.\\n- **Indirect** = never say the word; shift the belief the mechanism answers (\\\"the way people make decisions in 2026 will be different... people are moving from offers and frameworks to people and brands\\\"). Harder, therefore more valuable; this is what makes content feel like insight instead of advertising, and it pre-positions the offer so the sales conversation starts at deliverables, not persuasion.\\n- Working ratio: indirect carries the content engine; direct appears in bio, proof pin posts, and explicit CTA assets. (Engineered CTAs remain primary — founder-ratified dial 3.)\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "search_brain",
+              "query": "QA Trader income preferences and student results handling rules, Quiet Edge delivery specifics, saved 2026-10-25 or later, excluding invented testimonials and paid ads budget details.",
+              "id": "none",
+              "result": "{\"fields\":[{\"id\":\"donot/claims\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nDonot / Claims: No verified student income results. Never invent testimonials. (saved 2026-10-25)\"},{\"id\":\"money/budget\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nMoney / Budget: No paid ads budget. Income is private. (saved 2026-10-25)\"},{\"id\":\"identity/name\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nIdentity / Name: QA Trader (saved 2026-10-25)\"},{\"id\":\"identity/craft\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nIdentity / Craft: I teach full-time workers to journal futures trades and follow risk rules. (saved 2026-10-25)\"},{\"id\":\"offer/name\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nOffer / Name: Quiet Edge (saved 2026-10-25)\"},{\"id\":\"program/delivery\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nProgram / Delivery: Thursday group journal review and async feedback. No weekend calls. (saved 2026-10-25)\"},{\"id\":\"offer/price\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nOffer / Price: $1700 (saved 2026-10-25)\"},{\"id\":\"voice/tone\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nVoice / Tone: Calm, direct, plain English. No hype. (saved 2026-10-25)\"}]}"
+            },
+            {
+              "tool": "read_brain",
+              "query": "QA Trader",
+              "id": "identity/name",
+              "result": "{\"id\":\"identity/name\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nIdentity / Name: QA Trader (saved 2026-10-25)\"}"
+            },
+            {
+              "tool": "search_knowledge",
+              "query": "journaling futures trades marketing plan without income proof'}, {",
+              "id": "none",
+              "result": "{\"source_ids\":[\"proof\",\"mechanism\",\"offer\",\"packaging\"],\"text\":\"[proof-1] The proof system: The proof hierarchy (what counts, in order of power)\\n2. **Process proof** — the 1-on-1 breakdown filmed BEFORE the result, then the result landing: \\\"people can look back at our breakdown and see they really went out and did it.\\\" Makes the audience believe the process, not just the outcome.\\n\\n3. **Transformation stories with interiors** — numbers plus the person: \\\"we always show nice [numbers] in the front end... true impact is being made if you can change the way people feel.\\\" The coach knows the before-state nobody else saw; that story is unreplicable proof.\\n\\n4. **Receipts** — dashboards, payment screenshots, DM messages, funnel waterfalls. Radical transparency versions win hardest (the captured $17,932 December funnel: spend -> every stage -> revenue split reconciling to the headline).\\n\\n5. **Volume** — at scale, count replaces content: \\\"you see 50 clients... you don't even watch a testimonial. You just know it's enough.\\\" 95% never press play; the wall itself is the message.\\n\\n[proof-2] The proof system: Collection rituals (the system part)\\n1. **Post-close conversion survey** (buyer mirror) — mandatory in onboarding, runs forever. Key questions: first content piece that pulled you in; the piece that made you take me seriously; the LAST piece before you booked; how long you followed before buying; biggest hesitations; why me over the others; what in the content signaled I was right. First/last matter because attraction content ≠ conversion content.\\n\\n2. **The three-piece minimum per win:** every client result gets the 60s + interview + value-front treatment scheduled at capture time, not \\\"later.\\\"\\n\\n3. **Interior notes:** the coach records the before-state (the first sales call, the pain) when it happens — the documentary's raw material.\\n\\n4. **Community moments as proof:** retreats, awards, milestone rituals — filmed by default; one retreat = an evergreen proof asset (4-5 interviews per event). **Pulsify version:** milestone rituals in student communities (funded-pass walls, first-10K-month shoutouts), never watch-buying trends.\\n\\n5. **Referral capture at proof moments:** the \\\"who do you know\\\" ask lands best right after a win is packaged.\\n\\n[proof-3] The proof system: Deployment surfaces\\n- Proof pin posts on the grid (first thing a visitor sees), the start-here highlight's proof block, credibility story sequences (weekly), the salesy second account (spam-stack freely there; the main account stays curated), emails 3-5 of the nurture sequence, pre-call breakout videos, and the sales page/portal. One win, every surface, different depths.\\n\\n[mechanism-3] Unique mechanism: What happens without it\\nWhen Pulsify audits a new client's content and offer, the most common finding is no unique mechanism — just a generic promise (\\\"I'll help you scale your coaching business\\\") wrapped in whatever format the creator copied from someone else. This produces:\\n\\n- Undifferentiated content that blends in with every other coach\\n- Prospects who cannot explain what makes the offer worth paying for\\n- Sales calls where the closer has to do all the heavy lifting because the pre-call content did nothing to pre-sell\\n- Inability to charge premium prices because there's no proprietary system being sold\\n\\n[offer-3] Offer creation: Core mechanics\\n**Choose mid-ticket with upsell path when:**\\n- The audience is pre-revenue or early-stage ($0–$3K/month)\\n- Financial objections are the primary sales barrier\\n- The mechanism works for beginners, not just operators with existing infrastructure\\n- A $1,500 entry point creates enough proof and momentum to upsell to $5,000+ at 90 days\\n\\n**Never offer mid-ticket without an explicit upsell path.** A mid-ticket offer with no upsell is a business model with a ceiling.\\n\\n### Offer audit checklist\\n\\nBefore the offer goes live, check:\\n\\n- [ ] Avatar is named and specific (revenue range, niche, exact problem)\\n- [ ] Unique mechanism is named and documented\\n- [ ] Transformation is measurable and stated in the avatar's language\\n- [ ] Delivery model is defined (what exactly does the client get, how often, through what format)\\n- [ ] Price is set based on avatar qualification, not operator comfort\\n- [ ] Risk reversal is defined without income guarantee language\\n- [ ] The one-sentence positioning statement can be written cleanly\\n\\n[packaging-4] Packaging rules: Core mechanics\\nThe same number becomes obnoxious the moment it is coupled with watches, cars, or lifestyle. At that point the number stops being evidence and becomes a status claim, which is the signal that pre-categorises the creator as another scam. **The variable is the coupling, never the figure.**\\n\\nStill banned: a figure with no interface behind it, a number the creator cannot show inside the video, any figure paired with a lifestyle signal, and hype framing around it (exclamation marks, \\\"PRINTED\\\", shock faces). Consistent with trust recession, which already scoped this correctly as \\\"income screenshots without context or audit trail.\\\"\\n\\n6. **Layout comes from thumbnail layout patterns** — four patterns (raw photo, board breakdown, screen recording, two people in a real location) with the text treatment scoped per pattern. Added 2026-07-21.\\n\\n[mechanism-2] Unique mechanism: How to create one\\nPulsify's process for building a unique mechanism for a client:\\n\\n1. Audit what the creator actually does that produces results for their students\\n\\n2. Identify the component steps and the underlying insight that connects them\\n\\n3. Name the mechanism in a way that is specific, memorable, and speaks to the ICP's desired outcome\\n\\n4. Build the offer around the mechanism — the mentorship is the guided implementation of the mechanism\\n\\n5. Write content pillars that reference the mechanism repeatedly without over-explaining it\\n\\n6. Include the mechanism in every video, every VSL, every landing page headline\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "search_drafts",
+              "query": "Quiet Edge sales page",
+              "id": "none",
+              "result": "{\"matches\":[],\"unavailable\":[],\"note\":\"Draft text is not verified factual evidence. Only Jane replies, saved stories and carousels are supported.\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 4614
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 3776
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 197
+            }
+          ],
+          "text": "Step 1, Build the \"pre-ad\" content pool (15-20 pieces).\nFilm short (30-90 s) clips that answer the four quadrants that show up in your sales calls.\n1. Common questions \"How many minutes a day does journaling take?\" Show a real Thursday journal session, clock-ing the time.\n2. Common objections \"What if I lose money while I'm learning?\" Record yourself reviewing a losing trade, pointing out the risk rule you taught and how the journal flagged it.\n3. Expectations \"What does a successful journal look like after a month?\" Walk through a completed month-long journal (blur any P&L numbers) and highlight the decision-making pattern.\n4. Follow-up questions \"What happens after the group review?\" Film a quick async-feedback reply, explaining how you send a written note and a short video recap.\n\nPost these on Instagram Reels, TikTok, and LinkedIn. Use a consistent thumbnail (you at a desk, journal open) and a clear caption that ends with a call-to-action word (e.g., \"journal\").\n\nStep 2, Capture process proof.\nRecord a full \"before-trade -> journal entry -> after-trade outcome\" sequence. Keep any monetary figures hidden; the focus is the thought-process flow and the rule you applied. This video becomes the centerpiece of your confirmation page and the first email in the pre-call sequence.\n\nStep 3, Create a transformation story with interior.\nRun a beta with one full-time worker. Film a 2-minute interview that centers on how their mindset changed, not on profit numbers. Use the journal pages as visual props.\n\nStep 4, Funnel flow.\nAd -> VSL -> Application -> Booking.\nWhen a prospect books, send a confirmation page that includes:\n- Headline (\"You're one step from a disciplined trading edge\")\n- Welcome video (30 s, you stating the goal: \"be fully in or out before the call\")\n- The four quadrant breakout videos (30 s-3 min each)\n- Process-proof clip from Step 2\n\nFollow the page with 6 short emails per day for 48-72 hours: framing, FAQ, a link to the transformation story, and a reminder of the Thursday group review.\n\nStep 5, Call.\nBecause the prospect has already seen the journal process, objections, and a real mindset shift, the call is framed as a \"final check-in\" rather than a sales pitch, raising show-rate and moving them from curious to high interest."
+        }
+      ],
+      "memory": [
+        {
+          "note": "detailed replies",
+          "replaces": []
+        }
+      ]
+    },
+    "improved": {
+      "at": "2026-10-25T19:21:14.991Z",
+      "synthetic_only": true,
+      "writer_model": "@cf/openai/gpt-oss-120b",
+      "lookup_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "results": [
+        {
+          "id": "earlier-chat",
+          "elapsed_ms": 8186,
+          "checks": {
+            "keyword": true,
+            "weekends": true,
+            "tool_used": true,
+            "no_other_client": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_history",
+              "query": "signup keyword and weekend-call decision",
+              "id": "",
+              "result": "{\"messages\":[{\"id\":1,\"chat\":\"Earlier launch\",\"at\":\"2026-10-20\",\"quote\":\"We decided the signup keyword is CEDAR. No weekend calls.\"}],\"note\":\"Earlier user statements only. Current corrections and current saved fields take precedence. Private financial/deal details must not be published.\"}"
+            },
+            {
+              "tool": "search_history",
+              "query": "signup keyword",
+              "id": "",
+              "result": "{\"messages\":[{\"id\":1,\"chat\":\"Earlier launch\",\"at\":\"2026-10-20\",\"quote\":\"We decided the signup keyword is CEDAR. No weekend calls.\"}],\"note\":\"Earlier user statements only. Current corrections and current saved fields take precedence. Private financial/deal details must not be published.\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 1902
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 1512
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 163
+            }
+          ],
+          "text": "Keyword: CEDAR\nWeekend calls: none."
+        },
+        {
+          "id": "saved-draft",
+          "elapsed_ms": 10026,
+          "checks": {
+            "read_actual_draft": true,
+            "partial_edit": true,
+            "alternatives": true,
+            "no_fake_income": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_drafts",
+              "query": "Journal launch story",
+              "id": "",
+              "result": "{\"matches\":[{\"id\":\"story:1\",\"title\":\"Journal launch\",\"created_at\":\"2026-10-24\",\"excerpt\":\"slides: text: Your trading journal is a trophy shelf.\\ntext: Write down what made you enter, before judging the outcome.\\ntext: Change one rule, not the whole setup.\",\"score\":2}],\"unavailable\":[],\"note\":\"Draft text is not verified factual evidence. Only Jane replies, saved stories and carousels are supported.\"}"
+            },
+            {
+              "tool": "read_draft",
+              "query": "",
+              "id": "story:1",
+              "result": "{\"id\":\"story:1\",\"title\":\"Journal launch\",\"at\":\"2026-10-24\",\"text\":\"slides: text: Your trading journal is a trophy shelf.\\ntext: Write down what made you enter, before judging the outcome.\\ntext: Change one rule, not the whole setup.\",\"kind\":\"draft_not_factual_evidence\"}"
+            },
+            {
+              "tool": "search_knowledge",
+              "query": "calm tone alternatives",
+              "id": "",
+              "result": "{\"source_ids\":[\"voice\",\"carousels\",\"proof\"],\"text\":\"[voice-1] Copy voice guide — AI tells to avoid: Sentence structure\\n- **Negative parallelism (the #1 tell).** Kill \\\"It's not X — it's Y,\\\" \\\"not because X, but because Y,\\\" and \\\"The question isn't X. The question is Y.\\\" This is the single most recognizable AI shape. At most one per piece, chosen on purpose.\\n- **The countdown.** No \\\"Not a bug. Not a feature. A design flaw.\\\" Stop negating two things to reveal a third.\\n- **Rhetorical self-Q&A.** No \\\"The result? Devastating.\\\" Do not ask a question nobody posed just to answer it.\\n- **Anaphora pile-ups.** Do not open three-plus sentences in a row the same way (\\\"They assume... They assume... They assume...\\\").\\n- **Tricolon reflex.** One rule-of-three is elegant. Three rule-of-threes back to back is pattern failure. Vary the count.\\n- **False ranges.** \\\"From X to Y\\\" only when there is a real spectrum with a middle. \\\"From innovation to transformation\\\" has nothing in between. Just name the two things.\\n- **Filler transitions.** Cut \\\"it's worth noting,\\\" \\\"it bears mentioning,\\\" \\\"importantly,\\\" \\\"notably,\\\" \\\"interestingly.\\\" If it matters, just say it.\\n- **Trailing \\\"-ing\\\" analysis.** No \\\"...highlighting its importance,\\\" \\\"...reflecting broader trends,\\\" \\\"...underscoring its role.\\\" These tack fake significance onto a plain fact.\\n\\n[voice-2] Copy voice guide — AI tells to avoid: Paragraph and format\\n- **Fragment spray.** Stop chopping copy into one-thought-per-line fragments as standalone paragraphs for fake punch (\\\"He did it. Openly. In public.\\\"). Real people write in connected sentences. A fragment is a tool, not a default rhythm.\\n- **Listicle in a trench coat.** Do not write a hidden list as \\\"The first... The second... The third...\\\" prose. Either write a real list or write real prose.\\n- **Bold-lead bullets** (in prose/copy). Do not start every bullet with a bolded keyword and colon. Almost nobody writes by hand this way. (Internal scannable docs are exempt — see scope.)\\n- **Em-dash addiction.** A human uses two or three em dashes in a piece, naturally. AI uses twenty. Default to commas, periods, or parentheses. This one is on me as much as anyone.\\n- **Unicode decoration.** Type straight quotes (\\\"like this\\\"), not curly ones. Use \\\"->\\\" not the arrow glyph. No decorative unicode a person would not type.\\n\\n[voice-3] Copy voice guide — AI tells to avoid: Pre-send checklist (scan every asset for the top tells)\\nBefore any DM, script, email, or page goes out, scan for these eight — they cover most of the damage:\\n\\n1. \\\"It's not X, it's Y\\\" negative parallelism — present? Cut to one or zero.\\n\\n2. Em dashes — more than three? Convert most to commas or periods.\\n\\n3. \\\"Here's the thing / here's the kicker\\\" — cut.\\n\\n4. \\\"Serves as / represents / stands as\\\" — replace with \\\"is.\\\"\\n\\n5. Bold-lead bullets in copy a person reads as writing — unbold.\\n\\n6. Curly quotes or arrow glyphs — replace with straight characters.\\n\\n7. Rule-of-three stacked more than once — vary it.\\n\\n8. \\\"It's worth noting / importantly / notably\\\" filler — delete.\\n\\n[carousels-1] The carousel system: The three observed structures (from the captures)\\n1. **Methodology-as-document** (the grow-acquisition carousel): cover (hook + proof wall) -> N numbered pillar slides, each = ghost number + bold title + one-sentence promise + a staged photo carrying a real artifact (dashboard, doc, chat journey, notifications) -> CTA slide (close from abundance + trigger word). This packages an entire offer/process as a scroll — a landing-page alternative. For Pulsify: the Pulse System's pillars templated exactly this way.\\n\\n2. **Taxonomy/matrix** (the 964k carousel): cover (specific-number hook) -> one slide per type/item, each with a definition + at-a-glance chips (a 3-chip color code: e.g. cadence / function / audience) + a real example mockup -> final CTA slide with a live proof element (a reach donut). This teaches a whole framework for free and sells the deeper version. The chip system is the reusable innovation.\\n\\n3. **Philosophy/concept set** (the 7-lessons carousel): cover -> N one-word concept slides, each a single belief-shift over a cinematic photo, big drop-shadow typography -> the last concept doubles as thesis/close. Packages beliefs as a saveable set; the carousel equivalent of a value/breakdown story sequence.\\n\\n[proof-2] The proof system: Collection rituals (the system part)\\n1. **Post-close conversion survey** (buyer mirror) — mandatory in onboarding, runs forever. Key questions: first content piece that pulled you in; the piece that made you take me seriously; the LAST piece before you booked; how long you followed before buying; biggest hesitations; why me over the others; what in the content signaled I was right. First/last matter because attraction content ≠ conversion content.\\n\\n2. **The three-piece minimum per win:** every client result gets the 60s + interview + value-front treatment scheduled at capture time, not \\\"later.\\\"\\n\\n3. **Interior notes:** the coach records the before-state (the first sales call, the pain) when it happens — the documentary's raw material.\\n\\n4. **Community moments as proof:** retreats, awards, milestone rituals — filmed by default; one retreat = an evergreen proof asset (4-5 interviews per event). **Pulsify version:** milestone rituals in student communities (funded-pass walls, first-10K-month shoutouts), never watch-buying trends.\\n\\n5. **Referral capture at proof moments:** the \\\"who do you know\\\" ask lands best right after a win is packaged.\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "search_brain",
+              "query": "Voice/Tone",
+              "id": "",
+              "result": "{\"fields\":[{\"id\":\"voice/tone\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nVoice / Tone: Calm, direct, plain English. No hype. (saved 2026-10-25)\"}]}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 1440
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 2651
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 343
+            }
+          ],
+          "text": "Here are two calmer ways to open the story:\n\n1. \"Your trading journal is a personal archive of your trades.\"\n2. \"Your trading journal keeps a record of what you've done.\"\n\nThe rest of the slides stay exactly as they are:\n\n- Write down what made you enter, before judging the outcome.\n- Change one rule, not the whole setup."
+        },
+        {
+          "id": "conversation",
+          "elapsed_ms": 11687,
+          "checks": {
+            "one_question": true,
+            "no_unrequested_script": true,
+            "practical": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_brain",
+              "query": "low booking rate causes",
+              "id": "",
+              "result": "{\"fields\":[{\"id\":\"identity/craft\",\"saved_at\":\"2026-10-25\",\"text\":\"Saved context: 1/1 fields included; 0 excerpted; 0 omitted. All nonempty saved fields included.\\nIdentity / Craft: I teach full-time workers to journal futures trades and follow risk rules. (saved 2026-10-25)\"}]}"
+            },
+            {
+              "tool": "search_knowledge",
+              "query": "video marketing conversion strategies",
+              "id": "",
+              "result": "{\"source_ids\":[\"pre-call\",\"youtube\"],\"text\":\"[pre-call-3] Hammer them strategy: Core mechanics\\nDeals close at high interest. Most leads arrive at curious or general interest. The combined job of marketing + hammer them content is to move them up incrementally. The salesperson is the last step, not the only step.\\n\\n### Pre-call selfie video (salespeople)\\n\\nA salesperson texting the lead from a real iPhone — not automated, not green text, not software — with a selfie video referencing their application and offering to send a relevant resource is the single highest-impact action for show rate. When reps stop doing this, show rates drop within 3 weeks.\\n\\n[youtube-1] Micro niche YouTube: Core mechanics\\n### What makes a niche \\\"micro\\\"\\n\\nMicro niche is not about picking a small topic. It is about occupying a specific intersection:\\n\\n- Not \\\"dropshipping coach\\\" → \\\"dropshipping specifically for supplement brands\\\"\\n- Not \\\"I help coaches scale\\\" → \\\"I help coaches under $30K/month in make-money niches reach their first $100K/month\\\"\\n- Not \\\"YouTube marketing\\\" → \\\"YouTube for high-ticket B2B service providers under 10,000 subscribers\\\"\\n\\nThe test: can a viewer in the first 15 seconds of any video know whether this channel is for them? If the answer is no, the niche is too broad.\\n\\n### Why specificity compounds\\n\\nGoing micro achieves several structural advantages simultaneously:\\n\\n1. **Algorithm alignment** — YouTube pushes videos to the right audience automatically when the topic is specific enough. Broad niches produce high view counts from unqualified viewers. Micro niches produce lower view counts from exactly the ICP.\\n\\n2. **No direct competition** — Nobody else owns the exact intersection. Competitors exist in adjacent lanes but not in yours.\\n\\n3. **No lifestyle comparison** — A micro niche creator is evaluated on authority and specificity, not on proof of income via lifestyle signals. Viewers in a narrow niche are looking for expertise, not aspiration.\\n\\n4. **Revenue per view, not raw views** — The $800–$1,200 per 100 views figure exists because every viewer is a qualified prospect. A lifestyle channel generating 100K views from curious observers produces less revenue than a micro niche channel generating 2K views from people actively solving the specific problem being addressed.\\n\\n5. **Compounding library** — Each video adds to a searchable library that qualifies a new wave of leads every month. Unlike ads, the content does not stop working when the budget stops.\\n\\n[youtube-2] Micro niche YouTube: Core mechanics\\n### Rogers' diffusion model applied to niche selection\\n\\n1. Enter the market as an early adopter in a small, clearly defined segment\\n\\n2. Refine product-market fit before trying to scale across the broader market\\n\\n3. As the segment compounds (results, testimonials, authority), expand into adjacent intersections\\n\\nStarting broad tries to skip steps 1 and 2. The result is positioning that is indistinguishable from competitors and a content library that speaks to everyone and converts no one.\\n\\n### The five-step execution framework\\n\\n**Step 1 — Detect market outliers**\\n\\nBefore creating content, reverse-engineer what already works in the target niche. For each successful competitor video, analyze four variables:\\n- **Macro concept structure** — what is the underlying promise?\\n- **Packaging** — how was the concept translated into a clickable title and thumbnail?\\n- **Hook and framing** — does the first 30 seconds deliver on the promise made by the title?\\n- **Authority positioning** — what signals made the audience believe the creator?\\n\\nThe outlier score in VidIQ measures how well a video outperformed the channel's average. A video with a 10x outlier score on a competitor's channel is the idea to target — not to copy the format, but to understand what made the underlying concept explode.\\n\\n**Step 2 — Create exceptional videos**\\n\\nThree components that must all be present:\\n\\n1. **Content angle** — Take a proven outlier concept from the broader market, apply a new angle specific to the micro niche. Familiar enough to attract search, fresh enough to hold attention.\\n\\n2. **Storytelling structure** — Problem → Struggle → Discovery → Result. Every video follows this arc. The result is not the end; it is the setup for the pitch.\\n\\n[youtube-3] Micro niche YouTube: Core mechanics\\n3. **Unique mechanism** — Referenced in every video without over-explaining in TOF content. Viewers should encounter the mechanism often enough that by the time they see a CTA, they already understand what the mechanism is. The sales call becomes \\\"should I implement this with your help?\\\" not \\\"what do you even do?\\\"\\n\\n**Step 3 — Build the content funnel**\\n\\nEvery video maps to TOF, MOF, or BOF. See content funnel tof mof bof for the full breakdown. The summary:\\n- TOF: attract via searchable how-to content. Give the \\\"wow,\\\" not the \\\"how.\\\"\\n- MOF: nurture with deep dives, case studies, contradicting content. This is where bookings start.\\n- BOF: convert with client interviews and behind-the-scenes proof. Treat every BOF video like a VSL.\\n\\n**Step 4 — Design the landing page to match audience size**\\n\\nThe landing page complexity should match the audience's level of pre-sold awareness:\\n\\n| Audience size | Landing page design |\\n|---|---|\\n| Large audience | Longer VSL, longer headline, more qualifying questions, more social proof |\\n| Mid-size (~10K followers) | Shorter headline, shorter VSL, shorter page |\\n| Micro niche (extremely specific) | Just a headline and a Calendly link — they're already pre-sold |\\n| B2B seller | Just a Calendly link |\\n\\nAll landing pages include qualifying questions regardless of size.\\n\\n**Step 5 — Track only what matters**\\n\\nKPI tracking cycle: Set KPI → identify data source → analyze → identify flaws → iterate.\\n\\nMetrics worth tracking:\\n- Close rate (calls booked vs. revenue collected)\\n- Show rate (calls booked vs. calls attended)\\n- CTA performance within individual videos\\n- Calls booked per video\\n- Conversion rate by content type (TOF vs. MOF vs. BOF)\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "search_history",
+              "query": "previous marketing campaigns",
+              "id": "",
+              "result": "{\"messages\":[],\"note\":\"Earlier user statements only. Current corrections and current saved fields take precedence. Private financial/deal details must not be published.\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 2673
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 3188
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 202
+            }
+          ],
+          "text": "It sounds like the videos are getting attention but aren't moving viewers toward a call. Two things often cause that gap:\n\n1. The hook or CTA isn't clear enough for the ideal client. If the opening grabs a broad audience, the later \"book a call\" request may feel unrelated to the viewer's specific situation, so they ignore it.\n\n2. The pre-call content isn't addressing the questions the audience actually has. When the follow-up emails, retargeting pieces, or confirmation page don't answer the objections or expectations that come up in sales calls, viewers don't see value in taking the next step.\n\nWhat's the main promise you make in the first 30 seconds of a typical video?"
+        },
+        {
+          "id": "depth",
+          "elapsed_ms": 18727,
+          "checks": {
+            "developed": true,
+            "concrete": true,
+            "no_fake_income": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 851
+            },
+            {
+              "model": "@cf/openai/gpt-oss-120b",
+              "kind": "writer",
+              "elapsed_to_response_ms": 479
+            }
+          ],
+          "text": "Plan, content -> trust -> call\n\n1. Top-of-funnel (attract) short reels (15-30 s)\n- \"Why journaling matters\" film yourself at a desk, open a trade journal, point to a single line that shows a decision and the result. Keep the caption \"Full-time workers, see how a 2-minute note can stop a losing trade.\"\n- \"One risk rule in 60 s\" stand-up shot, write the rule on a whiteboard, give a quick example of a trade that follows it versus one that breaks it. End with \"Curious how this fits your schedule?\".\n\nPost these on Instagram/TikTok and pin the best to your profile. Each reel ends with a call-to-action: \"DM 'EDGE' for a free journal template.\"\n\n2. Middle-of-funnel (build trust) longer videos (3-5 min)\n- Common questions, record a Q&A where you answer the three questions you hear most in applications (e.g., \"Do I need prior trading experience?\"). Use a simple talking-head setup, no edits needed.\n- Common objections, film a role-play: a skeptical friend asks \"What if I can't keep up with the journal?\" Show your reply, then show a quick clip of a Thursday group review (blur any personal data).\n- Expectations, walk through a typical journal entry, explain the \"future-trade\" column, and show how you give async feedback. End with \"That's the exact process each Quiet Edge member follows.\"\n\nUpload these to YouTube and share the links in the bio and in the DM reply.\n\n3. Bottom-of-funnel (convert) confirmation page & email sequence\n- After a prospect books a Thursday group-review call, the confirmation page should contain:\n- A short welcome video (30 s) stating the goal: \"You'll know if this works for you before the call ends.\"\n- Four breakout videos (30 s-2 min) drawn from the quadrants above: a question, an objection, an expectation, a follow-up.\n- One authentic testimonial screenshot (e.g., a student's message thanking you for the journal template).\n- Follow the booking with 6 emails per day for the next 48 hours. Repurpose the breakout videos as short clips, add a PDF of the journal template, and include a \"quick-review\" of a real journal entry (blurred). Each email nudges the prospect to watch a specific breakout video, raising their interest level from \"curious\" to \"high\".\n\nResulting flow, Reels attract full-time workers, the longer videos answer their questions and reduce objections, and the confirmation page + email sequence keeps them engaged until the Thursday call, where they arrive already framed and ready to decide on Quiet Edge."
+        }
+      ],
+      "memory": [
+        {
+          "note": "detailed replies",
+          "replaces": []
+        }
+      ]
+    },
+    "scoped": {
+      "at": "2026-10-25T19:24:06.955Z",
+      "synthetic_only": true,
+      "writer_model": "@cf/openai/gpt-oss-120b",
+      "lookup_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "results": [
+        {
+          "id": "earlier-chat",
+          "error": "Pulsify AI has reached today's limit. It resets at midnight UTC.",
+          "passed": false
+        }
+      ],
+      "memory_error": "Cloudflare 429: AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (cb496b01-6588-49d7-a765-149a3a8f"
+    },
+    "llama": {
+      "at": "2026-10-25T19:21:26.793Z",
+      "synthetic_only": true,
+      "writer_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "lookup_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "results": [
+        {
+          "id": "depth",
+          "elapsed_ms": 12677,
+          "checks": {
+            "developed": true,
+            "concrete": true,
+            "no_fake_income": true
+          },
+          "passed": true,
+          "lookup_status": "ready",
+          "lookups": [
+            {
+              "tool": "search_knowledge",
+              "query": "futures trader journaling income proof alternatives'}, {",
+              "id": "",
+              "result": "{\"source_ids\":[\"proof\",\"carousels\",\"offer\",\"messaging\"],\"text\":\"[proof-1] The proof system: The proof hierarchy (what counts, in order of power)\\n2. **Process proof** — the 1-on-1 breakdown filmed BEFORE the result, then the result landing: \\\"people can look back at our breakdown and see they really went out and did it.\\\" Makes the audience believe the process, not just the outcome.\\n\\n3. **Transformation stories with interiors** — numbers plus the person: \\\"we always show nice [numbers] in the front end... true impact is being made if you can change the way people feel.\\\" The coach knows the before-state nobody else saw; that story is unreplicable proof.\\n\\n4. **Receipts** — dashboards, payment screenshots, DM messages, funnel waterfalls. Radical transparency versions win hardest (the captured $17,932 December funnel: spend -> every stage -> revenue split reconciling to the headline).\\n\\n5. **Volume** — at scale, count replaces content: \\\"you see 50 clients... you don't even watch a testimonial. You just know it's enough.\\\" 95% never press play; the wall itself is the message.\\n\\n[proof-2] The proof system: Collection rituals (the system part)\\n1. **Post-close conversion survey** (buyer mirror) — mandatory in onboarding, runs forever. Key questions: first content piece that pulled you in; the piece that made you take me seriously; the LAST piece before you booked; how long you followed before buying; biggest hesitations; why me over the others; what in the content signaled I was right. First/last matter because attraction content ≠ conversion content.\\n\\n2. **The three-piece minimum per win:** every client result gets the 60s + interview + value-front treatment scheduled at capture time, not \\\"later.\\\"\\n\\n3. **Interior notes:** the coach records the before-state (the first sales call, the pain) when it happens — the documentary's raw material.\\n\\n4. **Community moments as proof:** retreats, awards, milestone rituals — filmed by default; one retreat = an evergreen proof asset (4-5 interviews per event). **Pulsify version:** milestone rituals in student communities (funded-pass walls, first-10K-month shoutouts), never watch-buying trends.\\n\\n5. **Referral capture at proof moments:** the \\\"who do you know\\\" ask lands best right after a win is packaged.\\n\\n[proof-3] The proof system: Deployment surfaces\\n- Proof pin posts on the grid (first thing a visitor sees), the start-here highlight's proof block, credibility story sequences (weekly), the salesy second account (spam-stack freely there; the main account stays curated), emails 3-5 of the nurture sequence, pre-call breakout videos, and the sales page/portal. One win, every surface, different depths.\\n\\n[carousels-1] The carousel system: The three observed structures (from the captures)\\n1. **Methodology-as-document** (the grow-acquisition carousel): cover (hook + proof wall) -> N numbered pillar slides, each = ghost number + bold title + one-sentence promise + a staged photo carrying a real artifact (dashboard, doc, chat journey, notifications) -> CTA slide (close from abundance + trigger word). This packages an entire offer/process as a scroll — a landing-page alternative. For Pulsify: the Pulse System's pillars templated exactly this way.\\n\\n2. **Taxonomy/matrix** (the 964k carousel): cover (specific-number hook) -> one slide per type/item, each with a definition + at-a-glance chips (a 3-chip color code: e.g. cadence / function / audience) + a real example mockup -> final CTA slide with a live proof element (a reach donut). This teaches a whole framework for free and sells the deeper version. The chip system is the reusable innovation.\\n\\n3. **Philosophy/concept set** (the 7-lessons carousel): cover -> N one-word concept slides, each a single belief-shift over a cinematic photo, big drop-shadow typography -> the last concept doubles as thesis/close. Packages beliefs as a saveable set; the carousel equivalent of a value/breakdown story sequence.\\n\\n[offer-3] Offer creation: Core mechanics\\n**Choose mid-ticket with upsell path when:**\\n- The audience is pre-revenue or early-stage ($0–$3K/month)\\n- Financial objections are the primary sales barrier\\n- The mechanism works for beginners, not just operators with existing infrastructure\\n- A $1,500 entry point creates enough proof and momentum to upsell to $5,000+ at 90 days\\n\\n**Never offer mid-ticket without an explicit upsell path.** A mid-ticket offer with no upsell is a business model with a ceiling.\\n\\n### Offer audit checklist\\n\\nBefore the offer goes live, check:\\n\\n- [ ] Avatar is named and specific (revenue range, niche, exact problem)\\n- [ ] Unique mechanism is named and documented\\n- [ ] Transformation is measurable and stated in the avatar's language\\n- [ ] Delivery model is defined (what exactly does the client get, how often, through what format)\\n- [ ] Price is set based on avatar qualification, not operator comfort\\n- [ ] Risk reversal is defined without income guarantee language\\n- [ ] The one-sentence positioning statement can be written cleanly\\n\\n[messaging-2] The messaging and reframe system: 3. Direct vs indirect (the mechanism dial)\\n- **Direct** = say the word (\\\"the profile funnel has helped me scale — here's a client\\\"). Easy, and needed in proof/CTA content.\\n- **Indirect** = never say the word; shift the belief the mechanism answers (\\\"the way people make decisions in 2026 will be different... people are moving from offers and frameworks to people and brands\\\"). Harder, therefore more valuable; this is what makes content feel like insight instead of advertising, and it pre-positions the offer so the sales conversation starts at deliverables, not persuasion.\\n- Working ratio: indirect carries the content engine; direct appears in bio, proof pin posts, and explicit CTA assets. (Engineered CTAs remain primary — founder-ratified dial 3.)\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "read_brain",
+              "query": "QA Trader income alternatives",
+              "id": "search_brain",
+              "result": "{\"error\":\"No such ID was returned by a search. Search first and use the exact field/source/draft ID. Do not invent IDs.\"}"
+            },
+            {
+              "tool": "search_knowledge",
+              "query": "futures trading journaling student income alternatives no proof'}, {",
+              "id": "",
+              "result": "{\"source_ids\":[\"proof\",\"stories\",\"reels\",\"thumbnails\"],\"text\":\"[proof-2] The proof system: Collection rituals (the system part)\\n1. **Post-close conversion survey** (buyer mirror) — mandatory in onboarding, runs forever. Key questions: first content piece that pulled you in; the piece that made you take me seriously; the LAST piece before you booked; how long you followed before buying; biggest hesitations; why me over the others; what in the content signaled I was right. First/last matter because attraction content ≠ conversion content.\\n\\n2. **The three-piece minimum per win:** every client result gets the 60s + interview + value-front treatment scheduled at capture time, not \\\"later.\\\"\\n\\n3. **Interior notes:** the coach records the before-state (the first sales call, the pain) when it happens — the documentary's raw material.\\n\\n4. **Community moments as proof:** retreats, awards, milestone rituals — filmed by default; one retreat = an evergreen proof asset (4-5 interviews per event). **Pulsify version:** milestone rituals in student communities (funded-pass walls, first-10K-month shoutouts), never watch-buying trends.\\n\\n5. **Referral capture at proof moments:** the \\\"who do you know\\\" ask lands best right after a win is packaged.\\n\\n[stories-3] The story sequence system: The seven types (canonical), plus modes and assets\\n1. **Value-driven.** A story that contains something genuinely useful: set a scene, build tension, walk through a framework or lesson. Goal: show your level of thinking and let them feel they got something for free. Visual quality is mandatory here; a value sequence with bad photos doesn't read as valuable.\\n\\n3. **Q&A.** Open a question box; answer 12 hours later, picking the questions your ICP cares about. Balance answers 50/50 technical (delegable) and personal (founder-only). Cold-start rule: not enough questions, write your own — you know the pain points. The psychology: questions are the audience inviting you to perform your expertise; they want to see how you think, and every answer is a free consult. Run at least biweekly.\\n\\n4. **Day-in-the-life.** Timestamped documentation of a real founder day — but never bare documentation: every slot carries one of value, education, or proof. The deepest follow hook because the audience wants to replicate the founder's day. Simplified evergreen variant (photo + time only) trades conversions for views.\\n\\n5. **Breakdown (educational).** One ICP topic walked across ~6 slides, belief-shift framed (old way / new way). Lead with what they walk away with, never with what they'll learn: the outcome, not the process.\\n\\n6. **Lifestyle.** The 20% human share of the 80/20 rule: personal bonding, \\\"make sure your audience knows what you're up to.\\\" **Pulsify register:** humanity without flex — training, travel-as-context, food, the desk at 2am; never possessions as the subject.\\n\\nFallback mode, not a type: the **no-idea day** — 5-10 evergreen niche topics, deliberately structureless; the lack of structure itself reads as personal and builds trust.\\n\\n### The deployment matrix (cadence / function / audience per type)\\n\\n[proof-1] The proof system: The proof hierarchy (what counts, in order of power)\\n2. **Process proof** — the 1-on-1 breakdown filmed BEFORE the result, then the result landing: \\\"people can look back at our breakdown and see they really went out and did it.\\\" Makes the audience believe the process, not just the outcome.\\n\\n3. **Transformation stories with interiors** — numbers plus the person: \\\"we always show nice [numbers] in the front end... true impact is being made if you can change the way people feel.\\\" The coach knows the before-state nobody else saw; that story is unreplicable proof.\\n\\n4. **Receipts** — dashboards, payment screenshots, DM messages, funnel waterfalls. Radical transparency versions win hardest (the captured $17,932 December funnel: spend -> every stage -> revenue split reconciling to the headline).\\n\\n5. **Volume** — at scale, count replaces content: \\\"you see 50 clients... you don't even watch a testimonial. You just know it's enough.\\\" 95% never press play; the wall itself is the message.\\n\\n[proof-3] The proof system: Deployment surfaces\\n- Proof pin posts on the grid (first thing a visitor sees), the start-here highlight's proof block, credibility story sequences (weekly), the salesy second account (spam-stack freely there; the main account stays curated), emails 3-5 of the nurture sequence, pre-call breakout videos, and the sales page/portal. One win, every surface, different depths.\\n\\n[reels-4] The reel format ladder: Format taxonomy (cross-cutting axes)\\nEvery reel sits on three axes (from the messaging system): philosophy-driven vs technical-driven delivery; transformational / educational / value-driven job; direct vs indirect mechanism reference (mostly indirect — say the belief, not the mechanism's name). Brand constraints: a maximum of ~3 recurring formats at a time (more dilutes the brand), consistent outfits/settings as recognition anchors.\\n\\n[stories-2] The story sequence system: The sequence types — reconciled canon\\nThe caption list is the newest and most considered; Pulsify adopts it as the canonical type menu, with the reconciliation map: educational = breakdown; client result stacking = credibility; lead magnet + timeline-based = CTA (the conversion-frame types); no-idea day = a fallback mode, not a type; story launch and start-here = permanent/campaign assets above the daily types.\\n\\n[thumbnails-2] Thumbnail layout patterns: Pattern A — Raw photo, no text\\nThe founder's four retouches. One person, real room, direct eye contact, deadpan. A single prop carries the tension (in the reference set, a $100 bill held to camera). No headline, no callouts, no arrows.\\n\\nUse when the image alone creates curiosity and the title carries the whole promise. This is the most \\\"normal human\\\" end of the range and the least guru-coded.\",\"kind\":\"shared_method_not_client_facts\"}"
+            },
+            {
+              "tool": "read_brain",
+              "query": "QA Trader income",
+              "id": "search_brain",
+              "result": "{\"error\":\"No such ID was returned by a search. Search first and use the exact field/source/draft ID. Do not invent IDs.\"}"
+            }
+          ],
+          "model_calls": [
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 3180
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "lookup",
+              "elapsed_to_response_ms": 2991
+            },
+            {
+              "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+              "kind": "writer",
+              "elapsed_to_response_ms": 238
+            }
+          ],
+          "text": "To establish credibility and attract potential students, the futures trader can focus on creating content that showcases their expertise in journaling and trading. Since there's no student income proof yet, the emphasis should be on building trust and demonstrating the value of their teaching.\n\nA useful plan could involve filming content that highlights the trader's own journaling process, such as:\n\n- A day-in-the-life vlog, where they document their trading and journaling routine\n- A breakdown of their journaling template, explaining how they track their trades and analyze their performance\n- A Q&A session, where they answer common questions about journaling and trading\n\nThis content can be used to create a narrative that showcases the trader's expertise and helps potential students understand the benefits of journaling in trading. By sharing their own experiences and insights, the trader can establish themselves as a credible authority in the field.\n\nThe goal is to create a series of content pieces that lead potential students to a call, where they can discuss their interests and goals in more detail. The call can be positioned as a consultation or a coaching session, where the trader can provide personalized guidance and advice.\n\nBy focusing on building trust and demonstrating value, the trader can create a pipeline of potential students who are interested in learning from them. As they start to work with students and generate income proof, they can use this to further establish their credibility and attract more students."
+        }
+      ]
+    },
+    "glm": {
+      "at": "2026-10-25T19:23:54.572Z",
+      "synthetic_only": true,
+      "writer_model": "@cf/zai-org/glm-4.7-flash",
+      "lookup_model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "results": [
+        {
+          "id": "depth",
+          "error": "Pulsify AI has reached today's limit. It resets at midnight UTC.",
+          "passed": false
+        }
+      ]
+    }
+  }
+}

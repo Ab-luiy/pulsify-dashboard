@@ -1,4 +1,4 @@
-# Jane's knowledge and conversation (#86)
+# Jane's knowledge and conversation (#86, #87)
 
 Jane uses the authenticated client's saved business context, the current chat and relevant passages from a versioned Pulsify service collection. This is runtime retrieval from a compiled collection; a deployed Worker cannot read the Brain checkout's filesystem.
 
@@ -47,3 +47,34 @@ Tests cover actual model payloads on the Workers AI path, all onboarding section
 The primary Brain checkout is diverged from remote main. #86 is integrated separately from fresh `brain/main` (`3ddd3a51`), preserving the latest onboarding sections, helper-call accounting, and app export `e323437`. Never deploy the stale primary export or merge its unrelated checkpoint history as part of this fix.
 
 Evaluation output is stored at `tests/fixtures/jane-evaluation.json`, under the middleware-blocked tests prefix. The Pages preview served a JSON file under docs despite `.assetsignore`, so this report must never be placed there. Public preview and production probes must verify the old docs path and test-fixture path return 404.
+
+## On-demand reading (#87)
+
+Native Cloudflare Jane now chooses read-only tools before writing the next answer. A schema-constrained lookup planner uses Cloudflare-hosted Llama 3.3 70B; the final writer remains the resolved provider/model. The planner gets recent turns and selected existing context, can inspect returned results, then choose a second lookup round. This is a real server-side loop, not an instruction claiming access the model does not have.
+
+Available tools:
+
+- Search and read the approved 15-guide collection. This does not expose the vault filesystem or arbitrary documents.
+- Search and read saved business fields, including relevant excerpts from long fields. Public-draft private-section exclusions and proof-permission filtering apply to these tools too.
+- Search earlier user messages across this client's saved Jane chats, returning dated quotes. Assistant guesses never become history facts.
+- Search and open this client's saved Jane replies, story sequences and carousels. Only writing content is returned: no stored prompts, parameters, operator review notes or credentials. Draft claims are not accepted as business evidence by the grounding checker.
+
+Every SQL query binds the authenticated client and all search values. The model cannot select a client, table, SQL statement, URL or filesystem path. Reads in the loop require IDs actually returned by a preceding search. At most two planning rounds, three calls per round, six total attempts and 18,000 characters of extra results are allowed; each individual result is capped at 6,500 characters. Searches inspect a bounded set of matching rows and can miss old or poorly named material. There is no embedding service, browsing, arbitrary upload reader, automatic draft mutation or publishing tool. Proposed revisions are returned in chat.
+
+The native loop sends optional `lookup` SSE events and includes `agent_version: tools-v1` plus lookup counts/status in metadata. The existing frontend safely ignores unknown events and keeps its current payload contract. Connected-provider and manual clients retain their existing paths without new external-provider helper calls. No frontend release or database migration is required.
+
+A failed lookup is labelled as unavailable and Jane may proceed from the material already supplied, without claiming to have read missing records. A detected daily Cloudflare allocation limit stops the turn with an explicit reset-time message instead of another model request and a generic failure. The saved user message and own-AI fallback remain available. The platform daily allowance is still charged once per user request; helper inference still consumes actual Cloudflare neurons. The extra lookup rounds add latency and reduce the number of turns the shared free allocation can support.
+
+Native memory extraction now accepts only complete, exact candidate sentences from the current user's explicit enduring preferences or business facts. It excludes questions, drafting requests and hypothetical text. Explicit corrections may retire directly related older notes, with IDs checked against this client's existing notes and lexical topic overlap required. Current corrections and newest notes take precedence. No assistant reply is supplied as memory evidence. The existing 30-note cap and explicit remember/delete controls remain; this is bounded, selective memory, not guaranteed recall of every detail.
+
+Ordinary discussions are prompted to stay focused and ask one actual question. Retrieval distinguishes lack of bookings from no-shows: pre-call methods no longer load merely because a question mentions a call. Explicit pre-call, attendance, confirmation and nurture requests retain those methods.
+
+## #87 evaluation and limits
+
+`node --test --test-reporter=spec tests/*.test.mjs` exercises actual SQLite tool queries, client isolation, denied proof, excluded fields, multi-round reads, ID validation, invalid plans, bounded results, native correction memory and the real chat handler. The new shared agent module is TypeScript and passes a targeted TypeScript check; the existing endpoint remains on its current JS migration path. No shared provider file is changed.
+
+`node tools/eval-jane-agent.mjs --out ABSOLUTE_REPORT_PATH` uses synthetic local SQLite data and the real Cloudflare inference service, without touching live client content. Earlier runs recovered CEDAR from another saved chat, opened a real saved story and revised its opening, and answered a discussion with one question. Full outputs were read: broad advice, invented process details, length drift and unnecessary lookups remained in some outputs despite passing simple keyword probes. Those observations led to narrower retrieval and stricter complete-sentence memory validation. These final refinements pass deterministic tests; the attempted final real-model rerun was blocked by the shared daily free allocation.
+
+Llama 3.3 70B was also compared with the existing writer on one longer discussion; it followed the approximate length better but gave more generic advice. This is insufficient evidence to replace the writer. A GLM 4.7 Flash comparison could not finish because the allocation ran out. No paid plan, key or provider change was made. The real-model evidence is a small synthetic sample, not a quality guarantee. Preserve failures and review factual claims before publication.
+
+Synthetic run outputs and review notes are stored in `tests/fixtures/jane-agent-evaluation.json`, never under public docs. Verify that both this fixture path and the new TypeScript/tool source paths return 404 on preview and production. Official implementation references: [Cloudflare JSON mode](https://developers.cloudflare.com/workers-ai/features/json-mode/) and [free-plan model access](https://developers.cloudflare.com/changelog/post/2026-07-28-models-require-workers-paid/).
