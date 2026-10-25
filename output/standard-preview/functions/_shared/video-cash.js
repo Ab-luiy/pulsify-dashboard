@@ -274,7 +274,7 @@ function isYouTubeReferrer(value) {
 }
 
 function emptyStats() {
-  return { clicks: 0, visits: 0, applications: 0, calls: 0, buyers: 0, cash_cents: 0 };
+  return { clicks: 0, visits: 0, applications: 0, calls: 0, showed: 0, buyers: 0, cash_cents: 0 };
 }
 
 export async function videoCashReport(env, clientId, { range = "all", now = Date.now(), origin = "" } = {}) {
@@ -282,7 +282,7 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
   const from = rangeStart(range, now);
   const db = env.DB;
   const [
-    handleRow, videoRows, linkRows, clickRows, taggedRows, refRows, identityRows, touchRows, paymentRows, unmatchedRow, errorRow, stageRow,
+    handleRow, videoRows, linkRows, clickRows, taggedRows, refRows, identityRows, touchRows, paymentRows, unmatchedRow, errorRow, stageRow, showedRows,
   ] = await Promise.all([
     db.prepare(
       "SELECT json_extract(config_json, '$.handle') AS handle FROM integrations WHERE scope='client' AND client_id=? AND provider='youtube'",
@@ -344,6 +344,11 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
       "SELECT captured_at, payload_json FROM snapshots WHERE scope='client' AND client_id=? AND source='youtube' AND kind='videos-error'",
     ).bind(client).first(),
     db.prepare("SELECT value_json FROM workspace_preferences WHERE client_id=? AND key='video-stages'").bind(client).first().catch(() => null),
+    // Calls the client marked as held (Leads, call outcome), for the funnel's "Showed up" step.
+    db.prepare(
+      `SELECT DISTINCT lower(email) AS email FROM lead_outcomes
+        WHERE client_id=? AND attended='showed' AND COALESCE(email,'') <> '' AND (? IS NULL OR COALESCE(call_at, created_at) >= ?)`,
+    ).bind(client, from, from).all().catch(() => ({ results: [] })),
   ]);
 
   const videos = videoRows.results || [];
@@ -409,7 +414,7 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
   // People: touches and cash in the range, each credited once.
   const people = new Map();
   const person = (email) => {
-    if (!people.has(email)) people.set(email, { applied: false, booked: false, cash: 0 });
+    if (!people.has(email)) people.set(email, { applied: false, booked: false, showed: false, cash: 0 });
     return people.get(email);
   };
   for (const row of touchRows.results || []) {
@@ -417,6 +422,10 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
     if (!email) continue;
     if (row.kind === "booking") person(email).booked = true;
     else person(email).applied = true;
+  }
+  for (const row of showedRows.results || []) {
+    const email = normalizeEmail(row.email);
+    if (email) person(email).showed = true;
   }
   const currencies = new Set();
   for (const row of paymentRows.results || []) {
@@ -439,6 +448,8 @@ export async function videoCashReport(env, clientId, { range = "all", now = Date
     }
     if (p.applied) s.applications += 1;
     if (p.booked) s.calls += 1;
+    // Someone who paid was on the call, so the funnel never shows more buyers than people who showed up.
+    if (p.showed || p.cash > 0) s.showed += 1;
     if (p.cash > 0) s.buyers += 1;
     s.cash_cents += p.cash;
   }

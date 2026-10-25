@@ -536,6 +536,19 @@ const slots = [
 ];
 push(`INSERT INTO workspace_preferences (client_id, key, value_json, updated_at) VALUES (${q(CLIENT)}, 'content-plan', ${q(json({ slots }))}, ${q(iso(NOW))})
   ON CONFLICT(client_id, key) DO UPDATE SET value_json=excluded.value_json, updated_at=excluded.updated_at;`);
+// Planned long-form videos (the Content funnel lists them under their stage, on the next free long-form days).
+// Video projects as the New video steps save them: the idea's funnel stage sits in ideation.chosen.
+push(`DELETE FROM workspace_records WHERE client_id=${q(CLIENT)} AND id LIKE 'dvPlan%';`);
+[
+  ["dvPlan1", "how my student passed 3 funded accounts in one month", "BOF", "proof"],
+  ["dvPlan2", "the exact checklist i give students before a funded challenge", "BOF", "framework"],
+  ["dvPlan3", "the 3 rules that stopped me blowing accounts", "MOF", "framework"],
+  ["dvPlan4", "why 90% of prop firm traders fail in week one", "TOF", "story"],
+].forEach(([id, title, funnel, format], k) => push(insert("workspace_records", {
+  id, client_id: CLIENT, kind: "youtube", title,
+  data_json: json({ stage: "build", headline: title, ideation: { chosen: { idea: title, working_title: title, funnel, format } } }),
+  created_at: iso(ago(3 - k, 10)), updated_at: iso(ago(3 - k, 10)),
+})));
 const ITEMS = [
   ["My Simple 1-Minute Scalping Strategy (Backtested Results)", "published", "YouTube", 1], ["Pre-market in 45 seconds", "published", "Instagram", 0], ["The 1% rule, slide by slide", "published", "Instagram", 0],
   ["Why I sit on my hands at the open", "scheduled", "Instagram", 3], ["Is it too late to start trading?", "production", "YouTube", 8], ["Carousel: 5 rules for sizing", "scheduled", "Instagram", 4],

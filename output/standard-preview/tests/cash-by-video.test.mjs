@@ -298,6 +298,17 @@ assert.equal(report.totals.youtube_cash_cents, 990000);
 assert.equal(report.totals.best_video.video_id, "videoAAAAAA");
 assert.deepEqual(report.unmatched_payments, { count: 1, cash_cents: 77000 });
 assert.equal(report.handle, "acmetrading");
+// Showed up (the content funnel): a buyer counts as showed up even before any call outcome table exists.
+assert.equal(first.showed, 2, "Alice and Bob paid, so both were on a call");
+assert.equal(report.buckets.youtube_untagged.showed, 0);
+sql.exec("CREATE TABLE lead_outcomes(id INTEGER PRIMARY KEY AUTOINCREMENT, client_id TEXT NOT NULL, email TEXT, call_at TEXT, attended TEXT, created_at TEXT NOT NULL)");
+const held = sql.prepare("INSERT INTO lead_outcomes(client_id,email,call_at,attended,created_at) VALUES(?,?,?,?,?)");
+held.run("acme", "Erin@example.com", "2026-09-25T10:00:00.000Z", "showed", "2026-09-25T11:00:00.000Z");
+held.run("acme", "carol@example.com", "2026-09-25T10:00:00.000Z", "no_show", "2026-09-25T11:00:00.000Z");
+held.run("other", "erin@example.com", "2026-09-25T10:00:00.000Z", "showed", "2026-09-25T11:00:00.000Z");
+const withShowed = await videoCashReport(env, "acme", { range: "all", now, origin: "https://pulsify-ai.com" });
+assert.equal(withShowed.videos[0].showed, 2, "a held call and a payment from the same person count once");
+assert.equal(withShowed.buckets.youtube_untagged.showed, 1, "Erin showed up; Carol did not");
 assert.equal(report.currency, "USD");
 
 report = await videoCashReport(env, "acme", { range: "30d", now, origin: "https://pulsify-ai.com" });
