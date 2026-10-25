@@ -158,8 +158,12 @@ export async function* plainReplyChunks(chunks) {
 export function needsCopyReview(message, format) {
   const text = String(message || "");
   if (/\b(?:don't|do not|not yet|before)\s+(?:write|draft|script)/i.test(text)) return false;
-  return /\b(?:write|draft|rewrite|revise|script|compose|create|email instead)\b/i.test(text)
-    || (format !== "general" && /\b(?:change|give me|make|turn)\b/i.test(text));
+  if (/\b(?:write|draft|rewrite|revise|script|compose|create|email instead)\b/i.test(text)
+    || (format !== "general" && /\b(?:change|give me|make|turn)\b/i.test(text))) return true;
+  // Common noun-phrase requests ("An email about my launch", "A six-slide story")
+  // are drafts too. A question about a format remains a conversation.
+  return format !== "general" && /\b(?:email|newsletter|story|stories|slides?|reel|dm|reply|youtube|video|title|thumbnail)\b/i.test(text)
+    && !/^\s*(?:what|why|how|should|which|where|when|who|can you explain|tell me|help me understand|let's discuss)\b/i.test(text);
 }
 
 // Cloudflare-hosted open model, only for the bounded draft check. The conversation writer

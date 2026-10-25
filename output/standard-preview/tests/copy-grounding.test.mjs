@@ -72,6 +72,9 @@ test("drafts get a grounding check; discussion is allowed to stream normally", (
   assert.equal(needsCopyReview("Write landing-page copy", "general"), true);
   assert.equal(needsCopyReview("Write an email to discuss my offer", "email"), true);
   assert.equal(needsCopyReview("Create an email", "email"), true);
+  assert.equal(needsCopyReview("An email about my launch", "email"), true);
+  assert.equal(needsCopyReview("A six-slide story about my journal", "story"), true);
+  assert.equal(needsCopyReview("How should I use email?", "email"), false);
   assert.equal(needsCopyReview("Change just the hook", "reel"), true);
   assert.equal(needsCopyReview("What did we agree about price?", "story"), false);
 });
