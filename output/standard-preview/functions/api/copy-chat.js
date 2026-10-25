@@ -201,12 +201,12 @@ async function send(context, client, body) {
   const asked = FORMATS.has(String(body.format)) ? String(body.format) : null;
   const inferred = formatFromText(message);
   const format = inferred !== "general" ? inferred : asked || chat?.format || "general";
-  const reviewDraft = needsCopyReview(message, format);
+  const publicDraft = needsCopyReview(message, format);
   const history = chat ? await env.DB.prepare("SELECT role, content FROM copy_messages WHERE chat_id=? AND client_id=? ORDER BY id").bind(chat.id, client).all() : { results: [] };
   // Short follow-ups such as "why?" need the preceding topic for retrieval.
   const query = [message, ...(message.length < 180 ? (history.results || []).filter((row) => row.role === "user").slice(-2).map((row) => row.content.slice(0, 1200)) : [])].join("\n");
   let clientBrain;
-  try { clientBrain = await loadClientBrain(env, client, query, reviewDraft); }
+  try { clientBrain = await loadClientBrain(env, client, query, publicDraft); }
   catch {
     return json({ ok: false, error: "Jane couldn't load your saved business details. Try again in a moment; your draft is still here." }, 503);
   }
@@ -217,6 +217,9 @@ async function send(context, client, body) {
   const grounding = { ...clientBrain.grounding, knowledge_version: knowledge.version,
     method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns };
   const ai = await resolveAi(env, client);
+  // The new checker uses only our Cloudflare binding. A connected provider keeps its
+  // existing generation path, without new OpenAI/Anthropic/Gemini helper calls.
+  const reviewDraft = publicDraft && ai.mode === "workers";
   try { await enforceAllowance(ai); }
   catch (error) {
     if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message }, 429);
