@@ -11,6 +11,9 @@
 import { takeAllowance } from "./usage.js";
 
 export const AI_DAILY_CAP = 8;
+// Jane on Pulsify's free Gemini key has her own counter (founder 2026-10-27: 30 messages a day per client).
+// It counts one per message; the lookup, claim check and memory helpers inside a reply are not counted.
+export const JANE_DAILY_CAP = 30;
 export const ALLOWANCE_MESSAGE =
   "You have used today's writing allowance. It resets tomorrow. Connect your own AI in Integrations and the limit goes away.";
 
@@ -28,6 +31,16 @@ export function aiDailyCap(env) {
   return Number.isFinite(set) && set > 0 ? Math.floor(set) : AI_DAILY_CAP;
 }
 
+export function janeDailyCap(env) {
+  const set = Number(env?.JANE_DAILY_CAP);
+  return Number.isFinite(set) && set > 0 ? Math.floor(set) : JANE_DAILY_CAP;
+}
+
+/** Which daily counter a generation draws from: Jane's Gemini chat or the shared Workers AI writers. */
+export function allowanceFor(env, ai) {
+  return ai?.janeGemini ? { kind: "jane", cap: janeDailyCap(env) } : { kind: "ai", cap: aiDailyCap(env) };
+}
+
 /** Marks a resolved switch with who it belongs to. Not enumerable, so it never shows in logs, JSON or equality checks. */
 export function attachGuard(ai, env, client) {
   Object.defineProperty(ai, "guard", { value: { env, client }, enumerable: false });
@@ -40,7 +53,8 @@ export async function enforceAllowance(ai, options = {}) {
   if (!guard || options.uncounted || !guard.client || ai.source !== "platform" || ai.mode === "manual" || !guard.env?.DB) return;
   let allowed = true;
   try {
-    allowed = await takeAllowance(guard.env, guard.client, "ai", aiDailyCap(guard.env));
+    const { kind, cap } = allowanceFor(guard.env, ai);
+    allowed = await takeAllowance(guard.env, guard.client, kind, cap);
   } catch {
     allowed = true;
   }
@@ -51,8 +65,9 @@ export async function enforceAllowance(ai, options = {}) {
 export async function allowanceLeft(env, ai, client) {
   if (!env?.DB || !client || ai?.source !== "platform" || ai?.mode === "manual") return null;
   try {
-    const row = await env.DB.prepare("SELECT count FROM usage_counters WHERE client=? AND kind='ai' AND day=?").bind(client, new Date().toISOString().slice(0, 10)).first();
-    return Math.max(0, aiDailyCap(env) - Number(row?.count || 0));
+    const { kind, cap } = allowanceFor(env, ai);
+    const row = await env.DB.prepare("SELECT count FROM usage_counters WHERE client=? AND kind=? AND day=?").bind(client, kind, new Date().toISOString().slice(0, 10)).first();
+    return Math.max(0, cap - Number(row?.count || 0));
   } catch {
     return null;
   }
