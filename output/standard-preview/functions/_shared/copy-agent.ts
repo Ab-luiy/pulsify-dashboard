@@ -136,13 +136,13 @@ const PLAN_SCHEMA = { type: "object", properties: { calls: { type: "array", maxI
   type: "object", properties: { tool: { type: "string", enum: TOOL_NAMES }, query: { type: "string", description: "Short focused search keywords, or focus within a long record." }, id: { type: "string", description: "Empty string for searches. For read tools, EXACT object ID from a previous result. Never a call identifier or invented ID." } }, required: ["tool", "query", "id"], additionalProperties: false,
 } } }, required: ["calls"], additionalProperties: false };
 
-export async function janeStructured(binding: Binding, system: string, user: string, schema: object, maxTokens = 600) {
+export async function janeStructured(binding: Binding, system: string, user: string, schema: object, maxTokens = 600, timeoutMs = 18000) {
   let timer: ReturnType<typeof setTimeout> | undefined;
   try {
     const out = await Promise.race([binding.run(JANE_LOOKUP_MODEL, {
       messages: [{ role: "system", content: system }, { role: "user", content: user }], temperature: 0,
       max_tokens: maxTokens, response_format: { type: "json_schema", json_schema: schema },
-    }), new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error("Jane lookup timed out")), 18000); })]);
+    }), new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error("Jane lookup timed out")), timeoutMs); })]);
     const response = out?.response ?? out?.choices?.[0]?.message?.content;
     return typeof response === "string" ? parseModelJson(response) : response;
   } finally { clearTimeout(timer); }
