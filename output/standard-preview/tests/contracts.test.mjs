@@ -5,7 +5,7 @@ import {readFileSync} from 'node:fs';
 import {generateKeyPairSync, verify} from 'node:crypto';
 import {onRequestGet,onRequestPost} from '../functions/api/contracts.js';
 import {onRequestPost as connect} from '../functions/api/docusign-connect.js';
-import {GUARANTEE_TEXT,buildContractHtml} from '../functions/_shared/contract-text.js';
+import {GUARANTEE_TEXT,buildContractHtml,salesTeamClause} from '../functions/_shared/contract-text.js';
 import {clearTokenCache,pemToPkcs8,signJwt} from '../functions/_shared/docusign.js';
 
 const sql=new DatabaseSync(':memory:');
@@ -132,3 +132,18 @@ assert.equal((await post({action:'cancel',id:saved.id})).status,409);
 }
 assert.ok(calls.every(c=>!/resend|zernio/.test(c.url)),'no email or Zernio call');
 console.log('PASS contracts: save checks, not-connected state, failed send returns to draft, one envelope per contract, guarantee wording and terms in the document, status by refresh and webhook, cancel, no live calls.');
+
+// Founder 2026-10-26: the contract names the program build, setters and closers, and ads later, and
+// the sales team is paid out of the Operator's share (10% closer, 5% setter, the rest kept).
+{
+  const html=buildContractHtml({id:'s',first_name:'Jane',last_name:'Doe',email:'a@b.test',upfront_cents:500000,fee_percent:30,start_revenue_cents:0,notes:''}).replace(/&#39;/g,"'");
+  assert.ok(html.includes("building the Client's paid program"),'program build is in scope');
+  assert.ok(html.includes('recruiting, training and managing setters and closers'),'sales team is in scope');
+  assert.ok(html.includes('paid advertising as a later phase'),'ads are a later phase');
+  assert.ok(html.includes('ten percent (10%) to the closer, five percent (5%) to the setter, and 15% kept by the Operator'),'30% splits 10/5/15');
+  assert.ok(html.includes("delivers the program to the Client's own students"),'students stay with the client');
+  assert.ok(salesTeamClause(35).includes('and 20% kept by the Operator'),'35% splits 10/5/20');
+  assert.ok(salesTeamClause(10).includes('agreed in writing'),'a share under 15% cannot fund the team');
+  assert.ok(!salesTeamClause(10).includes('kept by the Operator'));
+}
+console.log('contract scope and sales-team split ok');

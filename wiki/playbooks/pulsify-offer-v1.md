@@ -1,161 +1,127 @@
 ---
 type: playbook
-tags: [offer, pricing, performance-fee, risk-reversal, pulse-system, contract]
-sources: [[wiki/concepts/pulse-system-mechanism]], [[wiki/people/abdullah-dagestani]]
+tags: [offer, pricing, performance-fee, guarantee, contract]
+sources: [[synthesis/mvp-readiness-and-pricing-2026-10-12]], [[synthesis/onboarding-v2-spec-2026-10-15]], [[synthesis/service-scope-and-terms-proposal-2026-10-26]], [[clients/tb-tradez/contract-draft]], [[wiki/people/abdullah-dagestani]]
 created: 2026-05-10
-updated: 2026-05-10
+updated: 2026-10-26
 ---
 
-# Pulsify offer v1
+# Pulsify offer
 
-The first commercial offer Pulsify sells. Built around [[concepts/pulse-system-mechanism|the Pulse System]]. Base fee plus performance share. Sold to coaches with a working offer and the will to execute. The headline guarantee is **$100,000 in new revenue within 90 days, or Pulsify works free until they hit it.**
+What a client pays, what we do, what they do, and how it ends. This page matches the contract the app sends from the booked pipeline (`output/standard-preview/functions/_shared/contract-text.js`, pulsify-saas #80). If the two ever disagree, the app's contract is what the client signs, so fix this page or the contract the same day.
 
-> Risk-reversal under review: [[synthesis/offer-v2-risk-reversal]] proposes replacing the unbounded "$100k or free" headline with a credible, bounded, execution-gated structure that closes better in the trust recession and caps founder downside. Economics (base + performance) unchanged. Founder decision pending.
+> **Rewritten 2026-10-26.** The May version promised "$100,000 in 90 days or we work free", a 90-day paid term and weekly settlement. Those terms are retired. They are summarised under "What changed" at the bottom so nobody revives them by accident.
 
 ## Why this matters for Pulsify
 
-This is the contract — what the prospect pays, what they receive, what they sign, what triggers exit. Without one canonical page, every sales call invents new terms and the offer drifts. v1 is the floor. It gets revised the moment v2 reality demands it.
+Every sales call needs one set of terms. If the page, the contract and the call say different things, the client finds the gap and the deal drifts or dies.
 
-## The offer in one sentence
+## The deal
 
-Pulsify installs the full back-end of a coaching business — personal brand, content engine, funnel, sales infrastructure, and a custom AI agent that replaces a 3-person VA team — for a base fee plus a 25–30% performance share, and guarantees the client makes at least $100,000 in new revenue inside 90 days or we work free until they do.
+- **Price:** $5,000 upfront plus 30% of what they collect from what we build together (founder 2026-10-15).
+- **What the 30% covers:** everything after they join, from content to funnel to closing. Money they already make from content before joining is not touched, unless we rebuild that stream, and then it counts too.
+- **Starting revenue:** written into the contract at signing. Onboarding asks for the last three months exactly, so the number is real.
+- **Refunds and chargebacks** come off before the 30% is worked out.
+- **When we get paid:** within 5 business days of them receiving the money.
+- **Late or missed payment** pauses our work until it is paid.
+- **How they pay:** crypto (USDT or USDC) or bank transfer. No Stripe, because it is not available in Turkey.
+- **No refunds** on anything paid.
 
-## Pricing — the negotiation tree
+### When the pricing gets pushed
 
-Pricing is a negotiation, not a tier list. Sales-call logic:
+The May negotiation tree is still the reference if a prospect pushes: drop to 25% only if the base goes up to $10,000, settle at $7,500 + 30% if they push again, and never go below $5,000 + 30%. Two signed deals broke it: FITFO ($0 upfront, 30%, first $3,000 to us) and TB Tradez ($0 upfront, 35%). Doctrine stays: the upfront is not negotiable and a price objection is usually a smokescreen ([[claude-memory/feedback_price_objection_smokescreen]]).
 
-1. **Open at $5,000 base + 30% performance.** This is the default and the floor on the base.
-2. **If they object to the 30%:** drop to 25% but base moves to **$10,000**.
-3. **If they object to the $10,000 base after a 25% drop:** settle at **$7,500 + 30%**.
-4. **Hard floor:** $5,000 + 30%. Never below.
+## How long it runs
 
-Both base AND performance fee are mandatory. There is no path that drops one. The base funds the build; the performance fee aligns Pulsify with growth. Skipping either breaks the model.
+There is no end date. It runs until either side says stop, by message, with no notice period and no penalty.
 
-**Payment terms — base:** PIF or 50/50. 50/50 splits as half on call, half at funnel-stack delivery (week 5).
+When it stops:
+- They keep everything we built for them.
+- Deals already in progress that close within 30 days still pay the 30%.
 
-**Payment terms — performance:** weekly settlement against attributable revenue (see definition below). Reported every Friday from the integrated payment-processor view.
+## What we do
 
-**Payment rails:** crypto via Binance Turkey (preferred) or international SWIFT bank transfer. No Stripe (Turkey constraint). No financing partner currently available.
+We do the work that makes them money (founder's scope reference: Cardinal Mason's "Our work" slide).
 
-## Performance fee — attribution and mechanics
+- Their offer, positioning and unique mechanism.
+- Their YouTube videos planned for them: idea, outline in their words, two titles and two thumbnails, and a story sequence to push each one.
+- Their Instagram profile: bio, highlights, story sequences, and carousels when something big happens.
+- Their funnel from the first click to the booked call, tracked the whole way, plus payment-processor setup.
+- Their paid program: curriculum, how they run 1-1 calls, teaching material, a sheet of who paid and who didn't, and Whop if they host there.
+- Setters and closers, found, trained and managed by us when the offer is ready to scale.
+- Paid ads as a later phase, or early if they want to scale fast. Organic first.
+- The app, a weekly review and weekly reports.
 
-**Attribution rule:** every dollar the client collects from the moment Pulsify is integrated into the business is attributable to Pulsify. Pre-existing leads already in flight at integration date are excluded — if a lead was scheduled to close before integration, that one revenue event does not count.
+**The sales team is paid out of our 30%:** 10% to the closer, 5% to the setter, 15% to us. The client pays nothing extra. Until there is a team, we do that work and keep the full 30%.
 
-After integration, every revenue event counts because Pulsify owns the systems generating, processing, and tracking them: the CRM, the payment processor view, the Sales Co-pilot, the setters and closers (when present) reporting into the Pulsify Slack channel, the funnel, the content engine. The integration itself is the visibility mechanism — Pulsify cannot install the system without seeing what flows through it.
+## What they do
 
-**Duration:** no ceiling, no time cap. The performance fee runs as long as the assets Pulsify built are running and the engagement is active. If the client wants to terminate the performance share, they terminate the engagement and Pulsify stops maintaining the system.
+The parts only they can do (the onboarding "deal" screen):
+- Record their videos. 1 to 2 a week is the standard, and they can change it.
+- Post their own reels, 2 to 5 a day, raw and unscripted. We never script reels.
+- Show up to the weekly review and approve drafts.
+- Reply to their leads, take their calls and look after their students.
 
-**Dispute resolution:** weekly Slack-channel report from setters/closers + payment-processor export are the source of truth. Both sides see the same data. Disputes are resolved against those records, not against subjective recall.
+If the content doesn't go out, nothing we build can work.
 
-## Length of engagement and the $100k guarantee
+## The guarantee
 
-**90 days paid.** That is the contractual delivery window for the build.
+Approved wording, used word for word in the contract and onboarding (founder 2026-10-15):
 
-**Headline guarantee:** Pulsify guarantees the client collects at least $100,000 in new attributable revenue within 90 days of engagement start. If they miss, Pulsify continues working at no additional base fee until $100,000 is hit.
+> "Your workspace is live and tailored to you the day you finish onboarding, and your first video package and story sequence follow right after. If anything we promised isn't delivered, we keep working at no extra cost until it is. No refunds."
 
-**Continuation has no time cap and no hour cap.** Pulsify continues as long as it takes. The performance fee continues to apply on revenue collected during continuation.
+We guarantee what we control, which is the work. We never promise a revenue number.
 
-This is a hard guarantee on a guarantee-hard offer. The qualification gate (below) is what protects Pulsify from selling it to a client who cannot deliver execution.
+## Who we work with
 
-## What the client gets
+- Creators in our seven niches who do the craft themselves ([[claude-memory/feedback_our_niches_only]]).
+- They have something to sell, or are willing to build an offer with us.
+- They will show up: film on cadence, attend calls and take their own sales calls. That is what decides the result.
+- They give us access to their accounts so the app can track the money.
 
-Week-by-week breakdown:
+Hard no: lifestyle or flex content, faceless content, or someone who won't keep cadence.
 
-| Week | Deliverable | Owned by |
-|---|---|---|
-| 1 | Game-plan call. Account audits. Slack/Discord workspace. Payment-processor and CRM integration. Brand Brain intake interview. | Founder + client |
-| 2 | Brand Brain populated. Profile audit complete. IG profile renovated. Unique mechanism named with the client. | Founder |
-| 3 | Content Engine v1 live: research subroutine running, first 3 video angles approved, scripts drafted. | Founder + agent |
-| 4 | First 2 long-form videos shot, edited, scheduled. Thumbnail patterns set. | Client (shoot) + founder (everything else) |
-| 5 | Funnel Stack live: VSL drafted/recorded, Typeform built, Cal.com live, IG link-in-bio sequence wired. 50% payment due if on split. | Founder |
-| 6–8 | Sales Co-pilot wired: pre-call briefs, proposal templates, CRM auto-updates. First sales calls run. Setters/closers (if present) onboarded into Slack. | Founder + agent |
-| 9–11 | Ops Replacement live: comment triage, DM triage, dashboard refreshing daily. Weekly metric reports. | Agent |
-| 12 | Day-90 review. Attributable revenue measured. If <$100k, continuation triggers. Case-study assets collected when goal hit. | Founder + client |
+## Lessons from the calls (still apply)
 
-## Qualification — who Pulsify will work with
+### Never accept a deferred renegotiation
 
-The qualifier is the discovery call, not a revenue floor. Pulsify makes a judgment call on the live discovery call whether $100k in 90 is achievable for this specific person. The factors that drive the call:
+Proven on the FITFO call, 2026-07-29. When a prospect wants to settle the split after the first money comes in, refuse and lock every term before work starts. By that later call we hold a finished build and they hold all the leverage. Say the split out loud on a recorded call, get an explicit yes ("Afterwards, 70/30 applies. We cool?"), and send them the recording.
 
-- **Has a working offer** — already converting at any price point. Or has an inbound lead Pulsify can close on the first call (cash-now path).
-- **Audience or content already producing** — any channel showing engagement. Specific follower count is not a fixed gate.
-- **Will to execute** — visible signal that they will hit cadence, attend calls, ship videos, take their own sales calls. This is the variable that decides everything.
-- **Willingness to integrate** — they hand over CRM, payment processor view, and back-end systems. Without integration there is no attribution and no deal.
+### Answer a termination question with a clause
 
-Revenue level is informative, not gating. A coach at $15–30k/month with the right audience and the right will hits $100k in 90 — that's well within Pulsify's confident range. A coach at $50k/month who refuses cadence does not.
-
-## What disqualifies a prospect
-
-- **No offer at all** ("I just post about trading"). They need offer creation first. Scope a separate $5k engagement, no performance fee on that scope.
-- **Refuses integration** — won't grant payment processor or CRM visibility. No deal.
-- **Demands lifestyle/flex content.** Hard no.
-- **Demands faceless content.** Hard no.
-- **Will not show up for cadence.** Disqualify on the call. The guarantee can't carry a client who won't carry themselves.
-
-## On-call sales process
-
-1. Inbound triggers: VSL → Typeform → Cal.com booking, OR DM reply → Loom send → Cal.com booking.
-2. Pre-call: agent runs lead enrichment 30 min before. Founder reads brief in 60 seconds.
-3. Call structure: Jeremy Haynes call funnel (see [[frameworks/call-funnel-framework]]).
-4. Demo: 3-minute live agent demo. Default = "draft 10 video angles for your channel right now."
-5. Pricing: open at $5k + 30%. Negotiate down the tree only if pushed.
-6. Close: terms reviewed live, contract sent same day, payment terms confirmed.
-7. If no close: 5-touch follow-up sequence runs over 30 days, drafted by Sales Co-pilot, approved by founder.
-
-## Never accept a deferred renegotiation
-
-Proven on the FITFO call, 2026-07-29. When a prospect proposes settling the performance split *after* the first tranche clears, refuse and lock every term before any work starts.
-
-Carlos's proposal was reasonable-sounding: pay the first $3,000, then "we can have a call, negotiate the deal, whether it be 70, 30, 80, 20, 60, 40, whatever makes more sense in that moment." Abdullah declined: "I prefer for everything to be locked down right now... I hate renegotiating things when everything needs to be set."
-
-Why the refusal is structural rather than stylistic. By the time that later call happens, Pulsify is holding a finished build, months of delivery, and no signed continuation. The prospect is holding all the leverage and every incentive to argue the number down. A deferred split is not a postponed decision, it is a decision made later from the weakest position available.
-
-Two rules that follow:
-
-1. **Say the split out loud on a recorded call and get an explicit yes.** Terms agreed only in someone's memory are terms you do not have. Abdullah's recap-and-confirm ("Afterwards, 7030 applies. We cool?" / "Yeah, makes sense") is the pattern to repeat.
-2. **Send the client the recording.** It is free, it reads as transparency, and it converts a verbal agreement into a record the client has received and not disputed. Do this even when a signed contract is coming, because the contract always lags the call.
-
-Corollary for the internal split: walk the prospect through the sales-team breakdown until they restate it correctly themselves. Carlos misread 15% as sitting on top of the 30%, was corrected, and confirmed. That exchange is worth more later than a clean explanation he never engaged with.
-
-## Answer a termination-clause question with a clause, not a story
-
-Also proven on the FITFO call, 2026-07-29, immediately after the split was locked. When a prospect asks directly what happens if the engagement doesn't work out, that is a request for a specific clause. A story about how the last engagement ended is not a substitute, even a true and reassuring one.
-
-Carlos asked point-blank: "What are the termination clauses in that case?" and named his own trigger (three months, no results close to expectation, he walks). Abdullah answered with how Nick's exit went, plus "I really operate in good faith." Good faith describes intent. A prospect asking for termination terms is asking what happens regardless of intent, on both sides.
-
-The trap in this specific case: Carlos, in the same breath, asked not to be time-bound, not to be bound to pay the tranche as a condition of leaving, and to keep the systems on exit. Taken literally and left unaddressed, those three asks combine into the client owing nothing, keeping everything, and facing no clock, while Pulsify is already committed to an open-ended build. The fix is not to refuse what he asked for; it is to separate what he actually objected to (being forced to keep working until paid back) from what he never objected to (owing money he actually collects). A clause that lets the payment obligation survive termination, scoped to revenue actually collected in a defined window, satisfies every condition the prospect named by number while still closing the exposure.
-
-Rule: **the moment a prospect asks "what happens if this doesn't work out," write the clause on the spot or flag it as an open item to close before signing — never let a reassuring anecdote stand in for the answer.** An anecdote feels responsive in the room and leaves nothing on paper.
+Also from the FITFO call. When a prospect asks "what happens if this doesn't work out", answer with the clause: either side can stop by message, they keep what we built, and deals in progress that close within 30 days still pay the share. A reassuring story is not an answer.
 
 ## Capacity
 
-The founder can deliver up to 6 active clients in parallel before the operator role saturates. Each new client past 6 requires either (a) a price increase, (b) hiring a junior operator, or (c) tightening the agent to absorb more of the labor. Capacity drops during exam weeks — see [[playbooks/exam-mode-autonomous-ops]].
+The founder can run about 6 active clients before the operator role saturates. Past that: raise the price, hire a junior operator, or let the app take more of the work.
 
-## What the client does NOT get in v1
+## What changed on 2026-10-26
 
-- No paid-ad management. Profile-funnel ads are a v2 add-on once organic content is producing.
-- No live webinar build. Webinars require audience size most v1 clients lack. See [[frameworks/webinar-framework]].
-- No sales-team build (recruiting setters/closers from scratch). Founder runs sales calls in v1; if the client already has setters/closers, Pulsify integrates them.
-- No course platform setup (Skool, Kajabi). v1 assumes the coach already has a delivery container.
+Retired from the May page:
+- The "$100,000 in 90 days or we work free until you hit it" guarantee. It was replaced by the delivery guarantee above, because a big revenue promise reads like every guru in a trust recession ([[synthesis/offer-v2-risk-reversal]]).
+- The 90-day paid term and the day-90 review. There is no end date now.
+- Weekly Friday settlement. The share is now due within 5 business days of each payment.
+- "Every dollar after integration counts". The share now covers revenue from what we build together, net of refunds, with starting revenue recorded.
+- "No sales-team build" and "no paid ads". Both are now in scope, as above.
+- "Pulsifymedia LTD". There is no registered company. Contracts are made as Pulsify ([[clients/tb-tradez/decisions]]).
 
 ## Connections
 
-- [[concepts/pulse-system-mechanism]] — the mechanism this offer monetizes.
-- [[wiki/people/abdullah-dagestani]] — the founder who delivers it.
-- [[playbooks/exam-mode-autonomous-ops]] — what runs when the founder is in exams during a 90-day window.
-- [[playbooks/pulsify-delivery-sop]] — week-by-week delivery SOP.
-- [[playbooks/pulsify-funnel-v1]] — the inbound funnel that produces these prospects.
-- [[clients/nick/overview]] — the prior engagement whose churn lessons drive the integration and execution-gate requirements.
-- [[frameworks/call-funnel-framework]] — the call structure used to close.
+- [[playbooks/pulsify-contract-template-v1]]: the contract text, which mirrors the app's.
+- [[synthesis/service-scope-and-terms-proposal-2026-10-26]]: what is settled and what is still left for the first client.
+- [[synthesis/onboarding-v2-spec-2026-10-15]]: the "deal" screen the client confirms before finishing onboarding.
+- [[playbooks/pulsify-delivery-sop]]: week-by-week delivery. Its $100k and day-90 sections are out of date.
+- [[clients/nick/overview]]: the case study.
 
 ## Open questions / gaps
 
-- **Recorded risk on the unbounded guarantee.** The $100k-in-90 guarantee with no time cap, no hour cap, no client-side execution gate is high-conviction by the founder ("it is so fucking easy"). The structural risk is concurrent failures during a capacity-constrained period (e.g. exam weeks): two clients missing the goal would fully consume founder time at zero marginal revenue while five other engagements are still active. Mitigations to consider as the offer matures: (a) add a client-side cadence gate (two missed weeks voids continuation), (b) cap continuation at 6 months total engagement, (c) raise the qualification bar after the first miss. None of these are in v1 — flagged here so future-you can find this when the first stress event arrives. Founder accepts the risk knowingly as of 2026-05-10.
-- No prior engagement has run on these exact terms. First paid v1 client becomes the proof and the source of revisions.
-- Legal: contract template drafted at [[playbooks/pulsify-contract-template-v1]] (2026-05-15). Open items on the template: jurisdiction confirmation (UK vs other), Pulsifymedia LTD signer name/title, optional standalone NDA variant.
-- Crypto-only payment may disqualify some prospects. Backup option (Wise, Payoneer) needs evaluation.
+- **Who edits the videos.** The delivery SOP has us editing, while the contract only says the client records and publishes. Not settled.
+- **The app cannot send a contract yet.** DocuSign is linked, but the three sending keys are not set.
+- **The zero-floor risk on performance-only deals** (TB Tradez) is still unresolved. A longer tail was proposed and never agreed.
 
 ## Source trail
 
-- Founder voice notes, 2026-05-10 (interview + pricing/risk-reversal clarifications).
-- [[concepts/pulse-system-mechanism]].
-- [[clients/nick/overview]] — churn-mode evidence behind integration requirement.
+- Founder voice notes, 2026-05-10 (original offer).
+- Founder decisions, 2026-10-12 and 2026-10-15 ([[synthesis/mvp-readiness-and-pricing-2026-10-12]]).
+- Founder, 2026-10-26: add setters/closers 10/5/15, ads later and program building to the contract.
+- FITFO and TB Tradez agreements ([[clients/tb-tradez/contract-draft]]).
