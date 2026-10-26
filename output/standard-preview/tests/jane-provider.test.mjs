@@ -16,6 +16,17 @@ test('Jane requires explicit free-project verification and does not leak credent
   assert.ok(!JSON.stringify(ai).includes('synthetic-secret'));
 });
 
+test('usage stats report Jane\'s own 30-a-day allowance', async t => {
+  t.mock.method(globalThis, 'fetch', async () => Response.json({}));
+  let asked;
+  const DB = { prepare: query => ({ bind: (...args) => { asked = { query, args }; return { first: async () => ({ count: 2 }) }; } }) };
+  const ai = await resolveJaneAi({ ...env, DB }, 'a');
+  const stats = await janeStats({ ...env, DB }, ai, 'a');
+  assert.equal(stats.allowance_remaining, 28);
+  assert.equal(stats.allowance_cap, 30);
+  assert.equal(asked.args[1], 'jane');
+});
+
 test('stream handles split UTF-8, thought exclusion, final unterminated event and cumulative usage exactly once', async t => {
   const calls = [];
   t.mock.method(globalThis, 'fetch', async (url, init) => {

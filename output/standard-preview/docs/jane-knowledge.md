@@ -159,3 +159,9 @@ Founder: Jane should scan our frameworks, the client's information and everythin
 - Real check (local copy of the demo workspace, real /api/copy-chat code, real gemini-3.5-flash-lite): greeting, best-earning videos, why leads do not book plus objections, this week's plan, a 6-slide story sequence (public-draft check passed), an open-ended "where do I start", and an off-topic naming question. Every reply used the demo's actual numbers or drafts; 12-39 s per reply on the free tier. The per-client daily allowance (AI_DAILY_CAP, default 8) stopped the run after five messages, as designed.
 - The Gemini path uses keyword retrieval, so the new passages are live without re-indexing. The Workers AI semantic index (tools/sync-jane-search.mjs) was not re-synced.
 
+## Jane's own daily allowance: 30 messages (2026-10-27)
+
+- Founder 2026-10-27: 30 Jane messages a day per client. Jane on the free Gemini key now draws from her own `jane` usage counter (`JANE_DAILY_CAP`, default 30, overridable by the `JANE_DAILY_CAP` env var). The Workers AI writers keep the shared `ai` counter at `AI_DAILY_CAP` (default 8), because that free plan is much smaller.
+- One count per message, taken in copy-chat.js before any helper runs. The lookup planner, claim check and memory helpers inside a reply are not counted. Jane falling back to Workers AI (no Gemini key) still counts against `ai`.
+- The operator usage row reads the cap from the server (`allowance_cap`), so it shows "n of 30 left" with no app change.
+

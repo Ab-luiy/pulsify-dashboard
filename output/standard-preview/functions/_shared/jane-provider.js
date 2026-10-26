@@ -1,7 +1,7 @@
 // Jane-only Gemini integration. Free models only: when one is rate-limited or overloaded, the next configured
 // free model answers (each Gemini model has its own free quota on the project). No paid provider escalation.
 import { resolveAi as resolveDefault, generateText as generateDefault, streamText as streamDefault } from './ai-provider.js';
-import { attachGuard, allowanceLeft, aiDailyCap } from './ai-guard.js';
+import { attachGuard, allowanceLeft, allowanceFor } from './ai-guard.js';
 import { HUMANIZER } from './humanizer.js';
 
 const BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
@@ -148,7 +148,7 @@ export async function janeStats(env, ai, client, grounding = null) {
   return {
     model: ai.model || null, provider: ai.mode, gemini_setup: janeConfigured(env) ? 'configured' : 'not_configured',
     selected: ai.janeGemini ? ai.selected : null, models: ai.janeGemini ? janeModels(env) : [], fallbacks: ai.fallbacks || [],
-    allowance_remaining: remaining, allowance_cap: remaining === null ? null : aiDailyCap(env), allowance_reset: remaining === null ? null : new Date(new Date().setUTCHours(24, 0, 0, 0)).toISOString(),
+    allowance_remaining: remaining, allowance_cap: remaining === null ? null : allowanceFor(env, ai).cap, allowance_reset: remaining === null ? null : new Date(new Date().setUTCHours(24, 0, 0, 0)).toISOString(),
     provider_quota_remaining: null, context_window: ai.contextWindow || null, calls: ai.calls || [], grounding,
   };
 }

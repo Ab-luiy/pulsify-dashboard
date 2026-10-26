@@ -749,3 +749,7 @@ Founder said "do everything" before leaving. #67: drafts now also cover operator
 
 Founder asked to test Jane end to end and make her connect the dots from everything in the backend, take any input, and drop the clutter. Jane now has a read-only workspace lookup (videos and the cash each brought in, leads, calls and objections, content plan, projects, story results, proof), plans a lookup for every real question, and knows six more frameworks (VSL, sales calls, bio, Instagram conversion assets, webinars, posting rhythm; 23 sources). Creator names are now stripped from the method text at build time, which also removed an existing leak of one coach's name. Screen: suggestion buttons under replies, the acorn and the client usage bar are gone after the first message; starters stay before the first message; "Connect your AI" only shows when no AI is connected; the usage details stay for the operator preview. Tested with the real chat code and real Gemini on a local copy of the demo workspace: seven different questions all answered from the demo's actual data. Details: output/standard-preview/docs/jane-knowledge.md.
 
+## [2026-10-27] client-update | Jane's daily limit raised to 30 messages per client
+
+Founder approved 30 Jane messages a day per client (was 8). Jane now has her own counter, so her chats no longer use up the allowance of the app's other AI writers, which stay at 8 on the smaller Workers AI plan. One message counts once; the data lookup and checks inside a reply do not count. See output/standard-preview/docs/jane-knowledge.md.
+

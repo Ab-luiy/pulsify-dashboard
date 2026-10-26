@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
 import { resolveAi, generateText } from "../functions/_shared/ai-provider.js";
-import { AI_DAILY_CAP, AiAllowanceError, allowanceLeft, figuresIn, findUnsupportedNumbers } from "../functions/_shared/ai-guard.js";
+import { AI_DAILY_CAP, JANE_DAILY_CAP, AiAllowanceError, allowanceFor, allowanceLeft, attachGuard, enforceAllowance, figuresIn, findUnsupportedNumbers } from "../functions/_shared/ai-guard.js";
 
 const sql = new DatabaseSync(":memory:");
 sql.exec(readFileSync(new URL("../migrations/0059_usage_counters.sql", import.meta.url), "utf8"));
@@ -38,6 +38,16 @@ await assert.rejects(() => generateText({ system: "s", user: "u" }, tight), /all
 const own = { mode: "anthropic", apiKey: "k", source: "client" };
 assert.equal(await allowanceLeft(env, own, "client-a"), null);
 
+// Jane's Gemini chat has her own counter of 30 messages a day and never spends the Workers AI writers' allowance.
+assert.equal(JANE_DAILY_CAP, 30);
+const jane = attachGuard({ mode: "gemini", source: "platform", janeGemini: true }, env, "client-d");
+for (let i = 0; i < JANE_DAILY_CAP; i += 1) await enforceAllowance(jane);
+await assert.rejects(() => enforceAllowance(jane), (error) => error instanceof AiAllowanceError);
+assert.equal(await allowanceLeft(env, jane, "client-d"), 0);
+assert.equal(await allowanceLeft(env, await resolveAi(env, "client-d"), "client-d"), AI_DAILY_CAP, "Jane's messages leave the writers' allowance alone");
+assert.deepEqual(allowanceFor({ JANE_DAILY_CAP: "5" }, jane), { kind: "jane", cap: 5 });
+assert.deepEqual(allowanceFor({ AI_DAILY_CAP: "5" }, jane), { kind: "jane", cap: JANE_DAILY_CAP }, "the writers' setting does not change Jane's");
+
 // Number check.
 assert.deepEqual(figuresIn("$12,000 a month, up 40% and 2.5x, 12k followers").map((f) => f.value), [12000, 40, 2.5, 12000]);
 const proof = "Rio went from $4,000 to $12k a month in 90 days. 3 videos a week.";
@@ -46,4 +56,4 @@ assert.deepEqual(findUnsupportedNumbers("Rio grew 340% and added 25,000 follower
 assert.deepEqual(findUnsupportedNumbers("Here are 5 steps, started in 2024.", [proof]), [], "small counts and years are structure");
 assert.deepEqual(findUnsupportedNumbers("Join 150 creators.", [proof]), ["150"]);
 assert.deepEqual(findUnsupportedNumbers("Join 150 creators.", [proof, "The request mentions 150 creators."]), [], "figures in the request itself are allowed");
-console.log("PASS ai guard: daily allowance per client, plain refusal, own-AI clients unlimited, opt-out for helpers, invented figures flagged.");
+console.log("PASS ai guard: daily allowance per client, plain refusal, own-AI clients unlimited, opt-out for helpers, Jane's own 30-a-day counter, invented figures flagged.");
