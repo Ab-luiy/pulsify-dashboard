@@ -79,9 +79,9 @@ Llama 3.3 70B was also compared with the existing writer on one longer discussio
 
 Synthetic run outputs and review notes are stored in `tests/fixtures/jane-agent-evaluation.json`, never under public docs. Verify that both this fixture path and the new TypeScript/tool source paths return 404 on preview and production. Official implementation references: [Cloudflare JSON mode](https://developers.cloudflare.com/workers-ai/features/json-mode/) and [free-plan model access](https://developers.cloudflare.com/changelog/post/2026-07-28-models-require-workers-paid/).
 
-## #88: context-v2, implemented but not released
+## #88: context-v2, released with AI validation pending
 
-This section supersedes the #87 capability limits where stated. Production still runs #87 until the release gates below pass. No model, provider, paid plan or frontend change is included.
+This section supersedes the #87 capability limits where stated. The founder explicitly authorized deployment with the disclosed AI-allocation/CI restrictions; production now runs context-v2. Semantic indexing and fresh reply-quality verification remain pending. No model, provider, paid plan or frontend change is included.
 
 - **Knowledge updates:** 17 explicitly selected guides, 65 passages, version `2b691b1794ff73f4`. Added the repurposing translation/reframe sections and intake source checklist. The GitHub workflow rebuilds this approved collection when wiki sources change on main; pull requests must include a current generated collection. It does not crawl the whole vault, include client files globally, index vectors or deploy. New collection versions become live only through the normal release.
 - **Hybrid retrieval:** weighted rare-term matching plus reciprocal-rank fusion with BGE-base semantic matches from the existing Vectorize binding. Shared vectors live in a collection-version namespace. Returned IDs, namespace and version must all match; text is rehydrated from the current compiled source, never vector metadata. Pre-call intent filtering applies after fusion too. An unavailable embedding, missing index, stale match or timeout falls back to keyword retrieval with explicit status. This does not make client documents or history semantic: those remain bounded keyword searches.
@@ -123,3 +123,11 @@ References: [Vectorize namespaces and client API](https://developers.cloudflare.
 
 GitHub CI status (October 26): the knowledge job did not start because GitHub reported failed account payments or a spending-limit restriction. Local checks above passed; hosted CI and automatic source refresh are configured but cannot run under this account restriction. No billing setting was changed.
 
+
+### October 26 production release
+
+Founder said "do it" after the deployment path and exhausted inference quota were explained. Applied the two additive tables in migration 0083 after confirming neither existed. Preview `99cb2c51-4c27-4977-a389-d2137357bd7e` passed 16 checks. Merged PR #3, checked out clean pushed main `ab88a9a8`, confirmed identical backend to the preview, and deployed Pages production `5002fbb7-1691-4156-9d60-79189d51c7bf`. App export remains e323437; provider files are unchanged.
+
+At 10:44 UTC production passed the same 16 checks: homepage 200, anonymous chat 401, internal source/tool/test/migration paths 404, authenticated context-v2 / knowledge 2b691b1794ff73f4, and disposable demo-only document create/update/delete. Demo chats (3) and memory notes (11) stayed unchanged. The synthetic document was removed in a finally block; both new tables had zero rows afterward. Audit sessions logged out. Evidence is outside the repo at C:/Users/Abdullah/Desktop/pulsify-saas-wt/jane-context-{preview-check,production-check,deployments-final}.json.
+
+The first indexing batch was retried once for release and still returned Cloudflare 429. No semantic vectors were written and no successful fresh inference is claimed. Keyword retrieval is available; generation itself remains subject to the shared exhausted allocation. Hosted CI/automatic source refresh still cannot run under the GitHub account billing restriction. #88 stays open for indexing and real output evaluation; deployment alone does not complete those tasks. Rollback target is prior production 0c25d852-b9b2-4db8-a28c-8103b474bd31; leave the additive tables in place.
