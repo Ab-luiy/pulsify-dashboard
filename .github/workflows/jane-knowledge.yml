@@ -1,0 +1,40 @@
+name: Keep Jane knowledge current
+on:
+  push:
+    branches: [main]
+    paths: ['wiki/**', 'output/standard-preview/tools/build-copy-knowledge.mjs']
+  pull_request:
+    paths: ['wiki/**', 'output/standard-preview/functions/_shared/copy-knowledge*', 'output/standard-preview/tools/build-copy-knowledge.mjs']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: jane-knowledge-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  knowledge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Check pull request knowledge
+        if: github.event_name == 'pull_request'
+        run: node output/standard-preview/tools/build-copy-knowledge.mjs --check
+      - name: Rebuild approved sections
+        if: github.event_name != 'pull_request'
+        run: node output/standard-preview/tools/build-copy-knowledge.mjs
+      - name: Verify collection
+        working-directory: output/standard-preview
+        run: node --test tests/copy-knowledge.test.mjs
+      - name: Save updated collection
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add output/standard-preview/functions/_shared/copy-knowledge-data.js
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh Jane approved knowledge'
+            git push
+          fi

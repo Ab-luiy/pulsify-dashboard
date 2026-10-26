@@ -11,7 +11,7 @@ function fixture() {
   sql.exec(`CREATE TABLE client_config(client TEXT PRIMARY KEY, client_name TEXT, portal_token_hash TEXT, status TEXT);
     CREATE TABLE client_brain(id INTEGER, client_id TEXT, section TEXT, field TEXT, value_json TEXT, source TEXT, updated_at TEXT);
     CREATE TABLE proof_items(id INTEGER, client_id TEXT, kind TEXT, url TEXT, claim TEXT, permission TEXT, created_at TEXT);`);
-  for (const name of ["0012_client_dashboard_studio.sql", "0018_studio_carousels.sql", "0042_studio_feedback.sql", "0053_copy_chat.sql"]) sql.exec(readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8"));
+  for (const name of ["0012_client_dashboard_studio.sql", "0018_studio_carousels.sql", "0042_studio_feedback.sql", "0053_copy_chat.sql", "0083_jane_documents.sql"]) sql.exec(readFileSync(new URL(`../migrations/${name}`, import.meta.url), "utf8"));
   const DB = { prepare(query) {
     let args = [];
     const statement = { bind(...values) { args = values; return statement; },
@@ -164,5 +164,5 @@ test("actual native chat handler delivers retrieved older decisions to the write
   assert.doesNotMatch(writerSystem, /OTHER_CLIENT_SECRET|ASSISTANT_GUESS/);
   assert.equal(sql.prepare("SELECT active FROM copy_memory WHERE id=?").get(memoryId).active, 0);
   assert.match(sql.prepare("SELECT note FROM copy_memory WHERE client_id='a' AND active=1").get().note, /detailed replies/);
-  assert.equal(JANE_AGENT_VERSION, "tools-v1");
+  assert.equal(JANE_AGENT_VERSION, "context-v2");
 });

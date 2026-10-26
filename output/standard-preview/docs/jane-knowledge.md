@@ -78,3 +78,45 @@ Ordinary discussions are prompted to stay focused and ask one actual question. R
 Llama 3.3 70B was also compared with the existing writer on one longer discussion; it followed the approximate length better but gave more generic advice. This is insufficient evidence to replace the writer. A GLM 4.7 Flash comparison could not finish because the allocation ran out. No paid plan, key or provider change was made. The real-model evidence is a small synthetic sample, not a quality guarantee. Preserve failures and review factual claims before publication.
 
 Synthetic run outputs and review notes are stored in `tests/fixtures/jane-agent-evaluation.json`, never under public docs. Verify that both this fixture path and the new TypeScript/tool source paths return 404 on preview and production. Official implementation references: [Cloudflare JSON mode](https://developers.cloudflare.com/workers-ai/features/json-mode/) and [free-plan model access](https://developers.cloudflare.com/changelog/post/2026-07-28-models-require-workers-paid/).
+
+## #88: context-v2, implemented but not released
+
+This section supersedes the #87 capability limits where stated. Production still runs #87 until the release gates below pass. No model, provider, paid plan or frontend change is included.
+
+- **Knowledge updates:** 17 explicitly selected guides, 65 passages, version `2b691b1794ff73f4`. Added the repurposing translation/reframe sections and intake source checklist. The GitHub workflow rebuilds this approved collection when wiki sources change on main; pull requests must include a current generated collection. It does not crawl the whole vault, include client files globally, index vectors or deploy. New collection versions become live only through the normal release.
+- **Hybrid retrieval:** weighted rare-term matching plus reciprocal-rank fusion with BGE-base semantic matches from the existing Vectorize binding. Shared vectors live in a collection-version namespace. Returned IDs, namespace and version must all match; text is rehydrated from the current compiled source, never vector metadata. Pre-call intent filtering applies after fusion too. An unavailable embedding, missing index, stale match or timeout falls back to keyword retrieval with explicit status. This does not make client documents or history semantic: those remain bounded keyword searches.
+- **Working brief:** rebuilt on each request from current saved business/audience, offer/delivery and voice/constraints, dated saved preferences, current request and recent explicit user decisions. Assistant guesses are excluded. Current corrections have priority, and conflicts must be acknowledged. Underlying records remain the durable source; this adds no generated-fact memory or automatic edits to business fields. The existing 30-note cap remains.
+- **Approved examples:** relevance-ranked examples from the client's latest 30 thumbs-up replies, with the original request and optional reason they approved it. Reasons are stored separately, not as business facts. Unrating removes the reason; deleting a chat removes its reasons. At most two examples are passed to the writer, explicitly labelled style-only. Explicitly saved `approved-example` documents are also style-only and excluded from the factual checker.
+- **Client documents:** authenticated save/list/delete actions and agent search/read tools for supplied text, transcripts and approved writing examples. Stable keys make repeat imports update existing documents. Source, timestamp and explicit public-use permission travel with the text. Private documents are excluded from public-draft retrieval. No PDF/audio parsing, filesystem crawling, URL fetching, cross-client learning or new upload UI is claimed. No actual client documents were imported during development.
+- **Efficiency:** greetings and self-contained edits skip planning and embeddings; ordinary requests already supplied with current context skip the planner. Explicit earlier-chat, saved-material and search requests retain the bounded tool loop. Shared lexical statistics are compiled once per isolate. No client replies or private context are cached across clients. Allowance checks run before embeddings/planning. Public draft review is retained.
+
+### Client document contract
+
+All actions use the existing authenticated `POST /api/copy-chat`. The session selects the client; a body `client_id` cannot override it. `knowledge-save` requires `key` (1–80 lowercase letters/digits/underscore/hyphen), `title` (up to 160 characters), `source` (up to 300), `kind` (`reference`, `transcript`, `approved-example`), explicit boolean `public_use`, and `content` (10–50,000 characters). The encoded request must fit 65,000 characters. Each workspace is capped at 100 documents. `knowledge-list` returns metadata without content; `knowledge-delete` takes the stable key. A document remains user-supplied reference, not verified proof.
+
+`tools/sync-jane-documents.mjs --manifest ABSOLUTE_JSON_PATH` validates the explicit file list and previews import sizes. Add `--apply` to save using the intended client's existing `JANE_SESSION_TOKEN`. Manifest shape:
+
+```json
+{"origin":"https://pulsify-ai.com","documents":[{"key":"launch-decisions","title":"Launch decisions","source":"Client-approved call notes","kind":"transcript","public_use":false,"file":"C:/approved/launch-notes.txt"}]}
+```
+
+This is a repeatable import, not an unattended file watcher. Each file update replaces that key; missing files do not delete stored documents. Run again after source changes. Partial failures stop the import and can be safely retried with the same keys. Document search ranks in D1 before loading at most eight candidates; it returns at most three 1,400-character excerpts. A read tool can retrieve a focused 5,000-character excerpt after search returns the key. Truncation and unavailable lookups are explicit.
+
+### Quality evaluation and release gates
+
+`tools/jane-quality-cases.mjs` has eight synthetic tasks based on the founder's reported problems: discussion, useful depth, partial revision, earlier decisions, current corrections, unavailable proof, flexible edits and access honesty. These are criteria, not invented human-approved answers. The checks catch length drift, wrong-bottleneck advice, known fabricated offers/results, missing actual lookups and question-count errors. Passing those checks always leaves `human_review: pending`; usefulness, naturalness and broad factual quality still need the full reply reviewed.
+
+Run one real case at a time to protect quota:
+
+```powershell
+node tools/eval-jane-agent.mjs --quality --case conversation --out C:/QA/jane-conversation.json
+node tools/eval-jane-quality.mjs --report C:/QA/previous-report.json --out C:/QA/regraded-report.json
+```
+
+Regrading the earlier #87 real report correctly flagged both the discussion and the overlong strategy that its old checks passed. Final local verification: 369/369 backend tests, targeted TypeScript check and Functions compilation. SQLite tests cover authenticated document isolation/update/delete, private-use filtering, attributed briefs, approval reasons, stale/cross-namespace vector rejection, quota-before-helpers and a greeting with exactly one writer call.
+
+Live semantic indexing and fresh writing evaluation remain **blocked**. On October 26 at 10:27 UTC, Wrangler authentication was refreshed successfully, then Cloudflare again returned HTTP 429 with `daily free allocation of 10,000 neurons` for the first embedding batch. No new vectors, live documents, live conversations or migration were written, and no paid plan was enabled. Do not present semantic indexing or current model quality as verified.
+
+Before release: (1) run the knowledge drift check and `node tools/sync-jane-search.mjs --apply`; verify current-namespace semantic queries, (2) run the eight quality cases and inspect complete outputs, (3) apply additive migration `0083_jane_documents.sql` after checking current main and D1 schema, (4) preview from the `output/standard-preview` working directory with Functions, verify authenticated metadata and 404s for tools/tests/migrations/source, (5) merge, push and deploy only clean main. Leave the existing app export unchanged. The vector sync uses existing Wrangler authentication and the existing 768-dimension `pulsify-search` index; old namespaces cannot be consumed by the new code. Rollback uses the previous Pages deployment; the additive tables can remain without changing #87.
+
+References: [Vectorize namespaces and client API](https://developers.cloudflare.com/vectorize/reference/client-api/), [BGE model catalogue](https://developers.cloudflare.com/workers-ai/models/).

@@ -10,6 +10,8 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../.
 // Sections intentionally exclude internal notes, source trails, case studies and commercial terms.
 // Source IDs stay stable. Paths and hashes stay here/in the private documentation, not in prompts.
 export const SOURCES = [
+  ["repurposing", "wiki/content-engine/reel-capture-to-content-engine.md", ["The translation layer", "The reframe rotator (repeat without repeating)"], ["repurpose", "idea", "formats", "reel", "story", "carousel"]],
+  ["intake", "wiki/playbooks/brand-brain-intake.md", ["What feeds the Brand Brain (collect before the call)"], ["research", "voice", "audience", "interview", "transcript"]],
   ["mechanism", "wiki/concepts/unique-mechanism.md", ["Core mechanics", "How to create one", "What happens without it"], ["offer", "positioning", "mechanism"]],
   ["offer", "wiki/playbooks/offer-creation.md", ["Core mechanics"], ["offer", "pricing", "program", "audience"]],
   ["profile-funnel", "wiki/concepts/profile-funnel.md", ["The funnel flow", "What gets built (in order)", "The DM layer (conversion-cycle rules)", "When to escalate beyond the profile funnel"], ["funnel", "instagram", "dm", "booking"]],

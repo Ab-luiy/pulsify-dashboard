@@ -7,7 +7,7 @@ import { SOURCE_NAMES } from "../functions/_shared/source-scrub.js";
 
 test("collection rebuild is deterministic and current against the actual vault", () => {
   execFileSync(process.execPath, ["tools/build-copy-knowledge.mjs", "--check"], { cwd: new URL("..", import.meta.url), stdio: "pipe" });
-  assert.equal(COPY_KNOWLEDGE.sources.length, 15);
+  assert.equal(COPY_KNOWLEDGE.sources.length, 17);
   assert.ok(COPY_KNOWLEDGE.passages.length > 30);
   assert.ok(COPY_KNOWLEDGE.sources.every((source) => source.client_visible && source.hash.length === 64));
 });

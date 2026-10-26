@@ -1,18 +1,20 @@
 // Jane's bounded, read-only agent loop. Client identity is supplied by the authenticated
 // endpoint, never by the model. No network, arbitrary SQL, filesystem or write tool exists.
+import { searchJaneDocuments, readJaneDocument } from "./jane-documents.ts";
+import { retrieveJaneKnowledge } from "./jane-search.ts";
 import { COPY_KNOWLEDGE } from "./copy-knowledge-data.js";
 import { excerpt, relevance, terms, retrieveCopyKnowledge } from "./copy-knowledge.js";
 import { buildJaneBrainContext } from "./client-brain-context.js";
 import { parseModelJson } from "./anthropic.js";
 import { scrubSources } from "./source-scrub.js";
 
-export const JANE_AGENT_VERSION = "tools-v1";
+export const JANE_AGENT_VERSION = "context-v2";
 export const JANE_LOOKUP_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 const MAX_ROUNDS = 2;
 const MAX_CALLS = 6;
 const MAX_RESULT = 6500;
 const MAX_CONTEXT = 18000;
-const TOOL_NAMES = ["search_knowledge", "read_knowledge", "search_brain", "read_brain", "search_history", "search_drafts", "read_draft"] as const;
+const TOOL_NAMES = ["search_knowledge", "read_knowledge", "search_brain", "read_brain", "search_history", "search_drafts", "read_draft", "search_documents", "read_document"] as const;
 type ToolName = typeof TOOL_NAMES[number];
 type Call = { tool: ToolName; query: string; id: string };
 type Turn = { role: string; content: string };
@@ -20,7 +22,7 @@ type Row = Record<string, any>;
 type Statement = { all(): Promise<{ results?: Row[] }>; first(): Promise<Row | null> };
 type Database = { prepare(sql: string): { bind(...args: unknown[]): Statement } };
 type Binding = { run(model: string, payload: Record<string, unknown>): Promise<any> };
-type ToolOptions = { env: { DB: Database }; client: string; brainData: { rows: Row[]; proof_items?: Row[] }; publicDraft?: boolean };
+type ToolOptions = { env: { DB: Database; AI?: any; VECTORIZE?: any }; client: string; brainData: { rows: Row[]; proof_items?: Row[] }; publicDraft?: boolean };
 
 const oneLine = (text: unknown, max = 240) => String(text ?? "").replace(/\s+/g, " ").trim().slice(0, max);
 const serial = (value: unknown) => JSON.stringify(value);
@@ -43,6 +45,8 @@ export function createJaneTools({ env, client, brainData, publicDraft = false }:
   const rows = brainData.rows.filter((row) => !publicDraft || !["money", "commitment"].includes(row.section));
   const visible = (selected: Row[], query: string, maxChars = MAX_RESULT - 200) => buildJaneBrainContext({ rows: selected, proof_items: [] }, { query, publicDraft, maxChars }).prompt_text;
   const catalogue = [
+    "search_documents: query = topic or phrase in an explicitly saved client document/transcript; returns dated excerpts and source, never verified proof.",
+    "read_document: id = document key returned by search_documents; query focuses a longer excerpt. Approved examples supply style only.",
     "search_knowledge: query = a focused service question; finds approved method passages and IDs.",
     "read_knowledge: id = source ID returned by search_knowledge; query focuses longer guides.",
     "search_brain: query = business fact or preference; lists matching saved field IDs and excerpts.",
@@ -89,8 +93,10 @@ export function createJaneTools({ env, client, brainData, publicDraft = false }:
       const id = oneLine(input.id, 120);
       let result: unknown;
       switch (input.tool) {
+        case "search_documents": result = await searchJaneDocuments(env, client, query, publicDraft); break;
+        case "read_document": result = await readJaneDocument(env, client, id, query, publicDraft); break;
         case "search_knowledge": {
-          const found = retrieveCopyKnowledge({ query, maxChars: MAX_RESULT - 500 });
+          const found = await retrieveJaneKnowledge(env, { query, maxChars: MAX_RESULT - 500 });
           result = { source_ids: found.source_ids, text: found.prompt_text, kind: "shared_method_not_client_facts" }; break;
         }
         case "read_knowledge": {
