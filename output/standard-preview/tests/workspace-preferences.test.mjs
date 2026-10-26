@@ -18,3 +18,29 @@ assert.equal((await onRequestGet({env,request:request('token-a',null,'?client=b'
 assert.equal((await onRequestPut({env,request:request('bad',data)})).status,401);
 assert.equal((await onRequestPut({env,request:request('token-a',{...data,key:'admin'})})).status,422);
 console.log('PASS preference persistence, tenant isolation, invalid keys and authentication');
+
+// #61: two tabs cannot silently overwrite each other's folder moves.
+{
+  const folders = (value, base) => ({ key: 'media-folders', value, ...(base === undefined ? {} : { base }) });
+  let read = await (await onRequestGet({ env, request: request('token-a', null, '?key=media-folders') })).json();
+  assert.equal(read.updated_at, null, 'nothing saved yet');
+  // Tab 1 and tab 2 both read "nothing saved". Tab 1 saves first.
+  const first = await onRequestPut({ env, request: request('token-a', folders({ assign: { 1: 'proof' } }, null)) });
+  assert.equal(first.status, 200);
+  const savedAt = (await first.json()).updated_at;
+  assert.ok(savedAt, 'a save returns its version');
+  // Tab 2 still thinks nothing was saved: refused, and it gets tab 1's folders back.
+  const stale = await onRequestPut({ env, request: request('token-a', folders({ assign: { 2: 'scenery' } }, null)) });
+  assert.equal(stale.status, 409);
+  const staleBody = await stale.json();
+  assert.deepEqual(staleBody.value, { assign: { 1: 'proof' } });
+  assert.equal(staleBody.updated_at, savedAt);
+  // With the version it just read, tab 2's save goes through.
+  const retried = await onRequestPut({ env, request: request('token-a', folders({ assign: { 1: 'proof', 2: 'scenery' } }, savedAt)) });
+  assert.equal(retried.status, 200);
+  read = await (await onRequestGet({ env, request: request('token-a', null, '?key=media-folders') })).json();
+  assert.deepEqual(read.value, { assign: { 1: 'proof', 2: 'scenery' } });
+  // A save without base keeps the old behaviour.
+  assert.equal((await onRequestPut({ env, request: request('token-a', folders({ assign: {} })) })).status, 200);
+  console.log('PASS preference version check: stale saves refused with the latest value, fresh saves and base-less saves accepted');
+}

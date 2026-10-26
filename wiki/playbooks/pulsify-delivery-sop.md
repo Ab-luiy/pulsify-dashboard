@@ -3,12 +3,14 @@ type: playbook
 tags: [delivery, sop, onboarding, client, pulse-system]
 sources: [[wiki/concepts/pulse-system-mechanism]], [[wiki/playbooks/pulsify-offer-v1]]
 created: 2026-05-10
-updated: 2026-09-29
+updated: 2026-10-26
 ---
 
 # Pulsify delivery SOP
 
-The week-by-week protocol for delivering a paid Pulse System engagement. From the moment the contract is signed to the day-90 review and beyond. Designed to be runnable by the founder + agent with no other humans, and survivable across exam weeks.
+The week-by-week protocol for delivering a paid engagement, from the moment the contract is signed for as long as it runs. Designed to be runnable by the founder + agent with no other humans, and survivable across exam weeks.
+
+> **Terms updated 2026-10-26.** The engagement has no end date and no revenue guarantee. It runs until either side stops it, and the guarantee is the delivery guarantee in [[playbooks/pulsify-offer-v1]]. The old $100k-in-90-days target, day-90 review and continuation phase are removed below. Much of the Slack/Notion tooling here has since moved into the Pulsify app (portal, onboarding v2, booked pipeline); this page has not been re-audited for that yet.
 
 ## Why this matters for Pulsify
 
@@ -20,7 +22,7 @@ This SOP also doubles as a sales artifact — showing a prospect this page on a 
 
 The moment a contract is signed:
 
-1. **Payment received.** Crypto into Binance Turkey or SWIFT bank transfer. Base PIF or first 50% of base.
+1. **Payment received.** The setup fee ($5,000 by default) in crypto (USDT/USDC) or by bank transfer. Recorded under Income, which issues the receipt.
 2. **Workspace created.** Slack workspace (preferred) or Discord server, whichever the client uses. Channels: `#general`, `#content`, `#funnel`, `#sales`, `#agent-queue`, `#metrics`, `#urgent`.
 3. **Notion shared workspace.** One top-level page per client at `clients/{name}/` linked to the Pulsify vault. Sub-pages: overview, content pipeline, calls, progress, decisions.
 4. **Game-plan call scheduled.** 60 minutes, within 72 hours of payment. Founder + client only.
@@ -31,7 +33,7 @@ The moment a contract is signed:
 The week that decides whether the engagement succeeds. Skip nothing here.
 
 **Game-plan call (Day 1, 60 min).** Founder + client. Recorded. Topics in this order:
-- 5 min: re-confirm the contract terms and the $100k guarantee out loud.
+- 5 min: re-confirm the contract terms out loud: the 30% share, the starting monthly revenue in the contract, and the delivery guarantee.
 - 15 min: client's current state — revenue, audience, offer, team, content cadence, current funnel.
 - 15 min: client's working theory of why they're stuck. Pulsify listens; does not fix yet.
 - 15 min: Pulsify's diagnosis. Names the bottleneck explicitly.
@@ -47,7 +49,7 @@ The week that decides whether the engagement succeeds. Skip nothing here.
 - Payment processor read access (Stripe / bank export view / equivalent).
 - Calendar booking tool.
 
-If any of these are missing or refused, escalate same-day. Refusal of payment-processor access voids the engagement per [[playbooks/pulsify-offer-v1]].
+If any of these are missing or refused, escalate same-day. Without payment-processor access the app can't track the money the 30% is based on.
 
 **Brand Brain intake interview (Day 4–5, 90 min).** Founder + client. Structured questionnaire — [[playbooks/brand-brain-intake]]. Captures: voice samples, positioning history, audience psychographics, offer mechanics, unique mechanism candidates, past content that worked, past content that flopped.
 
@@ -55,7 +57,7 @@ If any of these are missing or refused, escalate same-day. Refusal of payment-pr
 - Diagnosis doc — one page, names the three biggest bottlenecks and the order Pulsify will attack them.
 - Workspace fully populated.
 - First content angles drafted by agent (10 angles, ranked).
-- Day-90 success metric written into the contract addendum: target = $100,000 attributable revenue. The number is fixed by the offer.
+- Starting monthly revenue checked against the onboarding money answers and the number in the contract.
 
 ## Week 2 — Brand Brain and profile renovation
 
@@ -95,7 +97,6 @@ If the client cannot shoot in Week 4, this is a leading indicator of execution f
 - Cal.com or equivalent wired to Typeform.
 - Pre-call email sequence built.
 - IG link-in-bio swapped to the new VSL URL.
-- 50% of base payment due if on split.
 
 ## Weeks 6–8 — Sales Co-pilot
 
@@ -117,35 +118,26 @@ If the client cannot shoot in Week 4, this is a leading indicator of execution f
 - Weekly metric report posted to Slack every Monday.
 - Founder runs an optimization pass: which video archetype is producing, which is dead; which thumbnail style is converting; which Typeform question has the highest fail rate.
 
-## Week 12 — day-90 review
+## Monthly review (from month 3)
 
 **Owned by:** founder + client.
 
-60-min call. Recorded. Filed at `clients/{name}/calls/week-12-review.md`.
+60-min call. Recorded. Filed at `clients/{name}/calls/`.
 
-- Measure attributable revenue from the integrated payment processor view.
-- Compare against the $100k guarantee.
-- **If hit:** celebrate, collect testimonial, schedule case-study production, propose continuation terms (renewal at full base + same performance share, or transition to performance-only at the founder's discretion).
-- **If missed:** continuation triggers per the offer page. No additional base. Performance fee continues. Engagement runs until target is hit. The week-12 call sets the new immediate-priority list and new weekly cadence.
+- Revenue collected since signing, from the app's tracking and the payment-processor export, against the starting monthly revenue in the contract.
+- Which video archetype is producing and which is dead; where the funnel leaks; what changes next month.
+- When there is a clear result: collect the testimonial and schedule case-study production.
 
-## Continuation phase (if triggered)
-
-**Owned by:** founder + agent at reduced cadence.
-
-- Weekly call drops to bi-weekly unless client requests otherwise.
-- Async deliverables continue: agent runs all subroutines on the same schedule.
-- Founder operator hours tracked (transparency, not a cap — see [[playbooks/pulsify-offer-v1]] open-questions section for the recorded risk on the no-cap structure).
-- Monthly review: where are we vs. $100k, what's the leak, what's the fix.
-- Continuation ends the day attributable revenue crosses $100,000. Case-study assets collected at that moment.
+There is no day-90 cut-off and no continuation phase. The engagement keeps running until either side stops it (see [[playbooks/pulsify-offer-v1]]).
 
 ## Off-boarding
 
-When the engagement closes (success or mutual exit):
+When either side stops the engagement:
 
 - Client retains: their Brand Brain, their custom agent, the funnel, the Typeform, the Cal.com setup, all SOPs Pulsify built, the dashboard.
 - Pulsify retains: templates, frameworks, prompt packs, Pulse System methodology IP, case-study rights.
 - Final 30-min call: hand-off walkthrough, what to maintain, what to retire if not maintaining. Recording filed.
-- Final email: links, credentials returned, performance-fee final settlement schedule.
+- Final email: links, credentials returned, and the 30-day tail: deals already in progress that close within 30 days still pay the share.
 - Case study filed at `wiki/synthesis/case-{client-name}.md` — angle, before/after, what worked, what didn't, transferable lessons.
 
 ## During exam weeks (founder offline)
