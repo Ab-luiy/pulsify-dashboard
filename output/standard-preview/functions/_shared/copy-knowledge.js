@@ -30,7 +30,18 @@ export function excerpt(text, query, maxChars) {
   return pieces.filter((part) => selected.has(part.at)).map((part) => `[Excerpt at character ${part.at}] ${part.text}`).join("\n[...omitted...]\n").slice(0, maxChars - 25) + "\n[Field excerpted]";
 }
 
-export function retrieveCopyKnowledge({ query = "", format = "general", maxChars = 12000 } = {}) {
+// Compile reusable term statistics once per isolate. Never cache client facts or replies.
+const documents = COPY_KNOWLEDGE.passages.map(part => terms(`${part.title} ${part.tags.join(' ')} ${part.text}`));
+const frequency = new Map();
+for (const words of documents) for (const word of words) frequency.set(word, (frequency.get(word) || 0) + 1);
+function lexicalScore(part, query) {
+  const words = new Set(terms(`${part.title} ${part.tags.join(' ')} ${part.text}`));
+  const title = new Set(terms(`${part.title} ${part.tags.join(' ')}`));
+  return terms(query).reduce((score, word) => score + (words.has(word)
+    ? Math.log(1 + (documents.length + 1) / ((frequency.get(word) || 0) + 1)) * (title.has(word) ? 3 : 1) : 0), 0);
+}
+
+export function retrieveCopyKnowledge({ query = "", format = "general", maxChars = 12000, semanticIds = [] } = {}) {
   // Getting a viewer to book and getting a BOOKED lead to attend are different tasks.
   // A generic mention of a call must not flood discussion with pre-call email tactics.
   const preCall = /pre[- ]?call|no[- ]?shows?|show (?:up|rate)|turn(?:ing)? up|attend|confirmation|reminder|nurtur|booked|sales call|scheduled call|after.*book/i.test(query);
@@ -42,13 +53,18 @@ export function retrieveCopyKnowledge({ query = "", format = "general", maxChars
   ];
   query = `${query} ${aliases.filter(([pattern]) => pattern.test(query)).map(([, words]) => words).join(" ")}`;
   const ranked = COPY_KNOWLEDGE.passages.filter((part) => part.source_id !== "pre-call" || preCall).map((part) => ({ ...part,
-    score: relevance(`${part.title} ${part.tags.join(" ")}`, query) * 3 + relevance(part.text, query)
+    score: lexicalScore(part, query)
       + (part.tags.includes(format) && format !== "general" ? 2 : 0),
   })).filter((part) => part.score > 0).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+  // Reciprocal rank fusion keeps rare exact terms and semantically related passages.
+  const scores = new Map(ranked.map((part, index) => [part.id, 1 / (60 + index + 1)]));
+  for (const [index, id] of [...new Set(semanticIds)].entries()) scores.set(id, (scores.get(id) || 0) + 1 / (60 + index + 1));
+  const merged = COPY_KNOWLEDGE.passages.filter(part => scores.has(part.id) && (part.source_id !== 'pre-call' || preCall))
+    .map(part => ({ ...part, score: scores.get(part.id) })).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
   const selected = [];
   let used = 0;
   const perSource = new Map();
-  for (const part of ranked) {
+  for (const part of merged) {
     // Keep room for different methods, rather than ten passages from one long document.
     if ((perSource.get(part.source_id) || 0) >= 3) continue;
     const block = `[${part.id}] ${part.title}\n${part.text}`;

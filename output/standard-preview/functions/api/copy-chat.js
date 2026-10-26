@@ -20,6 +20,9 @@ import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt
 import { retrieveCopyKnowledge, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
 import { enforceAllowance } from "../_shared/ai-guard.js";
 import { createJaneTools, gatherJaneContext, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
+import { buildJaneBrief, selectJaneExamples, janeRoute } from "../_shared/jane-context.ts";
+import { saveJaneDocument, searchJaneDocuments } from "../_shared/jane-documents.ts";
+import { retrieveJaneKnowledge } from "../_shared/jane-search.ts";
 import { createStreamScrubber, scrubSources } from "../_shared/source-scrub.js";
 
 const MAX_MESSAGE = 8000;
@@ -41,8 +44,8 @@ async function loadChat(env, client, id) {
 }
 
 async function loadMemory(env, client, limit = MEMORY_CAP) {
-  const rows = await env.DB.prepare("SELECT id, note, source FROM copy_memory WHERE client_id=? AND active=1 ORDER BY id DESC LIMIT ?").bind(client, limit).all();
-  return (rows.results || []).map((row) => ({ id: Number(row.id), note: row.note, source: row.source }));
+  const rows = await env.DB.prepare("SELECT id, note, source, created_at FROM copy_memory WHERE client_id=? AND active=1 ORDER BY id DESC LIMIT ?").bind(client, limit).all();
+  return (rows.results || []).map((row) => ({ id: Number(row.id), note: row.note, source: row.source, created_at: row.created_at }));
 }
 
 export async function onRequestGet({ request, env }) {
@@ -79,11 +82,27 @@ export async function onRequestPost(context) {
   if (!env.DB) return json({ ok: false, error: "no database bound" }, 500);
   const client = cleanId(access.client);
   const raw = await request.text();
-  if (raw.length > MAX_MESSAGE * 2) return json({ ok: false, error: "That message is too long." }, 413);
+  if (raw.length > 65000) return json({ ok: false, error: "That message is too long." }, 413);
   let body;
   try { body = JSON.parse(raw); } catch { return json({ ok: false, error: "Invalid request." }, 400); }
   const action = String(body?.action || "");
 
+  if (action.startsWith("knowledge-")) {
+    if (action === "knowledge-save") {
+      const result = await saveJaneDocument(env, client, body);
+      return json(result, result.ok ? 200 : 422);
+    }
+    if (action === "knowledge-delete") {
+      await env.DB.prepare("DELETE FROM jane_documents WHERE client_id=? AND document_key=?").bind(client, String(body.key || "")).run();
+      return json({ ok: true });
+    }
+    if (action === "knowledge-list") {
+      const rows = await env.DB.prepare("SELECT document_key,title,source,kind,public_use,updated_at FROM jane_documents WHERE client_id=? ORDER BY updated_at DESC").bind(client).all();
+      return json({ ok: true, documents: rows.results || [] });
+    }
+    return json({ ok: false, error: "unknown action" }, 422);
+  }
+  if (raw.length > MAX_MESSAGE * 2) return json({ ok: false, error: "That message is too long." }, 413);
   if (action === "send") return send(context, client, body);
 
   if (action === "paste") {
@@ -102,6 +121,11 @@ export async function onRequestPost(context) {
     if (!message) return json({ ok: false, error: "message not found" }, 404);
     await env.DB.prepare("UPDATE copy_messages SET rating=? WHERE id=? AND client_id=?").bind(rating, id, client).run();
     const note = clean(body.note, 400);
+    if (rating === 'up' && note) {
+      await env.DB.prepare('INSERT INTO jane_example_notes(client_id,message_id,note) VALUES(?,?,?) ON CONFLICT(client_id,message_id) DO UPDATE SET note=excluded.note').bind(client, id, note).run();
+    } else if (rating !== 'up') {
+      await env.DB.prepare('DELETE FROM jane_example_notes WHERE client_id=? AND message_id=?').bind(client, id).run().catch(() => null);
+    }
     if (rating === "down" && note) {
       const now = nowIso();
       await env.DB.prepare("INSERT INTO studio_feedback (client_id, sequence_id, rule, scope, active, created_at, updated_at) VALUES (?, NULL, ?, 'client', 1, ?, ?)").bind(client, note, now, now).run().catch(() => null);
@@ -119,6 +143,7 @@ export async function onRequestPost(context) {
       return json({ ok: true, title });
     }
     await env.DB.batch([
+      env.DB.prepare("DELETE FROM jane_example_notes WHERE client_id=? AND message_id IN (SELECT id FROM copy_messages WHERE chat_id=? AND client_id=?)").bind(client, chat.id, client),
       env.DB.prepare("DELETE FROM copy_messages WHERE chat_id=? AND client_id=?").bind(chat.id, client),
       env.DB.prepare("DELETE FROM copy_chats WHERE id=? AND client_id=?").bind(chat.id, client),
     ]);
@@ -190,16 +215,20 @@ async function loadClientBrain(env, client, query, publicDraft) {
     loadClientBrainData(env, client).then((data) => ({ ...buildJaneBrainContext(data, { query, publicDraft }), data })),
     loadMemory(env, client),
     env.DB.prepare("SELECT rule FROM studio_feedback WHERE active=1 AND (scope='all' OR client_id=?) ORDER BY CASE WHEN scope='all' THEN 0 ELSE 1 END, created_at DESC LIMIT 20").bind(client).all().catch(() => ({ results: [] })),
-    env.DB.prepare("SELECT content FROM copy_messages WHERE client_id=? AND role='assistant' AND rating='up' ORDER BY id DESC LIMIT 3").bind(client).all().catch(() => ({ results: [] })),
+    env.DB.prepare("SELECT m.id,m.content,m.created_at,(SELECT u.content FROM copy_messages u WHERE u.chat_id=m.chat_id AND u.client_id=m.client_id AND u.role='user' AND u.id<m.id ORDER BY u.id DESC LIMIT 1) AS request FROM copy_messages m WHERE m.client_id=? AND m.role='assistant' AND m.rating='up' ORDER BY m.id DESC LIMIT 30").bind(client).all().catch(() => ({ results: [] })),
   ]);
+  // Approval explanations are separate from business facts and negative writing rules.
+  const notes = await env.DB.prepare('SELECT message_id,note FROM jane_example_notes WHERE client_id=?').bind(client).all().catch(() => ({ results: [] }));
+  for (const row of liked.results || []) row.approval_note = notes.results?.find(note => note.message_id === row.id)?.note;
   return {
     contextText: context.prompt_text,
     data: context.data,
     grounding: { fields_available: context.fields_available, fields_used: context.fields_used,
       fields_excerpted: context.fields_excerpted, fields_omitted: context.fields_omitted, private_fields_excluded: context.private_fields_excluded, truncated: context.truncated },
     memory: memory.map((row) => row.note),
+    memoryRows: memory,
     rules: [...new Set((rules.results || []).map((row) => clean(row.rule, 400)).filter(Boolean))],
-    liked: (liked.results || []).map((row) => row.content),
+    liked: selectJaneExamples(liked.results || [], query),
   };
 }
 
@@ -219,7 +248,7 @@ async function send(context, client, body) {
   const inferred = formatFromText(message);
   const format = inferred !== "general" ? inferred : asked || chat?.format || "general";
   const publicDraft = needsCopyReview(message, format);
-  const history = chat ? await env.DB.prepare("SELECT role, content FROM copy_messages WHERE chat_id=? AND client_id=? ORDER BY id").bind(chat.id, client).all() : { results: [] };
+  const history = chat ? await env.DB.prepare("SELECT id, role, content, created_at FROM copy_messages WHERE chat_id=? AND client_id=? ORDER BY id").bind(chat.id, client).all() : { results: [] };
   // Short follow-ups such as "why?" need the preceding topic for retrieval.
   const query = [message, ...(message.length < 180 ? (history.results || []).filter((row) => row.role === "user").slice(-2).map((row) => row.content.slice(0, 1200)) : [])].join("\n");
   let clientBrain;
@@ -227,21 +256,28 @@ async function send(context, client, body) {
   catch {
     return json({ ok: false, error: "Jane couldn't load your saved business details. Try again in a moment; your draft is still here." }, 503);
   }
-  const knowledge = retrieveCopyKnowledge({ query, format });
-  const conversation = buildConversationContext([...(history.results || []), { role: "user", content: message }], query);
-  const messages = conversation.messages;
-  let system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
-  const grounding = { ...clientBrain.grounding, knowledge_version: knowledge.version,
-    method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION };
+  const route = janeRoute(message);
   const ai = await resolveAi(env, client);
-  // The new checker uses only our Cloudflare binding. A connected provider keeps its
-  // existing generation path, without new OpenAI/Anthropic/Gemini helper calls.
-  const reviewDraft = publicDraft && ai.mode === "workers";
+  // Count the request before any embedding/planner call, so rejected users cannot spend helpers.
   try { await enforceAllowance(ai); }
   catch (error) {
     if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message }, 429);
     return json({ ok: false, error: "Jane couldn't start that reply. Your draft is still here. Try again shortly." }, 503);
   }
+  const knowledge = ['lookup', 'direct'].includes(route) && ai.mode === 'workers'
+    ? await retrieveJaneKnowledge(env, { query, format }) : { ...retrieveCopyKnowledge({ query, format, maxChars: route === 'social' ? 0 : 6000 }), retrieval: 'keyword', semantic_status: 'not_needed' };
+  const documents = route === 'social' ? { status: 'not_needed', matches: [] } : await searchJaneDocuments(env, client, query, publicDraft);
+  clientBrain.workingBrief = buildJaneBrief({ data: clientBrain.data, memory: clientBrain.memoryRows, history: history.results || [], message, publicDraft });
+  clientBrain.documents = documents;
+
+  const conversation = buildConversationContext([...(history.results || []), { role: "user", content: message }], query);
+  const messages = conversation.messages;
+  let system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
+  const grounding = { ...clientBrain.grounding, knowledge_version: knowledge.version,
+    method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
+  // The new checker uses only our Cloudflare binding. A connected provider keeps its
+  // existing generation path, without new OpenAI/Anthropic/Gemini helper calls.
+  const reviewDraft = publicDraft && ai.mode === "workers";
   if (!chat) {
     const now = nowIso();
     const result = await env.DB.prepare("INSERT INTO copy_chats (client_id, title, format, created_at, updated_at) VALUES (?, ?, ?, ?, ?)").bind(client, titleFrom(message), asked, now, now).run();
@@ -270,7 +306,7 @@ async function send(context, client, body) {
     try {
       await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format, grounding });
       let lookups = null;
-      if (ai.mode === "workers") {
+      if (ai.mode === "workers" && route === "lookup") {
         lookups = await gatherJaneContext({ binding: ai.binding,
           tools: createJaneTools({ env, client, brainData: clientBrain.data, publicDraft }),
           message, messages, currentContext: `${clientBrain.contextText}\n${knowledge.prompt_text}`,
@@ -297,7 +333,7 @@ async function send(context, client, body) {
         let checkedDraft = full;
         let gaps = [];
         for (let attempt = 0; attempt < 2; attempt++) {
-          const checkedContext = [clientBrain.contextText, lookups?.brain_text || ""].filter(Boolean).join("\n\n");
+          const checkedContext = [clientBrain.contextText, lookups?.brain_text || "", ...documents.matches.filter(doc => doc.kind !== 'approved-example').map(doc => `User-supplied document ${doc.title} (${doc.saved_at}; not verified proof): ${doc.text}`)].filter(Boolean).join("\n\n");
           const review = groundingReviewPrompt({ clientContext: checkedContext,
             // Tool facts are labelled by source; drafts and shared method samples are not
             // factual evidence. Include retrieved fields/earlier user statements in checks.

@@ -1,5 +1,7 @@
 // Real Cloudflare lookup+writer evaluation, synthetic SQLite workspace only.
 // node tools/eval-jane-agent.mjs --out ABSOLUTE_PATH [--case ID] [--writer-model MODEL]
+import { JANE_QUALITY_CASES, scoreJaneReply } from "./jane-quality-cases.mjs";
+import { buildJaneBrief, janeRoute } from "../functions/_shared/jane-context.ts";
 import fs from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -58,20 +60,21 @@ const cases = [
 ];
 const report = { at: new Date().toISOString(), synthetic_only: true, writer_model: model, lookup_model: JANE_LOOKUP_MODEL, results: [] };
 let limited = false;
-for (const item of cases.filter((item) => !arg("--case") || item.id === arg("--case"))) {
+for (const item of (process.argv.includes("--quality") ? JANE_QUALITY_CASES : cases).filter((item) => !arg("--case") || item.id === arg("--case"))) {
   const started = Date.now(); const before = calls.length;
   try {
     const brain = buildJaneBrainContext(brainData, { query: item.message });
     const knowledge = retrieveCopyKnowledge({ query: item.message });
     const messages = [{ role: "user", content: item.message }];
-    const lookup = await gatherJaneContext({ binding, tools: createJaneTools({ env: { DB }, client: "qa", brainData }), message: item.message, messages,
+    const lookup = janeRoute(item.message) !== "lookup" ? { status: "not_needed", calls: 0, results: [], prompt_text: "No extra lookup needed for this request." } : await gatherJaneContext({ binding, tools: createJaneTools({ env: { DB }, client: "qa", brainData }), message: item.message, messages,
       currentContext: `${brain.prompt_text}\n${knowledge.prompt_text}` });
-    const system = buildCopySystem({ client: { contextText: brain.prompt_text }, query: item.message, knowledge, toolContext: lookup.prompt_text });
+    const system = buildCopySystem({ client: { contextText: brain.prompt_text, workingBrief: buildJaneBrief({ data: brainData, message: item.message }) }, query: item.message, knowledge, toolContext: lookup.prompt_text });
     let text = "";
     for await (const chunk of plainReplyChunks(streamText({ system, messages }, { mode: "workers", model, binding }))) text += chunk;
     text = scrubSources(text).trim();
-    const checks = item.check(text, lookup);
-    report.results.push({ id: item.id, elapsed_ms: Date.now() - started, checks, passed: Object.values(checks).every(Boolean), lookup_status: lookup.status,
+    const quality = scoreJaneReply(JANE_QUALITY_CASES.find(row => row.id === item.id) || item, text, lookup);
+    const checks = process.argv.includes("--quality") ? quality.checks : item.check(text, lookup);
+    report.results.push({ id: item.id, elapsed_ms: Date.now() - started, checks, quality, passed: Object.values(checks).every(Boolean), lookup_status: lookup.status,
       lookups: lookup.results, model_calls: calls.slice(before), text });
     console.log(`${item.id}: ${Object.values(checks).every(Boolean) ? "passed" : "REVIEW"}, ${lookup.calls} lookups, ${text.split(/\s+/).length} words, ${Date.now() - started}ms`);
   } catch (error) {
@@ -81,7 +84,7 @@ for (const item of cases.filter((item) => !arg("--case") || item.id === arg("--c
   }
   fs.mkdirSync(path.dirname(out), { recursive: true }); fs.writeFileSync(out, JSON.stringify(report, null, 2));
 }
-if (!arg("--case") && !limited) {
+if (!arg("--case") && !limited && !process.argv.includes("--quality")) {
   try {
     const message = "Actually, I prefer detailed replies from now on.";
     report.memory = await extractJaneMemory(binding, message, [{ id: 1, note: "I prefer short replies." }]);

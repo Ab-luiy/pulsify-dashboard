@@ -10,7 +10,7 @@ const sql = new DatabaseSync(":memory:");
 sql.exec(`CREATE TABLE client_config(client TEXT PRIMARY KEY, client_name TEXT, portal_token_hash TEXT, status TEXT DEFAULT 'prospect');
 CREATE TABLE client_brain(id INTEGER, client_id TEXT, section TEXT, field TEXT, value_json TEXT, source TEXT, updated_at TEXT);
 CREATE TABLE proof_items(id INTEGER, client_id TEXT, kind TEXT, url TEXT, claim TEXT, permission TEXT, created_at TEXT);`);
-for (const file of ["0042_studio_feedback.sql", "0053_copy_chat.sql"]) sql.exec(readFileSync(new URL(`../migrations/${file}`, import.meta.url), "utf8"));
+for (const file of ["0042_studio_feedback.sql", "0053_copy_chat.sql", "0083_jane_documents.sql"]) sql.exec(readFileSync(new URL(`../migrations/${file}`, import.meta.url), "utf8"));
 sql.prepare("INSERT INTO client_config(client, client_name, portal_token_hash) VALUES (?,?,?),(?,?,?)").run("a", "Alpha", await sha256Hex("token-a"), "b", "Beta", await sha256Hex("token-b"));
 sql.prepare("INSERT INTO client_brain VALUES (1,?,?,?,?,?,?),(2,?,?,?,?,?,?)").run(
   "a", "voice", "tone", '"ALPHA VOICE: blunt and dry"', "test", "2026-10-01",
