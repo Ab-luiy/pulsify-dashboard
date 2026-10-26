@@ -31,7 +31,7 @@ test('stream handles split UTF-8, thought exclusion, final unterminated event an
   assert.equal(result,'Café done');
   assert.equal(ai.calls.length,1); assert.equal(ai.calls[0].output_tokens,3);
   assert.equal(ai.calls[0].input_tokens,10);
-  assert.ok(calls[1].url.endsWith(':streamGenerateContent?alt=sse'));
+  assert.ok(calls.find(call => call.init.method).url.endsWith(':streamGenerateContent?alt=sse'));
 });
 
 test('helpers use Gemini structured JSON, no Cloudflare calls; truncated drafts fail closed',async t=>{
@@ -50,7 +50,7 @@ test('helpers use Gemini structured JSON, no Cloudflare calls; truncated drafts 
   await assert.rejects(generateJaneText({system:'rules',user:'hi'},ai),/did not complete/);
 });
 
-test('429 never retries or falls back to another model and never leaks provider response',async t=>{
+test('with one model configured, 429 never retries and never leaks provider response',async t=>{
   let calls=0;
   t.mock.method(globalThis,'fetch',async (_url,init)=>{
     if (!init.method) return Response.json({});

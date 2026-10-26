@@ -25,6 +25,7 @@ import { buildJaneBrief, selectJaneExamples, janeRoute } from "../_shared/jane-c
 import { saveJaneDocument, searchJaneDocuments } from "../_shared/jane-documents.ts";
 import { retrieveJaneKnowledge } from "../_shared/jane-search.ts";
 import { createStreamScrubber, scrubSources } from "../_shared/source-scrub.js";
+import { approvedLearnings, collectJaneLearnings } from "../_shared/jane-learnings.js";
 
 const MAX_MESSAGE = 8000;
 const BURST_PER_MINUTE = 12;
@@ -259,7 +260,7 @@ async function send(context, client, body) {
     return json({ ok: false, error: "Jane couldn't load your saved business details. Try again in a moment; your draft is still here." }, 503);
   }
   const route = janeRoute(message);
-  const ai = await resolveAi(env, client);
+  const ai = await resolveAi(env, client, String(body.model || "auto"));
   // Count the request before any embedding/planner call, so rejected users cannot spend helpers.
   try { await enforceAllowance(ai); }
   catch (error) {
@@ -274,8 +275,11 @@ async function send(context, client, body) {
 
   const conversation = buildConversationContext([...(history.results || []), { role: "user", content: message }], query);
   const messages = conversation.messages;
-  let system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
-  const grounding = { ...clientBrain.grounding, memory_notes: clientBrain.memory.length, conversation_turns: messages.length, knowledge_version: knowledge.version,
+  // Operator-approved general lessons from other chats (jane-learnings.js); never facts about this client.
+  const learnings = route === "social" ? { prompt_text: "", ids: [] } : await approvedLearnings(env, query);
+  const withLearnings = (text) => learnings.prompt_text ? `${text}\n\n${learnings.prompt_text}` : text;
+  let system = withLearnings(buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText }));
+  const grounding = { ...clientBrain.grounding, memory_notes: clientBrain.memory.length, learnings_used: learnings.ids.length, conversation_turns: messages.length, knowledge_version: knowledge.version,
     method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
   // Platform Jane uses the same provider for writing, lookups and draft review.
   // Client-owned connections retain their existing generation path.
@@ -305,6 +309,7 @@ async function send(context, client, body) {
   const work = (async () => {
     const scrubber = createStreamScrubber();
     let full = "";
+    let replyId = 0;
     try {
       await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format, grounding, stats: await janeStats(env, ai, client, grounding) });
       let lookups = null;
@@ -315,7 +320,7 @@ async function send(context, client, body) {
           onLookup: (data) => emit("lookup", data),
         });
         if (lookups.status === "daily_limit") throw new Error("Jane has reached today's free AI allowance. It resets at midnight UTC.");
-        system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text });
+        system = withLearnings(buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text }));
       }
       for await (const chunk of plainReplyChunks(streamText({ system, messages }, ai))) {
         const safe = scrubber.push(chunk);
@@ -356,6 +361,7 @@ async function send(context, client, body) {
         await emit("delta", { text: full });
       }
       const id = await addMessage(env, client, chat.id, "assistant", full);
+      replyId = id;
       await emit("stats", await janeStats(env, ai, client, { ...grounding, lookup_calls: lookups?.calls || 0, lookup_status: lookups?.status || "not_used" }));
       await emit("done", { message_id: id, grounding: { lookup_calls: lookups?.calls || 0, lookup_status: lookups?.status || "not_used", agent_version: JANE_AGENT_VERSION } });
     } catch (error) {
@@ -366,7 +372,12 @@ async function send(context, client, body) {
     } finally {
       await writer.close().catch(() => null);
     }
-    if (full) await remember(env, ai, client, message, full);
+    // Side by side: both are background helpers and must finish inside the waitUntil window.
+    if (full) await Promise.all([
+      remember(env, ai, client, message, full),
+      collectJaneLearnings(env, ai, client, { chatId: chat.id, messageId: replyId, message, reply: full, route,
+        knownFacts: `${clientBrain.contextText}\n${clientBrain.memory.join("\n")}` }),
+    ]);
   })();
   context.waitUntil?.(work);
 
