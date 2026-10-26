@@ -27,9 +27,16 @@ export const SOURCES = [
   ["reels", "wiki/content-engine/reel-format-ladder.md", ["The governing rules", "The ladder (stage -> format)", "Format taxonomy (cross-cutting axes)"], ["reel", "short", "format", "content"]],
   ["messaging", "wiki/frameworks/messaging-reframe-system.md", ["2. The reframe formula (one reframe, driven so deep they can't unhear it)", "3. Direct vs indirect (the mechanism dial)", "6. The objection-to-content loop (corroborated three ways)"], ["positioning", "belief", "reframe", "objection"]],
   ["carousels", "wiki/frameworks/carousel-system.md", ["The three proven structures (from the captures)", "Design system (the replicable craft)", "The CTA"], ["carousel", "slide", "instagram", "cover"]],
+  // Added 2026-10-26 (founder: Jane should scan our frameworks): sales calls, VSL, bio, Instagram conversion assets, webinars, posting rhythm.
+  ["vsl", "wiki/frameworks/vsl-framework.md", ["Core mechanics"], ["vsl", "video", "sales", "landing", "funnel", "script"]],
+  ["sales-calls", "wiki/frameworks/call-funnel-framework.md", ["Core mechanics"], ["call", "sales", "close", "objection", "booking", "show"]],
+  ["bio", "wiki/frameworks/bio-optimization-system.md", ["Core mechanics"], ["bio", "profile", "instagram", "highlight"]],
+  ["ig-assets", "wiki/frameworks/instagram-conversion-assets.md", ["The governing math", "The five assets", "Matching the CTA to the viewer's state"], ["instagram", "cta", "dm", "lead", "story", "conversion"]],
+  ["webinar", "wiki/frameworks/webinar-framework.md", ["Core mechanics"], ["webinar", "launch", "event", "live"]],
+  ["rhythm", "wiki/playbooks/content-operating-rhythm.md", ["The two clocks", "Posting cadence per surface", "The every-other-day feedback loop (anti-batching)", "The weekly and monthly rituals"], ["cadence", "posting", "schedule", "week", "routine", "consistency"]],
 ];
 const OMIT = /^(?:Why this matters|How Pulsify uses|Connections|Open questions|Source trail|Proven results|Examples|Case stud)/i;
-const sensitive = /https?:\/\/|[\w.+-]+@[\w.-]+\.[a-z]{2,}|[A-Z]:\\|\b(?:Nick|Amer|Marcus|Carlos|Frank|Siggy|Evan|Forbes)\b/i;
+const sensitive = /https?:\/\/|[\w.+-]+@[\w.-]+\.[a-z]{2,}|[A-Z]:\\|\b(?:Nick|Amer|Marcus|Carlos|Frank|Siggy|Evan|Forbes|Jeremy|Hormozi|Kobey|Cardinal|Grant Garcia|Jonas|Rorwick|Lapotko)\b/i;
 const passages = [];
 const versions = [];
 for (const [id, file, allowed, tags] of SOURCES) {

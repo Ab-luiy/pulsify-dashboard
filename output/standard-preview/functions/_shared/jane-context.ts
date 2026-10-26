@@ -10,10 +10,10 @@ export function janeRoute(message: string) {
   // Only self-contained edits or follow-ups to text already in this conversation skip planning.
   if (!/\b(?:saved|earlier|previous|remember|find|search|document|transcript|file|other chat)\b/i.test(text)
     && /^(?:make (?:it|this|that)|shorten|tighten|rephrase|rewrite this|try again|give me (?:another|two more)|why\??$)/i.test(text)) return 'edit';
-  if (/\b(?:saved|earlier|previous|remember|find|search|document|transcript|file|other chat|another chat|last time|agreed|settle|decided)\b/i.test(text)) return 'lookup';
-  // The full current Brain, selected methods, documents and this chat are already supplied.
-  // Planning is reserved for requests that actually need another record.
-  return 'direct';
+  // Everything else goes through the lookup planner (founder 2026-10-26: "connect the dots"). It returns
+  // no calls when the supplied context is enough, and reads the client's own records (videos, leads,
+  // calls, plan, earlier chats, drafts) when they would change the answer.
+  return 'lookup';
 }
 
 export function buildJaneBrief({ data, memory = [], history = [], message, publicDraft = false }: {
