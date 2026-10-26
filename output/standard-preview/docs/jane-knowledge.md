@@ -157,7 +157,7 @@ Founder: Jane should scan our frameworks, the client's information and everythin
 - `janeRoute` now sends every message except greetings and simple edits through the lookup planner, which returns no calls when the supplied context is enough. One more model call per message.
 - Knowledge: six more sources (vsl-framework, call-funnel-framework, bio-optimization-system, instagram-conversion-assets, webinar-framework, content-operating-rhythm): 23 sources, 83 passages. Paragraphs naming a source creator (Jeremy, Hormozi, Kobey, Cardinal, Grant Garcia, Jonas, Rorwick, Lapotko) are dropped at build time; this also removed one existing "Jeremy's exact words" passage that had been reaching clients.
 - Real check (local copy of the demo workspace, real /api/copy-chat code, real gemini-3.5-flash-lite): greeting, best-earning videos, why leads do not book plus objections, this week's plan, a 6-slide story sequence (public-draft check passed), an open-ended "where do I start", and an off-topic naming question. Every reply used the demo's actual numbers or drafts; 12-39 s per reply on the free tier. The per-client daily allowance (AI_DAILY_CAP, default 8) stopped the run after five messages, as designed.
-- The Gemini path uses keyword retrieval, so the new passages are live without re-indexing. The Workers AI semantic index (tools/sync-jane-search.mjs) was not re-synced.
+- The Gemini path uses keyword retrieval, so the new passages are live without re-indexing. The Workers AI semantic index (tools/sync-jane-search.mjs) was re-synced on 2026-10-27: all 83 passages in namespace jane-2c840c53babb95ea.
 
 ## Jane's own daily allowance: 30 messages (2026-10-27)
 
