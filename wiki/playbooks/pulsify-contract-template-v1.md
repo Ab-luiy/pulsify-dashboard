@@ -1,235 +1,109 @@
 ---
 type: playbook
-tags: [contract, offer, legal, template, pulse-system]
-sources: [[wiki/playbooks/pulsify-offer-v1]], [[raw-sources/contracts/nick-furr-pulsifymedia-msa]], [[raw-sources/contracts/jacob-thomas-pulsifymedia-msa]]
+tags: [contract, offer, legal, template]
+sources: [[wiki/playbooks/pulsify-offer-v1]], [[clients/tb-tradez/contract-draft]], [[raw-sources/contracts/fitfo-service-agreement]]
 created: 2026-05-15
-updated: 2026-09-29
+updated: 2026-10-26
 ---
 
-# Pulsify contract template v1
+# Pulsify contract
 
-The canonical service agreement Pulsify sends after a close. Templatized from the Nick Furr and Jacob Thomas agreements, rewritten to match the v1 offer (base fee + performance + $100k guarantee + Turkey payment rails + Pulse System scope). Send via DocuSign.
+The service agreement a client signs. **The app generates it.** You open the contract popup on a booked lead in the pipeline, fill in the name, email, setup fee, revenue share and starting monthly revenue, then Save and Send Contract. DocuSign sends it (pulsify-saas #80).
+
+**Source of truth:** `output/standard-preview/functions/_shared/contract-text.js`. Tests: `output/standard-preview/tests/contracts.test.mjs`. The text below mirrors that file as of 2026-10-26. Change the file first, then this page.
+
+> **Rewritten 2026-10-26.** The May template (Pulsifymedia LTD, a $100k-in-90-days guarantee, a 90-day term, weekly settlement, mandatory CRM integration) is retired. The live contract is built on the FITFO and TB Tradez agreement structure instead. See [[playbooks/pulsify-offer-v1]] for what changed and why.
 
 ## Why this matters for Pulsify
 
-Two prior contracts existed (Nick: 25% profit share only; Jacob: 20% + software passthrough). Neither matches the current commercial structure. Without one canonical template, every close re-invents terms and Pulsify either undersells (no base fee) or stalls (no draft ready). This page is the single source of truth.
+The client signs what the app sends. If the vault describes a different contract, the next session or sales call promises terms nobody will sign.
 
-## How to use this template
+## What the client fills in vs what is fixed
 
-1. Find/replace every `{{PLACEHOLDER}}` token before sending.
-2. Confirm the pricing branch against the closed terms (see [[playbooks/pulsify-offer-v1#pricing--the-negotiation-tree]]).
-3. Confirm jurisdiction with the founder before first use (see open questions below).
-4. Paste the rendered text into DocuSign as a new document, place signature blocks, send.
-5. Save the signed PDF to `clients/{client-name}/contract-signed.pdf` and append to `clients/{client-name}/decisions.md`.
+| Filled in per deal (popup) | Fixed in the text |
+|---|---|
+| First name, last name, email | The services, both sides' duties |
+| Setup fee (default $5,000; $0 prints "No upfront fee is payable") | Sales-team split out of our share (10% closer, 5% setter, the rest ours) |
+| Revenue share % (default 30) | Guarantee wording, word for word |
+| Starting monthly revenue | No end date, 30-day tail, no refunds, confidentiality |
+| Optional additional terms (printed as their own section) | |
 
-## Deltas vs. prior contracts
-
-| Item | Nick Furr | Jacob Thomas | v1 Template |
-|---|---|---|---|
-| Base fee | None | None | $5k / $7.5k / $10k per offer page |
-| Performance share | 25% | 20% | 25% or 30% per branch |
-| Software passthrough | Implicit | $97 GHL + $45 ManyChat | Removed (Pulse System replaces the stack) |
-| Guarantee | None | None | $100,000 in 90 days or work continues free |
-| Payment rails | Stripe | Stripe | Crypto (Binance Turkey) + SWIFT primary; Wise/Payoneer secondary; **no Stripe** |
-| Engagement length | Unspecified | Unspecified | 90 days paid, unbounded continuation if guarantee missed |
-| Scope language | Generic funnel/GHL/ManyChat | Generic funnel/GHL/ManyChat | Pulse System components (Brand Brain, Content Engine, Funnel Stack, Sales Co-pilot, Ops Replacement) |
-| Integration requirement | Absent | Absent | CRM + payment processor visibility required for attribution |
-| Jurisdiction | USA | UK / England & Wales | Placeholder — confirm |
-
-## The template
+## The text
 
 ```markdown
-# Pulsifymedia LTD. — Service Agreement
+# Pulsify service agreement
 
-This SERVICE AGREEMENT, hereinafter referred to as the "Agreement", is entered into on {{EFFECTIVE_DATE}} by and between:
+This Service Agreement (the "Agreement") is made on {{DATE}} between Pulsify (the "Operator") and {{CLIENT_NAME}}, {{CLIENT_EMAIL}} (the "Client"). Together they are the "Parties".
 
-**PULSIFYMEDIA LTD.**, hereinafter referred to as the "Operator"; -and-
+## I. The services
 
-**{{CLIENT_LEGAL_NAME}}**, hereinafter referred to as the "Client."
+The Operator provides growth operations and content systems for the Client's creator business. This covers offer development and positioning, packaging and structuring the Client's YouTube content, optimizing the Client's Instagram profile with story sequences and carousels, a client portal for content tracking and planning, payment-processor setup, funnel development, and weekly reporting.
 
-Collectively, the Operator and the Client are referred to as the "Parties."
+It also covers building the Client's paid program (the curriculum, how the Client runs one-to-one calls, teaching material, tracking who has paid, and setting up the platform it is hosted on); recruiting, training and managing setters and closers when the offer is ready to scale; and planning and managing paid advertising as a later phase of the engagement, or earlier if the Client wants to scale faster.
 
-The Parties agree to the following recitals:
+The Client records and publishes all videos. Deliverables may be adjusted for unforeseen circumstances or changes in the Client's needs.
 
-**Whereas**, the Operator is in full legal capacity as a company specializing in the field of growth operations, info product scaling, AI-assisted content production, and funnel infrastructure for high-ticket coaching businesses;
-
-**Whereas**, the Operator affirms that it has the required experience and ability to provide the Client with the Services defined herein;
-
-**Whereas**, the Operator agrees to be engaged to provide the Client with the Services, subject to the terms and conditions contained herein;
-
-**Whereas**, the Parties desire to express in writing their mutual understanding and agreements with respect to this engagement;
-
-**NOW, THEREFORE**, in consideration of the mutual promises and covenants contained herein, and other good and valuable consideration, the Parties hereto, intending to be legally bound, do hereby agree as follows:
-
----
-
-## I. The Services
-
-The Operator is engaged to install and operate the Pulse System inside the Client's coaching business across a 90-day paid engagement. The Pulse System comprises five components, each with defined deliverables and human checkpoints:
-
-1. **Brand Brain** — a client-owned knowledge vault built from past calls, past content, structured intake, and competitor research. Delivered Week 1–2.
-2. **Content Engine** — weekly research, scripting, packaging, and pipeline management for the Client's primary content channel (YouTube long-form by default). Delivered from Week 3 onward.
-3. **Funnel Stack** — the conversion path from content view to sales call, including VSL, Typeform, Cal.com, and IG profile-funnel wiring. Delivered Week 4–5.
-4. **Sales Co-pilot** — pre-call briefs, drafted proposals, drafted follow-ups, automatic CRM stage transitions. Delivered Week 6+.
-5. **Ops Replacement** — comment triage, DM triage, dashboard refresh, weekly metric reports. Delivered Week 9+.
-
-A full Client Scope Document confirming exact deliverables, channel choices, and integrations will be produced by the Operator in Week 1 of the engagement and shared with the Client for sign-off.
-
-The engagement also includes:
-- Weekly reporting and optimization meetings.
-- A dedicated Slack or Discord workspace.
-- Direct asynchronous communication channels with the Operator.
-
-Deliverables are subject to adjustment due to unforeseen circumstances or changes in the Client's needs, by mutual written agreement.
-
----
+The Client keeps up the agreed content cadence, answers requests in good time, stays available for scheduled calls, provides account access when it is needed for setup and tracking, and delivers the program to the Client's own students.
 
 ## II. Fees
 
-For undertaking the engagement, the Client agrees to the following fee structure:
+Setup fee: {{SETUP_FEE}} (USD), due when this Agreement is signed.   [or: No upfront fee is payable.]
 
-**Base Fee:** USD {{BASE_FEE}}, payable as {{PAYMENT_SPLIT}}. Where the engagement is split, the second installment is due on delivery of the Funnel Stack (Week 5).
+Revenue share: the Operator receives {{FEE}}% of all revenue collected by the Client from the offer(s) developed under this Agreement, and the Client keeps the rest. The Operator's share is due within five (5) business days after the revenue is received by the Client. "Revenue" means cash actually collected by the Client, net of refunds and chargebacks.
 
-**Performance Share:** The Operator shall receive {{PERFORMANCE_PERCENT}}% of all attributable revenue collected by the Client during the engagement, payable on a weekly settlement cadence within five (5) business days of the close of each calendar week.
+Sales team: where setters and closers are engaged, the Operator's {{FEE}}% share pays for them: ten percent (10%) to the closer, five percent (5%) to the setter, and {{FEE minus 15}}% kept by the Operator. The Client pays nothing extra for the sales team. Until a sales team is engaged, the Operator performs these functions and keeps the full {{FEE}}%.
+   [If the share is under 15%: where setters and closers are engaged, how they are paid is agreed in writing before they start.]
 
-**Attribution Rule:** All revenue collected by the Client from the date the Operator is integrated into the Client's CRM and payment processor is attributable to the Operator, with the sole exception of leads that were already in active negotiation with a scheduled close date prior to integration. After integration, every revenue event collected counts toward the performance share because the Operator owns the systems generating, processing, and tracking them.
+Starting monthly revenue: the Parties record the Client's monthly revenue at the start of this Agreement as {{START_REVENUE}} per month.
 
-**Settlement Source of Truth:** The weekly setter/closer Slack report and the payment-processor export are the joint source of truth. Both Parties have read access. Disputes are resolved against those records.
+All amounts are in USD. Late or failed payments pause the Operator's work until the payment is resolved.
 
-All prices are quoted in USD. Late payments or failure of payments shall result in immediate cessation of all work carried out by the Operator until payment is resolved. All work product remains the sole right of the Operator until payment is made.
+## III. Guarantee
 
----
+Your workspace is live and tailored to you the day you finish onboarding, and your first video package and story sequence follow right after. If anything we promised isn't delivered, we keep working at no extra cost until it is. No refunds.
 
-## III. Engagement Term and Performance Guarantee
+## IV. Term and termination
 
-**Paid Term:** 90 days from {{ENGAGEMENT_START_DATE}}.
+This Agreement starts when both Parties have signed and continues until either Party ends it by written notice (a message counts). No notice period and no termination penalty applies. The Client keeps the systems and deliverables built during the engagement. Revenue from any opportunity already in active progress when the Agreement ends, and collected within thirty (30) days after that, remains subject to the revenue share in Section II.
 
-**Performance Guarantee:** The Operator guarantees that the Client shall collect at least USD 100,000 in new attributable revenue (as defined in Section II) within the 90-day Paid Term.
+## V. Refunds
 
-**Continuation:** If the Client has not collected USD 100,000 in attributable revenue by the end of the Paid Term, the Operator shall continue to provide the Services at no additional Base Fee until the threshold is achieved. There is no time cap and no hour cap on the continuation period. The Performance Share continues to apply on all revenue collected during continuation.
+All payments are non-refundable, because they are tied to work already performed and revenue already collected.
 
-**Termination by Client:** The Client may terminate the engagement at any time with seven (7) days' written notice. Termination ends the Operator's obligation to deliver Services, ends the Operator's obligation to maintain installed systems, and ends the Performance Share on revenue collected after termination. Base Fee installments already due remain payable.
+## VI. Confidentiality
 
-**Termination by Operator:** The Operator may terminate the engagement for cause if the Client (a) fails to provide CRM or payment-processor access required for attribution, (b) fails to attend two or more consecutive scheduled meetings without rescheduling, or (c) materially breaches this Agreement and fails to cure within fourteen (14) days of written notice.
+Both Parties keep confidential the funnel strategies, revenue data, client lists and other materials shared during the engagement, unless the law requires disclosure or the other Party agrees in writing. The Operator may use results and content produced through the engagement as case studies, and the Client may ask for specific personal details to be withheld.
 
----
+## VII. General
 
-## IV. Refund and Cancellation
+This Agreement is personal to the Client and may not be assigned without the Operator's written consent. Each Party holds the other harmless from claims arising from its own negligence or misconduct. This Agreement is the whole agreement between the Parties. The Parties will try to settle any dispute in good faith first, and then in a forum they agree on at that time.
 
-- Base Fee installments are non-refundable once paid, as they fund completed and in-progress delivery work.
-- Performance Share payments are non-refundable, as they are directly tied to revenue already collected by the Client.
-- Termination does not entitle either Party to a refund of fees already paid.
+[Additional terms, if any were typed in the popup.]
 
----
+By signing below, each Party confirms it understands and agrees to these terms, including the fees, the guarantee, the refund terms and confidentiality.
 
-## V. Payment Scheme
-
-The Client agrees to settle all payments in USD via the following preferred rails:
-
-1. **Cryptocurrency** (USDT or USDC on a major chain) via Binance Turkey — preferred.
-2. **International SWIFT bank transfer** to the Operator's nominated account.
-
-Alternative rails (Wise, Payoneer, or equivalent) may be arranged upon mutual agreement before the first invoice. Stripe is not available for this engagement due to the Operator's payment-rail configuration.
-
-The Client is responsible for any fees, taxes, or withholdings imposed by their jurisdiction. Quoted amounts are net to the Operator.
-
----
-
-## VI. Client Integration Requirement
-
-To enable the Services and the attribution rule in Section II, the Client agrees to grant the Operator read or admin access (as appropriate) to the following systems within five (5) business days of the Effective Date:
-
-- The Client's CRM (or, where none exists, agreement to install one within the engagement).
-- The Client's payment processor dashboard or equivalent revenue-collection record.
-- The Client's content publishing accounts for the channels in scope.
-- The Client's calendar booking system (Cal.com or equivalent).
-- The Client's communication channels with any existing setters or closers.
-
-Without integration, the Operator cannot perform the Services or compute the Performance Share. Failure to provide integration within fourteen (14) days of the Effective Date is grounds for termination under Section III.
-
----
-
-## VII. Non-Disclosure and Intellectual Property
-
-Both Parties mutually agree that certain confidential information, including but not limited to funnel strategies, revenue data, client lists, and internal frameworks, may be exchanged during this engagement. Both Parties agree not to disclose or share this information with any third party unless required by law or with prior written consent.
-
-a. **Confidential Materials:** Includes technical materials, models, strategies, and intellectual property created during this engagement.
-
-b. **Sales Materials:** Includes pricing strategies, sales funnels, and client acquisition methods provided by either Party.
-
-c. **Intellectual Property Rights:**
-- The Client retains ownership of the Brand Brain populated with their data, the per-client AI agent installed in their accounts, all content produced under the engagement, and any creative output bearing the Client's likeness or voice.
-- The Operator retains ownership of all underlying templates, frameworks, prompt packs, the Pulse System methodology, and any tooling not specific to the Client's account.
-- Pre-existing intellectual property of either Party remains the sole property of its original owner.
-
-d. **Additional Confidential Information:** Any other information explicitly marked or identified as confidential by either Party.
-
-**Case Studies and Marketing Use:** The Client agrees that the Operator may share anonymized case studies, screenshots, testimonials, and quantitative results achieved through the engagement for marketing purposes. Personal or brand-identifiable information will be excluded upon the Client's written request.
-
----
-
-## VIII. Miscellaneous
-
-**Non-Transferability:** The rights and obligations under this Agreement are exclusive to the Parties and may not be assigned or transferred to a third party without prior written consent of the other Party.
-
-**Mutual Indemnification:** Both Parties agree to indemnify and hold each other harmless from any claims, damages, or losses arising from negligence or misconduct during the engagement.
-
-**Integration:** This Agreement, including any amendments or incorporated terms, constitutes the entire agreement between the Parties and supersedes any prior agreements or understandings.
-
-**Notices:** All formal notices under this Agreement shall be in writing and delivered by email to the addresses provided at execution.
-
----
-
-## IX. Interpretation and Enforcement
-
-This Agreement shall be governed by and construed in accordance with the laws of {{GOVERNING_JURISDICTION}}. Both Parties agree that any disputes arising from this Agreement shall be resolved in the courts of {{COURTS_JURISDICTION}}.
-
----
-
-**BY SIGNING BELOW, EACH PARTY ACKNOWLEDGES THAT IT UNDERSTANDS AND AGREES TO ALL OF THE AFOREMENTIONED TERMS, INCLUDING THOSE RELATED TO SERVICE FEES, THE PERFORMANCE GUARANTEE, THE INTEGRATION REQUIREMENT, REFUND POLICY, AND CONFIDENTIALITY.**
-
-{{CLIENT_LEGAL_NAME}}                                           PULSIFYMEDIA LTD.
-
-Signed: _______________________________            Signed: _______________________________
-
-Title: ________________________________             Title: ________________________________
-
-Date: _________________________________             Date: _________________________________
+Client: {{CLIENT_NAME}}, signature            Operator: Pulsify, accepted by sending this Agreement (or a signature when a countersigner email is set)
 ```
-
-## Placeholder reference
-
-| Token | Source | Example |
-|---|---|---|
-| `{{EFFECTIVE_DATE}}` | Call close date | 2026-06-12 |
-| `{{CLIENT_LEGAL_NAME}}` | Client legal name (individual or entity) | Marcus Reilly |
-| `{{BASE_FEE}}` | Negotiated base per offer page | 5,000 / 7,500 / 10,000 |
-| `{{PAYMENT_SPLIT}}` | PIF or 50/50 | "paid in full on the Effective Date" OR "50% on the Effective Date and 50% on Funnel Stack delivery (Week 5)" |
-| `{{PERFORMANCE_PERCENT}}` | Negotiated share per offer page | 25 or 30 |
-| `{{ENGAGEMENT_START_DATE}}` | Day 1 of paid term (usually Effective Date) | 2026-06-12 |
-| `{{GOVERNING_JURISDICTION}}` | Pending founder decision | "England and Wales" |
-| `{{COURTS_JURISDICTION}}` | Pending founder decision | "England and Wales" |
-
-## Connections
-
-- [[playbooks/pulsify-offer-v1]] — the commercial terms this contract codifies.
-- [[concepts/pulse-system-mechanism]] — the scope language in Section I.
-- [[playbooks/pulsify-delivery-sop]] — the week-by-week SOP the contract maps to.
-- [[clients/nick/overview]] — the predecessor contract this template supersedes for new clients.
 
 ## Open questions / gaps
 
-- **Jurisdiction.** Prior contracts disagreed (Nick: USA; Jacob: UK/England and Wales). Pulsifymedia LTD as a UK ltd defaults to UK jurisdiction, but the founder operates personally from Turkey. UK is the cleaner answer for a UK ltd company. Confirm before first send.
-- **Crypto-only payment friction.** Some US-based prospects will balk at Binance Turkey USDT. Wise/Payoneer evaluation still pending. A US business bank account in Pulsifymedia LTD's name would unlock Stripe/ACH and remove this objection — worth weighing against setup time.
-- **Performance share on continuation past 12 months.** v1 has no cap. If a client crosses 12 months in continuation, the Operator is doing unbounded free work. Founder accepts this risk as of 2026-05-10 ([[playbooks/pulsify-offer-v1#open-questions--gaps]]). Revisit when the first stress event arrives.
-- **Counter-signature authority.** Pulsifymedia LTD signer name and title not yet locked in template. Add when finalized.
-- **No NDA-only variant.** Some prospects ask for an NDA before a sales call. Worth drafting a 1-page NDA standalone if it becomes a recurring ask.
+- **Sending is not switched on.** DocuSign is linked (account ID and webhook key are set as Pages secrets), but the three keys needed to send are missing: the integration key, the user ID and the private key. Until they are set, Send Contract answers "DocuSign not connected" and nothing goes out.
+- **The app points at the DocuSign sandbox by default.** Sandbox envelopes are for testing. A real client contract needs a production integration key and `DOCUSIGN_BASE_URL` set to the production host (see the header of `functions/_shared/docusign.js`).
+- **Who edits the videos.** The contract says the client records and publishes, and is silent on editing.
+- **The operator is not a registered company.** The contract names "Pulsify". An unregistered trading name is weak for enforcing the share if payments stop ([[clients/tb-tradez/decisions]]). Revisit if a company is registered.
+- **No governing law named.** Disputes go to good-faith talks, then a forum agreed at the time. The practical enforcement is control of the systems.
+- **Zero-floor risk on $0-upfront deals.** The 30-day tail only reaches deals already in progress. A longer tail ("any lead that entered the pipeline during the engagement, collected within 90 days") was proposed for TB Tradez and never agreed.
+- **Chargeback acknowledgement** (from [[synthesis/dustin-varano-the-keys]]): a clause where the client acknowledges they won't open a payment dispute. It is not in the text. It needs a lawyer before it is added.
 
-- Dispute protection (added 2026-09-29, source [[synthesis/dustin-varano-the-keys]]): section IV already makes fees non-refundable. Two clauses Dustin Varano uses that this template lacks: an acknowledgment that the client waives initiating a chargeback or payment dispute, and a no-guarantee-of-income clause. He admits chargeback rights can't be fully waived; the value is written proof the terms were knowingly accepted, which processors weigh in disputes. He pairs it with recording every client call for the life of the engagement and submitting the recordings, the signed agreement and a deliverables log as evidence. Needs a lawyer's review before adding, and the income clause must not contradict the performance guarantee in section III.
+## Connections
+
+- [[playbooks/pulsify-offer-v1]]: the offer this contract codifies.
+- [[clients/tb-tradez/contract-draft]]: the FITFO-based agreement the app's text grew from.
+- [[synthesis/service-scope-and-terms-proposal-2026-10-26]]: what is settled and what is left for the first client.
 
 ## Source trail
 
-- `raw-sources/contracts/nick-furr-pulsifymedia-msa.pdf` (profit-share-only, USA jurisdiction).
-- `raw-sources/contracts/jacob-thomas-pulsifymedia-msa.pdf` (profit-share + software passthrough, UK jurisdiction).
-- [[playbooks/pulsify-offer-v1]] — pricing tree, performance attribution, guarantee, integration requirement.
-- [[concepts/pulse-system-mechanism]] — scope language for Section I.
+- `raw-sources/contracts/fitfo-service-agreement.docx` and [[clients/tb-tradez/contract-draft]] (structure, termination, tail, sales-team split).
+- Founder decisions, 2026-10-15 (price, guarantee wording, starting revenue, refunds).
+- Founder, 2026-10-26: add setters/closers 10/5/15, ads later and program building.
+- Retired: the May 2026 v1 template built from the Nick Furr and Jacob Thomas MSAs.
