@@ -56,7 +56,7 @@ const breakout = [...cash.videos].sort((a, b) => b.views - a.views)[0];
 assert.ok(breakout.outlier?.multiplier >= 5, "the most viewed video stands out against the channel's normal");
 assert.equal(breakout.cash_cents, 0);
 assert.ok(breakout.views > 5 * first.views && first.cash_cents >= 900000, "views and money point different ways");
-assert.ok(cash.videos.every((v) => v.thumbnail_url?.startsWith("data:image/svg+xml")), "every video has an inline made-up thumbnail");
+assert.ok(cash.videos.every((v) => v.thumbnail_url?.startsWith("data:image/jpeg;base64,")), "every video has its real thumbnail inline");
 
 // Funnel stages: roughly 60/25/15, MOF and BOF carry the cash, the newest ones wait for the creator's OK.
 const share = (stage) => cash.videos.filter((v) => v.stage.value === stage).length / cash.videos.length;
@@ -114,7 +114,7 @@ assert.equal(sql.prepare("SELECT amount_cents FROM payments WHERE client='acme'"
 // Invented people throughout: only example.com addresses, and no real name or handle anywhere (the reference channel stays unnamed).
 const emails = sql.prepare("SELECT DISTINCT contact_email FROM pipeline_touches WHERE client_id=?").all(client).map((r) => r.contact_email);
 assert.ok(emails.length > 20 && emails.every((e) => e.endsWith("@example.com")));
-const everything = seedSql().toLowerCase();
+const everything = seedSql().replace(/data:image\/jpeg;base64,[A-Za-z0-9+/=]+/g, "").toLowerCase(); // image bytes are not text
 for (const real of ["ab.luiy", "abdul", "dovy", "tb.tradez", "theo marsh"]) assert.ok(!everything.includes(real), `the seed never mentions ${real}`);
 
 console.log("demo-seed.test.mjs ok");

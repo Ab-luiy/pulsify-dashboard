@@ -17,6 +17,7 @@
 // Running it again wipes the example rows first and rebuilds them from today, so the screens always look current.
 // It only ever touches client 'demo-example'. Sign-ins (client_auth, client_sessions) are left alone.
 
+import { readFileSync } from "node:fs";
 import { summarize } from "../workers/sync/src/jobs/instagram.js";
 
 const CLIENT = "demo-example";
@@ -73,8 +74,8 @@ push(`INSERT INTO client_config (client, client_name, status, updated_at) VALUES
 
 // ---------- 2. The channel: 30 videos, newest first ----------
 // Titles, view counts and lengths are a real public trading channel's last 30 uploads (pulled 2026-10-23), used as a
-// reference with the founder's go. Its name, handle, video ids and thumbnails are never stored: ids are neutral and
-// thumbnails are plain placeholders. visits = people who clicked through; apply/book/buy = how far they got. These,
+// reference with the founder's go. Its name, handle and video ids are never stored (ids are neutral); the thumbnails are
+// its real ones (founder, 2026-10-26). visits = people who clicked through; apply/book/buy = how far they got. These,
 // and all the money, are estimates (the header says so). A student-result video and a strategy breakdown, both
 // mid-view, carry the cash; the most viewed video brings in almost none.
 const VIDEOS = [
@@ -110,25 +111,14 @@ const VIDEOS = [
   { id: "dvVid01", hook: "+$24,264 LIVE", title: "Trading Live Making $24,264 (I AM THE BANK)", stage: "TOF", days: 118, views: 5700, duration: 5577, visits: 9, apply: 0, book: 0, buy: 0 },
 ];
 const video = (id) => VIDEOS.find((v) => v.id === id);
-// A plain made-up thumbnail per video (dark, one hook, a few candles), inline so nothing loads from outside.
-const thumbnail = (v, n) => {
-  const accent = ["#ff6a1a", "#f5b13d", "#3ddc97", "#ff6a1a", "#e9e4dc"][n % 5];
-  let candles = "";
-  let y = 470;
-  for (let k = 0; k < 9; k++) {
-    const up = (k * 7 + n) % 3 !== 0;
-    const h = 40 + ((k * 37 + n * 11) % 70);
-    y += up ? -22 : 16;
-    candles += `<rect x="${760 + k * 54}" y="${y - h}" width="30" height="${h}" rx="3" fill="${up ? "#3ddc97" : "#ff5a4e"}" opacity="0.85"/><rect x="${773 + k * 54}" y="${y - h - 18}" width="4" height="${h + 36}" fill="${up ? "#3ddc97" : "#ff5a4e"}" opacity="0.6"/>`;
-  }
-  const size = v.hook.length > 11 ? 88 : 112;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#16120f"/><stop offset="1" stop-color="#050505"/></linearGradient></defs><rect width="1280" height="720" fill="url(#g)"/><rect x="0" y="0" width="1280" height="720" fill="${accent}" opacity="0.06"/>${candles}<text x="70" y="330" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="${size}" fill="#ffffff">${v.hook.replace(/&/g, "&amp;")}</text><rect x="74" y="370" width="160" height="12" rx="6" fill="${accent}"/><text x="72" y="640" font-family="Arial, sans-serif" font-weight="700" font-size="34" fill="#ffffff" opacity="0.7">DEMO TRADER</text></svg>`;
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-};
+// The video's real thumbnail from the reference channel (founder, 2026-10-26: "use the real ones"), resized to
+// 640x360 in tools/demo-thumbnails/ and inlined, because the page only loads images from itself.
+const thumbnail = (v) =>
+  `data:image/jpeg;base64,${readFileSync(new URL(`./demo-thumbnails/${v.id}.jpg`, import.meta.url)).toString("base64")}`;
 VIDEOS.forEach((v, n) => {
   push(insert("yt_videos", {
     client_id: CLIENT, video_id: v.id, channel_id: "demo-channel", title: v.title, published_at: iso(ago(v.days, 15)),
-    thumbnail_url: thumbnail(v, n), duration_seconds: v.duration, views: v.views, likes: Math.round(v.views * 0.042), comments: Math.round(v.views * 0.007),
+    thumbnail_url: thumbnail(v), duration_seconds: v.duration, views: v.views, likes: Math.round(v.views * 0.042), comments: Math.round(v.views * 0.007),
     synced_at: iso(NOW - 2 * HOUR),
   }));
   // Tracked links in the description and the pinned comment, clicked in proportion to the visits they sent.
