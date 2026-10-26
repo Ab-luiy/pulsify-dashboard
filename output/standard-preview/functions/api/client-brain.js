@@ -388,15 +388,7 @@ async function saveClientSubmission(body, env, client) {
   const proofItemsProvided = Object.prototype.hasOwnProperty.call(body, "proof_items");
   const proofItems = proofItemsProvided ? normalizeProofItems(body.proof_items, true) : [];
   if (proofItemsProvided) {
-    writes.push(env.DB.prepare("DELETE FROM proof_items WHERE client_id=?").bind(client));
-    for (const item of proofItems) {
-      writes.push(
-        env.DB.prepare(
-          `INSERT INTO proof_items (client_id, kind, url, claim, permission, created_at)
-           VALUES (?, ?, ?, ?, ?, ?)`,
-        ).bind(client, item.kind, item.url, item.claim, item.permission, now),
-      );
-    }
+    writes.push(...(await proofSyncStatements(env, client, proofItems, now)));
   }
 
   if (!writes.length) return json({ ok: false, error: "no accepted answers" }, 422);
@@ -409,6 +401,45 @@ async function saveClientSubmission(body, env, client) {
     proof_items_saved: proofItems.length,
     updated_at: now,
   });
+}
+
+// Saving the proof list (#61, backend audit 2026-10-12). It used to delete every proof_items row for
+// the client and insert the list again, which gave every row a new id and wiped library uploads that
+// were never on the list. Now a save keeps ids: rows on the list are updated in place (matched by
+// url), new urls are added, and only links that were on the previous list and are gone now are
+// removed. Uploaded files (/m/...) are never deleted by a list save; they stay in the library.
+async function proofSyncStatements(env, client, items, now) {
+  const [existing, brainRows] = await Promise.all([
+    env.DB.prepare("SELECT id, url FROM proof_items WHERE client_id=?").bind(client).all(),
+    env.DB.prepare("SELECT section, field, value_json FROM client_brain WHERE client_id=? AND section='proof' AND field='items'").bind(client).all(),
+  ]);
+  const have = new Set((existing.results || []).map((row) => row.url));
+  const previousRow = (brainRows.results || []).find((row) => row.section === "proof" && row.field === "items");
+  let previous = [];
+  try {
+    previous = previousRow ? JSON.parse(previousRow.value_json) : [];
+  } catch {
+    previous = [];
+  }
+  const keep = new Set(items.map((item) => item.url));
+  const statements = [];
+  for (const item of items) {
+    statements.push(have.has(item.url)
+      ? env.DB.prepare("UPDATE proof_items SET kind=?, claim=?, permission=? WHERE client_id=? AND url=?")
+        .bind(item.kind, item.claim, item.permission, client, item.url)
+      : env.DB.prepare(
+        `INSERT INTO proof_items (client_id, kind, url, claim, permission, created_at)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+      ).bind(client, item.kind, item.url, item.claim, item.permission, now));
+    have.add(item.url);
+  }
+  const removed = new Set((Array.isArray(previous) ? previous : [])
+    .map((item) => String(item?.url || ""))
+    .filter((url) => url && !keep.has(url) && !url.startsWith("/m/")));
+  for (const url of removed) {
+    statements.push(env.DB.prepare("DELETE FROM proof_items WHERE client_id=? AND url=?").bind(client, url));
+  }
+  return statements;
 }
 
 async function updateClientProof(body, env, client) {
@@ -479,7 +510,8 @@ async function saveOperatorField(request, env) {
       "DELETE FROM client_brain WHERE client_id=? AND section=? AND field=?",
     ).bind(client, section, key)];
     if (section === "proof" && key === "items") {
-      statements.push(env.DB.prepare("DELETE FROM proof_items WHERE client_id=?").bind(client));
+      // Clearing the list removes the links that were on it; uploads stay in the library.
+      statements.push(...(await proofSyncStatements(env, client, [], nowIso())));
     }
     await env.DB.batch(statements);
     return json({ ok: true, client, section, field: key, cleared: true });
@@ -490,12 +522,8 @@ async function saveOperatorField(request, env) {
   if (section === "proof" && key === "items") {
     const proofItems = normalizeProofItems(normalized);
     const statements = [
+      ...(await proofSyncStatements(env, client, proofItems, now)),
       upsertBrain(env, client, section, key, proofItems, source, now),
-      env.DB.prepare("DELETE FROM proof_items WHERE client_id=?").bind(client),
-      ...proofItems.map((item) => env.DB.prepare(
-        `INSERT INTO proof_items (client_id, kind, url, claim, permission, created_at)
-         VALUES (?, ?, ?, ?, ?, ?)`,
-      ).bind(client, item.kind, item.url, item.claim, item.permission, now)),
     ];
     await env.DB.batch(statements);
   } else {
