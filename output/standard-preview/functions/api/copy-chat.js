@@ -322,6 +322,8 @@ async function send(context, client, body) {
         if (lookups.status === "daily_limit") throw new Error("Jane has reached today's free AI allowance. It resets at midnight UTC.");
         system = withLearnings(buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text }));
       }
+      // What Jane is doing, for the waiting words in the chat. A checked draft shows nothing until the check ends.
+      await emit("status", { stage: "writing" });
       for await (const chunk of plainReplyChunks(streamText({ system, messages }, ai))) {
         const safe = scrubber.push(chunk);
         if (safe) {
@@ -337,6 +339,7 @@ async function send(context, client, body) {
       full = full.trim();
       if (!full) throw new Error("empty reply");
       if (reviewDraft) {
+        await emit("status", { stage: "checking" });
         let checkedDraft = full;
         let gaps = [];
         for (let attempt = 0; attempt < 2; attempt++) {

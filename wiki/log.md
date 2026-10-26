@@ -753,3 +753,7 @@ Founder asked to test Jane end to end and make her connect the dots from everyth
 
 Founder approved 30 Jane messages a day per client (was 8). Jane now has her own counter, so her chats no longer use up the allowance of the app's other AI writers, which stay at 8 on the smaller Workers AI plan. One message counts once; the data lookup and checks inside a reply do not count. See output/standard-preview/docs/jane-knowledge.md.
 
+## [2026-10-27] client-update | Jane talks like a person; the chat shows what she is doing
+
+Founder asked for Jane to feel human like ChatGPT or Claude, and for pulsing words like "cooking" while she works. Jane now meets the person's mood first, uses contractions and digits, stops opening every reply with a title, varies how she ends, and keeps her own words when a draft passes the claim check. Questions about content no longer go through the draft check. While she works, the chat shows what she is really doing (reading your videos, checking every claim) with rotating words in between. Details in output/standard-preview/docs/jane-knowledge.md.
+

@@ -156,7 +156,7 @@ export async function janeStructured(binding: Binding, system: string, user: str
  * executes tool-supplied instructions, changes identity or controls a SQL query. */
 export async function gatherJaneContext({ binding, tools, message, messages = [], currentContext = "", onLookup = async () => {} }: {
   binding: Binding; tools: ReturnType<typeof createJaneTools>; message: string; messages?: Turn[]; currentContext?: string;
-  onLookup?: (event: { tool: string; state: string }) => Promise<unknown>;
+  onLookup?: (event: { tool: string; state: string; area?: string }) => Promise<unknown>;
 }) {
   const seen = new Set<string>();
   const readIds = new Set<string>();
@@ -186,10 +186,11 @@ export async function gatherJaneContext({ binding, tools, message, messages = []
       const signature = serial(call);
       if (seen.has(signature)) continue;
       seen.add(signature);
-      await onLookup({ tool: call.tool, state: "reading" });
+      const knownArea = call.tool === "read_workspace" && AREAS.has(call.id);
+      // The area name lets the chat say "Reading your videos" while it waits; it is a fixed word, never client data.
+      await onLookup({ tool: call.tool, state: "reading", ...(knownArea ? { area: call.id } : {}) });
       const remaining = MAX_CONTEXT - used - 300;
       if (remaining < 200) break;
-      const knownArea = call.tool === "read_workspace" && AREAS.has(call.id);
       const result = (call.tool.startsWith("read_") && !knownArea && !readIds.has(call.id)
         ? serial({ error: "No such ID was returned by a search. Search first and use the exact field/source/draft ID. Do not invent IDs." })
         : await tools.run(call)).slice(0, remaining);

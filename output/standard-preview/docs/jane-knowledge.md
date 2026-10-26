@@ -165,3 +165,14 @@ Founder: Jane should scan our frameworks, the client's information and everythin
 - One count per message, taken in copy-chat.js before any helper runs. The lookup planner, claim check and memory helpers inside a reply are not counted. Jane falling back to Workers AI (no Gemini key) still counts against `ai`.
 - The operator usage row reads the cap from the server (`allowance_cap`), so it shows "n of 30 left" with no app change.
 
+## How Jane talks, and what the chat shows while she works (2026-10-27)
+
+Founder 2026-10-27: Jane must have "the humane effect, same as ChatGPT or Claude", and the chat should pulse with words like "cooking" while she works.
+
+- Real-model check before the change (local demo copy, gemini-3.5-flash-lite): every reply opened with "Hello, CEO" or "Chief" (a demo memory note applied as an opener), numbers were spelled out as words, nearly every reply ended on the same "Which ... would you like" question, and "I'm tired and behind" got orders.
+- `copy-brain.js`: new VOICE block (first person, contractions, meets the person's mood first, matches their energy, no greeting or name/title openers mid-chat, says what it checked in plain words, digits for numbers, varied endings, short paragraphs). A memory note about what to call them is used now and then, never as an opener. FACTS: never give one of their numbers a new meaning, never invent a statistic about people in general.
+- `needsCopyReview`: questions and remarks about content ("which videos made money", "my last video flopped") are conversation again. They had been routed through the draft check, which rewrote Jane's reply into one flat paragraph and stopped it streaming. Requests to write, noun-phrase requests ("3 hooks for...") and edits still get the check.
+- Draft check (`groundingReviewPrompt` / `applyGroundingReview`): returns `{"supported": true}` for a fully supported draft, so the writer's exact words, contractions, line breaks and item count are kept; only an unsupported draft comes back rewritten. A word-range request still returns the checked text. Numbers must keep their meaning; a number typed by the user is supported and "Seven" equals "7".
+- Stream events: `lookup` now carries `area` for workspace reads (a fixed word such as `videos`), and a new `status` event says `writing` and, for checked drafts, `checking`. The app shows them as "Reading your videos", "Checking every claim", with playful words ("Cooking", "Connecting the dots") in between.
+- After: the same questions came back with "Hey.", digits, empathy first ("That slump feels heavy when you put hours into recording and editing"), no title openers, slides kept on their own lines, and no invented statistics in hooks. 3 to 10 s per reply on the free tier.
+
