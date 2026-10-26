@@ -7,7 +7,7 @@ import { SOURCE_NAMES } from "../functions/_shared/source-scrub.js";
 
 test("collection rebuild is deterministic and current against the actual vault", () => {
   execFileSync(process.execPath, ["tools/build-copy-knowledge.mjs", "--check"], { cwd: new URL("..", import.meta.url), stdio: "pipe" });
-  assert.equal(COPY_KNOWLEDGE.sources.length, 17);
+  assert.equal(COPY_KNOWLEDGE.sources.length, 23);
   assert.ok(COPY_KNOWLEDGE.passages.length > 30);
   assert.ok(COPY_KNOWLEDGE.sources.every((source) => source.client_visible && source.hash.length === 64));
 });
@@ -55,4 +55,11 @@ test("lack of bookings does not automatically load methods for already booked le
     assert.ok(!retrieveCopyKnowledge({ query }).source_ids.includes("pre-call"));
   }
   assert.ok(retrieveCopyKnowledge({ query: "Improve our confirmation page and email reminders after booking" }).source_ids.includes("pre-call"));
+});
+
+test("the frameworks added 2026-10-26 are in the collection and carry no creator names", () => {
+  for (const id of ["vsl", "sales-calls", "bio", "ig-assets", "webinar", "rhythm"]) {
+    assert.ok(COPY_KNOWLEDGE.passages.some((part) => part.source_id === id), `${id} has passages`);
+  }
+  assert.doesNotMatch(JSON.stringify(COPY_KNOWLEDGE.passages), /Jeremy|Hormozi|Kobey|Cardinal|Grant Garcia|Rorwick|Lapotko/);
 });
