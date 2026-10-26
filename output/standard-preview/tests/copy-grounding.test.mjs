@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildJaneBrainContext } from "../functions/_shared/client-brain-context.js";
-import { buildConversationContext, buildCopySystem, formatFromText, plainReplyChunks, needsCopyReview, applyGroundingReview, findCopyClaimGaps, copyReviewAi } from "../functions/_shared/copy-brain.js";
+import { buildConversationContext, buildCopySystem, formatFromText, plainReplyChunks, needsCopyReview, applyGroundingReview, findCopyClaimGaps, copyReviewAi, groundingReviewPrompt } from "../functions/_shared/copy-brain.js";
 
 const row = (section, field, value) => ({ section, field, value_json: JSON.stringify(value), updated_at: "2026-10-25" });
 test("every onboarding section, including new sections, reaches Jane without a second hidden 16k cut", () => {
@@ -77,6 +77,22 @@ test("drafts get a grounding check; discussion is allowed to stream normally", (
   assert.equal(needsCopyReview("How should I use email?", "email"), false);
   assert.equal(needsCopyReview("Change just the hook", "reel"), true);
   assert.equal(needsCopyReview("What did we agree about price?", "story"), false);
+  // Founder 2026-10-27: questions and remarks about their content are conversation and keep Jane's voice.
+  assert.equal(needsCopyReview("Which of my YouTube videos actually made me money, and what should I make more of?", "youtube"), false);
+  assert.equal(needsCopyReview("ugh my last video flopped, like 300 views. kinda demotivated tbh", "youtube"), false);
+  assert.equal(needsCopyReview("why did my script flop?", "youtube"), false);
+  assert.equal(needsCopyReview("give me a hook for my next video about prop firm rules", "youtube"), true);
+  assert.equal(needsCopyReview("Write me a 6-slide story sequence that pushes my best video", "story"), true);
+  assert.equal(needsCopyReview("Can you make me a reel about sizing?", "reel"), true);
+  assert.equal(needsCopyReview("3 hooks for my next video", "youtube"), true);
+});
+
+test("Jane talks like a person: digits, no title openers, voice kept through the draft check", () => {
+  const system = buildCopySystem({ client: { contextText: "Offer / name: The Process", memory: ["Address the client as Pulsify's CEO."] } });
+  assert.match(system, /Write numbers as digits/);
+  assert.match(system, /no greeting and no opening with their name, title or a nickname/);
+  assert.match(system, /never to open a reply/);
+  assert.match(groundingReviewPrompt({ clientContext: "", messages: [{ role: "user", content: "a story" }], draft: "Slide 1\nline" }).system, /every line break and the layout/);
 });
 
 test("grounding review requires a usable reply and fails closed on malformed data", () => {
@@ -85,6 +101,11 @@ test("grounding review requires a usable reply and fails closed on malformed dat
   assert.throws(() => applyGroundingReview(draft, "not JSON"));
   assert.throws(() => applyGroundingReview(draft, '{}'));
   assert.throws(() => applyGroundingReview(draft, '{"reply":""}'));
+  // A supported draft keeps the writer's exact words instead of a retyped copy.
+  assert.equal(applyGroundingReview("I'd film it today.\nSlide 2", '{"supported":true,"reply":""}'), "I'd film it today.\nSlide 2");
+  assert.equal(applyGroundingReview(draft, '{"supported":true,"reply":"I would retype it."}'), draft);
+  assert.throws(() => applyGroundingReview(draft, '{"supported":false,"reply":""}'));
+  assert.match(groundingReviewPrompt({ clientContext: "", messages: [{ role: "user", content: "Write 230-270 words" }], draft: "x" }).system, /"supported": false, "reply": "the complete checked draft"/);
 });
 
 test("known invented delivery promises are detected against confirmed offer facts", () => {
@@ -100,6 +121,6 @@ test("the Workers draft check enforces JSON schema and normalizes object respons
   const result = await checked.binding.run(checked.model, { messages: [] });
   assert.equal(sent.model, "@cf/meta/llama-3.3-70b-instruct-fp8-fast");
   assert.equal(sent.payload.response_format.type, "json_schema");
-  assert.deepEqual(sent.payload.response_format.json_schema.required, ["reply"]);
+  assert.deepEqual(sent.payload.response_format.json_schema.required, ["supported", "reply"]);
   assert.equal(result.response, '{"reply":"Checked draft."}');
 });

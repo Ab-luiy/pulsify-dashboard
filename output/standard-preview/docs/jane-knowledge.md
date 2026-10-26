@@ -157,11 +157,22 @@ Founder: Jane should scan our frameworks, the client's information and everythin
 - `janeRoute` now sends every message except greetings and simple edits through the lookup planner, which returns no calls when the supplied context is enough. One more model call per message.
 - Knowledge: six more sources (vsl-framework, call-funnel-framework, bio-optimization-system, instagram-conversion-assets, webinar-framework, content-operating-rhythm): 23 sources, 83 passages. Paragraphs naming a source creator (Jeremy, Hormozi, Kobey, Cardinal, Grant Garcia, Jonas, Rorwick, Lapotko) are dropped at build time; this also removed one existing "Jeremy's exact words" passage that had been reaching clients.
 - Real check (local copy of the demo workspace, real /api/copy-chat code, real gemini-3.5-flash-lite): greeting, best-earning videos, why leads do not book plus objections, this week's plan, a 6-slide story sequence (public-draft check passed), an open-ended "where do I start", and an off-topic naming question. Every reply used the demo's actual numbers or drafts; 12-39 s per reply on the free tier. The per-client daily allowance (AI_DAILY_CAP, default 8) stopped the run after five messages, as designed.
-- The Gemini path uses keyword retrieval, so the new passages are live without re-indexing. The Workers AI semantic index (tools/sync-jane-search.mjs) was not re-synced.
+- The Gemini path uses keyword retrieval, so the new passages are live without re-indexing. The Workers AI semantic index (tools/sync-jane-search.mjs) was re-synced on 2026-10-27: all 83 passages in namespace jane-2c840c53babb95ea.
 
 ## Jane's own daily allowance: 30 messages (2026-10-27)
 
 - Founder 2026-10-27: 30 Jane messages a day per client. Jane on the free Gemini key now draws from her own `jane` usage counter (`JANE_DAILY_CAP`, default 30, overridable by the `JANE_DAILY_CAP` env var). The Workers AI writers keep the shared `ai` counter at `AI_DAILY_CAP` (default 8), because that free plan is much smaller.
 - One count per message, taken in copy-chat.js before any helper runs. The lookup planner, claim check and memory helpers inside a reply are not counted. Jane falling back to Workers AI (no Gemini key) still counts against `ai`.
 - The operator usage row reads the cap from the server (`allowance_cap`), so it shows "n of 30 left" with no app change.
+
+## How Jane talks, and what the chat shows while she works (2026-10-27)
+
+Founder 2026-10-27: Jane must have "the humane effect, same as ChatGPT or Claude", and the chat should pulse with words like "cooking" while she works.
+
+- Real-model check before the change (local demo copy, gemini-3.5-flash-lite): every reply opened with "Hello, CEO" or "Chief" (a demo memory note applied as an opener), numbers were spelled out as words, nearly every reply ended on the same "Which ... would you like" question, and "I'm tired and behind" got orders.
+- `copy-brain.js`: new VOICE block (first person, contractions, meets the person's mood first, matches their energy, no greeting or name/title openers mid-chat, says what it checked in plain words, digits for numbers, varied endings, short paragraphs). A memory note about what to call them is used now and then, never as an opener. FACTS: never give one of their numbers a new meaning, never invent a statistic about people in general.
+- `needsCopyReview`: questions and remarks about content ("which videos made money", "my last video flopped") are conversation again. They had been routed through the draft check, which rewrote Jane's reply into one flat paragraph and stopped it streaming. Requests to write, noun-phrase requests ("3 hooks for...") and edits still get the check.
+- Draft check (`groundingReviewPrompt` / `applyGroundingReview`): returns `{"supported": true}` for a fully supported draft, so the writer's exact words, contractions, line breaks and item count are kept; only an unsupported draft comes back rewritten. A word-range request still returns the checked text. Numbers must keep their meaning; a number typed by the user is supported and "Seven" equals "7".
+- Stream events: `lookup` now carries `area` for workspace reads (a fixed word such as `videos`), and a new `status` event says `writing` and, for checked drafts, `checking`. The app shows them as "Reading your videos", "Checking every claim", with playful words ("Cooking", "Connecting the dots") in between.
+- After: the same questions came back with "Hey.", digits, empathy first ("That slump feels heavy when you put hours into recording and editing"), no title openers, slides kept on their own lines, and no invented statistics in hooks. 3 to 10 s per reply on the free tier.
 
