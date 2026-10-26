@@ -275,7 +275,7 @@ async function send(context, client, body) {
   const conversation = buildConversationContext([...(history.results || []), { role: "user", content: message }], query);
   const messages = conversation.messages;
   let system = buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText });
-  const grounding = { ...clientBrain.grounding, knowledge_version: knowledge.version,
+  const grounding = { ...clientBrain.grounding, memory_notes: clientBrain.memory.length, conversation_turns: messages.length, knowledge_version: knowledge.version,
     method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
   // Platform Jane uses the same provider for writing, lookups and draft review.
   // Client-owned connections retain their existing generation path.
