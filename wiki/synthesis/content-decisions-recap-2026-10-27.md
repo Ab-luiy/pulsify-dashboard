@@ -83,7 +83,7 @@ Standard from 15 Oct. It's a product default and can be changed per client (26 O
 ## Your own content
 
 - SaaS story highlight: 13 slides, live.
-- Topics ready to film, taken from the outreach research (22 to 23 Oct, you asked for these to be kept for your long and short videos):
+- Topics ready to film, taken from the outreach research (22 to 23 Oct, you asked for these to be kept for your long and short videos). The full list, 11 pains with titles and hooks, is [[content-engine/pain-points-content-bank]]. Standing rule: every new pain or objection from outreach gets added there too.
   - Views vs money: the most-viewed video is often not the one that pays, and remaking the viral one is a luck trap. Do more of what pays.
   - The blank page: never knowing what to film next.
   - Calls with people who never buy, and knowing who's serious before the call.

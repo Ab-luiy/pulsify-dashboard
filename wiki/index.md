@@ -115,6 +115,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 | Page | Summary | Created |
 |---|---|---|
 | [[content-engine/content-pillars]] | How to define, document, and execute from 3–5 topic pillars that generate all content | 2026-05-02 |
+| [[content-engine/pain-points-content-bank]] | 11 prospect pains from outreach, each with what we do, status, 2 long-form titles and 2 short-form hooks; add every new outreach pain here (standing rule) | 2026-10-27 |
 | [[content-engine/packaging-rules]] | Four-word title rule, face on camera, hook mechanics, open loops, editing by audience type | 2026-05-02 |
 | [[content-engine/copy-voice-guide]] | Default voice for all shipped copy — the AI tells to kill (negative parallelism, em-dash addiction, copula dodge, false suspense, bold-lead bullets) with a pre-send checklist; cross-checked against CLAUDE.md voice rules and packaging-rules | 2026-06-01 |
 | [[content-engine/cold-dm-formula]] | Casual-peer gift-first cold DM formula (5 beats: opener, genuine reference, soft gap, the gift, ownership+soft CTA); supersedes pulse-system-outreach's diagnostic DM voice; template + Frank worked example + grading rubric | 2026-07-06 |
