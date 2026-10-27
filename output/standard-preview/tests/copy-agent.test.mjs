@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { readFileSync } from "node:fs";
-import { createJaneTools, gatherJaneContext, extractJaneMemory, JANE_AGENT_VERSION } from "../functions/_shared/copy-agent.ts";
+import { createJaneTools, gatherJaneContext, weighJaneEvidence, extractJaneMemory, JANE_AGENT_VERSION } from "../functions/_shared/copy-agent.ts";
 import * as chat from "../functions/api/copy-chat.js";
 import { sha256Hex } from "../functions/_shared/common.js";
 
@@ -92,11 +92,13 @@ test("lookup planner reads a search result, then selects the matching draft in a
   const binding = { async run(model, payload) {
     assert.equal(payload.response_format.type, "json_schema"); rounds++;
     if (rounds === 1) return { response: { calls: [call("search_drafts", "Journal")] } };
+    if (rounds === 3) return { response: { calls: [] } };
     assert.match(payload.messages[1].content, /story:1/);
     return { response: { calls: [call("read_draft", "", "story:1")] } };
   } };
   const result = await gatherJaneContext({ binding, tools, message: "Improve my saved Journal launch", onLookup: async (value) => events.push(value) });
-  assert.equal(result.calls, 2); assert.equal(rounds, 2);
+  // Deep by default: after reading the draft the planner gets one more round to decide it has checked enough.
+  assert.equal(result.calls, 2); assert.equal(rounds, 3);
   assert.doesNotMatch(result.results[1].result, /"error"/);
   assert.equal(result.brain_text, "", "saved draft claims do not become business evidence for the checker");
   assert.match(result.prompt_text, /BEFORE YOU CHANGE IT/); assert.equal(events.length, 2);
@@ -110,7 +112,42 @@ test("duplicate, arbitrary and cross-client tool arguments are rejected; plannin
   assert.equal(result.calls, 1); assert.doesNotMatch(result.prompt_text, /OTHER_CLIENT_SECRET/);
   const large = await gatherJaneContext({ tools: { catalogue: "test", run: async () => "a".repeat(100000) }, message: "read all", binding: plans(
     { calls: [call("search_brain", "1"), call("search_brain", "2"), call("search_brain", "3")] }, { calls: [call("search_brain", "4")] }) });
-  assert.ok(large.prompt_text.length < 19000); assert.ok(large.calls <= 3);
+  assert.ok(large.prompt_text.length < 31000); assert.ok(large.calls <= 3);
+});
+
+test("a question about an earlier decision always searches earlier chats, even when the planner skips it", async () => {
+  const { tools } = fixture();
+  const result = await gatherJaneContext({ tools, message: "Remind me, what did we decide about the launch keyword?", binding: plans({ calls: [] }) });
+  assert.equal(result.results[0].tool, "search_history");
+  assert.doesNotMatch(result.results[0].query, /remind|decide/);
+  assert.match(result.prompt_text, /JUNIPER/); assert.doesNotMatch(result.prompt_text, /OTHER_CLIENT_SECRET/);
+  const plain = await gatherJaneContext({ tools, message: "Write a hook about journaling", binding: plans({ calls: [] }) });
+  assert.equal(plain.calls, 0);
+});
+
+test("a playbook's guides can be opened directly; invented IDs still cannot", async () => {
+  const { tools } = fixture();
+  const result = await gatherJaneContext({ tools, message: "Write my story", knownIds: ["stories"], binding: plans(
+    { calls: [call("read_knowledge", "slides", "stories"), call("read_knowledge", "x", "made-up")] }, { calls: [] }) });
+  assert.doesNotMatch(result.results[0].result, /No such ID/);
+  assert.match(result.results[1].result, /No such ID was returned/);
+});
+
+test("evidence notes lay their data next to the method, and a failure never blocks the answer", async () => {
+  let seen;
+  const notes = await weighJaneEvidence({ message: "Why don't people book?", material: "SAVED BUSINESS DETAILS: 17 calls booked last month.", binding: { async run(model, payload) {
+    seen = payload.messages[1].content;
+    assert.match(payload.messages[0].content, /^Jane's evidence notes/);
+    return { response: { question: "Why bookings are low", their_facts: [{ point: "17 calls booked last month", from: "their saved details" }],
+      method: ["Find the closest bottleneck first"], conflicts: ["Plan says daily reels; videos show 2 a week"], missing: ["Show rate"], plan: ["Name the bottleneck", "One next step"] } };
+  } } });
+  assert.match(seen, /17 calls booked/);
+  assert.equal(notes.status, "ready");
+  assert.match(notes.prompt_text, /17 calls booked last month \(their saved details\)/);
+  assert.match(notes.prompt_text, /Conflicts:\n- Plan says daily reels/);
+  assert.match(notes.prompt_text, /Missing:\n- Show rate/);
+  const failed = await weighJaneEvidence({ message: "x", material: "y", binding: { async run() { throw Error("busy"); } } });
+  assert.deepEqual(failed, { status: "unavailable", prompt_text: "" });
 });
 
 test("a failed tool or malformed planner is labelled unavailable instead of claiming complete access", async () => {
@@ -147,11 +184,16 @@ test("actual native chat handler delivers retrieved older decisions to the write
   insert("copy_memory", { client_id: "a", note: "I prefer short replies.", source: "client", active: 1, created_at: "2026-10-24" });
   const memoryId = Number(sql.prepare("SELECT id FROM copy_memory WHERE client_id='a'").get().id);
   const message = "Actually, I prefer detailed replies from now on. What launch keyword did we agree in another chat?";
-  let round = 0; let writerSystem;
+  let round = 0; let writerSystem; let checked;
   const env = { DB, AI: { async run(model, payload) {
     const system = payload.messages[0].content;
     if (system.startsWith("Jane lookup planner")) return { response: { calls: round++ === 0 ? [call("search_history", "launch keyword")] : [] } };
     if (system.startsWith("Jane memory extraction")) return { response: { notes: [{ quote: "Actually, I prefer detailed replies from now on.", replaces: [memoryId] }] } };
+    if (system.startsWith("Jane's evidence notes")) {
+      assert.match(payload.messages[1].content, /Our launch keyword is JUNIPER/);
+      return { response: { question: "Which launch keyword was agreed", their_facts: [{ point: "Launch keyword is JUNIPER, not RIVER", from: "an earlier chat" }], method: [], conflicts: [], missing: [], plan: ["Confirm JUNIPER"] } };
+    }
+    if (system.startsWith("Answer check for Jane")) { checked = payload.messages[1].content; return { response: { supported: true, reply: "" } }; }
     assert.equal(payload.stream, true); writerSystem = system;
     assert.match(system, /Our launch keyword is JUNIPER, not RIVER/);
     const text = "We agreed JUNIPER. I'll give fuller explanations from now on.";
@@ -160,9 +202,16 @@ test("actual native chat handler delivers retrieved older decisions to the write
   const pending = [];
   const response = await chat.onRequestPost({ env, request: new Request("https://test/api/copy-chat", { method: "POST", headers: { "content-type": "application/json", "x-portal-token": "token-a" }, body: JSON.stringify({ action: "send", message, client_id: "b" }) }), waitUntil: (value) => pending.push(value) });
   const text = await response.text(); await Promise.all(pending);
-  assert.match(text, /event: lookup/); assert.match(text, /JUNIPER/); assert.match(text, /"lookup_calls":1/);
+  // The question asks what was agreed before, so earlier chats are searched before the planner even runs.
+  assert.match(text, /event: lookup/); assert.match(text, /JUNIPER/); assert.match(text, /"lookup_calls":2/);
   assert.doesNotMatch(writerSystem, /OTHER_CLIENT_SECRET|ASSISTANT_GUESS/);
+  // Deep by default: notes before writing, the answer checked before it is shown, the reply sent once.
+  assert.match(text, /"stage":"weighing"/); assert.match(text, /"stage":"checking"/);
+  assert.match(writerSystem, /YOUR NOTES FROM CHECKING EVERYTHING[\s\S]*Launch keyword is JUNIPER, not RIVER \(an earlier chat\)/);
+  assert.match(checked, /REPLY TO CHECK[\s\S]*We agreed JUNIPER/);
+  assert.match(text, /"evidence_status":"ready"/); assert.match(text, /"checked":"answer"/);
+  assert.equal((text.match(/event: delta/g) || []).length, 1);
   assert.equal(sql.prepare("SELECT active FROM copy_memory WHERE id=?").get(memoryId).active, 0);
   assert.match(sql.prepare("SELECT note FROM copy_memory WHERE client_id='a' AND active=1").get().note, /detailed replies/);
-  assert.equal(JANE_AGENT_VERSION, "context-v2");
+  assert.equal(JANE_AGENT_VERSION, "deep-v1");
 });

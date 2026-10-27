@@ -31,14 +31,28 @@ export function excerpt(text, query, maxChars) {
 }
 
 // Compile reusable term statistics once per isolate. Never cache client facts or replies.
-const documents = COPY_KNOWLEDGE.passages.map(part => terms(`${part.title} ${part.tags.join(' ')} ${part.text}`));
+// The full-vault collection is large, so every passage's word sets are built here, once: a request
+// then only looks words up, which keeps retrieval inside the Workers CPU budget.
+const indexed = new Map(COPY_KNOWLEDGE.passages.map(part => [part.id, {
+  words: new Set(terms(`${part.title} ${part.tags.join(' ')} ${part.text}`)),
+  title: new Set(terms(`${part.title} ${part.tags.join(' ')}`)),
+}]));
 const frequency = new Map();
-for (const words of documents) for (const word of words) frequency.set(word, (frequency.get(word) || 0) + 1);
-function lexicalScore(part, query) {
-  const words = new Set(terms(`${part.title} ${part.tags.join(' ')} ${part.text}`));
-  const title = new Set(terms(`${part.title} ${part.tags.join(' ')}`));
-  return terms(query).reduce((score, word) => score + (words.has(word)
-    ? Math.log(1 + (documents.length + 1) / ((frequency.get(word) || 0) + 1)) * (title.has(word) ? 3 : 1) : 0), 0);
+for (const { words } of indexed.values()) for (const word of words) frequency.set(word, (frequency.get(word) || 0) + 1);
+function lexicalScore(part, queryTerms) {
+  const { words, title } = indexed.get(part.id);
+  return queryTerms.reduce((score, word) => score + (words.has(word)
+    ? Math.log(1 + (indexed.size + 1) / ((frequency.get(word) || 0) + 1)) * (title.has(word) ? 3 : 1) : 0), 0);
+}
+
+// Task cards: Pulsify's current playbook for one kind of work, written from the vault (wiki/jane-cards).
+// The format the client picked counts most; trigger words in the request decide the rest.
+export function selectJaneCards({ query = "", format = "general", max = 2 } = {}) {
+  const text = ` ${String(query).toLowerCase().replace(/[^a-z0-9\s-]/g, " ").replace(/\s+/g, " ")} `;
+  return (COPY_KNOWLEDGE.cards || []).map((card) => ({ card, score: (format !== "general" && card.formats.includes(format) ? 5 : 0)
+    + card.triggers.filter((trigger) => text.includes(` ${trigger.toLowerCase()} `) || text.includes(` ${trigger.toLowerCase()}s `)).length * 2 }))
+    .filter(({ score }) => score > 0).sort((a, b) => b.score - a.score || a.card.id.localeCompare(b.card.id))
+    .slice(0, max).map(({ card }) => card);
 }
 
 export function retrieveCopyKnowledge({ query = "", format = "general", maxChars = 12000, semanticIds = [] } = {}) {
@@ -52,8 +66,9 @@ export function retrieveCopyKnowledge({ query = "", format = "general", maxChars
     [/what.*(?:charge|sell)|how much.*(?:charge|price)/i, "offer pricing delivery program"],
   ];
   query = `${query} ${aliases.filter(([pattern]) => pattern.test(query)).map(([, words]) => words).join(" ")}`;
+  const queryTerms = terms(query).slice(0, 64);
   const ranked = COPY_KNOWLEDGE.passages.filter((part) => part.source_id !== "pre-call" || preCall).map((part) => ({ ...part,
-    score: lexicalScore(part, query)
+    score: lexicalScore(part, queryTerms)
       + (part.tags.includes(format) && format !== "general" ? 2 : 0),
   })).filter((part) => part.score > 0).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
   // Reciprocal rank fusion keeps rare exact terms and semantically related passages.
