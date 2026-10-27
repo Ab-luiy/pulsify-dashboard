@@ -761,3 +761,7 @@ Founder asked for Jane to feel human like ChatGPT or Claude, and for pulsing wor
 
 Founder asked to go over past chats and remember what we decided about content. Read all 135 founder messages about content (14 Jun to 25 Oct) and wrote [[synthesis/content-decisions-recap-2026-10-27]]: cadence standard, YouTube flow, thumbnails, reels (back as cadence, never scripted), every video serving TOF, MOF and BOF, story sequences, carousels, Jane, and topics for his own videos taken from the outreach research. Two old decisions marked as superseded (no BOF videos; not working on reels).
 
+## [2026-10-27] content | Pain-point content bank saved, outreach-to-content rule logged
+
+On 2026-10-22 the founder asked that everything worked out in the DM sequence sessions also be kept for long and short form content. A side session wrote [[content-engine/pain-points-content-bank]] (11 pains, each with 2 long-form titles and 2 short-form hooks, plus case-study examples) but a folder guard kept it out of the vault. Saved now, with point 4 updated (lead journey live since 10-23) and the standing rule at the top: every new outreach pain gets added the same day. Linked from [[synthesis/content-decisions-recap-2026-10-27]].
+
