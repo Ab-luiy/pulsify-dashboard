@@ -176,3 +176,13 @@ Founder 2026-10-27: Jane must have "the humane effect, same as ChatGPT or Claude
 - Stream events: `lookup` now carries `area` for workspace reads (a fixed word such as `videos`), and a new `status` event says `writing` and, for checked drafts, `checking`. The app shows them as "Reading your videos", "Checking every claim", with playful words ("Cooking", "Connecting the dots") in between.
 - After: the same questions came back with "Hey.", digits, empathy first ("That slump feels heavy when you put hours into recording and editing"), no title openers, slides kept on their own lines, and no invented statistics in hooks. 3 to 10 s per reply on the free tier.
 
+## Titles follow the Pulsify method (2026-10-27)
+
+- Founder 2026-10-27: Jane "doesn't actually use our title's formula"; asked for 3 titles she sent three advice bullets. Cause: the title method lived only in the app's YouTube title generator and the vault's niche batches, never in Jane's prompt.
+- `wiki/content-engine/title-voice-bank.md` is the source: the method, examples per niche (our seven) and a "Founder rewrites" section. `tools/build-title-bank.mjs` turns it into `functions/_shared/title-bank-data.js`; `--check` (run by tests/copy-grounding) fails when the app copy is stale. The founder's earlier rewrites were not found anywhere on this PC on 2026-10-27; new ones go in that section and Jane matches them most closely.
+- `copy-brain.js`: `wantsTitles` / `titleCount` / `titleMethod`. Any title request adds the method (exact count, title + thumbnail text + why, lowercase, under ~60 characters, bracketed kicker, five structures, two tiers, thumbnail shares no word with the title, no repeated angles) and examples for the client's saved niche (identity.niche), or a spread across niches.
+- Title replies skip the AI claim-check rewrite (it retyped titles into near-duplicates) and get `slotUnsupportedNumbers` instead: any figure not in their records, lookups or this chat becomes "[your real number]". Small counts and years are left alone.
+- The lookup planner is told to read their videos first for titles, hooks and video ideas.
+- Real-model check (demo copy): "give me 3 titles for my next video" now returns 3 numbered titles with thumbnail text built on the demo's real numbers ($22,410 setup, $124,550 breakdown, 7 funded accounts) and a slot where a number was missing.
+- Unrelated: tests/cash-by-video.test.mjs asked the API for "the last 30 days" on the real clock, so its September fixtures aged out on 2026-10-27. The API checks now use range=all; the 30-day window stays covered with a fixed `now`.
+

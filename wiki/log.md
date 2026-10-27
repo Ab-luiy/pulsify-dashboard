@@ -765,3 +765,7 @@ Founder asked to go over past chats and remember what we decided about content. 
 
 On 2026-10-22 the founder asked that everything worked out in the DM sequence sessions also be kept for long and short form content. A side session wrote [[content-engine/pain-points-content-bank]] (11 pains, each with 2 long-form titles and 2 short-form hooks, plus case-study examples) but a folder guard kept it out of the vault. Saved now, with point 4 updated (lead journey live since 10-23) and the standing rule at the top: every new outreach pain gets added the same day. Linked from [[synthesis/content-decisions-recap-2026-10-27]].
 
+## [2026-10-27] client-update | Jane writes titles with our formulas; title voice bank
+
+Founder: Jane doesn't use our title formulas, and his own title rewrites are the goldmine. His earlier rewrites could not be found anywhere on this PC (Claude and Codex chats, vault, app). New page [[content-engine/title-voice-bank]] holds the method, examples for our seven niches and a Founder rewrites section; Jane reads it on every title request, uses the client's real numbers or a visible slot, and her titles are no longer retyped by the claim check.
+

@@ -17,7 +17,7 @@ import { buildJaneBrainContext, loadClientBrainData } from "../_shared/client-br
 import { aiMode, providerLabel } from "../_shared/ai-provider.js";
 import { resolveJaneAi as resolveAi, generateJaneText as generateText, streamJaneText as streamText, janeStats } from "../_shared/jane-provider.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps } from "../_shared/copy-brain.js";
+import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps, wantsTitles, slotUnsupportedNumbers } from "../_shared/copy-brain.js";
 import { retrieveCopyKnowledge, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
 import { enforceAllowance } from "../_shared/ai-guard.js";
 import { createJaneTools, gatherJaneContext, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
@@ -283,7 +283,10 @@ async function send(context, client, body) {
     method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
   // Platform Jane uses the same provider for writing, lookups and draft review.
   // Client-owned connections retain their existing generation path.
-  const reviewDraft = publicDraft && (ai.mode === "workers" || ai.janeGemini);
+  // Titles get a strict number check instead of the rewrite pass, which retyped them into near-duplicates
+  // (founder 2026-10-27). Any figure not in their records or this chat becomes a visible slot.
+  const titleRequest = wantsTitles(query);
+  const reviewDraft = publicDraft && (ai.mode === "workers" || ai.janeGemini) && !titleRequest;
   if (!chat) {
     const now = nowIso();
     const result = await env.DB.prepare("INSERT INTO copy_chats (client_id, title, format, created_at, updated_at) VALUES (?, ?, ?, ?, ?)").bind(client, titleFrom(message), asked, now, now).run();
@@ -328,16 +331,22 @@ async function send(context, client, body) {
         const safe = scrubber.push(chunk);
         if (safe) {
           full += safe;
-          if (!reviewDraft) await emit("delta", { text: safe });
+          if (!reviewDraft && !titleRequest) await emit("delta", { text: safe });
         }
       }
       const rest = scrubber.flush();
       if (rest) {
         full += rest;
-        if (!reviewDraft) await emit("delta", { text: rest });
+        if (!reviewDraft && !titleRequest) await emit("delta", { text: rest });
       }
       full = full.trim();
       if (!full) throw new Error("empty reply");
+      if (titleRequest) {
+        await emit("status", { stage: "checking" });
+        full = slotUnsupportedNumbers(full, [clientBrain.contextText, lookups?.brain_text || "", conversation.earlierText,
+          ...messages.filter((turn) => turn.role === "user").map((turn) => turn.content)]);
+        await emit("delta", { text: full });
+      }
       if (reviewDraft) {
         await emit("status", { stage: "checking" });
         let checkedDraft = full;
