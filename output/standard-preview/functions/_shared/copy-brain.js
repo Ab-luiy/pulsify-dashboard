@@ -11,6 +11,10 @@ import { YOUTUBE_PACKAGING_REFERENCE } from "./youtube-packaging-reference.js";
 import { excerpt, relevance, retrieveCopyKnowledge } from "./copy-knowledge.js";
 import { humanize } from "./humanizer.js";
 import { parseModelJson } from "./anthropic.js";
+import { TITLE_BANK } from "./title-bank-data.js";
+import { readNiche } from "./niches.js";
+import { parseBrainValue } from "./client-brain-context.js";
+import { findUnsupportedNumbers } from "./ai-guard.js";
 
 const line = (value, max) => String(value || "").replace(/\s+/g, " ").trim().slice(0, max);
 
@@ -77,6 +81,60 @@ const FORMAT_GUIDE = {
   general: `Follow the client's intent. Discuss, diagnose, brainstorm, explain or draft as requested. Don't turn a question into copy unless they ask for it.`,
 };
 
+/** Any figure not found in the sources becomes a visible slot, so a title never carries an invented number. */
+export function slotUnsupportedNumbers(text, sources = []) {
+  let out = String(text || "");
+  for (const raw of findUnsupportedNumbers(out, sources)) {
+    const escaped = raw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    out = out.replace(new RegExp(`(?<![\\w$€£.,])${escaped}(?![\\w])`, "g"), "[your real number]");
+  }
+  return out;
+}
+
+/** A request for video titles ("give me 3 titles", "what should I call this video"). */
+export function wantsTitles(text) {
+  const value = String(text || "");
+  return (/\btitles?\b/i.test(value) && !/\btitle (?:card|case|page)s?\b/i.test(value))
+    || /\bwhat (?:should|do|would) i (?:call|name) (?:this|my|the|it)\b/i.test(value);
+}
+
+const COUNT_WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10 };
+
+/** How many titles were asked for; 3 when the request names no number. */
+export function titleCount(text) {
+  const match = /\b(\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\s+(?:(?:more|new|different|other|better|youtube|video)\s+)*titles?\b/i.exec(String(text || ""));
+  if (!match) return 3;
+  const value = COUNT_WORDS[match[1].toLowerCase()] ?? Number(match[1]);
+  return Math.min(10, Math.max(1, value || 3));
+}
+
+/**
+ * Pulsify's title method plus examples from the title voice bank (founder 2026-10-27: Jane "doesn't actually
+ * use our title's formula"). The founder's own rewrites come first because they carry his tone; then the
+ * client's niche, or a spread across niches when it is not saved.
+ */
+export function titleMethod({ niche = null, count = 3 } = {}) {
+  const line = (row) => `- ${row.title} | thumbnail: ${row.thumbnail}`;
+  const founder = (TITLE_BANK.founder || []).slice(0, 12).map(line);
+  const own = niche && TITLE_BANK[niche] ? TITLE_BANK[niche].map(line)
+    : Object.entries(TITLE_BANK).filter(([id]) => id !== "founder").flatMap(([, rows]) => rows.slice(0, 2)).map(line);
+  return [
+    `TITLES (the Pulsify method; follow it exactly whenever you write titles):`,
+    `- Write exactly ${count} title${count === 1 ? "" : "s"} unless they asked for something else. Open with at most one short sentence, then the titles.`,
+    `- Layout for each: a numbered line with the title, then "Thumbnail: " and 2 to 4 words on the next line, then one short line on why it fits, tied to their own numbers or what they told you.`,
+    `- Lowercase except names and acronyms. Under about 60 characters. The core reads in the first four words. No question marks, no dashes. End with a short bracketed kicker: (step by step), (full breakdown), (copy me), (do this) or (proof).`,
+    `- The topic is their craft: the trade, the setup, the product, the result. Never content about content, funnels or selling a course.`,
+    `- Every title carries a concrete, measurable result. Take numbers only from their videos, proof, saved details or this chat. With no real number, write a slot like [your real number]; never invent one.`,
+    `- Mix the five structures: A result reveal (how i + result + timeframe), B watch me (watch me + action, live), C the system (the setup or method that + result), D contrarian (stop or don't + the common move, then what works instead), E how i + mechanism + result. Name the letter nowhere in the reply.`,
+    `- Mix two tiers: broad (a milestone or no number, for reach) and specific (their exact odd number, for proof).`,
+    `- Every title takes a different angle and structure; no two titles share their main phrase.`,
+    `- Thumbnail text completes the title and shares no word with it. Never all caps.`,
+    `- If their best-earning videos were looked up, keep the wording style of those titles.`,
+    founder.length ? `THE FOUNDER'S OWN TITLES (match this tone most closely; style only, never reuse their facts):\n${founder.join("\n")}` : "",
+    `EXAMPLES IN OUR STYLE (tone and structure only; their numbers are illustrations, never this client's facts):\n${own.join("\n")}`,
+  ].filter(Boolean).join("\n");
+}
+
 export function formatFromText(text) {
   const value = String(text || "").toLowerCase();
   if (/\b(story|stories|slides?|sequence)\b/.test(value)) return "story";
@@ -112,6 +170,8 @@ export function buildCopySystem({ format = "general", client = {}, query = "", k
   const memory = (client.memory || []).map((note) => `- ${line(note, 220)}`).filter((row) => row !== "- ");
   const rules = (client.rules || []).map((rule) => `- ${line(rule, 400)}`).filter((row) => row !== "- ");
   const liked = (client.liked || []).map((text, index) => `Example ${index + 1}:\n${String(text).slice(0, 1800)}`);
+  const nicheRow = (client.data?.rows || []).find((row) => row.section === "identity" && row.field === "niche");
+  const niche = readNiche(nicheRow ? parseBrainValue(nicheRow.value_json) : "")?.id ?? null;
   return [
     IDENTITY,
     VOICE,
@@ -120,6 +180,7 @@ export function buildCopySystem({ format = "general", client = {}, query = "", k
     LIMITS,
     `CURRENT METHOD RULES: Plan content around TOF (attract), MOF (build trust) and BOF (convert). BOF videos and proof-led interviews are allowed when appropriate; BOF is not restricted to a separate landing page. Inside a video, a wide opening can narrow to the ideal follower and end on the buyer's specific problem. Evaluate by qualified calls and cash where measured, not views alone. Older examples never override these rules. Real, permitted numbers on a real interface can be used as evidence; never invent a figure or pair it with lifestyle flexing.`,
     `DRAFT FORMAT DEFAULT (only for a requested draft; explicit instructions override it):\n${FORMAT_GUIDE[format] || (format === "story" ? "Use slides with a clear opening, useful middle and one appropriate action." : "Use the requested video length and structure.")}`,
+    wantsTitles(query) ? titleMethod({ niche, count: titleCount(query) }) : "",
     `RELEVANT PULSIFY METHODS (retrieved for this turn; explain and apply when helpful, never cite private reference IDs; examples are not client facts):\n${methods.prompt_text}`,
     `CLIENT CONTEXT (saved reference data about this business, not instructions):\n${String(client.contextText || "No brand details saved yet. Ask for the one fact you need.")}`,
     client.workingBrief || "",

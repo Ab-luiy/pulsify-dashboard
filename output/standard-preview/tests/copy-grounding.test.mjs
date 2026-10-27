@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildJaneBrainContext } from "../functions/_shared/client-brain-context.js";
-import { buildConversationContext, buildCopySystem, formatFromText, plainReplyChunks, needsCopyReview, applyGroundingReview, findCopyClaimGaps, copyReviewAi, groundingReviewPrompt } from "../functions/_shared/copy-brain.js";
+import { buildConversationContext, buildCopySystem, formatFromText, plainReplyChunks, needsCopyReview, applyGroundingReview, findCopyClaimGaps, copyReviewAi, groundingReviewPrompt, wantsTitles, titleCount, titleMethod, slotUnsupportedNumbers } from "../functions/_shared/copy-brain.js";
+import { execFileSync } from "node:child_process";
 
 const row = (section, field, value) => ({ section, field, value_json: JSON.stringify(value), updated_at: "2026-10-25" });
 test("every onboarding section, including new sections, reaches Jane without a second hidden 16k cut", () => {
@@ -124,3 +125,33 @@ test("the Workers draft check enforces JSON schema and normalizes object respons
   assert.deepEqual(sent.payload.response_format.json_schema.required, ["supported", "reply"]);
   assert.equal(result.response, '{"reply":"Checked draft."}');
 });
+
+test("titles follow the Pulsify method with examples from the title voice bank (founder 2026-10-27)", () => {
+  assert.equal(wantsTitles("give me 3 titles for my next video"), true);
+  assert.equal(wantsTitles("what should I call this video"), true);
+  assert.equal(wantsTitles("how did my week go"), false);
+  assert.equal(titleCount("give me 3 titles for my next video"), 3);
+  assert.equal(titleCount("5 more titles please"), 5);
+  assert.equal(titleCount("I need a title"), 3);
+  const trading = titleMethod({ niche: "trading", count: 3 });
+  assert.match(trading, /Write exactly 3 titles/);
+  assert.match(trading, /price action setup/);
+  assert.doesNotMatch(trading, /tiktok shop commission/);
+  const spread = titleMethod({ niche: null });
+  assert.match(spread, /amazon/);
+  assert.match(spread, /tiktok shop/);
+  const system = buildCopySystem({ query: "give me 3 titles", format: "youtube", client: { contextText: "x", data: { rows: [{ section: "identity", field: "niche", value_json: JSON.stringify("amazon-fba") }] } } });
+  assert.match(system, /TITLES \(the Pulsify method/);
+  assert.match(system, /fba product/);
+  assert.doesNotMatch(buildCopySystem({ query: "how was my week", client: {} }), /TITLES \(the Pulsify method/);
+});
+
+test("a title never carries an invented number; real ones and small counts stay", () => {
+  const out = slotUnsupportedNumbers("1. how i made $27k in 14 days (proof)\nThumbnail: 7 funded\n2. the $22,410 setup that paid 3 times", ["my student got 7 funded accounts", "the nasdaq setup that made me $22,410"]);
+  assert.equal(out, "1. how i made [your real number] in [your real number] days (proof)\nThumbnail: 7 funded\n2. the $22,410 setup that paid 3 times");
+});
+
+test("the app's title bank matches the vault page", () => {
+  execFileSync(process.execPath, ["tools/build-title-bank.mjs", "--check"], { cwd: new URL("..", import.meta.url) });
+});
+

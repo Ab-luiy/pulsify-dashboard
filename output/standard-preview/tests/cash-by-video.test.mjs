@@ -326,16 +326,17 @@ res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/vide
 assert.equal(res.status, 401);
 res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?client=acme", { headers: { "x-portal-token": "token-other" } }), env });
 assert.equal(res.status, 403, "a token for one client cannot read another");
-res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?range=30d", { headers: { "x-portal-token": "token-acme" } }), env });
+// The API reads the real clock, so ask for all time; the 30-day window is covered above with a fixed `now`.
+res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?range=all", { headers: { "x-portal-token": "token-acme" } }), env });
 assert.equal(res.status, 200);
 const body = await res.json();
 assert.equal(body.client, "acme");
-assert.equal(body.range, "30d");
+assert.equal(body.range, "all");
 assert.equal(body.videos[0].video_id, "videoAAAAAA");
 
 // Operators read any client's videos by name (operator console, ticket #36 follow-up).
 env.ADMIN_KEY = "admin-test-key";
-res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?client=acme&range=30d", { headers: { "x-admin-key": "admin-test-key" } }), env });
+res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash?client=acme&range=all", { headers: { "x-admin-key": "admin-test-key" } }), env });
 assert.equal(res.status, 200);
 assert.deepEqual((await res.json()).videos.map((row) => row.video_id), body.videos.map((row) => row.video_id), "operator sees the client's own ranking");
 res = await videoCashGet({ request: new Request("https://pulsify-ai.com/api/video-cash", { headers: { "x-admin-key": "admin-test-key" } }), env });
