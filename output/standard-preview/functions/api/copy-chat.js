@@ -17,10 +17,10 @@ import { buildJaneBrainContext, loadClientBrainData } from "../_shared/client-br
 import { aiMode, providerLabel } from "../_shared/ai-provider.js";
 import { resolveJaneAi as resolveAi, generateJaneText as generateText, streamJaneText as streamText, janeStats } from "../_shared/jane-provider.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps } from "../_shared/copy-brain.js";
-import { retrieveCopyKnowledge, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
+import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, answerCheckPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps } from "../_shared/copy-brain.js";
+import { retrieveCopyKnowledge, selectJaneCards, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
 import { enforceAllowance } from "../_shared/ai-guard.js";
-import { createJaneTools, gatherJaneContext, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
+import { createJaneTools, gatherJaneContext, weighJaneEvidence, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
 import { buildJaneBrief, selectJaneExamples, janeRoute } from "../_shared/jane-context.ts";
 import { saveJaneDocument, searchJaneDocuments } from "../_shared/jane-documents.ts";
 import { retrieveJaneKnowledge } from "../_shared/jane-search.ts";
@@ -267,8 +267,13 @@ async function send(context, client, body) {
     if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message }, 429);
     return json({ ok: false, error: "Jane couldn't start that reply. Your draft is still here. Try again shortly." }, 503);
   }
-  const knowledge = ['lookup', 'direct'].includes(route) && ai.mode === 'workers'
-    ? await retrieveJaneKnowledge(env, { query, format }) : { ...retrieveCopyKnowledge({ query, format, maxChars: route === 'social' ? 0 : 6000 }), retrieval: 'keyword', semantic_status: 'not_needed' };
+  // Platform Jane (Workers or the Jane Gemini project) researches deeply on every real question: search
+  // by meaning and by keyword over the full method, plus the task playbook for this kind of work.
+  const platform = ai.mode === "workers" || Boolean(ai.janeGemini);
+  const deep = platform && route === "lookup";
+  const knowledge = ['lookup', 'direct'].includes(route) && platform
+    ? await retrieveJaneKnowledge(env, { query, format, maxChars: 9000 }) : { ...retrieveCopyKnowledge({ query, format, maxChars: route === 'social' ? 0 : 6000 }), retrieval: 'keyword', semantic_status: 'not_needed' };
+  const cards = route === "social" ? [] : selectJaneCards({ query, format });
   const documents = route === 'social' ? { status: 'not_needed', matches: [] } : await searchJaneDocuments(env, client, query, publicDraft);
   clientBrain.workingBrief = buildJaneBrief({ data: clientBrain.data, memory: clientBrain.memoryRows, history: history.results || [], message, publicDraft });
   clientBrain.documents = documents;
@@ -278,12 +283,14 @@ async function send(context, client, body) {
   // Operator-approved general lessons from other chats (jane-learnings.js); never facts about this client.
   const learnings = route === "social" ? { prompt_text: "", ids: [] } : await approvedLearnings(env, query);
   const withLearnings = (text) => learnings.prompt_text ? `${text}\n\n${learnings.prompt_text}` : text;
-  let system = withLearnings(buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText }));
+  let system = withLearnings(buildCopySystem({ format, query, knowledge, cards, client: clientBrain, earlierText: conversation.earlierText }));
   const grounding = { ...clientBrain.grounding, memory_notes: clientBrain.memory.length, learnings_used: learnings.ids.length, conversation_turns: messages.length, knowledge_version: knowledge.version,
-    method_passages: knowledge.passage_ids.length, earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
-  // Platform Jane uses the same provider for writing, lookups and draft review.
+    method_passages: knowledge.passage_ids.length, playbooks: cards.map((card) => card.id), earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
+  // Platform Jane uses the same provider for writing, lookups and review.
   // Client-owned connections retain their existing generation path.
-  const reviewDraft = publicDraft && (ai.mode === "workers" || ai.janeGemini);
+  // Drafts get the strict draft check; every other researched answer gets the answer check.
+  const reviewDraft = publicDraft && platform;
+  const checkAnswer = deep && !publicDraft;
   if (!chat) {
     const now = nowIso();
     const result = await env.DB.prepare("INSERT INTO copy_chats (client_id, title, format, created_at, updated_at) VALUES (?, ?, ?, ?, ?)").bind(client, titleFrom(message), asked, now, now).run();
@@ -313,31 +320,57 @@ async function send(context, client, body) {
     try {
       await emit("meta", { chat_id: chat.id, title: chat.title, message_id: userId, format, grounding, stats: await janeStats(env, ai, client, grounding) });
       let lookups = null;
-      if ((ai.mode === "workers" || ai.janeGemini) && route === "lookup") {
+      let evidence = null;
+      const playbookText = cards.map((card) => `TASK PLAYBOOK: ${card.title}\n${card.text}`).join("\n\n");
+      if (deep) {
         lookups = await gatherJaneContext({ binding: ai.binding,
           tools: createJaneTools({ env, client, brainData: clientBrain.data, publicDraft }),
-          message, messages, currentContext: `${clientBrain.contextText}\n${knowledge.prompt_text}`,
+          message, messages, currentContext: `${clientBrain.contextText}\n${playbookText}\n${knowledge.prompt_text}`,
+          knownIds: cards.flatMap((card) => card.sources),
           onLookup: (data) => emit("lookup", data),
         });
         if (lookups.status === "daily_limit") throw new Error("Jane has reached today's free AI allowance. It resets at midnight UTC.");
-        system = withLearnings(buildCopySystem({ format, query, knowledge, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text }));
+        // Cross-examine before writing: their data next to the method, conflicts and gaps named.
+        await emit("status", { stage: "weighing" });
+        evidence = await weighJaneEvidence({ binding: ai.binding, message, messages,
+          material: [`SAVED BUSINESS DETAILS:\n${clientBrain.contextText}`, clientBrain.workingBrief, playbookText, `METHOD PASSAGES:\n${knowledge.prompt_text}`, lookups.prompt_text].filter(Boolean).join("\n\n") });
+        system = withLearnings(buildCopySystem({ format, query, knowledge, cards, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text, evidence: evidence.prompt_text }));
       }
-      // What Jane is doing, for the waiting words in the chat. A checked draft shows nothing until the check ends.
+      // What Jane is doing, for the waiting words in the chat. A checked reply shows nothing until the check ends.
+      const holdBack = reviewDraft || checkAnswer;
       await emit("status", { stage: "writing" });
       for await (const chunk of plainReplyChunks(streamText({ system, messages }, ai))) {
         const safe = scrubber.push(chunk);
         if (safe) {
           full += safe;
-          if (!reviewDraft) await emit("delta", { text: safe });
+          if (!holdBack) await emit("delta", { text: safe });
         }
       }
       const rest = scrubber.flush();
       if (rest) {
         full += rest;
-        if (!reviewDraft) await emit("delta", { text: rest });
+        if (!holdBack) await emit("delta", { text: rest });
       }
       full = full.trim();
       if (!full) throw new Error("empty reply");
+      if (checkAnswer) {
+        await emit("status", { stage: "checking" });
+        try {
+          const check = answerCheckPrompt({ clientContext: [clientBrain.contextText, lookups?.brain_text || ""].filter(Boolean).join("\n\n"),
+            method: `${playbookText}\n\n${knowledge.prompt_text}`, evidence: evidence?.prompt_text || "",
+            messages: [...(conversation.earlierText ? [{ role: "user", content: conversation.earlierText }] : []), ...(lookups?.history_messages || []), ...messages], answer: full });
+          const checked = await generateText(check, ai.janeGemini ? ai : copyReviewAi(ai), { json: true, temperature: 0.1, maxOutputTokens: 4000, uncounted: true });
+          full = applyGroundingReview(full, checked);
+        } catch {
+          // A failed check never loses the answer; the reply was already written from the checked material.
+        }
+        full = scrubSources(full);
+        let shown = "";
+        async function* checkedReply() { yield full; }
+        for await (const text of plainReplyChunks(checkedReply())) shown += text;
+        full = shown.trim();
+        await emit("delta", { text: full });
+      }
       if (reviewDraft) {
         await emit("status", { stage: "checking" });
         let checkedDraft = full;
@@ -365,8 +398,9 @@ async function send(context, client, body) {
       }
       const id = await addMessage(env, client, chat.id, "assistant", full);
       replyId = id;
-      await emit("stats", await janeStats(env, ai, client, { ...grounding, lookup_calls: lookups?.calls || 0, lookup_status: lookups?.status || "not_used" }));
-      await emit("done", { message_id: id, grounding: { lookup_calls: lookups?.calls || 0, lookup_status: lookups?.status || "not_used", agent_version: JANE_AGENT_VERSION } });
+      const research = { lookup_calls: lookups?.calls || 0, lookup_status: lookups?.status || "not_used", evidence_status: evidence?.status || "not_used", checked: reviewDraft ? "draft" : checkAnswer ? "answer" : "none" };
+      await emit("stats", await janeStats(env, ai, client, { ...grounding, ...research }));
+      await emit("done", { message_id: id, grounding: { ...research, agent_version: JANE_AGENT_VERSION } });
     } catch (error) {
       const limit = /today's (?:free AI allowance|limit)|daily free allocation/i.test(String(error?.message || ""));
       await emit("stats", await janeStats(env, ai, client, grounding));
