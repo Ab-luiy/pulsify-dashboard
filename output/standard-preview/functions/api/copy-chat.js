@@ -17,7 +17,7 @@ import { buildJaneBrainContext, loadClientBrainData } from "../_shared/client-br
 import { aiMode, providerLabel } from "../_shared/ai-provider.js";
 import { resolveJaneAi as resolveAi, generateJaneText as generateText, streamJaneText as streamText, janeStats } from "../_shared/jane-provider.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, answerCheckPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps } from "../_shared/copy-brain.js";
+import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, answerCheckPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps, wantsTitles, slotUnsupportedNumbers } from "../_shared/copy-brain.js";
 import { retrieveCopyKnowledge, selectJaneCards, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
 import { enforceAllowance } from "../_shared/ai-guard.js";
 import { createJaneTools, gatherJaneContext, weighJaneEvidence, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
@@ -288,9 +288,12 @@ async function send(context, client, body) {
     method_passages: knowledge.passage_ids.length, playbooks: cards.map((card) => card.id), earlier_turns: conversation.omitted_turns, agent_version: JANE_AGENT_VERSION, retrieval: knowledge.retrieval, semantic_status: knowledge.semantic_status, documents_status: documents.status, documents_used: documents.matches.length, route };
   // Platform Jane uses the same provider for writing, lookups and review.
   // Client-owned connections retain their existing generation path.
-  // Drafts get the strict draft check; every other researched answer gets the answer check.
-  const reviewDraft = publicDraft && platform;
-  const checkAnswer = deep && !publicDraft;
+  // Titles get a strict number check instead of the rewrite pass, which retyped them into near-duplicates
+  // (founder 2026-10-27). Any figure not in their records or this chat becomes a visible slot.
+  const titleRequest = wantsTitles(query);
+  // Drafts get the strict draft check; every other researched answer gets the answer check. Titles get neither.
+  const reviewDraft = publicDraft && platform && !titleRequest;
+  const checkAnswer = deep && !publicDraft && !titleRequest;
   if (!chat) {
     const now = nowIso();
     const result = await env.DB.prepare("INSERT INTO copy_chats (client_id, title, format, created_at, updated_at) VALUES (?, ?, ?, ?, ?)").bind(client, titleFrom(message), asked, now, now).run();
@@ -337,7 +340,7 @@ async function send(context, client, body) {
         system = withLearnings(buildCopySystem({ format, query, knowledge, cards, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text, evidence: evidence.prompt_text }));
       }
       // What Jane is doing, for the waiting words in the chat. A checked reply shows nothing until the check ends.
-      const holdBack = reviewDraft || checkAnswer;
+      const holdBack = reviewDraft || checkAnswer || titleRequest;
       await emit("status", { stage: "writing" });
       for await (const chunk of plainReplyChunks(streamText({ system, messages }, ai))) {
         const safe = scrubber.push(chunk);
@@ -369,6 +372,12 @@ async function send(context, client, body) {
         async function* checkedReply() { yield full; }
         for await (const text of plainReplyChunks(checkedReply())) shown += text;
         full = shown.trim();
+        await emit("delta", { text: full });
+      }
+      if (titleRequest) {
+        await emit("status", { stage: "checking" });
+        full = slotUnsupportedNumbers(full, [clientBrain.contextText, lookups?.brain_text || "", conversation.earlierText,
+          ...messages.filter((turn) => turn.role === "user").map((turn) => turn.content)]);
         await emit("delta", { text: full });
       }
       if (reviewDraft) {
