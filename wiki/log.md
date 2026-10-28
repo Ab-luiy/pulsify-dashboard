@@ -773,3 +773,7 @@ Founder: Jane doesn't use our title formulas, and his own title rewrites are the
 
 Founder supplied Nick's worked ICP (NiicksFx ICP.pdf): saved as [[clients/nick/icp-alex]] with the PDF in raw-sources/client-raw/nick/. Same 28-point framework as [[people/marcus-avatar]] (27 filled); no 48-point version exists in the vault or any chat, which answers open questions 1 and 2 of the Codex brief synthesis/create-icp-jane-claude-handoff-2026-10-27 (that brief is in the primary vault checkout, not yet on main). Jane's room now follows the glow chosen in Settings (dark static mesh in that colour), replacing the bright rooms, per the founder's 08:08 instruction to Codex.
 
+## [2026-10-28] synthesis | Create copy check
+
+Traced every Create writer: only Jane uses Gemini, the full method library, live client data and the number check; stories, carousels, reels, YouTube and thumbnails run on Cloudflare GPT-OSS 120B with the humanizer only. Same story request to both writers: GPT-OSS invented $100k, $2k, a delivery feature and scarcity; Gemini stayed clean. Recommendation: one writer for everything, number check everywhere, unscripted reels, real story examples, title bank for YouTube. [[synthesis/create-copy-check-2026-10-28]].
+
