@@ -19,6 +19,7 @@ import { callOpenAI, pickOpenAiModel, streamOpenAI } from "./openai.js";
 import { seal, unseal } from "./secret-box.js";
 import { HUMANIZER } from "./humanizer.js";
 import { attachGuard, enforceAllowance } from "./ai-guard.js";
+import { janeText } from "./jane-models.ts";
 
 export const AI_PROVIDERS = ["gemini", "anthropic", "openai"];
 export const aiKeyContext = (client, provider) => `ai-key:${cleanId(client)}:${provider}`;
@@ -86,6 +87,12 @@ export async function generateText(input, ai, options = {}) {
   // A generation on Pulsify's own AI counts against the client's daily allowance (ai-guard.js); `uncounted` is for small helper calls.
   await enforceAllowance(ai, options);
   const prompt = humanized(input);
+  // Jane's Gemini project (the Create writers, create-writer.js) answers through the AI SDK, moving to the next
+  // free model on a limit. The humanizer rules are already in the system prompt.
+  if (ai?.janeGemini) {
+    return janeText(ai, { system: prompt.system, prompt: prompt.user },
+      { stage: "create", json: options.json, temperature: options.temperature, maxOutputTokens: options.maxOutputTokens || 8192, timeoutMs: 90000 });
+  }
   if (aiMode(ai) === "anthropic") return callAnthropic(prompt, ai.apiKey);
   if (aiMode(ai) === "openai") return callOpenAI(prompt, ai.apiKey, { ...options, model: ai.model });
   if (aiMode(ai) === "gemini") return callGemini(prompt, ai.apiKey, { ...options, model: ai.model });

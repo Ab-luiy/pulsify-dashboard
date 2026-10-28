@@ -7,7 +7,8 @@ import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, generateText, resolveAi } from "../_shared/ai-provider.js";
+import { aiConfigured, generateText } from "../_shared/ai-provider.js";
+import { checkCreateNumbers, resolveCreateAi, withCreateFacts, writerFailure } from "../_shared/create-writer.js";
 import { loadVideoLearning } from "../_shared/content-learning.js";
 import { normalizeAnswers } from "../_shared/youtube-ideas.js";
 import { LAYOUTS, buildTitlesPrompt, normalizeIdea, sanitizePairs } from "../_shared/youtube-titles.js";
@@ -29,7 +30,7 @@ async function handlePost({ request, env }) {
     loadVideoLearning(env, client),
   ]);
   const brainContext = buildGeneratorBrainContext(brain);
-  const prompt = buildTitlesPrompt({
+  const prompt = withCreateFacts(buildTitlesPrompt({
     clientName: config?.client_name || access.client_name || client,
     clientBrain: brainContext.prompt_text,
     proofLines: brainContext.proof_lines,
@@ -37,27 +38,30 @@ async function handlePost({ request, env }) {
     idea,
     answers: normalizeAnswers(body.answers),
     layout,
-  });
+    niche: brainContext.niche?.id || null,
+  }));
   const manual = { ok: true, mode: "manual", prompt: `${prompt.system}\n\n${prompt.user}` };
 
-  const ai = await resolveAi(env, client);
+  const ai = await resolveCreateAi(env, client);
   if (!aiConfigured(ai)) return json(manual);
 
   let rawText;
   try {
     rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
-    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
+    const failure = writerFailure(error);
+    if (failure) return json(failure.body, failure.status);
     return json({ ok: false, error: "The title generator could not answer. Try again.", detail: String(error?.message || error).slice(0, 300) }, 502);
   }
   let pairs = [];
+  let numbers = [];
   try {
-    pairs = sanitizePairs(humanizeDeep(parseModelJson(rawText)));
+    ({ output: pairs, numbers } = checkCreateNumbers(sanitizePairs(humanizeDeep(parseModelJson(rawText))), [prompt.user]));
   } catch {
     pairs = [];
   }
   if (!pairs.length) return json({ ...manual, warning: "The answer came back unreadable. Run the prompt in your own AI instead." });
-  return json({ ok: true, mode: "generated", pairs });
+  return json({ ok: true, mode: "generated", pairs, checks: { numbers } });
 }
 
 export const onRequestPost = withOperator(handlePost);

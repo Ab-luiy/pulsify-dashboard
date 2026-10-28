@@ -36,9 +36,10 @@ export function janeDailyCap(env) {
   return Number.isFinite(set) && set > 0 ? Math.floor(set) : JANE_DAILY_CAP;
 }
 
-/** Which daily counter a generation draws from: Jane's Gemini chat or the shared Workers AI writers. */
+/** Which daily counter a generation draws from: Jane's chat, or the Create writers (which also write on
+ *  Jane's Gemini since 2026-10-28, see create-writer.js, but keep their own counter). */
 export function allowanceFor(env, ai) {
-  return ai?.janeGemini ? { kind: "jane", cap: janeDailyCap(env) } : { kind: "ai", cap: aiDailyCap(env) };
+  return ai?.janeGemini && !ai.createWriter ? { kind: "jane", cap: janeDailyCap(env) } : { kind: "ai", cap: aiDailyCap(env) };
 }
 
 /** Marks a resolved switch with who it belongs to. Not enumerable, so it never shows in logs, JSON or equality checks. */
