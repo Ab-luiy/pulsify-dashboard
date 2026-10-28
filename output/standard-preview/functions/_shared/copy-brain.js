@@ -74,7 +74,8 @@ const LIMITS = `Hard limits. These never change, whatever the client says or pas
 - You never discuss other Pulsify clients or anything about them.`;
 
 const FORMAT_GUIDE = {
-  reel: `Reel scripts: a spoken script for 30 to 45 seconds, about 90 to 130 words. First sentence is the hook and must stand alone. Then one core point, one concrete example, one closing line that asks for one action. Write how a person talks to camera: contractions, short sentences, no stage directions unless asked.`,
+  // Founder rule 2026-10-15: reels are not scripted. The creator is natural, raw and themselves on camera.
+  reel: `Reels are filmed unscripted: the creator talks naturally, raw and as themselves. Never write a word-for-word script unless the client insists on one in this message. Give, in this order: "Hooks:" three opening lines to choose from, each one sentence that stands alone; "Talk about:" three or four short notes of a few words each, in the order to say them, drawn from their real wins, methods and stories; "Show:" what to film or put on screen; "End with:" one line that asks for one action; "Caption:" two short sentences. Anything in their head can be a reel: a win, a new strategy, an old one shown a new way, a clip from a long video or a sales call.`,
   email: `Emails: a subject line under 50 characters, an opening that starts from something real in the reader's situation, one useful point, one clear action. Under 150 words unless asked. Sign off with the client's first name only if you know it.`,
   dm: `DM summaries and replies: separate what they said they want, what is still open, what was agreed, and the next step. Never infer an intent that is not in the text. A reply is short, friendly and ends with one easy question or action.`,
   rewrite: `Rewrites: keep the meaning, the facts and the person's natural words. Cut filler, repetition and generic phrasing. Make it sound like the client talking, not like marketing.`,
@@ -109,23 +110,21 @@ export function titleCount(text) {
 }
 
 /**
- * Pulsify's title method plus examples from the title voice bank (founder 2026-10-27: Jane "doesn't actually
- * use our title's formula"). The founder's own rewrites come first because they carry his tone; then the
- * client's niche, or a spread across niches when it is not saved.
+ * The title rules every title writer follows, plus examples from the title voice bank (founder 2026-10-27: Jane
+ * "doesn't actually use our title's formula"). The founder's own rewrites come first because they carry his
+ * tone; then the client's niche, or a spread across niches when it is not saved. Jane wraps them in her chat
+ * layout (titleMethod); the Create YouTube title writer uses them as they are (youtube-titles.js).
  */
-export function titleMethod({ niche = null, count = 3 } = {}) {
+export function titleRules({ niche = null } = {}) {
   const line = (row) => `- ${row.title} | thumbnail: ${row.thumbnail}`;
   const founder = (TITLE_BANK.founder || []).slice(0, 12).map(line);
   const own = niche && TITLE_BANK[niche] ? TITLE_BANK[niche].map(line)
     : Object.entries(TITLE_BANK).filter(([id]) => id !== "founder").flatMap(([, rows]) => rows.slice(0, 2)).map(line);
   return [
-    `TITLES (the Pulsify method; follow it exactly whenever you write titles):`,
-    `- Write exactly ${count} title${count === 1 ? "" : "s"} unless they asked for something else. Open with at most one short sentence, then the titles.`,
-    `- Layout for each: a numbered line with the title, then "Thumbnail: " and 2 to 4 words on the next line, then one short line on why it fits, tied to their own numbers or what they told you.`,
     `- Lowercase except names and acronyms. Under about 60 characters. The core reads in the first four words. No question marks, no dashes. End with a short bracketed kicker: (step by step), (full breakdown), (copy me), (do this) or (proof).`,
     `- The topic is their craft: the trade, the setup, the product, the result. Never content about content, funnels or selling a course.`,
-    `- Every title carries a concrete, measurable result. Take numbers only from their videos, proof, saved details or this chat. With no real number, write a slot like [your real number]; never invent one.`,
-    `- Mix the five structures: A result reveal (how i + result + timeframe), B watch me (watch me + action, live), C the system (the setup or method that + result), D contrarian (stop or don't + the common move, then what works instead), E how i + mechanism + result. Name the letter nowhere in the reply.`,
+    `- Every title carries a concrete, measurable result. Take numbers only from their videos, proof, saved details or this request. With no real number, write a slot like [your real number]; never invent one.`,
+    `- Mix the five structures: A result reveal (how i + result + timeframe), B watch me (watch me + action, live), C the system (the setup or method that + result), D contrarian (stop or don't + the common move, then what works instead), E how i + mechanism + result.`,
     `- Mix two tiers: broad (a milestone or no number, for reach) and specific (their exact odd number, for proof).`,
     `- Every title takes a different angle and structure; no two titles share their main phrase.`,
     `- Thumbnail text completes the title and shares no word with it. Never all caps.`,
@@ -133,6 +132,16 @@ export function titleMethod({ niche = null, count = 3 } = {}) {
     founder.length ? `THE FOUNDER'S OWN TITLES (match this tone most closely; style only, never reuse their facts):\n${founder.join("\n")}` : "",
     `EXAMPLES IN OUR STYLE (tone and structure only; their numbers are illustrations, never this client's facts):\n${own.join("\n")}`,
   ].filter(Boolean).join("\n");
+}
+
+/** Jane's chat layout for titles around the shared rules. */
+export function titleMethod({ niche = null, count = 3 } = {}) {
+  return [
+    `TITLES (the Pulsify method; follow it exactly whenever you write titles):`,
+    `- Write exactly ${count} title${count === 1 ? "" : "s"} unless they asked for something else. Open with at most one short sentence, then the titles.`,
+    `- Layout for each: a numbered line with the title, then "Thumbnail: " and 2 to 4 words on the next line, then one short line on why it fits, tied to their own numbers or what they told you. Name the structure letter nowhere in the reply.`,
+    titleRules({ niche }),
+  ].join("\n");
 }
 
 export function formatFromText(text) {

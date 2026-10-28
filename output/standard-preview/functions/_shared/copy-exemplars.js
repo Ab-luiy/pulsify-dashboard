@@ -5,16 +5,23 @@
 // "Assumed:" line when a guess was made, at most one "Next:" line) is the shape every reply should have.
 
 export const EXEMPLARS = {
-  reel: `Request: A 30-second reel for new traders about sizing up after a loss. End by asking them to follow.
+  // Reels are unscripted (founder 2026-10-15): hooks to open with and notes to talk from, never lines to read.
+  reel: `Request: A reel for new traders about sizing up after a loss. End by asking them to follow.
 
 Reply:
-Hook: Most blown accounts start with one decision, made right after a loss.
-You lose a trade and feel behind. So the next one gets double the size, because you want it back today.
-That is revenge trading, and it turns a small red day into a dead account.
-The fix is boring. After a loss, the next trade is the same size or smaller. Every time, for 24 hours.
-[One real example from you or a student, with the real result.]
-Write the rule on a sticky note and put it on your monitor. Follow for the next rule.
-Next: Send me one real example and I will build it into the fourth line.`,
+Hooks:
+1. Most blown accounts start with one decision, made right after a loss.
+2. The trade after a red one is the most expensive trade you'll take.
+3. I stopped doubling up after losses. This is the rule I use instead.
+Talk about:
+- the urge to win it back the same day
+- doubling size is how a small red day becomes a dead account
+- the rule: same size or smaller for 24 hours after a loss
+- [one real example from you or a student, with the real result]
+Show: you at your desk, then the chart of a trade you took right after a loss
+End with: follow for the next rule
+Caption: The trade after a loss decides your week. Same size or smaller for 24 hours.
+Next: Send me one real example and I'll put it in the fourth note.`,
 
   email: `Request: An email to people who watched my last video but have not booked a call.
 

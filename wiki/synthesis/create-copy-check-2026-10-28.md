@@ -50,3 +50,12 @@ Same instructions, same data: the writer and the missing checks make most of the
 5. **YouTube titles from the title voice bank.**
 
 Cost and limits: Jane's free Gemini project has one shared daily allowance, so moving Create onto it adds load. Fine before paying clients; the model and cost research in workstream 7 decides what comes after.
+
+## What changed (28 Oct, founder: "Yes: move stories, carousels, reels, YouTube and thumbnails onto Jane's writer, add the number check everywhere, unscript reels and use the title bank")
+
+- **One writer.** Stories, carousels (and their rewrites), reels, YouTube ideas, titles and outlines, and thumbnail ideas now write on Jane's free Gemini project (`functions/_shared/create-writer.js`). A client's own AI still comes first. Create keeps its own 8-a-day allowance, apart from Jane's 30 chat messages.
+- **Number check everywhere.** Every Create prompt carries one facts rule (no invented results, students, offer details, scarcity; digits only; no "it's not X, it's Y"). Every piece is then checked: a result figure the client never gave (money, a k/m figure, a growth percentage, "40 students", "in 14 days", also written as words) becomes "[your real number]" before it is saved. Craft numbers like "200 EMA" or "9:30 open" stay.
+- **Reels unscripted.** Create and Jane give three hooks, three or four talking points, what to show, a closing line and a caption. No script to read.
+- **Title bank.** YouTube titles and the working titles on video ideas follow the title voice bank in the client's niche, the same rules Jane uses.
+- **Real check, demo trader, real Gemini 3.5 Flash Lite.** All seven writers answered (story 28 to 30 s, carousel 18 s, reel 21 s, ideas 26 s, titles 14 to 26 s, outline 29 s, thumbnails 2 s). The first story still wrote "under one percent for twenty trading days" in words; the check now reads number words too. The second story used only real demo facts (the 12-week mentorship, traders with a 9 to 5) and left "[your student name]" where it had no name.
+- **Not done yet.** Step 4 (stories fed from approved real sequences, and a proof-light type when no proof is cleared) was not part of this go-ahead. Invented student names and method steps are not caught by a rule; the writer now leaves brackets for them, but only the number check is enforced.

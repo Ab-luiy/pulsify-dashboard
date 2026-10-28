@@ -7,7 +7,8 @@ import { json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, generateText, resolveAi } from "../_shared/ai-provider.js";
+import { aiConfigured, generateText } from "../_shared/ai-provider.js";
+import { checkCreateNumbers, resolveCreateAi, withCreateFacts } from "../_shared/create-writer.js";
 import { humanizeDeep } from "../_shared/humanizer.js";
 import { availableStyles, buildSuggestPrompt, checkSuggestions, normalizeInput, STYLE_RULES } from "../_shared/thumbnail-suggest.js";
 
@@ -26,13 +27,14 @@ export async function onRequestPost({ request, env }) {
 
   const client = String(access.client).toLowerCase();
   const brain = buildGeneratorBrainContext(await loadClientBrainData(env, client).catch(() => null));
-  const ai = await resolveAi(env, client);
+  const ai = await resolveCreateAi(env, client);
   let raw = null;
   let mode = "basic";
   if (aiConfigured(ai)) {
     try {
-      const prompt = buildSuggestPrompt({ input, styles, brainText: brain.prompt_text, references: [] });
-      raw = humanizeDeep(parseModelJson(await generateText(prompt, ai, { json: true })));
+      const prompt = withCreateFacts(buildSuggestPrompt({ input, styles, brainText: brain.prompt_text, references: [] }));
+      // Thumbnail words may only show a number the creator gave (a real screen, a real result).
+      raw = checkCreateNumbers(humanizeDeep(parseModelJson(await generateText(prompt, ai, { json: true }))), [prompt.user]).output;
       mode = "writer";
     } catch (error) {
       console.error("thumbnail-suggest writer", String(error?.message || error).slice(0, 200));

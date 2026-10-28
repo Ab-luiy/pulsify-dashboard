@@ -208,3 +208,17 @@ Founder: Jane uses the full vault, summarised per task so each answer carries th
 - Behaviour kept: free-model fallback order (a model that hit a limit goes last for a while), no provider text leaks to clients, a reply never switches model halfway, SSE events unchanged.
 - Tests use `MockLanguageModelV4` (`tests/_jane-mock.mjs`); `tools/eval-jane-live.mjs` replaces the two Workers-only runners. Live check on free Gemini 3.5 Flash Lite: funnel 8 s, story 6 s, recall 5 s. Known flaw seen in that run: a story draft added "in ten minutes", a figure not in the client's facts; the draft check did not catch it.
 - Not moved: other generators on `ai-provider.js`; the chat screen's stream reader.
+
+## Create writes on Jane's writer (2026-10-28)
+
+Founder: "move stories, carousels, reels, YouTube and thumbnails onto Jane's writer, add the number check everywhere, unscript reels and use the title bank".
+
+- `functions/_shared/create-writer.js`: `resolveCreateAi` (Jane's `resolveJaneAi`, marked `createWriter`), `withCreateFacts` (the facts rule on every Create prompt), `checkCreateNumbers` (the number check on a string or parsed JSON piece) and `writerFailure` (allowance and spent-quota answers).
+- `ai-provider.js` `generateText` sends a Jane Gemini switch to `janeText` in `jane-models.ts` (AI SDK, free-model fallback, `json` asks for a JSON answer with `Output.json()`), with up to 8192 output tokens and a 90 s timeout.
+- `ai-guard.js` `allowanceFor`: Create on Jane's Gemini counts on kind `ai` (AI_DAILY_CAP, 8); Jane chat stays on kind `jane` (30).
+- Number check: only result figures count: currency, k/m/b figures, multipliers, a percentage next to a result word in the same clause, a bare number over 10 followed by a result word (students, followers, views, sales, accounts, payouts, days, weeks, months...). Number words become digits first. Allowed figures come from the user half of the prompt (brain, proof, answers, request). Label fields the app reads (layout, beat, cue, style, formula...) are never touched. Slotted figures are returned as `checks.numbers`.
+- Writers moved: `studio-generate` (stories), `studio-carousels` (generate and rewrite), `copywriter` (Create reels and drafts), `youtube-ideas`, `youtube-titles`, `youtube-build`, `thumbnail-suggest`. `workflows.js` automations stay on the shared switch.
+- Titles: `copy-brain.js` `titleRules` holds the title bank rules and examples; `titleMethod` (Jane) wraps them in her chat layout; `youtube-titles.js` and `youtube-ideas.js` use them in the client's niche (`buildGeneratorBrainContext().niche`).
+- Reels: `FORMAT_GUIDE.reel` and the reel exemplar are unscripted (Hooks, Talk about, Show, End with, Caption), unless the client insists on a script in that message.
+- Tests: `tests/create-writer.test.mjs`. Real check: `create-e2e/run.mjs` in the session scratchpad ran all seven writers on a local copy of the demo trader with real Gemini 3.5 Flash Lite; zero unsupported result figures after the check.
+

@@ -777,3 +777,7 @@ Founder supplied Nick's worked ICP (NiicksFx ICP.pdf): saved as [[clients/nick/i
 
 Traced every Create writer: only Jane uses Gemini, the full method library, live client data and the number check; stories, carousels, reels, YouTube and thumbnails run on Cloudflare GPT-OSS 120B with the humanizer only. Same story request to both writers: GPT-OSS invented $100k, $2k, a delivery feature and scarcity; Gemini stayed clean. Recommendation: one writer for everything, number check everywhere, unscripted reels, real story examples, title bank for YouTube. [[synthesis/create-copy-check-2026-10-28]].
 
+
+## [2026-10-28] build | Create moves onto Jane's writer
+
+Founder said yes to the copy check: stories, carousels, reels, YouTube ideas, titles and outlines, and thumbnail ideas now write on Jane's free Gemini project (functions/_shared/create-writer.js), keep their own 8-a-day allowance, carry one facts rule and pass a number check (invented result figures, also in words, become "[your real number]"). Reels are unscripted (hooks, talking points, what to show, a closing line) in Create and Jane. YouTube titles and idea working titles use the title voice bank. Real check on the demo trader: all seven writers on Gemini, no unsupported result figures. Not done: stories fed from approved real sequences (step 4). See [[synthesis/create-copy-check-2026-10-28]].

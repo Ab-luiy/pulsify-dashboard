@@ -8,7 +8,8 @@ import { cleanId, json } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, generateText, resolveAi } from "../_shared/ai-provider.js";
+import { aiConfigured, generateText } from "../_shared/ai-provider.js";
+import { checkCreateNumbers, resolveCreateAi, withCreateFacts, writerFailure } from "../_shared/create-writer.js";
 import { loadVideoLearning } from "../_shared/content-learning.js";
 import { buildIdeasPrompt, normalizeAnswers, sanitizeIdeas } from "../_shared/youtube-ideas.js";
 
@@ -28,16 +29,17 @@ async function handlePost({ request, env }) {
     loadVideoLearning(env, client),
   ]);
   const brainContext = buildGeneratorBrainContext(brain);
-  const prompt = buildIdeasPrompt({
+  const prompt = withCreateFacts(buildIdeasPrompt({
     clientName: config?.client_name || access.client_name || client,
     clientBrain: brainContext.prompt_text,
     proofLines: brainContext.proof_lines,
     learning,
     answers,
-  });
+    niche: brainContext.niche?.id || null,
+  }));
   const brainUsed = { used: brainContext.used, fields_used: brainContext.fields_used };
 
-  const ai = await resolveAi(env, client);
+  const ai = await resolveCreateAi(env, client);
   if (!aiConfigured(ai)) {
     return json({ ok: true, mode: "manual", prompt: `${prompt.system}\n\n${prompt.user}`, brain_context: brainUsed });
   }
@@ -46,19 +48,21 @@ async function handlePost({ request, env }) {
   try {
     rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
-    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
+    const failure = writerFailure(error);
+    if (failure) return json(failure.body, failure.status);
     return json({ ok: false, error: "The idea generator could not answer. Try again.", detail: String(error?.message || error).slice(0, 300) }, 502);
   }
   let ideas = [];
+  let numbers = [];
   try {
-    ideas = sanitizeIdeas(humanizeDeep(parseModelJson(rawText)));
+    ({ output: ideas, numbers } = checkCreateNumbers(sanitizeIdeas(humanizeDeep(parseModelJson(rawText))), [prompt.user]));
   } catch {
     ideas = [];
   }
   if (!ideas.length) {
     return json({ ok: true, mode: "manual", prompt: `${prompt.system}\n\n${prompt.user}`, warning: "The answer came back unreadable. Run the prompt in your own AI instead.", brain_context: brainUsed });
   }
-  return json({ ok: true, mode: "generated", ideas, brain_context: brainUsed });
+  return json({ ok: true, mode: "generated", ideas, checks: { numbers }, brain_context: brainUsed });
 }
 
 export const onRequestPost = withOperator(handlePost);

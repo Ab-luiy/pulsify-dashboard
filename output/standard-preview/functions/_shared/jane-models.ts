@@ -2,7 +2,8 @@
 // Every Jane model call goes through here: the lookup loop (Zod tools), notes and checks (Zod objects) and
 // the writer (a text stream). Providers: the Jane Gemini project (free models, next model on a limit), a
 // client's own Claude, ChatGPT or Gemini key, or Cloudflare Workers AI. The app's SSE protocol is unchanged.
-// Jane's other generators (stories, carousels, YouTube) still use ai-provider.js until they are ported.
+// The Create writers (stories, carousels, reels, YouTube, thumbnails) reach janeText through ai-provider.js
+// generateText when they run on the Jane Gemini project (create-writer.js).
 import { generateText, streamText, Output, APICallError, type LanguageModel, type ModelMessage } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createAnthropic } from "@ai-sdk/anthropic";
@@ -14,7 +15,7 @@ import { GROWTH_MODEL } from "./anthropic.js";
 import { GEMINI_MODELS } from "./gemini.js";
 
 type JaneAi = Record<string, any>;
-type Call = { stage?: string; helper?: boolean; humanize?: boolean; temperature?: number; maxOutputTokens?: number; timeoutMs?: number };
+type Call = { stage?: string; helper?: boolean; humanize?: boolean; json?: boolean; temperature?: number; maxOutputTokens?: number; timeoutMs?: number };
 type Prompt = { system?: string; messages?: { role: string; content: string }[]; prompt?: string };
 
 // Small helper calls on Workers AI (lookups, notes, checks) use the model that follows a JSON schema best.
@@ -102,11 +103,11 @@ export async function janeRun<T>(ai: JaneAi, call: Call, run: (model: LanguageMo
   throw limitError(limited);
 }
 
-/** Plain text from one call. */
+/** Plain text from one call; `json` asks the model for a JSON answer (no schema) and returns its text. */
 export async function janeText(ai: JaneAi, prompt: Prompt, call: Call = {}) {
   const stage = call.stage || "review";
   return janeRun(ai, call, async (model, id) => {
-    const result = await generateText({ model, system: system(prompt, call), ...input(prompt), maxRetries: 0,
+    const result = await generateText({ model, system: system(prompt, call), ...input(prompt), maxRetries: 0, ...(call.json ? { output: Output.json() } : {}),
       temperature: call.temperature ?? 0.5, maxOutputTokens: call.maxOutputTokens || 4096, timeout: call.timeoutMs || 60000 });
     recordJaneUsage(ai, stage, id, result.usage);
     if (result.finishReason === "length" || result.finishReason === "content-filter") throw new Error("The model did not complete the answer.");

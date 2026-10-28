@@ -7,7 +7,8 @@ import { clientLabel, notify } from "../_shared/notifications.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { carouselLearningBlocks, loadCarouselLearning } from "../_shared/content-learning.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
+import { aiConfigured, aiMode, generateText } from "../_shared/ai-provider.js";
+import { checkCreateNumbers, resolveCreateAi, withCreateFacts, writerFailure } from "../_shared/create-writer.js";
 import {
   applyCarouselLayouts,
   safePhoto,
@@ -113,7 +114,7 @@ async function generateCarousel(env, access, body) {
     slideCount,
     learningBlocks: carouselLearningBlocks(learning),
   };
-  const prompt = buildCarouselPrompt(input);
+  const prompt = withCreateFacts(buildCarouselPrompt(input));
   const manualPrompt = buildManualCarouselPrompt(input);
   const params = {
     structure,
@@ -136,12 +137,16 @@ async function generateCarousel(env, access, body) {
   let provider = "";
   let output = buildManualCarouselOutput(input);
   let reviewNote = null;
-  const ai = forceManual ? null : await resolveAi(env, client);
+  let numbers = [];
+  // Jane's writer (create-writer.js), with the number check on every slide and the caption.
+  const ai = forceManual ? null : await resolveCreateAi(env, client);
   if (ai && aiConfigured(ai)) {
     provider = aiMode(ai);
     try {
       const raw = await generateText(prompt, ai, { json: true });
-      output = applyCarouselLayouts(sanitizeCarouselOutput(humanizeDeep(parseModelJson(raw)), { structure, topic, goal, triggerWord, slideCount }), { photos, proofLines: input.proofLines, goal, triggerWord });
+      const checked = checkCreateNumbers(sanitizeCarouselOutput(humanizeDeep(parseModelJson(raw)), { structure, topic, goal, triggerWord, slideCount }), [prompt.user]);
+      numbers = checked.numbers;
+      output = applyCarouselLayouts(checked.output, { photos, proofLines: input.proofLines, goal, triggerWord });
       mode = "generated";
     } catch (error) {
       reviewNote = `Generator fallback: ${safeMessage(error)}`;
@@ -175,6 +180,7 @@ async function generateCarousel(env, access, body) {
     output,
     manual_prompt: manualPrompt,
     warning: reviewNote || undefined,
+    checks: { numbers },
     brain_context: params.brain_context,
   });
 }
@@ -231,15 +237,19 @@ async function rewriteCarousel(env, access, body) {
   const output = parseJson(stored?.output_json, null);
   const request = readRewriteRequest(body, output);
   if (request.error) return json({ ok: false, error: request.error }, 422);
-  const ai = await resolveAi(env, cleanId(access.client));
+  const ai = await resolveCreateAi(env, cleanId(access.client));
   if (!ai || !aiConfigured(ai)) return json({ ok: false, error: "writing is switched off right now" }, 503);
   const brain = buildGeneratorBrainContext(await loadClientBrainData(env, cleanId(access.client)));
   let next;
   try {
-    const raw = await generateText(buildRewritePrompt({ output, request, clientBrain: brain.prompt_text }), ai, { json: true });
-    next = applyRewrite(output, request, humanizeDeep(readRewriteReply(raw)));
+    const prompt = withCreateFacts(buildRewritePrompt({ output, request, clientBrain: brain.prompt_text }));
+    const raw = await generateText(prompt, ai, { json: true });
+    // The new words may only carry figures already in the carousel, the brain or the request.
+    const text = checkCreateNumbers(humanizeDeep(readRewriteReply(raw)), [prompt.user, brain.prompt_text]).output;
+    next = applyRewrite(output, request, text);
   } catch (error) {
-    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
+    const failure = writerFailure(error);
+    if (failure) return json(failure.body, failure.status);
     return json({ ok: false, error: `The rewrite did not work: ${safeMessage(error)}` }, 502);
   }
   await env.DB.prepare(

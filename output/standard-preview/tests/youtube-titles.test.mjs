@@ -43,7 +43,9 @@ assert.match(body.prompt, /SAM PASSED HIS FUNDED CHALLENGE/);
 assert.match(body.prompt, /STUDENT PAYOUT WEEK 6/, "the proof vault is in the prompt");
 assert.match(body.prompt, /Pattern B, board breakdown/);
 assert.match(body.prompt, /yellow bar survives on Pattern B only/i, "the layout rules are bundled");
-assert.match(body.prompt, /Never invent one/);
+assert.match(body.prompt, /never invent one/, "titles take numbers only from real facts");
+assert.match(body.prompt, /TITLE METHOD \(the Pulsify title bank/, "titles follow the title voice bank (founder 2026-10-28)");
+assert.match(body.prompt, /FACTS \(Pulsify rule for every piece of content\)/, "every Create prompt carries the facts rule");
 assert.doesNotMatch(body.prompt, /PRIVATE BETA RESULT/, "another client's proof never leaks");
 
 body = await (await post({ DB }, { idea, answers, layout: "hologram" })).json();

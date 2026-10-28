@@ -8,7 +8,8 @@ import {
 import { cleanId, json, nowIso, parseJson } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { parseModelJson } from "../_shared/anthropic.js";
-import { aiConfigured, aiMode, generateText, resolveAi } from "../_shared/ai-provider.js";
+import { aiConfigured, aiMode, generateText } from "../_shared/ai-provider.js";
+import { checkCreateNumbers, resolveCreateAi, withCreateFacts, writerFailure } from "../_shared/create-writer.js";
 import { loadRules } from "../_shared/content-learning.js";
 import { buildGeneratorBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 
@@ -35,8 +36,8 @@ export async function onRequestPost({ request, env }) {
   }
 
   const client = cleanId(access.client);
-  // One switch per client (see ai-provider.js): their own key, else a prompt for their own AI.
-  const ai = await resolveAi(env, client);
+  // Jane's writer (create-writer.js): the client's own key first, else the Jane Gemini project, else a prompt for their own AI.
+  const ai = await resolveCreateAi(env, client);
   const forceManual = !aiConfigured(ai);
   const clientContext = await loadClientContext(env, client);
   const brainContext = buildGeneratorBrainContext(clientContext.brain);
@@ -57,7 +58,7 @@ export async function onRequestPost({ request, env }) {
     examples: learning.examples,
     rules: learning.rules,
   };
-  const prompt = buildSequencePrompt(promptInput);
+  const prompt = withCreateFacts(buildSequencePrompt(promptInput));
   const manualPrompt = buildManualPrompt(promptInput);
   const paramsPayload = {
     type: type || null,
@@ -109,7 +110,8 @@ export async function onRequestPost({ request, env }) {
   try {
     rawText = await generateText(prompt, ai, { json: true });
   } catch (error) {
-    if (error?.code === "AI_ALLOWANCE") return json({ ok: false, error: error.message, allowance: true }, 429);
+    const failure = writerFailure(error);
+    if (failure) return json(failure.body, failure.status);
     return json({
       ok: false,
       provider,
@@ -122,18 +124,23 @@ export async function onRequestPost({ request, env }) {
   let outputJson = null;
   let mode = "generated";
   let warning = "";
+  let numbers = [];
   try {
-    parsed = sanitizeSequenceOutput(humanizeDeep(parseModelJson(rawText)), {
+    const checked = checkCreateNumbers(sanitizeSequenceOutput(humanizeDeep(parseModelJson(rawText)), {
       type,
       intent,
       slideCount,
       goal,
       triggerWord: effectiveTriggerWord,
-    });
+    }), [prompt.user]);
+    parsed = checked.output;
+    numbers = checked.numbers;
     outputJson = JSON.stringify(parsed);
   } catch (error) {
     mode = "manual";
     warning = `Model output was not valid JSON: ${safeMessage(error)}`;
+    // The unreadable answer is still shown and saved, so it gets the number check too.
+    ({ output: rawText, numbers } = checkCreateNumbers(String(rawText || ""), [prompt.user]));
     outputJson = JSON.stringify({ raw_text: rawText, parse_error: warning });
     parsed = null;
   }
@@ -160,6 +167,7 @@ export async function onRequestPost({ request, env }) {
     output: parsed,
     raw_text: parsed ? undefined : rawText,
     warning: warning || undefined,
+    checks: { numbers },
     manual_prompt: manualPrompt,
     brain_context: paramsPayload.brain_context,
   });
