@@ -114,6 +114,11 @@ test("known invented delivery promises are detected against confirmed offer fact
   assert.equal(findCopyClaimGaps("You receive async feedback.", context).length, 0);
   for (const text of ["After the call I add written notes to your journal.", "After the call you will receive a written summary of the feedback.", "Everyone gets a personal video.", "I'll reply with a quick tip.", "Join the next cohort."]) assert.ok(findCopyClaimGaps(text, context).length > 0, text);
   assert.equal(findCopyClaimGaps("Everyone gets video feedback.", "Program / Delivery: Video feedback.").length, 0);
+  // an invented duration in words or digits is flagged unless the client gave it
+  assert.ok(findCopyClaimGaps("I wrote the whole plan in ten minutes.", context).length > 0);
+  assert.ok(findCopyClaimGaps("Done within 14 days.", context).length > 0);
+  assert.equal(findCopyClaimGaps("Done in ten minutes.", "I record each video in 10 mins").length, 0);
+  assert.equal(findCopyClaimGaps("Once a week we review it.", context).length, 0);
 });
 
 test("the draft check accepts the typed object from the AI SDK as well as its JSON text", () => {

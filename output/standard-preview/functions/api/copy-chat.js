@@ -399,7 +399,7 @@ async function send(context, client, body) {
           const checked = await janeObject(ai, { system: review.system, prompt: review.user }, CHECKED,
             { stage: "review", temperature: 0.1, maxOutputTokens: 4000, humanize: true });
           checkedDraft = applyGroundingReview(checkedDraft, checked);
-          gaps = findCopyClaimGaps(checkedDraft, checkedContext);
+          gaps = findCopyClaimGaps(checkedDraft, [checkedContext, conversation.earlierText, ...messages.filter((turn) => turn.role === "user").map((turn) => turn.content)].filter(Boolean).join("\n"));
           if (!gaps.length) break;
         }
         if (gaps.length) throw new Error("Unsupported offer commitments remain");
