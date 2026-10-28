@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildJaneBrainContext } from "../functions/_shared/client-brain-context.js";
-import { buildConversationContext, buildCopySystem, formatFromText, plainReplyChunks, needsCopyReview, applyGroundingReview, findCopyClaimGaps, copyReviewAi, groundingReviewPrompt, wantsTitles, titleCount, titleMethod, slotUnsupportedNumbers } from "../functions/_shared/copy-brain.js";
+import { buildConversationContext, buildCopySystem, formatFromText, plainReplyChunks, needsCopyReview, applyGroundingReview, findCopyClaimGaps, groundingReviewPrompt, wantsTitles, titleCount, titleMethod, slotUnsupportedNumbers } from "../functions/_shared/copy-brain.js";
 import { execFileSync } from "node:child_process";
 
 const row = (section, field, value) => ({ section, field, value_json: JSON.stringify(value), updated_at: "2026-10-25" });
@@ -116,14 +116,11 @@ test("known invented delivery promises are detected against confirmed offer fact
   assert.equal(findCopyClaimGaps("Everyone gets video feedback.", "Program / Delivery: Video feedback.").length, 0);
 });
 
-test("the Workers draft check enforces JSON schema and normalizes object responses", async () => {
-  let sent;
-  const checked = copyReviewAi({ mode: "workers", binding: { async run(model, payload) { sent = { model, payload }; return { response: { reply: "Checked draft." } }; } } });
-  const result = await checked.binding.run(checked.model, { messages: [] });
-  assert.equal(sent.model, "@cf/meta/llama-3.3-70b-instruct-fp8-fast");
-  assert.equal(sent.payload.response_format.type, "json_schema");
-  assert.deepEqual(sent.payload.response_format.json_schema.required, ["supported", "reply"]);
-  assert.equal(result.response, '{"reply":"Checked draft."}');
+test("the draft check accepts the typed object from the AI SDK as well as its JSON text", () => {
+  assert.equal(applyGroundingReview("Draft.", { supported: true, reply: "" }), "Draft.");
+  assert.equal(applyGroundingReview("Draft.", { supported: false, reply: "Checked draft." }), "Checked draft.");
+  assert.equal(applyGroundingReview("Draft.", '{"supported":false,"reply":"Checked draft."}'), "Checked draft.");
+  assert.throws(() => applyGroundingReview("Draft.", { supported: false, reply: " " }), /Invalid grounding review/);
 });
 
 test("titles follow the Pulsify method with examples from the title voice bank (founder 2026-10-27)", () => {

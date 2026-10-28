@@ -79,16 +79,22 @@ globalThis.fetch = async (url, init) => {
   }
   if (target.includes(":generateContent")) {
     if (payload.systemInstruction?.parts?.[0]?.text.startsWith("Grounding check")) {
-      return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify({ reply }) }] } }] }), { status: 200, headers: { "content-type": "application/json" } });
+      return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify({ supported: false, reply }) }] } }] }), { status: 200, headers: { "content-type": "application/json" } });
     }
     return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify({ notes: memoryNotes }) }] } }] }), { status: 200, headers: { "content-type": "application/json" } });
   }
   if (target.includes("api.anthropic.com")) {
     const encoder = new TextEncoder();
+    // A complete Anthropic Messages stream, as the AI SDK's Anthropic provider reads it.
     const events = [
-      { type: "content_block_delta", delta: { type: "text_delta", text: "Opus wrote this. " } },
-      { type: "content_block_delta", delta: { type: "text_delta", text: "Second part." } },
-    ].map((event) => `data: ${JSON.stringify(event)}\n\n`).join("");
+      { type: "message_start", message: { id: "msg_1", type: "message", role: "assistant", model: "claude-opus-5-5", content: [], stop_reason: null, usage: { input_tokens: 12, output_tokens: 1 } } },
+      { type: "content_block_start", index: 0, content_block: { type: "text", text: "" } },
+      { type: "content_block_delta", index: 0, delta: { type: "text_delta", text: "Opus wrote this. " } },
+      { type: "content_block_delta", index: 0, delta: { type: "text_delta", text: "Second part." } },
+      { type: "content_block_stop", index: 0 },
+      { type: "message_delta", delta: { stop_reason: "end_turn", stop_sequence: null }, usage: { output_tokens: 6 } },
+      { type: "message_stop" },
+    ].map((event) => `event: ${event.type}\ndata: ${JSON.stringify(event)}\n\n`).join("");
     return new Response(new ReadableStream({ start(c) { c.enqueue(encoder.encode(events)); c.close(); } }), { status: 200 });
   }
   throw new Error(`unexpected fetch ${target}`);
@@ -250,8 +256,8 @@ try {
       if (payload.messages[0].content.startsWith("Grounding check")) {
         if (failReview) throw new Error("review unavailable");
         reviewCount++;
-        if (reviewCount === 1) return { response: '{"reply":"A grounded answer. Everyone gets a personal video."}' };
-        return { response: '{"reply":"A grounded answer."}' };
+        if (reviewCount === 1) return { response: '{"supported":false,"reply":"A grounded answer. Everyone gets a personal video."}' };
+        return { response: '{"supported":false,"reply":"A grounded answer."}' };
       }
       return { response: '{"notes":[]}' };
     }

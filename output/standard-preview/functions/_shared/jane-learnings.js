@@ -2,7 +2,8 @@
 // proposes up to 3 learnings. They wait for an operator: approved shared lessons join Jane's prompts for every client,
 // approved client facts join that client's memory. Rejected or pending items are never used.
 import { nowIso } from "./common.js";
-import { janeStructured } from "./copy-agent.ts";
+import { z } from "zod";
+import { janeObject } from "./jane-models.ts";
 import { scrubSources } from "./source-scrub.js";
 
 export const LEARNING_KINDS = ["angle", "objection", "method_gap", "client_fact"];
@@ -11,13 +12,7 @@ const PROMPT_LIMIT = 4;
 // Runs after the reply in waitUntil, which Cloudflare allows about 30 s; free-tier Gemini can be slow.
 const LEARNING_TIMEOUT_MS = 27000;
 
-const SCHEMA = { type: "object", properties: { learnings: { type: "array", maxItems: 3, items: {
-  type: "object", properties: {
-    kind: { type: "string", enum: LEARNING_KINDS },
-    text: { type: "string" },
-    evidence: { type: "string" },
-  }, required: ["kind", "text", "evidence"], additionalProperties: false,
-} } }, required: ["learnings"], additionalProperties: false };
+const LEARNINGS = z.object({ learnings: z.array(z.object({ kind: z.enum(LEARNING_KINDS), text: z.string(), evidence: z.string() })).describe("At most 3.") });
 
 const SYSTEM = `Jane learning scout. Read one exchange between a creator (the client) and Jane, their writing assistant.
 Propose at most 3 things worth a human reviewer's time, or none. Most exchanges have none: greetings, simple edits and routine drafts return an empty list.
@@ -55,14 +50,15 @@ export function anonymise(text, clientName = "") {
 /** Asks the model for learnings from one exchange and queues the new ones. Never throws. */
 export async function collectJaneLearnings(env, ai, client, { chatId, messageId, message, reply, route, knownFacts = "" }) {
   try {
-    if (!env?.DB || !ai?.binding || !["direct", "lookup"].includes(route) || String(message || "").trim().length < 40) return [];
+    // Only Pulsify's own AI proposes learnings; a client's own key is never spent on them.
+    if (!env?.DB || !(ai?.janeGemini || ai?.mode === "workers" || ai?.languageModel) || !["direct", "lookup"].includes(route) || String(message || "").trim().length < 40) return [];
     const pending = await env.DB.prepare("SELECT COUNT(*) AS n FROM jane_learnings WHERE client_id=? AND status='pending'").bind(client).first();
     if (Number(pending?.n || 0) >= PENDING_CAP) return [];
     const known = await env.DB.prepare("SELECT text FROM jane_learnings WHERE shared=1 AND status!='rejected' ORDER BY id DESC LIMIT 30").all();
-    const result = await janeStructured(ai.binding, SYSTEM, JSON.stringify({
+    const result = await janeObject(ai, { system: SYSTEM, prompt: JSON.stringify({
       client_message: clip(message, 2500), jane_reply: clip(reply, 2500), known_facts: clip(knownFacts, 2500),
       already_known_lessons: (known.results || []).map((row) => row.text),
-    }), SCHEMA, 700, LEARNING_TIMEOUT_MS);
+    }) }, LEARNINGS, { stage: "helper", maxOutputTokens: 700, timeoutMs: LEARNING_TIMEOUT_MS });
     const config = await env.DB.prepare("SELECT client_name FROM client_config WHERE client=?").bind(client).first().catch(() => null);
     const items = (Array.isArray(result?.learnings) ? result.learnings : []).slice(0, 3);
     const saved = [];

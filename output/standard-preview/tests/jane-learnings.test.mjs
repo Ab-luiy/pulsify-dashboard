@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { resolveJaneAi, generateJaneText, janeStats, janeModels } from '../functions/_shared/jane-provider.js';
 import { anonymise, collectJaneLearnings, approvedLearnings } from '../functions/_shared/jane-learnings.js';
 import * as learningsApi from '../functions/api/jane-learnings.js';
+import { mockJaneAi } from './_jane-mock.mjs';
 
 const ok = text => Response.json({ candidates: [{ finishReason: 'STOP', content: { parts: [{ text }] } }], usageMetadata: { promptTokenCount: 5, candidatesTokenCount: 2 } });
 const gemini = (models, fallbacks = '') => ({ JANE_GEMINI_API_KEY: 'synthetic-secret', JANE_GEMINI_MODEL: models, JANE_GEMINI_FALLBACK_MODELS: fallbacks, JANE_GEMINI_FREE_VERIFIED: 'true' });
@@ -66,7 +67,7 @@ const DB = { prepare(q) { let args = []; const st = { bind(...v) { args = v; ret
 const env = { DB, ADMIN_KEY: 'admin-test-key' };
 const message = 'My buyers keep telling me they tried three courses already and nothing stuck. Also my calls are every Tuesday now. Can you write a hook?';
 const reply = 'Here is a hook: You have tried three courses. This time you get a plan you can keep.';
-const binding = proposals => ({ async run() { return { response: JSON.stringify({ learnings: proposals }) }; } });
+const model = proposals => mockJaneAi(() => ({ learnings: proposals })).ai;
 
 test('learnings are queued only with real evidence, anonymised when shared, and deduplicated', async () => {
   const proposals = [
@@ -75,23 +76,23 @@ test('learnings are queued only with real evidence, anonymised when shared, and 
     { kind: 'angle', text: 'Invented angle the client never said anything about', evidence: 'this quote is not in the exchange' },
   ];
   // Facts must come from the client, not from Jane's reply, and not repeat what is already saved.
-  assert.deepEqual(await collectJaneLearnings(env, { binding: binding([
+  assert.deepEqual(await collectJaneLearnings(env, model([
     { kind: 'client_fact', text: 'The client offers a plan you can keep.', evidence: 'This time you get a plan you can keep.' },
     { kind: 'client_fact', text: 'Their buyers already tried three courses.', evidence: 'they tried three courses already' },
-  ]) }, 'a', { chatId: 1, messageId: 2, message, reply, route: 'direct', knownFacts: 'Buyers already tried three courses before joining.' }), []);
-  const saved = await collectJaneLearnings(env, { binding: binding(proposals) }, 'a', { chatId: 1, messageId: 2, message, reply, route: 'direct' });
+  ]), 'a', { chatId: 1, messageId: 2, message, reply, route: 'direct', knownFacts: 'Buyers already tried three courses before joining.' }), []);
+  const saved = await collectJaneLearnings(env, model(proposals), 'a', { chatId: 1, messageId: 2, message, reply, route: 'direct' });
   assert.equal(saved.length, 2);
   const rows = sql.prepare('SELECT kind, shared, text, status FROM jane_learnings ORDER BY id').all();
   assert.deepEqual(rows.map(r => [r.kind, r.shared, r.status]), [['objection', 1, 'pending'], ['client_fact', 0, 'pending']]);
   assert.doesNotMatch(rows[0].text, /Alpha|Trader/);
   // The same lesson again, from another client, is not queued twice.
-  assert.equal((await collectJaneLearnings(env, { binding: binding(proposals.slice(0, 1)) }, 'b', { chatId: 9, messageId: 9, message, reply, route: 'direct' })).length, 0);
+  assert.equal((await collectJaneLearnings(env, model(proposals.slice(0, 1)), 'b', { chatId: 9, messageId: 9, message, reply, route: 'direct' })).length, 0);
   // Greetings and short edits never spend a call.
   let called = false;
-  await collectJaneLearnings(env, { binding: { async run() { called = true; return {}; } } }, 'a', { message: 'hey', reply: 'hi', route: 'social' });
+  await collectJaneLearnings(env, mockJaneAi(() => { called = true; return {}; }).ai, 'a', { message: 'hey', reply: 'hi', route: 'social' });
   assert.equal(called, false);
   // A broken model never breaks the chat.
-  assert.deepEqual(await collectJaneLearnings(env, { binding: { async run() { throw new Error('down'); } } }, 'a', { message, reply, route: 'direct' }), []);
+  assert.deepEqual(await collectJaneLearnings(env, mockJaneAi(() => { throw new Error('down'); }).ai, 'a', { message, reply, route: 'direct' }), []);
 });
 
 const op = (body, key = 'admin-test-key', query = '') => new Request(`https://test/api/jane-learnings${query}`, body

@@ -15,9 +15,10 @@ import { cleanId, json, nowIso } from "../_shared/common.js";
 import { resolveClientAccess } from "../_shared/client-auth.js";
 import { buildJaneBrainContext, loadClientBrainData } from "../_shared/client-brain-context.js";
 import { aiMode, providerLabel } from "../_shared/ai-provider.js";
-import { resolveJaneAi as resolveAi, generateJaneText as generateText, streamJaneText as streamText, janeStats } from "../_shared/jane-provider.js";
-import { parseModelJson } from "../_shared/anthropic.js";
-import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, answerCheckPrompt, applyGroundingReview, copyReviewAi, findCopyClaimGaps, wantsTitles, slotUnsupportedNumbers } from "../_shared/copy-brain.js";
+import { z } from "zod";
+import { resolveJaneAi as resolveAi, streamJaneText as streamText, janeStats } from "../_shared/jane-provider.js";
+import { janeObject } from "../_shared/jane-models.ts";
+import { buildCopySystem, buildConversationContext, formatFromText, memoryPrompt, plainReplyChunks, needsCopyReview, groundingReviewPrompt, answerCheckPrompt, applyGroundingReview, findCopyClaimGaps, wantsTitles, slotUnsupportedNumbers } from "../_shared/copy-brain.js";
 import { retrieveCopyKnowledge, selectJaneCards, COPY_KNOWLEDGE_VERSION } from "../_shared/copy-knowledge.js";
 import { enforceAllowance } from "../_shared/ai-guard.js";
 import { createJaneTools, gatherJaneContext, weighJaneEvidence, extractJaneMemory, JANE_AGENT_VERSION } from "../_shared/copy-agent.ts";
@@ -31,6 +32,9 @@ const MAX_MESSAGE = 8000;
 const BURST_PER_MINUTE = 12;
 const MEMORY_CAP = 30;
 const FORMATS = new Set(["story", "reel", "youtube", "email", "dm", "rewrite"]);
+// The checks and the memory note come back as typed objects (AI SDK + Zod), never as hand-parsed JSON.
+const CHECKED = z.object({ supported: z.boolean(), reply: z.string() });
+const NOTES = z.object({ notes: z.array(z.string()) });
 const REMEMBER = /^\s*(?:please\s+)?remember(?:\s+that)?[\s:,-]+([\s\S]{3,200})$/i;
 
 const clean = (value, max) => String(value ?? "").replace(/\s+/g, " ").trim().slice(0, max);
@@ -189,7 +193,7 @@ async function remember(env, ai, client, userMessage, reply) {
   try {
     if (ai.mode === "workers" || ai.janeGemini) {
       const existing = await loadMemory(env, client);
-      const notes = await extractJaneMemory(ai.binding, userMessage, existing);
+      const notes = await extractJaneMemory(ai, userMessage, existing);
       for (const item of notes) {
         await addMemory(env, client, item.note, "chat");
         for (const id of item.replaces) {
@@ -202,8 +206,9 @@ async function remember(env, ai, client, userMessage, reply) {
       return;
     }
     const existing = (await loadMemory(env, client)).map((row) => row.note);
-    const answer = parseModelJson(await generateText(memoryPrompt({ userMessage, reply, existing }), ai, { json: true, temperature: 0.2, maxOutputTokens: 400, uncounted: true }));
-    for (const note of (Array.isArray(answer?.notes) ? answer.notes : []).slice(0, 2)) {
+    const prompt = memoryPrompt({ userMessage, reply, existing });
+    const answer = await janeObject(ai, { system: prompt.system, prompt: prompt.user }, NOTES, { stage: "memory", temperature: 0.2, maxOutputTokens: 400 });
+    for (const note of answer.notes.slice(0, 2)) {
       const text = clean(scrubSources(note), 200);
       if (text.length >= 8) await addMemory(env, client, text, "chat");
     }
@@ -326,7 +331,7 @@ async function send(context, client, body) {
       let evidence = null;
       const playbookText = cards.map((card) => `TASK PLAYBOOK: ${card.title}\n${card.text}`).join("\n\n");
       if (deep) {
-        lookups = await gatherJaneContext({ binding: ai.binding,
+        lookups = await gatherJaneContext({ ai,
           tools: createJaneTools({ env, client, brainData: clientBrain.data, publicDraft }),
           message, messages, currentContext: `${clientBrain.contextText}\n${playbookText}\n${knowledge.prompt_text}`,
           knownIds: cards.flatMap((card) => card.sources),
@@ -335,7 +340,7 @@ async function send(context, client, body) {
         if (lookups.status === "daily_limit") throw new Error("Jane has reached today's free AI allowance. It resets at midnight UTC.");
         // Cross-examine before writing: their data next to the method, conflicts and gaps named.
         await emit("status", { stage: "weighing" });
-        evidence = await weighJaneEvidence({ binding: ai.binding, message, messages,
+        evidence = await weighJaneEvidence({ ai, message, messages,
           material: [`SAVED BUSINESS DETAILS:\n${clientBrain.contextText}`, clientBrain.workingBrief, playbookText, `METHOD PASSAGES:\n${knowledge.prompt_text}`, lookups.prompt_text].filter(Boolean).join("\n\n") });
         system = withLearnings(buildCopySystem({ format, query, knowledge, cards, client: clientBrain, earlierText: conversation.earlierText, toolContext: lookups.prompt_text, evidence: evidence.prompt_text }));
       }
@@ -362,7 +367,7 @@ async function send(context, client, body) {
           const check = answerCheckPrompt({ clientContext: [clientBrain.contextText, lookups?.brain_text || ""].filter(Boolean).join("\n\n"),
             method: `${playbookText}\n\n${knowledge.prompt_text}`, evidence: evidence?.prompt_text || "",
             messages: [...(conversation.earlierText ? [{ role: "user", content: conversation.earlierText }] : []), ...(lookups?.history_messages || []), ...messages], answer: full });
-          const checked = await generateText(check, ai.janeGemini ? ai : copyReviewAi(ai), { json: true, temperature: 0.1, maxOutputTokens: 4000, uncounted: true });
+          const checked = await janeObject(ai, { system: check.system, prompt: check.user }, CHECKED, { stage: "review", temperature: 0.1, maxOutputTokens: 4000, humanize: true });
           full = applyGroundingReview(full, checked);
         } catch {
           // A failed check never loses the answer; the reply was already written from the checked material.
@@ -391,8 +396,8 @@ async function send(context, client, body) {
             // factual evidence. Include retrieved fields/earlier user statements in checks.
             messages: [...(conversation.earlierText ? [{ role: "user", content: conversation.earlierText }] : []), ...(lookups?.history_messages || []), ...messages], draft: checkedDraft });
           if (gaps.length) review.user += `\n\nThese unsupported promises MUST be removed or narrowed to the saved delivery facts. Do not replace them with different promises:\n${gaps.join("\n")}`;
-          const checked = await generateText(review, ai.janeGemini ? ai : copyReviewAi(ai),
-            { json: true, temperature: 0.1, maxOutputTokens: 4000, uncounted: true });
+          const checked = await janeObject(ai, { system: review.system, prompt: review.user }, CHECKED,
+            { stage: "review", temperature: 0.1, maxOutputTokens: 4000, humanize: true });
           checkedDraft = applyGroundingReview(checkedDraft, checked);
           gaps = findCopyClaimGaps(checkedDraft, checkedContext);
           if (!gaps.length) break;

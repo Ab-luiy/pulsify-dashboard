@@ -1,5 +1,5 @@
 // Regrade stored real outputs without spending quota. --report ABS.json --out ABS.json
-// Fresh runs: node tools/eval-jane-agent.mjs --quality --case ID --out ABS.json
+// Fresh runs: node tools/eval-jane-live.mjs --out ABS.json [--case ID]
 import fs from 'node:fs';
 import path from 'node:path';
 import { JANE_QUALITY_CASES, scoreJaneReply } from './jane-quality-cases.mjs';

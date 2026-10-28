@@ -8,6 +8,7 @@ import { readFileSync } from "node:fs";
 import { DatabaseSync } from "node:sqlite";
 import { readWorkspace, WORKSPACE_AREAS } from "../functions/_shared/jane-workspace.ts";
 import { createJaneTools, gatherJaneContext } from "../functions/_shared/copy-agent.ts";
+import { mockJaneAi } from "./_jane-mock.mjs";
 import { janeRoute } from "../functions/_shared/jane-context.ts";
 
 const sql = new DatabaseSync(":memory:");
@@ -63,12 +64,9 @@ test("areas whose tables are missing come back as a note, never a crash", async 
 
 test("the lookup loop accepts a workspace area without a search and passes the numbers to the draft check", async () => {
   let round = 0;
-  const binding = { async run() {
-    round += 1;
-    return { response: JSON.stringify(round === 1 ? { calls: [{ tool: "read_workspace", query: "story completion", id: "instagram" }] } : { calls: [] }) };
-  } };
+  const { ai } = mockJaneAi(() => (round += 1) === 1 ? { calls: [{ tool: "read_workspace", input: { area: "instagram" } }] } : "DONE");
   const tools = createJaneTools({ env, client: "acme", brainData: { rows: [] } });
-  const found = await gatherJaneContext({ binding, tools, message: "Which of my story sequences kept people watching?" });
+  const found = await gatherJaneContext({ ai, tools, message: "Which of my story sequences kept people watching?" });
   assert.equal(found.calls, 1);
   assert.match(found.prompt_text, /Location over entry/);
   assert.match(found.brain_text, /Workspace instagram/);
