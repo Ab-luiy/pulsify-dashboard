@@ -290,11 +290,33 @@ export function applyGroundingReview(draft, review) {
   return result.reply.trim();
 }
 
+const NUMBER_WORDS = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, fifteen: 15, twenty: 20, thirty: 30, forty: 40, sixty: 60, ninety: 90 };
+/** Durations as "30|minute" keys, so "thirty minutes" and "30 mins" match. */
+function durationsIn(text) {
+  const out = [];
+  const pattern = /\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|fifteen|twenty|thirty|forty|sixty|ninety)(?:\s|-)(second|minute|min|hour|hr|day|week|month)s?\b/gi;
+  for (const match of String(text || "").matchAll(pattern)) {
+    const word = match[1].toLowerCase();
+    const unit = match[2].toLowerCase().replace(/^min$/, "minute").replace(/^hr$/, "hour");
+    out.push(`${NUMBER_WORDS[word] ?? Number(word)}|${unit}`);
+  }
+  return out;
+}
+
 /** Targeted deterministic checks for the unsupported commitments observed in the real
  * bake-off. This is deliberately a bounded guard, not a claim to verify arbitrary prose. */
 export function findCopyClaimGaps(text, contextText) {
   const delivery = String(contextText || "").split("\n").filter((line) => /^(?:Offer|Program)\s*\//i.test(line)).join("\n");
   const sentences = String(text || "").split(/(?<=[.!?])\s+|\n+/).filter(Boolean);
+  const gaps = [];
+  // A spelled-out or digit duration ("in ten minutes", "within 14 days") the client never gave is an invented fact;
+  // the digit-only number check cannot see number words.
+  const known = new Set(durationsIn(contextText));
+  for (const sentence of sentences) {
+    for (const duration of durationsIn(sentence)) {
+      if (!known.has(duration)) gaps.push(`a time claim that is not in the saved facts ("${duration.replace("|", " ")}"): ${sentence}`);
+    }
+  }
   const checks = [
     [/\bwritten\b.*\b(?:notes|feedback|summary|report|review|comments|annotations)\b/i, /\b(?:written|text|annotat|notes on|comments on)\b/i, "written feedback/annotations are not confirmed"],
     [/\b(?:personal|individual|async|asynchronous) video|video feedback/i, /video feedback|personal video|individual video/i, "video feedback is not confirmed"],
@@ -302,7 +324,6 @@ export function findCopyClaimGaps(text, contextText) {
     [/\b(?:limited (?:places|spots|seats)|seats? left|next cohort|next batch)\b/i, /\b(?:cohort|batch|limited|seats|spots)\b/i, "capacity or cohort claim is not confirmed"],
     [/\b(?:I'll|I will|we'll|we will)\s+(?:reply|respond|send|give).*\b(?:tip|link|consult|call)\b/i, /\b(?:reply|respond|send|give).*(?:tip|link|consult|call)\b/i, "extra follow-up promise is not confirmed"],
   ];
-  const gaps = [];
   for (const [claim, evidence, why] of checks) {
     if (evidence.test(delivery)) continue;
     for (const sentence of sentences) if (claim.test(sentence)) gaps.push(`${why}: ${sentence}`);
