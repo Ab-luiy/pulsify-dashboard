@@ -44,6 +44,23 @@ The 2026-09-23 decision to move the SaaS to React and Next.js gradually is widen
 4. Move the API into pulsify-saas and deploy from there, then port old endpoints to TypeScript by domain, each with its tests.
 5. Finish the `/admin` screens.
 
+## The agent stack (founder 2026-10-27)
+
+Agents like Jane follow one standard too, the way pages follow React and Next.js. Nothing about a model call is hand-written.
+
+| Job | Standard | In Jane |
+|---|---|---|
+| Talk to any model | AI SDK (`ai` 7, provider packages `@ai-sdk/google`, `@ai-sdk/anthropic`, `@ai-sdk/openai`, `workers-ai-provider`) | `functions/_shared/jane-models.ts`, the only door: `janeText`, `janeObject`, `janeStream` |
+| Tools the model can call | `tool({ inputSchema: z.object(...) })` with a step limit (`isStepCount`) | the ten read-only lookups in `copy-agent.ts` |
+| Structured answers | `Output.object({ schema })` with Zod, never hand-parsed JSON | evidence notes, answer and draft checks, memory, learnings |
+| Streaming | `streamText`; our SSE events (`meta`, `lookup`, `status`, `delta`, `stats`, `done`) stay the contract with the screen | `janeStream` |
+| Fallback and limits | next free model on a 429 or 503, usage per call into the usage panel | `janeRun`, `recordJaneUsage` |
+| Knowledge | one compiled library (`build-copy-knowledge.mjs`), Vectorize for meaning search, D1 for chats and memory | 241 passages, 12 task cards |
+| Quality | evidence notes before writing, a claim check on every answer, live evaluation with a synthetic client | `tools/eval-jane-live.mjs` |
+| Tests | `MockLanguageModelV4` from `ai/test` runs the real SDK code paths with no network | `tests/_jane-mock.mjs` |
+
+Rules for any new agent: model calls only through its `*-models.ts` door; every tool has a Zod input schema, is read-only unless a person approves, and takes the client from the signed-in session, never from the model; every structured answer is a Zod object; tool results and saved text are reference data, never instructions; a step and lookup budget bounds every loop. Not yet moved: Jane's other generators (stories, carousels, YouTube, thumbnails) still use `ai-provider.js`; port them by domain. Next step on the screen side: the AI SDK chat hook, replacing the hand-written stream reader. Details: Brain `output/standard-preview/docs/jane-knowledge.md`.
+
 ## Open questions
 
 - Per-lead URLs and link previews on a static export need the spike in rule 7 before anything ships.

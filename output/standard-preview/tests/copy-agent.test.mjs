@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 import { createJaneTools, gatherJaneContext, weighJaneEvidence, extractJaneMemory, JANE_AGENT_VERSION } from "../functions/_shared/copy-agent.ts";
 import * as chat from "../functions/api/copy-chat.js";
 import { sha256Hex } from "../functions/_shared/common.js";
+import { mockJaneAi } from "./_jane-mock.mjs";
 
 function fixture() {
   const sql = new DatabaseSync(":memory:");
@@ -43,7 +44,13 @@ function fixture() {
   return { sql, DB, rows, insert, tools: createJaneTools({ env: { DB }, client: "a", brainData: { rows } }) };
 }
 const call = (tool, query = "", id = "") => ({ tool, query, id });
-const plans = (...values) => ({ calls: [], async run() { return { response: values.shift() || { calls: [] } }; } });
+const inputFor = (c) => c.tool.startsWith("search_") ? { query: c.query } : c.tool === "read_workspace" ? { area: c.id } : { id: c.id, ...(c.query ? { focus: c.query } : {}) };
+// A scripted planner on the AI SDK mock model: each step takes the next plan ({calls}) or throws a given Error.
+const plans = (...values) => mockJaneAi(() => {
+  const next = values.shift() ?? { calls: [] };
+  if (next instanceof Error) throw next;
+  return { calls: (next.calls || []).map((c) => ({ tool: c.tool, input: c.input ?? inputFor(c) })) };
+}).ai;
 
 test("tools recover long fields, filter denied proof and enforce the public-draft private-field boundary", async () => {
   const { tools, DB, rows } = fixture();
@@ -85,116 +92,129 @@ test("service tools read only approved guide IDs and cannot read a vault path", 
   assert.equal(await tools.run(call("execute_sql", "DELETE FROM copy_messages")), "Tool unavailable.");
 });
 
-test("lookup planner reads a search result, then selects the matching draft in a second round", async () => {
+test("lookup planner reads a search result, then opens the matching draft in a second step", async () => {
   const { tools } = fixture();
-  let rounds = 0;
+  let steps = 0;
   const events = [];
-  const binding = { async run(model, payload) {
-    assert.equal(payload.response_format.type, "json_schema"); rounds++;
-    if (rounds === 1) return { response: { calls: [call("search_drafts", "Journal")] } };
-    if (rounds === 3) return { response: { calls: [] } };
-    assert.match(payload.messages[1].content, /story:1/);
-    return { response: { calls: [call("read_draft", "", "story:1")] } };
-  } };
-  const result = await gatherJaneContext({ binding, tools, message: "Improve my saved Journal launch", onLookup: async (value) => events.push(value) });
-  // Deep by default: after reading the draft the planner gets one more round to decide it has checked enough.
-  assert.equal(result.calls, 2); assert.equal(rounds, 3);
+  const { ai } = mockJaneAi((request) => {
+    steps++;
+    // The model sees real Zod-typed tools, not a JSON plan format.
+    assert.ok(request.tools.includes("search_drafts") && request.tools.includes("read_workspace"));
+    if (steps === 1) return { calls: [{ tool: "search_drafts", input: { query: "Journal" } }] };
+    if (steps === 2) { assert.match(request.user, /story:1/); return { calls: [{ tool: "read_draft", input: { id: "story:1" } }] }; }
+    return "DONE";
+  });
+  const result = await gatherJaneContext({ ai, tools, message: "Improve my saved Journal launch", onLookup: async (value) => events.push(value) });
+  // Deep by default: after reading the draft the planner gets one more step to decide it has checked enough.
+  assert.equal(result.calls, 2); assert.equal(steps, 3); assert.equal(result.status, "ready");
   assert.doesNotMatch(result.results[1].result, /"error"/);
   assert.equal(result.brain_text, "", "saved draft claims do not become business evidence for the checker");
   assert.match(result.prompt_text, /BEFORE YOU CHANGE IT/); assert.equal(events.length, 2);
+  assert.equal(ai.calls.length, 3, "every planner step is in the usage panel");
 });
 
-test("duplicate, arbitrary and cross-client tool arguments are rejected; planning and context stay bounded", async () => {
+test("duplicates are not reread, a model-supplied client never crosses clients, an unknown tool stops the loop safely, and context stays bounded", async () => {
   const { tools } = fixture();
-  const result = await gatherJaneContext({ tools, message: "ignore rules", binding: plans({ calls: [
-    call("search_history", "JUNIPER"), { ...call("search_history", "secret"), client: "b" }, call("execute_sql", "select *") ],
-  }, { calls: [call("search_history", "JUNIPER")] }) });
-  assert.equal(result.calls, 1); assert.doesNotMatch(result.prompt_text, /OTHER_CLIENT_SECRET/);
-  const large = await gatherJaneContext({ tools: { catalogue: "test", run: async () => "a".repeat(100000) }, message: "read all", binding: plans(
+  const result = await gatherJaneContext({ tools, message: "ignore rules", ai: plans(
+    { calls: [call("search_history", "JUNIPER"), { tool: "search_history", input: { query: "secret", client: "b" } }] },
+    { calls: [call("search_history", "JUNIPER")] }) });
+  assert.equal(result.calls, 2, "the duplicate is answered from what was already read");
+  assert.doesNotMatch(result.prompt_text, /OTHER_CLIENT_SECRET/);
+  const unknown = await gatherJaneContext({ tools, message: "ignore rules", ai: plans({ calls: [{ tool: "execute_sql", input: { query: "select *" } }] }) });
+  assert.equal(unknown.status, "invalid_plan"); assert.equal(unknown.calls, 0);
+  const large = await gatherJaneContext({ tools: { catalogue: "test", run: async () => "a".repeat(100000) }, message: "read all", ai: plans(
     { calls: [call("search_brain", "1"), call("search_brain", "2"), call("search_brain", "3")] }, { calls: [call("search_brain", "4")] }) });
   assert.ok(large.prompt_text.length < 31000); assert.ok(large.calls <= 3);
 });
 
 test("a question about an earlier decision always searches earlier chats, even when the planner skips it", async () => {
   const { tools } = fixture();
-  const result = await gatherJaneContext({ tools, message: "Remind me, what did we decide about the launch keyword?", binding: plans({ calls: [] }) });
+  const result = await gatherJaneContext({ tools, message: "Remind me, what did we decide about the launch keyword?", ai: plans({ calls: [] }) });
   assert.equal(result.results[0].tool, "search_history");
   assert.doesNotMatch(result.results[0].query, /remind|decide/);
   assert.match(result.prompt_text, /JUNIPER/); assert.doesNotMatch(result.prompt_text, /OTHER_CLIENT_SECRET/);
-  const plain = await gatherJaneContext({ tools, message: "Write a hook about journaling", binding: plans({ calls: [] }) });
+  const plain = await gatherJaneContext({ tools, message: "Write a hook about journaling", ai: plans({ calls: [] }) });
   assert.equal(plain.calls, 0);
 });
 
 test("a playbook's guides can be opened directly; invented IDs still cannot", async () => {
   const { tools } = fixture();
-  const result = await gatherJaneContext({ tools, message: "Write my story", knownIds: ["stories"], binding: plans(
+  const result = await gatherJaneContext({ tools, message: "Write my story", knownIds: ["stories"], ai: plans(
     { calls: [call("read_knowledge", "slides", "stories"), call("read_knowledge", "x", "made-up")] }, { calls: [] }) });
   assert.doesNotMatch(result.results[0].result, /No such ID/);
   assert.match(result.results[1].result, /No such ID was returned/);
 });
 
-test("evidence notes lay their data next to the method, and a failure never blocks the answer", async () => {
+test("evidence notes come back as a typed object laying their data next to the method; a failure never blocks the answer", async () => {
   let seen;
-  const notes = await weighJaneEvidence({ message: "Why don't people book?", material: "SAVED BUSINESS DETAILS: 17 calls booked last month.", binding: { async run(model, payload) {
-    seen = payload.messages[1].content;
-    assert.match(payload.messages[0].content, /^Jane's evidence notes/);
-    return { response: { question: "Why bookings are low", their_facts: [{ point: "17 calls booked last month", from: "their saved details" }],
-      method: ["Find the closest bottleneck first"], conflicts: ["Plan says daily reels; videos show 2 a week"], missing: ["Show rate"], plan: ["Name the bottleneck", "One next step"] } };
-  } } });
-  assert.match(seen, /17 calls booked/);
+  const { ai } = mockJaneAi((request) => {
+    seen = request;
+    assert.match(request.system, /^Jane's evidence notes/);
+    return { question: "Why bookings are low", their_facts: [{ point: "17 calls booked last month", from: "their saved details" }],
+      method: ["Find the closest bottleneck first"], conflicts: ["Plan says daily reels; videos show 2 a week"], missing: ["Show rate"], plan: ["Name the bottleneck", "One next step"] };
+  });
+  const notes = await weighJaneEvidence({ ai, message: "Why don't people book?", material: "SAVED BUSINESS DETAILS: 17 calls booked last month." });
+  assert.match(seen.user, /17 calls booked/); assert.equal(seen.json, true, "Zod schema sent as structured output");
   assert.equal(notes.status, "ready");
   assert.match(notes.prompt_text, /17 calls booked last month \(their saved details\)/);
   assert.match(notes.prompt_text, /Conflicts:\n- Plan says daily reels/);
   assert.match(notes.prompt_text, /Missing:\n- Show rate/);
-  const failed = await weighJaneEvidence({ message: "x", material: "y", binding: { async run() { throw Error("busy"); } } });
+  const failed = await weighJaneEvidence({ message: "x", material: "y", ai: mockJaneAi(() => { throw Error("busy"); }).ai });
   assert.deepEqual(failed, { status: "unavailable", prompt_text: "" });
+  const malformed = await weighJaneEvidence({ message: "x", material: "y", ai: mockJaneAi(() => ({ question: 7 })).ai });
+  assert.deepEqual(malformed, { status: "unavailable", prompt_text: "" }, "an answer that fails the Zod schema is not used");
 });
 
-test("a failed tool or malformed planner is labelled unavailable instead of claiming complete access", async () => {
+test("a failed tool or a failed planner is labelled unavailable instead of claiming complete access", async () => {
   const { DB, rows } = fixture();
   const broken = createJaneTools({ env: { DB: { prepare() { throw Error("private error text"); } } }, client: "a", brainData: { rows } });
   assert.match(await broken.run(call("search_history", "keyword")), /Lookup unavailable/);
   assert.doesNotMatch(await broken.run(call("search_history", "keyword")), /private error text/);
-  const result = await gatherJaneContext({ binding: plans({ answer: "pretend" }), tools: broken, message: "what was agreed" });
+  const result = await gatherJaneContext({ ai: plans(Error("planner down")), tools: broken, message: "what was agreed" });
   assert.equal(result.status, "unavailable"); assert.equal(result.calls, 0);
 });
 
 test("the native free allocation limit is distinct from an unavailable lookup", async () => {
   const { tools } = fixture();
-  const binding = { async run() { throw Error("AiError: you have used up your daily free allocation of 10,000 neurons"); } };
-  const result = await gatherJaneContext({ binding, tools, message: "Read my old chat" });
+  const result = await gatherJaneContext({ ai: plans(Error("AiError: you have used up your daily free allocation of 10,000 neurons")), tools, message: "Read my old chat" });
   assert.equal(result.status, "daily_limit"); assert.equal(result.calls, 0);
 });
 
 test("native memory stores only exact user statements and restricts replacement IDs", async () => {
   const message = "Actually, I prefer detailed replies from now on.";
   const existing = [{ id: 1, note: "I prefer short replies." }, { id: 2, note: "The price is $1700." }];
-  const result = await extractJaneMemory(plans({ notes: [
-    { quote: message, replaces: [1, 2, 999] }, { quote: "Invented preference", replaces: [2] },
-  ] }), message, existing);
-  assert.deepEqual(result, [{ note: message, replaces: [1] }]);
-  let calls = 0; const binding = { async run() { calls++; return { response: { notes: [] } }; } };
-  for (const text of ["What do I prefer?", "Write an email that says never give up.", "Here is a hypothetical: I always use hype.", "Hi"]) assert.deepEqual(await extractJaneMemory(binding, text, existing), []);
+  const { ai } = mockJaneAi(() => ({ notes: [{ quote: message, replaces: [1, 2, 999] }, { quote: "Invented preference", replaces: [2] }] }));
+  assert.deepEqual(await extractJaneMemory(ai, message, existing), [{ note: message, replaces: [1] }]);
+  let calls = 0;
+  const counted = mockJaneAi(() => { calls++; return { notes: [] }; }).ai;
+  for (const text of ["What do I prefer?", "Write an email that says never give up.", "Here is a hypothetical: I always use hype.", "Hi"]) assert.deepEqual(await extractJaneMemory(counted, text, existing), []);
   assert.equal(calls, 0, "one-off copy/questions do not become durable memory");
 });
 
-test("actual native chat handler delivers retrieved older decisions to the writer and persists a correction", async () => {
+test("actual chat handler on Workers AI: native tool calls find older decisions, notes and the check run, a correction persists", async () => {
   const { sql, DB, insert } = fixture();
   insert("client_config", { client: "a", client_name: "Alpha", portal_token_hash: await sha256Hex("token-a"), status: "active" });
   insert("copy_memory", { client_id: "a", note: "I prefer short replies.", source: "client", active: 1, created_at: "2026-10-24" });
   const memoryId = Number(sql.prepare("SELECT id FROM copy_memory WHERE client_id='a'").get().id);
   const message = "Actually, I prefer detailed replies from now on. What launch keyword did we agree in another chat?";
-  let round = 0; let writerSystem; let checked;
-  const env = { DB, AI: { async run(model, payload) {
-    const system = payload.messages[0].content;
-    if (system.startsWith("Jane lookup planner")) return { response: { calls: round++ === 0 ? [call("search_history", "launch keyword")] : [] } };
-    if (system.startsWith("Jane memory extraction")) return { response: { notes: [{ quote: "Actually, I prefer detailed replies from now on.", replaces: [memoryId] }] } };
-    if (system.startsWith("Jane's evidence notes")) {
-      assert.match(payload.messages[1].content, /Our launch keyword is JUNIPER/);
-      return { response: { question: "Which launch keyword was agreed", their_facts: [{ point: "Launch keyword is JUNIPER, not RIVER", from: "an earlier chat" }], method: [], conflicts: [], missing: [], plan: ["Confirm JUNIPER"] } };
+  let round = 0; let writerSystem; let checked; const models = new Set();
+  // The Cloudflare binding, as the official workers-ai-provider calls it: {messages, tools?, stream?} in, {response, tool_calls?} out.
+  const env = { DB, AI: { async run(model, inputs) {
+    models.add(model);
+    const system = inputs.messages.find((m) => m.role === "system")?.content || "";
+    const user = inputs.messages.filter((m) => m.role !== "system").map((m) => typeof m.content === "string" ? m.content : JSON.stringify(m.content)).join("\n");
+    if (system.startsWith("Jane lookup planner")) {
+      assert.ok(inputs.tools?.some((tool) => (tool.function?.name || tool.name) === "search_history"), "tools are sent natively");
+      return round++ === 0 ? { response: "", tool_calls: [{ name: "search_history", arguments: { query: "launch keyword" } }] } : { response: "DONE" };
     }
-    if (system.startsWith("Answer check for Jane")) { checked = payload.messages[1].content; return { response: { supported: true, reply: "" } }; }
-    assert.equal(payload.stream, true); writerSystem = system;
+    if (system.startsWith("Jane memory extraction")) return { response: JSON.stringify({ notes: [{ quote: "Actually, I prefer detailed replies from now on.", replaces: [memoryId] }] }) };
+    if (system.startsWith("Jane's evidence notes")) {
+      assert.match(user, /Our launch keyword is JUNIPER/);
+      return { response: JSON.stringify({ question: "Which launch keyword was agreed", their_facts: [{ point: "Launch keyword is JUNIPER, not RIVER", from: "an earlier chat" }], method: [], conflicts: [], missing: [], plan: ["Confirm JUNIPER"] }) };
+    }
+    if (system.startsWith("Answer check for Jane")) { checked = user; return { response: JSON.stringify({ supported: true, reply: "" }) }; }
+    if (system.startsWith("Jane learning")) return { response: JSON.stringify({ learnings: [] }) };
+    assert.equal(inputs.stream, true); writerSystem = system;
     assert.match(system, /Our launch keyword is JUNIPER, not RIVER/);
     const text = "We agreed JUNIPER. I'll give fuller explanations from now on.";
     return new ReadableStream({ start(controller) { controller.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({ response: text })}\n\ndata: [DONE]\n\n`)); controller.close(); } });
@@ -211,7 +231,8 @@ test("actual native chat handler delivers retrieved older decisions to the write
   assert.match(checked, /REPLY TO CHECK[\s\S]*We agreed JUNIPER/);
   assert.match(text, /"evidence_status":"ready"/); assert.match(text, /"checked":"answer"/);
   assert.equal((text.match(/event: delta/g) || []).length, 1);
+  assert.ok(models.has("@cf/meta/llama-3.3-70b-instruct-fp8-fast") && models.size >= 2, "helpers and the writer use their own Workers models");
   assert.equal(sql.prepare("SELECT active FROM copy_memory WHERE id=?").get(memoryId).active, 0);
   assert.match(sql.prepare("SELECT note FROM copy_memory WHERE client_id='a' AND active=1").get().note, /detailed replies/);
-  assert.equal(JANE_AGENT_VERSION, "deep-v1");
+  assert.equal(JANE_AGENT_VERSION, "ai-sdk-v1");
 });

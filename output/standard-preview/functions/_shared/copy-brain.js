@@ -255,21 +255,6 @@ export function needsCopyReview(message, format) {
   return format !== "general" && /^\s*(?:an?|one|two|three|four|five|six|seven|eight|nine|ten|\d+)\b[^.?!\n]{0,40}?\b(?:emails?|newsletters?|story|stories|slides?|sequences?|reels?|dms?|reply|replies|youtube|videos?|titles?|thumbnails?|hooks?|captions?|scripts?)\b/i.test(text);
 }
 
-// Cloudflare-hosted open model, only for the bounded draft check. The conversation writer
-// and provider switch stay unchanged. Verified against actual synthetic drafts (#86).
-export const JANE_REVIEW_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-
-export function copyReviewAi(ai, model = JANE_REVIEW_MODEL) {
-  if (ai.mode !== "workers") return ai;
-  return { ...ai, model, binding: { async run(chosen, payload) {
-    const result = await ai.binding.run(chosen, { ...payload, response_format: { type: "json_schema", json_schema: {
-      type: "object", properties: { supported: { type: "boolean" }, reply: { type: "string" } }, required: ["supported", "reply"], additionalProperties: false,
-    } } });
-    // Workers AI JSON mode can return an object; the existing provider expects response text.
-    return result?.response && typeof result.response === "object" ? { ...result, response: JSON.stringify(result.response) } : result;
-  } } };
-}
-
 // Prompt rules alone still invented delivery features in the real-model check (#86).
 // Requested drafts get a separate grounding pass before the text is exposed or saved.
 export function groundingReviewPrompt({ clientContext, messages, draft }) {
@@ -296,8 +281,9 @@ export function answerCheckPrompt({ clientContext, method = "", evidence = "", m
   };
 }
 
+// `review` is the typed {supported, reply} object from the AI SDK check, or its JSON text.
 export function applyGroundingReview(draft, review) {
-  const result = parseModelJson(review);
+  const result = typeof review === "string" ? parseModelJson(review) : review;
   // A confirmed draft keeps the writer's exact words; the deterministic claim check still runs after this.
   if (result?.supported === true) return String(draft).trim();
   if (typeof result?.reply !== "string" || !result.reply.trim()) throw new Error("Invalid grounding review");
