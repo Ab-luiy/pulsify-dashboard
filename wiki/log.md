@@ -769,3 +769,7 @@ On 2026-10-22 the founder asked that everything worked out in the DM sequence se
 
 Founder: Jane doesn't use our title formulas, and his own title rewrites are the goldmine. His earlier rewrites could not be found anywhere on this PC (Claude and Codex chats, vault, app). New page [[content-engine/title-voice-bank]] holds the method, examples for our seven niches and a Founder rewrites section; Jane reads it on every title request, uses the client's real numbers or a visible slot, and her titles are no longer retyped by the claim check.
 
+## [2026-10-27] client | Nick's ICP saved; Jane follows the app's gradient profile
+
+Founder supplied Nick's worked ICP (NiicksFx ICP.pdf): saved as [[clients/nick/icp-alex]] with the PDF in raw-sources/client-raw/nick/. Same 28-point framework as [[people/marcus-avatar]] (27 filled); no 48-point version exists in the vault or any chat, which answers open questions 1 and 2 of the Codex brief synthesis/create-icp-jane-claude-handoff-2026-10-27 (that brief is in the primary vault checkout, not yet on main). Jane's room now follows the glow chosen in Settings (dark static mesh in that colour), replacing the bright rooms, per the founder's 08:08 instruction to Codex.
+
