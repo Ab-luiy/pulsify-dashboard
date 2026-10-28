@@ -40,6 +40,8 @@ test("invented results become a visible slot; real figures and craft numbers sta
   assert.equal(checkCreateNumbers("twenty students joined", ["We have twenty students"]).output, "20 students joined", "a real figure in words is real");
   assert.equal(checkCreateNumbers("the one rule, two steps and five setups", []).output, "the one rule, two steps and five setups");
   assert.equal(checkCreateNumbers("40 percent more reach, risk 0.5 percent per trade", []).output, `${NUMBER_SLOT} more reach, risk 0.5% per trade`);
+  assert.equal(checkCreateNumbers("entry on the 5m chart, then size 3 x 2", []).output, "entry on the 5m chart, then size 3 x 2", "a 5-minute chart is not 5 million");
+  assert.equal(checkCreateNumbers("he made 2m last year and 3x his account", []).output, `he made ${NUMBER_SLOT} last year and ${NUMBER_SLOT} his account`);
 });
 
 test("Create runs on Jane's Gemini but keeps its own daily counter; Jane chat keeps hers", async (t) => {

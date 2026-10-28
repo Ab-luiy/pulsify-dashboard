@@ -43,6 +43,7 @@ const SUFFIX = { k: 1e3, m: 1e6, b: 1e9 };
 const RESULT_AFTER = /^\s*(?:\+\s*)?(?:(?:more|new|paying|funded|active|happy|real|trading|green|profitable|winning|straight|consecutive)\s+)?(?:students?|clients?|members?|followers?|subs|subscribers?|views?|sales|customers?|orders?|buyers?|accounts?|payouts?|wins?|calls?|leads?|applications?|bookings?|days?|weeks?|months?|years?)\b/i;
 // A percentage is a claim when it sits next to a result ("40% more reach"), not when it is a level ("50% retracement").
 const PERCENT_CLAIM = /win ?rate|return|roi|profit|drawdown|grow|increase|\bmore\b|higher|boost|conver|close rate|show rate|reach|revenue|sales|students|clients|members|followers|views|engagement/i;
+const TIMEFRAME_AFTER = /^\s*(?:chart|candles?|timeframe|tf|bars?|close|open|entr(?:y|ies)|setup|structure|level|high|low)\b/i;
 
 // Numbers written as words ("twenty trading days", "one percent") become digits first, so the check sees them.
 const WORD_VALUES = { one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12,
@@ -70,8 +71,10 @@ function claimed(text, match, index) {
   const before = text.slice(0, index), after = text.slice(index + whole.length);
   // Times and ratios (9:30, 0:45, 1:2, 16:9) are not results.
   if (/\d:\s?$/.test(before) || /^:\d/.test(after)) return null;
+  // "the 5m chart" is a five-minute chart, not five million.
+  if (unit === "m" && !currency && (TIMEFRAME_AFTER.test(after) || /\b(?:on|the|a|use|using|trade|trading)\s*$/i.test(before))) return null;
   if (currency || SUFFIX[unit]) return value;
-  if (unit === "x") return value;
+  if (unit === "x") return /\sx$/i.test(whole) ? null : value;
   if (unit === "%") {
     // Only the words in the same clause count ("40% more reach, risk 0.5% per trade": the second is a rule).
     const marks = [".", ",", ";", "!", "?", "\n", "/"];

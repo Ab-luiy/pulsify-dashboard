@@ -139,6 +139,8 @@ export async function onRequestPost({ request, env }) {
   } catch (error) {
     mode = "manual";
     warning = `Model output was not valid JSON: ${safeMessage(error)}`;
+    // The unreadable answer is still shown and saved, so it gets the number check too.
+    ({ output: rawText, numbers } = checkCreateNumbers(String(rawText || ""), [prompt.user]));
     outputJson = JSON.stringify({ raw_text: rawText, parse_error: warning });
     parsed = null;
   }
