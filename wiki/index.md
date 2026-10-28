@@ -21,6 +21,7 @@ Every page in the Pulsify wiki, organized by category. Each entry: link, one-lin
 
 | Page | Summary | Created |
 |---|---|---|
+| [[clients/nick/icp-alex]] | Nick's worked ICP "Alex, Ambitious & Anxious": story plus the 28-point deep dive (27 filled); first test case for the app's ICP section | 2026-10-27 |
 | [[people/marcus-avatar]] | Full 28-point ICP profile for "Ambitious Stalled Marcus" — Pulsify's primary prospect | 2026-05-02 |
 | [[people/alexei]] | CEO of Info Accelerator, $58K/month from 4,500 subs — the proof-of-concept for Pulsify's micro niche thesis | 2026-05-02 |
 | [[people/ayman-arab]] | $100K+/month YouTube operator — source of three content types, packaging rules, and tracking framework | 2026-05-02 |
