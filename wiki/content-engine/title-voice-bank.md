@@ -3,7 +3,7 @@ type: content-engine
 tags: [youtube, titles, thumbnails, packaging, jane, voice]
 sources: [[content-engine/pulsify-content-niche-batches-2026-06]], [[content-engine/packaging-rules]], [[synthesis/content-decisions-recap-2026-10-27]]
 created: 2026-10-27
-updated: 2026-10-27
+updated: 2026-10-30
 ---
 
 # Title voice bank
@@ -12,7 +12,8 @@ The titles Jane learns from. Jane reads this page (built into the app by `output
 
 ## How to add to it
 
-- When the founder rewrites a title in his own words, add it under "Founder rewrites" the same day, as `- \`his title\` | thumbnail text | what it was before or why`.
+- When the founder rewrites a title in his own words, add it under "Founder rewrites" the same day, as `- \`his title\` | thumbnail text | what it was before or why`. Write `-` for the thumbnail when he gave none; Jane then sees the title alone.
+- Titles he turns down go under "Not his direction" as plain lines, so Jane never copies them.
 - Niche examples use the same line format under their niche heading. Figures in examples are illustrative; Jane is told to use the client's real numbers or leave a slot.
 - After editing, run `node tools/build-title-bank.mjs` in `output/standard-preview` and release. `--check` fails if the app's copy is out of date.
 - No em dashes, no question marks, lowercase except names. Never a source creator's name.
@@ -29,7 +30,20 @@ The titles Jane learns from. Jane reads this page (built into the app by `output
 
 ## Founder rewrites
 
-None saved yet. The founder's earlier rewrites could not be found on 2026-10-27 (not in any Claude or Codex chat on this PC, the vault or the app), so the next round goes here.
+His earlier rewrites could not be found on 2026-10-27, so this list starts with the first round he sent on 2026-10-30, for Pulsify's own channel (the Marcus ICP). He said the thumbnail texts in that round didn't make sense, so none are kept.
+
+- `how this trading coach is now making $53,902 a month` | - | was "how a trading coach went to $50k months (full breakdown)": "this", an exact odd number, "is now making", no bracket
+- `why your second launch flopped and how to fix it (step by step)` | - | kept as written ("I don't mind this")
+- `how you can make $100k with 1k subs (full breakdown)` | - | was "1,000 subscribers is enough for $100k months (micro-niche strategy)": talks to "you", short "1k subs"
+- `how this funnel booked 100+ calls in 14 days` | - | was "the profile funnel that books calls from cold traffic (step by step)": a count and a short timeframe instead of the mechanism's name
+- `how 7-figure coaches keep selling to their audiences` | - | was "how to end feast and famine months as a coach (full breakdown)": the people he wants to be, and the outcome instead of the problem
+- `you're doing content wrong` | - | was "your posts get likes and zero buyers, here's the fix (full breakdown)": short and blunt
+- `how to copy your way to 7 figures for coaches` | - | new; he moved "stop copying big creators' thumbnails" to short form
+
+### Not his direction
+
+- "why i won't promise you $100k in 90 days (honest breakdown)": "bad direction", nobody can make a video out of it. A title about what you won't do is not a video.
+- "stop judging youtube by your first 5 videos (do this instead)": "more of a reel approach, or a mindset video". Mindset angles are reels, not long-form titles.
 
 ## Trading
 
