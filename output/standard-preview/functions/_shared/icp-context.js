@@ -24,7 +24,7 @@ export function validateIcp(data) {
     if (point?.n !== index + 1 || !isText(point.name, 60) || !isText(point.sum) || !isList(point.lines, 0, 40) || !point.lines.every((line) => isText(line))) problems.push(`Point ${index + 1} is malformed.`);
   });
   const lines = (n) => (points?.[n - 1]?.lines?.length ?? 0);
-  if (!isList(data.pains, 1, 8)) problems.push('The ICP has one to eight pains.');
+  if (!isList(data.pains, 1, 6)) problems.push('The ICP has one to six pains (three a side on the map).');
   else data.pains.forEach((pain, index) => {
     if (!isText(pain?.tag, 40) || !isText(pain.title, 200) || !isText(pain.more) || !isList(pain.evidence, 1, 40)) return problems.push(`Pain ${index + 1} is malformed.`);
     for (const ref of pain.evidence) if (!Array.isArray(ref) || !isPoint(ref[0]) || !Number.isInteger(ref[1]) || ref[1] < 0 || ref[1] >= lines(ref[0])) problems.push(`Pain ${index + 1} points at a line that doesn't exist.`);
