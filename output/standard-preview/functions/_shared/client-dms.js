@@ -18,6 +18,7 @@ import { cleanId, nowIso, str } from "./common.js";
 import { contactDetailsIn, normalizeHandle } from "./lead-identity.js";
 import { clientAccountId } from "./follower-places.js";
 import { usernameOf } from "./zernio.js";
+import { recordStoryReply } from "./story-metrics.js";
 
 const iso = (value) => {
   const time = Date.parse(value || "");
@@ -142,6 +143,8 @@ export async function storeClientDm(env, client, conversation = {}, message = {}
   await env.DB.prepare("INSERT OR IGNORE INTO ig_dm_events (message_id, client_id, contact_id, direction, at, ref, ref_label) VALUES (?,?,?,?,?,?,?)")
     .bind(messageId, clientId, id, direction, at, ref, refLabel).run();
   const link = direction === "inbound" ? await linkContact(env, clientId, id, { text: message.text ?? message.message ?? "" }) : null;
+  // A reply to one of the client's stories also counts on that story (Instagram > Metrics).
+  if (direction === "inbound") await recordStoryReply(env, clientId, id, conversation, message, at).catch(() => null);
   return { stored: true, contact: id, created: !existing, link, ref: ref || null };
 }
 

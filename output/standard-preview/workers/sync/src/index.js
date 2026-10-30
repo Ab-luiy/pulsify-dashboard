@@ -12,6 +12,7 @@ import { syncSearchIndex } from "./jobs/search-index.js";
 import { syncClientVideosJob } from "./jobs/client-videos.js";
 import { refreshLeadModelsJob } from "./jobs/lead-models.js";
 import { syncFollowerPlaces } from "./jobs/follower-places.js";
+import { captureStories } from "./jobs/story-capture.js";
 import { callDayNudges } from "../../../functions/_shared/call-day.js";
 import { contentReminders } from "../../../functions/_shared/content-reminders.js";
 import { authCleanup } from "../../../functions/_shared/auth-cleanup.js";
@@ -29,6 +30,8 @@ const JOBS = {
   "client-videos": syncClientVideosJob,
   "lead-models": refreshLeadModelsJob,
   "client-instagram": syncClientInstagram,
+  // Live stories read while they are up (story-capture.js): every minute, within its own Zernio budget.
+  "story-capture": (env) => captureStories(env),
   // Pulsify's own wallets: new payments become receipts. Runs on Pages, where the email key lives.
   "crypto-watch": async (env) => { const r = await runAutomation(env, "crypto-watch"); if (r.ok === false) throw new Error(r.error || r.skipped || "crypto-watch failed"); return r.count || 0; },
 };
@@ -80,7 +83,7 @@ export default {
       ctx.waitUntil(runJob(env, "instagram-inbox", () => syncInstagramInbox(env)));
       return json({ ok: true, accepted: true }, 202);
     }
-    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models|client-instagram)$/.exec(url.pathname);
+    const match = /^\/run\/(youtube|instagram|instagram-inbox|leads|webhook-outbox|payment-rematch|zernio-inbox|search-index|client-videos|lead-models|client-instagram|story-capture)$/.exec(url.pathname);
     if (request.method === "POST" && match) {
       const operator = await validateAccess(accessToken(request), env.ACCESS_AUD);
       if (!operator) return json({ ok: false, error: "operator sign-in required" }, 401);
@@ -105,7 +108,7 @@ export function scheduledJobs(cron, scheduledTime = Date.now()) {
   if (cron !== "* * * * *") { const job = scheduledJob(cron); return job ? [job] : []; }
   const minute = new Date(scheduledTime).getUTCMinutes();
   // The lead score refit gets a minute of its own (one client per run, CPU-light).
-  return ["webhook-outbox", ...(minute % 2 === 1 ? ["crypto-watch"] : []), ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : []), ...(minute % 10 === 3 ? ["lead-models"] : [])];
+  return ["webhook-outbox", "story-capture", ...(minute % 2 === 1 ? ["crypto-watch"] : []), ...(minute % 5 === 0 ? ["instagram-inbox", "zernio-inbox"] : []), ...(minute % 15 === 0 ? ["search-index"] : []), ...(minute % 10 === 3 ? ["lead-models"] : [])];
 }
 
 export function scheduledJob(cron) {
