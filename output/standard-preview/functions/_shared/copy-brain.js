@@ -116,13 +116,14 @@ export function titleCount(text) {
  * layout (titleMethod); the Create YouTube title writer uses them as they are (youtube-titles.js).
  */
 export function titleRules({ niche = null } = {}) {
-  const line = (row) => `- ${row.title} | thumbnail: ${row.thumbnail}`;
+  const line = (row) => row.thumbnail === "-" ? `- ${row.title}` : `- ${row.title} | thumbnail: ${row.thumbnail}`;
   const founder = (TITLE_BANK.founder || []).slice(0, 12).map(line);
   const own = niche && TITLE_BANK[niche] ? TITLE_BANK[niche].map(line)
     : Object.entries(TITLE_BANK).filter(([id]) => id !== "founder").flatMap(([, rows]) => rows.slice(0, 2)).map(line);
   return [
-    `- Lowercase except names and acronyms. Under about 60 characters. The core reads in the first four words. No question marks, no dashes. End with a short bracketed kicker: (step by step), (full breakdown), (copy me), (do this) or (proof).`,
+    `- Lowercase except names and acronyms. Under about 60 characters. The core reads in the first four words. No question marks, no dashes. Some titles end with a short bracketed kicker: (step by step), (full breakdown), (copy me), (do this) or (proof); the founder's own titles mostly go without one.`,
     `- The topic is their craft: the trade, the setup, the product, the result. Never content about content, funnels or selling a course.`,
+    `- Every title is a video they can actually film: a result, a system or a how. Never a title about what they won't promise or won't do. Mindset angles are reels, not long-form titles (founder 2026-10-30).`,
     `- Every title carries a concrete, measurable result. Take numbers only from their videos, proof, saved details or this request. With no real number, write a slot like [your real number]; never invent one.`,
     `- Mix the five structures: A result reveal (how i + result + timeframe), B watch me (watch me + action, live), C the system (the setup or method that + result), D contrarian (stop or don't + the common move, then what works instead), E how i + mechanism + result.`,
     `- Mix two tiers: broad (a milestone or no number, for reach) and specific (their exact odd number, for proof).`,

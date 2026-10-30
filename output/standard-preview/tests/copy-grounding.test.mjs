@@ -153,6 +153,14 @@ test("a title never carries an invented number; real ones and small counts stay"
   assert.equal(out, "1. how i made [your real number] in [your real number] days (proof)\nThumbnail: 7 funded\n2. the $22,410 setup that paid 3 times");
 });
 
+test("the founder's own rewrites lead, without thumbnail text he never gave (founder 2026-10-30)", () => {
+  const method = titleMethod({ niche: "trading", count: 3 });
+  assert.match(method, /THE FOUNDER'S OWN TITLES[^]*- how this trading coach is now making \$53,902 a month\n/);
+  assert.doesNotMatch(method, /thumbnail: -/);
+  assert.doesNotMatch(method, /won't promise you \$100k/);
+  assert.match(method, /a video they can actually film/);
+});
+
 test("the app's title bank matches the vault page", () => {
   execFileSync(process.execPath, ["tools/build-title-bank.mjs", "--check"], { cwd: new URL("..", import.meta.url) });
 });
