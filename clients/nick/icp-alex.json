@@ -1,0 +1,690 @@
+{
+ "version": 1,
+ "name": "Alex",
+ "pronoun": "he",
+ "label": "Ambitious and anxious",
+ "headline": "Alex, ambitious and anxious",
+ "summary": "21-ish, done with the 9-to-5 idea, learning to trade off free videos at 2am. Burned by a course or two and doesn't trust anyone selling one.",
+ "points": [
+  {
+   "n": 1,
+   "name": "Trauma",
+   "sum": "Grew up feeling average. The trades that went wrong took what confidence he had.",
+   "lines": [
+    "Felt overlooked and average growing up; never “special.”",
+    "Frustrated with traditional education and life path (school → job → debt → stress).",
+    "Experienced loss of confidence from failed attempts at trading or investing."
+   ]
+  },
+  {
+   "n": 2,
+   "name": "Obstacles",
+   "sum": "Nobody he trusts to show him the way, a family pushing the safe route, and a job eating his time.",
+   "lines": [
+    "Lack of clear guidance in trading — overwhelmed by misinformation.",
+    "Trust issues due to past course scams and shady “gurus.”",
+    "Emotional rollercoaster of hope and doubt, causing inconsistent progress.",
+    "Pressure from family/friends to choose “stable” paths.",
+    "Difficulty balancing trading learning with work/school/family."
+   ]
+  },
+  {
+   "n": 3,
+   "name": "Age",
+   "sum": "19 to 24. Old enough to hate the 9-to-5, young enough to still be working out the way out.",
+   "lines": [
+    "19 to 24, early adulthood, at a crossroads in life."
+   ]
+  },
+  {
+   "n": 4,
+   "name": "Doubts",
+   "sum": "Whether any of it is real, whether he's good enough, and whether he's about to waste money again.",
+   "lines": [
+    "Am I good enough?",
+    "Are trading success stories real or scams?",
+    "Can I really escape the 9-to-5 grind?",
+    "Will I waste time and money again?"
+   ]
+  },
+  {
+   "n": 5,
+   "name": "Goals",
+   "sum": "$1k days, then $10k months. Enough to travel and take care of his family.",
+   "lines": [
+    "Achieve financial freedom through trading.",
+    "Consistently make $1,000+ days, then $10k+ per month.",
+    "Build a lifestyle with freedom, travel, and luxury.",
+    "Support family financially without stress."
+   ]
+  },
+  {
+   "n": 6,
+   "name": "Fears",
+   "sum": "Losing money, wasting more time on bad advice, and being stuck in a job forever.",
+   "lines": [
+    "Fear of failure and losing money.",
+    "Fear of being stuck forever in a dead-end job.",
+    "Fear of wasting time on bad advice.",
+    "Fear of never truly trusting oneself or others again."
+   ]
+  },
+  {
+   "n": 7,
+   "name": "Insecurities",
+   "sum": "Feels behind everyone his age, and he's starting to wonder if he's sharp or disciplined enough.",
+   "lines": [
+    "Feeling “average” or “behind” peers who seem to be winning.",
+    "Lack of confidence after repeated failures.",
+    "Self-doubt about intelligence and discipline."
+   ]
+  },
+  {
+   "n": 8,
+   "name": "Vices",
+   "sum": "Scrolls for motivation and ends up distracted. Picks up a new strategy every time the last one loses.",
+   "lines": [
+    "Scrolling social media for motivation but getting distracted.",
+    "Chasing “shiny object syndrome” with new strategies or courses.",
+    "Occasional procrastination or avoidance when overwhelmed."
+   ]
+  },
+  {
+   "n": 9,
+   "name": "Thinks about",
+   "sum": "How the guys his age pulled it off, and what his next move should be.",
+   "lines": [
+    "How to break free financially.",
+    "How others made it and whether it’s possible for him.",
+    "What the next right step is.",
+    "Balancing hustle with mental health."
+   ]
+  },
+  {
+   "n": 10,
+   "name": "Beliefs",
+   "sum": "Trading is real, most gurus aren't, and the right system would change everything.",
+   "lines": [
+    "Trading is a legitimate path but requires real work.",
+    "Most “gurus” are scams, but some genuine help exists.",
+    "Financial freedom is achievable with the right system."
+   ]
+  },
+  {
+   "n": 11,
+   "name": "Identity",
+   "sum": "Half regular guy, half entrepreneur. Wants it badly but hasn't fully committed yet.",
+   "lines": [
+    "Split between “average guy” and “ambitious entrepreneur.”",
+    "Not fully committed yet but desperate to become successful.",
+    "Views himself as a learner, hustler, and hopeful dreamer."
+   ]
+  },
+  {
+   "n": 12,
+   "name": "Emotional patterns",
+   "sum": "Hyped after a good video, flat after a loss. Quits, then comes straight back.",
+   "lines": [
+    "High motivation spikes after inspiration.",
+    "Crippling self-doubt and anxiety cycles.",
+    "Frustration leading to quitting, then restarting.",
+    "Desire for control and certainty."
+   ]
+  },
+  {
+   "n": 13,
+   "name": "Resentments",
+   "sum": "The normal path, the courses that took his money, and the people who don't get it.",
+   "lines": [
+    "Resents societal pressure to follow traditional career paths.",
+    "Resents failed courses and wasted money.",
+    "Resents friends/family who don’t understand his goals."
+   ]
+  },
+  {
+   "n": 14,
+   "name": "Role models",
+   "sum": "Young traders who are actually winning, and mentors with real results and no BS.",
+   "lines": [
+    "Young successful traders and entrepreneurs on social media.",
+    "Mentors who show real results and no BS."
+   ]
+  },
+  {
+   "n": 15,
+   "name": "Guilts and shames",
+   "sum": "",
+   "lines": []
+  },
+  {
+   "n": 16,
+   "name": "Media",
+   "sum": "Trading YouTube, Instagram and TikTok, plus Discords and Whop groups.",
+   "lines": [
+    "Instagram, TikTok, YouTube (trading content, motivational videos).",
+    "Trading forums and Discord groups & Whops"
+   ]
+  },
+  {
+   "n": 17,
+   "name": "Platforms",
+   "sum": "TradingView and Thinkorswim, and social media to learn and find his people.",
+   "lines": [
+    "Trading apps (e.g., Thinkorswim, TradingView).",
+    "Social media for learning and community."
+   ]
+  },
+  {
+   "n": 18,
+   "name": "Routines",
+   "sum": "Charts every day, late nights studying, journals for a week and then stops.",
+   "lines": [
+    "Late nights researching and practicing trading.",
+    "Checking charts daily.",
+    "Scrolling social media for motivation and tactics.",
+    "Inconsistent journaling or habit tracking."
+   ]
+  },
+  {
+   "n": 19,
+   "name": "Family",
+   "sum": "They want him in a stable job. He still wants to be the one who looks after them.",
+   "lines": [
+    "Family expects “stable” career, causing friction.",
+    "Wants to support family financially.",
+    "Friends often don’t get or support his trading dreams."
+   ]
+  },
+  {
+   "n": 20,
+   "name": "Purchases",
+   "sum": "Bought a course or two and some were a let-down. Still buys tools and books to get better.",
+   "lines": [
+    "Bought 1-2 trading courses or mentorships, some disappointing.",
+    "Regularly invests in software, books, or tools to improve."
+   ]
+  },
+  {
+   "n": 21,
+   "name": "Wellbeing",
+   "sum": "Stressed most of the time, and the late nights have wrecked his sleep.",
+   "lines": [
+    "Mental stress from uncertainty and pressure.",
+    "Possible irregular sleep due to late-night trading research."
+   ]
+  },
+  {
+   "n": 22,
+   "name": "Traits",
+   "sum": "Hungry and hardworking, but anxious, impatient and hard on himself.",
+   "lines": [
+    "Ambitious, hardworking, and hungry.",
+    "Anxious, self-critical, and impatient.",
+    "Curious and open to learning but skeptical."
+   ]
+  },
+  {
+   "n": 23,
+   "name": "Values",
+   "sum": "Freedom, real over hype, getting better, and his family.",
+   "lines": [
+    "Freedom (time, financial, personal).",
+    "Authenticity — hates fake hype and BS.",
+    "Growth and self-improvement.",
+    "Responsibility toward family."
+   ]
+  },
+  {
+   "n": 24,
+   "name": "Education",
+   "sum": "High school, maybe some college. Reckons school taught him nothing useful.",
+   "lines": [
+    "Possibly some college or high school.",
+    "Feels traditional education didn’t prepare him for real life."
+   ]
+  },
+  {
+   "n": 25,
+   "name": "Social life",
+   "sum": "Friends don't get it. His real crowd is the online trading groups.",
+   "lines": [
+    "Limited understanding/support for trading from friends.",
+    "Online trading communities are his main “tribe.”"
+   ]
+  },
+  {
+   "n": 26,
+   "name": "Hobbies",
+   "sum": "Charts, motivational videos, probably some gaming.",
+   "lines": [
+    "Trading and market analysis.",
+    "Watching motivational content.",
+    "Possibly gaming or social media."
+   ]
+  },
+  {
+   "n": 27,
+   "name": "Work experience",
+   "sum": "Part-time or low-paid jobs to cover the bills. Maybe a side hustle or two.",
+   "lines": [
+    "Part-time jobs or low-paying gigs to pay bills.",
+    "May have tried other side hustles."
+   ]
+  },
+  {
+   "n": 28,
+   "name": "Finances",
+   "sum": "Not much spare cash, so any course he buys has to be worth it.",
+   "lines": [
+    "Limited disposable income — cautious about spending on courses.",
+    "May have debt or financial pressure from family obligations."
+   ]
+  }
+ ],
+ "pains": [
+  {
+   "tag": "Fake gurus",
+   "title": "Every guru's a scam",
+   "more": "He's paid for courses that went nowhere, so every payout screenshot looks fake to him now.",
+   "evidence": [
+    [
+     2,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     10,
+     1
+    ],
+    [
+     13,
+     1
+    ],
+    [
+     14,
+     1
+    ],
+    [
+     20,
+     0
+    ],
+    [
+     22,
+     2
+    ],
+    [
+     23,
+     1
+    ]
+   ]
+  },
+  {
+   "tag": "Burned before",
+   "title": "Got burned on a course",
+   "more": "The last one left him more confused, and money's tight. Getting it wrong twice would hurt.",
+   "evidence": [
+    [
+     28,
+     0
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     6,
+     0
+    ],
+    [
+     13,
+     1
+    ],
+    [
+     19,
+     1
+    ],
+    [
+     27,
+     0
+    ],
+    [
+     20,
+     0
+    ]
+   ]
+  },
+  {
+   "tag": "Red days",
+   "title": "One red day and he's cooked",
+   "more": "A few green days and he thinks he's cracked it. One loss and he's asking if he's cut out for this.",
+   "evidence": [
+    [
+     1,
+     2
+    ],
+    [
+     7,
+     1
+    ],
+    [
+     12,
+     1
+    ],
+    [
+     4,
+     0
+    ],
+    [
+     22,
+     1
+    ],
+    [
+     6,
+     0
+    ]
+   ]
+  },
+  {
+   "tag": "Falling behind",
+   "title": "Everyone his age is winning",
+   "more": "His feed is people his age posting payouts and trips. It fires him up and stings at the same time.",
+   "evidence": [
+    [
+     7,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     8,
+     0
+    ],
+    [
+     11,
+     0
+    ],
+    [
+     14,
+     0
+    ],
+    [
+     9,
+     1
+    ]
+   ]
+  },
+  {
+   "tag": "Chasing setups",
+   "title": "New strategy every week",
+   "more": "Free videos, PDFs, Discords. Plenty of info and no actual plan.",
+   "evidence": [
+    [
+     2,
+     0
+    ],
+    [
+     8,
+     1
+    ],
+    [
+     9,
+     2
+    ],
+    [
+     18,
+     0
+    ],
+    [
+     16,
+     0
+    ]
+   ]
+  },
+  {
+   "tag": "Family doubts",
+   "title": "Parents say get a real job",
+   "more": "They want him to be realistic. He wants to prove them wrong and still look after them.",
+   "evidence": [
+    [
+     2,
+     3
+    ],
+    [
+     19,
+     0
+    ],
+    [
+     13,
+     2
+    ],
+    [
+     25,
+     0
+    ],
+    [
+     1,
+     1
+    ]
+   ]
+  }
+ ],
+ "feelings": [
+  {
+   "name": "Stress",
+   "count": 8,
+   "points": [
+    1,
+    2,
+    5,
+    13,
+    21,
+    28
+   ],
+   "meaning": "Money, family pressure and late nights all pile on at once."
+  },
+  {
+   "name": "Fear",
+   "count": 7,
+   "points": [
+    6
+   ],
+   "meaning": "Losing money, and still being stuck in a job years from now."
+  },
+  {
+   "name": "Frustration",
+   "count": 6,
+   "points": [
+    1,
+    12
+   ],
+   "meaning": "When it doesn't click he quits, then he's back the next week."
+  },
+  {
+   "name": "Shaky confidence",
+   "count": 6,
+   "points": [
+    1,
+    7
+   ],
+   "meaning": "A few losses and he stops trusting his own calls."
+  },
+  {
+   "name": "Doubt",
+   "count": 5,
+   "points": [
+    2,
+    7,
+    12
+   ],
+   "meaning": "Whether any of this is real, and whether he's good enough."
+  },
+  {
+   "name": "Hope",
+   "count": 5,
+   "points": [
+    2,
+    11
+   ],
+   "meaning": "He still believes the right system would change everything."
+  },
+  {
+   "name": "Anxiety",
+   "count": 4,
+   "points": [
+    12,
+    22
+   ],
+   "meaning": "Self-doubt and anxiety come round in cycles."
+  },
+  {
+   "name": "Overwhelm",
+   "count": 4,
+   "points": [
+    2,
+    8
+   ],
+   "meaning": "Too much information and no clear path through it."
+  }
+ ],
+ "wants": [
+  "$1k days",
+  "Then $10k months",
+  "Quit the 9-to-5",
+  "Travel",
+  "Look after his family"
+ ],
+ "brief": "Alex has been burned by courses and gurus, so he doesn't trust anyone selling one. What gets through to him is a trader he can watch for real, one clear method taught step by step, and steady progress over flashy cars or big numbers. He wants real talk, no hype.",
+ "needs": [
+  {
+   "struggle": "Trust issues due to past course scams and shady gurus",
+   "from": "Obstacles",
+   "need": "A trader he can watch before he pays",
+   "hear": "I'll show you my trades, the losing ones too, before I ever ask you to join anything.",
+   "see": "Real trades taken live, with the losses left in.",
+   "make": [
+    {
+     "format": "long",
+     "title": "watch me trade live, losses included (step by step)"
+    },
+    {
+     "format": "reel",
+     "idea": "Show a losing trade and how you handled it. No highlight reel."
+    }
+   ]
+  },
+  {
+   "struggle": "Will I waste time and money again?",
+   "from": "Doubts",
+   "need": "To know exactly what he gets before he buys",
+   "hear": "Here's exactly what happens in your first week with me, and what it won't do for you.",
+   "see": "The inside of the mentorship, from day one to the first review.",
+   "make": [
+    {
+     "format": "story",
+     "idea": "Walk through your mentorship like a tour and answer the 'what if it's another dud' question."
+    },
+    {
+     "format": "reel",
+     "idea": "What he gets with you that a course never gave him."
+    }
+   ]
+  },
+  {
+   "struggle": "Loss of confidence from failed attempts at trading or investing",
+   "from": "Trauma",
+   "need": "Small wins he can repeat",
+   "hear": "Every trader has losing streaks. Here's what I do the morning after one.",
+   "see": "A trader handling a red day calmly, step by step.",
+   "make": [
+    {
+     "format": "long",
+     "title": "how to trade again after a losing streak (step by step)"
+    },
+    {
+     "format": "reel",
+     "idea": "Film the morning after a red day and say what you do next. Phone in hand, no edit."
+    }
+   ]
+  },
+  {
+   "struggle": "Feeling average or behind peers who seem to be winning",
+   "from": "Insecurities",
+   "need": "Proof someone like him made it",
+   "hear": "Most of what you see online is a highlight reel. Here's where I was at your age.",
+   "see": "Where the trader was at 21, next to where he is now.",
+   "make": [
+    {
+     "format": "long",
+     "title": "how i went from [your real number] to [your real number] a month trading"
+    },
+    {
+     "format": "reel",
+     "idea": "Where you were at his age and the one thing that actually changed."
+    },
+    {
+     "format": "story",
+     "idea": "Your day now next to your day back then. No flexing."
+    }
+   ]
+  },
+  {
+   "struggle": "Chasing shiny object syndrome with new strategies or courses",
+   "from": "Vices",
+   "need": "One method he can stick to",
+   "hear": "Jumping to a new setup after every loss is what keeps you stuck.",
+   "see": "One method broken into steps, and what sticking to it looks like over a month.",
+   "make": [
+    {
+     "format": "long",
+     "title": "the one setup i'd trade if i started again (step by step)"
+    },
+    {
+     "format": "reel",
+     "idea": "Why jumping setups after every loss keeps you stuck."
+    }
+   ]
+  },
+  {
+   "struggle": "Pressure from family and friends to choose stable paths",
+   "from": "Obstacles",
+   "need": "Proof this is a real path",
+   "hear": "Your family wants you safe. Show them a plan with rules and limits, and they'll come round.",
+   "see": "A trader with a routine, rules and risk limits, run like a real job.",
+   "make": [
+    {
+     "format": "story",
+     "idea": "If your family doubted you too, tell that story and where it stands now."
+    },
+    {
+     "format": "reel",
+     "idea": "What you'd say to his parents about trading, straight up."
+    }
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "kind": "doc",
+   "label": "Nick's ICP doc"
+  },
+  {
+   "kind": "calls",
+   "label": "Sales calls",
+   "count": 0
+  },
+  {
+   "kind": "dms",
+   "label": "DMs",
+   "count": 0
+  }
+ ]
+}

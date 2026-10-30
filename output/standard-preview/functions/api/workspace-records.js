@@ -1,7 +1,9 @@
 import { json } from '../_shared/common.js';
 import { resolveClientAccess } from '../_shared/client-auth.js';
+import { validateIcp } from '../_shared/icp-context.js';
 // 'idea' = a captured reel thought (pulsify-saas overnight fix 2026-09-25; it used to live only in the browser tab).
-const kinds = new Set(['youtube','lead','copy','reference','idea']);
+// 'icp' = the client's ICP avatar (pulsify-saas #105, migration 0085), checked by validateIcp before it is stored.
+const kinds = new Set(['youtube','lead','copy','reference','idea','icp']);
 export async function onRequestGet({request,env}) {
  const access=await resolveClientAccess(request,env,{allowHeaderToken:true,allowImpersonated:true});
  if(access.error)return access.error;
@@ -16,6 +18,7 @@ export async function onRequestPost({request,env}) {
  let body;try{body=JSON.parse(raw);}catch{return json({ok:false,error:'Invalid record.'},400);}
  if(!body||typeof body!=='object')return json({ok:false,error:'Invalid record.'},422);
  if(!kinds.has(body.kind)||!String(body.title||'').trim()||!body.data||typeof body.data!=='object'||Array.isArray(body.data))return json({ok:false,error:'A kind, title and data object are required.'},422);
+ if(body.kind==='icp'){const problems=validateIcp(body.data);if(problems.length)return json({ok:false,error:problems[0]},422);}
  const id=body.id?String(body.id):crypto.randomUUID();
  const now=new Date().toISOString();
  if(body.id){
